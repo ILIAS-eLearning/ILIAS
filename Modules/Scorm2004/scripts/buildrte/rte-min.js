@@ -1,4 +1,4 @@
-// Build: 2009414223037 
+// Build: 2009826204440 
 
 function ADLAuxiliaryResource()
 {}
@@ -2294,9 +2294,12 @@ var tempCur=new Object();for(var element in suspendData.mCurTracking){tempCur[el
 for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTracking"]=tempCur[element];}}
 if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
-if(count==1){toggleView();}
+if(count==1||this.config.hide_navig==1){toggleView();}
 if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
-updateControls();updateNav();}
+updateControls();updateNav();if(this.config.session_ping>0)
+{setTimeout("pingSession()",this.config.session_ping*1000);}}
+function pingSession()
+{var r=sendJSONRequest(this.config.ping_url);setTimeout("pingSession()",this.config.session_ping*1000);}
 function loadGlobalObj(){var globalObj=this.config.globalobj_data||sendJSONRequest(this.config.get_gobjective_url);if(globalObj){if(globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
 if(globalObj.measure){adl_seq_utilities.measure=globalObj.measure;}
 if(globalObj.status){adl_seq_utilities.status=globalObj.status;}}}
@@ -2373,7 +2376,7 @@ result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};var i=
 {act.dirty=0;}}
 if(typeof this.config.time==="number"&&this.config.time>10)
 {clearTimeout(save.timeout);save.timeout=window.setTimeout(save,this.config.time*1000);}
-return i;}
+setTimeout("updateNav(true)",1000);return i;}
 function getAPI(cp_node_id)
 {function getAPISet(k,dat,api)
 {if(dat!=undefined&&dat!==null)
@@ -2444,7 +2447,8 @@ syncSharedCMI(item);scoStartTime=currentTime();item.options=new Object();item.op
 if(currentAPI){if((item.exit=="normal"||item.exit==""||item.exit=="time-out"||item.exit=="logout")&&(item.exit!="suspend"&&item.entry!="resume")){err=currentAPI.SetValueIntern("cmi.completion_status","unknown");err=currentAPI.SetValueIntern("cmi.success_status","unknown");err=currentAPI.SetValueIntern("cmi.entry","ab-initio");pubAPI.cmi.entry="ab-initio";pubAPI.cmi.suspend_data=null;pubAPI.cmi.total_time="PT0H0M0S";}
 if(item.exit=="suspend"){pubAPI.cmi.entry="resume";pubAPI.cmi.exit="";}
 if(item.exit=="time-out"||item.exit=="logout"){err=currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");pubAPI.cmi.total_time="PT0H0M0S";}}
-updateNav();updateControls();setResource(item.id,item.href+"?"+item.parameters,this.config.package_url);}
+updateControls();setResource(item.id,item.href+"?"+item.parameters,this.config.package_url);}
+function test(){alert("HALLO");}
 function syncSharedCMI(item){var mStatusVector=msequencer.getObjStatusSet(item.id);var mObjStatus=new ADLObjStatus();var obj;var err
 if(mStatusVector!=null){for(i=0;i<mStatusVector.length;i++){var idx=-1;mObjStatus=mStatusVector[i];var objCount=currentAPI.GetValueIntern("cmi.objectives._count");for(var j=0;j<objCount;j++){var obj="cmi.objectives."+j+".id";var nr=currentAPI.GetValueIntern(obj);if(nr==mObjStatus.mObjID){idx=j;break;}}
 if(idx!=-1){obj="cmi.objectives."+idx+".success_status";if(mObjStatus.mStatus.toLowerCase()=="satisfied")
@@ -2480,7 +2484,7 @@ else{if(setPrimaryObjScore==false)
 {msequencer.clearAttemptObjMeasure(mlaunch.mActivityID,mPRIMARY_OBJ_ID);}}}
 function onItemUndeliver(noControls)
 {if(noControls!=true){updateNav();updateControls();}
-removeResource();undeliverFinish();}
+removeResource(undeliverFinish);}
 function undeliverFinish(){if(currentAPI)
 {syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();save();if(state!=2){}}
 currentAPI=window[Runtime.apiname]=null;if(currentAct)
@@ -2500,9 +2504,13 @@ if(data.adl&&data.adl.nav)
 {navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"){launchTarget(navReq.target);}else{launchNavType(navReq.type);}}}
-return true;}
-var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(){setToc();var tree=msequencer.mSeqTree.mActivityMap;var disable;for(i in tree){var disable=true;var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
+updateNav(true);return true;}
+var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){if(!all("treeView")){return;}
+if(ignore!=true){setToc();}
+var tree=msequencer.mSeqTree.mActivityMap;var disable;for(i in tree){var disable=true;var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;}}
+if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
+{continue;}}
 var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(!elm){return;}
 toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
 if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}

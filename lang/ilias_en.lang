@@ -9910,3 +9910,11 @@ payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After 
 payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
 payment#:#pay_epay_canceled#:#The payment was canceled.
 search#:#lucene_relevance_short#:#Relevance
+content#:#cont_sc_usession#:#Unlimited Session Timeout
+content#:#cont_nomenu#:#Disable Topnavigation-Bar
+content#:#cont_hidenavig#:#Hide leftside Navigation-Tree
+content#:#scplayer_expandtree#:#Expand All
+content#:#scplayer_collapsetree#:#Collapse All
+content#:#cont_debug#:#Show debug menu
+content#:#cont_debugpw#:#Password
+content#:#scplayer_debugger#:#Show Debugger

@@ -67,7 +67,7 @@ class ilSAHSEditGUI
 		// permission
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
 		
 		// add entry to navigation history

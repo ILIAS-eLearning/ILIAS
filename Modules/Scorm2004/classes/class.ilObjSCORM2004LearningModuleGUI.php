@@ -226,6 +226,55 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		// version
 		$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
 		$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
+		
+			//unlimited session
+		$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
+		$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
+		$this->tpl->setVariable("VAL_SESSION", "y");
+		if ($this->object->getSession())
+		{
+			$this->tpl->setVariable("CHK_SESSION", "checked");
+		}
+		
+		
+		// disable top menu
+		$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
+		$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
+		$this->tpl->setVariable("VAL_NOMENU", "y");
+		if ($this->object->getNoMenu())
+		{
+			$this->tpl->setVariable("CHK_NOMENU", "checked");
+		}
+			
+		//disable left-side navigation	
+		$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
+		$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
+		$this->tpl->setVariable("VAL_HIDENAVIG", "y");
+		if ($this->object->getHideNavig())
+		{
+			$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
+		}
+
+
+		//debug
+		/*
+		$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
+		$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
+		$this->tpl->setVariable("VAL_DEBUG", "y");
+		if ($this->object->getDebug())
+		{
+			$this->tpl->setVariable("CHK_DEBUG", "checked");
+		}
+		
+		// debug pw
+		$this->tpl->setVariable("TXT_DEBUGPW", $this->lng->txt("cont_debugpw"));
+		$this->tpl->setVariable("VAL_DEBUGPW", $this->object->getDebugPw());
+			
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+		*/
 
 		if ($this->object->editable!=1) {
 			$this->tpl->setCurrentBlock("editable");
@@ -379,6 +428,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setMaxAttempt($_POST["max_attempt"]);
 			$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
 			$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
+			$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
+			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
+			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
+			//$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
+			//$this->object->setDebugPw($_POST["debug_pw"]);
+
 		}
 		else
 		{
