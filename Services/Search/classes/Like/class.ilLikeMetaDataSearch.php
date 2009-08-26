@@ -98,8 +98,8 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 		
 		$concat = $ilDB->concat(
 			array(
-				'title'		=> 'text',
-				'coverage'	=> 'text'));
+				array('title','text'),
+				array('coverage','text')));
 		
 		
 		$where = " WHERE (";

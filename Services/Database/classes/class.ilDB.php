@@ -1659,20 +1659,28 @@ if ($this->getDBType() == "mysql")
 	
 	/**
 	 * Abstraction of SQL function CONCAT
-	 * @param array $a_values array('title' => 'text','description' => 'clob',some text' => 'text');
+	 * @param array $a_values array(
+	 * 	array('title','text'),
+	 * 	array('description','clob'),
+	 * 	array('some text','text');
 	 * @param bool	$a_allow_null
 	 * @return 
 	 */
 	public function concat($a_values,$a_allow_null = true)
 	{
+		var_dump($a_values);
+		
 		if(!count($a_values))
 		{
 			return ' ';
 		}
+
 		$concat = ' CONCAT(';
 		$first = true;
-		foreach($a_values as $val => $type)
+		foreach($a_values as $field_info)
 		{
+			$val = $field_info[0];
+			
 			if(!$first)
 			{
 				$concat .= ',';

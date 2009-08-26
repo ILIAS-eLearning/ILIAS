@@ -58,8 +58,8 @@ class ilLikeForumSearch extends ilForumSearch
 		*/
 		$concat = $ilDB->concat(
 			array(
-				'pos_subject'	=> 'text',
-				'pos_message'	=> 'text'));
+				array('pos_subject','text'),
+				array('pos_message','text')));
 
 		$and = "  AND ( ";
 		$counter = 0;

@@ -297,7 +297,39 @@ class ilDBOracle extends ilDB
 		}
 	}
 	
-	
-
+	/**
+	 * CONCAT for oracle allows only the concatenation of two values 
+	 * @param object $a_values
+	 * @param object $a_allow_null [optional]
+	 * @return 
+	 */
+	public function concat($a_values, $a_allow_null = true)
+	{
+		if(count($a_values) <= 2)
+		{
+			return parent::concat($a_values,$a_allow_null);
+		}
+		
+		$first = true;
+		foreach($a_values as $field_info)
+		{
+			if(!$first)
+			{
+				$concat_value = parent::concat(
+					array(
+						array($concat_value,$concat_type),
+						array($field_info[0],$field_info[1])),
+					$a_allow_null
+				);
+			}
+			else
+			{
+				$first = false;
+				$concat_value = $field_info[0];
+				$concat_type = $field_info[1];
+			}
+		}
+		return $concat_value;
+	}
 }
 ?>

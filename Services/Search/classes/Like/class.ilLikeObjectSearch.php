@@ -59,8 +59,8 @@ class ilLikeObjectSearch extends ilObjectSearch
 		
 		$concat = $ilDB->concat(
 			array(
-				'title'			=> 'text',
-				'description'	=> 'text'));
+				array('title','text'),
+				array('description','text')));
 		
 
 		$where = "WHERE (";
