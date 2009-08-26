@@ -9910,4 +9910,3 @@ payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After 
 payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
 payment#:#pay_epay_canceled#:#The payment was canceled.
 search#:#lucene_relevance_short#:#Relevance
-
