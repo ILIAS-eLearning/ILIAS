@@ -1668,8 +1668,6 @@ if ($this->getDBType() == "mysql")
 	 */
 	public function concat($a_values,$a_allow_null = true)
 	{
-		var_dump($a_values);
-		
 		if(!count($a_values))
 		{
 			return ' ';
