@@ -93,7 +93,7 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "\"#FFFFFFA0\""
+		$fillcolor = "#FFFFFFA0"
 	)
 	{
 		if (ini_get("safe_mode"))
@@ -109,9 +109,9 @@ class ilImagemapPreview
 			"title" => "$title",
 			"href" => "$href",
 			"target" => "$target",
-			"linecolor" => "$linecolor",
-			"fillcolor" => "$fillcolor",
-			"bordercolor" => "$bordercolor",
+			"linecolor" => '"' . $linecolor . '"',
+			"fillcolor" => '"' . $fillcolor . '"',
+			"bordercolor" => '"' . $bordercolor . '"',
 			"visible" => (int)$visible
 		);
 	}
@@ -122,14 +122,14 @@ class ilImagemapPreview
 		$visible = true,
 		$linecolor = "red",
 		$bordercolor = "white",
-		$fillcolor = "\"#FFFFFFA0\""
+		$fillcolor = "#FFFFFFA0"
 	)
 	{
 		$this->points[$index] = array(
 			"coords" => "$coords",
-			"linecolor" => "$linecolor",
-			"bordercolor" => "$bordercolor",
-			"fillcolor" => "$fillcolor",
+			"linecolor" => '"' . $linecolor . '"',
+			"fillcolor" => '"' . $fillcolor . '"',
+			"bordercolor" => '"' . $bordercolor . '"',
 			"visible" => (int)$visible
 		);
 	}

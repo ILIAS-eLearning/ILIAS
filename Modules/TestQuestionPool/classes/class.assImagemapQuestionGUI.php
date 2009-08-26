@@ -109,6 +109,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			if (strlen($_FILES['image']['tmp_name']))
 			{
+				if ($this->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
 				$this->object->setImageFilename($_FILES['image']['name'], $_FILES['image']['tmp_name']);
 			}
 
@@ -124,6 +125,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				}
 				if (strlen($_FILES['imagemapfile']['tmp_name']))
 				{
+					if ($this->getSelfAssessmentEditingMode() && $this->object->getId() < 1) $this->object->createNewQuestion();
 					$this->object->uploadImagemap($_FILES['imagemapfile']['tmp_name']);
 				}
 			}
