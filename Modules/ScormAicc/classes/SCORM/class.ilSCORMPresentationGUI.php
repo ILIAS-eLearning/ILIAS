@@ -392,13 +392,8 @@ class ilSCORMPresentationGUI
 		}
 
 		//unlimited sessions
-		if ($slm_obj->getSession()) {
-			
-			#$session_timeout = (int) ($ilias->ini->readVariable("session","expire"))/2;
-			
-			// For implementing the SessionControl this value is moved to settings in db 
-			$session_timeout = (int)$ilSetting->get("session_max_idle") * 60 / 2;
-			
+		if ($slm_obj->getSession()) {			
+			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
 		} else {
 			$session_timeout = 0;
 		}

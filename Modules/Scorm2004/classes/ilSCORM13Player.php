@@ -274,13 +274,8 @@ class ilSCORM13Player
 		global $ilUser,$lng, $ilias, $ilSetting;
 		// player basic config data
 		
-		if ($this->slm->getSession()) {
-		
-			#$session_timeout = (int) ($ilias->ini->readVariable("session","expire"))/2;
-			
-			// For implementing the SessionControl this value is moved to settings in db 
-			$session_timeout = (int)$ilSetting->get("session_max_idle") * 60 / 2;
-		
+		if ($this->slm->getSession()) {		
+			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
 		} else {
 			$session_timeout = 0;
 		}
