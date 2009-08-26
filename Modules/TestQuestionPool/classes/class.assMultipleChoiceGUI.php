@@ -168,17 +168,20 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$form->addItem($hidden);
 		}
 
-		// Answer types
-		$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
-		$types->setRequired(false);
-		$types->setValue(($this->object->getMultilineAnswerSetting()) ? 1 : 0);
-		$types->setOptions(array(
-			0 => $this->lng->txt('answers_singleline'),
-			1 => $this->lng->txt('answers_multiline'),
-		));
-		$form->addItem($types);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			// Answer types
+			$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
+			$types->setRequired(false);
+			$types->setValue(($this->object->getMultilineAnswerSetting()) ? 1 : 0);
+			$types->setOptions(array(
+				0 => $this->lng->txt('answers_singleline'),
+				1 => $this->lng->txt('answers_multiline'),
+			));
+			$form->addItem($types);
+		}
 
-		if ($usegraphics)
+		if (($usegraphics) && (!$this->getSelfAssessmentEditingMode()))
 		{
 			// thumb size
 			$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
@@ -194,6 +197,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
 		$choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
+		if ($this->getSelfAssessmentEditingMode()) $choices->setHideImages(true);
 		$choices->setRequired(true);
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
@@ -203,7 +207,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$form->addItem($choices);
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		if (!$this->getSelfAssessmentEditingMode()) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 	
 		$errors = false;
 	

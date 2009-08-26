@@ -109,106 +109,109 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
 			if (is_array($_FILES) && $this->getSingleline())
 			{
-				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
+				if (!$this->hideImages)
 				{
-					foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)
+					if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 					{
-						// error handling
-						if ($error > 0)
+						foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)
 						{
-							switch ($error)
+							// error handling
+							if ($error > 0)
 							{
-								case UPLOAD_ERR_INI_SIZE:
-									$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-									return false;
-									break;
+								switch ($error)
+								{
+									case UPLOAD_ERR_INI_SIZE:
+										$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+										return false;
+										break;
 
-								case UPLOAD_ERR_FORM_SIZE:
-									$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-									return false;
-									break;
+									case UPLOAD_ERR_FORM_SIZE:
+										$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+										return false;
+										break;
 
-								case UPLOAD_ERR_PARTIAL:
-									$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
-									return false;
-									break;
+									case UPLOAD_ERR_PARTIAL:
+										$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
+										return false;
+										break;
 
-								case UPLOAD_ERR_NO_FILE:
-									if ($this->getRequired())
-									{
-										if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index])))
+									case UPLOAD_ERR_NO_FILE:
+										if ($this->getRequired())
 										{
-											$this->setAlert($lng->txt("form_msg_file_no_upload"));
-											return false;
+											if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index])))
+											{
+												$this->setAlert($lng->txt("form_msg_file_no_upload"));
+												return false;
+											}
 										}
-									}
-									break;
+										break;
 
-								case UPLOAD_ERR_NO_TMP_DIR:
-									$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
-									return false;
-									break;
+									case UPLOAD_ERR_NO_TMP_DIR:
+										$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
+										return false;
+										break;
 
-								case UPLOAD_ERR_CANT_WRITE:
-									$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
-									return false;
-									break;
+									case UPLOAD_ERR_CANT_WRITE:
+										$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
+										return false;
+										break;
 
-								case UPLOAD_ERR_EXTENSION:
-									$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
-									return false;
-									break;
+									case UPLOAD_ERR_EXTENSION:
+										$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
+										return false;
+										break;
+								}
 							}
 						}
 					}
-				}
-				else
-				{
-					if ($this->getRequired())
+					else
 					{
-						$this->setAlert($lng->txt("form_msg_file_no_upload"));
-						return false;
-					}
-				}
-
-				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
-					{
-						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-						$filename_arr = pathinfo($filename);
-						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-						// check suffixes
-						if (strlen($tmpname) && is_array($this->getSuffixes()))
+						if ($this->getRequired())
 						{
-							if (!in_array(strtolower($suffix), $this->getSuffixes()))
+							$this->setAlert($lng->txt("form_msg_file_no_upload"));
+							return false;
+						}
+					}
+
+					if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
+					{
+						foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
+						{
+							$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+							$filename_arr = pathinfo($filename);
+							$suffix = $filename_arr["extension"];
+							$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+							$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+							// check suffixes
+							if (strlen($tmpname) && is_array($this->getSuffixes()))
 							{
-								$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
-								return false;
+								if (!in_array(strtolower($suffix), $this->getSuffixes()))
+								{
+									$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+									return false;
+								}
 							}
 						}
 					}
-				}
 
-				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
+					if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
 					{
-						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-						$filename_arr = pathinfo($filename);
-						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-						// virus handling
-						if (strlen($tmpname))
+						foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
 						{
-							$vir = ilUtil::virusHandling($tmpname, $filename);
-							if ($vir[0] == false)
+							$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+							$filename_arr = pathinfo($filename);
+							$suffix = $filename_arr["extension"];
+							$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+							$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+							// virus handling
+							if (strlen($tmpname))
 							{
-								$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
-								return false;
+								$vir = ilUtil::virusHandling($tmpname, $filename);
+								if ($vir[0] == false)
+								{
+									$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
+									return false;
+								}
 							}
 						}
 					}
@@ -239,31 +242,34 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		{
 			if ($this->getSingleline())
 			{
-				if (strlen($value->getImage()))
+				if (!$this->hideImages)
 				{
-					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
+					if (strlen($value->getImage()))
 					{
-						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+						$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
+						if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 						{
-							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+							if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+							{
+								$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+							}
 						}
+						$tpl->setCurrentBlock('image');
+						$tpl->setVariable('SRC_IMAGE', $imagename);
+						$tpl->setVariable('IMAGE_NAME', $value->getImage());
+						$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+						$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+						$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
+						$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+						$tpl->parseCurrentBlock();
 					}
-					$tpl->setCurrentBlock('image');
-					$tpl->setVariable('SRC_IMAGE', $imagename);
-					$tpl->setVariable('IMAGE_NAME', $value->getImage());
-					$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
-					$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+					$tpl->setCurrentBlock('addimage');
+					$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+					$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
 					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('addimage');
-				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
-				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
-				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
-				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-				$tpl->parseCurrentBlock();
 
 				if (is_object($value))
 				{
@@ -345,22 +351,26 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
 		if ($this->getSingleline())
 		{
-			if (is_array($this->getSuffixes()))
+			if (!$this->hideImages)
 			{
-				$suff_str = $delim = "";
-				foreach($this->getSuffixes() as $suffix)
+				if (is_array($this->getSuffixes()))
 				{
-					$suff_str.= $delim.".".$suffix;
-					$delim = ", ";
+					$suff_str = $delim = "";
+					foreach($this->getSuffixes() as $suffix)
+					{
+						$suff_str.= $delim.".".$suffix;
+						$delim = ", ";
+					}
+					$tpl->setCurrentBlock('allowed_image_suffixes');
+					$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('allowed_image_suffixes');
-				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+
+				$tpl->setCurrentBlock("image_heading");
+				$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+				$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("image_heading");
-			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
-			$tpl->parseCurrentBlock();
 		}
 		
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());

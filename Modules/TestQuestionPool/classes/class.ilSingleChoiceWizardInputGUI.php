@@ -36,6 +36,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	protected $qstObject = null;
 	protected $suffixes = array();
 	protected $showPoints = true;
+	protected $hideImages = false;
 	
 	/**
 	* Constructor
@@ -81,6 +82,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	function setSuffixes($a_suffixes)
 	{
 		$this->suffixes = $a_suffixes;
+	}
+
+	/**
+	* Set hide images.
+	*
+	* @param	array	$a_hide	Hide images
+	*/
+	function setHideImages($a_hide)
+	{
+		$this->hideImages = $a_hide;
 	}
 
 	/**
@@ -227,7 +238,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				return false;
 			}
 
-			if (is_array($_FILES) && $this->getSingleline())
+			if (is_array($_FILES) && $this->getSingleline() && (!$this->hideImages))
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -359,31 +370,34 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		{
 			if ($this->getSingleline())
 			{
-				if (strlen($value->getImage()))
+				if (!$this->hideImages)
 				{
-					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
+					if (strlen($value->getImage()))
 					{
-						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+						$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
+						if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 						{
-							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+							if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
+							{
+								$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
+							}
 						}
+						$tpl->setCurrentBlock('image');
+						$tpl->setVariable('SRC_IMAGE', $imagename);
+						$tpl->setVariable('IMAGE_NAME', $value->getImage());
+						$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+						$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+						$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
+						$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+						$tpl->parseCurrentBlock();
 					}
-					$tpl->setCurrentBlock('image');
-					$tpl->setVariable('SRC_IMAGE', $imagename);
-					$tpl->setVariable('IMAGE_NAME', $value->getImage());
-					$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
-					$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+					$tpl->setCurrentBlock('addimage');
+					$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+					$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
 					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('addimage');
-				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
-				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
-				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
-				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-				$tpl->parseCurrentBlock();
 
 				if (is_object($value))
 				{
@@ -468,22 +482,25 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
 		if ($this->getSingleline())
 		{
-			if (is_array($this->getSuffixes()))
+			if (!$this->hideImages)
 			{
-				$suff_str = $delim = "";
-				foreach($this->getSuffixes() as $suffix)
+				if (is_array($this->getSuffixes()))
 				{
-					$suff_str.= $delim.".".$suffix;
-					$delim = ", ";
+					$suff_str = $delim = "";
+					foreach($this->getSuffixes() as $suffix)
+					{
+						$suff_str.= $delim.".".$suffix;
+						$delim = ", ";
+					}
+					$tpl->setCurrentBlock('allowed_image_suffixes');
+					$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('allowed_image_suffixes');
-				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+				$tpl->setCurrentBlock("image_heading");
+				$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+				$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("image_heading");
-			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
-			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->getShowPoints())
