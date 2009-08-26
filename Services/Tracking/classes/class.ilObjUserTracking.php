@@ -483,6 +483,8 @@ class ilObjUserTracking extends ilObject
 	*/
 	function getOwnerName($id)
 	{
+		global $ilDB;
+	
 		$q =" select A.login from usr_data A, object_data B where A.usr_id=B.owner and B.obj_id = ".$ilDB->quote($id ,'integer');
 		$res = $this->ilias->db->query($q);
 		$result = $res->fetchRow();

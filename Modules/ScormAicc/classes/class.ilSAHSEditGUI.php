@@ -58,7 +58,7 @@ class ilSAHSEditGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess, $ilNavigationHistory;
+		global $lng, $ilAccess, $ilNavigationHistory, $ilias;
 
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
