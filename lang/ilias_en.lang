@@ -9666,7 +9666,6 @@ assessment#:#allow_images#:#Image Support for Answers
 content#:#cont_no_text#:#No Text
 content#:#cont_print_selection#:#Print View Selection
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.
-dateplaner#:#ca_day_start#:#Day Start
 dateplaner#:#cal_day_end#:#Day End
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings

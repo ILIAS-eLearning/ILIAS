@@ -7738,7 +7738,7 @@ meta#:#meta_l_or#:#Oriya
 meta#:#meta_l_pa#:#Punjabisch
 meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#Paschtu
-meta#:#meta_l_pt#:#Portugisisch
+meta#:#meta_l_pt#:#Portugiesisch
 meta#:#meta_l_qu#:#Quechua
 meta#:#meta_l_rm#:#Rätoromanisch
 meta#:#meta_l_rn#:#Kurundisch
@@ -9896,15 +9896,14 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
-content#:#cont_localfile#:#Local File###19 08 2009 new variable
-dateplaner#:#ca_day_start#:#Day Start###19 08 2009 new variable
+content#:#cont_localfile#:#Lokale Datei
 survey#:#spl_browsercolumns#:#Customized question list###19 08 2009 new variable
 survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###19 08 2009 new variable
-search#:#search_crs_title#:#Course Name###19 08 2009 new variable
+search#:#search_crs_title#:#Kursname
 license#:#remaining_licenses#:#Available licenses###19 08 2009 new variable
 license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###19 08 2009 new variable
-user#:#user_field#:#Field###19 08 2009 new variable
-user#:#user_visible_in_profile#:#Visible in Profile###19 08 2009 new variable
+user#:#user_field#:#Feld
+user#:#user_visible_in_profile#:#Sichtbar im Profile
 payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#lucene_host#:#Host
