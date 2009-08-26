@@ -934,50 +934,26 @@ class ilMail
 						 $a_draft_id = 0, $a_use_placeholders = 0)
 	{
 		global $ilDB;
-	
-		$statement = $ilDB->manipulateF("
-			UPDATE ". $this->table_mail ."
-			SET folder_id = %s,
-				attachments = %s,
-				send_time = %s,
-				rcp_to = %s,
-				rcp_cc = %s,
-				rcp_bcc = %s,
-				m_status = %s,
-				m_type = %s,
-				m_email = %s,
-				m_subject = %s,
-				m_message = %s,
-				use_placeholders = %s
-			WHERE mail_id = %s",
-			array(	'integer',
-					'text',
-					'timestamp',
-					'text', 
-					'text', 
-					'text', 
-					'text', 
-					'text', 
-					'integer', 
-					'text', 
-					'text', 
-					'integer',
-					'integer'
+		
+		$ilDB->update($this->table_mail, 
+			array(
+				'folder_id'			=> array('integer', $a_folder_id),			
+				'attachments'		=> array('text', serialize($a_attachments)),
+				'send_time'			=> array('timestamp', date('Y-m-d H:i:s', time())),
+				'rcp_to'			=> array('text', $a_rcp_to),
+				'rcp_cc'			=> array('text', $a_rcp_cc),
+				'rcp_bcc'			=> array('text', $a_rcp_bcc),
+				'm_status'			=> array('text', 'read'),
+				'm_type'			=> array('text', serialize($a_m_type)),
+				'm_email'			=> array('integer', $a_m_email),
+				'm_subject'			=> array('text', $a_m_subject),
+				'm_message'			=> array('clob', $a_m_message),
+				'use_placeholders'	=> array('integer', $a_use_placeholders)
 			),
-			array(	$a_folder_id,
-						serialize($a_attachments),
-						date('Y-m-d H:i:s', time()),
-						$a_rcp_to,
-						$a_rcp_cc,
-						$a_rcp_bcc, 
-						'read',
-						serialize($a_m_type),
-						$a_m_email,
-						$a_m_subject,
-						$a_m_message,
-						$a_use_placeholders,
-						$a_draft_id
-		));
+			array(
+				'mail_id'			=> array('integer', $a_draft_id)
+			)
+		);	
 		
 		return $a_draft_id;
 	}
@@ -1042,52 +1018,22 @@ class ilMail
 		/**/
 				
 		$next_id = $ilDB->nextId($this->table_mail);
-		$statement = $ilDB->manipulateF('
-			INSERT INTO '. $this->table_mail .'
-			(	mail_id,
-				user_id,
-				folder_id,
-				sender_id,
-				attachments,
-				send_time,
-				rcp_to,
-				rcp_cc,
-				rcp_bcc,
-				m_status,
-				m_type,
-				m_email,
-				m_subject,
-				m_message)
-			VALUES( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			array(	'integer',
-					'integer',
-					'integer', 
-					'integer', 
-					'text', 
-					'timestamp',
-					'text', 
-					'text', 
-					'text', 
-					'text', 
-					'text', 
-					'integer', 
-					'text', 
-					'text' 
-			),
-			array(	$next_id,
-					$a_user_id,
-					$a_folder_id,
-					$a_sender_id,
-					serialize($a_attachments),
-					date('Y-m-d H:i:s', time()),
-					$a_rcp_to,
-					$a_rcp_cc,
-					$a_rcp_bcc,
-					$a_status,
-					serialize($a_m_type),
-					$a_m_email,
-					$a_m_subject,
-					$a_m_message
+		
+		$ilDB->insert($this->table_mail, array(
+			'mail_id'		=> array('integer', $next_id),
+			'user_id'		=> array('integer', $a_user_id),
+			'folder_id'		=> array('integer', $a_folder_id),
+			'sender_id'		=> array('integer', $a_sender_id),
+			'attachments'	=> array('text', serialize($a_attachments)),
+			'send_time'		=> array('timestamp', date('Y-m-d H:i:s', time())),
+			'rcp_to'		=> array('text', $a_rcp_to),
+			'rcp_cc'		=> array('text', $a_rcp_cc),
+			'rcp_bcc'		=> array('text', $a_rcp_bcc),
+			'm_status'		=> array('text', $a_status),
+			'm_type'		=> array('text', serialize($a_m_type)),
+			'm_email'		=> array('integer', $a_m_email),
+			'm_subject'		=> array('text', $a_m_subject),
+			'm_message'		=> array('clob', $a_m_message)
 		));
 		
 		return $next_id; //$ilDB->getLastInsertId();
@@ -1738,42 +1684,18 @@ class ilMail
 			DELETE FROM '. $this->table_mail_saved .'
 			WHERE user_id = %s',
 			array('integer'), array($this->user_id));
-
-		$statement = $ilDB->manipulateF('
-			INSERT INTO '. $this->table_mail_saved .'
-			( 	user_id,
-				attachments,
-				rcp_to,
-				rcp_cc,
-				rcp_bcc,
-				m_type,
-				m_email,
-				m_subject,
-				m_message,
-				use_placeholders
-			)
-			VALUES (%s ,%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-			array('integer',
-				'text',
-				'text',
-				'text',
-				'text',
-				'text',
-				'integer',
-				'text',
-				'text',
-				'integer'
-			),
-			array(	$a_user_id,
-					serialize($a_attachments),
-					$a_rcp_to,
-					$a_rcp_cc,
-					$a_rcp_bcc,
-					serialize($a_m_type),
-					$a_m_email,
-					$a_m_subject,
-					$a_m_message,
-					$a_use_placeholders
+			
+		$ilDB->insert($this->table_mail_saved, array(
+			'user_id'			=> array('integer', $a_user_id),			
+			'attachments'		=> array('text', serialize($a_attachments)),
+			'rcp_to'			=> array('text', $a_rcp_to),
+			'rcp_cc'			=> array('text', $a_rcp_cc),
+			'rcp_bcc'			=> array('text', $a_rcp_bcc),
+			'm_type'			=> array('text', serialize($a_m_type)),
+			'm_email'			=> array('integer', $a_m_email),
+			'm_subject'			=> array('text', $a_m_subject),
+			'm_message'			=> array('clob', $a_m_message),
+			'use_placeholders'	=> array('integer', $a_use_placeholders),
 		));
 		
 		$this->getSavedData();
