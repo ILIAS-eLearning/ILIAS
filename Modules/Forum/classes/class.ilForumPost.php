@@ -99,62 +99,28 @@ class ilForumPost
 	
 	public function insert()
 	{
+		global $ilDB;
+		
 		if ($this->forum_id && $this->thread_id)
 		{
 			$this->id = $this->db->nextId('frm_posts');	
-			$statement = $this->db->manipulateF('
-				INSERT INTO frm_posts 
-				( 	pos_pk,
-					pos_top_fk,
-					pos_thr_fk,
-					pos_usr_id,
-					pos_usr_alias,
-					pos_subject,
-					pos_message,
-					pos_date,
-					pos_update,
-					update_user,
-					pos_cens,
-				'//	pos_cens_com = %s, 
-				.'	notify,
-					import_name,
-					pos_status
-				)
-				VALUES( %s,%s,%s, %s, %s, %s,%s,%s, %s,%s, %s, %s, %s, %s ) ',
-				array(	'integer',
-						'integer',
-						'integer',
-						'integer',
-						'text',
-						'text',
-						'text',
-						'timestamp',
-						'timestamp',
-						'integer',
-						'integer',
-					//	'text',
-						'integer',
-						'text',
-						'integer'
-				),
-				array(	$this->id,
-							$this->forum_id,
-							$this->thread_id,
-							$this->user_id, 
-							$this->user_alias,
-							$this->subject,
-							$this->message,
-							$this->createdate,
-							NULL,
-							$this->user_id_update,
-							$this->censored,
-				//			$this->censorship_comment,
-							(int)$this->notification,
-							(string)$this->import_name,
-							$this->status
+			
+			$ilDB->insert('frm_posts', array(
+				'pos_pk'		=> array('integer', $this->id),
+				'pos_top_fk'	=> array('integer', $this->forum_id),
+				'pos_thr_fk'	=> array('integer', $this->thread_id),
+				'pos_usr_id'	=> array('integer', $this->user_id),
+				'pos_usr_alias'	=> array('text', $this->user_alias),
+				'pos_subject'	=> array('text', $this->subject),
+				'pos_message'	=> array('clob', $this->message),
+				'pos_date'		=> array('timestamp', $this->createdate),
+				'pos_update'	=> array('timestamp', null),
+				'update_user'	=> array('integer', $this->user_id_update),
+				'pos_cens'		=> array('integer', $this->censored),
+				'notify'		=> array('integer', (int)$this->notification),
+				'import_name'	=> array('text', (string)$this->import_name),
+				'pos_status'	=> array('integer', (int)$this->status)
 			));
-							
-
 			
 			return true;
 		}
@@ -164,45 +130,28 @@ class ilForumPost
 	
 	public function update()
 	{
-		if ($this->id)
-		{		
-
-			$statement = $this->db->manipulateF('
-				UPDATE frm_posts
-				SET pos_top_fk = %s,
-					pos_thr_fk = %s,
-					pos_subject = %s,
-					pos_message = %s, 
-					pos_update = %s, 
-					update_user = %s, 
-					pos_cens = %s,
-					pos_cens_com = %s, 
-					notify = %s	
-					WHERE pos_pk = %s', 
-				array(	'integer',
-						'integer',
-						'text',
-						'text',
-						'timestamp',
-						'integer',
-						'integer',
-						'text',
-						'integer',
-						'integer'),
-				array(	$this->forum_id,
-			 				$this->thread_id,
-			 				$this->subject,
-							 $this->message,
-							 $this->changedate,
-							 $this->user_id_update,
-							 $this->censored,
-							 $this->censorship_comment,
-							 $this->notification,				
-							 $this->id
-			));
-			 
+		global $ilDB;
+		
+		if($this->id)
+		{
+			$ilDB->update('frm_posts',
+				array(
+					'pos_top_fk'	=> array('integer', $this->forum_id),
+					'pos_thr_fk'	=> array('integer', $this->thread_id),
+					'pos_subject'	=> array('text', $this->subject),
+					'pos_message'	=> array('clob', $this->message),
+					'pos_update'	=> array('timestamp', $this->changedate),
+					'update_user'	=> array('integer', $this->user_id_update),
+					'pos_cens'		=> array('integer', $this->censored),
+					'pos_cens_com'	=> array('text', $this->censorship_comment),
+					'notify'		=> array('integer', (int)$this->notification)
+				),
+				array(
+					'pos_pk'		=> array('integer', (int)$this->id)
+				)
+			);			 
 			
-			if ($this->objThread->getFirstPostId() == $this->id)
+			if($this->objThread->getFirstPostId() == $this->id)
 			{
 				$this->objThread->setSubject($this->subject);
 				$this->objThread->update();
