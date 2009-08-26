@@ -66,11 +66,11 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$this->createDataDirectory();
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable) 
 			VALUES (%s,%s,%s,%s,%s)', 
 			array('integer', 'text', 'text', 'text', 'integer'), 
-			array($this->getID(),'n','API', $this->getSubType(),(int)$this->getEditable()));
+			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable()));
 	}
 
 	/**
@@ -110,7 +110,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 		
-		$lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+		$lm_set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s', 
 		array('integer'), array($a_id));
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		
@@ -126,7 +126,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 
-		$obj_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+		$obj_set = $ilDB->queryF('SELECT c_type FROM sahs_lm WHERE id = %s', 
 		array('integer'), array($a_obj_id));
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		
@@ -515,8 +515,8 @@ class ilObjSAHSLearningModule extends ilObject
 		ilUtil::delDir($this->getDataDirectory());
 
 		// delete scorm learning module record
-		$statement = $ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s', 
-		array('integer'), array($this->getId()));
+		$ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s', 
+			array('integer'), array($this->getId()));
 		
 		$ilLog->write("SAHS Delete(SAHSLM), Subtype: ".$this->getSubType());
 		
@@ -546,21 +546,21 @@ class ilObjSAHSLearningModule extends ilObject
 		{
 			// delete aicc data
 			// this is highly dependent on the database
-			$statement = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				DELETE FROM aicc_units 
 				USING aicc_object, aicc_units 
 				WHERE aicc_object.obj_id = aicc_units.obj_id 
 				AND aicc_object.slm_id = %s', 
 				array('integer'), array($this->getId()));
 				
-			$statement = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				DELETE FROM aicc_course 
 				USING aicc_object, aicc_course 
 				WHERE aicc_object.obj_id = aicc_course.obj_id 
 				AND aicc_object.slm_id = %s',
 				array('integer'), array($this->getId()));
 
-			$statement = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				DELETE FROM aicc_object WHERE slm_id = %s',
 				array('integer'), array($this->getId()));	
 		}
@@ -568,8 +568,8 @@ class ilObjSAHSLearningModule extends ilObject
 		$q_log = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
 		$ilLog->write("SAHS Delete(SAHSLM): ".$q_log);
 
-		$statement->$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
-		array('integer'), array($this->getId()));
+		$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
+			array('integer'), array($this->getId()));
 
 		// always call parent delete function at the end!!
 		return true;
