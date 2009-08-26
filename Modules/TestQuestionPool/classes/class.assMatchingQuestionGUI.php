@@ -286,27 +286,31 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$shuffle->setRequired(FALSE);
 		$form->addItem($shuffle);
 
-		$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
-		$element_height->setValue($this->object->getElementHeight());
-		$element_height->setRequired(false);
-		$element_height->setMaxLength(6);
-		$element_height->setMinValue(20);
-		$element_height->setSize(6);
-		$element_height->setInfo($this->lng->txt("element_height_info"));
-		$form->addItem($element_height);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
+			$element_height->setValue($this->object->getElementHeight());
+			$element_height->setRequired(false);
+			$element_height->setMaxLength(6);
+			$element_height->setMinValue(20);
+			$element_height->setSize(6);
+			$element_height->setInfo($this->lng->txt("element_height_info"));
+			$form->addItem($element_height);
 
-		$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
-		$geometry->setValue($this->object->getThumbGeometry());
-		$geometry->setRequired(true);
-		$geometry->setMaxLength(6);
-		$geometry->setMinValue(20);
-		$geometry->setSize(6);
-		$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
-		$form->addItem($geometry);
-		
+			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+			$geometry->setValue($this->object->getThumbGeometry());
+			$geometry->setRequired(true);
+			$geometry->setMaxLength(6);
+			$geometry->setMinValue(20);
+			$geometry->setSize(6);
+			$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
+			$form->addItem($geometry);
+		}
+
 		// Definitions
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
 		$definitions = new ilMatchingWizardInputGUI($this->lng->txt("definitions"), "definitions");
+		if ($this->getSelfAssessmentEditingMode()) $definitions->setHideImages(true);
 		$definitions->setRequired(true);
 		$definitions->setQuestionObject($this->object);
 		$definitions->setTextName($this->lng->txt('definition_text'));
@@ -319,6 +323,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// Terms
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
 		$terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
+		if ($this->getSelfAssessmentEditingMode()) $terms->setHideImages(true);
 		$terms->setRequired(true);
 		$terms->setQuestionObject($this->object);
 		$terms->setTextName($this->lng->txt('term_text'));
