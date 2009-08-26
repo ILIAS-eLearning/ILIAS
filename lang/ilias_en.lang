@@ -9895,6 +9895,7 @@ search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java
 search#:#lucene_log_info#:#The file will be created automatically.
 search#:#lucene_download_ini#:#Download Configuration File
 search#:#lucene_create_ini#:#Create Configuration File
+common#:#show_filter#:#Show Filter
 payment#:#pays_epay#:#ePay
 payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
 payment#:#pays_epay_settings#:#ePay configuration
