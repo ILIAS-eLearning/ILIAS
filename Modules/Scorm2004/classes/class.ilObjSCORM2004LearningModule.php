@@ -529,87 +529,92 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	
 	
-	function exportSelected($a_exportall=0, $a_user)
+	function exportSelected($a_exportall = 0, $a_user = array())
 	{
 		global $ilDB, $ilUser;
-	 	$scos = array();
-		 //get all SCO's of this object		
-
-	 	$val_set = $ilDB->queryF('
-		 	SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
-		 	WHERE cp_item.cp_node_id = cp_node.cp_node_id 
-		 	AND cp_item.resourceid = cp_resource.id 
-		 	AND scormtype = %s
-		 	AND nodename = %s
-		 	AND cp_node.slm_id = %s ',
-		 	array('text','text','integer'),
-		 	array('sco','item',$this->getId())
-		 );
-		 
-		while($val_rec = $ilDB->fetchAssoc($val_set))				
+	 	
+		$scos = array();
+		
+		//get all SCO's of this object
+		$query = 'SELECT cp_node.cp_node_id '
+			   . 'FROM cp_node, cp_resource, cp_item '
+		 	   . 'WHERE cp_item.cp_node_id = cp_node.cp_node_id ' 
+		 	   . 'AND cp_item.resourceid = cp_resource.id AND scormtype = %s ' 
+		 	   . 'AND nodename = %s	AND cp_node.slm_id = %s';		
+	 	$res = $ilDB->queryF(
+			$query,
+		 	array('text', 'text', 'integer'),
+		 	array('sco', 'item', $this->getId())
+		);		
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			array_push($scos,$val_rec['cp_node_id']);
-		}	
+			$scos[] = $row['cp_node_id'];
+		}
+		
 		$csv = null;
+		
 		//a module is completed when all SCO's are completed
 		$user_array = array();
 		
-		if ($a_exportall == 1) 
+		if($a_exportall == 1) 
 		{
-			$val_set3 = $ilDB->queryF('
-				SELECT DISTINCT user_id,MAX(c_timestamp) last_access 
-				FROM cmi_node, cp_node 
-				WHERE  cmi_node.cp_node_id = cp_node.cp_node_id 
-				AND cp_node.slm_id = %s
-				GROUP BY user_id',
+			$query = 'SELECT user_id '
+				   . 'FROM cmi_node, cp_node '
+				   . 'WHERE cmi_node.cp_node_id = cp_node.cp_node_id AND cp_node.slm_id = %s '
+				   . 'GROUP BY user_id';
+			$res = $ilDB->queryF(
+				$query,
 				array('integer'),
 				array($this->getId())
 			);
-			
-			while($val_rec3 = $ilDB->fetchAssoc($val_set3))				
+			while($row = $ilDB->fetchAssoc($res))
 			{
-			 	array_push($user_array,$val_rec3['user_id']);
-			}
-			
-		} else {
-			$user_array = $a_user;
+			 	$user_array[] = $row['user_id'];
+			}			
 		}
+		else
+		{
+			$user_array = $a_user;
+		}		
 		
-		
-		foreach ($user_array as $user)
+		foreach($user_array as $user)
 		{
 			$scos_c = $scos;
 			//copy SCO_array
 			//check if all SCO's are completed
-			for ($i=0;$i<count($scos);$i++)
+			for($i = 0; $i < count($scos); $i++)
 			{
-
-				$val_set = $ilDB->queryF('
-					SELECT * FROM cmi_node 
-					WHERE (user_id = %s
-					AND cp_node_id = %s
-					AND completion_status = %s
-					AND success_status = %s)',
-					array('integer','integer','text','text'),
-					array($user,$scos[$i],'completed','passed')
+				$query = 'SELECT * FROM cmi_node ' 
+					   . 'WHERE user_id = %s AND cp_node_id = %s '
+					   . 'AND completion_status = %s AND success_status = %s';
+				$res = $ilDB->queryF(
+					$query,
+					array('integer', 'integer', 'text', 'text'),
+					array($user, $scos[$i], 'completed', 'passed')
 				);
 				
-				if ($ilDB->numRows($val_set)>0) 
+				$data = $ilDB->fetchAssoc($res);
+				if(is_array($data) && count($data))
 				{
 					//delete from array
 					$key = array_search($scos[$i], $scos_c); 
-					unset ($scos_c[$key]);
-				}
-				
+					unset($scos_c[$key]);
+				}				
 			}
+			
 			//check for completion
-			if (count($scos_c) == 0) {
+			if(count($scos_c) == 0)
+			{
 				$completion = 1;
-			} else {
+			}
+			else
+			{
 				$completion = 0;
 			}
+			
 			//write export entry
-			if (ilObject::_exists($user)  && ilObject::_lookUpType($user)=="usr" ) {
+			if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr')
+			{
 				$e_user = new ilObjUser($user);
 				$login = $e_user->getLogin();
 				$firstname = $e_user->getFirstname();
@@ -617,28 +622,43 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$email = $e_user->getEmail();
 				$department = $e_user->getDepartment();
 			
-				$val_set2 = $ilDB->queryF('
-					SELECT DISTINCT user_id,MAX(c_timestamp) AS date 
-					FROM cmi_node, cp_node 
-					WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
-					AND cp_node.slm_id = %s
-					GROUP BY user_id',
+				$query = 'SELECT user_id, MAX(c_timestamp) exp_date '
+					   . 'FROM cmi_node, cp_node ' 
+					   . 'WHERE cmi_node.cp_node_id = cp_node.cp_node_id ' 
+					   . 'AND cp_node.slm_id = %s '
+					   . 'GROUP BY user_id';
+				$res = $ilDB->queryF(
+					$query,
 					array('integer'),
 					array($this->getId())
 				);
-				$val_rec2 = $ilDB->fetchAssoc($val_set2);
-				if($ilDB->numRows($val_set2) > 0)
+				$data = $ilDB->fetchAssoc($res);
+				if(is_array($data) && count($data))
 				{
-					$date = $val_rec2['date'];	
+					$validDate = false;
+					
+					$datetime = explode(' ', $data['exp_date']);
+					if(count($datetime) == 2)
+					{						
+						$date = explode('-', $datetime[0]);
+						if(count($date) == 3 && checkdate($date[1], $date[2], $date[0]))
+							$validDate = true;			
+					}
+					
+					if($validDate)
+						$date = date('d.m.Y', strtotime($data['exp_date']));
+					else
+						$date = '';
 				}
-				 else {
-					$date = "";
+				else
+				{
+					$date = '';
 				}	
 				$csv = $csv. "$department;$login;$lastname;$firstname;$email;$date;$completion\n";	
 			}
 		}
 		$header = "Department;Login;Lastname;Firstname;Email;Date;Status\n";
-		$this->sendExportFile($header,$csv);
+		$this->sendExportFile($header, $csv);
 	}
 	
 	
