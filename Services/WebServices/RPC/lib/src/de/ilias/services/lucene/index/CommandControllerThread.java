@@ -66,6 +66,9 @@ public class CommandControllerThread extends Thread {
 		catch (Exception e) {
 			logger.error("Cannot start indexer thread: " + e);
 			this.interrupt();
-		} 
+		}
+		finally {
+			DBFactory.closeAll();
+		}
 	}
 }

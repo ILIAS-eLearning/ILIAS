@@ -143,15 +143,22 @@ public class LuceneSettings {
 		Statement sta = DBFactory.factory().createStatement();
 		sta.executeUpdate("DELETE FROM settings " + 
 				"WHERE module = 'common' AND keyword = 'lucene_last_index_time'");
+		try {
+			sta.close();
+		} catch (SQLException e) {
+			logger.warn(e);
+		}
+
 		
-		PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO settings (value,module,keyword) " +
-				"VALUES (?,?,?) ");
+		String query = "INSERT INTO settings (value,module,keyword) " +
+			"VALUES (?,?,?) ";
+		PreparedStatement pst = DBFactory.getPreparedStatement(query);
 		
 		pst.setString(1,String.valueOf(new java.util.Date().getTime()/1000));
 		pst.setString(2,"common");
 		pst.setString(3, "lucene_last_index_time");
 		pst.executeUpdate();
-		pst.close();
+		DBFactory.closePreparedStatement(query);
 	}
 
 	/**
@@ -180,6 +187,7 @@ public class LuceneSettings {
 		Statement sta = DBFactory.factory().createStatement();
 		ResultSet res = sta.executeQuery("SELECT value FROM settings WHERE module = 'common' " +
 			"AND keyword = 'lucene_default_operator'");
+
 		while(res.next()) {
 			setDefaultOperator(Integer.parseInt(res.getString("value")));
 			logger.info("Default Operator is: " + getDefaultOperator());
@@ -209,6 +217,13 @@ public class LuceneSettings {
 					new Date((long) Integer.parseInt(
 							res.getString("value")) * 1000));
 		}
+		try {
+			sta.close();
+			res.close();
+		} catch (SQLException e) {
+			logger.warn(e);
+		}
+		
 	}
 
 
