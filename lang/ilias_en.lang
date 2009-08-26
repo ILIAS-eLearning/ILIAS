@@ -1690,7 +1690,7 @@ common#:#cat_create_spl#:#Create Question Pool Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Create Web Resource
+common#:#cat_create_webr#:#Create Web Resource List
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
@@ -1769,8 +1769,8 @@ common#:#check_link_desc#:#If enabled all external links in ILIAS learning modul
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
-common#:#check_web_resources#:#Check Web Resources
-common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active.
+common#:#check_web_resources#:#Check Links
+common#:#check_web_resources_desc#:#If enabled all Web Resource Links will be checked if they are active.
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -1881,7 +1881,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_create_spl#:#Create Question Pool Survey
 common#:#crs_create_svy#:#Create Survey
 common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create Web Resource
+common#:#crs_create_webr#:#Create Web Resource List
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_learning_progress#:#Edit Learning Progress
@@ -2196,7 +2196,7 @@ common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_create_spl#:#Create Question Pool Survey
 common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create Web Resource
+common#:#fold_create_webr#:#Create Web Resource List
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_learning_progress#:#Edit Learning Progress
@@ -2355,7 +2355,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_create_spl#:#Create Question Pool Survey
 common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create Web Resource
+common#:#grp_create_webr#:#Create Web Resource List
 common#:#grp_delete#:#Delete Group
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
@@ -2434,9 +2434,9 @@ common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#Added new Web Resource with title: "%1"
-common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1"
-common#:#hist_webr_update#:#Update Web Resource. Title: "%1"
+common#:#hist_webr_add#:#Added new Link with title: "%1"
+common#:#hist_webr_delete#:#Deleted Link with title: "%1"
+common#:#hist_webr_update#:#modified Link with title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -3387,7 +3387,7 @@ common#:#obj_usr#:#User
 common#:#obj_user#:#User
 common#:#obj_usrf#:#User Accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
-common#:#obj_webr#:#Web Resource
+common#:#obj_webr#:#Web Resource List
 common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#object_duplicated#:#Object copied
@@ -3433,7 +3433,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Object Types
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Users
-common#:#objs_webr#:#Web Resources
+common#:#objs_webr#:#Web Resource Lists
 common#:#of#:#Of
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -4188,32 +4188,32 @@ common#:#visible_layers#:#Visible Layers
 common#:#visitor#:#Visitor
 common#:#visitors#:#Visitors
 common#:#visits#:#Visits
-common#:#web_resources#:#Web Resources
-common#:#webr#:#Web Resource
+common#:#web_resources#:#Links
+common#:#webr#:#Link
 common#:#webr_active#:#Active
-common#:#webr_add#:#Add Web Resource
-common#:#webr_add_item#:#Add Web Resource
-common#:#webr_delete#:#Delete Web Resource
-common#:#webr_delete_items#:#Delete Web Resource(s)
-common#:#webr_deleted_items#:#Deleted Web Resource(s).
+common#:#webr_add#:#Add Link
+common#:#webr_add_item#:#Add Link
+common#:#webr_delete#:#Delete Web Resource List
+common#:#webr_delete_items#:#Delete Link(s)
+common#:#webr_deleted_items#:#Deleted Link(s).
 common#:#webr_disable_check#:#Disable check
-common#:#webr_edit#:#Edit Web Resource
-common#:#webr_edit_item#:#Edit Web Resource
+common#:#webr_edit#:#Edit Link
+common#:#webr_edit_item#:#Edit Link
 common#:#webr_edit_permission#:#Change permission settings
 common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
-common#:#webr_join#:#Subscribe Web Resource
+common#:#webr_join#:#Subscribe Web Resource List
 common#:#webr_last_check#:#Last check
 common#:#webr_last_check_table#:#Last check:
-common#:#webr_leave#:#Unsubscribe Web Resource
+common#:#webr_leave#:#Unsubscribe Web Resource List
 common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
-common#:#webr_new#:#Add new Web Resource
-common#:#webr_no_items_created#:#No Web Resources created
-common#:#webr_read#:#Read access to Web Resource
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_visible#:#Web Resource is visible
-common#:#webr_write#:#Edit Web Resource
+common#:#webr_new#:#Add new Link
+common#:#webr_no_items_created#:#No Links created
+common#:#webr_read#:#Read access to Web Resource List
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Link(s)?
+common#:#webr_visible#:#Web Resource List is visible
+common#:#webr_write#:#Edit Web Resource List
 common#:#webservices#:#Webservices
 common#:#week#:#Week
 common#:#weekly#:#weekly
@@ -7679,8 +7679,8 @@ crs#:#event_digit#:#Digit
 crs#:#event_csv_export#:#CSV Export
 crs#:#event_participated#:#Participated
 crs#:#event_not_participated#:#Not Participated
-common#:#obj_webr_duplicate#:#Copy Web Resource
-common#:#obj_webr_select#:#-- Please select one Web Resource --
+common#:#obj_webr_duplicate#:#Copy Web Resource List
+common#:#obj_webr_select#:#-- Please select one Web Resource List --
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_select#:#-- Please select one File --
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -7753,7 +7753,7 @@ common#:#mcst_copy#:#Copy Mediacast
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#svy_copy#:#Copy Survey
 common#:#tst_copy#:#Copy Test
-common#:#webr_copy#:#Copy Web Resource
+common#:#webr_copy#:#Copy Web Resource List
 common#:#missing_perm#:#Missing Permission
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
