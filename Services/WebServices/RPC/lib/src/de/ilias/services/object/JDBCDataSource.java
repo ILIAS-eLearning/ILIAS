@@ -177,6 +177,11 @@ public class JDBCDataSource extends DataSource {
 					doc.newDocument();
 				}
 			}
+			try {
+				res.close();
+			} catch (SQLException e) {
+				logger.warn("Cannot close result set");
+			}
 		}
 		catch (SQLException e) {
 			logger.error("Cannot parse data source.");

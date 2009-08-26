@@ -165,6 +165,64 @@ public class DBFactory {
 	}
 	
 	/**
+	 * Close prepared statement
+	 * @param query
+	 */
+	public static void closePreparedStatement(String query) {
+		
+		try {
+			if(ps.get().containsKey(query)) {
+				ps.get().get(query).close();
+			}
+		}
+		catch (Throwable t) {
+		}
+		finally {
+			ps.get().remove(query);
+		}
+	}
+	
+	/**
+	 * close all statements
+	 */
+	public static void closeAll() {
+		
+		try {
+			
+			for(PreparedStatement pst : ps.get().values()) {
+				
+				// closing prepared statements
+				logger.debug("Clossing prepared statement: " + pst.toString());
+				try {
+					// Close prepared statements
+					pst.close();
+					// Close connection
+				}
+				catch (SQLException e) {
+					logger.warn("Cannot close prepared statement: " + pst.toString());
+					logger.warn(e);
+				}
+				catch (Throwable t) {
+					logger.warn(t);
+				}
+			}
+			
+		}
+		catch (Throwable t) {
+			logger.warn(t);
+		}
+		finally {
+			
+			try {
+				connection.get().close();
+			}
+			catch (Throwable e) {
+				logger.error("Cannot release db connection: " + e);
+			}
+		}
+	}
+	
+	/**
 	 * set string overwritten for oracle
 	 * @param ps
 	 * @param index
@@ -264,7 +322,6 @@ public class DBFactory {
 	public static String getDbType() {
 		
 		try {
-			
 			return ClientSettings.getInstance(LocalSettings.getClientKey()).getDbType();
 		}
 		catch (ConfigurationException e) {

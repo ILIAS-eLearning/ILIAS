@@ -149,7 +149,11 @@ public class CommandQueue {
 			getElements().add(element);
 			counter++;
 		}
-		res.close();
+		try {
+			res.close();
+		} catch (SQLException e) {
+			logger.warn(e);
+		}
 		logger.info("Found " + counter + " new update events!");
 	}
 	
@@ -161,10 +165,12 @@ public class CommandQueue {
 	 */
 	private synchronized void substituteResetCommands() throws SQLException {
 
+		String query = "SELECT * FROM search_command_queue WHERE command = ? AND obj_id = 0";
+
 		try {
 			logger.info("Substituting reset commands");
 
-			PreparedStatement sta = DBFactory.getPreparedStatement("SELECT * FROM search_command_queue WHERE command = ? AND obj_id = 0");
+			PreparedStatement sta = DBFactory.getPreparedStatement(query);
 			DBFactory.setString(sta, 1, "reset_all");
 			logger.debug("Substitution query: " + sta.toString());
 			ResultSet res = sta.executeQuery();
@@ -178,11 +184,11 @@ public class CommandQueue {
 			res.close();
 		} 
 		catch(SQLException e) {
-			logger.fatal("Invalid SQL statement!");
+			logger.error("Invalid SQL statement: " + query);
+			logger.error(e);
 			throw e;
 		}
 		catch(Throwable e) {
-			e.printStackTrace();
 			logger.fatal(e);
 		}
 	}
@@ -269,7 +275,11 @@ public class CommandQueue {
 				
 				objReset.executeUpdate();
 			}
-			res.close();
+			try {
+				res.close();
+			} catch (SQLException e) {
+				logger.warn("Cannot close result set: " + e);
+			}
 			return;
 		}
 		catch(SQLException e) {
@@ -336,6 +346,15 @@ public class CommandQueue {
 			Statement delete = db.createStatement();
 			delete.executeUpdate("TRUNCATE TABLE search_command_queue");
 			
+			try {
+				if(delete != null) {
+					delete.close();
+				}
+			}
+			catch (SQLException e) {
+				logger.warn(e);
+			}
+			
 			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
 
 			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished ) " +
@@ -353,7 +372,6 @@ public class CommandQueue {
 					pst.setInt(7,0);
 				pst.executeUpdate();
 			}
-			pst.close();
 		}
 		catch (Exception e) {
 			logger.error(e);
@@ -370,6 +388,13 @@ public class CommandQueue {
 		logger.info("Deleting search_command_queue");
 		Statement delete = db.createStatement();
 		delete.execute("TRUNCATE TABLE search_command_queue");
+		
+		try {
+			delete.close();
+		}
+		catch (SQLException e) {
+			logger.warn(e);
+		}
 		logger.info("Search command queue deleted");
 	}
 
@@ -392,10 +417,8 @@ public class CommandQueue {
 					pst.executeUpdate();
 				}
 			}
-			pst.close();
 		}
 		catch (Exception e) {
-			
 			logger.error(e);
 		}
 		
@@ -428,10 +451,8 @@ public class CommandQueue {
 					pst.executeUpdate();
 				}
 			}
-			pst.close();
 		}
 		catch (Exception e) {
-			
 			logger.error(e);
 		}
 	}
