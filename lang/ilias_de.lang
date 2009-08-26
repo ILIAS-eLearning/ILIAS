@@ -9918,3 +9918,11 @@ search#:#lucene_log_info#:#Die Datei wird automatisch angelegt.
 search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
 search#:#lucene_create_ini#:#Konfigurationsdatei erstellen
 search#:#lucene_relevance_short#:#Relevanz
+content#:#cont_sc_usession#:#Session-Timeout deaktivieren
+content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
+content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
+content#:#scplayer_expandtree#:#Baum ausklappen
+content#:#scplayer_collapsetree#:#Baum einklappen
+content#:#cont_debug#:#Debug-Menü anzeigen
+content#:#cont_debugpw#:#Zugangspasswort
+content#:#scplayer_debugger#:#Debugger zeigen

@@ -100,6 +100,11 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setModuleVersion($lm_rec["module_version"]);
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
+			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
+			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
+			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
+			$this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
+			$this->setDebugPw($lm_rec["debugpw"]);
 		}
 	}
 
@@ -363,6 +368,87 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->module_version = $a_module_version;
 	}
 	
+		/**
+	* get session setting
+	*/
+	function getSession()
+	{
+		return $this->session;
+	}
+	
+	/**
+	* set session setting
+	*/
+	function setSession($a_session)
+	{
+		$this->session = $a_session;
+	}
+	
+	/**
+	* disable menu
+	*/
+	function getNoMenu()
+	{
+		return $this->no_menu;
+	}
+	
+	/**
+	* disable menu
+	*/
+	function setNoMenu($a_no_menu)
+	{
+		$this->no_menu = $a_no_menu;
+	}
+	
+	/**
+	* hide navigation tree
+	*/
+	function getHideNavig()
+	{
+		return $this->hide_navig;
+	}
+	
+	/**
+	* disable menu
+	*/
+	function setHideNavig($a_hide_navig)
+	{
+		$this->hide_navig = $a_hide_navig;
+	}
+	
+	
+	/**
+	* debug
+	*/
+	function getDebug()
+	{
+		return $this->debug;
+	}
+	
+	/**
+	* debug
+	*/
+	function setDebug($a_debug)
+	{
+		$this->debug = $a_debug;
+	}
+	
+	/**
+	* debug pw
+	*/
+	function getDebugPw()
+	{
+		return $this->debug_pw;
+	}
+	
+	/**
+	* debug pw
+	*/
+	function setDebugPw($a_debug_pw)
+	{
+		$this->debug_pw = $a_debug_pw;
+	}
+	
 	/**
 	* update meta data only
 	*/
@@ -415,7 +501,13 @@ class ilObjSAHSLearningModule extends ilObject
 				module_version = %s, 
 				credit = %s, 
 				glossary = %s, 
-				question_tries = %s
+				question_tries = %s,
+				unlimited_session = %s,
+				no_menu = %s,
+				hide_navig = %s,
+				debug = %s,
+				debugpw = %s
+				
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -430,7 +522,13 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'integer',
 				'integer',
-				'integer'), 
+				'text',
+				'text',
+				'text',
+				'text',
+				'text',
+				'integer'
+				), 
 		array(	ilUtil::tf2yn($this->getOnline()),
 				$this->getAPIAdapterName(),
 				$this->getAPIFunctionsPrefix(),
@@ -444,6 +542,11 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getCreditMode(),
 				$this->getAssignedGlossary(),
 				$this->getTries(),
+				ilUtil::tf2yn($this->getSession()),
+				ilUtil::tf2yn($this->getNoMenu()),
+				ilUtil::tf2yn($this->getHideNavig()),
+				ilUtil::tf2yn($this->getDebug()),
+				$this->getDebugPw(),
 				$this->getId())
 		);
 		

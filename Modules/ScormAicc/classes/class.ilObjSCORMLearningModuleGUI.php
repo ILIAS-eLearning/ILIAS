@@ -158,6 +158,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version"));
 		$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
 		
+			//unlimited session
+		$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
+		$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
+		$this->tpl->setVariable("VAL_SESSION", "y");
+		if ($this->object->getSession())
+		{
+			$this->tpl->setVariable("CHK_SESSION", "checked");
+		}
+		
+		
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -378,6 +388,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setCreditMode($_POST["credit_mode"]);
 		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 		$this->object->setMaxAttempt($_POST["max_attempt"]);
+		$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

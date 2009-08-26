@@ -15275,3 +15275,48 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2831>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "unlimited_session", array(
+			"type" => "text",
+			'length' => 1,
+			"notnull" => true,
+			"default" => 'n'
+		));
+?>
+<#2832>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "no_menu", array(
+			"type" => "text",
+			'length' => 1,
+			"notnull" => true,
+			"default" => 'n'
+		));
+?>
+<#2833>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "hide_navig", array(
+			"type" => "text",
+			'length' => 1,
+			"notnull" => true,
+			"default" => 'n'
+		));
+?>
+<#2834>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "debug", array(
+			"type" => "text",
+			'length' => 1,
+			"notnull" => true,
+			"default" => 'n'
+		));
+?>
+<#2835>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "debugpw", array(
+			"type" => "text",
+			'length' => 50,
+			"notnull" => false,
+			"default" => 'n'
+		));
+?>

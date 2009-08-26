@@ -1593,6 +1593,7 @@ function onDocumentClick (e)
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
 				onItemDeliver(activities[mlaunch.mActivityID]);
+			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
 			  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -2137,7 +2138,7 @@ function init(config)
 			count=count+1;
 		}
 	}
-	if (count==1) {
+	if (count==1 || this.config.hide_navig == 1) {
 		toggleView();  //hide tree
 	}
 		
@@ -2153,8 +2154,20 @@ function init(config)
 	
 	updateControls();
 	updateNav();
+	if (this.config.session_ping>0)
+	{
+		setTimeout("pingSession()", this.config.session_ping*1000);
+	}
 	
 }
+
+function pingSession() 
+{
+	var r = sendJSONRequest(this.config.ping_url);
+	//repeat timer
+	setTimeout("pingSession()", this.config.session_ping*1000);
+}
+
 
 function loadGlobalObj() {
 	var globalObj =  this.config.globalobj_data || sendJSONRequest(this.config.get_gobjective_url);
@@ -2440,6 +2453,7 @@ function save()
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
+	setTimeout("updateNav(true)",1000);
 	return i;
 }
 
@@ -2679,6 +2693,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
+	//alert("onWindowUnload")
 	onItemUndeliver(true);
 	save_global_objectives();
 	save();
@@ -2686,7 +2701,7 @@ function onWindowUnload ()
 
 function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
 {
-	
+//	alert("OnItemDeliver")
 	var url = item.href, v;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
@@ -2799,14 +2814,13 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
-	
-	updateNav();
 	updateControls();
-	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
-	
 }
 
+function test() {
+	alert("HALLO");
+}
 
 function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
@@ -3012,6 +3026,7 @@ function syncCMIADLTree(){
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
+//	alert("onItemUndeliver")
 	
 	// customize GUI
 	if (noControls!=true) {
@@ -3020,11 +3035,12 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 	}	
 	// throw away the resource
 	// it may change api data in this
-	removeResource();
-	undeliverFinish();	
+	removeResource(undeliverFinish);
 }
 
 function undeliverFinish(){
+//	alert("undeliverFinish yes")
+	
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
 	{
@@ -3151,6 +3167,7 @@ function onTerminate(data)
 			})(navReq.type, navReq.target), 0);
 		*/	
 	}	
+	updateNav(true);
 	return true;
 }
 
@@ -3172,10 +3189,15 @@ var apiIndents = // for mapping internal to api representaiton
 };	
 
 
-function updateNav() {
-	
+function updateNav(ignore) {
+	//check for tree
+	if (!all("treeView")) {
+		return;
+	}
 	//first set it
-	setToc();
+	if (ignore!=true) {
+		setToc();
+	}	
 	var tree=msequencer.mSeqTree.mActivityMap;
 	var disable;
 	for (i in tree) {
@@ -3191,10 +3213,15 @@ function updateNav() {
 				disable=true;
 			}
 		}
+		if (guiItem && ignore==true) {
+			if (guiItem.id ==ITEM_PREFIX + tree[i].mActivityID)
+			{
+				continue;
+			}
+		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
 		if (!elm) {return;}
 		toggleClass(elm, 'disabled', disable); 
-		
 		//search for the node to change
 		//set icons
 		if (activities[tree[i].mActivityID].sco && activities[tree[i].mActivityID].href) {

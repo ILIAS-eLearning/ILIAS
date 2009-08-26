@@ -271,8 +271,20 @@ class ilSCORM13Player
 	
 	public function getPlayer()
 	{
-		global $ilUser,$lng;
+		global $ilUser,$lng, $ilias, $ilSetting;
 		// player basic config data
+		
+		if ($this->slm->getSession()) {
+		
+			#$session_timeout = (int) ($ilias->ini->readVariable("session","expire"))/2;
+			
+			// For implementing the SessionControl this value is moved to settings in db 
+			$session_timeout = (int)$ilSetting->get("session_max_idle") * 60 / 2;
+		
+		} else {
+			$session_timeout = 0;
+		}
+		
 		$config = array
 		(
 			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
@@ -290,7 +302,10 @@ class ilSCORM13Player
 			'mode' => 'normal',
 			'credit' => 'credit',
 			'auto_review' => $this->slm->getAutoReview(),
-			'package_url' =>  $this->getDataDirectory()."/"
+			'hide_navig' => $this->slm->getHideNavig(),
+			'debug' => $this->slm->getDebug(),
+			'package_url' =>  $this->getDataDirectory()."/",
+			'session_ping' => $session_timeout
 		);
 				
 		
@@ -331,6 +346,12 @@ class ilSCORM13Player
 		//include scripts
 		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
 		
+		//disable top menu
+		if ($this->slm->getNoMenu()=="y") {
+			$this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");	
+		}
+
+
 		//check for max_attempts and raise error if max_attempts is exceeded
 		if ($this->get_max_attempts()!=0) {
 			if ($this->get_actual_attempts() >= $this->get_max_attempts()) {

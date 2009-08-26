@@ -391,6 +391,19 @@ class ilSCORMPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		//unlimited sessions
+		if ($slm_obj->getSession()) {
+			
+			#$session_timeout = (int) ($ilias->ini->readVariable("session","expire"))/2;
+			
+			// For implementing the SessionControl this value is moved to settings in db 
+			$session_timeout = (int)$ilSetting->get("session_max_idle") * 60 / 2;
+			
+		} else {
+			$session_timeout = 0;
+		}
+		$this->tpl->setVariable("PING_SESSION",$session_timeout);
+		
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
 		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
@@ -677,7 +690,11 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
-
+	function pingSession()
+	{
+		return true;
+	}
+	
 	/**
 	* set single value
 	*/

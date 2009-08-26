@@ -1,6 +1,6 @@
 /*
  * SCORM-1.2 API-Adapter Java Applet for ILIAS
- * Copyright (c) Matthai Kurian, Jan Gellweiler, Alexander Killing
+ * Copyright (c) Matthai Kurian, Jan Gellweiler, Alexander Killing, Hendrik Holtmann
  *
  * Made for ILIAS, the same license terms as for ILIAS itself apply.
  *
@@ -17,6 +17,8 @@
 
 import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.net.*;
 import java.io.*;
 
@@ -37,6 +39,8 @@ public	class IliasApiAdapterApplet
 
 	private String  IliasSahsId;
 	private String  IliasNextObjId;
+	
+	private int		IliasPingSession;
 
 	private boolean isLaunched  = false;
 	private boolean isLaunching = false;
@@ -55,10 +59,45 @@ public	class IliasApiAdapterApplet
 		IliasStudentName = getParameter ("student_name");
 		IliasStudentLogin = getParameter ("student_login");
 		IliasStudentOu    = getParameter ("student_ou");
+		IliasPingSession    = Integer.parseInt(getParameter ("ping_session"));
+		
 		say ("cmi.core.student_id=" +IliasStudentId);
 		say ("cmi.core.student_name=" +IliasStudentName);
+		
+		if (IliasPingSession>0)
+		{
+			SchedulePing();
+		}
 	}
 
+	private final void SchedulePing()
+	{
+		say("Session-Ping will occur every: "+ IliasPingSession+ " seconds." );
+		
+		int delay = IliasPingSession * 1000;   
+	    int period = IliasPingSession * 1000;  
+	    Timer timer = new Timer();
+
+	    timer.scheduleAtFixedRate(new TimerTask() {
+	            public void run() {
+					URLConnection po;
+					try {
+						po = (URLConnection) ( new java.net.URL (
+							getCodeBase().toString()
+						 	+"../../../ilias.php?baseClass=ilSAHSPresentationGUI&cmd=pingSession"
+							+ "&ref_id=" +IliasRefId
+						)).openConnection();
+						BufferedReader in = new BufferedReader(
+				                                new InputStreamReader(
+				                                po.getInputStream()));
+						in.close();
+					} catch (Exception e) {
+						say("Ping session failed");
+					}
+				}
+	        }, delay, period);
+	}
+	
 	private final void say (String s) {
 		if (isVerbose) System.out.println (s);
 	}
@@ -137,10 +176,11 @@ public	class IliasApiAdapterApplet
 		core.sysPut ("cmi.core.student_name", IliasStudentName);
 		core.sysPut (IliasScoCmi);
 		core.transBegin();
+		this.initEntry();
 		isLaunched  = true;
 	}
 
-	private final void modifyEntry () {
+	private final void initEntry () {
 		String l = "cmi.core.entry";
 		if (core.sysGet("cmi.core.exit").equals("suspend")) { 
 			core.sysPut(l, "resume");
@@ -149,6 +189,17 @@ public	class IliasApiAdapterApplet
 		}
 		return;
 	}
+	
+	 private final void modifyEntry () {
+		 String l = "cmi.core.entry";
+		 if (core.sysGet("cmi.core.exit").equals("suspend")) { 
+		         core.sysPut(l, "resume");
+		 } else {
+		         core.sysPut(l, "");             
+		 }
+		 return;
+     }
+
 	
 	private	final void IliasFinish (boolean commit) {
 		if (!isLaunched) return;
