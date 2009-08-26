@@ -132,7 +132,7 @@ class ilAbstractSearch
 		{
 			foreach($this->fields as $field)
 			{
-				$tmp_fields[$field] = 'text'; 
+				$tmp_fields[] = array($field,'text'); 
 			}
 			$complete_str = $ilDB->concat($tmp_fields);
 			

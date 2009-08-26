@@ -57,8 +57,8 @@ class ilLikeShopObjectSearch extends ilShopObjectSearch
 			}	
 			$concat = $ilDB->concat(
 				array(
-					'title'			=> 'text',
-					'description'	=> 'text'));
+					array('title','text'),
+					array('description','text')));
 			$where .= $this->db->like($concat, 'text', '%%'.$word.'%%');
 			
 		}
