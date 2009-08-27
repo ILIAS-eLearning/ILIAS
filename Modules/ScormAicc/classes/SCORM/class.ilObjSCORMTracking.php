@@ -184,18 +184,13 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 		
-		$in = '';
-		if(is_array($scorm_item_id) && count($scorm_item_id))
-		{
-			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
-		}
-
-		
 		if(is_array($scorm_item_id))
 		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
+			
 			$res = $ilDB->queryF('SELECT user_id,sco_id FROM scorm_tracking
 			WHERE '.$in.'
-			obj_id = %s 
+			AND obj_id = %s 
 			GROUP BY user_id, sco_id',
 			array('integer'),array($a_obj_id));
 			   
@@ -219,18 +214,14 @@ class ilObjSCORMTracking
 	function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
-		
-		$in = '';
-		if(is_array($scorm_item_id) && count($scorm_item_id))
-		{
-			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
-		}
 
 		if(is_array($scorm_item_id))
 		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
+			
 			$res = $ilDB->queryF('SELECT DISTINCT(user_id) FROM scorm_tracking 
 			WHERE '.$in.'
-			obj_id = %s
+			AND obj_id = %s
 			AND lvalue = %s 
 			AND ( rvalue = %s 
 			OR rvalue = %s)',
@@ -259,19 +250,15 @@ class ilObjSCORMTracking
 	function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
-		
-		$in = '';
-		if(is_array($scorm_item_id) && count($scorm_item_id))
-		{
-			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
-		}
 
 		if(is_array($scorm_item_id))
 		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
+			
 			$res = $ilDB->queryF('
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
 				WHERE '.$in.'
-				obj_id = %s
+				AND obj_id = %s
 				AND lvalue =  %s
 				AND rvalue = %s',
 			array('integer','text','text'),
@@ -302,21 +289,17 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 		
-		$in = '';
-		if(is_array($a_scorm_item_ids) && count($a_scorm_item_ids))
-		{
-			$in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer').' AND ';
-		}
+		$in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer');
 
 		$res = $ilDB->queryF('
-			SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking
+			SELECT user_id, COUNT(user_id) completed FROM scorm_tracking
 			WHERE '.$in.'
-			lvalue = %s 
-			AND (rvalue = %s
-			OR rvalue = %s
+			AND obj_id = %s
+			AND lvalue = %s 
+			AND (rvalue = %s OR rvalue = %s
 			GROUP BY user_id',
-			array('text','text','text'),
-			array('cmi.core.lesson_status' ,'completed' ,'passed')
+			array('integer', 'text', 'text', 'text'),
+			array($a_obj_id, 'cmi.core.lesson_status' ,'completed' ,'passed')
 		);
 		
 		while($row = $ilDB->fetchObject($res))
@@ -331,16 +314,12 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 		
-		$in = '';
-		if(is_array($sco_item_ids) && count($sco_item_ids))
-		{
-			$in = $ilDB->in('sco_id', $sco_item_ids, false, 'integer').' AND ';
-		}
+		$in = $ilDB->in('sco_id', $sco_item_ids, false, 'integer');
 
 		$res = $ilDB->queryF('
 		SELECT * FROM scorm_tracking 
 		WHERE '.$in.'
-		obj_id = %s 
+		AND obj_id = %s 
 		AND lvalue = %s ',
 		array('integer','text'), 
 		array($a_obj_id,'cmi.core.lesson_status'));
