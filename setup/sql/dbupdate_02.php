@@ -13519,7 +13519,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2580>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cp_manifest` CHANGE `defaultOrganization` `defaultorganization` VARCHAR( 30 ) NULL DEFAULT NULL");
+	$ilDB->manipulate("ALTER TABLE `cp_manifest` CHANGE `defaultOrganization` `defaultorganization` VARCHAR( 50 ) NULL DEFAULT NULL");
 ?>
 <#2581>
 <?php
@@ -15319,4 +15319,8 @@ $ilCtrlStructureReader->getStructure();
 			"notnull" => false,
 			"default" => 'n'
 		));
+?>
+<#2836>
+<?php
+	$ilDB->modifyTableColumn("cp_manifest", "defaultorganization", array("type" => "text", "length" => 50, "notnull" => false, 'default' => null));
 ?>
