@@ -67,27 +67,27 @@ class ilSCORM13Package
 
 	static private $elements = array(
 		'cp' => array(
-		'manifest',
-		'organization',
-		'item',
-		'hideLMSUI',
-		'resource',
-		'file',
-		'dependency',
-		'sequencing',
-		'rule',
-		'auxilaryResource',
-		'condition',
-		'mapinfo',
-		'objective',
-	),
+			'manifest',
+			'organization',
+			'item',
+			'hideLMSUI',
+			'resource',
+			'file',
+			'dependency',
+			'sequencing',
+			'rule',
+			'auxilaryResource',
+			'condition',
+			'mapinfo',
+			'objective',
+		),
 		'cmi' => array(
-		'comment',
-		'correct_response',
-		'interaction',
-		'node',
-		'objective',
-	),
+			'comment',
+			'correct_response',
+			'interaction',
+			'node',
+			'objective',
+		),
 	);
 
 	public function __construct($packageId = null)
@@ -148,11 +148,14 @@ class ilSCORM13Package
 		header('content-disposition: attachment; filename="manifest.xml"');
 
 		//$row = ilSCORM13DB::getRecord("cp_package", "obj_id",$this->packageId);
-		$statement = $ilDB->queryF('SELECT * FROM cp_package WHERE obj_id = %s', 
-		array('integer'), array($this->packageId));
-		$row = $ilDB->fetchAssoc($statement);
+		$res = $ilDB->queryF(
+			'SELECT xmldata FROM cp_package WHERE obj_id = %s', 
+			array('integer'),
+			array($this->packageId)
+		);
+		$row = $ilDB->fetchAssoc($res);
 		
-		print($row["xmldata"]);
+		print($row['xmldata']);
 	}
 
 
@@ -274,26 +277,19 @@ class ilSCORM13Package
 			"(".$ilDB->quote($this->packageId).",".
 				$ilDB->quote($x->asXML()).",".
 				$ilDB->quote(json_encode($j)).",".
-				$ilDB->quote(json_encode($adl_tree)).")";*/
-
-		$statment = $ilDB->queryF('
-			UPDATE cp_package 
-			SET	xmldata = %s,
-				jsdata = %s,
-			 	activitytree = %s,
-			 	global_to_system = %s
-			WHERE obj_id = %s', 
-		array(	'text',
-				'text',
-				'text',
-				'integer',
-				'integer'), 
-		array(	$x->asXML(),
-				json_encode($j),
-				json_encode($adl_tree['tree']),
-				$adl_tree['global'],
-				$this->packageId ));
+				$ilDB->quote(json_encode($adl_tree)).")";*/	
 		
+		$ilDB->update('cp_package',
+			array(
+				'xmldata'			=> array('clob', $x->asXML()),
+				'jsdata'			=> array('clob', json_encode($j)),
+				'activitytree'		=> array('clob', json_encode($adl_tree['tree'])),
+				'global_to_system'	=> array('integer', (int)$adl_tree['global'])
+			),
+			array(
+				'obj_id'			=> array('integer', (int)$this->packageId)
+			)
+		);
 		
 	  	/*ilSCORM13DB::setRecord(
 			'cp_package', array(
@@ -540,36 +536,36 @@ class ilSCORM13Package
 				'identifier' => $this->packageName,
 				'persistPreviousAttempts' => 0,
 				'settings' => '',
-				));*/
-				
+				));*/				
 
-				$statement = $ilDB->queryF('
-				SELECT * FROM cp_package WHERE obj_id = %s AND c_identifier = %s',
-				array('integer','text'), array($this->packageId, $this->packageName));
-				
-				if($res = $ilDB->numRows($statement))
-				{ 			
-					$statement = $ilDB->manipulateF('
-					UPDATE cp_package
-					SET persistprevattempts = %s, c_settings = %s
-					WHERE obj_id = %s AND c_identifier= %s,',
-					array('integer','text','integer', 'text'), 
-					array(0, NULL,$this->packageId, $this->packageName));	
-				
+				$res = $ilDB->queryF(
+					'SELECT * FROM cp_package WHERE obj_id = %s AND c_identifier = %s',
+					array('integer', 'text'),
+					array($this->packageId, $this->packageName)
+				);				
+				if($num_rows = $ilDB->numRows($res))
+				{
+					$query = 'UPDATE cp_package '
+						   . 'SET persistprevattempts = %s, c_settings = %s '
+						   . 'WHERE obj_id = %s AND c_identifier= %s';							
+					$ilDB->manipulateF(
+						$query,
+						array('integer', 'text', 'integer', 'text'), 
+						array(0, NULL, $this->packageId, $this->packageName)
+					);				
 				}
 				else
-				{
+				{				
+					$query = 'INSERT INTO cp_package (obj_id, c_identifier, persistprevattempts, c_settings) '
+						   . 'VALUES (%s, %s, %s, %s)';
+					$ilDB->manipulateF(
+						$query,
+						array('integer','text','integer', 'text'), 
+						array($this->packageId, $this->packageName, 0, NULL)
+					);					
+				}				
 				
-					$statement = $ilDB->manipulateF('
-					INSERT INTO cp_package 
-					(obj_id, c_identifier, persistprevattempts, c_settings) 
-					VALUES (%s,%s,%s,%s)', 
-					array('integer','text','integer', 'text'), 
-					array($this->packageId, $this->packageName, 0, NULL));					
-				}
-				
-				
-					// run sub nodes
+				// run sub nodes
 				$this->dbImport($node->documentElement); // RECURSION
 				break;
 
@@ -592,14 +588,13 @@ class ilSCORM13Package
 
 				$cp_node_id = $ilDB->nextId('cp_node');
 				
-				$statement = $ilDB->manipulateF('
-					INSERT INTO cp_node
-					(cp_node_id, slm_id, nodename) 
-					VALUES (%s, %s, %s)',
+				$query = 'INSERT INTO cp_node (cp_node_id, slm_id, nodename) ' 
+					   . 'VALUES (%s, %s, %s)';
+				$ilDB->manipulateF(
+					$query,
 					array('integer', 'integer', 'text'), 
-					array($cp_node_id,$this->packageId,$node->nodeName)
-				);
-			
+					array($cp_node_id, $this->packageId, $node->nodeName)
+				);			
 				
 				// insert into cp_tree
 				/*
@@ -612,20 +607,17 @@ class ilSCORM13Package
 				'rgt' => 0,
 				));*/
 				
-
-				$statement = $ilDB->manipulateF('
-					INSERT INTO cp_tree 
-					(child, depth, lft, obj_id, parent, rgt) 
-					VALUES (%s,%s,%s,%s,%s,%s)',
-					array('integer','integer','integer','integer','integer','integer'),
+				$query = 'INSERT INTO cp_tree (child, depth, lft, obj_id, parent, rgt) ' 
+					   . 'VALUES (%s, %s, %s, %s, %s, %s)';
+				$ilDB->manipulateF(
+					$query,
+					array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
 					array($cp_node_id, $depth, $lft++, $this->packageId, $parent, 0) 
-				);
-			
+				);			
 
 				// insert into cp_*
 				//$a = array('cp_node_id' => $cp_node_id);
-				$names = array('cp_node_id');
-				
+				$names = array('cp_node_id');				
 				$values = array($cp_node_id);
 				$types = array('integer');
 				$sql_str = array('%s');
@@ -662,31 +654,26 @@ class ilSCORM13Package
 						case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';break;
 						case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
 						case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
-		
-		/*				case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
-						case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
-		*/			
-						default:$names[] = strtolower($attr->name);
-						break;
+						default: $names[] = strtolower($attr->name);break;
 					}	
-					
-				//	$names[] = strtolower($attr->name);
-					$values[] = $attr->value;
-					
-					if( $attr->name == 'objectivesglobtosys')
+
+					$values[] = $attr->value;					
+					if( in_array($attr->name, array('objectivesglobtosys', 'attemptlimit')))
 						$types[] = 'integer';
+					else if ( in_array($attr->name, array('jsdata', 'xmldata', 'activitytree', 'data')))
+						$types[] = 'clob';
+					else if ( in_array($attr->name, array('objectivemeasureweight')))
+						$types[] = 'float';
 					else
 						$types[] = 'text';
 						
-					$sql_str[] = '%s'; 	
-						
+					$sql_str[] = '%s';					
 				}
 				//ilSCORM13DB::setRecord('cp_' . $node->nodeName, $a);
-				$query = 'INSERT INTO cp_'.$node->nodeName.'
-				('. implode(',', $names).')
-				VALUES ('. implode (', ',$sql_str).')';
-
-				$statement = $ilDB->manipulateF($query,$types,$values);
+				$query = 'INSERT INTO cp_'.$node->nodeName.' '
+					   . '('. implode(',', $names).') '
+					   . 'VALUES ('. implode (', ',$sql_str).')';
+				$ilDB->manipulateF($query, $types, $values);
 	
 				$node->setAttribute('foreignId', $cp_node_id);
 				$this->idmap[$node->getAttribute('id')] = $cp_node_id;
@@ -694,16 +681,16 @@ class ilSCORM13Package
 				// run sub nodes
 				foreach($node->childNodes as $child)
 				{
-					$this->dbImport($child, $lft, $depth+1, $cp_node_id); // RECURSION
+					$this->dbImport($child, $lft, $depth + 1, $cp_node_id); // RECURSION
 				}
 
 				// update cp_tree (rgt value for pre order walk in sql tree)
-
-				$statement = $ilDB->manipulateF('
-					UPDATE cp_tree SET rgt = %s
-					 WHERE child = %s', 
-				array('integer', 'integer'), 
-				array($lft++, $cp_node_id));
+				$query = 'UPDATE cp_tree SET rgt = %s WHERE child = %s';
+				$ilDB->manipulateF(
+					$query, 
+					array('integer', 'integer'), 
+					array($lft++, $cp_node_id)
+				);
 		
 				break;
 		}
@@ -727,12 +714,11 @@ class ilSCORM13Package
 		), 'obj_id');
 */
 
-		$statement = $ilDB->manipulateF('
-		INSERT INTO cp_package 
-		(obj_id, xmldata, jsdata) 
-		VALUES (%s,%s,%s)',
-		array('integer','text','text'), 
-		array($this->packageId,$x->asXML(),json_encode($j)));
+		$ilDB->insert('cp_package', array(
+			'obj_id'		=> array('integer', $this->packageId),
+			'xmldata'		=> array('clob', $x->asXML()),
+			'jsdata'		=> array('clob', json_encode($j))
+		));
 		
 		return true;
 	}
@@ -744,130 +730,113 @@ class ilSCORM13Package
 
 		//cmi nodes
 		$cmi_nodes = array();
-		$set_cmi = $ilDB->queryF('
+		
+		$res = $ilDB->queryF('
 			SELECT cmi_node.cmi_node_id 
 			FROM cmi_node, cp_node 
-			WHERE(	cp_node.slm_id = %s
-			AND cmi_node.cp_node_id = cp_node.cp_node_id)',
-		array('integer'),array($this->packageId, ));
-		
-		while ($data = $ilDB->fetchAssoc($set_cmi)) 
+			WHERE cp_node.slm_id = %s AND cmi_node.cp_node_id = cp_node.cp_node_id',
+			array('integer'),
+			array($this->packageId)
+		);		
+		while($data = $ilDB->fetchAssoc($res)) 
 		{
-		//	array_push($cmi_nodes,$data['cmi_node_id']);
 			$cmi_node_values[] = $data['cmi_node_id'];
-			$cmi_node_types[] = 'integer';
-			$cmi_node_str[] = '%s';
-		}
-		//$cmi_nodes_impl = implode(",",ilUtil::quoteArray($cmi_nodes));		
+		}		
 		
 		//cmi interaction nodes
 		$cmi_inodes = array();
-		$set_icmi = $ilDB->queryF('
+		
+		$res = $ilDB->queryF('
 			SELECT cmi_interaction.cmi_interaction_id 
 			FROM cmi_interaction, cmi_node, cp_node 
-			WHERE(cp_node.slm_id = %s
-			AND cmi_node.cp_node_id=cp_node.cp_node_id
-			AND cmi_node.cmi_node_id=cmi_interaction.cmi_node_id)',
-		array('integer'),
-		array($this->packageId));
-		
-		while ($data = $ilDB->fetchAssoc($set_icmi)) 
+			WHERE (cp_node.slm_id = %s
+			AND cmi_node.cp_node_id = cp_node.cp_node_id
+			AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id)',
+			array('integer'),
+			array($this->packageId)
+		);		
+		while($data = $ilDB->fetchAssoc($res)) 
 		{
 			$cmi_inode_values[] = $data['cmi_interaction_id'];
-			$cmi_inode_types[] = 'integer';
-			$cmi_inode_str[] = '%s';
 		}
 		
 		//response
-		$ilDB->manipulateF('
-			DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN
-			  ('.implode(',', $cmi_inode_str).')',
-			array(implode(',', $cmi_inode_types)), 
-			array(implode(',', $cmi_inode_values))
-		);
+		$query = 'DELETE FROM cmi_correct_response WHERE '
+			   . $ilDB->in('cmi_correct_response.cmi_interaction_id', $cmi_inode_values, false, 'integer');
+		$ilDB->manipulate($query);
 			
 		//objective interaction
-		$ilDB->manipulateF('DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN 
-			  ('.implode(',', $cmi_inode_str).')',
-			array(implode(',', $cmi_inode_types)), 
-			array(implode(',', $cmi_inode_values))
-		);	
+		$query = 'DELETE FROM cmi_objective WHERE '
+			   . $ilDB->in('cmi_objective.cmi_interaction_id', $cmi_inode_values, false, 'integer');
+		$ilDB->manipulate($query);	
 			
 		//objective
-		$ilDB->manipulateF('DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN 
-			  ('.implode(',', $cmi_node_str).')',
-			array(implode(',', $cmi_node_types)), 
-			array(implode(',', $cmi_node_values))
-		);	
+		$query = 'DELETE FROM cmi_objective WHERE '
+			   . $ilDB->in('cmi_objective.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
 				
 		//interaction
-		$ilDB->manipulateF('DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN
-			  ('.implode(',', $cmi_node_str).')',
-			array(implode(',', $cmi_node_types)), 
-			array(implode(',', $cmi_node_values))
-		);	
+		$query = 'DELETE FROM cmi_interaction WHERE '
+		 	   . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
 			
 		//comment
-		$ilDB->manipulateF('DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN
-			  ('.implode(',', $cmi_node_str).')',
-			array(implode(',', $cmi_node_types)), 
-			array(implode(',', $cmi_node_values))
-		);	
+		$query = 'DELETE FROM cmi_comment WHERE '
+			   . $ilDB->in('cmi_comment.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
 					
 		//node
-		$ilDB->manipulateF('DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN
-			  ('.implode(',', $cmi_node_str).')',
-			array(implode(',', $cmi_node_types)), 
-			array(implode(',', $cmi_node_values))
-		);	
-		
+		$query = 'DELETE FROM cmi_node WHERE '
+			   . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);		
 	}
-	
 	
 	public function removeCPData()
 	{
-		global $ilDB,$ilLog;
+		global $ilDB, $ilLog;		
 		
-		
-		//get relevant nodes
-	
+		//get relevant nodes	
 		$cp_nodes = array();
-		$set_cp = $ilDB->queryF('SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id = %s',
-		array('integer'), array($this->packageId));
 		
-		while ($data = $ilDB->fetchAssoc($set_cp)) 
+		$res = $ilDB->queryF(
+			'SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);		
+		while($data = $ilDB->fetchAssoc($res)) 
 		{
-			//array_push($cp_nodes,$data['cp_node_id']);
-			$cp_nodes_values[] = $data['cp_node_id'];
-			$cp_nodes_types[] = 'integer';
-			$cp_nodes_str[] = '%s';
+			$cp_nodes[] = $data['cp_node_id'];
 		}		
 		
 		//remove package data
-		foreach (self::$elements['cp'] as $t)
+		foreach(self::$elements['cp'] as $t)
 		{
 			$t = 'cp_' . $t;
-			//$ilDB->query("DELETE FROM $t WHERE $t.cp_node_id IN ($cp_nodes_impl);");
-			$statement = $ilDB->manipulateF('DELETE FROM '.$t.' WHERE '.$t.'.cp_node_id IN 
-			('.implode( ',', $cp_nodes_str).')',
-			array(implode( ',', $cp_nodes_types)), 
-			array(implode( ',', $cp_nodes_values))
-			);
+			
+			$in = $ilDB->in($t.'.cp_node_id', $cp_nodes, false, 'integer');			
+			$ilDB->manipulate('DELETE FROM '.$t.' WHERE '.$in);
 		}
 		
 		// remove CP structure entries in tree and node
-		$ilDB->manipulateF('DELETE FROM cp_tree WHERE cp_tree.obj_id=%s',
-		array('integer'), array($this->packageId));
+		$ilDB->manipulateF(
+			'DELETE FROM cp_tree WHERE cp_tree.obj_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);
 
-		$ilDB->manipulateF('DELETE FROM cp_node WHERE cp_node.slm_id=%s',
-		array('integer'), array($this->packageId));
+		$ilDB->manipulateF(
+			'DELETE FROM cp_node WHERE cp_node.slm_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);
 		
 		// remove general package entry
-		$ilDB->manipulateF('DELETE FROM cp_package WHERE cp_package.obj_id=%s',
-		array('integer'), array($this->packageId));
-		
-	}
-	
+		$ilDB->manipulateF(
+			'DELETE FROM cp_package WHERE cp_package.obj_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);		
+	}	
 
 	public function dbRemoveAll()
 	{
@@ -927,5 +896,4 @@ class ilSCORM13Package
 		return $return;
 	}
 }
-
 ?>
