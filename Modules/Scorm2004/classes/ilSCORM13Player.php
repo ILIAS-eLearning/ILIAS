@@ -1113,46 +1113,68 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 					case 'comment':
 						$row[$cmi_no] = $ilDB->nextId('cmi_comment');
 	
-						$ilDB->manipulateF('
-							INSERT INTO cmi_comment
-							(cmi_comment_id, cmi_node_id, c_comment, c_timestamp, location, sourceislms)
-							VALUES (%s, %s, %s, %s, %s, %s)',
-							array('integer', 'integer', 'clob', 'timestamp', 'text', 'integer'),
-							$row
-						);
+						$ilDB->insert('cmi_comment', array(
+							'cmi_comment_id'	=> array('integer', $row[$cmi_no]),
+							'cmi_node_id'		=> array('integer', $row[1]),
+							'c_comment'			=> array('clob', $row[2]),
+							'c_timestamp'		=> array('timestamp', $row[3]),
+							'location'			=> array('text', $row[4]),
+							'sourceislms'		=> array('integer', $row[5])
+						));
 						break;
 						
 					case 'interaction':
 						$row[$cmi_no] = $ilDB->nextId('cmi_interaction');
 	
-						$ilDB->manipulateF('
-							INSERT INTO cmi_interaction
-							(cmi_interaction_id, cmi_node_id, description, id, latency, learner_response,
-							result, c_timestamp, c_type, weighting)
-							VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-							array('integer', 'integer', 'clob', 'text', 'text', 'text', 'text', 'text', 'text', 'float'),
-							$row
-						);
+						$ilDB->insert('cmi_interaction', array(
+							'cmi_interaction_id'	=> array('integer', $row[$cmi_no]),
+							'cmi_node_id'			=> array('integer', $row[1]),
+							'description'			=> array('clob', $row[2]),
+							'id'					=> array('text', $row[3]),
+							'latency'				=> array('text', $row[4]),
+							'learner_response'		=> array('text', $row[5]),
+							'result'				=> array('text', $row[6]),
+							'c_timestamp'			=> array('text', $row[7]),
+							'c_type'				=> array('text', $row[8]),
+							'weighting'				=> array('float', $row[9])
+						));
 						break;
 						
 					case 'objective':
 						$row[$cmi_no] = $ilDB->nextId('cmi_objective');
-	
-						$ilDB->manipulateF('
-							INSERT INTO cmi_objective
-							(cmi_interaction_id, cmi_node_id, cmi_objective_id, completion_status, description, 
-							id,	c_max, c_min, c_raw, scaled,
-							progress_measure, success_status, scope)
-							VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-							array('integer', 'integer', 'integer', 'float', 'clob',
-							      'text', 'float', 'float', 'float','float',
-								  'float', 'text', 'text'
-							),
-							$row
-						);
+						
+						$ilDB->insert('cmi_objective', array(
+							'cmi_interaction_id'	=> array('integer', $row[0]),
+							'cmi_node_id'			=> array('integer', $row[1]),
+							'cmi_objective_id'		=> array('integer', $row[$cmi_no]),
+							'completion_status'		=> array('float', $row[3]),
+							'description'			=> array('clob', $row[4]),
+							'id'					=> array('text', $row[5]),
+							'c_max'					=> array('float', $row[6]),
+							'c_min'					=> array('float', $row[7]),
+							'c_raw'					=> array('float', $row[8]),
+							'scaled'				=> array('float', $row[9]),
+							'progress_measure'		=> array('float', $row[10]),
+							'success_status'		=> array('text', $row[11]),
+							'scope'					=> array('text', $row[12])
+						));
 						break;
 						
 					case 'node':
+						$row[$cmi_no] = $ilDB->nextId('cmi_node');
+					
+						$node_fields = array(
+							'accesscount', 'accessduration', 'accessed', 'activityabsduration', 'activityattemptcount',
+							'activityexpduration', 'activityprogstatus', 'attemptabsduration', 'attemptcomplamount', 'attemptcomplstatus',
+							'attemptexpduration', 'attemptprogstatus', 'audio_captioning', 'audio_level', 'availablechildren',
+							'cmi_node_id', 'completion', 'completion_status', 'completion_threshold', 'cp_node_id',
+							'created', 'credit', 'delivery_speed', 'c_entry', 'c_exit',
+							'c_language', 'launch_data', 'learner_name', 'location', 'c_max',
+							'c_min', 'c_mode', 'modified', 'progress_measure', 'c_raw',
+							'scaled', 'scaled_passing_score', 'session_time', 'success_status', 'suspend_data',
+							'total_time', 'user_id', 'c_timestamp'
+						);
+						
 						$node_types = array(
 							'integer', 'text', 'text', 'text', 'integer', 'text', 'integer', 'text', 'float', 'integer',
 							'text', 'integer', 'integer', 'float', 'text', 'integer', 'float', 'text', 'text', 'integer',
@@ -1160,69 +1182,22 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 							'float', 'text', 'text', 'float', 'float', 'float', 'float', 'text', 'text', 'clob',
 							'text', 'integer', 'timestamp'
 						);
-						$node_str_values  = '
-						%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-						%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-						%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-						%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-						%s, %s, %s';
+						
+						$node_data = array();
+						foreach($node_fields as $key => $node_field)
+						{
+							if($key == 15)
+								$value = $row[$cmi_no];
+							else if($key == 42)
+								$value = date('Y-m-d H:i:s');
+							else
+								$value = $row[$key];
+							$node_data[$node_field] = array($node_types[$key], $value);
+						}					
 
-						$row[$cmi_no] = $ilDB->nextId('cmi_node');
-						$row[42] = ilUtil::now();
 						$ilLog->write("Want to insert row: ".count($row) );
-
-						$ilDB->manipulateF('
-						INSERT INTO cmi_node
-						(	
-							accesscount,
-							accessduration,
-							accessed,
-							activityabsduration,
-							activityattemptcount,
-							activityexpduration,
-							activityprogstatus,
-							attemptabsduration,
-							attemptcomplamount,
-							attemptcomplstatus,
-							attemptexpduration,
-							attemptprogstatus,
-							audio_captioning,
-							audio_level,
-							availablechildren,
-							cmi_node_id,
-							completion,
-							completion_status,
-							completion_threshold,
-							cp_node_id,
-							created,
-							credit,
-							delivery_speed,
-							c_entry,
-							c_exit,
-							c_language,
-							launch_data,
-							learner_name,
-							location,
-							c_max,
-							c_min,
-							c_mode,
-							modified,
-							progress_measure,
-							c_raw,
-							scaled,
-							scaled_passing_score,
-							session_time,
-							success_status,
-							suspend_data,
-							total_time,
-							user_id,
-							c_timestamp							
-						)
-						VALUES ('.$node_str_values.')',
-						$node_types,
-						$row
-					);						
-					break;
+						$ilDB->insert('cmi_node', $node_data);									
+						break;
 				}				
 				
 				$ret = true;
