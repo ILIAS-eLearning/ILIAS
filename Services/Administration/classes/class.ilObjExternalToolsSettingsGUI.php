@@ -345,7 +345,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		}
 		
 		require_once 'Services/Table/classes/class.ilTable2GUI.php';
-		$table = new ilTable2GUI($this, 'editDelicious');
+		$table = new ilTable2GUI($this, 'editSocialBookmarks');
 		$table->setFormAction($ilCtrl->getLinkTarget($this, 'saveSocialBookmarks'));
 		$table->addColumn($lng->txt('icon'), '');
 		$table->addColumn($lng->txt('title'), 'TITLE');
