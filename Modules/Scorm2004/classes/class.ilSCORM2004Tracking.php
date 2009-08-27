@@ -133,30 +133,22 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 */
 	}
 
-	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
+	function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id)
 	{
 		global $ilDB;
-
-		$sql_values = array();
-		$sql_types = array();
-		$sql_str = array();
-		foreach($a_scorm_item_ids as $sc_id)
-		{
-			$in_values[] = $sc_id;
-			$in_types[] = 'integer';
-			$in_str[] = '%s';
-		}
+		
+		$in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 
 		$res = $ilDB->queryF('
-		SELECT cmi_node.user_id user_id, COUNT(user_id) completed FROM cp_node, cmi_node 
-		WHERE cp_node.cp_node_id IN('.$a_scorm_item_ids.')
-		) AND cp_node.cp_node_id = cmi_node.cp_node_id
-		 AND cp_node.slm_id = %s
-		 AND completion_status = %s 
-		 GROUP BY cmi_node.user_id',
-		array('integer','text'),
-		array($a_obj_id, 'completed'));
-		
+			SELECT cmi_node.user_id user_id, COUNT(user_id) completed FROM cp_node, cmi_node 
+			WHERE '.$in.'
+			AND cp_node.cp_node_id = cmi_node.cp_node_id
+			AND cp_node.slm_id = %s
+			AND completion_status = %s 
+		 	GROUP BY cmi_node.user_id',
+			array('integer', 'text'),
+			array($a_obj_id, 'completed')
+		);		
 		while($row = $ilDB->fetchObject($res))		
 		{
 			$users[$row->user_id] = $row->completed;
@@ -170,13 +162,12 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	{
 		global $ilDB;
 
-
 		$res = $ilDB->queryF('
 			SELECT * FROM cmi_gobjective
 			WHERE objective_id = %s
 			AND scope_id = %s', 
-			array('text','integer'), 
-			array('-course_overall_status-',$a_obj_id)
+			array('text', 'integer'), 
+			array('-course_overall_status-', $a_obj_id)
 		);
 		
 		$info['completed'] = array();
@@ -205,18 +196,21 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 
 		$res = $ilDB->queryF(
-		'SELECT cp_node.cp_node_id id, 
-				cmi_node.user_id user_id,
-				cmi_node.completion_status completion, 
-				cmi_node.success_status success
-		 FROM cp_node, cmi_node 
-		 WHERE cp_node.cp_node_id IN('.implode(",",ilUtil::quoteArray($a_scorm_item_ids)).'
-		 ) AND cp_node.cp_node_id = cmi_node.cp_node_id
-		  AND cp_node.slm_id = %s',
-		array('integer'),
-		array($a_obj_id));
+			'SELECT cp_node.cp_node_id id, 
+					cmi_node.user_id user_id,
+					cmi_node.completion_status completion, 
+					cmi_node.success_status success
+			 FROM cp_node, cmi_node 
+			 WHERE '.$in.'
+			 AND cp_node.cp_node_id = cmi_node.cp_node_id
+			 AND cp_node.slm_id = %s',
+			array('integer'),
+			array($a_obj_id)
+		);
 		
 		$info['completed'] = array();
 		$info['failed'] = array();
