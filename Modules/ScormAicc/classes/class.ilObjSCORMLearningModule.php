@@ -93,9 +93,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		$items = array();
 		$childs = $tree->getSubTree($tree->getNodeData($root_id));
+
 		foreach($childs as $child)
 		{
-			if($child["type"] == "sit")
+			if($child["c_type"] == "sit")
 			{
 				include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 				$sc_item =& new ilSCORMItem($child["obj_id"]);
