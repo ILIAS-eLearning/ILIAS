@@ -620,7 +620,6 @@ class ilSCORM13Package
 				$names = array('cp_node_id');				
 				$values = array($cp_node_id);
 				$types = array('integer');
-				$sql_str = array('%s');
 		
 				foreach ($node->attributes as $attr)
 				{
@@ -655,7 +654,7 @@ class ilSCORM13Package
 						case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
 						case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
 						default: $names[] = strtolower($attr->name);break;
-					}	
+					}				
 
 					$values[] = $attr->value;					
 					if( in_array($attr->name, array('objectivesglobtosys', 'attemptlimit')))
@@ -665,15 +664,22 @@ class ilSCORM13Package
 					else if ( in_array($attr->name, array('objectivemeasureweight')))
 						$types[] = 'float';
 					else
-						$types[] = 'text';
-						
-					$sql_str[] = '%s';					
+						$types[] = 'text';			
 				}
+				
 				//ilSCORM13DB::setRecord('cp_' . $node->nodeName, $a);
-				$query = 'INSERT INTO cp_'.$node->nodeName.' '
+				/*$query = 'INSERT INTO  '
 					   . '('. implode(',', $names).') '
 					   . 'VALUES ('. implode (', ',$sql_str).')';
-				$ilDB->manipulateF($query, $types, $values);
+				$ilDB->manipulateF($query, $types, $values);*/
+				
+				// we have to change the insert method because of clob fields ($ilDB->manipulate does not work here)
+				$insert_data = array();
+				foreach($names as $key => $db_field)
+				{
+					$insert_data[$db_field] = array($types[$key], $values[$key]);
+				}				
+				$ilDB->insert('cp_'.$node->nodeName, $insert_data);			
 	
 				$node->setAttribute('foreignId', $cp_node_id);
 				$this->idmap[$node->getAttribute('id')] = $cp_node_id;
