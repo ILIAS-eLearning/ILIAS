@@ -69,8 +69,11 @@ class ilSCORMOrganizations extends ilSCORMObject
 		
 		parent::read();
 
-		$obj_set = $ilDB->queryF('SELECT * FROM sc_organizations WHERE obj_id = %s',
-		array('integer',array($this->getId())));
+		$obj_set = $ilDB->queryF(
+			'SELECT default_organization FROM sc_organizations WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->setDefaultOrganization($obj_rec["default_organization"]);
 	}
@@ -82,10 +85,10 @@ class ilSCORMOrganizations extends ilSCORMObject
 		parent::create();
 
 		$ilDB->manipulateF('
-		INSERT INTO sc_organizations (obj_id, default_organization) VALUES (%s,%s)',
-		array('integer','text'), 
-		array($this->getId(),$this->getDefaultOrganization()));
-		
+			INSERT INTO sc_organizations (obj_id, default_organization) VALUES (%s, %s)',
+			array('integer', 'text'), 
+			array($this->getId(), $this->getDefaultOrganization())
+		);		
 	}
 
 	function update()
@@ -95,12 +98,12 @@ class ilSCORMOrganizations extends ilSCORMObject
 		parent::update();
 
 		$ilDB->manipulateF('
-		UPDATE sc_organizations 
-		SET default_organization = %s
-		WHERE obj_id =%s',
-		array('text','integer'), 
-		array($this->getDefaultOrganization(),$this->getId()));
-		
+			UPDATE sc_organizations 
+			SET default_organization = %s
+			WHERE obj_id = %s',
+			array('text', 'integer'), 
+			array($this->getDefaultOrganization(), $this->getId())
+		);		
 	}
 
 	function delete()
@@ -109,10 +112,11 @@ class ilSCORMOrganizations extends ilSCORMObject
 
 		parent::delete();
 
-		$ilDB->manipulateF('DELETE FROM sc_organizations WHERE obj_id = %s',
-		array('integer',array($this->getId())));		
-		
+		$ilDB->manipulateF(
+			'DELETE FROM sc_organizations WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 	}
-
 }
 ?>
