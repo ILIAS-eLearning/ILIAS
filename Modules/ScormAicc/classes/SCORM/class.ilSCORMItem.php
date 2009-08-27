@@ -191,82 +191,48 @@ class ilSCORMItem extends ilSCORMObject
 		
 		parent::create();
 
-		$str_visible = ($this->getVisible())
-			? "true"
-			: "false";
-
-			$ilDB->manipulateF('
-			INSERT INTO sc_item 
-			(	obj_id, 
-				import_id, 
-				identifierref,
-				isvisible, 
-				parameters, 
-				prereq_type, 
-				prerequisites, 
-				maxtimeallowed,
-				timelimitaction, 
-				datafromlms, 
-				masteryscore
-			) 
-			VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			array('integer', 'text','text','text','text','text','text','text','text','clob','text'),
-			array(	$this->getId(),
-					$this->getImportId(),
-					$this->getIdentifierRef(),
-					$str_visible,
-					$this->getParameters(),
-					$this->getPrereqType(),
-					$this->getPrerequisites(),
-					$this->getMaxTimeAllowed(),
-					$this->getTimeLimitAction(),
-					$this->getDataFromLms(),
-					$this->getMasteryScore()
-					));
-			
+		$str_visible = ($this->getVisible()) ? 'true' : 'false';
+		
+		$ilDB->insert('sc_item', array(
+			'obj_id'			=> array('integer', $this->getId()),
+			'import_id'			=> array('text', $this->getImportId()),
+			'identifierref'		=> array('text', $this->getIdentifierRef()),
+			'isvisible'			=> array('text', $str_visible),
+			'parameters'		=> array('text', $this->getParameters()),
+			'prereq_type'		=> array('text', $this->getPrereqType()),
+			'prerequisites'		=> array('text', $this->getPrerequisites()),
+			'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
+			'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
+			'datafromlms'		=> array('clob', $this->getDataFromLms()),
+			'masteryscore'		=> array('text', $this->getMasteryScore())
+		));			
 	}
 
 	function update()
 	{
-		global $ilDB;
-		
-		$str_visible = ($this->getVisible())
-			? "true"
-			: "false";
+		global $ilDB;		
 
 		parent::update();
-
-			$ilDB->manipulateF('
-			UPDATE sc_item 
-			SET
-				import_id = %s,
-				identifierref = %s,
-				isvisible = %s,
-				parameters = %s,
-				prereq_type = %s,
-				prerequisites = %s,
-				maxtimeallowed = %s,
-				timelimitaction = %s,
-				datafromlms =  %s,
-				masteryscore = %s
-			WHERE obj_id = %s',
-			array('text','text','text','text','text','text','text','text','clob','text','integer'),
-			array(	
-					$this->getImportId(),
-					$this->getIdentifierRef(),
-					$str_visible,
-					$this->getParameters(),
-					$this->getPrereqType(),
-					$this->getPrerequisites(),
-					$this->getMaxTimeAllowed(),
-					$this->getTimeLimitAction(),
-					$this->getDataFromLms(),
-					$this->getMasteryScore(),
-					$this->getId()
-					)
-						
-			);
-
+		
+		$str_visible = ($this->getVisible()) ? 'true' : 'false';
+		
+		$ilDB->update('sc_item', 
+			array(
+				'import_id'			=> array('text', $this->getImportId()),
+				'identifierref'		=> array('text', $this->getIdentifierRef()),
+				'isvisible'			=> array('text', $str_visible),
+				'parameters'		=> array('text', $this->getParameters()),
+				'prereq_type'		=> array('text', $this->getPrereqType()),
+				'prerequisites'		=> array('text', $this->getPrerequisites()),
+				'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
+				'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
+				'datafromlms'		=> array('clob', $this->getDataFromLms()),
+				'masteryscore'		=> array('text', $this->getMasteryScore())
+			),
+			array(
+				'obj_id'			=> array('integer', $this->getId())
+			)
+		);
 	}
 
 	/**
@@ -341,9 +307,9 @@ class ilSCORMItem extends ilSCORMObject
 		);	
 		
 		$ilLog->write("SAHS Delete(ScormItem): ".
-			'DELETE FROM sc_item WHERE sco_id = '.$this->getId().' AND obj_id = '.$this->getSLMId());
+			'DELETE FROM scorm_tracking WHERE sco_id = '.$this->getId().' AND obj_id = '.$this->getSLMId());
 		$ilDB->manipulateF(
-			'DELETE FROM sc_item WHERE sco_id = %s AND obj_id = %s',
+			'DELETE FROM scorm_tracking WHERE sco_id = %s AND obj_id = %s',
 			array('integer', 'integer'),
 			array($this->getId(), $this->getSLMId())
 		);

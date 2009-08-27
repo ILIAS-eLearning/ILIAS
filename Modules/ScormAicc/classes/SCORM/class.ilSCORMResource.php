@@ -136,10 +136,12 @@ class ilSCORMResource extends ilSCORMObject
 		
 		parent::read();
 	
-		$obj_set = $ilDB->queryF('SELECT * FROM sc_resource WHERE obj_id = %s',
-			array('integer'), array($this->getId()));		
-		$obj_rec = $ilDB->fetchAssoc($obj_set);
-		
+		$obj_set = $ilDB->queryF(
+			'SELECT * FROM sc_resource WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);		
+		$obj_rec = $ilDB->fetchAssoc($obj_set);		
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setResourceType($obj_rec["resourcetype"]);
 		$this->setScormType($obj_rec["scormtype"]);
@@ -147,9 +149,11 @@ class ilSCORMResource extends ilSCORMObject
 		$this->setXmlBase($obj_rec["xml_base"]);
 
 		// read files
-		$file_set = $ilDB->queryF('
-		SELECT * FROM sc_resource_file WHERE res_id = %s ORDER BY nr',
-		array('integer'), array($this->getId()));
+		$file_set = $ilDB->queryF(
+			'SELECT href FROM sc_resource_file WHERE res_id = %s ORDER BY nr',
+			array('integer'),
+			array($this->getId())
+		);
 		while ($file_rec =$ilDB->fetchAssoc($file_set))
 		{
 			$res_file =& new ilSCORMResourceFile();
@@ -158,10 +162,11 @@ class ilSCORMResource extends ilSCORMObject
 		}
 		// read dependencies
 
-		$dep_set = $ilDB->queryF('
-		SELECT * FROM sc_resource_dependen WHERE res_id = %s ORDER BY nr',
-		array('integer'), array($this->getId()));
-	
+		$dep_set = $ilDB->queryF(
+			'SELECT identifierref FROM sc_resource_dependen WHERE res_id = %s ORDER BY nr',
+			array('integer'),
+			array($this->getId())
+		);	
 		while ($dep_rec =$ilDB->fetchAssoc($dep_set))
 		{
 			$res_dep =& new ilSCORMResourceDependency();
@@ -176,13 +181,14 @@ class ilSCORMResource extends ilSCORMObject
 		
 		$ilBench->start("SCORMResource", "readByIdRef_Query");
 		
-		$id_set = $ilDB->queryF('
-		SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
-		WHERE ob.obj_id = res.obj_id 
-		AND res.import_id = %s 
-		AND ob.slm_id = %s',
-		array('text','integer'), array($a_id_ref,$a_slm_id));	
-
+		$id_set = $ilDB->queryF(
+			'SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
+			WHERE ob.obj_id = res.obj_id 
+			AND res.import_id = %s 
+			AND ob.slm_id = %s',
+			array('text', 'integer'),
+			array($a_id_ref, $a_slm_id)
+		);
 		
 		$ilBench->stop("SCORMResource", "readByIdRef_Query");
 		
@@ -197,12 +203,14 @@ class ilSCORMResource extends ilSCORMObject
 	{
 		global $ilBench, $ilDB;
 		
-		$id_set = $ilDB->queryF('
-		SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
-		WHERE ob.obj_id = res.obj_id 
-		AND res.import_id = %s 
-		AND ob.slm_id = %s',
-		array('text','integer'), array($a_id_ref,$a_slm_id));		
+		$id_set = $ilDB->queryF(
+			'SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
+			WHERE ob.obj_id = res.obj_id 
+			AND res.import_id = %s 
+			AND ob.slm_id = %s',
+			array('text', 'integer'),
+			array($a_id_ref ,$a_slm_id)
+		);		
 		
 		if ($id_rec = $ilDB->fetchAssoc($id_set))
 		{
@@ -215,8 +223,11 @@ class ilSCORMResource extends ilSCORMObject
 	{
 		global $ilDB;
 		
-		$st_set = $ilDB->queryF('SELECT scormtype FROM sc_resource WHERE obj_id = %s',
-			array('integer'),array($a_obj_id));
+		$st_set = $ilDB->queryF(
+			'SELECT scormtype FROM sc_resource WHERE obj_id = %s',
+			array('integer'),
+			array($a_obj_id)
+		);
 		if ($st_rec = $ilDB->fetchAssoc($st_set))
 		{
 			return $st_rec["scormtype"];
@@ -233,7 +244,7 @@ class ilSCORMResource extends ilSCORMObject
 		$ilDB->manipulateF('
 			INSERT INTO sc_resource 
 			(obj_id, import_id, resourcetype, scormtype, href, xml_base) 
-			VALUES(%s,%s,%s,%s,%s,%s)',
+			VALUES(%s, %s, %s, %s, %s, %s)',
 			array('integer','text','text','text','text','text'),
 			array(	$this->getId(),
 					$this->getImportId(),
@@ -251,9 +262,9 @@ class ilSCORMResource extends ilSCORMObject
 
 			$ilDB->manipulateF('
 				INSERT INTO sc_resource_file (id,res_id, href, nr) 
-				VALUES(%s,%s,%s,%s)',
-				array('integer','integer','text','integer'),
-				array($nextId,$this->getId(),$this->files[$i]->getHref(),($i + 1))
+				VALUES(%s, %s, %s, %s)',
+				array('integer', 'integer', 'text', 'integer'),
+				array($nextId, $this->getId(), $this->files[$i]->getHref(), ($i + 1))
 			);
 		
 		}
@@ -265,9 +276,9 @@ class ilSCORMResource extends ilSCORMObject
 
 			$ilDB->manipulateF('
 				INSERT INTO sc_resource_dependen (id, res_id, identifierref, nr)
-				VALUES(%s,%s,%s,%s)',
-				array('integer','integer','text','integer'),
-				array($nextId,$this->getId(),$this->files[$i]->getHref(),($i + 1))
+				VALUES(%s, %s, %s, %s)',
+				array('integer', 'integer', 'text', 'integer'),
+				array($nextId, $this->getId(), $this->files[$i]->getHref(), ($i + 1))
 			);		
 		}
 	}
@@ -286,7 +297,7 @@ class ilSCORMResource extends ilSCORMObject
 				href = %s,
 				xml_base = %s
 			WHERE obj_id = %s',
-			array('text','text','text','text','text','integer'),
+			array('text', 'text', 'text', 'text', 'text', 'integer'),
 			array(	$this->getImportId(),
 					$this->getResourceType(),
 					$this->getScormType(),
@@ -296,35 +307,41 @@ class ilSCORMResource extends ilSCORMObject
 		);
 
 		// save files
-		$ilDB->manipulateF('DELETE FROM sc_resource_file WHERE res_id = %s',
-		array('integer'),array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resource_file WHERE res_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 		
 		for($i=0; $i<count($this->files); $i++)
 		{	
 			$nextId = $ilDB->nextId('sc_resource_file');
 			
-			$ilDB->manipulateF('
-			INSERT INTO sc_resource_file (id, res_id, href, nr) 
-			VALUES (%s,%s,%s,%s)',
-			array('integer','integer','text','integer'), 
-			array($nextId,$this->getId(),$this->files[$i]->getHref(),$i + 1));
+			$ilDB->manipulateF(
+				'INSERT INTO sc_resource_file (id, res_id, href, nr) 
+				VALUES (%s, %s, %s, %s)',
+				array('integer', 'integer', 'text', 'integer'), 
+				array($nextId, $this->getId(), $this->files[$i]->getHref(), ($i + 1))
+			);
 		}
 
 		// save dependencies
-		$ilDB->manipulateF('
-		DELETE FROM sc_resource_dependen WHERE res_id = %s',
-		array('integer'), array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resource_dependen WHERE res_id = %s',
+			array('integer'),
+			array($this->getId())
+		);		
 		
-		
-		for($i=0; $i<count($this->dependencies); $i++)
+		for($i = 0; $i < count($this->dependencies); $i++)
 		{
 			$nextId = $ilDB->nextId('sc_resource_dependen');
 
 			$ilDB->manipulateF('
-			INSERT INTO sc_resource_dependen (id, res_id, identifierref, nr) VALUES
-			(%s,%s,%s,%s) ',
-			array('integer','integer','text','integer'), 
-			array($nextId,$this->getId(),$this->dependencies[$i]->getIdentifierRef(),$i + 1));
+				INSERT INTO sc_resource_dependen (id, res_id, identifierref, nr) VALUES
+				(%s, %s, %s, %s) ',
+				array('integer', 'integer', 'text', 'integer'), 
+				array($nextId, $this->getId(), $this->dependencies[$i]->getIdentifierRef(), ($i + 1))
+			);
 		}
 	}
 
@@ -334,16 +351,23 @@ class ilSCORMResource extends ilSCORMObject
 
 		parent::delete();
 
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resource WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 
-		$ilDB->manipulateF('DELETE FROM sc_resource WHERE obj_id = %s',
-			array('integer'), array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resource_file WHERE res_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 
-		$ilDB->manipulateF('DELETE FROM sc_resource_file WHERE res_id = %s',
-			array('integer'), array($this->getId()));
-
-		$ilDB->manipulateF('DELETE FROM sc_resource_dependen WHERE res_id = %s',
-			array('integer'), array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resource_dependen WHERE res_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 	}
-
 }
 ?>

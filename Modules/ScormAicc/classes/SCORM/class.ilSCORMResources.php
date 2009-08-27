@@ -47,9 +47,9 @@ class ilSCORMResources extends ilSCORMObject
 		global $lng;
 		
 		parent::ilSCORMObject($a_id);
-		$this->setType("srs");
+		$this->setType('srs');
 
-		$this->setTitle($lng->txt("cont_resources"));
+		$this->setTitle($lng->txt('cont_resources'));
 	}
 
 	function getXmlBase()
@@ -68,12 +68,13 @@ class ilSCORMResources extends ilSCORMObject
 		
 		parent::read();
 
-
-
-		$obj_set = $ilDB->queryF('SELECT * FROM sc_resources WHERE obj_id = %s',
-		array('integer'),array($this->getId()));
+		$obj_set = $ilDB->queryF(
+			'SELECT xml_base FROM sc_resources WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
-		$this->setXmlBase($obj_rec["xml_base"]);
+		$this->setXmlBase($obj_rec['xml_base']);
 	}
 
 	function create()
@@ -82,9 +83,11 @@ class ilSCORMResources extends ilSCORMObject
 		
 		parent::create();
 		
-		$ilDB->manipulateF('
-		INSERT INTO sc_resources (obj_id, xml_base) VALUES (%s,%s)',
-		array('integer','text'),array($this->getId(),$this->getXmlBase()));
+		$ilDB->manipulateF(
+			'INSERT INTO sc_resources (obj_id, xml_base) VALUES (%s, %s)',
+			array('integer', 'text'),
+			array($this->getId(), $this->getXmlBase())
+		);
 	}
 
 	function update()
@@ -94,11 +97,10 @@ class ilSCORMResources extends ilSCORMObject
 		parent::update();
 
 		$ilDB->manipulateF('
-		UPDATE sc_resources 
-		SET xml_base =%s 
-		WHERE obj_id = %s',
-		array('text','integer'),array($this->getXmlBase(),$this->getId()));	
-		
+			UPDATE sc_resources SET xml_base = %s WHERE obj_id = %s',
+			array('text', 'integer'),
+			array($this->getXmlBase() ,$this->getId())
+		);		
 	}
 
 	function delete()
@@ -107,9 +109,11 @@ class ilSCORMResources extends ilSCORMObject
 
 		parent::delete();
 
-
-			$ilDB->manipulateF('DELETE FROM sc_resources WHERE obj_id = %s',
-			array('integer'),array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM sc_resources WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 	}
 }
 ?>
