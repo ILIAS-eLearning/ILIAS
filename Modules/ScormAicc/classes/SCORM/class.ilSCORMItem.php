@@ -210,7 +210,7 @@ class ilSCORMItem extends ilSCORMObject
 				masteryscore
 			) 
 			VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			array('integer', 'text','text','text','text','text','text','text','text','text','text'),
+			array('integer', 'text','text','text','text','text','text','text','text','clob','text'),
 			array(	$this->getId(),
 					$this->getImportId(),
 					$this->getIdentifierRef(),
@@ -250,7 +250,7 @@ class ilSCORMItem extends ilSCORMObject
 				datafromlms =  %s,
 				masteryscore = %s
 			WHERE obj_id = %s',
-			array('text','text','text','text','text','text','text','text','text','text','integer'),
+			array('text','text','text','text','text','text','text','text','clob','text','integer'),
 			array(	
 					$this->getImportId(),
 					$this->getIdentifierRef(),
@@ -282,15 +282,15 @@ class ilSCORMItem extends ilSCORMObject
 		{
 			$a_user_id = $ilUser->getId();
 		}
-
-
+		
 		$track_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
-		WHERE sco_id = %s 
-		AND user_id =  %s
-		AND obj_id = %s',
-		array('integer','integer','integer'),
-		array($this->getId(),$a_user_id,$this->getSLMId()));
+			SELECT lvalue, rvalue FROM scorm_tracking 
+			WHERE sco_id = %s 
+			AND user_id =  %s
+			AND obj_id = %s',
+			array('integer', 'integer', 'integer'),
+			array($this->getId(), $a_user_id, $this->getSLMId())
+		);
 		
 		$trdata = array();
 		while ($track_rec = $ilDB->fetchAssoc($track_set))
@@ -311,12 +311,13 @@ class ilSCORMItem extends ilSCORMObject
 		}
 
 		$track_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
-		WHERE sco_id = %s 
-		AND user_id =  %s
-		AND obj_id = %s',
-		array('integer','integer','integer'),
-		array($a_item_id,$a_user_id,$a_obj_id));
+			SELECT lvalue, rvalue FROM scorm_tracking 
+			WHERE sco_id = %s 
+			AND user_id =  %s
+			AND obj_id = %s',
+			array('integer', 'integer', 'integer'),
+			array($a_item_id, $a_user_id, $a_obj_id)
+		);
 		
 		$trdata = array();
 		while ($track_rec = $ilDB->fetchAssoc($track_set))
@@ -333,18 +334,19 @@ class ilSCORMItem extends ilSCORMObject
 
 		parent::delete();
 
-
-		$ilDB->manipulateF('DELETE FROM sc_item WHERE obj_id = %s',
-		array('integer'),array($this->getId()));
-
-		$q_log = "DELETE FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId()).
-			" AND obj_id = ".$ilDB->quote($this->getSLMId());
-		$ilLog->write("SAHS Delete(ScormItem): ".$q_log);
+		$ilDB->manipulateF(
+			'DELETE FROM sc_item WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);	
 		
-		$ilDB->manipulateF('DELETE FROM sc_item WHERE sco_id = %s AND obj_id = %s',
-		array('integer','integer'), array($this->getId(),$this->getSLMId()));
-
+		$ilLog->write("SAHS Delete(ScormItem): ".
+			'DELETE FROM sc_item WHERE sco_id = '.$this->getId().' AND obj_id = '.$this->getSLMId());
+		$ilDB->manipulateF(
+			'DELETE FROM sc_item WHERE sco_id = %s AND obj_id = %s',
+			array('integer', 'integer'),
+			array($this->getId(), $this->getSLMId())
+		);
 	}
 
 	//function insertTrackData($a_lval, $a_rval, $a_ref_id)
@@ -361,14 +363,13 @@ class ilSCORMItem extends ilSCORMObject
 		global $ilDB;
 
 		$res = $ilDB->queryF('
-			SELECT * FROM scorm_object 
+			SELECT obj_id FROM scorm_object 
 			WHERE slm_id = %s
 			AND c_type = %s',
-			array('integer','text'),
-			array($a_obj_id,'sit')
+			array('integer', 'text'),
+			array($a_obj_id, 'sit')
 		);
-		while($row = $ilDB->fetchObject($res))
-		
+		while($row = $ilDB->fetchObject($res))		
 		{
 			$item_ids[] = $row->obj_id;
 		}
@@ -379,8 +380,11 @@ class ilSCORMItem extends ilSCORMObject
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('SELECT * FROM scorm_object WHERE obj_id = %s',
-		array('integer', array($a_obj_id)));
+		$res = $ilDB->queryF(
+			'SELECT title FROM scorm_object WHERE obj_id = %s',
+			array('integer'),
+			array($a_obj_id)
+		);
 		
 		while($row = $ilDB->fetchObject($res))
 		{
@@ -388,7 +392,5 @@ class ilSCORMItem extends ilSCORMObject
 		}
 		return '';
 	}
-		
-
 }
 ?>
