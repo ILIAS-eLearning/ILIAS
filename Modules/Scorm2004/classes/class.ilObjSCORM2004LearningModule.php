@@ -976,7 +976,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				WHERE slm_id = %s
 				AND cp_node.cp_node_id = cp_resource.cp_node_id 
 				AND cp_resource.id = %s ',
-				array('integer','integer'),
+				array('integer','text'),
 				array($a_obj_id,$item_rec["resourceid"])
 			);
 				
