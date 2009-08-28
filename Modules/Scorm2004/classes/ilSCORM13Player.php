@@ -290,6 +290,7 @@ class ilSCORM13Player
 			'get_suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"],
 			'gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"],
 			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
+			'ping_url' =>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=pingSession&ref_id='.$_GET["ref_id"],
 			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
@@ -419,6 +420,13 @@ class ilSCORM13Player
 			$activitytree = json_decode($activitytree);
 			print_r($activitytree);
 		}		
+	}
+	
+	public function pingSession()
+	{
+		//do nothing except returning header
+		header('Content-Type: text/plain; charset=UTF-8');
+		print("");
 	}
 	
 	public function getScope()
