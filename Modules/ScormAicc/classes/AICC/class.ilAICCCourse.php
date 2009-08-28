@@ -238,59 +238,24 @@ class ilAICCCourse extends ilAICCObject
 		global $ilDB;
 		
 		parent::create();
-
-		$statement = $ilDB->manipulateF("
-				INSERT INTO aicc_course 
-				(	obj_id, 
-					course_creator, 
-					course_id, 
-					course_system, 
-					course_title,
-					c_level, 
-					max_fields_cst, 
-					max_fields_ort, 
-					total_aus, 
-					total_blocks,
-					total_complex_obj, 
-					total_objectives, 
-					version, 
-					max_normal,
-					description
-				) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",
-				array(	'integer', 
-						'text', 
-						'text',
-						'text',
-						'text',
-						'text',
-						'integer',
-						'integer',
-						'integer',
-						'integer',
-						'integer',
-						'integer',
-						'text',
-						'integer',
-						'text'
-				),
-				array(	$this->getId(),
-						$this->getCourseCreator(),
-						$this->getCourseId(),
-						$this->getCourseSystem(),
-						$this->getCourseTitle(),
-						$this->getLevel(),
-						$this->getMaxFieldsCst(),
-						$this->getMaxFieldsOrt(),
-						$this->getTotalAUs(),
-						$this->getTotalBlocks(),
-						$this->getTotalComplexObj(),
-						$this->getTotalObjectives(),
-						$this->getVersion(),
-						$this->getMaxNormal(),
-						$this->getDescription()
-				)
-	 	);
 		
+		$ilDB->insert('aicc_course', array(
+			'obj_id'			=> array('integer', $this->getId()),
+			'course_creator'	=> array('text', $this->getCourseCreator()),
+			'course_id'			=> array('text', $this->getCourseId()),
+			'course_system'		=> array('text', $this->getCourseSystem()),
+			'course_title'		=> array('text', $this->getCourseTitle()),
+			'c_level'			=> array('text', $this->getLevel()),
+			'max_fields_cst'	=> array('integer', $this->getMaxFieldsCst()),
+			'max_fields_ort'	=> array('integer', $this->getMaxFieldsOrt()),
+			'total_aus'			=> array('integer', $this->getTotalAUs()),
+			'total_blocks'		=> array('integer', $this->getTotalBlocks()),
+			'total_complex_obj'	=> array('integer', $this->getTotalComplexObj()),
+			'total_objectives'	=> array('integer', $this->getTotalObjectives()),
+			'version'			=> array('text', $this->getVersion()),
+			'max_normal'		=> array('integer', $this->getMaxNormal()),
+			'description'		=> array('clob', $this->getDescription())
+		));
 	}
 
 	function update()
@@ -298,54 +263,26 @@ class ilAICCCourse extends ilAICCObject
 		global $ilDB;
 		
 		parent::update();
-
-		$statement = $ilDB->manipulateF('
-			UPDATE aicc_course SET 
-				course_creator = %s, 
-				course_id = %s, 
-				course_system = %s, 
-				course_title = %s, 
-				c_level = %s, 
-				max_fields_cst = %s, 
-				max_fields_ort = %s, 
-				total_aus = %s, 
-				total_blocks = %s, 
-				total_complex_obj = %s, 
-				total_objectives = %s, 
-				version = %s, 
-				max_normal = %s, 
-				description = %s
-			WHERE obj_id = %s',
-			array(	'text', 
-					'text', 
-					'text', 
-					'text', 
-					'text', 
-					'integer', 
-					'integer', 
-					'integer', 
-					'integer', 
-					'integer', 
-					'integer', 
-					'text', 
-					'integer', 
-					'text', 
-					'integer' ),
-			array(	$this->getCourseCreator(),
-					$this->getCourseId(),
-					$this->getCourseSystem(),
-					$this->getCourseTitle(),
-					$this->getLevel(),
-					$this->getMaxFieldsCst(),
-					$this->getMaxFieldsOrt(),
-					$this->getTotalAUs(),
-					$this->getTotalBlocks(),
-					$this->getTotalComplexObj(),
-					$this->getTotalObjectives(),
-					$this->getVersion(),
-					$this->getMaxNormal(),
-					$this->getDescription(),
-					$this->getId()					
+		
+		$ilDB->update('aicc_course',
+			array(
+				'course_creator'	=> array('text', $this->getCourseCreator()),
+				'course_id'			=> array('text', $this->getCourseId()),
+				'course_system'		=> array('text', $this->getCourseSystem()),
+				'course_title'		=> array('text', $this->getCourseTitle()),
+				'c_level'			=> array('text', $this->getLevel()),
+				'max_fields_cst'	=> array('integer', $this->getMaxFieldsCst()),
+				'max_fields_ort'	=> array('integer', $this->getMaxFieldsOrt()),
+				'total_aus'			=> array('integer', $this->getTotalAUs()),
+				'total_blocks'		=> array('integer', $this->getTotalBlocks()),
+				'total_complex_obj'	=> array('integer', $this->getTotalComplexObj()),
+				'total_objectives'	=> array('integer', $this->getTotalObjectives()),
+				'version'			=> array('text', $this->getVersion()),
+				'max_normal'		=> array('integer', $this->getMaxNormal()),
+				'description'		=> array('clob', $this->getDescription())
+			),
+			array(
+				'obj_id'			=> array('integer', $this->getId())
 			)
 		);
 	}
@@ -356,9 +293,10 @@ class ilAICCCourse extends ilAICCObject
 
 		parent::delete();
 
-
-		$statement = $ilDB->manipulateF('DELETE FROM aicc_course WHERE obj_id = %s',
-					array('integer'), array($this->getId())
+		$statement = $ilDB->manipulateF(
+			'DELETE FROM aicc_course WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
 		);
 		
 		$statement = $ilDB->manipulateF('
@@ -385,7 +323,7 @@ class ilAICCCourse extends ilAICCObject
 		}
 
 		$track_set = $ilDB->queryF('
-			SELECT * FROM scorm_tracking 
+			SELECT lvalue, rvalue FROM scorm_tracking 
 			WHERE sco_id = %s
 			AND user_id = %s
 			AND obj_id = %s',
