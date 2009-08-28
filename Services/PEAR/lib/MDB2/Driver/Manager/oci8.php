@@ -502,7 +502,9 @@ END;
         if (!empty($changes['rename']) && is_array($changes['rename'])) {
             foreach ($changes['rename'] as $field_name => $field) {
                 $field_name = $db->quoteIdentifier($field_name, true);
-                $query = "ALTER TABLE $name RENAME COLUMN $field_name TO ".$db->quoteIdentifier($field['name']);
+                //$query = "ALTER TABLE $name RENAME COLUMN $field_name TO ".$db->quoteIdentifier($field['name']);
+				// Disabled case sensitive renaming smeyer
+                $query = "ALTER TABLE $name RENAME COLUMN $field_name TO ".$field['name'];
                 $result = $db->exec($query);
                 if (PEAR::isError($result)) {
                     return $result;
