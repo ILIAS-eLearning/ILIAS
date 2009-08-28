@@ -70,10 +70,10 @@ class ilHACPExplorer extends ilAICCExplorer
 
 		$tpl = new ilTemplate("tpl.sahs_tree.html", true, true, "Modules/ScormAicc");
 
-	 	if ($a_option["type"]=="sos")
+	 	if ($a_option["c_type"]=="sos")
 			return;
 
-		if ($a_option["type"]=="srs")
+		if ($a_option["c_type"]=="srs")
 			return;
 
 		if (is_array($a_option["tab"])) { //test if there are any tabs
@@ -110,34 +110,34 @@ class ilHACPExplorer extends ilAICCExplorer
 		}
 		
 		if ($this->output_icons)	{
-			if ($this->isClickable($a_option["type"], $a_node_id) && $a_option["type"]!="sbl")
+			if ($this->isClickable($a_option["c_type"], $a_node_id) && $a_option["c_type"]!="sbl")
 				$this->getOutputIcons($tpl, $a_option, $a_node_id);
 		}
 
 
-		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
+		if ($this->isClickable($a_option["c_type"], $a_node_id))	// output link
 		{
 			$tpl->setCurrentBlock("link");
 			//$target = (strpos($this->target, "?") === false) ?
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
+			$frame_target = $this->buildFrameTarget($a_option["c_type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
 //				if ($this->api == 1)
 //				{
 //					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 //					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-//					//$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-//					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+//					//$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
+//					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
 //				}
 //				else
 //				{
-					if ($a_option["type"]=="sbl") {
+					if ($a_option["c_type"]=="sbl") {
 						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
 						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-						$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+						$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
 						
 					} else {
 						include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
@@ -189,7 +189,7 @@ class ilHACPExplorer extends ilAICCExplorer
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
-		$this->formatItemTable($tpl, $a_node_id, $a_option["type"]);
+		$this->formatItemTable($tpl, $a_node_id, $a_option["c_type"]);
 
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
