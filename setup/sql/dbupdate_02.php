@@ -13321,7 +13321,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2530>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `learner_response` `learner_response` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `learner_response` `learner_response` LONGTEXT NULL DEFAULT NULL");
 ?>
 <#2531>
 <?php
@@ -15494,4 +15494,17 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 	
 	$ilDB->dropTableColumn('scorm_tracking', 'rvalue');
 	$ilDB->renameTableColumn("scorm_tracking", "rvalue_tmp", "rvalue");
+?>
+<#2858>
+<?php
+	$ilDB->addTableColumn("cmi_interaction", "learner_response_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE cmi_interaction SET learner_response_tmp = learner_response');
+	
+	$ilDB->dropTableColumn('cmi_interaction', 'learner_response');
+	$ilDB->renameTableColumn("cmi_interaction", "learner_response_tmp", "learner_response");
 ?>
