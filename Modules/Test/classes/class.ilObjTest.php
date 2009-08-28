@@ -4700,7 +4700,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, tstamp",
+			"ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
 			array('integer'),
 			array($this->getTestId())
 		);
@@ -4876,7 +4876,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, tstamp",
+			"ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
 			array('integer'),
 			array($test_id)
 		);
@@ -4925,7 +4925,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
-			"ORDER BY active_id, pass, tstamp",
+			"ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
 			array('integer', 'integer'),
 			array($this->getTestId(), $active_id)
 		);
