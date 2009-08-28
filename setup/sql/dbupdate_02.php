@@ -15445,3 +15445,11 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
     $ilDB->addTableColumn("payment_settings", "epay", array( "type" => "text", "notnull" => false, "default" => null, "length" => 1600));    
   }
 ?>
+<#2851>
+<?php
+  $ilDB->modifyTableColumn("cp_mapinfo", "targetobjectiveid", array("type" => "text",  "length" => 50, "notnull" => false, "default" => null));
+?>
+<#2852>
+<?php
+  $ilDB->modifyTableColumn("cp_rule", "minimumcount", array("type" => "integer",  "length" => 4, "notnull" => false, "default" => null));
+?>
