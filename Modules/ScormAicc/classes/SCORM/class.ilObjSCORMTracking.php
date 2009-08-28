@@ -105,8 +105,7 @@ class ilObjSCORMTracking
 		else
 		{
 			foreach($this->insert as $insert)
-			{
-		
+			{		
 				$set = $ilDB->queryF('
 				SELECT * FROM scorm_tracking 
 				WHERE user_id = %s
@@ -122,10 +121,14 @@ class ilObjSCORMTracking
 				}
 				else
 				{
-					$ilDB->manipulateF('
-					INSERT INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue, c_timestamp) VALUES (%s,%s,%s,%s,%s,%s)',
-					array('integer','integer','integer','text','text','timestamp'), 
-					array($user_id,$sahs_id,$obj_id,$insert["left"],$insert["right"],ilUtil::now()));
+					$ilDB->insert('scorm_tracking', array(
+						'obj_id'		=> array('integer', $obj_id),
+						'user_id'		=> array('integer', $user_id),
+						'sco_id'		=> array('integer', $sahs_id),
+						'lvalue'		=> array('text', $insert["left"]),
+						'rvalue'		=> array('clob', $insert["right"]),
+						'c_timestamp'	=> array('timestamp', ilUtil::now())
+					));
 										
 					fwrite($f, "Insert - L:".$insert["left"].",R:".
 						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
@@ -145,15 +148,18 @@ class ilObjSCORMTracking
 				
 				if ($rec = $ilDB->fetchAssoc($set))
 				{
-					$ilDB->manipulateF('
-					UPDATE scorm_tracking
-					SET rvalue = %s, c_timestamp = %s
-					WHERE user_id = %s
-					AND sco_id =  %s
-					AND lvalue =  %s
-					AND obj_id = %s',
-					array('text','timestamp','integer','integer','text','integer'),
-					array($update["right"],ilUtil::now(),$user_id,$sahs_id,$update["left"],$obj_id));
+					$ilDB->update('scorm_tracking',
+						array(
+							'rvalue'		=> array('clob', $update["right"]),
+							'c_timestamp'	=> array('timestamp', ilUtil::now())
+						),
+						array(
+							'user_id'		=> array('integer', $user_id),
+							'sco_id'		=> array('integer', $sahs_id),
+							'lvalue'		=> array('text', $update["left"]),
+							'obj_id'		=> array('integer', $obj_id)
+						)
+					);
 				}
 				else
 				{
@@ -168,15 +174,16 @@ class ilObjSCORMTracking
 
 	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
 	{
-		global $ilDB, $ilUser, $ilUtil;
+		global $ilDB, $ilUser;
 
-		$ilDB->manipulateF('
-		INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, obj_id, c_timestamp)
-		VALUES (%s,%s,%s,%s,%s,%s)',
-		array('integer','integer','text','text','integer','timestamp'),
-		array($ilUser->getId(),$a_sahs_id,$a_lval,$a_rval,$a_obj_id,ilUtil::now()
+		$ilDB->insert('scorm_tracking', array(
+			'obj_id'		=> array('integer', $a_obj_id),
+			'user_id'		=> array('integer', $ilUser->getId()),
+			'sco_id'		=> array('integer', $a_sahs_id),
+			'lvalue'		=> array('text', $a_lval),
+			'rvalue'		=> array('clob', $a_rval),
+			'c_timestamp'	=> array('timestamp', ilUtil::now())
 		));
-		
 	}
 
 
@@ -223,10 +230,9 @@ class ilObjSCORMTracking
 			WHERE '.$in.'
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND ( rvalue = %s 
-			OR rvalue = %s)',
-			array('integer','text','text','text'), 
-			array($a_obj_id,'cmi.core.lesson_status','completed','passed'));
+			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
+			array('integer','text'), 
+			array($a_obj_id,'cmi.core.lesson_status'));
 		}
 		else
 		{	
@@ -234,10 +240,9 @@ class ilObjSCORMTracking
 			WHERE sco_id = %s
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND ( rvalue = %s 
-			OR rvalue = %s)',
-			array('integer','integer','text','text','text'), 
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','completed','passed'));
+			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
+			array('integer','integer','text'), 
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
 		}
 		
 		while($row = $ilDB->fetchObject($res))
@@ -260,9 +265,9 @@ class ilObjSCORMTracking
 				WHERE '.$in.'
 				AND obj_id = %s
 				AND lvalue =  %s
-				AND rvalue = %s',
-			array('integer','text','text'),
-			array($a_obj_id,'cmi.core.lesson_status','failed'))	;				
+				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
+			array('integer','text'),
+			array($a_obj_id,'cmi.core.lesson_status'));				
 		}
 		else
 		{
@@ -272,10 +277,9 @@ class ilObjSCORMTracking
 				WHERE sco_id = %s
 				AND obj_id = %s
 				AND lvalue =  %s
-				AND rvalue = %s',
-			array('integer','integer','text','text'),
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','failed'))	;					
-
+				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
+			array('integer','integer','text'),
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
 		}
 
 		while($row = $ilDB->fetchObject($res))
@@ -296,10 +300,10 @@ class ilObjSCORMTracking
 			WHERE '.$in.'
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (rvalue = %s OR rvalue = %s
+			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')
 			GROUP BY user_id',
-			array('integer', 'text', 'text', 'text'),
-			array($a_obj_id, 'cmi.core.lesson_status' ,'completed' ,'passed')
+			array('integer', 'text'),
+			array($a_obj_id, 'cmi.core.lesson_status')
 		);
 		
 		while($row = $ilDB->fetchObject($res))
