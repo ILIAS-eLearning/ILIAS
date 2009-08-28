@@ -880,8 +880,8 @@ class ilSCORM13Player
 
 				case "package":
 					$q = 'SELECT usr_data.usr_id user_id, 
-						CONCAT(CONCAT(usr_data.firstname, \' \'), usr_data.lastname) learner_name, 
-						sahs_lm.id slm_id , sahs_lm.default_lesson_mode mode, sahs_lm.credit
+						CONCAT(CONCAT(COALESCE(usr_data.firstname, \'\'), \' \'), COALESCE(usr_data.lastname, \'\')) learner_name, 
+						sahs_lm.id slm_id , sahs_lm.default_lesson_mode "mode", sahs_lm.credit
 						FROM usr_data, cp_package
 						INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id 
 						WHERE usr_data.usr_id = %s
