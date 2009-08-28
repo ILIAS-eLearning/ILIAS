@@ -13537,7 +13537,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2585>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cp_mapinfo` CHANGE `targetObjectiveID` `targetobjectiveid` TINYINT( 4 ) NULL DEFAULT NULL ");
+	$ilDB->manipulate("ALTER TABLE `cp_mapinfo` CHANGE `targetObjectiveID` `targetobjectiveid` VARCHAR( 50 ) NULL DEFAULT NULL ");
 ?>
 <#2586>
 <?php
@@ -13615,7 +13615,7 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 ?>
 <#2605>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `minimumCount` `minimumcount` VARCHAR( 50 ) NULL DEFAULT NULL");
+	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `minimumCount` `minimumcount` INT( 11 ) NULL DEFAULT NULL");
 ?>
 <#2606>
 <?php
