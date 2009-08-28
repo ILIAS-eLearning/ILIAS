@@ -340,7 +340,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$p_test = ($p_test) ? $p_test : $_GET['sel_test'];
 		if ($p_test) $fortest->setValue($p_test);
 		$form->addItem($fortest);
-
+		$this->ctrl->setParameter($this, 'sel_test', $p_test);
+		$this->ctrl->setParameter($this, 'log_until', $untildate);
+		$this->ctrl->setParameter($this, 'log_from', $fromdate);
 		$form->addCommandButton("showLog", $this->lng->txt("show"));
 		$form->addCommandButton("exportLog", $this->lng->txt("export"));
 		$template->setVariable("FORM", $form->getHTML());
