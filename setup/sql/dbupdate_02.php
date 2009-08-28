@@ -15367,13 +15367,40 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 ?>
 <#2841>
 <?php
-	$ilDB->modifyTableColumn("mail", "m_message", array("type" => "clob", "notnull" => false, "default" => null));
+	$ilDB->addTableColumn("mail", "m_message_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE mail SET m_message_tmp = m_message');
+	
+	$ilDB->dropTableColumn('mail', 'm_message');
+	$ilDB->renameTableColumn("mail", "m_message_tmp", "m_message");
 ?>
 <#2842>
 <?php
-	$ilDB->modifyTableColumn("mail_saved", "m_message", array("type" => "clob", "notnull" => false, "default" => null));
+	$ilDB->addTableColumn("mail_saved", "m_message_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE mail_saved SET m_message_tmp = m_message');
+	
+	$ilDB->dropTableColumn('mail_saved', 'm_message');
+	$ilDB->renameTableColumn("mail_saved", "m_message_tmp", "m_message");
 ?>
 <#2843>
 <?php
-	$ilDB->modifyTableColumn("frm_posts", "pos_message", array("type" => "clob", "notnull" => false, "default" => null));
+	$ilDB->addTableColumn("frm_posts", "pos_message_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE frm_posts SET pos_message_tmp = pos_message');
+	
+	$ilDB->dropTableColumn('frm_posts', 'pos_message');
+	$ilDB->renameTableColumn("frm_posts", "pos_message_tmp", "pos_message");
 ?>
