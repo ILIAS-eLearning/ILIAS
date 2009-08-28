@@ -15404,3 +15404,44 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 	$ilDB->dropTableColumn('frm_posts', 'pos_message');
 	$ilDB->renameTableColumn("frm_posts", "pos_message_tmp", "pos_message");
 ?>
+<#2844>
+<?php
+  if(!$ilDB->tableColumnExists('payment_settings','hide_advanced_search'))
+  {
+    $ilDB->addTableColumn("payment_settings", "hide_advanced_search", array("type" => "integer", "length" => 4, "notnull" => false));
+  }
+?>
+<#2845>
+<?php
+  if(!$ilDB->tableColumnExists('payment_settings','hide_filtering'))
+  {
+    $ilDB->addTableColumn("payment_settings", "hide_filtering", array("type" => "integer", "length" => 4, "notnull" => false));
+  }
+?>
+<#2846>
+<?php
+  if(!$ilDB->tableColumnExists('payment_settings','hide_coupons'))
+  {
+    $ilDB->addTableColumn("payment_settings", "hide_coupons", array("type" => "integer", "length" => 4, "notnull" => false));
+  }
+?>
+
+<#2847>
+<?php
+  $ilDB->modifyTableColumn("payment_settings", "address", array("type" => "text", "notnull" => false, "default" => null, "length" => 1600));
+?>
+<#2848>
+<?php
+  $ilDB->modifyTableColumn("payment_settings", "paypal", array("type" => "text", "notnull" => false, "default" => null, "length" => 1600));
+?>
+<#2849>
+<?php
+  $ilDB->modifyTableColumn("payment_settings", "bank_data", array("type" => "text", "notnull" => false, "default" => null, "length" => 1600));
+?>
+<#2850>
+<?php
+  if(!$ilDB->tableColumnExists('payment_settings','epay'))
+  {
+    $ilDB->addTableColumn("payment_settings", "epay", array( "type" => "text", "notnull" => false, "deafult" => null, "length" => 1600));    
+  }
+?>
