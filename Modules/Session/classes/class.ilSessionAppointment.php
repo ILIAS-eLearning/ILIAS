@@ -333,7 +333,7 @@ class ilSessionAppointment implements ilDatePeriod
 			$ilDB->quote($this->getSessionId() ,'integer').", ".
 			$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
 			$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
-			"fulltime = ".$ilDB->quote($this->enabledFullTime() ,'integer')." ".
+			$ilDB->quote($this->enabledFullTime() ,'integer')." ".
 			")";
 		$this->appointment_id = $next_id;
 		$res = $ilDB->manipulate($query);
