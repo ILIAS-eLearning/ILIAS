@@ -15442,6 +15442,6 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 <?php
   if(!$ilDB->tableColumnExists('payment_settings','epay'))
   {
-    $ilDB->addTableColumn("payment_settings", "epay", array( "type" => "text", "notnull" => false, "deafult" => null, "length" => 1600));    
+    $ilDB->addTableColumn("payment_settings", "epay", array( "type" => "text", "notnull" => false, "default" => null, "length" => 1600));    
   }
 ?>
