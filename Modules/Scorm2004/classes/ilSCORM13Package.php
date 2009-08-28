@@ -655,13 +655,32 @@ class ilSCORM13Package
 						case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
 						default: $names[] = strtolower($attr->name);break;
 					}				
-
-					$values[] = $attr->value;					
-					if( in_array($attr->name, array('objectivesglobtosys', 'attemptlimit')))
+					
+					if(in_array($names[count($names) - 1],
+							    array('flow', 'completionbycontent', 'objectivebycontent')))
+					{
+						if($attr->value == 'true')
+							$values[] = 1;
+						else if ($attr->value == 'false')
+							$values[] = 0;
+						else
+							$values[] = 0;
+					}
+					else
+					{
+						$values[] = $attr->value;	
+					}
+										
+					if( in_array($names[count($names) - 1], 
+								 array('objectivesglobtosys', 'attemptlimit', 
+								       'flow', 'completionbycontent', 
+									   'objectivebycontent')))
 						$types[] = 'integer';
-					else if ( in_array($attr->name, array('jsdata', 'xmldata', 'activitytree', 'data')))
+					else if ( in_array($names[count($names) - 1],
+									   array('jsdata', 'xmldata', 'activitytree', 'data')))
 						$types[] = 'clob';
-					else if ( in_array($attr->name, array('objectivemeasureweight')))
+					else if ( in_array($names[count($names) - 1],
+									   array('objectivemeasweight')))
 						$types[] = 'float';
 					else
 						$types[] = 'text';			
@@ -678,7 +697,7 @@ class ilSCORM13Package
 				foreach($names as $key => $db_field)
 				{
 					$insert_data[$db_field] = array($types[$key], $values[$key]);
-				}				
+				}
 				$ilDB->insert('cp_'.$node->nodeName, $insert_data);			
 	
 				$node->setAttribute('foreignId', $cp_node_id);
