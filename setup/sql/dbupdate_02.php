@@ -15475,3 +15475,10 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 		$ilDB->query('ALTER TABLE frm_posts RENAME COLUMN "pos_message" TO pos_message');
 	}
 ?>
+<#2856>
+<?php
+  if(!$ilDB->tableColumnExists('payment_settings','hide_news'))
+  {
+    $ilDB->addTableColumn("payment_settings", "hide_news", array("type" => "integer", "length" => 4, "notnull" => false));
+  }
+?>
