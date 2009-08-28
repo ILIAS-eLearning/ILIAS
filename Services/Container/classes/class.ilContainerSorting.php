@@ -266,6 +266,10 @@ class ilContainerSorting
 			else
 			{
 				$ilLog->write(__METHOD__.': Deprecated call');
+				foreach($position as $parent_id => $items)
+				{
+					$this->saveSubItems($key,$parent_id,$items ? $items : array());
+				}
 			}
 	 	}
 	 	$this->saveItems($items ? $items : array());
@@ -287,21 +291,50 @@ class ilContainerSorting
 		
 		foreach($a_items as $child_id => $position)
 		{
-			$query = "DELETE FROM container_sorting ".
-				"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
-				"AND child_id = ".$ilDB->quote($child_id,'integer')." ";
-			$res = $ilDB->manipulate($query);
-	 		
-	 		// Add new value
-	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position) ".
-	 			"VALUES( ".
-				$ilDB->quote($this->obj_id ,'integer').", ".
-	 			$ilDB->quote($child_id,'integer').", ".
-	 			$ilDB->quote($position, 'integer')." ".
-	 			")";
-			$res = $ilDB->manipulate($query);
+			$ilDB->replace(
+				'container_sorting',
+				array(
+					'obj_id'	=> array('integer',$this->obj_id),
+					'child_id'	=> array('integer',$child_id),
+					'parent_id'	=> array('integer',0)
+				),
+				array(
+					'parent_type' => array('text',''),
+					'position'	  => array('integer',$position)
+				)
+			);
 		}
 		return true;
+	}
+	
+	/**
+	 * Save subitem ordering (sessions, learning objectives)
+	 * @param string $a_parent_type
+	 * @param integer $a_parent_id
+	 * @param array $a_items
+	 * @return 
+	 */
+	protected function saveSubItems($a_parent_type,$a_parent_id,$a_items)
+	{
+		global $ilDB;
+		
+		foreach($a_items as $child_id => $position)
+		{
+			$ilDB->replace(
+				'container_sorting',
+				array(
+					'obj_id'	=> array('integer',$this->obj_id),
+					'child_id'	=> array('integer',$child_id),
+					'parent_id'	=> array('integer',$a_parent_id)
+				),
+				array(
+					'parent_type' => array('text',$a_parent_type),
+					'position'	  => array('integer',$position)
+				)
+			);
+		}
+		return true;
+		
 	}
 	
 	
@@ -327,7 +360,7 @@ class ilContainerSorting
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		if($row->parent_type)
+	 		if($row->parent_id)
 	 		{
 		 		$this->sorting[$row->parent_type][$row->parent_id][$row->child_id] = $row->position;
 	 		}
