@@ -9918,3 +9918,11 @@ content#:#scplayer_collapsetree#:#Collapse All
 content#:#cont_debug#:#Show debug menu
 content#:#cont_debugpw#:#Password
 content#:#scplayer_debugger#:#Show Debugger
+payment#:#pay_hide_advanced_search#:#Hide Advanced Search
+payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
+payment#:#pay_hide_filtering#:#Hide Filtering
+payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.
+payment#:#pay_hide_coupons#:#Hide coupons
+payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
+payment#:#pay_hide_news#:#Hide news
+payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
