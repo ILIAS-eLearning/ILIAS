@@ -15365,3 +15365,15 @@ $ilDB->dropPrimaryKey('container_sorting');
 $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'));
 
 ?>
+<#2841>
+<?php
+	$ilDB->modifyTableColumn("mail", "m_message", array("type" => "clob", "notnull" => false, "default" => null));
+?>
+<#2842>
+<?php
+	$ilDB->modifyTableColumn("mail_saved", "m_message", array("type" => "clob", "notnull" => false, "default" => null));
+?>
+<#2843>
+<?php
+	$ilDB->modifyTableColumn("frm_posts", "pos_message", array("type" => "clob", "notnull" => false, "default" => null));
+?>
