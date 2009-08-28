@@ -9926,3 +9926,5 @@ payment#:#pay_hide_coupons#:#Hide coupons
 payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
 payment#:#pay_hide_news#:#Hide news
 payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
+payment#:#pay_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
+payment#:#pay_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
