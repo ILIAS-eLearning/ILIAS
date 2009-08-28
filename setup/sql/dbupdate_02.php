@@ -15453,3 +15453,25 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 <?php
   $ilDB->modifyTableColumn("cp_rule", "minimumcount", array("type" => "integer",  "length" => 4, "notnull" => false, "default" => null));
 ?>
+
+<#2853>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->query('ALTER TABLE mail RENAME COLUMN "m_message" TO m_message');
+	}
+?>
+<#2854>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->query('ALTER TABLE mail_saved RENAME COLUMN "m_message" TO m_message');
+	}
+?>
+<#2855>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->query('ALTER TABLE frm_posts RENAME COLUMN "pos_message" TO pos_message');
+	}
+?>
