@@ -192,7 +192,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		$childs = $tree->getSubTree($tree->getNodeData($root_id));
 		foreach($childs as $child)
 		{
-			if($child["type"] == "sau")
+			if($child["c_type"] == "sau")
 			{
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
 				$ac_item =& new ilAICCUnit($child["obj_id"]);
@@ -216,7 +216,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 			array('integer'), array($this->getId()));	
 			
 		$items = array();	
-			while($sco_rec = $ilDB->fetchAssoc($sco_set))
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");	
 			$ac_item =& new ilAICCUnit($sco_rec["sco_id"]);

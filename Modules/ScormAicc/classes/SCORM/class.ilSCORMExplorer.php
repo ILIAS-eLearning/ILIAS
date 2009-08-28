@@ -86,8 +86,8 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("row");
-		//$tpl->setVariable("TYPE", $a_option["type"]);
-		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+		//$tpl->setVariable("TYPE", $a_option["c_type"]);
+		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["c_type"].".gif"));
 		$tpl->setVariable("TITLE", $lng->txt("cont_manifest"));
 		$tpl->setVariable("LINK_TARGET", $this->target."&".$this->target_get."=".$a_obj_id);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
@@ -168,7 +168,7 @@ class ilSCORMExplorer extends ilExplorer
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
-						$this->format_options["$counter"]["type"]		= $object["c_type"];
+						$this->format_options["$counter"]["c_type"]		= $object["c_type"];
 						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
 						$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
 						$this->format_options["$counter"]["depth"]		= $tab;
@@ -326,10 +326,10 @@ class ilSCORMExplorer extends ilExplorer
 
 		$tpl = new ilTemplate("tpl.sahs_tree.html", true, true, "Modules/ScormAicc");
 
-	 	if ($a_option["type"]=="sos")
+	 	if ($a_option["c_type"]=="sos")
 			return;
 
-		if ($a_option["type"]=="srs")
+		if ($a_option["c_type"]=="srs")
 			return;
 
 		$ilBench->start("SCORMExplorer", "renderIcons");
@@ -382,18 +382,18 @@ class ilSCORMExplorer extends ilExplorer
 		$ilBench->start("SCORMExplorer", "renderLink_OutputIcons");
 		if ($this->output_icons)
 		{
-			if ($this->isClickable($a_option["type"], $a_node_id, $sc_object))
+			if ($this->isClickable($a_option["c_type"], $a_node_id, $sc_object))
 			{
 				$this->getOutputIcons($tpl, $a_option, $a_node_id, $scormtype);
 			}
 		}
 		$ilBench->stop("SCORMExplorer", "renderLink_OutputIcons");
 		
-		if ($this->isClickable($a_option["type"], $a_node_id, $sc_object))	// output link
+		if ($this->isClickable($a_option["c_type"], $a_node_id, $sc_object))	// output link
 		{
 			$ilBench->start("SCORMExplorer", "renderLink_parseLinkBlock");
 			$tpl->setCurrentBlock("link");
-			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
+			$frame_target = $this->buildFrameTarget($a_option["c_type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
 				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
@@ -414,7 +414,7 @@ class ilSCORMExplorer extends ilExplorer
 		$ilBench->stop("SCORMExplorer", "renderLink");
 		
 		$ilBench->start("SCORMExplorer", "formatItemTable");
-		$this->formatItemTable($tpl, $a_node_id, $a_option["type"]);
+		$this->formatItemTable($tpl, $a_node_id, $a_option["c_type"]);
 		$ilBench->stop("SCORMExplorer", "formatItemTable");
 
 		$tpl->setCurrentBlock("row");

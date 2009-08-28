@@ -154,49 +154,40 @@ class ilAICCObject
 
 	function create()
 	{
-		global $ilDB;
-		
+		global $ilDB;	
 
 		$nextId = $ilDB->nextId('aicc_object');
 		
-		$statement = $ilDB->manipulateF('
-			INSERT INTO aicc_object (obj_id, title, c_type, slm_id, description, developer_id, system_id)
-			VALUES (%s,%s,%s,%s,%s,%s,%s )',
-			array('integer','text','text','integer','text','text','integer'), 
-			array(	$nextId,	
-					$this->getTitle(),
-					$this->getType(),
-					$this->getALMId(),
-					$this->getDescription(),
-					$this->getDeveloperId(),
-					$this->getSystemId()
-			));
+		$ilDB->insert('aicc_object', array(
+			'obj_id'		=> array('integer', $nextId),
+			'title'			=> array('text', $this->getTitle()),
+			'c_type'		=> array('text', $this->getType()),
+			'slm_id'		=> array('integer', $this->getALMId()),
+			'description'	=> array('clob', $this->getDescription()),
+			'developer_id'	=> array('text',$this->getDeveloperId()),
+			'system_id'		=> array('integer', $this->getSystemId())
+		));
 	
-			$this->setId($nextId);
+		$this->setId($nextId);
 	}
 
 	function update()
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->manipulateF('
-			UPDATE aicc_object 
-			SET title = %s,
-				c_type = %s,
-				slm_id =  %s,
-				description = %s,
-				developer_id =  %s,
-				system_id = %s,
-			WHERE obj_id = %s',
-			array('text','text','integer','text','text','integer','integer'), 
-			array(	$this->getTitle(),
-					$this->getType(),
-					$this->getALMId(),
-					$this->getDescription(),
-					$this->getDeveloperId(),
-					$this->getSystemId(),
-					$this->getId()
-			));
+		$ilDB->update('aicc_object',
+			array(
+				'title'			=> array('text', $this->getTitle()),
+				'c_type'		=> array('text', $this->getType()),
+				'slm_id'		=> array('integer', $this->getALMId()),
+				'description'	=> array('clob', $this->getDescription()),
+				'developer_id'	=> array('text',$this->getDeveloperId()),
+				'system_id'		=> array('integer', $this->getSystemId())
+			),
+			array(
+				'obj_id'		=> array('integer', $this->getId())
+			)
+		);
 	}
 
 	function delete()

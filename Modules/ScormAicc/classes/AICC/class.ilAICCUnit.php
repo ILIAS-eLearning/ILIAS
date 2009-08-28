@@ -173,8 +173,11 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::read();
 
-		$obj_set = $ilDB->queryF('SELECT * FROM aicc_units WHERE obj_id = %s',
-		array('integer'), array($this->getId()));
+		$obj_set = $ilDB->queryF(
+			'SELECT * FROM aicc_units WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId())
+		);
 		while($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$this->setAUType($obj_rec["c_type"]);
@@ -197,7 +200,7 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::create();
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 		INSERT INTO aicc_units 
 		(	obj_id, 
 			c_type, 
@@ -235,7 +238,7 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::update();
 		
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			UPDATE aicc_units 
 			SET c_type = %s,
 				command_line = %s,
@@ -273,15 +276,18 @@ class ilAICCUnit extends ilAICCObject
 
 		$q_log = "DELETE FROM aicc_units WHERE obj_id =".$ilDB->quote($this->getId());
 		$ilLog->write("SAHS Delete(Unit): ".$q_log);
-		$statement = $ilDB->manipulateF('DELETE FROM aicc_units WHERE obj_id = %s',
-		array('integer'),array($this->getId()));
+		$ilDB->manipulateF(
+			'DELETE FROM aicc_units WHERE obj_id = %s',
+			array('integer'),
+			array($this->getId()));
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM scorm_tracking 
 			WHERE sco_id = %s
 			AND obj_id =%s',
-			array('integer','integer'),array($this->getId(),$this->getALMId()));		
-
+			array('integer','integer'),
+			array($this->getId(),$this->getALMId())
+		);
 	}
 
 	/**
@@ -299,7 +305,7 @@ class ilAICCUnit extends ilAICCObject
 		}
 
 		$track_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
+		SELECT lvalue, rvalue FROM scorm_tracking 
 		WHERE sco_id = %s
 		AND user_id = %s
 		AND obj_id = %s',
