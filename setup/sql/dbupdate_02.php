@@ -13779,7 +13779,7 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 ?>
 <#2646>
 <?php
-	$ilDB->manipulate("ALTER TABLE `scorm_tracking` CHANGE `rvalue` `rvalue` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->manipulate("ALTER TABLE `scorm_tracking` CHANGE `rvalue` `rvalue` LONGTEXT NULL DEFAULT NULL");
 ?>
 <#2647>
 <?php
@@ -15481,4 +15481,17 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
   {
     $ilDB->addTableColumn("payment_settings", "hide_news", array("type" => "integer", "length" => 4, "notnull" => false));
   }
+?>
+<#2857>
+<?php
+	$ilDB->addTableColumn("scorm_tracking", "rvalue_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE scorm_tracking SET rvalue_tmp = rvalue');
+	
+	$ilDB->dropTableColumn('scorm_tracking', 'rvalue');
+	$ilDB->renameTableColumn("scorm_tracking", "rvalue_tmp", "rvalue");
 ?>

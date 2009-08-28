@@ -1140,7 +1140,7 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 							'description'			=> array('clob', $row[2]),
 							'id'					=> array('text', $row[3]),
 							'latency'				=> array('text', $row[4]),
-							'learner_response'		=> array('text', $row[5]),
+							'learner_response'		=> array('clob', $row[5]),
 							'result'				=> array('text', $row[6]),
 							'c_timestamp'			=> array('text', $row[7]),
 							'c_type'				=> array('text', $row[8]),

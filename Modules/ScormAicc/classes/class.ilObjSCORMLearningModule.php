@@ -673,11 +673,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			{
 				$query = 'SELECT * FROM scorm_tracking '
 					   . 'WHERE (user_id = %s AND obj_id = %s AND sco_id = %s '
-					   . 'AND (	(lvalue = %s AND rvalue = %s) OR (lvalue = %s AND rvalue = %s) ) )';
+					   . 'AND (	(lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'completed').') OR (lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'passed').') ) )';
 				$res = $ilDB->queryF(
 					$query,
-					array('integer', 'integer', 'integer', 'text', 'text', 'text', 'text'),
-					array($user, $this->getId(), $scos[$i], 'cmi.core.lesson_status', 'completed', 'cmi.core.lesson_status', 'passed')
+					array('integer', 'integer', 'integer', 'text', 'text'),
+					array($user, $this->getId(), $scos[$i], 'cmi.core.lesson_status', 'cmi.core.lesson_status')
 				);
 				$data = $ilDB->fetchAssoc($res);
 				if(is_array($data) && count($data))
@@ -835,10 +835,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 					if ($import == 1) {
 						foreach ($scos as $sco) 
 						{
-							$sco_id = $ilDB->quote($sco);
+							$sco_id = $sco;
 
 							$date_ex = explode('.', $data['Date']);
-							$date = implode('-',$date_ex[2],$date_ex[1],$date_ex[0]);
+							$date = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
 							
 							$statement = $ilDB->queryF('
 								SELECT * FROM scorm_tracking 
@@ -851,28 +851,30 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 							);
 							if($ilDB->numRows($statement) > 0)
 							{
-								$val_set = $ilDB->manipulateF('
-								UPDATE scorm_tracking
-								SET rvalue = %s,
-									c_timestamp = %s
-								WHERE user_id = %s
-								AND sco_id = %s 
-								AND lvalue = %s
-								AND obj_id = %s',
-								array('text','timestamp','integer','integer','text','integer'),
-								array('completed',$date ,$user_id, $sco_id, 'cmi.core.lesson_status',$obj_id)
+								$ilDB->update('scorm_tracking',
+									array(
+										'rvalue'		=> array('clob', 'completed'),
+										'c_timestamp'	=> array('timestamp', $date)
+									),
+									array(
+										'user_id'		=> array('integer', $user_id),
+										'sco_id'		=> array('integer', $sco_id),
+										'lvalue'		=> array('text', 'cmi.core.lesson_status'),
+										'obj_id'		=> array('integer', $obj_id)
+									)
 								);
 							}
 							else
 							{
-								$val_set = $ilDB->manipulateF('
-								INSERT INTO scorm_tracking
-								(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
-								VALUES (%s,%s,%s,%s,%s,%s)',
-								array('integer','integer','integer','text','text','timestamp'),
-								array($obj_id,$user_id,$sco,'cmi.core.lesson_status','completed',$date));
-							}
-							
+								$ilDB->insert('scorm_tracking', array(
+									'obj_id'		=> array('integer', $obj_id),
+									'user_id'		=> array('integer', $user_id),
+									'sco_id'		=> array('integer', $sco_id),
+									'lvalue'		=> array('text', 'cmi.core.lesson_status'),
+									'rvalue'		=> array('clob', 'completed'),
+									'c_timestamp'	=> array('timestamp', $date)
+								));
+							}							
 						
 							$statement = $ilDB->queryF('
 								SELECT * FROM scorm_tracking 
@@ -885,28 +887,30 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 							);
 							if($ilDB->numRows($statement) > 0)
 							{
-								$val_set = $ilDB->manipulateF('
-								UPDATE scorm_tracking
-								SET rvalue = %s,
-									c_timestamp = %s
-								WHERE user_id = %s
-								AND sco_id = %s 
-								AND lvalue = %s
-								AND obj_id = %s',
-								array('text','timestamp','integer','integer','text','integer'),
-								array('completed',$date ,$user_id, $sco_id, 'cmi.core.entry',$obj_id)
+								$ilDB->update('scorm_tracking',
+									array(
+										'rvalue'		=> array('clob', 'completed'),
+										'c_timestamp'	=> array('timestamp', $date)
+									),
+									array(
+										'user_id'		=> array('integer', $user_id),
+										'sco_id'		=> array('integer', $sco_id),
+										'lvalue'		=> array('text', 'cmi.core.entry'),
+										'obj_id'		=> array('integer', $obj_id)
+									)
 								);
 							}
 							else
 							{
-								$val_set = $ilDB->manipulateF('
-								INSERT INTO scorm_tracking
-								(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
-								VALUES (%s,%s,%s,%s,%s,%s)',
-								array('integer','integer','integer','text','text','timestamp'),
-								array($obj_id,$user_id,$sco,'cmi.core.entry','completed',$date));
-							}
-							
+								$ilDB->insert('scorm_tracking', array(
+									'obj_id'		=> array('integer', $obj_id),
+									'user_id'		=> array('integer', $user_id),
+									'sco_id'		=> array('integer', $sco_id),
+									'lvalue'		=> array('text', 'cmi.core.entry'),
+									'rvalue'		=> array('clob', 'completed'),
+									'c_timestamp'	=> array('timestamp', $date)
+								));
+							}							
 						}
 					}
 			  	} else {
@@ -936,8 +940,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	   		}
 	   		//do the actual import
 	   		if ($user_id != "" && $il_sco_id>=0)
-	   		{
-      
+	   		{      
 	   			$statement = $ilDB->queryF('
 					SELECT * FROM scorm_tracking 
 					WHERE user_id = %s
@@ -949,26 +952,29 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				);
 				if($ilDB->numRows($statement) > 0)
 				{
-   					$val_set = $ilDB->manipulateF('
-					UPDATE scorm_tracking
-					SET rvalue = %s,
-						c_timestamp = %s
-					WHERE user_id = %s
-					AND sco_id = %s 
-					AND lvalue = %s
-					AND obj_id = %s',
-					array('text','timestamp','integer','integer','text','integer'),
-					array($data['Value'],$data['Timestamp'] ,$user_id, $il_sco_id, $data['Key'],$this->getID())
+					$ilDB->update('scorm_tracking',
+						array(
+							'rvalue'		=> array('clob', $data['Value']),
+							'c_timestamp'	=> array('timestamp', $data['Timestamp'])
+						),
+						array(
+							'user_id'		=> array('integer', $user_id),
+							'sco_id'		=> array('integer', $il_sco_id),
+							'lvalue'		=> array('text', $data['Key']),
+							'obj_id'		=> array('integer', $this->getId())
+						)
 					);
 				}
 				else
 				{
-					$val_set = $ilDB->manipulateF('
-					INSERT INTO scorm_tracking
-					(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
-					VALUES (%s,%s,%s,%s,%s,%s)',
-					array('integer','integer','integer','text','text','timestamp'),
-					array($this->getID(),$user_id,$il_sco_id,$data['Key'],$data['Value'],$data['Timestamp']));
+					$ilDB->insert('scorm_tracking', array(
+						'obj_id'		=> array('integer', $this->getId()),
+						'user_id'		=> array('integer', $user_id),
+						'sco_id'		=> array('integer', $il_sco_id),
+						'lvalue'		=> array('text', $data['Key']),
+						'rvalue'		=> array('clob', $data['Value']),
+						'c_timestamp'	=> array('timestamp', $data['Timestamp'])
+					));
 				}				
 	   		}
 	   }
@@ -1106,11 +1112,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		SELECT * FROM scorm_tracking 
 		WHERE (user_id = %s
 		AND obj_id = %s
-		AND sco_id IN ('.$scos_c.')
-		AND ((lvalue = %s AND rvalue = %s) 
-			OR (lvalue = %s AND rvalue = %s)))',
-		array('integer','integer','text','text','text','text'),
-		array($a_user,$a_id,'cmi.core.lesson_status', 'completed', 'cmi.core.lesson_status', 'passed'));	
+		AND '.$ilDB->in('sco_id', $scos, false, 'integer').'
+		AND ((lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'completed').') 
+			OR (lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'passed').')))',
+		array('integer','integer','text','text'),
+		array($a_user,$a_id,'cmi.core.lesson_status', 'cmi.core.lesson_status'));	
 		while ($val_rec = $ilDB->fetchAssoc($val_set))
 		{
 			$key = array_search($val_rec['sco_id'], $scos); 
@@ -1159,7 +1165,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		scorm_object.slm_id,
 		scorm_object.obj_id',
 		array('integer','text'), 
-		array($this->getID(),'sco'));
+		array($this->getId(),'sco'));
 
 		while ($val_rec = $ilDB->fetchAssoc($val_set))
 		{
@@ -1176,13 +1182,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$scos_c = implode(',',$scos); 
 
 		$val_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
+		SELECT sco_id FROM scorm_tracking 
 		WHERE (user_id = %s
 			AND obj_id = %s
-			AND sco_id IN ('.$scos_c.')
-		 AND ((lvalue = %s AND rvalue =  %s) OR (lvalue =  %s AND rvalue =  %s) ) )',
-		array('integer','integer','text','text','text','text'), 
-		array($a_user,$this->getID(),'cmi.core.lesson_status','completed','cmi.core.lesson_status','passed'));	
+			AND '.$ilDB->in('sco_id', $scos, false, 'integer').'
+		 AND ((lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'completed').') OR (lvalue =  %s AND '.$ilDB->like('rvalue', 'clob', 'passed').') ) )',
+		array('integer','integer','text','text',), 
+		array($a_user,$this->getID(),'cmi.core.lesson_status','cmi.core.lesson_status'));	
 		while ($val_rec = $ilDB->fetchAssoc($val_set))	
 		{
 			$key = array_search($val_rec['sco_id'], $scos); 

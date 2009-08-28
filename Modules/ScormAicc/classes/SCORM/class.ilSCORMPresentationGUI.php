@@ -224,29 +224,31 @@ class ilSCORMPresentationGUI
 		//increase attempt by 1
 		if($ilDB->numRows($val_set) > 0)
 		{
-			$result = $ilDB->manipulateF('
-				UPDATE scorm_tracking
-				SET rvalue = %s, c_timestamp = %s
-				WHERE user_id =  %s
-				AND sco_id = %s
-				AND obj_id = %s
-				AND lvalue= %s',
-				array('text','timestamp', 'integer', 'integer', 'integer', 'text'),
-				array($new_rec,ilUtil::now(),$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
+			$ilDB->update('scorm_tracking',
+				array(
+					'rvalue'		=> array('clob', $new_rec),
+					'c_timestamp'	=> array('timestamp', ilUtil::now())
+				),
+				array(
+					'user_id'		=> array('integer', $ilUser->getId()),
+					'sco_id'		=> array('integer', 0),
+					'lvalue'		=> array('text', 'package_attempts'),
+					'obj_id'		=> array('integer', $this->slm->getId())
+				)
 			);
 		}
 		else
 		{
-			$result = $ilDB->manipulateF('
-				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp) 
-				VALUES(%s,%s,%s,%s,%s,%s)',
-				array('text', 'integer', 'integer', 'integer', 'text','timestamp'),
-				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts',ilUtil::now())
-			);
+			$ilDB->insert('scorm_tracking', array(
+				'obj_id'		=> array('integer', $this->slm->getId()),
+				'user_id'		=> array('integer', $ilUser->getId()),
+				'sco_id'		=> array('integer', 0),
+				'lvalue'		=> array('text', 'package_attempts'),
+				'rvalue'		=> array('clob', $new_rec),
+				'c_timestamp'	=> array('timestamp', ilUtil::now())
+			));
 		}
-		
-	}
-	
+	}	
 	
 	/**
 	* save the active module version to scorm_tracking
@@ -267,25 +269,29 @@ class ilSCORMPresentationGUI
 		
 		if($ilDB->numRows($val_set) > 0)
 		{
-			$result = $ilDB->manipulateF('
-				UPDATE scorm_tracking
-				SET rvalue = %s, c_timestamp = %s
-				WHERE user_id =  %s
-				AND sco_id = %s
-				AND obj_id = %s
-				AND lvalue= %s',
-				array('text','timestamp','integer', 'integer', 'integer', 'text'),
-				array($this->slm->getModuleVersion(),ilUtil::now(),$ilUser->getId(),0,$this->slm->getId(),'module_version')
+			$ilDB->update('scorm_tracking',
+				array(
+					'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
+					'c_timestamp'	=> array('timestamp', ilUtil::now())
+				),
+				array(
+					'user_id'		=> array('integer', $ilUser->getId()),
+					'sco_id'		=> array('integer', 0),
+					'lvalue'		=> array('text', 'module_version'),
+					'obj_id'		=> array('integer', $this->slm->getId())
+				)
 			);
 		}
 		else
 		{
-			$result = $ilDB->manipulateF('
-				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue,c_timestamp) 
-				VALUES(%s,%s,%s,%s,%s,%s)',
-				array('text', 'integer', 'integer', 'integer', 'text','timestamp'),
-				array($this->slm->getModuleVersion(),$ilUser->getId(),0,$this->slm->getId(),'module_version',ilUtil::now())
-			);
+			$ilDB->insert('scorm_tracking', array(
+				'obj_id'		=> array('integer', $this->slm->getId()),
+				'user_id'		=> array('integer', $ilUser->getId()),
+				'sco_id'		=> array('integer', 0),
+				'lvalue'		=> array('text', 'module_version'),
+				'rvalue'		=> array('clob', $this->slm->getModuleVersion()),
+				'c_timestamp'	=> array('timestamp', ilUtil::now())
+			));
 		}
 	}
 	

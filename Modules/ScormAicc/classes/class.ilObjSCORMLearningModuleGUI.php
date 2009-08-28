@@ -940,25 +940,27 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				//decrease attempt by 1
 				if($res = $ilDB->numRows($val_set) > 0)
 				{		
-					$statement = $ilDB->manipulateF('
-					UPDATE scorm_tracking
-					SET rvalue = %s
-					WHERE 	(user_id = %s AND
-							sco_id = %s AND
-							obj_id = %s AND
-							lvalue = %s)',
-					array('text','integer','integer','integer','text'), 
-					array($new_rec,$user,0,$this->object->getID(),'package_attempts'));
+					$ilDB->update('scorm_tracking',
+						array(
+							'rvalue'	=> array('clob', $new_rec)
+						),
+						array(
+							'user_id'	=> array('integer', $user),
+							'sco_id'	=> array('integer', 0),
+							'obj_id'	=> array('integer', $this->object->getId()),
+							'lvalue'	=> array('text', 'package_attempts')
+						)
+					);
 				}
 				else
-				{		
-					$statement = $ilDB->manipulateF('
-					INSERT INTO scorm_tracking		
-					(rvalue,user_id,sco_id,obj_id,lvalue)
-					VALUES(%s,%s,%s,%s,%s)',	
-					array('text','integer','integer','integer','text'), 
-					array($new_rec,$user,0,$this->object->getID(),'package_attempts'));
-					
+				{
+					$ilDB->insert('scorm_tracking', array(
+						'rvalue'	=> array('clob', $new_rec),
+						'user_id'	=> array('integer', $user),
+						'sco_id'	=> array('integer', 0),
+						'obj_id'	=> array('integer', $this->object->getId()),
+						'lvalue'	=> array('text', 'package_attempts')
+					));					
 				}
 			}
 		}
