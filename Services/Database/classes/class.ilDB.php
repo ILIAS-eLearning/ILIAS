@@ -343,31 +343,31 @@ if ($this->getDBType() == "mysql")
 	*/
 	function handleError($a_res, $a_info = "", $a_level = "")
 	{
-			global $ilLog;
+		global $ilLog;
 
-			if (MDB2::isError($a_res))
+		if (MDB2::isError($a_res))
+		{
+			if ($a_level == "")
 			{
-				if ($a_level == "")
-				{
-					$a_level = $this->error_class->FATAL;
-				}
-
-				// Show stack
-				try
-				{
-					throw new Exception();
-				}
-				catch(Exception $e)
-				{
-					$stack = $e->getTraceAsString();
-				}
-
-				if(is_object($ilLog))
-					$ilLog->logStack();
-				$this->raisePearError("ilDB Error: ".$a_info."<br />".
-					$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);
-
+				$a_level = $this->error_class->FATAL;
 			}
+
+			// Show stack
+			try
+			{
+				throw new Exception();
+			}
+			catch(Exception $e)
+			{
+				$stack = $e->getTraceAsString();
+			}
+
+			if(is_object($ilLog))
+				$ilLog->logStack();
+			$this->raisePearError("ilDB Error: ".$a_info."<br />".
+				$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);
+
+		}
 
 		return $a_res;
 	}

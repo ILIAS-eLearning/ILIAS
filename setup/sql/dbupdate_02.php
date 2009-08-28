@@ -8449,10 +8449,8 @@ ALTER TABLE `container_sorting` DROP position;
 ALTER TABLE `container_sorting` CHANGE `pos` `position` INT( 11 ) NOT NULL;
 
 <#1802>
-ALTER TABLE `container_sorting` DROP parent_type;
 
 <#1803>
-ALTER TABLE `container_sorting` DROP parent_id;
 
 <#1804>
 <?php
@@ -15323,4 +15321,47 @@ $ilCtrlStructureReader->getStructure();
 <#2836>
 <?php
 	$ilDB->modifyTableColumn("cp_manifest", "defaultorganization", array("type" => "text", "length" => 50, "notnull" => false, 'default' => null));
+?>
+
+<#2837>
+<?php
+
+if(!$ilDB->tableColumnExists('container_sorting','parent_type'))
+{
+	$ilDB->addTableColumn("container_sorting", "parent_type", array(
+			"type" => "text",
+			"fixed" => false,
+			'length' => 5,
+			"notnull" => false,
+			"default" => ''
+		));
+}
+?>
+	
+<#2838>
+<?php
+
+if(!$ilDB->tableColumnExists('container_sorting','parent_id'))
+{
+	$ilDB->addTableColumn("container_sorting", "parent_id", array(
+			"type" => "integer",
+			'length' => 4,
+			"notnull" => false,
+			"default" => 0
+		));
+}
+?>
+
+<#2839>
+<?php
+
+$ilDB->dropPrimaryKey('container_sorting');
+
+?>
+
+<#2840>
+<?php
+
+$ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'));
+
 ?>
