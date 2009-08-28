@@ -281,6 +281,7 @@ class ilRepositorySearchGUI
 			default:
 				echo 'not defined';
 		}
+		$this->result_obj->addObserver($this, 'userFilter');
 		$this->result_obj->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
 
 		if(!count($this->result_obj->getResults()))
@@ -685,5 +686,22 @@ class ilRepositorySearchGUI
 		return true;	
 	}
 	
+	/**
+	 * 
+	 * @param int $a_ref_id
+	 * @param array $a_data
+	 * @return 
+	 */
+	public function userFilter($a_ref_id,$a_data)
+	{
+		if($a_data['type'] == 'usr')
+		{
+			if($a_data['obj_id'] == ANONYMOUS_USER_ID)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }
 ?>
