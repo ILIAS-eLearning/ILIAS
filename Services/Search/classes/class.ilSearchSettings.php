@@ -86,6 +86,12 @@ class ilSearchSettings
 
 	function enabledIndex()
 	{
+		global $ilDB;
+		
+		if($ilDB->getDBType() == 'oracle')
+		{
+			return false;
+		}
 		return $this->index ? true : false;
 	}
 	function enableIndex($a_status)

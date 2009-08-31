@@ -158,7 +158,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-		global $lng;
+		global $lng,$ilDB;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
@@ -224,8 +224,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$direct = new ilRadioOption($this->lng->txt('search_direct'),ilSearchSettings::LIKE_SEARCH,$this->lng->txt('search_like_info'));
 		$type->addOption($direct);
 		
-		$index = new ilRadioOption($this->lng->txt('search_index'),ilSearchSettings::INDEX_SEARCH,$this->lng->txt('search_full_info'));
-		$type->addOption($index);
+		if($ilDB->getDBType() == 'mysql')
+		{
+			$index = new ilRadioOption($this->lng->txt('search_index'),ilSearchSettings::INDEX_SEARCH,$this->lng->txt('search_full_info'));
+			$type->addOption($index);
+		}
 		
 		$lucene = new ilRadioOption($this->lng->txt('search_lucene'),ilSearchSettings::LUCENE_SEARCH,$this->lng->txt('java_server_info'));
 		$type->addOption($lucene);

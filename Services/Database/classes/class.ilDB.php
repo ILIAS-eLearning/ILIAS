@@ -1749,11 +1749,13 @@ if ($this->getDBType() == "mysql")
 		{
 			if ($case_insensitive)
 			{
-				return " UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+				// Always quote as text
+				return " UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, 'text')."))";
 			}
 			else
 			{
-				return " ".$a_col." LIKE(".$this->quote($a_value, $a_type).")";
+				// Always quote as text
+				return " ".$a_col." LIKE(".$this->quote($a_value, 'text').")";
 			}
 		}
 	}
