@@ -57,8 +57,8 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 		*/
 		$concat = $ilDB->concat(
 			array(
-				array('title','text'),
-				array('description','text')));
+				array('title','text')
+				));
 
 
 		$and = "  AND ( ";

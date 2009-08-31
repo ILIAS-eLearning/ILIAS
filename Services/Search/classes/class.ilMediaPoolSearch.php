@@ -29,21 +29,20 @@ class ilMediaPoolSearch extends ilAbstractSearch
 
 	function &performSearch()
 	{
-		$this->setFields(array('title','description'));
+		$this->setFields(array('title'));
 
 		$and = $this->__createAndCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT DISTINCT(mep_id) as mediapool_id ".
+		$query = "SELECT mep_id,obj_id ".
 			$locate.
-			"FROM object_data,mep_tree ".
-			"WHERE obj_id = child ".
-			$and." ";
+			"FROM mep_tree JOIN mep_item ON child = obj_id ".
+			$and;
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->mediapool_id,'mep',$this->__prepareFound($row));
+			$this->search_result->addEntry($row->mep_id,'mep',$this->__prepareFound($row),$row->obj_id);
 		}
 		return $this->search_result;
 	}
