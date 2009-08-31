@@ -20479,9 +20479,7 @@ $fields = array (
 	)
 	,"question_text" => array (
 		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		,"type" => "clob"
 	)
 	,"working_time" => array (
 		"notnull" => false
@@ -29521,9 +29519,7 @@ $fields = array (
 	)
 	,"questiontext" => array (
 		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		,"type" => "clob"
 	)
 	,"obligatory" => array (
 		"notnull" => false
