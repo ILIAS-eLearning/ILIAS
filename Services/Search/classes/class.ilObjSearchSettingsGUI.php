@@ -140,9 +140,16 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
+			$tabs_gui->addTarget('lucene_advanced_settings',
+				$this->ctrl->getLinkTarget($this,'advancedLuceneSettings'));
+		}
+
+		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
 			$tabs_gui->addTarget('lucene_settings_tab',
 				$this->ctrl->getLinkTarget($this,'luceneSettings'));
 		}
+
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
@@ -291,7 +298,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	{
 		$this->initSubTabs('lucene');
 		$this->tabs_gui->setTabActive('lucene_settings_tab');
-		$this->tabs_gui->setSubTabActive('lucene_general_settings');
 		
 		$this->initFormLuceneSettings();
 		$this->tpl->setContent($this->form->getHTML());
@@ -425,8 +431,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	protected function advancedLuceneSettingsObject()
 	{
 		$this->initSubTabs('lucene');
-		$this->tabs_gui->setTabActive('lucene_settings_tab');
-		$this->tabs_gui->setSubTabActive('lucene_advanced_settings');
+		$this->tabs_gui->setTabActive('lucene_advanced_settings');
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchActivationTableGUI.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
@@ -463,8 +468,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget('lucene_general_settings',
 					$this->ctrl->getLinkTarget($this,'luceneSettings'));
 
-				$this->tabs_gui->addSubTabTarget('lucene_advanced_settings',
-					$this->ctrl->getLinkTarget($this,'advancedLuceneSettings'));
 				break;
 		}
 	}
