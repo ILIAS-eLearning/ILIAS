@@ -259,12 +259,12 @@ class ilLicense
 		global $ilDB;
 		$objects = array();
 		
-		$query = "SELECT od.obj_id, od.type, od.title, od.description, re.ref_id ".
-				 "FROM license_data ld, object_data od, object_reference re ".
-				 "WHERE ld.obj_id = od.obj_id ".
-				 "AND od.obj_id = re.obj_id ".
-				 "AND ld.licenses > 0 ".
-				 "ORDER BY od.title, od.obj_id";
+		$query = 'SELECT od.obj_id, od.type, od.title, od.description, re.ref_id '
+		       . 'FROM license_data ld '
+			   . 'INNER JOIN object_data od ON od.obj_id = ld.obj_id '
+			   . 'INNER JOIN object_reference re ON re.obj_id = od.obj_id '
+			   . 'WHERE ld.licenses > 0 '
+			   . 'ORDER BY od.title, od.obj_id';
 
 		$result = $ilDB->query($query);
 		$obj_id = 0;
