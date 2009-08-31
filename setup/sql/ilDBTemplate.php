@@ -20480,6 +20480,7 @@ $fields = array (
 	,"question_text" => array (
 		"notnull" => false
 		,"type" => "clob"
+		,"default" => null
 	)
 	,"working_time" => array (
 		"notnull" => false
@@ -29520,6 +29521,7 @@ $fields = array (
 	,"questiontext" => array (
 		"notnull" => false
 		,"type" => "clob"
+		,"default" => null
 	)
 	,"obligatory" => array (
 		"notnull" => false

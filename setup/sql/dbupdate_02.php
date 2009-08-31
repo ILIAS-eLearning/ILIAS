@@ -15530,3 +15530,31 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 	$ilDB->dropTableColumn('cmi_interaction', 'learner_response');
 	$ilDB->renameTableColumn("cmi_interaction", "learner_response_tmp", "learner_response");
 ?>
+<#2859>
+<?php
+	// just for development versions
+	$ilDB->addTableColumn("qpl_questions", "question_text_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+
+	$ilDB->manipulate('UPDATE qpl_questions SET question_text_tmp = question_text');
+
+	$ilDB->dropTableColumn('qpl_questions', 'question_text');
+	$ilDB->renameTableColumn("qpl_questions", "question_text_tmp", "question_text");
+?>
+<#2860>
+<?php
+	// just for development versions
+	$ilDB->addTableColumn("svy_question", "questiontext_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+
+	$ilDB->manipulate('UPDATE svy_question SET questiontext_tmp = questiontext');
+
+	$ilDB->dropTableColumn('svy_question', 'questiontext');
+	$ilDB->renameTableColumn("svy_question", "questiontext_tmp", "questiontext");
+?>
