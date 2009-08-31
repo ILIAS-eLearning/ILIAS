@@ -63,20 +63,16 @@ class ilLicense
 		// get the operation id
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array('read'));
 
-		$ops_pattern = '%%i:'.$ops_ids[0].';%%';
-
-		$query =
-		"SELECT COUNT(DISTINCT ua.usr_id) AS accesses ".
-		"FROM (rbac_ua ua, rbac_pa pa, object_reference ob) ".
-		"LEFT JOIN read_event re ON ua.usr_id = re.usr_id ".
-		"WHERE ua.rol_id = pa.rol_id ".
-		"AND pa.ref_id = ob.ref_id ".
-		"AND ".$ilDB->like('pa.ops_id', 'text', $ops_pattern)." ".
-		"AND ob.obj_id = %s ".
-		"AND (re.usr_id IS NULL OR re.obj_id <> %s)";
-
+		$query = 'SELECT COUNT(DISTINCT(ua.usr_id)) accesses '
+		       . 'FROM rbac_ua ua '
+			   . 'INNER JOIN rbac_pa pa ON pa.rol_id = ua.rol_id '
+			   . 'INNER JOIN object_reference ob ON ob.ref_id = pa.ref_id '
+			   . 'LEFT JOIN read_event re ON re.usr_id = ua.usr_id '
+			   . 'WHERE '.$ilDB->like('pa.ops_id', 'text', '%%i:'.$ops_ids[0].';%%').' ' 
+			   . 'AND ob.obj_id = %s '
+			   . 'AND (re.usr_id IS NULL OR re.obj_id <> %s)';
 		$result = $ilDB->queryF($query,
-			array('integer','integer'),
+			array('integer', 'integer'),
 			array($this->obj_id, $this->obj_id));
 
 		$row = $ilDB->fetchObject($result);
