@@ -37,6 +37,8 @@ abstract class ilSubItemListGUI
 {
 	protected static $MAX_SUBITEMS = 5;
 	
+	protected $cmdClass = null;
+
 	protected $tpl;
 	private $highlighter = null;
 	
@@ -53,8 +55,10 @@ abstract class ilSubItemListGUI
 	 * @param
 	 * @return
 	 */
-	public function __construct()
+	public function __construct($a_cmd_class)
 	{
+		
+		$this->cmdClass = $a_cmd_class;
 		self::$MAX_SUBITEMS = ilSearchSettings::getInstance()->getMaxSubitems();
 	}
 	
@@ -95,6 +99,15 @@ abstract class ilSubItemListGUI
 	public static final function enabledDetails($a_obj_id)
 	{
 		return isset($_SESSION['lucene_search']['details'][$a_obj_id]) and $_SESSION['lucene_search']['details'][$a_obj_id]; 
+	}
+	
+	/**
+	 * get cmd class
+	 * @return 
+	 */
+	public function getCmdClass()
+	{
+		return $this->cmdClass;
 	}
 	
 
