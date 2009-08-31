@@ -274,7 +274,7 @@ class ilSearchResultPresentation
 	 */
 	public function lookupTitle($a_obj_id,$a_sub_id)
 	{
-		if($this->getMode() != self::MODE_LUCENE)
+		if($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter()))
 		{
 			return ilObject::_lookupTitle($a_obj_id);
 		}
@@ -292,7 +292,7 @@ class ilSearchResultPresentation
 	 */
 	public function lookupDescription($a_obj_id,$a_sub_id)
 	{
-		if($this->getMode() != self::MODE_LUCENE)
+		if($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter()))
 		{
 			return ilObject::_lookupDescription($a_obj_id);
 		}
@@ -310,7 +310,7 @@ class ilSearchResultPresentation
 	 */
 	public function lookupContent($a_obj_id,$a_sub_id)
 	{
-		if($this->getMode() != self::MODE_LUCENE)
+		if($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter()))
 		{
 			return '';
 		}
@@ -436,7 +436,7 @@ class ilSearchResultPresentation
 	 */
 	protected function appendSubItems($item_list_gui,$ref_id,$obj_id,$a_type)
 	{
-		if($this->getMode() != self::MODE_LUCENE)
+		if($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter()))
 		{
 			return;
 		}
