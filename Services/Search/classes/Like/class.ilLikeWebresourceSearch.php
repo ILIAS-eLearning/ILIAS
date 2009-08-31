@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Search/classes/class.ilWebresourceSearch.php';
 /**
 * Class webresource search
 *
