@@ -63,21 +63,21 @@ class ilLicense
 		// get the operation id
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array('read'));
 
-		$ops_pattern = '%i:'.$ops_ids[0].'%';
+		$ops_pattern = '%%i:'.$ops_ids[0].';%%';
 
 		$query =
-		"SELECT COUNT(DISTINCT ua.usr_id) as accesses ".
-		"FROM (rbac_ua AS ua, rbac_pa AS pa, object_reference AS ob) ".
-		"LEFT JOIN read_event AS re ON ua.usr_id = re.usr_id ".
+		"SELECT COUNT(DISTINCT ua.usr_id) AS accesses ".
+		"FROM (rbac_ua ua, rbac_pa pa, object_reference ob) ".
+		"LEFT JOIN read_event re ON ua.usr_id = re.usr_id ".
 		"WHERE ua.rol_id = pa.rol_id ".
 		"AND pa.ref_id = ob.ref_id ".
-		"AND pa.ops_id LIKE %s ".
+		"AND ".$ilDB->like('pa.ops_id', 'text', $ops_pattern)." ".
 		"AND ob.obj_id = %s ".
 		"AND (re.usr_id IS NULL OR re.obj_id <> %s)";
 
 		$result = $ilDB->queryF($query,
-			array('text','integer','integer'),
-			array($ops_pattern, $this->obj_id, $this->obj_id));
+			array('integer','integer'),
+			array($this->obj_id, $this->obj_id));
 
 		$row = $ilDB->fetchObject($result);
 		return $row->accesses;
@@ -127,22 +127,25 @@ class ilLicense
 
 		if ($row = $ilDB->fetchObject($result))
 		{
-			$query = 'UPDATE license_data '
-					.'SET licenses=%s, used=%s, remarks=%s '
-					.'WHERE obj_id=%s';
-					
-			$ilDB->manipulateF($query,
-		    	array('integer','integer','text','integer'),
-		    	array($this->licenses, $this->accesses, $this->remarks,$this->obj_id));
+			$ilDB->update('license_data',
+				array(					
+					'licenses'	=> array('integer', $this->licenses),
+					'used'		=> array('integer', $this->accesses),
+					'remarks'	=> array('clob', $this->remarks)
+				),
+				array(
+					'obj_id' 	=> array('integer', $this->obj_id),
+				)
+			);
 		}
 		else
 		{
-			$query = 'INSERT INTO license_data(obj_id, licenses, used, remarks)'
-					.' VALUES(%s, %s, %s, %s)';
-
-			$ilDB->manipulateF($query,
-		    	array('integer','integer','integer','text'),
-		    	array($this->obj_id,$this->licenses, $this->accesses, $this->remarks));
+			$ilDB->insert('license_data', array(
+				'obj_id' 	=> array('integer', $this->obj_id),
+				'licenses'	=> array('integer', $this->licenses),
+				'used'		=> array('integer', $this->accesses),
+				'remarks'	=> array('clob', $this->remarks)
+			));
 		}
 	}
 
@@ -238,7 +241,7 @@ class ilLicense
 			if (self::_isLicensed($a_obj_id))
 			{
 				// increase used licenses
-				$query = "UPDATE license_data set used = used + 1 "
+				$query = "UPDATE license_data SET used = used + 1 "
 				        ."WHERE obj_id = %s";
 				$ilDB->manipulateF($query, array('integer'), array($a_obj_id));
 			}
@@ -261,7 +264,7 @@ class ilLicense
 		$objects = array();
 		
 		$query = "SELECT od.obj_id, od.type, od.title, od.description, re.ref_id ".
-				 "FROM license_data AS ld, object_data AS od, object_reference as re ".
+				 "FROM license_data ld, object_data od, object_reference re ".
 				 "WHERE ld.obj_id = od.obj_id ".
 				 "AND od.obj_id = re.obj_id ".
 				 "AND ld.licenses > 0 ".
@@ -315,7 +318,7 @@ class ilLicense
 	{
 		global $ilDB;
 		
-		$query = "SELECT licenses from license_data ".
+		$query = "SELECT licenses FROM license_data ".
 				 "WHERE obj_id = %s ".
 				 "AND licenses > 0";
 		$result = $ilDB->queryF($query, array('integer'), array($a_obj_id));
