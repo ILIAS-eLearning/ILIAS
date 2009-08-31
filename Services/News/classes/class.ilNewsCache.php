@@ -42,7 +42,7 @@ class ilNewsCache extends ilCache
 	{
 		if (!self::$disabled)
 		{
-			return parent::readEntry($a_id);
+			return unserialize(parent::readEntry($a_id));
 		}
 		return false;
 	}
@@ -56,7 +56,7 @@ class ilNewsCache extends ilCache
 		global $ilSetting;
 		if (!self::$disabled)
 		{
-			parent::storeEntry($a_id, $a_value);
+			parent::storeEntry($a_id, serialize($a_value));
 		}
 	}
 }

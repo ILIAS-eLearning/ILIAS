@@ -169,7 +169,6 @@ class ilDBOracle extends ilDB
 	*/
 	function replace($a_table, $a_pk_columns, $a_other_columns)
 	{
-		// this is the mysql implementation
 		$a_columns = array_merge($a_pk_columns, $a_other_columns);
 		$fields = array();
 		$field_values = array();
@@ -183,7 +182,14 @@ class ilDBOracle extends ilDB
 		$b = array();
 		foreach ($a_columns as $k => $col)
 		{
-			$val_field[] = $this->quote($col[1], $col[0])." ".$k;
+			if($col[0] == 'clob' or $col[0] == 'blob')
+			{
+				$val_field[] = $this->quote($col[1], 'text')." ".$k;
+			}
+			else
+			{
+				$val_field[] = $this->quote($col[1], $col[0])." ".$k;
+			}
 			$fields[] = $k;
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
