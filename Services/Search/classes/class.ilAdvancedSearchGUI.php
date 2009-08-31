@@ -412,7 +412,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'search'));
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'performSearch'));
 		$this->form->setTitle($this->lng->txt('search_advanced'));
 		$this->form->addCommandButton('performSearch',$this->lng->txt('search'));
 		$this->form->addCommandButton('reset',$this->lng->txt('reset'));
