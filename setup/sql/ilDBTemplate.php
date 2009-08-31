@@ -2136,10 +2136,8 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"learner_response" => array (
-		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		"type" => "clob"
+		,"notnull" => false
 	)
 	,"result" => array (
 		"notnull" => false
@@ -3219,9 +3217,9 @@ $fields = array (
 	)
 	,"targetobjectiveid" => array (
 		"notnull" => false
-		,"length" => 1
-		,"unsigned" => false
-		,"type" => "integer"
+		,"length" => 50
+		,"default" => null
+		,"type" => "text"
 	)
 	,"writenormalmeasure" => array (
 		"notnull" => false
@@ -3528,9 +3526,9 @@ $fields = array (
 	)
 	,"minimumcount" => array (
 		"notnull" => false
-		,"length" => 50
-		,"fixed" => false
-		,"type" => "text"
+		,"length" => 4
+		,"default" => null
+		,"type" => "integer"
 	)
 	,"minimumpercent" => array (
 		"notnull" => false
@@ -10121,10 +10119,8 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"pos_message" => array (
-		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		"type" => "clob"
+		,"notnull" => false
 	)
 	,"pos_subject" => array (
 		"notnull" => false
@@ -15807,10 +15803,8 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"m_message" => array (
-		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		"type" => "clob"
+		,"notnull" => false
 	)
 	,"import_name" => array (
 		"notnull" => false
@@ -16025,10 +16019,8 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"m_message" => array (
-		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		"type" => "clob"
+		,"notnull" => false
 	)
 	,"use_placeholders" => array (
 		"notnull" => true
@@ -27041,10 +27033,8 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"rvalue" => array (
-		"notnull" => false
-		,"length" => 4000
-		,"fixed" => false
-		,"type" => "text"
+		"type" => "clob"
+		,"notnull" => false
 	)
 	,"obj_id" => array (
 		"notnull" => true
