@@ -339,9 +339,20 @@ class ilSearchResult
 		{
 			$res[$result['ref_id']] = $result['obj_id']; 	
 		}
-		
 		return $res;
 	}
+
+	public function getSubitemIds()
+	{
+		$res = array();
+		foreach($this->getResults() as $row)
+		{
+			$res[$row['obj_id']] = $row['child'];
+		}
+		return $res ? $res : array();
+	}
+	
+	
 	
 	/**
 	 * Filter search result.

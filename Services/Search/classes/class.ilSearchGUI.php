@@ -323,6 +323,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
 			$presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
 			$presentation->setResults($result_obj->getResultsForPresentation());
+			$presentation->setSubitemIds($result_obj->getSubitemIds());
 			$presentation->setPreviousNext($this->prev_link, $this->next_link);
 			#$presentation->setSearcher($searcher);
 
@@ -431,6 +432,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
 		$presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
 		$presentation->setResults($result->getResultsForPresentation());
+		$presentation->setSubitemIds($result->getSubitemIds());
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 
 		if($presentation->render())

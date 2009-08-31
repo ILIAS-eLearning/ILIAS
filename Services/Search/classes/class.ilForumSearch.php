@@ -65,7 +65,8 @@ class ilForumSearch extends ilAbstractSearch
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$thread_post = $row->thr_pk.'_0';
+			#$thread_post = $row->thr_pk.'_0';
+			$thread_post = $row->thr_pk;
 			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$thread_post);
 		}
 
@@ -84,7 +85,8 @@ class ilForumSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;
+			#$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;
+			$thread_post = $row->pos_thr_fk;
 			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$thread_post);
 		}
 		return $this->search_result;

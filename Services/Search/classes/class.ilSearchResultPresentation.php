@@ -41,6 +41,7 @@ class ilSearchResultPresentation
 	protected $lng;
 
 	private $results = array();
+	private $subitem_ids = array();
 	private $has_more_ref_ids = array();
 	private $all_references = null;
 	private $searcher = null;
@@ -100,6 +101,40 @@ class ilSearchResultPresentation
 		return $this->results ? $this->results : array();
 	}
 	
+	/**
+	 * Set subitem ids
+	 * Used for like and fulltext search
+	 * @param array $a_subids array ($obj_id => array(page1_id,page2_id);
+	 * @return 
+	 */
+	public function setSubitemIds($a_subids)
+	{
+		$this->subitem_ids = $a_subids;
+	}
+	
+	/**
+	 * Get subitem ids
+	 * @return 
+	 */
+	public function getSubitemIds()
+	{
+		return $this->subitem_ids ? $this->subitem_ids : array();
+	}
+	
+	/**
+	 * Get subitem ids for an object
+	 * @param int $a_obj_id
+	 * @return 
+	 */
+	public function getSubitemIdsByObject($a_obj_id)
+	{
+		return (isset($this->subitem_ids[$a_obj_id]) and $this->subitem_ids[$a_obj_id]) ?
+			$this->subitem_ids[$a_obj_id] :
+			array();
+	}
+	
+	
+
 	/**
 	 * Check if more than one reference is visible 
 	 */
@@ -436,20 +471,28 @@ class ilSearchResultPresentation
 	 */
 	protected function appendSubItems($item_list_gui,$ref_id,$obj_id,$a_type)
 	{
-		if($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter()))
+		$subitem_ids = array();
+		if($this->getMode() == self::MODE_STANDARD)
+		{
+			$subitem_ids = $this->getSubitemIdsByObject($obj_id);
+			$highlighter = null;
+		}
+		elseif(is_object($this->searcher->getHighlighter()))
+		{
+			$subitem_ids = $this->searcher->getHighlighter()->getSubitemIds($obj_id);
+			$highlighter = $this->searcher->getHighlighter();
+		}
+		
+		if(!count($subitem_ids))
 		{
 			return;
 		}
 		
-		if(!count($this->searcher->getHighlighter()->getSubItemIds($obj_id)))
-		{
-			return;
-		}
-		
+		// Build subitem list 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSubItemListGUIFactory.php';
 		$sub_list = ilLuceneSubItemListGUIFactory::getInstanceByType($a_type);
-		$sub_list->setHighlighter($this->searcher->getHighlighter());
-		$sub_list->init($item_list_gui,$ref_id,$this->searcher->getHighlighter()->getSubItemIds($obj_id));
+		$sub_list->setHighlighter($highlighter);
+		$sub_list->init($item_list_gui,$ref_id,$subitem_ids);
 		return $sub_list->getHTML();
 		
 	}
