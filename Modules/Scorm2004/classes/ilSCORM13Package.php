@@ -657,7 +657,11 @@ class ilSCORM13Package
 					}				
 					
 					if(in_array($names[count($names) - 1],
-							    array('flow', 'completionbycontent', 'objectivebycontent')))
+							    array('flow', 'completionbycontent',
+								      'objectivebycontent', 'rollupobjectivesatis',
+									  'tracked', 'choice',
+									  'choiceexit', 'satisfiedbymeasure',
+									  'c_primary', 'constrainchoice')))
 					{
 						if($attr->value == 'true')
 							$values[] = 1;
@@ -674,7 +678,10 @@ class ilSCORM13Package
 					if( in_array($names[count($names) - 1], 
 								 array('objectivesglobtosys', 'attemptlimit', 
 								       'flow', 'completionbycontent', 
-									   'objectivebycontent')))
+									   'objectivebycontent', 'rollupobjectivesatis',
+									   'tracked', 'choice',
+									   'choiceexit', 'satisfiedbymeasure',
+									   'c_primary', 'constrainchoice')))
 						$types[] = 'integer';
 					else if ( in_array($names[count($names) - 1],
 									   array('jsdata', 'xmldata', 'activitytree', 'data')))
