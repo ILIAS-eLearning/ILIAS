@@ -15456,23 +15456,45 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 
 <#2853>
 <?php
+
 	if($ilDB->getDBType() == 'oracle')
 	{
-		$ilDB->query('ALTER TABLE mail RENAME COLUMN "m_message" TO m_message');
+		$query = "SELECT column_name FROM user_tab_columns ".
+			"WHERE table_name = 'MAIL' ".
+			"AND column_name = 'm_message' ";
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$ilDB->query('ALTER TABLE mail RENAME COLUMN "m_message" TO m_message');
+		}
 	}
 ?>
 <#2854>
 <?php
 	if($ilDB->getDBType() == 'oracle')
 	{
-		$ilDB->query('ALTER TABLE mail_saved RENAME COLUMN "m_message" TO m_message');
+		$query = "SELECT column_name FROM user_tab_columns ".
+			"WHERE table_name = 'MAIL_SAVED' ".
+			"AND column_name = 'm_message' ";
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$ilDB->query('ALTER TABLE mail_saved RENAME COLUMN "m_message" TO m_message');
+		}
 	}
 ?>
 <#2855>
 <?php
 	if($ilDB->getDBType() == 'oracle')
 	{
-		$ilDB->query('ALTER TABLE frm_posts RENAME COLUMN "pos_message" TO pos_message');
+		$query = "SELECT column_name FROM user_tab_columns ".
+			"WHERE table_name = 'FRM_POSTS' ".
+			"AND column_name = 'pos_message' ";
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$ilDB->query('ALTER TABLE mail_saved RENAME COLUMN "m_message" TO m_message');
+		}
 	}
 ?>
 <#2856>
