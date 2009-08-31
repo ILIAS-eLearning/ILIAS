@@ -446,7 +446,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		foreach ($scos as $sco) 
 		{
 			$data_set = $ilDB->queryF('
-				SELECT *,c_timestamp last_access 
+				SELECT c_timestamp last_access, session_time, success_status, completion_status,
+					   c_raw, cp_node_id
 				FROM cmi_node 
 				WHERE cp_node_id = %s
 				AND user_id = %s',
@@ -469,7 +470,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	   			$score = $data_rec["c_raw"];
 	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 	   			$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
-				 $data[] = array("user_id" => $user_rec["user_id"],
+				 $data[] = array("user_id" => $data_rec["user_id"],
 				   	"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 	   		}
       	}
