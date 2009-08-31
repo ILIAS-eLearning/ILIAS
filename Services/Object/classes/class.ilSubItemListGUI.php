@@ -217,9 +217,9 @@ abstract class ilSubItemListGUI
 
 		$additional = count($this->getSubItemIds()) - self::$MAX_SUBITEMS;
 		
-		$ilCtrl->setParameterByClass('illucenesearchgui','details',(int) $this->getObjId());
-		$link = $ilCtrl->getLinkTargetByClass('illucenesearchgui','');
-		$ilCtrl->clearParametersByClass('illucenesearchgui');
+		$ilCtrl->setParameterByClass(get_class($this->getCmdClass()), 'details', (int) $this->getObjId());
+		$link = $ilCtrl->getLinkTargetByClass(get_class($this->getCmdClass()),'');
+		$ilCtrl->clearParametersByClass(get_class($this->getCmdClass()));
 		
 		$this->tpl->setCurrentBlock('choose_details');
 		$this->tpl->setVariable('LUC_DETAILS_LINK',$link);
