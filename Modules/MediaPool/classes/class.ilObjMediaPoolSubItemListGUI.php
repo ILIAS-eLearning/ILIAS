@@ -54,6 +54,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 			}
 			$this->tpl->setCurrentBlock('subitem');
 			
+			/*
 			switch(ilObject::_lookupType($sub_item))
 			{
 				case 'mob':
@@ -65,13 +66,17 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 					break;
 					
 			}
+			*/
 			
 			$this->tpl->setVariable('SEPERATOR',':');
 			
 			#$this->getItemListGUI()->setChildId($sub_item);
 			$this->tpl->setVariable('LINK',ilLink::_getLink($this->getRefId(),'mep',array()));
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			$this->tpl->setVariable('TITLE',ilObject::_lookupTitle($sub_item));			
+			
+			include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
+			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_'.ilMediaPoolItem::lookupType($sub_item)));
+			$this->tpl->setVariable('TITLE',ilMediaPoolItem::lookupTitle($sub_item));
 			$this->tpl->parseCurrentBlock();
 		}
 		

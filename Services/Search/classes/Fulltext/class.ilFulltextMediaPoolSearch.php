@@ -51,7 +51,7 @@ class ilFulltextMediaPoolSearch extends ilMediaPoolSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " AND MATCH(title,description) AGAINST('";
+			$query .= " AND MATCH(title) AGAINST('";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
@@ -62,7 +62,7 @@ class ilFulltextMediaPoolSearch extends ilMediaPoolSearch
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " AND MATCH (title,description) AGAINST(' ";
+			$query .= " AND MATCH (title) AGAINST(' ";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
 				$query .= $word;
