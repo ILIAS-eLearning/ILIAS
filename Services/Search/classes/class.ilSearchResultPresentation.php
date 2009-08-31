@@ -490,7 +490,7 @@ class ilSearchResultPresentation
 		
 		// Build subitem list 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSubItemListGUIFactory.php';
-		$sub_list = ilLuceneSubItemListGUIFactory::getInstanceByType($a_type);
+		$sub_list = ilLuceneSubItemListGUIFactory::getInstanceByType($a_type,$this->getContainer());
 		$sub_list->setHighlighter($highlighter);
 		$sub_list->init($item_list_gui,$ref_id,$subitem_ids);
 		return $sub_list->getHTML();

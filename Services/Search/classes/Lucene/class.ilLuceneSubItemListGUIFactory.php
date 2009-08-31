@@ -41,7 +41,7 @@ class ilLuceneSubItemListGUIFactory
 	 * @return
 	 * @static
 	 */
-	public static function getInstanceByType($a_type)
+	public static function getInstanceByType($a_type,$a_cmd_class)
 	{
 		global $objDefinition;
 		
@@ -55,12 +55,12 @@ class ilLuceneSubItemListGUIFactory
 		$full_class = "ilObj".$class."SubItemListGUI";
 		if(@include_once($location."/class.".$full_class.".php"))
 		{
-			return self::$instances[$a_type] = new $full_class();
+			return self::$instances[$a_type] = new $full_class($a_cmd_class);
 		}
 		else
 		{
 			include_once './Services/Object/classes/class.ilObjectSubItemListGUI.php';
-			return self::$instances[$a_type] = new ilObjectSubItemListGUI();
+			return self::$instances[$a_type] = new ilObjectSubItemListGUI($a_cmd_class);
 		}
 	}
 }
