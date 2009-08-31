@@ -654,14 +654,15 @@ class ilSCORM13Package
 						case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
 						case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
 						default: $names[] = strtolower($attr->name);break;
-					}				
+					}
 					
 					if(in_array($names[count($names) - 1],
 							    array('flow', 'completionbycontent',
 								      'objectivebycontent', 'rollupobjectivesatis',
 									  'tracked', 'choice',
 									  'choiceexit', 'satisfiedbymeasure',
-									  'c_primary', 'constrainchoice')))
+									  'c_primary', 'constrainchoice',
+									  'forwardonly')))
 					{
 						if($attr->value == 'true')
 							$values[] = 1;
@@ -681,7 +682,8 @@ class ilSCORM13Package
 									   'objectivebycontent', 'rollupobjectivesatis',
 									   'tracked', 'choice',
 									   'choiceexit', 'satisfiedbymeasure',
-									   'c_primary', 'constrainchoice')))
+									   'c_primary', 'constrainchoice',
+									   'forwardonly')))
 						$types[] = 'integer';
 					else if ( in_array($names[count($names) - 1],
 									   array('jsdata', 'xmldata', 'activitytree', 'data')))
@@ -705,7 +707,7 @@ class ilSCORM13Package
 				{
 					$insert_data[$db_field] = array($types[$key], $values[$key]);
 				}
-				$ilDB->insert('cp_'.$node->nodeName, $insert_data);			
+				$ilDB->insert('cp_'.strtolower($node->nodeName), $insert_data);			
 	
 				$node->setAttribute('foreignId', $cp_node_id);
 				$this->idmap[$node->getAttribute('id')] = $cp_node_id;
