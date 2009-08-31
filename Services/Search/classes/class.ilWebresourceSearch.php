@@ -52,7 +52,7 @@ class ilWebresourceSearch extends ilAbstractSearch
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT webr_id  ".
+		$query = "SELECT webr_id, link_id ".
 			$locate.
 			"FROM webr_items ".
 			$where;
@@ -60,7 +60,7 @@ class ilWebresourceSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->webr_id,'webr',$this->__prepareFound($row));
+			$this->search_result->addEntry($row->webr_id,'webr',$this->__prepareFound($row),$row->link_id);
 		}
 		return $this->search_result;
 	}

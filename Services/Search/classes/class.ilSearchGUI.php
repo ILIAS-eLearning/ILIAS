@@ -59,6 +59,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->initStandardSearchForm();
 		$this->form->checkInput();
 		reset($this->obj_types);
+		
+		$new_search = isset($_POST['cmd']['performSearch']) ? true : false;
+		
 		foreach($this->obj_types as $k => $t)
 		{
 			$_POST["search"]["details"][$k] = $_POST[$k];
@@ -72,7 +75,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->setType($_POST['search']['type'] ? $_POST['search']['type'] : $_SESSION['search']['type']);
 		$this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
 		$this->setString($_POST['search']['string'] ? $_POST['search']['string'] : $_SESSION['search']['string']);
-		$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
+		#$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
+		$this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
 
 		parent::ilSearchBaseGUI();
 	}
