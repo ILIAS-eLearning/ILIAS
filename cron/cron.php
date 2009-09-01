@@ -22,6 +22,4 @@ include_once './cron/classes/class.ilCronCheck.php';
 
 $cron_check =& new ilCronCheck();
 $cron_check->start();
-
-$cron_auth->logout();
 ?>
