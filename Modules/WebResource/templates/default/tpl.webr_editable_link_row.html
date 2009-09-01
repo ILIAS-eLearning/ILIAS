@@ -1,0 +1,29 @@
+<tr class="{CSS_ROW}">
+	<td class="std" style="vertical-align: top; padding-top: 8px;">
+		{VAL_CHECKBOX}
+		<input type="hidden" name="ids[]" value = "{VAL_ID}" />
+	</td>
+	<td class="std" style="vertical-align: top; padding: 8px;" >
+		<span class="small">
+			{TXT_TITLE}: <span class="asterisk">*</span><br /><input style="width:250px" type="text" name="links[{VAL_ID}][tit]" value="{VAL_TITLE}" size="30" maxlength="127" /><br />
+			<div style="margin-top:8px" />
+			{TXT_DESC}:<br /><textarea style="width:250px" name="links[{VAL_ID}][des]" cols="30" rows="3" wrap="virtual">{VAL_DESC}</textarea>
+		</span>
+	</td>
+	<td class="std" style="vertical-align: top; padding: 8px;">
+		<span class="small">
+			{TXT_TARGET}: <span class="asterisk">*</span><br /><input type="text" name="links[{VAL_ID}][tar]" value="{VAL_TARGET}" size="40" maxlength="500" /><br />
+			<div style="margin-top:8px" />
+			{TXT_LAST_CHECK} {LAST_CHECK}
+		</span>
+	</td>
+	<td class="std" style="text-align:center;vertical-align: top; padding: 8px;" >
+		{VAL_VALID}
+	</td>
+	<td class="std" style="text-align:center;vertical-align: top; padding: 8px;" >
+		{VAL_ACTIVE}
+	</td>
+	<td class="std" style="text-align:center;vertical-align: top; padding: 8px;" >
+		{VAL_CHECK}
+	</td>
+</tr>

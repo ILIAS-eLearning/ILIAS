@@ -2436,7 +2436,7 @@ common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_no_entries#:#No entries in history.
 common#:#hist_webr_add#:#Added new Link with title: "%1"
 common#:#hist_webr_delete#:#Deleted Link with title: "%1"
-common#:#hist_webr_update#:#modified Link with title: "%1"
+common#:#hist_webr_update#:#Modified Link with title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -2761,11 +2761,11 @@ common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user 
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add parameter:
-common#:#links_dyn_parameter#:#Dynamic parameters
+common#:#links_dyn_parameter#:#Dynamic Parameters
 common#:#links_dynamic#:#Dynamic Web Links Parameters
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links.<br /> E.g. the ILIAS user id or the username.
 common#:#links_existing_params#:#Existing parameters:
-common#:#links_name#:#Parameter name
+common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Please choose a parameter name.
 common#:#links_no_value_given#:#Please choose a parameter value.
 common#:#links_not_available#:#Not available
@@ -2774,7 +2774,7 @@ common#:#links_select_one#:#- Select one -
 common#:#links_session_id#:#ILIAS session id
 common#:#links_user_id#:#ILIAS user id
 common#:#links_user_name#:#ILIAS username
-common#:#links_value#:#Parameter value
+common#:#links_value#:#Parameter Value
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
@@ -4196,7 +4196,7 @@ common#:#webr_add_item#:#Add Link
 common#:#webr_delete#:#Delete Web Resource List
 common#:#webr_delete_items#:#Delete Link(s)
 common#:#webr_deleted_items#:#Deleted Link(s).
-common#:#webr_disable_check#:#Disable check
+common#:#webr_disable_check#:#Disable Validation
 common#:#webr_edit#:#Edit Link
 common#:#webr_edit_item#:#Edit Link
 common#:#webr_edit_permission#:#Change permission settings
@@ -9918,6 +9918,13 @@ content#:#scplayer_collapsetree#:#Collapse All
 content#:#cont_debug#:#Show debug menu
 content#:#cont_debugpw#:#Password
 content#:#scplayer_debugger#:#Show Debugger
+webr#:#webr_new_link#:#Add New Link
+webr#:#webr_link_target#:#Link Target
+webr#:#webr_link_title#:#Link Name
+webr#:#webr_active#:#Active
+webr#:#webr_link_added#:#A new link has been created.
+webr#:#webr_deactivate#:#Deactivate Link
+webr#:#webr_inactive_success#:#The chosen link is deactivated.
 payment#:#pay_hide_advanced_search#:#Hide Advanced Search
 payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
 payment#:#pay_hide_filtering#:#Hide Filtering
@@ -9928,3 +9935,6 @@ payment#:#pay_hide_news#:#Hide news
 payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
 payment#:#pay_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
 payment#:#pay_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
+webr#:#webr_list_title#:#Title of Web Resource List
+webr#:#webr_list_desc#:#Description of Web Resource List
+webr#:#webr_edit_links#:#Edit Links

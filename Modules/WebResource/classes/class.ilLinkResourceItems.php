@@ -216,6 +216,8 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 		
+		$item = $this->getItem($a_item_id);
+		
 		$query = "DELETE FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
 			"AND link_id = ".$ilDB->quote($a_item_id ,'integer');
@@ -225,7 +227,7 @@ class ilLinkResourceItems
 		{
 			include_once("classes/class.ilHistory.php");
 			ilHistory::_createEntry($this->getLinkResourceId(), "delete",
-									$this->getTitle());
+									$item['title']);
 		}
 
 		return true;
@@ -253,7 +255,7 @@ class ilLinkResourceItems
 			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer')." ".
 			"AND webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
 		$res = $ilDB->manipulate($query);
-
+		
 		if($a_update_history)
 		{
 			include_once("classes/class.ilHistory.php");
@@ -424,7 +426,7 @@ class ilLinkResourceItems
 		$query = "SELECT * FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
 			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
-
+			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -441,7 +443,7 @@ class ilLinkResourceItems
 		}
 		return $item ? $item : array();
 	}
-		
+	
 		
 	function getAllItems()
 	{
@@ -524,6 +526,22 @@ class ilLinkResourceItems
 		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer')." AND active = '1'");
 
 		return $res->numRows() == 1 ? true : false;
+	}
+	
+	/**
+	 * Get number of assigned links
+	 * @param int $a_webr_id
+	 * @return 
+	 */
+	public static function lookupNumberOfLinks($a_webr_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT COUNT(*) num FROM webr_items ".
+			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer');
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->num;
 	}
 
 	/**

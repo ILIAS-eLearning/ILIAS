@@ -22,11 +22,12 @@
 */
 
 include_once "./classes/class.ilObjectGUI.php";
+include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
 
 /**
 * Class ilObjLinkResourceGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
@@ -36,11 +37,19 @@ include_once "./classes/class.ilObjectGUI.php";
 */
 class ilObjLinkResourceGUI extends ilObjectGUI
 {
+	const VIEW_MODE_VIEW = 1;
+	const VIEW_MODE_MANAGE = 2;
+	const VIEW_MODE_SORT = 3;
+	
+	const LINK_MOD_CREATE = 1;
+	const LINK_MOD_EDIT = 2;
+	const LINK_MOD_ADD = 3;
+	
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilObjLinkResourceGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $ilCtrl;
 
@@ -48,19 +57,20 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 
 		// CONTROL OPTIONS
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->lng->loadLanguageModule('webr');
 	}
 
-	function &executeCommand()
+	public function executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilCtrl;
 
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
 		if($_GET["baseClass"] == 'ilLinkResourceHandlerGUI')
 		{
+			$ilCtrl->saveParameter($this, 'view_mode');
 			$this->__prepareOutput();
 		}
 		
@@ -81,12 +91,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				break;
 
 			case 'ilmdeditorgui':
-
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
-
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
@@ -97,6 +104,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				break;
 
 			default:
+
 				if(!$cmd)
 				{
 					$cmd = "view";
@@ -125,19 +133,492 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	 */
 	public function createObject()
 	{
-	 	parent::createObject();
+	 	#parent::createObject();
+	 	#$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+	 	
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
+		$this->initFormLink(self::LINK_MOD_CREATE);
+		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
+		
 	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+	 	
+	}
+	
+	/**
+	 * Edit a single link
+	 * @return 
+	 */
+	public function editLinkObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission('write');
+		$this->activateTabs('content','view');
+		
+		if(!(int) $_GET['link_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+		
+		$this->initFormLink(self::LINK_MOD_EDIT);
+		$this->setValuesFromLink((int) $_GET['link_id']);
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Save after editing
+	 * @return 
+	 */
+	public function updateLinkObject()
+	{
+		global $ilCtrl;
+		
+		$this->initFormLink(self::LINK_MOD_EDIT);
+		if($this->checkLinkInput(self::LINK_MOD_EDIT,$this->object->getId(),(int) $_REQUEST['link_id']))
+		{
+			$this->link->setLinkId((int) $_REQUEST['link_id']);
+			$this->link->update();
+			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
+			{
+				$this->dynamic->add((int) $_REQUEST['link_id']);
+			}
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Add an additional link
+	 * @return 
+	 */
+	public function addLinkObject()
+	{
+		$this->checkPermission('write');
+		$this->activateTabs('content','view');
+	
+		$this->initFormLink(self::LINK_MOD_ADD);
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Save form data
+	 * @return 
+	 */
+	public function saveAddLinkObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission('write');
+	
+		$this->initFormLink(self::LINK_MOD_ADD);
+		if($this->checkLinkInput(self::LINK_MOD_ADD,$this->object->getId(),0))
+		{
+			if($this->isContainerMetaDataRequired())
+			{
+				// Save list data
+				$this->object->setTitle($this->form->getInput('lti'));
+				$this->object->setDescription($this->form->getInput('lde'));
+				$this->object->update();
+			}
+			
+			// Save Link
+			$link_id = $this->link->add();
+			
+			// Dynamic parameters
+			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
+			{
+				$this->dynamic->add($link_id);
+			}
+			ilUtil::sendSuccess($this->lng->txt('webr_link_added'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+		// Error handling
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		
+		$this->activateTabs('content','view');
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Save new object
+	 * @access	public
+	 */
+	public function saveObject()
+	{
+		global $ilCtrl;
+		
+		$this->initFormLink(self::LINK_MOD_CREATE);
+		if($this->checkLinkInput(self::LINK_MOD_CREATE,0,0))
+		{
+			// Save new object
+			$_POST['Fobject']['title'] = $_POST['tit'];
+			$_POST['Fobject']['desc'] = $_POST['des'];
+			$link_list = parent::saveObject();
+
+			// Save link
+			$this->link->setLinkResourceId($link_list->getId());
+			$link_id = $this->link->add();
+			
+			// Dynamic params
+			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
+			{
+				$this->dynamic->setObjId($link_list->getId());
+				$this->dynamic->add($link_id);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
+			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
+				$link_list->getRefId()."&cmd=view");
+			return true;			
+		}
+		// Data incomplete or invalid
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
+		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
+	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+		return false;
+
+		
+		if ($_POST["Fobject"]["title"] == "")
+		{
+			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
+			$this->createObject();
+			return false;
+		}
+	}
+	
+	/**
+	 * Update all visible links
+	 * @return 
+	 */
+	protected function updateLinksObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission('write');
+		$this->activateTabs('content','');
+		
+		if(!is_array($_POST['ids']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),TRUE);
+			$ilCtrl->redirect($this,'view');
+		}
+	
+		// Validate
+		$invalid = array();
+		foreach($_POST['ids'] as $link_id)
+		{
+			$data = $_POST['links'][$link_id];
+			
+			if(!strlen($data['tit']))
+			{
+				$invalid[] = $link_id;
+				continue;
+			}
+			if(!strlen($data['des']))
+			{
+				$invalid[] = $link_id;
+				continue;
+			}
+		}
+		
+		if(count($invalid))
+		{
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_manage.html','Modules/WebResource');
+			
+			include_once './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php';
+			$table = new ilWebResourceEditableLinkTableGUI($this,'view');
+			$table->setInvalidLinks($invalid);
+			$table->parseSelectedLinks($_POST['ids']);
+			$table->updateFromPost();
+			$this->tpl->setVariable('TABLE_LINKS',$table->getHTML());
+			return false;
+		}
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$links = new ilLinkResourceItems($this->object->getId());
+		
+		// Save Settings
+		foreach($_POST['ids'] as $link_id)
+		{
+			$data = $_POST['links'][$link_id];
+			
+			$links->setLinkId($link_id);
+			$links->setTitle(ilUtil::stripSlashes($data['tit']));
+			$links->setDescription(ilUtil::stripSlashes($data['des']));
+			$links->setTarget(ilUtil::stripSlashes($data['tar']));
+			$links->setActiveStatus((int) $data['act']);
+			$links->setDisableCheckStatus((int) $data['che']);
+			$links->setValidStatus((int) $data['vali']);
+			$links->update();
+			
+			// TODO: Dynamic parameters
+		}
+			
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+		$ilCtrl->redirect($this,'view');							
+	}
+	
+	/**
+	 * Set form values from link
+	 * @param object $a_link_id
+	 * @return 
+	 */
+	protected function setValuesFromLink($a_link_id)
+	{
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$link = new ilLinkResourceItems($this->object->getId());
+		
+		$values = $link->getItem($a_link_id);
+		
+		if(ilParameterAppender::_isEnabled())
+		{
+		}
+		
+		$this->form->setValuesByArray(
+			array(
+				'tit'		=> $values['title'],
+				'tar'		=> $values['target'],
+				'des'		=> $values['description'],
+				'act'		=> (int) $values['active'],
+				'che'		=> (int) $values['disable_check'],
+				'vali'		=> (int) $values['valid']
+			)
+		);				
+	}
+	
+	
+	/**
+	 * Check input after creating a new link
+	 * @param object $a_mode
+	 * @param object $a_webr_id [optional]
+	 * @param object $a_link_id [optional]
+	 * @return 
+	 */
+	protected function checkLinkInput($a_mode,$a_webr_id = 0,$a_link_id = 0)
+	{
+		$valid = $this->form->checkInput();
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$this->link = new ilLinkResourceItems($a_webr_id);
+		$this->link->setTarget($this->form->getInput('tar'));
+		$this->link->setTitle($this->form->getInput('tit'));
+		$this->link->setDescription($this->form->getInput('des'));
+		$this->link->setDisableCheckStatus($this->form->getInput('che'));
+		$this->link->setActiveStatus($this->form->getInput('act'));
+		
+		if($a_mode == self::LINK_MOD_EDIT)
+		{
+			$this->link->setValidStatus($this->form->getInput('val'));
+		}
+		
+		if(!ilParameterAppender::_isEnabled())
+		{
+			return $valid;
+		}
+		
+		$this->dynamic = new ilParameterAppender($a_webr_id);
+		$this->dynamic->setName($this->form->getInput('nam'));
+		$this->dynamic->setValue($this->form->getInput('val'));
+		if(!$this->dynamic->validate())
+		{
+			switch($this->dynamic->getErrorCode())
+			{
+				case LINKS_ERR_NO_NAME:
+					$this->form->getItemByPostVar('nam')->setAlert($this->lng->txt('links_no_name_given'));
+					return false;
+					
+				case LINKS_ERR_NO_VALUE:
+					$this->form->getItemByPostVar('val')->setAlert($this->lng->txt('links_no_value_given'));
+					return false;
+					
+				case LINKS_ERR_NO_NAME_VALUE:
+					// Nothing entered => no error
+					return $valid;
+			}
+			$this->dynamic = null;
+		}
+		return $valid;
 	}
 
-	function viewObject()
+	
+	/**
+	 * Show create/edit single link
+	 * @param int form mode
+	 * @return 
+	 */
+	protected function initFormLink($a_mode)
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$this->form = new ilPropertyFormGUI();
+		
+		switch($a_mode)
+		{
+			case self::LINK_MOD_CREATE:
+				// Header
+				$this->ctrl->setParameter($this,'new_type','webr');
+				$this->form->setTitle($this->lng->txt('webr_new_link'));
+
+				// Buttons
+				$this->form->addCommandButton('save', $this->lng->txt('webr_add'));
+				$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+				break;
+				
+			case self::LINK_MOD_ADD:
+				// Header
+				$this->form->setTitle($this->lng->txt('webr_new_link'));
+
+				// Buttons
+				$this->form->addCommandButton('saveAddLink', $this->lng->txt('webr_add'));
+				$this->form->addCommandButton('view', $this->lng->txt('cancel'));
+				break;
+
+			case self::LINK_MOD_EDIT:
+				// Header
+				$this->ctrl->setParameter($this,'link_id',(int) $_REQUEST['link_id']);
+				$this->form->setTitle($this->lng->txt('webr_edit'));
+				
+				// Buttons
+				$this->form->addCommandButton('updateLink', $this->lng->txt('save'));
+				$this->form->addCommandButton('view', $this->lng->txt('cancel'));
+				break;			
+		}
+		
+		
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		if($a_mode == self::LINK_MOD_ADD and $this->isContainerMetaDataRequired())
+		{
+			// List Title
+			$title = new ilTextInputGUI($this->lng->txt('webr_list_title'),'lti');
+			$title->setRequired(true);
+			$title->setSize(40);
+			$title->setMaxLength(127);
+			$this->form->addItem($title);
+			
+			// List Description
+			$desc = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'),'tde');
+			$desc->setRows(3);
+			$desc->setCols(40);
+			$this->form->addItem($desc);
+			
+			// Addtional section
+			$sect = new ilFormSectionHeaderGUI();
+			$sect->setTitle($this->lng->txt('webr_add'));
+			$this->form->addItem($sect);
+		}
+
+		// Target
+		$tar = new ilTextInputGUI($this->lng->txt('webr_link_target'),'tar');
+		$tar->setValue("http://");
+		$tar->setRequired(true);
+		$tar->setSize(40);
+		$tar->setMaxLength(500);
+		$this->form->addItem($tar);
+		
+		// Title
+		$tit = new ilTextInputGUI($this->lng->txt('webr_link_title'),'tit');
+		$tit->setRequired(true);
+		$tit->setSize(40);
+		$tit->setMaxLength(127);
+		$this->form->addItem($tit);
+		
+		// Description
+		$des = new ilTextAreaInputGUI($this->lng->txt('description'),'des');
+		$des->setRows(3);
+		$des->setCols(40);
+		$this->form->addItem($des);
+		
+		// Active
+		$act = new ilCheckboxInputGUI($this->lng->txt('active'),'act');
+		$act->setChecked(true);
+		$act->setValue(1);
+		$this->form->addItem($act);
+		
+		// Check
+		$che = new ilCheckboxInputGUI($this->lng->txt('webr_disable_check'),'che');
+		$che->setValue(1);
+		$this->form->addItem($che);
+		
+		// Valid
+		if($a_mode == self::LINK_MOD_EDIT)
+		{
+			$val = new ilCheckboxInputGUI($this->lng->txt('valid'),'vali');
+			$this->form->addItem($val);
+		}
+		
+		if(ilParameterAppender::_isEnabled())
+		{
+			$dyn = new ilNonEditableValueGUI($this->lng->txt('links_dyn_parameter'));
+			$dyn->setInfo($this->lng->txt('links_dynamic_info'));
+			
+			// Dynyamic name
+			$nam = new ilTextInputGUI($this->lng->txt('links_name'),'nam');
+			$nam->setSize(12);
+			$nam->setMaxLength(128);
+			$dyn->addSubItem($nam);
+			
+			// Dynamic value
+			$val = new ilSelectInputGUI($this->lng->txt('links_value'),'val');
+			$val->setOptions(ilParameterAppender::_getOptionSelect());
+			$val->setValue(0);
+			$dyn->addSubItem($val);
+			
+			$this->form->addItem($dyn);
+		}
+	}
+	
+	/**
+	 * Check if a new container title is required
+	 * Necessary if there is more than one link
+	 * @return 
+	 */
+	protected function isContainerMetaDataRequired()
+	{
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		return ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) == 1;
+	}
+	
+	/**
+	 * Switch between "View" "Manage" and "Sort"
+	 * @return 
+	 */
+	protected function switchViewModeObject()
+	{
+		global $ilCtrl;
+		
+		$_REQUEST['view_mode'] = $_GET['view_mode'] = (int) $_GET['switch_mode'];
+		$this->viewObject();
+	}
+	
+	/**
+	 * Start with manage mode
+	 * @return 
+	 */
+	protected function editLinksObject()
+	{
+		$_GET['switch_mode'] = self::VIEW_MODE_MANAGE;
+		$this->switchViewModeObject();
+	}
+	
+
+	/**
+	 * View object 
+	 * @return 
+	 */
+	public function viewObject()
 	{
 		global $ilAccess,$ilErr;
 		
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);	
-		}
-		
+		$this->checkPermission('read');
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -146,743 +627,173 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->listItemsObject();
-
-			return true;
-		}
-	}
-
-	function listItemsObject()
-	{
-		global $rbacsystem;
-
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initLinkResourceItemsObject();
-		if(!count($items = $this->object->items_obj->getActivatedItems()))
-		{
-			ilUtil::sendInfo($this->lng->txt('webr_no_items_created'));
-
-			return true;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_view_items.html","Modules/WebResource");
-		
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		#$items_sliced = array_slice($items, $_GET["offset"], $_GET["limit"]);
-
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_view_items_row.html",'Modules/WebResource');
-
-		$items = ilUtil::sortArray($items,
-								   'title',
-								   $_GET['sort_order'] ? $_GET['sort_order'] : 'asc');
-		$counter = 0;
-		foreach($items as $item_id => $item)
-		{
-			if(ilParameterAppender::_isEnabled())
+			switch((int) $_REQUEST['view_mode'])
 			{
-				$item = ilParameterAppender::_append($item);
-			}
-			if(strlen($item['description']))
-			{
-				$tpl->setCurrentBlock("description");
-				$tpl->setVariable("DESCRIPTION",$item['description']);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("ROW_CSS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$tpl->setVariable("TITLE",$item['title']);
-			$tpl->setVariable("TARGET",$item['target']);
-			$tpl->parseCurrentBlock();
-		}
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr.gif",$this->lng->txt("web_resources"));
-		$tbl->setHeaderNames(array($this->lng->txt("title")));
-		$tbl->setHeaderVars(array("title"),array("ref_id" => $this->object->getRefId(),
-													   "cmd" => 'listItems'));
-		$tbl->setColumnWidth(array("100%"));
-		$tbl->disable('linkbar');
-		$tbl->disable('numinfo');
-
-		$tbl->setOrderColumn('title');
-		$tbl->setOrderDirection($_GET['sort_order']);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($items));
-
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
-
-		$this->tpl->setVariable("ITEM_TABLE", $tpl->get());
-
-		return true;
-	}
-
-	function editItemsObject()
-	{
-		global $rbacsystem;
-
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-		
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_edit_items.html","Modules/WebResource");
-		$this->__showButton('showAddItem',$this->lng->txt('webr_add_item'));
-
-		$this->object->initLinkResourceItemsObject();
-		if(!count($items = $this->object->items_obj->getAllItems()))
-		{
-			ilUtil::sendInfo($this->lng->txt('webr_no_items_created'));
-
-			return true;
-		}
-		
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		#$items_sliced = array_slice($items, $_GET["offset"], $_GET["limit"]);
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME",'askDeleteItems');
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt('delete'));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->setVariable("PBTN_NAME",'updateItems');
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt('save'));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$tpl->setVariable("COLUMN_COUNTS",ilParameterAppender::_isEnabled() ? 8 : 7);
-		$tpl->parseCurrentBlock();
-		
-
-
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lnkr_edit_items_row.html",'Modules/WebResource');
-
-		$items = ilUtil::sortArray($items,
-								   $_GET['sort_by'] ? $_GET['sort_by'] : 'title',
-								   $_GET['sort_order'] ? $_GET['sort_order'] : 'asc');
-		
-		$counter = 0;
-		foreach($items as $item_id => $item)
-		{
-			if(ilParameterAppender::_isEnabled())
-			{
-				$params_list = array();
-				foreach($params = ilParameterAppender::_getParams($item['link_id']) as $id => $param)
-				{
-					$txt_param = $param['name'];
-					switch($param['value'])
-					{
-						case LINKS_USER_ID:
-							$txt_param .= '=IL_USER_ID';
-							break;
-
-						case LINKS_SESSION_ID:
-							$txt_param .= '=IL_SESSION_ID';
-							break;
-						
-						case LINKS_LOGIN:
-							$txt_param .= '=IL_LOGIN';
-							break;
-					}
-					$params_list[] = $txt_param;
-				}
-				$tpl->setCurrentBlock("params");
-				$tpl->setVariable("DYN_PARAM",count($params_list) ? 
-								  implode('<br />',$params_list) :
-								  $this->lng->txt('links_not_available'));
-				$tpl->parseCurrentBlock();
-			}			
-
-
-			if(strlen($item['description']))
-			{
-				$tpl->setCurrentBlock("description");
-				$tpl->setVariable("DESCRIPTION",$item['description']);
-				$tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock("row");
-			$tpl->setVariable("ROW_CSS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			
-			$tpl->setVariable("CHECK_ITEM",ilUtil::formCheckbox(0,'item_id[]',$item['link_id']));
-			$tpl->setVariable("TITLE",$item['title']);
-
-			if($item['last_check'])
-			{
-				$last_check = ilDatePresentation::formatDate(new ilDateTime($item['last_check'],IL_CAL_UNIX));
-			}
-			else
-			{
-				$last_check = $this->lng->txt('webr_never_checked');
-			}
-			$tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check_table'));
-			$tpl->setVariable("LAST_CHECK",$last_check);
-
-			$target = substr($item['target'],0,70);
-			if(strlen($item['target']) > 70)
-			{
-				$target = substr($item['target'],0,70).'...';
-			}
-			else
-			{
-				$target = $item['target'];
-			}
-
+				case self::VIEW_MODE_MANAGE:
+					$this->manageObject();
+					break;
+					
+				case self::VIEW_MODE_SORT:
+					$this->sortObject();
+					break;
 				
-
-			$tpl->setVariable("TARGET",$target);
-			$tpl->setVariable("VALID",ilUtil::formCheckbox($item['valid'] ? 1 : 0,'valid['.$item['link_id'].']',1));
-			$tpl->setVariable("ACTIVE",ilUtil::formCheckbox($item['active'] ? 1 : 0,'active['.$item['link_id'].']',1));
-			$tpl->setVariable("DISABLE_CHECK",ilUtil::formCheckbox($item['disable_check'] ? 1 : 0,'disable['.$item['link_id'].']',1));
-			$tpl->setVariable("EDIT_IMG",ilUtil::getImagePath('icon_pencil.gif'));
-			$tpl->setVariable("EDIT_ALT",$this->lng->txt('edit'));
-
-			$this->ctrl->setParameter($this,'item_id',$item['link_id']);
-			$tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editItem'));
-
-			$tpl->parseCurrentBlock();
-		}
-
-		// create table
-		$tbl = new ilTableGUI();
-
-
-
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr.gif",$this->lng->txt("web_resources"));
-
-		if(!ilParameterAppender::_isEnabled())
-		{
-			$tbl->setHeaderNames(array('',
-									   $this->lng->txt("title"),
-									   $this->lng->txt("target"),
-									   $this->lng->txt('valid'),
-									   $this->lng->txt('active'),
-									   $this->lng->txt('disable_check'),
-									   $this->lng->txt('details')));
-			$tbl->setHeaderVars(array("",
-									  "title",
-									  "target",
-									  "valid",
-									  "active",
-									  "disable_check",
-									  ""),array("ref_id" => $this->object->getRefId(),
-												"cmd" => 'editItems'));
-			$tbl->setColumnWidth(array("",
-									   "50%",
-									   "30%",
-									   "5%",
-									   "5%",
-									   "5%",
-									   "5%"));
- 		}
-		else
-		{
-			$tbl->setHeaderNames(array('',
-									   $this->lng->txt("title"),
-									   $this->lng->txt("target"),
-									   $this->lng->txt("links_dyn_parameter"),
-									   $this->lng->txt('valid'),
-									   $this->lng->txt('active'),
-									   $this->lng->txt('disable_check'),
-									   $this->lng->txt('details')));
-			
-			$tbl->setHeaderVars(array("",
-									  "title",
-									  "target",
-									  "parameter",
-									  "valid",
-									  "active",
-									  "disable_check",
-									  ""),array("ref_id" => $this->object->getRefId(),
-												"cmd" => 'editItems'));
-			$tbl->setColumnWidth(array("",
-									   "40%",
-									   "20%",
-									   "20%",
-									   "5%",
-									   "5%",
-									   "5%",
-									   "5%"));
-		}
-		$tbl->disable('linkbar');
-		$tbl->disable('numinfo');
-		$tbl->enable('sort');
-
-		$tbl->setOrderColumn($_GET['sort_by']);
-		$tbl->setOrderDirection($_GET['sort_order']);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($items));
-
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
-
-		$this->tpl->setVariable("ITEM_TABLE", $tpl->get());
-
-		return true;
-	}
-
-	function askDeleteItemsObject()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!count($_POST['item_id']))
-		{
-			ilUtil::sendFailure($this->lng->txt('webr_select_one'));
-			$this->editItemsObject();
-
-			return true;
-		}
-
-		ilUtil::sendQuestion($this->lng->txt('webr_sure_delete_items'));
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_ask_delete.html','Modules/WebResource');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_webr'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('webr_delete_items'));
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('title'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-
-		$this->object->initLinkResourceItemsObject();
-		
-		$counter = 0;
-		foreach($_POST['item_id'] as $id)
-		{
-			$this->object->items_obj->readItem($id);
-			$this->tpl->setCurrentBlock("item_row");
-			$this->tpl->setVariable("ITEM_TITLE",$this->object->items_obj->getTitle());
-			$this->tpl->setVariable("TXT_TARGET",$this->lng->txt('target'));
-			$this->tpl->setVariable("TARGET",$this->object->items_obj->getTarget());
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$this->tpl->parseCurrentBlock();
-		}
-		$_SESSION['webr_item_ids'] = $_POST['item_id'];
-
-		return true;
-	}
-
-	function deleteItemsObject()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!count($_SESSION['webr_item_ids']))
-		{
-			ilUtil::sendFailure($this->lng->txt('webr_select_one'));
-			$this->editItemsObject();
-
-			return true;
-		}
-
-		$this->object->initLinkResourceItemsObject();
-		foreach($_SESSION['webr_item_ids'] as $id)
-		{
-			$this->object->items_obj->delete($id);
-		}
-		ilUtil::sendSuccess($this->lng->txt('webr_deleted_items'));
-
-		$this->editItemsObject();
-		return true;
-	}
-		
-
-	function updateItemsObject()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		$this->object->initLinkResourceItemsObject();
-		foreach($this->object->items_obj->getAllItems() as $item)
-		{
-			$update = false;
-
-			$valid = (int) $_POST['valid'][$item['link_id']];
-			$active = (int) $_POST['active'][$item['link_id']];
-			$disable = (int) $_POST['disable'][$item['link_id']];
-
-			if($valid != $item['valid'] or
-			   $active != $item['active'] or 
-			   $disable != $item['disable_check'])
-			{
-				$this->object->items_obj->readItem($item['link_id']);
-				$this->object->items_obj->setValidStatus($valid);
-				$this->object->items_obj->setActiveStatus($active);
-				$this->object->items_obj->setDisableCheckStatus($disable);
-				$this->object->items_obj->update();
+				default:
+					$this->showLinksObject();
+					break;
 			}
 		}
-
-		ilUtil::sendSuccess($this->lng->txt('webr_modified_items'));
-		$this->editItemsObject();
-
 		return true;
-	}
-
-	function editItemObject()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initLinkResourceItemsObject();
-		$item = $this->object->items_obj->getItem($_GET['item_id'] ? $_GET['item_id'] : $_SESSION['webr_item_id']);
-
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lnkr_edit_item.html','Modules/WebResource');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_webr'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('webr_edit_item'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('description'));
-		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($item['title']));
-		$this->tpl->setVariable("DESCRIPTION",ilUtil::prepareFormOutput($item['description']));
-		$this->tpl->setVariable("TXT_TARGET",$this->lng->txt('target'));
-		$this->tpl->setVariable("TARGET",ilUtil::prepareFormOutput($item['target']));
-		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('webr_active'));
-		$this->tpl->setVariable("ACTIVE_CHECK",ilUtil::formCheckbox($item['active'] ? 1 : 0,'active',1));
-		$this->tpl->setVariable("TXT_VALID",$this->lng->txt('valid'));
-		$this->tpl->setVariable("VALID_CHECK",ilUtil::formCheckbox($item['valid'] ? 1 : 0,'valid',1));
-		$this->tpl->setVariable("TXT_DISABLE",$this->lng->txt('disable_check'));
-		$this->tpl->setVariable("DISABLE_CHECK",ilUtil::formCheckbox($item['disable_check'] ? 1 : 0,'disable',1));
-		$this->tpl->setVariable("TXT_CREATED",$this->lng->txt('created'));
-		$this->tpl->setVariable('CREATED',ilDatePresentation::formatDate(new ilDateTime($item['create_date'],IL_CAL_UNIX)));
-		$this->tpl->setVariable("TXT_MODIFIED",$this->lng->txt('last_change'));
-		$this->tpl->setVariable('MODIFIED',ilDatePresentation::formatDate(new ilDateTime($item['last_update'],IL_CAL_UNIX)));
-		$this->tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check'));
-
-		// add dynamic params
-		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
-
-		if(ilParameterAppender::_isEnabled())
-		{
-			$counter = 0;
-			foreach($params = ilParameterAppender::_getParams($item['link_id']) as $id => $param)
-			{
-				if(!$counter++)
-				{
-					$this->tpl->setCurrentBlock("header_info");
-					$this->tpl->setVariable("TXT_PARAM_EXIST",$this->lng->txt('links_existing_params'));
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("show_params");
-				
-				$txt_param = $param['name'];
-				switch($param['value'])
-				{
-					case LINKS_USER_ID:
-						$txt_param .= '=IL_USER_ID';
-						break;
-
-					case LINKS_SESSION_ID:
-						$txt_param .= '=IL_SESSION_ID';
-						break;
-						
-					case LINKS_LOGIN:
-						$txt_param .= '=IL_LOGIN';
-						break;
-				}
-				$this->tpl->setVariable("PARAMETER",$txt_param);
-				
-				// Delete link
-				$this->ctrl->setParameter($this,'param_id',$id);
-				$this->tpl->setVariable("DEL_TARGET",$this->ctrl->getLinkTarget($this,'deleteParameter'));
-				$this->tpl->setVariable("TXT_DELETE",$this->lng->txt('delete'));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("params");
-			$this->tpl->setVariable("TXT_ADD_PARAM",$this->lng->txt('links_add_param'));
-			$this->tpl->setVariable("TXT_DYNAMIC",$this->lng->txt('links_dynamic'));
-			$this->tpl->setVariable("TXT_NAME",$this->lng->txt('links_name'));
-			$this->tpl->setVariable("TXT_VALUE",$this->lng->txt('links_value'));
-			$this->tpl->setVariable("DYNAMIC_INFO",$this->lng->txt('link_dynamic_info'));
-
-			$this->tpl->setVariable("NAME",$_POST['name'] ? ilUtil::prepareFormOutput($_POST['name'],true) : '');
-			$this->tpl->setVariable("VAL_SEL",ilUtil::formSelect((int) $_POST['value'],
-																 'value',
-																 ilParameterAppender::_getOptionSelect(),
-																 false,
-																 true));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		
-
-		if($item['last_check'])
-		{
-			$last_check = ilDatePresentation::formatDate(new ilDateTime($item['last_check'],IL_CAL_UNIX));
-		}
-		else
-		{
-			$last_check = $this->lng->txt('webr_never_checked');
-		}
-
-		$this->tpl->setVariable("LAST_CHECK",$last_check);
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("BTN_UPDATE",$this->lng->txt('save'));
-
-		$_SESSION['webr_item_id'] = $_GET['item_id'] ? $_GET['item_id'] : $_SESSION['webr_item_id'];
-
-		return true;
-	}
-
-	function deleteParameterObject()
-	{
-		if(!((int) $_GET['param_id']))
-		{
-			ilUtil::sendFailure('No parameter id given');
-			$this->editItemObject();
-
-			return false;
-		}
-
-		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
-		$appender = new ilParameterAppender($this->object->getId());
-		$appender->delete((int) $_GET['param_id']);
-
-		ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'));
-
-		$this->editItemObject();
-		return true;
-	}
-
-
-	function updateItemObject()
-	{
-		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!$_POST['title'] or $_POST['target'] == 'http://')
-		{
-			ilUtil::sendFailure($this->lng->txt('webr_fillout_all'));
-
-			$this->editItemObject();
-			return false;
-		}
-		if(ilParameterAppender::_isEnabled())
-		{
-			$appender =& new ilParameterAppender($this->object->getId());
-			$appender->setName(ilUtil::stripSlashes($_POST['name']));
-			$appender->setValue(ilUtil::stripSlashes($_POST['value']));
-			
-			if(!$appender->validate())
-			{
-				switch($appender->getErrorCode())
-				{
-					case LINKS_ERR_NO_NAME:
-						ilUtil::sendFailure($this->lng->txt('links_no_name_given'));
-						$this->editItemObject();
-						return false;
-
-					case LINKS_ERR_NO_VALUE:
-						ilUtil::sendFailure($this->lng->txt('links_no_value_given'));
-						$this->editItemObject();
-						return false;
-
-					default:
-						break;
-				}
-			}
-		}
-
-		$this->object->initLinkResourceItemsObject();
-
-		$this->object->items_obj->readItem($_SESSION['webr_item_id']);
-		$this->object->items_obj->setLinkId($_SESSION['webr_item_id']);
-		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->items_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
-		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
-		$this->object->items_obj->setActiveStatus($_POST['active']);
-		$this->object->items_obj->setValidStatus($_POST['valid']);
-		$this->object->items_obj->setDisableCheckStatus($_POST['disable']);
-		$this->object->items_obj->update();
-
-		if(is_object($appender))
-		{
-			$appender->add($_SESSION['webr_item_id']);
-		}
-
-		unset($_SESSION['webr_item_id']);
-		ilUtil::sendSuccess($this->lng->txt('webr_item_updated'));
-		$this->editItemsObject();
-		
-		return true;
-	}
-
-		
-
-	function showAddItemObject()
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('edit_content');
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$title = $_POST['title'] ? ilUtil::prepareFormOutput($_POST['title'],true) : '';
-		$target = $_POST['target'] ? ilUtil::prepareFormOutput($_POST['target'],true) : 'http://';
-
-
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.lnkr_add_item.html","Modules/WebResource");
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('webr_add_item'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("TXT_TARGET",$this->lng->txt('target'));
-		$this->tpl->setVariable("TARGET",$target);
-		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('active'));
-		$this->tpl->setVariable("TXT_CHECK",$this->lng->txt('webr_disable_check'));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('add'));
-		$this->tpl->setVariable("CMD_SUBMIT",'addItem');
-		$this->tpl->setVariable("CMD_CANCEL",'editItems');
-
-		// Params
-		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
-
-		if(ilParameterAppender::_isEnabled())
-		{
-			$this->tpl->setCurrentBlock("params");
-			$this->tpl->setVariable("TXT_DYNAMIC",$this->lng->txt('links_dynamic'));
-			$this->tpl->setVariable("TXT_NAME",$this->lng->txt('links_name'));
-			$this->tpl->setVariable("TXT_VALUE",$this->lng->txt('links_value'));
-			$this->tpl->setVariable("DYNAMIC_INFO",$this->lng->txt('links_dynamic_info'));
-
-			$this->tpl->setVariable("NAME",$_POST['name'] ? ilUtil::prepareFormOutput($_POST['name'],true) : '');
-			$this->tpl->setVariable("VAL_SEL",ilUtil::formSelect((int) $_POST['value'],
-																 'value',
-																 ilParameterAppender::_getOptionSelect(),
-																 false,
-																 true));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("ACTIVE_CHECK",ilUtil::formCheckBox(1,'active',1));
-		$this->tpl->setVariable("CHECK_CHECK",ilUtil::formCheckBox(0,'disable_check',1));
-	
-	}
-
-	function addItemObject()
-	{
-		include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
-
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initLinkResourceItemsObject();
-
-		if(!$_POST['title'] or $_POST['target'] == 'http://')
-		{
-			ilUtil::sendFailure($this->lng->txt('webr_fillout_all'));
-
-			$this->showAddItemObject();
-			return false;
-		}
-		if(ilParameterAppender::_isEnabled())
-		{
-			$appender =& new ilParameterAppender($this->object->getId());
-			$appender->setName(ilUtil::stripSlashes($_POST['name']));
-			$appender->setValue(ilUtil::stripSlashes($_POST['value']));
-			
-			if(!$appender->validate())
-			{
-				switch($appender->getErrorCode())
-				{
-					case LINKS_ERR_NO_NAME:
-						ilUtil::sendFailure($this->lng->txt('links_no_name_given'));
-						$this->showAddItemObject();
-						return false;
-
-					case LINKS_ERR_NO_VALUE:
-						ilUtil::sendFailure($this->lng->txt('links_no_name_given'));
-						$this->showAddItemObject();
-						return false;
-
-					default:
-						break;
-				}
-			}
-		}
-		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->object->items_obj->setDescription(ilUtil::stripSlashes($_POST['description']));
-		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
-		$this->object->items_obj->setActiveStatus($_POST['active']);
-		$this->object->items_obj->setDisableCheckStatus($_POST['disable_check']);
-		$link_id = $this->object->items_obj->add();
-
-		if(is_object($appender))
-		{
-			$appender->add($link_id);
-		}
-		$this->editItemsObject();
 	}
 	
+	/**
+	 * Manage links
+	 * @return 
+	 */
+	protected function manageObject()
+	{
+		$this->checkPermission('write');
+		$this->activateTabs('content','cntr_manage');
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_manage.html','Modules/WebResource');
+		$this->showToolbar('ACTION_BUTTONS');
+		
+		include_once './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php';
+		$table = new ilWebResourceEditableLinkTableGUI($this,'view');
+		$table->parse();
+
+		$this->tpl->setVariable('TABLE_LINKS',$table->getHTML());
+	}
+	
+	/**
+	 * Show all active links
+	 * @return 
+	 */
+	protected function showLinksObject()
+	{
+		$this->checkPermission('read');
+		$this->activateTabs('content','view');
+		
+		include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
+		$table = new ilWebResourceLinkTableGUI($this,'showLinks');
+		$table->parse();
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_view.html','Modules/WebResource');
+		$this->showToolbar('ACTION_BUTTONS');
+		$this->tpl->setVariable('LINK_TABLE',$table->getHTML());
+	}
+	
+	/**
+	 * Show toolbar
+	 * @param string $a_tpl_var Name of template variable
+	 * @return 
+	 */
+	protected function showToolbar($a_tpl_var)
+	{
+		global $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			return;
+		}
+		
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$tool = new ilToolbarGUI();
+		$tool->setFormAction($this->ctrl->getFormAction($this));
+		$tool->addButton(
+			$this->lng->txt('webr_add'),
+			$this->ctrl->getLinkTarget($this,'addLink')
+		);
+		
+		$this->tpl->setVariable($a_tpl_var,$tool->getHTML());
+		return;
+	}
+	
+	/**
+	 * Show delete confirmation screen 
+	 * @return 
+	 */
+	protected function confirmDeleteLinkObject()
+	{
+		$this->checkPermission('write');
+		$this->activateTabs('content','view');
+		
+		$link_ids = is_array($_POST['link_ids']) ?
+			$_POST['link_ids'] :
+			array($_GET['link_id']);
+		
+		if(!$link_ids)
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->viewObject();
+			return false;
+		}
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$links = new ilLinkResourceItems($this->object->getId());
+		
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this,'view'));
+		$confirm->setHeaderText($this->lng->txt('webr_sure_delete_items'));
+		$confirm->setConfirm($this->lng->txt('delete'), 'deleteLinks');
+		$confirm->setCancel($this->lng->txt('cancel'), 'view');
+		
+		foreach($link_ids as $link_id)
+		{
+			$link = $links->getItem($link_id);
+			$confirm->addItem('link_ids[]', $link_id,$link['title']);
+		}
+		$this->tpl->setContent($confirm->getHTML());
+	}
+	
+	/**
+	 * Delete links
+	 * @return 
+	 */
+	protected function deleteLinksObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission('write');
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$links = new ilLinkResourceItems($this->object->getId());
+		
+		foreach($_POST['link_ids'] as $link_id)
+		{
+			$links->delete($link_id);
+		}
+		ilUtil::sendSuccess($this->lng->txt('webr_deleted_items'),true);
+		$ilCtrl->redirect($this,'view');
+	}
+	
+	/**
+	 * Deactivate links
+	 * @return 
+	 */
+	protected function deactivateLinkObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission('write');
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$links = new ilLinkResourceItems($this->object->getId());
+
+		if(!$_GET['link_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+		
+		$links->setLinkId((int) $_GET['link_id']);
+		$links->updateActive(false);
+		
+		ilUtil::sendSuccess($this->lng->txt('webr_inactive_success'),true);
+		$ilCtrl->redirect($this,'view');
+	}
+	
+
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -941,42 +852,6 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 
-	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
-		
-		if ($_POST["Fobject"]["title"] == "")
-		{
-			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
-			$this->createObject();
-			return false;
-		}
-		
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-
-		// always send a message
-		//ilUtil::sendInfo($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$newObj->getRefId().
-			"&cmd=showAddItem");
-		
-		//ilUtil::redirect($this->getReturnLocation("save",'adm_object.php?ref_id='.$newObj->getRefId()));
-	}
-
-	
 	function linkCheckerObject()
 	{
 		global $ilias,$ilUser;
@@ -1131,6 +1006,44 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	
+	/**
+	 * Activate tab and subtabs
+	 * @param string $a_active_tab
+	 * @param string $a_active_subtab [optional]
+	 * @return 
+	 */
+	protected function activateTabs($a_active_tab,$a_active_subtab = '')
+	{
+		global $ilAccess,$ilCtrl;
+		
+		switch($a_active_tab)
+		{
+			case 'content':
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->lng->loadLanguageModule('cntr');
+					
+					$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_VIEW);
+					$this->tabs_gui->addSubTabTarget(
+						'view',
+						$this->ctrl->getLinkTarget($this,'switchViewMode')
+					);
+					$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_MANAGE);
+					$this->tabs_gui->addSubTabTarget(
+						'cntr_manage',
+						$this->ctrl->getLinkTarget($this,'switchViewMode')
+					);
+					$ilCtrl->clearParameters($this);
+					$this->tabs_gui->setSubTabActive($a_active_subtab);				
+				}				
+			
+		}
+		$this->tabs_gui->setTabActive('content');
+	}
+	
+	
 	/**
 	* get tabs
 	* @access	public
@@ -1142,17 +1055,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, "view"), array("", "view"),
-				array(strtolower(get_class($this)), ""));
-		}
-
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("edit_content",
-				$this->ctrl->getLinkTarget($this, "editItems"),
-				array("editItems", "addItem", "deleteItems", "editItem", "updateItem"),
-				"");
+			$tabs_gui->addTarget(
+				"content",
+				$this->ctrl->getLinkTarget($this, "view"), array("", "view")
+			);
 		}
 		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))

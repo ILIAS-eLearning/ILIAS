@@ -64,6 +64,11 @@ class ilParameterAppender
 	}
 
 	// SET GET
+	public function setObjId($a_obj_id)
+	{
+		$this->webr_id = $a_obj_id;
+	}
+	
 	function getObjId()
 	{
 		return $this->webr_id;
@@ -145,15 +150,18 @@ class ilParameterAppender
 		return true;
 	}
 	
-	// Static
-	function _isEnabled()
+	/**
+	 * Check if dynamic parameters are enabled 
+	 * @return 
+	 */
+	public static function _isEnabled()
 	{
-		global $ilias;
+		global $ilSetting;
 
-		return $ilias->getSetting('links_dynamic',false) ? true : false;
+		return $ilSetting->get('links_dynamic',false) ? true : false;
 	}
 
-	function &_append(&$a_link_data)
+	public static function _append($a_link_data)
 	{
 		global $ilUser;
 
@@ -220,7 +228,11 @@ class ilParameterAppender
 		return true;
 	}
 
-	function _getOptionSelect()
+	/**
+	 * Get options as array
+	 * @return 
+	 */
+	public static function _getOptionSelect()
 	{
 		global $lng;
 

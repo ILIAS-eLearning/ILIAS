@@ -421,7 +421,7 @@ class ilUtil
 	* @param	boolean	disabled checked checkboxes (default: false)
 	* @return	string
 	*/
-	function formCheckbox ($checked,$varname,$value,$disabled = false)
+	public static function formCheckbox ($checked,$varname,$value,$disabled = false)
 	{
 		$str = "<input type=\"checkbox\" name=\"".$varname."\"";
 
