@@ -8,7 +8,7 @@
 * @version $Id:
 */
 
-// jump to setup if ILIAS3 is not installed
+// jump to setup if ILIAS is not installed
 if(!file_exists(getcwd().'/ilias.ini.php'))
 {
     header('Location: ./setup/setup.php');
