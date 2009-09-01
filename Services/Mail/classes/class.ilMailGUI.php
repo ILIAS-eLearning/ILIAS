@@ -52,6 +52,11 @@ class ilMailGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
+		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
+		{
+			$_GET['mobj_id'] = $_POST['mobj_id'];
+		}
+		
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->lng->loadLanguageModule("mail");
 
