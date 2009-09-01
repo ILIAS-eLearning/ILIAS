@@ -6757,7 +6757,7 @@ if ($ilDB->tableColumnExists('qpl_answer_matching','aorder')) $ilDB->query("ALTE
 ?>
 <#1414>
 <?php
-$ilDB->query("ALTER TABLE qpl_answer_matching MODIFY `matching_order` INT NOT NULL DEFAULT 0");
+if ($ilDB->tableColumnExists('qpl_answer_matching','matching_order')) $ilDB->query("ALTER TABLE qpl_answer_matching MODIFY `matching_order` INT NOT NULL DEFAULT 0");
 ?>
 <#1415>
 <?php
