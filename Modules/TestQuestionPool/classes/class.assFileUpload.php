@@ -454,6 +454,30 @@ class assFileUpload extends assQuestion
 	}
 	
 	/**
+	* Return the maximum allowed file size as string
+	*
+  * @return string The number of bytes of the maximum allowed file size
+	*/
+	public function getMaxFilesizeAsString()
+	{
+		$size = $this->getMaxFilesizeInBytes();
+		if ($size < 1024)
+		{
+			$max_filesize = sprintf("%.1f Bytes",$size);
+		}
+		else if ($size < 1024*1024)
+		{
+			$max_filesize = sprintf("%.1f KB",$size/1024);
+		}
+		else
+		{
+			$max_filesize = sprintf("%.1f MB",$size/1024/1024);
+		}
+		
+		return $max_filesize;
+	}
+
+	/**
 	* Return the maximum allowed file size in bytes
 	*
   * @return integer The number of bytes of the maximum allowed file size

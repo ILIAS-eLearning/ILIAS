@@ -450,6 +450,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->parseCurrentBlock();
 				}
 			}
+			$i = 0;
 			if (is_object($term))
 			{
 				if (strlen($term->picture))
@@ -470,6 +471,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->setVariable("TERM", ilUtil::prepareFormOutput($term->text));
 					$template->parseCurrentBlock();
 				}
+				$i++;
 			}
 			if (($active_id > 0) && (!$show_correct_solution))
 			{

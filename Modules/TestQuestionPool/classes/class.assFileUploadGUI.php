@@ -159,7 +159,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$maxsize->setInfo($this->lng->txt("maxsize_info"));
 		$maxsize->setSize(10);
 		$maxsize->setMinValue(0);
-		$maxsize->setMaxValue($this->object->getMaxFilesizeInBytes());
+		$maxsize->setMaxValue($this->object->getMaxFilesizeAsString());
 		$maxsize->setRequired(FALSE);
 		$form->addItem($maxsize);
 		// allowedextensions
@@ -323,7 +323,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeInBytes() . " " . $this->lng->txt("bytes")));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeAsString()));
 
 		$questionoutput = $template->get();
 		if (!$show_question_only)
@@ -371,7 +371,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeInBytes() . " " . $this->lng->txt("bytes")));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeAsString()));
 
 		$questionoutput = $template->get();
 		if (!$show_question_only)
