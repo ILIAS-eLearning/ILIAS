@@ -72,15 +72,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	private function setupFolderView()
 	{
 		global $lng;
-		if ($this->folderNode["type"] == 'user_folder' || $this->folderNode["type"] == 'local')
+		if ($this->folderNode["m_type"] == 'user_folder' || $this->folderNode["m_type"] == 'local')
 		{
-			if ($this->folderNode["type"] == 'user_folder')
+			if ($this->folderNode["m_type"] == 'user_folder')
 			{
 				$this->addCommandButton('enterFolderData', $lng->txt('edit'));
 			}
 			$this->addCommandButton('addSubFolder', $lng->txt('mail_add_subfolder'));
 		}
-		else if ($this->folderNode["type"] == 'trash')
+		else if ($this->folderNode["m_type"] == 'trash')
 		{
 			$this->addCommandButton('askForEmptyTrash', $lng->txt("mail_empty_trash"));
 		}

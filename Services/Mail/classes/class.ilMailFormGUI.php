@@ -51,11 +51,21 @@ class ilMailFormGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
-		$this->ctrl->saveParameter($this, "mobj_id");
-
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->mfile = new ilFileDataMail($ilUser->getId());
-		$this->mbox = new ilMailBox($ilUser->getId());		
+		$this->mbox = new ilMailBox($ilUser->getId());
+		
+		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
+		{
+			$_GET['mobj_id'] = $_POST['mobj_id'];
+		}
+		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+		if(!(int)$_GET['mobj_id'])
+		{
+			$_GET['mobj_id'] = $this->mbox->getInboxFolder();
+		}
+		
+		$this->ctrl->saveParameter($this, 'mobj_id');		
 	}
 
 	public function executeCommand()

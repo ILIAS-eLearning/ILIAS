@@ -59,17 +59,17 @@ class ilMailFolderGUI
 		$this->umail = new ilMail($ilUser->getId());
 		$this->mbox = new ilMailBox($ilUser->getId());
 
-		if ($_POST["mobj_id"] != "")
+		if(isset($_POST['mobj_id']) && (int)$_POST['mobj_id'])
 		{
-			$_GET["mobj_id"] = $_POST["mobj_id"];
+			$_GET['mobj_id'] = $_POST['mobj_id'];
 		}
 		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
-		if(!$_GET["mobj_id"])
+		if(!(int)$_GET['mobj_id'])
 		{
-			$_GET["mobj_id"] = $this->mbox->getInboxFolder();
+			$_GET['mobj_id'] = $this->mbox->getInboxFolder();
 		}
-		$ilCtrl->saveParameter($this, "mobj_id");
-		$ilCtrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
+		$ilCtrl->saveParameter($this, 'mobj_id');
+		$ilCtrl->setParameter($this, 'mobj_id', $_GET['mobj_id']);
 		
 	}
 
@@ -254,42 +254,7 @@ class ilMailFolderGUI
 		$mailtable->setMailActions($actions, $isTrashFolder);
 		$this->tpl->setCurrentBlock("mailactions");
 		
-		foreach($actions as $key => $action)
-		{
-			if($key == 'moveMails')
-			{
-				$folders = $this->mbox->getSubFolders();
-				foreach($folders as $folder)
-				{
-					if ($folder["type"] != 'trash' ||
-						!$isTrashFolder)
-					{
-						$this->tpl->setVariable("MAILACTION_VALUE", $folder["obj_id"]);
-						if($folder["type"] != 'user_folder')
-						{
-							$this->tpl->setVariable("MAILACTION_NAME",$action." ".$this->lng->txt("mail_".$folder["title"]).($folder["type"] == 'trash' ? " (".$this->lng->txt("delete").")" : ""));
-						}
-						else
-						{
-							$this->tpl->setVariable("MAILACTION_NAME",$action." ".$folder["title"]);
-						}
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-			}
-			else
-			{
-				if ($key != 'deleteMails' ||
-					$isTrashFolder)
-				{
-					$this->tpl->setVariable("MAILACTION_NAME", $action);
-					$this->tpl->setVariable("MAILACTION_VALUE", $key);
-					$this->tpl->setVariable("MAILACTION_SELECTED",$_POST["selected_cmd"] == 'delete' ? 'selected' : '');
-					$this->tpl->parseCurrentBlock();
-				}	
-			}
-		}
-		// END MAIL ACTIONS
+		$folders = $this->mbox->getSubFolders();		
 		
 		$mtree = new ilTree($ilUser->getId());
 		$mtree->setTableNames('mail_tree','mail_obj_data');
@@ -358,7 +323,7 @@ class ilMailFolderGUI
 		$mail_max_hits = $ilUser->getPref('hits_per_page');
 		$counter = 0;
 
-		$folder_node = $mtree->getNodeData($_GET[mobj_id]);
+		$folder_node = $mtree->getNodeData($_GET['mobj_id']);
 
 		$tableData = array();
 		
@@ -706,6 +671,7 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("TITLE_VALUE", $title_value);
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt('cancel'));
 		
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		$this->tpl->show();
 		
 		return true;
