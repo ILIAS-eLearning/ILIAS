@@ -15558,3 +15558,15 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 	$ilDB->dropTableColumn('svy_question', 'questiontext');
 	$ilDB->renameTableColumn("svy_question", "questiontext_tmp", "questiontext");
 ?>
+<#2861>
+<?php
+	$ilDB->modifyTableColumn('cp_resource', 'href', array("type" => "text", "length" => 4000, "notnull" => false, "default" => null));
+?>
+<#2862>
+<?php
+	$ilDB->modifyTableColumn('cp_resource', 'base', array("type" => "text", "length" => 4000, "notnull" => false, "default" => null));
+?>
+<#2863>
+<?php
+	$ilDB->modifyTableColumn('cp_file', 'href', array("type" => "text", "length" => 4000, "notnull" => false, "default" => null));
+?>
