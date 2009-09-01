@@ -1943,7 +1943,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Web-Links anlegen
+common#:#cat_create_webr#:#Neue Linksammlung anlegen
 common#:#cat_create_write#:#Wiki anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
@@ -2174,7 +2174,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Web-Links anlegen
+common#:#crs_create_webr#:#Neue Linksammlung anlegen
 common#:#crs_create_write#:#Wiki anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
@@ -2584,7 +2584,7 @@ common#:#fold_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#fold_create_svy#:#Neue Umfrage anlegen
 common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neue Web-Links anlegen
+common#:#fold_create_webr#:#Neue Linksammlung anlegen
 common#:#fold_create_write#:#Wiki anlegen
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
@@ -2768,7 +2768,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Web-Links anlegen
+common#:#grp_create_webr#:#Neue Linksammlung anlegen
 common#:#grp_create_write#:#Wiki anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
@@ -3210,14 +3210,14 @@ common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktivie
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
 common#:#link_check_subject#:#[ILIAS] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
-common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an den Web-Link anhängen.
+common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an einen Link anhängen.
 common#:#link_selected_items#:#Verknüpfen
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#links_add_param#:#Parameter hinzufügen:
 common#:#links_dyn_parameter#:#Dynamische Parameter
 common#:#links_dynamic#:#Dynamische Parameter
-common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-ID oder der Benutzername hinzugefügt werden.
+common#:#links_dynamic_info#:#Wenn aktiviert, können Links dynamische Parameter wie z.B die ILIAS Benutzer-ID oder der Benutzername hinzugefügt werden.
 common#:#links_existing_params#:#Vorhandene Parameter:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
@@ -3784,9 +3784,9 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#obj_webr#:#Web-Links
-common#:#obj_webr_duplicate#:#Web-Links kopieren
-common#:#obj_webr_select#:#-- Bitte wählen Sie einen Web-Link aus --
+common#:#obj_webr#:#Linksammlung
+common#:#obj_webr_duplicate#:#Linksammlung kopieren
+common#:#obj_webr_select#:#-- Bitte wählen Sie eine Linksammlung aus --
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
@@ -3844,7 +3844,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
-common#:#objs_webr#:#Web-Links
+common#:#objs_webr#:#Linksammlungen
 common#:#objs_wiki#:#Wikis
 common#:#of#:#von
 common#:#offline#:#Offline
@@ -4712,7 +4712,7 @@ common#:#visible_registration#:#Im Registrierungsformular
 common#:#visitor#:#Besucher
 common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
-common#:#web_resources#:#Web-Links
+common#:#web_resources#:#Links
 common#:#webdav#:#WebDAV
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 common#:#webfolder#:#Webordner
@@ -4723,32 +4723,32 @@ common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Bro
 common#:#webfolder_instructions_text#:#<p>So öffnen Sie <b>[WEBFOLDER_TITLE]</b> als Webordner:</p>[IF_WINDOWS]<h3>Anleitung für Windows Vista</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Klicken Sie auf 'Netzlaufwerk zuordnen' in der Symbolleiste. Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Verbindung mit einer Website herstellen'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine benutzerdefinierte Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Klicken Sie auf Fertigstellen.</li><li>Sie können den Webordner nun über das Startmenü 'Computer' öffnen.</li></ol><h3>Anleitung für Windows XP mit Internet Explorer 6</h3><ol><li>Starten Sie Internet Explorer 6</li><li>Wählen Sie das Menü 'Datei &gt; Öffnen...'</li><li>Geben Sie folgende Adresse in das Feld 'Öffnen' ein:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Kreuzen Sie die Option 'Als Webordner öffnen' an, und klicken Sie auf 'OK'.</li><li>Geben Sie Ihren Benutzernamen und Ihre Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Windows XP ohne Internet Explorer 6</h3><ol><li>Starten Sie den Windows Explorer.</li><li>Wählen Sie das Menü 'Extras &gt; Netzlaufwerk verbinden...'.</li><li>Ein Dialogfenster erscheint. Klicken Sie auf den Link 'Onlinespeicherplatz anfordern oder mit einem Netzlaufwerk verbinden'.</li><li>Ein Assistentenfenster erscheint. Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine andere Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.<li>Geben Sie folgenden Text in das Feld 'Internet- oder Netzwerkadresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Anleitung für Mac OS X</h3><ol><li>Aktivieren Sie den Finder.</li><li>Wählen Sie das Menü 'Gehe zu &gt; Mit Server verbinden...'.</li><li>Ein Dialogfenster erscheint. Geben Sie folgende Addresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Anleitung für Linux mit Konqueror</h3><ol><li>Starten Sie den Konqueror Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Linux mit Nautilus</h3><ol><li>Starten Sie den Nautilus Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_LINUX]<p>Falls Ihr Computer den Webordner nicht öffnen kann, nehmen Sie bitte mit <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a> Kontakt auf.</p>
 common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
-common#:#webr#:#Web-Links
+common#:#webr#:#Linksammlung
 common#:#webr_active#:#Aktiv
-common#:#webr_add#:#Web-Links hinzufügen
+common#:#webr_add#:#Link hinzufügen
 common#:#webr_add_item#:#Link hinzufügen
-common#:#webr_copy#:#Web-Links kopieren
-common#:#webr_delete#:#Web-Links löschen
-common#:#webr_delete_items#:#Web-Links löschen.
+common#:#webr_copy#:#Linksammlung kopieren
+common#:#webr_delete#:#Linksammlung löschen
+common#:#webr_delete_items#:#Linksammlung löschen.
 common#:#webr_deleted_items#:#Der/die Link(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
-common#:#webr_edit#:#Web-Links bearbeiten
+common#:#webr_edit#:#Link bearbeiten
 common#:#webr_edit_item#:#Link bearbeiten
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Web-Links abonnieren
+common#:#webr_join#:#Linksammlung abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der Web-Links aufheben
+common#:#webr_leave#:#Abonnement der Linksammlung aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
-common#:#webr_new#:#Neue Web-Links anlegen
+common#:#webr_new#:#Neue Linksammlung anlegen
 common#:#webr_no_items_created#:#Es sind keine Links angelegt
-common#:#webr_read#:#Lesezugriff auf Web-Links
+common#:#webr_read#:#Lesezugriff auf Linksammlungen
 common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Links löschen möchten?
-common#:#webr_visible#:#Web-Links sind sichtbar
-common#:#webr_write#:#Web-Links bearbeiten
+common#:#webr_visible#:#Linksammlungen sind sichtbar
+common#:#webr_write#:#Linksammlung bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#weekly#:#wöchentlich
@@ -9926,3 +9926,13 @@ content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#cont_debug#:#Debug-Menü anzeigen
 content#:#cont_debugpw#:#Zugangspasswort
 content#:#scplayer_debugger#:#Debugger zeigen
+webr#:#webr_new_link#:#Neuen Link anlegen
+webr#:#webr_link_target#:#Ziel
+webr#:#webr_link_title#:#Linkname
+webr#:#webr_active#:#Aktiv
+webr#:#webr_link_added#:#Ein neuer Link wurde angelegt.
+webr#:#webr_deactivate#:#Link deaktivieren
+webr#:#webr_inactive_success#:#Der Link wurde deaktiviert.
+webr#:#webr_list_title#:#Titel der Linksammlung
+webr#:#webr_list_desc#:#Beschreibung der Linksammlung
+webr#:#webr_edit_links#:#Links bearbeiten
