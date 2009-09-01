@@ -662,14 +662,19 @@ class ilSCORM13Package
 									  'tracked', 'choice',
 									  'choiceexit', 'satisfiedbymeasure',
 									  'c_primary', 'constrainchoice',
-									  'forwardonly')))
+									  'forwardonly', 'global_to_system',
+									  'writenormalmeasure', 'writesatisfiedstatus',
+									  'readnormalmeasure', 'readsatisfiedstatus',
+									  'preventactivation', 'measuresatisfactive',
+									  'reorderchildren', 'usecurattemptproginfo',
+									  'usecurattemptobjinfo', 'rollupprogcompletion')))
 					{
 						if($attr->value == 'true')
 							$values[] = 1;
 						else if ($attr->value == 'false')
 							$values[] = 0;
 						else
-							$values[] = 0;
+							$values[] = (int)$attr->value;
 					}
 					else
 					{
@@ -683,7 +688,12 @@ class ilSCORM13Package
 									   'tracked', 'choice',
 									   'choiceexit', 'satisfiedbymeasure',
 									   'c_primary', 'constrainchoice',
-									   'forwardonly')))
+									   'forwardonly', 'global_to_system',
+									   'writenormalmeasure', 'writesatisfiedstatus',
+									   'readnormalmeasure', 'readsatisfiedstatus',
+									   'preventactivation', 'measuresatisfactive',
+									   'reorderchildren', 'usecurattemptproginfo',
+									   'usecurattemptobjinfo', 'rollupprogcompletion')))
 						$types[] = 'integer';
 					else if ( in_array($names[count($names) - 1],
 									   array('jsdata', 'xmldata', 'activitytree', 'data')))
