@@ -183,6 +183,25 @@ class ilDBGenerator
 		return true;
 	}
 	
+	protected function openFile($a_path)
+	{
+		$file = fopen($a_path, "w");
+		
+		$start = '<?php'."\n".'function setupILIASDatabase()'."\n{\n";
+		$start.= "\t".'global $ilDB;'."\n\n";
+		fwrite($file, $start);
+		return $file;
+	}
+	
+	
+	protected function closeFile($fp)
+	{
+		$end = "\n}\n?>\n";
+		fwrite ($fp, $end);
+		fclose ($fp);
+	}
+	
+	
 	/**
 	* Build DB generation script
 	*
@@ -191,8 +210,20 @@ class ilDBGenerator
 	function buildDBGenerationScript($a_filename = "")
 	{
 //echo "<br>3"; flush();
+		$isDirectory = false;
+		if(@is_dir($a_filename))
+		{
+			$isDirectory = true;
+			$path = $a_filename;		
+		}
+		else
+		{
+			$isDirectory = false;
+			$path = '';
+		}
+
 		$file = "";
-		if ($a_filename != "")
+		if ($a_filename != "" and !$isDirectory)
 		{
 			$file = fopen($a_filename, "w");
 			
@@ -200,6 +231,11 @@ class ilDBGenerator
 			$start.= "\t".'global $ilDB;'."\n\n";
 			fwrite($file, $start);
 		}
+		elseif($isDirectory)
+		{
+			;
+		}
+
 		else
 		{
 			echo "<pre>";
@@ -213,6 +249,11 @@ class ilDBGenerator
 				if ($a_filename != "")
 				{
 					echo "<br>$table"; flush();
+				}
+				
+				if($isDirectory)
+				{
+					$file = $this->openFile($path.'/'.$table);
 				}
 				
 				// create table statement
@@ -229,6 +270,12 @@ class ilDBGenerator
 				
 				// inserts
 				$this->buildInsertStatements($table, $file);
+				
+				if($isDirectory)
+				{
+					$this->closeFile($file);
+				}
+				
 			}
 			else
 			{
@@ -243,7 +290,7 @@ class ilDBGenerator
 		{
 			echo "</pre>";
 		}
-		else
+		elseif(!$isDirectory)
 		{
 			$end = "\n}\n?>\n";
 			fwrite ($file, $end);
