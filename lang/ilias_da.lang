@@ -9906,3 +9906,13 @@ tagging#:#tagging_search_users#:#Find brugere
 tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
 mail#:#mail_incoming_mail#:#Ny post
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>###18 08 2009 new variable
+payment#:#pay_hide_advanced_search#:#Skjul søgning
+payment#:#pay_hide_advanced_search_info#:#Skjuler fanebladet med den avancerede søgning. Kan aktiveres hvis du kun har få produkter i shoppen.
+payment#:#pay_hide_filtering#:#Skjul filter
+payment#:#pay_hide_filtering_info#:#Vis ikke filter/søge muligheden.
+payment#:#pay_hide_coupons#:#Skjul kuponner *)
+payment#:#pay_hide_coupons_info#:#Spørg ikke om kuponkoder, hvis du alligevel ikke anvender disse. Denne funktion simplificerer brugerinterfacet. *) Endnu ikke implementeret.
+payment#:#pay_hide_news#:#Skjul nyheder
+payment#:#pay_hide_news_info#:#Skjyler nyhedsfanebladet, hvis du alligevel ikke anvender disse i din shop.
+payment#:#pay_epay_auth_email_info#:#Email hvortil transaktionsinformationer sendes
+payment#:#pay_epay_instant_capture_info#:#Hvis aktiveret trækkes alle beløb fra kundens konto øjeblikkeligt. Du skal have aftalt dette med PBS for at anvende funktionen.
