@@ -9914,5 +9914,5 @@ payment#:#pay_hide_coupons#:#Skjul kuponner *)
 payment#:#pay_hide_coupons_info#:#Spørg ikke om kuponkoder, hvis du alligevel ikke anvender disse. Denne funktion simplificerer brugerinterfacet. *) Endnu ikke implementeret.
 payment#:#pay_hide_news#:#Skjul nyheder
 payment#:#pay_hide_news_info#:#Skjyler nyhedsfanebladet, hvis du alligevel ikke anvender disse i din shop.
-payment#:#pay_epay_auth_email_info#:#Email hvortil transaktionsinformationer sendes
-payment#:#pay_epay_instant_capture_info#:#Hvis aktiveret trækkes alle beløb fra kundens konto øjeblikkeligt. Du skal have aftalt dette med PBS for at anvende funktionen.
+payment#:#pays_epay_auth_email_info#:#Email hvortil transaktionsinformationer sendes
+payment#:#pays_epay_instant_capture_info#:#Hvis aktiveret trækkes alle beløb fra kundens konto øjeblikkeligt. Du skal have aftalt dette med PBS for at anvende funktionen.
