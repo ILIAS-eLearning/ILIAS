@@ -9940,4 +9940,4 @@ payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from
 webr#:#webr_list_title#:#Title of Web Resource List
 webr#:#webr_list_desc#:#Description of Web Resource List
 webr#:#webr_edit_links#:#Edit Links
-payment#:#pay_email_deleted
+payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
