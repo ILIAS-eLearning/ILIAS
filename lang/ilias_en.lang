@@ -9465,7 +9465,7 @@ payment#:#payment_edit_vat#:#Edit VAT
 payment#:#payment_add_vat#:#Create VAT
 payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.
 payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.
-payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.
+payment#:#payment_vat_deleted_successfully#:#Den/de valgte satser blev slettet.
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
 payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.
 payment#:#payment_vat_administration#:#Administration
@@ -9941,3 +9941,4 @@ webr#:#webr_list_title#:#Title of Web Resource List
 webr#:#webr_list_desc#:#Description of Web Resource List
 webr#:#webr_edit_links#:#Edit Links
 payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
+payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
