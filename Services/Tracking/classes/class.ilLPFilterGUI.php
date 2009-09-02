@@ -225,6 +225,19 @@ class ilLPFilterGUI
 		$this->filter->update();
 		$this->refresh();
 	}
+
+	function resetFilter()
+	{
+		foreach($this->filter->getHidden() as $obj_id)
+		{
+			$this->filter->removeHidden((int) $obj_id);
+		}
+		$this->filter->setRootNode((int) 0);
+		$this->filter->setFilterType("");
+		$this->filter->setQueryString("");
+		$this->filter->update();
+		$this->ctrl->returnToParent($this);
+	}
 	
 	function refresh()
 	{

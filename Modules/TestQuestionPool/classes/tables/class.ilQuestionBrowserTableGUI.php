@@ -108,6 +108,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('select_all');
 		$this->setFilterCommand('filterQuestionBrowser');
+		$this->setResetCommand('resetQuestionBrowser');
 		
 		$this->initFilter();
 	}

@@ -341,6 +341,19 @@ class ilFormPropertyGUI
 	}
 
 	/**
+	* Clear session value
+	*/
+	function clearFromSession()
+	{
+		$parent = $this->getParent();
+		if (!is_object($parent))
+		{
+			die("You must set parent for ".get_class($this)." to use serialize feature.");
+		}
+		$_SESSION["form_".$parent->getId()][$this->getFieldId()] = false;
+	}
+
+	/**
 	* Read from session
 	*/
 	function readFromSession()

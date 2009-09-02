@@ -21,6 +21,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $filters = array();
 	protected $optional_filters = array();
 	protected $filter_cmd = 'applyFilter';
+	protected $reset_cmd = 'resetFilter';
 	protected $filter_cols = 4;
 	protected $ext_sort = false;
 	protected $ext_seg = false;
@@ -541,6 +542,26 @@ class ilTable2GUI extends ilTableGUI
 	function getFilterCommand()
 	{
 		return $this->filter_cmd;
+	}
+
+	/**
+	* Set reset filter command
+	*
+	* @param	string		reset command
+	*/
+	function setResetCommand($a_val)
+	{
+		$this->reset_cmd = $a_val;
+	}
+
+	/**
+	* Get reset filter command
+	*
+	* @return	string		reset command
+	*/
+	function getResetCommand()
+	{
+		return $this->reset_cmd;
 	}
 
 	/**
@@ -1217,6 +1238,8 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
 			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
+			$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
+			$this->tpl->setVariable("TXT_RESET", $lng->txt("reset_filter"));
 
 			$this->tpl->setCurrentBlock("filter_section");
 			$this->tpl->setVariable("FIL_ID", $this->getId());
@@ -1273,6 +1296,34 @@ class ilTable2GUI extends ilTableGUI
 			{
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
+			}
+		}
+	}
+
+	/**
+	* Reset filter
+	*/
+	public function resetFilter()
+	{
+		global $lng;
+		
+		$filter = $this->getFilterItems();
+		$opt_filter = $this->getFilterItems(true);
+
+		foreach ($filter as $item)
+		{
+			if ($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->clearFromSession();
+			}
+		}
+		foreach ($opt_filter as $item)
+		{
+			if ($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->clearFromSession();
 			}
 		}
 	}

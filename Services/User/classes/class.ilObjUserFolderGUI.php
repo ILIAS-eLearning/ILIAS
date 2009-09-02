@@ -305,8 +305,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		} //for
 	}
 	
+	/**
+	* Reset filter
+	* (note: this function existed before data table filter has been introduced
+	*/
 	function resetFilterObject()
 	{
+		include_once("./Services/User/classes/class.ilUserTableGUI.php");
+		$utab = new ilUserTableGUI($this, "view");
+		$utab->resetOffset();
+		$utab->resetFilter();
+
+		// from "old" implementation
 		$this->viewObject(TRUE);
 	}
 

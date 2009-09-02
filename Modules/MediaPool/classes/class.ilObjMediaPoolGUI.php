@@ -531,6 +531,19 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	}
 
 	/**
+	* Reset filter
+	*/
+	function resetFilter()
+	{
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
+		$mtab = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
+			"mepitem_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
+		$mtab->resetFilter();
+		$mtab->resetOffset();
+		$this->allMedia();
+	}
+
+	/**
 	* Get standard template
 	*/
 	function getTemplate()
