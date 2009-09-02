@@ -4311,6 +4311,7 @@ common#:#short_inst_name#:#Kurztitel
 common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'
 common#:#show#:#Anzeigen
 common#:#show_details#:#Details anzeigen
+common#:#show_filter#:#Filter anzeigen
 common#:#show_hidden_block#:#Deaktivieren Block anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
