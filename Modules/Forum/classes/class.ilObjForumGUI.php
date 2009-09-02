@@ -3414,7 +3414,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
 		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
-		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
+		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
+		$this->create_topic_form_gui->setTableWidth('60%');
 		
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
