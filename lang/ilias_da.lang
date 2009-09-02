@@ -5141,7 +5141,7 @@ crs#:#crs_info_agree#:#I accept, that the above data types are visible for cours
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.###25 02 2007 new variable
 crs#:#user_fields#:#Brugerfelter
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###25 02 2007 new variable
-crs#:#event_overview#:#Participations in Sessions###25 02 2007 new variable
+crs#:#event_overview#:#Deltagere i forelæsningen
 crs#:#event_digit#:#Ciffer
 crs#:#event_csv_export#:#CSV eksport
 crs#:#event_participated#:#Deltog
@@ -6554,7 +6554,7 @@ payment#:#pays_bmf_client_certificate#:#Path to ClientCertificate###16 08 2007 n
 payment#:#pays_bmf_ca_certificate#:#Path to CACertificate###16 08 2007 new variable
 payment#:#pays_bmf_timeout#:#Timeout
 payment#:#pays_updated_bmf_settings#:#Dine BMF indstillinger blev opdateret
-payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
+payment#:#pays_bmf_settings_not_valid#:#Dine BMF indstillinger er ugyldige. Udfyld det tyske snask korrekt.
 pwassist#:#password_assistance#:#Password Hjælp
 pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilknyttede e-mail adresse i felterne nedenfor.<br/><br/>ILIAS sender herefter en besked til mailadressen som indeholder et link til en side hvor du kan angive nyt kodeord for din konto.
@@ -9444,7 +9444,7 @@ payment#:#payment_edit_vat#:#Ret moms
 payment#:#payment_add_vat#:#Opret moms
 payment#:#payment_vat_title_info#:#Indsæt en label/titel for moms.
 payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###22 05 2009 new variable
-payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.###22 05 2009 new variable
+payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
 payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
 payment#:#payment_vat_administration#:#Administration
@@ -9486,15 +9486,15 @@ common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting
 common#:#membership_leave#:#Leave###26 06 2009 new variable
 crs#:#event_section_information#:#Session Information###26 06 2009 new variable
 crs#:#event_btn_add_edit#:#Opret session og tildel materialer
-crs#:#crs_search_users#:#Search Users###26 06 2009 new variable
-crs#:#crs_user_login#:#User Login###26 06 2009 new variable
-grp#:#grp_search_users#:#Search User###26 06 2009 new variable
+crs#:#crs_search_users#:#Find brugere
+crs#:#crs_user_login#:#Brugernavn
+grp#:#grp_search_users#:#Find bruger
 dateplaner#:#cal_type_sess#:#Session Calendar###26 06 2009 new variable
-crs#:#event_tbl_admins#:#Administrators###26 06 2009 new variable
+crs#:#event_tbl_admins#:#Administratorer
 crs#:#event_tbl_tutors#:#Tutors###26 06 2009 new variable
 crs#:#event_tbl_members#:#Members###26 06 2009 new variable
 crs#:#event_participant_selection#:#Participant Selection###26 06 2009 new variable
-crs#:#event_inc_admins#:#Show Administrators###26 06 2009 new variable
+crs#:#event_inc_admins#:#Vis administratorer
 crs#:#event_inc_tutors#:#Show Tutors###26 06 2009 new variable
 crs#:#event_inc_members#:#Show Members###26 06 2009 new variable
 crs#:#event_materials#:#Session Materials###26 06 2009 new variable
@@ -9910,9 +9910,11 @@ payment#:#pay_hide_advanced_search#:#Skjul søgning
 payment#:#pay_hide_advanced_search_info#:#Skjuler fanebladet med den avancerede søgning. Kan aktiveres hvis du kun har få produkter i shoppen.
 payment#:#pay_hide_filtering#:#Skjul filter
 payment#:#pay_hide_filtering_info#:#Vis ikke filter/søge muligheden.
-payment#:#pay_hide_coupons#:#Skjul kuponner *)
-payment#:#pay_hide_coupons_info#:#Spørg ikke om kuponkoder, hvis du alligevel ikke anvender disse. Denne funktion simplificerer brugerinterfacet. *) Endnu ikke implementeret.
+payment#:#pay_hide_coupons#:#Skjul kuponner
+payment#:#pay_hide_coupons_info#:#Spørg ikke om kuponkoder, hvis du alligevel ikke anvender disse. Denne funktion simplificerer brugerinterfacet. 
 payment#:#pay_hide_news#:#Skjul nyheder
 payment#:#pay_hide_news_info#:#Skjyler nyhedsfanebladet, hvis du alligevel ikke anvender disse i din shop.
 payment#:#pays_epay_auth_email_info#:#Email hvortil transaktionsinformationer sendes
 payment#:#pays_epay_instant_capture_info#:#Hvis aktiveret trækkes alle beløb fra kundens konto øjeblikkeligt. Du skal have aftalt dette med PBS for at anvende funktionen.
+payment#:#pays_updated_epay_settings#:#Indstillinger for ePay blev opdateret
+payment#:#paya_sure_delete_vats#:#Er du sikker på du vil slette sats(er)?
