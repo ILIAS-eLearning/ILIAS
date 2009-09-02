@@ -81,6 +81,23 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	* Reset offset
+	*/
+	function resetOffset($a_in_determination = false)
+	{
+		if (!$this->nav_determined && !$a_in_determination)
+		{
+			$this->determineOffsetAndOrder();
+		}
+		$this->nav_value = $this->getOrderField().":".$this->getOrderDirection().":0";
+		$_GET[$this->getNavParameter()] =
+			$_POST[$this->getNavParameter()."1"] =
+			$this->nav_value;
+//echo $this->nav_value;
+		$this->setOffset(0);
+	}
+	
+	/**
 	* Init filter. Overwrite this to initialize all filter input property
 	* objects.
 	*/
@@ -298,6 +315,11 @@ class ilTable2GUI extends ilTableGUI
 		$this->prefix = $a_prefix;
 	}
 	
+	final public function getPrefix()
+	{
+		return $this->prefix;
+	}
+	
 	/**
 	* Add filter item. Filter items are property form inputs that implement
 	* the ilTableFilterItem interface
@@ -425,6 +447,10 @@ class ilTable2GUI extends ilTableGUI
 	function setId($a_val)
 	{
 		$this->id = $a_val;
+		if ($this->getPrefix() == "")
+		{
+			$this->setPrefix($a_val);
+		}
 	}
 	
 	/**
@@ -817,34 +843,94 @@ class ilTable2GUI extends ilTableGUI
 	/**
 	* Determine offset and order
 	*/
-	function determineOffsetAndOrder()
+	function determineOffsetAndOrder($a_omit_offset = false)
 	{
+		global $ilUser;
+		
+//echo "<br>";
+
 		if ($_POST[$this->getNavParameter()."1"] != "")
 		{
 			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
 			{
+//echo "1";
 				$this->nav_value = $_POST[$this->getNavParameter()."1"];
 			}
 			else if ($_POST[$this->getNavParameter()."2"] != $_POST[$this->getNavParameter()])
 			{
+//echo "2";
 				$this->nav_value = $_POST[$this->getNavParameter()."2"];
 			}
 		}
 		elseif($_GET[$this->getNavParameter()])
 		{
+//echo "3";
 			$this->nav_value = $_GET[$this->getNavParameter()];
 		}
 		elseif($_SESSION[$this->getNavParameter()] != "")
 		{
+//echo "4";
 			$this->nav_value = $_SESSION[$this->getNavParameter()];
 		}
-
+		
+		if ($this->nav_value == "" && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+//echo "5";
+			// get order and direction from db
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tab_prop = new ilTablePropertiesStorage();
+			$this->nav_value =
+				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "order").":".
+				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "direction").":".
+				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "offset");
+		}
+//echo "+".$this->nav_value;
 		$nav = explode(":", $this->nav_value);
 		
 		// $nav[0] is order by
 		$this->setOrderField(($nav[0] != "") ? $nav[0] : $this->getDefaultOrderField());
 		$this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
-		$this->setOffset($nav[2]);
+		if (!$a_omit_offset)
+		{
+			if (!$this->getExternalSegmentation() && $nav[2] > $this->max_count)
+			{
+//	echo "!";
+				$this->resetOffset(true);
+			}
+			else
+			{
+				$this->setOffset($nav[2]);
+			}
+		}
+		
+		$this->nav_determined = true;
+	}
+	
+	function storeNavParameter()
+	{
+		global $ilUser;
+		
+		if ($this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tab_prop = new ilTablePropertiesStorage();
+			if ($this->getOrderField() != "")
+			{
+				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "order",
+					$this->getOrderField());
+			}
+			if ($this->getOrderDirection() != "")
+			{
+				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "direction",
+					$this->getOrderDirection());
+			}
+//echo "-".$this->getOffset()."-";
+			if ($this->getOffset() !== "")
+			{
+				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "offset",
+					$this->getOffset());
+			}
+		}
 	}
 	
 	
@@ -857,7 +943,7 @@ class ilTable2GUI extends ilTableGUI
 		
 		$this->prepareOutput();
 		
-		if (is_object($ilCtrl))
+		if (is_object($ilCtrl) && $this->getId() == "")
 		{
 			$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
 		}
@@ -867,12 +953,12 @@ class ilTable2GUI extends ilTableGUI
 			return $this->render();
 		}
 
-		$this->determineOffsetAndOrder();
-		
 		if (!$this->getExternalSegmentation())
 		{
 			$this->setMaxCount(count($this->row_data));
 		}
+
+		$this->determineOffsetAndOrder();
 		
 		$this->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		
@@ -949,6 +1035,8 @@ class ilTable2GUI extends ilTableGUI
 				
 		$this->fillActionRow();
 
+		$this->storeNavParameter();
+		
 		return $this->render();
 	}
 

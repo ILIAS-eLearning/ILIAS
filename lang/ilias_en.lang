@@ -9918,6 +9918,8 @@ content#:#scplayer_collapsetree#:#Collapse All
 content#:#cont_debug#:#Show debug menu
 content#:#cont_debugpw#:#Password
 content#:#scplayer_debugger#:#Show Debugger
+content#:#cont_dir_created#:#Directory has been created.
+content#:#cont_file_created#:#File has been created.
 webr#:#webr_new_link#:#Add New Link
 webr#:#webr_link_target#:#Link Target
 webr#:#webr_link_title#:#Link Name

@@ -28,7 +28,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup ModulesTestQuestionPool
 */
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
@@ -58,7 +58,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
 		$qplSetting = new ilSetting("qpl");
 			
-		$this->setId("tstqpoolqst");
+		$this->setId("qplqst".$a_parent_obj->object->getId());
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','f','1%');

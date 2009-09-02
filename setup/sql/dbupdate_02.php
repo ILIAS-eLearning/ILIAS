@@ -15570,3 +15570,35 @@ $ilDB->addPrimaryKey('container_sorting',array('obj_id','child_id','parent_id'))
 <?php
 	$ilDB->modifyTableColumn('cp_file', 'href', array("type" => "text", "length" => 4000, "notnull" => false, "default" => null));
 ?>
+<#2864>
+<?php
+$fields = array(
+	'table_id' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'property' => array(
+		'type' => 'text',
+		'length' => 20,
+		'notnull' => true
+	),
+	'value' => array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true
+	)
+);
+$ilDB->createTable('table_properties', $fields);
+$ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'));
+
+?>
+<#2865>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

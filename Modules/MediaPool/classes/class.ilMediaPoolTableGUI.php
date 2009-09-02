@@ -28,9 +28,17 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
+		if ($a_all_objects)
+		{
+			$this->setId("mepall".$a_parent_obj->object->getId());
+		}
+		else
+		{
+			$this->setId("mepfold".$a_parent_obj->object->getId());
+		}
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setMode($a_mode);
-		$this->setId("mep_table");
 		$this->all_objects = $a_all_objects;
 		$lng->loadLanguageModule("mep");
 		
@@ -303,7 +311,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setCurrentBlock("edit");
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-					$ilCtrl->setParameterByClass("ilmediapoolpagegui", "item_id", $a_set["child"]);
+					$ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $a_set["child"]);
 					$this->tpl->setVariable("EDIT_LINK",
 						$ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit"));
 					$this->tpl->parseCurrentBlock();
@@ -324,7 +332,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 					$this->tpl->touchBlock("nf");
-					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "item_id", $a_set["child"]);
+					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "mepitem_id", $a_set["child"]);
 					$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
 					$this->tpl->setVariable("LINK_VIEW",
 						$ilCtrl->getLinkTarget($this->parent_obj, "showMedia"));

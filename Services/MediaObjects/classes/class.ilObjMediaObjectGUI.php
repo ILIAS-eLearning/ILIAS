@@ -12,7 +12,7 @@ require_once ("classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ilCtrl_Calls ilObjMediaObjectGUI: ilMDEditorGUI, ilImageMapEditorGUI
+* @ilCtrl_Calls ilObjMediaObjectGUI: ilMDEditorGUI, ilImageMapEditorGUI, ilFileSystemGUI
 *
 * @ingroup ServicesMediaObjects
 */
@@ -156,6 +156,24 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($image_map_edit);
 				$tpl->setContent($ret);
 				break;
+				
+			case "ilfilesystemgui":
+				include_once("./classes/class.ilFileSystemGUI.php");
+				$fs_gui =& new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
+				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
+				$fs_gui->setTableId("mobfs".$this->object->getId());
+				$fs_gui->labelFile($this->object->getMediaItem("Standard")->getLocation(),
+					$this->lng->txt("cont_std_view"));
+				if($this->object->hasFullscreenItem())
+				{
+					$fs_gui->labelFile($this->object->getMediaItem("Fullscreen")->getLocation(),
+						$this->lng->txt("cont_fullscreen"));
+				}
+				$fs_gui->addCommand($this, "assignStandardObject", $this->lng->txt("cont_assign_std"));
+				$fs_gui->addCommand($this, "assignFullscreenObject", $this->lng->txt("cont_assign_full"));
+				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				break;
+
 
 			default:
 				if (isset($_POST["editImagemapForward"]) ||
@@ -1351,11 +1369,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$format = ilObjMediaObject::getMimeType($file);
 		$std_item->setFormat($format);
 		$this->object->update();
-		$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "editFiles");
-
-		$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "editFiles");
+//		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
 	}
 
 
@@ -1413,8 +1428,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$full_item->setFormat($format);
 		}
 		$this->object->update();
-		$this->ctrl->saveParameter($this, "cdir");
-		$this->ctrl->redirect($this, "editFiles");
+//		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
 	}
 
 
@@ -1686,9 +1701,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()) ||
 				(is_object($full_item) && !in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())))
 			{
+//				$ilTabs->addTarget("cont_files",
+//					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
+//					get_class($this));
+					
 				$ilTabs->addTarget("cont_files",
-					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
-					get_class($this));
+					$this->ctrl->getLinkTargetByClass(
+					array("ilobjmediaobjectgui", "ilfilesystemgui"), "listFiles"), "",
+					"ilfilesystemgui");
 			}
 
 			$ilTabs->addTarget("meta_data",
