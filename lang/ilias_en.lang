@@ -9935,8 +9935,8 @@ payment#:#pay_hide_coupons#:#Hide coupons
 payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
 payment#:#pay_hide_news#:#Hide news
 payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
-payment#:#pay_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
-payment#:#pay_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
+payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
+payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
 webr#:#webr_list_title#:#Title of Web Resource List
 webr#:#webr_list_desc#:#Description of Web Resource List
 webr#:#webr_edit_links#:#Edit Links
