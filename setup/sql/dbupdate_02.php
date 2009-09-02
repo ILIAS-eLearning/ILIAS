@@ -15602,3 +15602,29 @@ $ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#2866>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$query = "UPDATE catch_write_events SET ts = null WHERE ts = '0000-00-00 00:00:00'";
+		$ilDB->query($query);
+	}
+?>
+
+<#2867>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$query = "UPDATE usr_data SET approve_date = null WHERE approve_date = '0000-00-00 00:00:00'";
+		$ilDB->query($query);
+	}
+?>
+<#2868>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$query = "UPDATE usr_data SET agree_date = null WHERE agree_date = '0000-00-00 00:00:00'";
+		$ilDB->query($query);
+	}
+?>

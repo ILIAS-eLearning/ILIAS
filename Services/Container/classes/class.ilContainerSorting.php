@@ -115,18 +115,27 @@ class ilContainerSorting
 				#$ilLog->write(__METHOD__.': No mapping found for:'.$row->child_id);
 	 			continue;
 	 		}
+			
+			if($row->parent_id and (!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id]))
+			{
+				continue;
+			}
 
 			$query = "DELETE FROM container_sorting ".
 				"WHERE obj_id = ".$ilDB->quote($target_obj_id,'integer')." ".
-				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer')." ";
+				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer').", ".
+				"AND parent_type = ".$ilDB->quote($row->parent_type,'text').', '.
+				"AND parent_id = ".$ilDB->quote($mappings[$row->parent_id],'integer');
 			$res = $ilDB->manipulate($query);
 	 		
 	 		// Add new value
-	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position) ".
+	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position,parent_type,parent_id) ".
 	 			"VALUES( ".
 				$ilDB->quote($target_obj_id ,'integer').", ".
 	 			$ilDB->quote($mappings[$row->child_id] ,'integer').", ".
-	 			$ilDB->quote($row->position)." ".
+	 			$ilDB->quote($row->position,'integer').", ".
+				$ilDB->quote($row->parent_type,'text').", ".
+				$ilDB->quote($mappings[$row->parent_id],'integer').
 	 			")";
 			$res = $ilDB->manipulate($query);
 		}
