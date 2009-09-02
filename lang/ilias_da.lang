@@ -1505,7 +1505,7 @@ common#:#language_not_installed#:#er ikke installeret. Installer venligst sproge
 common#:#languages#:#Sprog
 common#:#languages_already_installed#:#De valgte Sprog er allerede installeret
 common#:#languages_already_uninstalled#:#De valgte sprog er allerede afinstalleret
-common#:#languages_updated#:#Alle installerede sprog er blevet opdateret
+common#:#languages_updated#:#Alle installerede sprog blev opdateret.
 common#:#last_access#:#Sidste adgang:
 common#:#last_change#:#Sidste ændring
 common#:#last_edited_on#:#Sidst redigeret
@@ -6364,7 +6364,7 @@ payment#:#paya_add_price_title#:#Ny pris
 payment#:#paya_added_new_object#:#Ny vare sat til salg. Vælg først pris(er) og derefter betalingsmetode.
 payment#:#paya_added_new_price#:#Oprettet ny pris
 payment#:#paya_added_trustee#:#Oprettet ny fuldmægtig/bestyrer.
-payment#:#paya_bookings_available#:#Dette objekt/modul er blevet solgt. Slet venligst alle statistik data.
+payment#:#paya_bookings_available#:#Denne vare er tidligere solgt. For at slette den skal du slette transaktionsdata først.
 payment#:#paya_buyable#:#Til salg
 payment#:#paya_buyed_objects#:#Købte varer
 payment#:#paya_count_purchaser#:#Antal købere
@@ -6389,7 +6389,7 @@ payment#:#paya_error_no_object_id_given#:#Vælg venligst et objekt
 payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udløbet betaling
 payment#:#paya_filter_reseted#:#Filter nulstillet.
-payment#:#paya_header#:#Shop indstillinger
+payment#:#paya_header#:#Shop administration
 payment#:#paya_insert_only_numbers#:#Indsæt kun heltal(ikke decimaltal).
 payment#:#paya_locator#:#Betalingsadministration
 payment#:#paya_months#:#måned(er)
@@ -6424,7 +6424,7 @@ payment#:#paya_statistic#:#Statistik
 payment#:#paya_sure_delete_object#:#Er du sikker på du vil stoppe salget af dette objekt? Alle indtastede data vil gå tabt.
 payment#:#paya_sure_delete_selected_prices#:#Er du sikker på at du vil slette de valgte priser?
 payment#:#paya_sure_delete_selected_trustees#:#Er du sikker på du vil slette den/de valgte fuldmægtig(e)?
-payment#:#paya_sure_delete_stat#:#Er du sikker på du ønsker at slette denne historik?
+payment#:#paya_sure_delete_stat#:#Er du sikker på du ønsker at slette transaktionshistorikken?
 payment#:#paya_transaction#:#Transaktion
 payment#:#paya_trustee_table#:#Fuldmagter
 payment#:#paya_trustees#:#Fuldmægtige
@@ -6486,7 +6486,7 @@ payment#:#pays_server_path#:#Sti til scripts (f.eks. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Er du sikker på at du gerne vil slette de/den valgte sælger(e)
 payment#:#pays_too_many_vendors_selected#:#Vælg venligst kun 1 kunde til denne funktion.
 payment#:#pays_updated_general_settings#:#Generelle indstillinger opdateret.
-payment#:#pays_updated_pay_method#:#Betalingsmetode ændret.
+payment#:#pays_updated_pay_method#:#Ændringer i betalingsmuligheder blev gemt.
 payment#:#pays_updated_paypal_settings#:#Dine PayPal indstillinger blev opdateret.
 payment#:#pays_user_already_assigned#:#Denne bruger er allerede tilføjet som sælger
 payment#:#pays_vat_rate#:#Moms i %(valgfrit)
@@ -9086,8 +9086,8 @@ payment#:#payment_news#:#Shopnyheder
 payment#:#payment_news_add_news#:#Opret shopnyhed
 payment#:#payment_news_created#:#Shopnyheden er oprettet
 payment#:#payment_news_no_news_items#:#Intet nyt
-payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
-payment#:#payment_news_deleted#:#Shop nyhed slettet
+payment#:#payment_news_delete_sure#:#Er du sikker på du vil slette denne nyhed fra shoppen?
+payment#:#payment_news_deleted#:#Nyheden blev slettet fra shoppen.
 payment#:#payment_news_updated#:#Nyheden er gemt
 payment#:#payment_news_settings#:#Shoppens nyhedsindstillinger
 payment#:#payment_news_archive_period#:#Arkivperiode
