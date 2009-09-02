@@ -4,6 +4,8 @@
 /**
 * File System Explorer GUI class
 *
+* -> This class should go to Services/FileSystemStorage
+*
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
@@ -29,6 +31,26 @@ class ilFileSystemGUI
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
 
+	/**
+	* Set table id
+	*
+	* @param	string	table id
+	*/
+	function setTableId($a_val)
+	{
+		$this->table_id = $a_val;
+	}
+	
+	/**
+	* Get table id
+	*
+	* @return	string	table id
+	*/
+	function getTableId()
+	{
+		return $this->table_id;
+	}
+	
 	/**
 	* execute command
 	*/
@@ -76,7 +98,7 @@ class ilFileSystemGUI
 	*/
 	function labelFile($a_file, $a_label)
 	{
-		$this->file_labels[$a_file] = $a_label;
+		$this->file_labels[$a_file][] = $a_label;
 	}
 
 	/**
@@ -136,6 +158,8 @@ class ilFileSystemGUI
 	*/
 	function listFiles()
 	{
+		global $ilToolbar, $lng, $ilCtrl;
+		
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
@@ -172,40 +196,57 @@ class ilFileSystemGUI
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
 
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
-
 		$this->ctrl->setParameter($this, "cdir", $cur_subdir);
-		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this, "createDirectory"));
-		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
-		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
-		$this->tpl->setVariable("CMD_NEW_DIR", "createDirectory");
-		$this->tpl->setVariable("CMD_NEW_FILE", "uploadFile");
-		$this->tpl->setVariable("BTN_NEW_DIR", $this->lng->txt("create"));
-		$this->tpl->setVariable("BTN_NEW_FILE", $this->lng->txt("upload"));
-
+		
+		// toolbar for adding files/directories
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($this->lng->txt("cont_new_dir"), "new_dir");
+		$ti->setMaxLength(80);
+		$ti->setSize(10);
+		$ilToolbar->addInputItem($ti, true);
+		$ilToolbar->addFormButton($lng->txt("create"), "createDirectory");
+		
+		$ilToolbar->addSeparator();
+		
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("cont_new_file"), "new_file");
+		$fi->setSize(10);
+		$ilToolbar->addInputItem($fi, true);
+		$ilToolbar->addFormButton($lng->txt("upload"), "uploadFile");
+		
 		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
+			$ilToolbar->addSeparator();
 			$files = ilUploadFiles::_getUploadFiles();
+			$options[""] = $lng->txt("cont_select_from_upload_dir"); 
 			foreach($files as $file)
 			{
 				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
-				$this->tpl->setCurrentBlock("option_uploaded_file");
-				$this->tpl->setVariable("UPLOADED_FILENAME", $file);
-				$this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
-				$this->tpl->parseCurrentBlock();
+				$options[$file] = $file;
 			}
-			$this->tpl->setCurrentBlock("select_uploaded_file");
-			$this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
-			$this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
-			$this->tpl->setVariable("CMD_SELECT_FILE", "uploadFile");
-			$this->tpl->setVariable("BTN_SELECT", $this->lng->txt("copy"));
-			$this->tpl->parseCurrentBlock();
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
+			$si->setOptions($options);
+			$ilToolbar->addInputItem($si, true);
+			$ilToolbar->addFormButton($lng->txt("copy"), "uploadFile");
 		}
-
+			
+		// load files templates
+		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
+		include_once("./Services/FileSystemStorage/classes/class.ilFileSystemTableGUI.php");
+		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
+			$this->label_enable, $this->file_labels, $this->label_header, $this->commands);
+		$fs_table->setId($this->getTableId());
+		if ($_GET["resetoffset"] == 1)
+		{
+			$fs_table->resetOffset();
+		}
+		$this->tpl->setContent($fs_table->getHTML());
+return;
 		//
-		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
+		$this->tpl->addBlockfile("ADM_CONTENT", "files", "tpl.table.html");
 
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.directory_row.html", false);
@@ -494,6 +535,10 @@ class ilFileSystemGUI
 		if (!empty($new_dir))
 		{
 			ilUtil::makeDir($cur_dir."/".$new_dir);
+			if (is_dir($cur_dir."/".$new_dir))
+			{
+				ilUtil::sendSuccess($lng->txt("cont_dir_created"), true);
+			}
 		}
 		else
 		{
@@ -523,6 +568,10 @@ class ilFileSystemGUI
 		{
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]));
+			if (is_file($cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"])))
+			{
+				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
+			}
 		}
 		elseif ($_POST["uploaded_file"])
 		{
@@ -533,12 +582,15 @@ class ilFileSystemGUI
 				ilUploadFiles::_copyUploadFile($_POST["uploaded_file"],
 					$cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"]));
 			}
+			if (is_file($cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"])))
+			{
+				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
+			}
 		}
-		if (trim($_FILES["new_file"]["name"]) == "")
+		else if (trim($_FILES["new_file"]["name"]) == "")
 		{
 			ilUtil::sendFailure($lng->txt("cont_enter_a_file"), true);
 		}
-
 
 		$this->ctrl->saveParameter($this, "cdir");
 
@@ -657,12 +709,14 @@ class ilFileSystemGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// object usages
+		global $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "resetoffset", 1);
 		$tabs_gui->addTarget("cont_list_files",
 			$this->ctrl->getLinkTarget($this, "listFiles"), "listFiles",
 			get_class($this));
+		$ilCtrl->setParameter($this, "resetoffset", "");
 	}
-
 
 }
 ?>

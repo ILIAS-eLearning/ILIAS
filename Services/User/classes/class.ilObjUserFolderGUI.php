@@ -327,10 +327,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function applyFilterObject()
 	{
+		global $ilTabs;
+		
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "view");
+		$utab->resetOffset();
 		$utab->writeFilterToSession();
 		$this->viewObject();
+		$ilTabs->activateTab("obj_usrf");
 	}
 
 	/**

@@ -24,9 +24,10 @@ class ilToolbarGUI
 	*
 	* @param	string	form action
 	*/
-	function setFormAction($a_val)
+	function setFormAction($a_val, $a_multipart = false)
 	{
 		$this->form_action = $a_val;
+		$this->multipart = $a_multipart;
 	}
 	
 	/**
@@ -177,6 +178,10 @@ class ilToolbarGUI
 			{
 				$tpl->setCurrentBlock("form_open");
 				$tpl->setVariable("FORMACTION", $this->getFormAction());
+				if ($this->multipart)
+				{
+					$tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
+				}
 				$tpl->parseCurrentBlock();
 				$tpl->touchBlock("form_close");
 			}

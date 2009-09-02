@@ -883,6 +883,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions');
+		$table_gui->resetOffset();
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
 	}

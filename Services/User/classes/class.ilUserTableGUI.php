@@ -22,6 +22,8 @@ class ilUserTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
+		$this->setId("user");
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
 		
@@ -40,7 +42,6 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.user_list_row.html", "Services/User");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
-		$this->setId("user_table");
 		$this->initFilter();
 		$this->setFilterCommand("applyFilter");
 		$this->setDefaultOrderField("login");
@@ -86,6 +87,24 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->filter["course_group"],
 			$this->filter["global_role"]
 			);
+			
+		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
+		{
+			$this->resetOffset();
+			$usr_data = ilUserQuery::getUserListData(
+				ilUtil::stripSlashes($this->getOrderField()),
+				ilUtil::stripSlashes($this->getOrderDirection()),
+				ilUtil::stripSlashes($this->getOffset()),
+				ilUtil::stripSlashes($this->getLimit()),
+				$this->filter["query"],
+				$this->filter["activation"],
+				$this->filter["last_login"],
+				$this->filter["limited_access"],
+				$this->filter["no_courses"],
+				$this->filter["course_group"],
+				$this->filter["global_role"]
+				);
+		}
 
 		foreach ($usr_data["set"] as $k => $user)
 		{

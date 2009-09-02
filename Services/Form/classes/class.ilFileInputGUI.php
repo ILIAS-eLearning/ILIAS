@@ -12,7 +12,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	private $filename;
 	private $filename_post;
-	
+	protected $size = 40;
 	
 	/**
 	* Constructor
@@ -63,6 +63,26 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 		return $this->value;
 	}
 	
+	/**
+	* Set Size.
+	*
+	* @param	int	$a_size	Size
+	*/
+	function setSize($a_size)
+	{
+		$this->size = $a_size;
+	}
+
+	/**
+	* Get Size.
+	*
+	* @return	int	Size
+	*/
+	function getSize()
+	{
+		return $this->size;
+	}
+
 	/**
 	 * Set filename value (if filename selection is enabled)
 	 *  
@@ -239,9 +259,9 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Insert property html
+	* Render html
 	*/
-	function insert(&$a_tpl)
+	function render($a_mode = "")
 	{
 		global $lng;
 		
@@ -268,17 +288,37 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 		}
 
-		$this->outputSuffixes($f_tpl);
+		if ($a_mode != "toolbar")
+		{
+			$this->outputSuffixes($f_tpl);
 		
+			$f_tpl->setCurrentBlock("max_size");
+			$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+				$this->getMaxFileSizeString());
+			$f_tpl->parseCurrentBlock();
+		}
+
 		$f_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$f_tpl->setVariable("ID", $this->getFieldId());
-		$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
-			$this->getMaxFileSizeString());
+		$f_tpl->setVariable("SIZE", $this->getSize());
 			
+		return $f_tpl->get();
+	}
+	
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
 		$a_tpl->setCurrentBlock("prop_generic");
-		$a_tpl->setVariable("PROP_GENERIC", $f_tpl->get());
+		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
 	}
+
 
 	protected function outputSuffixes($a_tpl, $a_block = "allowed_suffixes")
 	{
@@ -325,4 +365,14 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 		
 		return $max_filesize;
 	}
+	
+	/**
+	* Get HTML for toolbar
+	*/
+	function getToolbarHTML()
+	{
+		$html = $this->render("toolbar");
+		return $html;
+	}
+
 }

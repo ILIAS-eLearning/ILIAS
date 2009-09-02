@@ -96,6 +96,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 			case "ilfilesystemgui":
 				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				$this->fs_gui->setTableId("sahsfs".$this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
 				break;
 
@@ -608,7 +609,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem, $ilUser, $ilCtrl;
 		
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -630,9 +631,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		// file system gui tabs
 		// properties
+		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
 		$tabs_gui->addTarget("cont_list_files",
 			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
 			"ilfilesystemgui");
+		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
 
 		// tracking data
 		$tabs_gui->addTarget("cont_tracking_data",

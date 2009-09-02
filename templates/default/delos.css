@@ -2617,6 +2617,7 @@ div.ilToolbar
 	margin-bottom: 8px;
 	margin-top: 0px;
 	font-size: 90%;
+	white-space: nowrap;
 }
 
 span.ilToolbarSeparator

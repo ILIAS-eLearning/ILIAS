@@ -108,7 +108,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-
+				$this->checkPermission("write");
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -118,8 +118,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				break;
 
 			case "ilfilesystemgui":
+				$this->checkPermission("write");
 				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
+				$fs_gui->setTableId("htlmfs".$this->object->getId());
 				if ($this->object->getStartFile() != "")
 				{
 					$fs_gui->labelFile($this->object->getStartFile(),
