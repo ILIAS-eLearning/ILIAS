@@ -161,5 +161,17 @@ class ilPDNewsGUI
 		$this->ctrl->redirect($this, "view");
 	}
 
+	/**
+	* reset filter
+	*/
+	function resetFilter()
+	{
+		global $ilUser;
+		$this->ctrl->setParameter($this, "news_ref_id", 0);
+		$ilUser->writePref("news_sel_ref_id", 0);
+		$_SESSION["news_pd_news_per"] = "";
+		$this->ctrl->redirect($this, "view");
+	}
+
 }
 ?>
