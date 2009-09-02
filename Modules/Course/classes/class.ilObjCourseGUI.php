@@ -2626,14 +2626,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'administrate'
 		$this->checkPermission('write');
-		/*
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
 		if(!is_array($_POST["user"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
@@ -2652,7 +2645,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				continue;
 			}
-			
 			switch($_POST['member_type'])
 			{
 				case ilCourseContants::CRS_MEMBER:
