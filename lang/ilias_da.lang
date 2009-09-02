@@ -806,7 +806,7 @@ common#:#edit_roleassignment#:#Rediger rolletildeling
 common#:#edit_stylesheet#:#Rediger Stil
 common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
-common#:#email#:#E-mail
+common#:#email#:#email
 common#:#email_feedback#:#Mail feedback
 common#:#email_footer#:#<br />driftes på ILIAS
 common#:#email_not_valid#:#Den indtastede emailadresse er ikke gyldig!
@@ -7845,7 +7845,7 @@ common#:#obj_cat_select#:#-- Vælg venligst en kategori --
 common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)
 common#:#cat_copy_threads_info#:#Vælg hvilke kategori objekter der skal kopieres, linkes eller udelades
 payment#:#object_deleted#:#Varen slettet
-payment#:#user_deleted#:#Bruger slettet
+payment#:#user_deleted#:#Slettet bruger
 payment#:#statistics_filter_advice#:#Vælg de værdier du ønsker at filtrere på og tryk derefter 'Opdater' knappen.
 mail#:#advice_mail_body_secured#:#ILIAS har fjernet nogle elementer fra din besked af sikkerhedshensyn. Gennemgå den sikrede besked og send igen.
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
@@ -8274,7 +8274,7 @@ ecs#:#ecs_participants_infos#:#Further Informations###23 07 2008 new variable
 ecs#:#ecs_active_header#:#Export Allowed###23 07 2008 new variable
 ecs#:#ecs_enable_participant#:#Allow Export###23 07 2008 new variable
 ecs#:#ecs_dns#:#Domainname###23 07 2008 new variable
-ecs#:#ecs_email#:#E-Mail###23 07 2008 new variable
+ecs#:#ecs_email#:#email
 ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data###23 07 2008 new variable
 ecs#:#ecs_field_study_courses#:#Study Course(s)###23 07 2008 new variable
 ecs#:#ecs_field_lecturer#:#Lecturer(s)###23 07 2008 new variable
