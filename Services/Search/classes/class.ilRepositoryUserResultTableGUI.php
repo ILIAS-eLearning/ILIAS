@@ -50,7 +50,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			$this->addMultiCommand('addUser', $this->lng->txt('btn_add'));
 			return true;
 		}
-		$this->addMultiItemSelectionButton('memberType', $a_commands, 'addUser', $this->lng->txt('btn_add'));
+		$this->addMultiItemSelectionButton('member_type', $a_commands, 'addUser', $this->lng->txt('btn_add'));
 		return true;
 	}
 	
