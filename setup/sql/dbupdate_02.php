@@ -15628,3 +15628,10 @@ $ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'
 		$ilDB->query($query);
 	}
 ?>
+<#2869>
+<?php
+	$ilDB->modifyTableColumn(
+		'usr_data',
+		'reg_hash',
+		array('type' => 'text', 'length' => 32, 'notnull' => false, 'fixed' => true));
+?>		
