@@ -1159,7 +1159,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		if (!$_GET["skipfinalstatement"])
 		{
-			if ($this->object->getShowFinalStatement() && ($this->object->getTestSession()->isSubmitted() || $this->isMaxProcessingTimeReached()))
+			if ($this->object->getShowFinalStatement())
 			{
 				$this->ctrl->redirect($this, "showFinalStatement");
 			}
