@@ -788,8 +788,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$_POST["reporting_date"]['date']["m"],
 					$_POST["reporting_date"]['date']["d"],
 					$_POST["reporting_date"]['time']["h"],
-					$_POST["reporting_date"]['date']["m"],
-					$_POST["reporting_date"]['date']["s"]
+					$_POST["reporting_date"]['time']["m"],
+					$_POST["reporting_date"]['time']["s"]
 				));
 			}
 			else
