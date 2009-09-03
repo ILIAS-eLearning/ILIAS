@@ -927,6 +927,7 @@ assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
+assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
@@ -937,8 +938,9 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
 assessment#:#tst_results_access_always#:#Immer
+assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_access_date#:#Datum
-assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben.
+assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben. Ist 'Nie' ausgewählt, haben die Teilnehmer keinen Zugriff auf die Testergebnisse.
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
