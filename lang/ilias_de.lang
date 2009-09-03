@@ -9898,8 +9898,8 @@ wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 content#:#cont_localfile#:#Lokale Datei
-survey#:#spl_browsercolumns#:#Customized question list###19 08 2009 new variable
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###19 08 2009 new variable
+survey#:#spl_browsercolumns#:#Individuelle Fragenliste
+survey#:#spl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 search#:#search_crs_title#:#Kursname
 license#:#remaining_licenses#:#Available licenses###19 08 2009 new variable
 license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###19 08 2009 new variable
