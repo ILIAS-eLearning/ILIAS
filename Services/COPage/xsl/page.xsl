@@ -2521,6 +2521,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</embed>
 		</xsl:when>
 
@@ -2540,6 +2541,7 @@
 				</xsl:choose>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</embed>
 		</xsl:when>
 
