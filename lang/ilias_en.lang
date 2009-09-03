@@ -9942,3 +9942,4 @@ webr#:#webr_list_desc#:#Description of Web Resource List
 webr#:#webr_edit_links#:#Edit Links
 payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
 payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
+payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
