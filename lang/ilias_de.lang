@@ -2134,7 +2134,7 @@ common#:#cron_forum_notification_never#:#nie
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
-common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.
+common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_cron#:#regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei neuen Mails benachrichtigt werden wollen, falls neue Mails vorliegen.
@@ -9901,8 +9901,8 @@ content#:#cont_localfile#:#Lokale Datei
 survey#:#spl_browsercolumns#:#Individuelle Fragenliste
 survey#:#spl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 search#:#search_crs_title#:#Kursname
-license#:#remaining_licenses#:#Available licenses###19 08 2009 new variable
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###19 08 2009 new variable
+license#:#remaining_licenses#:#Verfügbare Lizenen
+license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
 user#:#user_field#:#Feld
 user#:#user_visible_in_profile#:#Sichtbar im Profile
 payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
@@ -9914,7 +9914,7 @@ search#:#lucene_log#:#Pfad zur Logdatei
 search#:#lucene_level#:#Log-Level
 search#:#lucene_cpu#:#Anzahl Threads
 search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
-search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die Ip-Adresse des Rechners ein, auf dem der Java-Server laufen soll.
+search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die IP-Adresse des Rechners ein, auf dem der Java-Server laufen soll.
 search#:#lucene_log_info#:#Die Datei wird automatisch angelegt.
 search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
 search#:#lucene_create_ini#:#Konfigurationsdatei erstellen
