@@ -204,6 +204,7 @@ table.shop {
 }
 div.shop {
   text-align:right;
+  margin-top:-20px;
 }
 .shop img {
   border:0;
@@ -218,7 +219,9 @@ div.shop {
   border-top: 1px dotted #C0C0C0;
 }
   
-
+.clear_both {
+  clear:both;
+}
 
 td.nobackground {
 	color: #000000;
