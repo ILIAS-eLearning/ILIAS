@@ -784,12 +784,12 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
 			{
 				$this->object->setReportingDate(sprintf("%04d%02d%02d%02d%02d%02d",
-					$_POST["reporting_date"]["YY"],
-					$_POST["reporting_date"]["MM"],
-					$_POST["reporting_date"]["DD"],
-					$_POST["reporting_date"]["hh"],
-					$_POST["reporting_date"]["mm"],
-					$_POST["reporting_date"]["ss"]
+					$_POST["reporting_date"]['date']["y"],
+					$_POST["reporting_date"]['date']["m"],
+					$_POST["reporting_date"]['date']["d"],
+					$_POST["reporting_date"]['time']["h"],
+					$_POST["reporting_date"]['date']["m"],
+					$_POST["reporting_date"]['date']["s"]
 				));
 			}
 			else
@@ -906,6 +906,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$results_access = new ilRadioGroupInputGUI($this->lng->txt("tst_results_access"), "results_access");
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_finished"), 1, ''));
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_always"), 2, ''));
+		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_never"), 4, ''));
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_date"), 3, ''));
 		$results_access->setValue($this->object->getScoreReporting());
 		$results_access->setInfo($this->lng->txt("tst_results_access_description"));
@@ -3853,6 +3854,9 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 				case REPORT_AFTER_DATE:
 					$score_reporting_text = $this->lng->txt("tst_report_after_date");
+					break;
+				case 4:
+					$score_reporting_text = $this->lng->txt("tst_report_after_never");
 					break;
 			}
 			$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 
