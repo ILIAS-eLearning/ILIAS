@@ -88,7 +88,9 @@ class ilDBOracle extends ilDB
 	*/
 	function initConnection()
 	{
-		$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
+		$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8';
+		$this->query("ALTER SESSION SET nls_length_semantics='CHAR'");
+		
 	}
 
 /*	function manipulate($sql)
