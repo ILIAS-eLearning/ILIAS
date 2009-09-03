@@ -197,6 +197,29 @@ table.nobackground {
 	padding: 3px;
 }
 
+table.shop {
+  width: 50%;
+  margin: 0;
+  cellspacing: 0;
+}
+div.shop {
+  text-align:right;
+}
+.shop img {
+  border:0;
+}
+.float_right {
+  float:right;
+}
+.subitem {
+  clear:both;
+  margin: 5px 0px;
+  padding-top: 5px;
+  border-top: 1px dotted #C0C0C0;
+}
+  
+
+
 td.nobackground {
 	color: #000000;
 	background-color: inherit;
