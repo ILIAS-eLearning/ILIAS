@@ -185,8 +185,15 @@ class ilDBGenerator
 	
 	protected function openFile($a_path)
 	{
+		if(1)
+		{
+			$file = fopen($a_path, "w");
+			$start.= "\t".'global $ilDB;'."\n\n";
+			fwrite($file, $start);
+			return $file;
+		}
+
 		$file = fopen($a_path, "w");
-		
 		$start = '<?php'."\n".'function setupILIASDatabase()'."\n{\n";
 		$start.= "\t".'global $ilDB;'."\n\n";
 		fwrite($file, $start);
@@ -196,6 +203,13 @@ class ilDBGenerator
 	
 	protected function closeFile($fp)
 	{
+		if(1)
+		{
+			#fwrite ($fp, $end);
+			fclose ($fp);
+			return;
+		}
+
 		$end = "\n}\n?>\n";
 		fwrite ($fp, $end);
 		fclose ($fp);
@@ -269,7 +283,14 @@ class ilDBGenerator
 				$this->buildCreateSequenceStatement($table, $file);
 				
 				// inserts
-				$this->buildInsertStatements($table, $file);
+				if($isDirectory)
+				{
+					$this->buildInsertStatementsXML($table,$path);
+				}
+				else
+				{
+					$this->buildInsertStatements($table, $file);
+				}
 				
 				if($isDirectory)
 				{
@@ -455,6 +476,47 @@ class ilDBGenerator
 				fwrite($a_file, $seq_st);
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param object $a_table
+	 * @param object $a_file [optional]
+	 * @return 
+	 */
+	function buildInsertStatementsXML($a_table,$a_basedir)
+	{
+		include_once './classes/class.ilXmlWriter.php';
+		$w = new ilXmlWriter();
+		$w->xmlStartTag('Table',array('name' => $a_table));
+		
+		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
+		$ins_st = "";
+		$first = true;
+		while ($rec = $this->il_db->fetchAssoc($set))
+		{
+			$w->xmlStartTag('Row');
+			
+			$fields = array();
+			$types = array();
+			$values = array();
+			foreach($rec as $f => $v)
+			{
+				$w->xmlElement(
+					'Value',
+					array(
+						'name'	=> $f,
+						'type'	=> $this->fields[$f]['type']
+						),
+					$v
+				);
+			}
+			
+			$w->xmlEndTag('Row');		
+		}
+		$w->xmlEndTag('Table');
+		
+		$w->xmlDumpFile($a_basedir.'/'.$a_table.'.xml',FALSE);
 	}
 
 	/**

@@ -341,11 +341,37 @@ class ilSetup extends PEAR
 			fclose($fp);
 		}
 		
+		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
 		if ($db->getDBType() == "oracle")
 		{
-			include_once("./setup/sql/ilDBTemplate.php");
-			setupILIASDatabase();
+			if(@is_dir('./setup/sql/ilDBTemplate'))
+			{
+				include_once './Services/Database/classes/class.ilTableDataParser.php';
+				include_once './classes/class.ilSaxParserException.php';
+				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
+				foreach($reader as $file)
+				{
+					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
+					try 
+					{
+						$parser = new ilTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml',true);
+						$parser->startParsing();
+						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
+						
+					}
+					catch(ilSaxParserException $e)
+					{
+						die($e);
+					}
+				}
+			}
+			else
+			{
+				include_once("./setup/sql/ilDBTemplate.php");
+				setupILIASDatabase();
+			}
 		}
+		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
 		return true;
 	}
 
@@ -1756,4 +1782,31 @@ class ilSetup extends PEAR
 	}
 
 } // END class.ilSetup
+
+class tmpDirectoyIterator extends DirectoryIterator
+{
+	public function current()
+	{
+		return parent::getFileName();
+	}
+	
+	public function valid()
+	{
+		if(!parent::valid())
+		{
+			return false;
+		}
+		if($this->isFile() and substr(parent::getFileName(),-4) != '.xml')
+		{
+			return true;
+		}
+		parent::next();
+		return $this->valid();
+	}
+	
+	public function rewind()
+	{
+		parent::rewind();
+	}
+}
 ?>
