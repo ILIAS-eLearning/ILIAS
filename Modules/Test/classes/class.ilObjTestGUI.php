@@ -773,12 +773,9 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setPassScoring($_POST["pass_scoring"]);
 			}
 
-			if (is_array($_POST['instant_feedback']))
-			{
-				$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
-				$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
-				$this->object->setInstantFeedbackSolution((is_array($_POST['instant_feedback']) && in_array('instant_feedback_solution', $_POST['instant_feedback'])) ? 1 : 0);
-			}
+			$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
+			$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
+			$this->object->setInstantFeedbackSolution((is_array($_POST['instant_feedback']) && in_array('instant_feedback_solution', $_POST['instant_feedback'])) ? 1 : 0);
 
 			$this->object->setScoreReporting($_POST["results_access"]);
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
