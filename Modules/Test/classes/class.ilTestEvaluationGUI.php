@@ -600,7 +600,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				array(
 						'title' => $question_title, 
 						'points' => sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
-						'percentage' => sprintf("%.2f", $percent) . "%",
+						'percentage' => (float)$percent,
 						'answers' => $answered
 				)
 			);
