@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjiLincCourseGUI
@@ -516,80 +496,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("SEARCH_RESULT_TABLE",$tbl->tpl->get());
 
 		return true;
-	}
-	
-	public function __showMembersTable($a_result_set,$a_user_ids = NULL)
-	{
-        global $rbacsystem,$ilBench;
-        
-		$actions = array("RemoveMember"  => $this->lng->txt("remove"),"changeMember"  => $this->lng->txt("change"));
-
-        $tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		
-		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{		
-			$tpl->setVariable("COLUMN_COUNTS",7);
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-            foreach ($actions as $name => $value)
-			{
-				$tpl->setCurrentBlock("tbl_action_btn");
-				$tpl->setVariable("BTN_NAME",$name);
-				$tpl->setVariable("BTN_VALUE",$value);
-				$tpl->parseCurrentBlock();
-			}
-			
-			if (!empty($a_user_ids))
-			{
-				// set checkbox toggles
-				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$tpl->setVariable("JS_VARNAME","user_id");			
-				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_user_ids));
-				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$tpl->parseCurrentBlock();
-			}
-			
-            $tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		}
-
-		$this->ctrl->setParameter($this,"cmd","members");
-
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("ilinc_involved_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_involved_users"));
-
-		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			//user must be administrator
-			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("ilinc_coursemember_status"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("","login","firstname","lastname","ilinc_coursemember_status","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("","20%","15%","15%","20%","20%","10%"));
-		}
-		else
-		{
-			//user must be member
-			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("ilinc_coursemember_status"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
-			$tbl->setHeaderVars(array("login","firstname","lastname","ilinc_coursemember_status","role","functions"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("20%","15%","15%","20%","20%","10%"));
-		}
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
-		$tbl->render();
-		$this->tpl->setVariable("MEMBER_TABLE",$tbl->tpl->get());
-		
-		return true;
-	}
-	
+	}	
 
 	public function &__initTableGUI()
 	{
@@ -801,28 +708,23 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	public function membersObject()
 	{
-		global $rbacsystem,$ilBench,$ilDB,$lng;
+		global $ilAccess, $ilBench, $lng, $ilToolbar, $ilUser;
 		
-		if (!$this->ilias->getSetting("ilinc_active"))
+		if(!$this->ilias->getSetting('ilinc_active'))
 		{
-			$this->ilias->raiseError($lng->txt("ilinc_server_not_active"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($lng->txt('ilinc_server_not_active'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.icrs_members.html","Modules/ILinc");
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.icrs_members.html','Modules/ILinc');
 		$this->__setSubTabs('members');
 		
 		$this->lng->loadLanguageModule('ilinc');
 		
 		// display member search button
-		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
-		
-		if ($is_admin)
+		$is_admin = (bool)$ilAccess->checkAccess('write', '', $this->object->getRefId());		
+		if($is_admin)
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("ilinc_add_user"));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton($this->lng->txt('ilinc_add_user'), $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
 		}
 		
 		//if current user is admin he is able to add new members to group
@@ -830,10 +732,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_change_status")."\" title=\"".$this->lng->txt("ilinc_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_leave")."\" title=\"".$this->lng->txt("ilinc_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
-
 		// store access checks to improve performance
-		$access_leave = $rbacsystem->checkAccess("leave",$this->object->getRefId());
-		$access_write = $rbacsystem->checkAccess("write",$this->object->getRefId());
+		$access_leave = $ilAccess->checkAccess('leave', '', $this->object->getRefId());
+		$access_write = $ilAccess->checkAccess('write', '', $this->object->getRefId());
 
 		$member_ids = $this->object->getMemberIds();
 		
@@ -844,67 +745,64 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$docent_ids = $this->object->getiLincMemberIds(true);
 		$student_ids = $this->object->getiLincMemberIds(false);
 
-		$account_id = $this->ilias->account->getId();
 		$counter = 0;
-
-		foreach ($members as $mem)
+		$result_set = array();
+		foreach($members as $mem)
 		{
-			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem["login"];
-			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
-		
-			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
+			$link_contact = 'ilias.php?baseClass=ilMailGUI&type=new&rcp_to='.$mem['login'];
+			$link_change = $this->ctrl->getLinkTarget($this, 'changeMember').'&mem_id='.$mem['id'];		
+			if(($mem['id'] == $ilUser->getId() && $access_leave) || $access_delete)
 			{
-				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
+				$link_leave = $this->ctrl->getLinkTarget($this, 'removeMember').'&mem_id='.$mem['id'];
 			}
 
-			//build function
-			if ($access_write)
+			//build functions
+			$member_functions = '';
+			if($access_write)
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
-
-			if (($mem["id"] == $account_id && $access_leave) || $access_write)
+			if(($mem['id'] == $ilUser->getId() && $access_leave) || $access_write)
 			{
-				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
+				$link_leave = $this->ctrl->getLinkTarget($this, 'removeMember').'&mem_id='.$mem['id'];
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 			
 			// this is twice as fast than the code above
-			$str_member_roles = $this->object->getMemberRolesTitle($mem["id"]);
-
-			if ($access_write)
+			$str_member_roles = $this->object->getMemberRolesTitle($mem['id']);
+			
+			if($access_write)
 			{
-				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$mem["id"]);
+				$result_set[$counter]['checkbox'] = ilUtil::formCheckBox(0, 'user_id[]', $mem['id']);
 			}
 			
-			$user_ids[$counter] = $mem["id"];
-			
-			$status = $this->object->checkiLincMemberStatus($mem['ilinc_id'],$docent_ids,$student_ids);
-			
-			if ($status == ILINC_MEMBER_NOTSET)
+			$status = $this->object->checkiLincMemberStatus($mem['ilinc_id'], $docent_ids, $student_ids);			
+			if($status == ILINC_MEMBER_NOTSET)
 			{
 				$status = "<span class='warning'>".$this->lng->txt($status)."</span>";
 			}
 			else
 			{
 				$status = $this->lng->txt($status);
-			}
-			
+			}			
             
-            //discarding the checkboxes
-			$result_set[$counter][] = $mem["login"];
-			$result_set[$counter][] = $mem["firstname"];
-			$result_set[$counter][] = $mem["lastname"];
-			$result_set[$counter][] = $status;
-			$result_set[$counter][] = $str_member_roles;
-			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
+			$result_set[$counter]['login'] = $mem['login'];
+			$result_set[$counter]['firstname'] = $mem['firstname'];
+			$result_set[$counter]['lastname'] = $mem['lastname'];
+			$result_set[$counter]['attending_as'] = $status;
+			$result_set[$counter]['role'] = $str_member_roles;
+			$result_set[$counter]['options'] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
 
 			++$counter;
 
 			unset($member_functions);
 		}
-
-		return $this->__showMembersTable($result_set,$user_ids);
+		
+		include_once 'Modules/ILinc/classes/class.iliLinkMembersTableGUI.php';
+		$oTable = new iliLinkMembersTableGUI($this, $result_set, 'show', 'members', 'members');		
+		$oTable->setTitle($this->lng->txt('ilinc_involved_users'), 'icon_usr_b.gif', $this->lng->txt('ilinc_involved_users'));
+			
+		return $this->tpl->setVariable('MEMBER_TABLE', $oTable->getHTML());
     }
     
 	public function &executeCommand()
@@ -1243,155 +1141,107 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function removeMemberObject()
 	{
-		global $ilUser,$rbacreview;
+		global $ilUser, $rbacreview;
+		
+		$this->__setSubTabs('members');
 		
 		$user_ids = array();
 
-		if (isset($_POST["user_id"]))
+		if(isset($_POST['user_id']))
 		{
-			$user_ids = $_POST["user_id"];
+			$user_ids = $_POST['user_id'];
 		}
-		else if (isset($_GET["mem_id"]))
+		else if(isset($_GET['mem_id']))
 		{
-			$user_ids[] = $_GET["mem_id"];
+			$user_ids[] = $_GET['mem_id'];
+		}
+		else if(isset($_GET['mem_id_arr']))
+		{
+			$user_ids = explode(',', $_GET['mem_id_arr']);
 		}
 
-		if (empty($user_ids[0]))
+		if(empty($user_ids[0]))
 		{
-			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt("no_checkbox"), $this->ilErr->MESSAGE);
 		}
 		
-		if (count($user_ids) == 1 and $this->ilias->account->getId() != $user_ids[0])
+		if(count($user_ids) == 1 && $ilUser->getId() != $user_ids[0])
 		{
-			if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
-				and !in_array($this->ilias->account->getId(),$this->object->getAdminIds()))
+			if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) &&
+			   !in_array($ilUser->getId(), $this->object->getAdminIds()))
 			{
-				$this->ilErr->raiseError($this->lng->txt("ilinc_err_no_permission"),$this->ilErr->MESSAGE);
+				$this->ilErr->raiseError($this->lng->txt("ilinc_err_no_permission"), $this->ilErr->MESSAGE);
 			}
 		}
+		
 		//bool value: says if $users_ids contains current user id
-		$is_dismiss_me = array_search($this->ilias->account->getId(),$user_ids);
+		$is_dismiss_me = array_search($this->ilias->account->getId(), $user_ids);
 		
 		$confirm = "confirmedRemoveMember";
 		$cancel  = "canceled";
 		$info	 = ($is_dismiss_me !== false) ? "ilinc_dismiss_myself" : "ilinc_dismiss_member";
 		$status  = "";
-		$return  = "members";
-		$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status, $return);
+		$return  = "members";		
 		
-		$this->__setSubTabs('members');
+		ilUtil::sendQuestion($this->lng->txt($info));
+		
+		$data = array();
+		if(is_array($user_ids))
+		{
+			foreach($user_ids as $id)
+			{
+				$obj_data = ilObjectFactory::getInstanceByObjId($id);
+				$data[$id] = array(
+					'type'        => ilUtil::getImageTagByType($obj_data->getType(), $this->tpl->tplPath),
+					'title'       => $obj_data->getTitle(),
+					'desc'        => $obj_data->getDescription(),
+					'last_update' => $obj_data->getLastUpdateDate()
+				);
+			}
+		}
+		else
+		{
+			$obj_data = ilObjectFactory::getInstanceByObjId($user_ids);
+			$data[$user_ids] = array(
+				'type'        => ilUtil::getImageTagByType($obj_data->getType(), $this->tpl->tplPath),
+				'title'       => $obj_data->getTitle(),
+				'desc'        => $obj_data->getDescription(),
+				'last_update' => $obj_data->getLastUpdateDate(),
+			);
+		}
+
+		//write  in sessionvariables
+		if(is_array($user_ids))
+		{
+			$_SESSION['saved_post']['user_id'] = $user_ids;
+		}
+		else
+		{
+			$_SESSION['saved_post']['user_id'][0] = $user_ids;
+		}
+
+		if(isset($status))
+		{
+			$_SESSION['saved_post']['status'] = $status;
+		}	
+
+		include_once 'Modules/ILinc/classes/class.iliLinkConfirmationTableGUI.php';
+		$this->ctrl->setParameter($this, 'cmd_return_location', $a_cmd_return_location);
+		$this->ctrl->setParameter($this, 'mem_id_arr', implode(',', $user_ids));
+		$oTable = new iliLinkConfirmationTableGUI($this, $data, 'removeMember', $return);
+		$oTable->addCommandButton($cancel, $this->lng->txt('cancel'));
+		$oTable->addCommandButton($confirm, $this->lng->txt('confirm'));
+		
+		return $this->tpl->setContent($oTable->getHTML());					
 	}
 
 	/**
 	* displays confirmation form
 	* @access public
 	*/
-	function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="",$a_cmd_return_location = "")
+	function confirmationObject($user_id = '', $confirm = '', $cancel = '', $info = '', $status = '', $a_cmd_return_location = '', $invokeMethod = '')
 	{
-		$this->data["cols"] = array("type", "title", "description", "last_change");
-
-		if (is_array($user_id))
-		{
-			foreach ($user_id as $id)
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-				$this->data["data"]["$id"] = array(
-					"type"        => $obj_data->getType(),
-					"title"       => $obj_data->getTitle(),
-					"desc"        => $obj_data->getDescription(),
-					"last_update" => $obj_data->getLastUpdateDate(),
-
-					);
-			}
-		}
-		else
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
-
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate(),
-				);
-		}
-
-		//write  in sessionvariables
-		if(is_array($user_id))
-		{
-			$_SESSION["saved_post"]["user_id"] = $user_id;
-		}
-		else
-		{
-			$_SESSION["saved_post"]["user_id"][0] = $user_id;
-		}
-
-		if (isset($status))
-		{
-			$_SESSION["saved_post"]["status"] = $status;
-		}
-
-		$this->data["buttons"] = array( $cancel  => $this->lng->txt("cancel"),
-						$confirm  => $this->lng->txt("confirm"));
-
-		$this->getTemplateFile("confirm");
-
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-
-		ilUtil::infoPanel();
-
-		ilUtil::sendInfo($this->lng->txt($info));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this)."&cmd_return_location=".$a_cmd_return_location);
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach ($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach ($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if ($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.gif"));
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		
 	}
 
 	/**
@@ -1447,33 +1297,34 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function changeMemberObject()
 	{
-		global $rbacreview,$ilUser;
+		global $rbacreview, $ilUser;
 		
-		if ($_GET["sort_by"] == "title" or $_GET["sort_by"] == "")
-		{
-			$_GET["sort_by"] = "login";
-		}
+		$this->__setSubTabs('members');
 
 		$member_ids = array();
 
-		if (isset($_POST["user_id"]))
+		if(isset($_POST['user_id']))
 		{
-			$member_ids = $_POST["user_id"];
+			$member_ids = $_POST['user_id'];
 		}
-		else if (isset($_GET["mem_id"]))
+		else if(isset($_GET['mem_id']))
 		{
-			$member_ids[0] = $_GET["mem_id"];
+			$member_ids[0] = $_GET['mem_id'];
+		}
+		else if(isset($_GET['mem_id_arr']))
+		{
+			$member_ids = explode(',', $_GET['mem_id_arr']);
 		}
 
-		if (empty($member_ids[0]))
+		if(empty($member_ids[0]))
 		{
-			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('no_checkbox'), $this->ilErr->MESSAGE);
 		}
 
-		if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
-			and !in_array($this->ilias->account->getId(),$this->object->getAdminIds()))
+		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) &&
+		   !in_array($ilUser->getId(), $this->object->getAdminIds()))
 		{
-			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('grp_err_no_permission'), $this->ilErr->MESSAGE);
 		}
 
 		$stati = array_flip($this->object->getLocalRoles(true));
@@ -1482,100 +1333,51 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$docent_ids = $this->object->getiLincMemberIds(true);
 		$student_ids = $this->object->getiLincMemberIds(false);
 		
+		$data = array();
+		
 		//build data structure
-		foreach ($member_ids as $member_id)
+		foreach($member_ids as $member_id)
 		{
-			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
+			$member = ilObjectFactory::getInstanceByObjId($member_id);
 			$mem_status = $this->object->getMemberRoles($member_id);
 
-			include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
+			include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
 			$ilinc_user = new ilObjiLincUser($member);
 						
-			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_user->id,$docent_ids,$student_ids);
+			$ilinc_status = $this->object->checkiLincMemberStatus($ilinc_user->id, $docent_ids, $student_ids);
 
 			$docent = 0; $student = 0;
 
-			if ($ilinc_status == ILINC_MEMBER_DOCENT)
+			if($ilinc_status == ILINC_MEMBER_DOCENT)
 			{
 				$docent = 1;
 			}
-			elseif ($ilinc_status == ILINC_MEMBER_STUDENT)
+			else if($ilinc_status == ILINC_MEMBER_STUDENT)
 			{
 				$student = 1;
 			}
 			
-			$radio1 = ilUtil::formRadioButton($docent,"ilinc_member_status_select[".$member->getId()."][".$ilinc_user->id."]",ILINC_MEMBER_DOCENT);
-			$radio2 = ilUtil::formRadioButton($student,"ilinc_member_status_select[".$member->getId()."][".$ilinc_user->id."]",ILINC_MEMBER_STUDENT);
+			$radio1 = ilUtil::formRadioButton($docent, 'ilinc_member_status_select['.$member->getId().']['.$ilinc_user->id.']', ILINC_MEMBER_DOCENT);
+			$radio2 = ilUtil::formRadioButton($student, 'ilinc_member_status_select['.$member->getId().']['.$ilinc_user->id.']', ILINC_MEMBER_STUDENT);
 
-
-			$this->data["data"][$member->getId()]= array(
-					"login"		=> $member->getLogin(),
-					"firstname"	=> $member->getFirstname(),
-					"lastname"	=> $member->getLastname(),
-					"ilinc_coursemember_status" => $radio1." ".$this->lng->txt("ilinc_docent")."<br/>".$radio2." ".$this->lng->txt("ilinc_student"),
-					"grp_role"	=> ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3)
-				);
+			$data[$member->getId()] = array(
+				'login'		=> $member->getLogin(),
+				'firstname'	=> $member->getFirstname(),
+				'lastname'	=> $member->getLastname(),
+				'attending_as' => $radio1.' '.$this->lng->txt('ilinc_docent').'<br/ '.$radio2.' '.$this->lng->txt('ilinc_student'),
+				'grp_role'	=> ilUtil::formSelect($mem_status, 'member_status_select['.$member->getId().'][]', $stati, true, true, 3)
+			);
 		}
 		
 		unset($member);
-		unset($ilinc_user);
+		unset($ilinc_user);	
 		
-		ilUtil::infoPanel();
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "member_table", "tpl.table.html");
+		include_once 'Modules/ILinc/classes/class.iliLinkMembersTableGUI.php';
+		$this->ctrl->setParameter($this, 'mem_id_arr', implode(',', $member_ids));
+		$oTable = new iliLinkMembersTableGUI($this, $data, 'change', 'changeMember', 'changeMember');		
+		$oTable->setTitle($this->lng->txt('grp_mem_change_status'), 'icon_usr_b.gif', $this->lng->txt('grp_mem_change_status'));
 		
-		$this->__setSubTabs('members');
-
-		// load template for table content data
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$this->data["buttons"] = array( "members"  => $this->lng->txt("back"),
-										"updateMemberStatus"  => $this->lng->txt("confirm"));
-
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("COLUMN_COUNTS",5);
-		//$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		//sort data array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-		
-		// create table
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		$tbl = new ilTableGUI($output);
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("grp_mem_change_status"),"icon_usr_b.gif",$this->lng->txt("grp_mem_change_status"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("ilinc_coursemember_status"),$this->lng->txt("role")));
-		$tbl->setHeaderVars(array("login","firstname","lastname","ilinc_coursemember_status","role"),$this->ctrl->getParameterArray($this,"",false));
-
-		$tbl->setColumnWidth(array("20%","15%","15%","15%","30%"));
-
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->parseCurrentBlock();
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($this->data["data"]));
-
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$tbl->render();
+		return $this->tpl->setContent($oTable->getHTML());
 	}
 	
 	/**
@@ -1811,7 +1613,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		{
 			case 'members':
 				//$this->tabs_gui->addSubTabTarget('ilinc_member_administration',
-				$this->tabs_gui->addSubTabTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array('members', 'changeMember', 'RemoveMember'), get_class($this));
+				$this->tabs_gui->addSubTabTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array('members', 'changeMember', 'removeMember'), get_class($this));
 				$this->tabs_gui->addSubTabTarget('icrs_members_gallery', $this->ctrl->getLinkTarget($this, 'membersGallery'), 'membersGallery', get_class($this));
 				$this->tabs_gui->addSubTabTarget('mail_members', $this->ctrl->getLinkTarget($this, 'mailMembers'), 'mailMembers', get_class($this));
 				break;
