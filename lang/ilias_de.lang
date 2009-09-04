@@ -244,12 +244,12 @@ assessment#:#assFlashQuestion#:#Flash-Frage
 assessment#:#assImagemapQuestion#:#ImageMap-Frage
 assessment#:#assJavaApplet#:#Java-Applet-Frage
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
-assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
+assessment#:#assMultipleChoice#:#Multiple Choice Frage
 assessment#:#assNumeric#:#Numerische Frage
 assessment#:#assOrderingHorizontal#:#Anordnungsfrage (Horizontal)
 assessment#:#assOrderingQuestion#:#Anordnungsfrage
 assessment#:#assQuestions#:#Fragen
-assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
+assessment#:#assSingleChoice#:#Single Choice Frage
 assessment#:#assTextQuestion#:#Freitext-Frage
 assessment#:#assTextSubset#:#Text-Teilmenge
 assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
@@ -9359,8 +9359,8 @@ survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Vorbedingung zu erstellen.
 survey#:#msg_users_disinvited#:#Benutzer ausgeladen
-survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
-survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
+survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage
+survey#:#multiple_choice_single_response#:#Single Choice Frage
 survey#:#multiple_choice_subtype_description#:#Wählen Sie Einfachauswahl, wenn Sie wünschen, dass die Teilnehmer nur genau eine Antwort auswählen und Mehrfachauswahl, wenn die Teilnehmer mehr als eine Antwort auswählen dürfen.
 survey#:#new_survey_codes#:#neue Zugangsschlüssel für die Umfrage
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
@@ -9518,8 +9518,8 @@ survey#:#survey_text_textwidth_desc#:#Geben Sie die Breite des Eingabefeldes in 
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
-survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)
-survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage
+survey#:#SurveySingleChoiceQuestion#:#Single Choice Frage
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
