@@ -63,10 +63,27 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-		
 		$this->enable('sort');
 		$this->enable('header');
 		$this->disable('select_all');
+	}
+
+	/**
+	* Should this field be sorted numeric?
+	*
+	* @return	boolean		numeric ordering; default is false
+	*/
+	function numericOrdering($a_field)
+	{
+		switch ($a_field)
+		{
+			case 'percentage':
+				return true;
+				break;
+			default:
+				return false;
+				break;
+		}
 	}
 
 	/**
@@ -82,7 +99,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("TITLE", $data["title"]);
 		$this->tpl->setVariable("POINTS", $data["points"]);
-		$this->tpl->setVariable("PERCENTAGE", $data["percentage"]);
+		$this->tpl->setVariable("PERCENTAGE", sprintf("%.2f", $data["percentage"]) . "%");
 		$this->tpl->setVariable("ANSWERS", $data["answers"]);
 	}
 }
