@@ -35,8 +35,9 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
 	protected $specialcolumns;
+	protected $anonymity;
 
-	public function __construct($a_parent_obj, $a_parent_cmd, $special_columns)
+	public function __construct($a_parent_obj, $a_parent_cmd, $special_columns, $anonymity = false)
 	{
 		global $ilCtrl, $lng;
 		
@@ -49,6 +50,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn($lng->txt("name"), "name", "");
 		$this->addColumn($lng->txt("login"), "login", "");
+		$this->anonymity = $anonymity;
 		if ($this->hasSpecialColumn('gender'))
 		{
 			$this->addColumn($lng->txt("gender"), "gender", "");
@@ -104,6 +106,31 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
 		$this->setFilterCommand('filterEvaluation');
 		$this->initFilter();
+	}
+
+	/**
+	* Should this field be sorted numeric?
+	*
+	* @return	boolean		numeric ordering; default is false
+	*/
+	function numericOrdering($a_field)
+	{
+		switch ($a_field)
+		{
+			case 'name':
+				if ($this->anonymity)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+			default:
+				return false;
+				break;
+		}
 	}
 	
 	/**

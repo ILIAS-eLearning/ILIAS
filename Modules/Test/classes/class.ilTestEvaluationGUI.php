@@ -132,7 +132,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	public function filterEvaluation()
 	{
-		include_once "./Modules/Test/classes/class.ilEvaluationAllTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', array());
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, "outEvaluation");
@@ -159,8 +159,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			array_push($additionalFields, 'ects_grade');
 		}
-		include_once "./Modules/Test/classes/class.ilEvaluationAllTableGUI.php";
-		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $additionalFields);
+		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $additionalFields, $this->object->getAnonymity());
 		$data = array();
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
@@ -200,6 +200,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				if (!$remove)
 				{
 					// build the evaluation row
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($userfields as $key => $value)
+					{
+						$evaluationrow[$key] = strlen($value) ? $value : ' ';
+					}
 					$evaluationrow = array();
 					$fullname = "";
 					if ($this->object->getAnonymity())
@@ -221,11 +226,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						}
 					}
 
-					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
-					foreach ($userfields as $key => $value)
-					{
-						$evaluationrow[$key] = strlen($value) ? $value : ' ';
-					}
 					$evaluationrow['reached'] = $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints();
 					$percentage = $userdata->getReachedPointsInPercent();
 					$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
