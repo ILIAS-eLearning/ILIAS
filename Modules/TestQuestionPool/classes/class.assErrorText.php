@@ -479,7 +479,24 @@ class assErrorText extends assQuestion
 		include_once ("./classes/class.ilExcelUtils.php");
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
-		return $startrow + 1;
+		
+		$i= 0;
+		$selections = array();
+		$solutions =& $this->getSolutionValues($active_id, $pass);
+		if (is_array($solutions))
+		{
+			foreach ($solutions as $solution)
+			{
+				array_push($selections, $solution['value1']);
+			}
+			$errortext_value = join(",", $selections);
+		}
+		$errortext = $this->createErrorTextExport($selections);
+		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
+		$i++;
+		$worksheet->writeString($startrow+$i, 0, ilExcelUtils::_convert_text($errortext));
+		$i++;
+		return $startrow + $i + 1;
 	}
 	
 	/**
@@ -606,6 +623,48 @@ class assErrorText extends assQuestion
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
+		}
+		return join($textarray, "\n");
+	}
+
+	public function createErrorTextExport($selections = null)
+	{
+		$counter = 0;
+		$errorcounter = 0;
+		if (!is_array($selections)) $selections = array();
+		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		foreach ($textarray as $textidx => $text)
+		{
+			$items = preg_split("/\s+/", $text);
+			foreach ($items as $idx => $item)
+			{
+				if (strpos($item, '#') === 0)
+				{
+					$item = ilStr::substr($item, 1, ilStr::strlen($item));
+					if ($correct_solution)
+					{
+						$errorobject = $this->errordata[$errorcounter];
+						if (is_object($errorobject))
+						{
+							$item = $errorobject->text_correct;
+						}
+						$errorcounter++;
+					}
+				}
+				$word = "";
+				if (in_array($counter, $selections))
+				{
+					$word .= '#';
+				}
+				$word .= ilUtil::prepareFormOutput($item);
+				if (in_array($counter, $selections))
+				{
+					$word .= '#';
+				}
+				$items[$idx] = $word;
+				$counter++;
+			}
+			$textarray[$textidx] = join($items, " ");
 		}
 		return join($textarray, "\n");
 	}
