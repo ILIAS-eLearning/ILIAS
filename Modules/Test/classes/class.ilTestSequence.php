@@ -190,12 +190,12 @@ class ilTestSequence
 		$postponed = NULL;
 		if ((is_array($this->sequencedata["postponed"])) && (count($this->sequencedata["postponed"])))
 		{
-			$postponed = $ilDB->quote(serialize($this->sequencedata["postponed"]));
+			$postponed = serialize($this->sequencedata["postponed"]);
 		}
 		$hidden = NULL;
 		if ((is_array($this->sequencedata["hidden"])) && (count($this->sequencedata["hidden"])))
 		{
-			$hidden = $ilDB->quote(serialize($this->sequencedata["hidden"]));
+			$hidden = serialize($this->sequencedata["hidden"]);
 		}
 		
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",

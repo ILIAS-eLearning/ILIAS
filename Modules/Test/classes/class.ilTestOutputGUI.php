@@ -261,7 +261,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$is_postponed = $this->object->getTestSequence()->isPostponedQuestion($question_gui->object->getId());
-
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
 		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
@@ -1557,7 +1556,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock('item');
-				$active = ($row['sequence'] == $_GET['sequence']) ? ' active' : '';
+				$active = ($row['sequence'] == $this->sequence) ? ' active' : '';
 				$template->setVariable('CLASS', ($row['walked_through']) ? ('answered'.$active) : ('unanswered'.$active));
 				$template->setVariable('ITEM', ilUtil::prepareFormOutput($row['title']));
 				$template->setVariable('HREF', $row['href']);
