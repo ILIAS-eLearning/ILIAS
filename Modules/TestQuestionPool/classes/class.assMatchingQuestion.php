@@ -625,18 +625,6 @@ class assMatchingQuestion extends assQuestion
 	{
 		return $this->definitions;
 	}
-
-	/**
-	* Returns a term with a given ID
-	* TODO
-	* @param string $id The id of the term
-	* @return string The term
-	* @see $terms
-	*/
-	public function getTermWithID($id)
-	{
-		return $this->terms[$id];
-	}
 	
 	/**
 	* Returns the number of terms
@@ -790,7 +778,7 @@ class assMatchingQuestion extends assQuestion
 	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
-	* TODO
+	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
@@ -1133,7 +1121,7 @@ class assMatchingQuestion extends assQuestion
 
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
-	* TODO
+	*
 	* @param object $worksheet Reference to the parent excel worksheet
 	* @param object $startrow Startrow of the output in the excel worksheet
 	* @param object $active_id Active id of the participant
@@ -1151,21 +1139,34 @@ class assMatchingQuestion extends assQuestion
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
 		$imagepath = $this->getImagePath();
 		$i = 1;
-		$terms = $this->getTerms();
 		foreach ($solutions as $solution)
 		{
 			$matches_written = FALSE;
-			foreach ($this->getMatchingPairs() as $idx => $answer)
+			foreach ($this->getMatchingPairs() as $idx => $pair)
 			{
 				if (!$matches_written) $worksheet->writeString($startrow + $i, 1, ilExcelUtils::_convert_text($this->lng->txt("matches")));
 				$matches_written = TRUE;
-				if ($answer->getDefinitionId() == $solution["value2"])
+				if ($pair->definition->identifier == $solution["value2"])
 				{
-					if (strlen($answer->getDefinition())) $worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getDefinition()));
+					if (strlen($pair->definition->text))
+					{
+						$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($pair->definition->text));
+					}
+					else
+					{
+						$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($pair->definition->picture));
+					}
 				}
-				if ($answer->getTermId() == $solution["value1"])
+				if ($pair->term->identifier == $solution["value1"])
 				{
-					if (strlen($answer->getTermId())) $worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($terms[$answer->getTermId()]));
+					if (strlen($pair->term->text))
+					{
+						$worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($pair->term->text));
+					}
+					else
+					{
+						$worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($pair->term->picture));
+					}
 				}
 			}
 			$i++;

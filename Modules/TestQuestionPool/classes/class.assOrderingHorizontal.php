@@ -391,7 +391,14 @@ class assOrderingHorizontal extends assQuestion
 		include_once ("./classes/class.ilExcelUtils.php");
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
-		return $startrow + 1;
+
+		$solutionvalue = "";
+		$solutions =& $this->getSolutionValues($active_id, $pass);
+		$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
+		$i = 1;
+		$worksheet->writeString($startrow+$i, 0, ilExcelUtils::_convert_text($solutionvalue));
+		$i++;
+		return $startrow + $i + 1;
 	}
 	
 	/**
