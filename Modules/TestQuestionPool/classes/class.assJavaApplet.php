@@ -312,6 +312,7 @@ class assJavaApplet extends assQuestion
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
 			$this->setObjId($data["obj_fi"]);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
 			$this->setOriginalId($data["original_id"]);

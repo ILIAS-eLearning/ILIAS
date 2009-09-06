@@ -306,6 +306,7 @@ class assImagemapQuestion extends assQuestion
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
 			$this->setOriginalId($data["original_id"]);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setAuthor($data["author"]);
 			$this->setPoints($data["points"]);
 			$this->setOwner($data["owner"]);

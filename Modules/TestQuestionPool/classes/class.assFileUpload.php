@@ -121,6 +121,7 @@ class assFileUpload extends assQuestion
 			$this->setId($question_id);
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setSuggestedSolution($data["solution_hint"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setObjId($data["obj_fi"]);

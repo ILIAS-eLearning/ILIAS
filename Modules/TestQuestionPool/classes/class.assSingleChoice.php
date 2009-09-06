@@ -254,6 +254,7 @@ class assSingleChoice extends assQuestion
 			$this->setId($question_id);
 			$this->setObjId($data["obj_fi"]);
 			$this->setTitle($data["title"]);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setComment($data["description"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setAuthor($data["author"]);

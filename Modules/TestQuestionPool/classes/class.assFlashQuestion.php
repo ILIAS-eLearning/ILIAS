@@ -138,6 +138,7 @@ class assFlashQuestion extends assQuestion
 		{
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
 			$this->setSuggestedSolution($data["solution_hint"]);
