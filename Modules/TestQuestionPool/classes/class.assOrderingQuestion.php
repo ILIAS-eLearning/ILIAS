@@ -1095,7 +1095,6 @@ class assOrderingQuestion extends assQuestion
 			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
-		$answers = array();
 		$counter = 1;
 		$answers = array();
 		foreach ($this->getAnswers() as $answer_obj)
@@ -1103,7 +1102,7 @@ class assOrderingQuestion extends assQuestion
 			$answers[$counter] = $answer_obj->getAnswertext();
 			$counter++;
 		}
-		$answers = $this->pcArrayShuffle($ansewrs);
+		$answers = $this->pcArrayShuffle($answers);
 		foreach ($answers as $order => $answer)
 		{
 			array_push($answers, array(
