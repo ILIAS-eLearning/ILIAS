@@ -80,7 +80,7 @@
 
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-	if (!pager) {
+	if(typeof(pager) == 'undefined') {	
 		jQuery('.cmap{VAL_ID}').maphilight({fade:true});
 	}
 	
