@@ -70,6 +70,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
 		if($_GET["baseClass"] == 'ilLinkResourceHandlerGUI')
 		{
+			$_GET['view_mode'] = isset($_GET['switch_mode']) ? $_GET['switch_mode'] : $_GET['view_mode'];
 			$ilCtrl->saveParameter($this, 'view_mode');
 			$this->__prepareOutput();
 		}
