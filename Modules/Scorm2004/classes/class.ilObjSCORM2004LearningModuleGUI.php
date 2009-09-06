@@ -227,33 +227,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
 		$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
 		
-			//unlimited session
-		$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
-		$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
-		$this->tpl->setVariable("VAL_SESSION", "y");
-		if ($this->object->getSession())
-		{
-			$this->tpl->setVariable("CHK_SESSION", "checked");
-		}
-		
-		
-		// disable top menu
-		$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
-		$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
-		$this->tpl->setVariable("VAL_NOMENU", "y");
-		if ($this->object->getNoMenu())
-		{
-			$this->tpl->setVariable("CHK_NOMENU", "checked");
-		}
-			
-		//disable left-side navigation	
-		$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
-		$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
-		$this->tpl->setVariable("VAL_HIDENAVIG", "y");
-		if ($this->object->getHideNavig())
-		{
-			$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
-		}
+	
 
 
 		//debug
@@ -315,6 +289,35 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			// max attempts
 			$this->tpl->setVariable("MAX_ATTEMPTS", $this->lng->txt("cont_sc_max_attempt"));
 			$this->tpl->setVariable("VAL_MAX_ATTEMPT", $this->object->getMaxAttempt());
+			
+					//unlimited session
+		$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
+		$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
+		$this->tpl->setVariable("VAL_SESSION", "y");
+		if ($this->object->getSession())
+		{
+			$this->tpl->setVariable("CHK_SESSION", "checked");
+		}
+		
+		
+		// disable top menu
+		$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
+		$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
+		$this->tpl->setVariable("VAL_NOMENU", "y");
+		if ($this->object->getNoMenu())
+		{
+			$this->tpl->setVariable("CHK_NOMENU", "checked");
+		}
+			
+		//disable left-side navigation	
+		$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
+		$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
+		$this->tpl->setVariable("VAL_HIDENAVIG", "y");
+		if ($this->object->getHideNavig())
+		{
+			$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
+		}
+		
 		}
 
 		if ($this->object->editable==1) {

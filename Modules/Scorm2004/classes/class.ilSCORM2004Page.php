@@ -181,7 +181,7 @@ class ilSCORM2004Page extends ilPageObject
 	{
 		global $ilDB;
 		
-		$ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
+		$res = $ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
 			" AND page_id = %s",
 			array("text", "integer"),
 			array($a_parent_type, $a_page_id));
