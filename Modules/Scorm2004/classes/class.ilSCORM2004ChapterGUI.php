@@ -111,12 +111,12 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 		$ilTabs->addTarget("sahs_organization",
 			 $ilCtrl->getLinkTarget($this,'showOrganization'),
 			 "showOrganization", get_class($this));
-
+/*
 		// properties
 		$ilTabs->addTarget("sahs_properties",
 			 $ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
-
+*/
 		// metadata
 		$ilTabs->addTarget("meta_data",
 			 $ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
