@@ -271,7 +271,7 @@ class ilContObjectManifestBuilder
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id']."_ref";
 			$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "sco";
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
 			$attrs["href"] = "./".$obj['obj_id']."/index.html";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlElement("dependency", array("identifierref"=>"il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'ITSELF'), "");
@@ -283,7 +283,7 @@ class ilContObjectManifestBuilder
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'ITSELF';
 			$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "asset";
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/index.xml"), "");
 			$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/ilias_co_3_7.dtd"), "");
@@ -293,14 +293,14 @@ class ilContObjectManifestBuilder
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'RESOURCES';
 			$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "asset";
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlEndTag("resource");
 			
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'FLAVOUR';
 			$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "asset";
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/index.xml"), "");
 			$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/sco.xsl"), "");
@@ -312,7 +312,7 @@ class ilContObjectManifestBuilder
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'OBJECTS';
 			$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "asset";
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			
 			$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/players/flvplayer.swf"), "");
@@ -359,24 +359,24 @@ class ilContObjectManifestBuilder
 		}
 		if($this->version=="2004")
 		{
-		$attrs = array();
-		$attrs["identifier"] = "PKG";
-		$attrs["type"] = "webcontent";
-			$attrs["adlcp:scormType"] = "asset";
-		$this->writer->xmlStartTag("resource", $attrs, "");
-		
-		$xsd_files = array('adlcp_v1p3.xsd','adlseq_v1p3.xsd','imsss_v1p0.xsd','adlnav_v1p3.xsd','adlnav_v1p3.xsd',
-		'imscp_v1p1.xsd','imsmanifest.xml','imsss_v1p0auxresource.xsd','imsss_v1p0control.xsd','imsss_v1p0delivery.xsd',
-		'imsss_v1p0limit.xsd','imsss_v1p0objective.xsd','imsss_v1p0random.xsd','imsss_v1p0rollup.xsd','imsss_v1p0seqrule.xsd',
-		'imsss_v1p0util.xsd','xml.xsd','index.html');
-		foreach($xsd_files as $xsd_file)
-		{
 			$attrs = array();
-			$attrs["href"] = $xsd_file;
-			$this->writer->xmlElement("file", $attrs, "");
+			$attrs["identifier"] = "PKG";
+			$attrs["type"] = "webcontent";
+				$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+			$this->writer->xmlStartTag("resource", $attrs, "");
+			
+			$xsd_files = array('adlcp_v1p3.xsd','adlseq_v1p3.xsd','imsss_v1p0.xsd','adlnav_v1p3.xsd','adlnav_v1p3.xsd',
+			'imscp_v1p1.xsd','imsmanifest.xml','imsss_v1p0auxresource.xsd','imsss_v1p0control.xsd','imsss_v1p0delivery.xsd',
+			'imsss_v1p0limit.xsd','imsss_v1p0objective.xsd','imsss_v1p0random.xsd','imsss_v1p0rollup.xsd','imsss_v1p0seqrule.xsd',
+			'imsss_v1p0util.xsd','xml.xsd','index.html');
+			foreach($xsd_files as $xsd_file)
+			{
+				$attrs = array();
+				$attrs["href"] = $xsd_file;
+				$this->writer->xmlElement("file", $attrs, "");
+			}
+			$this->writer->xmlEndTag("resource");
 		}
-		$this->writer->xmlEndTag("resource");
-	}
 	}
 
 }
