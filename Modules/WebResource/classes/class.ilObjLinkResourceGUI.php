@@ -30,7 +30,7 @@ include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * 
 *
 * @ingroup ModulesWebResource
@@ -49,12 +49,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct()
 	{
 		global $ilCtrl;
 
 		$this->type = "webr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		// CONTROL OPTIONS
 		$this->ctrl = $ilCtrl;
@@ -83,7 +83,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -91,6 +91,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				break;
 
 			case 'ilmdeditorgui':
+				$this->tabs_gui->setTabActive('meta_data');
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -98,11 +99,19 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
+				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('webr');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 			default:
 
 				if(!$cmd)
@@ -141,9 +150,163 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
 		
 	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-	 	
+		
+		/*
+		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+		$cp = new ilObjectCopyGUI($this);
+		$cp->setType('webr');
+		$cp->showSourceSearch('CLONE_WIZARD');
+		*/
 	}
 	
+	/**
+	 * Save new object
+	 * @access	public
+	 */
+	public function saveObject()
+	{
+		global $ilCtrl;
+		
+		$this->initFormLink(self::LINK_MOD_CREATE);
+		if($this->checkLinkInput(self::LINK_MOD_CREATE,0,0))
+		{
+			// Save new object
+			$_POST['Fobject']['title'] = $_POST['tit'];
+			$_POST['Fobject']['desc'] = $_POST['des'];
+			$link_list = parent::saveObject();
+
+			// Save link
+			$this->link->setLinkResourceId($link_list->getId());
+			$link_id = $this->link->add();
+			
+			// Dynamic params
+			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
+			{
+				$this->dynamic->setObjId($link_list->getId());
+				$this->dynamic->add($link_id);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
+			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
+				$link_list->getRefId()."&cmd=view");
+			return true;			
+		}
+		// Data incomplete or invalid
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
+		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
+	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+		return false;
+
+		
+		if ($_POST["Fobject"]["title"] == "")
+		{
+			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
+			$this->createObject();
+			return false;
+		}
+	}
+	
+	/**
+	 * Edit settings
+	 * Title, Description, Sorting
+	 * @return 
+	 */
+	protected function settingsObject()
+	{
+		$this->checkPermission('write');
+		$this->tabs_gui->setTabActive('settings');
+		
+		$this->initFormSettings();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Save container settings
+	 * @return 
+	 */
+	protected function saveSettingsObject()
+	{
+		$this->checkPermission('write');
+		$this->tabs_gui->setTabActive('settings');
+		
+		$this->initFormSettings();
+		if($this->form->checkInput())
+		{
+			$this->object->setTitle($this->form->getInput('tit'));
+			$this->object->setDescription($this->form->getInput('des'));
+			$this->object->update();
+			
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			$sort = new ilContainerSortingSettings($this->object->getId());
+			$sort->setSortMode($this->form->getInput('sor'));
+			$sort->update();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$this->ctrl->redirect($this,'settings');
+		}
+		
+		$this->form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	
+	/**
+	 * Show settings form
+	 * @return 
+	 */
+	protected function initFormSettings()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveSettings'));
+		$this->form->setTitle($this->lng->txt('webr_edit_settings'));
+		
+		// Title
+		$tit = new ilTextInputGUI($this->lng->txt('webr_list_title'),'tit');
+		$tit->setValue($this->object->getTitle());
+		$tit->setRequired(true);
+		$tit->setSize(40);
+		$tit->setMaxLength(127);
+		$this->form->addItem($tit);
+		
+		// Description
+		$des = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'),'des');
+		$des->setValue($this->object->getDescription());
+		$des->setCols(40);
+		$des->setRows(3);
+		$this->form->addItem($des);
+		
+		// Sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		include_once './Services/Container/classes/class.ilContainer.php';
+		
+		$sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'),'sor');
+		$sor->setRequired(true);
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sor->setValue(ilContainerSortingSettings::_lookupSortMode($this->object->getId()));
+		
+		$opt = new ilRadioOption(
+			$this->lng->txt('webr_sort_title'),
+			ilContainer::SORT_TITLE
+		);
+		$sor->addOption($opt);
+		
+		$opm = new ilRadioOption(
+			$this->lng->txt('webr_sort_manual'),
+			ilContainer::SORT_MANUAL
+		);
+		$sor->addOption($opm);
+		$this->form->addItem($sor);
+
+		$this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+	}
+	
+
 	/**
 	 * Edit a single link
 	 * @return 
@@ -244,55 +407,6 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
-	/**
-	 * Save new object
-	 * @access	public
-	 */
-	public function saveObject()
-	{
-		global $ilCtrl;
-		
-		$this->initFormLink(self::LINK_MOD_CREATE);
-		if($this->checkLinkInput(self::LINK_MOD_CREATE,0,0))
-		{
-			// Save new object
-			$_POST['Fobject']['title'] = $_POST['tit'];
-			$_POST['Fobject']['desc'] = $_POST['des'];
-			$link_list = parent::saveObject();
-
-			// Save link
-			$this->link->setLinkResourceId($link_list->getId());
-			$link_id = $this->link->add();
-			
-			// Dynamic params
-			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
-			{
-				$this->dynamic->setObjId($link_list->getId());
-				$this->dynamic->add($link_id);
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
-			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
-				$link_list->getRefId()."&cmd=view");
-			return true;			
-		}
-		// Data incomplete or invalid
-		ilUtil::sendFailure($this->lng->txt('err_check_input'));
-		$this->form->setValuesByPost();
-		
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
-		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
-	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-		return false;
-
-		
-		if ($_POST["Fobject"]["title"] == "")
-		{
-			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
-			$this->createObject();
-			return false;
-		}
-	}
 	
 	/**
 	 * Update all visible links
@@ -683,6 +797,41 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Sort web links
+	 * @return 
+	 */
+	protected function sortObject()
+	{
+		$this->checkPermission('write');
+		$this->activateTabs('content','cntr_ordering');
+		
+		include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
+		$table = new ilWebResourceLinkTableGUI($this,'sort',true);
+		$table->parse();
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_view.html','Modules/WebResource');
+		$this->showToolbar('ACTION_BUTTONS');
+		$this->tpl->setVariable('LINK_TABLE',$table->getHTML());
+	}
+	
+	/**
+	 * Save nmanual sorting
+	 * @return 
+	 */
+	protected function saveSortingObject()
+	{
+		$this->checkPermission('write');
+		
+		include_once './Services/Container/classes/class.ilContainerSorting.php';
+		$sort = ilContainerSorting::_getInstance($this->object->getId());
+		$sort->savePost((array) $_POST['position']);
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->viewObject();
+	}
+	
+	
+	/**
 	 * Show toolbar
 	 * @param string $a_tpl_var Name of template variable
 	 * @return 
@@ -813,10 +962,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission('visible');
+		$this->tabs_gui->setTabActive('info_short');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -833,12 +980,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 	function historyObject()
 	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
+		$this->checkPermission('write');
+		$this->tabs_gui->setTabActive('history');
 
 		include_once("classes/class.ilHistoryGUI.php");
 		
@@ -852,9 +995,16 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 
-	function linkCheckerObject()
+	/**
+	 * Show link validation
+	 * @return 
+	 */
+	protected function linkCheckerObject()
 	{
 		global $ilias,$ilUser;
+		
+		$this->checkPermission('write');
+		$this->tabs_gui->setTabActive('link_check');
 
 		$this->__initLinkChecker();
 		$this->object->initLinkResourceItemsObject();
@@ -1035,6 +1185,16 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 						'cntr_manage',
 						$this->ctrl->getLinkTarget($this,'switchViewMode')
 					);
+					include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+					if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
+					{
+						$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_SORT);
+						$this->tabs_gui->addSubTabTarget(
+							'cntr_ordering',
+							$this->ctrl->getLinkTarget($this,'switchViewMode')
+						);
+					}
+					
 					$ilCtrl->clearParameters($this);
 					$this->tabs_gui->setSubTabActive($a_active_subtab);				
 				}				
@@ -1049,9 +1209,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs($tabs_gui)
 	{
-		global $rbacsystem,$rbacreview,$ilAccess;
+		global $rbacreview,$ilAccess;
 
 		if ($ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
@@ -1063,35 +1223,39 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
-			// this is not nice. tabs should be displayed in ilcoursegui
-			// not via ilrepositorygui, then next_class == ilinfoscreengui
-			// could be checked
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
-				|| $_GET["cmd"] == "infoScreen"
-				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
-				? true
-				: false;
-			$tabs_gui->addTarget("info_short",
-								 $this->ctrl->getLinkTargetByClass(
-								 array("ilobjlinkresourcegui", "ilinfoscreengui"), "showSummary"),
-								 "infoScreen",
-								 "", "", $force_active);
+			$tabs_gui->addTarget(
+				"info_short",
+				$this->ctrl->getLinkTarget($this,'infoScreen')
+			);
 		}
-
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()) and !$this->getCreationMode())
+		{
+			include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+			if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
+			{
+				$tabs_gui->addTarget(
+					'settings',
+					$this->ctrl->getLinkTarget($this,'settings')
+				);
+			}
+			
+		}
+		
+		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 				 "", 'ilmdeditorgui');
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("history",
 				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
 		}
 
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			// Check if pear library is available
 			if(@include_once('HTTP/Request.php'))
@@ -1102,7 +1266,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			}
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');

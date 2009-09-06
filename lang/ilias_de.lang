@@ -9939,3 +9939,7 @@ webr#:#webr_inactive_success#:#Der Link wurde deaktiviert.
 webr#:#webr_list_title#:#Titel der Linksammlung
 webr#:#webr_list_desc#:#Beschreibung der Linksammlung
 webr#:#webr_edit_links#:#Links bearbeiten
+webr#:#webr_edit_settings#:#Einstellungen bearbeiten
+webr#:#webr_sorting#:#Sortierung der Links
+webr#:#webr_sort_manual#:#Manuelle Sortierung
+webr#:#webr_sort_title#:#Automatische Sortierung nach Titel

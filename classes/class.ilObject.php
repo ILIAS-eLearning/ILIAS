@@ -232,7 +232,7 @@ class ilObject
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
 		$this->import_id = $obj["import_id"];
-
+		
 		if($objDefinition->isRBACObject($this->getType()))
 		{
 			// Read long description
@@ -240,7 +240,10 @@ class ilObject
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->setDescription($row->description);
+				if(strlen($row->description))
+				{
+					$this->setDescription($row->description);
+				}
 			}
 		}
 

@@ -87,6 +87,25 @@ class ilContainerSorting
 	}
 	
 	/**
+	 * Get positions of subitems
+	 * @param int $a_obj_id
+	 * @return 
+	 */
+	public static function lookupPositions($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM container_sorting WHERE ".
+			"obj_id = ".$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sorted[$row->child_id] = $row->position;
+		}
+		return $sorted ? $sorted : array();
+	} 
+	
+	/**
 	 * clone sorting 
 	 *
 	 * @return

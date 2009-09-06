@@ -46,7 +46,7 @@ class ilObjLinkResource extends ilObject
 	{
 		//$this->type = "lnkr";
 		$this->type = "webr";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
