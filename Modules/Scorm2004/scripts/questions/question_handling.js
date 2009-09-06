@@ -367,7 +367,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		
 		case 'assOrderingQuestion':
 			var answers = questions[a_id].answers;
-			var answers_sorted = answers.sort(sortBySolutionorder);
+			var answers_sorted = answers.sort(order);
 			var items=jQuery("#order"+a_id).children();
 			for (var i=0;i<items.length;i++) {
 				var j=i+1;
