@@ -1089,21 +1089,27 @@ class assOrderingQuestion extends assQuestion
 		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
-		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['shuffle'] = (bool) true;
 		$result['points'] = (bool) $this->getPoints();
 		$result['feedback'] = array(
 			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
 		$answers = array();
-		$counter = 0;
-		foreach ($this->getAnswers() as $key => $answer_obj)
+		$counter = 1;
+		$answers = array();
+		foreach ($this->getAnswers() as $answer_obj)
+		{
+			$answers[$counter] = $answer_obj->getAnswertext();
+			$counter++;
+		}
+		$answers = $this->pcArrayShuffle($ansewrs);
+		foreach ($answers as $order => $answer)
 		{
 			array_push($answers, array(
-				"answertext" => (string) $answer_obj->getAnswertext(),
-				"order" => (int) $answer_obj->getOrder()
+				"answertext" => (string) $answer,
+				"order" => (int) $order
 			));
-			$counter++;
 		}
 		$result['answers'] = $answers;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
