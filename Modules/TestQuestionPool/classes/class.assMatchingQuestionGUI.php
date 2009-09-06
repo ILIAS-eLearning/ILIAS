@@ -81,6 +81,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->object->setShuffle($_POST["shuffle"]);
 			$this->object->setThumbGeometry($_POST["thumb_geometry"]);
 			$this->object->setElementHeight($_POST["element_height"]);
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$this->setNrOfTries($_POST['nr_of_tries']);
+			}
 			// adding estimated working time
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),

@@ -87,6 +87,10 @@ class assSingleChoiceGUI extends assQuestionGUI
 			);
 			$this->object->setMultilineAnswerSetting($_POST["types"]);
 			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$this->setNrOfTries($_POST['nr_of_tries']);
+			}
 
 			// Delete all existing answers and create new answers from the form data
 			$this->object->flushAnswers();

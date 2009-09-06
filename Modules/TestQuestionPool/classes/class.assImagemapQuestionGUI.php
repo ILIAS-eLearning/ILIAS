@@ -90,6 +90,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setQuestion($questiontext);
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$this->setNrOfTries($_POST['nr_of_tries']);
+			}
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
 				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
