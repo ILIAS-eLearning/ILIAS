@@ -168,7 +168,7 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 	
 	for (var i=0;i<questions[a_id].pairs.length;i++)
 	{
-		var a_node = jQuery('select#'+questions[a_id].pairs[i].definition_id).get(0);
+		var a_node = jQuery('select#'+questions[a_id].pairs[i].def_id).get(0);
 		if (a_node.options[a_node.selectedIndex].id!=questions[a_id].pairs[i].term_id) {
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
