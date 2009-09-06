@@ -612,6 +612,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		if($a_mode == self::LINK_MOD_ADD and $this->isContainerMetaDataRequired())
 		{
+			$this->form->setTitle($this->lng->txt('webr_edit_list'));
+			
 			// List Title
 			$title = new ilTextInputGUI($this->lng->txt('webr_list_title'),'lti');
 			$title->setRequired(true);
