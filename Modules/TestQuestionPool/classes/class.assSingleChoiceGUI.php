@@ -89,7 +89,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 
 			// Delete all existing answers and create new answers from the form data

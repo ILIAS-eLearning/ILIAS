@@ -92,7 +92,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->object->setQuestion($questiontext);
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),

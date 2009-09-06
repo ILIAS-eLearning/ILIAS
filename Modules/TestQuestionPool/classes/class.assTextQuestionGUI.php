@@ -78,7 +78,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$this->object->setTextRating($_POST["text_rating"]);
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),

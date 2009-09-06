@@ -87,7 +87,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			);
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setMultilineAnswerSetting($_POST["types"]);
 			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");

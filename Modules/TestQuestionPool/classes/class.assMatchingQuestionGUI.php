@@ -83,7 +83,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->object->setElementHeight($_POST["element_height"]);
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			// adding estimated working time
 			$this->object->setEstimatedWorkingTime(

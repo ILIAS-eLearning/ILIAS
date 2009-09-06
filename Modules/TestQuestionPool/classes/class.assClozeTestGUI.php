@@ -85,7 +85,7 @@ class assClozeTestGUI extends assQuestionGUI
 			$this->object->setIdenticalScoring($_POST["identical_scoring"]);
 			if ($this->getSelfAssessmentEditingMode())
 			{
-				$this->setNrOfTries($_POST['nr_of_tries']);
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setFixedTextLength($_POST["fixedTextLength"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
