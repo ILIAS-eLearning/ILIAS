@@ -749,7 +749,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if ($_POST["full_caption"] != "")
 			{
 				$media_item2->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
-			}			
+			}
 
 		}
 	
