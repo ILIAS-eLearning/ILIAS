@@ -80,9 +80,14 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-// temporary link view link to editing
-//$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
-				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
+				$cmd_link = null;
+				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+				if ($sahs_obj->getEditable() != 1) {
+					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
+				} else {
+					$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
+				}
 				break;
 
 			case "edit":
