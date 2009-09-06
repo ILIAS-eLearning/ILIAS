@@ -70,7 +70,7 @@ class ilSCORM13Package
 			'manifest',
 			'organization',
 			'item',
-			'hidelmsui',
+			'hideLMSUI',
 			'resource',
 			'file',
 			'dependency',
@@ -858,7 +858,7 @@ class ilSCORM13Package
 			$t = 'cp_' . $t;
 			
 			$in = $ilDB->in($t.'.cp_node_id', $cp_nodes, false, 'integer');			
-			$ilDB->manipulate('DELETE FROM '.$t.' WHERE '.$in);
+			$ilDB->manipulate('DELETE FROM '.strtolower($t).' WHERE '.$in);
 		}
 		
 		// remove CP structure entries in tree and node
