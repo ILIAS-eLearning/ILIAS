@@ -2836,14 +2836,14 @@
 		</xsl:when>
 		<xsl:when test="@Type = 'VerticalAccordion'">
 			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
-			<xsl:attribute name="id">ilc_accordion_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_va_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_cntr']/@Value"/></xsl:attribute>
 			</xsl:if>
 		</xsl:when>
 		<xsl:when test="@Type = 'HorizontalAccordion'">
 			<xsl:attribute name="class">ilc_ha_cntr_HAccordCntr</xsl:attribute>
-			<xsl:attribute name="id">ilc_accordion_<xsl:number count="Tabs" level="any" /></xsl:attribute>
+			<xsl:attribute name="id">ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" /></xsl:attribute>
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_ha_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_cntr']/@Value"/></xsl:attribute>
 			</xsl:if>
@@ -2877,14 +2877,14 @@
 		<xsl:if test="$mode != 'edit'">
 			<xsl:if test="@Type = 'VerticalAccordion'">
 			<script type="text/javascript">
-				ilInitAccordion('ilc_accordion_<xsl:number count="Tabs" level="any" />',
+				ilInitAccordion('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
 					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select="@Behavior"/>');
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
 			<script type="text/javascript">
-				ilInitAccordion('ilc_accordion_<xsl:number count="Tabs" level="any" />',
+				ilInitAccordion('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_HAccordionToggleDef', 'il_HAccordionToggleActiveDef',
 					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>');
 			</script>
