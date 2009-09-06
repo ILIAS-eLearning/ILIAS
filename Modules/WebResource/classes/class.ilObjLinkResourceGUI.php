@@ -1186,7 +1186,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 						$this->ctrl->getLinkTarget($this,'switchViewMode')
 					);
 					include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-					if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
+					include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+					include_once './Services/Container/classes/class.ilContainer.php';
+					if((ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
+						and ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL)
 					{
 						$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_SORT);
 						$this->tabs_gui->addSubTabTarget(
