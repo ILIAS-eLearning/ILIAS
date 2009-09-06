@@ -197,6 +197,7 @@ class assOrderingQuestion extends assQuestion
 			$this->setComment($data["description"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setAuthor($data["author"]);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setPoints($data["points"]);
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");

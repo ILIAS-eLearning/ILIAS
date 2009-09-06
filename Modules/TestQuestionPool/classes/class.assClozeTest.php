@@ -170,6 +170,7 @@ class assClozeTest extends assQuestion
 		{
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
+			$this->setNrOfTries($data['nr_of_tries']);
 			$this->setObjId($data["obj_fi"]);
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
