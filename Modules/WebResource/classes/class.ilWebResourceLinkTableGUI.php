@@ -4,6 +4,10 @@
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+include_once './Services/Container/classes/class.ilContainerSorting.php';
+include_once './Services/Container/classes/class.ilContainer.php';
+include_once './Services/Container/classes/class.ilContainerSorting.php';
+include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 
 
 /**
@@ -19,11 +23,14 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 {
 	protected $editable = false;
 	protected $web_res = null;
+	
+	protected $link_sort_mode = null;
+	protected $link_sort_enabled = false;
 
 	/**
 	 * Constructor	
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd)
+	public function __construct($a_parent_obj,$a_parent_cmd,$a_sorting = false)
 	{
 		global $lng,$ilAccess,$ilCtrl;
 		
@@ -34,6 +41,8 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		{
 			$this->editable = true;
 		}
+		
+		$this->enableLinkSorting($a_sorting);
 		$this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
 		
 		
@@ -41,21 +50,54 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		
 		if($this->isEditable())
 		{
-			$this->addColumn($lng->txt('title'),'title','90%');
-			$this->addColumn('','','10%');
+			if($this->isLinkSortingEnabled())
+			{
+				$this->setLimit(9999);
+				$this->addColumn($lng->txt('position','','10px'));	
+				$this->addColumn($lng->txt('title'),'','90%');
+				$this->addColumn('','','10%');
+				
+				$this->addMultiCommand('saveSorting', $this->lng->txt('sorting_save'));
+			}
+			else
+			{
+				$this->addColumn($lng->txt('title'),'','90%');
+				$this->addColumn('','','10%');
+			}
+			
 		}
 		else
 		{
-			$this->addColumn($lng->txt('title'),'title','100%');
+			$this->addColumn($lng->txt('title'),'','100%');
 		}
 		
-		$this->setDefaultOrderField('title');
+		$this->initSorting();
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate("tpl.webr_link_row.html", 'Modules/WebResource');
 		$this->setEnableTitle(true);
 		$this->setEnableNumInfo(false);
+		
+	}
+	
+	/**
+	 * Enable sorting of links
+	 * @param object $a_status
+	 * @return 
+	 */
+	public function enableLinkSorting($a_status)
+	{
+		$this->link_sort_enabled = $a_status;
+	}
+	
+	/**
+	 * Check if link sorting is enabled
+	 * @return 
+	 */
+	public function isLinkSortingEnabled()
+	{
+		return (bool) $this->link_sort_enabled;
 	}
 	
 	/**
@@ -64,14 +106,20 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
+		
 		$rows = array();
-		foreach($this->getWebResourceItems()->getActivatedItems() as $link)
+		
+		$items = $this->getWebResourceItems()->getActivatedItems();
+		$items = $this->getWebResourceItems()->sortItems($items);
+		
+		$counter = 1;
+		foreach($items as $link)
 		{
 			if(ilParameterAppender::_isEnabled())
 			{
 				$link = ilParameterAppender::_append($link);
 			}
-			
+			$tmp['position'] = $counter++;
 			$tmp['title'] = $link['title'];
 			$tmp['description'] = $link['description'];
 			$tmp['target'] = $link['target'];
@@ -99,6 +147,12 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		if(!$this->isEditable())
 		{
 			return;
+		}
+		
+		if($this->isLinkSortingEnabled())
+		{
+			$this->tpl->setVariable('VAL_POS',sprintf('%.2f',$a_set['position']));
+			$this->tpl->setVariable('VAL_ITEM',$a_set['link_id']);
 		}
 		
 		$actions = new ilAdvancedSelectionListGUI();
@@ -147,6 +201,13 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	protected function isEditable()
 	{
 		return (bool) $this->editable;
+	}
+	
+	protected function initSorting()
+	{
+		$this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
+			$this->getParentObject()->object->getId()
+		);
 	}
 }
 ?>

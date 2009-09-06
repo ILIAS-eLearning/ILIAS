@@ -469,6 +469,50 @@ class ilLinkResourceItems
 		return $items ? $items : array();
 	}
 	
+	/**
+	 * Sort items (sorting mode depends on sorting setting)
+	 * @param object $a_items
+	 * @return 
+	 */
+	public function sortItems($a_items)
+	{
+		include_once './Services/Container/classes/class.ilContainer.php';
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$mode = ilContainerSortingSettings::_lookupSortMode($this->getLinkResourceId());
+		
+		if($mode == ilContainer::SORT_TITLE)
+		{
+			$a_items = ilUtil::sortArray($a_items, 'title','asc',false,true);
+			return $a_items;
+		}
+	
+	
+		if($mode == ilContainer::SORT_MANUAL)
+		{
+			include_once './Services/Container/classes/class.ilContainerSorting.php';
+			$pos = ilContainerSorting::lookupPositions($this->getLinkResourceId());
+			foreach($a_items as $link_id => $item)
+			{
+				if(isset($pos[$link_id]))
+				{
+					$sorted[$link_id] = $item;
+					$sorted[$link_id]['position'] = $pos[$link_id];
+				}
+				else
+				{
+					$unsorted[$link_id] = $item;
+				}
+			}
+			$sorted = ilUtil::sortArray((array) $sorted, 'position','asc',true,true);
+			$unsorted = ilUtil::sortArray((array) $unsorted, 'title','asc',false,true);
+			$a_items = (array) $sorted + (array) $unsorted;
+			return $a_items;
+		}
+		return $a_items;
+	}
+	
+	
+	
 	function getActivatedItems()
 	{
 		foreach($this->getAllItems() as $id => $item_data)

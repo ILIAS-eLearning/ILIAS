@@ -44,8 +44,6 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		// TODO: Dynamic fields
 		
 		// TODO: sorting
-		$this->setDefaultOrderField('title');
-		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate("tpl.webr_editable_link_row.html", 'Modules/WebResource');
@@ -131,7 +129,11 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 	public function parse()
 	{
 		$rows = array();
-		foreach($this->getWebResourceItems()->getAllItems() as $link)
+		
+		$items = $this->getWebResourceItems()->sortItems(
+			$this->getWebResourceItems()->getAllItems()
+		);
+		foreach($items as $link)
 		{
 			$tmp['id'] = $link['link_id'];
 			$tmp['title'] = $link['title'];

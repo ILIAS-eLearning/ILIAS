@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Container/classes/class.ilContainer.php';
+
 /** 
 * @defgroup ServicesContainer Services/Container 
 * 
