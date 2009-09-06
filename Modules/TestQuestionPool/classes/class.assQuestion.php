@@ -1111,23 +1111,14 @@ class assQuestion
 	*/
 	function pcArrayShuffle($array)
 	{
-		mt_srand((double)microtime()*1000000);
-		$i = count($array);
-		if ($i > 0)
+		$keys = array_keys($array);
+		shuffle($keys);
+		$result = array();
+		foreach ($keys as $key)
 		{
-			while(--$i)
-			{
-				$j = mt_rand(0, $i);
-				if ($i != $j)
-				{
-					// swap elements
-					$tmp = $array[$j];
-					$array[$j] = $array[$i];
-					$array[$i] = $tmp;
-				}
-			}
+			$result[$key] = $array[$key];
 		}
-		return $array;
+		return $result;
 	}
 
 	/**
