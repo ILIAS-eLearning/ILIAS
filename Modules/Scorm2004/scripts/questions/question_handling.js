@@ -367,7 +367,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		
 		case 'assOrderingQuestion':
 			var answers = questions[a_id].answers;
-			var answers_sorted = answers.sort(order);
+			var answers_sorted = answers.sort(sortBySolutionorder);
 			var items=jQuery("#order"+a_id).children();
 			for (var i=0;i<items.length;i++) {
 				var j=i+1;
@@ -421,10 +421,10 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 };
 
 function sortBySolutionorder(thisObject,thatObject) {	
-	if (thisObject.solutionorder > thatObject.solutionorder) {
+	if (thisObject.order > thatObject.order) {
 		return 1;
 	}
-	else if (thisObject.solutionorder < thatObject.solutionorder) {
+	else if (thisObject.order < thatObject.order) {
 		return -1;
 	}
 	return 0;
