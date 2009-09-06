@@ -76,6 +76,10 @@ class assTextQuestionGUI extends assQuestionGUI
 			$this->object->setMaxNumOfChars($_POST["maxchars"]);
 			$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 			$this->object->setTextRating($_POST["text_rating"]);
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$this->setNrOfTries($_POST['nr_of_tries']);
+			}
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
 				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
