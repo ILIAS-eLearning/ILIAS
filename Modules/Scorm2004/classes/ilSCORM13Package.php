@@ -70,7 +70,7 @@ class ilSCORM13Package
 			'manifest',
 			'organization',
 			'item',
-			'hideLMSUI',
+			'hidelmsui',
 			'resource',
 			'file',
 			'dependency',
