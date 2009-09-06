@@ -80,7 +80,9 @@
 
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-//	jQuery('.cmap{VAL_ID}').maphilight({fade:true});
+	if (!pager) {
+		jQuery('.cmap{VAL_ID}').maphilight({fade:true});
+	}
 	
 	ilias.questions.initAreas('{VAL_ID}');
 	if (ScormApi!=null) {
