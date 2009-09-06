@@ -1093,8 +1093,8 @@ class assOrderingQuestion extends assQuestion
 		$result['shuffle'] = (bool) true;
 		$result['points'] = (bool) $this->getPoints();
 		$result['feedback'] = array(
-			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
-			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
+			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
 		$counter = 1;
 		$answers = array();

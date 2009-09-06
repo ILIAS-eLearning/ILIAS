@@ -1311,8 +1311,8 @@ class assMatchingQuestion extends assQuestion
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
-			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
-			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
+			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
 		$terms = array();
 		foreach ($this->getMatchingPairs() as $pair)
