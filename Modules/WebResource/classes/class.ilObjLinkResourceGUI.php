@@ -436,7 +436,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				$invalid[] = $link_id;
 				continue;
 			}
-			if(!strlen($data['des']))
+			if(!strlen($data['tar']))
 			{
 				$invalid[] = $link_id;
 				continue;
