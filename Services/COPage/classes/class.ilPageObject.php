@@ -1860,7 +1860,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			return false;
 		}
 		$ilDB->query($query);*/
-
+// 	save style usage
+			$this->saveStyleUsage($this->getXMLContent());
+			
+			// save internal link information
+			$this->saveInternalLinks($this->getXMLContent());
 		return true;
 	}
 
