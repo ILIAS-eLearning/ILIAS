@@ -8263,7 +8263,7 @@ forum#:#frm_post_not_activated_yet#:#Not activated yet.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
 assessment#:#terms#:#Terms
 assessment#:#empty_term_message#:#There is a least one empty term field.
-assessment#:#no_terms_message#:#Please add at least on term.
+assessment#:#no_terms_message#:#Please add at least one term.
 crs#:#crs_reg_period#:#Self-Registration
 crs#:#crs_presentation_type#:#Presentation Type
 dateplaner#:#crs_cal_activation_start#:#Course Start
