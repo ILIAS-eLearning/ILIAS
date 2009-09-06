@@ -1103,14 +1103,15 @@ class assOrderingQuestion extends assQuestion
 			$counter++;
 		}
 		$answers = $this->pcArrayShuffle($answers);
+		$arr = array();
 		foreach ($answers as $order => $answer)
 		{
-			array_push($answers, array(
+			array_push($arr, array(
 				"answertext" => (string) $answer,
 				"order" => (int) $order
 			));
 		}
-		$result['answers'] = $answers;
+		$result['answers'] = $arr;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		return json_encode($result);
