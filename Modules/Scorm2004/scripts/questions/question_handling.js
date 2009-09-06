@@ -379,9 +379,9 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 
 		case 'assMatchingQuestion':
 			for (var i=0;i<questions[a_id].pairs.length;i++) {
-				jQuery('select#'+questions[a_id].pairs[i].definition_id).removeAttr("selected");
-				jQuery('select#'+questions[a_id].pairs[i].definition_id+" option[id="+questions[a_id].pairs[i].term_id+"]").attr("selected","selected");
-				jQuery('select#'+questions[a_id].pairs[i].definition_id).attr("disabled",true);
+				jQuery('select#'+questions[a_id].pairs[i].def_id).removeAttr("selected");
+				jQuery('select#'+questions[a_id].pairs[i].def_id+" option[id="+questions[a_id].pairs[i].term_id+"]").attr("selected","selected");
+				jQuery('select#'+questions[a_id].pairs[i].def_id).attr("disabled",true);
 			}
 		break;
 		//end assMatchingQuestion
