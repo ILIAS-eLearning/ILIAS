@@ -211,7 +211,7 @@ class assQuestion
 		$this->test_id = -1;
 		$this->suggested_solutions = array();
 		$this->shuffle = 1;
-		$this->nr_of_tries = 0;
+		$this->nr_of_tries = "";
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
 	}
