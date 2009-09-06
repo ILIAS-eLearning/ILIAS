@@ -1487,6 +1487,30 @@ class assQuestion
 		}
 	}
 	
+		/**
+	* Returns question text
+	*
+	* @param	int		$a_q_id		question id
+	*/
+	function _getQuestionText($a_q_id)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT question_text FROM qpl_questions WHERE question_id = %s",
+				array('integer'),
+				array($a_q_id)
+		);
+		if ($result->numRows() == 1)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row["question_text"];
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	
 	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
 	{
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
