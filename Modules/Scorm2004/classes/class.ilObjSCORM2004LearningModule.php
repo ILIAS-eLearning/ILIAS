@@ -1540,12 +1540,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$manifestBuilder->buildManifest('12');
 			
 		$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
-		$args = array( '/_xml' => $manifestBuilder->writer->xmlDumpMem(), '/_xsl' => $xsl );
+		$xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
+		$args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		fputs(fopen($a_target_dir.'/index.html','w+'),$output);
-		
 		$a_xml_writer->_XmlWriter;
 	}
 
