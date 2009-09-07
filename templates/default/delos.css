@@ -4,6 +4,13 @@ div.ilFrame{
 	padding:5px;
 }
 
+.registration {
+  margin-top:5px;
+  width:700px;
+  margin-left:auto;
+  margin-right:auto;  
+}
+
 div.ilFrameH{
 	background-image: url(images/head_back.gif);
 	background-repeat: repeat-x;
