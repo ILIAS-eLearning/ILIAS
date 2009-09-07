@@ -3341,7 +3341,7 @@ common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
-common#:#mail_settings#:#Mail Einstellungen
+common#:#mail_settings#:#Mail-Einstellungen
 common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
 common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
@@ -9943,7 +9943,8 @@ webr#:#webr_edit_settings#:#Einstellungen bearbeiten
 webr#:#webr_sorting#:#Sortierung der Links
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Automatische Sortierung nach Titel
-webr#:#webr_edit_list#:#Linksammlung bearbeitenpayment#:#pays_epay#:#ePay###07 09 2009 new variable
+webr#:#webr_edit_list#:#Linksammlung bearbeiten
+payment#:#pays_epay#:#ePay###07 09 2009 new variable
 payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
 payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
 payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
