@@ -527,6 +527,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Reset the questionblock browser filter
+	*/
+	public public function resetfilterQuestionblockBrowserObject()
+	{
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
+		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks');
+		$table_gui->resetFilter();
+		$this->ctrl->redirect($this, 'browseForQuestionblocks');
+	}
+	
+	/**
 	* list questions of question pool
 	*/
 	public function browseForQuestionblocksObject($arrFilter = null)
@@ -567,6 +578,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions');
 		$table_gui->writeFilterToSession();
+		$this->ctrl->redirect($this, 'browseForQuestions');
+	}
+	
+	/**
+	* Reset the question browser filter
+	*/
+	public public function resetfilterQuestionBrowserObject()
+	{
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
+		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions');
+		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, 'browseForQuestions');
 	}
 	

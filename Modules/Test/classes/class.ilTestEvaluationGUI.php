@@ -138,6 +138,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
 
+	public function resetfilterEvaluation()
+	{
+		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', array());
+		$table_gui->resetFilter();
+		$this->ctrl->redirect($this, "outEvaluation");
+	}
+
 	/**
 	* Creates the evaluation output for the test
 	*

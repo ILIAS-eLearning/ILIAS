@@ -2153,11 +2153,19 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-	function filterAvailableQuestionsObject()
+	public function filterAvailableQuestionsObject()
 	{
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
 		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
 		$table_gui->writeFilterToSession();
+		$this->ctrl->redirect($this, "browseForQuestions");
+	}
+	
+	public function resetfilterAvailableQuestionsObject()
+	{
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, "browseForQuestions");
 	}
 	
