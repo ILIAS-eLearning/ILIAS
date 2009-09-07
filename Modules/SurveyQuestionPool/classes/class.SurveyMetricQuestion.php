@@ -672,7 +672,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
 	{
-		include_once ("./classes/class.ilExcelUtils.php");
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet =& $workbook->addWorksheet();
 		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
 		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));

@@ -33,7 +33,7 @@
 *
 */
 
-include_once './classes/class.ilExcelWriterAdapter.php';
+include_once './Services/Excel/classes/class.ilExcelWriterAdapter.php';
 
 class ilPaymentExcelWriterAdapter extends ilExcelWriterAdapter
 {

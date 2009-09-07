@@ -160,7 +160,7 @@ class ilTestExport
 	protected function aggregatedResultsToExcel($deliver = TRUE)
 	{
 		$data = $this->test_obj->getAggregatedResultsData();
-		include_once "./classes/class.ilExcelWriterAdapter.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
@@ -174,7 +174,7 @@ class ilTestExport
 		$format_title->setColor('black');
 		$format_title->setPattern(1);
 		$format_title->setFgColor('silver');
-		include_once "./classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt("tst_results_aggregated")));
 		$row = 0;
 		$col = 0;
@@ -286,7 +286,7 @@ class ilTestExport
 		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 		
-		include_once "./classes/class.ilExcelWriterAdapter.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
@@ -304,7 +304,7 @@ class ilTestExport
 		$format_title->setColor('black');
 		$format_title->setPattern(1);
 		$format_title->setFgColor('silver');
-		include_once "./classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt("tst_results")));
 		$additionalFields = $this->test_obj->getEvaluationAdditionalFields();
 		$row = 0;
@@ -350,7 +350,7 @@ class ilTestExport
 
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("pass")), $format_title);
 
-		include_once "./classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		$counter = 1;
 		$data =& $this->test_obj->getCompleteEvaluationData(TRUE, $filterby, $filtertext);
 		foreach ($data->getParticipants() as $active_id => $userdata) 

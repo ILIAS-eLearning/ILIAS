@@ -1043,7 +1043,7 @@ class assSingleChoice extends assQuestion
 	*/
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
-		include_once ("./classes/class.ilExcelUtils.php");
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$solution = $this->getSolutionValues($active_id, $pass);
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);

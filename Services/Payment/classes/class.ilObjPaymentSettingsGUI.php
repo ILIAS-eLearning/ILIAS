@@ -2218,7 +2218,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function addStatisticWorksheet(&$pewa)
 	{
-		include_once './classes/class.ilExcelUtils.php';
+		include_once './Services/Excel/classes/class.ilExcelUtils.php';
 		include_once './payment/classes/class.ilPaymentVendors.php';
 
 		$this->__initBookingObject();
@@ -2356,7 +2356,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function addVendorWorksheet(&$pewa)
 	{
-		include_once './classes/class.ilExcelUtils.php';
+		include_once './Services/Excel/classes/class.ilExcelUtils.php';
 
 		$this->object->initPaymentVendorsObject();
 

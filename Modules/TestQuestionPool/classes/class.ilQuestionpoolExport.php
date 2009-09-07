@@ -215,7 +215,7 @@ class ilQuestionpoolExport
 		global $ilBench;
 
 		$ilBench->start("QuestionpoolExport", "buildExportFile");
-		include_once "./classes/class.ilExcelWriterAdapter.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename, FALSE);
 		$workbook = $adapter->getWorkbook();
 		$workbook->setVersion(8); // Use Excel97/2000 Format
@@ -234,7 +234,7 @@ class ilQuestionpoolExport
 		$row = 0;
 		$col = 0;
 		// title row
-		include_once "./classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("title"), "latin1"), $format_title);
 		$col++;
