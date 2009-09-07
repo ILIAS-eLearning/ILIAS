@@ -9905,6 +9905,7 @@ payment#:#pays_epay_server_host#:#Server host
 payment#:#pays_epay_server_path#:#Server path
 payment#:#pays_epay_merchant_number#:#Merchant id
 payment#:#pays_epay_auth_token#:#Authentication Token
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
 payment#:#pays_epay_auth_email#:#Email Notification
 payment#:#pays_epay_instant_capture#:#Instant Capture
 payment#:#pay_hint_epay#:#Tip to ePay
