@@ -9670,7 +9670,6 @@ assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
 content#:#cont_no_text#:#No Text###24 07 2009 new variable
 content#:#cont_print_selection#:#Print View Selection###24 07 2009 new variable
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###24 07 2009 new variable
-dateplaner#:#ca_day_start#:#Day Start###24 07 2009 new variable
 dateplaner#:#cal_day_end#:#Day End###24 07 2009 new variable
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variable
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
@@ -9893,3 +9892,79 @@ tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
 tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
 mail#:#mail_incoming_mail#:#Incoming mail###18 08 2009 new variable
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>###18 08 2009 new variable
+assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
+assessment#:#tst_results_access_never#:#Never###07 09 2009 new variable
+certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
+certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
+certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
+certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
+certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
+certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
+certificate#:#certificate_ph_birthday#:#Birthday of the user###07 09 2009 new variable
+payment#:#paya_deleted_selected_prices#:#Price(s) deleted###07 09 2009 new variable
+search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new variable
+search#:#lucene_host#:#Host###07 09 2009 new variable
+search#:#lucene_port#:#Port###07 09 2009 new variable
+search#:#lucene_index_path#:#Directory for Index Files###07 09 2009 new variable
+search#:#lucene_log#:#Path to Logfile###07 09 2009 new variable
+search#:#lucene_level#:#Log-Level###07 09 2009 new variable
+search#:#lucene_cpu#:#Maximum Number of Threads###07 09 2009 new variable
+search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.###07 09 2009 new variable
+search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.###07 09 2009 new variable
+search#:#lucene_log_info#:#The file will be created automatically.###07 09 2009 new variable
+search#:#lucene_download_ini#:#Download Configuration File###07 09 2009 new variable
+search#:#lucene_create_ini#:#Create Configuration File###07 09 2009 new variable
+common#:#show_filter#:#Show Filter###07 09 2009 new variable
+payment#:#pays_epay#:#ePay###07 09 2009 new variable
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
+payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
+payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
+payment#:#pays_epay_server_path#:#Server path###07 09 2009 new variable
+payment#:#pays_epay_merchant_number#:#Merchant id###07 09 2009 new variable
+payment#:#pays_epay_auth_token#:#Authentication Token###07 09 2009 new variable
+payment#:#pays_epay_auth_email#:#Email Notification###07 09 2009 new variable
+payment#:#pays_epay_instant_capture#:#Instant Capture###07 09 2009 new variable
+payment#:#pay_hint_epay#:#Tip to ePay###07 09 2009 new variable
+payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.###07 09 2009 new variable
+payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.###07 09 2009 new variable
+payment#:#pay_epay_canceled#:#The payment was canceled.###07 09 2009 new variable
+search#:#lucene_relevance_short#:#Relevance###07 09 2009 new variable
+content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
+content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
+content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
+content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
+content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
+content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
+content#:#cont_debugpw#:#Password###07 09 2009 new variable
+content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
+content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
+content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
+webr#:#webr_new_link#:#Add New Link###07 09 2009 new variable
+webr#:#webr_link_target#:#Link Target###07 09 2009 new variable
+webr#:#webr_link_title#:#Link Name###07 09 2009 new variable
+webr#:#webr_active#:#Active###07 09 2009 new variable
+webr#:#webr_link_added#:#A new link has been created.###07 09 2009 new variable
+webr#:#webr_deactivate#:#Deactivate Link###07 09 2009 new variable
+webr#:#webr_inactive_success#:#The chosen link is deactivated.###07 09 2009 new variable
+payment#:#pay_hide_advanced_search#:#Hide Advanced Search###07 09 2009 new variable
+payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.###07 09 2009 new variable
+payment#:#pay_hide_filtering#:#Hide Filtering###07 09 2009 new variable
+payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.###07 09 2009 new variable
+payment#:#pay_hide_coupons#:#Hide coupons###07 09 2009 new variable
+payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.###07 09 2009 new variable
+payment#:#pay_hide_news#:#Hide news###07 09 2009 new variable
+payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.###07 09 2009 new variable
+payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.###07 09 2009 new variable
+payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
+webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
+webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
+webr#:#webr_edit_links#:#Edit Links###07 09 2009 new variable
+payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
+payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
+payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
+webr#:#webr_edit_settings#:#Edit Settings###07 09 2009 new variable
+webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
+webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
+webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
+webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable

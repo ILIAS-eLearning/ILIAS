@@ -264,83 +264,6 @@ assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar 
 assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!
 assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
-assessment#:#certificate#:#Certificado
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Horizontal (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Horizontal (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Imagen de Fondo
-assessment#:#certificate_bottom#:#Final
-assessment#:#certificate_confirm_deletion_text#:#¿Realmente quiere eliminar el certificado y todos los datos relacionados?
-assessment#:#certificate_custom#:#Personalizado...
-assessment#:#certificate_delete#:#Eliminar datos del Certificado
-assessment#:#certificate_edit#:#Crear/editar una plantilla de certificado
-assessment#:#certificate_error_import#:#Ocurrió un error durante la importación de un certificado
-assessment#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
-assessment#:#certificate_export#:#Exportar Certificado
-assessment#:#certificate_failed#:#suspenso
-assessment#:#certificate_left#:#Izquierdo
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter Horizontal (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Margen
-assessment#:#certificate_not_well_formed#:#El texto del certificado no está bien definido. Por favor introduzca XHTML válido para el texto del certificado
-assessment#:#certificate_padding_top#:#Padding superior
-assessment#:#certificate_page_format#:#Formato de página
-assessment#:#certificate_pageheight#:#Altura de Página
-assessment#:#certificate_pagewidth#:#Anchura de Página
-assessment#:#certificate_passed#:#superado
-assessment#:#certificate_ph_city#:#Ciudad
-assessment#:#certificate_ph_country#:#Pa&iacute;
-assessment#:#certificate_ph_date#:#Fecha actual
-assessment#:#certificate_ph_datetime#:#Hora y fecha actual
-assessment#:#certificate_ph_department#:#Departamento
-assessment#:#certificate_ph_firstname#:#Nombre del usuario
-assessment#:#certificate_ph_fullname#:#Nombre completo del usuario
-assessment#:#certificate_ph_institution#:#Institución
-assessment#:#certificate_ph_introduction#:#Las siguientes variables pueden ser usadas
-assessment#:#certificate_ph_lastname#:#Apellido del usuario
-assessment#:#certificate_ph_marklong#:#Calificación de Usuarios (versión oficial)
-assessment#:#certificate_ph_markshort#:#Calificación de Usuarios (version abreviada)
-assessment#:#certificate_ph_maxpoints#:#Máxima puntuación disponible
-assessment#:#certificate_ph_passed#:#"superado" o "suspenso", dependiendo de los resultados del test
-assessment#:#certificate_ph_resultpercent#:#Porcentaje conseguido por el usuario
-assessment#:#certificate_ph_resultpoints#:#Puntos conseguidos por el usuario
-assessment#:#certificate_ph_street#:#Calle/Avenida del usuario
-assessment#:#certificate_ph_testtitle#:#Título del Test
-assessment#:#certificate_ph_title#:#Tratamiento del usuario
-assessment#:#certificate_ph_zipcode#:#C&oacute;digo postal
-assessment#:#certificate_preview#:#Mostrar Preview del Certificado
-assessment#:#certificate_right#:#Derecho
-assessment#:#certificate_show#:#Mostrar Certificado
-assessment#:#certificate_status#:#Estado
-assessment#:#certificate_status_complete#:#El certificado está completo y puede ser usado
-assessment#:#certificate_status_incomplete#:#El certificado está incompleto
-assessment#:#certificate_text#:#Texto del Certificado
-assessment#:#certificate_top#:#Arriba
-assessment#:#certificate_unit_description#:#Introduzca unidades de medida como valor [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Bien
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#superado
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#ciudad, PROVINCIA
-assessment#:#certificate_var_user_country#:#USA
-assessment#:#certificate_var_user_department#:#Atención al Cliente
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_fullname#:#Dr. Juan Ruiz
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_lastname#:#Ruiz
-assessment#:#certificate_var_user_street#:#100 Calle Principal
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Visibilidad
-assessment#:#certificate_visibility_always#:#Siempre visible
-assessment#:#certificate_visibility_introduction#:#El botón para ofrecer a los usuarios este certificado está
-assessment#:#certificate_visibility_never#:#No visible
-assessment#:#certificate_visibility_passed#:#Sólo visible si un usuario superó el test
-assessment#:#certificate_wrong_unit#:#Ha introducido una unidad errónea
-assessment#:#certificate_wrong_units#:#Ha introducido un conjunto erróneo de unidades
 assessment#:#change_properties_from_random_to_standard#:#Va a cambiar las propiedades de su test, de aleatorio a no aleatorio. La información sobre los bancos de preguntas que ya añadió al test aleatorio será eliminada del test. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_properties_from_standard_to_random#:#Va a cambiar las propiedades de su test, de no aleatorio a test aleatorio. Las preguntas que ya añadió al test serán elimnadas, porque tiene que seleccionar bancos de preguntas para poder crear un test aleatorio. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_solution#:#Modificar solución recomendada
@@ -404,7 +327,6 @@ assessment#:#disable_javascript#:#Haga click para deshabilitar el soporte JavaSc
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
-assessment#:#duplicate_term_message#:#Ha introducido al menos un término duplicado. Por favor, utilice términos únicos.
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
 assessment#:#ects_fill_out_all_values#:#¡Por favor introduzca un valor para cada nota ECTS!
 assessment#:#ects_grade#:#nota ECTS
@@ -1708,8 +1630,6 @@ common#:#adopt_perm_from_template#:#Configuración de Permisos de Copia
 common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
 common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor 'rich text'
 common#:#advanced_editing_assessment_settings#:#Tags HTML permitidos para la herramienta de Test&Assessment
-common#:#advanced_editing_cat_page_editing#:#Habilitar Edición de Contenido para Páginas de Categorías
-common#:#advanced_editing_cat_page_editing_desc#:#Esto habilita la edición de contenido de páginas de categorías. Cuando se desactiva, las categorías sólo se muestran como un conjunto de listas de items.
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing#:#Habilitar HTMLÁrea para edición de contenido.
 common#:#advanced_editing_lm_js_editing_desc#:#Habilita soporte HTMLÁrea y JavaScript para la edición de páginas en los módulos de aprendizaje y glosarios.
@@ -1722,7 +1642,6 @@ common#:#advanced_editing_settings#:#Configuración de edición avanzada
 common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Configuración de Test&Assessment
-common#:#adve_cat_settings#:#Configuración de Categoría
 common#:#adve_edit_permission#:#Modificar configuración de permisos
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Configuración General
@@ -2313,7 +2232,6 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Poner inactiva
 common#:#decrease_attempts#:#Attempts - 1
@@ -3261,7 +3179,6 @@ common#:#ldap_version#:#versión de protocolo LDAP
 common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
-common#:#learning_module#:#Módulo de aprendizaje
 common#:#learning_objects#:#Objetos de aprendizaje
 common#:#learning_progress#:#Progreso de aprendizaje
 common#:#learning_resourc#:#Recurso de aprendizaje
@@ -3441,7 +3358,6 @@ common#:#mcst_visible#:#MediaCast es visible
 common#:#mcst_write#:#Editar MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#No hay plazas disponibles.
-common#:#mem_already_on_list#:#Ya est&aacute; inscrito en la lista de espera.
 common#:#mem_end#:#Registro termina:
 common#:#mem_free_places#:#Plazas disponibles:
 common#:#mem_max_users#:#M&aacute;ximo de Usuarios:
@@ -5558,7 +5474,6 @@ content#:#dgl_pagebreak#:#Salto de página
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
 content#:#HTML export#:#exportar a HTML
-content#:#HTML_export#:#exportar a HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -5574,14 +5489,11 @@ content#:#msg_page_no_public_access#:#La página solicitada no está disponible 
 content#:#msg_page_not_public#:#La página no es pública
 content#:#Pages#:#Páginas
 content#:#pages from#:#Páginas Desde
-content#:#pages_from#:#Páginas Desde
 content#:#par#:#Párrafo
 content#:#PDF export#:#exportar a PDF
-content#:#PDF_export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
-content#:#read_offline#:#Leer Offline
 content#:#saved_media_object#:#Saved media object.
 content#:#scorm_editable#:#Import editable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
@@ -5612,7 +5524,6 @@ content#:#seq_toc#:#Desde la tabla de contenidos en la izquierda, escoja una act
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
-content#:#start_export#:#Exportar
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image "alt" attribute.
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
@@ -6053,7 +5964,6 @@ crs#:#crs_unblocked#:#Entrada Libre
 crs#:#crs_unblocked_member#:#Status en el Curso "%s"
 crs#:#crs_unblocked_member_body#:#Su pertenencia al curso "%s" ha sido restaurada
 crs#:#crs_unlimited#:#Ilimitado
-crs#:#crs_unsubscribe#:#Dar de baja
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
 crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
 crs#:#crs_update_objective#:#Editar objetivo de aprendizaje
@@ -6210,7 +6120,6 @@ dateplaner#:#back#:#Volver
 dateplaner#:#begin_date#:#Comienzo de cita
 dateplaner#:#busytime#:#tiempo 'ocupado' en grupo
 dateplaner#:#c_date#:#Crear cita
-dateplaner#:#ca_day_start#:#Day Start
 dateplaner#:#cal_accepted#:#Aceptado
 dateplaner#:#cal_add_appointment#:#Crear cita
 dateplaner#:#cal_add_category#:#Crear nuevo calendario
@@ -6857,7 +6766,6 @@ grp#:#grp_accept_subscriber_body#:#Ha sido admitido en el grupo "%1$s".\n\n%2$s
 grp#:#grp_added_to_list#:#Ha sido a&ntilde;adido a la lista de espera. Est&aacute; en la posicion %s de la lista.
 grp#:#grp_admins#:#Administradores
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Darse de baja del grupo
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Cambiar tipo de grupo
 grp#:#grp_closed#:#Grupo cerrado
@@ -8515,7 +8423,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#El tama&ntilde;o m&iacute;ni
 ps#:#ps_error_message_password_max_less_min#:#El tama&ntilde;o m&aacute;ximo de la contrase&ntilde;a no puede ser menor que el tama&ntilde;o m&iacute;nimo.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#El tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a no puede ser menor que 2 si la contrase&ntilde;a debe tener n&uacute;meros y car&aacute;cteres.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administradores
 ps#:#ps_export_confirm#:#Confirmación de Usuario al Entrar a los Cursos
 ps#:#ps_export_course#:#Exportación Avanzada de Datos del Perfil de Usuario en Cursos
@@ -9456,11 +9363,8 @@ survey#:#no_questions_available#:#No hay preguntas disponibles!
 survey#:#no_search_results#:#No hay resultados de búsqueda!
 survey#:#no_target_selected_for_move#:#Debe seleccionar una posición de destino!
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_group_invited#:#Todos los usuarios del grupo seleccionado no tuvieron suficientes permisos para realizar la encuesta. Ning&uacute;n usuario fue invitado.
-survey#:#no_user_of_role_invited#:#Todos los usuarios del rol seleccionado no tuvieron suficientes permisos para realizar la encuesta. Ning&uacute;n usuario fue invitado.
 survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que está buscando (usuarios y/o grupos)
 survey#:#no_user_phrases_defined#:#No hay conjuntos de respuestas definidos por el usuario disponibles!
-survey#:#nominal_question_mr_not_checked#:#Por favor marque al menos una de las respuestas ofrecidas
 survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas
 survey#:#non_ratio#:#Intervalo
 survey#:#not_used#:#no usada
@@ -9470,7 +9374,6 @@ survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#on_additional#:#Activo, y adicional
 survey#:#or#:#o
-survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
 survey#:#outro#:#Último comentario
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor
@@ -9606,8 +9509,6 @@ survey#:#survey_use_start_button#:#Debe entrar a la encuesta usando el botón co
 survey#:#SurveyMatrixQuestion#:#Pregunta tipo Matriz
 survey#:#SurveyMetricQuestion#:#Pregunta métrica
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Pregunta nominal
-survey#:#SurveyOrdinalQuestion#:#Pregunta ordinal
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#svy_all_user_data_deleted#:#¡Todos los datos de usuario de esta encuesta han sido eliminados!
@@ -9990,3 +9891,80 @@ wiki#:#wiki_what_links_here#:#¿Qu&eacute; enlaza aqu&iacute;?
 wiki#:#wiki_what_links_to_page#:#¿Qu&eacute; enlaza a la p&aacute;gina "%s"?
 wiki#:#wiki_wiki_page#:#Página Wiki
 wiki#:#wiki_wiki_search#:#B&uacute;squeda Wiki
+assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
+assessment#:#tst_results_access_never#:#Never###07 09 2009 new variable
+certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
+certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
+certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
+certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
+certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
+certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
+certificate#:#certificate_ph_birthday#:#Birthday of the user###07 09 2009 new variable
+content#:#cont_LocalFile#:#Local File###07 09 2009 new variable
+payment#:#paya_deleted_selected_prices#:#Price(s) deleted###07 09 2009 new variable
+search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new variable
+search#:#lucene_host#:#Host###07 09 2009 new variable
+search#:#lucene_port#:#Port###07 09 2009 new variable
+search#:#lucene_index_path#:#Directory for Index Files###07 09 2009 new variable
+search#:#lucene_log#:#Path to Logfile###07 09 2009 new variable
+search#:#lucene_level#:#Log-Level###07 09 2009 new variable
+search#:#lucene_cpu#:#Maximum Number of Threads###07 09 2009 new variable
+search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.###07 09 2009 new variable
+search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.###07 09 2009 new variable
+search#:#lucene_log_info#:#The file will be created automatically.###07 09 2009 new variable
+search#:#lucene_download_ini#:#Download Configuration File###07 09 2009 new variable
+search#:#lucene_create_ini#:#Create Configuration File###07 09 2009 new variable
+common#:#show_filter#:#Show Filter###07 09 2009 new variable
+payment#:#pays_epay#:#ePay###07 09 2009 new variable
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
+payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
+payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
+payment#:#pays_epay_server_path#:#Server path###07 09 2009 new variable
+payment#:#pays_epay_merchant_number#:#Merchant id###07 09 2009 new variable
+payment#:#pays_epay_auth_token#:#Authentication Token###07 09 2009 new variable
+payment#:#pays_epay_auth_email#:#Email Notification###07 09 2009 new variable
+payment#:#pays_epay_instant_capture#:#Instant Capture###07 09 2009 new variable
+payment#:#pay_hint_epay#:#Tip to ePay###07 09 2009 new variable
+payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.###07 09 2009 new variable
+payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.###07 09 2009 new variable
+payment#:#pay_epay_canceled#:#The payment was canceled.###07 09 2009 new variable
+search#:#lucene_relevance_short#:#Relevance###07 09 2009 new variable
+content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
+content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
+content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
+content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
+content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
+content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
+content#:#cont_debugpw#:#Password###07 09 2009 new variable
+content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
+content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
+content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
+webr#:#webr_new_link#:#Add New Link###07 09 2009 new variable
+webr#:#webr_link_target#:#Link Target###07 09 2009 new variable
+webr#:#webr_link_title#:#Link Name###07 09 2009 new variable
+webr#:#webr_active#:#Active###07 09 2009 new variable
+webr#:#webr_link_added#:#A new link has been created.###07 09 2009 new variable
+webr#:#webr_deactivate#:#Deactivate Link###07 09 2009 new variable
+webr#:#webr_inactive_success#:#The chosen link is deactivated.###07 09 2009 new variable
+payment#:#pay_hide_advanced_search#:#Hide Advanced Search###07 09 2009 new variable
+payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.###07 09 2009 new variable
+payment#:#pay_hide_filtering#:#Hide Filtering###07 09 2009 new variable
+payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.###07 09 2009 new variable
+payment#:#pay_hide_coupons#:#Hide coupons###07 09 2009 new variable
+payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.###07 09 2009 new variable
+payment#:#pay_hide_news#:#Hide news###07 09 2009 new variable
+payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.###07 09 2009 new variable
+payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.###07 09 2009 new variable
+payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
+webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
+webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
+webr#:#webr_edit_links#:#Edit Links###07 09 2009 new variable
+payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
+payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
+payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
+webr#:#webr_edit_settings#:#Edit Settings###07 09 2009 new variable
+webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
+webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
+webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
+webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable

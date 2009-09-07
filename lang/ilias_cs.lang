@@ -268,83 +268,6 @@ assessment#:#cannot_export_test#:#Nemáte oprávnění k exportování testu!
 assessment#:#cannot_maintain_test#:#Nemáte oprávnění k vytváření testu!
 assessment#:#cannot_read_questionpool#:#Nemáte oprávnění ke čtení dat zásobníku otázek!
 assessment#:#cannot_save_metaobject#:#Nemáte oprávnění k ukládání metadat!
-assessment#:#certificate#:#Certifikát
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Obrázek pozadí
-assessment#:#certificate_bottom#:#Nahoře
-assessment#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
-assessment#:#certificate_custom#:#Vlastní formát...
-assessment#:#certificate_delete#:#Smazat certifikát
-assessment#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
-assessment#:#certificate_error_import#:#Během importu certifikátu se vyskytla chyba!
-assessment#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
-assessment#:#certificate_export#:#Export certifikátu
-assessment#:#certificate_failed#:#selhalo
-assessment#:#certificate_left#:#Levý
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Okraje hlavní části
-assessment#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
-assessment#:#certificate_padding_top#:#Souběh horního okraje
-assessment#:#certificate_page_format#:#Formát stránky
-assessment#:#certificate_pageheight#:#Výška stránky
-assessment#:#certificate_pagewidth#:#Šířka stránky
-assessment#:#certificate_passed#:#předán
-assessment#:#certificate_ph_city#:#Město adresy uživatele
-assessment#:#certificate_ph_country#:#Země adresy uživatele
-assessment#:#certificate_ph_date#:#Aktuální datum
-assessment#:#certificate_ph_datetime#:#Aktuální datum a čas
-assessment#:#certificate_ph_department#:#Katedra uživatele
-assessment#:#certificate_ph_firstname#:#Křestní jméno uživatele
-assessment#:#certificate_ph_fullname#:#Celé jméno uživatelé (titul, jméno a příjmení)
-assessment#:#certificate_ph_institution#:#Instituce uživatele
-assessment#:#certificate_ph_introduction#:#Následující rezervovaná místa lze využít
-assessment#:#certificate_ph_lastname#:#Příjmení uživatele
-assessment#:#certificate_ph_marklong#:#Známka uživatele (oficiální verze)
-assessment#:#certificate_ph_markshort#:#Známka uživatele (zkrácená verze)
-assessment#:#certificate_ph_maxpoints#:#Maximum dosažitelných bodů
-assessment#:#certificate_ph_passed#:#"prospěl" nebo "neprospěl", v závislosti na výsledcích testu
-assessment#:#certificate_ph_resultpercent#:#Dosažená procenta uživatele
-assessment#:#certificate_ph_resultpoints#:#Dosažené body uživatele
-assessment#:#certificate_ph_street#:#Ulice adresy uživatele
-assessment#:#certificate_ph_testtitle#:#Název testu
-assessment#:#certificate_ph_title#:#Titul uživatele
-assessment#:#certificate_ph_zipcode#:#PSČ adresy uživatele
-assessment#:#certificate_preview#:#Zobrazit náhled certifikátu
-assessment#:#certificate_right#:#Pravý
-assessment#:#certificate_show#:#Zobrazit certifikát
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
-assessment#:#certificate_status_incomplete#:#Certifikát není hotový
-assessment#:#certificate_text#:#Text certifikátu
-assessment#:#certificate_top#:#Vrchol
-assessment#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Výborně-mínus
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#Prospěl
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Praha
-assessment#:#certificate_var_user_country#:#Česká republika
-assessment#:#certificate_var_user_department#:#Katedra uživatelské podpory
-assessment#:#certificate_var_user_firstname#:#Jan
-assessment#:#certificate_var_user_fullname#:#Ing. Jan Novák
-assessment#:#certificate_var_user_institution#:#Univerzita ILIAS
-assessment#:#certificate_var_user_lastname#:#Novák
-assessment#:#certificate_var_user_street#:#Hlavní třída 100
-assessment#:#certificate_var_user_title#:#Ing.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Viditelnost
-assessment#:#certificate_visibility_always#:#Vždy viditelné
-assessment#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
-assessment#:#certificate_visibility_never#:#Neviditelné
-assessment#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
-assessment#:#certificate_wrong_unit#:#Vložil(a) jste chybné jednotky
-assessment#:#certificate_wrong_units#:#Vložil(a) jste chybnou sadu jednotek
 assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z namátkového testu na nenamátkový test. Informace o již přidaných zásobnících otázek do namátkového testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenamátkového testu na namátkový test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro namátkový test. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_solution#:#Změna doporučeného řešení
@@ -408,7 +331,6 @@ assessment#:#disable_javascript#:#Klepněte pro vypnutí podpory JavaScriptu
 assessment#:#duplicate#:#Duplikovat
 assessment#:#duplicate_matching_values_selected#:#Vybral(a) jste duplikované identické hodnoty!
 assessment#:#duplicate_order_values_entered#:#Vložil(a) jste duplikované hodnoty pořadí!
-assessment#:#duplicate_term_message#:#You have entered at least one duplicate term. Please use unique terms.
 assessment#:#ects_allow_ects_grades#:#Zobrazit dodatečné hodnocení ECTS k získané známce
 assessment#:#ects_fill_out_all_values#:#Vložte prosím hodnotu pro každé ECTS hodnocení!
 assessment#:#ects_grade#:#Hodnocení ECTS
@@ -1712,8 +1634,6 @@ common#:#adopt_perm_from_template#:#Zkopírovat nastavení oprávnění
 common#:#advanced_editing_allow_html_tags#:#Povolit vybrané HTML značky pro editaci textu
 common#:#advanced_editing_allow_javascript_editor#:#Zapnout Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#HTML značky pro testy a nástroje hodnocení ILIAS povoleny
-common#:#advanced_editing_cat_page_editing#:#Zapnout úpravu obsahu pro stránky kategorií
-common#:#advanced_editing_cat_page_editing_desc#:#Zapíná úpravu obsahu stránek kategorií. Pokud je vypnuto, kategorie jsou zobrazeny jako sada seznamů položek.
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing#:#Zapnout plochu HTML pro úpravu obsahu
 common#:#advanced_editing_lm_js_editing_desc#:#Zapnuty plocha HTML a podpora JavaScriptu pro editaci stránek ve výukových modulech a rejstřících.
@@ -1726,7 +1646,6 @@ common#:#advanced_editing_settings#:#Rozšířená nastavení editace
 common#:#advanced_editing_survey_settings#:#Povolení značky HTML pro nástroje dozoru ILIAS
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
-common#:#adve_cat_settings#:#Nastavení kategorií
 common#:#adve_edit_permission#:#Změna nastavení práv
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Obecná nastavení
@@ -3443,7 +3362,6 @@ common#:#mcst_visible#:#MediaCast je viditelný
 common#:#mcst_write#:#Upravit MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#Zde není žádné volné místo.
-common#:#mem_already_on_list#:#Již jste zařazen(a) na seznam čekatelů.
 common#:#mem_end#:#Konec registrace:
 common#:#mem_free_places#:#Volná místa:
 common#:#mem_max_users#:#Maximum uživatelů:
@@ -6050,7 +5968,6 @@ crs#:#crs_unblocked#:#Volný vstup
 crs#:#crs_unblocked_member#:#Status v kurzu "%s"
 crs#:#crs_unblocked_member_body#:#Vaše členství v kurzu "%s" bylo obnoveno.
 crs#:#crs_unlimited#:#Neomezeno
-crs#:#crs_unsubscribe#:#Vyškrtnout
 crs#:#crs_unsubscribe_sure#:#Chcete se vyškrtnout z tohoto kurzu?
 crs#:#crs_unsubscribed_from_crs#:#Byl(a) jste vyškrtnut(a) z tohoto kurzu.
 crs#:#crs_update_objective#:#Upravit cíle výuky
@@ -6207,7 +6124,6 @@ dateplaner#:#back#:#Zpět
 dateplaner#:#begin_date#:#Začátek:
 dateplaner#:#busytime#:#Čas zaměstnání ve skupině
 dateplaner#:#c_date#:#Vytvořit událost
-dateplaner#:#ca_day_start#:#Day Start
 dateplaner#:#cal_accepted#:#Akceptováno
 dateplaner#:#cal_add_appointment#:#Vytvořit schůzku
 dateplaner#:#cal_add_category#:#Vytvořit nový kalendář
@@ -6854,7 +6770,6 @@ grp#:#grp_accept_subscriber_body#:#Byl(a) jste přijat(a) do skupiny "%1$s".\n\n
 grp#:#grp_added_to_list#:#Byl(a) jste zařazen(a) na seznam čekatelů. Jste zařazen(a) v pořadí %s.
 grp#:#grp_admins#:#Správci
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Zrušit příslušnost ke skupině
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Změnit typ skupiny
 grp#:#grp_closed#:#Skupina uzavřena
@@ -8512,7 +8427,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#Minimální délka hesla nem
 ps#:#ps_error_message_password_max_less_min#:#Maximální délka hesla nemůže být menší než minimální délka hesla.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimální délka hesla nemůže být menší než 2 pokud heslo má obsahovat písmena a číslice.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrátoři
 ps#:#ps_export_confirm#:#Schválení uživatele při vstupu do kurzu
 ps#:#ps_export_course#:#Rozšířený export dat uživatelského profilu v kurzech
@@ -9453,11 +9367,8 @@ survey#:#no_questions_available#:#Zde nejsou dostupné žádné otázky!
 survey#:#no_search_results#:#Není žádný výsledek hledání!
 survey#:#no_target_selected_for_move#:#Musíte vybrat cílové umístění!
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_group_invited#:#Žádný uživatel vybrané skupiny nevlastní odpovídající oprávnění spustit anketu. Žádný uživatel nebyl pozván.
-survey#:#no_user_of_role_invited#:#Všichni uživatelé vybrané role(í) nedostali odpovídající oprávnění ke spuštění ankety. Žádný uživatel nebyl pozván.
 survey#:#no_user_or_group_selected#:#Vyberte prosím volbu, co hledáte (uživatelé a/nebo skupiny)!
 survey#:#no_user_phrases_defined#:#Žádné uživatelsky definované fráze nejsou dostupné!
-survey#:#nominal_question_mr_not_checked#:#Zvolte prosím alespoň jednu z nabízených odpovědí!
 survey#:#nominal_question_not_checked#:#Zvolte prosím jednu z nabízených odpovědí!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#nepoužit
@@ -9467,7 +9378,6 @@ survey#:#offline#:#offline (neaktivován)
 survey#:#on#:#Zapnuto
 survey#:#on_additional#:#Zapnuto, a dodatečně
 survey#:#or#:#nebo
-survey#:#ordinal_question_not_checked#:#Vyberte prosím jednu z nabízených odpovědí!
 survey#:#orientation#:#Orientace
 survey#:#outro#:#Závěrečná značka
 survey#:#percentage_of_entered_values#:#Procento uživatelů, kteří vložili tuto hodnotu
@@ -9603,8 +9513,6 @@ survey#:#survey_use_start_button#:#Musíte vložit anketu použitím startovací
 survey#:#SurveyMatrixQuestion#:#Maticová otázka
 survey#:#SurveyMetricQuestion#:#Metrická otázka
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Nominální otázka
-survey#:#SurveyOrdinalQuestion#:#Pořadová otázka
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Textová otázka
 survey#:#svy_all_user_data_deleted#:#Všechna uživatelská data této ankety byly smazány!
@@ -9987,3 +9895,80 @@ wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_wiki_page#:#Stránka Wiki
 wiki#:#wiki_wiki_search#:#Hledání ve Wiki
+assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
+assessment#:#tst_results_access_never#:#Never###07 09 2009 new variable
+certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
+certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
+certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
+certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
+certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
+certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
+certificate#:#certificate_ph_birthday#:#Birthday of the user###07 09 2009 new variable
+content#:#cont_LocalFile#:#Local File###07 09 2009 new variable
+payment#:#paya_deleted_selected_prices#:#Price(s) deleted###07 09 2009 new variable
+search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new variable
+search#:#lucene_host#:#Host###07 09 2009 new variable
+search#:#lucene_port#:#Port###07 09 2009 new variable
+search#:#lucene_index_path#:#Directory for Index Files###07 09 2009 new variable
+search#:#lucene_log#:#Path to Logfile###07 09 2009 new variable
+search#:#lucene_level#:#Log-Level###07 09 2009 new variable
+search#:#lucene_cpu#:#Maximum Number of Threads###07 09 2009 new variable
+search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.###07 09 2009 new variable
+search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.###07 09 2009 new variable
+search#:#lucene_log_info#:#The file will be created automatically.###07 09 2009 new variable
+search#:#lucene_download_ini#:#Download Configuration File###07 09 2009 new variable
+search#:#lucene_create_ini#:#Create Configuration File###07 09 2009 new variable
+common#:#show_filter#:#Show Filter###07 09 2009 new variable
+payment#:#pays_epay#:#ePay###07 09 2009 new variable
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
+payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
+payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
+payment#:#pays_epay_server_path#:#Server path###07 09 2009 new variable
+payment#:#pays_epay_merchant_number#:#Merchant id###07 09 2009 new variable
+payment#:#pays_epay_auth_token#:#Authentication Token###07 09 2009 new variable
+payment#:#pays_epay_auth_email#:#Email Notification###07 09 2009 new variable
+payment#:#pays_epay_instant_capture#:#Instant Capture###07 09 2009 new variable
+payment#:#pay_hint_epay#:#Tip to ePay###07 09 2009 new variable
+payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.###07 09 2009 new variable
+payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.###07 09 2009 new variable
+payment#:#pay_epay_canceled#:#The payment was canceled.###07 09 2009 new variable
+search#:#lucene_relevance_short#:#Relevance###07 09 2009 new variable
+content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
+content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
+content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
+content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
+content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
+content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
+content#:#cont_debugpw#:#Password###07 09 2009 new variable
+content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
+content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
+content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
+webr#:#webr_new_link#:#Add New Link###07 09 2009 new variable
+webr#:#webr_link_target#:#Link Target###07 09 2009 new variable
+webr#:#webr_link_title#:#Link Name###07 09 2009 new variable
+webr#:#webr_active#:#Active###07 09 2009 new variable
+webr#:#webr_link_added#:#A new link has been created.###07 09 2009 new variable
+webr#:#webr_deactivate#:#Deactivate Link###07 09 2009 new variable
+webr#:#webr_inactive_success#:#The chosen link is deactivated.###07 09 2009 new variable
+payment#:#pay_hide_advanced_search#:#Hide Advanced Search###07 09 2009 new variable
+payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.###07 09 2009 new variable
+payment#:#pay_hide_filtering#:#Hide Filtering###07 09 2009 new variable
+payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.###07 09 2009 new variable
+payment#:#pay_hide_coupons#:#Hide coupons###07 09 2009 new variable
+payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.###07 09 2009 new variable
+payment#:#pay_hide_news#:#Hide news###07 09 2009 new variable
+payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.###07 09 2009 new variable
+payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.###07 09 2009 new variable
+payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
+webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
+webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
+webr#:#webr_edit_links#:#Edit Links###07 09 2009 new variable
+payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
+payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
+payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
+webr#:#webr_edit_settings#:#Edit Settings###07 09 2009 new variable
+webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
+webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
+webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
+webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable
