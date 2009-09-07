@@ -6474,6 +6474,7 @@ payment#:#pays_epay_server_host#:#Server
 payment#:#pays_epay_server_path#:#Sti
 payment#:#pays_epay_merchant_number#:#Indløsningsnummer
 payment#:#pays_epay_auth_token#:#Hemmelighed
+payment#:#pays_epay_auth_token#:#Skal opsættes i ePays backend for at sikre mod simulerede betalinger.
 payment#:#pays_epay_auth_email#:#Email til information
 payment#:#pays_epay_instant_capture#:#Hæv øjeblikkeligt
 payment#:#pays_pay_methods#:#Betalingsmetoder
