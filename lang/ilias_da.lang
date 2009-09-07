@@ -6474,7 +6474,7 @@ payment#:#pays_epay_server_host#:#Server
 payment#:#pays_epay_server_path#:#Sti
 payment#:#pays_epay_merchant_number#:#Indløsningsnummer
 payment#:#pays_epay_auth_token#:#Hemmelighed
-payment#:#pays_epay_auth_token#:#Skal opsættes i ePays backend for at sikre mod simulerede betalinger.
+payment#:#pays_epay_auth_token_info#:#Skal opsættes i ePays backend for at sikre mod simulerede betalinger.
 payment#:#pays_epay_auth_email#:#Email til information
 payment#:#pays_epay_instant_capture#:#Hæv øjeblikkeligt
 payment#:#pays_pay_methods#:#Betalingsmetoder
@@ -8440,7 +8440,7 @@ payment#:#sort_topics_manually#:#Manuelt
 payment#:#pay_enable_shop#:#Aktiver webshop
 payment#:#pay_enable_shop_info#:#Aktiverer ILIAS webshop som gør det muligt at købe objekter.
 payment#:#payment_shop_not_objects_found#:#Der blev ikke fundet nogen objekter til salg.
-payment#:#payment_login_to_buy_object#:#Du skal logge ind før du kan anvende indkøbskurven.
+payment#:#payment_login_to_buy_object#:#Du skal logge ind før du kan anvende indkøbskurven. Hvis du endnu ikke har et brugernavn skal du oprette en brugerkonto først.
 dateplaner#:#cal_share_search_role_header#:#Rollevalg
 common#:#assigned_members#:#Medlemmer
 common#:#wiki_read#:#Læs wiki
@@ -9948,10 +9948,10 @@ content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
 content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
 content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
 content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
-content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
-content#:#cont_debugpw#:#Password###07 09 2009 new variable
-content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
-content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
+content#:#cont_debug#:#Vis debugmenu
+content#:#cont_debugpw#:#Password
+content#:#scplayer_debugger#:#Vis debugger
+content#:#cont_dir_created#:#Mappen er blevet oprettet
 content#:#cont_file_created#:#Filen blev oprettet
 webr#:#webr_new_link#:#Lav nyt link
 webr#:#webr_link_target#:#Linkpegning
@@ -9960,8 +9960,8 @@ webr#:#webr_active#:#Aktivt
 webr#:#webr_link_added#:#Nyt link blev oprettet
 webr#:#webr_deactivate#:#Deaktiver link
 webr#:#webr_inactive_success#:#Det vangte link er deaktiveret
-webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
-webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
+webr#:#webr_list_title#:#Titel listen
+webr#:#webr_list_desc#:#Beskrivelse af listen
 webr#:#webr_edit_links#:#Ret links
 payment#:#shop_actions#:#Køb
 webr#:#webr_edit_settings#:#Ret indstillinger
