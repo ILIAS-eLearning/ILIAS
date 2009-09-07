@@ -253,53 +253,56 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 		global $lng,$ilUser;
 		
 		$ok = true;
-		
-		$_POST[$this->getPostVar()]["date"]["y"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["y"]);
-		$_POST[$this->getPostVar()]["date"]["m"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["m"]);
-		$_POST[$this->getPostVar()]["date"]["d"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["d"]);
-		$_POST[$this->getPostVar()]["time"]["h"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["h"]);
-		$_POST[$this->getPostVar()]["time"]["m"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["m"]);
-		$_POST[$this->getPostVar()]["time"]["s"] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["s"]);
 
-		// verify date
-		
-		$dt['year'] = (int) $_POST[$this->getPostVar()]['date']['y'];
-		$dt['mon'] = (int) $_POST[$this->getPostVar()]['date']['m'];
-		$dt['mday'] = (int) $_POST[$this->getPostVar()]['date']['d'];
-		$dt['hours'] = (int) $_POST[$this->getPostVar()]['time']['h'];
-		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['time']['m'];
-		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['time']['s'];
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-		$timestamp = $date->get(IL_CAL_UNIX);	
-		if ($_POST[$this->getPostVar()]["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
-			$_POST[$this->getPostVar()]["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
+		if (!$this->getDisabled())
 		{
-			$this->setAlert($lng->txt("exc_date_not_valid"));
-			$ok = false;
-		}
-		
-		$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+			$_POST[$this->getPostVar()]["date"]["y"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["y"]);
+			$_POST[$this->getPostVar()]["date"]["m"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["m"]);
+			$_POST[$this->getPostVar()]["date"]["d"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["d"]);
+			$_POST[$this->getPostVar()]["time"]["h"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["h"]);
+			$_POST[$this->getPostVar()]["time"]["m"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["m"]);
+			$_POST[$this->getPostVar()]["time"]["s"] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["s"]);
 
-		/*
-		$_POST[$this->getPostVar()]["time"] =
-			str_pad($_POST[$this->getPostVar()]["time"]["h"], 2 , "0", STR_PAD_LEFT).":".
-			str_pad($_POST[$this->getPostVar()]["time"]["m"], 2 , "0", STR_PAD_LEFT).":".
-			str_pad($_POST[$this->getPostVar()]["time"]["s"], 2 , "0", STR_PAD_LEFT);
-			
-		$_POST[$this->getPostVar()]["date"] =
-			str_pad($_POST[$this->getPostVar()]["date"]["y"], 4 , "0", STR_PAD_LEFT)."-".
-			str_pad($_POST[$this->getPostVar()]["date"]["m"], 2 , "0", STR_PAD_LEFT)."-".
-			str_pad($_POST[$this->getPostVar()]["date"]["d"], 2 , "0", STR_PAD_LEFT);
-		*/
-		$this->setDate($date);
+			// verify date
+
+			$dt['year'] = (int) $_POST[$this->getPostVar()]['date']['y'];
+			$dt['mon'] = (int) $_POST[$this->getPostVar()]['date']['m'];
+			$dt['mday'] = (int) $_POST[$this->getPostVar()]['date']['d'];
+			$dt['hours'] = (int) $_POST[$this->getPostVar()]['time']['h'];
+			$dt['minutes'] = (int) $_POST[$this->getPostVar()]['time']['m'];
+			$dt['seconds'] = (int) $_POST[$this->getPostVar()]['time']['s'];
+			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+			$timestamp = $date->get(IL_CAL_UNIX);	
+			if ($_POST[$this->getPostVar()]["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
+				$_POST[$this->getPostVar()]["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
+				$_POST[$this->getPostVar()]["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
+			{
+				$this->setAlert($lng->txt("exc_date_not_valid"));
+				$ok = false;
+			}
+
+			$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+			$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+
+			/*
+			$_POST[$this->getPostVar()]["time"] =
+				str_pad($_POST[$this->getPostVar()]["time"]["h"], 2 , "0", STR_PAD_LEFT).":".
+				str_pad($_POST[$this->getPostVar()]["time"]["m"], 2 , "0", STR_PAD_LEFT).":".
+				str_pad($_POST[$this->getPostVar()]["time"]["s"], 2 , "0", STR_PAD_LEFT);
+
+			$_POST[$this->getPostVar()]["date"] =
+				str_pad($_POST[$this->getPostVar()]["date"]["y"], 4 , "0", STR_PAD_LEFT)."-".
+				str_pad($_POST[$this->getPostVar()]["date"]["m"], 2 , "0", STR_PAD_LEFT)."-".
+				str_pad($_POST[$this->getPostVar()]["date"]["d"], 2 , "0", STR_PAD_LEFT);
+			*/
+			$this->setDate($date);
+		}
 		return $ok;
 	}
 
