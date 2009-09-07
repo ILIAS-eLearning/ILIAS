@@ -73,7 +73,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-		}		
+		}
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
@@ -949,7 +949,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$form->addItem($results_presentation);
 		
-		$form->addCommandButton("saveScoring", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveScoring", $this->lng->txt("save"));
 		$errors = false;
 
 		if ($save)
@@ -969,6 +969,14 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function propertiesObject($checkonly = FALSE)
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+
 		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
@@ -1263,7 +1271,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$mailnotification->setValue($this->object->getMailNotification());
 		$form->addItem($mailnotification);
 
-		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		$errors = false;
 		
 		if ($save)
@@ -3518,6 +3526,14 @@ class ilObjTestGUI extends ilObjectGUI
 	function defaultsObject()
 	{
 		global $ilUser;
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirect($this, "infoScreen");
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_defaults.html", "Modules/Test");
 		

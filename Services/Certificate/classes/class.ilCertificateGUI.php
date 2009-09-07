@@ -244,6 +244,8 @@ class ilCertificateGUI
 	*/
 	public function certificateEditor()
 	{
+		global $ilAccess;
+		
 		$form_fields = array();
 		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
 		{
@@ -390,13 +392,16 @@ class ilCertificateGUI
 
 		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
 
-		if ($this->object->isComplete() || $this->object->hasBackgroundImage())
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			$form->addCommandButton("certificatePreview", $this->lng->txt("certificate_preview"));
-			$form->addCommandButton("certificateExportFO", $this->lng->txt("certificate_export"));
-			$form->addCommandButton("certificateDelete", $this->lng->txt("delete"));
+			if ($this->object->isComplete() || $this->object->hasBackgroundImage())
+			{
+				$form->addCommandButton("certificatePreview", $this->lng->txt("certificate_preview"));
+				$form->addCommandButton("certificateExportFO", $this->lng->txt("certificate_export"));
+				$form->addCommandButton("certificateDelete", $this->lng->txt("delete"));
+			}
+			$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 		}
-		$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 

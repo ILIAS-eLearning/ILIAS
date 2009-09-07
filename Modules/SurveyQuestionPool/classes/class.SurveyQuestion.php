@@ -2169,6 +2169,7 @@ class SurveyQuestion
 		$cumulated =& $this->calculateCumulatedResults($survey_id);
 		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
 		$maxlen = 37;
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (ilStr::strlen($questiontext) > $maxlen + 3)
 		{
 			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
