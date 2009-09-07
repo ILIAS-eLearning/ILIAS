@@ -100,6 +100,25 @@ class ilStr
 		return (strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
 	}
 	
+	/**
+	 * Shorten text to the given number of bytes.
+	 * If the character is cutted within a character
+	 * the invalid character will be shortened, too.
+	 * 
+	 * E.g: shortenText('€€€',4) will return '€'
+	 * 
+	 * @param string $a_string
+	 * @param int $a_start_pos
+	 * @param int $a_num_bytes
+	 * @param string $a_encoding [optional]
+	 * @return string
+	 */
+	public static function shortenText($a_string,$a_start_pos,$a_num_bytes,$a_encoding = 'UTF-8')
+	{
+		return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);		
+	}
+
+	
 
 } // END class.ilUtil
 ?>
