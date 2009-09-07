@@ -33,6 +33,10 @@
 	overflow: hidden;
 	width: 100%;
 	float: left;
+	border-top: 1px #aaa solid;
+	border-bottom: 1px #aaa solid;
+	margin-bottom: 1em;
+	padding: 1em 0;
 }
 
 #kioskTestTitle {

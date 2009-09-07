@@ -1192,6 +1192,26 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
 	
+	private function getKioskHead()
+	{
+		global $ilUser;
+		
+		$template = new ilTemplate('tpl.il_as_tst_kiosk_head.html', true, true, 'Modules/Test');
+		if ($this->object->getShowKioskModeTitle())
+		{
+			$template->setCurrentBlock("kiosk_show_title");
+			$template->setVariable("TEST_TITLE", $this->object->getTitle());
+			$template->parseCurrentBlock();
+		}
+		if ($this->object->getShowKioskModeParticipant())
+		{
+			$template->setCurrentBlock("kiosk_show_participant");
+			$template->setVariable("PARTICIPANT_NAME", $this->lng->txt("login_as") . " " . $ilUser->getFullname());
+			$template->parseCurrentBlock();
+		}
+		return $template->get();
+	}
+	
 /**
 * Outputs the question of the active sequence
 */
@@ -1221,16 +1241,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			ilUtil::sendInfo();
-			if ($this->object->getShowKioskModeTitle())
+			$head = $this->getKioskHead();
+			if (strlen($head))
 			{
-				$this->tpl->setCurrentBlock("kiosk_show_title");
-				$this->tpl->setVariable("TEST_TITLE", $this->object->getTitle());
-				$this->tpl->parseCurrentBlock();
-			}
-			if ($this->object->getShowKioskModeParticipant())
-			{
-				$this->tpl->setCurrentBlock("kiosk_show_participant");
-				$this->tpl->setVariable("PARTICIPANT_NAME", $this->lng->txt("login_as") . " " . $ilUser->getFullname());
+				$this->tpl->setCurrentBlock("kiosk_options");
+				$this->tpl->setVariable("KIOSK_HEAD", $head);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -1489,6 +1504,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$active_id = $this->object->getTestSession()->getActiveId();
 		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
 		$marked_questions = array();
+		if ($this->object->getKioskMode() && $fullpage)
+		{
+			$head = $this->getKioskHead();
+			if (strlen($head))
+			{
+				$this->tpl->setCurrentBlock("kiosk_options");
+				$this->tpl->setVariable("KIOSK_HEAD", $head);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		if ($this->object->getShowMarker())
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
