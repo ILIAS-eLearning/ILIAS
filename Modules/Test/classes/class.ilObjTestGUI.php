@@ -924,7 +924,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->addItem($results_access);
 
 		// results presentation
-		$results_presentation = new ilCheckboxGroupInputGUI($this->lng->txt("tst_results_access"), "results_presentation");
+		$results_presentation = new ilCheckboxGroupInputGUI($this->lng->txt("tst_results_presentation"), "results_presentation");
 		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_pass_details"), 'pass_details', ''));
 		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_details"), 'solution_details', ''));
 		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_printview"), 'solution_printview', ''));
