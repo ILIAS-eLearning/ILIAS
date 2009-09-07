@@ -442,7 +442,7 @@ class ilAccountRegistrationGUI
 		//check, whether user-agreement has been accepted
 		if ($_POST["status"] != "accepted")
 		{
-			ilUtil::sendFailure($lng->txt("force_accept_usr_agreement"),true);
+			ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"),true);
 			$this->displayForm();
 			return false;
 		}
