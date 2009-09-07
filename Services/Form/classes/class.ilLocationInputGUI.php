@@ -174,6 +174,9 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
+		$tpl->setVariable("TXT_LATITUDE", $lng->txt("gmaps_latitude"));
+		$tpl->setVariable("TXT_LONGITUDE", $lng->txt("gmaps_longitude"));
+		$tpl->setVariable("TXT_ADDR", $lng->txt("address"));
 		$tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
 		
 		$lat = is_numeric($this->getLatitude())
@@ -193,6 +196,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
 				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
 		$tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
+		$tpl->setVariable("ID", $this->getPostVar());
 		$tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
 		$tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
