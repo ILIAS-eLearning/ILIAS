@@ -1127,6 +1127,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$nr_of_tries->setValue($this->object->getNrOfTries());
 		$nr_of_tries->setRequired(true);
 		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
+		if ($total) $nr_of_tries->setDisabled(true);
 		$form->addItem($nr_of_tries);
 
 		// enable max. processing time
@@ -1176,6 +1177,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
 		}
 		$enablestartingtime->addSubItem($startingtime);
+		if ($total) $enablestartingtime->setDisabled(true);
+		if ($total) $startingtime->setDisabled(true);
 		$form->addItem($enablestartingtime);
 
 		// enable ending time
@@ -1339,6 +1342,15 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->object->setAnonymity($_POST["anonymity"]);
 				$this->object->setRandomTest($random_test);
+				$this->object->setNrOfTries($_POST["nr_of_tries"]);
+				if ($_POST['chb_starting_time'])
+				{
+					$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
+				}
+				else
+				{
+					$this->object->setStartingTime('');
+				}
 			}
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
@@ -1366,7 +1378,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
 			$this->object->setShowKioskModeTitle((is_array($_POST["kiosk_options"]) && in_array('kiosk_title', $_POST["kiosk_options"])) ? 1 : 0);
 			$this->object->setShowKioskModeParticipant((is_array($_POST["kiosk_options"]) && in_array('kiosk_participant', $_POST["kiosk_options"])) ? 1 : 0);
-			$this->object->setNrOfTries($_POST["nr_of_tries"]);
 			$this->object->setEnableProcessingTime(($_POST["chb_processing_time"]) ? 1 : 0);
 			if ($this->object->getEnableProcessingTime())
 			{
@@ -1381,14 +1392,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setProcessingTime('');
 			}
 			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);
-			if ($_POST['chb_starting_time'])
-			{
-				$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
-			}
-			else
-			{
-				$this->object->setStartingTime('');
-			}
 			if ($_POST['chb_ending_time'])
 			{
 				$this->object->setEndingTime(ilFormat::dateDB2timestamp($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time']));
