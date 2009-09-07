@@ -12,6 +12,8 @@
 */
 class ilDBGenerator
 {
+	protected $target_encoding = 'UTF-8';
+	
 	var $whitelist = array();
 	var $blacklist = array();
 	var $tables = array();
@@ -101,6 +103,40 @@ class ilDBGenerator
 	}
 	
 	/**
+	 * Set the desired target encoding
+	 * If the target encoding os different from UTF-8
+	 * all text values will be shortened to lenght of
+	 * of the current text field
+	 * 
+	 * E.g:
+	 * il_meta_keyword keyword(4000) target encoding: UTF16
+	 * 
+	 * => 
+	 * <code>
+	 * $value = mb_convert_encoding($value,'UTF-8','UTF-16');
+	 * $value = mb_strcut($value,0,4000,'UTF16');
+	 * $value = mb_convert_encoding($value,'UTF-16','UTF-8');
+	 * </code>
+	 * 
+	 * 
+	 * @param object $a_encoding
+	 * @return 
+	 */
+	public function setTargetEncoding($a_encoding)
+	{
+		$this->target_encoding = $a_encoding;
+	}
+	
+	/**
+	 * Returns the target encoding
+	 * @return string
+	 */
+	public function getTargetEncoding()
+	{
+		return $this->target_encoding;
+	}
+	
+	/**
 	* Set Table Black List.
 	* (Tables that should not be included in the processing)
 	*
@@ -161,6 +197,7 @@ class ilDBGenerator
 		{
 			$this->tables = $r;
 		}
+		return $this->tables;
 	}
 	
 	/**
@@ -486,6 +523,8 @@ class ilDBGenerator
 	 */
 	function buildInsertStatementsXML($a_table,$a_basedir)
 	{
+		global $ilLog;
+		
 		include_once './classes/class.ilXmlWriter.php';
 		$w = new ilXmlWriter();
 		$w->xmlStartTag('Table',array('name' => $a_table));
@@ -495,6 +534,7 @@ class ilDBGenerator
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set))
 		{
+			#$ilLog->write('Num: '.$num++);
 			$w->xmlStartTag('Row');
 			
 			$fields = array();
@@ -502,6 +542,11 @@ class ilDBGenerator
 			$values = array();
 			foreach($rec as $f => $v)
 			{
+				if($this->fields[$f]['type'] == 'text' and $this->fields[$f]['length'] >= 1000)
+				{
+					$v = $this->shortenText($a_table, $f, $v, $this->fields[$f]['length']);
+				}
+				
 				$w->xmlElement(
 					'Value',
 					array(
@@ -762,6 +807,44 @@ class ilDBGenerator
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Shorten text depending on target encoding
+	 * @param string $table
+	 * @param string $field
+	 * @param string $a_value
+	 * @param int $a_size
+	 * @return string
+	 */
+	protected function shortenText($table,$field,$a_value,$a_size)
+	{
+		global $ilLog;
+
+		if($this->getTargetEncoding() == 'UTF-8')
+		{
+			return $a_value;
+		}
+		// Convert to target encoding
+		$shortened = mb_convert_encoding($a_value, $this->getTargetEncoding(), 'UTF-8');
+		// Shorten
+		include_once './Services/Utilities/classes/class.ilStr.php';
+		$shortened = ilStr::shortenText($shortened, 0, $a_size,$this->getTargetEncoding());
+		// Convert back to UTF-8
+		$shortened = mb_convert_encoding($shortened, 'UTF-8',$this->getTargetEncoding());
+		
+		if(strlen($a_value) != strlen($shortened))
+		{
+			$ilLog->write('Table        : '.$table);
+			$ilLog->write('Field        : '.$field );
+			$ilLog->write('Type         : '.$this->fields[$field]['type']);
+			$ilLog->write('Length       : '.$this->fields[$field]['length']);
+			$ilLog->write('Before       : '.$a_value);
+			$ilLog->write('Shortened    : '.$shortened);
+			$ilLog->write('Strlen Before: '.strlen($a_value));
+			$ilLog->write('Strlen After : '.strlen($shortened));
+		}
+		return $shortened;
 	}
 
 }
