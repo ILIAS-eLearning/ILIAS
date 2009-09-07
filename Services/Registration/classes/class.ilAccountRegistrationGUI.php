@@ -442,7 +442,7 @@ class ilAccountRegistrationGUI
 		//check, whether user-agreement has been accepted
 		if ($_POST["status"] != "accepted")
 		{
-			ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"),true);
+			ilUtil::sendFailure($lng->txt("force_accept_usr_agreement"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -476,7 +476,7 @@ class ilAccountRegistrationGUI
 		{
 			if(empty($_POST['user'][$val]))
  			{
-				ilUtil::sendInfo($lng->txt('fill_out_all_required_fields') . ': ' . $lng->txt($val), true);
+				ilUtil::sendFailure($lng->txt('fill_out_all_required_fields') . ': ' . $lng->txt($val), true);
 				$this->displayForm();
 				return false;
 			}
@@ -486,7 +486,7 @@ class ilAccountRegistrationGUI
 				// validate email
 				if(!ilUtil::is_email($_POST['user']['email']))
  				{
-					ilUtil::sendInfo($lng->txt('email_not_valid'), true);
+					ilUtil::sendFailure($lng->txt('email_not_valid'), true);
 					$this->displayForm();
 					return false;
  				}
@@ -495,7 +495,7 @@ class ilAccountRegistrationGUI
 
 		if(!$this->checkUserDefinedRequiredFields())
 		{
-			ilUtil::sendInfo($lng->txt("fill_out_all_required_fields"),true);
+			ilUtil::sendFailure($lng->txt("fill_out_all_required_fields"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -503,7 +503,7 @@ class ilAccountRegistrationGUI
 		// validate username
 		if (!ilUtil::isLogin($_POST["user"]["login"]))
 		{
-			ilUtil::sendInfo($lng->txt("login_invalid"),true);
+			ilUtil::sendFailure($lng->txt("login_invalid"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -511,7 +511,7 @@ class ilAccountRegistrationGUI
 		// check loginname
 		if (ilObjUser::_loginExists($_POST["user"]["login"]))
 		{
-			ilUtil::sendInfo($lng->txt("login_exists"),true);
+			ilUtil::sendFailure($lng->txt("login_exists"),true);
 			$this->displayForm();
 			return false;
 		}
@@ -521,7 +521,7 @@ class ilAccountRegistrationGUI
 			// check passwords
 			if ($_POST["user"]["passwd"] != $_POST["user"]["passwd2"])
 			{
-				ilUtil::sendInfo($lng->txt("passwd_not_match"),true);
+				ilUtil::sendFailure($lng->txt("passwd_not_match"),true);
 				$this->displayForm();
 				return false;
 			}
@@ -529,7 +529,7 @@ class ilAccountRegistrationGUI
 			// validate password
 			if (!ilUtil::isPassword($_POST["user"]["passwd"],$custom_error))
 			{
-				if($custom_error != '') ilUtil::sendInfo($custom_error,true);
+				if($custom_error != '') ilUtil::sendFailure($custom_error,true);
 				else ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
 
 				$this->displayForm();
@@ -648,7 +648,7 @@ class ilAccountRegistrationGUI
 			$ilSetting->get('allow_history_loginname_again') == 0 &&
 			$login_exists_in_history == 1)
 		{
-			ilUtil::sendInfo($lng->txt("login_exists"),true);
+			ilUtil::sendFailure($lng->txt("login_exists"),true);
 			$this->displayForm();
 			return false;	
 		}
