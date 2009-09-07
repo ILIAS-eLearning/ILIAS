@@ -530,7 +530,7 @@ class ilAccountRegistrationGUI
 			if (!ilUtil::isPassword($_POST["user"]["passwd"],$custom_error))
 			{
 				if($custom_error != '') ilUtil::sendInfo($custom_error,true);
-				else ilUtil::sendInfo($lng->txt("passwd_invalid"),true);
+				else ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
 
 				$this->displayForm();
 				return false;
