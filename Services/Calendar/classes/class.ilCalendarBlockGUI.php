@@ -343,7 +343,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			}
 		}
 		$a_tpl->setCurrentBlock('mini_month');
-		
+		$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
 		$a_tpl->setVariable('TXT_MONTH',
 			$lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
 				' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
