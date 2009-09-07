@@ -195,7 +195,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
             if ($_SESSION["filtered_roles"] != 4)
             {
-                $result_set[$counter][] = $checkbox;
+                $result_set[$counter][] = $checkbox ? $checkbox : '';
                 $role_ids[$counter] = $role["obj_id"];
             }
             
@@ -239,7 +239,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				$link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
 			}
 			$result_set[$counter][] = "<a title=\"".ilObjRole::_getTranslation($role["title"])."\" href=\"$link\">".ilObjRole::_getTranslation($role["title"])."</a>";
-            $result_set[$counter][] = $role["description"];
+            $result_set[$counter][] = $role["description"] ? $role['description'] : '';
 			$result_set[$counter][] = $path." (".$role["role_type"].")";;
 
    			++$counter;
@@ -602,7 +602,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$tbl->setHeaderVars(array("","type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
 			$tbl->setColumnWidth(array("","","30%","40%","30%"));
 		}
-		
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"view");
 		$tbl->render();
 		$this->tpl->setVariable("ROLES_TABLE",$tbl->tpl->get());
