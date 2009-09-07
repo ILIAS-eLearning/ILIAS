@@ -260,6 +260,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function propertiesObject($checkonly = FALSE)
 	{
+		global $ilAccess;
+		
 		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -385,7 +387,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setRteTagSet('full');
 		$form->addItem($finalstatement);
 
-		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		$errors = false;
 		
 		if ($save)
