@@ -82,6 +82,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('select_all');
 		$this->setFilterCommand('filterAvailableQuestions');
+		$this->setResetCommand('resetfilterAvailableQuestions');
 		$this->initFilter();
 	}
 

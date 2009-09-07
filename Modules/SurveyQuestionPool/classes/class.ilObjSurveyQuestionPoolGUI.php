@@ -440,7 +440,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions');
 		$table_gui->writeFilterToSession();
-		$this->questionsObject();
+		$this->ctrl->redirect($this, 'questions');
+	}
+	
+	public function resetfilterQuestionBrowserObject()
+	{
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
+		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions');
+		$table_gui->resetFilter();
+		$this->ctrl->redirect($this, 'questions');
 	}
 	
 	/**

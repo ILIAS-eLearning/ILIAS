@@ -77,6 +77,7 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('select_all');
 		$this->setFilterCommand('filterQuestionblockBrowser');
+		$this->setResetCommand('resetfilterQuestionblockBrowser');
 		
 		$this->initFilter();
 	}

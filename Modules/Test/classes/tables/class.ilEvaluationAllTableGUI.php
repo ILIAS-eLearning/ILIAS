@@ -105,6 +105,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$this->enable('header');
 
 		$this->setFilterCommand('filterEvaluation');
+		$this->setResetCommand('resetfilterEvaluation');
 		$this->initFilter();
 	}
 
