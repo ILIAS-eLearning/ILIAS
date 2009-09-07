@@ -3223,7 +3223,9 @@ gmaps#:#gmaps_settings#:#Google Maps Settings
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:
 gmaps#:#gmaps_std_location#:#Default Location
-gmaps#:#gmaps_std_location_desc#:#Latitude / Longitude. Click map to set location.
+gmaps#:#gmaps_std_location_desc#:#Click map to set location.
+gmaps#:#gmaps_latitude#:#Latitude
+gmaps#:#gmaps_longitude#:#Longitude
 jsmath#:#jsmath_extt_jsmath#:#jsMath
 jsmath#:#jsmath_settings#:#jsMath Settings
 jsmath#:#jsmath_enable_jsmath#:#Enable jsMath

@@ -6763,7 +6763,9 @@ gmaps#:#gmaps_lookup_address#:#Adresse suchen
 gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Öffentlichen Profil angezeigt. Dazu muss aber Ihr Öffentliches Profil aktiviert sein. Bei Kurs- und Gruppenkarten wird der Standort ebenfalls angezeigt.
 gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
 gmaps#:#gmaps_std_location#:#Standort der Installation
-gmaps#:#gmaps_std_location_desc#:#Breitengrad / Längengrad. Klicken Sie auf die Karte, um den Standort festzulegen.
+gmaps#:#gmaps_std_location_desc#:#Klicken Sie auf die Karte, um den Standort festzulegen.
+gmaps#:#gmaps_latitude#:#Breitengrad
+gmaps#:#gmaps_longitude#:#Längengrad
 gmaps#:#gmaps_zoom_level#:#Vergrößerungsgrad
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
