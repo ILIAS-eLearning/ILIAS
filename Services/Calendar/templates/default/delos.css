@@ -203,7 +203,7 @@ a.calminiapp {
 	font-weight: bold;
 }
 
-p.il_calmini_monthday {
+p.il_calmini_monthday, div.il_calmini_monthday {
 	margin: 1px;
 	text-align:center;
 }

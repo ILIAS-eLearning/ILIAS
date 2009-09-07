@@ -4,7 +4,7 @@
 	<a href="{OPEN_MONTH_VIEW}">{TXT_MONTH}</a>
 	<a href="{NEXT_MONTH}" onclick="return ilBlockJSHandler('block_{BL_TYPE}_{BL_ID}','{NEXT_MONTH_ASYNC}')">&gt;</a>
 </div>
-<table class="calmini" width="100%">
+<table class="calmini" width="100%" summary="{TXT_MONTH_OVERVIEW}">
 	<tr class="calminiheader">
 		<!-- BEGIN month_header_col -->
 		<th class="calmini" width="12.5%">{TXT_WEEKDAY}</th>
@@ -13,11 +13,11 @@
 	<!-- BEGIN month_row -->
 	<tr class="calmini">
 		<th class="{TD_CLASS}" width="12.5%">
-			<p class="il_calmini_monthday"><a href="{OPEN_WEEK_VIEW}">{WEEK}</a></p>
+			<div class="il_calmini_monthday"><a href="{OPEN_WEEK_VIEW}">{WEEK}</a></div>
 		</th>
 		<!-- BEGIN month_col -->
 		<td class="{TD_CLASS}" width="12.5%">
-			<p class="il_calmini_monthday"><a class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a></p>
+			<div class="il_calmini_monthday"><a class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a></div>
 		</td>
 		<!-- END month_col -->
 	</tr>
