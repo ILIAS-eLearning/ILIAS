@@ -1733,7 +1733,7 @@ class assQuestion
 				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
 				"points" => array("float", $this->getMaximumPoints()),
 				"working_time" => array("text", $estw_time),
-				"nr_of_tries" => array("integer", $this->getNrOfTries()),
+				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
 				"created" => array("integer", time()),
 				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
 				"tstamp" => array("integer", time())
