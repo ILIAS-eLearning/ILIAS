@@ -99,7 +99,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 
-		include_once './classes/class.ilExcelWriterAdapter.php';
+		include_once './Services/Excel/classes/class.ilExcelWriterAdapter.php';
 
 		$pewa =& new ilExcelWriterAdapter('learning_progress.xls');
 
@@ -114,7 +114,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 	function _addLearningProgressWorksheet(&$pewa)
 	{
-		include_once 'classes/class.ilExcelUtils.php';
+		include_once 'Services/Excel/classes/class.ilExcelUtils.php';
 
 		$workbook =& $pewa->getWorkbook();
 		$worksheet =& $workbook->addWorksheet($this->lng->txt('objs_usr'));

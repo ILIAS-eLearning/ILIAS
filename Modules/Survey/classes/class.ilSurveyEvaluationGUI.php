@@ -184,7 +184,7 @@ class ilSurveyEvaluationGUI
 		switch ($_POST["export_format"])
 		{
 			case TYPE_XLS:
-				include_once "./classes/class.ilExcelWriterAdapter.php";
+				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
@@ -203,7 +203,7 @@ class ilSurveyEvaluationGUI
 				$format_title->setFgColor('silver');
 				$format_title->setAlign('center');
 				// Creating a worksheet
-				include_once ("./classes/class.ilExcelUtils.php");
+				include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();
 				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
 				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
@@ -453,7 +453,7 @@ class ilSurveyEvaluationGUI
 		switch ($export_format)
 		{
 			case TYPE_XLS:
-				include_once "./classes/class.ilExcelWriterAdapter.php";
+				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 				$excelfile = ilUtil::ilTempnam();
 				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
 				$workbook = $adapter->getWorkbook();
@@ -482,7 +482,7 @@ class ilSurveyEvaluationGUI
 					$worksheets[$i] =& $workbook->addWorksheet();
 				}
 				$row = 0;
-				include_once "./classes/class.ilExcelUtils.php";
+				include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 				foreach ($csvfile as $csvrow)
 				{
 					$col = 0;

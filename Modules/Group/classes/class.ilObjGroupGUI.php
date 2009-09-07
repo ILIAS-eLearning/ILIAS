@@ -2129,7 +2129,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	function exportMembersObject()
 	{
 		$title = preg_replace("/\s/", "_", $this->object->getTitle());
-		include_once "./classes/class.ilExcelWriterAdapter.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$adapter = new ilExcelWriterAdapter("export_" . $title . ".xls");
 		$workbook = $adapter->getWorkbook();
 		// Creating a worksheet

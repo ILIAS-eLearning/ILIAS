@@ -1995,7 +1995,7 @@ class SurveyQuestion
 	*/
 	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
 	{
-		include_once ("./classes/class.ilExcelUtils.php");
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
 		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
 		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));

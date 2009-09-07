@@ -471,8 +471,8 @@ class ilObjUserFolder extends ilObject
 
 	function createExcelExport(&$settings, &$data, $filename, $a_mode)
 	{
-		include_once "./classes/class.ilExcelUtils.php";
-		include_once "./classes/class.ilExcelWriterAdapter.php";
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$adapter = new ilExcelWriterAdapter($filename, FALSE);
 		$workbook = $adapter->getWorkbook();
 		// Creating a worksheet

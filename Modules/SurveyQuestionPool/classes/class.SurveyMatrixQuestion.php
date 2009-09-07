@@ -1546,7 +1546,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*/
 	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
 	{
-		include_once ("./classes/class.ilExcelUtils.php");
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
 		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
 		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["TOTAL"]["QUESTION_TYPE"])));
@@ -1627,7 +1627,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*/
 	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
 	{
-		include_once ("./classes/class.ilExcelUtils.php");
+		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet =& $workbook->addWorksheet();
 		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
 		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
