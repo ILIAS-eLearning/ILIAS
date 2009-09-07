@@ -9918,8 +9918,8 @@ payment#:#pays_epay_auth_email_info#:#Email hvortil transaktionsinformationer se
 payment#:#pays_epay_instant_capture_info#:#Hvis aktiveret trækkes alle beløb fra kundens konto øjeblikkeligt. Du skal have aftalt dette med PBS for at anvende funktionen.
 payment#:#pays_updated_epay_settings#:#Indstillinger for ePay blev opdateret
 payment#:#paya_sure_delete_vats#:#Er du sikker på du vil slette sats(er)?
-assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
-assessment#:#tst_results_access_never#:#Never###07 09 2009 new variable
+assessment#:#tst_report_never#:#Ingen testresultater er tilgængelige
+assessment#:#tst_results_access_never#:#Aldrig
 certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
 certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
@@ -9927,27 +9927,27 @@ certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
 certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
 certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
-certificate#:#certificate_ph_birthday#:#Birthday of the user###07 09 2009 new variable
-payment#:#paya_deleted_selected_prices#:#Price(s) deleted###07 09 2009 new variable
-search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new variable
-search#:#lucene_host#:#Host###07 09 2009 new variable
-search#:#lucene_port#:#Port###07 09 2009 new variable
-search#:#lucene_index_path#:#Directory for Index Files###07 09 2009 new variable
-search#:#lucene_log#:#Path to Logfile###07 09 2009 new variable
-search#:#lucene_level#:#Log-Level###07 09 2009 new variable
-search#:#lucene_cpu#:#Maximum Number of Threads###07 09 2009 new variable
-search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.###07 09 2009 new variable
-search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.###07 09 2009 new variable
-search#:#lucene_log_info#:#The file will be created automatically.###07 09 2009 new variable
-search#:#lucene_download_ini#:#Download Configuration File###07 09 2009 new variable
-search#:#lucene_create_ini#:#Create Configuration File###07 09 2009 new variable
-common#:#show_filter#:#Show Filter###07 09 2009 new variable
-search#:#lucene_relevance_short#:#Relevance###07 09 2009 new variable
+certificate#:#certificate_ph_birthday#:#Brugerens fødselsdag
+payment#:#paya_deleted_selected_prices#:#Priser slettet
+search#:#lucene_tbl_create_ini#:#Lav Java-server initialiserings fil
+search#:#lucene_host#:#Vært
+search#:#lucene_port#:#Port
+search#:#lucene_index_path#:#Mappe til indexfiler
+search#:#lucene_log#:#Stil til logfil
+search#:#lucene_level#:#Log-niveau
+search#:#lucene_cpu#:#Maksimalt antal tråde
+search#:#lucene_index_path_info#:#Indtast mappenavnet hvor du vil gemme indexfiler
+search#:#lucene_host_info#:#Indtast værtsnavnet eller ip-adressen til Java serveren
+search#:#lucene_log_info#:#Filen laves automatisk
+search#:#lucene_download_ini#:#Hent konfigurationsfil
+search#:#lucene_create_ini#:#Lav konfigurationsfil
+common#:#show_filter#:#Vis filter
+search#:#lucene_relevance_short#:#Relevans
 content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
-content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
-content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
-content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
-content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
+content#:#cont_nomenu#:#Deaktiver topnavigation
+content#:#cont_hidenavig#:#Skjul venstrenavigation
+content#:#scplayer_expandtree#:#Fold alt ud
+content#:#scplayer_collapsetree#:#Fold alt sammen
 content#:#cont_debug#:#Vis debugmenu
 content#:#cont_debugpw#:#Password
 content#:#scplayer_debugger#:#Vis debugger
