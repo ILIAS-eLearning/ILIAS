@@ -9951,20 +9951,20 @@ content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
 content#:#cont_debugpw#:#Password###07 09 2009 new variable
 content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
 content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
-content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
-webr#:#webr_new_link#:#Add New Link###07 09 2009 new variable
-webr#:#webr_link_target#:#Link Target###07 09 2009 new variable
-webr#:#webr_link_title#:#Link Name###07 09 2009 new variable
-webr#:#webr_active#:#Active###07 09 2009 new variable
-webr#:#webr_link_added#:#A new link has been created.###07 09 2009 new variable
-webr#:#webr_deactivate#:#Deactivate Link###07 09 2009 new variable
-webr#:#webr_inactive_success#:#The chosen link is deactivated.###07 09 2009 new variable
+content#:#cont_file_created#:#Filen blev oprettet
+webr#:#webr_new_link#:#Lav nyt link
+webr#:#webr_link_target#:#Linkpegning
+webr#:#webr_link_title#:#Linknavn
+webr#:#webr_active#:#Aktivt
+webr#:#webr_link_added#:#Nyt link blev oprettet
+webr#:#webr_deactivate#:#Deaktiver link
+webr#:#webr_inactive_success#:#Det vangte link er deaktiveret
 webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
 webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
-webr#:#webr_edit_links#:#Edit Links###07 09 2009 new variable
-payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
-webr#:#webr_edit_settings#:#Edit Settings###07 09 2009 new variable
-webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
-webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
-webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
-webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable
+webr#:#webr_edit_links#:#Ret links
+payment#:#shop_actions#:#Køb
+webr#:#webr_edit_settings#:#Ret indstillinger
+webr#:#webr_sorting#:#Linksortering
+webr#:#webr_sort_manual#:#Sorter manuelt
+webr#:#webr_sort_title#:#Sorter efter titel
+webr#:#webr_edit_list#:#Ret webresurse liste
