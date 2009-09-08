@@ -242,7 +242,6 @@ class assMatchingQuestionExport extends assQuestionExport
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
-				$a_xml_writer->xmlEndTag("material");
 			}
 			if (strlen($term->text))
 			{
