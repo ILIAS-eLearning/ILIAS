@@ -449,6 +449,7 @@ class ilAccountRegistrationGUI
 		
 		$data = $this->getRegistrationFieldsArray();
 		$require_keys = array();
+		$this->profile_incomplete = false;
 		foreach($data['fields'] as $key => $val)
 		{
 			if(in_array($key, array('login', 'passwd', 'passwd2')))
@@ -457,10 +458,16 @@ class ilAccountRegistrationGUI
 				continue;
 			}
 			
-			if((int)$settings['require_'.$key] &&
-			   (int)$settings['usr_settings_visible_registration_'.$key])
+			if((int)$settings['require_'.$key])
 			{
-				$require_keys[] = $key;
+				if((int)$settings['usr_settings_visible_registration_'.$key])
+				{
+					$require_keys[] = $key;
+				}
+				else
+				{
+					$this->profile_incomplete = true;
+				}
 			}
 		}
 
@@ -558,6 +565,9 @@ class ilAccountRegistrationGUI
 		$this->userObj->assignData($_POST["user"]);
 		$this->userObj->setTitle($this->userObj->getFullname());
 		$this->userObj->setDescription($this->userObj->getEmail());
+		
+		if($this->profile_incomplete)
+			$this->userObj->setProfileIncomplete(true);
 
 		// Time limit
 		$this->userObj->setTimeLimitOwner(7);
