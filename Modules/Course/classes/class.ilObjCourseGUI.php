@@ -4817,6 +4817,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$map->setZoom($this->object->getLocationZoom());
 		$map->setEnableTypeControl(true);
 		$map->setEnableNavigationControl(true);
+		$map->setEnableCentralMarker(true);
+		
 
 		$this->object->initCourseMemberObject();
 		if(count($members = $this->object->members_obj->getParticipants()))
