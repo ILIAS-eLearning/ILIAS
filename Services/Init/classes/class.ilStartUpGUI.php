@@ -383,7 +383,10 @@ class ilStartUpGUI
 		else if(isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
 		{
 			$lng->loadLanguageModule('registration');
-			$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
+			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
+				$this->showSuccess($lng->txt(trim($_GET['reg_confirmation_msg'])));
+			else
+				$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
 		}
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script
@@ -486,6 +489,18 @@ class ilStartUpGUI
 		$tpl->setVariable("MESSAGE_HEADING", $lng->txt("failure_message"));
 		$tpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt("failure_message"));
 		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+		$tpl->parseCurrentBlock();
+	}
+	
+	public function showSuccess($a_mess)
+	{
+		global $tpl, $lng;
+		
+		$tpl->setCurrentBlock('success');
+		$tpl->setVariable('TXT_MSG_LOGIN_SUCCESS', $a_mess);
+		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('success_message'));
+		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon').' '.$lng->txt('success_message'));
+		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_success.gif'));
 		$tpl->parseCurrentBlock();
 	}
 	
