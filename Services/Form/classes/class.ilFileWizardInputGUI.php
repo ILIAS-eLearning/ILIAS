@@ -279,6 +279,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 		global $tpl;
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript("./Services/Form/templates/default/imagewizard.js");
+		$tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
 	}
 }
