@@ -260,6 +260,7 @@ class ilSearchResultPresentation
 					"ref_id"		=> $ref_id, 
 					"obj_id"		=> $res_data,
 					"title"			=> $this->lookupTitle($res_data,0),
+					"title_sort"=> ilObject::_lookupTitle($res_data),
 					"description"	=> $this->lookupDescription($res_data,0),
 					"type"			=> ilObject::_lookupType($res_data),
 					"relevance"		=> $this->getRelevance($res_data),
