@@ -22,10 +22,10 @@
 */
 
 /**
-* This class represents an image wizard property in a property form.
+* This class represents a file wizard property in a property form.
 *
 * @author Helmut Schottmüller <ilias@aurealis.de> 
-* @version $Id: class.ilImageWizardInputGUI.php 18834 2009-02-03 10:10:29Z hschottm $
+* @version $Id: class.ilFileWizardInputGUI.php 18834 2009-02-03 10:10:29Z hschottm $
 * @ingroup	ServicesForm
 */
 class ilFileWizardInputGUI extends ilFileInputGUI
