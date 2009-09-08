@@ -25,6 +25,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("search_results"));
 		$this->setLimit(999);
+//		$this->setId("srcres");
 		
 		//$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("type"), "type", "1");
@@ -35,7 +36,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			$this->setDefaultOrderField("s_relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
-		$this->addColumn('', "", "10px");
+		$this->addColumn($this->lng->txt("actions"), "", "10px");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -51,7 +52,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng;
-		
+
 		$obj_id = $a_set["obj_id"];
 		$ref_id = $a_set["ref_id"];
 		$type 	= $a_set['type'];
