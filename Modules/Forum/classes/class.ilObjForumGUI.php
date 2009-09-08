@@ -976,7 +976,7 @@ class ilObjForumGUI extends ilObjectGUI
 	 */
 	function showStatisticsObject() 
 	{
-		global $ilUser, $ilAccess, $ilDB;
+		global $ilUser, $ilAccess;
 		
 		/// if globally deactivated, skip!!! intrusion detected
 		if (!$this->ilias->getSetting('enable_fora_statistics', true))
@@ -994,12 +994,8 @@ class ilObjForumGUI extends ilObjectGUI
 		if (!$ilAccess->checkAccess('read', '',  $_GET['ref_id']) && !$this->objProperties->isStatisticEnabled())
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}		
-
-		$tbl = new ilTable2GUI();
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_statistics_view.html', 'Modules/Forum');		
-    	$this->tpl->addBlockfile('TBL_CONTENT', 'tbl_content', 'tpl.table.html');		
-		
+		}				
+    			
 		// if write access and statistics disabled -> ok, for forum admin 		
 		if ($ilAccess->checkAccess('write', '', $_GET['ref_id']) && 
 			!$this->objProperties->isStatisticEnabled())
@@ -1007,40 +1003,34 @@ class ilObjForumGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt('frm_statistics_disabled_for_participants'));
 		}
 		
-		// get sort variables from get vars
-		$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order']: 'desc';
-		$sort_by  = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'ranking';
-
-		if ($sort_by == 'title') $sort_by = 'ranking';
+		$this->object->Forum->setForumId($this->object->getId());
 		
-		$this->object->Forum->setForumId($this->object->getId());		
-		$data = $this->object->Forum->getUserStatistic($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));		
-
-		// title & header columns
+		$tbl = new ilTable2GUI($this, 'showStatistics');
 		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.gif', $this->lng->txt('obj_'.$this->object->getType()));
-				
-		$header_names = array ($this->lng->txt('frm_statistics_ranking'), $this->lng->txt('login'), $this->lng->txt('lastname'), $this->lng->txt('firstname'));
-			 
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = array('ref_id' => $this->ref_id, 'cmd' => 'showStatistics');
-		$header_fields = array('ranking', 'login', 'lastname', 'firstname');		
-
-		$tbl->setHeaderVars($header_fields,$header_params);
-		$tbl->setColumnWidth(array('', '25%', '25%', '25%'));
-
-		// table properties
+		$tbl->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
+		$tbl->addColumn($this->lng->txt('frm_statistics_ranking'), 'ranking', '25%');
+		$tbl->addColumn($this->lng->txt('login'), 'login', '25%');
+		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '25%');
+		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '25%');
+		
+		$data = $this->object->Forum->getUserStatistic($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));		
+		$result = array();
+		$counter = 0;
+		foreach($data as $row)
+		{
+			$result[$counter]['ranking'] = $row[0];
+			$result[$counter]['login'] = $row[1];
+			$result[$counter]['lastname'] = $row[2];
+			$result[$counter]['firstname'] = $row[3];
+			
+			++$counter;
+		}
+		
     	$tbl->enable('hits');
     	$tbl->enable('sort');
-		$tbl->setOrderColumn($sort_by);
-		$tbl->setOrderDirection($sort_order);
-		$tbl->setLimit(0);
-		$tbl->setOffset(0);
-		$tbl->setData($data);
-
-		$tbl->render();
+		$tbl->setData($result);
 				
-		$this->tpl->parseCurrentBlock();			
+		$this->tpl->setContent($tbl->getHTML());
 	}
 
 	private function __initFileObject()
