@@ -157,7 +157,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function saveOptions()
 	{
-		global $ilSetting, $ilCtrl;
+		global $ilSetting, $ilCtrl, $lng;
 
 		// disable creation
 		if (is_array($_POST["obj_pos"]))
@@ -169,13 +169,28 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		}
 		
 		// add new position
+		$double = $ex_pos = array();
 		if (is_array($_POST["obj_pos"]))
 		{
 			reset($_POST["obj_pos"]);
 			foreach($_POST["obj_pos"] as $k => $v)
 			{
+				if (in_array($v, $ex_pos))
+				{
+					$double[$v] = $v;
+				}
+				$ex_pos[] = $v;
 				$ilSetting->set("obj_add_new_pos_".$k, $v);
 			}
+		}
+		
+		if (count($double) == 0)
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
 		}
 		
 		$ilCtrl->redirect($this, "listModules");
