@@ -815,6 +815,7 @@ class ilTable2GUI extends ilTableGUI
 			{
 				$this->tpl->setCurrentBlock("tbl_order_image");
 				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
+				$this->tpl->setVariable("IMG_ORDER_ALT", $this->lng->txt("change_sort_direction"));
 				$this->tpl->parseCurrentBlock();
 			}
 
