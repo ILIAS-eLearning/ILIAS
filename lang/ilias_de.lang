@@ -2798,9 +2798,9 @@ common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_members_gallery#:#Mitgliedergalerie
-common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
+common#:#grp_msg_applicants_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt
-common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
+common#:#grp_msg_member_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
