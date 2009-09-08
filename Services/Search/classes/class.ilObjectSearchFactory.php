@@ -23,7 +23,7 @@
 
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
 /**
-* Class ilSearchObjectListFactory
+* Class ilObjectSearchFactory
 *
 * Factory for Fulltext/LikeObjectSearch classes
 * It depends on the search administration setting which class is instantiated
@@ -31,7 +31,7 @@ include_once 'Services/Search/classes/class.ilSearchSettings.php';
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* @package ilias-search
+* @package ServicesSearch
 */
 
 class ilObjectSearchFactory

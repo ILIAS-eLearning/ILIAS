@@ -243,8 +243,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		if($res->isLimitReached())
 		{
-			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			ilUtil::sendInfo($message);
+			#$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
+			#ilUtil::sendInfo($message);
 		}
 
 		$this->addPager($res,'adv_max_page');
@@ -361,8 +361,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		if($res->isLimitReached())
 		{
-			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			ilUtil::sendInfo($message);
+			#$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
+			#ilUtil::sendInfo($message);
 		}
 
 		$this->addPager($res,'adv_max_page');

@@ -28,11 +28,14 @@ class ilSearchResultTableGUI extends ilTable2GUI
 //		$this->setId("srcres");
 		
 		//$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("type"), "type", "1");
-		$this->addColumn($this->lng->txt("search_title_description"), "title_sort");
+		#$this->addColumn($this->lng->txt("type"), "type", "1");
+		#$this->addColumn($this->lng->txt("search_title_description"), "title_sort");
+		$this->addColumn($this->lng->txt("type"), "", "1");
+		$this->addColumn($this->lng->txt("search_title_description"), "");
 		if($this->enabledRelevance())
 		{
-			$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
+			#$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
+			$this->addColumn($this->lng->txt('lucene_relevance_short'),'','50px');
 			$this->setDefaultOrderField("s_relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
