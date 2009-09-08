@@ -28,7 +28,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		
 		//$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("type"), "type", "1");
-		$this->addColumn($this->lng->txt("search_title_description"), "title");
+		$this->addColumn($this->lng->txt("search_title_description"), "title_sort");
 		if($this->enabledRelevance())
 		{
 			$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
