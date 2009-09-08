@@ -1650,7 +1650,7 @@ common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScrip
 common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
 common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
-common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen.
+common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
