@@ -17,7 +17,7 @@ include_once ("./Services/Database/classes/class.ilDB.php");
 */
 class ilDBOracle extends ilDB
 {
-	const CLOB_BUFFER_SIZE = 3000;
+	const CLOB_BUFFER_SIZE = 2000;
 
 
 	/**
@@ -315,7 +315,7 @@ class ilDBOracle extends ilDB
 	{
 		if(count($a_values) <= 2)
 		{
-			return parent::concat($a_values,$a_allow_null);
+			return parent::concat($a_values,false);
 		}
 		
 		$first = true;
@@ -327,7 +327,7 @@ class ilDBOracle extends ilDB
 					array(
 						array($concat_value,$concat_type),
 						array($field_info[0],$field_info[1])),
-					$a_allow_null
+					false
 				);
 			}
 			else
