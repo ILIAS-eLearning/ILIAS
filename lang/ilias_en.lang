@@ -1307,7 +1307,7 @@ common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for tex
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test & Assessment tool
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
-common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages. If deactivated, existing content will be hidden.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
