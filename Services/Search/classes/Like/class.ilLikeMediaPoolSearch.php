@@ -71,7 +71,8 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 			}
 			#$and .= $concat;
 			#$and .= ("LIKE ('%".$word."%')");
-			$and .= $ilDB->like($concat,'text','%'.$word.'%');
+			#$and .= $ilDB->like($concat,'text','%'.$word.'%');
+			$and .= $ilDB->like('title','text','%'.$word.'%');
 		}
 		return $and.") ";
 	}
