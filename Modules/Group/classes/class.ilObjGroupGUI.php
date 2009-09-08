@@ -665,6 +665,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$map->setZoom($this->object->getLocationZoom());
 		$map->setEnableTypeControl(true);
 		$map->setEnableNavigationControl(true);
+		$map->setEnableCentralMarker(true);
+		
 		
 		$member_ids = $this->object->getGroupMemberIds();
 		$admin_ids = $this->object->getGroupAdminIds();
