@@ -1920,7 +1920,7 @@ common#:#cat_added#:#Kategorie angelegt
 common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
 common#:#cat_clear_page#:#Seite leeren
 common#:#cat_copy#:#Kategorie kopieren
-common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
@@ -2153,7 +2153,7 @@ common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 common#:#crs_copy#:#Kurs kopieren
-common#:#crs_copy_threads_info#:#Bitte wählen Sie aus welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#crs_create_chat#:#Neuen Chat anlegen
@@ -2565,7 +2565,7 @@ common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_copy#:#Ordner kopieren
-common#:#fold_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#fold_create_chat#:#Neuen Chat anlegen
 common#:#fold_create_dbk#:#Neues Digilib-Buch anlegen
@@ -2746,7 +2746,7 @@ common#:#grp_back#:#Zurück
 common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
 common#:#grp_copy#:#Gruppe kopieren
-common#:#grp_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#grp_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_alm#:#Neues AICC-Lernmodul anlegen
