@@ -1974,6 +1974,45 @@ class ilMail
 
 		return ilMimeMail::_mimeEncode($ilUser->getFullname()).'<'.$a_email.'>';
 	}
+	
+	/**
+	 * 
+	 * Returns the sender of the mime mail
+	 * 
+	 * @return	string	sender of the mime mail
+	 */
+	public function getMimeMailSender()
+	{
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
+		
+		if($this->user_id != ANONYMOUS_USER_ID)
+		{
+			$sender = $this->addFullname($this->getEmailOfSender());	
+		}
+		else
+		{
+			$no_reply_adress = trim($this->ilias->getSetting('mail_external_sender_noreply'));			
+			if(strlen($no_reply_adress))
+			{
+				if(strpos($no_reply_adress, '@') === false)
+					$no_reply_adress = 'noreply@'.$no_reply_adress;					
+				if(!ilUtil::is_email($no_reply_adress))
+				{
+					$no_reply_adress = 'noreply@'.$_SERVER['SERVER_NAME'];
+				}
+				
+				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
+						  '<'.$no_reply_adress.'>';
+			}
+			else
+			{
+				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
+						  '<noreply@'.$_SERVER['SERVER_NAME'].'>';
+			}
+		}
+		
+		return $sender;
+	}
 
 	/**
 	* send mime mail using class.ilMimeMail.php
@@ -1989,33 +2028,14 @@ class ilMail
 	*/
 	function sendMimeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments)
 	{
+		include_once "Services/Mail/classes/class.ilMimeMail.php";
+		
 		#var_dump("<pre>",$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments,"<pre>");
 		
-		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
+		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 4";
 		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
 		
-		if($this->user_id != ANONYMOUS_USER_ID)
-		{
-			$sender = $this->addFullname($this->getEmailOfSender());	
-		}
-		else
-		{
-			$no_reply_adress = trim($this->ilias->getSetting('mail_external_sender_noreply'));			
-			if(strlen($no_reply_adress))
-			{
-				if(strpos($no_reply_adress, '@') === false)
-					$no_reply_adress = 'noreply@'.$no_reply_adress;
-				include_once "Services/Mail/classes/class.ilMimeMail.php";
-				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  '<'.$no_reply_adress.'>';
-			}
-			else
-			{
-				include_once "Services/Mail/classes/class.ilMimeMail.php";
-				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  '<noreply@'.$_SERVER['SERVER_NAME'].'>';
-			}
-		}
+		$sender = $this->getMimeMailSender();
 
 		if($this->isSOAPEnabled())
 		{
