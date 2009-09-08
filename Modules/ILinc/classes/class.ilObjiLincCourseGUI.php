@@ -1710,7 +1710,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				{
 					//admins
 					case 1:
-						if($public_profile == 'y')
+						if($public_profile == 'y' || $public_profile == 'g')
 						{
 							$this->tpl->setCurrentBlock('tutor_linked');
 							$this->tpl->setVariable('LINK_PROFILE', $profile_target);
@@ -1727,7 +1727,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 						break;
 				
 					case 0:
-						if($public_profile == 'y')
+						if($public_profile == 'y' || $public_profile == 'g')
 						{
 							$this->tpl->setCurrentBlock('member_linked');
 							$this->tpl->setVariable('LINK_PROFILE', $profile_target);
@@ -1745,7 +1745,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				}
 				
 				// do not show name, if public profile is not activated
-				if($public_profile == 'y')
+				if($public_profile == 'y' || $public_profile == 'g')
 				{
 					$this->tpl->setVariable('FIRSTNAME', $member['firstname']);
 					$this->tpl->setVariable('LASTNAME', $member['lastname']);
