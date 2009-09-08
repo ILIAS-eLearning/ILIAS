@@ -9974,3 +9974,4 @@ payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from
 payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
 payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
 payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
+chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
