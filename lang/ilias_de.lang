@@ -5869,7 +5869,7 @@ crs#:#crs_registration_limited#:#Zeitlich begrenzt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
 crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
-crs#:#crs_reject_subscriber_body#:#Ihr Antrag für den Kurs "%s" ist abgelehnt worden.
+crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
@@ -5887,7 +5887,7 @@ crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
 crs#:#crs_select_starter#:#Startobjekt auswählen
 crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
-crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
+crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursleitung, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
@@ -6002,8 +6002,8 @@ crs#:#crs_visibility_until#:#Zeitlich begrenzt
 crs#:#crs_visibility_unvisible#:#Nicht verfügbar
 crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Kursleitung angenommen oder abgelehnt wurde.
 crs#:#crs_wiz_back#:#Zurück
 crs#:#crs_wiz_next#:#Speichern
 crs#:#crs_xml#:#XML
@@ -6835,11 +6835,11 @@ grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Auf
 grp#:#grp_reg_start#:#Start:
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
-grp#:#grp_reject_subscriber_body#:#Ihr Antrag für die Gruppe "%s" ist abgelehnt worden.
+grp#:#grp_reject_subscriber_body#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
 grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
-grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Gruppenleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
+grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Gruppenleitung, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_typ#:#Art der Gruppe
 grp#:#grp_type_changed_info#:#Die Gruppenart wurde geändert.
@@ -6851,8 +6851,8 @@ grp#:#grp_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Wa
 grp#:#grp_waiting_list#:#Warteliste aktivieren
 grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
-grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
-grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Gruppenleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
