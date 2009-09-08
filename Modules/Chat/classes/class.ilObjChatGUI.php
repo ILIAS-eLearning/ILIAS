@@ -1138,7 +1138,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHAT_USER_HIDDEN", $this->lng->txt('chat_user_hidden'));
 		$this->tpl->setVariable("CHAT_USER_VISIBLE", $this->lng->txt('chat_user_visible'));
 
-		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt('chat_refresh'));
+		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt('refresh'));
 		$this->tpl->setVariable("TXT_HIDE_TEXTFORMAT", $this->lng->txt('chat_hide_textformat'));
 		$this->tpl->setVariable("TXT_SHOW_TEXTFORMAT", $this->lng->txt('chat_show_textformat'));
 		$this->tpl->setVariable("TXT_TEXTFORMAT", $this->lng->txt('chat_textformat'));
