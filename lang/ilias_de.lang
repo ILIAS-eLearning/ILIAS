@@ -806,7 +806,7 @@ assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu b
 assessment#:#tst_finish_notification#:#E-Mail beim Beenden
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
 assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat
-assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens and den Testersteller senden
+assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens an den Testersteller senden
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
