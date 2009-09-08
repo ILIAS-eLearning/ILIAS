@@ -43,6 +43,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 			$mode["tableprefix"] = "crstable";
 			$mode["lng_mail"] = $lng->txt("mail_my_courses");
 			$mode["view"] = "mycourses";
+			$this->setTitle($mode["lng_mail"]);
 		}
 		else if ($type == "grp")
 		{
@@ -52,6 +53,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 			$mode["tableprefix"] = "grptable";
 			$mode["lng_mail"] = $lng->txt("mail_my_groups");
 			$mode["view"] = "mygroups";
+			$this->setTitle($mode["lng_mail"]);
 		}
 				
 		//$this->courseIds = $crs_ids;

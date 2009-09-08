@@ -996,7 +996,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}		
 
-		$tbl = new ilTableGUI();
+		$tbl = new ilTable2GUI();
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_statistics_view.html', 'Modules/Forum');		
     	$this->tpl->addBlockfile('TBL_CONTENT', 'tbl_content', 'tpl.table.html');		
 		

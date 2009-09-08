@@ -52,6 +52,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["view"] = "grp_members";
 			$mode["tableprefix"] = "grptable_members";
 		}
+		$this->setTitle($lng->txt('members'));
 		$this->mode = $mode;
 		$ilCtrl->setParameter($a_parent_obj, 'view', $mode['view']);
 		if ($_GET['ref'] != '')
