@@ -426,8 +426,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		if($result->isLimitReached())
 		{
-			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
-			ilUtil::sendInfo($message);
+			#$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
+			#ilUtil::sendInfo($message);
 		}
 
 		// Step 6: show results
