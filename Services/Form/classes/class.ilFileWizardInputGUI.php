@@ -259,6 +259,8 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			$tpl->setVariable("ALT_ADD", $lng->txt("add"));
+			$tpl->setVariable("ALT_REMOVE", $lng->txt("remove"));
 			if ($this->getDisabled())
 			{
 				$tpl->setVariable("DISABLED",
