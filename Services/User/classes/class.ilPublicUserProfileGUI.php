@@ -208,6 +208,7 @@ class ilPublicUserProfileGUI
 			$tpl->setCurrentBlock("image");
 			$tpl->setVariable("TXT_IMAGE",$lng->txt("image"));
 			$tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$user->getPref("profile_image")."?dummy=".rand(1,999999));
+			$tpl->setVariable("IMAGE_ALT", $lng->txt("personal_picture"));
 			$tpl->parseCurrentBlock();
 		}
 		
