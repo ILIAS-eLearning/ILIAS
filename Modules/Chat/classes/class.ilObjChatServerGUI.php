@@ -72,6 +72,19 @@ class ilObjChatServerGUI extends ilObjectGUI
 				{
 					$cmd = 'view';
 				}
+
+				if ($cmd != 'update')
+				{
+					if(!$this->object->server_conf->isAlive())
+					{
+						ilUtil::sendFailure
+						(
+							$this->lng->txt('chat_cannot_connect_to_server') .
+							($cmd != 'edit' ? ' ' . $this->lng->txt('check_configuration') : '')
+						);
+					}
+
+				}
 				$cmd .= 'Object';
 				$this->$cmd();
 
@@ -102,10 +115,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$sel->setValue(1);
 			$this->form_gui->addItem($sel);			
 		}
-		else if(!$this->object->server_conf->isAlive() && $this->ctrl->getCmd() != 'update')
-		{
-			ilUtil::sendFailure($this->lng->txt('chat_cannot_connect_to_server'));
-		}
+#		else if(!$this->object->server_conf->isAlive() && $this->ctrl->getCmd() != 'update')
+#		{
+#			ilUtil::sendFailure($this->lng->txt('chat_cannot_connect_to_server'));
+#		}
 		
 		// chat server settings
 		$sec_l = new ilFormSectionHeaderGUI();
@@ -421,7 +434,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 	
-		$this->tabs_gui->setTabActive('edit_properties');
+		$this->tabs_gui->setTabActive('settings');
 
 		if(!$rbacsystem->checkAccess('read', $this->ref_id)){
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE);
@@ -633,7 +646,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		{
 			$force_active_edit = ($_GET["cmd"] == "edit") ? true	: false;
 			$force_active_smilies = ($_GET["cmd"] == "edit") ? true	: false;
-			$tabs_gui->addTarget("edit_properties",	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),"", $force_active_edit);
+			$tabs_gui->addTarget("settings",	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),"", $force_active_edit);
 			$tabs_gui->addTarget("edit_smilies",	$this->ctrl->getLinkTarget($this, "editSmilies"), "edit_smilies", get_class($this),"", $force_active_smilies);
 		}
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
