@@ -7409,7 +7409,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"ects" => $this->lng->txt("ects_grade")
 		);
 		$results[] = $row;
-		#print_r($participants);
 		if (count($participants))
 		{
 			foreach ($participants as $active_id => $user_rec)
@@ -7444,15 +7443,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 				if ($this->getAnonymity())
 				{
-					$user_rec->firstname = "";
-					$user_rec->lastname = $this->lng->txt("unknown");
+					$user_rec['firstname'] = "";
+					$user_rec['lastname'] = $this->lng->txt("unknown");
 				}
 				$row = array(
-					"user_id"=>$user_rec->usr_id,
-					"matriculation" =>  $user_rec->matriculation,
-					"lastname" =>  $user_rec->lastname,
-					"firstname" => $user_rec->firstname,
-					"login"=>$user_rec->login,
+					"user_id"=>$user_rec['usr_id'],
+					"matriculation" =>  $user_rec['matriculation'],
+					"lastname" =>  $user_rec['lastname'],
+					"firstname" => $user_rec['firstname'],
+					"login"=>$user_rec['login'],
 					"reached_points" => $reached_points,
 					"max_points" => $max_points,
 					"percent_value" => $percentvalue,
@@ -9504,15 +9503,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 						}
 						if ($this->getAnonymity())
 						{
-							$user_rec->firstname = "";
-							$user_rec->lastname = $this->lng->txt("unknown");
+							$user_rec['firstname'] = "";
+							$user_rec['lastname'] = $this->lng->txt("unknown");
 						}
 						$row = array(
-							"user_id"=>$user_rec->usr_id,
-							"matriculation" =>  $user_rec->matriculation,
-							"lastname" =>  $user_rec->lastname,
-							"firstname" => $user_rec->firstname,
-							"login"=>$user_rec->login,
+							"user_id"=>$user_rec['usr_id'],
+							"matriculation" =>  $user_rec['matriculation'],
+							"lastname" =>  $user_rec['lastname'],
+							"firstname" => $user_rec['firstname'],
+							"login"=>$user_rec['login'],
 							"question_id" => $question->getId(),
 							"question_title" => $question->getTitle(),
 							"reached_points" => $reached_points,
