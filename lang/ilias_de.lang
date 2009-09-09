@@ -1801,7 +1801,7 @@ common#:#auth_login_instructions#:#Anweisungen auf dem Anmeldebildschirm
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_mode_roles_changed#:#Authentifizierungsmodus für diese Rolle geändert
-common#:#auth_new_account_mail_desc#:#Sendet Nachricht über neuen Account an Benutzer, wenn dieser automatisch angelegt wurde. Ein Passwort wird nur erzeugt, wenn auch "Lokale Benutzerverwaltung" aktiviert ist.
+common#:#auth_new_account_mail_desc#:#Nachricht für neue Benutzer.
 common#:#auth_per_default#:#Standardwert
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
