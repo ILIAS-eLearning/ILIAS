@@ -1698,6 +1698,12 @@ class ilObjUserGUI extends ilObjectGUI
 				$udf->setSize(40);
 				$udf->setMaxLength(255);
 			}
+			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)	// text area input
+			{
+				$udf = new ilTextAreaInputGUI($definition['field_name'],
+					"udf_".$definition['field_id']);
+				$udf->setUseRte(true);
+			}
 			else			// selection input
 			{
 				$udf = new ilSelectInputGUI($definition['field_name'],
