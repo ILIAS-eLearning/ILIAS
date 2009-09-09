@@ -378,7 +378,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser,$ilAccess;
 		
 		if ($this->getCurrentDetailLevel() == 0)
 		{
@@ -386,13 +386,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		
 		// add edit commands
-		if ($this->getEnableEdit())
+		#if ($this->getEnableEdit())
+		if($this->mode == self::CAL_MODE_REPOSITORY and 
+			$ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
 		{
+
 			$ilCtrl->setParameter($this, "add_mode", "block");
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI",
 					"add"),
-				$lng->txt("add"));
+				$lng->txt("add_appointment"));
 			$ilCtrl->setParameter($this, "add_mode", "");
 		}
 
