@@ -27,6 +27,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $ext_seg = false;
 	
 	protected $mi_sel_buttons = null;
+	protected $disable_filter_hiding = false;
 	
 	/**
 	* Constructor
@@ -387,6 +388,26 @@ class ilTable2GUI extends ilTableGUI
 	function getFilterCols()
 	{
 		return $this->filter_cols;
+	}
+	
+	/**
+	* Set disable filter hiding
+	*
+	* @param	boolean			disable filter hiding
+	*/
+	function setDisableFilterHiding($a_val = true)
+	{
+		$this->disable_filter_hiding = $a_val;
+	}
+	
+	/**
+	* Get disable filter hiding		disable filter hiding
+	*
+	* @return	boolean
+	*/
+	function getDisableFilterHiding()
+	{
+		return $this->disable_filter_hiding;
 	}
 	
 	/**
@@ -1236,7 +1257,10 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
-			$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
+			if (!$this->getDisableFilterHiding())
+			{
+				$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
+			}
 			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
 			$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
@@ -1256,9 +1280,12 @@ class ilTable2GUI extends ilTableGUI
 			$tprop = new ilTablePropertiesStorage();
 			if ($tprop->getProperty($this->getId(), $ilUser->getId(), "filter") != 1)
 			{
-				$this->tpl->setCurrentBlock("filter_hidden");
-				$this->tpl->setVariable("FI_ID", $this->getId());
-				$this->tpl->parseCurrentBlock();
+				if (!$this->getDisableFilterHiding())
+				{
+					$this->tpl->setCurrentBlock("filter_hidden");
+					$this->tpl->setVariable("FI_ID", $this->getId());
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			
 			$this->tpl->setCurrentBlock("filter_activation");
