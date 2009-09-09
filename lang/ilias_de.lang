@@ -9976,3 +9976,4 @@ payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 0
 payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
 chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
 cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
+dateplaner#:#add_appointment#:#Termin hinzufügen

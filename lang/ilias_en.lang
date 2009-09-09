@@ -2072,7 +2072,7 @@ common#:#exc_mail_users#:#Send mail to user(s)
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
-common#:#exc_new#:#New exercise
+common#:#exc_new#:#New Exercise
 common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
@@ -9955,3 +9955,4 @@ webr#:#webr_sort_title#:#Sort by Title
 webr#:#webr_edit_list#:#Edit Web Resource List
 chat#:#check_configuration#:#Please check the chat server's settings.
 cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:
+dateplaner#:#add_appointment#:#Add Appointment
