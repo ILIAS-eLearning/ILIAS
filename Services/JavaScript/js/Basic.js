@@ -140,7 +140,8 @@ function setChecked(parent_el, checkbox_name, do_check){
 	els = YAHOO.util.Dom.getElementsBy(setCheckedTest, "input", e, null, null, null); 
 	for (var i=0;i<els.length;i++)
 	{
-		if ((typeof els[i].name != 'undefined') && els[i].name.indexOf(checkbox_name) == 0)
+		if ((typeof els[i].name != 'undefined') && els[i].name.indexOf(checkbox_name) == 0
+			&& els[i].disabled != true)
 		{
 			els[i].checked = do_check;
 		}
