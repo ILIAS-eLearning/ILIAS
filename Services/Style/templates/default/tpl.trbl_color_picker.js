@@ -2,6 +2,29 @@
 
 YAHOO.util.Event.onContentReady("{POST_VAR}-{DIR}-bc", function () {
 
+        // Create a Menu instance to house the ColorPicker instance
+        var oColorPickerMenu = new YAHOO.widget.Menu("{POST_VAR}-{DIR}-color-picker-menu");
+
+
+        // Create a Button instance of type "split"
+
+        var oButton = new YAHOO.widget.Button({ 
+                                            type: "split", 
+                                            id: "{POST_VAR}-{DIR}-color-picker-button", 
+                                            label: "<em id=\"{POST_VAR}-{DIR}-current-color\">&nbsp;&nbsp;&nbsp;&nbsp;</em>", 
+                                            menu: oColorPickerMenu,
+											classes: "zzz",
+                                            container: this });
+
+		oButton.on("appendTo", function () {
+            oColorPickerMenu.setBody("&#32;");
+            oColorPickerMenu.body.id = "{POST_VAR}-{DIR}-color-picker-container";
+
+            // Render the Menu into the Button instance's parent element
+
+            oColorPickerMenu.render(this.get("container"));			
+		});
+
         function onButtonOption() {
 
             /*
@@ -9,12 +32,12 @@ YAHOO.util.Event.onContentReady("{POST_VAR}-{DIR}-bc", function () {
                 reserve space to render the ColorPicker instance into.
             */
 
-            oColorPickerMenu.setBody("&#32;");
+/*            oColorPickerMenu.setBody("&#32;");
             oColorPickerMenu.body.id = "{POST_VAR}-{DIR}-color-picker-container";
 
             // Render the Menu into the Button instance's parent element
 
-            oColorPickerMenu.render(this.get("container"));
+            oColorPickerMenu.render(this.get("container"));*/
 
             /*
                  Create a new ColorPicker instance, placing it inside the body 
@@ -66,21 +89,6 @@ YAHOO.util.Event.onContentReady("{POST_VAR}-{DIR}-bc", function () {
             this.unsubscribe("option", onButtonOption);
         }
 
-
-        // Create a Menu instance to house the ColorPicker instance
-
-        var oColorPickerMenu = new YAHOO.widget.Menu("{POST_VAR}-{DIR}-color-picker-menu");
-
-
-        // Create a Button instance of type "split"
-
-        var oButton = new YAHOO.widget.Button({ 
-                                            type: "split", 
-                                            id: "{POST_VAR}-{DIR}-color-picker-button", 
-                                            label: "<em id=\"{POST_VAR}-{DIR}-current-color\">&nbsp;&nbsp;&nbsp;&nbsp;</em>", 
-                                            menu: oColorPickerMenu,
-											classes: "zzz",
-                                            container: this });
       
       /* 
       * Init label background color
