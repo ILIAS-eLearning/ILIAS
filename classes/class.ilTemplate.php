@@ -1411,7 +1411,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function fillSideIcons()
 	{
-		global $lng;
+		global $lng, $ilSetting;
 		
 		if ($this->upper_icon == "" && $this->tree_flat_link == ""
 			&& $this->mount_webfolder == "")
@@ -1444,7 +1444,30 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->setCurrentBlock("tree_mode");
 			$this->setVariable("LINK_MODE", $this->tree_flat_link);
-			$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$this->tree_flat_mode."view_s.gif"));
+			if ($ilSetting->get("tree_frame") == "right")
+			{
+				if ($this->tree_flat_mode == "tree")
+				{
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.gif"));
+					$this->setVariable("RIGHT", "Right");
+				}
+				else
+				{
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.gif"));
+					$this->setVariable("RIGHT", "Right");
+				}
+			}
+			else
+			{
+				if ($this->tree_flat_mode == "tree")
+				{
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.gif"));
+				}
+				else
+				{
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.gif"));
+				}
+			}
 			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
 			$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
