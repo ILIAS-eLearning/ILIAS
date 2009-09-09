@@ -14,7 +14,6 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 {
 	protected $hex;
 
-
 	/**
 	* Constructor
 	*
