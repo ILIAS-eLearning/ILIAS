@@ -148,6 +148,7 @@ class ilMailSearchGUI
 		// searchform
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('search_recipients'));
 		$form->setId('search_rcp');
 		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
 		

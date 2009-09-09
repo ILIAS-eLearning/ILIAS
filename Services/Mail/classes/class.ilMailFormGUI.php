@@ -228,6 +228,8 @@ class ilMailFormGUI
 	public function searchUsers($save = true)
 	{
 		global $ilUser, $ilCtrl;
+		
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
 		if ($save)
 		{
@@ -247,6 +249,7 @@ class ilMailFormGUI
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setId('search_rcp');
+		$form->setTitle($this->lng->txt('search_recipients'));
 		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
