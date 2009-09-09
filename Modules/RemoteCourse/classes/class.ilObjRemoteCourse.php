@@ -389,7 +389,7 @@ class ilObjRemoteCourse extends ilObject
 		
 		$obj_id = parent::create($a_upload);
 		
-		$query = "INSERT INTO remote_course_settings (obj_id,local_information,availibility_type,r_start,r_end,remote_link,mid,organization) ".
+		$query = "INSERT INTO remote_course_settings (obj_id,local_information,availability_type,r_start,r_end,remote_link,mid,organization) ".
 			"VALUES( ".			
 			$this->db->quote($this->getId() ,'integer').", ".
 			$ilDB->quote('','text').", ".
