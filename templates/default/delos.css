@@ -979,12 +979,22 @@ div.il_ExplorerItemDescription
 
 a.ilTreeView {
 	position:absolute;
-	left:-3px;
-	top: 250px;
+	left:-2px;
+	top: 270px;
 }
 
 a.ilTreeView:hover {
-	left: 0px;
+	left: -1px;
+}
+
+a.ilTreeViewRight {
+	position:absolute;
+	right:-2px;
+	top: 270px;
+}
+
+a.ilTreeViewRight:hover {
+	right: -1px;
 }
 
 /* Table Links */
