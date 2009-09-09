@@ -583,6 +583,7 @@ class assErrorText extends assQuestion
 	{
 		$counter = 0;
 		$errorcounter = 0;
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (!is_array($selections)) $selections = array();
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)
@@ -632,6 +633,7 @@ class assErrorText extends assQuestion
 	{
 		$counter = 0;
 		$errorcounter = 0;
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (!is_array($selections)) $selections = array();
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)

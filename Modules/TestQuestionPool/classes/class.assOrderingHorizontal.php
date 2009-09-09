@@ -454,6 +454,7 @@ class assOrderingHorizontal extends assQuestion
 	{
 		$text = $this->getOrderText();
 		$result = array();
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (ilStr::strPos($text, $this->separator) === false)
 		{
 			$result = preg_split("/\\s+/", $text);
