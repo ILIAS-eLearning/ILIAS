@@ -918,7 +918,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$scos = array();
 		
 		$val_set = $ilDB->queryF("SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
-			" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = %s GROUP BY cp_node_id",
+			" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = %s GROUP BY cp_node.cp_node_id",
 			array('integer'),
 			array($a_id)
 		);
@@ -930,7 +930,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$scaled = null;
 		for ($i=0;$i<count($scos);$i++)
 		{
-			$val_set = $ilDB->queryF("SELECT scaled FROM cmi_node WHERE (user_id=%s AND cp_node_id=%s);",
+			$val_set = $ilDB->queryF("SELECT scaled FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)",
 				array('integer', 'integer'),
 				array($a_user, $scos[$i])
 			);
