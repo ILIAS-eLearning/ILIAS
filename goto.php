@@ -212,6 +212,11 @@ switch($target_type)
 		ilObjRootFolderGUI::_goto($target_id);
 		break;
 		
+	// please migrate to default branch implementation
+	case 'cert':
+		require_once('./Services/Certificate/classes/class.ilCertificate.php');
+		ilCertificate::_goto($target_id);
+		break;
 
 	//
 	// default implementation (should be used by all new object types)
