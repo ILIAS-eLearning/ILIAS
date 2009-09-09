@@ -396,23 +396,6 @@ class ilObjectDefinition extends ilSaxParser
 	}
 	
 	/**
-	 * get content item sorting modes
-	 *
-	 * @access public
-	 * @param 
-	 * 
-	 */
-	public function getContentItemSortingModes($a_obj_name)
-	{
-	 	if(isset($this->obj_data[$a_obj_name]['sorting']))
-	 	{
-	 		return $this->obj_data[$a_obj_name]['sorting']['modes'] ? $this->obj_data[$a_obj_name]['sorting']['modes'] : array(); 
-	 	}
-	 	return array();
-	}
-
-	
-	/**
 	* get all subobjects by type
 	*
 	* @param	string	object type
