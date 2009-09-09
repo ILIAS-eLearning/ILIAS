@@ -41,14 +41,21 @@ class ilMailSearchCoursesGUI
 	private $umail = null;
 	private $abook = null;
 
+	protected $mailing_allowed;
+
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $tpl, $ilCtrl, $lng, $ilUser, $rbacsystem;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+
 		$this->ctrl->saveParameter($this, "mobj_id");
 
 		$this->umail = new ilFormatMail($ilUser->getId());
@@ -371,7 +378,8 @@ class ilMailSearchCoursesGUI
 					$this->ctrl->setParameter($this, 'search_crs', $crs_id);
 					$this->ctrl->setParameter($this, 'view', 'mycourses');
 					
-					$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					if ($this->mailing_allowed)
+						$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
 					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
 					
 					$this->ctrl->clearParameters($this);

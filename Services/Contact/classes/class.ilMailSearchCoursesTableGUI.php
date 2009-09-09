@@ -18,6 +18,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 	protected $ctrl;
 	protected $parentObject;
 	protected $mode;
+	protected $mailing_allowed;
 	
 	/**
 	 * Constructor
@@ -29,10 +30,15 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $type='crs')
 	{
-	 	global $lng,$ilCtrl, $ilUser, $lng;
+	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 		parent::__construct($a_parent_obj);
 		$lng->loadLanguageModule('crs');
 		
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+
 		$mode = array();
 		
 		if ($type == "crs")
@@ -80,7 +86,8 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
 		$this->addColumn($lng->txt('actions'), '', '19%');
 		
-		$this->addMultiCommand('mail',$lng->txt('mail_members'));
+		if ($this->mailing_allowed)
+			$this->addMultiCommand('mail',$lng->txt('mail_members'));
 		$this->addMultiCommand('showMembers',$lng->txt('mail_list_members'));
 		
 		if ($_GET['ref'] == 'mail')

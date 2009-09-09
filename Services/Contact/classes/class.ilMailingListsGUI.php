@@ -143,7 +143,19 @@ class ilMailingListsGUI
 	
 	public function mailToList()
 	{
-		global $ilUser;		
+		global $ilUser, $rbacsystem;	
+
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+	
+		if (!$mailing_allowed)
+		{
+			ilUtil::sendFailure($this->lng->txt('no_permission'));
+			return true;
+		}
+
 		$ml_ids = ((int)$_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id']; 
 		if (!$ml_ids)
 	 	{
@@ -192,9 +204,16 @@ class ilMailingListsGUI
 	
 	public function showMailingLists()
 	{		
+		global $rbacsystem;
+
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
-						
+		
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+				
 		$tbl = new ilTable2GUI($this);
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showForm');
 		$tbl->setTitle($this->lng->txt('mail_mailing_lists'));
@@ -239,7 +258,8 @@ class ilMailingListsGUI
 
 				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showForm"));
 				$current_selection_list->addItem($this->lng->txt("members"), '', $this->ctrl->getLinkTarget($this, "showMembersList"));
-				$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToList"));
+				if ($mailing_allowed)
+					$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToList"));
 				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
 				
 				$result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
@@ -247,7 +267,8 @@ class ilMailingListsGUI
 				++$counter;
 			}
 			
-			$tbl->addMultiCommand('mailToList', $this->lng->txt('send_mail_to'));
+			if ($mailing_allowed)
+				$tbl->addMultiCommand('mailToList', $this->lng->txt('send_mail_to'));
 			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));			
 		}
 		else
