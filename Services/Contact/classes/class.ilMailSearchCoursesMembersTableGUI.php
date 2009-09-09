@@ -18,6 +18,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	protected $ctrl;
 	protected $parentObject;
 	protected $mode;
+	protected $mailing_allowed;
 	/**
 	 * Constructor
 	 *
@@ -29,7 +30,13 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $type = 'crs')
 	{
-	 	global $lng,$ilCtrl, $ilUser, $lng;
+	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
+
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+
 		parent::__construct($a_parent_obj);
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
@@ -75,7 +82,8 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '23%');
 		$this->addColumn($lng->txt('actions'), '', '10%');
 		
-		$this->addMultiCommand('mail', $lng->txt('mail_members'));
+		if ($this->mailing_allowed)
+			$this->addMultiCommand('mail', $lng->txt('mail_members'));
 		$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
 		
 		$this->addCommandButton('cancel', $lng->txt('cancel'));
@@ -99,8 +107,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parentObject, 'search_members', $a_set['MEMBERS_ID']);
 		$ilCtrl->setParameter($this->parentObject, 'search_' . $this->mode['short'], $_REQUEST['search_' . $this->mode['short']]);
 		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
-		
-		$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+
+		if ($this->mailing_allowed)
+			$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
 		$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
 		
 		$this->tpl->setVariable(strtoupper('CURRENT_ACTION_LIST'), $current_selection_list->getHTML());

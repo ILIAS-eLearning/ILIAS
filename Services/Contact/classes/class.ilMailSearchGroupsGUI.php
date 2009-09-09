@@ -41,15 +41,22 @@ class ilMailSearchGroupsGUI
 	private $umail = null;
 	private $abook = null;
 
+	protected $mailing_allowed;
+
 	public function __construct()
 	{
-		global $tpl, $ilCtrl, $lng, $ilUser;
+		global $tpl, $ilCtrl, $lng, $ilUser, $rbacsystem;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
 		$this->ctrl->saveParameter($this, "mobj_id");
+
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->abook = new ilAddressbook($ilUser->getId());
@@ -358,7 +365,8 @@ class ilMailSearchGroupsGUI
 					$this->ctrl->setParameter($this, 'search_grp', $grp_id);
 					$this->ctrl->setParameter($this, 'view', 'mygroups');
 					
-					$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					if ($this->mailing_allowed)
+						$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
 					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
 					
 					$this->ctrl->clearParameters($this);

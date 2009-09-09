@@ -390,6 +390,11 @@ class ilMailAddressbookGUI
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
 
+		// check if current user may send mails
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+
 		// searchbox
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
@@ -440,7 +445,7 @@ class ilMailAddressbookGUI
 		$tbl->addColumn($this->lng->txt('actions'), '', '10%');
 		
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		
+
 		if (count($entries))
 		{		
 			$tbl->enable('select_all');				
@@ -460,7 +465,10 @@ class ilMailAddressbookGUI
 					//$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
 					//$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
 					//$this->ctrl->clearParametersByClass("ilmailformgui");
-					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
+					if ($mailing_allowed)
+						$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
+					else
+						$result[$counter]['login'] = $entry["login"];
 				}				
 				
 				$result[$counter]['firstname'] = $entry["firstname"];
@@ -486,7 +494,10 @@ class ilMailAddressbookGUI
 				$current_selection_list->setId("act_".$counter);
 
 				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showAddressForm"));
-				$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
+
+				if ($mailing_allowed)
+					$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
+
 				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
 				
 				if ($chat_active)
@@ -498,7 +509,9 @@ class ilMailAddressbookGUI
 				++$counter;
 			}			
 			
-			$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
+			if ($mailing_allowed)
+				$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
+
 			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
 			
 			if ($chat_active)
