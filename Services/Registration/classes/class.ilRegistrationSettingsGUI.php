@@ -74,7 +74,7 @@ class ilRegistrationSettingsGUI
 	
 	function view()
 	{
-		global $ilAccess,$ilErr;
+		global $ilAccess,$ilErr,$ilCtrl;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
@@ -114,6 +114,16 @@ class ilRegistrationSettingsGUI
 		$this->__prepareRoleList();
 		$this->__prepareAutomaticRoleList();
 		$this->__prepareAccessLimitationRoleList();
+		
+		// jump to new account mail
+		$this->tpl->setVariable("TXT_NEW_ACCOUNT_MAIL",
+			$this->lng->txt('user_new_account_mail'));
+		$this->tpl->setVariable("TXT_JUMP_ACCOUNT_MAIL",
+			$this->lng->txt('edit'));
+		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", USER_FOLDER_ID);
+		$this->tpl->setVariable("HREF_NEW_ACCOUNT_MAIL",
+			$ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjuserfoldergui"), "newAccountMail"));
+		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", $_GET["ref_id"]);
 
 		// pwd forwarding
 		$this->tpl->setVariable("TXT_REG_PWD_FORWARD",$this->lng->txt('passwd_generation'));
