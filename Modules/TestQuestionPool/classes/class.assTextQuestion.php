@@ -457,6 +457,7 @@ class assTextQuestion extends assQuestion
 		global $ilDB;
 		global $ilUser;
 
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		if (is_null($pass))
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";

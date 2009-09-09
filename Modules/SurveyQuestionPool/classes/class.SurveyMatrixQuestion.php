@@ -2437,6 +2437,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$maxlen = 37;
 		if (strlen($questiontext) > $maxlen + 3)
 		{
+			include_once "./Services/Utilities/classes/class.ilStr.php";
 			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
 		}
 		$result = array();
