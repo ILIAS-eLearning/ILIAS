@@ -375,8 +375,9 @@ class ilRbacAdmin
 			}
 	
 			$query = "DELETE FROM rbac_pa ".
-				 "WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
+				 "WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer').
 				 $and1;
+			
 			$res = $ilDB->manipulate($query);
 	
 			return true;
