@@ -818,6 +818,7 @@ class ilAccountRegistrationGUI
 	
 			$body .= $this->lng->txt('reg_mail_body_3_confirmation');			
             
+			$mail_obj->enableSoap(false);
 			$mail_obj->appendInstallationSignature(true);
 			$mail_obj->sendMail($this->userObj->getEmail(), '', '',
 				$subject,

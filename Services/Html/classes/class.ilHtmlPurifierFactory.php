@@ -33,7 +33,7 @@ class ilHtmlPurifierFactory
 		}
 		
 		require_once 'Services/Html/exceptions/class.ilHtmlPurifierNotFoundException.php';
-		throw new ilHtmlPurifierNotFoundException(sprintf($lng->txt('frm_purifier_not_implemented_for_type_x'), $type));
+		throw new ilHtmlPurifierNotFoundException(sprintf($lng->txt('frm_purifier_not_implemented_for_type_x'), $a_type));
 	}
 }
 ?>
