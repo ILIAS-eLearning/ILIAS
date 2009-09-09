@@ -398,7 +398,7 @@ class ilObjRemoteCourse extends ilObject
 			$ilDB->quote(0,'integer').", ".
 			$ilDB->quote('','text').", ".
 			$ilDB->quote(0,'integer').", ".
-			$ilDB->quote('','text').", ".
+			$ilDB->quote('','text')." ".
 			")";
 		$res = $ilDB->manipulate($query);
 		
