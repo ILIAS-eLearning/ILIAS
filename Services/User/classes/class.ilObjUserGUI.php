@@ -3154,7 +3154,9 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $rbacreview,$rbacsystem,$ilUser;
+		global $rbacreview,$rbacsystem,$ilUser, $ilTabs;
+		
+		$ilTabs->activateTab("role_assignment");
 
 		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
 		{
@@ -3170,7 +3172,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
 
-		if(true)
+		if(false)
 		{
 			$this->tpl->setCurrentBlock("filter");
 			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
@@ -3181,14 +3183,19 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// init table
+		include_once("./Services/User/classes/class.ilRoleAssignmentTableGUI.php");
+		$tab = new ilRoleAssignmentTableGUI($this, "roleassignment");
+
 		// now get roles depending on filter settings
-		$role_list = $rbacreview->getRolesByFilter($_SESSION["filtered_roles"],$this->object->getId());
+		$role_list = $rbacreview->getRolesByFilter($tab->filter["role_filter"],$this->object->getId());
 		$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
         $counter = 0;
 
         include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
-
+		
+		$records = array();
 		foreach ($role_list as $role)
 		{
 			// fetch context path of role
@@ -3260,10 +3267,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$role_ids[$counter] = $role["obj_id"];
 
-            $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
+            $result_set[$counter][] = $checkbox = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
 			$this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
 			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
-			$result_set[$counter][] = "<a href=\"".$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm")."\">".ilObjRole::_getTranslation($role["title"])."</a>";
+			$result_set[$counter][] = $link = "<a href=\"".$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm")."\">".ilObjRole::_getTranslation($role["title"])."</a>";
+			$title = ilObjRole::_getTranslation($role["title"]);
             $result_set[$counter][] = $role["description"];
 
 		// Add link to objector local Rores
@@ -3279,17 +3287,54 @@ class ilObjUserGUI extends ilObjectGUI
 
 	                require_once("./classes/class.ilLink.php");
 	
-        	        $result_set[$counter][] = "<a href='".ilLink::_getLink($ref_id, ilObject::_lookupType($obj_id))."' target='_top'>".$path."</a>";
+        	        $result_set[$counter][] = $context = "<a href='".ilLink::_getLink($ref_id, ilObject::_lookupType($obj_id))."' target='_top'>".$path."</a>";
 	        }
         	else
-                	$result_set[$counter][] = $path;
+			{
+				$result_set[$counter][] = $path;
+				$context = $path;
+			}
 
+			$records[] = array("path" => $path, "description" => $role["description"],
+				"context" => $context, "checkbox" => $checkbox,
+				"role" => $link, "title" => $title);
    			++$counter;
         }
 
+		if (true)
+		{
+			$tab->setData($records);
+			$this->tpl->setVariable("ROLES_TABLE",$tab->getHTML());
+			return;
+		}
+		
 		return $this->__showRolesTable($result_set,$role_ids);
     }
 
+	/**
+	* Apply filter
+	*/
+	function applyFilterObject()
+	{
+		include_once("./Services/User/classes/class.ilRoleAssignmentTableGUI.php");
+		$table_gui = new ilRoleAssignmentTableGUI($this, "roleassignment");
+		$table_gui->writeFilterToSession();        // writes filter to session
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$this->roleassignmentObject();
+	}
+	
+	/**
+	* Reset filter
+	*/
+	function resetFilterObject()
+	{
+		include_once("./Services/User/classes/class.ilRoleAssignmentTableGUI.php");
+		$table_gui = new ilRoleAssignmentTableGUI($this, "roleassignment");
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$table_gui->resetFilter();                // clears filter
+		$this->roleassignmentObject();
+	}
+	
 	function __getDateSelect($a_type,$a_varname,$a_selected)
     {
         switch($a_type)
