@@ -702,51 +702,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 		}
 		$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
 		
-		// help
-		$ttpl->setCurrentBlock("help_img");
-		$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
-		$ttpl->parseCurrentBlock();
-		$ttpl->setCurrentBlock("help_section");
-		$ttpl->setVariable("TXT_HELP",
-			$lng->txt("form_hierarchy_add_elements"));
-		$ttpl->parseCurrentBlock();
-
-		if ($this->getDragIcon() != "")
-		{
-			$ttpl->setCurrentBlock("help_img");
-			$ttpl->setVariable("IMG_HELP", $this->getDragIcon());
-			$ttpl->parseCurrentBlock();
-			$ttpl->setCurrentBlock("help_img");
-			$ttpl->setVariable("IMG_HELP",
-				ilUtil::getImagePath("drop_streaked_area.gif"));
-			$ttpl->parseCurrentBlock();
-			$ttpl->setCurrentBlock("help_section");
-			$ttpl->setVariable("TXT_HELP",
-				$lng->txt("form_hierarchy_drag_drop_help"));
-			$ttpl->parseCurrentBlock();
-		}
-		
-		// additional help items
-		foreach ($this->getHelpItems() as $help)
-		{
-			if ($help["image"] != "")
-			{
-				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", $help["image"]);
-				$ttpl->parseCurrentBlock();
-			}
-			$ttpl->setCurrentBlock("help_section");
-			$ttpl->setVariable("TXT_HELP", $help["text"]);
-			$ttpl->parseCurrentBlock();
-		}
-
-		if ($this->triggered_update_command != "")
-		{
-			$ttpl->setCurrentBlock("tr_update");
-			$ttpl->setVariable("UPDATE_CMD", $this->triggered_update_command);
-			$ttpl->parseCurrentBlock();
-		}
-
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
 		
