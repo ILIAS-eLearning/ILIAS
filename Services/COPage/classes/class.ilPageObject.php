@@ -669,6 +669,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$placeholder->setHierId($a_hier_id);
 						$placeholder->setPcId($a_pc_id);
 						return $placeholder;
+
+					case "ContentInclude":
+						require_once("./Services/COPage/classes/class.ilPCContentInclude.php");
+						$inc =& new ilPCContentInclude($this->dom);
+						$inc->setNode($cont_node);
+						$inc->setHierId($a_hier_id);
+						$inc->setPcId($a_pc_id);
+						return $inc;
 				}
 				break;
 
