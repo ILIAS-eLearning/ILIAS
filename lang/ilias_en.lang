@@ -9958,3 +9958,5 @@ cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are 
 dateplaner#:#add_appointment#:#Add Appointment
 common#:#pd_enable_contacts#:#Enable Contacts
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
+payment#:#pay_order_paid_subject#:#Your receipt
+payment#:#pay_order_paid_body#:#Your order of\n%products%\nhas been processed and your invoice is attacthed this mail\n\nBest regards\n\nILIAS
