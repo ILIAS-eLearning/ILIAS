@@ -307,7 +307,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 
 			case "pg":
-				$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+				$this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
 				
 				if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
 					$this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)
