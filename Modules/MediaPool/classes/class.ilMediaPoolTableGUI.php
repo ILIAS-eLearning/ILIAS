@@ -34,7 +34,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->setId("mepfold".$a_parent_obj->object->getId());
+			if (is_object($a_parent_obj->object))
+			{
+				$this->setId("mepfold".$a_parent_obj->object->getId());
+			}
 		}
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
