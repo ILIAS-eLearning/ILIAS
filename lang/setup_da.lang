@@ -243,7 +243,7 @@ main_datadir_outside_webspace#:#Hovedbibliotek udenfor web plads
 missing_data#:#Manglende data
 name#:#Navn
 new#:#ny
-next#:#N�ste
+next#:#Næste
 nic_not_disabled#:#Intet NIC-ID og deaktiveret
 nic_reg_disable#:#Spring over NIC registration
 nic_reg_disable_comment#:#(registrer senere)
@@ -322,20 +322,20 @@ pre_php_version_4.1#:#PEAR Klasser vil ikke virke ordentligt! Opgrader din versi
 pre_php_version_4.2#:#DOMXML og XSLT support vil ikke virke ordentligt med denne version!
 pre_php_version_5#:#ILIAS er ikke blevet testet med PHP 5 endnu. Det er med egen risiko dette bruges.
 pre_php_version_unknown#:#ILIAS installationen kender ikke denne version. Det er med egen risiko at dette bruges!
-preliminaries#:#Preliminaries
-prev#:#Sidste
-required_field#:#p�kr�vede felter
+preliminaries#:#Forudsætninger
+prev#:#Forrige
+required_field#:#krævede felter
 reset#:#reset
 root_access#:#root adgang
 safe_mode_enabled#:#fejlsikret tilstand er aktiveret!
 save#:#Gem
-save_error#:#Gem fej�!
+save_error#:#Kunne ikke gemme
 saved_successfully#:#Gemt succesfuldt
 scan_command#:#Skan kommando
 select_client#:#V�lg en klient
 server_info#:#Server Information
 server_software#:#Server software
-set_default_client#:#S�t til standard Klient
+set_default_client#:#Sæt til standardklient
 set_newpasswd#:#Indtast venligst et nyt password
 set_oldpasswd#:# Indtast venligst det gamle password
 settings_changed#:#Indstillinger er �ndret
@@ -347,8 +347,8 @@ setup_database#:#Installer database
 setup_database_desc#:#Installer databasen
 setup_db_first#:#Installer venligst din database f�rst!
 setup_finished#:#Installation er afsluttet
-setup_first_client#:#Opret din f�rst Klient
-setup_ini_first#:#Opret venligst din ini-fil f�rst!
+setup_first_client#:#Du skal først oprette klient
+setup_ini_first#:#Du skal først oprette ini-fil
 setup_inifile#:#Opret ini-file
 setup_inifile_desc#:#opret ini-filen til din installation
 setup_languages#:#Installer sprog
@@ -357,17 +357,17 @@ setup_login#:#Login p� Setup
 setup_mainmenu#:#ops�t hovedmenu
 setup_menu#:#setup menu
 setup_nic_desc#:#registrer din installation af ILIAS-NIC-Server
-setup_not_finished#:#installationen er ikke gennemf�rt
+setup_not_finished#:#Installationen er endnu ikke færdig
 setup_pass#:#Password
 setup_pass2#:#Gentag password
-setup_pass_title#:#S�t master password
+setup_pass_title#:#Sæt master-password
 setup_password#:#Opret password
 setup_password_desc#:#Opret et password for adgang til installations-rutiner senere (i.e. for at opdatere din database)
 setup_process_status#:#status over installations proces
 setup_process_step_contact#:#Indtast kontakt information
 setup_process_step_db#:#Installer/Opdater database
 setup_process_step_finish#:#Afslut installation
-setup_process_step_ini#:#Ops�t standard data
+setup_process_step_ini#:#Standard informationer
 setup_process_step_lang#:#Installer system sprog
 setup_process_step_nic#:#Registrer ILIAS-NIC
 setup_ready#:#Installationen er nu klar. Du kan nu forts�tte med at logge ind og tjekke andre system indstillinger.
@@ -459,9 +459,9 @@ user#:#User###30 05 2008 new variable
 db_error_please_check#:#Please check database hostname, username and password.###30 05 2008 new variable
 need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.###30 05 2008 new variable
 info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.###30 05 2008 new variable
-data_directories#:#Data Directories###30 05 2008 new variable
-data_directory_outside_ws#:#Data Directory outside Webspace###30 05 2008 new variable
-data_directory_in_ws#:#Data Directory in Webspace###30 05 2008 new variable
+data_directories#:#Datamapper
+data_directory_outside_ws#:#Datamappe uden for webområde
+data_directory_in_ws#:#Datamappe i webområde
 data_directory_in_ws_info#:#This directory is cannot be changed.###30 05 2008 new variable
 data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.###30 05 2008 new variable
 pre_dom#:#DOM Support###30 05 2008 new variable
@@ -474,8 +474,8 @@ pre_memory#:#PHP Memory Limit Setting###30 05 2008 new variable
 pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.###30 05 2008 new variable
 pre_memory_limit_recommend#:#We recommend a value of 80M or more.###30 05 2008 new variable
 pre_root#:#Writable Webspace Main Folder###30 05 2008 new variable
-pre_php#:#PHP Version###30 05 2008 new variable
-pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5.2.1 or higher.###30 05 2008 new variable
+pre_php#:#PHP version
+pre_php_version_4#:#PHP versionen understøttes ikke. Du skal opgradere til PHP 5.2.1 eller højere
 pre_mysql#:#MySQL Support###30 05 2008 new variable
 pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.###30 05 2008 new variable
 pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.###30 05 2008 new variable
