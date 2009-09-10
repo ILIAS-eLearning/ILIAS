@@ -132,7 +132,7 @@ class ilCronForumNotification
 		
 		$numRows += $this->sendMails($res);
 
-		//$ilSetting->set('cron_forum_notification_last_date', date('Y-m-d H:i:s'));
+		$ilSetting->set('cron_forum_notification_last_date', date('Y-m-d H:i:s'));
 
 		$ilLog->write(__METHOD__.': Send '.$numRows.' messages.');		
 
