@@ -9977,3 +9977,5 @@ payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when 
 chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
 cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
 dateplaner#:#add_appointment#:#Termin hinzufügen
+common#:#pd_enable_contacts#:#Aktiviere Kontakte
+common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung

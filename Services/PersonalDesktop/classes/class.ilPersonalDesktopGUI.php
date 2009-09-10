@@ -80,7 +80,7 @@ class ilPersonalDesktopGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilUser, $ilSetting;
+		global $ilUser, $ilSetting, $rbacsystem;
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
@@ -119,6 +119,22 @@ class ilPersonalDesktopGUI
 			$next_class = $this->__loadNextClass();
 		}
 		$this->__storeLastClass($next_class);
+
+
+		// check for permission to view contacts
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($_SESSION["AccountId"]);
+		if (
+			$next_class == 'ilmailaddressbookgui' && $this->ilias->getSetting("disable_contacts") || 
+			(
+				!$this->ilias->getSetting("disable_contacts_require_mail") &&
+				!$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())
+			)
+		) // if
+		{
+			$next_class = '';
+			ilUtil::sendFailure($this->lng->txt('no_permission'));
+		}
 
 		switch($next_class)
 		{
@@ -515,7 +531,7 @@ class ilPersonalDesktopGUI
 	*/
 	function setTabs()
 	{
-		global $ilCtrl, $ilSetting, $ilTabs;
+		global $ilCtrl, $ilSetting, $ilTabs, $rbacsystem;
 		
 //		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		
@@ -593,10 +609,17 @@ class ilPersonalDesktopGUI
 				}
 			}
 
-			$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
-			if (strtolower($this->cmdClass) == "ilmailaddressbookgui")
+			// contacts
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail =& new ilMail($_SESSION["AccountId"]);
+			
+			if (!$this->ilias->getSetting("disable_contacts") && ($this->ilias->getSetting("disable_contacts_require_mail") || $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
 			{
-				$ilTabs->setTabActive("mail_addressbook");
+				$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+				if (strtolower($this->cmdClass) == "ilmailaddressbookgui")
+				{
+					$ilTabs->setTabActive("mail_addressbook");
+				}
 			}
 		}
 		

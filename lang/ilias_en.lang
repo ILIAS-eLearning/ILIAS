@@ -9956,3 +9956,5 @@ webr#:#webr_edit_list#:#Edit Web Resource List
 chat#:#check_configuration#:#Please check the chat server's settings.
 cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:
 dateplaner#:#add_appointment#:#Add Appointment
+common#:#pd_enable_contacts#:#Enable Contacts
+common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
