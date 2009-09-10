@@ -1093,8 +1093,8 @@ class ilObjTest extends ilObject
 				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
-				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
-				"allowedUsersTimeGap, certificate_visibility, mailnotification, created, tstamp) " .
+				"shuffle_questions, results_presentation, show_summary, password, allowedusers, " .
+				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
@@ -1191,8 +1191,8 @@ class ilObjTest extends ilObject
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
-				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, " . 
-				"allowedUsersTimeGap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
+				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, " . 
+				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1974,8 +1974,8 @@ class ilObjTest extends ilObject
 			$this->setMailNotification($data->mailnotification);
 			$this->setScoreCutting($data->score_cutting);
 			$this->setPassword($data->password);
-			$this->setAllowedUsers($data->allowedUsers);
-			$this->setAllowedUsersTimeGap($data->allowedUsersTimeGap);
+			$this->setAllowedUsers($data->allowedusers);
+			$this->setAllowedUsersTimeGap($data->alloweduserstimegap);
 			$this->setPassScoring($data->pass_scoring);
 			$this->setCertificateVisibility($data->certificate_visibility);
 			$this->loadQuestions();
