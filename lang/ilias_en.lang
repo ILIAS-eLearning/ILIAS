@@ -9963,6 +9963,6 @@ common#:#reuse_of_loginnames_contained_in_history#:#Reuse of loginnames
 common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse loginnames again, which are already saved in the history.
 common#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 common#:#loginname_change_blocking_time#:#Blocking Time for Changing Loginnames
-common#:#loginname_change_blocking_time_info#:#Insert the period of time(seconds) in which an user can change its loginname. If you enter 0 or leave this field blank a user can change its loginnamen anytime.
+common#:#loginname_change_blocking_time_info#:#Insert the interval(seconds) in which an user can change its loginname. If you enter 0 or leave this field blank a user can change its loginnamen anytime.
 common#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 common#:#changing_loginname_not_possible_info#:#You changed your loginname at last at %s. The next change can be performed at %s.
