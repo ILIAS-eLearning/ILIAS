@@ -15634,4 +15634,10 @@ $ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'
 		'usr_data',
 		'reg_hash',
 		array('type' => 'text', 'length' => 32, 'notnull' => false, 'fixed' => true));
-?>		
+?>
+<#2870>
+<?php
+	$setting = new ilSetting();
+	$setting->set("disable_contacts", "0");	
+	$setting->set("disable_contacts_require_mail", "1");
+?>

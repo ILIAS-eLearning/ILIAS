@@ -129,6 +129,18 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("disable_bookmarks") ? "0" : "1"));
 		$form->addItem($cb_prop);
 		
+		// Enable contacts
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_contacts"), "enable_contacts");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked(($ilSetting->get("disable_contacts") ? "0" : "1"));
+
+			$cb_prop_requires_mail = new ilCheckboxInputGUI($lng->txt('pd_enable_contacts_requires_mail'), 'enable_contacts_require_mail');
+			$cb_prop_requires_mail->setValue("1");
+			$cb_prop_requires_mail->setChecked(($ilSetting->get("disable_contacts_require_mail") ? "0" : "1"));
+			$cb_prop->addSubItem($cb_prop_requires_mail);
+
+		$form->addItem($cb_prop);
+		
 		// Enable notes
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_notes"), "enable_notes");
 		$cb_prop->setValue("1");
@@ -224,6 +236,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			
 		#$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		$ilSetting->set("disable_bookmarks", (int) ($_POST["enable_bookmarks"] ? 0 : 1));
+
+		$ilSetting->set("disable_contacts", (int) ($_POST["enable_contacts"] ? 0 : 1));
+		$ilSetting->set("disable_contacts_require_mail", (int) ($_POST["enable_contacts_require_mail"] ? 0 : 1));
+
 		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
 		
