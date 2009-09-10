@@ -4246,20 +4246,21 @@ else
 		$form = new ilPropertyFormGUI;
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveLoginnameSettings'));
 		$form->setTitle($this->lng->txt('loginname_settings'));
-		$check = new ilCheckboxInputGUI($this->lng->txt('allow_change_loginname'), 'allow_change_loginname');
-		$check->setValue('1');
-		$check->setChecked((bool)$ilSetting->get('allow_change_loginname'));
-		$form->addItem($check);
-		$check = new ilCheckboxInputGUI($this->lng->txt('create_history_loginname'), 'create_history_loginname');
-		$check->setValue('1');
-		$check->setChecked((bool)$ilSetting->get('create_history_loginname'));
-		$form->addItem($check);	
-		$info = new ilCustomInputGUI($this->lng->txt('create_history_loginname_must_be_enabled'),'create_history_loginname_must_be_enabled');
-		$form->addItem($info);
-		$check = new ilCheckboxInputGUI($this->lng->txt('allow_history_loginname_again'), 'allow_history_loginname_again');
-		$check->setValue('1');
-		$check->setChecked((bool)$ilSetting->get('allow_history_loginname_again'));
-		$form->addItem($check);	
+		
+		$chbChangeLogin = new ilCheckboxInputGUI($this->lng->txt('allow_change_loginname'), 'allow_change_loginname');
+		$chbChangeLogin->setValue(1);
+		$chbChangeLogin->setChecked((bool)$ilSetting->get('allow_change_loginname'));
+		$form->addItem($chbChangeLogin);		
+			$chbCreateHistory = new ilCheckboxInputGUI($this->lng->txt('create_history_loginname'), 'create_history_loginname');
+			$chbCreateHistory->setValue(1);
+			$chbCreateHistory->setChecked((bool)$ilSetting->get('create_history_loginname'));
+		$chbChangeLogin->addSubItem($chbCreateHistory);	
+			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('allow_history_loginname_again'), 'allow_history_loginname_again');
+			$chbReuseLoginnames->setValue(1);
+			$chbReuseLoginnames->setInfo($this->lng->txt('create_history_loginname_must_be_enabled'));
+			$chbReuseLoginnames->setChecked((bool)$ilSetting->get('allow_history_loginname_again'));
+		$chbChangeLogin->addSubItem($chbReuseLoginnames);	
+		
 		$form->addCommandButton('saveLoginnameSettings', $this->lng->txt('save'));
 		
 		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
@@ -4273,9 +4274,9 @@ else
 		$create_history_loginname = (int)$_POST['create_history_loginname'];
 		$allow_history_loginname_again = (int)$_POST['allow_history_loginname_again'];		
 
-		$ilSetting->set('allow_change_loginname', (string)$allow_change_loginname);
-		$ilSetting->set('create_history_loginname', (string)$create_history_loginname);
-		$ilSetting->set('allow_history_loginname_again', (string)$allow_history_loginname_again);
+		$ilSetting->set('allow_change_loginname', $allow_change_loginname);
+		$ilSetting->set('create_history_loginname', $create_history_loginname);
+		$ilSetting->set('allow_history_loginname_again', $allow_history_loginname_again);
 		
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 	
