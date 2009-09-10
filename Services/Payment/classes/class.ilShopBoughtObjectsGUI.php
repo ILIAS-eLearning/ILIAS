@@ -114,7 +114,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 					$transaction .= " (" . $this->lng->txt("pays_paypal") . ")";
 					break;
 				case PAY_METHOD_EPAY :
-          $transaction .= " (" . $this->lng->txt("pays_epay") . )";
+          $transaction .= " (" . $this->lng->txt("pays_epay") . ")";
           break;
           
 			}
