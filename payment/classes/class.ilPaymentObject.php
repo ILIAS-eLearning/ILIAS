@@ -25,6 +25,7 @@ define ('PAY_METHOD_NOT_SPECIFIED', 0);
 define ('PAY_METHOD_BILL', 1);
 define ('PAY_METHOD_BMF', 2);
 define ('PAY_METHOD_PAYPAL', 3);
+define ('PAY_METHOD_EPAY', 4);
 
 /**
 * Class ilPaymentObject
@@ -63,6 +64,7 @@ class ilPaymentObject
 		$this->PAY_METHOD_BILL = PAY_METHOD_BILL;
 		$this->PAY_METHOD_BMF = PAY_METHOD_BMF;
 		$this->PAY_METHOD_PAYPAL = PAY_METHOD_PAYPAL;
+		$this->PAY_METHOD_EPAY = PAY_METHOD_EPAY;
 		
 		$this->pobject_id = $a_pobject_id;
 		$this->__read();

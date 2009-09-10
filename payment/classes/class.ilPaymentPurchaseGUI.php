@@ -198,6 +198,23 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
 					}
 					break;
+
+				case $this->pobject->PAY_METHOD_EPAY:
+					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+					if (is_array($buyedObject))
+					{
+						if (is_array($prices) && count($prices) > 1)
+						{
+							$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+							$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+						}
+					}
+					else
+					{
+						$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					}
+					break;
 			}
 
 			$this->tpl->setVariable("ROWSPAN",count($prices));

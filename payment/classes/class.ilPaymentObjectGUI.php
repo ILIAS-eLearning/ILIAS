@@ -202,6 +202,10 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				case $this->pobject->PAY_METHOD_PAYPAL:
 					$f_result[$counter][] = $this->lng->txt('pays_paypal');
 					break;
+
+			        case $this->pobject->PAY_METHOD_EPAY:
+					$f_result[$counter][] = $this->lng->txt('pays_epay');
+					break;
 			}
 
 			if($data['vat_id'] <= 0)
@@ -248,7 +252,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 			++$counter;
 		}
-
+		
 		return $this->__showObjectsTable($f_result);
 	}
 
@@ -386,7 +390,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		if(!$_GET['pobject_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+			ilUtil::sendFailure($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
@@ -400,7 +404,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_sure_delete_object'));
+			ilUtil::sendQuestion($this->lng->txt('paya_sure_delete_object'));
 			$this->editDetails(true);
 
 			return true;
@@ -448,7 +452,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		switch($this->pobject->getPayMethod())
 		{
 			case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
-				ilUtil::sendInfo($this->lng->txt('paya_select_pay_method_first'));
+				ilUtil::sendFailiure($this->lng->txt('paya_select_pay_method_first'));
 				$this->editDetails();
 				
 				return true;
@@ -529,7 +533,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		// Show confirm delete
 		if($a_show_delete)
 		{	
-			ilUtil::sendInfo($this->lng->txt('paya_sure_delete_selected_prices'));
+			ilUtil::sendQuestion($this->lng->txt('paya_sure_delete_selected_prices'));
 
 			$this->tpl->setCurrentBlock('cancel');
 			$this->tpl->setVariable('CANCEL_CMD','editPrices');
@@ -770,7 +774,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		$prices->add();
 
-		ilUtil::sendInfo($this->lng->txt('paya_added_new_price'));
+		ilUtil::sendSuccess($this->lng->txt('paya_added_new_price'));
 		$this->editPrices();
 
 		return true;
@@ -1189,6 +1193,10 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			$options[$this->pobject->PAY_METHOD_PAYPAL] = $this->lng->txt('pays_paypal');
 		}
+		if(ilPayMethods::_enabled('pm_epay'))
+		{
+			$options[$this->pobject->PAY_METHOD_EPAY] = $this->lng->txt('pays_epay');
+		}
 		
 		return $options;
 	}
@@ -1268,7 +1276,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 		*/
-
+		
 		$tbl->setTitle($this->lng->txt('objects'),'icon_pays.gif',$this->lng->txt('objects'));
 		$tbl->setHeaderNames(array($this->lng->txt('title'),
 								   $this->lng->txt('status'),

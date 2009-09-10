@@ -77,7 +77,7 @@ class ilShopTopicsGUI
 		
 		if($_POST['title'] == '')
 		{
-			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
+			ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 			
 			$this->showTopicForm();
 		}
@@ -87,7 +87,7 @@ class ilShopTopicsGUI
 			
 			if($this->objCurrentTopic->save())
 			{			
-				ilUtil::sendInfo($this->lng->txt($mode == 'create' ? 'topic_saved' : 'topic_edited'));
+				ilUtil::sendSuccess($this->lng->txt($mode == 'create' ? 'topic_saved' : 'topic_edited'));
 			}			
 			
 			$this->showTopicsList();
@@ -160,7 +160,7 @@ class ilShopTopicsGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		
 		$this->showTopicsList();		
 		

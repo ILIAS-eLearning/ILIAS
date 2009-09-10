@@ -9970,4 +9970,4 @@ webr#:#webr_sort_manual#:#Sorter manuelt
 webr#:#webr_sort_title#:#Sorter efter titel
 webr#:#webr_edit_list#:#Ret webresurse liste
 payment#:#pay_order_paid_subject#:#Tak for din bestilling
-payment#:#pay_order_paid_body#:#Din bestilling på\n%products%\ner blevet behandlet og din faktura sendes vedhæftet denne mail. \n\nMed venlig hilsen\n\nILIAS
+payment#:#pay_order_paid_body#:#Din bestilling på %products% er blevet behandlet og din faktura sendes vedhæftet denne mail. 

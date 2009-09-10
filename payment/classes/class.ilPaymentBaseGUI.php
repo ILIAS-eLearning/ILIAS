@@ -28,8 +28,8 @@ class ilPaymentBaseGUI
 	var $lng;
 	var $db;
 	var $tpl;
-	var $rbacsystem;
-	var $tabs_gui;
+	var $rbacsystem; 
+	var $tabs_gui; 
 
 	var $user_obj;
 
