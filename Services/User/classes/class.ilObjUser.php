@@ -1007,6 +1007,12 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}		
+		
+		try
+		{
+			$last_history_entry = ilObjUser::_getLastHistoryDataByUserId($this->getId());		
+		}
+		catch(ilUserException $e) { $last_history_entry = null; }				
 	
 		// throw exception if the desired loginame is already in history and it is not allowed to reuse it
 		if((int)$ilSetting->get('allow_change_loginname') &&
@@ -1014,6 +1020,22 @@ class ilObjUser extends ilObject
 		   self::_doesLoginnameExistInHistory($a_login))
 		{
 			throw new ilUserException($this->lng->txt('loginname_already_exists'));
+		}
+		else if((int)$ilSetting->get('allow_change_loginname') &&
+			    (int)$ilSetting->get('loginname_change_blocking_time') &&
+				is_array($last_history_entry) && 
+				$last_history_entry[1] + (int)$ilSetting->get('loginname_change_blocking_time') > time())
+		{	
+			include_once 'Services/Calendar/classes/class.ilDate.php';
+			throw new ilUserException(
+				sprintf(
+					$this->lng->txt('changing_loginname_not_possible_info'),
+					ilDatePresentation::formatDate(
+						new ilDateTime($last_history_entry[1], IL_CAL_UNIX)),
+					ilDatePresentation::formatDate(
+						new ilDateTime(($last_history_entry[1] + (int)$ilSetting->get('loginname_change_blocking_time')), IL_CAL_UNIX))
+				)
+			);
 		}
 		else 			
 		{			

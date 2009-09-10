@@ -498,69 +498,6 @@ class ilPersonalProfileGUI
 
 		// Set user defined data
 		$ilUser->setUserDefinedData($_POST['udf']);
-		
-		// if loginname is changeable -> validate	
-		
-		if((int)$ilSetting->get('allow_change_loginname') && 
-		   $_POST['usr_login'] != $ilUser->getLogin())
-		{
-			if($_POST['usr_login'] == '' || 
-			   !ilUtil::isLogin(ilUtil::stripSlashes($_POST['usr_login'])))
-			{
-				ilUtil::sendFailure($this->lng->txt('no_valid_login'));
-				$form_valid = false;	
-			}
-			else if(ilObjUser::_loginExists(ilUtil::stripSlashes($_POST['usr_login']), $ilUser->getId()))
-			{
-				ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
-				$form_valid = false;
-			}				
-			else if($ilSetting->get('create_history_loginname') == 1)
-			{	
-				// falls Loginname in historie vorkommt pruefen, ob er noch benutzt werden darf					
-				$found = ilObjUser::getLoginHistory($_POST['usr_login']);
-			
-				if($found == 1 && $ilSetting->get('allow_history_loginname_again') == 0)
-				{
-					ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
-					$form_valid = false;
-				}
-				else if($ilSetting->get('allow_history_loginname_again') == 1 || !$found)
-				{	
-					$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));
-					
-					try 
-					{
-						$ilUser->updateLogin($ilUser->getLogin());
-					}
-					catch (ilUserException $e)
-					{
-						ilUtil::sendFailure($e->getMessage());
-						return $this->showProfile();							
-					}
-					
-					$ilAuth->setAuth($ilUser->getLogin());
-					$ilAuth->start();
-				}
-			}
-			else if($ilSetting->get('create_history_loginname') == 0)
-			{
-				$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));
-				
-				try 
-				{
-					$ilUser->updateLogin($ilUser->getLogin());
-				}
-				catch (ilUserException $e)
-				{
-					ilUtil::sendFailure($e->getMessage());
-					return $this->showProfile();							
-				}
-				
-				$ilAuth->setAuth($ilUser->getLogin());
-				$ilAuth->start();
-			}
-	}	
 
 		// everthing's ok. save form data
 		if ($form_valid)
