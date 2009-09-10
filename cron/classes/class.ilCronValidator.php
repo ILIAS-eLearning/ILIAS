@@ -1,5 +1,14 @@
 <?php
 
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * 
+ * @author Björn Heyser <bheyser@databay.de>
+ * @version $Id:
+ * @package ilias
+ * 
+ */
 
 	class ilCronValidator
 	{
@@ -17,7 +26,7 @@
 			$type_limit = $ilUser->getPref('systemcheck_type_limit');
 
 			include_once "classes/class.ilValidator.php";
-			$validator = new ilValidator();
+			$validator = new ilValidator(true);
 	
 			$modes = array();
 			$possible_modes = $validator->getPossibleModes();
