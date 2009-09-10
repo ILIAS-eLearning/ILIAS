@@ -1539,11 +1539,11 @@ class ilObjectListGUI
 	{
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
-		$this->current_selection_list->setListTitle($this->lng->txt("actions"));
+		$this->current_selection_list->setListTitle($this->lng->txt("shop_actions"));
 		$this->current_selection_list->setId("act_".$this->ref_id);
 		//$this->current_selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
-		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
-		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+			$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
+			$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(true);
 		
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);		

@@ -78,6 +78,9 @@ class ilShopController
 		$this->buildTabs();
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();	
+		
+		$obj = new ilGeneralSettings();
+		$allSet = $obj->getAll();
 			
 		switch($next_class)
 		{
@@ -104,6 +107,10 @@ class ilShopController
 				break;
 				
 			case 'ilshopadvancedsearchgui':
+        if ((bool) $allSet['hide_advanced_search']) 
+        {
+          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+        }
 				include_once 'Services/Payment/classes/class.ilShopAdvancedSearchGUI.php';
 				$this->ctrl->forwardCommand(new ilShopAdvancedSearchGUI());
 				break;
@@ -124,6 +131,10 @@ class ilShopController
 				break;
 				
 			case 'ilshopnewsgui':
+        if ((bool) $allSet['hide_news']) 
+        {
+          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+        }
 				include_once 'Services/Payment/classes/class.ilShopNewsGUI.php';
 				$this->ctrl->forwardCommand(new ilShopNewsGUI());
 				break;	
@@ -149,20 +160,37 @@ class ilShopController
 	private function buildTabs()
 	{
 		global $ilTabs, $ilUser;
+
+		$shop_obj =& new ilPaymentShoppingCart($ilUser);
+		
+		$obj = new ilGeneralSettings();
+		$allSet = $obj->getAll();
 				
 		$ilTabs->addTarget('content', $this->ctrl->getLinkTargetByClass('ilshopgui'), '', '', '');
-		$ilTabs->addTarget('advanced_search', $this->ctrl->getLinkTargetByClass('ilshopadvancedsearchgui'), '', '', '');
-		$ilTabs->addTarget('shop_info',$this->ctrl->getLinkTargetByClass('ilshopinfogui') ,'' , '', '');  
-		$ilTabs->addTarget('payment_news',$this->ctrl->getLinkTargetByClass('ilshopnewsgui'),'' , '', '');
+		if (!(bool)$allSet['hide_advanced_search']) { 
+		  $ilTabs->addTarget('advanced_search', $this->ctrl->getLinkTargetByClass('ilshopadvancedsearchgui'), '', '', '');
+		 }
+		 
+		$ilTabs->addTarget('shop_info',$this->ctrl->getLinkTargetByClass('ilshopinfogui') ,'' , '', '');
+		
+		if (!(bool)$allSet['hide_news'])
+		{
+		  $ilTabs->addTarget('payment_news',$this->ctrl->getLinkTargetByClass('ilshopnewsgui'),'' , '', '');
+		}
 		if(ANONYMOUS_USER_ID != $ilUser->getId())
 		{
 			if((bool)ilGeneralSettings::_getInstance()->get('topics_allow_custom_sorting'))
 			{
 				$ilTabs->addTarget('pay_personal_settings', $this->ctrl->getLinkTargetByClass('ilshoppersonalsettingsgui'), '', '', '');
 			}
+
+			// Only show cart if not empty
 			$ilTabs->addTarget('paya_shopping_cart', $this->ctrl->getLinkTargetByClass('ilshopshoppingcartgui'), '', '', '');
+			
+			// Only show if not empty
 			$ilTabs->addTarget('paya_buyed_objects', $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui'), '', '', '');
-					
+			
+			// Only show if user is vendor
 			if(ilPaymentVendors::_isVendor($ilUser->getId()) ||
 			   ilPaymentTrustees::_hasAccess($ilUser->getId()))
 			{

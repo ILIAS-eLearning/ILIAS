@@ -53,6 +53,7 @@ class ilPayMethods
 		$ilias->deleteSetting('pm_bill');
 		$ilias->deleteSetting('pm_bmf');
 		$ilias->deleteSetting('pm_paypal');
+		$ilias->deleteSetting('pm_epay');
 	}
 		
 	function _enable($a_type)
