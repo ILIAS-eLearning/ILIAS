@@ -1,63 +1,33 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * 
-*
 * @author Jens Conze <jc@databay.de>
+* @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
 *
 * @package ilias
 */
-
 class ilCronForumNotification
 {
-	function ilCronForumNotification()
-	{
-		global $ilLog,$ilDB;
-
-		$this->log =& $ilLog;
-		$this->db =& $ilDB;
-	}
-
-	function sendMails($res)
-	{
-		global $ilias, $rbacsystem, $ilAccess;
+	public function sendMails($res)
+	{		
+		global $ilias, $rbacsystem, $ilAccess, $ilDB;
 		
 		static $cache = array();
 
-		include_once "./Modules/Forum/classes/class.ilObjForum.php";
-		include_once "Services/Mail/classes/class.ilMail.php";
-		include_once './Services/User/classes/class.ilObjUser.php';
-		include_once "./Services/Language/classes/class.ilLanguage.php";
+		include_once 'Modules/Forum/classes/class.ilObjForum.php';
+		include_once 'Services/Mail/classes/class.ilMail.php';
+		include_once 'Services/User/classes/class.ilObjUser.php';
+		include_once 'Services/Language/classes/class.ilLanguage.php';
 		
-		$forumObj = new ilObjForum($_GET["ref_id"]);
+		$forumObj = new ilObjForum((int)$_GET['ref_id']);
 		$frm = $forumObj->Forum;
 
 		$numRows = 0;
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			// don not send a notification to the post author
 			if($row['pos_usr_id'] != $row['user_id'])
@@ -82,7 +52,7 @@ class ilCronForumNotification
 				}
 				
 				if($send_mail)
-				{					
+				{
 					// SEND NOTIFICATIONS BY E-MAIL
 					$user_language = ilObjUser::_lookupLanguage($row['user_id']);
 					if(!is_object($lng[$user_language]))
@@ -91,7 +61,7 @@ class ilCronForumNotification
 						$lng[$user_language]->loadLanguageModule('forum');
 					}					
 					
-					$frm->setLanguage($lng[$user_language]);					
+					$frm->setLanguage($lng[$user_language]);			
 					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row['user_id']),'','',
 													   $frm->formatNotificationSubject($row),
 													   $frm->formatNotification($row, 1),
@@ -100,29 +70,33 @@ class ilCronForumNotification
 				}
 			}
 		}
+		
 		return $numRows;
 	}
 
-	function sendNotifications()
+	public function sendNotifications()
 	{
-		global $ilias, $ilDB;
+		global $ilDB, $ilLog, $ilSetting;
 
-		if(!($lastDate = $ilias->getSetting("cron_forum_notification_last_date")))
+		if(!($lastDate = $ilSetting->get('cron_forum_notification_last_date')))
 		{
-			$lastDate = "0000-00-00 00:00:00";
+			$lastDate = null;
 		}
 
-		$numRows = 0;
-
+		$numRows = 0;		
+		$datecondition_frm = '';
+		$types = array();
+		$values = array();		
+		 	
+		if($lastDate != null && 
+		   checkDate(date('m', strtotime($lastDate)), date('d', strtotime($lastDate)), date('Y', strtotime($lastDate))))
+		{
+			$datecondition_frm = ' frm_posts.pos_date >= %s AND ';
+			$types[] = 'timestamp';
+			$values[] = $lastDate;
+		}
+		
 		/*** FORUMS ***/
-/*		$q = "SELECT frm_threads.thr_subject AS thr_subject, frm_data.top_name AS top_name, frm_data.top_frm_fk AS obj_id, frm_notification.user_id AS user_id, frm_posts.* FROM frm_notification, frm_posts, frm_threads, frm_data WHERE ";
-		$q .= "frm_posts.pos_date >= '" . $lastDate . "' AND ";
-		$q .= "frm_posts.pos_thr_fk = frm_threads.thr_pk AND ";
-		$q .= "frm_threads.thr_top_fk = frm_data.top_pk AND ";
-		$q .= "frm_data.top_frm_fk = frm_notification.frm_id ";
-		$q .= "ORDER BY frm_posts.pos_date ASC";
-		$res = $this->db->query($q);
-*/
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
 					frm_data.top_name top_name, 
@@ -130,47 +104,37 @@ class ilCronForumNotification
 					frm_notification.user_id user_id, 
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	frm_posts.pos_date >=  %s 
-			AND 	frm_posts.pos_thr_fk = frm_threads.thr_pk 
+			WHERE	'.$datecondition_frm.' frm_posts.pos_thr_fk = frm_threads.thr_pk 
 			AND 	frm_threads.thr_top_fk = frm_data.top_pk 
 			AND 	frm_data.top_frm_fk = frm_notification.frm_id
 			ORDER BY frm_posts.pos_date ASC',
-			array('timestamp'),
-			array($lastDate)
-		);
-		
+			$types,
+			$values
+		);		
 		
 		$numRows += $this->sendMails($res);
 
 		/*** THREADS ***/
-/*		$q = "SELECT frm_threads.thr_subject AS thr_subject, frm_data.top_name AS top_name, frm_data.top_frm_fk AS obj_id, frm_notification.user_id AS user_id, frm_posts.* FROM frm_notification, frm_posts, frm_threads, frm_data WHERE ";
-		$q .= "frm_posts.pos_date >= '" . $lastDate . "' AND ";
-		$q .= "frm_posts.pos_thr_fk = frm_threads.thr_pk AND ";
-		$q .= "frm_threads.thr_pk = frm_notification.thread_id AND ";
-		$q .= "frm_data.top_pk = frm_threads.thr_top_fk ";
-		$q .= "ORDER BY frm_posts.pos_date ASC";
-		$res = $this->db->query($q);
-*/
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
-					frm_data.top_name op_name, 
+					frm_data.top_name top_name, 
 					frm_data.top_frm_fk obj_id, 
 					frm_notification.user_id user_id, 
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE 	frm_posts.pos_date >= %s
-			AND 	frm_posts.pos_thr_fk = frm_threads.thr_pk 
+			WHERE 	'.$datecondition_frm.' frm_posts.pos_thr_fk = frm_threads.thr_pk 
 			AND		frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk 
 			ORDER BY frm_posts.pos_date ASC',
-			array('timestamp'),
-			array($lastDate)
+			$types,
+			$values
 		);
+		
 		$numRows += $this->sendMails($res);
 
-		$ilias->setSetting("cron_forum_notification_last_date", date("Y-m-d H:i:s"));
+		//$ilSetting->set('cron_forum_notification_last_date', date('Y-m-d H:i:s'));
 
-		$this->log->write(__METHOD__.': Send '.$numRows.' messages.');		
+		$ilLog->write(__METHOD__.': Send '.$numRows.' messages.');		
 
 		return true;
 	}
