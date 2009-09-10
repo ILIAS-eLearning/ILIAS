@@ -919,7 +919,7 @@ class ilPageObjectGUI
 		$this->getTabs();
 		
 		$ilCtrl->setReturn($this, "edit");
-
+//echo "-".$next_class."-";
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':

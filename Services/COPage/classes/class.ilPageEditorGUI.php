@@ -228,6 +228,7 @@ class ilPageEditorGUI
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
 //$this->ctrl->debug("gettingContentObject (no linked media)");
+//echo $hier_id."-".$pc_id;
 					$cont_obj =& $this->page->getContentObject($hier_id, $pc_id);
 //var_dump($cont_obj);
 					if (!is_object($cont_obj))
