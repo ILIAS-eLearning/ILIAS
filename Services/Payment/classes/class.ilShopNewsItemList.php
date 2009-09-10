@@ -109,15 +109,15 @@ class ilShopNewsItemList implements Iterator
 			switch($this->getMode())
 			{
 				case self::TYPE_NEWS:
-					$query .= "AND UNIX_TIMESTAMP(creation_date) >= %s ";
-					$types[] = 'integer';
-					$data[] = $this->getArchiveDate();					
+					$query .= "AND creation_date >= %s ";
+					$types[] = 'timestamp';
+					$data[] = date('Y-m-d H:i:s', $this->getArchiveDate());
 					break;
 					
 				case self::TYPE_ARCHIVE:
-					$query .= "AND UNIX_TIMESTAMP(creation_date) < %s ";
-					$types[] = 'integer';
-					$data[] = $this->getArchiveDate();
+					$query .= "AND creation_date < %s ";
+					$types[] = 'timestamp';
+					$data[] = date('Y-m-d H:i:s', $this->getArchiveDate());
 					break;
 			}			
 		}		
