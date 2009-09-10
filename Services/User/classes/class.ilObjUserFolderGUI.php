@@ -4236,52 +4236,89 @@ else
 	
 	public function showLoginnameSettingsObject()
 	{
-		global $ilSetting;
+		global $ilSetting;	
 		
+		$this->initLoginSettingsForm();
+		$this->loginSettingsForm->setValuesByArray(array(
+			'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
+			'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
+			'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
+			'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time')
+		));
+		
+		$this->tpl->setVariable('ADM_CONTENT', $this->loginSettingsForm->getHTML());
+	}
+	
+	private function initLoginSettingsForm()
+	{
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('loginname_settings');
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI;
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveLoginnameSettings'));
-		$form->setTitle($this->lng->txt('loginname_settings'));
+		$this->loginSettingsForm = new ilPropertyFormGUI;
+		$this->loginSettingsForm->setFormAction($this->ctrl->getFormAction($this, 'saveLoginnameSettings'));
+		$this->loginSettingsForm->setTitle($this->lng->txt('loginname_settings'));
 		
 		$chbChangeLogin = new ilCheckboxInputGUI($this->lng->txt('allow_change_loginname'), 'allow_change_loginname');
 		$chbChangeLogin->setValue(1);
-		$chbChangeLogin->setChecked((bool)$ilSetting->get('allow_change_loginname'));
-		$form->addItem($chbChangeLogin);		
+		$this->loginSettingsForm->addItem($chbChangeLogin);		
 			$chbCreateHistory = new ilCheckboxInputGUI($this->lng->txt('history_loginname'), 'create_history_loginname');
 			$chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
 			$chbCreateHistory->setValue(1);
-			$chbCreateHistory->setChecked((bool)$ilSetting->get('create_history_loginname'));
 		$chbChangeLogin->addSubItem($chbCreateHistory);	
 			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'prevent_reuse_of_loginnames');
 			$chbReuseLoginnames->setValue(1);
 			$chbReuseLoginnames->setInfo($this->lng->txt('prevent_reuse_of_loginnames_contained_in_history_info'));
-			$chbReuseLoginnames->setChecked((bool)$ilSetting->get('prevent_reuse_of_loginnames'));
-		$chbChangeLogin->addSubItem($chbReuseLoginnames);	
+		$chbChangeLogin->addSubItem($chbReuseLoginnames);
+			$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+			$chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
+			$chbChangeBlockingTime->setSize(10);
+			$chbChangeBlockingTime->setMaxLength(10);
+		$chbChangeLogin->addSubItem($chbChangeBlockingTime);		
 		
-		$form->addCommandButton('saveLoginnameSettings', $this->lng->txt('save'));
-		
-		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+		$this->loginSettingsForm->addCommandButton('saveLoginnameSettings', $this->lng->txt('save'));
 	}
 	
 	public function saveLoginnameSettingsObject()
 	{
 		global $ilUser, $ilSetting;
 		
-		$allow_change_loginname = (int)$_POST['allow_change_loginname'];
-		$create_history_loginname = (int)$_POST['create_history_loginname'];
-		$prevent_reuse_of_loginnames = (int)$_POST['prevent_reuse_of_loginnames'];		
-
-		$ilSetting->set('allow_change_loginname', $allow_change_loginname);
-		$ilSetting->set('create_history_loginname', $create_history_loginname);
-		$ilSetting->set('prevent_reuse_of_loginnames', $prevent_reuse_of_loginnames);
-		
-		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		$this->initLoginSettingsForm();
+		if($this->loginSettingsForm->checkInput())
+		{
+			$valid = true;
+			
+			if(strlen($this->loginSettingsForm->getInput('loginname_change_blocking_time')) &&
+			   !preg_match('/^[0-9]*$/',
+			   $this->loginSettingsForm->getInput('loginname_change_blocking_time')))
+			{
+				$valid = false;
+				$this->loginSettingsForm->getItemByPostVar('loginname_change_blocking_time')
+										->setAlert($this->lng->txt('loginname_change_blocking_time_invalidity_info'));
+			}
+			
+			if($valid)
+			{			
+				$ilSetting->set('allow_change_loginname', (int)$this->loginSettingsForm->getInput('allow_change_loginname'));
+				$ilSetting->set('create_history_loginname', (int)$this->loginSettingsForm->getInput('create_history_loginname'));
+				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->loginSettingsForm->getInput('prevent_reuse_of_loginnames'));
+				$ilSetting->set('loginname_change_blocking_time', (int)$this->loginSettingsForm->getInput('loginname_change_blocking_time'));
+				
+				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+		}
+		$this->loginSettingsForm->setValuesByPost();		
 	
-		return $this->showLoginnameSettingsObject();		
+		$this->tpl->setVariable('ADM_CONTENT', $this->loginSettingsForm->getHTML());
 	}
 	
 	/*
