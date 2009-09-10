@@ -176,7 +176,7 @@ class ilAccountRegistrationGUI
 		$settings = $ilias->getAllSettings();
 
 		$this->__showRoleSelection();
-		
+
 		$data = $this->getRegistrationFieldsArray();
 
 		// fill presets
@@ -435,6 +435,8 @@ class ilAccountRegistrationGUI
 	function saveForm()
 	{
 		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr, $ilSetting;
+		
+		require_once 'Services/User/classes/class.ilObjUser.php';
 
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
@@ -514,13 +516,23 @@ class ilAccountRegistrationGUI
 			$this->displayForm();
 			return false;
 		}
-
+	
 		// check loginname
 		if (ilObjUser::_loginExists($_POST["user"]["login"]))
 		{
-			ilUtil::sendFailure($lng->txt("login_exists"),true);
+			ilUtil::sendFailure($lng->txt("login_exists"), true);
 			$this->displayForm();
 			return false;
+		}
+
+		//check if loginname exists in history		
+		if((int)$ilSetting->get('allow_change_loginname') &&
+		   (int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+		   ilObjUser::_doesLoginnameExistInHistory($_POST['user']['login']))
+		{
+			ilUtil::sendFailure($lng->txt('login_exists'), true);
+			$this->displayForm();
+			return false;	
 		}
 
 		if (!$this->registration_settings->passwordGenerationEnabled())
@@ -549,8 +561,7 @@ class ilAccountRegistrationGUI
 			$_POST["user"]["passwd"] = $passwd[0];
 		}
 		// The password type is not passed in the post data. Therefore we
-		// append it here manually.
-		require_once './Services/User/classes/class.ilObjUser.php';
+		// append it here manually.		
 		$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// Do some Radius checks
@@ -645,28 +656,10 @@ class ilAccountRegistrationGUI
 		// set a timestamp for last_password_change
 		// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
 		// in ilSecuritySettings
-		$this->userObj->setLastPasswordChangeTS( time() );
-
+		$this->userObj->setLastPasswordChangeTS( time() );		
+		
 		//insert user data in table user_data
-//		$this->userObj->saveAsNew();
-		
-		
-		//check if loginname exists in history
-		$login_exists_in_history = $this->userObj->getLoginHistory($this->login);
-		
-		if($ilSetting->get('create_history_loginname')== 1 &&
-			$ilSetting->get('allow_history_loginname_again') == 0 &&
-			$login_exists_in_history == 1)
-		{
-			ilUtil::sendFailure($lng->txt("login_exists"),true);
-			$this->displayForm();
-			return false;	
-		}
-		else 
-		{			
-			//insert user data in table user_data
-			$this->userObj->saveAsNew();
-		}
+		$this->userObj->saveAsNew();
 
 		// store acceptance of user agreement
 		$this->userObj->writeAccepted();
