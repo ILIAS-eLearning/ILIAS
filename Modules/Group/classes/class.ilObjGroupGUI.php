@@ -2450,10 +2450,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setTableWidth('60%');
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		switch($a_mode)
+		{
+			case 'edit':
+				$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
+				break;
+				
+			default:
+				$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
+				break;
+		}
 		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setSubmitFormOnEnter(true);
 		$title->setValue($this->object->getTitle());
 		$title->setSize(40);
 		$title->setMaxLength(128);
