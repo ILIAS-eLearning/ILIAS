@@ -9982,6 +9982,6 @@ common#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutze
 common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
 common#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
 common#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
-common#:#loginname_change_blocking_time_info#:#Tragen Sie hier die Periode ein(in Sekunden), in der ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
+common#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
 common#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen. 
