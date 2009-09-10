@@ -56,7 +56,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
-
 		switch($next_class)
 		{
 			default:
@@ -72,6 +71,14 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function newFileItem()
 	{
+		global $lng;
+		
+		if ($_FILES["Fobject"]["name"]["file"] == "")
+		{
+			$_GET["subCmd"] = "-";
+			ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
+			return false;
+		}
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType("file");
@@ -89,6 +96,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 			$_FILES["Fobject"]["name"]["file"]);
 
 		$this->file_object =& $fileObj;
+		return true;
 	}
 
 
@@ -111,7 +119,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		{
 			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
 		}
-
 		switch ($_GET["subCmd"])
 		{
 			case "insertFromRepository":
@@ -145,7 +152,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 		}
-
 	}
 
 	/**
@@ -200,27 +206,29 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function insertNewItemAfter($a_file_ref_id = 0)
 	{
+		$res = true;
 		if ($a_file_ref_id == 0)
 		{
-			$this->newFileItem();
+			$res = $this->newFileItem();
 		}
 		else
 		{
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$this->file_object = new ilObjFile($a_file_ref_id);
 		}
-		$this->content_obj->newItemAfter($this->file_object->getId(),
-			$this->file_object->getFileName(), $this->file_object->getFileType());
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		if ($res)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$this->content_obj->newItemAfter($this->file_object->getId(),
+				$this->file_object->getFileName(), $this->file_object->getFileType());
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
 		}
-		else
-		{
-			$_GET["subCmd"] = "-";
-			$this->newItemAfter();
-		}
+		
+		$_GET["subCmd"] = "-";
+		$this->newItemAfter();
 	}
 
 	/**
@@ -284,27 +292,29 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function insertNewItemBefore($a_file_ref_id = 0)
 	{
+		$res = true;
 		if ($a_file_ref_id == 0)
 		{
-			$this->newFileItem();
+			$res = $this->newFileItem();
 		}
 		else
 		{
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$this->file_object = new ilObjFile($a_file_ref_id);
 		}
-		$this->content_obj->newItemBefore($this->file_object->getId(),
-			$this->file_object->getFileName(), $this->file_object->getFileType());
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		if ($res)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$this->content_obj->newItemBefore($this->file_object->getId(),
+				$this->file_object->getFileName(), $this->file_object->getFileType());
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
 		}
-		else
-		{
-			$_GET["subCmd"] = "-";
-			$this->newItemBefore();
-		}
+
+		$_GET["subCmd"] = "-";
+		$this->newItemBefore();
 	}
 
 	/**
