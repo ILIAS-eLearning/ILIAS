@@ -931,21 +931,55 @@ class ilObjUser extends ilObject
 	}
 	
 	/**
-	* Get login history
-	*/
-	function getLoginHistory($a_login)
+	 * 
+	 * Checks wether the passed loginname already exists in history
+	 * 
+	 * @access	public
+	 * @param	string	$a_login	Loginname
+	 * @return	boolean	true or false
+	 * @static
+	 * 
+	 */
+	public static function _doesLoginnameExistInHistory($a_login)
 	{
 		global $ilDB;
 			
-//		return false; // Temporarily disabled (missing oracle support) 
-
-		$result = $ilDB->queryF('
+		$res = $ilDB->queryF('
 			SELECT * FROM loginname_history
 			WHERE login = %s',
 			array('text'), array($a_login));
+
+		return $ilDB->fetchAssoc($res) ? true : false;
+	}
+	
+	/**
+	 * 
+	 * Returns the last used loginname and the changedate of the passed user_id.
+	 * Throws an ilUserException in case no entry could be found.
+	 * 
+	 * @access	public
+	 * @param	string	$a_usr_id	A user id
+	 * @return	array	Associative array, first index is the loginname, second index a unix_timestamp
+	 * @throws	ilUserException
+	 * @static
+	 * 
+	 */
+	public static function _getLastHistoryDataByUserId($a_usr_id)
+	{
+		global $ilDB;
+			
+		$ilDB->setLimit(1, 0);
+		$res = $ilDB->queryF('
+			SELECT login, history_date FROM loginname_history
+			WHERE usr_id = %s ORDER BY history_date DESC',
+			array('integer'), array($a_usr_id));
+		$row = $ilDB->fetchAssoc($res);
+		if(!is_array($row) || !count($row)) throw new ilUserException('');
 		
-		return $ilDB->fetchAssoc($result) ? true : false;
-	}	
+		return array(
+			$row['login'], $row['history_date']
+		);
+	}
 	
 	/**
 	* update login name
@@ -974,18 +1008,18 @@ class ilObjUser extends ilObject
 			return false;
 		}		
 	
-		//check if loginname exists in history
-		$login_exists_in_history = $this->getLoginHistory($a_login);		
-
-		if($ilSetting->get('create_history_loginname')== 1 &&
-		   $ilSetting->get('allow_history_loginname_again') == 0 &&
-		   $login_exists_in_history == 1)
+		// throw exception if the desired loginame is already in history and it is not allowed to reuse it
+		if((int)$ilSetting->get('allow_change_loginname') &&
+		   (int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+		   self::_doesLoginnameExistInHistory($a_login))
 		{
 			throw new ilUserException($this->lng->txt('loginname_already_exists'));
 		}
 		else 			
 		{			
-			if($ilSetting->get('create_history_loginname') == 1)
+			// log old loginname in history
+			if((int)$ilSetting->get('allow_change_loginname') &&
+			   (int)$ilSetting->get('create_history_loginname'))
 			{
 				ilObjUser::_writeHistory($this->getId(), self::_lookupLogin($this->getId()));	
 			}
@@ -993,12 +1027,11 @@ class ilObjUser extends ilObject
 			//update login
 			$this->login = $a_login;
 
-			$res = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				UPDATE usr_data
 				SET login = %s
 				WHERE usr_id = %s',
-				array('text', 'integer'), array($this->getLogin(), $this->getId()));
-			
+				array('text', 'integer'), array($this->getLogin(), $this->getId()));			
 		}
 		
 		return true;
@@ -4513,22 +4546,21 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-//		return true; // Temporarily disabled (missing oracle support)
+		$timestamp = time();
 			
 		$res = $ilDB->queryF('SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND history_date = %s',
 						array('integer', 'text', 'integer'),
-						array($a_usr_id, $a_login, time()));
+						array($a_usr_id, $a_login, $timestamp));
 		
-		if($count = $ilDB->numRows($res) == 0 )
+		if( $ilDB->numRows($res) == 0 )
 		{
-			$result = $ilDB->manipulateF('
-						INSERT INTO loginname_history 
-								(usr_id, login, history_date)
-						VALUES 	(%s, %s, %s)',
-						array('integer', 'text', 'integer'),
-						array($a_usr_id, $a_login, time()));
-		}
-		
+			$ilDB->manipulateF('
+				INSERT INTO loginname_history 
+						(usr_id, login, history_date)
+				VALUES 	(%s, %s, %s)',
+				array('integer', 'text', 'integer'),
+				array($a_usr_id, $a_login, $timestamp));
+		}		
 		
 		return true;
 	}

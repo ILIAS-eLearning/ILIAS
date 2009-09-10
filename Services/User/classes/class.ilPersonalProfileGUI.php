@@ -501,10 +501,9 @@ class ilPersonalProfileGUI
 		
 		// if loginname is changeable -> validate	
 		
-		if($ilSetting->get('allow_change_loginname') == 1 && 
+		if((int)$ilSetting->get('allow_change_loginname') && 
 		   $_POST['usr_login'] != $ilUser->getLogin())
 		{
-				
 			if($_POST['usr_login'] == '' || 
 			   !ilUtil::isLogin(ilUtil::stripSlashes($_POST['usr_login'])))
 			{
@@ -513,7 +512,6 @@ class ilPersonalProfileGUI
 			}
 			else if(ilObjUser::_loginExists(ilUtil::stripSlashes($_POST['usr_login']), $ilUser->getId()))
 			{
-
 				ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
 				$form_valid = false;
 			}				
@@ -2156,27 +2154,25 @@ return;
 			$ilUser->setUserDefinedData($udf);
 		
 			// if loginname is changeable -> validate
-			if($ilSetting->get('allow_change_loginname') == 1 && 
-			   $_POST['username'] != $ilUser->getLogin())
-			{
-				$un = $this->form->getItemByPostVar("username");
-				
-				if($_POST['username'] == '' || 
-				   !ilUtil::isLogin(ilUtil::stripSlashes($_POST['username'])))
+			$un = $this->form->getInput('username');
+			if((int)$ilSetting->get('allow_change_loginname') && 
+			   $un != $ilUser->getLogin())
+			{				
+				if(!strlen($un) || !ilUtil::isLogin($un))
 				{
-					ilUtil::sendFailure($lng->txt("form_input_not_valid"));
-					$un->setAlert($this->lng->txt('login_invalid'));
+					ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+					$this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
 					$form_valid = false;	
 				}
-				else if(ilObjUser::_loginExists(ilUtil::stripSlashes($_POST['username']), $ilUser->getId()))
+				else if(ilObjUser::_loginExists($un, $ilUser->getId()))
 				{
-					ilUtil::sendFailure($lng->txt("form_input_not_valid"));
-					$un->setAlert($this->lng->txt('loginname_already_exists'));
+					ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+					$this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
 					$form_valid = false;
 				}	
 				else
 				{
-					$ilUser->setLogin($_POST['username']);
+					$ilUser->setLogin($un);
 					
 					try 
 					{
@@ -2187,7 +2183,7 @@ return;
 					catch (ilUserException $e)
 					{
 						ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-						$un->setAlert($e->getMessage());
+						$this->form->getItemByPostVar('username')->setAlert($e->getMessage());
 						$form_valid = false;							
 					}
 				}

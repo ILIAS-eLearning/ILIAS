@@ -1677,8 +1677,7 @@ common#:#all_topics#:#Alle Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
-common#:#allow_change_loginname#:#Ändern des Login-Namens erlauben
-common#:#allow_history_loginname_again#:#Es dürfen bereits genutzte Login-Namen aus der Historie wieder verwendet werden
+common#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
 common#:#allow_register#:#Verfügbar im Registrierformular
 common#:#alm#:#Lernmodul AICC
@@ -2123,8 +2122,7 @@ common#:#create#:#Erstellen
 common#:#create_block#:#Block erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
-common#:#create_history_loginname#:#Eine Historie für die Änderung des Login-Namens erstellen
-common#:#create_history_loginname_must_be_enabled#:#Für die Wiederverwendung des Login-Namens muss die Historie aktiviert sein.
+common#:#history_loginname#:#Loginname History
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
@@ -9979,3 +9977,7 @@ cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeo
 dateplaner#:#add_appointment#:#Termin hinzufügen
 common#:#pd_enable_contacts#:#Aktiviere Kontakte
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung
+common#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
+common#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
+common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
+common#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.

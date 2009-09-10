@@ -4251,14 +4251,15 @@ else
 		$chbChangeLogin->setValue(1);
 		$chbChangeLogin->setChecked((bool)$ilSetting->get('allow_change_loginname'));
 		$form->addItem($chbChangeLogin);		
-			$chbCreateHistory = new ilCheckboxInputGUI($this->lng->txt('create_history_loginname'), 'create_history_loginname');
+			$chbCreateHistory = new ilCheckboxInputGUI($this->lng->txt('history_loginname'), 'create_history_loginname');
+			$chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
 			$chbCreateHistory->setValue(1);
 			$chbCreateHistory->setChecked((bool)$ilSetting->get('create_history_loginname'));
 		$chbChangeLogin->addSubItem($chbCreateHistory);	
-			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('allow_history_loginname_again'), 'allow_history_loginname_again');
+			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'prevent_reuse_of_loginnames');
 			$chbReuseLoginnames->setValue(1);
-			$chbReuseLoginnames->setInfo($this->lng->txt('create_history_loginname_must_be_enabled'));
-			$chbReuseLoginnames->setChecked((bool)$ilSetting->get('allow_history_loginname_again'));
+			$chbReuseLoginnames->setInfo($this->lng->txt('prevent_reuse_of_loginnames_contained_in_history_info'));
+			$chbReuseLoginnames->setChecked((bool)$ilSetting->get('prevent_reuse_of_loginnames'));
 		$chbChangeLogin->addSubItem($chbReuseLoginnames);	
 		
 		$form->addCommandButton('saveLoginnameSettings', $this->lng->txt('save'));
@@ -4272,11 +4273,11 @@ else
 		
 		$allow_change_loginname = (int)$_POST['allow_change_loginname'];
 		$create_history_loginname = (int)$_POST['create_history_loginname'];
-		$allow_history_loginname_again = (int)$_POST['allow_history_loginname_again'];		
+		$prevent_reuse_of_loginnames = (int)$_POST['prevent_reuse_of_loginnames'];		
 
 		$ilSetting->set('allow_change_loginname', $allow_change_loginname);
 		$ilSetting->set('create_history_loginname', $create_history_loginname);
-		$ilSetting->set('allow_history_loginname_again', $allow_history_loginname_again);
+		$ilSetting->set('prevent_reuse_of_loginnames', $prevent_reuse_of_loginnames);
 		
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 	

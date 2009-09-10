@@ -1403,7 +1403,22 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($a_mode == "edit")
 		{
 			$lo->setCurrentUserId($this->object->getId());
+			try
+			{
+				include_once 'Services/Calendar/classes/class.ilDate.php';				
+ 
+				$last_history_entry = ilObjUser::_getLastHistoryDataByUserId($this->object->getId());				
+				$lo->setInfo(
+					sprintf(
+						$this->lng->txt('usr_loginname_history_info'),
+						ilDatePresentation::formatDate(new ilDateTime($last_history_entry[1],IL_CAL_UNIX)),
+						$last_history_entry[0]
+					)
+				);		
+			}
+			catch(ilUserException $e) { }
 		}
+		
 		$this->form_gui->addItem($lo);
 
 		// passwords
