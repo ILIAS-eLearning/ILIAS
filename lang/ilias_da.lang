@@ -6315,7 +6315,7 @@ payment#:#pay_goto_buyed_objects#:#Gå til dine indkøb
 payment#:#pay_goto_shopping_cart#:#Gå til indkøbskurv
 payment#:#pay_header#:#Betaling
 payment#:#pay_hint_paypal#:#Tip til Paypal
-payment#:#pay_hint_epay#:#Tip til ePay
+payment#:#pay_hint_epay#:#Bemærk
 payment#:#pay_info#:#Adgangen til materialet er ikke gratis. Hvis du ønsker adgang til materialet skal du vælge mellem prismulighederne herunder og tilføje det valgte til din indkøbskurv. Du vil få øjeblikkelig adgang til de valgte varer i den givne periode.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_info_epay#:#Når du trykker på 'betal' åbnes ePay betalingsvindue hvor du skal gennemføre betalingen. Du vil herefter vende tilbage til ILIAS.
@@ -9969,3 +9969,5 @@ webr#:#webr_sorting#:#Linksortering
 webr#:#webr_sort_manual#:#Sorter manuelt
 webr#:#webr_sort_title#:#Sorter efter titel
 webr#:#webr_edit_list#:#Ret webresurse liste
+payment#:#pay_order_paid_subject#:#Tak for din bestilling
+payment#:#pay_order_paid_body#:#Din bestilling på\n%products%\ner blevet behandlet og din faktura sendes vedhæftet denne mail. \n\nMed venlig hilsen\n\nILIAS
