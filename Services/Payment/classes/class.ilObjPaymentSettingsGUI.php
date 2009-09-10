@@ -2974,14 +2974,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		if(!$_POST['vendor_login'])
 		{
-			ilUtil::sendInfo($this->lng->txt('pays_no_username_given'));
+			ilUtil::sendFailure($this->lng->txt('pays_no_username_given'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		if(!($usr_id = ilObjUser::getUserIdByLogin(ilUtil::stripSlashes($_POST['vendor_login']))))
 		{
-			ilUtil::sendInfo($this->lng->txt('pays_no_valid_username_given'));
+			ilUtil::sendFailure($this->lng->txt('pays_no_valid_username_given'));
 			$this->vendorsObject();
 
 			return true;
@@ -2991,14 +2991,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if($this->object->payment_vendors_obj->isAssigned($usr_id))
 		{
-			ilUtil::sendInfo($this->lng->txt('pays_user_already_assigned'));
+			ilUtil::sendFailure($this->lng->txt('pays_user_already_assigned'));
 			$this->vendorsObject();
 
 			return true;
 		}
 		$this->object->payment_vendors_obj->add($usr_id);
 
-		ilUtil::sendInfo($this->lng->txt('pays_added_vendor'));
+		ilUtil::sendSuccess($this->lng->txt('pays_added_vendor'));
 		$this->vendorsObject();
 		
 		return true;
@@ -3017,7 +3017,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('crs');
 		if(!is_array($_POST['user']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_users_selected'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_users_selected'));
 			$this->searchObject();
 
 			return false;
@@ -3060,7 +3060,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if(!isset($_GET['sell_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			ilUtil::sendFailiure($this->lng->txt('paya_no_booking_id_given'));
 			$this->showObjectSelectorObject();
 
 			return false;
@@ -3092,7 +3092,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		if(!trim($_POST['search_str']))
 		{
-			ilUtil::sendInfo($this->lng->txt('search_no_search_term'));
+			ilUtil::sendFailure($this->lng->txt('search_no_search_term'));
 			$this->statistics();
 
 			return false;
