@@ -316,7 +316,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	  include_once './payment/classes/class.ilPaymentObject.php';
   	  include_once './payment/classes/class.ilPaymentBookings.php';
-	  include_once 'ec.php';
+  	
+  	$use_erp = file_exists( 'ec.php' );
+  	if ($use_erp) include_once 'ec.php';
 
 	  $cart = new ilPaymentShoppingCart($ilUser);
 	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
@@ -344,13 +346,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	    $booking_id = $book_obj->add();
 
-	    $subject = $this->lng->txt('pay_order_paid_subject'); //"Tak for din bestilling";
+	    $subject = $this->lng->txt('pay_order_paid_subject'); 
 	    $message = $this->lng->txt('pay_order_paid_body');
 	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);
-	    //$message = "Du har bestilt ".$sc[$i]["buchungstext"]."...";
-
+	    
+	    if ($use_erp) {
 	    bookUser($ilUser->getId(), $ilUser->firstname." ".$ilUser->lastname, $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
 		   $ilUser->country, $ilUser->phone_home, $sc[$i]["betrag"], $sc[$i]["buchungstext"], $subject, $message);
+		  }
 
 	  }
 
