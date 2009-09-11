@@ -132,8 +132,6 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				else
 				{
 					$frame = "ilContObj".$this->obj_id;
-// temporary use same frame
-$frame = "";
 				}
 				break;
 
