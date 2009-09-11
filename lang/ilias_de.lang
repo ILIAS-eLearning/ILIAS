@@ -1677,7 +1677,7 @@ common#:#all_topics#:#Alle Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
-common#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
+administration#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
 common#:#allow_register#:#Verfügbar im Registrierformular
 common#:#alm#:#Lernmodul AICC
@@ -2122,7 +2122,7 @@ common#:#create#:#Erstellen
 common#:#create_block#:#Block erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
-common#:#history_loginname#:#Benutzernamen Historie
+administration#:#history_loginname#:#Benutzernamen Historie
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
@@ -9977,11 +9977,11 @@ cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeo
 dateplaner#:#add_appointment#:#Termin hinzufügen
 common#:#pd_enable_contacts#:#Aktiviere Kontakte
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung
-common#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
-common#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
-common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
-common#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
-common#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
-common#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
-common#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
+administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
+administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
+administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
+administration#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
+administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
+administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen. 
