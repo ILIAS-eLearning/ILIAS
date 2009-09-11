@@ -166,10 +166,10 @@ class ilSCORM13Package
 	* @return       string title of package
 	*/
 	public function il_import($packageFolder,$packageId,$ilias,$validate,$reimport=false){
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $ilErr;
 		
 		
-		if ($reimport===true) {
+		if ($reimport === true) {
 			$this->packageId = $packageId;
 			$this->dbRemoveAll();
 		}
@@ -186,8 +186,6 @@ class ilSCORM13Package
 	  		return false;
 	  	}
     
-//		$ilLog->write("SCORM: parse");
-
 	  	//step 2 tranform
 	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
   
@@ -195,37 +193,21 @@ class ilSCORM13Package
 	  	{
 	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
 	  		return false;
-	  	}
-//		$ilLog->write("SCORM: normalize");
-	
+	  	}	
 	  	//step 3 validation -just for normalized XML
 		if ($validate=="y") {
 	  		if (!$this->validate($this->manifest, self::VALIDATE_XSD))
 	  		{
 			
-				$ilias->raiseError("<b>The uploaded SCORM 1.2 / SCORM 2004 is not valid. You can try to import the package without the validation option checked on your own risk. </b><br><br>Validation Error(s):</b><br> Normalized XML is not conform to ". self::VALIDATE_XSD,
-				$ilias->error_obj->WARNING);
-			//	
-				//$this->diagnostic[] = 'normalized XML is not conform to ' . self::VALIDATE_XSD;
-	  		//	return false;
+				$ilErr->raiseError("<b>The uploaded SCORM 1.2 / SCORM 2004 is not valid. You can try to import the package without the validation option checked on your own risk. </b><br><br>Validation Error(s):</b><br> Normalized XML is not conform to ". self::VALIDATE_XSD,
+				$ilErr->MESSAGE);
 	  		}
 		}
-//		$ilLog->write("SCORM: validate");
-	
-//	  	ilSCORM13DB::begin();
 	  	$this->dbImport($this->manifest);
 
   	
-//		$ilLog->write("SCORM: import new");
-	
-//	  	ilSCORM13DB::commit();
 	  	//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
-	  	// add database values from package and sahs_lm records as defaults
-/*nk	  	
- 		$x['persistPreviousAttempts'] = $this->packageData['persistPreviousAttempts'];
-	  	$x['online'] = $this->packageData['online'];
-*/		
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
 	  	$x['online'] = $this->packageData['c_online'];
 	  	
@@ -269,16 +251,7 @@ class ilSCORM13Package
 
 		//last step - build ADL Activity tree
 		$act = new SeqTreeBuilder();
-		$adl_tree = $act->buildNodeSeqTree($this->imsmanifestFile);
-		
-
-		/*$ilDB->query("INSERT INTO cp_package ".
-			"(obj_id, xmldata, jsdata, activitytree) VALUES ".
-			"(".$ilDB->quote($this->packageId).",".
-				$ilDB->quote($x->asXML()).",".
-				$ilDB->quote(json_encode($j)).",".
-				$ilDB->quote(json_encode($adl_tree)).")";*/	
-		
+		$adl_tree = $act->buildNodeSeqTree($this->imsmanifestFile);		
 		$ilDB->update('cp_package',
 			array(
 				'xmldata'			=> array('clob', $x->asXML()),
@@ -290,15 +263,6 @@ class ilSCORM13Package
 				'obj_id'			=> array('integer', (int)$this->packageId)
 			)
 		);
-		
-	  	/*ilSCORM13DB::setRecord(
-			'cp_package', array(
-	  		'obj_id' => $this->packageId,
-	  		'xmldata' => $x->asXML(),
-	  		'jsdata' => json_encode($j),
-			'activitytree' => json_encode($adl_tree)
-	  		), 'obj_id');*/
-//		$ilLog->write("SCORM: import update");
 	
 	  	return $j['item']['title'];
 	  }
@@ -578,13 +542,6 @@ class ilSCORM13Package
 						$node->setAttribute('uri', 'md5:' . $this->packageHash);
 					}
 				}
-				
-				// insert into cp_node
-				/*$cp_node_id = ilSCORM13DB::setRecord('cp_node', array(
-				'slm_id' => $this->packageId,
-				'nodeName' => $node->nodeName,
-				), 'cp_node_id');*/
-				
 
 				$cp_node_id = $ilDB->nextId('cp_node');
 				
@@ -595,17 +552,6 @@ class ilSCORM13Package
 					array('integer', 'integer', 'text'), 
 					array($cp_node_id, $this->packageId, $node->nodeName)
 				);			
-				
-				// insert into cp_tree
-				/*
-				ilSCORM13DB::setRecord('cp_tree', array(
-				'child' => $cp_node_id,
-				'depth' => $depth,
-				'lft' => $lft++,
-				'obj_id' => $this->packageId,
-				'parent' => $parent,
-				'rgt' => 0,
-				));*/
 				
 				$query = 'INSERT INTO cp_tree (child, depth, lft, obj_id, parent, rgt) ' 
 					   . 'VALUES (%s, %s, %s, %s, %s, %s)';
@@ -704,12 +650,6 @@ class ilSCORM13Package
 					else
 						$types[] = 'text';			
 				}
-				
-				//ilSCORM13DB::setRecord('cp_' . $node->nodeName, $a);
-				/*$query = 'INSERT INTO  '
-					   . '('. implode(',', $names).') '
-					   . 'VALUES ('. implode (', ',$sql_str).')';
-				$ilDB->manipulateF($query, $types, $values);*/
 				
 				// we have to change the insert method because of clob fields ($ilDB->manipulate does not work here)
 				$insert_data = array();
@@ -929,8 +869,6 @@ class ilSCORM13Package
 				if (isset($level))
 				{
 					$message = trim($error->message);
-					//$file = $error->file ? 'in <b>' . $error->file . '</b>' : '';
-					// $error->code:
 					$this->diagnostic[] = "XSLT $level (Line $error->line) $message";
 				}
 			}
