@@ -9287,49 +9287,49 @@ search#:#search_title_description#:#Title / Description###15 05 2009 new variabl
 assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
 content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
-content#:#cont_sc_preview#:#Preview###15 05 2009 new variable
+content#:#cont_sc_preview#:#Forhåndsvisning
 style#:#sty_colors#:#Farver
 style#:#sty_color_name#:#Farvenavn
 style#:#sty_color_code#:#Farvekode
 style#:#sty_color_flavors#:#Color Flavors###15 05 2009 new variable
-style#:#sty_add_color#:#Add Color###15 05 2009 new variable
-style#:#sty_delete_color#:#Delete Color###15 05 2009 new variable
-style#:#sty_confirm_color_deletion#:#Confirm Color Deletion###15 05 2009 new variable
+style#:#sty_add_color#:#Tilføj farve
+style#:#sty_delete_color#:#Slet farve
+style#:#sty_confirm_color_deletion#:#Bekræft farvesletning
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:###15 05 2009 new variable
 style#:#sty_color_already_exists#:#A color with this name already exisits in this style.###15 05 2009 new variable
 style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).###15 05 2009 new variable
 style#:#sty_table_templates#:#Table Templates###15 05 2009 new variable
-style#:#sty_template_name#:#Name###15 05 2009 new variable
-style#:#sty_preview#:#Preview###15 05 2009 new variable
-style#:#sty_add_template#:#Add Template###15 05 2009 new variable
-style#:#sty_edit_template#:#Edit Template###15 05 2009 new variable
+style#:#sty_template_name#:#Navn
+style#:#sty_preview#:#Forhåndsvisning
+style#:#sty_add_template#:#Lav skabelon
+style#:#sty_edit_template#:#Ret skabelon
 style#:#sty_table_class#:#Table Style Class###15 05 2009 new variable
-style#:#sty_row_head_class#:#Row Header###15 05 2009 new variable
-style#:#sty_row_foot_class#:#Row Footer###15 05 2009 new variable
-style#:#sty_col_head_class#:#Column Header###15 05 2009 new variable
-style#:#sty_col_foot_class#:#Column Footer###15 05 2009 new variable
-style#:#sty_odd_row_class#:#Odd Rows###15 05 2009 new variable
-style#:#sty_even_row_class#:#Even Rows###15 05 2009 new variable
-style#:#sty_odd_col_class#:#Odd Columns###15 05 2009 new variable
-style#:#sty_even_col_class#:#Even Columns###15 05 2009 new variable
-content#:#cont_ed_flist#:# File List###15 05 2009 new variable
-content#:#cont_nr_row_header#:#Header Rows###15 05 2009 new variable
-content#:#cont_nr_col_header#:#Header Columns###15 05 2009 new variable
-content#:#cont_nr_row_footer#:#Footer Rows###15 05 2009 new variable
-content#:#cont_nr_col_footer#:#Footer Columns###15 05 2009 new variable
-style#:#sty_type_table_caption#:#Table Caption###15 05 2009 new variable
+style#:#sty_row_head_class#:#Række header
+style#:#sty_row_foot_class#:#Række footer
+style#:#sty_col_head_class#:#Kolonne header
+style#:#sty_col_foot_class#:#Kolonne footer
+style#:#sty_odd_row_class#:#Ulige rækker
+style#:#sty_even_row_class#:#Lige rækker
+style#:#sty_odd_col_class#:#Ulige kolonner
+style#:#sty_even_col_class#:#Lige kolonner
+content#:#cont_ed_flist#:# filliste
+content#:#cont_nr_row_header#:#Header rækker
+content#:#cont_nr_col_header#:#Header kolonner
+content#:#cont_nr_row_footer#:#Footer rækker
+content#:#cont_nr_col_footer#:#Footer kolonner
+style#:#sty_type_table_caption#:#Tabeloverskrift
 style#:#sty_caption_side#:#Caption Side###15 05 2009 new variable
-style#:#sty_caption#:#Caption###15 05 2009 new variable
+style#:#sty_caption#:#Forklaringstekst
 style#:#sty_caption_class#:#Caption###15 05 2009 new variable
-style#:#sty_confirm_template_deletion#:#Confirm Template Deletion###15 05 2009 new variable
-style#:#sty_generate_template#:#Generate Template###15 05 2009 new variable
-style#:#sty_template_layout#:#Template Layout###15 05 2009 new variable
-style#:#sty_table_template_colored_zebra#:#Colored Zebra###15 05 2009 new variable
+style#:#sty_confirm_template_deletion#:#Bekræft skabelon sletning
+style#:#sty_generate_template#:#Generer skabelon
+style#:#sty_template_layout#:#Skabelonlayout
+style#:#sty_table_template_colored_zebra#:#Farvet zebra
 style#:#sty_table_template_bw_zebra#:#Gray Zebra###15 05 2009 new variable
 style#:#sty_table_template_no_zebra#:#No Zebra###15 05 2009 new variable
 style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###15 05 2009 new variable
 style#:#sty_left_right_padding#:#Cell Padding Left/Right###15 05 2009 new variable
-style#:#sty_base_color#:#Base Color###15 05 2009 new variable
+style#:#sty_base_color#:#Grundfarve
 style#:#sty_lightness_border#:#Lightness Border###15 05 2009 new variable
 style#:#sty_lightness_header_text#:#Lightness Header Text###15 05 2009 new variable
 style#:#sty_lightness_header_bg#:#Lightness Header Background###15 05 2009 new variable
@@ -9338,9 +9338,9 @@ style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###15 05 2009 new va
 style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text###15 05 2009 new variable
 style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background###15 05 2009 new variable
 style#:#sty_type_flist_a#:#File List Item Link###15 05 2009 new variable
-style#:#sty_hide#:#Hide###15 05 2009 new variable
+style#:#sty_hide#:#Skjul
 style#:#sty_save_hide_status#:#Save Hide Status###15 05 2009 new variable
-content#:#cont_text_imp#:#Important:###15 05 2009 new variable
+content#:#cont_text_imp#:#Vigtigt:
 content#:#cont_text_acc#:#Accent:###15 05 2009 new variable
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion###15 05 2009 new variable
 content#:#cont_tabs_acc_ver#:#Vertical Accordion###15 05 2009 new variable
@@ -9375,9 +9375,9 @@ style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes###15 05 20
 style#:#sty_del_template#:#Delete Templates and Classes###15 05 2009 new variable
 style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###15 05 2009 new variable
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates###15 05 2009 new variable
-style#:#sty_acopy#:#Copy###15 05 2009 new variable
-style#:#sty_tag_normal#:#Normal###15 05 2009 new variable
-style#:#sty_tag_hover#:#:hover###15 05 2009 new variable
+style#:#sty_acopy#:#Kopi
+style#:#sty_tag_normal#:#Normal
+style#:#sty_tag_hover#:#:hover
 content#:#cont_span#:#Span###15 05 2009 new variable
 content#:#cont_colspan#:#Col. Span###15 05 2009 new variable
 content#:#cont_rowspan#:#Row Span###15 05 2009 new variable
@@ -9388,9 +9388,9 @@ style#:#sty_disable_auto_margins#:#Disable Auto Margins###15 05 2009 new variabl
 style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###15 05 2009 new variable
 content#:#cont_number_std#:#Standard###15 05 2009 new variable
 content#:#cont_decimal#:#Decimal
-content#:#cont_start_value#:#Start Value###15 05 2009 new variable
+content#:#cont_start_value#:#Startværdi
 content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###15 05 2009 new variable
-common#:#collapse_all#:#Collapse All###15 05 2009 new variable
+common#:#collapse_all#:#Fold alle sammen
 common#:#expand_all#:#Expand All###15 05 2009 new variable
 sahs#:#sahs_objective#:#Learning Objective###15 05 2009 new variable
 sahs#:#sahs_objectives#:#Learning Objectives###15 05 2009 new variable
@@ -9426,10 +9426,10 @@ mep#:#mep_all_mobs#:#Alle medieobjekter
 mep#:#mep_unknown#:#Ukendt
 mep#:#mep_all#:#Alle
 mep#:#mep_format#:#Format
-mep#:#mep_default_width#:#Default Width###15 05 2009 new variable
-mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
+mep#:#mep_default_width#:#Standard bredde
+mep#:#mep_default_height#:#Standard højde
 mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
-content#:#cont_layout#:#Layout###15 05 2009 new variable
+content#:#cont_layout#:#Layout
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 2009 new variable
 content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
@@ -9437,21 +9437,21 @@ content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each p
 payment#:#paya_vats_info#:#Hvis du ønsker at sælge varer uden moms skal du oprette momssats med 0%
 payment#:#payment_tax_rates#:#Momssatser
 payment#:#payment_vat_already_created#:#En momssats med denne procent er allerede oprettet.
-payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 05 2009 new variable
-payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
-payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###22 05 2009 new variable
-payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.###22 05 2009 new variable
+payment#:#payment_cannot_save_existing_vat#:#Momssatsen eksisterer i forvejen.
+payment#:#payment_cannot_update_nonexisting_vat#:#Kan ikke opdatere en momssats der ikke eksisterer
+payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.
+payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.
 payment#:#payment_edit_vat#:#Ret moms
 payment#:#payment_add_vat#:#Opret moms
 payment#:#payment_vat_title_info#:#Indsæt en label/titel for moms.
-payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###22 05 2009 new variable
+payment#:#payment_vat_rate_info#:#Indtast momssatsen (uden %-tegn)
 payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
 payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
 payment#:#payment_vat_administration#:#Administration
-payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.###22 05 2009 new variable
+payment#:#payment_vat_input_invalid#:#Du skal indtaste en gyldig værdi for momssatsen.
 payment#:#payment_no_price_selected#:#Ingen pris valg.
-payment#:#payment_no_price_type_selected#:#Please select a type for the price.###22 05 2009 new variable
+payment#:#payment_no_price_type_selected#:#Du skal vælge en type for prisen.
 payment#:#payment_price_invalid_price#:#Indtast venligst en gyldig pris.
 payment#:#paya_updated_price#:#Prisen er gemt.
 payment#:#payment_already_bought_but_no_access#:#Du har allerede købt varen %s, men du har ikke adgang endnu. Muligvis er din licens udløbet.
@@ -9490,15 +9490,15 @@ crs#:#event_btn_add_edit#:#Opret session og tildel materialer
 crs#:#crs_search_users#:#Find brugere
 crs#:#crs_user_login#:#Brugernavn
 grp#:#grp_search_users#:#Find bruger
-dateplaner#:#cal_type_sess#:#Session Calendar###26 06 2009 new variable
+dateplaner#:#cal_type_sess#:#Sessionskalender
 crs#:#event_tbl_admins#:#Administratorer
-crs#:#event_tbl_tutors#:#Tutors###26 06 2009 new variable
-crs#:#event_tbl_members#:#Members###26 06 2009 new variable
+crs#:#event_tbl_tutors#:#Tutorer
+crs#:#event_tbl_members#:#Medlemmer
 crs#:#event_participant_selection#:#Participant Selection###26 06 2009 new variable
 crs#:#event_inc_admins#:#Vis administratorer
-crs#:#event_inc_tutors#:#Show Tutors###26 06 2009 new variable
-crs#:#event_inc_members#:#Show Members###26 06 2009 new variable
-crs#:#event_materials#:#Session Materials###26 06 2009 new variable
+crs#:#event_inc_tutors#:#Vis tutorer
+crs#:#event_inc_members#:#Vis medlemmer
+crs#:#event_materials#:#Sessionsmaterialer
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?###26 06 2009 new variable
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? ###26 06 2009 new variable
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
@@ -9515,8 +9515,8 @@ chat#:#chat_export_moderator#:#Kun moderatorer
 chat#:#chat_export_period#:#Eksportperiode
 chat#:#chat_export_period_info#:#Eksporter antal dage
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###26 06 2009 new variable
-chat#:#chat_textformat#:#Format text###26 06 2009 new variable
-chat#:#chat_show_textformat#:#Format text###26 06 2009 new variable
+chat#:#chat_textformat#:#Tekstformat
+chat#:#chat_show_textformat#:#Formater tekst
 registration#:#reg_type_confirmation#:#Registration with Email Confirmation###26 06 2009 new variable
 registration#:#reg_type_confirmation_info#:#Dette tillader brugerne at oprette deres egen konto, men kræver at de bekræfter deres email. Således forhindres kontooprettelser med ugyldige emailadresser.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###26 06 2009 new variable
@@ -9570,8 +9570,8 @@ content#:#cont_text_type#:#Text Item Type###26 06 2009 new variable
 content#:#cont_ed_par#:#Tekst
 content#:#cont_ed_dtable#:#Datatabel
 content#:#cont_ed_atable#:#Advanceret tabel
-content#:#cont_ed_list#:# Advanced List###26 06 2009 new variable
-content#:#cont_ed_textitem#:# Text Item###26 06 2009 new variable
+content#:#cont_ed_list#:# Avanceret lisste
+content#:#cont_ed_textitem#:# tekstelement
 content#:#cont_mob_files#:#Object Files###26 06 2009 new variable
 content#:#cont_mob_prop#:#Object Properties###26 06 2009 new variable
 meta#:#meta_pointofcontact#:#Point of Contact###26 06 2009 new variable
@@ -9579,7 +9579,7 @@ meta#:#sco_propagate#:#Propagate to all SCOs###26 06 2009 new variable
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###26 06 2009 new variable
 content#:#cont_media_placeh#:#Click and edit to insert media###26 06 2009 new variable
 content#:#cont_question_placeh#:#Click and edit to insert question###26 06 2009 new variable
-content#:#cont_text_placeh#:#Click and edit to insert text###26 06 2009 new variable
+content#:#cont_text_placeh#:#Klik og ret for at indsætte tekst
 content#:#cont_no_glossary#:#No glossary###26 06 2009 new variable
 common#:#obj_sco#:#SCO###26 06 2009 new variable
 common#:#obj_chap#:#Kapitel
@@ -9607,20 +9607,20 @@ common#:#download_with_uploaded_filename#:#Hent med uploaded filnavn
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
-form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable
-common#:#assessment_log_no_data#:#No log data available###24 07 2009 new variable
-common#:#lang_size_gb#:#GB###24 07 2009 new variable
-common#:#lang_size_mb#:#MB###24 07 2009 new variable
-common#:#lang_size_kb#:#KB###24 07 2009 new variable
-common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
-common#:#webdav#:#WebDAV###24 07 2009 new variable
+form#:#form_msg_formula_is_required#:#Du skal indtaste en korrekt formel.
+common#:#assessment_log_no_data#:#Der er ingen logningsdata
+common#:#lang_size_gb#:#GB
+common#:#lang_size_mb#:#MB
+common#:#lang_size_kb#:#KB
+common#:#lang_size_bytes#:#bytes
+common#:#webdav#:#WebDAV
 common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
 common#:#enable_disk_quota#:#Brug diskkvoter
-common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###24 07 2009 new variable
+common#:#enable_disk_quota_info#:#Gør det muligt at sætte en diskkvote for hver brugerkonto og hver globale rolle. Diskforbruget bestemmes dagligt ved hjælp af cronjob og listes i brugerredigerings formularen og diskkvote rapporten.
 common#:#enable_disk_quota_reminder_mail#:#Send advisering om overforbrug
-common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
+common#:#mail_attachment#:#Vedhæftning
 content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
-content#:#cont_select#:#Select###24 07 2009 new variable
+content#:#cont_select#:#Vælg
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###24 07 2009 new variable
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###24 07 2009 new variable
 survey#:#invitation_off#:#No invitations###24 07 2009 new variable
