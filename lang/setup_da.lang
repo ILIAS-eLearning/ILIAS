@@ -34,36 +34,35 @@
 // to the corresponding mode!
 <!-- language file start -->
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
-mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
-mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
+mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x eller tidligere
+mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x eller senere
 ilias_db_mode#:#ILIAS database mode
-3rd_party_software#:#3rd Party Software
+3rd_party_software#:#3. parts software
 absolute_path#:#Sti
 access#:#Adgang
 access_status#:#Adgangs status
 admin_login#:#Login som Administrator
 antivir#:#AntiVir
-available_clients#:#Tilg�ngelige Klienter
-available_languages#:#Tilg�ngelige Sprog
+available_clients#:#Mulige klienter
+available_languages#:#Mulige sporg
 back#:#tilbage
-cannot_create_datadir_no_write_access#:#Ingen skrive adgang. Kan ikke oprette data bibliotek
+cannot_create_datadir_no_write_access#:#Kunne ikke opnå skriveadgang og derfor ikke oprette mappe til data.
 change#:#skift
 change_basic_settings#:#skift standard indstillinger
 change_password#:#Skift password
-change_sort_direction#:#Skift sorterinfs m�nster
-check_failed_convert#:#Testning af convert mislykkedes
-check_failed_htmldoc#:#Testning af FOP mislykkedes
-check_failed_htmldoc#:#Testning af HTMLdoc mislykkedes
-check_failed_java#:#Testning af Java mislykkedes
+change_sort_direction#:#Skift sorteringsretning
+check_failed_convert#:#Test af convert fejlede
+check_failed_htmldoc#:#Test af htmldoc fejlede
+check_failed_java#:#Test for Java fejlede
 check_failed_unzip#:#Testning af unzip mislykkedes
 check_failed_zip#:#Testning af zip mislykkedes
-choose_language#:#V�lg dit sprog
-choose_languages#:#V�k venligst sprog og/eller fjern valgte sprog.
+choose_language#:#Vælg sprog
+choose_languages#:#Tilføj eller fjern sprog
 choose_password#:#Valg af password
 city#:#By, Landekode
 clean_command#:#Clean Command
 client#:#Klient
-client_access_mode_changed#:#Klient�s adgang er �ndret
+client_access_mode_changed#:#Klientadgang ændret
 client_data#:#Klient Information
 client_id#:#Klient ID
 client_info#:#Beskrivelse
@@ -74,7 +73,7 @@ client_setup_not_finished#:#Klient installation er ikke afsluttet endnu
 contact#:#Kontakt Information
 contact_data#:#Kontakt Information
 convert_path#:#Sti til konvertering
-convert_path_comment#:#P�kr�vet for at vise miniature af billeder
+convert_path_comment#:#Nødvendig for at vise miniaturebilleder
 could_not_create_logfile#:#Kunne ikke oprette logfil
 country#:#Land
 create#:#Opret
@@ -88,11 +87,11 @@ database_exists#:#database eksisterer
 database_install#:#Installer database
 database_installed#:#Database installeret
 database_is_uptodate#:#Din database er opdateret
-database_needs_update#:#Din Databse beh�ver en opdatering
+database_needs_update#:#Den aktuelle database har brug for en opdatering.
 database_not_exists_create_first#:#Databasen eksisterer ikke. Opret en database f�rst.
 database_ready#:#databasen er klar.
 database_update#:#Opdater database
-database_version#:#Nuv�rende database version
+database_version#:#Aktuel databaseversion
 datadir_path#:#Sti til data bibliotek
 datadir_path_comment1#:#Mandatory
 datadir_path_comment2#:#kan ikke �ndres til denne installations version
@@ -127,9 +126,9 @@ enabled#:#Aktiver
 enter_dir_and_filename#:#Indtast den korrekte sti og det korrekte filnavn!
 enter_password#:#Indtast Password
 env_ok#:#Ok. Lyder good.
-env_using#:#ILIAS K�rer p�
+env_using#:#ILIAS afvikles på
 env_warning#:#ILIAS er kun testet p� Linux og Windows med brug af Apache web server!<br />Men, ILIAS K�rer m�ske ogs� i dit eget server milj�.
-environment#:#Milj�
+environment#:#Miljø
 err_create_database_failed#:#Oprettelse af databasen fejlede
 err_wrong_login#:#Forkert login
 error_recipient#:#Fejl modtager
@@ -140,7 +139,7 @@ fill_both_fields#:#Udfyld venligst begge felter!
 fill_out_required_fields#:#Udsyld venligst alle felter der er p�kr�vede.
 filled_out#:#Udfyldt korrekt
 finish#:#installationen er udf�rt
-finish_initial_setup_first#:#Afslut pr�installationen f�rst
+finish_initial_setup_first#:#Afslut installationsforløbet først
 finish_setup#:#Afslut installation
 firstname#:#Fornavn
 fop_path#:#Sti til FOP
@@ -148,7 +147,7 @@ fop_path_comment#:#p�kr�vet for at generere PDF documents
 hide_clientlist#:#Skjul valg af Klienter
 host#:#Udbyder
 htmldoc_path#:#Sti til HTMLdoc
-htmldoc_path_comment#:#P�kr�vet for at generere PDF documents
+htmldoc_path_comment#:#Nødvendig for at generere PDF-dokumenter
 http_path#:#HTTP Sti
 id#:#ID
 ilias_homepage#:#ILIAS Hjemmeside
@@ -200,7 +199,7 @@ institution#:#Arbejdsplads
 intro_install#:#Dette er forsiden til ILIAS installationen. Er kan du komme trinvis igennem installationen.
 ip_address#:#IP addresse
 java_path#:#Sti til Java
-java_path_comment#:#P�kr�vet for SCORM L�rings moduler
+java_path_comment#:#Nødvendig for SCORM læremoduler
 lang_cs#:#Czezh
 lang_de#:#Tysk
 lang_da#:#Dansk
@@ -223,7 +222,7 @@ lang_se#:#Svensk
 lang_ua#:#Ukrainsk
 lang_xx#:#bruger valgt
 lang_zh#:#Kinesisk
-langs_not_valid_not_installed#:#F�lgende sprog er ikke installeret pga en fejl i sprog filen
+langs_not_valid_not_installed#:#Disse sprog blev ikke indstalleret på grund af fejl i sprogfilen
 language#:#Sprog
 languages#:#Sprog
 languages_installed#:#Sprog der er installeret
@@ -237,7 +236,7 @@ logged_out#:#du er logget ud.
 logging#:#Logging
 login#:#login
 login_invalid#:#Ugyldigt Login
-login_to_ilias#:#login p� ILIAS
+login_to_ilias#:#Log ind på ILIAS
 logout#:#logud
 main_datadir_outside_webspace#:#Hovedbibliotek udenfor web plads
 missing_data#:#Manglende data
@@ -397,34 +396,34 @@ zip_path#:#Sti til Zip
 zip_path_comment#:#P�kr�vet for at eksportere l�ringsmoduler
 zipcode#:#Postnummer
 
-3rdparty#:#3rd Party add-ons###07 09 2006 new variable
+3rdparty#:#3. parts tilføjelser
 check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
-collation#:#Collation###07 09 2006 new variable
+collation#:#Collation
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
 ctrl_structure#:#Control Structure###07 09 2006 new variable
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###07 09 2006 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###07 09 2006 new variable
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
-db_not_installed#:#Database not installed###07 09 2006 new variable
+db_not_installed#:#Database ikke installeret
 duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
 example#:#Example###07 09 2006 new variable
-include_local#:#include local###07 09 2006 new variable
+include_local#:#inkluder lokal
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###07 09 2006 new variable
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###07 09 2006 new variable
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###07 09 2006 new variable
-installed_local#:#Installed With Local###07 09 2006 new variable
-lang_bg#:#Bulgarian###07 09 2006 new variable
-lang_el#:#Greek###07 09 2006 new variable
-lang_hu#:#Hungarian###07 09 2006 new variable
-lang_ro#:#Romanian###07 09 2006 new variable
-lang_ru#:#Russian###07 09 2006 new variable
-lang_sq#:#Albanian###07 09 2006 new variable
-lang_sr#:#Serbian###07 09 2006 new variable
-lang_uk#:#Ukrainian###07 09 2006 new variable
-lang_vi#:#Vietnamese###07 09 2006 new variable
+installed_local#:#Installeret med lokal
+lang_bg#:#Bulgarsk
+lang_el#:#Græsk
+lang_hu#:#Ungarnsk
+lang_ro#:#Rumænsk
+lang_ru#:#Russisk
+lang_sq#:#Albansk
+lang_sr#:#Serbisk
+lang_uk#:#Ukrainsk
+lang_vi#:#Vietnamesisk
 latex_url_comment#:#required for LaTeX support in ILIAS###07 09 2006 new variable
 no_latex_url#:#No LaTeX CGI script URL given###07 09 2006 new variable
-reload#:#Reload###07 09 2006 new variable
+reload#:#Genindlæs
 setup_3rdparty_data#:#Setup third party add-ons###07 09 2006 new variable
 setup_process_step_3rdparty#:#Third party add-ons###07 09 2006 new variable
 status_3rdparty_false#:#3rd party add-ons missing###07 09 2006 new variable
@@ -440,8 +439,8 @@ unzip#:#Extract###07 09 2006 new variable
 url_to_latex#:#URL to LaTeX CGI script###07 09 2006 new variable
 clamav#:#ClamAV###20 06 2007 new variable
 lang_et#:#Estonian###20 06 2007 new variable
-new_client#:#New Client###14 02 2008 new variable
-list_clients#:#List Clients###14 02 2008 new variable
+new_client#:#Ny klient
+list_clients#:#Liste over klienter
 basic_settings#:#Basic Settings###14 02 2008 new variable
 step_ini#:#ini-File###14 02 2008 new variable
 step_db#:#Database###14 02 2008 new variable
