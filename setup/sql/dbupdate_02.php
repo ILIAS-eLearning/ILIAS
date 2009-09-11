@@ -15641,3 +15641,8 @@ $ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'
 	$setting->set("disable_contacts", "0");	
 	$setting->set("disable_contacts_require_mail", "1");
 ?>
+<#2871>
+<?php
+	$setting = new ilSetting();
+	$setting->set("loginname_change_blocking_time", 3600);	
+?>
