@@ -9073,8 +9073,8 @@ assessment#:#textsize#:#Text Size
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
 common#:#loginname_settings#:#Login Name Settings
-common#:#allow_change_loginname#:#Permit change of loginnames in 'Personal Profile'
-common#:#history_loginname#:#Loginname History
+common#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'
+common#:#history_loginname#:#Login Name History
 common#:#loginname_already_exists#:#This login name already exists.
 ecs#:#ecs_unique_id#:#Participant-ID
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories
@@ -9958,12 +9958,12 @@ common#:#pd_enable_contacts#:#Enable Contacts
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 payment#:#pay_order_paid_subject#:#Your invoice
 payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
-common#:#loginname_history_info#:#If activated, loginname changes will be logged in database. This history is accessible in the database table 'loginname_history'.
-common#:#reuse_of_loginnames_contained_in_history#:#Reuse of loginnames
-common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse loginnames again, which are already saved in the history.
+common#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
+common#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
+common#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
 common#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
-common#:#loginname_change_blocking_time#:#Blocking Time for Changing Loginnames
-common#:#loginname_change_blocking_time_info#:#Insert the interval(seconds) in which an user can change its loginname. If you enter 0 or leave this field blank a user can change its loginnamen anytime.
+common#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
+common#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
 common#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
-common#:#changing_loginname_not_possible_info#:#You changed your loginname at last at %s. The next change can be performed at %s.
+common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 mep#:#mep_page_created#:#Content snippet created.
