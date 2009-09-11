@@ -35,15 +35,15 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Analyse indstillinger
-administration#:#analyze_data#:#Analyser data integritet.
-administration#:#analyzing#:#Analyserer...
-administration#:#analyzing_tree_structure#:#Analysere træ struktur...
+administration#:#analyze_data#:#Analyserer dataintegritet
+administration#:#analyzing#:#Analyserer
+administration#:#analyzing_tree_structure#:#Analyserer træstruktur
 administration#:#check_tree#:#Check træ struktur
 administration#:#check_tree_desc#:#Check konsistens af hele træ strukturen. Afhængig af træ størrelsen kan dette tage et par minutter!
 administration#:#clean#:#Ryd op
 administration#:#clean_desc#:#Fjern ugyldige referencer og træindgange. Luk huller i træstrukturen
-administration#:#cleaning#:#Renser....
-administration#:#cleaning_final#:#Sidste rensning...
+administration#:#cleaning#:#Renser
+administration#:#cleaning_final#:#Sidste rensning
 administration#:#disabled#:#Ikke aktiveret
 administration#:#done#:#Færdig
 administration#:#dump_tree#:#Dump træ
@@ -105,20 +105,20 @@ administration#:#passwd_auto_generate#:#Password fremsendelse / dannelse
 administration#:#purge_missing#:#Find manglende objekter
 administration#:#purge_missing_desc#:#Fjern alle manglende og ikke bundne objekter fundet i system.
 administration#:#purge_count_limit#:#Begræns antal
-administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
+administration#:#purge_count_limit_desc#:#Hvis valgt udrenses maksimalt det angivne antal objekter.
 administration#:#purge_age_limit#:#Begrænsningsalder
-administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
-administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
-administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
+administration#:#purge_age_limit_desc#:#Hvis du vælger en værdi er det kun objekter som er slettet før det angivne antal dage der slettes.
+administration#:#purge_type_limit#:#Begræns til typer
+administration#:#purge_type_limit_desc#:#Hvis dette felt indeholder en værdi er det kun disse typer der udrenses.
 administration#:#purge_trash#:#Find slettede objekter
 administration#:#purge_trash_desc#:#Fjern alle objekter i papirkurv fra systemet.
 administration#:#purging#:#Finder...
-administration#:#purging_missing_objs#:#Finder manglende objekter...
-administration#:#purging_trash#:#Finder affald...
-administration#:#purging_unbound_objs#:#Finder ikke bundne objekter...
-administration#:#removing_invalid_childs#:#Fjern ugyldige træ indgange...
+administration#:#purging_missing_objs#:#Finder manglende objekter.
+administration#:#purging_trash#:#Finder affald.
+administration#:#purging_unbound_objs#:#Finder ikke bundne objekter.
+administration#:#removing_invalid_childs#:#Fjern ugyldige træindgange.
 administration#:#removing_invalid_refs#:#Fjern ugyldige referencer...
-administration#:#removing_invalid_rolfs#:#Fjern ugyldige rollefoldere...
+administration#:#removing_invalid_rolfs#:#Fjern ugyldige rollefoldere.
 administration#:#repair_options#:#Reperationsmuligheder
 administration#:#restore_missing#:#Gendan manglende objekter
 administration#:#restore_missing_desc#:#Gendan manglende og ikke bundne objekter til recoveryfolder
@@ -317,12 +317,12 @@ common#:#assessment_log_deleted#:#The Test & Assessment log data has been delete
 common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
 common#:#assessment_log_manual_scoring#:#Manuel karaktergivning
-common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_desc#:#Hvis der gives manuelle karakterer i et spørgsmål bør alle spørgsmål af samme type vurderes af en censor. Vær opmærksom på denne indstilling, da efterfølgende manuelkaraktergivning af automatiske-scorede spørgsmål kan give juridiske problemer.
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###21 Apr 2005 new variable
 common#:#assessment_log_datetime#:#Dato/Klokken
 common#:#assessment_log_for_test#:#For test###21 Apr 2005 new variable
-common#:#assessment_log_log_entries#:#log entries###28 Feb 2006 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###21 Apr 2005 new variable
+common#:#assessment_log_log_entries#:#log indgange
+common#:#assessment_log_no_log#:#Der er ingen log for den valgte test i den angivne periode.
 common#:#assessment_log_open_calendar#:#Klick her for at åbne en kalender for valg af dato (JavaScript påkrævet!)
 common#:#assessment_log_question#:#Spørgsmål
 common#:#assessment_log_select_test#:#--- Vælg en test ---
@@ -1084,7 +1084,7 @@ common#:#glo_visible#:#Ordbog er synlig
 common#:#glo_write#:#Ændre ordbog
 common#:#global#:#Global
 common#:#global_default#:#Global standard
-common#:#global_fixed#:#Global Fixed###21 Apr 2005 new variable
+common#:#global_fixed#:#Rettet globalt
 common#:#global_settings#:#Globale rettigheder
 common#:#global_user#:#Global bruger
 common#:#glossaries#:#ordbøger
@@ -1238,7 +1238,7 @@ common#:#hist_lm_pg_update#:#Side ændret.
 common#:#hist_lm_st_create#:#Kapitel ændret.
 common#:#hist_lm_st_cut_page#:#Side "%1" [%2] klippet ud af kapitel.
 common#:#hist_lm_st_paste_page#:#Side "%1" [%2] indsat i kapitel.
-common#:#hist_no_entries#:#No entries in history.###21 Apr 2005 new variable
+common#:#hist_no_entries#:#Ingen indgange i historik
 common#:#hist_webr_add#:#Tilføjet ny webresurse med titel: \\
 common#:#hist_webr_delete#:#Slet webresurse. Titel: \\
 common#:#hist_webr_update#:#Opdater webresurse. Titel: \\
@@ -1319,8 +1319,8 @@ common#:#ilinc_akclassvalues#:#Cost centers
 common#:#ilinc_classroom_always_open#:#Klasseværelset er altid åbent
 common#:#ilinc_classroom_closed#:#Klasseværrelse er lukket
 common#:#ilinc_classroom_open#:#Klasserummet er tilgængeligt
-common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
-common#:#ilinc_coursemember_status#:#Attending as###17 Aug 2005 new variable
+common#:#ilinc_classrooms#:#iLinc klasseværelser
+common#:#ilinc_coursemember_status#:#Deltager som
 common#:#ilinc_courses#:#iLinc kurser
 common#:#ilinc_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the LearnLinc Seminar?###17 Aug 2005 new variable
 common#:#ilinc_dismiss_myself#:#Are you sure you want to dismiss yourself from the LearnLinc Seminar?###17 Aug 2005 new variable
@@ -1339,7 +1339,7 @@ common#:#ilinc_involved_users#:#Involverede brugere
 common#:#ilinc_mail_body_new_subscription#:#ou have been subscribed as to that LearnLinc Seminar.###06 Sep 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Dit medlemsskab er annulleret.
 common#:#ilinc_mail_subj_new_subscription#:#Ny tilmelding
-common#:#ilinc_mail_subj_subscription_cancelled#:#Tilmelding annulleret:###06 Sep 2005 new variable
+common#:#ilinc_mail_subj_subscription_cancelled#:#Tilmelding annulleret:
 common#:#ilinc_manage_course_documents#:#Materialer
 common#:#ilinc_mem_change_status#:#Ændre brugers status
 common#:#ilinc_mem_leave#:#Udeluk bruger fra LearnLinc Seminar###06 Sep 2005 new variable
@@ -1763,7 +1763,7 @@ common#:#msg_no_delete_yourself#:#du kan ikke slette din egen bruger konto.
 common#:#msg_no_file#:#du valgte ikke en fil
 common#:#msg_no_language_selected#:#intet sprog valgt! Du skal vælge et sprog for hver oversættelse
 common#:#msg_no_perm_assign_role_to_user#:#Du har ikke ret til at skifte rettigheder
-common#:#msg_no_perm_assign_user_to_role#:#You have no permission to change the user assignment###09 Sep 2005 new variable
+common#:#msg_no_perm_assign_user_to_role#:#Du mangler rettigheder til at ændre brugerens roller.
 common#:#msg_no_perm_copy#:#Du har ikke rettigheder til at lave en kopi af følgende objekt:
 common#:#msg_no_perm_create#:#du har ikke rettigheder til at lave et objekt.
 common#:#msg_no_perm_create_object1#:#du har ingen rettigheder til at lave
@@ -1820,8 +1820,8 @@ common#:#msg_sysrole_not_deletable#:#Systemrollen kan ikke fjernes
 common#:#msg_sysrole_not_editable#:#Rettigheder for systemrollen kan ikke ændres. Systemrollen sikrer alle tilknyttede brugere ubegrænset tilgang til alle objekter og funktioner.
 common#:#msg_trash_empty#:#Der er ingen slettede objekter
 common#:#msg_undeleted#:#Objekt(er) reetableret.
-common#:#msg_user_last_role1#:#The following users are assigned to this role only:###21 Apr 2005 new variable
-common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.###21 Apr 2005 new variable
+common#:#msg_user_last_role1#:#Følgende brugere er kun tildelt denne rolle:
+common#:#msg_user_last_role2#:#Du skal slette brugerne eller tildele dem en anden rolle før du kan slette den nuværende rolle.
 common#:#msg_userassignment_changed#:#Rolletildeling ændret
 common#:#multimedia#:#Multimedie
 common#:#my_bms#:#Mine foretrukne
@@ -1847,7 +1847,7 @@ common#:#objs_feed#:#Web feeds
 common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#feed_visible#:#Web feed er synligt
 common#:#feed_read#:#Læseadgang til Web feed
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+common#:#feed_write#:#Ret webfeed
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_visible#:#MediaCast er synligt
 common#:#mcst_read#:#Læseadgang til MediaCast
@@ -1862,8 +1862,8 @@ common#:#crs_create_feed#:#Opret web feed
 common#:#cat_create_mcst#:#Opret MediaCast
 common#:#grp_create_mcst#:#Opret MediaCast
 common#:#crs_create_mcst#:#Opret MediaCast
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#access_users#:#Logged in Users###02 04 2007 new variable
+common#:#fold_create_mcst#:#Lav MediaCast
+common#:#access_users#:#Indloggede brugere
 common#:#access_public#:#Offentlig
 common#:#access_scope#:#Adgang
 common#:#activate_block#:#Aktiver
