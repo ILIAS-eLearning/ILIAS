@@ -50,6 +50,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.objectives_alignment_table_row.html",
 			"Modules/Scorm2004");
 		$this->getScos();
+		$this->setNoEntriesText($lng->txt("sahs_oa_no_scos"));
 		//$this->setTitle($lng->txt("sahs_objectives_alignment"));
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		$this->setTitle(ilScorm2004Node::_lookupTitle($this->chap),
