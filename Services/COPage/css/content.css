@@ -136,6 +136,16 @@ span.ilc_text_inline_Quotation
 	font-style: italic;
 }
 
+span.ilc_text_inline_Important
+{
+	text-decoration: underline;
+}
+
+span.ilc_text_inline_Accent
+{
+	color: #E000E0;
+}
+
 /* Links */
 a.ilc_link_FootnoteLink
 {
