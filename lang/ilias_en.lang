@@ -9968,3 +9968,5 @@ administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert 
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 mep#:#mep_page_created#:#Content snippet created.
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.

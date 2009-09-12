@@ -1148,8 +1148,11 @@ function showTrackingItem()
 			$obj_table = new ilObjectivesAlignmentTableGUI($this, "showLearningObjectivesAlignment",
 				$this->getEditTree(), $this->object, $cur_chap);
 			$oa_tpl->setVariable("LOBJ_TABLE", $obj_table->getHTML());
-				
 			$tpl->setContent($oa_tpl->get());
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("sahs_oa_no_chapters"));
 		}
 	}
 
