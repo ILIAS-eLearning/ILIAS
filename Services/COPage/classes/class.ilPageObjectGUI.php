@@ -1392,7 +1392,7 @@ class ilPageObjectGUI
 		//$content = $this->obj->getXMLFromDom(false, true, true,
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$link_xml = $this->getLinkXML();
-		
+
 		if ($this->getStyleId() > 0)
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
@@ -1585,6 +1585,7 @@ class ilPageObjectGUI
 			} else {
 				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
 			}
+//echo htmlentities($content);
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
@@ -1699,7 +1700,7 @@ class ilPageObjectGUI
 	function setDefaultLinkXml()
 	{
 		$int_links = $this->getPageObject()->getInternalLinks();
-		
+
 		$link_info = "<IntLinkInfos>";
 		$targetframe = "None";
 		foreach ($int_links as $int_link)
@@ -1711,6 +1712,14 @@ class ilPageObjectGUI
 				$target_id = $target_arr[count($target_arr) - 1];
 				$type = $int_link["Type"];
 				
+				// anchor
+				$anc = $anc_add = "";
+				if ($int_link["Anchor"] != "")
+				{
+					$anc = $int_link["Anchor"];
+					$anc_add = "_".rawurlencode($int_link["Anchor"]);
+				}
+
 				switch($type)
 				{
 					case "PageObject":
@@ -1719,7 +1728,7 @@ class ilPageObjectGUI
 						$ltarget="_top";
 						if ($type == "PageObject")
 						{
-							$href = "./goto.php?target=pg_".$target_id;
+							$href = "./goto.php?target=pg_".$target_id.$anc_add;
 						}
 						else
 						{
@@ -1745,7 +1754,8 @@ class ilPageObjectGUI
 						break;
 
 				}
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+				$anc_par = 'Anchor="'.$anc.'"';
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".$anc_par." ".
 					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
 			}
 		}

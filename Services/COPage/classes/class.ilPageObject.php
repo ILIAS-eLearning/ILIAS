@@ -1950,6 +1950,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
+						$this->saveContentIncludeUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
 					else
@@ -2047,6 +2048,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			// save style usage
 			$this->saveStyleUsage($this->getXMLFromDom());
 			
+			// save content include usage
+			$this->saveContentIncludeUsage($this->getXMLFromDom());
+			
 			// save internal link information
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->saveAnchors($this->getXMLFromDom());
@@ -2083,6 +2087,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		// delete style usages
 		$this->saveStyleUsage("<dummy></dummy>");
+
+		// delete style usages
+		$this->saveContentIncludeUsage("<dummy></dummy>");
 
 		// delete internal links
 		$this->saveInternalLinks("<dummy></dummy>");
@@ -2284,6 +2291,56 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	/**
+	* save content include usages
+	*/
+	function saveContentIncludeUsage($a_xml = "", $a_old_nr = 0)
+	{
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		$ci_ids = $this->collectContentIncludes($a_xml);
+		ilPageContentUsage::deleteAllUsages("incl", $this->getParentType().":pg", $this->getId(), $a_old_nr);
+		foreach($ci_ids as $ci_id)
+		{
+			if ((int) $ci_id["inst_id"] <= 0)
+			{
+				ilPageContentUsage::saveUsage("incl", $ci_id["id"], $this->getParentType().":pg", $this->getId(), $a_old_nr);
+			}
+		}
+	}
+
+	/**
+	* get all content includes that are used within the page
+	*/
+	function collectContentIncludes($a_xml = "")
+	{
+		// determine all media aliases of the page
+		if ($a_xml == "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//ContentInclude";
+			$res =& xpath_eval($xpc, $path);
+		}
+		else
+		{
+			$doc = domxml_open_mem($a_xml);
+			$xpc = xpath_new_context($doc);
+			$path = "//ContentInclude";
+			$res =& xpath_eval($xpc, $path);
+		}
+		$ci_ids = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$type = $res->nodeset[$i]->get_attribute("ContentType");
+			$id = $res->nodeset[$i]->get_attribute("ContentId");
+			$inst_id = $res->nodeset[$i]->get_attribute("InstId");
+			$ci_ids[$type.":".$id.":".$inst_id] = array(
+				"type" => $type, "id" => $id, "inst_id" => $inst_id);
+		}
+
+		return $ci_ids;
+	}
+
+	
 	/**
 	* Save all style class/template usages
 	*
