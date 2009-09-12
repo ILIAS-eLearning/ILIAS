@@ -1290,6 +1290,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(128);
+		$ti->setRequired(true);
 		$this->form->addItem($ti);
 	
 		// save and cancel commands
