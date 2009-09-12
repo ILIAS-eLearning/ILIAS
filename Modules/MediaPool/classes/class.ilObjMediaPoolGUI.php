@@ -775,7 +775,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function confirmRemove()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilCtrl, $lng;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -809,6 +809,19 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			$type = ilMediaPoolItem::lookupType($obj_id);
 			$title = ilMediaPoolItem::lookupTitle($obj_id);
+			
+			// check whether page can be removed
+			if ($type == "pg")
+			{
+				include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+				$usages = ilPageContentUsage::getUsages("incl", $obj_id);
+				if (count($usages) > 0)
+				{
+					ilUtil::sendFailure(sprintf($lng->txt("mep_content_snippet_in_use"), $title), true);
+					$ilCtrl->redirect($this, "listMedia");
+				}
+			}
+			
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("TEXT_CONTENT", $title);

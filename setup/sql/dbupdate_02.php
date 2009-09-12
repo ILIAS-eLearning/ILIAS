@@ -15646,3 +15646,36 @@ $ilDB->addPrimaryKey('table_properties', array('table_id', 'user_id', 'property'
 	$setting = new ilSetting();
 	$setting->set("loginname_change_blocking_time", 3600);	
 ?>
+<#2872>
+<?php
+$fields = array(
+	'pc_type' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true
+	),
+	'pc_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'usage_type' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true
+	),
+	'usage_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'usage_hist_nr' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	)
+);
+$ilDB->createTable('page_pc_usage', $fields);
+$ilDB->addPrimaryKey('page_pc_usage', array('pc_type', 'pc_id', 'usage_type', 'usage_id', 'usage_hist_nr'));
+
+?>
