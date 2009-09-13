@@ -1752,7 +1752,7 @@ class assQuestion
 				"author" => array("text", $this->getAuthor()),
 				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
 				"points" => array("float", $this->getMaximumPoints()),
-				"nr_of_tries" => array("integer", $this->getNrOfTries()),
+				"nr_of_tries" => array("integer", (strlen($this->getNrOfTries())) ? $this->getNrOfTries() : 1),
 				"working_time" => array("text", $estw_time),
 				"tstamp" => array("integer", time())
 			), array(
