@@ -8382,7 +8382,7 @@ pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte
 pd#:#pd_enable_notes#:#Aktiviere Notizen
 pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
-pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind.
+pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um ein Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fälllen erscheinen die betroffenen Objekte automatisch an diesem Ort.
 pd#:#pd_my_offers#:#Meine Angebote
 pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:

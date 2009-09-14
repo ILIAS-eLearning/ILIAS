@@ -8565,7 +8565,7 @@ pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
-pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.
+pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 assessment#:#kiosk#:#Kiosk Mode
 assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
 assessment#:#autosave_success#:#Autosave successful...
