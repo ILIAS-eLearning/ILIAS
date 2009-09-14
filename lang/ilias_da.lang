@@ -1376,8 +1376,8 @@ common#:#import_lm#:#Importer ILIAS Læremodul
 common#:#import_qpl#:#Importer spørgsmålssamling til test
 common#:#import_questions_into_qpl#:#Importer spørgsmål til spørgsmålsbibliotek
 common#:#import_root_user#:#Importer root bruger
-common#:#import_sahs#:#Importer SCORM/AICC pakker
-common#:#import_spl#:#Importer afstemning til undersøgelser
+common#:#import_sahs#:#Importer SCORM/AICC moduler
+common#:#import_spl#:#Importer spørgsmål til brug i undersøgelser
 common#:#import_svy#:#Importer undersøgelse
 common#:#import_tst#:#Importer test
 common#:#import_users#:#Importer brugere
@@ -4288,8 +4288,8 @@ content#:#cont_create_export_file_xml#:#Opret eksportfil (XML)
 content#:#cont_create_folder#:#Opret mappe
 content#:#cont_create_html_version#:#Opret HTML pakke
 content#:#cont_create_mob#:#Opret Media Objekt
-content#:#cont_credit_mode#:#Credit mode (for lærer mode 'normal')
-content#:#cont_credit_off#:#Ingen Credit
+content#:#cont_credit_mode#:#Kreditindstilling (for læremetode 'normal')
+content#:#cont_credit_off#:#Ingen kredit
 content#:#cont_credit_on#:#Kreditering
 content#:#cont_credits#:#Credits###21 Apr 2005 new variable
 content#:#cont_cross_reference#:#Kryds referance
@@ -4297,7 +4297,7 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms###21 Apr 2005 new variable
 content#:#cont_de_activate#:#(De)aktiver
 content#:#cont_deactivate_page#:#Deactivate Page
 content#:#cont_def_layout#:#Standardlayout
-content#:#cont_def_lesson_mode#:#Standard lære mode
+content#:#cont_def_lesson_mode#:#Standard læremetode
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definitation
 content#:#cont_definitions#:#Definitationer
@@ -4434,8 +4434,8 @@ content#:#cont_lk_page_new#:#Side (Ny Frame)
 content#:#cont_lk_survey#:#Undersøgelser
 content#:#cont_lk_term#:#Ordbogskriterier
 content#:#cont_lk_term_new#:#Ordbogsopsætning (Ny Ramme)
-content#:#cont_lm_menu#:#Menu###21 Apr 2005 new variable
-content#:#cont_lm_properties#:#Egenskaber for læremodul
+content#:#cont_lm_menu#:#Menu
+content#:#cont_lm_properties#:#Indstillinger for læremodul
 content#:#cont_lvalue#:#Data element###21 Apr 2005 new variable
 content#:#cont_manifest#:#Manifest###21 Apr 2005 new variable
 content#:#cont_map_areas#:#Link områder
@@ -4514,7 +4514,7 @@ content#:#cont_resources#:#Resourcer
 content#:#cont_rvalue#:#Værdie
 content#:#cont_saved_map_area#:#Gemt kort område
 content#:#cont_saved_map_data#:#Gemt område data
-content#:#cont_sc_auto_review#:#Sæt til lære mode 'se review' hvis bruger har gennemført SCO
+content#:#cont_sc_auto_review#:#Sæt læremetode til 'se review' hvis brugeren har gennemført SCO
 content#:#cont_sc_less_mode_browse#:#Gennemse
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Set igennem
@@ -4613,7 +4613,7 @@ content#:#cont_url#:#URL
 content#:#cont_usage#:#Usage
 content#:#cont_users_have_mob_in_clip1#:#Dette media objekt er i udklipsholderen til
 content#:#cont_users_have_mob_in_clip2#:#Bruger(ere).
-content#:#cont_validate_file#:#Godkend fil
+content#:#cont_validate_file#:#Kontroller fil
 content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Sidste Export Log
 content#:#cont_where_published#:#Udgivet
@@ -8105,7 +8105,7 @@ content#:#cont_import_tracking#:#Importer sporingsdata
 content#:#cont_invalid_new_module#:#Modulet er inkompatibelt! Kontroller at imsmanifest.xml ikker er ændret
 content#:#cont_new_module_added#:#Ny version af modulet blev uploaded
 common#:#attempts#:#Forsøg
-common#:#decrease_attempts#:#Attempts - 1 ###02 06 2008 new variable
+common#:#decrease_attempts#:#Førsøg-1
 grp#:#grp_closed#:#Lukket gruppe
 grp#:#grp_closed_info#:#Gruppen er ikke synlig for ikke-medlemmer
 grp#:#grp_reg_disabled#:#Tilmelding ikke mulig
@@ -9815,7 +9815,7 @@ search#:#search_hide_adv_search#:#Skjul avanceret søgning
 search#:#search_auto_complete_length#:#Antal elementer ved autofuldførelse
 assessment#:#points_wrong#:#Forkerte valg
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
-content#:#import_sco_object#:#Importer SCO###24 07 2009 new variable
+content#:#import_sco_object#:#Importer SCO
 content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
 common#:#preview_learner#:#Deltagervisning
