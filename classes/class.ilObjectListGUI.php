@@ -1841,10 +1841,18 @@ class ilObjectListGUI
 	*/
 	function insertSubscribeCommand()
 	{
+		global $ilSetting;
+		
 		if ($this->std_cmd_only)
 		{
 			return;
 		}
+		
+		if((int)$ilSetting->get('disable_my_offers'))
+		{
+			return;
+		}
+		
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
 		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
