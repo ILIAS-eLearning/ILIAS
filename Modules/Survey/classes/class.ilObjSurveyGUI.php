@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurvey
@@ -70,7 +70,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory;
+		global $ilAccess, $ilNavigationHistory,$ilCtrl;
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -122,6 +122,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('svy');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 
 			default:
 				$cmd.= "Object";

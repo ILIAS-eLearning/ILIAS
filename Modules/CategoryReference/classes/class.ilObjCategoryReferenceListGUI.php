@@ -71,6 +71,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	*/
 	function init()
 	{
+		$this->copy_enabled = false;
 		$this->static_link_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;

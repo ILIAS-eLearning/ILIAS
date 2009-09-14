@@ -15692,3 +15692,8 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 	"default" => null
 ));
 ?>
+
+<#2874>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

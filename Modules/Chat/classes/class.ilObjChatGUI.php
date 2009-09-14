@@ -9,7 +9,7 @@
 * $Id$
 * 
 * @ilCtrl_Calls ilObjChatGUI: ilPermissionGUI, ilPublicUserProfileGUI
-* @ilCtrl_Calls ilObjChatGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjChatGUI: ilInfoScreenGUI, ilObjectCopyGUI
 * @extends ilObjectGUI
 */
 

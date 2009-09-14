@@ -31,7 +31,7 @@
 * 
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
 *
 * @package ilias-search
 *
@@ -96,6 +96,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 		switch($next_class)
 		{
+			
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$this->ctrl->forwardCommand($cp);
+				break;
+			
 			default:
 				$this->initUserSearchCache();
 				if(!$cmd)

@@ -189,7 +189,7 @@ class ilAdministrationCommandGUI
 	}
 
 	/**
-	 * 
+	 * Start linking object
 	 */
 	public function link() 
 	{

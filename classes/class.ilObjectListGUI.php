@@ -58,6 +58,8 @@ class ilObjectListGUI
 	protected $is_expanded = true;
 	protected $bold_title = false;
 	
+	protected $copy_enabled = true;
+	
 	/**
 	* constructor
 	*
@@ -118,6 +120,7 @@ class ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
+		$this->copy_enabled = false;
 		$this->payment_enabled = false;
 		$this->progress_enabled = false;
 		$this->notice_properties_enabled = true;
@@ -392,6 +395,7 @@ class ilObjectListGUI
 	{
 		return $this->delete_enabled;
 	}
+
 	/**
 	* En/disable cut
 	*
@@ -413,6 +417,29 @@ class ilObjectListGUI
 	{
 		return $this->cut_enabled;
 	}
+	
+	/**
+	* En/disable copy
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableCopy($a_status)
+	{
+		$this->copy_enabled = $a_status;
+
+		return;
+	}
+	/**
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getCopyStatus()
+	{
+		return $this->copy_enabled;
+	}
+
 	/**
 	* En/disable subscribe
 	*
@@ -1759,9 +1786,7 @@ class ilObjectListGUI
 	/**
 	* insert cut command
 	*
-	* @access	private
-	* @param	object		$a_tpl		template object
-	* @param	int			$a_ref_id	item reference id
+	* @access	protected
 	*/
 	function insertCutCommand()
 	{
@@ -1801,7 +1826,29 @@ class ilObjectListGUI
 		}
 	}
 	
-	// BEGIN PATCH Lucene search
+	/**
+	 * Insert copy command
+	 * @return 
+	 */
+	public function insertCopyCommand()
+	{
+		if($this->std_cmd_only)
+		{
+			return;
+		}
+		
+		if($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type))
+		{
+			$this->ctrl->setParameterByClass('ilobjectcopygui','source_id',$this->getCommandId());
+			$cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui','initTargetSelection');
+			$this->insertCommand($cmd_copy, $this->lng->txt('copy'));
+			$this->adm_commands_included = true;
+			
+		}
+		return;
+	}
+
+
 	/**
 	 * Insert paste command
 	 */
@@ -2050,6 +2097,12 @@ class ilObjectListGUI
 			if ($this->cut_enabled)
 			{
 				$this->insertCutCommand();
+			}
+
+			// copy
+			if ($this->copy_enabled)
+			{
+				$this->insertCopyCommand();
 			}
 
 			// subscribe

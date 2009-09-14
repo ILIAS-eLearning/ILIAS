@@ -16,7 +16,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI
 *
 * 
 * @extends ilContainerGUI
@@ -4185,7 +4185,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory;
+		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory,$ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -4416,6 +4416,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$this->tpl->setContent($ret);
 				}
+				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
 				break;
 				
 			default:

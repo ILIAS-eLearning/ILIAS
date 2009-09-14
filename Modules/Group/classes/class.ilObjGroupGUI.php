@@ -34,7 +34,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 */
@@ -54,7 +54,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -204,6 +204,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				{
 					$this->tpl->setContent($ret);
 				}
+				break;
+
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('grp');
+				$this->ctrl->forwardCommand($cp);
 				break;
 
 			default:

@@ -217,6 +217,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 					$this->item_list_gui[$type]->enableDelete(false);
 					$this->item_list_gui[$type]->enablePath(true);
 					$this->item_list_gui[$type]->enableCut(false);
+					$this->item_list_gui[$type]->enableCopy(false);
 					$this->item_list_gui[$type]->enableSubscribe(false);
 					$this->item_list_gui[$type]->enablePayment(false);
 					$this->item_list_gui[$type]->enableLink(false);

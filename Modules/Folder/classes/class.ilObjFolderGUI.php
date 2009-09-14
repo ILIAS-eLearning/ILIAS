@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
-* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 */
@@ -85,7 +85,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser;
+		global $ilUser,$ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -162,6 +162,16 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->prepareOutput();
 				$this->infoScreen();
 				break;
+
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('fold');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 
 			default:
 				$this->prepareOutput();

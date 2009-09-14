@@ -53,6 +53,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 	function init()
 	{
 		#$this->static_link_enabled = true;
+		$this->copy_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;

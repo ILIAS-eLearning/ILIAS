@@ -11,7 +11,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilCourseItemAdministrationGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesSession 
 */
@@ -38,7 +38,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl, $lng, $ilCtrl,$tpl;
+		global $ilCtrl, $lng, $tpl;
 		
 		$this->type = "sess";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -61,7 +61,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function executeCommand()
 	{
-  		global $ilUser;
+  		global $ilUser,$ilCtrl;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -89,6 +89,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
 				$this->ctrl->forwardCommand($item_adm_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('sess');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 				
 		
 			default:

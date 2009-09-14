@@ -232,6 +232,8 @@ class ilParticipants
 	
 	public static function getDefaultMemberRole($a_ref_id)
 	{
+		global $ilCtrl;
+		
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$type = ilObject::_lookupType($obj_id);
 		

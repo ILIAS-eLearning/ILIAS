@@ -62,6 +62,7 @@ class ilSessionObjectListGUIFactory
 
 		$item_list_gui->enableDelete(false);
 		$item_list_gui->enableCut(false);
+		$item_list_gui->enableCopy(false);
 		$item_list_gui->enableSubscribe(true);
 		$item_list_gui->enableIcon(true);
 		$item_list_gui->enablePayment(true);

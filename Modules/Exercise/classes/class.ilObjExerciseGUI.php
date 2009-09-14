@@ -11,6 +11,7 @@ require_once "classes/class.ilObjectGUI.php";
 * $Id$
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -54,27 +55,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
 		
 		$this->fillCloneTemplate('DUPLICATE','exc');
-return;
-		parent::createObject();
-
-		$this->tpl->setVariable("INSTRUCTION",
-			ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["instruction"], true));
-
-		// SET ADDITIONAL TEMPLATE VARIABLES
-		$this->tpl->setVariable("TXT_INSTRUCTION",$this->lng->txt("exc_instruction"));
-		$this->tpl->setVariable("TXT_EDIT_UNTIL",$this->lng->txt("exc_edit_until"));
-		$this->tpl->setVariable("TXT_HOUR",$this->lng->txt("time_h"));
-		$this->tpl->setVariable("TXT_DAY",$this->lng->txt("time_d"));
-		$this->tpl->setVariable("SELECT_HOUR",$this->__getDateSelect("hour",(int) date("H",time())));
-		$this->tpl->setVariable("SELECT_MINUTES",$this->__getDateSelect("minutes",(int) date("i",time())));
-		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",(int) date("d",time())));
-		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",(int) date("m",time())));
-		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",1));
-		$this->tpl->setVariable("CMD_CANCEL", "cancel");
-	
-		$this->fillCloneTemplate('DUPLICATE','exc');
-	
-		return true;
 	}
   
 	function viewObject()
@@ -1127,7 +1107,7 @@ return;
 	
 	function &executeCommand()
 	{
-  		global $ilUser;
+  		global $ilUser,$ilCtrl;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -1168,8 +1148,17 @@ return;
 				#$this->__setSubTabs('members');
 				#$this->tabs_gui->setSubTabActive('members');
 				break;
+				
+			case 'ilobjectcopygui':
+				$ilCtrl->saveParameter($this, 'new_type');
+				$ilCtrl->setReturnByClass(get_class($this),'create');
 
-	
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('exc');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 			default:
 				if(!$cmd)
 				{
