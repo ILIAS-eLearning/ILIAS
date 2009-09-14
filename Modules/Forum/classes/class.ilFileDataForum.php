@@ -205,30 +205,59 @@ class ilFileDataForum extends ilFileData
 	}
 
 	/**
-	* store uploaded file in filesystem
-	* @param array HTTP_POST_FILES
-	* @access	public
-	* @return bool
-	*/
-	function storeUploadedFile($a_http_post_file)
+	 * 
+	 * Store uploaded files in filesystem
+	 * 
+	 * @param	array	$files	Copy of $_FILES array,
+	 * @access	public
+	 * @return	bool
+	 * 
+	 */
+	function storeUploadedFile($files)
 	{
-		// TODO: 
-		// CHECK UPLOAD LIMIT
-		// 
-
-		if(isset($a_http_post_file) && $a_http_post_file['size'])
+		if(isset($files['name']) && is_array($files['name']))
 		{
-			$a_http_post_file['name'] = ilUtil::_sanitizeFilemame($a_http_post_file['name']);
+			foreach($files['name'] as $index => $name)
+			{
+				// remove trailing '/'
+				while(substr($name, -1) == '/')
+				{
+					$name = substr($name, 0, -1);
+				}	
+				$filename = ilUtil::_sanitizeFilemame($name);				
+				$temp_name = $files['tmp_name'][$index];
+				$error = $files['error'][$index];
+				
+				if(strlen($filename) && strlen($temp_name) && $error == 0)
+				{				
+					$path = $this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id.'_'.$filename;
+					
+					$this->__rotateFiles($path);
+					ilUtil::moveUploadedFile($temp_name, $filename, $path);				
+				}
+			}
 			
-			// CHECK IF FILE WITH SAME NAME EXISTS
-			$this->__rotateFiles($this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".$a_http_post_file['name']);
-			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
-				$this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".
-				$a_http_post_file['name']);
-			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".
-			//   $a_http_post_file['name']);
+			return true;
 		}
-		return true;
+		else if(isset($files['name']) && is_string($files['name']))
+		{
+			// remove trailing '/'
+			while(substr($files['name'], -1) == '/')
+			{
+				$files['name'] = substr($files['name'], 0, -1);
+			}			
+			$filename = ilUtil::_sanitizeFilemame($files['name']);
+			$temp_name = $files['tmp_name'];
+			
+			$path = $this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id.'_'.$filename;
+			
+			$this->__rotateFiles($path);
+			ilUtil::moveUploadedFile($temp_name, $filename, $path);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	/**
 	* unlink files: expects an array of filenames e.g. array('foo','bar')
