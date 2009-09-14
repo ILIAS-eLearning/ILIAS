@@ -127,6 +127,7 @@ class ilContainerSorting
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id, 'integer');
 
 		$res = $ilDB->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 	 		if(!isset($mappings[$row->child_id]) or !$mappings[$row->child_id])
@@ -142,10 +143,10 @@ class ilContainerSorting
 
 			$query = "DELETE FROM container_sorting ".
 				"WHERE obj_id = ".$ilDB->quote($target_obj_id,'integer')." ".
-				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer').", ".
-				"AND parent_type = ".$ilDB->quote($row->parent_type,'text').', '.
-				"AND parent_id = ".$ilDB->quote($mappings[$row->parent_id],'integer');
-			$res = $ilDB->manipulate($query);
+				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer')." ".
+				"AND parent_type = ".$ilDB->quote($row->parent_type,'text').' '.
+				"AND parent_id = ".$ilDB->quote((int) $mappings[$row->parent_id],'integer');
+			$ilDB->manipulate($query);
 	 		
 	 		// Add new value
 	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position,parent_type,parent_id) ".
@@ -154,9 +155,9 @@ class ilContainerSorting
 	 			$ilDB->quote($mappings[$row->child_id] ,'integer').", ".
 	 			$ilDB->quote($row->position,'integer').", ".
 				$ilDB->quote($row->parent_type,'text').", ".
-				$ilDB->quote($mappings[$row->parent_id],'integer').
+				$ilDB->quote((int) $mappings[$row->parent_id],'integer').
 	 			")";
-			$res = $ilDB->manipulate($query);
+			$ilDB->manipulate($query);
 		}
 		return true;		
 	}

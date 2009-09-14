@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI, ilObjectCopyGUI
 * 
 * @extends ilObjectGUI
 */
@@ -157,6 +157,15 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('root');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 			
 			default:
 				$this->prepareOutput();

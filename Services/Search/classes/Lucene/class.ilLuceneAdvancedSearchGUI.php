@@ -35,7 +35,7 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 * @ilCtrl_IsCalledBy ilLuceneAdvancedSearchGUI: ilSearchController
 * @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjRootFolderGUI
+* @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
 *
 * @ingroup ServicesSearch
 */
@@ -70,6 +70,13 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->prepareOutput();
 		switch($next_class)
 		{
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			
 			default:
 				if(!$cmd)
 				{

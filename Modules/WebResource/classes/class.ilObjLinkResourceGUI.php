@@ -66,7 +66,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	public function executeCommand()
 	{
 		global $rbacsystem,$ilCtrl;
-
+		
+		
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
 		if($_GET["baseClass"] == 'ilLinkResourceHandlerGUI')
 		{
@@ -143,21 +144,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	 */
 	public function createObject()
 	{
-	 	#parent::createObject();
-	 	#$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-	 	
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
 		$this->initFormLink(self::LINK_MOD_CREATE);
 		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
 		
 	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
 		
-		/*
-		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-		$cp = new ilObjectCopyGUI($this);
-		$cp->setType('webr');
-		$cp->showSourceSearch('CLONE_WIZARD');
-		*/
 	}
 	
 	/**
@@ -198,7 +190,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
 		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
-	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
+		
+		$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
 		return false;
 
 		
@@ -581,6 +574,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				// Header
 				$this->ctrl->setParameter($this,'new_type','webr');
 				$this->form->setTitle($this->lng->txt('webr_new_link'));
+				$this->form->setTableWidth('60%');
 
 				// Buttons
 				$this->form->addCommandButton('save', $this->lng->txt('webr_add'));

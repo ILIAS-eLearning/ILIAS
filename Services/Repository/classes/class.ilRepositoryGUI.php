@@ -239,7 +239,16 @@ class ilRepositoryGUI
 				{
 					$next_class = $this->ctrl->getNextClass();
 				}
-				$this->ctrl->setCmdClass($next_class);
+				// Only set the fixed cmdClass if the next class is different to
+				// the GUI class of the new object.
+				// An example:
+				// Copy Category uses this call structure:
+				// RespositoryGUI -> CategoryGUI -> ilObjectCopyGUI
+				// Without this fix, the cmdClass ilObjectCopyGUI would never be reached
+				if($this->ctrl->getNextClass() != strtolower('ilObj'.$class_name.'GUI'))
+				{
+					$this->ctrl->setCmdClass($next_class);
+				}
 			}
 			else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
 				|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))

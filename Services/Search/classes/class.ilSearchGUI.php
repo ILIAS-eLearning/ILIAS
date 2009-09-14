@@ -19,7 +19,7 @@ define('SEARCH_OR','or');
 * @ilCtrl_Calls ilSearchGUI: ilPropertyFormGUI
 * @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUI
+* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUIGUI, ilObjectCopyGUI
 * 
 * @ingroup	ServicesSearch
 */
@@ -160,6 +160,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 				$this->prepareOutput();
 				$ilCtrl->setReturn($this, "");
 				return $ilCtrl->forwardCommand($this->form);
+				break;
+				
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$this->ctrl->forwardCommand($cp);
 				break;
 			
 			default:

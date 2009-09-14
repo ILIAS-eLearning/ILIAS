@@ -12,7 +12,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -38,7 +38,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem, $ilNavigationHistory, $ilAccess;
+		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -112,6 +112,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 				}
 				break;
 				
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('cat');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			default:
 				$this->checkPermission("visible");
 				

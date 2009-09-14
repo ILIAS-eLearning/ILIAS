@@ -52,6 +52,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	*/
 	public function init()
 	{
+		$this->copy_enabled = false;
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;

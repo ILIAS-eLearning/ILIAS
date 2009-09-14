@@ -50,6 +50,7 @@ class ilObjiLincCourseListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
+		$this->copy_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = false;
 		$this->subscribe_enabled = true;

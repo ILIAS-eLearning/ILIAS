@@ -55,6 +55,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 	{
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
+		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;

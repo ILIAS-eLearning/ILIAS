@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -67,7 +67,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory;
+		global $ilAccess, $ilNavigationHistory,$ilCtrl;
 
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -171,6 +171,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('tst');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 
 			default:
 				$this->prepareOutput();
@@ -2807,6 +2816,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			
 			$this->fillCloneTemplate('DUPLICATE','tst');
+			
 			$this->tpl->setCurrentBlock("adm_content");
 			
 			// fill in saved values in case of error
@@ -3685,13 +3695,11 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilUser;
 
 		// Disabled
-		/*
 		if ($_GET['crs_show_result'])
 		{
 			$this->object->hideCorrectAnsweredQuestions();
 		}
 		else
-		*/
 		{
 			if ($this->object->getTestSequence()->hasHiddenQuestions())
 			{

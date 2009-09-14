@@ -337,7 +337,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$d = ilRepositoryObjectPluginSlot::addCreatableSubObjects($d);
 		}
-		
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
@@ -801,6 +800,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 								$item_list_gui->enableDelete(false);
 								$item_list_gui->enableLink(false);
 								$item_list_gui->enableCut(false);
+								$item_list_gui->enableCopy(false);
 							}
 							
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
@@ -2278,27 +2278,39 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->returnToParent($this);
 
 	} // END PASTE
+	
 
 	// BEGIN WebDAV: Support a copy command in repository
+	
 	/**
-	* copy object(s) out from a container and write the information to clipboard
+	* Copy object(s) out from a container and write the information to clipboard
+	* It is not possible to copy multiple objects at once.
 	*
 	*
 	* @access	public
 	*/
 	function copyObject()
 	{
-		global $rbacsystem;
+		global $ilAccess,$ilObjDefinition;
 		
-		if ($_GET["item_ref_id"] != "")
+		if(!$ilAccess->checkAccess('copy','',$_GET['item_ref_id']))
 		{
-			$_POST["id"] = array($_GET["item_ref_id"]);
+			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET['item_ref_id']));
+			
+			ilUtil::sendFailure($this->lng->txt('msg_no_perm_copy').' '.$title,true);
+			$this->ctrl->returnToParent($this);
 		}
+		
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = 'copy';
 
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
+		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
+		return $this->initAndDisplayCopyIntoObjectObject();
+		
+		
+		
+
+		
 
 		// FOR ALL OBJECTS THAT SHOULD BE COPIED
 		foreach ($_POST["id"] as $ref_id)

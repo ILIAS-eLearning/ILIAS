@@ -46,6 +46,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
+		$this->copy_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;

@@ -236,7 +236,7 @@ class ilObjectGUI
 	protected function prepareOutput()
 	{
 		global $ilLocator, $tpl, $ilUser;
-
+		
 		$this->tpl->getStandardTemplate();
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
@@ -1291,6 +1291,16 @@ class ilObjectGUI
 	 */
 	protected function fillCloneTemplate($a_tpl_varname,$a_type)
 	{
+		
+		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+		$cp = new ilObjectCopyGUI($this);
+		$cp->setType($a_type);
+		$cp->setTarget($_GET['ref_id']);
+		$cp->showSourceSearch($a_tpl_varname);
+		return;
+		
+		
+		
 		global $objDefinition,$ilUser,$ilSetting;
 		
 		$max_entries = $ilSetting->get('search_max_hits',100);

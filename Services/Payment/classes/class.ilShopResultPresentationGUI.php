@@ -184,6 +184,7 @@ class ilShopResultPresentationGUI
 					
 					$item_list_gui->enableDelete(false);						
 					$item_list_gui->enableCut(false);
+					$item_list_gui->enableCopy(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableSubscribe(false);															
 				

@@ -379,7 +379,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
-	function allowLink($a_obj_name)
+	public function allowLink($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["allow_link"];
 	}
@@ -390,7 +390,7 @@ class ilObjectDefinition extends ilSaxParser
 	* @param	string	object type
 	* @access	public
 	*/
-	function allowCopy($a_obj_name)
+	public function allowCopy($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
 	}

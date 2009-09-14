@@ -37,7 +37,7 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesForum
 */
@@ -90,7 +90,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilNavigationHistory, $ilAccess;
+		global $ilNavigationHistory, $ilAccess, $ilCtrl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -153,6 +153,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('frm');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 
 			default:
 				if($_POST['selected_cmd'] != null)

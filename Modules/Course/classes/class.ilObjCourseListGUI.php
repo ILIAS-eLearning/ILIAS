@@ -53,6 +53,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
+		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = true;

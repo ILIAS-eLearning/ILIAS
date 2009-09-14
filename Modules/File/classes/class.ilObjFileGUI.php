@@ -33,7 +33,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesFile
 */
@@ -57,7 +57,7 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory;	
+		global $ilAccess, $ilNavigationHistory,$ilCtrl;	
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -116,6 +116,14 @@ class ilObjFileGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('file');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 
 			default:
 				if (empty($cmd))
