@@ -126,7 +126,7 @@ class ilDBOracle extends ilDB
 		else
 		{
 			return "to_char(TO_DATE('19700101000000','YYYYMMDDHH24MISS') ".
-				"+ NUMTODSINTERVAL(".$a_expr.", 'SECOND'), 'dd.mm.yyyy hh24:mi')";
+				"+ NUMTODSINTERVAL(".$a_expr.", 'SECOND'), 'yyyy-mm-dd hh24:mi:ss')";
 		}
 	}
 
@@ -135,7 +135,9 @@ class ilDBOracle extends ilDB
 	*/
 	function unixTimestamp()
 	{
-		return "ROUND(sysdate - to_date('01-JAN-1970','DD-MON-YYYY')) * (86400)";
+		// sysdate should respect database time zone
+		// current_date would respect session time zone
+		return "ROUND((sysdate - to_date('01-JAN-1970','DD-MON-YYYY')) * (86400))";
 	}
 
 	/**
