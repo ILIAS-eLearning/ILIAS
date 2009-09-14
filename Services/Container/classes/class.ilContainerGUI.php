@@ -1318,6 +1318,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function addToDeskObject()
     {
+    	global $ilSetting;
+		
+    	if((int)$ilSetting->get('disable_my_offers'))
+		{
+			return $this->renderObject();
+		}
+		
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
 		$this->renderObject();
@@ -1328,6 +1335,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function removeFromDeskObject()
     {
+    	global $ilSetting;
+		
+    	if((int)$ilSetting->get('disable_my_offers'))
+		{
+			return $this->renderObject();
+		}
+		
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::removeFromDesktop();
 		$this->renderObject();
