@@ -1818,8 +1818,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		// attachments
-		$oFileUploadGUI = new ilFileInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
-		
+		$oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
+		$oFileUploadGUI->setFilenames(array(0 => ''));
 		$this->replyEditForm->addItem($oFileUploadGUI);
 		
 		// edit attachments
@@ -1958,8 +1958,8 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 				
 				$oFDForum = new ilFileDataForum($forumObj->getId(), $newPost);
-				$file = $oReplyEditForm->getInput('userfile');
-				if(strlen($file['tmp_name']))
+				$file = $_FILES['userfile'];
+				if(is_array($file) && !empty($file))
 				{
 					$oFDForum->storeUploadedFile($file);
 				}
@@ -2043,8 +2043,8 @@ class ilObjForumGUI extends ilObjectGUI
 					// attachments					
 					$oFDForum = $oForumObjects['file_obj'];
 					
-					$file = $oReplyEditForm->getInput('userfile');
-					if(strlen($file['tmp_name']))
+					$file = $_FILES['userfile'];
+					if(is_array($file) && !empty($file))
 					{
 						$oFDForum->storeUploadedFile($file);
 					}
@@ -3472,8 +3472,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_topic_form_gui->addItem($post_gui);		
 		
 		// file
-		$file_gui = new ilFileInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
-		$this->create_topic_form_gui->addItem($file_gui);
+		$fi = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
+		$fi->setFilenames(array(0 => ''));
+		$this->create_topic_form_gui->addItem($fi);
 		
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($ilUser->getId());
@@ -3586,7 +3587,7 @@ class ilObjForumGUI extends ilObjectGUI
 				);
 			}
 			
-			$file = $this->create_topic_form_gui->getInput('userfile');
+			$file = $_FILES['userfile'];
 			
 			// file upload
 			if(is_array($file) && !empty($file))
