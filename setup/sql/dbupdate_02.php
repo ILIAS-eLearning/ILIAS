@@ -6315,6 +6315,34 @@ if ($res->numRows() == 0)
 	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 	$this->db->query($query);
 }
+
+// migrate matching question solutions (if not migrated from 3.9 -> 3.10)
+$query = "SELECT DISTINCT question_fi FROM qpl_answer_matching";
+$res = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($res))
+{
+	$solquery = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s",
+		$ilDB->quote($row['question_fi'])
+	);
+	$solres = $ilDB->query($solquery);
+	while ($solrow = $ilDB->fetchAssoc($solres))
+	{
+		$check = sprintf("SELECT * FROM qpl_answer_matching WHERE question_fi = %s AND aorder = %s",
+			$ilDB->quote($row['question_fi']),
+			$ilDB->quote($solrow['value1'])
+		);
+		$checkres = $ilDB->query($check);
+		if ($checkres->numRows() == 1)
+		{
+			$checkrow = $ilDB->fetchAssoc($checkres);
+			$update = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+				$ilDB->quote($checkrow['answertext']),
+				$ilDB->quote($solrow['solution_id'])
+			);
+			$ilDB->query($update);
+		}
+	}
+}
 ?>
 <#1370>
 <?php
