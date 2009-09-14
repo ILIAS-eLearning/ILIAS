@@ -15753,3 +15753,8 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#2875>
+<?php
+  	$ilDB->modifyTableColumn("cp_item", "datafromlms", array("type" => "text", "notnull" => false, "default" => null, "length" => 4000));
+?>
