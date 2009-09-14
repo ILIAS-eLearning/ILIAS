@@ -176,7 +176,6 @@ public	class IliasApiAdapterApplet
 		core.sysPut ("cmi.core.student_name", IliasStudentName);
 		core.sysPut (IliasScoCmi);
 		core.transBegin();
-		this.initEntry();
 		isLaunched  = true;
 	}
 
