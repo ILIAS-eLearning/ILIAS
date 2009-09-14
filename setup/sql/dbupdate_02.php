@@ -15679,3 +15679,16 @@ $ilDB->createTable('page_pc_usage', $fields);
 $ilDB->addPrimaryKey('page_pc_usage', array('pc_type', 'pc_id', 'usage_type', 'usage_id', 'usage_hist_nr'));
 
 ?>
+<#2873>
+<?php
+$ilDB->addTableColumn("il_news_item", "start_date", array(
+	"type" => "timestamp",
+	"notnull" => false,
+	"default" => null
+));
+$ilDB->addTableColumn("il_news_item", "end_date", array(
+	"type" => "timestamp",
+	"notnull" => false,
+	"default" => null
+));
+?>
