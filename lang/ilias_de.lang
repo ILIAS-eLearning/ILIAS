@@ -9984,4 +9984,5 @@ administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benut
 administration#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
 administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
-common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen. 
+common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
+webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
