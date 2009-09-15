@@ -120,6 +120,8 @@ class ilObjectCopyGUI
 		$this->tpl = $tpl;
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');
 		
+		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
+		
 		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,

@@ -2957,7 +2957,7 @@ common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard. Use paste to copy object(s) to desired location.
+common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard. Please choose the desired location.
 common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard. Use paste to insert object(s) at desired location.
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_role#:#Role deleted
