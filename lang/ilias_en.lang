@@ -9970,3 +9970,4 @@ mep#:#mep_page_created#:#Content snippet created.
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.
 sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.
+webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.

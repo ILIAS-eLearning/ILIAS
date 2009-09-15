@@ -340,6 +340,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			{
 				$this->dynamic->add((int) $_REQUEST['link_id']);
 			}
+			
+			if($this->isContainerMetaDataRequired())
+			{
+				$this->object->setTitle($this->form->getInput('tit'));
+				$this->object->setDescription($this->form->getInput('des'));
+				$this->object->update();
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$ilCtrl->redirect($this,'view');
 		}
@@ -467,6 +475,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$links->setDisableCheckStatus((int) $data['che']);
 			$links->setValidStatus((int) $data['vali']);
 			$links->update();
+			
+			if($this->isContainerMetaDataRequired())
+			{
+				$this->object->setTitle(ilUtil::stripSlashes($data['tit']));
+				$this->object->setDescription(ilUtil::stripSlashes($data['des']));
+				$this->object->update();
+			}
 			
 			// TODO: Dynamic parameters
 		}
@@ -606,6 +621,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		
 		if($a_mode == self::LINK_MOD_ADD and $this->isContainerMetaDataRequired())
 		{
+			ilUtil::sendInfo($this->lng->txt('webr_container_info'));
+			
+			
 			$this->form->setTitle($this->lng->txt('webr_edit_list'));
 			
 			// List Title
