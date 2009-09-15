@@ -1692,7 +1692,7 @@ common#:#cat_create_spl#:#Create Question Pool Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Create Web Resource List
+common#:#cat_create_webr#:#Create Weblink
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
@@ -1766,13 +1766,13 @@ common#:#textbox#:#Textbox
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
-common#:#check_link#:#Link check
+common#:#check_link#:#Weblink check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
-common#:#check_web_resources#:#Check Links
-common#:#check_web_resources_desc#:#If enabled all Web Resource Links will be checked if they are active.
+common#:#check_web_resources#:#Check Weblinks
+common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -1883,7 +1883,7 @@ common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_create_spl#:#Create Question Pool Survey
 common#:#crs_create_svy#:#Create Survey
 common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create Web Resource List
+common#:#crs_create_webr#:#Create Weblink
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_learning_progress#:#Edit Learning Progress
@@ -2198,7 +2198,7 @@ common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_create_spl#:#Create Question Pool Survey
 common#:#fold_create_svy#:#Create Survey
 common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create Web Resource List
+common#:#fold_create_webr#:#Create Weblink
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_learning_progress#:#Edit Learning Progress
@@ -2357,7 +2357,7 @@ common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_create_spl#:#Create Question Pool Survey
 common#:#grp_create_svy#:#Create Survey
 common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create Web Resource List
+common#:#grp_create_webr#:#Create Weblink
 common#:#grp_delete#:#Delete Group
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
@@ -2436,9 +2436,9 @@ common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
 common#:#hist_no_entries#:#No entries in history.
-common#:#hist_webr_add#:#Added new Link with title: "%1"
-common#:#hist_webr_delete#:#Deleted Link with title: "%1"
-common#:#hist_webr_update#:#Modified Link with title: "%1"
+common#:#hist_webr_add#:#Added new Weblink with title: "%1"
+common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
+common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -2752,20 +2752,20 @@ common#:#learning_resource#:#Learning Resource
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
-common#:#link_check#:#Link check
+common#:#link_check#:#Weblink Check
 common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
-common#:#link_check_subject#:#[ILIAS] Link check
+common#:#link_check_subject#:#[ILIAS] Weblink check
 common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add parameter:
 common#:#links_dyn_parameter#:#Dynamic Parameters
-common#:#links_dynamic#:#Dynamic Web Links Parameters
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links.<br /> E.g. the ILIAS user id or the username.
+common#:#links_dynamic#:#Dynamic Weblink Parameters
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the username.
 common#:#links_existing_params#:#Existing parameters:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Please choose a parameter name.
@@ -3391,7 +3391,7 @@ common#:#obj_usr#:#User
 common#:#obj_user#:#User
 common#:#obj_usrf#:#User Accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
-common#:#obj_webr#:#Web Resource List
+common#:#obj_webr#:#Weblink
 common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#object_duplicated#:#Object copied
@@ -3437,7 +3437,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Object Types
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Users
-common#:#objs_webr#:#Web Resource Lists
+common#:#objs_webr#:#Weblinks
 common#:#of#:#Of
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -4192,32 +4192,32 @@ common#:#visible_layers#:#Visible Layers
 common#:#visitor#:#Visitor
 common#:#visitors#:#Visitors
 common#:#visits#:#Visits
-common#:#web_resources#:#Links
-common#:#webr#:#Link
+common#:#web_resources#:#Weblinks
+common#:#webr#:#Weblink
 common#:#webr_active#:#Active
-common#:#webr_add#:#Add Link
-common#:#webr_add_item#:#Add Link
-common#:#webr_delete#:#Delete Web Resource List
-common#:#webr_delete_items#:#Delete Link(s)
-common#:#webr_deleted_items#:#Deleted Link(s).
+common#:#webr_add#:#Add Weblink
+common#:#webr_add_item#:#Add Weblink
+common#:#webr_delete#:#Delete Weblink list
+common#:#webr_delete_items#:#Delete Weblink(s)
+common#:#webr_deleted_items#:#Deleted Weblink(s).
 common#:#webr_disable_check#:#Disable Validation
-common#:#webr_edit#:#Edit Link
-common#:#webr_edit_item#:#Edit Link
+common#:#webr_edit#:#Edit Weblink
+common#:#webr_edit_item#:#Edit Weblink
 common#:#webr_edit_permission#:#Change permission settings
 common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
-common#:#webr_join#:#Subscribe Web Resource List
+common#:#webr_join#:#Subscribe Weblinks
 common#:#webr_last_check#:#Last check
 common#:#webr_last_check_table#:#Last check:
-common#:#webr_leave#:#Unsubscribe Web Resource List
+common#:#webr_leave#:#Unsubscribe Weblinks
 common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
-common#:#webr_new#:#Add new Link
-common#:#webr_no_items_created#:#No Links created
-common#:#webr_read#:#Read access to Web Resource List
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Link(s)?
-common#:#webr_visible#:#Web Resource List is visible
-common#:#webr_write#:#Edit Web Resource List
+common#:#webr_new#:#Add New Weblink
+common#:#webr_no_items_created#:#No Weblinks created
+common#:#webr_read#:#Read access to Weblinks
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Weblink(s)?
+common#:#webr_visible#:#Weblink is visible
+common#:#webr_write#:#Edit Weblinks
 common#:#webservices#:#Webservices
 common#:#week#:#Week
 common#:#weekly#:#weekly
@@ -7683,8 +7683,8 @@ crs#:#event_digit#:#Digit
 crs#:#event_csv_export#:#CSV Export
 crs#:#event_participated#:#Participated
 crs#:#event_not_participated#:#Not Participated
-common#:#obj_webr_duplicate#:#Copy Web Resource List
-common#:#obj_webr_select#:#-- Please select one Web Resource List --
+common#:#obj_webr_duplicate#:#Copy Weblink list
+common#:#obj_webr_select#:#-- Please select one Weblink list --
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_select#:#-- Please select one File --
 common#:#obj_exc_duplicate#:#Copy Exercise
@@ -7757,7 +7757,7 @@ common#:#mcst_copy#:#Copy Mediacast
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#svy_copy#:#Copy Survey
 common#:#tst_copy#:#Copy Test
-common#:#webr_copy#:#Copy Web Resource List
+common#:#webr_copy#:#Copy Weblink
 common#:#missing_perm#:#Missing Permission
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
@@ -9923,12 +9923,12 @@ content#:#cont_debugpw#:#Password
 content#:#scplayer_debugger#:#Show Debugger
 content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_file_created#:#File has been created.
-webr#:#webr_new_link#:#Add New Link
-webr#:#webr_link_target#:#Link Target
-webr#:#webr_link_title#:#Link Name
+webr#:#webr_new_link#:#Add New Weblink
+webr#:#webr_link_target#:#Weblink Target
+webr#:#webr_link_title#:#Weblink Name
 webr#:#webr_active#:#Active
 webr#:#webr_link_added#:#A new link has been created.
-webr#:#webr_deactivate#:#Deactivate Link
+webr#:#webr_deactivate#:#Deactivate Weblink
 webr#:#webr_inactive_success#:#The chosen link is deactivated.
 payment#:#pay_hide_advanced_search#:#Hide Advanced Search
 payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
@@ -9940,17 +9940,17 @@ payment#:#pay_hide_news#:#Hide news
 payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
 payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
 payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
-webr#:#webr_list_title#:#Title of Web Resource List
-webr#:#webr_list_desc#:#Description of Web Resource List
-webr#:#webr_edit_links#:#Edit Links
+webr#:#webr_list_title#:#Title of Weblink List
+webr#:#webr_list_desc#:#Description of Weblink List
+webr#:#webr_edit_links#:#Edit Weblinks
 payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
 payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
 payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
 webr#:#webr_edit_settings#:#Edit Settings
-webr#:#webr_sorting#:#Link Sorting
+webr#:#webr_sorting#:#Weblink Sorting
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Sort by Title
-webr#:#webr_edit_list#:#Edit Web Resource List
+webr#:#webr_edit_list#:#Edit Weblinks
 chat#:#check_configuration#:#Please check the chat server's settings.
 cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:
 dateplaner#:#add_appointment#:#Add Appointment
