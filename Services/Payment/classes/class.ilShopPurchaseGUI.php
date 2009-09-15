@@ -584,12 +584,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		global $ilUser, $ilTabs;
 		
 		$ilTabs->setTabActive('buy');		
-
-		if(ANONYMOUS_USER_ID == $ilUser->getId())
-		{
-			ilUtil::redirect('login.php?cmd=force_login&login_to_purchase_object=1');
-			exit();
-		}		
+	
 		if(!isset($_POST['price_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_select_price'));
@@ -600,6 +595,15 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		else
 		{			
 			$this->__initPaymentObject();
+			
+			if(ANONYMOUS_USER_ID == $ilUser->getId())
+			{
+				$_SESSION['price_id'] = (int)$_POST['price_id'];
+				$_SESSION['pobject_id'] = $this->pobject->getPobjectId();
+				ilUtil::redirect('login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+				exit();
+			}
+			
 			$this->__initShoppingCartObject();
 			
 

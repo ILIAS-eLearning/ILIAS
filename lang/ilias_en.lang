@@ -8510,7 +8510,7 @@ payment#:#sort_topics_manually#:#Manually
 payment#:#pay_enable_shop#:#Enable Webshop
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
 payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
-payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.
+payment#:#payment_login_to_buy_object#:#Please login for putting the object into the shopping cart.
 dateplaner#:#cal_share_search_role_header#:#Role Selection
 common#:#assigned_members#:#Assigned Members
 payment#:#pay_abstract#:#Abstract

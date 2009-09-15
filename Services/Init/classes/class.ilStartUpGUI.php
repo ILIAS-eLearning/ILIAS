@@ -102,9 +102,15 @@ class ilStartUpGUI
 		{
 			if (empty($_GET['cookies']))
 			{
+				$additional_params = '';                
+            	if((int)$_GET['forceShoppingCartRedirect'] && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
+            	{
+                	$additional_params .= '&login_to_purchase_object=1&forceShoppingCartRedirect=1';
+            	}
+				
 				ilUtil::setCookie("iltest","cookie",false);
 				//header('Location: '.$_SERVER['PHP_SELF']."?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']);
-				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".rawurlencode(CLIENT_ID)."&lang=".$_GET['lang']);
+				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".rawurlencode(CLIENT_ID)."&lang=".$_GET['lang'].$additional_params);
 			}
 			else
 			{
@@ -358,6 +364,9 @@ class ilStartUpGUI
 
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
+		if((int)$_GET['forceShoppingCartRedirect'])
+  			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
+
 		$this->ctrl->setTargetScript("login.php");
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -1058,7 +1067,7 @@ class ilStartUpGUI
 	*/
 	function processStartingPage()
 	{
-		global $ilBench, $ilCtrl, $ilAccess, $lng;
+		global $ilBench, $ilCtrl, $ilAccess, $lng, $ilUser;
 //echo "here";
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
 		{
@@ -1092,6 +1101,22 @@ class ilStartUpGUI
 		}
 		else
 		{
+			if((int)$_GET['forceShoppingCartRedirect'] && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
+            {
+                include_once 'payment/classes/class.ilPaymentShoppingCart.php';
+                $oCart = new ilPaymentShoppingCart($ilUser);
+                $oCart->setPriceId((int)$_SESSION['price_id']);
+                $oCart->setPobjectId((int)$_SESSION['pobject_id']);
+                $oCart->add();
+                
+                unset($_SESSION['price_id']);
+                unset($_SESSION['pobject_id']);
+                
+                $lng->loadLanguageModule('payment');
+                ilUtil::sendInfo($lng->txt('pay_added_to_shopping_cart'), true);
+                ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
+            }
+			
 			if	(!$this->_checkGoto($_GET["target"]))
 			{
 				// message if target given but not accessible
