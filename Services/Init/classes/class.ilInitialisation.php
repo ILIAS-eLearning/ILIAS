@@ -1071,7 +1071,8 @@ class ilInitialisation
 		if ($_GET["cmd"] == "force_login" || $this->script == "login.php")
 		{
 			$ilAuth->logout();
-			$_SESSION = array();
+			if(!isset($_GET['forceShoppingCartRedirect']))
+				$_SESSION = array();
 			$_SESSION["AccountId"] = "";
 			$ilAuth->start();
 			$ilias->setAuthError($ilErr->getLastError());

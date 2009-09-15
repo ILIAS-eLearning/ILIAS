@@ -8254,7 +8254,7 @@ payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersa
 payment#:#payment_cannot_save_existing_vat#:#Ein vorhandener Steuersatz kann nicht angelegt werden.
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.
 payment#:#payment_edit_vat#:#Steuersatz bearbeiten
-payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
+payment#:#payment_login_to_buy_object#:#Bitte melden Sie sich bei ILIAS an, damit das Objekt in den Warenkorb gelegt werden kann.
 payment#:#payment_news#:#Shop Nachrichten
 payment#:#payment_news_add_news#:#Shop Nachricht hinzufügen
 payment#:#payment_news_archive_period#:#Archiv-Zeitraum
