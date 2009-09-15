@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/win.php,v 1.23 2009/03/30 00:49:30 jon Exp $
+ * $Header$
  *
- * @version $Revision: 1.23 $
+ * @version $Revision: 278003 $
  * @package Log
  */
 

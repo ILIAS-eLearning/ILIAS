@@ -1,9 +1,9 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/composite.php,v 1.28 2006/06/29 07:12:34 jon Exp $
+ * $Header$
  * $Horde: horde/lib/Log/composite.php,v 1.2 2000/06/28 21:36:13 jon Exp $
  *
- * @version $Revision: 1.28 $
+ * @version $Revision: 215528 $
  * @package Log
  */
 

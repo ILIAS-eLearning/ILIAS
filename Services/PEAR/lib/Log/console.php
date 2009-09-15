@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/console.php,v 1.24 2006/12/07 04:15:02 jon Exp $
+ * $Header$
  *
- * @version $Revision: 1.24 $
+ * @version $Revision: 224513 $
  * @package Log
  */
 
