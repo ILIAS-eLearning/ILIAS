@@ -683,5 +683,32 @@ class ilObjLanguage extends ilObject
 		// no error occured
 		return true;
 	}
+	
+	/**
+	* Count number of users that use a language
+	*/
+	static function countUsers($a_lang)
+	{
+		global $ilDB, $lng;
+		
+		$set = $ilDB->query("SELECT COUNT(*) cnt FROM usr_data ud JOIN usr_pref up".
+			" ON ud.usr_id = up.usr_id ".
+			" WHERE up.value = ".$ilDB->quote($a_lang, "text").
+			" AND up.keyword = ".$ilDB->quote("language", "text"));
+		$rec = $ilDB->fetchAssoc($set);
+		
+		// add users with no usr_pref set to default language
+		if ($a_lang == $lng->lang_default)
+		{
+			$set2 = $ilDB->query("SELECT COUNT(*) cnt FROM usr_data ud LEFT JOIN usr_pref up".
+				" ON (ud.usr_id = up.usr_id AND up.keyword = ".$ilDB->quote("language", "text").")".
+				" WHERE up.value IS NULL ");
+			$rec2 = $ilDB->fetchAssoc($set2);
+		}
+		
+		return (int) $rec["cnt"] + (int) $rec2["cnt"];
+	}
+	
+	
 } // END class.LanguageObject
 ?>
