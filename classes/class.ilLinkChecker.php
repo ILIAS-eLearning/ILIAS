@@ -510,7 +510,7 @@ class ilLinkChecker
 				$ilDB->quote($link['page_id'],'integer').", ".
 				$ilDB->quote(substr($link['complete'],0,255),'text').", ".
 				$ilDB->quote($link['type'],'text').", ".
-				$ilDB->quote($link['http_status_code'] ? $link['http:status_code'] : 0,'integer').", ".
+				$ilDB->quote($link['http_status_code'] ? $link['http_status_code'] : 0,'integer').", ".
 				$ilDB->quote(time(),'integer')." ".
 				")";
 			$res = $ilDB->manipulate($query);
