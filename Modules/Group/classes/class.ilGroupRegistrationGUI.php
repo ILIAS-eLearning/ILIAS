@@ -305,7 +305,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('grp_reg_request'));
 			
-				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'subject');
+				$sub = new ilTextAreaInputGUI($this->lng->txt('grp_reg_subject'),'subject');
 				$sub->setValue($_POST['subject']);
 				$sub->setInfo($this->lng->txt('group_req_registration_msg'));
 				$sub->setCols(40);
@@ -316,10 +316,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 					$sub->setValue($sub_data['subject']);
 					$sub->setInfo('');
 					ilUtil::sendFailure($this->lng->txt('grp_already_assigned'));
-					$this->enableRegistration(false);	
-					
-					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('grp_update_subscr_request'));				
-					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('grp_cancel_subscr_request'));				
+					$this->enableRegistration(false);
 				}
 				$txt->addSubItem($sub);
 				$this->form->addItem($txt);
@@ -343,6 +340,42 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		
 		return true;
 	}
+	
+	/**
+	 * Add group specific command buttons
+	 * @return 
+	 */
+	protected function addCommandButtons()
+	{
+		global $ilUser;
+		
+		parent::addCommandButtons();
+		
+
+		switch($this->container->getRegistrationType())
+		{
+			case GRP_REGISTRATION_REQUEST:
+				if($this->participants->isSubscriber($ilUser->getId()))
+				{
+					$this->form->clearCommandButtons();
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('grp_update_subscr_request'));				
+					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('grp_cancel_subscr_request'));				
+				}
+				else
+				{
+					if(!$this->isRegistrationPossible())
+					{
+						return false;
+					}
+					$this->form->clearCommandButtons();
+					$this->form->addCommandButton('join', $this->lng->txt('grp_join_request'));
+					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				}
+				break;				
+		}
+		return true;		
+	}
+	
 	
 	/**
 	 * validate join request

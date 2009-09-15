@@ -9987,3 +9987,7 @@ administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen S
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#last_refresh#:#Letzte Aktualisierung
 webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
+grp#:#grp_reg_subject#:#Nachricht
+crs#:#crs_reg_subject#:#Nachricht
+grp#:#grp_join_request#:#Abschicken
+crs#:#crs_join_request#:#Abschicken

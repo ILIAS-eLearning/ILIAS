@@ -355,6 +355,17 @@ abstract class ilRegistrationGUI
 		{
 			$this->fillAgreement();
 		}
+		$this->addCommandButtons();
+	}
+	
+	/**
+	 * Add command buttons
+	 * @return 
+	 */
+	protected function addCommandButtons()
+	{
+		global $ilUser;
+		
 		if($this->isRegistrationPossible() and $this->isWaitingListActive() and !$this->getWaitingList()->isOnList($ilUser->getId()))
 		{
 			$this->form->addCommandButton('join',$this->lng->txt('mem_add_to_wl'));
