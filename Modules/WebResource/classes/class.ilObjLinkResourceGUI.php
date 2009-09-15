@@ -409,6 +409,30 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
+	/**
+	 * Delete a dynamic parameter
+	 * @return 
+	 */
+	protected function deleteParameterObject()
+	{
+		global $ilCtrl;
+
+		$this->checkPermission('write');
+		
+		if(!isset($_GET['param_id']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),TRUE);
+			$ilCtrl->redirect($this,'view');
+		}	
+
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+		$param = new ilParameterAppender($this->object->getId());
+		$param->delete((int) $_GET['param_id']);
+		
+		ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'),true);
+		$ilCtrl->redirect($this,'view');
+	}
+	
 	
 	/**
 	 * Update all visible links
@@ -439,6 +463,16 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				continue;
 			}
 			if(!strlen($data['tar']))
+			{
+				$invalid[] = $link_id;
+				continue;
+			}
+			if($data['nam'] and !$data['val'])
+			{
+				$invalid[] = $link_id;
+				continue;
+			}
+			if(!$data['nam'] and $data['val'])
 			{
 				$invalid[] = $link_id;
 				continue;
@@ -476,6 +510,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			$links->setValidStatus((int) $data['vali']);
 			$links->update();
 			
+			if(strlen($data['nam']) and $data['val'])
+			{
+				$param = new ilParameterAppender($this->object->getId());
+				$param->setName(ilUtil::stripSlashes($data['nam']));
+				$param->setValue((int) $data['val']);
+				$param->add($link_id);
+			}
+
 			if($this->isContainerMetaDataRequired())
 			{
 				$this->object->setTitle(ilUtil::stripSlashes($data['tit']));

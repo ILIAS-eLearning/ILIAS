@@ -12,9 +12,48 @@
 	</td>
 	<td class="std" style="vertical-align: top; padding: 8px;">
 		<span class="small">
-			{TXT_TARGET}: <span class="asterisk">*</span><br /><input type="text" name="links[{VAL_ID}][tar]" value="{VAL_TARGET}" size="40" maxlength="500" /><br />
+			{TXT_TARGET}: <span class="asterisk">*</span><br />
+			<input type="text" name="links[{VAL_ID}][tar]" value="{VAL_TARGET}" size="40" maxlength="500" /><br />
 			<div style="margin-top:8px" />
 			{TXT_LAST_CHECK} {LAST_CHECK}
+			<!-- BEGIN dyn_del_rows -->
+			<div style="margin-top:8px" />
+			<b>{TXT_EXISTING}</b><br />
+			<!-- BEGIN dyn_del_row -->
+			<table class="fullwidth">
+				<tr>
+					<td>
+						{VAL_DYN}			
+					</td>
+					<td>
+						<a href="{DYN_DEL_LINK}"> {TXT_DYN_DEL}</a>			
+					</td>
+				</tr>
+			</table>
+			<!-- END dyn_del_row -->
+			<!-- END dyn_del_rows -->
+			<!-- BEGIN dyn_add -->
+			<div style="margin-top:8px" />
+			<b>{TXT_DYN_ADD}</b><br />
+			<table class="fullwidth">
+				<tr>
+					<td>
+						{TXT_DYN_NAME}
+					</td>
+					<td>
+						{TXT_DYN_VALUE}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="links[{DYN_ID}][nam]" size="20" maxlength="128" value="{VAL_DYN_NAME}" />
+					</td>
+					<td>
+						{SEL_DYN_VAL}
+					</td>
+				</tr>
+			</table>				
+			<!-- END dyn_add -->
 		</span>
 	</td>
 	<td class="std" style="text-align:center;vertical-align: top; padding: 8px;" >

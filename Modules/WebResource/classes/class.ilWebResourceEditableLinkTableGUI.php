@@ -3,6 +3,7 @@
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 
 /**
@@ -95,6 +96,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['disable_check'] = $link['disable_check'];
 			$tmp['valid'] = $link['valid'];
 			$tmp['last_check'] = $link['last_check'];
+			$tmp['params'] = array();
 			
 			$rows[] = $tmp;
 		}
@@ -115,6 +117,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['valid'] = $_POST['links'][$link_id]['vali'];
 			$tmp['disable_check'] = $_POST['links'][$link_id]['che'];
 			$tmp['active'] = $_POST['links'][$link_id]['act'];
+			$tmp['value'] = $_POST['links'][$link_id]['val'];
+			$tmp['name'] = $_POST['links'][$link_id]['nam'];
+			$tmp['params'] = array();
 			
 			$rows[] = $tmp;
 		}
@@ -133,6 +138,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		$items = $this->getWebResourceItems()->sortItems(
 			$this->getWebResourceItems()->getAllItems()
 		);
+		
 		foreach($items as $link)
 		{
 			$tmp['id'] = $link['link_id'];
@@ -144,6 +150,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['disable_check'] = $link['disable_check'];
 			$tmp['valid'] = $link['valid'];
 			$tmp['last_check'] = $link['last_check'];
+			
+			$tmp['params'] = ilParameterAppender::_getParams($link['link_id']);
 			
 			$rows[] = $tmp;
 		}
@@ -200,6 +208,45 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			ilUtil::formCheckbox($a_set['disable_check'], 'links['.$a_set['id'].'][che]', 1)
 		);
 		
+		// Dynamic parameters
+		foreach($a_set['params'] as $param_id => $param)
+		{
+			$this->tpl->setCurrentBlock('dyn_del_row');
+			$this->tpl->setVariable('TXT_DYN_DEL',$this->lng->txt('delete'));
+			$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'param_id',$param_id);
+			$this->tpl->setVariable('DYN_DEL_LINK',$ilCtrl->getLinkTarget($this->getParentObject(),'deleteParameter'));
+			$this->tpl->setVariable('VAL_DYN',ilParameterAppender::parameterToInfo($param['name'],$param['value']));
+			$this->tpl->parseCurrentBlock();
+		}
+		if($a_set['params'])
+		{
+			$this->tpl->setCurrentBlock('dyn_del_rows');
+			$this->tpl->setVariable('TXT_EXISTING',$this->lng->txt('links_existing_params'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if(ilParameterAppender::_isEnabled())
+		{
+			$this->tpl->setCurrentBlock('dyn_add');
+			$this->tpl->setVariable('TXT_DYN_ADD',$this->lng->txt('links_add_param'));
+			
+			$this->tpl->setVariable('TXT_DYN_NAME',$this->lng->txt('links_name'));
+			$this->tpl->setVariable('TXT_DYN_VALUE',$this->lng->txt('links_value'));
+			$this->tpl->setVariable('VAL_DYN_NAME',$a_set['name']);
+			$this->tpl->setVariable('DYN_ID',$a_set['id']);
+			$this->tpl->setVariable(
+				'SEL_DYN_VAL',
+				ilUtil::formSelect(
+					$a_set['value'] ? $a_set['value'] : 0,
+					'links['.$a_set['id'].'][val]',
+					ilParameterAppender::_getOptionSelect(),
+					false,
+					true)
+			);
+			$this->tpl->parseCurrentBlock();
+		}
+
+
 		// Edit
 		/*
 		$ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['id']);

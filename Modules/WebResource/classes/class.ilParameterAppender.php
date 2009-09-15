@@ -202,7 +202,12 @@ class ilParameterAppender
 		return $a_link_data;
 	}
 		
-	function _getParams($a_link_id)
+	/**
+	 * Get dynamic parameter definitions
+	 * @param int $a_link_id
+	 * @return 
+	 */
+	public static function _getParams($a_link_id)
 	{
 		global $ilDB;
 
@@ -215,6 +220,30 @@ class ilParameterAppender
 		}
 
 		return count($params) ? $params : array();
+	}
+	
+	/**
+	 * Get info text describing an existing dynamic link
+	 * @param string $a_name
+	 * @param int $a_value
+	 * @return 
+	 */
+	public static function parameterToInfo($a_name,$a_value)
+	{
+		$info = $a_name;
+		
+		switch($a_value)
+		{
+			case LINKS_USER_ID:
+				return $info.'=USER_ID';
+				
+			case LINKS_SESSION_ID:
+				return $info.'=SESSION_ID';
+				
+			case LINKS_LOGIN:
+				return $info.'=LOGIN';
+		}
+		return '';
 	}
 
 	function _deleteAll($a_webr_id)
