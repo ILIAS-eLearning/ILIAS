@@ -50,10 +50,23 @@ var ilBlockSuccessHandler = function(o)
 		var block_div = document.getElementById(o.argument.block_id);
 		block_div.innerHTML = '';
 		block_div.appendChild(newdiv);
+		
+		// for safari: eval all javascript nodes
+		if (YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1")
+		{
+			//alert("webkit!");
+			var els = YAHOO.util.Dom.getElementsBy(function(el){return true;}, "script", newdiv);
+			for(var i= 0; i<=els.length; i++)
+			{
+				eval(els[i].innerHTML);
+			}
+		}
+		
 		if (typeof il_sr_opt != "undefined")
 		{
 			ilGoSRFocus(o.argument.block_id + "_blhead");
 		}
+		
 		
 		//div.innerHTML = "Transaction id: " + o.tId;
 		//div.innerHTML += "HTTP status: " + o.status;
