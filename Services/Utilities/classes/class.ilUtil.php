@@ -315,7 +315,7 @@ class ilUtil
 	* @param	array			additional attributes (key = attribute name, value = attribute value)
 	* @param    boolean			disabled
 	*/
-	function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
+	public static function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
 		$style_class = "", $attribs = "",$disabled = false)
 	{
 		global $lng;

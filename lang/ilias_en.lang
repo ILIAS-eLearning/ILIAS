@@ -2762,7 +2762,7 @@ common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
 common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
-common#:#links_add_param#:#Add parameter:
+common#:#links_add_param#:#Add Parameter:
 common#:#links_dyn_parameter#:#Dynamic Parameters
 common#:#links_dynamic#:#Dynamic Weblink Parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the username.
