@@ -797,7 +797,7 @@ class ilSCORM13Package
 		{
 			$t = 'cp_' . $t;
 			
-			$in = $ilDB->in($t.'.cp_node_id', $cp_nodes, false, 'integer');			
+			$in = $ilDB->in(strtolower($t).'.cp_node_id', $cp_nodes, false, 'integer');			
 			$ilDB->manipulate('DELETE FROM '.strtolower($t).' WHERE '.$in);
 		}
 		
