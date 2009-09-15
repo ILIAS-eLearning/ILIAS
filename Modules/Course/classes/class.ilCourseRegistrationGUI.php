@@ -336,7 +336,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_subscription_options_confirmation'));
 			
-				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'subject');
+				$sub = new ilTextAreaInputGUI($this->lng->txt('crs_reg_subject'),'subject');
 				$sub->setValue($_POST['subject']);
 				$sub->setInfo($this->lng->txt('crs_info_reg_confirmation'));
 				$sub->setCols(40);
@@ -348,10 +348,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 					$sub->setInfo('');
 					ilUtil::sendFailure($this->lng->txt('crs_reg_user_already_subscribed'));
 					$this->enableRegistration(false);	
-					
-					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));				
-					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
-
 				}
 				$txt->addSubItem($sub);
 				$this->form->addItem($txt);
@@ -365,6 +361,41 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		return true;
 	}
 	
+	/**
+	 * Add group specific command buttons
+	 * @return 
+	 */
+	protected function addCommandButtons()
+	{
+		global $ilUser;
+		
+		parent::addCommandButtons();
+		
+		if(!$this->isRegistrationPossible())
+		{
+			return false;
+		}
+
+		switch($this->container->getSubscriptionType())
+		{
+			case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+				if($this->participants->isSubscriber($ilUser->getId()))
+				{
+					$this->form->clearCommandButtons();
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));				
+					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
+				}
+				else
+				{
+					$this->form->clearCommandButtons();
+					$this->form->addCommandButton('join', $this->lng->txt('crs_join_request'));
+					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				}
+				break;
+		}
+		return true;		
+	}
+
 	/**
 	 * Show user agreement
 	 *
