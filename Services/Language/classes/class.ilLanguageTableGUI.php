@@ -30,7 +30,8 @@ class ilLanguageTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1", 1);
 		$this->addColumn($this->lng->txt("language"));
 		$this->addColumn($this->lng->txt("status"));
-		$this->addColumn($this->lng->txt("last_change"));
+		$this->addColumn($this->lng->txt("users"));
+		$this->addColumn($this->lng->txt("last_refresh"));
 		$this->addColumn($this->lng->txt("usr_agreement"));
 		$this->setDefaultOrderField("name");
 		$this->setSelectAllCheckbox("id[]");
@@ -68,6 +69,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$data[] = array_merge($l, array("key" => $k));
 		}
+
 		$this->setData($data);
 	}
 	
@@ -92,7 +94,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 				$remark = "<span class=\"smallred\"> ".$lng->txt($a_set["info"])."</span>";
 				break;
 			case "new_language":
-				$remark = "<span class=\"smallgreen\"> ".$lng->txt($a_set["info"])."</span>";
+				//$remark = "<span class=\"smallgreen\"> ".$lng->txt($a_set["info"])."</span>";
 				break;
 			default:
 				$remark = "";
@@ -135,8 +137,12 @@ class ilLanguageTableGUI extends ilTable2GUI
 			}
 		}
 
-		$this->tpl->setVariable("VAL_LAST_CHANGE",
-			ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"],IL_CAL_DATETIME)));
+		if ($a_set["desc"] != "not_installed")
+		{
+			$this->tpl->setVariable("LAST_REFRESH",
+				ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"],IL_CAL_DATETIME)));
+		}
+		$this->tpl->setVariable("NR_OF_USERS", ilObjLanguage::countUsers($a_set["key"]));
 			
 		// make language name clickable
 		if ($rbacsystem->checkAccess("write",$this->folder->getRefId()))
