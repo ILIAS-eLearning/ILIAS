@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/firebug.php,v 1.6 2008/01/19 21:56:16 jon Exp $
+ * $Header$
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 250923 $
  * @package Log
  */
 
