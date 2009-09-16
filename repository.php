@@ -19,7 +19,7 @@ $ilBench->start("Core", "getCallStructure");
 $ilCtrl->getCallStructure("ilrepositorygui");
 $ilBench->stop("Core", "getCallStructure");
 
-$repository_gui =& new ilRepositoryGUI();
+$repository_gui = new ilRepositoryGUI();
 //$repository_gui->prepareOutput();
 //$repository_gui->executeCommand();
 $ilCtrl->forwardCommand($repository_gui);
