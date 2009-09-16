@@ -15773,3 +15773,36 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 <?php
   	$ilDB->modifyTableColumn("cp_item", "datafromlms", array("type" => "text", "notnull" => false, "default" => null, "length" => 4000));
 ?>
+<#2876>
+<?php
+	$all_types = array('chat','crs', 'dbk','exc','file',
+		'fold','frm','glo','grp','htlm','icrs','lm',
+		'mcst','sahs','svy','tst','webr','qpl','mep','spl','feed','crsr','wiki','rcrs');
+	
+	$set = $ilDB->query("SELECT * FROM object_data ".
+		" WHERE type = ".$ilDB->quote("typ", "text").
+		" AND title = ".$ilDB->quote("root", "text")
+		);
+	if ($rec  = $ilDB->fetchAssoc($set))
+	{
+		$root_type_id = $rec["obj_id"];
+	
+		foreach ($all_types as $t)
+		{
+			$set = $ilDB->query("SELECT * FROM rbac_operations WHERE operation = ".
+				$ilDB->quote("create_".$t));
+			if ($rec = $ilDB->fetchAssoc($set))
+			{
+				$ops_id = $rec["ops_id"];
+		
+				$q = "INSERT INTO rbac_ta ".
+					"(typ_id, ops_id) VALUES (".
+					$ilDB->quote($root_type_id, "integer").",".
+					$ilDB->quote($ops_id, "integer").
+					")";
+				$ilDB->manipulate($q);
+				//echo "<br><br>$q";
+			}
+		}
+	}
+?>
