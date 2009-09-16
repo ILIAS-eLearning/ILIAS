@@ -1537,14 +1537,14 @@ class ilObjectListGUI
 			if(ilPaymentObject::_hasAccess($this->ref_id))
 			{
 				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access.gif'));
 				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
 				$this->ctpl->parseCurrentBlock();				
 			}
 			else if(ilPaymentObject::_isInCart($this->ref_id))
 			{
 				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart.gif'));
 				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
 				$this->ctpl->parseCurrentBlock();
 
@@ -1553,7 +1553,7 @@ class ilObjectListGUI
 			else
 			{
 				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
 				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
 				$this->ctpl->parseCurrentBlock();				
 
