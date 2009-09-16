@@ -15806,3 +15806,26 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 		}
 	}
 ?>
+<#2877>
+<?php
+	$set = $ilDB->query("SELECT * FROM object_data ".
+		" WHERE type = ".$ilDB->quote("typ", "text").
+		" AND title = ".$ilDB->quote("root", "text")
+		);
+	if ($rec  = $ilDB->fetchAssoc($set))
+	{
+		$root_type_id = $rec["obj_id"];
+	
+		$set = $ilDB->query("SELECT * FROM rbac_operations WHERE operation = ".
+			$ilDB->quote("create_fold"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ops_id = $rec["ops_id"];
+	
+			$q = "DELETE FROM rbac_ta ".
+				" WHERE typ_id = ".$ilDB->quote($root_type_id, "integer").
+				" AND ops_id = ".$ilDB->quote($ops_id, "integer");
+			$ilDB->manipulate($q);
+		}
+	}
+?>

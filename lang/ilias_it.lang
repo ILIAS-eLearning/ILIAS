@@ -268,83 +268,6 @@ assessment#:#cannot_export_test#:#Non hai l'autorizzazione per esportare il test
 assessment#:#cannot_maintain_test#:#Non hai l'autorizzazione per fare manutenzione al test!
 assessment#:#cannot_read_questionpool#:#Non hai l'autorizzazione per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai l'autorizzazione per salvare i metadati!
-assessment#:#certificate#:#Certificato
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Orizzontale (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Orizzontale (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Immagine di sfondo
-assessment#:#certificate_bottom#:#Giù
-assessment#:#certificate_confirm_deletion_text#:#Vuoi cancellare il certificato e tutti i dati ad esso associati?<br />
-assessment#:#certificate_custom#:#Personalizzato...
-assessment#:#certificate_delete#:#Cancella il certificato
-assessment#:#certificate_edit#:#Create/edit a certificate template
-assessment#:#certificate_error_import#:#Errore durante l'import certificati!
-assessment#:#certificate_error_upload_bgimage#:#Errore durante il caricamento dello sfondo!
-assessment#:#certificate_export#:#Esporta il Certificato
-assessment#:#certificate_failed#:#Non idoneo
-assessment#:#certificate_left#:#Left
-assessment#:#certificate_letter#:#Lettera (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Lettera verticale (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Cornice del testo
-assessment#:#certificate_not_well_formed#:#Il certificato non è compilato correttamente. Per favore inserisci un testo XHTML valido!
-assessment#:#certificate_padding_top#:#Spazio dal margine superiore
-assessment#:#certificate_page_format#:#Formato della pagina
-assessment#:#certificate_pageheight#:#Altezza della pagina
-assessment#:#certificate_pagewidth#:#Larghezza della pagina
-assessment#:#certificate_passed#:#Superato
-assessment#:#certificate_ph_city#:#Città nell'indirizzo utente
-assessment#:#certificate_ph_country#:#Nazione o indirizzo del partecipante
-assessment#:#certificate_ph_date#:#Data odierna
-assessment#:#certificate_ph_datetime#:#Data ed ora odierna
-assessment#:#certificate_ph_department#:#Dipartimento Utente
-assessment#:#certificate_ph_firstname#:#Nome utente
-assessment#:#certificate_ph_fullname#:#Nome completo utente (titolo, nome e cognome)<br />
-assessment#:#certificate_ph_institution#:#Ordinamento dei partecipanti
-assessment#:#certificate_ph_introduction#:#I seguenti segnalibri possono essere usati
-assessment#:#certificate_ph_lastname#:#Cognome del partecipante
-assessment#:#certificate_ph_marklong#:#Valutazione raggiunta (versione ufficiale)
-assessment#:#certificate_ph_markshort#:#Valutazione raggiunta (versione abbreviata)
-assessment#:#certificate_ph_maxpoints#:#Punteggio massimo disponibile
-assessment#:#certificate_ph_passed#:#"idoneo" o "non idoneo", a seconda dei risultati del test
-assessment#:#certificate_ph_resultpercent#:#Percentuale totale raggiunta da parte dei partecipanti
-assessment#:#certificate_ph_resultpoints#:#Percentuale raggiunta da parte dei partecipanti
-assessment#:#certificate_ph_street#:#Indirizzo del partecipante
-assessment#:#certificate_ph_testtitle#:#Titolo del test
-assessment#:#certificate_ph_title#:#Titolo del partecipante
-assessment#:#certificate_ph_zipcode#:#CAP dell'indirizzo del partecipante
-assessment#:#certificate_preview#:#Mostra anteprima del certificato
-assessment#:#certificate_right#:#Diritti del certificato
-assessment#:#certificate_show#:#Mostra certificato
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Il certificato è completo e può essere usato
-assessment#:#certificate_status_incomplete#:#Il certificato non è completo
-assessment#:#certificate_text#:#Certificato (Testo)
-assessment#:#certificate_top#:#Su
-assessment#:#certificate_unit_description#:#Inserire le unità di misura come  valore[cm|mm|in|pt|pc|px|em], p.es. 10mm o 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Good
-assessment#:#certificate_var_result_mark_short#:#6
-assessment#:#certificate_var_result_passed#:#Superato
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Città
-assessment#:#certificate_var_user_country#:#Italia
-assessment#:#certificate_var_user_department#:#Assistenza clienti
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_fullname#:#Dr. Mario Rossi
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_lastname#:#Tizio
-assessment#:#certificate_var_user_street#:#via Tal dei Tali 69
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_zipcode#:#00195
-assessment#:#certificate_visibility#:#Visibilità
-assessment#:#certificate_visibility_always#:#Sempre visible
-assessment#:#certificate_visibility_introduction#:#Il tasto per scaricare il certificato dei risultati è
-assessment#:#certificate_visibility_never#:#Non visibile
-assessment#:#certificate_visibility_passed#:#Visibile solo se il partecipante ha superato il test
-assessment#:#certificate_wrong_unit#:#Hai inserito un'unità errata
-assessment#:#certificate_wrong_units#:#Hai inserito un ordine sbagliato di valori
 assessment#:#change_properties_from_random_to_standard#:#Stai cambiando le impostazioni di questo test da random a non random. Le raccolte di domande che hai aggiunto al test verranno cancellate. Vuoi cambiare queste impostazioni?
 assessment#:#change_properties_from_standard_to_random#:#Stai cambiando le impostazioni di questo test da non random a random. Le domande che hai aggiunto al test verranno cancellate dato che hai selezionato una raccolta di domande. Vuoi cambiare queste impostazioni?
 assessment#:#change_solution#:#Cambia la soluzione suggerita
@@ -408,7 +331,6 @@ assessment#:#disable_javascript#:#Cliccare per disabilitare il supporto JavaScri
 assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#Hai scelto due volte la stessa risposta!
 assessment#:#duplicate_order_values_entered#:#Hai inserito due volte lo stesso valore!
-assessment#:#duplicate_term_message#:#You have entered at least one duplicate term. Please use unique terms.
 assessment#:#ects_allow_ects_grades#:#Mostra ulteriori voti ECTS per accettare una prova
 assessment#:#ects_fill_out_all_values#:#Per favore, inserisci un valore per ognuno dei voti della scala ECTS!
 assessment#:#ects_grade#:#Scala ECTS
@@ -1722,8 +1644,6 @@ common#:#adopt_perm_from_template#:#Copia Impostazioni Permesi
 common#:#advanced_editing_allow_html_tags#:#Consenti i tag HTML selezionati per l'editing del testo<br />
 common#:#advanced_editing_allow_javascript_editor#:#Attiva un Editor Rich Text
 common#:#advanced_editing_assessment_settings#:#Tag HTML consentiti per il tool di Test e Valutazione di ILIAS
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
 common#:#advanced_editing_frm_post_settings#:#Forum impostazioni dei post
 common#:#advanced_editing_lm_js_editing#:#Abilita HTMLArea per la scrittura contenuti
 common#:#advanced_editing_lm_js_editing_desc#:#Abilita HTMLArea ed il supporto JavaScript per la scrittura dei contenuti nelle unita' didattiche e nei glossari.
@@ -1736,7 +1656,6 @@ common#:#advanced_editing_settings#:#Advanced editing settings
 common#:#advanced_editing_survey_settings#:#Tag HTML consentiti per lo strumento per i sondaggi di ILIAS
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment settings
-common#:#adve_cat_settings#:#Categoria Impostazioni
 common#:#adve_edit_permission#:#Modifica Impostazioni dei Permessi
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Impostazioni Generali
@@ -1758,8 +1677,6 @@ common#:#all_topics#:#Tutti gli argomenti
 common#:#all_tsts#:#Tutti i test
 common#:#all_users#:#Tutti gli utenti
 common#:#allow_assign_users#:#Consenti di assegnare gli utenti agli amministratori locali.
-common#:#allow_change_loginname#:#Consenti la modifica del login name
-common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
 common#:#alm#:#Modulo AICC
@@ -2204,8 +2121,6 @@ common#:#create#:#Crea
 common#:#create_block#:#Creare Block
 common#:#create_date#:#Creato il
 common#:#create_export_file#:#Crea file di export
-common#:#create_history_loginname#:#Creare uno storico per le modifiche dei nomi di login
-common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.
 common#:#create_in#:#Crea in
 common#:#create_stylesheet#:#Crea foglio di stile
 common#:#created#:#Data di creazione
@@ -2327,7 +2242,6 @@ common#:#dbk_new#:#Nuovo libro digitale
 common#:#dbk_read#:#Accedere in lettura ad un libro digitale
 common#:#dbk_visible#:#Vedere un libro digitale
 common#:#dbk_write#:#Modificare un libro digitale
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Tentativi - 1
@@ -3454,7 +3368,6 @@ common#:#mcst_visible#:#MediaCast is visible
 common#:#mcst_write#:#Modifica MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Spazi liberi:
 common#:#mem_max_users#:#Maximum of Users:
@@ -5579,7 +5492,6 @@ content#:#dgl_pagebreak#:#Interruzione di pagina
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#HTML export#:#Esporta HTML
-content#:#HTML_export#:#Esporta HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
@@ -5595,14 +5507,11 @@ content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; dis
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#Pages#:#Pagine
 content#:#pages from#:#Pagine da
-content#:#pages_from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#PDF export#:#Esporta PDF
-content#:#PDF_export#:#Esporta PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
-content#:#read_offline#:#Leggi offline
 content#:#saved_media_object#:#Saved media object.
 content#:#scorm_editable#:#Import editable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
@@ -5636,7 +5545,6 @@ content#:#seq_toc#:#Scegliere un'attività dalla Tabella Contenuti - TOC sulla s
 content#:#set_public_mode#:#Imposta in modalita' di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
-content#:#start_export#:#Inizia l' esportazione
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image "alt" attribute.
 crs#:#activation_times_not_valid#:#Il periodo di attivazione non è valido.
@@ -6077,7 +5985,6 @@ crs#:#crs_unblocked#:#Accesso libero
 crs#:#crs_unblocked_member#:#Stato in coso "%s"
 crs#:#crs_unblocked_member_body#:#La tua iscrizione al corso "%s" stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
-crs#:#crs_unsubscribe#:#Cancella iscrizione
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l&#039;iscrizione per questo corso?
 crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_objective#:#Modifica obiettivo formativo
@@ -6880,7 +6787,6 @@ grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 grp#:#grp_admins#:#Amministratori
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Modifica la tipologia del gruppo
 grp#:#grp_closed#:#Gruppo Chiuso
@@ -8565,7 +8471,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#La grandezza minima della pa
 ps#:#ps_error_message_password_max_less_min#:#La grandezza massima della password non può essere minore della grandezza minima.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#La grandezza massima della password non può essere minore di due (2) caratteri se la password deve conterere caratteri e numeri.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#La grandezza minima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici, speciali e numeri.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#La grandezza massima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici e numeri.
 ps#:#ps_export_admin#:#Amministratori
 ps#:#ps_export_confirm#:#Conferma dell'utente all'accesso corsi
 ps#:#ps_export_course#:#Export avanzato dei dati utente nei corsi.
@@ -9519,11 +9424,8 @@ survey#:#no_questions_available#:#Non ci sono domande disponibili!
 survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
 survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
 survey#:#no_user_invited#:#Tutti gli utenti invitati non hanno credenziali sufficienti per il sondaggio. Nessun utente è stato invitato.
-survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
 survey#:#no_user_phrases_defined#:#Non ci sono frasi definite dagli utenti disponibili!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!
 survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#non_ratio#:#con risposta intera
 survey#:#not_used#:#non usato
@@ -9533,7 +9435,6 @@ survey#:#offline#:#offline
 survey#:#on#:#attivo
 survey#:#on_additional#:#On, and additional
 survey#:#or#:#OR
-survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#orientation#:#Orientamento
 survey#:#outro#:#Dichiarazione finale
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
@@ -9669,8 +9570,6 @@ survey#:#survey_use_start_button#:#You must enter the survey using the start but
 survey#:#SurveyMatrixQuestion#:#Matrix Question
 survey#:#SurveyMetricQuestion#:#Metric question
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Nominal question
-survey#:#SurveyOrdinalQuestion#:#Ordinal question
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Saggio
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
@@ -10068,3 +9967,57 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
+gmaps#:#gmaps_latitude#:#Latitude###16 09 2009 new variable
+gmaps#:#gmaps_longitude#:#Longitude###16 09 2009 new variable
+administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'###16 09 2009 new variable
+administration#:#history_loginname#:#Login Name History###16 09 2009 new variable
+content#:#cont_LocalFile#:#Local File###16 09 2009 new variable
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
+chat#:#check_configuration#:#Please check the chat server's settings.###16 09 2009 new variable
+cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
+dateplaner#:#add_appointment#:#Add Appointment###16 09 2009 new variable
+common#:#pd_enable_contacts#:#Enable Contacts###16 09 2009 new variable
+common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
+payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
+payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
+administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
+administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
+administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
+administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
+administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
+administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.###16 09 2009 new variable
+common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.###16 09 2009 new variable
+mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
+mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
+common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
+webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
+grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
+crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
+grp#:#grp_join_request#:#Send###16 09 2009 new variable
+crs#:#crs_join_request#:#Send###16 09 2009 new variable
+rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
+rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
+rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
+rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
+rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
+rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
+rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
+rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
+rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
+rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
+rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
+rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
+rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
+rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
+rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
+rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
+rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
+rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
+rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
+rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
+rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable

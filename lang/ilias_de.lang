@@ -9991,3 +9991,33 @@ grp#:#grp_reg_subject#:#Nachricht
 crs#:#crs_reg_subject#:#Nachricht
 grp#:#grp_join_request#:#Abschicken
 crs#:#crs_join_request#:#Abschicken
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
+payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
+payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
+mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
+mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
+rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
+rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
+rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
+rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
+rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
+rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
+rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
+rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
+rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
+rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
+rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
+rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
+rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
+rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
+rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
+rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
+rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
+rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
+rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
+rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
+rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable

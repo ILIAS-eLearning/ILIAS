@@ -9976,3 +9976,26 @@ grp#:#grp_reg_subject#:#Message
 crs#:#crs_reg_subject#:#Message
 grp#:#grp_join_request#:#Send
 crs#:#crs_join_request#:#Send
+rbac#:#root_create_chat#:#Create Chat
+rbac#:#root_create_crs#:#Create Course
+rbac#:#root_create_dbk#:#Create Digilib Book
+rbac#:#root_create_exc#:#Create Exercise
+rbac#:#root_create_file#:#Upload File
+rbac#:#root_create_frm#:#Create Forum
+rbac#:#root_create_glo#:#Create Glossary
+rbac#:#root_create_grp#:#Create Group
+rbac#:#root_create_htlm#:#Create HTML Learning Module
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar
+rbac#:#root_create_lm#:#Create ILIAS Learning Module
+rbac#:#root_create_mep#:#Create Media Pool
+rbac#:#root_create_qpl#:#Create Question Pool Test
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#root_create_spl#:#Create Question Pool Survey
+rbac#:#root_create_svy#:#Create Survey
+rbac#:#root_create_tst#:#Create Test
+rbac#:#root_create_webr#:#Create Weblink
+rbac#:#root_create_wiki#:#Create Wiki
+rbac#:#root_create_rcrs#:#Create Course-Link
+rbac#:#root_create_mcst#:#Create Mediacast
+rbac#:#root_create_feed#:#Create Web Feed
+rbac#:#root_create_crsr#:#Create Course Reference
