@@ -967,6 +967,20 @@ echo "<br>+".$client_id;
 		$cb = new ilCheckboxInputGUI($lng->txt("disable_logging"), "chk_log_status");
 		$this->form->addItem($cb);
 		
+		// server settings
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("server_settings"));
+		$this->form->addItem($sh);
+		
+		// time zone
+		include_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+		$si = new ilSelectInputGUI($lng->txt("time_zone"), "time_zone");
+		$si->setOptions(array_merge(
+			array("" => "-- ".$lng->txt("please_select")." --"),
+			ilCalendarUtil::_getShortTimeZoneList()));
+		$si->setRequired(true);
+		$this->form->addItem($si);
+
 		// required 3rd party tools
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("3rd_party_software_req"));
@@ -1092,6 +1106,7 @@ echo "<br>+".$client_id;
 		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
+		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
 
 		$this->form->setValuesByArray($values);
 	}

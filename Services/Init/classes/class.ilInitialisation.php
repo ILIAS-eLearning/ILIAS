@@ -233,6 +233,13 @@ class ilInitialisation
 				break;
 		}
 		
+		$tz = $ilIliasIniFile->readVariable("server","timezone");
+		if ($tz != "")
+		{
+			date_default_timezone_set($tz);
+		}
+		define ("IL_TIMEZONE",$ilIliasIniFile->readVariable("server","timezone"));
+		
 		//$this->buildHTTPPath();
 	}
 
