@@ -1682,8 +1682,6 @@ common#:#all_topics#:#All Topics
 common#:#all_tsts#:#All tests
 common#:#all_users#:#All users
 common#:#allow_assign_users#:#Allow user assignment for local administrators.
-common#:#allow_change_loginname#:#Allow to change the login name
-common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#allow_register#:#可从新用户注册表中得到
 common#:#alm#:#AICC Learning Module
@@ -2128,8 +2126,6 @@ common#:#create#:#创建
 common#:#create_block#:#Create Block
 common#:#create_date#:#创建日期
 common#:#create_export_file#:#Create export file
-common#:#create_history_loginname#:#Create a history for changed login names
-common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.
 common#:#create_in#:#创建于
 common#:#create_stylesheet#:#创建风格
 common#:#created#:#Create date
@@ -9987,3 +9983,56 @@ webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
 webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
 webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
 webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable
+gmaps#:#gmaps_latitude#:#Latitude###16 09 2009 new variable
+gmaps#:#gmaps_longitude#:#Longitude###16 09 2009 new variable
+administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'###16 09 2009 new variable
+administration#:#history_loginname#:#Login Name History###16 09 2009 new variable
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
+chat#:#check_configuration#:#Please check the chat server's settings.###16 09 2009 new variable
+cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
+dateplaner#:#add_appointment#:#Add Appointment###16 09 2009 new variable
+common#:#pd_enable_contacts#:#Enable Contacts###16 09 2009 new variable
+common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
+payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
+payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
+administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
+administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
+administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
+administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
+administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
+administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.###16 09 2009 new variable
+common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.###16 09 2009 new variable
+mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
+mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
+common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
+webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
+grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
+crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
+grp#:#grp_join_request#:#Send###16 09 2009 new variable
+crs#:#crs_join_request#:#Send###16 09 2009 new variable
+rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
+rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
+rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
+rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
+rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
+rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
+rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
+rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
+rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
+rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
+rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
+rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
+rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
+rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
+rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
+rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
+rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
+rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
+rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
+rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
+rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
