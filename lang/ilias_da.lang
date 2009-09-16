@@ -812,8 +812,8 @@ common#:#email_footer#:#<br />driftes på ILIAS
 common#:#email_not_valid#:#Den indtastede emailadresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_calendar#:#Aktiver kalender
-common#:#enable_custom_icons#:#Enable custom icons
-common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
+common#:#enable_custom_icons#:#Brugerdefinerede ikoner
+common#:#enable_custom_icons_info#:#Tillader brug af brugerdefinerede ikoner til kategorier, kurser og grupper. I indstillingsmenuen for disse sektioner fil det derefter være muligt at uploade et billede.
 common#:#enable_fora_statistics#:#Aktiver statistik i fora
 common#:#enable_fora_statistics_desc#:#Hvis deaktiveret har ingen adgang til forumstatistik.
 common#:#enable_hist_user_comments#:#Aktiver brugerfiler i loggen
@@ -2578,12 +2578,12 @@ common#:#tracking_data_deleted#:#Sporings data er slettet
 common#:#tracking_settings#:#Sporings indstillinger
 common#:#translation#:#Oversættelse
 common#:#trash#:#Slettede ting/skrald
-common#:#tree_frame#:#Tree Frame
-common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
-common#:#tree_left#:#Left
-common#:#tree_right#:#Right
+common#:#tree_frame#:#Navigationstræ
+common#:#tree_frame_info#:#Bestemmer om navigationstræet til oversigten står til venstre eller til højre.
+common#:#tree_left#:#i venstre side
+common#:#tree_right#:#i højre side
 common#:#treeview#:#Træoversigt
-common#:#tst#:#Test###21 Apr 2005 new variable
+common#:#tst#:#Test
 common#:#tst_add#:#Tilføj tekst
 common#:#tst_anon_eval#:#Resultater
 common#:#tst_delete#:#Slet test
@@ -2759,7 +2759,7 @@ common#:#verification_failed#:#Verifikation mislykkedes
 common#:#verification_failure_log#:#Verifikationsfejl i loggen
 common#:#verification_log#:#Autentifikationslog
 common#:#verification_warning_log#:#Verifikationsadvarselslog
-common#:#version#:#Version###21 Apr 2005 new variable
+common#:#version#:#Version
 common#:#versions#:#Versioner
 common#:#view#:#Vis
 common#:#view_content#:#Vis indhold
@@ -2799,7 +2799,7 @@ common#:#week#:#Uge
 common#:#weekly#:#Ugentlig
 common#:#welcome#:#Velkommen
 common#:#who_is_online#:#Hvem er online?
-common#:#width_x_height#:#Width x Height
+common#:#width_x_height#:#bredde x højde
 common#:#with#:#Med
 common#:#write#:#Skriv
 common#:#wrong_ip_detected#:#Din adgang er blevet nægtet pga forkert klient ip. Kontakt venligst systemadministrator.
@@ -2843,7 +2843,7 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#Logininformationerne blev gemt
 common#:#obj_frm_duplicate#:#Kopier forum
 common#:#obj_frm_select#:#Vælg forum
-common#:#btn_back#:#Back###25 02 2007 new variable
+common#:#btn_back#:#Tilbage
 common#:#obj_tst_duplicate#:#Kopier test
 common#:#obj_tst_select#:#Vælg test
 common#:#obj_svy_duplicate#:#Kopier eksisterende undersøgelse
