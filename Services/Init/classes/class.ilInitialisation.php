@@ -68,8 +68,8 @@ class ilInitialisation
 		//include class.util first to start StopWatch
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		require_once "classes/class.ilBenchmark.php";
-		$ilBench =& new ilBenchmark();
-		$GLOBALS['ilBench'] =& $ilBench;
+		$ilBench = new ilBenchmark();
+		$GLOBALS['ilBench'] = $ilBench;
 
 		// BEGIN Usability: Measure response time until footer is displayed on form
 		// The stop statement is in class.ilTemplate.php function addILIASfooter()
@@ -902,7 +902,7 @@ class ilInitialisation
 		$rbacadmin = new ilRbacAdmin();
 		$GLOBALS['rbacadmin'] =& $rbacadmin;
 
-		$ilAccess =& new ilAccessHandler();
+		$ilAccess = new ilAccessHandler();
 		$GLOBALS["ilAccess"] =& $ilAccess;
 		$ilBench->stop("Core", "HeaderInclude_initRBAC");
 	}
@@ -922,6 +922,18 @@ class ilInitialisation
 		// remove unsafe characters
 		$this->removeUnsafeCharacters();
 
+		// error reporting
+		// remove notices from error reporting
+		if (version_compare(PHP_VERSION, '5.3.0', '>='))
+		{
+			error_reporting((ini_get("error_reporting") ^ E_NOTICE) ^ E_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(ini_get("error_reporting") ^ E_NOTICE);
+		}
+
+		
 		// include common code files
 		$this->requireCommonIncludes();
 		global $ilBench;
@@ -991,7 +1003,7 @@ class ilInitialisation
 
 		// $https initialisation
 		require_once './classes/class.ilHTTPS.php';
-		$https =& new ilHTTPS();
+		$https = new ilHTTPS();
 		$GLOBALS['https'] =& $https;
 		$https->enableSecureCookies();
 		$https->checkPort();		
@@ -1015,7 +1027,7 @@ class ilInitialisation
 		// $ilias initialisation
 			global $ilias, $ilBench;
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
-		$ilias = & new ILIAS();
+		$ilias = new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;
 		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 
@@ -1476,15 +1488,15 @@ class ilInitialisation
 	function initLog() {
 		global $ilLog;
 		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
-		$GLOBALS['log'] =& $log;
-		$ilLog =& $log;
-		$GLOBALS['ilLog'] =& $ilLog;
+		$GLOBALS['log'] = $log;
+		$ilLog = $log;
+		$GLOBALS['ilLog'] = $ilLog;
 	}
 
 	function initILIASObject() {
 		global $ilias, $ilBench;
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
-		$ilias = & new ILIAS();
+		$ilias = new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;
 		$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 //var_dump($_SESSION);

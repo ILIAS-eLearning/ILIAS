@@ -35,7 +35,7 @@
 $GLOBALS['ilGlobalStartTime'] = microtime();
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $ilInit = new ilInitialisation();
-$GLOBALS['ilInit'] =& $ilInit;
+$GLOBALS['ilInit'] = $ilInit;
 $ilInit->initILIAS();
 
 ?>

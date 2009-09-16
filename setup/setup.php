@@ -48,5 +48,5 @@ require_once "./setup/include/inc.setup_header.php";
 // display info messages
 //ilUtil::sendInfo();
 
-$setup =& new ilSetupGUI();
+$setup = new ilSetupGUI();
 ?>

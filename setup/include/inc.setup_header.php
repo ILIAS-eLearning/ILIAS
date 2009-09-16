@@ -29,6 +29,16 @@
 * @package	ilias-setup
 */
 
+// remove notices from error reporting
+if (version_compare(PHP_VERSION, '5.3.0', '>='))
+{
+	error_reporting((ini_get("error_reporting") ^ E_NOTICE) ^ E_DEPRECATED);
+}
+else
+{
+	error_reporting(ini_get("error_reporting") ^ E_NOTICE);
+}
+
 define("DEBUG",false);
 set_include_path("./Services/PEAR/lib".PATH_SEPARATOR.ini_get('include_path'));
 require_once "./include/inc.check_pear.php";
@@ -118,8 +128,8 @@ $ilCtrlStructureReader = new ilCtrlStructureReader();
 $ilCtrlStructureReader->setErrorObject($ilErr);
 
 require_once "./classes/class.ilBenchmark.php";
-$ilBench =& new ilBenchmark();
-$GLOBALS['ilBench'] =& $ilBench;
+$ilBench = new ilBenchmark();
+$GLOBALS['ilBench'] = $ilBench;
 
 include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");
