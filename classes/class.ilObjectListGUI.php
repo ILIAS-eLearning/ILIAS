@@ -1564,14 +1564,16 @@ class ilObjectListGUI
 	
 	protected function insertPaymentCommand()
 	{
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once 'Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setListTitle($this->lng->txt("shop_actions"));
 		$this->current_selection_list->setId("act_".$this->ref_id);
-		//$this->current_selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
-			$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
-			$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-		$this->current_selection_list->setUseImages(true);
+		$this->current_selection_list->setSelectionHeaderClass("small");
+		$this->current_selection_list->setItemLinkClass("xsmall");		
+		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
+		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$this->current_selection_list->setUseImages(false);		
+		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$this->ref_id, "ilContainerListItemOuterHighlight");
 		
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
 		foreach($commands as $command)
@@ -1606,9 +1608,7 @@ class ilObjectListGUI
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 		
 		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
-			$this->current_selection_list->getHTML());
-			
-	
+			$this->current_selection_list->getHTML());	
 	}
 
 	/**
