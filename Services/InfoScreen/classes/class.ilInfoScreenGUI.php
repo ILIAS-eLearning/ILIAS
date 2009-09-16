@@ -291,6 +291,8 @@ class ilInfoScreenGUI
 		if ($md_gen = $md->getGeneral())
 		{
 			// get first descrption
+			// The description is shown on the top of the page.
+			// Thus it is not necessary to show it again.
 			foreach($md_gen->getDescriptionIds() as $id)
 			{
 				$md_des = $md_gen->getDescription($id);

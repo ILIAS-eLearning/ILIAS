@@ -24,7 +24,7 @@ class ilAccessHandler
 	*/
 	function ilAccessHandler()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$lng;
 
 		$this->rbacsystem =& $rbacsystem;
 		$this->results = array();
@@ -227,6 +227,7 @@ class ilAccessHandler
 		$this->current_info->clear();
 		$ilBench->stop("AccessControl", "0400_clear_info");
 		
+		
         // get stored result (internal memory based cache)
 		$cached = $this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if ($cached["hit"])
@@ -234,7 +235,7 @@ class ilAccessHandler
 			// Store access result
 			if (!$cached["granted"])
 			{
-				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			}
 			if ($cached["prevent_db_cache"])
 			{
@@ -278,7 +279,7 @@ class ilAccessHandler
 		if ($a_tree_id != 1 &&
             !$this->doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
@@ -286,16 +287,16 @@ class ilAccessHandler
 		// rbac check for current object
 		if (!$this->doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
-
 		// check read permission for all parents
 		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if (!$par_check)
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
@@ -303,7 +304,7 @@ class ilAccessHandler
 		// condition check (currently only implemented for read permission)
 		if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			$this->setPreventCachingLastResult(true);		// do not store this in db, since condition updates are not monitored
 			return false;
@@ -312,7 +313,7 @@ class ilAccessHandler
 		// object type specific check
 		if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			$this->setPreventCachingLastResult(true);		// do not store this in db, since status updates are not monitored
 			return false;
@@ -372,7 +373,6 @@ class ilAccessHandler
 		//var_dump($stored_access);
 		if (is_array($stored_access))
 		{
-//echo "Hit";
 			$this->current_info = $stored_access["info"];
 			//var_dump("cache-treffer:");
 			$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
@@ -401,7 +401,7 @@ class ilAccessHandler
 			// Store access result
 			if (!$this->obj_tree_cache[$tree_cache_key])
 			{
-				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			}
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $this->obj_tree_cache[$tree_cache_key], $a_user_id);
 
@@ -481,7 +481,7 @@ class ilAccessHandler
 		// Store in result cache
 		if (!$access)
 		{
-			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 		}
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		$ilBench->stop("AccessControl", "2500_checkAccess_rbac_check");
@@ -511,9 +511,6 @@ class ilAccessHandler
 //		}
 		$ilBench->stop("AccessControl", "3100_checkAccess_check_parents_get_path");
 
-		$tmp_info = $this->current_info;
-		//var_dump($this->tmp_info);
-					
 		foreach ($path as $id)
 		{
 			if ($a_ref_id == $id)
@@ -536,8 +533,8 @@ class ilAccessHandler
 			{
 				
 				//$this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
-				$tmp_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"),$id);
-
+				$this->current_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"),$id);
+				
 				if ($a_all == false)
 				{
 					return false;

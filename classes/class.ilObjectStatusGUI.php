@@ -383,6 +383,7 @@ class ilObjectStatusGUI
 		
 		$result_set[4][] = "<b>".$lng->txt("status")."</b>";
 
+		/*
 		$ilAccess->clear();
 		$ilAccess->doTreeCheck("visible","info",$this->object->getRefId(),$this->user->getId());
 		$infos = array_merge($infos,$ilAccess->getInfo());
@@ -393,6 +394,19 @@ class ilObjectStatusGUI
 
 		$ilAccess->clear();
 		$ilAccess->doConditionCheck("read","info",$this->object->getRefId(),$this->user->getId(),$this->object->getId(),$this->object->getType());
+		$infos = array_merge($infos,$ilAccess->getInfo());
+		*/
+		
+		$ilAccess->clear();
+		$ilAccess->checkAccessOfUser(
+			$this->user->getId(),
+			'read',
+			'',
+			$this->object->getRefId(),
+			$this->object->getType(),
+			$this->object->getId()
+		);
+
 		$infos = array_merge($infos,$ilAccess->getInfo());
 		
 		$cmds = $this->getCommands($this->object->getType());

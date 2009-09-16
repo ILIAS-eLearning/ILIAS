@@ -10021,3 +10021,4 @@ rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
 rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
 rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
 rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
+common#:#status_no_permission#:#Kein Zugriff gewährt.

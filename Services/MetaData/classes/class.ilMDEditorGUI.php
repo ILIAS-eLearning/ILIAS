@@ -25,7 +25,7 @@
 /**
 * Meta Data class (element general)
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @package ilias-core
 * @version $Id$
 */
