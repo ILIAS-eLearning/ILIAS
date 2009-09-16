@@ -9971,7 +9971,7 @@ payment#:#pays_epay_auth_email_info#:#Email where information about processed tr
 payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
 payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
 payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
-payment#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
+payment#:#shop_actions#:#Aktionen###Replacement of the wording of 'actions' when in shop.
 chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
 cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
 dateplaner#:#add_appointment#:#Termin hinzufügen
