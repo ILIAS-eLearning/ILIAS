@@ -9999,3 +9999,4 @@ rbac#:#root_create_rcrs#:#Create Course-Link
 rbac#:#root_create_mcst#:#Create Mediacast
 rbac#:#root_create_feed#:#Create Web Feed
 rbac#:#root_create_crsr#:#Create Course Reference
+common#:#status_no_permission#:#No permission granted

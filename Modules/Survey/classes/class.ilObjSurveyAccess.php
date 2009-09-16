@@ -95,7 +95,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 				}
 				else
 				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("no_permission"));
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
 					return false;
 				}
 				break;
