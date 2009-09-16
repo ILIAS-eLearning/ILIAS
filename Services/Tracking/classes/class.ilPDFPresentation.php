@@ -311,14 +311,14 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			ilUtil::sendFailure('trac_error_pdf',true);
+			ilUtil::sendFailure($e->getMessage(),true);
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			$this->ctrl->returnToParent($this);
 			return false;
 		}
 		catch(Exception $e)
 		{
-			ilUtil::sendFailure('trac_error_pdf',true);
+			ilUtil::sendFailure($e->getMessage(),true);
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			$this->ctrl->returnToParent($this);
 			return false;
@@ -418,14 +418,14 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 		}
 		catch(XML_RPC2_FaultException $e)
 		{
-			ilUtil::sendFailure('trac_error_pdf',true);
+			ilUtil::sendFailure($e->getMessage(),true);
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			$this->ctrl->returnToParent($this);
 			return false;
 		}
 		catch(Exception $e)
 		{
-			ilUtil::sendFailure('trac_error_pdf',true);
+			ilUtil::sendFailure($e->getMessage(),true);
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			$this->ctrl->returnToParent($this);
 			return false;
