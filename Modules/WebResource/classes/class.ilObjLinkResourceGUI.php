@@ -297,7 +297,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->form->addItem($sor);
 
 		$this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
-		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$this->form->addCommandButton('view', $this->lng->txt('cancel'));
 	}
 	
 
