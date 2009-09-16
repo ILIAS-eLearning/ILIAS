@@ -20,6 +20,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 </table>
 <!-- END sysrole_msg -->
 <form action="{FORMACTION}" name="ObjectItems" method="post">
+<div class="ilTableOuter">
   <table class="fullwidth">
   <tr class="tbltitle">
     <td class="std" colspan="4">
@@ -45,27 +46,30 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- BEGIN object_type -->
   <tr class="tblheader">
-  <td class="std" colspan="4">
+  <td class="std" colspan="4" style="padding-top:20px;">
 <!-- BEGIN obj_action_toggle_checkboxes -->
 	<div class="il_ContainerItemCommands" style="float:right;">
-		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
-		<a class="il_ContainerItemCommand" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},true); return false;">{TXT_CHECKALL}</a>
+		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
 <!-- END obj_action_toggle_checkboxes -->
-	{TXT_OBJ_TYPE} {TXT_ADMINIS}<span class="alert">{TXT_NOT_IMPL}</span>
+	<strong>{TXT_OBJ_TYPE}</strong> {TXT_ADMINIS}<span class="alert">{TXT_NOT_IMPL}</span>
 	</td>
   </tr>
 <!-- BEGIN object_operations -->
   <tr class="{CSS_ROW}">
 	<td class="std" width="1%">{CHECK_PERMISSION}</td>
- 	<td class="std" colspan="3" width="99%"><label for="{LABEL_ID}">{PERMISSION}</label><span class="alert">{TXT_NOT_IMPL}</span></td>
+ 	<td class="std small" colspan="3" width="99%"><label for="{LABEL_ID}">{PERMISSION}</label><span class="alert">{TXT_NOT_IMPL}</span></td>
   </tr>
 <!-- END object_operations -->
 <!-- BEGIN obj_action_change_existing_object_type -->
   <tr class="tblfooter">
-	<td class="std" align="left"><input type="checkbox" name="recursive_list[]" value="{OBJ_TYPE}" id="change_{OBJ_TYPE}" /></td>
-	<td class="std" colspan="3" nowrap="nowrap"><span class="alert"><label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label></span></td>
+	<td class="std" style="border-bottom: 1px solid #D6D6D6;" align="left"><input type="checkbox" name="recursive_list[]" value="{OBJ_TYPE}" id="change_{OBJ_TYPE}" /></td>
+	<td class="std small" style="border-bottom: 1px solid #D6D6D6;" colspan="3" nowrap="nowrap"><span class="alert"><label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label></span></td>
   </tr>
+  <!-- <tr class="std">
+	<td class="std" style="border-bottom: 1px solid #D6D6D6;" colspan="4">&nbsp;</td>
+  </tr> -->
 <!-- END obj_action_change_existing_object_type -->
 <!-- END object_type -->
 <!-- BEGIN tblfooter_sysrole -->
@@ -81,8 +85,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- END tblfooter_sysrole -->
 <!-- BEGIN tblfooter_special_options -->
   <tr class="tblheader">
-  <td class="std" colspan="4">
-	{TXT_PERM_SPECIAL_OPTIONS}
+  <td class="std" colspan="4" style="padding-top:20px;">
+	<strong>{TXT_PERM_SPECIAL_OPTIONS}</strong>
 	</td>
   </tr>
 <!-- END tblfooter_special_options -->
@@ -111,6 +115,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	</td>
   </tr>
 </table>
+</div>
 </form>
 <!-- BEGIN ADOPT_PERM_FORM -->
 <br />
