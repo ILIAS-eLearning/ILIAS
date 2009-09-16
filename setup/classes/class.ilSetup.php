@@ -1111,6 +1111,7 @@ class ilSetup extends PEAR
 		
  		$this->ini->setVariable("server","http_path",ILIAS_HTTP_PATH);
 		$this->ini->setVariable("server","absolute_path",ILIAS_ABSOLUTE_PATH);
+		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
 		$this->ini->setVariable("clients", "datadir", $datadir_path);
 		$this->ini->setVariable("tools", "convert", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"])));
 		$this->ini->setVariable("tools", "zip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["zip_path"])));

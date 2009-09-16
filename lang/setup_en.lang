@@ -495,3 +495,6 @@ next_update_break#:#Next Update Break
 next_update_break_info#:#Depending on the size of your installation, it is usually advisable not to perform large updates in one run.
 clients#:#Clients
 no_items#:#No Entries
+server_settings#:#Server Settings
+time_zone#:#Time Zone
+please_select#:#Please Select

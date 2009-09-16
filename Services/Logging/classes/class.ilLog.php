@@ -91,7 +91,7 @@ class ilLog
 		$this->filename = ($a_log_file) ? $a_log_file : "ilias.log";
 		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
 		$this->enabled = (bool) $a_enabled;
-		$this->setLogFormat(date("[y-m-d H:i:s] ")."[".$this->tag."] ");
+		$this->setLogFormat(@date("[y-m-d H:i:s] ")."[".$this->tag."] ");
 		
 		$this->open();
 
