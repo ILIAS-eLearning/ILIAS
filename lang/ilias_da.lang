@@ -767,7 +767,7 @@ common#:#default_perm_settings#:#Standardrettigheder
 common#:#default_role#:#Standardrolle
 common#:#default_roles#:#Standardroller
 common#:#default_skin#:#Standarddesign
-common#:#default_skin_style#:#Standardesign/-layout
+common#:#default_skin_style#:#Standard
 common#:#default_style#:#Standardlayout
 common#:#default_value#:#Standardværdi
 common#:#defaults#:#Standarder
@@ -2478,7 +2478,7 @@ common#:#stop_inheritance#:#Bryd arv
 common#:#street#:#Gade
 common#:#structure#:#Struktur
 common#:#sty#:#Stilark
-common#:#style_activation#:#Style Activation###21 Apr 2005 new variable
+common#:#style_activation#:#Stilark i brug
 common#:#stys_edit_permission#:#Skift rettighedsindstillinger
 common#:#stys_read#:#Læseadgang til layoutopsætning
 common#:#stys_visible#:#Layoutopsætning er synlig
@@ -2518,8 +2518,8 @@ common#:#system_grp#:#System Gruppe
 common#:#system_information#:#System information###21 Apr 2005 new variable
 common#:#system_language#:#System sprog
 common#:#system_message#:#Systembesked
-common#:#system_style_settings#:#System layoutopsætning
-common#:#system_styles#:#System Styles
+common#:#system_style_settings#:#Indstillinger for stil
+common#:#system_styles#:#System stilark
 common#:#table_mail_import#:#Mailimport
 common#:#target#:#Mål
 common#:#tax#:#Taksonomi
@@ -6664,7 +6664,7 @@ style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
 style#:#sty_create_ind_style#:#Lav personlig præsentation
 style#:#sty_create_new_stylesheet#:#Create new Style
 style#:#sty_cursor#:#Markør
-style#:#sty_default_style#:#Default Style
+style#:#sty_default_style#:#Standard stilark
 style#:#sty_font_family#:#Font Family
 style#:#sty_font_size#:#Skriftstørrelse
 style#:#sty_font_stretch#:#Font Stretch
@@ -6679,9 +6679,9 @@ style#:#sty_letter_spacing#:#Letter Spacing
 style#:#sty_line_height#:#Linjehøjde
 style#:#sty_margin#:#Margen
 style#:#sty_margin_and_padding#:#Margin and Padding
-style#:#sty_move_lm_styles#:#Change Style of Learning Modules
-style#:#sty_move_style#:#Change Style
-style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_move_lm_styles#:#Rat læremodul stil
+style#:#sty_move_style#:#Ret stil
+style#:#sty_nr_learning_modules#:#Antal læremoduler
 style#:#sty_padding#:#Padding
 style#:#sty_right#:#Right
 style#:#sty_save_active_styles#:#Save Active Styles
@@ -7562,7 +7562,7 @@ content#:#seq_deadlock#:#Sekvensen er i en deadlock.
 content#:#seq_invalidnavreq#:#Sekvensen modtog en ugyldig anmodning.
 content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
 content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
-content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
+content#:#seq_toc#:#Vælg på indholdsfortegnelsen til venstre for at starte kurset.
 dateplaner#:#Text#:#Tekst
 dateplaner#:#View#:#Vis:
 forum#:#threads_moved_successfully#:#De valgte emner blev flyttet til andet fora.
@@ -8911,11 +8911,11 @@ shib#:#shib_plugin#:#Assignment by Plugin###24 02 2009 new variable
 shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###24 02 2009 new variable
 shib#:#shib_role_by_plugin#:#By Plugin###24 02 2009 new variable
 shib#:#shib_plugin_id#:#Plugin Id###24 02 2009 new variable
-shib#:#shib_role_selection#:#Role Selection###24 02 2009 new variable
-shib#:#shib_choose_role#:#Choose Role###24 02 2009 new variable
-shib#:#shib_add_remove#:#Add/Remove Roles###24 02 2009 new variable
-common#:#page_layouts#:#Page Layouts###24 02 2009 new variable
-common#:#page_layout#:#Page Layout###24 02 2009 new variable
+shib#:#shib_role_selection#:#Valg af rolle
+shib#:#shib_choose_role#:#Vælg rolle
+shib#:#shib_add_remove#:#Tilføj/fjern roller
+common#:#page_layouts#:#Side stilark
+common#:#page_layout#:#Side stilark
 style#:#sty_list_char#:#Liste
 style#:#sty_media_char#:#Medie
 style#:#sty_question_char#:#Spørgsmål
@@ -9994,26 +9994,26 @@ grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
 crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
 grp#:#grp_join_request#:#Send###16 09 2009 new variable
 crs#:#crs_join_request#:#Send###16 09 2009 new variable
-rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
-rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
-rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
-rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
-rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
+rbac#:#root_create_chat#:#Lav chat
+rbac#:#root_create_crs#:#Lav kursus
+rbac#:#root_create_dbk#:#Lav digilibbog
+rbac#:#root_create_exc#:#Lav øvelse
+rbac#:#root_create_file#:#Upload fil
+rbac#:#root_create_frm#:#Lav forum
 rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
-rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
-rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
-rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
-rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
-rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
-rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
-rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
-rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
-rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
-rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
-rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
+rbac#:#root_create_grp#:#Lav gruppe
+rbac#:#root_create_htlm#:#Lav HTML læremodul
+rbac#:#root_create_icrs#:#Lav LearnLinc seminar
+rbac#:#root_create_lm#:#Lav ILIAS læremodul
+rbac#:#root_create_mep#:#Lav mediesamling
+rbac#:#root_create_qpl#:#Lav spørgsmålssamling til tests
+rbac#:#root_create_sahs#:#Lav SCORM/AICC læremodul
+rbac#:#root_create_spl#:#Lav spørgsmålssamling til afstemning
+rbac#:#root_create_svy#:#Lav afstemning
+rbac#:#root_create_tst#:#Lav test
+rbac#:#root_create_webr#:#Lav weblink
+rbac#:#root_create_wiki#:#Lav Wiki
+rbac#:#root_create_rcrs#:#Lav kursus-link
 rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
-rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
-rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
+rbac#:#root_create_feed#:#Lav webfeed
+rbac#:#root_create_crsr#:#Lav kursusreference
