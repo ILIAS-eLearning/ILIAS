@@ -10964,7 +10964,10 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#2267>
 <?php
-	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` ADD `price` FLOAT NOT NULL DEFAULT '0'");
+	if(!$ilDB->tableColumnExists("payment_prices", "price"))
+	{
+		$ilDB->manipulate("ALTER TABLE `payment_prices` ADD `price` FLOAT NOT NULL DEFAULT '0'");
+	}
 ?>
 <#2268>
 <?php
@@ -10986,11 +10989,17 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#2269>
 <?php 
-	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` DROP `unit_value` ");
+	if($ilDB->tableColumnExists("payment_prices", "unit_value"))
+	{
+		$ilDB->manipulate("ALTER TABLE `payment_prices` DROP `unit_value` ");
+	}
 ?>
 <#2270>
 <?php 
-	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` DROP `sub_unit_value` ");
+	if($ilDB->tableColumnExists("payment_prices", "sub_unit_value"))
+	{
+		$ilDB->manipulate("ALTER TABLE `payment_prices` DROP `sub_unit_value` ");
+	}
 ?>
 <#2271>
 <?php
@@ -10998,7 +11007,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#2272>
 <?php 
-	if (!$ilDB->tableExists("payment_vats"))
+	if(!$ilDB->tableExists("payment_vats"))
 	{
 		$ilDB->createTable("payment_vats",
 			array(
@@ -11018,11 +11027,17 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#2273>
 <?php 
-	$res = $ilDB->manipulate("ALTER TABLE `payment_settings` DROP `vat_rate` ");	
+	if($ilDB->tableColumnExists("payment_settings", "vat_rate"))
+	{
+		$ilDB->manipulate("ALTER TABLE `payment_settings` DROP `vat_rate` ");	
+	}
 ?>
 <#2274>
-<?php 	
-	$res = $ilDB->manipulate("ALTER TABLE `payment_objects` ADD `vat_rate` FLOAT NOT NULL DEFAULT '0'");	
+<?php 
+	if(!$ilDB->tableColumnExists("payment_objects", "vat_rate"))
+	{
+		$ilDB->manipulate("ALTER TABLE `payment_objects` ADD `vat_rate` FLOAT NOT NULL DEFAULT '0'");	
+	}
 	$ilMySQLAbstraction->performAbstraction('payment_objects');
 ?>
 <#2275>
