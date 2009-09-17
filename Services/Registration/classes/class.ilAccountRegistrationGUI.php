@@ -388,6 +388,28 @@ class ilAccountRegistrationGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
+			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
+			{
+				include_once "./Services/RTE/classes/class.ilRTE.php";
+				$rtestring = ilRTE::_getRTEClassname();
+				include_once "./Services/RTE/classes/class.$rtestring.php";
+				$rte = new $rtestring();
+				include_once "./Services/Form/classes/class.ilTextAreaInputGUI.php";
+				$ta = new ilTextAreaInputGUI("","");
+				$rte->addCustomRTESupport(0, "", $ta->getRteTags());
+
+				$old = isset($_POST["udf"][$field_id]) ?
+					$_POST["udf"][$field_id] : '';
+
+				$this->tpl->setCurrentBlock("field_wysiwyg");
+				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
+				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
+				if(!$definition['changeable'])
+				{
+					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
+				}
+				$this->tpl->parseCurrentBlock();
+			}
 			else
 			{
 				$this->tpl->setCurrentBlock("field_select");
