@@ -95,7 +95,7 @@ class ilLDAPRoleAssignmentRules
 			}
 		}
 		
-		$names = array_merge($names, self::getAdditionalPluginAttributes());	
+		$names = array_merge((array) $names, self::getAdditionalPluginAttributes());	
 		return $names ? $names : array();
 	}
 	
