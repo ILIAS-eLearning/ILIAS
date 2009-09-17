@@ -1477,6 +1477,7 @@ function showTrackingItem()
 		$ilCtrl->setParameter($this, "nodes_mode", $a_mode);
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$node_id = $_GET["obj_id"];
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		$node_type = ($node_id > 0)
 			? ilSCORM2004Node::_lookupType($node_id)
 			: "sahs";
