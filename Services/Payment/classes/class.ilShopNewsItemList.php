@@ -33,7 +33,6 @@ class ilShopNewsItemList implements Iterator
 	
 	private static $instance = null;
 	
-	private $db = null;
 	private $news = array();
 	private $mode = self::TYPE_NEWS;
 	private $archive_date = null;
@@ -41,9 +40,6 @@ class ilShopNewsItemList implements Iterator
 	
 	private function __construct()
 	{
-		global $ilDB;
-		
-		$this->db = $ilDB;
 	}
 	
 	private function __clone()
@@ -92,6 +88,8 @@ class ilShopNewsItemList implements Iterator
 	
 	public function read()
 	{
+		global $ilDB;
+		
 		$this->news = array();
 		
 		$types = array();
@@ -123,9 +121,9 @@ class ilShopNewsItemList implements Iterator
 		}		
 		$query .= 'ORDER BY update_date DESC ';		
 
-		$result = $this->db->queryf($query, $types, $data);
+		$result = $ilDB->queryF($query, $types, $data);
 		
-		while($record = $this->db->fetchAssoc($result))
+		while($record = $ilDB->fetchAssoc($result))
 		{
 		   $oNewsItem = new ilShopNewsItem();
 		   $oNewsItem->setId($record['news_id']);

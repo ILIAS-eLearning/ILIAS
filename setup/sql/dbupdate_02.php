@@ -15834,5 +15834,17 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 <?php
 	$ilDB->modifyTableColumn('container_sorting', 'parent_type', array("type" => "text", "length" => 5, "notnull" => false, "default" => null));
 ?>
-	
 
+<#2879>
+<?php
+	$ilDB->addTableColumn("payment_news", "news_content_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+	
+	$ilDB->manipulate('UPDATE payment_news SET news_content_tmp = news_content');
+	
+	$ilDB->dropTableColumn('payment_news', 'news_content');
+	$ilDB->renameTableColumn("payment_news", "news_content_tmp", "news_content");
+?>

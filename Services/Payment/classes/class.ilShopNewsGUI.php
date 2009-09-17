@@ -163,7 +163,6 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		$this->initNewsForm('create');
 		if ($this->form_gui->checkInput())
 		{
-			$this->oCurrentNewsItem->setId((int)$_GET['news_id']);
 			$this->oCurrentNewsItem->setTitle($this->form_gui->getInput('news_title'));
 			$this->oCurrentNewsItem->setContent($this->form_gui->getInput('news_content'));
 			$this->oCurrentNewsItem->setVisibility($this->form_gui->getInput('news_visibility'));
