@@ -28,14 +28,13 @@
 */
 class ilShopNewsItem 
 {
-	private $id;
-	private $title;
-	private $content;
-	private $creation_date;
-	private $update_date;
-	private $user_id;
+	private $id = 0;
+	private $title = '';
+	private $content = '';
+	private $creation_date = null;
+	private $update_date = null;
+	private $user_id = 0;
 	private $visibility = 'users';
-	private $db = null;
 
 	/**
 	* Constructor.
@@ -43,11 +42,7 @@ class ilShopNewsItem
 	* @param	int	$a_id	
 	*/
 	public function __construct($a_id = 0)
-	{
-		global $ilDB;
-		
-		$this->db = $ilDB;
-		
+	{		
 		if((int)$a_id > 0)
 		{
 			$this->setId((int)$a_id);
@@ -207,25 +202,20 @@ class ilShopNewsItem
 		$createdate = new ilDateTime(time(), IL_CAL_UNIX);
 		
 		$next_id = $ilDB->nextId('payment_news');
-
-		$res = $ilDB->manipulateF('
-			INSERT INTO payment_news 
-				  (news_id, news_title, news_content, visibility, creation_date, update_date, user_id)
-			VALUES (%s, %s, %s, %s, %s, %s, %s)',
-			array('integer', 'text', 'text', 'text', 'timestamp', 'timestamp', 'integer'),
-			array($next_id, $this->getTitle(), $this->getContent(), $this->getVisibility(),
-				$createdate->get(IL_CAL_DATETIME), $createdate->get(IL_CAL_DATETIME),$this->getUserId())
-			);
-
-
-		
-
-
-		if((int)($id = $ilDB->nextId('payment_news')))
+		if((int)$next_id)
 		{
-			$this->setID((int)$id);
+			$ilDB->insert('payment_news', array(
+				'news_id'			=> array('integer', $next_id),
+				'news_title'		=> array('text', $this->getTitle()),
+				'news_content'		=> array('clob', $this->getContent()),
+				'visibility'		=> array('text', $this->getVisibility()),
+				'creation_date'		=> array('timestamp', $createdate->get(IL_CAL_DATETIME)),
+				'update_date'		=> array('timestamp', $createdate->get(IL_CAL_DATETIME)),
+				'user_id'			=> array('integer', $this->getUserId())		
+			));
+			$this->id = $next_id;
 			return true;
-		}	
+		}
 		
 		return false;
 	}
@@ -235,18 +225,20 @@ class ilShopNewsItem
 	*
 	*/
 	private function read()
-	{	
-		$result = $this->db->queryf('SELECT * FROM payment_news WHERE news_id = %s',
+	{
+		global $ilDB;
+			
+		$result = $ilDB->queryf('SELECT * FROM payment_news WHERE news_id = %s',
 		        				array('integer'),
 		        				array($this->getId())
 		        			);
 		
-		while($record = $this->db->fetchAssoc($result))
+		while($record = $ilDB->fetchAssoc($result))
 		{
 			$this->setTitle($record['news_title']);
 			$this->setCreationDate($record['creation_date']);
 			$this->setVisibility($record['visibility']);
-			$this->setContent($record['content']);
+			$this->setContent($record['news_content']);
 			$this->setUpdateDate($record['update_date']);
 			$this->setUserId($record['user_id']);
 			break;
@@ -258,24 +250,25 @@ class ilShopNewsItem
 	*
 	*/
 	public function update()
-	{		
+	{
+		global $ilDB;
+		
 		$updatedate = new ilDateTime(time(), IL_CAL_UNIX);	
 
 		if((int)$this->getId())
 		{
-			$query = 'UPDATE payment_news 
-					  SET
-					  news_title = %s,
-					  news_content = %s,
-					  visibility = %s,
-					  update_date = %s,
-					  user_id = %s
-					  WHERE news_id = %s';
-			$statement = $this->db->manipulateF($query, 
-			        array('text', 'text', 'text', 'timestamp', 'integer', 'integer'),
-			        array($this->getTitle(), $this->getContent(), $this->getVisibility(),
-						  $updatedate->get(IL_CAL_DATETIME), $this->getUserId(), $this->getId())
-			);        
+			$ilDB->update('payment_news', 
+				array(				
+					'news_title'		=> array('text', $this->getTitle()),
+					'news_content'		=> array('clob', $this->getContent()),
+					'visibility'		=> array('text', $this->getVisibility()),
+					'update_date'		=> array('timestamp', $updatedate->get(IL_CAL_DATETIME)),
+					'user_id'			=> array('integer', $this->getUserId())		
+				),
+				array(
+					'news_id'			=> array('integer', $this->getId())
+				)				
+			);
 						  
 			return true;
 		}
@@ -289,10 +282,12 @@ class ilShopNewsItem
 	*/
 	public function delete()
 	{
+		global $ilDB;
+		
 		if((int)$this->getId())
 		{
 			$query = 'DELETE FROM payment_news WHERE news_id = %s';
-			$statement = $this->db->manipulateF($query, array('integer'),array($this->getId()));
+			$statement = $ilDB->manipulateF($query, array('integer'),array($this->getId()));
 		
 			return true;
 		}
