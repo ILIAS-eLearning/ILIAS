@@ -236,9 +236,12 @@ class ilInitialisation
 		$tz = $ilIliasIniFile->readVariable("server","timezone");
 		if ($tz != "")
 		{
-			date_default_timezone_set($tz);
+			if (function_exists('date_default_timezone_set'))
+			{
+				date_default_timezone_set($tz);
+			}
 		}
-		define ("IL_TIMEZONE",$ilIliasIniFile->readVariable("server","timezone"));
+		define ("IL_TIMEZONE", $ilIliasIniFile->readVariable("server","timezone"));
 		
 		//$this->buildHTTPPath();
 	}
