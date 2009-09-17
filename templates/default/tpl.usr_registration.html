@@ -184,6 +184,14 @@
 			<!-- BEGIN field_text -->
 			<input type="text" name="{FIELD_NAME}" maxlength="255" size="40" value="{FIELD_VALUE}"{DISABLED_FIELD} />
 			<!-- END field_text -->
+			<!-- BEGIN field_wysiwyg -->
+			<textarea name="{FIELD_NAME}" id="{FIELD_NAME}">{FIELD_VALUE}</textarea>
+			<!-- END field_wysiwyg -->
+			<!-- BEGIN disabled_wysiwyg -->
+			<div style="overflow: auto; width:400px; height:100px; color:#888888; border: 1px solid; border-color:#C0C0C0; padding: 5px;">
+			{DR_VAL}
+			</div>
+			<!-- END disabled_wysiwyg -->
 			<!-- BEGIN field_select -->
 			{SELECT_BOX}
 			<!-- END field_select -->
