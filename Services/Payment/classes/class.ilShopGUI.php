@@ -323,52 +323,55 @@ class ilShopGUI extends ilShopBaseGUI
 		
 		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
 		
-		// filter form
-		$this->tpl->setVariable('FILTER_TEXT', $this->lng->txt('filter'));
-		$this->tpl->setVariable('TEXT_FILTER_BY', $this->lng->txt('filter_by'));		
-		$filter_fields = array(
-			'title' => $this->lng->txt('title'),
-			'author' => $this->lng->txt('author'),
-			'metadata' => $this->lng->txt('meta_data')
-		);		
-		foreach($filter_fields as $key => $value)
-		{
-			$this->tpl->setCurrentBlock('filterrow');
-			$this->tpl->setVariable('VALUE_FILTER_TYPE', $key);
-			$this->tpl->setVariable('NAME_FILTER_TYPE', $value);
-			if (strcmp(trim($this->getType()), $key) == 0)
-			{
-				$this->tpl->setVariable('VALUE_FILTER_SELECTED', ' selected="selected"');
-			}
-			$this->tpl->parseCurrentBlock();
-		}		
-		$this->tpl->setVariable('VALUE_FILTER_TEXT', ilUtil::prepareFormOutput($this->getString(), true));		
-		$this->tpl->setVariable('FILTER_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
-		$this->tpl->setVariable('CMD_SUBMIT_FILTER', 'setFilter');
-		$this->tpl->setVariable('CMD_RESET_FILTER', 'resetFilter');			
-		$this->tpl->setVariable('VALUE_SUBMIT_FILTER', $this->lng->txt('set_filter'));
-		$this->tpl->setVariable('VALUE_RESET_FILTER', $this->lng->txt('reset_filter'));
-	
-		ilShopTopics::_getInstance()->setIdFilter(false);
-		ilShopTopics::_getInstance()->read();
-		$options = array();
-		if(count(ilShopTopics::_getInstance()->getTopics()))
-		{
-			$options[''] = $this->lng->txt('please_select');
-			foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-			{
-				$options[$oTopic->getId()] = $oTopic->getTitle();
-			}
-			$this->tpl->setCurrentBlock('filter_topics');
-			$this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
-			$this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$options[''] = $this->lng->txt('no_topics_yet');
-		}
+		$show_filter = true;
+		if ($show_filter) {
+      // filter form
+      $this->tpl->setVariable('FILTER_TEXT', $this->lng->txt('filter'));
+      $this->tpl->setVariable('TEXT_FILTER_BY', $this->lng->txt('filter_by'));		
+      $filter_fields = array(
+        'title' => $this->lng->txt('title'),
+        'author' => $this->lng->txt('author'),
+        'metadata' => $this->lng->txt('meta_data')
+      );		
+      foreach($filter_fields as $key => $value)
+      {
+        $this->tpl->setCurrentBlock('filterrow');
+        $this->tpl->setVariable('VALUE_FILTER_TYPE', $key);
+        $this->tpl->setVariable('NAME_FILTER_TYPE', $value);
+        if (strcmp(trim($this->getType()), $key) == 0)
+        {
+          $this->tpl->setVariable('VALUE_FILTER_SELECTED', ' selected="selected"');
+        }
+        $this->tpl->parseCurrentBlock();
+      }		
+      $this->tpl->setVariable('VALUE_FILTER_TEXT', ilUtil::prepareFormOutput($this->getString(), true));		
+      $this->tpl->setVariable('FILTER_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
+      $this->tpl->setVariable('CMD_SUBMIT_FILTER', 'setFilter');
+      $this->tpl->setVariable('CMD_RESET_FILTER', 'resetFilter');			
+      $this->tpl->setVariable('VALUE_SUBMIT_FILTER', $this->lng->txt('set_filter'));
+      $this->tpl->setVariable('VALUE_RESET_FILTER', $this->lng->txt('reset_filter'));
+    
+      ilShopTopics::_getInstance()->setIdFilter(false);
+      ilShopTopics::_getInstance()->read();
+      $options = array();
+      if(count(ilShopTopics::_getInstance()->getTopics()))
+      {
+        $options[''] = $this->lng->txt('please_select');
+        foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
+        {
+          $options[$oTopic->getId()] = $oTopic->getTitle();
+        }
+        $this->tpl->setCurrentBlock('filter_topics');
+        $this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
+        $this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
+        $this->tpl->parseCurrentBlock();
+      }
+      else
+      {
+        $options[''] = $this->lng->txt('no_topics_yet');
+      }
 
+		} // show_filter
 		
 		if(count($oResult->getResults()))
 		{

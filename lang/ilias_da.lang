@@ -232,7 +232,7 @@ common#:#add_comments#:#Rediger kommentar
 common#:#add_condition#:#Opret betingelse
 common#:#add_member#:#Tilføj medlem
 common#:#add_members#:#Tilføj medlemmer
-common#:#add_new_user_defined_field#:#Opret bruger-defineret felt
+common#:#add_new_user_defined_field#:#Lav brugerdefineret felt
 common#:#add_new_user_defined_select_field#:#Add New Select Box
 common#:#add_new_user_defined_text_field#:#Tilføj tekstfelt
 common#:#add_note#:#Tilføj note
@@ -465,8 +465,8 @@ common#:#bookmarks_of#:#Til foretrukne
 common#:#bottom_frame#:#Hovedindhold
 common#:#btn_add#:#Tilføj
 common#:#btn_new_value#:#Ny værdi
-common#:#btn_next#:#Continue
-common#:#btn_previous#:#Back
+common#:#btn_next#:#Fortsæt
+common#:#btn_previous#:#Tilbage
 common#:#btn_remove_system#:#Fjern fra system
 common#:#btn_undelete#:#Ikke slettet
 common#:#by_location#:#Sorter efter placering
@@ -950,7 +950,7 @@ common#:#fax#:#Fax
 common#:#feedback#:#Tilbagemelding
 common#:#feedback_recipient#:#Tilbagemelding fra modtager
 common#:#field_name#:#Field Name
-common#:#field_type#:#Field Type
+common#:#field_type#:#Felttype
 common#:#file#:#Fil
 common#:#file_a#:#en Fil
 common#:#file_add#:#Upload Fil
@@ -2622,7 +2622,7 @@ common#:#udf_type_text#:#Tekstfelt (valgfrie værdier)
 common#:#udf_update_select_field#:#Ret rullemenu
 common#:#udf_update_success#:#Ændringer gemt
 common#:#udf_update_text_field#:#Ret tekstfelt
-common#:#udf_value#:#Value
+common#:#udf_value#:#Værdi
 common#:#udf_value_deleted#:#Værdien blev slettet
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Lav ny konto
@@ -6608,7 +6608,7 @@ registration#:#reg_disabled#:#Registrering ikke mulig
 registration#:#reg_domain#:#Domæne
 registration#:#reg_email#:#Automatisk rolletildeling
 registration#:#reg_email_role_assignment#:#Rolletildeling efter domæne
-registration#:#reg_fixed#:#Selection From Specified List
+registration#:#reg_fixed#:#Vælges fra liste
 registration#:#reg_info_pwd#:#Hvis aktiveret sendes passwords automatisk til nye brugere pr. mail.
 registration#:#reg_mail_body_approve#:#Du har allerede registreret på ILIAS og modtaget en mail med dine kontoinformationer. Din konto er nu blevet aktiveret af en administrator.
 registration#:#reg_mail_body_profile#:#Profilinformationer:
@@ -9513,7 +9513,7 @@ chat#:#chat_export_period_info#:#Eksporter antal dage
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###26 06 2009 new variable
 chat#:#chat_textformat#:#Tekstformat
 chat#:#chat_show_textformat#:#Formater tekst
-registration#:#reg_type_confirmation#:#Registration with Email Confirmation###26 06 2009 new variable
+registration#:#reg_type_confirmation#:#Oprettelse med emailbekræftelse
 registration#:#reg_type_confirmation_info#:#Dette tillader brugerne at oprette deres egen konto, men kræver at de bekræfter deres email. Således forhindres kontooprettelser med ugyldige emailadresser.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###26 06 2009 new variable
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###26 06 2009 new variable
@@ -9703,29 +9703,29 @@ common#:#advanced_editing_frm_post_settings#:#Indstillinger for indlæg i fora
 common#:#hint#:#Tip
 assessment#:#add_rect#:#Lav rektangulært område
 assessment#:#add_circle#:#Lav cirkelområde
-assessment#:#add_poly#:#Add polygon area###24 07 2009 new variable
-assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
-assessment#:#msg_circle_added#:#Circle added###24 07 2009 new variable
-assessment#:#msg_poly_added#:#Polygon added###24 07 2009 new variable
-assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.###24 07 2009 new variable
+assessment#:#add_poly#:#Lav polygonområde
+assessment#:#msg_rect_added#:#Rektangel tilføjet
+assessment#:#msg_circle_added#:#Cirkel tilføjet
+assessment#:#msg_poly_added#:#Polygon tilføjet
+assessment#:#form_msg_area_missing_points#:#Du skal indtaste point for alle områder.
 assessment#:#values#:#Værdier
 mep#:#mep_new_content_snippet#:#New Content Snippet###24 07 2009 new variable
 mep#:#mep_edit_content_snippet#:#Edit Content Snippet###24 07 2009 new variable
-mep#:#mep_folder#:#Folder###24 07 2009 new variable
+mep#:#mep_folder#:#mappe
 mep#:#mep_page_properties#:#Page Properties###24 07 2009 new variable
 content#:#cont_ed_insert_incl#:#Insert Content Snippet###24 07 2009 new variable
 content#:#cont_pc_incl#:#Content Snippet###24 07 2009 new variable
-survey#:#scale#:#Scale###24 07 2009 new variable
-survey#:#add_material#:#Add Material###24 07 2009 new variable
-survey#:#internal_link#:#Internal Link###24 07 2009 new variable
+survey#:#scale#:#Skala
+survey#:#add_material#:#Tilføj materiale
+survey#:#internal_link#:#Internet link
 survey#:#materials#:#Materials###24 07 2009 new variable
 survey#:#materials_deleted#:#Material(s) deleted###24 07 2009 new variable
 survey#:#phrase_added#:#Phrase added###24 07 2009 new variable
 survey#:#matrix_left_pole#:#Left Pole###24 07 2009 new variable
 survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
-survey#:#row_text#:#Row Text###24 07 2009 new variable
-common#:#header_visible_registration#:#Visible in Registration###24 07 2009 new variable
-common#:#visible_registration#:#Visible in Registration###24 07 2009 new variable
+survey#:#row_text#:#Rækketekst
+common#:#header_visible_registration#:#Synlig i brugeroprettelse
+common#:#visible_registration#:#Synlig i brugeroprettelse
 survey#:#spl_browsercolumns#:#Customized question list###24 07 2009 new variable
 survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###24 07 2009 new variable
 survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###24 07 2009 new variable
@@ -9737,13 +9737,13 @@ survey#:#spl_paste_success#:#The question(s) have been pasted into the question 
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
 survey#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
-common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field###24 07 2009 new variable
-common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable
-search#:#search_crs_title#:#Course Name###24 07 2009 new variable
-search#:#search_for_crs_members#:#Search for Course Members###24 07 2009 new variable
-mcst#:#mcst_mimetype#:#Mime Type###24 07 2009 new variable
-mcst#:#mcst_mimetypes#:#Mime Types###24 07 2009 new variable
+common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)###24 07 2009 new variable
+common#:#add_new_user_defined_wysiwyg_field#:#Lav nyt tekstområde (WYSIWYG) felt
+common#:#udf_update_wysiwyg_field#:#Ret (WYSIWYG) tekstområde felt
+search#:#search_crs_title#:#Kursusnavn
+search#:#search_for_crs_members#:#Søg efter kursusdeltagere
+mcst#:#mcst_mimetype#:#Mime type
+mcst#:#mcst_mimetypes#:#Mime typer
 mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###24 07 2009 new variable
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###24 07 2009 new variable
 user#:#usr_public_profile_disabled#:#Deaktiveret
@@ -9868,7 +9868,7 @@ grp#:#grp_missing_grp_type#:#Vælg gruppetype.
 grp#:#grp_missing_password#:#Indtast gruppepassword.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###12 08 2009 new variable
 user#:#user_field#:#Felt
-user#:#user_visible_in_profile#:#Visible in Profile###12 08 2009 new variable
+user#:#user_visible_in_profile#:#Synlig i brugerprofil
 grp#:#grp_already_assigned#:#You have already requested membership for this group.###12 08 2009 new variable
 common#:#sub_request_saved#:#Saved membership request###12 08 2009 new variable
 grp#:#grp_update_subscr_request#:#Update Membership Request###12 08 2009 new variable
