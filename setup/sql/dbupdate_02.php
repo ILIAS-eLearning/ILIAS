@@ -8708,22 +8708,42 @@ ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `os_
 	$ilMySQLAbstraction->performAbstraction('il_meta_requirement');
 ?>
 <#1853>
-CREATE TABLE `payment_news` (
-  `news_id` int(11) NOT NULL,
-  `news_title` varchar(200) default NULL,
-  `news_content` varchar(4000) default NULL,
-  `creation_date` datetime default NULL,
-  `update_date` datetime default NULL,
-  `visibility` varchar(8) default 'users',
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY  (`news_id`),
-  KEY `c_date` (`creation_date`)
-);
-
+<?php
+	if(!$ilDB->tableExists("payment_news"))
+	{
+		$ilDB->createTable("payment_news",
+			array(
+				"news_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true),
+				"news_title" => array(
+					"type" => "text", "length" => 200, "notnull" => false, "default" => null),
+				"news_content" => array(
+					"type" => "clob", "notnull" => false, "default" => null),
+				"creation_date" => array(
+					"type" => "timestamp", "notnull" => false, "default" => null),
+				"update_date" => array(
+					"type" => "timestamp", "notnull" => false, "default" => null),
+				"user_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true),
+				"visibility" => array(
+					"type" => "text", "length" => 8, "notnull" => true, "default" => "users")
+			)
+		);
+		$ilDB->addPrimaryKey("payment_news",array("news_id"));
+		$ilDB->addIndex('payment_news', array('creation_date'), 'i1');
+	}
+?>
 <#1854>
- CREATE  TABLE `payment_news_seq` (  `sequence` int( 11  )  NOT  NULL  auto_increment ,
- PRIMARY  KEY (  `sequence`  )  );   
- 
+<?php
+	if(!$ilDB->tableExists("payment_news_seq")) // works only with mysql
+	{
+		$res = $ilDB->query("SELECT MAX(news_id) ma FROM payment_news");
+		$rec = $ilDB->fetchAssoc($res);
+		$next = $rec["ma"] + 1;
+	
+		$ilDB->createSequence('payment_news_seq', $next);
+	}
+?>
 <#1855> 
 ALTER TABLE `mail_options` MODIFY `signature` VARCHAR( 4000 ) NULL DEFAULT NULL;
 
