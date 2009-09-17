@@ -1125,10 +1125,12 @@ class ilAdminUserSearchGUI
 				if ($key == 1)
 				{
 					//build link
-					$link = "ilias.php?ref_id=7&admin_mode=settings&obj_id=".$row[7]."&search=1&cmd=view&cmdClass=ilobjusergui&cmdNode=".$_SESSION["usergui_cmd_node"]."&baseClass=ilAdministrationGUI";
-					//$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
-					//$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $row[7]);
-					//$link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
+					// alex: this resulted in bug #5206 -> no cmdNode
+					//$link = "ilias.php?ref_id=7&admin_mode=settings&obj_id=".$row[7]."&search=1&cmd=view&cmdClass=ilobjusergui&cmdNode=".$_SESSION["usergui_cmd_node"]."&baseClass=ilAdministrationGUI";
+					$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+					$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $row[7]);
+					$this->ctrl->setParameterByClass("ilobjusergui", "search", "1");
+					$link = $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
 					$result_set[$i][$key] = "<a href=\"".$link."\">".$cell."</a>";
 				}
 				
