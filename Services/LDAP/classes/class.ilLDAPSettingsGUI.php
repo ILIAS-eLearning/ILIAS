@@ -960,7 +960,7 @@ class ilLDAPSettingsGUI
 				$dn->setSize(32);
 				$dn->setMaxLength(255);
 			$user->addSubItem($dn);
-				$pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_dn'), 'bind_pass');
+				$pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_pass'), 'bind_pass');
 				$pass->setSize(12);
 				$pass->setMaxLength(36);
 			$user->addSubItem($pass);
