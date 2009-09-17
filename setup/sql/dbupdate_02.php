@@ -15829,3 +15829,10 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 		}
 	}
 ?>
+
+<#2878>
+<?php
+	$ilDB->modifyTableColumn('container_sorting', 'parent_type', array("type" => "text", "length" => 5, "notnull" => false, "default" => null));
+?>
+	
+
