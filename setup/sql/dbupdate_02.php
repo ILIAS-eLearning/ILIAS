@@ -8741,7 +8741,7 @@ ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `os_
 		$rec = $ilDB->fetchAssoc($res);
 		$next = $rec["ma"] + 1;
 	
-		$ilDB->createSequence('payment_news_seq', $next);
+		$ilDB->createSequence('payment_news', $next);
 	}
 ?>
 <#1855> 
