@@ -7574,7 +7574,7 @@ ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the me
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
 common#:#auth_selection#:#Login Options
-common#:#authenticate_ilias#:#Login to ILIAS
+common#:#authenticate_ilias#:#ILIAS Native Authentication
 common#:#authenticate_with#:#Login to:
 ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
