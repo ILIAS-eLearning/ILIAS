@@ -229,7 +229,7 @@ class ilLDAPSettingsGUI
 	{
 	 	if(!is_array($_POST['rule_ids']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->roleAssignments();
 	 		return false;
 	 	}
@@ -265,7 +265,7 @@ class ilLDAPSettingsGUI
 	{
 	 	if(!is_array($_POST['rule_ids']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_once'));
+	 		ilUtil::sendFailure($this->lng->txt('select_once'));
 	 		$this->roleAssignments();
 	 		return false;
 	 	}
@@ -275,7 +275,7 @@ class ilLDAPSettingsGUI
 			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($rule_id);
 			$rule->delete();
 		}
-		ilUtil::sendInfo($this->lng->txt('ldap_deleted_rule'));
+		ilUtil::sendSuccess($this->lng->txt('ldap_deleted_rule'));
 		$this->roleAssignments();
 		return true;
 	}
@@ -705,7 +705,7 @@ class ilLDAPSettingsGUI
 	{
 		if(!count($_POST['mappings']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->roleMapping();
 			return false;
 		}
@@ -716,7 +716,7 @@ class ilLDAPSettingsGUI
 		{
 			$this->role_mapping->delete($mapping_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('ldap_deleted_role_mapping'));
+		ilUtil::sendSuccess($this->lng->txt('ldap_deleted_role_mapping'));
 		$this->roleMapping();
 		return true;
 	}
@@ -749,13 +749,13 @@ class ilLDAPSettingsGUI
 		$this->role_mapping->loadFromPost($_POST['mapping']);
 		if(!$this->role_mapping->validate())
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 			$this->roleMapping();
 			return false;				
 		}
 		$this->role_mapping->save();
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleMapping();
 		return true;
 	}
@@ -847,7 +847,7 @@ class ilLDAPSettingsGUI
 		$this->mapping->save();
 		$this->userMapping();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		unset($_POST['mapping_template']);
 		return;
 	}
@@ -1118,7 +1118,7 @@ class ilLDAPSettingsGUI
 
 			if(!$this->server->validate())
 			{
-				ilUtil::sendInfo($ilErr->getMessage());
+				ilUtil::sendFailure($ilErr->getMessage());
 				$this->form_gui->setValuesByPost();
 				return $this->tpl->setContent($this->form_gui->getHtml());
 			}
@@ -1138,7 +1138,7 @@ class ilLDAPSettingsGUI
 			$this->mapping->setRule('global_role', (int)$this->form_gui->getInput('global_role'), false);
 			$this->mapping->save();
 	
-			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->form_gui->setValuesByPost();
 			return $this->tpl->setContent($this->form_gui->getHtml());
  		}		
