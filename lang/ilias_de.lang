@@ -6957,7 +6957,7 @@ ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_global_role#:#Globale Rolle
 ldap#:#ldap_global_role_assignment#:#Rollenzuordnung
-ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer.
+ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer. <span class="asterisk">*</span> Die Rolle ist <b>erforderlich</b>, sobald Sie eine Synchronisierungsart gewählt haben.
 ldap#:#ldap_group_attribute#:#Attributname der Gruppe
 ldap#:#ldap_group_attribute_info#:#Geben Sie hier den Attributnamen der Gruppe ein.
 ldap#:#ldap_group_dn#:#Gruppen DN
