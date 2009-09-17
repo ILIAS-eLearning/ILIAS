@@ -2533,10 +2533,10 @@
 					<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;autostart=true</xsl:attribute>
+						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;autostart=false</xsl:attribute>
+						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>

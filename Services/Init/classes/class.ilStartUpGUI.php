@@ -344,9 +344,46 @@ class ilStartUpGUI
 			$form->setOpenTag(false);
 			$form->setCloseTag(false);
 			$form->setTitle($lng->txt("login_to_ilias"));
+			
+			// auth selection
+			include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+			$det = ilAuthModeDetermination::_getInstance();
+			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+			{
+				/*foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
+				{
+					$tpl->setCurrentBlock('auth_mode_row');
+					$tpl->setVariable('VAL_AUTH_MODE',$key);
+					$tpl->setVariable('AUTH_CHECKED',isset($option['checked']) ? 'checked=checked' : '');
+					$tpl->setVariable('TXT_AUTH_MODE',$option['txt']);
+					$tpl->parseCurrentBlock();
+				}
+				
+				$tpl->setCurrentBlock('auth_selection');
+				$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
+				$tpl->parseCurrentBlock();*/
+				
+				// 
+				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
+				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
+				{
+					$op1 = new ilRadioOption($option['txt'], $key);
+					$radg->addOption($op1);
+					if (isset($option['checked']))
+					{
+						$radg->setValue($key);
+					}
+				}
+				
+				$form->addItem($radg);
+			}
+			
+			// username
 			$ti = new ilTextInputGUI($lng->txt("username"), "username");
 			$ti->setSize(20);
 			$form->addItem($ti);
+			
+			// password
 			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
 			$pi->setRetype(false);
 			$pi->setSize(20);
