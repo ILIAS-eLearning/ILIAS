@@ -886,7 +886,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tpl->setVariable("BTN_NAME", "importSave");
-		$tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
+		
+		// this leads to _top target which removes the left organization frame
+		//$tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
 		$tpl->setVariable("TXT_UPLOAD", $lng->txt("upload"));
 		$tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
