@@ -377,6 +377,18 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			}
 			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
 			
+			if($mode=='pdf') 
+			{
+				$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+				foreach ($q_ids as $q_id)
+				{
+					include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
+					$q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
+					$q_gui->outAdditionalOutput();
+					$html = $q_gui->getPreview(TRUE);
+					$output = preg_replace("/&#123;&#123;&#123;&#123;&#123;Question;il__qst_".$q_id."&#125;&#125;&#125;&#125;&#125;/i",$html,$output);				
+				}
+			}
 		}
 		
 		if($mode!='pdf') 
