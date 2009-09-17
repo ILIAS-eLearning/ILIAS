@@ -36,7 +36,8 @@ if (version_compare(PHP_VERSION, '5.3.0', '>='))
 }
 else
 {
-	error_reporting(ini_get("error_reporting") ^ E_NOTICE);
+	$level = ini_get('error_reporting');
+	error_reporting(((int) $level['access']) & ~E_NOTICE);
 }
 
 define("DEBUG",false);
