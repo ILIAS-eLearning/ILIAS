@@ -135,6 +135,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 		$tbl = new ilTableGUI();
 		$tbl->enable("action");
+		$tbl->disable("sort");
 		$tbl->setTitle("Learning Objectives for ".$this->node_object->getTitle());
 		$tbl->setHeaderNames(array("", $lng->txt("title"),"Scope"));
 		$cols = array("", "title","scope");
