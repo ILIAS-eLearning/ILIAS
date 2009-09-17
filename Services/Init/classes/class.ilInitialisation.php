@@ -930,7 +930,8 @@ class ilInitialisation
 		}
 		else
 		{
-			error_reporting(ini_get("error_reporting") ^ E_NOTICE);
+			$level = ini_get('error_reporting');
+			error_reporting(((int) $level['access']) & ~E_NOTICE);
 		}
 
 		
