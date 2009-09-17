@@ -7554,7 +7554,7 @@ ldap#:#ldap_group_member_info#:#The attribute of the group object where the user
 ldap#:#ldap_group_name_info#:#The name of the group users have to be a member of to authenticate successfully.
 ldap#:#ldap_group_attribute_info#:#The group attribute to search for.
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
-ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to.
+ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to. <span class="asterisk">*</span> The role selection is <b>required</b> in case you chose a type of synchronisation.
 ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose "Sub"
 ldap#:#ldap_settings#:#Server Settings
 ldap#:#ldap_user_mapping#:#User Profile Mapping
