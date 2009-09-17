@@ -143,6 +143,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		return true;
 	}
 	
+	
+	
 	private function addBookings($pay_method, $coupon_session)
 	{
 		include_once './payment/classes/class.ilPaymentBookings.php';
@@ -317,6 +319,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  include_once './payment/classes/class.ilPaymentObject.php';
   	  include_once './payment/classes/class.ilPaymentBookings.php';
   	
+  	// Check for ERP-system
   	$use_erp = file_exists( 'ec.php' );
   	if ($use_erp) include_once 'ec.php';
 
@@ -349,6 +352,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    $subject = $this->lng->txt('pay_order_paid_subject'); 
 	    $message = $this->lng->txt('pay_order_paid_body');
 	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);
+	    
+	    // Should be moved to callback
+	    
 	    
 	    if ($use_erp) {
 	    bookUser($ilUser->getId(), $ilUser->firstname." ".$ilUser->lastname, $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
@@ -386,15 +392,15 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				{
 					case ERROR_WRONG_CUSTOMER	:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_wrong_customer').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_NOT_COMPLETED	:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_not_completed').'<br />'.$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_NOT_COMPLETED	:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_not_completed').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_PREV_TRANS_ID	:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_prev_trans_id').'<br />'.$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_PREV_TRANS_ID	:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_prev_trans_id').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_WRONG_VENDOR		:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_wrong_vendor').'<br />'.$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_WRONG_VENDOR		:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_wrong_vendor').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_WRONG_ITEMS		:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_wrong_items').'<br />'.$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_WRONG_ITEMS		:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_wrong_items').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
-					case ERROR_FAIL				:	ilUtil::sendInfo($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_fails').'<br />'.$this->lng->txt('pay_paypal_error_info'));
+					case ERROR_FAIL				:	ilUtil::sendFailure($this->lng->txt('pay_paypal_failed').'<br />'.$this->lng->txt('pay_paypal_error_fails').'<br />'.$this->lng->txt('pay_paypal_error_info'));
 													break;
 				}
 				$this->showItems();
@@ -455,7 +461,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    {
 	      foreach ($items as $item)
 		{
-		  echo "...";
+		  
 		  return true;
 		}
 	    }
@@ -608,8 +614,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							}	
 							break;
 		
-   					        case PAY_METHOD_EPAY:
-						        $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+   					case PAY_METHOD_EPAY:
+						  $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
 							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
 							$tpl->setVariable('AMOUNT', $total_price * 100);
