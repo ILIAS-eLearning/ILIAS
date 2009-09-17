@@ -28,7 +28,7 @@ $this->tpl->parseCurrentBlock();
 
 // database
 $this->tpl->setCurrentBlock("tab");
-$this->tpl->setVariable("TAB_TYPE",$tab == "db" ? "tabactive" : "tabinactive");
+$this->tpl->setVariable("TAB_TYPE", in_array($tab, array("db", "displayDatabase")) ? "tabactive" : "tabinactive");
 $this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=db");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("database")));
 $this->tpl->parseCurrentBlock();

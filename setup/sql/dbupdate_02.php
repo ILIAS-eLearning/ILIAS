@@ -15868,3 +15868,7 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 	$ilDB->dropTableColumn('payment_news', 'news_content');
 	$ilDB->renameTableColumn("payment_news", "news_content_tmp", "news_content");
 ?>
+<#2880>
+<?php
+	//
+?>
