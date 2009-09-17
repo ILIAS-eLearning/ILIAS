@@ -926,12 +926,11 @@ class ilInitialisation
 		// remove notices from error reporting
 		if (version_compare(PHP_VERSION, '5.3.0', '>='))
 		{
-			error_reporting((ini_get("error_reporting") ^ E_NOTICE) ^ E_DEPRECATED);
+			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 		}
 		else
 		{
-			$level = ini_get('error_reporting');
-			error_reporting(((int) $level['access']) & ~E_NOTICE);
+			error_reporting(ini_get('error_reporting') & ~E_NOTICE);
 		}
 
 		
