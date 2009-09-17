@@ -192,7 +192,6 @@ class ilScorm2004Export
 
 		// zip the file
 		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
-//echo "-".$this->export_dir."/".$this->subdir."---".$this->export_dir."/".$this->subdir.".zip"."-";
 		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
 		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
 		

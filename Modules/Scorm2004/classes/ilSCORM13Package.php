@@ -413,8 +413,47 @@ class ilSCORM13Package
 
 	public function dbImportSco($slm,$sco)
 	{
+		$qtis = array();
+		$d = ilUtil::getDir ( $this->packageFolder );
+		foreach ( $d as $f ) {
+			//continue;
+			if ($f [type] == 'file' && substr ( $f [entry], 0, 4 ) == 'qti_') {
+				include_once "./Services/QTI/classes/class.ilQTIParser.php";
+				include_once "./Modules/Test/classes/class.ilObjTest.php";
+				
+
+				$qtiParser = new ilQTIParser ( $this->packageFolder . "/" . $f [entry], IL_MO_VERIFY_QTI, 0, "" );
+				$result = $qtiParser->startParsing ();
+				$founditems = & $qtiParser->getFoundItems ();
+				//					die(print_r($founditems));
+				foreach ( $founditems as $qp ) {
+					$newObj = new ilObjTest ( 0, true );
+					$newObj->setType ( $qp ['type'] );
+					$newObj->setTitle ( $qp ['title'] );
+					$newObj->create ( true );
+					$newObj->createReference ();
+					$newObj->putInTree ($_GET ["ref_id"]);
+					$newObj->setPermissions ( $sco->getId ());
+					$newObj->notify ("new", $_GET["ref_id"], $sco->getId (), $_GET["ref_id"], $newObj->getRefId () );
+					$newObj->mark_schema->flush ();
+					$qtiParser = new ilQTIParser ( $this->packageFolder . "/" . $f [entry], IL_MO_PARSE_QTI, 0, "" );
+					$qtiParser->setTestObject ( $newObj );
+					$result = $qtiParser->startParsing ();
+					$newObj->saveToDb ();
+					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
+				}
+			}
+		}
 		include_once 'class.ilSCORM2004Page.php';
 		$doc = new SimpleXMLElement($this->imsmanifest->saveXml());
+		$l = $doc->xpath ( "/ContentObject/MetaData" );
+		if($l[0])
+	  	{
+	  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+	  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$slm->getId(),$sco->getId(),$sco->getType());
+			$mdxml->startParsing();
+			$mdxml->getMDObject()->update();
+	  	}
 		$l = $doc->xpath("/ContentObject/PageObject");
 		foreach($l as $page_xml)
 	  	{
@@ -481,6 +520,8 @@ class ilSCORM13Package
 			foreach($tnode as $ttnode)
 				$t .= $ttnode->asXML();
 			$t .="</PageObject>";
+			foreach ($qtis as $old=>$q)
+				$t = str_replace($old,'il__qst_'.$q['test'], $t);
 			$pagex->setXMLContent($t);
 			$pagex->updateFromXML();
 	  	}
