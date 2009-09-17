@@ -1135,6 +1135,7 @@ div.ilPermaLink .small, div.ilPermaLink a
 div.ilPermaLink .il_adv_sel
 {
 	font-size: 100%;
+
 }
 
 div.ilPermaLink input
@@ -2212,6 +2213,7 @@ input.ilMainMenuSearch {
 	background-image: url(images/icon_seas_s.gif);
 	background-repeat: no-repeat;
 	background-position: center right;
+	background-color: #FFFFFF;
 	min-height:16px;
 }
 
@@ -2705,13 +2707,17 @@ div.il_ContainerListItem
 	padding-left: 8px;
 }
 
+div.il_adv_sel
+{
+	border-width:1px;
+	border-style:solid;
+	border-color: #A0A0A0;
+}
+
 table.il_adv_sel {
 	color:#000000;
 	background-color:#FAFAFA;
 	border-spacing:0px;
-	border-width:1px;
-	border-style:solid;
-	border-color: #A0A0A0;
 	cursor: pointer;
 }
 
@@ -2727,7 +2733,7 @@ tr.il_adv_sel_act {
 td.il_adv_sel {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #E0E0E0;
+	border-bottom-color: #F0F0F0;
 	padding: 3px 10px;
 	text-align: left;
 	white-space: nowrap;
@@ -2737,7 +2743,7 @@ td.il_adv_sel {
 td.il_adv_sel_ic {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #E0E0E0;
+	border-bottom-color: #F0F0F0;
 	padding: 3px 0px 3px 10px;
 	text-align: left;
 	cursor: pointer;
