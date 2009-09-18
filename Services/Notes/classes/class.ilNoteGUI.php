@@ -439,18 +439,21 @@ class ilNoteGUI
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
 			{						// are displayed
-				$tpl->setCurrentBlock("add_note_btn");
-				if ($a_type == IL_NOTE_PUBLIC)
+				if ($this->rep_obj_id > 0 || $a_type != IL_NOTE_PUBLIC)
 				{
-					$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("notes_add_comment"));
+					$tpl->setCurrentBlock("add_note_btn");
+					if ($a_type == IL_NOTE_PUBLIC)
+					{
+						$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("notes_add_comment"));
+					}
+					else
+					{
+						$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
+					}
+					$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
+						"#note_edit");
+					$tpl->parseCurrentBlock();
 				}
-				else
-				{
-					$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
-				}
-				$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
-					"#note_edit");
-				$tpl->parseCurrentBlock();
 			}
 		}
 		
@@ -696,7 +699,8 @@ class ilNoteGUI
 			}
 			
 			// multiple items commands
-			if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form)
+			if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form
+				&& count($notes) > 0)
 			{
 				if ($a_type == IL_NOTE_PRIVATE)
 				{

@@ -122,11 +122,23 @@ class ilPDNotesGUI
 		// output related item selection (if more than one)
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
-		
-		if ($ilUser->getPref("pd_notes_rel_obj") > 0)
+		$first = true;
+		foreach ($rel_objs as $r)
 		{
-			$notes_gui = new ilNoteGUI($ilUser->getPref("pd_notes_rel_obj"), 0,
-				ilObject::_lookupType($ilUser->getPref("pd_notes_rel_obj")),true);
+			if ($first)	// take first one as default
+			{
+				$this->current_rel_obj = $r["rep_obj_id"];
+			}
+			if ($r["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj".$this->getMode()))
+			{
+				$this->current_rel_obj = $r["rep_obj_id"];
+			}
+			$first = false;
+		}
+		if ($this->current_rel_obj > 0)
+		{
+			$notes_gui = new ilNoteGUI($this->current_rel_obj, 0,
+				ilObject::_lookupType($this->current_rel_obj),true);
 		}
 		else
 		{
@@ -190,7 +202,7 @@ class ilPDNotesGUI
 					$this->tpl->setVariable("TXT_RELATED",
 						$lng->txt("personal_desktop"));
 				}
-				if ($obj["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj"))
+				if ($obj["rep_obj_id"] == $this->current_rel_obj)
 				{
 					$this->tpl->setVariable("SEL", 'selected="selected"');
 				}
@@ -219,7 +231,7 @@ class ilPDNotesGUI
 	{
 		global $ilUser;
 		
-		$ilUser->writePref("pd_notes_rel_obj", $_POST["rel_obj"]);
+		$ilUser->writePref("pd_notes_rel_obj".$this->getMode(), $_POST["rel_obj"]);
 		$this->ctrl->redirect($this);
 	}
 

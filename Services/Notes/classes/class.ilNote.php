@@ -462,13 +462,44 @@ class ilNote
 				" type = ".$ilDB->quote((int) IL_NOTE_PUBLIC, "integer").
 				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
 				" ORDER BY rep_obj_id";
-
-			$ilDB->quote($q);
+				
 			$set = $ilDB->query($q);
 			$reps = array();
 			while($rep_rec = $ilDB->fetchAssoc($set))
 			{
 				$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+			}
+			
+			// additionally all objects on the personal desktop of the user
+			// that have at least on comment
+			$dis = ilObjUser::_lookupDesktopItems($ilUser->getId());
+			$obj_ids = array();
+			foreach($dis as $di)
+			{
+				$obj_ids[] = $di["obj_id"];
+			}
+			if (count($obj_ids) > 0)
+			{
+				$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
+					$ilDB->in("rep_obj_id", $obj_ids, false, "integer");
+
+				$set = $ilDB->query($q);
+				while($rec = $ilDB->fetchAssoc($set))
+				{
+					$add = true;
+					reset($reps);
+					foreach ($reps as $r)
+					{
+						if ($r["rep_obj_id"] == $rec["rep_obj_id"])
+						{
+							$add = false;
+						}
+					}
+					if ($add)
+					{
+						$reps[] = array("rep_obj_id" => $rec["rep_obj_id"]);
+					}
+				}
 			}
 		}
 		
