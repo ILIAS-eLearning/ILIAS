@@ -4813,8 +4813,8 @@ crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact e-mail is not valid.
-crs#:#crs_accept_subscriber#:#Admission to course "%s"
-crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s".
+crs#:#crs_accept_subscriber#:#Registration confirmed for "%s"
+crs#:#crs_accept_subscriber_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_news#:#Course News
@@ -4830,8 +4830,8 @@ crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items t
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Admission to course "%s"
-crs#:#crs_added_member_body#:#You have been admitted to course "%s".
+crs#:#crs_added_member#:#Your registration for course "%s"
+crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
@@ -4857,10 +4857,10 @@ crs#:#crs_availability_limitless_info#:#Choose this mode for making the course a
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
 crs#:#crs_blocked#:#Access Refused
-crs#:#crs_blocked_member#:#Membership status in course "%s"
-crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked.
-crs#:#crs_cancel_subscription#:#Resigned from course "%s"
-crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s".
+crs#:#crs_blocked_member#:#Membership blocked in course "%s"
+crs#:#crs_blocked_member_body#:#your membership for course "%s" has been blocked.
+crs#:#crs_cancel_subscription#:#User left course "%s"
+crs#:#crs_cancel_subscription_body#:#%s has cancelled his/her membership for the course "%s".
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
@@ -4886,8 +4886,8 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course Details
-crs#:#crs_dismiss_member#:#Terminated membership for course "%s"
-crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated!
+crs#:#crs_dismiss_member#:#Membership terminated in "%s"
+crs#:#crs_dismiss_member_body#:#your membership has been terminated in course "%s".
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
 crs#:#crs_edit_start_objects#:#Edit Start Objects
@@ -4978,11 +4978,11 @@ crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
-crs#:#crs_new_subscription#:#User joined course "%s"
-crs#:#crs_new_subscription_body#:#A user has joined course "%s".
+crs#:#crs_new_subscription#:#User registered for course "%s"
+crs#:#crs_new_subscription_body#:#%s has registered for course "%s".
 crs#:#crs_new_subscription_request#:#Request to join course "%s"
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
-crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
+crs#:#crs_new_subscription_request_body#:#%s has requested membership for course "%s". 
+crs#:#crs_new_subscription_request_body2#:#To confirm this registration, go to:
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
@@ -5085,8 +5085,8 @@ crs#:#crs_registration_deactivated#:#Choose this option for disabling course reg
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
-crs#:#crs_reject_subscriber#:#Declined for course "%s"
-crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined.
+crs#:#crs_reject_subscriber#:#Registration refused for "%s"
+crs#:#crs_reject_subscriber_body#:#we regret to say that your registration has been refused for the course "%s".
 crs#:#crs_reset_results#:#Reset Results
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
@@ -5126,8 +5126,8 @@ crs#:#crs_start_objects#:#Start Objects
 crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_starters_already_assigned#:#This object was already assigned.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in course "%s"
-crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed.
+crs#:#crs_status_changed#:#Changed status in "%s"
+crs#:#crs_status_changed_body#:#your status in course "%s" has been changed.
 crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Join Requests
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
@@ -5186,8 +5186,8 @@ crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
 crs#:#crs_tutors#:#Tutors
 crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Status in course "%s"
-crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored
+crs#:#crs_unblocked_member#:#Access granted in course "%s"
+crs#:#crs_unblocked_member_body#:#your membership in course "%s" has been restored.
 crs#:#crs_unlimited#:#Unlimited
 common#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
@@ -7475,7 +7475,7 @@ trac#:#vm_access_of_users#:#Access of Users
 trac#:#vm_days_of_period#:#Days of Period
 trac#:#vm_times_of_day#:#Times of Days
 common#:#adopt_perm_from_template#:#Copy Permission Settings
-crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:
+crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 grp#:#crs_add_grouping#:#Add Membership Limitation
 grp#:#crs_grp_enter_title#:#Please fill out all required fields.
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.
@@ -10000,3 +10000,16 @@ rbac#:#root_create_mcst#:#Create Mediacast
 rbac#:#root_create_feed#:#Create Web Feed
 rbac#:#root_create_crsr#:#Create Course Reference
 common#:#status_no_permission#:#No permission granted
+mail#:#mail_salutation_f#:#Hello
+mail#:#mail_salutation_m#:#Hello
+mail#:#mail_salutation_n#:#Hello
+crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.
+crs#:#crs_new_status#:#Your new status is:
+crs#:#crs_access#:#Access
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:
+crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
+crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
+crs#:#crs_subscribe_member#:#Your registration for course "%s"
+crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
+crs#:#crs_subscribe_wl#:#Your registration for course "%s".
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the waiting list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.

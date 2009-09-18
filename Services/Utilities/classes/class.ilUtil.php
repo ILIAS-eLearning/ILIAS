@@ -1302,7 +1302,7 @@ class ilUtil
 	* @param	truncate at first blank after $a_len characters
 	* @return	string 	shortended string
 	*/
-	function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false)
+	public static function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if (ilStr::strLen($a_str) > $a_len)

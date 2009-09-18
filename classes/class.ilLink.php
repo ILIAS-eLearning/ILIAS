@@ -14,7 +14,7 @@ define('IL_INTERNAL_LINK_SCRIPT','goto.php');
 */
 class ilLink
 {
-	public function _getLink($a_ref_id,$a_type = '',$a_params = array(), $append = "")
+	public static function _getLink($a_ref_id,$a_type = '',$a_params = array(), $append = "")
 	{
 		global $ilObjDataCache;
 

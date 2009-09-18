@@ -56,6 +56,10 @@ class ilCourseParticipants extends ilParticipants
 		$this->NOTIFY_STATUS_CHANGED = 8;
 		$this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
 		
+		$this->NOTIFY_REGISTERED = 10;
+		$this->NOTIFY_UNSUBSCRIBE = 11;
+		$this->NOTIFY_WAITING_LIST = 12; 
+		
 		parent::__construct($a_obj_id);
 	}
 
@@ -127,138 +131,150 @@ class ilCourseParticipants extends ilParticipants
 	// Subscription
 	function sendNotification($a_type, $a_usr_id)
 	{
+		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
+		
 		global $ilObjDataCache,$ilUser;
 	
-		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
-
-		$link = ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
-		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
-
 		switch($a_type)
 		{
 			case $this->NOTIFY_DISMISS_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_reject_subscriber");
-				$body = $this->lng->txt("crs_reject_subscriber_body");
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;				
+
+			case $this->NOTIFY_DISMISS_MEMBER:
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();
 				break;
 
-			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
-				$subject = $this->lng->txt("crs_accept_subscriber");
-				$body = $this->lng->txt("crs_accept_subscriber_body");
-				$body .= $link;
-				break;
-			case $this->NOTIFY_DISMISS_MEMBER:
-				$subject = $this->lng->txt("crs_dismiss_member");
-				$body = $this->lng->txt("crs_dismiss_member_body");
-				break;
 			case $this->NOTIFY_BLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_blocked_member");
-				$body = $this->lng->txt("crs_blocked_member_body");
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();
 				break;
+				
 			case $this->NOTIFY_UNBLOCK_MEMBER:
-				$subject = $this->lng->txt("crs_unblocked_member");
-				$body = $this->lng->txt("crs_unblocked_member_body");
-				$body .= $link;
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();
 				break;
+
 			case $this->NOTIFY_ACCEPT_USER:
-				$subject = $this->lng->txt("crs_added_member");
-				$body = $this->lng->txt("crs_added_member_body");
-				$body .= $link;
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
 				break;
+
 			case $this->NOTIFY_STATUS_CHANGED:
-				$subject = $this->lng->txt("crs_status_changed");
-				$body = $this->__buildStatusBody($tmp_user);
-				$body .= $link;
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case $this->NOTIFY_UNSUBSCRIBE:
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case $this->NOTIFY_REGISTERED:
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+
+			case $this->NOTIFY_WAITING_LIST:
+				include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+				$wl = new ilCourseWaitingList($this->obj_id);
+				$pos = $wl->getPosition($a_usr_id);
+					
+				$mail = new ilCourseMembershipMailNotification();
+				$mail->setType(ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->setAdditionalInformation(array('position' => $pos));
+				$mail->send();
 				break;
 
 			case $this->NOTIFY_SUBSCRIPTION_REQUEST:
 				$this->sendSubscriptionRequestToAdmins($a_usr_id);
-				return true;
 				break;
 
 			case $this->NOTIFY_ADMINS:
 				$this->sendNotificationToAdmins($a_usr_id);
-
 				return true;
 				break;
 		}
-		$subject = sprintf($subject,$ilObjDataCache->lookupTitle($this->obj_id));
-		$body = sprintf($body,$ilObjDataCache->lookupTitle($this->obj_id));
-
-		include_once("Services/Mail/classes/class.ilMail.php");
-		$mail = new ilMail($ilUser->getId());
-		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
-
-		unset($tmp_user);
 		return true;
 	}
 	
 	function sendUnsubscribeNotificationToAdmins($a_usr_id)
 	{
 		global $ilDB,$ilObjDataCache;
-
-
-		include_once("Services/Mail/classes/class.ilFormatMail.php");
-
-		$mail =& new ilFormatMail($a_usr_id);
-		$subject = sprintf($this->lng->txt("crs_cancel_subscription"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body = sprintf($this->lng->txt("crs_cancel_subscription_body"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body .= ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
 		
-
-		foreach($this->getNotificationRecipients() as $usr_id)
-		{
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
-			unset($tmp_user);
-		}
+		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
+		$mail = new ilCourseMembershipMailNotification();
+		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
+		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+		$mail->setRefId($this->ref_id);
+		$mail->setRecipients($this->getNotificationRecipients());
+		$mail->send();
 		return true;
 	}
 	
 	
-	function sendSubscriptionRequestToAdmins($a_usr_id)
-	{
-		global $ilDB,$ilObjDataCache,$ilUser;
-
-		include_once("Services/Mail/classes/class.ilMail.php");
-
-		$mail = new ilMail($ilUser->getId());
-		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body = sprintf($this->lng->txt("crs_new_subscription_request_body"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body .= ("\n\n".$this->lng->txt('crs_new_subscription_request_body2'));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
-
-		foreach($this->getNotificationRecipients() as $usr_id)
-		{
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
-			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
-		}
-		return true;
-	}
-	
-
-	function sendNotificationToAdmins($a_usr_id)
+	public function sendSubscriptionRequestToAdmins($a_usr_id)
 	{
 		global $ilDB,$ilObjDataCache;
+		
+		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
+		$mail = new ilCourseMembershipMailNotification();
+		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
+		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+		$mail->setRefId($this->ref_id);
+		$mail->setRecipients($this->getNotificationRecipients());
+		$mail->send();
+		return true;
+	}
+	
 
-		include_once("Services/Mail/classes/class.ilFormatMail.php");
-
-		$mail =& new ilFormatMail($a_usr_id);
-		$subject = sprintf($this->lng->txt("crs_new_subscription"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
-
-		foreach($this->getNotificationRecipients() as $usr_id)
-		{
-			if($this->isAdmin($usr_id) or $this->isTutor($usr_id))
-			{
-				$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
-				$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
-				unset($tmp_user);
-			}
-		}
-		unset($mail);
-
+	public function sendNotificationToAdmins($a_usr_id)
+	{
+		global $ilDB,$ilObjDataCache;
+		
+		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
+		$mail = new ilCourseMembershipMailNotification();
+		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
+		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+		$mail->setRefId($this->ref_id);
+		$mail->setRecipients($this->getNotificationRecipients());
+		$mail->send();			
 		return true;
 	}
 	

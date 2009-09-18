@@ -648,7 +648,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup gender
 	*/
-	function _lookupGender($a_user_id)
+	public static function _lookupGender($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "gender");
 	}
@@ -668,7 +668,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup user name
 	*/
-	function _lookupName($a_user_id)
+	public static function _lookupName($a_user_id)
 	{
 		global $ilDB;
 
@@ -1989,7 +1989,7 @@ class ilObjUser extends ilObject
 	}
 
 
-	function _lookupLanguage($a_usr_id)
+	public static function _lookupLanguage($a_usr_id)
 	{
 		global $ilDB;
 

@@ -5560,7 +5560,7 @@ crs#:#crs_add_starter#:#Startobjekt hinzufügen
 crs#:#crs_add_subscribers#:#In Kurs aufnehmen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
-crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
+crs#:#crs_added_member_body#:#sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
@@ -5590,8 +5590,8 @@ crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Ku
 crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.
 crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und -tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked#:#Zugang gesperrt
-crs#:#crs_blocked_member#:#Status in Kurs "\%s\"
-crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_blocked_member#:#Status in Kurs "%s"
+crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.
@@ -5622,7 +5622,7 @@ crs#:#crs_delete_subscribers#:#Antrag löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
 crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet
-crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
+crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_edit_start_objects#:#Startobjekte bearbeiten
@@ -5725,7 +5725,7 @@ crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
-crs#:#crs_new_subscription_body#:#Ein neuer Teilnehmer ist zum Kurs "%s" beigetreten.
+crs#:#crs_new_subscription_body#:#ein neue Teilnehmer ist zum Kurs "%s" beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
 crs#:#crs_new_subscription_request_body#:#Ein Benutzer hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
 crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen. Wählen Sie dazu bitte folgenden Link:
@@ -5867,7 +5867,7 @@ crs#:#crs_registration_limited#:#Zeitlich begrenzt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
 crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
-crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
+crs#:#crs_reject_subscriber_body#:#ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
@@ -5911,7 +5911,7 @@ crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Status in Kurs "%s"
-crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert
+crs#:#crs_status_changed_body#:#ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
@@ -5975,7 +5975,7 @@ crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_tutors#:#Tutoren
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet
+crs#:#crs_unblocked_member_body#:#ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
@@ -10022,3 +10022,16 @@ rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
 rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
 rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
 common#:#status_no_permission#:#Kein Zugriff gewährt.
+mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_n#:#Hallo
+crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin Benachritigungen aktivert sind.
+crs#:#crs_new_status#:#Ihr Status:
+crs#:#crs_access#:#Zugang
+crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%"
+crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".\nWir hoffen, dass Sie einen anderen Kurs finden, der Ihren Wünschen entspricht.
+crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
+crs#:#crs_subscribe_member_body#:#wir freuen uns, Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Kurs "%s" erfolgt ist.
+crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
+crs#:#crs_subscribe_wl_body#:#sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
