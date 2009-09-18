@@ -373,28 +373,36 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
  
-		$selected = array_keys(is_array($_POST['sbm_active']) ? $_POST['sbm_active'] : array());
+		$selected = is_array($_POST['sbm_active']) ? $_POST['sbm_active'] : array();
+
+		$available = is_array($_POST['available_ids']) ? $_POST['available_ids'] : array();
 
 		$q_activate = 'UPDATE bookmark_social_bm SET sbm_active = 1 ';
 		$q_deactivate = 'UPDATE bookmark_social_bm SET sbm_active = 0 ';
-		
-		$ar_activate = array();
-		$ar_deactivate = array();
-		foreach($selected as $sel)
+
+		foreach($available as $a)
 		{
-			$ar_activate[] = 'sbm_id='.$sel;
-			$ar_deactivate[] = 'sbm_id<>'.$sel;
+			if (isset($selected[$a]))
+			{
+				$ar_activate[] = 'sbm_id='.$a;
+			}
+			else
+			{
+				$ar_deactivate[] = 'sbm_id='.$a;
+			}
 		}
 
 		if (count($ar_activate))
 		{
 			$q_activate .= ' WHERE ' . join(' OR ', $ar_activate);
-			$q_deactivate .= ' WHERE ' . join(' AND ', $ar_deactivate);
 			$ilDB->manipulate($q_activate);
 		}
-		
-		$ilDB->manipulate($q_deactivate);
-		
+		if (count($ar_deactivate))
+		{
+			$q_deactivate .= ' WHERE ' . join(' AND ', $ar_deactivate);
+			$ilDB->manipulate($q_deactivate);
+		}
+
 		$ilCtrl->redirect($this, "editSocialBookmarks");
 	}
 	
