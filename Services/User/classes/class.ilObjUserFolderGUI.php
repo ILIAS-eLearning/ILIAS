@@ -71,7 +71,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$user_search =& new ilAdminUserSearchGUI();
 				$user_search->setCallbackClass($this);
 
-				$this->tabs_gui->setTabActive('obj_usrf');
+				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
 				$ret =& $this->ctrl->forwardCommand($user_search);
 				break;
@@ -357,15 +357,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $rbacsystem, $ilUser, $ilToolbar, $tpl;
 		
 		// toolbar
-		$ilToolbar->addButton($this->lng->txt("search_user_extended"),
+		/*$ilToolbar->addButton($this->lng->txt("search_user_extended"),
 			$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'));
 		if ($_SESSION['rep_search']['usr'])		// last search result
 		{
 			$ilToolbar->addButton($this->lng->txt("last_search_result"),
 				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show'));
-		}
-		$ilToolbar->addButton($this->lng->txt("import_users"),
-			$this->ctrl->getLinkTarget($this, "importUserForm"));
+		}*/
+		//$ilToolbar->addButton($this->lng->txt("import_users"),
+		//	$this->ctrl->getLinkTarget($this, "importUserForm"));
 
 if (true)
 {
@@ -4180,6 +4180,10 @@ else
 		{
 			$tabs_gui->addTarget("obj_usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
+
+			$tabs_gui->addTarget("search_user_extended",
+				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'),
+				array(""), "iladminusersearchgui", "");
 		}
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))

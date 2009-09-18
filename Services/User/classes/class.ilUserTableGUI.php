@@ -58,6 +58,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addMultiCommand("restrictAccess", $lng->txt("accessRestrict"));
 		$this->addMultiCommand("freeAccess", $lng->txt("accessFree"));
 		$this->addMultiCommand("exportUsers", $lng->txt("export"));
+		$this->addCommandButton("importUserForm", $lng->txt("import_users"));
 		$this->addCommandButton("addUser", $lng->txt("usr_add"));
 		
 		$this->getItems();
