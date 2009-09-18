@@ -151,34 +151,44 @@ class ilAdminUserSearchGUI
 	
 	function showExtended()
 	{
+		global $ilTabs;
+		
+		$this->setSubTabs();
+		$ilTabs->activateSubTab("searchform");
+
 		$_SESSION["usr_search_mode"] = "extended";
 
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		// search extended
-		$this->tpl->setCurrentBlock("btn_cell");
+		/*$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'show'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user_simple"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
-		$this->tpl->setCurrentBlock("btn_cell");
+		/*$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->callback_class->ctrl->getLinkTarget($this->callback_class, "importUserForm"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 		$this->__showSearch();
 		$this->__showSearchResults();
 	}
 	
 	function show()
 	{
+		global $ilTabs;
+		
 		$_SESSION["usr_search_mode"] = "simple";
 		
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		$this->setSubTabs();
+		$ilTabs->activateSubTab("searchresults");
 
 		// search extended
-		$this->tpl->setCurrentBlock("btn_cell");
+		/*$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'showExtended'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user_extended"));
 		$this->tpl->parseCurrentBlock();
@@ -186,11 +196,14 @@ class ilAdminUserSearchGUI
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->callback_class->ctrl->getLinkTarget($this->callback_class, "importUserForm"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 		$this->__showSearchSimple();
 		$this->__showSearchResults();
 	}
 	
+	/**
+	* alex: shows only results, since simple search is done through filter now
+	*/
 	function __showSearchSimple()
 	{
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usr_search_simple.html','Services/Search');
@@ -1200,6 +1213,19 @@ class ilAdminUserSearchGUI
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		
 		$this->ctrl->returnToParent($this);
+	}
+	
+	function setSubTabs()
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs->addSubTab("searchform", $lng->txt("search"),
+			$ilCtrl->getLinkTarget($this, "showExtended"));
+			
+		if ($_SESSION['rep_search']['usr'])		// last search result
+		{
+			$ilTabs->addSubTab("searchresults", $lng->txt("search_results"),
+				$ilCtrl->getLinkTarget($this, "show"));
+		}
 	}
 }
 ?>
