@@ -951,7 +951,7 @@ class ilObject
 			: "SELECT obj_id FROM object_data WHERE ".$ilDB->like("title", "text", '%'.$title.'%');
 		if($type != '')
 		{
-			$query .= " AND type = ".$ilDB->quote($type. "text");
+			$query .= " AND type = ".$ilDB->quote($type, "text");
 		}
 		
 		$result = $ilDB->query($query);
