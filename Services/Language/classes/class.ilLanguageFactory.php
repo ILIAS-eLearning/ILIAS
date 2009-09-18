@@ -23,7 +23,7 @@
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -34,7 +34,7 @@ class ilLanguageFactory
 	private static $languages = array();
 	
 	/**
-	 * 
+	 * Get langauge object
 	 *
 	 * @access public
 	 * @static
@@ -61,6 +61,16 @@ class ilLanguageFactory
 			return self::$languages[$a_lang_key];
 		}
 		return self::$languages[$a_lang_key] = new ilLanguage($a_lang_key);
+	}
+	
+	/**
+	 * Get language object of user
+	 * @param object $a_usr_id
+	 * @return 
+	 */
+	public static function _getLanguageOfUser($a_usr_id)
+	{
+		return self::_getLanguage(ilObjUser::_lookupLanguage($a_usr_id));
 	}
 }
 

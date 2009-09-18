@@ -2305,8 +2305,18 @@ class ilObjCourseGUI extends ilContainerGUI
 					break;
 					
 				case 'members':
+					if($this->object->members_obj->isBlocked($member_id) and !in_array($member_id,$blocked))
+					{
+						$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_UNBLOCK_MEMBER,$member_id);
+					}
+					if(!$this->object->members_obj->isBlocked($member_id) and in_array($member_id,$blocked))
+					{
+						$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_BLOCK_MEMBER,$member_id);
+					}					
 					$this->object->members_obj->updateNotification($member_id,false);
 					$this->object->members_obj->updateBlocked($member_id,in_array($member_id,$blocked));
+					
+					
 					break;
 			}
 		}
@@ -2528,8 +2538,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->editMembersObject();
 			return false;
 		}
-		                    
-                
+
 		foreach($_POST['participants'] as $usr_id)
 		{
 			$this->object->members_obj->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
@@ -3018,19 +3027,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function performUnsubscribeObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		// CHECK ACCESS
 		$this->checkPermission('leave');
-		/*
-		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
 		$this->object->initCourseMemberObject();
 		$this->object->members_obj->delete($this->ilias->account->getId());
 		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
+		$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_UNSUBSCRIBE,$ilUser->getId());
 		
 		ilUtil::sendSuccess($this->lng->txt('crs_unsubscribed_from_crs'),true);
 

@@ -2507,5 +2507,36 @@ class ilMail
 		
 		return $signature;
 	}
+	
+	/**
+	 * Get text that will be prepended to auto generated mails. 
+	 * @return string subject prefix
+	 */
+	public static function getSubjectPrefix()
+	{
+		global $ilSetting;
+		static $prefix = null;
+		
+		return $prefix == null ? $ilSetting->get('mail_subject_prefix','[ILIAS]') : $prefix;
+	}
+	
+	/**
+	 * Get salutation 
+	 * @param int $a_usr_id
+	 * @return 
+	 */
+	public static function getSalutation($a_usr_id,$a_language = null)
+	{
+		global $lng;
+		
+		$lang = $a_language ? $a_language : $lng;
+		
+		$gender = ilObjUser::_lookupGender($a_usr_id);
+		$name = ilObjUser::_lookupName($a_usr_id);
+		return $lang->txt('mail_salutation_'.$gender).' '.
+			($name['title'] ? $name['title'].' ' : '').
+			($name['firstname'] ? $name['firstname'].' ' : '').
+			$name['lastname'].',';
+	}
 } // END class.ilMail
 ?>
