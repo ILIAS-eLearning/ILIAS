@@ -5,7 +5,7 @@
 	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |ur
+	| modify it under the terms of the GNU General Public License                 |
 	| as published by the Free Software Foundation; either version 2              |
 	| of the License, or (at your option) any later version.                      |
 	|                                                                             |
@@ -96,12 +96,19 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		return setReturn(103, '', 'false');
 	}	
 
+
+	function Commit(param) 
+	{
+		CommitInternal(param,true);
+	}
+
+	
 	/**
 	 * Sending changes to data provider 
 	 * @access private, but also bound to 'this'
 	 * @param {string} required; must be '' 
 	 */	 
-	function Commit(param) 
+	function CommitInternal(param,saveToDB) 
 	{
 		setReturn(-1, 'Commit(' + param + ')');
 		if (param!=='') 
@@ -114,7 +121,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
-				save();
+				if (saveToDB) {
+					save();					
+				}
 				if (returnValue) 
 				{
 					dirty = false;
@@ -150,7 +159,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// resulting in code 111 (REQ_5.3)
 				Runtime.onTerminate(cmiItem, msec); // wrapup from LMS 
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
-				var returnValue = Commit(''); // save 
+				var returnValue = CommitInternal('',false); // save 
 				state = TERMINATED;
 				onTerminate(cmiItem); // callback
 				return setReturn(error, '', returnValue);
@@ -956,8 +965,9 @@ Runtime.models =
 		var Uri = { isValid : function (value, definition, extra) {
 			var re_uri = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;
 			var re_char = /[\s]/;
+			var re_urn = /^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;
 			var m = value.match(re_uri);
-			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000);
+			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000 && (m[2]!=="urn" || re_urn.test(m[0])));
 		}};
 		
 		var CharacterString = { isValid : function (value, definition, extra) {
@@ -1230,14 +1240,5 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 		data.cmi.success_status = 'incomplete';
 	}
 	
-	/*
-	if (guiItem) {
-		var activeId = guiItem.id;
-		updateNav();
-		addClass(all(activeId), "current");		
-	}
-	*/
-		
-
 };
 
