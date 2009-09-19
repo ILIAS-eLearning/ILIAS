@@ -92,6 +92,129 @@ class ilGroupParticipants extends ilParticipants
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
 	}
 	
+	/**
+	 * Send notification mail
+	 * @param int $a_type
+	 * @param int $a_usr_id
+	 * @return 
+	 */
+	public function sendNotification($a_type,$a_usr_id)
+	{
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+		switch($a_type)
+		{
+			case ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER:
+
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();
+				break;
+			
+			case ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER:
+
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION:
+				
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
+				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients($this->getNotificationRecipients());
+				$mail->send();
+				break;		
+				
+			case ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER:
+				
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE:
+					
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
+				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients($this->getNotificationRecipients());
+				$mail->send();
+				break;
+
+			case ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER:
+				
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
+
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
+				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients($this->getNotificationRecipients());
+				$mail->send();
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
+
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
+				
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;	
+			
+			case ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER:
+				
+				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+				$wl = new ilGroupWaitingList($this->obj_id);
+				$pos = $wl->getPosition($a_usr_id);
+					
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->setAdditionalInformation(array('position' => $pos));
+				$mail->send();
+				break;
+				
+			case ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED:
+
+				$mail = new ilGroupMembershipMailNotification();
+				$mail->setType(ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED);	
+				$mail->setRefId($this->ref_id);
+				$mail->setRecipients(array($a_usr_id));
+				$mail->send();				
+				break;
+
+			
+		}
+		return true;
+	}
+	
 	
 }
 ?>
