@@ -1160,17 +1160,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			return false;
 		}
 		
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 		foreach($_POST['subscribers'] as $usr_id)
 		{
-			$mail = new ilMail($ilUser->getId());
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+				$usr_id
+			);
 
-			// XXX - The message should be sent in the language of the receiver,
-			// instead of in the language of the current user
-			$mail->sendMail(ilObjUser::_lookupLogin($usr_id),"","",
-				sprintf($lng->txt('grp_accept_subscriber'), $this->object->getTitle()),
-				sprintf(str_replace('\n',"\n",$lng->txt('grp_accept_subscriber_body')), 
-						$this->object->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->object->getRefId()),
-				array(),array('system'));	
 			$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
@@ -1198,16 +1195,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			return false;
 		}
 		
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 		foreach($_POST['subscribers'] as $usr_id)
 		{
-			$mail = new ilMail($_SESSION["AccountId"]);
-			// XXX - The message should be sent in the language of the receiver,
-			// instead of in the language of the current user
-			$mail->sendMail(ilObjUser::_lookupLogin($usr_id),"","",
-				sprintf($lng->txt('grp_reject_subscriber'), $this->object->getTitle()),
-				sprintf(str_replace('\n',"\n",$lng->txt('grp_reject_subscriber_body')), 
-						$this->object->getTitle()),
-				array(),array('system'));	
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+				$usr_id
+			);
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_removed"));
@@ -1237,6 +1231,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$waiting_list = new ilGroupWaitingList($this->object->getId());
 
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+
 		$added_users = 0;
 		foreach($_POST["waiting"] as $user_id)
 		{
@@ -1249,7 +1245,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				continue;
 			}
 			$this->object->members_obj->add($user_id,IL_GRP_MEMBER);
-			#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
+				$user_id
+			);
 			$waiting_list->removeFromList($user_id);
 
 			++$added_users;
@@ -1290,9 +1289,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$waiting_list = new ilGroupWaitingList($this->object->getId());
 
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
 		foreach($_POST["waiting"] as $user_id)
 		{
 			$waiting_list->removeFromList($user_id);
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
+				$user_id
+			);
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'));
@@ -1365,6 +1369,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	
 		$this->object->members_obj->deleteParticipants($_POST['participants']);
+		
+		// Send notification
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+		foreach($_POST['participants'] as $part)
+		{
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
+				$part
+			);
+		}
+		
+		
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_membership_annulled"));
 		$this->membersObject();
 		return true;
@@ -1517,11 +1533,24 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->editMembersObject();
 			return false;
 		}
-		
+	
+		$admin_role = $this->object->getDefaultAdminRole();
+
 		$notifications = $_POST['notification'] ? $_POST['notification'] : array();
 		foreach($_POST['participants'] as $usr_id)
 		{
-			// TODO: check no role, owner, self status changed
+			// Check if a status changed mail is required
+			$notification = false;
+			if($this->object->members_obj->isAdmin($usr_id) and !in_array($admin_role,(array) $_POST['roles'][$usr_id]))
+			{
+				$notification = true;
+			}
+			if(!$this->object->members_obj->isAdmin($usr_id) and in_array($admin_role,(array) $_POST['roles'][$usr_id]))
+			{
+				$notification = true;
+			}
+			
+			// TODO: check no role, owner
 			$this->object->members_obj->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
 			
 			// Disable notification for all of them
@@ -1530,6 +1559,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			if($this->object->members_obj->isAdmin($usr_id) and in_array($usr_id,$notifications))
 			{
 				$this->object->members_obj->updateNotification($usr_id,1);
+			}
+			
+			if($notification)
+			{
+				include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+				$this->object->members_obj->sendNotification(
+					ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED,
+					$usr_id
+				);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
@@ -1782,6 +1820,16 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->object->members_obj->delete($ilUser->getId());
 		
+		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+		$this->object->members_obj->sendNotification(
+			ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
+			$ilUser->getId()
+		);
+		$this->object->members_obj->sendNotification(
+			ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+			$ilUser->getId()
+		);
+		
 		ilUtil::sendSuccess($this->lng->txt('grp_msg_membership_annulled'),true);
 		ilUtil::redirect('repository.php?ref_id='.$tree->getParentId($this->object->getRefId()));
 	}
@@ -1868,14 +1916,14 @@ class ilObjGroupGUI extends ilContainerGUI
 					}
 					break;
 			}
-			
-			$user_obj = $this->ilias->obj_factory->getInstanceByObjId($new_member);
-		
-			// SEND A SYSTEM MESSAGE EACH TIME A MEMBER IS ADDED TO THE GROUP
-			$user_obj->addDesktopItem($this->object->getRefId(),"grp");
-			$mail->sendMail($user_obj->getLogin(),"","",$this->lng->txtlng("common","grp_mail_subj_new_subscription",$user_obj->getLanguage()).": ".$this->object->getTitle(),$this->lng->txtlng("common","grp_mail_body_new_subscription",$user_obj->getLanguage()),array(),array('system'));	
 
-			unset($user_obj);
+			ilObjUser::_addDesktopItem($new_member, $this->object->getRefId(), 'grp');
+			
+			include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+			$this->object->members_obj->sendNotification(
+				ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
+				$new_member
+			);
 		}
 		
 		unset($_SESSION["saved_post"]);

@@ -5725,10 +5725,10 @@ crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
-crs#:#crs_new_subscription_body#:#ein neue Teilnehmer ist zum Kurs "%s" beigetreten.
+crs#:#crs_new_subscription_body#:#%s ist dem Kurs %s beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
-crs#:#crs_new_subscription_request_body#:#Ein Benutzer hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
-crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen. Wählen Sie dazu bitte folgenden Link:
+crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
+crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
 crs#:#crs_news#:#Nachrichten zum Kurs
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
@@ -5867,7 +5867,7 @@ crs#:#crs_registration_limited#:#Zeitlich begrenzt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
 crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
-crs#:#crs_reject_subscriber_body#:#ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
+crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role#:#Rolle
 crs#:#crs_role_status#:#Rolle/Status
@@ -10028,10 +10028,39 @@ mail#:#mail_salutation_n#:#Hallo
 crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin Benachritigungen aktivert sind.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_access#:#Zugang
-crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
-crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%"
+crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
 crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".\nWir hoffen, dass Sie einen anderen Kurs finden, der Ihren Wünschen entspricht.
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_member_body#:#wir freuen uns, Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Kurs "%s" erfolgt ist.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
+grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
+grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
+grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
+grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
+grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
+grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
+grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktivert sind.
+grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".\nWir hoffen, dass Sie eine andere Gruppe finden, die Ihren Wünschen entspricht.
+grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
+grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
+grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
+grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns, Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Gruppe "%s" erfolgt ist.
+grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
+grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
+grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\n Wählen Sie dazu bitte folgenden Link:
+grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
+grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
+grp#:#grp_mail_sub_acc_sub#:#Aufnahme in Gruppe "%s"
+grp#:#grp_mail_sub_acc_bod#:#Sie sind in die Gruppe "%s" aufgenommen worden.
+grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
+grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_status_sub#:#Status in Gruppe "%s"
+grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
+grp#:#grp_new_status#:#Ihr neuer Status:
+grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
+grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
