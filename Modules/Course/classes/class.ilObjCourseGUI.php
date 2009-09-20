@@ -16,7 +16,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 *
 * 
 * @extends ilContainerGUI
@@ -4429,6 +4429,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 				
+			case "ilobjstylesheetgui":
+				$this->forwardToStyleSheet();
+				break;
+
 			default:
 				if(!$this->creation_mode)
 				{

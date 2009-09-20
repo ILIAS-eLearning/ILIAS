@@ -10008,6 +10008,11 @@ crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership i
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
+wiki#:#wiki_style#:#Style
+wiki#:#wiki_general_settings#:#General Settings
+style#:#style_current_style#:#Current Style
+style#:#style_edit_style#:#Edit Style
+style#:#style_delete_style#:#Delete Style
 crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"

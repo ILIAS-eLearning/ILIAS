@@ -28,10 +28,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$tpl->setCurrentBlock("ContentStyle");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
-		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",

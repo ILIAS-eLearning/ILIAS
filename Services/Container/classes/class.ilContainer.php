@@ -160,6 +160,22 @@ class ilContainer extends ilObject
 	}
 
 	/**
+	* get ID of assigned style sheet object
+	*/
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	/**
+	* set ID of assigned style sheet object
+	*/
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
+	/**
 	* Lookup a container setting.
 	*
 	* @param	int			container id
@@ -620,6 +636,36 @@ class ilContainer extends ilObject
 	}
 	
 	/**
+	* Create
+	*/
+	function create()
+	{
+		$ret = parent::create();
+		
+		if (((int) $this->getStyleSheetId()) > 0)
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+		}
+
+		return $ret;
+	}
+	
+	/**
+	* Update
+	*/
+	function update()
+	{
+		$ret = parent::update();
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
+		return $ret;
+	}
+	
+	
+	/**
 	 * read
 	 *
 	 * @access public
@@ -632,6 +678,9 @@ class ilContainer extends ilObject
 		
 		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 	}
 	
 } // END class ilContainer

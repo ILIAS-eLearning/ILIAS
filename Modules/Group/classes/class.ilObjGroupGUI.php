@@ -33,7 +33,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @version	$Id$
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
@@ -191,7 +191,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->checkPermission("read");
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
 				break;
 
@@ -211,6 +211,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('grp');
 				$this->ctrl->forwardCommand($cp);
+				break;
+
+			case "ilobjstylesheetgui":
+				$this->forwardToStyleSheet();
 				break;
 
 			default:

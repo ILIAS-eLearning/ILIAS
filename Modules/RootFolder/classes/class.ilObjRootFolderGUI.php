@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * 
 * @extends ilObjectGUI
 */
@@ -166,12 +166,15 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 				
-			
+			case "ilobjstylesheetgui":
+				$this->forwardToStyleSheet();
+				break;
+
 			default:
 				$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 
 				if(!$cmd)
 				{

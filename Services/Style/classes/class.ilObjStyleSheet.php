@@ -3094,6 +3094,35 @@ class ilObjStyleSheet extends ilObject
 		return $rec["value"];
 	}
 	
+	/**
+	* Write style usage
+	*/
+	static function writeStyleUsage($a_obj_id, $a_style_id)
+	{
+		global $ilDB;
+		
+		$ilDB->replace("style_usage", array(
+			"obj_id" => array("integer", (int) $a_obj_id)),
+			array(
+				"style_id" => array("integer", (int) $a_style_id))
+			);
+	}
+	
+	/**
+	* Lookup object style
+	*/
+	static function lookupObjectStyle($a_obj_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT style_id FROM style_usage ".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		
+		return (int) $rec["style_id"];
+	}
+	
 
 }
 ?>

@@ -11,7 +11,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI
 * 
 * @ingroup ModulesCategory
@@ -78,7 +78,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
 				break;
 
@@ -120,6 +120,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$cp->setType('cat');
 				$this->ctrl->forwardCommand($cp);
 				break;
+				
+			case "ilobjstylesheetgui":
+				$this->forwardToStyleSheet();
+				break;
 
 			default:
 				$this->checkPermission("visible");
@@ -134,9 +138,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 				$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-
+				if (is_object($this->object))
+				{
+					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+						ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+				}
+//echo "-".$this->object->getStyleSheetId()."-";
 				if(!$cmd)
 				{
 					$cmd = "render";
