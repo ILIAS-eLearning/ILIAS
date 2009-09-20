@@ -115,7 +115,7 @@ details#:#Detaljer
 dir_exists_create#:#Bibliotek eksisterer allerede. Fjern markering i 'opret' for at v�lge denne bibliotek som dit data bibliotek
 disable#:#deaktiver
 disable_check#:#deaktiver check
-disable_logging#:#deaktiver logging
+disable_logging#:#Deaktiver logging
 disabled#:#deaktiveret
 display_clientlist#:#Vis valg af klient
 email#:#Email
@@ -352,7 +352,7 @@ setup_inifile#:#Opret ini-file
 setup_inifile_desc#:#opret ini-filen til din installation
 setup_languages#:#Installer sprog
 setup_languages_desc#:#installer andre sprog
-setup_login#:#Login p� Setup
+setup_login#:#Setup login
 setup_mainmenu#:#ops�t hovedmenu
 setup_menu#:#setup menu
 setup_nic_desc#:#registrer din installation af ILIAS-NIC-Server
@@ -370,7 +370,7 @@ setup_process_step_ini#:#Standard informationer
 setup_process_step_lang#:#Installer system sprog
 setup_process_step_nic#:#Registrer ILIAS-NIC
 setup_ready#:#Installationen er nu klar. Du kan nu forts�tte med at logge ind og tjekke andre system indstillinger.
-setup_welcome#:#Velkommen til ILIAS Ops�tningen. Denne Ops�tnings-rutine hj�lper dig med 
+setup_welcome#:#Velkommen til opsætning af ILIAS. Denne guide hjælper dig med at
 sophos#:#Sophos
 sort_by_this_column#:#Sorter efter kolonne
 status#:#Status
@@ -382,8 +382,8 @@ unknown_client_id#:#Ukendt Klient
 unknown_command#:#Ukendt kommando
 unknown_display_mode#:#Ukendt visning
 unzip_path#:#Sti til Unzip
-unzip_path_comment#:#P�kr�vet for at importere l�ringsmoduler
-update_applied#:#Opdatering gennemf�rt
+unzip_path_comment#:#Krævet for at importere læremoduler
+update_applied#:#Opdateringen blev gennemført.
 update_error#:#Fejl i Opdatering
 update_not_found#:#Opdatering kunne ikke findes!
 username#:#Brugernavn
@@ -393,14 +393,13 @@ webspace_dir#:#Sti til web plads
 with#:#med
 wrong_password#:#Forkert password!
 zip_path#:#Sti til Zip
-zip_path_comment#:#P�kr�vet for at eksportere l�ringsmoduler
+zip_path_comment#:#Kræves for at kunne eksportere læremoduler
 zipcode#:#Postnummer
-
 3rdparty#:#3. parts tilføjelser
 check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
 collation#:#Collation
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
-ctrl_structure#:#Control Structure###07 09 2006 new variable
+ctrl_structure#:#Kontrolstruktur
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###07 09 2006 new variable
 ctrl_structure_reloaded#:#Control Structure Reloaded.###07 09 2006 new variable
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
@@ -421,14 +420,14 @@ lang_sq#:#Albansk
 lang_sr#:#Serbisk
 lang_uk#:#Ukrainsk
 lang_vi#:#Vietnamesisk
-latex_url_comment#:#required for LaTeX support in ILIAS###07 09 2006 new variable
+latex_url_comment#:#krævet for LaTeX understøttelse i ILIAS
 no_latex_url#:#No LaTeX CGI script URL given###07 09 2006 new variable
 reload#:#Genindlæs
 setup_3rdparty_data#:#Opsæt 3. parts værktøjer
 setup_process_step_3rdparty#:#3. parts tilføjelser
 status_3rdparty_false#:#3rd party add-ons missing###07 09 2006 new variable
 status_3rdparty_ok#:#3. parts tilføjelser installeret
-status_3rdparty_problems#:#3rd party add-ons problems###07 09 2006 new variable
+status_3rdparty_problems#:#3. parts add-on problemer
 tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location###07 09 2006 new variable
 tiny_nothing_to_do#:#The editor is installed, there is nothing to do###07 09 2006 new variable
 tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.###07 09 2006 new variable
@@ -449,19 +448,19 @@ step_contact#:#Kontakt
 step_nic#:#NIC
 step_finish#:#Færdig
 step_access#:#Adgang
-determine_tools_paths#:#Try to Determine Tools Paths###14 02 2008 new variable
-client_deleted#:#Client deleted.###14 02 2008 new variable
-create_directory#:#Create Directory###14 02 2008 new variable
-3rd_party_software_req#:#Required 3rd Party Tools###30 05 2008 new variable
-3rd_party_software_opt#:#Optional 3rd Party Tools###30 05 2008 new variable
-user#:#User###30 05 2008 new variable
+determine_tools_paths#:#Forsøg at gætte sti til hjælpeværktøjer
+client_deleted#:#Klienten blev slettet.
+create_directory#:#Lav mappe
+3rd_party_software_req#:#Krævede 3. parts værktøjer
+3rd_party_software_opt#:#Valgfrie 3. parts værktøjer
+user#:#Bruger
 db_error_please_check#:#Please check database hostname, username and password.###30 05 2008 new variable
 need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.###30 05 2008 new variable
 info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.###30 05 2008 new variable
 data_directories#:#Datamapper
 data_directory_outside_ws#:#Datamappe uden for webområde
 data_directory_in_ws#:#Datamappe i webområde
-data_directory_in_ws_info#:#This directory is cannot be changed.###30 05 2008 new variable
+data_directory_in_ws_info#:#Denne mappe kan ikke ændres
 data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.###30 05 2008 new variable
 pre_dom#:#DOM understøttelse
 pre_dom_missing#:#Please enable DOM support in your PHP installation.###30 05 2008 new variable
@@ -479,29 +478,29 @@ pre_mysql#:#MySQL understøttelse
 pre_mysql_missing#:#Du skal aktivere MySQL understøttelse (version 4.1 eller senere) i PHP
 pre_mysql_4_1_or_higher#:#Du skal bruge MySQL 4.1 eller senere for at afvikle ILIAS.
 mkisofs_path#:#Sti til mkisofs
-mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
+mkisofs_path_comment#:#Valgfri til at lave iso images.
 no_path_mkisofs#:#Ingen mkisofs sti indtastet
-path_to_mkisofs#:#Stil til mkisofs###26 06 2009 new variable
+path_to_mkisofs#:#Stil til mkisofs
 db_selection#:#Databasevalg
 db_service_name#:#Servicenavn
 db_mysql#:#MySQL
 db_oracle#:#Oracle
 info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
-nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
-not_configured#:#Not Configured###24 07 2009 new variable
+nic_reg_disable_info#:#Du kan registrere senere.
+not_configured#:#Ikke opsat
 pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
 msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
-form_retype_password#:#Retype Password###24 07 2009 new variable
-master_password#:#Master Password###24 07 2009 new variable
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
+form_input_not_valid#:#Nogle data er ukomplette eller ugyldige. Ret venligst før du fortsætter.
+form_retype_password#:#Genindtast password
+master_password#:#Hovedpassword
+passwd_not_match#:#Dine indtastninger af password matcher ikke. Indtast igen.
 next_update_break#:#Next Update Break###24 07 2009 new variable
 next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.###24 07 2009 new variable
-clients#:#Clients###24 07 2009 new variable
+clients#:#Klienter
 no_items#:#Ingen emner
 convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
 htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
 java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
-log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
+log_path_comment_win#:#F.eks. 'C:/iliasdata/iliaslog.txt' (filen bliver oprettet)
 unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable

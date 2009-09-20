@@ -3,7 +3,7 @@
 *
 * @module		language file Danish
 * @modulegroup	language
-* @author 		Jesper Goedvad <jesper@inetworks.dk> www.ilias.dk
+* @author 		Jesper Goedvad <jesper@ilias.dk> www.ilias.dk
 * @version		$Id$
 */
 
@@ -9013,7 +9013,7 @@ export#:#export_omit#:#Udelad
 export#:#export_create#:#Lav
 export#:#export_last_file#:#Sidste fil
 export#:#export_export_date#:#Eksportdato
-common#:#session_reminder_extended#:#Your Session was extended for %s###24 02 2009 new variable
+common#:#session_reminder_extended#:#Din session blev forlænget %s
 common#:#session_reminder_session_duration#:#(Session Duration: %s).###24 02 2009 new variable
 crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.###24 02 2009 new variable
 assessment#:#showSuggestedSolution#:#Foreslået løsning
@@ -9023,15 +9023,15 @@ assessment#:#changeSuggestedSolution#:#Ret løsningsforslag
 assessment#:#addSuggestedSolution#:#Opret løsningsforslag
 assessment#:#fileDownload#:#Hent fil
 assessment#:#solutionText#:#Tekst
-content#:#cont_print_no_page_selected#:#Please select at least one page.###24 02 2009 new variable
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
-assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###24 02 2009 new variable
-assessment#:#tst_show_solution_suggested#:#Vis løsningsforslag
+content#:#cont_print_no_page_selected#:#Vælg mindst en side
+assessment#:#log_manual_feedback#:#%s tilføjede manuelt feedback til test person %s og spørgsmål %s: %s
+assessment#:#set_manscoring_done#:#Mærk denne deltager som "Scored Participant"
+assessment#:#tst_show_solution_suggested#:#Vis foreslået løsning
 survey#:#err_no_pool_name#:#Indtast navnet på en samling af spørgsmål til undersøgelser.
 assessment#:#err_no_numeric_value#:#Du skal indtaste en numerisk værdi.
 assessment#:#matching_pairs#:#Matchende par
 assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
-assessment#:#matching_type#:#Matching Question Subtype###24 02 2009 new variable
+assessment#:#matching_type#:#Match-spørgsmål undertype
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
 assessment#:#thumb_geometry#:#Thumbnail Geometry###24 02 2009 new variable
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
@@ -9094,8 +9094,8 @@ cntr#:#cntr_page_actions#:#Sidehandlinger
 cntr#:#cntr_enable_multi_commands#:#Brug fler-kommandoer
 cntr#:#cntr_disable_multi_commands#:#Stop fler-kommandoer
 cntr#:#cntr_add_new_item#:#Tilføj indhold
-search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
-search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
+search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_title#:#Lucene indstillinger
 search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
 search#:#lucene_and#:#AND###30 04 2009 new variable
 search#:#lucene_or#:#OR###30 04 2009 new variable
@@ -9104,14 +9104,14 @@ search#:#lucene_num_fragments#:#Number of Text Fragments###30 04 2009 new variab
 search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.###30 04 2009 new variable
 search#:#lucene_size_fragments#:#Size of Text Fragments###30 04 2009 new variable
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.###30 04 2009 new variable
-search#:#lucene_max_sub#:#Number of Subitems###30 04 2009 new variable
+search#:#lucene_max_sub#:#Antal underresultater
 search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.###30 04 2009 new variable
-common#:#main_menu#:#Main Menu###30 04 2009 new variable
-common#:#breadcrumb_navigation#:#Breadcrumb Navigation###30 04 2009 new variable
-common#:#tabs#:#Tabs###30 04 2009 new variable
-common#:#subtabs#:#SubTabs###30 04 2009 new variable
-search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variable
-search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
+common#:#main_menu#:#Hovedmenu
+common#:#breadcrumb_navigation#:#Brødkrumme-navigation
+common#:#tabs#:#Faneblade
+common#:#subtabs#:#Underblade
+search#:#lucene_relevance#:#Relevans af søgeresultater
+search#:#lucene_show_relevance#:#Vis relevans
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
 payment#:#pay_payed_bill#:#Regning betalt
 payment#:#vat_title#:#Titel
@@ -9121,19 +9121,19 @@ payment#:#paya_insert_vats#:#Opret sats
 payment#:#paya_no_vats_assigned#:#Ingen satser oprettet
 payment#:#paya_vat_not_valid#:#Satsen er ugyldig
 payment#:#paya_vat_already_exists#:#Denne sats eksisterer i forvejen
-payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
+payment#:#paya_no_vat_id_given#:#Der er ingen momssats id givet (?)
 payment#:#paya_sure_delete_vat#:#Er du sikker på du vil slette denne sats?
-payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
+payment#:#paya_vat_not_deleted#:#Denne momssats er ikke slettet.
 payment#:#unlimited_duration#:#ubegrænset
 payment#:#vats#:#Moms
 mail#:#invite_to_chat#:#Inviter til chat
 mail#:#mail_invite_users_to_chat#:#Inviter brugere til chat
 mail#:#chat_select_room#:#Vælg chatrum
-mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
-mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
-mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
-mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
-chat#:#chat_open#:#Enter Room###30 04 2009 new variable
+mail#:#chat_users_without_permission#:#De følgende brugere har ikke adgang til det valgte chatrum.
+mail#:#chat_users_have_been_invited#:#Brugerne er inviteret.
+mail#:#goto_invitation_chat#:#Gå til chatrum
+mail#:#chat_users_without_login#:#De følgende brugere har ikke en konto på ILIAS og kan derfor ikke inviteres til et chatrum.
+chat#:#chat_open#:#Gå ind
 chat#:#chat_kick#:#Smid ud
 chat#:#chat_unkick#:#Vis nåde
 chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
@@ -9178,10 +9178,10 @@ chat#:#chat_user_visible#:#synlig
 common#:#content_frame#:#Content Frame###30 04 2009 new variable
 common#:#side_frame#:#Side Frame###30 04 2009 new variable
 common#:#icon#:#Ikon
-common#:#info_message#:#Information Message###30 04 2009 new variable
-common#:#failure_message#:#Failure Message###30 04 2009 new variable
-common#:#success_message#:#Success Message###30 04 2009 new variable
-common#:#question_message#:#Question###30 04 2009 new variable
+common#:#info_message#:#Information
+common#:#failure_message#:#Fejlbesked
+common#:#success_message#:#Succesbesked
+common#:#question_message#:#Spørgsmål
 common#:#form_input_not_valid#:#Nogle af informationerne er ufuldstændige eller ugyldige. Ret venligst disse før du fortsætter.
 user#:#user_public_profile_info#:#Her vælger du hvilke af dine personlige data der er tilgængelige for andre brugere.
 user#:#user_activate_public_profile#:#Aktiver offentlig profil
@@ -9189,7 +9189,7 @@ user#:#user_activate_public_profile_info#:#Global aktivering af offentlig profil
 search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
 search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
 search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
-search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
+search#:#lucene_activate_field#:#Aktiver søgning
 common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
 common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
 common#:#pd_enable_chatviewer#:#Aktiver chatviser
@@ -9204,7 +9204,7 @@ dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
 administration#:#adm_locale#:#Locale###30 04 2009 new variable
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#accs_edit_permission#:#Ret rettighedsindstillinger
 common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
 common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
 common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
@@ -9224,25 +9224,25 @@ acc#:#acc_reply#:#Svar
 acc#:#acc_forward_mail#:#Videresend
 acc#:#acc_mark_all_read#:#Marker alle læst
 acc#:#acc_comp_global#:#Global
-acc#:#acc_comp_mail#:#Mail###30 04 2009 new variable
-acc#:#acc_comp_frm#:#Forum###30 04 2009 new variable
+acc#:#acc_comp_mail#:#Mail
+acc#:#acc_comp_frm#:#Forum
 form#:#form_image_file_input#:#Image File Input###30 04 2009 new variable
 form#:#form_file_input#:#File Input###30 04 2009 new variable
 user#:#user_screen_reader_optimization#:#Optimering til skærmlæsere
 user#:#user_screen_reader_optimization_info#:#Automatisk fokus og Ajax optimering til bedre understøttelse af skærmlæserhjælpemidler.
-common#:#block#:#Block###30 04 2009 new variable
-common#:#block_management#:#Block Management###30 04 2009 new variable
-common#:#show_hidden_block#:#Show Hidden Block###30 04 2009 new variable
-common#:#create_block#:#Create Block###30 04 2009 new variable
-dateplaner#:#cal_week_abbrev#:#W###30 04 2009 new variable
-dateplaner#:#cal_all_day#:#All Day###30 04 2009 new variable
-dateplaner#:#cal_day_selection#:#Select Day###30 04 2009 new variable
-dateplaner#:#cal_week_selection#:#Select Week###30 04 2009 new variable
-dateplaner#:#cal_month_selection#:#Select Month###30 04 2009 new variable
-dateplaner#:#cal_day_overview#:#Day Overview###30 04 2009 new variable
-dateplaner#:#cal_week_overview#:#Week Overview###30 04 2009 new variable
-dateplaner#:#cal_month_overview#:#Month Overview###30 04 2009 new variable
-common#:#stat_selected#:#Selected###30 04 2009 new variable
+common#:#block#:#Blok
+common#:#block_management#:#Blok håndtering
+common#:#show_hidden_block#:#Vis skjult blok
+common#:#create_block#:#Lav blok
+dateplaner#:#cal_week_abbrev#:#U
+dateplaner#:#cal_all_day#:#Hele dagen
+dateplaner#:#cal_day_selection#:#Vælg dag
+dateplaner#:#cal_week_selection#:#Vælg uge
+dateplaner#:#cal_month_selection#:#Vælg måned
+dateplaner#:#cal_day_overview#:#Dagsvisning
+dateplaner#:#cal_week_overview#:#Ugevisning
+dateplaner#:#cal_month_overview#:#Månedsvisning
+common#:#stat_selected#:#Valgt
 notes#:#notes_edit_note#:#Edit Note###30 04 2009 new variable
 notes#:#notes_edit_comment#:#Edit Comment###30 04 2009 new variable
 notes#:#notes_label#:#Label###30 04 2009 new variable
@@ -9694,8 +9694,8 @@ common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 200
 mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable
 mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.###24 07 2009 new variable
 mep#:#mep_create_content_snippet#:#Create Content Snippet###24 07 2009 new variable
-mep#:#mep_new_folder#:#New Folder###24 07 2009 new variable
-mep#:#mep_edit_folder#:#Edit Folder###24 07 2009 new variable
+mep#:#mep_new_folder#:#Ny mappe
+mep#:#mep_edit_folder#:#Ret mappe
 assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
 common#:#adve_frm_post_settings#:#Forumindlæg
@@ -9718,8 +9718,8 @@ content#:#cont_pc_incl#:#Content Snippet###24 07 2009 new variable
 survey#:#scale#:#Skala
 survey#:#add_material#:#Tilføj materiale
 survey#:#internal_link#:#Internet link
-survey#:#materials#:#Materials###24 07 2009 new variable
-survey#:#materials_deleted#:#Material(s) deleted###24 07 2009 new variable
+survey#:#materials#:#Materialer
+survey#:#materials_deleted#:#Materiale(r) blev slettet.
 survey#:#phrase_added#:#Phrase added###24 07 2009 new variable
 survey#:#matrix_left_pole#:#Left Pole###24 07 2009 new variable
 survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
@@ -9735,7 +9735,7 @@ survey#:#spl_copy_select_none#:#Please check at least one question to copy it to
 survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###24 07 2009 new variable
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###24 07 2009 new variable
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
-survey#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
+survey#:#msg_deleted_export_files#:#Eksport fil(er) slettet
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
 common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)###24 07 2009 new variable
 common#:#add_new_user_defined_wysiwyg_field#:#Lav nyt tekstområde (WYSIWYG) felt
@@ -9812,8 +9812,8 @@ search#:#search_auto_complete_length#:#Antal elementer ved autofuldførelse
 assessment#:#points_wrong#:#Forkerte valg
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
 content#:#import_sco_object#:#Importer SCO
-content#:#scorm_editable#:#Import editable###24 07 2009 new variable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
+content#:#scorm_editable#:#Importer som redigerbar
+content#:#scorm_editable_comments#:#Virker kun med SCORM 1.2/2004 pakker
 common#:#preview_learner#:#Deltagervisning
 common#:#preview_learner_info#:#Hvis aktiveret har ar kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det.
 common#:#mem_view_activate#:#Aktiver deltagervisning
@@ -9939,7 +9939,7 @@ search#:#lucene_download_ini#:#Hent konfigurationsfil
 search#:#lucene_create_ini#:#Lav konfigurationsfil
 common#:#show_filter#:#Vis filter
 search#:#lucene_relevance_short#:#Relevans
-content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
+content#:#cont_sc_usession#:#Uendelig sessionstimeout
 content#:#cont_nomenu#:#Deaktiver topnavigation
 content#:#cont_hidenavig#:#Skjul venstrenavigation
 content#:#scplayer_expandtree#:#Fold alt ud
@@ -9967,14 +9967,14 @@ webr#:#webr_sort_title#:#Sorter efter titel
 webr#:#webr_edit_list#:#Ret webresurse liste
 payment#:#pay_order_paid_subject#:#Tak for din bestilling
 payment#:#pay_order_paid_body#:#Din bestilling på %products% er blevet behandlet og din faktura sendes vedhæftet denne mail. 
-gmaps#:#gmaps_latitude#:#Latitude###16 09 2009 new variable
-gmaps#:#gmaps_longitude#:#Longitude###16 09 2009 new variable
-administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'###16 09 2009 new variable
-administration#:#history_loginname#:#Login Name History###16 09 2009 new variable
-chat#:#check_configuration#:#Please check the chat server's settings.###16 09 2009 new variable
+gmaps#:#gmaps_latitude#:#Breddegrad
+gmaps#:#gmaps_longitude#:#Længdegrad
+administration#:#allow_change_loginname#:#Tillad ændring af brugernavn fra profilen
+administration#:#history_loginname#:#Brugernavns historik
+chat#:#check_configuration#:#Kontroller indstillingerne for chat-serveren.
 cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
-dateplaner#:#add_appointment#:#Add Appointment###16 09 2009 new variable
-common#:#pd_enable_contacts#:#Enable Contacts###16 09 2009 new variable
+dateplaner#:#add_appointment#:#Lav aftale
+common#:#pd_enable_contacts#:#Aktiver kontakter
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
@@ -9987,8 +9987,8 @@ common#:#changing_loginname_not_possible_info#:#You changed your login name at l
 mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
 sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
-sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
-common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
+sahs#:#sahs_oa_no_scos#:#Kapitlet indeholder ingen SCO'er endnu.
+common#:#last_refresh#:#Sidste indlæsning
 webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
 grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
 crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
@@ -10014,6 +10014,6 @@ rbac#:#root_create_tst#:#Lav test
 rbac#:#root_create_webr#:#Lav weblink
 rbac#:#root_create_wiki#:#Lav Wiki
 rbac#:#root_create_rcrs#:#Lav kursus-link
-rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
+rbac#:#root_create_mcst#:#Lav Mediacast
 rbac#:#root_create_feed#:#Lav webfeed
 rbac#:#root_create_crsr#:#Lav kursusreference
