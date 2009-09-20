@@ -34,7 +34,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTestQuestionPool
@@ -950,8 +950,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* Creates a print view for a question pool
-	*
 	* Creates a print view for a question pool
 	*
 	* @access	public
