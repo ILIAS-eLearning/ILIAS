@@ -370,7 +370,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			if ($this->pg_obj->getParentType() != "sahs")
 			{
-				$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+//				$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
 			}
 		}
 	}

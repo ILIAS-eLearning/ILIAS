@@ -15950,8 +15950,29 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'Yahoo', 'http://myweb2.search.yahoo.com/myresults/bookmarklet?t={TITLE}&d=&tag=&u={LINK}', 'yahoo.gif',0));
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'Yigg', 'http://yigg.de/neu?exturl={LINK}', 'yigg.png',0));
 ?>
-
 <#2882>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#2883>
+<?php
+$fields = array(
+	'obj_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'style_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	)
+);
+$ilDB->createTable('style_usage', $fields);
+$ilDB->addPrimaryKey('style_usage', array('obj_id'));
+
+?>
+<#2884>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>

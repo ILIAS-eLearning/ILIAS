@@ -206,7 +206,7 @@ class ilRepositoryGUI
 			? $_POST["new_type"]
 			: $_GET["new_type"];
 
-		if ($new_type != "")
+		if ($new_type != "" && $new_type != "sty")
 		{
 			$this->creation_mode = true;
 		}

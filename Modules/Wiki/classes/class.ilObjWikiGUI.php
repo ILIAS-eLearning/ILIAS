@@ -13,7 +13,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * 
 * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -61,6 +61,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
+				$wpage_gui->setStyleId($this->object->getStyleSheetId());
+				$this->setContentStyleSheet();
 
 				if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
 					!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()))
@@ -79,6 +81,33 @@ class ilObjWikiGUI extends ilObjectGUI
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				$tpl->setContent($ret);
+				break;
+				
+			case "ilobjstylesheetgui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editStyleProperties");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
 				break;
 
 			default:
@@ -414,6 +443,30 @@ class ilObjWikiGUI extends ilObjectGUI
 	}
 
 	/**
+	* Set sub tabs
+	*/
+	function setSettingsSubTabs($a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		if (in_array($a_active,
+			array("general_settings", "style")))
+		{
+			// general properties
+			$ilTabs->addSubTab("general_settings",
+				$lng->txt("wiki_general_settings"),
+				$ilCtrl->getLinkTarget($this, 'editSettings'));
+				
+			// style properties
+			$ilTabs->addSubTab("style",
+				$lng->txt("wiki_style"),
+				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+
+			$ilTabs->activateSubTab($a_active);
+		}
+	}
+
+	/**
 	* Edit settings
 	*/
 	function editSettingsObject()
@@ -421,6 +474,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $tpl;
 		
 		$this->checkPermission("write");
+		
+		$this->setSettingsSubTabs("general_settings");
 		
 		$this->initSettingsForm();
 		$this->getSettingsFormValues();
@@ -729,6 +784,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 			ilWikiUtil::makeDbTitle($page));
+		$wpage_gui->setStyleId($this->object->getStyleSheetId());
+		$this->setContentStyleSheet();
 		//$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		
 		//$wpage_gui->setSideBlock();
@@ -930,8 +987,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$page_gui = new ilWikiPageGUI($_GET["wpg_id"]);
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+		$this->setContentStyleSheet();
 
 		// determine target frames for internal links
 		$page_gui->setOutputMode("print");
@@ -976,6 +1032,158 @@ class ilObjWikiGUI extends ilObjectGUI
 			
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
+	}
+
+	/**
+	* Set content style sheet
+	*/
+	function setContentStyleSheet()
+	{
+		global $tpl;
+		
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$tpl->parseCurrentBlock();
+
+	}
+	
+	
+	/**
+	* Edit style properties
+	*/
+	function editStylePropertiesObject()
+	{
+		global $ilTabs, $tpl;
+		
+		$this->checkPermission("write");
+		
+		$this->initStylePropertiesForm();
+		$tpl->setContent($this->form->getHTML());
+		
+		$ilTabs->activateTab("settings");
+		$this->setSettingsSubTabs("style");
+		
+		$this->setSideBlock();
+	}
+	
+	/**
+	* Init style properties form
+	*/
+	function initStylePropertiesForm()
+	{
+		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$lng->loadLanguageModule("style");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$this->form->addItem($st);
+		}
+		else
+		{
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($lng->txt("wiki_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$this->form->addItem($st);
+
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+
+					// delete command
+					$this->form->addCommandButton("editStyle",
+						$lng->txt("style_edit_style"));
+					$this->form->addCommandButton("deleteStyle",
+						$lng->txt("style_delete_style"));
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = ilUtil::formSelect ($style_id, "style_id",
+					$st_styles, false, true);
+				$style_sel = new ilSelectInputGUI($lng->txt("wiki_current_style"), "style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$this->form->addItem($style_sel);
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+				$this->form->addCommandButton("saveStyleSettings",
+						$lng->txt("save"));
+				$this->form->addCommandButton("createStyle",
+					$lng->txt("sty_create_ind_style"));
+			}
+		}
+		$this->form->setTitle($lng->txt("wiki_style"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	* Create Style
+	*/
+	function createStyleObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+	
+	/**
+	* Edit Style
+	*/
+	function editStyleObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	/**
+	* Delete Style
+	*/
+	function deleteStyleObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+
+	/**
+	* Save style settings
+	*/
+	function saveStyleSettingsObject()
+	{
+		global $ilSetting;
+	
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->ctrl->redirect($this, "editStyleProperties");
 	}
 
 }

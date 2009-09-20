@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
-* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 *
 * @extends ilObjectGUI
 */
@@ -172,6 +172,9 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 
+			case "ilobjstylesheetgui":
+				$this->forwardToStyleSheet();
+				break;
 
 			default:
 				$this->prepareOutput();

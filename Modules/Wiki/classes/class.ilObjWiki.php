@@ -152,6 +152,22 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	* get ID of assigned style sheet object
+	*/
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	/**
+	* set ID of assigned style sheet object
+	*/
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
+	/**
 	* Create new wiki
 	*/
 	function create()
@@ -179,6 +195,11 @@ class ilObjWiki extends ilObject
 			$start_page->create();
 		}
 
+		if (((int) $this->getStyleSheetId()) > 0)
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+		}
 	}
 
 	/**
@@ -216,6 +237,9 @@ class ilObjWiki extends ilObject
 			$start_page->create();
 		}
 
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
 		return true;
 	}
 	
@@ -238,6 +262,9 @@ class ilObjWiki extends ilObject
 		$this->setShortTitle($rec["short"]);
 		$this->setRating($rec["rating"]);
 		$this->setIntroduction($rec["introduction"]);
+
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 	}
 
