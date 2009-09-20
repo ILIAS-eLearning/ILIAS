@@ -15970,9 +15970,81 @@ $fields = array(
 );
 $ilDB->createTable('style_usage', $fields);
 $ilDB->addPrimaryKey('style_usage', array('obj_id'));
-
 ?>
 <#2884>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#2885>
+<?php
+if (!$ilDB->tableExists("payment_erp"))
+{
+  $fields = array( 
+    'erp_id' => array (
+      'type'    => 'integer', 
+      'length'  => 4,
+      'notnull' => true 
+    ),
+    'erp_short' => array(
+      'type'    => 'text',
+      'length'  => 12, 
+      'notnull' => true
+    ),
+    'name' => array(
+      'type'    => 'text',
+      'length'  => 32,
+      'notnull' => true
+    ),
+    'description' => array(
+      'type'    => 'text',
+      'length'  => 2000
+    ),
+    'url' => array(
+      'type'    => 'text',
+      'length'   => 255
+    )
+  );  
+  $ilDB->createTable('payment_erp', $fields);      
+  $ilDB->addPrimaryKey('pryment_erp', array('erp_id'));
+  $ilDB->manipulateF("INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)", 
+                      array ("integer", "text", "text", "text", "text"), 
+                      array (0, 'none', 'none', 'No ERP system', ''));                      
+  $ilDB->manipulateF("INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
+                      array ("integer", "text", "text", "text", "text"), 
+                      array (1, "E-conomic", "eco", "E-conomic online accounting system. Available in Danish, Deutch, Spanish, Norwegian, Swedish and English.", "http://www.e-conomic.dk"));
+}
+?>
+<#2886>
+<?php
+if (!$ilDB->tableExists("payment_erps"))
+{
+  $fields = array (
+    'erps_id' => array (
+      'type'    => 'integer',
+      'length'  => 4
+    ),
+    'erp_id' => array (
+      'type'    => 'integer',
+      'length'  => 4
+    ),
+    'active' => array (
+      'type'    => 'integer',
+      'length'  => 4
+    ),
+    'settings' => array (
+      'type'    => 'text',
+      'length'  => 4000,
+      'notnull' => true
+    )
+  );
+  $ilDB->createTable('payment_erps', $fields);  
+  $ilDB->addPrimaryKey('payment_erps', array('erps_id'));  
+  $ilDB->manipulateF("INSERT INTO payment_erps (erps_id, erp_id, active, settings) VALUES (%s, %s, %s, %s)",
+        array("integer", "integer", "integer", "text"),
+        array(0, 0, 1, ''));
+}
+?>
+<#2887>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
