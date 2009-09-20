@@ -6,7 +6,7 @@
 	</baseclasses>
 	<objects>
 		<object id="spl" class_name="SurveyQuestionPool" dir="classes" default_pos="220" default_pres_pos="210"
-			checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+			checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

@@ -10064,3 +10064,5 @@ grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
 grp#:#grp_new_status#:#Ihr neuer Status:
 grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
 grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
+common#:#spl_copy#:#Fragenpool für Umfrage kopieren
+common#:#qpl_copy#:#Fragenpool für Test kopieren

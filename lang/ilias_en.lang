@@ -10038,3 +10038,5 @@ grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
 grp#:#grp_new_status#:#Your new status is:
 grp#:#grp_notify_on#:#Notification about new registrations enabled
 grp#:#grp_notify_off#:#Notification about new registrations disabled
+common#:#spl_copy#:#Copy Survey Question Pool
+common#:#qpl_copy#:#Copy Test Question Pool
