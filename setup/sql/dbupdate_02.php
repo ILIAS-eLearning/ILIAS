@@ -15951,3 +15951,7 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'Yigg', 'http://yigg.de/neu?exturl={LINK}', 'yigg.png',0));
 ?>
 
+<#2882>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

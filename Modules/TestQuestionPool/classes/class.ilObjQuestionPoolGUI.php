@@ -166,6 +166,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('qpl');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
 			case "ilobjquestionpoolgui":
 			case "":
 				$cmd.= "Object";

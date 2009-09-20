@@ -33,7 +33,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI
-* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurveyQuestionPool
@@ -110,6 +110,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesGUI.php");
 				$phrases_gui =& new ilSurveyPhrasesGUI($this);
 				$ret =& $this->ctrl->forwardCommand($phrases_gui);
+				break;
+				
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('spl');
+				$this->ctrl->forwardCommand($cp);
 				break;
 
 			case "":
