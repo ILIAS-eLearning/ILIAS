@@ -1,4 +1,4 @@
-// Build: 2009826222845 
+// Build: 2009921012802 
 
 function ADLAuxiliaryResource()
 {}
@@ -2347,7 +2347,7 @@ else if(act)
 else if(sharedObjectives[id])
 {dat=sharedObjectives[id];}
 for(j=remoteMapping.objective.length;j--;)
-{dat[remoteMapping.objective[j]]=row[j];}}
+{if(typeof dat!="undefined"){dat[remoteMapping.objective[j]]=row[j];}}}
 else
 {interactions[cmi_interaction_id].objectives[id]={id:id};}
 dat=new Objective();for(j=remoteMapping.objective.length;j--;)
@@ -2377,7 +2377,7 @@ result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};var i=
 {act.dirty=0;}}
 if(typeof this.config.time==="number"&&this.config.time>10)
 {clearTimeout(save.timeout);save.timeout=window.setTimeout(save,this.config.time*1000);}
-setTimeout("updateNav(true)",1000);return i;}
+return i;}
 function getAPI(cp_node_id)
 {function getAPISet(k,dat,api)
 {if(dat!=undefined&&dat!==null)
@@ -2444,12 +2444,11 @@ else
 {v=null;}
 data.cmi.scaled_passing_score=v;break;}}}
 pubAPI=data;currentAPI=window[Runtime.apiname]=new Runtime(data,onCommit,onTerminate);}
-syncSharedCMI(item);scoStartTime=currentTime();item.options=new Object();item.options.notracking=false;if(globalAct.auto_review){if(item.completion_status=='completed'||item.success_status=='passed'){pubAPI.mode="review";item.options.notracking=true;}}
+syncSharedCMI(item);updateNav();updateControls();scoStartTime=currentTime();item.options=new Object();item.options.notracking=false;if(globalAct.auto_review){if(item.completion_status=='completed'||item.success_status=='passed'){pubAPI.mode="review";item.options.notracking=true;}}
 if(currentAPI){if((item.exit=="normal"||item.exit==""||item.exit=="time-out"||item.exit=="logout")&&(item.exit!="suspend"&&item.entry!="resume")){err=currentAPI.SetValueIntern("cmi.completion_status","unknown");err=currentAPI.SetValueIntern("cmi.success_status","unknown");err=currentAPI.SetValueIntern("cmi.entry","ab-initio");pubAPI.cmi.entry="ab-initio";pubAPI.cmi.suspend_data=null;pubAPI.cmi.total_time="PT0H0M0S";}
 if(item.exit=="suspend"){pubAPI.cmi.entry="resume";pubAPI.cmi.exit="";}
 if(item.exit=="time-out"||item.exit=="logout"){err=currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");pubAPI.cmi.total_time="PT0H0M0S";}}
-updateControls();setResource(item.id,item.href+"?"+item.parameters,this.config.package_url);}
-function test(){alert("HALLO");}
+setResource(item.id,item.href+"?"+item.parameters,this.config.package_url);}
 function syncSharedCMI(item){var mStatusVector=msequencer.getObjStatusSet(item.id);var mObjStatus=new ADLObjStatus();var obj;var err
 if(mStatusVector!=null){for(i=0;i<mStatusVector.length;i++){var idx=-1;mObjStatus=mStatusVector[i];var objCount=currentAPI.GetValueIntern("cmi.objectives._count");for(var j=0;j<objCount;j++){var obj="cmi.objectives."+j+".id";var nr=currentAPI.GetValueIntern(obj);if(nr==mObjStatus.mObjID){idx=j;break;}}
 if(idx!=-1){obj="cmi.objectives."+idx+".success_status";if(mObjStatus.mStatus.toLowerCase()=="satisfied")
@@ -2505,15 +2504,14 @@ if(data.adl&&data.adl.nav)
 {navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"){launchTarget(navReq.target);}else{launchNavType(navReq.type);}}}
-updateNav(true);return true;}
+return true;}
 var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
 var tree=msequencer.mSeqTree.mActivityMap;var disable;for(i in tree){var disable=true;var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(!elm){return;}
-toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
 if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}
 if(node_stat_completion=="browsed"){removeClass(elm,"not_attempted",1);toggleClass(elm,"browsed",1);}
 if(node_stat_completion=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"incomplete",1);removeClass(elm,"browsed",1);toggleClass(elm,"completed",1);}
@@ -2545,10 +2543,13 @@ else
 break;case RUNNING:return setReturn(103,'','false');case TERMINATED:return setReturn(104,'','false');}
 return setReturn(103,'','false');}
 function Commit(param)
+{CommitInternal(param,true);}
+function CommitInternal(param,saveToDB)
 {setReturn(-1,'Commit('+param+')');if(param!=='')
 {return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(142,'','false');case RUNNING:var returnValue=onCommit(cmiItem);save();if(returnValue)
+{case NOT_INITIALIZED:return setReturn(142,'','false');case RUNNING:var returnValue=onCommit(cmiItem);if(saveToDB){save();}
+if(returnValue)
 {dirty=false;return setReturn(0,'','true');}
 else
 {return setReturn(391,'Persisting failed','false');}
@@ -2556,7 +2557,7 @@ break;case TERMINATED:return setReturn(143,'','false');}}
 function Terminate(param){setReturn(-1,'Terminate('+param+')');if(param!=='')
 {return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');var returnValue=Commit('');state=TERMINATED;onTerminate(cmiItem);return setReturn(error,'',returnValue);case TERMINATED:return setReturn(113,'','false');}}
+{case NOT_INITIALIZED:return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');var returnValue=CommitInternal('',false);state=TERMINATED;onTerminate(cmiItem);return setReturn(error,'',returnValue);case TERMINATED:return setReturn(113,'','false');}}
 function GetValue(sPath)
 {setReturn(-1,'GetValue('+sPath+')');switch(state)
 {case NOT_INITIALIZED:sclogdump("Not initialized","error");return setReturn(122,'','');case RUNNING:if(typeof(sPath)!=='string')
@@ -2732,7 +2733,7 @@ return!extra.error;case'numeric':if(!ispattern)
 {return RealType.isValid(value,{},{});}
 else
 {val=value.split("[:]");val[0]=!val[0]?Number.NEGATIVE_INFINITY:RealType.isValid(val[0],{},{})?parseFloat(val[0]):NaN;val[1]=!val[1]?Number.POSITIVE_INFINITY:RealType.isValid(val[1],{},{})?parseFloat(val[1]):NaN;return!isNaN(val[0])&&!isNaN(val[1])&&val[0]<=val[1];}
-case'other':return value.length<=4000;}}};var ResultState={isValid:function(value){var valueRange={'correct':1,'incorrect':2,'unanticipated':3,'neutral':4};return valueRange[value]>0||RealType.isValid(value,{},{});}};var SuccessState={isValid:function(value){var valueRange={'passed':1,'failed':2,'unknown':3};return valueRange[value]>0;}};var Time={isValid:function(value){return DateTime.parse(value)!==null;}};var TimeLimitAction={isValid:function(value){var valueRange={'exit,message':1,'continue,message':2,'exit,no message':3,'continue,no message':4};return valueRange[value]>0;}};var Uri={isValid:function(value,definition,extra){var re_uri=/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;var re_char=/[\s]/;var m=value.match(re_uri);return Boolean(m&&m[0]&&!re_char.test(m[0])&&m[0].length<=4000);}};var CharacterString={isValid:function(value,definition,extra){var min=extra.min?extra.min:definition.min;var max=extra.max?extra.max:definition.max;var pattern=extra.pattern?extra.pattern:definition.pattern;if((min&&String(value).length<min)||(max&&String(value).length>max)){extra.error={code:407};return false;}else if(pattern&&!pattern.test(value)){return false;}else{return true;}}};var RealType={isValid:function(value,definition,extra){var pattern=extra.pattern?extra.pattern:definition.pattern;var min=definition&&typeof definition.min==="number"?definition.min:Number.NEGATIVE_INFINITY;var max=definition&&typeof definition.max==="number"?definition.max:Number.POSITIVE_INFINITY;if(!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value))
+case'other':return value.length<=4000;}}};var ResultState={isValid:function(value){var valueRange={'correct':1,'incorrect':2,'unanticipated':3,'neutral':4};return valueRange[value]>0||RealType.isValid(value,{},{});}};var SuccessState={isValid:function(value){var valueRange={'passed':1,'failed':2,'unknown':3};return valueRange[value]>0;}};var Time={isValid:function(value){return DateTime.parse(value)!==null;}};var TimeLimitAction={isValid:function(value){var valueRange={'exit,message':1,'continue,message':2,'exit,no message':3,'continue,no message':4};return valueRange[value]>0;}};var Uri={isValid:function(value,definition,extra){var re_uri=/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;var re_char=/[\s]/;var re_urn=/^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;var m=value.match(re_uri);return Boolean(m&&m[0]&&!re_char.test(m[0])&&m[0].length<=4000&&(m[2]!=="urn"||re_urn.test(m[0])));}};var CharacterString={isValid:function(value,definition,extra){var min=extra.min?extra.min:definition.min;var max=extra.max?extra.max:definition.max;var pattern=extra.pattern?extra.pattern:definition.pattern;if((min&&String(value).length<min)||(max&&String(value).length>max)){extra.error={code:407};return false;}else if(pattern&&!pattern.test(value)){return false;}else{return true;}}};var RealType={isValid:function(value,definition,extra){var pattern=extra.pattern?extra.pattern:definition.pattern;var min=definition&&typeof definition.min==="number"?definition.min:Number.NEGATIVE_INFINITY;var max=definition&&typeof definition.max==="number"?definition.max:Number.POSITIVE_INFINITY;if(!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value))
 {return false;}
 else if(Number(value)<min||Number(value)>max)
 {extra.error={code:407};return false;}

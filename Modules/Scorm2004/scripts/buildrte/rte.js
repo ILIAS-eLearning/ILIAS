@@ -1,4 +1,4 @@
-// Build: 2009826222845 
+// Build: 2009921012802 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11237,7 +11237,9 @@ function load()
 			// copy data into internal structure
 			for (j=remoteMapping.objective.length; j--; ) 
 			{
-				dat[remoteMapping.objective[j]] = row[j];
+				if (typeof dat !="undefined"){
+					dat[remoteMapping.objective[j]] = row[j];
+				}	
 			}
 		}
 		else // objective id to an interaction
@@ -11338,7 +11340,7 @@ function save()
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
-	setTimeout("updateNav(true)",1000);
+//	setTimeout("updateNav(true)",1000);
 	return i;
 }
 
@@ -11578,7 +11580,6 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	//alert("onWindowUnload")
 	onItemUndeliver(true);
 	save_global_objectives();
 	save();
@@ -11586,7 +11587,6 @@ function onWindowUnload ()
 
 function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
 {
-//	alert("OnItemDeliver")
 	var url = item.href, v;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
@@ -11654,6 +11654,10 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	// customize GUI
 	
 	syncSharedCMI(item);
+	
+	
+	updateNav();
+	updateControls();
 		
 	scoStartTime = currentTime();
 	
@@ -11679,8 +11683,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
 			pubAPI.cmi.entry="ab-initio";
 			pubAPI.cmi.suspend_data = null;
-			//pubAPI.cmi.interactions = null;
-			//pubAPI.cmi.comments = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
@@ -11699,13 +11701,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
-	updateControls();
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 }
 
-function test() {
-	alert("HALLO");
-}
 
 function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
@@ -11911,7 +11909,6 @@ function syncCMIADLTree(){
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
-//	alert("onItemUndeliver")
 	
 	// customize GUI
 	if (noControls!=true) {
@@ -11924,7 +11921,6 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 }
 
 function undeliverFinish(){
-//	alert("undeliverFinish yes")
 	
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
@@ -12052,7 +12048,7 @@ function onTerminate(data)
 			})(navReq.type, navReq.target), 0);
 		*/	
 	}	
-	updateNav(true);
+//	updateNav(true);
 	return true;
 }
 
@@ -12105,7 +12101,7 @@ function updateNav(ignore) {
 			}
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
-		if (!elm) {return;}
+	//	if (!elm) {return;}
 		toggleClass(elm, 'disabled', disable); 
 		//search for the node to change
 		//set icons
@@ -12274,7 +12270,7 @@ window.scorm_init = init;
 	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |ur
+	| modify it under the terms of the GNU General Public License                 |
 	| as published by the Free Software Foundation; either version 2              |
 	| of the License, or (at your option) any later version.                      |
 	|                                                                             |
@@ -12365,12 +12361,19 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		return setReturn(103, '', 'false');
 	}	
 
+
+	function Commit(param) 
+	{
+		CommitInternal(param,true);
+	}
+
+	
 	/**
 	 * Sending changes to data provider 
 	 * @access private, but also bound to 'this'
 	 * @param {string} required; must be '' 
 	 */	 
-	function Commit(param) 
+	function CommitInternal(param,saveToDB) 
 	{
 		setReturn(-1, 'Commit(' + param + ')');
 		if (param!=='') 
@@ -12383,7 +12386,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
-				save();
+				if (saveToDB) {
+					save();					
+				}
 				if (returnValue) 
 				{
 					dirty = false;
@@ -12419,7 +12424,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// resulting in code 111 (REQ_5.3)
 				Runtime.onTerminate(cmiItem, msec); // wrapup from LMS 
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
-				var returnValue = Commit(''); // save 
+				var returnValue = CommitInternal('',false); // save 
 				state = TERMINATED;
 				onTerminate(cmiItem); // callback
 				return setReturn(error, '', returnValue);
@@ -13225,8 +13230,9 @@ Runtime.models =
 		var Uri = { isValid : function (value, definition, extra) {
 			var re_uri = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;
 			var re_char = /[\s]/;
+			var re_urn = /^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;
 			var m = value.match(re_uri);
-			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000);
+			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000 && (m[2]!=="urn" || re_urn.test(m[0])));
 		}};
 		
 		var CharacterString = { isValid : function (value, definition, extra) {
@@ -13499,14 +13505,5 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 		data.cmi.success_status = 'incomplete';
 	}
 	
-	/*
-	if (guiItem) {
-		var activeId = guiItem.id;
-		updateNav();
-		addClass(all(activeId), "current");		
-	}
-	*/
-		
-
 };
 

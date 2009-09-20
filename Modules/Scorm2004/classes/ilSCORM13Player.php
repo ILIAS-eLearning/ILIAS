@@ -530,7 +530,7 @@ class ilSCORM13Player
 		$res = $ilDB->queryF(
 			$query,
 			array('text', 'integer', 'text'),
-			array('-course_overall_status-', $this->packageId, 'mapinfo')
+			array('-course_overall_status-', $this->packageId, 'mapInfo')
 		);		
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -720,7 +720,7 @@ class ilSCORM13Player
 			    			AND user_id = %s
 			    			AND scope_id = %s', 
 				    		array('text', 'text', 'text', 'text', 'integer', 'integer'), 
-				    		array($completed, $measure, $satisfied, $obj, $dbuser, $pkd_id)
+				    		array($completed, $measure, $satisfied, $obj, $dbuser, $pkg_id)
 						);		    			
 		    		}
 				}	
@@ -896,10 +896,10 @@ class ilSCORM13Player
 			$res = $ilDB->queryF($q, $types, $values);
 			
 			$result['data'][$k] = array();
-	 		$tmp_result = array();
 
 			while($row = $ilDB->fetchAssoc($res))
 			{			
+				$tmp_result = array();
 				foreach($row as $key => $value)
 				{
 					$tmp_result[] = $value;

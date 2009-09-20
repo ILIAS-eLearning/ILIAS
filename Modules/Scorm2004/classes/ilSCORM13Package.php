@@ -634,7 +634,7 @@ class ilSCORM13Package
 						case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';break;
 						case 'objectivemeasureweight': $names[] = 'objectivemeasweight';break;
 						case 'requiredforcompleted': $names[] = 'requiredcompleted';break;
-						case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
+						case 'requiredforincomplete': $names[] = 'requiredincomplete';break;
 						case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';break;
 						case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';break;
 						case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';break;
@@ -696,7 +696,7 @@ class ilSCORM13Package
 				$insert_data = array();
 				foreach($names as $key => $db_field)
 				{
-					$insert_data[$db_field] = array($types[$key], $values[$key]);
+					$insert_data[$db_field] = array($types[$key], trim($values[$key]));
 				}
 				$ilDB->insert('cp_'.strtolower($node->nodeName), $insert_data);			
 	

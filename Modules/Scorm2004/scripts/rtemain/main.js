@@ -2359,7 +2359,9 @@ function load()
 			// copy data into internal structure
 			for (j=remoteMapping.objective.length; j--; ) 
 			{
-				dat[remoteMapping.objective[j]] = row[j];
+				if (typeof dat !="undefined"){
+					dat[remoteMapping.objective[j]] = row[j];
+				}	
 			}
 		}
 		else // objective id to an interaction
@@ -2700,7 +2702,6 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
-	//alert("onWindowUnload")
 	onItemUndeliver(true);
 	save_global_objectives();
 	save();
@@ -2708,7 +2709,6 @@ function onWindowUnload ()
 
 function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
 {
-//	alert("OnItemDeliver")
 	var url = item.href, v;
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
@@ -2776,6 +2776,10 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	// customize GUI
 	
 	syncSharedCMI(item);
+	
+	
+	updateNav();
+	updateControls();
 		
 	scoStartTime = currentTime();
 	
@@ -2801,8 +2805,6 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
 			pubAPI.cmi.entry="ab-initio";
 			pubAPI.cmi.suspend_data = null;
-			//pubAPI.cmi.interactions = null;
-			//pubAPI.cmi.comments = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
@@ -2821,13 +2823,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
-	updateControls();
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 }
 
-function test() {
-	alert("HALLO");
-}
 
 function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
@@ -3033,7 +3031,6 @@ function syncCMIADLTree(){
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
-//	alert("onItemUndeliver")
 	
 	// customize GUI
 	if (noControls!=true) {
@@ -3046,7 +3043,6 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 }
 
 function undeliverFinish(){
-//	alert("undeliverFinish yes")
 	
 	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
 	if (currentAPI) 
@@ -3174,7 +3170,7 @@ function onTerminate(data)
 			})(navReq.type, navReq.target), 0);
 		*/	
 	}	
-	updateNav(true);
+//	updateNav(true);
 	return true;
 }
 
@@ -3227,7 +3223,7 @@ function updateNav(ignore) {
 			}
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
-		if (!elm) {return;}
+	//	if (!elm) {return;}
 		toggleClass(elm, 'disabled', disable); 
 		//search for the node to change
 		//set icons
