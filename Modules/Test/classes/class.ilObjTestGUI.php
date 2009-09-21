@@ -2951,116 +2951,132 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_fixed_users.html", "Modules/Test");
+		$search_for = array();
+		$search_term = strlen($_POST["search_term"]) ? $_POST["search_term"] : $_GET["search_term"];
+		$concatenation = strlen($_POST["concatenation"]) ? $_POST["concatenation"] : $_GET["concatenation"];
+		if (is_array($_POST['search_for']))
+		{
+			$search_for = $_POST['search_for'];
+		}
+		else
+		{
+			if ($_GET['search_for_usr']) array_push($search_for, 'usr');
+			if ($_GET['search_for_grp']) array_push($search_for, 'grp');
+			if ($_GET['search_for_role']) array_push($search_for, 'role');
+		}
+		$this->ctrl->setParameter($this, 'concatenation', $concatenation);
+		$this->ctrl->setParameter($this, 'search_term', $search_term);
+		foreach ($search_for as $type)
+		{
+			$this->ctrl->setParameter($this, 'search_for_' . $type, $type);
+		}
 
 		if ($_POST["cmd"]["cancel"])
 		{
 			$this->backToRepositoryObject();
 		}
 
-		if (strcmp($this->ctrl->getCmd(), "searchParticipants") == 0)
+		if (count($search_for))
 		{
-			if (is_array($_POST["search_for"]))
+			$this->tpl->setCurrentBlock("search_results_title");
+			$this->tpl->setVariable("TEXT_SEARCH_RESULTS", $this->lng->txt("search_results"));
+			$this->tpl->parseCurrentBlock();
+			if (in_array("usr", $search_for) or in_array("grp", $search_for) or in_array("role", $search_for))
 			{
-				$this->tpl->setCurrentBlock("search_results_title");
-				$this->tpl->setVariable("TEXT_SEARCH_RESULTS", $this->lng->txt("search_results"));
-				$this->tpl->parseCurrentBlock();
-				if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]) or in_array("role", $_POST["search_for"]))
+				include_once './classes/class.ilSearch.php';
+				$search =& new ilSearch($ilUser->id);
+				$search->setSearchString($search_term);
+				$search->setCombination($concatenation);
+				$search->setSearchFor($search_for);
+				$search->setSearchType("new");
+				if($search->validate($message))
 				{
-					include_once './classes/class.ilSearch.php';
-					$search =& new ilSearch($ilUser->id);
-					$search->setSearchString($_POST["search_term"]);
-					$search->setCombination($_POST["concatenation"]);
-					$search->setSearchFor($_POST["search_for"]);
-					$search->setSearchType("new");
-					if($search->validate($message))
-					{
-						$search->performSearch();
-					}
-					if ($message)
-					{
-						ilUtil::sendInfo($message);
-					}
-					
-					if(!$search->getNumberOfResults() && $search->getSearchFor())
-					{
-						ilUtil::sendInfo($this->lng->txt("search_no_match"));
-					}
-					$buttons = array("add");
-	
-					$invited_users =& $this->object->getInvitedUsers();
+					$search->performSearch();
+				}
+				if ($message)
+				{
+					ilUtil::sendInfo($message);
+				}
 				
-					if ($searchresult = $search->getResultByType("usr"))
+				if(!$search->getNumberOfResults() && $search->getSearchFor())
+				{
+					ilUtil::sendInfo($this->lng->txt("search_no_match"));
+				}
+				$buttons = array("add");
+
+				$invited_users =& $this->object->getInvitedUsers();
+			
+				if ($searchresult = $search->getResultByType("usr"))
+				{
+					$users = array();
+					foreach ($searchresult as $result_array)
 					{
-						$users = array();
-						foreach ($searchresult as $result_array)
+						if (!array_key_exists($result_array["id"], $invited_users))
 						{
-							if (!array_key_exists($result_array["id"], $invited_users))
-							{
-								array_push($users, $result_array["id"]);
-							}
-						}
-						
-						$users = $this->object->getUserData($users);
-						
-						if (count ($users))
-						{
-							include_once "./Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php";
-							$table_gui = new ilTestInviteUsersTableGUI($this, 'inviteParticipants');
-							$table_gui->setData($users);
-							$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
-						}
-					}
-	
-					$searchresult = array();
-					
-					if ($searchresult = $search->getResultByType("grp"))
-					{
-						$groups = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($groups, $result_array["id"]);
-						}
-						$groups = $this->object->getGroupData ($groups);
-						
-						if (count ($groups))
-						{
-							include_once "./Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php";
-							$table_gui = new ilTestInviteGroupsTableGUI($this, 'inviteParticipants');
-							$table_gui->setData($groups);
-							$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
+							array_push($users, $result_array["id"]);
 						}
 					}
 					
-					$searchresult = array();
+					$users = $this->object->getUserData($users);
 					
-					if ($searchresult = $search->getResultByType("role"))
+					if (count ($users))
 					{
-						$roles = array();
-						
-						foreach ($searchresult as $result_array)
-						{							
-							array_push($roles, $result_array["id"]);
-						}
-						
-						$roles = $this->object->getRoleData($roles);
-								
-						if (count ($roles))
-						{
-							include_once "./Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php";
-							$table_gui = new ilTestInviteRolesTableGUI($this, 'inviteParticipants');
-							$table_gui->setData($roles);
-							$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
-						}
+						include_once "./Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php";
+						$table_gui = new ilTestInviteUsersTableGUI($this, 'inviteParticipants');
+						$table_gui->setData($users);
+						$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
+					}
+				}
+
+				$searchresult = array();
+				
+				if ($searchresult = $search->getResultByType("grp"))
+				{
+					$groups = array();
+					
+					foreach ($searchresult as $result_array)
+					{							
+						array_push($groups, $result_array["id"]);
+					}
+					$groups = $this->object->getGroupData ($groups);
+					
+					if (count ($groups))
+					{
+						include_once "./Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php";
+						$table_gui = new ilTestInviteGroupsTableGUI($this, 'inviteParticipants');
+						$table_gui->setData($groups);
+						$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
+					}
+				}
+				
+				$searchresult = array();
+				
+				if ($searchresult = $search->getResultByType("role"))
+				{
+					$roles = array();
+					
+					foreach ($searchresult as $result_array)
+					{							
+						array_push($roles, $result_array["id"]);
 					}
 					
+					$roles = $this->object->getRoleData($roles);
+							
+					if (count ($roles))
+					{
+						include_once "./Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php";
+						$table_gui = new ilTestInviteRolesTableGUI($this, 'inviteParticipants');
+						$table_gui->setData($roles);
+						$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
+					}
 				}
 				
 			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
-			}
+			
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
 		}
 		
 		if ($_POST["cmd"]["save"])
@@ -3086,18 +3102,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
 				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
 				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-				if (is_array($_POST["search_for"]))
+				$this->tpl->setVariable("VALUE_SEARCH_TERM", $search_term);
+				if (is_array($search_for))
 				{
-					if (in_array("usr", $_POST["search_for"]))
+					if (in_array("usr", $search_for))
 					{
 						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
 					}
-					if (in_array("grp", $_POST["search_for"]))
+					if (in_array("grp", $search_for))
 					{
 						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
 					}
-					if (in_array("role", $_POST["search_for"]))
+					if (in_array("role", $search_for))
 					{
 						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
 					}
@@ -3106,7 +3122,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
 				}
-				if (strcmp($_POST["concatenation"], "and") == 0)
+				if (strcmp($concatenation, "and") == 0)
 				{
 					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
 				}

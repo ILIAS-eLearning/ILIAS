@@ -9811,7 +9811,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		ilDatePresentation::setUseRelativeDates(false);
 		$message->setVariable('VALUE_FINISH_TIME', ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
 		
-		$mail->sendMail(
+		$res = $mail->sendMail(
 			ilObjUser::_lookupLogin($this->getOwner()), // to
 			"", // cc
 			"", // bcc
@@ -9820,6 +9820,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array(), // attachments
 			array('normal') // type
 		);	
+		global $ilLog; $ilLog->write("sending mail: " . $res);
 	}
 	
 	public function sendAdvancedNotification($active_id)
