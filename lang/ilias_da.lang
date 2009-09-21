@@ -262,7 +262,7 @@ common#:#advanced_editing_no_rte#:#Brug ikke rig tekst redigering
 common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
 common#:#advanced_editing_survey_settings#:#Tilladte HTML tags i ILIAS afstemingsværktøj
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
-common#:#adve_assessment_settings#:#Test & Assessment Settings
+common#:#adve_assessment_settings#:#Test & evalueringsindstillinger
 common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
 common#:#adve_general_settings#:#Generelle indstillinger
 common#:#adve_lm_settings#:#LM / Glossary Settings
@@ -313,7 +313,7 @@ common#:#arrow_downright#:#Pil fra top til nederst højre
 common#:#articels_unread#:#ulæste indlæg
 common#:#as_of#:#as of###21 Apr 2005 new variable
 common#:#ascending_order#:#Stigende orden
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
+common#:#assessment_log_deleted#:#Test & Evaluerings logdata blev slettet i administration
 common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
 common#:#assessment_log_manual_scoring#:#Manuel karaktergivning
@@ -329,7 +329,7 @@ common#:#assessment_log_select_test#:#--- Vælg en test ---
 common#:#assessment_log_text#:#Gem besked
 common#:#assessment_log_user_answer#:#Bruger besvarede et spørgsmål
 common#:#assessment_log_user_answers#:#Vis brugeraktiviteter
-common#:#assessment_settings#:#Test & assessment indstillinger
+common#:#assessment_settings#:#Test & Evaluering indstillinger
 common#:#assessment_settings_reporting_language#:#Aktuelle sprog
 common#:#assessment_defaults#:#Standard indstillinger for tests og vurderinger
 common#:#assessment_use_javascript#:#JavaScript til drag'n'drop
@@ -3042,7 +3042,7 @@ assessment#:#ass_question#:#Spørgsmål
 assessment#:#ass_size#:#Størrelse
 assessment#:#available_points#:#Tilgængelige point
 assessment#:#average_reached_points#:#Opnåede point i gennemsnit
-assessment#:#backtocallingtest#:#Back to the calling test###21 Apr 2005 new variable
+assessment#:#backtocallingtest#:#Tilbage til testen
 assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
@@ -3417,7 +3417,7 @@ assessment#:#qt_multiple_choice#:#Multiple choice spørgsmål
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
 assessment#:#question_instances_title#:#Dette spørgsmål anvendes i følgende tests
 assessment#:#question_marking#:#Vis karakter for besvarelse
-assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
+assessment#:#question_marking_description#:#Hvis valgt, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
 assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
 assessment#:#question_saved_for_upload#:#Spørgsmålet blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette spørgsmålet i spørgsmålsgruppen hvis du ikke ønsker at beholde det!
 assessment#:#question_short#:#Q
@@ -3457,7 +3457,7 @@ assessment#:#save_introduction#:#Gå til introduktion
 assessment#:#save_next#:#Næste
 assessment#:#save_previous#:#Tidligere
 assessment#:#save_text_answer_points#:#Gem point i tekstspørgsmål
-assessment#:#scored_pass#:#Scored pass
+assessment#:#scored_pass#:#Scoret forsøg
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
 assessment#:#search_found_groups#:#Grupper fundet
 assessment#:#search_found_users#:#Brugere fundet
@@ -3512,10 +3512,10 @@ assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
 assessment#:#tst_already_submitted#:#Testen er allerede udført og indsendt.
 assessment#:#tst_already_taken#:#Test er allerede taget
 assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
+assessment#:#tst_anonymity_description#:#Hvis anonymitet er slået til bliver deltagernes navne skjult.
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###17 Aug 2005 new variable
-assessment#:#tst_answered_questions#:#Answered questions
-assessment#:#tst_best_solution_is#:#The best solution is
+assessment#:#tst_answered_questions#:#Besvarede spørgsmål
+assessment#:#tst_best_solution_is#:#Den bedste/rigtige løsning er
 assessment#:#tst_browse_for_questions#:#Led efter spørgsmål
 assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!###12 11 2006 new variable
 assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.###29 11 2006 new variable
@@ -3524,7 +3524,7 @@ assessment#:#tst_confirm_delete_results#:#Du er ved at slette alle dine tidliger
 assessment#:#tst_confirm_delete_results_info#:#Dine tidligere indtastet resultater blev slettet. Du har med succes nulstillet testen!
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.###17 Aug 2005 new variable
 assessment#:#tst_confirm_submit_answers#:#Bekræft venligst din besvarelse. Du kan ikke ændre dine svar efter du har trykket på send knappen.
-assessment#:#tst_count_correct_solutions#:#Count only complete solutions###17 Aug 2005 new variable
+assessment#:#tst_count_correct_solutions#:#Tæl kun komplette besvarelser
 assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.###18 12 2006 new variable
 assessment#:#tst_count_partial_solutions#:#Medtæl delvise løsninger
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
@@ -3533,8 +3533,8 @@ assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaul
 assessment#:#tst_defaults_available#:#Mulige test standardvalg
 assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
 assessment#:#tst_defaults_dont_use#:# Use the ILIAS test defaults ###25 02 2007 new variable
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
-assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
+assessment#:#tst_defaults_enter_name#:#Du skal indtaste et navn til teststandarderne.
+assessment#:#tst_defaults_not_defined#:#Der er endnu ikke defineret nogen standard.
 assessment#:#tst_delete_all_user_data#:#Slet alle bruger data
 assessment#:#tst_delete_missing_mark#:#Vælg venligst mindst et mærke for at slette det
 assessment#:#tst_delete_results#:#Nulstil test
@@ -3572,28 +3572,28 @@ assessment#:#tst_in_use_edit_questions_disabled#:#Testen bruges af %d brugere. D
 assessment#:#tst_insert_missing_question#:#Vælg venligst mindst et spørgsmål at indsætte i denne test!
 assessment#:#tst_insert_questions#:#Er du sikker på du vil indsætte følgende spørgsmål i denne test?
 assessment#:#tst_insert_questions_and_results#:#Denne test er allerede taget af %s brugere. Hvis du indsætter spørgsmål i denne test vil du slette alle resultater fra disse brugere. Er du sikker på du vil indsætte følgende spørgsmål i denne test?
-assessment#:#tst_instant_feedback#:#Instant Feedback  this information is shown after each question###12 11 2006 new variable
-assessment#:#tst_instant_feedback_answer_specific#:#Show AnswerSpecific Feedback###12 11 2006 new variable
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)###12 11 2006 new variable
-assessment#:#tst_instant_feedback_solution#:#Show Solutions###12 11 2006 new variable
+assessment#:#tst_instant_feedback#:#Øjebliksfeedback som vises efter hvert spørgsmål
+assessment#:#tst_instant_feedback_answer_specific#:#Vis besvarelsesspecifikt feedback
+assessment#:#tst_instant_feedback_results#:#Vis resultater (kun point)
+assessment#:#tst_instant_feedback_solution#:#Vis løsninger
 assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answerspecific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.###18 12 2006 new variable
-assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
+assessment#:#tst_instant_verification#:#Øjeblikkelig verifikation
 assessment#:#tst_introduction#:#Introduktion
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants###12 11 2006 new variable
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants###12 11 2006 new variable
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants###12 11 2006 new variable
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants###12 11 2006 new variable
-assessment#:#tst_list_of_answers#:#List of Answers###12 11 2006 new variable
-assessment#:#tst_list_of_questions_yes#:#Yes, and additional###12 11 2006 new variable
-assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to the first question###12 11 2006 new variable
-assessment#:#tst_list_of_questions_end#:#Show the List of Questions before a participant finishes the test###12 11 2006 new variable
-assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions###10 05 2007 new variable
-assessment#:#tst_participants_no#:#Nobody has started the test right now!###12 11 2006 new variable
+assessment#:#tst_list_of_answers#:#Liste over svar
+assessment#:#tst_list_of_questions_yes#:#Ja, og derudover
+assessment#:#tst_list_of_questions_start#:#Vis listen af spørgsmål før det første
+assessment#:#tst_list_of_questions_end#:#Vis spørgsmålslisten før deltageren afslutter testen
+assessment#:#tst_list_of_questions_with_description#:#Vis beskrivelsen i spørgsmålslisten
+assessment#:#tst_participants_no#:#Ingen har taget testen endnu.
 assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
 assessment#:#tst_mark#:#Mærke
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
 assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpelt mærke skema
-assessment#:#tst_mark_minimum_level#:#Minimum level (i %)
+assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
 assessment#:#tst_mark_short_form#:#Kort form
@@ -3633,9 +3633,9 @@ assessment#:#tst_password_entered_wrong_password#:#You cannot start the test bec
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
 assessment#:#tst_percent_solved#:#Procent løst
 assessment#:#tst_position#:#Spørgsmål %s af %s
-assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
-assessment#:#tst_print#:#Test & Assessment Print View###17 Aug 2005 new variable
+assessment#:#tst_postpone#:#Udskyd spørgsmål
+assessment#:#tst_postpone_description#:#Deltagerne må udskyde spørgsmål til sidst i testen
+assessment#:#tst_print#:#Test & evaluering Udskriftsvisning
 assessment#:#tst_print_date#:#Dato for udskrivning
 assessment#:#tst_processing_time#:#Max. svar tid
 assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.###09 06 2007 new variable
@@ -3656,7 +3656,7 @@ assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
 assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Spørgsmåls type
-assessment#:#tst_questions_inserted#:#Spørgsmål indsat!
+assessment#:#tst_questions_inserted#:#Spørgsmål indsat i test.
 assessment#:#tst_questions_removed#:#Spørgsmål fjernet!
 assessment#:#tst_random_nr_of_questions#:#Hvor mange spørgsmål?
 assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###21 Apr 2005 new variable
@@ -3666,7 +3666,7 @@ assessment#:#tst_random_selection#:#Brug tilfældig udvælgelse
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
 assessment#:#tst_random_test#:#Vilkårlig test
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be generated by a random generator###21 Apr 2005 new variable
+assessment#:#tst_random_test_description#:#Hvis afkrydset vælges testspørgsmålene tilfældigt.
 assessment#:#tst_reached_points#:#Opnåede point
 assessment#:#tst_remove_questions#:#Er du sikker på du vil fjerne de følgende spørgsmål fra denne test?
 assessment#:#tst_remove_questions_and_results#:#Denne test er allerede blevet taget af %s brugere. Hvis du fjerner spørgsmål fra denne test fjerner du også alle resultater fra disse brugere. Er du sikker på du vil fjerne følgende spørgsmål fra denne test?
@@ -3675,25 +3675,25 @@ assessment#:#tst_report_after_question#:#Vis resultat efter hvert spørgsmål er
 assessment#:#tst_report_after_test#:#Vis resultat efter hele testen er besvaret
 assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 2007 new variable
 assessment#:#tst_result_user_name#:#Test resultat for %s
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
+assessment#:#tst_result_user_name_pass#:#Resultater af testforsøg %s for %s
 assessment#:#tst_results#:#Test resultat
 assessment#:#tst_results_access#:#Adgang til testresultater
 assessment#:#tst_results_access_finished#:#Efter testen er fuldført
 assessment#:#tst_results_access_date#:#Dato
-assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
+assessment#:#tst_results_access_always#:#Altid
 assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet.###18 12 2006 new variable
 assessment#:#tst_results_aggregated#:#Aggrerede testresultater
 assessment#:#tst_results_back_evaluation#:#Tilbage til evalueringsoverblik
 assessment#:#tst_results_back_introduction#:#Tilbage til introduktionen
 assessment#:#tst_results_back_overview#:#Tilbage til resultatoverblik
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
-assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s###29 11 2006 new variable
-assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
+assessment#:#tst_results_overview#:#Overblik over testresultater
+assessment#:#tst_results_overview_pass#:#Overblik over resultater for forsøg %s
+assessment#:#tst_results_presentation#:#Præsentation af resultat
 assessment#:#tst_resume_test#:#Genoptag testen
-assessment#:#tst_score_cut_question#:#Cut negative points for every question
-assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results
+assessment#:#tst_score_cut_question#:#Fjern negative point for hvert spørgsmål
+assessment#:#tst_score_cut_test#:#Fjern negative point fra summen
 assessment#:#tst_score_cutting_description#:#If Negative Question Points are cut off, the results for each question that a participant answers with a result of less than zero points will be set to zero points. If Negative Test Points are cut off, the results for the test will be set to zero points, if the sum of all question results is less than zero points.###18 12 2006 new variable
-assessment#:#tst_score_cutting#:#Cut negative points
+assessment#:#tst_score_cutting#:#Fjern negative point
 assessment#:#tst_score_mcmr_questions#:#Multiple choice spørgsmål
 assessment#:#tst_score_mcmr_use_scoring_system#:#Set the defined score, even when no answer was checked###20 Jun 2005 new variable
 assessment#:#tst_score_mcmr_questions_description#:#If "Score 0 Points for Unchecked Answers" is selected, multiple choice questions without a selected check box will scored with zero points, otherwise every check box will be scored dependent to the predefined points.###18 12 2006 new variable
@@ -3717,8 +3717,8 @@ assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved###10 05 
 assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved###10 05 2007 new variable
 assessment#:#tst_list_of_answers_show#:#Show List of Answers###12 11 2006 new variable
 assessment#:#tst_show_answer_sheet#:#Vis svar
-assessment#:#tst_show_cancel#:#Show Suspend Test Option###26 10 2006 new variable
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution###26 10 2006 new variable
+assessment#:#tst_show_cancel#:#Vis suspender test
+assessment#:#tst_show_cancel_description#:#Hvis valgt kan deltagerne holde pause.
 assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
 assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 11 2006 new variable
 assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
@@ -3730,11 +3730,11 @@ assessment#:#tst_use_previous_answers_user#:#Brug mine tidligere svar som standa
 assessment#:#tst_dont_use_previous_answers#:#Dine tidligere svar bruges som standardværdier i fremtidige besvarelser.
 assessment#:#tst_show_results#:#Vis testresultat
 assessment#:#tst_show_pass_details#:#Show Pass Details for running tests###30 05 2007 new variable
-assessment#:#tst_show_solution_details#:#Score detaljer
+assessment#:#tst_show_solution_details#:#Pointdetaljer
 assessment#:#tst_show_solution_printview#:#Udskriftsvenlige løsninger
-assessment#:#tst_show_solution_feedback#:#Show AnswerSpecific Feedback in Test Results###10 05 2007 new variable
+assessment#:#tst_show_solution_feedback#:#Vis besvarelsesafhængingt feedback i resultater
 assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission###18 12 2006 new variable
-assessment#:#tst_show_summary#:#Show question summary
+assessment#:#tst_show_summary#:#Vis spørgsmålsresume
 assessment#:#tst_show_summary_description#:#Viser en oversigt over alle testspørgsmål der er tilgængelige under testen.
 assessment#:#tst_shuffle_questions#:#Bland spørgsmål
 assessment#:#tst_shuffle_questions_description#:#Bland spørgsmålssekvensen for hver bruger ved teststart
@@ -8569,7 +8569,7 @@ pd#:#pd_view_select_at_least_one#:#Du skal vælge mindst en visning, enten 'Valg
 pd#:#pd_my_memberships_intro#:#Dine medlemsskaber
 pd#:#pd_my_memberships_intro2#:#Dette er din personlige side for alle grupper og kurser du deltager i.
 assessment#:#kiosk#:#Kioskmode
-assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.###15 09 2008 new variable
+assessment#:#kiosk_description#:#Kør testen i kiosk-visning. Alt indhold som ikke er en del af testen bliver skjult og forhindrer således deltageren i at forlade testen.
 assessment#:#autosave_success#:#Kladde gemt...
 assessment#:#autosave_failed#:#Automatisk gem af kladde fejlede!
 assessment#:#kiosk_show_title#:#Vis test titel
@@ -8578,8 +8578,8 @@ assessment#:#kiosk_options#:#Kioskmode indstillinger
 assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
 assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
 assessment#:#final_statement#:#Afsluttende bemærkninger
-assessment#:#final_statement_show#:#Show Final Statement###15 09 2008 new variable
-assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.###15 09 2008 new variable
+assessment#:#final_statement_show#:#Vis slutbesked
+assessment#:#final_statement_show_desc#:#Hvis valg bliver slutbeskeden vist umiddelbart efter testen før resultaterne vises.
 assessment#:#showinfo#:#Vis den komplette informationsside
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
@@ -9394,7 +9394,7 @@ adve#:#adve_grp_lm#:#ILIAS læremoduler
 adve#:#adve_grp_wiki#:#Wikier
 adve#:#adve_grp_scorm#:#SCORM redigering
 adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
-adve#:#adve_grp_test#:#Test & Assessment###15 05 2009 new variable
+adve#:#adve_grp_test#:#Test & Evaluering
 adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
 adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
 content#:#cont_behavior#:#Behavior###15 05 2009 new variable
