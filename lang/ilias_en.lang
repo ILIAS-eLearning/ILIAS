@@ -6644,7 +6644,7 @@ registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLea
 registration#:#reg_mail_body_profile#:#Profile data:
 registration#:#reg_mail_body_profile_changed#:#your profile has changed !
 registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by e-mail.
-registration#:#reg_mail_new_user_body#:#A new user has been registered.
+registration#:#reg_mail_new_user_body#:#a new user has been registered.
 registration#:#reg_missing_domain#:#Please fill out all fields.
 registration#:#reg_missing_role#:#Please fill out all fields.
 registration#:#reg_notification#:#Notifications
@@ -10047,6 +10047,9 @@ grp#:#grp_notify_off#:#Notification about new registrations disabled
 common#:#spl_copy#:#Copy Survey Question Pool
 common#:#qpl_copy#:#Copy Test Question Pool
 common#:#title_required#:#Please insert a title.
+registration#:#reg_mail_new_user#:#New user registration
+registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account. =======
 pd#:#pd_enable_global_profiles#:#Enable Global Profiles
 pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 user#:#usr_link_to_profile#:#Link to Profile

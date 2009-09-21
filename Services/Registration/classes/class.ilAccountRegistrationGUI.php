@@ -785,32 +785,29 @@ class ilAccountRegistrationGUI
 		include_once './Services/User/classes/class.ilObjUser.php';
         include_once "Services/Mail/classes/class.ilFormatMail.php";
 
+		include_once './Services/Registration/classes/class.ilRegistrationMailNotification.php';
 
 		$settings = $ilias->getAllSettings();
 
 		// Always send mail to approvers
-        #if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		
+		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
-			// Send mail to approvers
-			foreach($this->registration_settings->getApproveRecipients() as $recipient)
-			{
-				$lng = new ilLanguage(ilObjUser::_lookupLanguage($recipient));
-				$lng->loadLanguageModule('registration');
-
-				#$umail = new ilFormatMail(6); // Send as system administrator
-				$umail = new ilFormatMail($this->userObj->getId());
-				$umail->enableSoap(false);
-
-				$subject = $lng->txt("client_id") . " " . $ilias->client_id . ": " . $lng->txt("usr_new");
-
-				// build body
-				$body = $lng->txt('reg_mail_new_user_body')."\n\n";
-				$body .= $lng->txt('reg_mail_body_profile')."\n\n";
-
-				$body .= $this->userObj->getProfileAsString($lng);
-				$umail->sendMail(ilObjUser::_lookupLogin($recipient),"","",$subject,$body,array(),array("normal"));
-			}
+			$mail = new ilRegistrationMailNotification();
+			$mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
+			$mail->setRecipients($this->registration_settings->getApproveRecipients());
+			$mail->setAdditionalInformation(array('usr' => $this->userObj));
+			$mail->send();
 		}
+		else
+		{
+			$mail = new ilRegistrationMailNotification();
+			$mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_APPROVERS);
+			$mail->setRecipients($this->registration_settings->getApproveRecipients());
+			$mail->setAdditionalInformation(array('usr' => $this->userObj));
+			$mail->send();
+			
+		}		
 		// Send mail to new user
 		
 		// Registration with confirmation link ist enabled		

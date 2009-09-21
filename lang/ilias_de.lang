@@ -10068,3 +10068,6 @@ wiki#:#wiki_general_settings#:#Allgemeine Einstellungen
 style#:#style_current_style#:#Derzeitiger Style
 style#:#style_edit_style#:#Style editieren
 style#:#style_delete_style#:#Style löschen
+registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neuen Benutzers
+registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
+registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS Benutzerverwaltung freischalten.
