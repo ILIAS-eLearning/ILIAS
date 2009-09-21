@@ -127,7 +127,8 @@ function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 	global $ilDB;
 
 	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
+		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text")." ".
+		 "OR user_id = ".$ilDB->quote($user_id,'integer');
 	$ilDB->manipulate($q);
 
 	$ctime = time();
