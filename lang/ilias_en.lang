@@ -10049,7 +10049,8 @@ common#:#qpl_copy#:#Copy Test Question Pool
 common#:#title_required#:#Please insert a title.
 registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.
-registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account. =======
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.
 pd#:#pd_enable_global_profiles#:#Enable Global Profiles
 pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 user#:#usr_link_to_profile#:#Link to Profile
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen. 
