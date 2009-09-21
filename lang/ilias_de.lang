@@ -1657,7 +1657,7 @@ common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für da
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
-common#:#adve_frm_post_settings#:#Forum Posts
+common#:#adve_frm_post_settings#:#Forenbeiträge
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
 common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
@@ -3633,7 +3633,7 @@ common#:#note_all_pub_notes#:#Alle Notizen
 common#:#note_my_pub_notes#:#Nur eigene Notizen
 common#:#notes#:#Notizen
 common#:#notes_and_comments#:#Notizen und Kommentare
-common#:#notifications#:#Notifications
+common#:#notifications#:#Benachrichtigungen
 common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
@@ -5427,7 +5427,7 @@ content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln#:#Interner Link, z.B.:
-content#:#cont_text_imp#:#Important:
+content#:#cont_text_imp#:#Wichtig:
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
 content#:#cont_text_placehl#:#Text-Platzhalter
@@ -8248,7 +8248,7 @@ payment#:#payment_back_to_shop#:#Zurück zum Shop
 payment#:#payment_cannot_find_vat#:#Es konnte kein Steuersatz zur übergebenen ID gefunden werden.
 payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersatzes wurde nicht übertragen.
 payment#:#payment_cannot_save_existing_vat#:#Ein vorhandener Steuersatz kann nicht angelegt werden.
-payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.
+payment#:#payment_cannot_update_nonexisting_vat#:#Kann einen nicht existierenden Steuersatz nicht aktualisieren.
 payment#:#payment_edit_vat#:#Steuersatz bearbeiten
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie sich bei ILIAS an, damit das Objekt in den Warenkorb gelegt werden kann.
 payment#:#payment_news#:#Shop Nachrichten
@@ -8258,7 +8258,7 @@ payment#:#payment_news_archive_period_info#:#Anzahl der Tage, nach denen eine Na
 payment#:#payment_news_created#:#Shop Nachricht hinzugefügt
 payment#:#payment_news_delete_sure#:#Sind Sie sicher, dass Sie diese Shop Nachricht löschen möchten?
 payment#:#payment_news_deleted#:#Die Nachricht wurde gelöscht
-payment#:#payment_news_no_news_items#:#No news available
+payment#:#payment_news_no_news_items#:#Keine Nachrichten vorhanden
 payment#:#payment_news_settings#:#Shop Nachrichten Einstellungen
 payment#:#payment_news_settings_saved#:#Die Einstellungen wurden gespeichert
 payment#:#payment_news_updated#:#Die Nachricht wurde gespeichert
@@ -8426,12 +8426,12 @@ ps#:#ps_edit_select_field#:#Auswahlliste bearbeiten
 ps#:#ps_edit_text_field#:#Textfeld bearbeiten
 ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
-ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
-ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner als 0 sein.
-ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.
+ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner sein als 0.
+ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner sein  als 0.
+ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf nicht kleiner sein als 0.
 ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
-ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein, wenn es Buchstaben und Zahlen enthalten muss.
-ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
 ps#:#ps_export_course#:#Erlaube den Export von Persönlichen Daten in Kursen
@@ -8674,9 +8674,9 @@ sahs#:#sahs_learning_objectives#:#Lernziele
 sahs#:#sahs_new_chapter#:#Neues Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
 sahs#:#sahs_new_sco#:#Neuer SCO
-sahs#:#sahs_objective#:#Learning Objective
-sahs#:#sahs_objective_alignment#:#Anordnung der Ziele
-sahs#:#sahs_objectives#:#Learning Objectives
+sahs#:#sahs_objective#:#Lernziel
+sahs#:#sahs_objective_alignment#:#Anordnung des Lernziels
+sahs#:#sahs_objectives#:#Lernziele
 sahs#:#sahs_objectives_alignment#:#Anordnung der Lernziele
 sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_page#:#Seite
@@ -8880,7 +8880,7 @@ style#:#sty_border_width#:#Rahmendicke
 style#:#sty_bottom#:#Unten
 style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
-style#:#sty_caption_side#:#Caption Side
+style#:#sty_caption_side#:#Seitliche Beschriftung
 style#:#sty_characteristic_already_exists#:#Eine Style-Klasse dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_clear#:#Textumfluss beenden
 style#:#sty_col_foot_class#:#Fußzeile Spalte
@@ -9829,8 +9829,8 @@ user#:#user_activation#:#Aktivierung
 user#:#user_all#:#All
 user#:#user_any#:#Alle
 user#:#user_global_role#:#Globale Rolle
-user#:#user_last_login_before#:#Last Login Before
-user#:#user_limited_access#:#Limited Access
+user#:#user_last_login_before#:#Letztes Login vor
+user#:#user_limited_access#:#Begrenzter Zugriff
 user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
 user#:#user_no_courses#:#Keinem Kurs zugeordnet
 user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
