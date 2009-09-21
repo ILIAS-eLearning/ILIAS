@@ -16005,7 +16005,7 @@ if (!$ilDB->tableExists("payment_erp"))
     )
   );  
   $ilDB->createTable('payment_erp', $fields);      
-  $ilDB->addPrimaryKey('pryment_erp', array('erp_id'));
+  $ilDB->addPrimaryKey('payment_erp', array('erp_id'));
   $ilDB->manipulateF("INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)", 
                       array ("integer", "text", "text", "text", "text"), 
                       array (0, 'none', 'none', 'No ERP system', ''));                      
