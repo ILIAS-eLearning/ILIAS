@@ -9986,10 +9986,10 @@ sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and t
 sahs#:#sahs_oa_no_scos#:#Kapitlet indeholder ingen SCO'er endnu.
 common#:#last_refresh#:#Sidste indlæsning
 webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
-grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
-crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
-grp#:#grp_join_request#:#Send###16 09 2009 new variable
-crs#:#crs_join_request#:#Send###16 09 2009 new variable
+grp#:#grp_reg_subject#:#Anmodningsbesked
+crs#:#crs_reg_subject#:#Anmodningsbesked
+grp#:#grp_join_request#:#Send
+crs#:#crs_join_request#:#Send
 rbac#:#root_create_chat#:#Lav chat
 rbac#:#root_create_crs#:#Lav kursus
 rbac#:#root_create_dbk#:#Lav digilibbog
@@ -10013,54 +10013,54 @@ rbac#:#root_create_rcrs#:#Lav kursus-link
 rbac#:#root_create_mcst#:#Lav Mediacast
 rbac#:#root_create_feed#:#Lav webfeed
 rbac#:#root_create_crsr#:#Lav kursusreference
-common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
-mail#:#mail_salutation_f#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_m#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
-crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
-crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
-crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
-crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
-crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
-crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".###21 09 2009 new variable
-crs#:#crs_subscribe_wl#:#Your registration for course "%s".###21 09 2009 new variable
-wiki#:#wiki_style#:#Style###21 09 2009 new variable
-wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
-style#:#style_current_style#:#Current Style###21 09 2009 new variable
-style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
-style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
+common#:#status_no_permission#:#Ingen adgang.
+mail#:#mail_salutation_f#:#Hej
+mail#:#mail_salutation_m#:#Hej
+mail#:#mail_salutation_n#:#Hej
+crs#:#crs_notification_explanation_admin#:#Du modtager denne besked fordi du er kursusadministrator/totor med advisering aktiveret.
+crs#:#crs_new_status#:#Din nye status er:
+crs#:#crs_access#:#Adgang
+crs#:#crs_cancel_subscription_body2#:#Der er muligvis andre deltagere på ventelisten til kurset.\nDu bør kontrollere ventelisten nu.\nFor at se kursusdeltagerne kan du klikke her:
+crs#:#crs_unsubscribe_member#:#Ophørt som deltager i kurset "%s"
+crs#:#crs_unsubscribe_member_body#:#Det bekræftes hermed at du er ophørt som deltager i kurset "%s". Vi håber du har mulighed for at deltage i et andet kursus.
+crs#:#crs_subscribe_member#:#Din tilmelding til kursus "%s"
+crs#:#crs_subscribe_member_body#:#Det glæder at bekræfte din tilmelding til kurset "%s".
+crs#:#crs_subscribe_wl#:#Din tilmelding til kursus "%s".
+wiki#:#wiki_style#:#Stilark
+wiki#:#wiki_general_settings#:#Generelle indstillinger
+style#:#style_current_style#:#Nuværende stilark
+style#:#style_edit_style#:#Ret stilark
+style#:#style_delete_style#:#Slet stilark
 crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
+grp#:#grp_mail_dismiss_sub#:#Medlemsskab i gruppe "%s" ophørt
+grp#:#grp_mail_dismiss_bod#:#Dit medlemsskab i gruppe "%s" er ophørt.
+grp#:#grp_mail_notification_reg_sub#:#Bruger har tilmeldt sig gruppe "%s"
+grp#:#grp_mail_notification_reg_bod#:#%s har tilmeldt sig gruppe "%s".
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_sub#:#Bruger forlod gruppen "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
-grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
-grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
-grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
-common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
-common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
-common#:#title_required#:#Please insert a title###21 09 2009 new variable
+grp#:#grp_mail_subscribe_member_sub#:#Din tilmelding til gruppen "%s"
+grp#:#grp_mail_subscribe_member_bod#:#Det glæder os at bekræfte din indmeldelse i gruppe "%s".
+grp#:#grp_mail_notification_reg_req_sub#:#Anmodning om at tilmelde gruppe "%s"
+grp#:#grp_mail_notification_reg_req_bod#:#%s har anmodet om medlemsskab af gruppen "%s".
+grp#:#grp_mail_notification_reg_req_bod2#:#For at bekræfte denne anmodning skal du gå til:
+grp#:#grp_mail_sub_dec_sub#:#Anmodning afvist i gruppen "%s"
+grp#:#grp_mail_sub_dec_bod#:#Din anmodning om medlemsskab af gruppen "%s" er beklageligvis afvist.
+grp#:#grp_mail_sub_acc_sub#:#Tilmelding til "%s" bekræftet
+grp#:#grp_mail_sub_acc_bod#:#Vi bekræfter hermed din tilmelding til gruppen "%s".
+grp#:#grp_mail_wl_sub#:#Din anmodning om medlemsskab i gruppen "%s".
+grp#:#grp_mail_wl_bod#:#Du er blevet sat på ventelisten i gruppen "%s".\nDu står nummer %s på listen.\n\n Du vil senere få en besked fra gruppeadministrator når din anmodning er godkendt eller afvist.
+grp#:#grp_mail_status_sub#:#Ændret status i gruppe "%s"
+grp#:#grp_mail_status_bod#:#Din status i gruppe "%s" er blevet ændret.
+grp#:#grp_new_status#:#Din nye status er:
+grp#:#grp_notify_on#:#Advisering om nye registreringer aktiveret
+grp#:#grp_notify_off#:#Advisering om nye registreringer deaktiveret
+common#:#spl_copy#:#Kopier spørgsmål til afstemning
+common#:#qpl_copy#:#Kopier spørgsmål til test
+common#:#title_required#:#Indtastning af titel er krævet.
