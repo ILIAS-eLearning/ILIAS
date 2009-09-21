@@ -1156,9 +1156,12 @@ class ilObjMediaObject extends ilObject
 		$a_file, $a_reference, $a_constrain_proportions, $a_use_original,
 		$a_user_width, $a_user_height)
 	{
+		global $lng;
+		
 		// determine width and height of known image types
 		$width = $a_def_width;
 		$height = $a_def_height;
+		$info = "";
 		
 		if ($a_format == "audio/mpeg")
 		{
@@ -1177,12 +1180,17 @@ class ilObjMediaObject extends ilObject
 				$size = @getimagesize($a_reference);
 			}
 		}
+
 		if ($a_use_original)
 		{
 			if ($size[0] > 0 && $size[1] > 0)
 			{
 				$width = $size[0];
 				$height = $size[1];
+			}
+			else
+			{
+				$info = $lng->txt("cont_could_not_determine_resource_size");
 			}
 		}
 		else
@@ -1217,7 +1225,7 @@ class ilObjMediaObject extends ilObject
 //echo "<br>D-$width-$height-";
 		}
 //echo "<br>E-$width-$height-";
-		return array("width" => $width, "height" => $height);
+		return array("width" => $width, "height" => $height, "info" => $info);
 	}
 	
 	/**

@@ -666,6 +666,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$_POST["standard_width_height"]["width"], $_POST["standard_width_height"]["height"]);
 		$media_item->setWidth($wh["width"]);
 		$media_item->setHeight($wh["height"]);
+		if ($wh["info"] != "")
+		{
+			ilUtil::sendInfo($wh["info"], true);
+		}
 
 		if ($_POST["standard_caption"] != "")
 		{
@@ -926,6 +930,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$_POST["standard_type"], $mob_dir."/".$location, $std_item->getLocation(),
 				$_POST["standard_width_height"]["constr_prop"], ($_POST["standard_size"] == "original"),
 				$_POST["standard_width_height"]["width"], $_POST["standard_width_height"]["height"]);
+			if ($wh["info"] != "")
+			{
+				ilUtil::sendInfo($wh["info"], true);
+			}
 
 			$std_item->setWidth($wh["width"]);
 			$std_item->setHeight($wh["height"]);
@@ -1053,6 +1061,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$type, $mob_dir."/".$location, $full_item->getLocation(),
 					$_POST["full_width_height"]["constr_prop"], ($_POST["full_size"] == "original"),
 					$_POST["full_width_height"]["width"], $_POST["full_width_height"]["height"]);
+				if ($wh["info"] != "")
+				{
+					ilUtil::sendInfo($wh["info"], true);
+				}
+
 				$full_item->setWidth($wh["width"]);
 				$full_item->setHeight($wh["height"]);
 				$full_item->setLocation($location);
