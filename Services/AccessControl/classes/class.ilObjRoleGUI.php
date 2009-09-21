@@ -195,12 +195,15 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacreview,$tree;
 
+
 		#if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		/*
 		if(!$this->checkAccess('edit_permission'))
 		{
+			ilUtil::sendFailure()
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		*/
 		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
 			$this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
@@ -399,12 +402,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 	
-		#if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
-		if(!$this->checkAccess('edit_permission'))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			return false;
-		}
 
 		if (!isset($_GET['item_id']))
 		{
