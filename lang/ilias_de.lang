@@ -1937,7 +1937,7 @@ common#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
 common#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#cat_create_mcst#:#Neuen Mediacast anlegen
-common#:#cat_create_mep#:#Lege Media-Pool an
+common#:#cat_create_mep#:#Neuen Media-Pool anlegen
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
@@ -1945,7 +1945,7 @@ common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
 common#:#cat_create_webr#:#Neuen Weblink anlegen
-common#:#cat_create_write#:#Wiki anlegen
+common#:#cat_create_write#:#Neues Wiki anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -9940,34 +9940,34 @@ webr#:#webr_sorting#:#Sortierung der Weblinks
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Automatische Sortierung nach Titel
 webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
-payment#:#pays_epay#:#ePay###07 09 2009 new variable
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
-payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
-payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
-payment#:#pays_epay_server_path#:#Server path###07 09 2009 new variable
-payment#:#pays_epay_merchant_number#:#Merchant id###07 09 2009 new variable
-payment#:#pays_epay_auth_token#:#Authentication Token###07 09 2009 new variable
-payment#:#pays_epay_auth_email#:#Email Notification###07 09 2009 new variable
-payment#:#pays_epay_instant_capture#:#Instant Capture###07 09 2009 new variable
-payment#:#pay_hint_epay#:#Tip to ePay###07 09 2009 new variable
-payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.###07 09 2009 new variable
-payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.###07 09 2009 new variable
-payment#:#pay_epay_canceled#:#The payment was canceled.###07 09 2009 new variable
-content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
-content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
-payment#:#pay_hide_advanced_search#:#Hide Advanced Search###07 09 2009 new variable
-payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.###07 09 2009 new variable
-payment#:#pay_hide_filtering#:#Hide Filtering###07 09 2009 new variable
-payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.###07 09 2009 new variable
-payment#:#pay_hide_coupons#:#Hide coupons###07 09 2009 new variable
-payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.###07 09 2009 new variable
-payment#:#pay_hide_news#:#Hide news###07 09 2009 new variable
-payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.###07 09 2009 new variable
-payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.###07 09 2009 new variable
-payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
-payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
-payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
-common#:#shop_actions#:#Aktionen###Replacement of the wording of 'actions' when in shop.
+payment#:#pays_epay#:#ePay
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> ist ein Payment-Service der die Abrechnung von ILIAS mit VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners und AMEX ermöglicht. Um ePay mit ILIAS zu nutzen, benötigen Sie eine eigene Vereinbarung mit ePay, sowie eine Händler-ID.
+payment#:#pays_epay_settings#:#ePay-Konfiguration
+payment#:#pays_epay_server_host#:#Server-Host
+payment#:#pays_epay_server_path#:#Server-Pfad
+payment#:#pays_epay_merchant_number#:#Händler-ID
+payment#:#pays_epay_auth_token#:#Authentifizierungs-Token
+payment#:#pays_epay_auth_email#:#E-Mail-Benachrichtigung
+payment#:#pays_epay_instant_capture#:#Momentaufnahme
+payment#:#pay_hint_epay#:#Trinkgeld für ePay
+payment#:#pay_info_epay#:#Wenn Sie auf Bezahlen klicken, öffnet sich das ePay-Fenster. Sobald Sie die Zahlung abgeschlossen haben, kehren Sie zu ILIAS zurück.
+payment#:#pay_epay_success#:#Die Zahlung wurde durchgeführt. Bitte berücksichtigen Sie, dass es einige Minuten dauern kann, bis der Zahlungsvorgang vollständig durchgeführt wurde.
+payment#:#pay_epay_canceled#:#Die Zahlung wurde abgebrochen
+content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
+content#:#cont_file_created#:#Datei wurde angelegt.
+payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
+payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
+payment#:#pay_hide_filtering#:#Verberge Filter
+payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
+payment#:#pay_hide_coupons#:#Verberge Coupons
+payment#:#pay_hide_coupons_info#:#Verbirgt coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinacht dies die Handhabung für Ihre Kunden.
+payment#:#pay_hide_news#:#Verberge Nachrichten
+payment#:#pay_hide_news_info#:#Verbirgt Tab für Shop-News, falls Sie keine News verwenden.
+payment#:#pays_epay_auth_email_info#:#E-Mail, an die die Informationen über durchgeführte Transaktionen und Zahlungen gesendet wird.
+payment#:#pays_epay_instant_capture_info#:#Wenn aktiviert, werden alle Beträge unverzüglich vom Kundenkonto gebucht. Bitte sichern Sie sich ab, dass dieses Vorgehen mit den gesetzlichen Regelungen in Ihrem Land konform geht.
+payment#:#pays_updated_epay_settings#:#Einstellungen für ePay wurden aktualisiert.
+payment#:#paya_sure_delete_vats#:#Sind Sie sicher, dass Sie die Angaben zur Mehrwertsteuer löschen möchten?
+common#:#shop_actions#:#Aktionen
 chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
 cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
 dateplaner#:#add_appointment#:#Termin hinzufügen
@@ -9987,36 +9987,36 @@ grp#:#grp_reg_subject#:#Nachricht
 crs#:#crs_reg_subject#:#Nachricht
 grp#:#grp_join_request#:#Abschicken
 crs#:#crs_join_request#:#Abschicken
-payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
-payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
-payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
-mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
-sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
-sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
-rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
-rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
-rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
-rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
-rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
-rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
-rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
-rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
-rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
-rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
-rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
-rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
-rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
-rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
-rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
-rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
-rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
-rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
-rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
-rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
+payment#:#pays_epay_auth_token_info#:#Sie müssen dieses auch im ePay-Backend eintragen. Das Secret schützt Benutzer vor einem vorgetäuschten Abrechnungsvorgang.
+payment#:#pay_order_paid_subject#:#Ihre Rechnung
+payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
+mep#:#mep_page_created#:#Textelement erzeugt
+mep#:#mep_content_snippet_in_use#:#Textelement '%s' wird verwendet und kann daher nicht gelöscht werden.
+sahs#:#sahs_oa_no_chapters#:#Diese Ansicht führt alle Lernziele und die ihnen zugewiesenen Fragen auf. Sie müssen zunächst Kapitel, SCOs, Seiten und Fragen erzeugen.
+sahs#:#sahs_oa_no_scos#:#Das Kapitel enthält noch keine SCOs.
+rbac#:#root_create_chat#:#Neuen Chat anlegen
+rbac#:#root_create_crs#:#Neuen Kurs anlegen
+rbac#:#root_create_dbk#:#Neues Digilib-Buch anlegen
+rbac#:#root_create_exc#:#Neue Übung anlegen
+rbac#:#root_create_file#:#Neue Datei hochladen
+rbac#:#root_create_frm#:#Neues Forum anlegen
+rbac#:#root_create_glo#:#Neues Glossar anlegen
+rbac#:#root_create_grp#:#Neue Gruppe anlegen
+rbac#:#root_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#root_create_icrs#:#Neues LearnLinc-Seminar anlegen
+rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#root_create_mep#:#Neuen Media-Pool anlegen
+rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#root_create_svy#:#Neue Umfrage anlegen
+rbac#:#root_create_tst#:#Neuen Test anlegen
+rbac#:#root_create_webr#:#Neuen Weblink anlegen
+rbac#:#root_create_wiki#:#Neues Wiki anlegen
+rbac#:#root_create_rcrs#:#Neuen Kurslink anlegen
+rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#root_create_feed#:#Neuen Webfeed anlegen
+rbac#:#root_create_crsr#:#Neue Kursreferenz anlegen
 common#:#status_no_permission#:#Kein Zugriff gewährt.
 mail#:#mail_salutation_f#:#Hallo
 mail#:#mail_salutation_m#:#Hallo
@@ -10070,6 +10070,6 @@ style#:#style_edit_style#:#Style editieren
 style#:#style_delete_style#:#Style löschen
 registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neuen Benutzers
 registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
-registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS Benutzerverwaltung freischalten.
+registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
 common#:#join_session#:#Anmelden
