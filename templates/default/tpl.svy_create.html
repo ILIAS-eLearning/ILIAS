@@ -1,59 +1,69 @@
 <form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
-<table class="std" width="60%">
-	<tr class="tblheader">
-		<th colspan="2" class="std">
-			<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
-			{TXT_HEADER}
-		</th>
-	</tr>
-	<tr>
-		<td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
-		<td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="128" style="width:300px;"/></td>
-	</tr>
-	<tr>
-		<td class="option">{TXT_DESC}</td>
-		<td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
-	</tr>
-	<tr>
-		<td class="submit" colspan="2">
-		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-		<div align="right">
-		<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
-		<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
-		</div>
-		</td>
-	</tr>
-</table>
+	<table class="ilForm" width="60%" datatable="0">
+		<tr class="ilFormHeader">
+			<td class="ilFormHeader" colspan="2">
+
+			<h3 class="ilFormHeader"><a name="il_form_top"></a>	<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+			{TXT_HEADER}</h3><div class="ilFormInfo" style="margin-left:0px;"></div></td>
+		</tr>
+		<tr>
+			<td class="ilFormOption"><label for="title">{TXT_TITLE}</label><span class="asterisk">*</span></td>
+			<td class="ilFormValue"><input name="Fobject[title]" id="title" value="{TITLE}" size="40" maxlength="128" style="width:300px;"/></td>
+		</tr>
+		<tr>
+			<td class="ilFormOption"><label for="description">{TXT_DESC}</label></td>
+			<td class="ilFormValue"><textarea name="Fobject[desc]" id="description" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+		</tr>
+
+		<tr>
+			<td class="ilFormFooter" colspan="2">
+				<div style="float:left;">
+					<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+				</div>
+
+				<div align="right">
+					<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+					<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+			</div>
+			</td>
+		</tr>
+	</table>
 
 <br />
-<table class="std" width="60%">
-	<tr class="tblheader">
-		<th class="std" colspan="2">
-			<img src="{TYPE_IMG2}" style="vertical-align:middle;" alt="{ALT_IMG2}" title="{ALT_IMG2}" border="0" vspace="0" />
-			{TXT_IMPORT_SVY}
-		</th>
+<table class="ilForm" width="60%" datatable="0">
+	<tr class="ilFormHeader">
+		<td class="ilFormHeader" colspan="2">
+
+		<h3 class="ilFormHeader"><a name="il_form_top"></a>	<img src="{TYPE_IMG2}" style="vertical-align:middle;" alt="{ALT_IMG2}" title="{ALT_IMG2}" border="0" vspace="0" />
+		{TXT_IMPORT_SVY}</h3><div class="ilFormInfo" style="margin-left:0px;"></div></td>
 	</tr>
 	<tr>
-		<td class="option">{TXT_SVY_FILE}</td>
-		<td class="option_value">
+		<td class="ilFormOption">{TXT_SVY_FILE}<span class="asterisk">*</span></td>
+		<td class="ilFormValue">
 			<input type="file" name="xmldoc" />
 		</td>
 	</tr>
 	<tr>
-		<td class="option">{TXT_SELECT_QUESTIONPOOL}</td>
-		<td class="option_value">
+		<td class="ilFormOption">{TXT_SELECT_QUESTIONPOOL}<span class="asterisk">*</span></td>
+		<td class="ilFormValue">
 		<select name="spl">
 		<option value="-1">{OPTION_SELECT_QUESTIONPOOL}</option>
-	<!-- BEGIN option_spl -->	
+<!-- BEGIN option_spl -->	
 		<option value="{OPTION_VALUE}"{OPTION_SELECTED}>{TXT_OPTION}</option>
-	<!-- END option_spl -->	
+<!-- END option_spl -->	
 		</select>
 		</td>
 	</tr>
 	<tr>
-		<td class="submit" align="right" colspan="2">
-			<input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
-			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+		<td class="ilFormFooter" colspan="2">
+			<div style="float:left;">
+				<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+			</div>
+
+			<div align="right">
+				<input class="submit" type="submit" name="cmd[importFile]" value="{TXT_IMPORT}" />
+				<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+		</div>
 		</td>
 	</tr>
 </table>

@@ -151,6 +151,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 
+		if (!strlen($_POST['Fobject']['title']))
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'), true);
+			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
+			$this->ctrl->redirect($this, 'create');
+		}
+
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 		// always send a message
