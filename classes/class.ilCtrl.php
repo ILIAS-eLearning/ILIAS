@@ -633,7 +633,10 @@ class ilCtrl
 	*/
 	function saveParameter(&$a_obj, $a_parameter)
 	{
-		$this->saveParameterByClass(get_class($a_obj), $a_parameter);
+		if (is_object($a_obj))
+		{
+			$this->saveParameterByClass(get_class($a_obj), $a_parameter);
+		}
 	}
 	
 	function saveParameterByClass($a_class, $a_parameter)

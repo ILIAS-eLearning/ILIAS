@@ -10053,4 +10053,5 @@ registration#:#reg_mail_body_confirmation#:#To confirm this registration enter t
 pd#:#pd_enable_global_profiles#:#Enable Global Profiles
 pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 user#:#usr_link_to_profile#:#Link to Profile
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen. 
+content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
