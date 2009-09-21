@@ -1829,7 +1829,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	function saveObject()
 	{
 		global $rbacadmin,$ilUser;
-
+		
+		if(!$_POST['Fobject']['title'])
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'));
+			$this->createObject();
+			return false;
+		}
 		$newObj =& parent::saveObject();
 		$newObj->initDefaultRoles();
 		$newObj->initCourseMemberObject();
