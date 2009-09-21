@@ -565,27 +565,27 @@ return "";		// changed. alex
 	 * Get the namespace text of the subject (rather than talk) page
 	 * @return string
 	 */
-	public function getSubjectNsText() {
+/*	public function getSubjectNsText() {
 		global $wgContLang;
 		return $wgContLang->getNsText( Namespace::getSubject( $this->mNamespace ) );
-	}
+	}*/
 
 	/**
 	 * Get the namespace text of the talk page
 	 * @return string
 	 */
-	public function getTalkNsText() {
+/*	public function getTalkNsText() {
 		global $wgContLang;
 		return( $wgContLang->getNsText( Namespace::getTalk( $this->mNamespace ) ) );
-	}
+	}*/
 
 	/**
 	 * Could this title have a corresponding talk page?
 	 * @return bool
 	 */
-	public function canTalk() {
+/*	public function canTalk() {
 		return( Namespace::canTalk( $this->mNamespace ) );
-	}
+	}*/
 
 	/**
 	 * Get the interwiki prefix (or null string)
@@ -1128,10 +1128,10 @@ return "";		// changed. alex
 	 *
 	 * @return boolean
 	 */
-	public function isMovable() {
+/*	public function isMovable() {
 		return Namespace::isMovable( $this->getNamespace() )
 			&& $this->getInterwiki() == '';
-	}
+	}*/
 
 	/**
 	 * Can $wgUser read this page?
@@ -1180,9 +1180,9 @@ return "";		// changed. alex
 	 * Is this a talk page of some sort?
 	 * @return bool
 	 */
-	public function isTalkPage() {
+/*	public function isTalkPage() {
 		return Namespace::isTalk( $this->getNamespace() );
-	}
+	}*/
 
 	/**
 	 * Is this a subpage?
@@ -1801,9 +1801,9 @@ return "";		// changed. alex
 	 * Get a Title object associated with the talk page of this article
 	 * @return Title the object for the talk page
 	 */
-	public function getTalkPage() {
+/*	public function getTalkPage() {
 		return Title::makeTitle( Namespace::getTalk( $this->getNamespace() ), $this->getDBkey() );
-	}
+	}*/
 
 	/**
 	 * Get a title object associated with the subject page of this
@@ -1811,9 +1811,9 @@ return "";		// changed. alex
 	 *
 	 * @return Title the object for the subject page
 	 */
-	public function getSubjectPage() {
+/*	public function getSubjectPage() {
 		return Title::makeTitle( Namespace::getSubject( $this->getNamespace() ), $this->getDBkey() );
-	}
+	}*/
 
 	/**
 	 * Get an array of Title objects linking to this Title
@@ -2551,9 +2551,9 @@ return "";		// changed. alex
 	 *
 	 * @return bool
 	 */
-	public function isContentPage() {
+/*	public function isContentPage() {
 		return Namespace::isContent( $this->getNamespace() );
-	}
+	}*/
 	
 }
 
