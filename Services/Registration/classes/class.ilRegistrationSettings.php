@@ -36,13 +36,17 @@ define('IL_REG_ERROR_NO_PERM',2);
 /**
 * Class ilObjAuthSettingsGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * @ingroup ServicesRegistration
 */
 class ilRegistrationSettings
 {
+	const ERR_UNKNOWN_RCP = 1;
+	const ERR_MISSING_RCP = 2;
+	
+	
 	private $reg_hash_life_time = 0;
 	
 	function ilRegistrationSettings()
@@ -174,8 +178,20 @@ class ilRegistrationSettings
 				$this->unknown[] = $recipient;
 				continue;
 			}
+			else
+			{
+				$valid = $recipient;
+			}
 		}
-		return count($this->unknown) ? 1 : 0;
+		if(count($this->unknown))
+		{
+			return self::ERR_UNKNOWN_RCP;
+		}
+		if($this->getRegistrationType() == IL_REG_APPROVE and !count((array) $valid))
+		{
+			return self::ERR_MISSING_RCP;
+		}
+		return 0;
 	}
 
 			

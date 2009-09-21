@@ -26,7 +26,7 @@ require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
 /**
 * Class ilRegistrationSettingsGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 *
 * @ilCtrl_Calls ilRegistrationSettingsGUI:
@@ -199,13 +199,25 @@ class ilRegistrationSettingsGUI
 
 		if($error_code = $this->registration_settings->validate())
 		{
-			ilUtil::sendInfo($this->lng->txt('reg_unknown_recipients').' '.$this->registration_settings->getUnknown());
-			$this->view();
-			return false;
+			switch($error_code)
+			{
+				case ilRegistrationSettings::ERR_UNKNOWN_RCP:				
+			
+					ilUtil::sendFailure($this->lng->txt('reg_unknown_recipients').' '.$this->registration_settings->getUnknown());
+					$this->view();
+					return false;
+
+				case ilRegistrationSettings::ERR_MISSING_RCP:
+					
+					ilUtil::sendFailure($this->lng->txt('reg_approve_needs_recipient').' '.$this->registration_settings->getUnknown());
+					$this->view();
+					return false;
+									
+			}
 		}
 		
 		$this->registration_settings->save();
-		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->view();
 
 		return true;
@@ -261,7 +273,7 @@ class ilRegistrationSettingsGUI
 		// Minimum one role
 		if(count($_POST['roles']) < 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('msg_last_role_for_registration'));
+			ilUtil::sendFailure($this->lng->txt('msg_last_role_for_registration'));
 			$this->editRoles();
 			return false;
 		}
@@ -275,7 +287,7 @@ class ilRegistrationSettingsGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->view();
 
 		return true;
@@ -386,7 +398,7 @@ class ilRegistrationSettingsGUI
 		$this->__initRoleAssignments();
 		$this->assignments_obj->add();
 
-		ilUtil::sendInfo($this->lng->txt('reg_added_assignment'));
+		ilUtil::sendSuccess($this->lng->txt('reg_added_assignment'));
 		$this->editEmailAssignments();
 
 		return true;
@@ -403,7 +415,7 @@ class ilRegistrationSettingsGUI
 
 		if(!count($_POST['del_assign']))
 		{
-			ilUtil::sendInfo($this->lng->txt('reg_select_one'));
+			ilUtil::sendFailure($this->lng->txt('reg_select_one'));
 			$this->editEmailAssignments();
 			return false;
 		}
@@ -415,7 +427,7 @@ class ilRegistrationSettingsGUI
 			$this->assignments_obj->delete($assignment_id);
 		}
 
-		ilUtil::sendInfo($this->lng->txt('reg_deleted_assignment'));
+		ilUtil::sendSuccess($this->lng->txt('reg_deleted_assignment'));
 		$this->editEmailAssignments();
 
 		return true;
@@ -449,11 +461,11 @@ class ilRegistrationSettingsGUI
 			switch($err)
 			{
 				case IL_REG_MISSING_DOMAIN:
-					ilUtil::sendInfo($this->lng->txt('reg_missing_domain'));
+					ilUtil::sendFailure($this->lng->txt('reg_missing_domain'));
 					break;
 					
 				case IL_REG_MISSING_ROLE:
-					ilUtil::sendInfo($this->lng->txt('reg_missing_role'));
+					ilUtil::sendFailure($this->lng->txt('reg_missing_role'));
 					break;
 			}
 			$this->editEmailAssignments();
@@ -462,7 +474,7 @@ class ilRegistrationSettingsGUI
 
 
 		$this->assignments_obj->save();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->view();
 		return true;
 	}
@@ -494,11 +506,11 @@ class ilRegistrationSettingsGUI
 			switch($err)
 			{
 				case IL_REG_ACCESS_LIMITATION_MISSING_MODE:
-					ilUtil::sendInfo($this->lng->txt('reg_access_limitation_missing_mode'));
+					ilUtil::sendFailure($this->lng->txt('reg_access_limitation_missing_mode'));
 					break;
 					
 				case IL_REG_ACCESS_LIMITATION_OUT_OF_DATE:
-					ilUtil::sendInfo($this->lng->txt('reg_access_limitation_out_of_date'));
+					ilUtil::sendFailure($this->lng->txt('reg_access_limitation_out_of_date'));
 					break;
 			}
 			$this->editRoleAccessLimitations();
@@ -507,7 +519,7 @@ class ilRegistrationSettingsGUI
 
 
 		$this->access_limitations_obj->save();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->view();
 		return true;
 	}
