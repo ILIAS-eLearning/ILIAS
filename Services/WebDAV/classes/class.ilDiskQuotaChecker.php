@@ -260,7 +260,9 @@ class ilDiskQuotaChecker
 				"u.time_limit_unlimited, ".$ilDB->fromUnixtime("u.time_limit_from").", ".$ilDB->fromUnixtime("u.time_limit_until").",".
 
 				// Inactive users get the date 0001-01-01 so that they appear
-				// first when the list is sorted by this field.
+				// first when the list is sorted by this field. Users with
+				// unlimited access get the date 9999-12-31 so that they appear
+				// last.
 				"CASE WHEN u.active = 0 THEN '0001-01-01' ELSE CASE WHEN u.time_limit_unlimited=1 THEN '9999-12-31' ELSE ".$ilDB->fromUnixtime("u.time_limit_until")." END END access_until,".
 
 				"CASE WHEN ".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until THEN 0 ELSE 1 END expired,".
@@ -503,7 +505,9 @@ class ilDiskQuotaChecker
 				"u.time_limit_unlimited, ".$ilDB->fromUnixtime("u.time_limit_from").", ".$ilDB->fromUnixtime("u.time_limit_until").",".
 
 				// Inactive users get the date 0001-01-01 so that they appear
-				// first when the list is sorted by this field.
+				// first when the list is sorted by this field. Users with
+				// unlimited access get the date 9999-12-31 so that they appear
+				// last.
 				"CASE WHEN u.active = 0 THEN '0001-01-01' ELSE CASE WHEN u.time_limit_unlimited=1 THEN '9999-12-31' ELSE ".$ilDB->fromUnixtime("u.time_limit_until")." END END access_until,".
 
 				" CASE WHEN ".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until THEN 0 ELSE 1 END expired,".
