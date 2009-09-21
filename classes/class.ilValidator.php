@@ -353,7 +353,7 @@ class ilValidator extends PEAR
 			}
 			else
 			{
-				$summary .= $lng->txt("disabled");
+				$summary .= $lng->txt("done");
 			}
 		}
 		
