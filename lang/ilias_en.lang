@@ -10055,3 +10055,4 @@ pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles 
 user#:#usr_link_to_profile#:#Link to Profile
 content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
 registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
+common#:#join_session#:#Join

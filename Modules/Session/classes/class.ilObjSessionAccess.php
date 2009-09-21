@@ -46,7 +46,7 @@ class ilObjSessionAccess
 		$commands = array
 		(
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "default" => true),
-			array("permission" => "read", "cmd" => "register", "lang_var" => "join"),
+			array("permission" => "read", "cmd" => "register", "lang_var" => "join_session"),
 			array("permission" => "read", "cmd" => "unregister", "lang_var" => "event_unregister"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);

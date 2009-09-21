@@ -10072,3 +10072,4 @@ registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neue
 registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
 registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS Benutzerverwaltung freischalten.
 registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
+common#:#join_session#:#Anmelden
