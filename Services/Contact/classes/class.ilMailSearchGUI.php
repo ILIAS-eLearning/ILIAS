@@ -297,7 +297,7 @@ class ilMailSearchGUI
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
 					$result[$counter]['login'] = $login;
 					
-					if (ilObjUser::_lookupPref($user['obj_id'], 'public_profile') == 'y')
+					if (in_array(ilObjUser::_lookupPref($user['obj_id'], 'public_profile'), array('y',"g")))
 					{
 						$name = ilObjUser::_lookupName($user['obj_id']);
 						$result[$counter]['firstname'] = $name['firstname'];

@@ -2466,7 +2466,6 @@ class ilUserImportParser extends ilSaxParser
 			case 'public_phone_home':
 			case 'public_phone_mobile':
 			case 'public_phone_office':
-			case 'public_profile':
 			case 'public_street':
 			case 'public_upload':
 			case 'public_zip':				
@@ -2474,6 +2473,10 @@ class ilUserImportParser extends ilSaxParser
 			case 'hide_own_online_status':
 				if (!in_array($value, array('y', 'n')))
 					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");				
+				break;
+			case 'public_profile':
+				if (!in_array($value, array('y', 'n', 'g')))
+					$this->logFailure("---", "Wrong value '$value': Value 'y', 'g' or 'n' expected for preference $key.");				
 				break;
 			case 'show_users_online':
 				if (!in_array($value, array('y', 'n', 'associated')))

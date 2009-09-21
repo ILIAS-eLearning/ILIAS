@@ -813,6 +813,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				$usr_obj = $member["usr_obj"];
 
 			        $public_profile = $usr_obj->getPref("public_profile");
+			        if ($public_profile == "g")
+			        {
+			        	$public_profile = "y";
+			        }
 
 				// SET LINK TARGET FOR USER PROFILE
 				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);

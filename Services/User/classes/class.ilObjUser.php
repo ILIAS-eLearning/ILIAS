@@ -4547,7 +4547,7 @@ class ilObjUser extends ilObject
 	 * @return boolean
 	 */
 	public function hasPublicProfile() {
-		return $this->getPref("public_profile") == "y";
+		return in_array($this->getPref("public_profile"), array("y", "g"));
 	}
 	
 	/**

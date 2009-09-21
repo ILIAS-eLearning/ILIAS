@@ -445,7 +445,7 @@ class ilMailSearchGroupsGUI
 						unset($tmp_usr);
 						
 						$fullname = "";
-						if(ilObjUser::_lookupPref($member['id'], 'public_profile') == 'y')
+						if(in_array(ilObjUser::_lookupPref($member['id'], 'public_profile'), array("g", 'y')))
 							$fullname = $member['lastname'].', '.$member['firstname'];
 
 						$rowData = array(

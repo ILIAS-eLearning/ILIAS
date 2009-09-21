@@ -7669,7 +7669,7 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
-mail#:#mail_into_addressbook#:#Take into Contacts
+mail#:#mail_into_addressbook#:#Add to Contacts
 mail#:#mail_group_members#:#Group Members
 mail#:#mail_entry_of_addressbook#:#Entry of Contacts
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.

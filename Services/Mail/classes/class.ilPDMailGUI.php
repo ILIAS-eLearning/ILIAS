@@ -89,7 +89,7 @@ class ilPDMailGUI
 			$tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
 			$tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
 			$tpl->parseCurrentBlock();
-			if(ilObjUser::_lookupPref($mail_data['sender_id'], 'public_profile') == 'y')
+			if (in_array(ilObjUser::_lookupPref($mail_data['sender_id'], 'public_profile'), array("y", "g")))
 			{
 				$tpl->setVariable("FROM", $tmp_user->getFullname());
 			}

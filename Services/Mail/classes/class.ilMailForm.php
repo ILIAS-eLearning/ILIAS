@@ -88,7 +88,7 @@ class ilMailForm
 			{
 				$tmp = new stdClass();
 				$tmp->login = $row->login;
-				if ($row->public_profile == 'y' || $row->type = 'addressbook')
+				if (in_array($row->public_profile, array('y','g')) || $row->type = 'addressbook')
 				{
 					$tmp->firstname = $row->firstname;
 					$tmp->lastname = $row->lastname;

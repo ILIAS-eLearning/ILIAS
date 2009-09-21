@@ -295,7 +295,8 @@ else
 			else
 			{
 				if (ilObject::_lookupType($last_post["pos_usr_id"]) == "usr" &&
-					ilObjUser::_lookupPref($last_post["pos_usr_id"], "public_profile") == 'y')
+					in_array(ilObjUser::_lookupPref($last_post["pos_usr_id"], "public_profile"), array("y", "g"))
+				)
 				{
 					$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
 					ilFrameTargetInfo::_getFrame('MainContent').
