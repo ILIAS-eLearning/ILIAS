@@ -10056,3 +10056,8 @@ user#:#usr_link_to_profile#:#Link to Profile
 content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
 registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
 common#:#join_session#:#Join
+content#:#cont_dir_renamed#:#Directory has been renamed.
+content#:#cont_file_renamed#:#File has been renamed.
+content#:#cont_dir_deleted#:#Directory has been deleted.
+content#:#cont_file_deleted#:#File has been deleted.
+content#:#cont_file_unzipped#:#File has been unzipped.
