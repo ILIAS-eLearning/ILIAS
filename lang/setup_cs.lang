@@ -503,3 +503,6 @@ java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:
 log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
 unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
+server_settings#:#Server Settings###21 09 2009 new variable
+time_zone#:#Time Zone###21 09 2009 new variable
+please_select#:#Please Selec###21 09 2009 new variable
