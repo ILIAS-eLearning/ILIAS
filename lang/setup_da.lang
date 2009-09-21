@@ -88,13 +88,13 @@ database_install#:#Installer database
 database_installed#:#Database installeret
 database_is_uptodate#:#Din database er opdateret
 database_needs_update#:#Den aktuelle database har brug for en opdatering.
-database_not_exists_create_first#:#Databasen eksisterer ikke. Opret en database f�rst.
-database_ready#:#databasen er klar.
+database_not_exists_create_first#:#Databasen eksisterer ikke og skal oprettes først.
+database_ready#:#Databasen er klar.
 database_update#:#Opdater database
 database_version#:#Aktuel databaseversion
 datadir_path#:#Sti til data bibliotek
 datadir_path_comment1#:#Mandatory
-datadir_path_comment2#:#kan ikke �ndres til denne installations version
+datadir_path_comment2#:#Kan ikke ændret.
 datadir_webspacedir_match#:#Stien til dit data bibliotek peger p� det samme sted hvor dit web bibliotek er placeret. V�lg venligst en anden placering.
 date#:#dato
 db_conn#:#Database forbindelse
@@ -109,7 +109,7 @@ default#:#standard
 default_client_changed#:#�ndret standard klient
 default_language#:#Standard Sprog
 delete#:#slet
-delete_confirm#:#Bekr�ft bruger slettelse
+delete_confirm#:#Bekræft sletning
 delete_info#:#Er du sikker?
 details#:#Detaljer
 dir_exists_create#:#Bibliotek eksisterer allerede. Fjern markering i 'opret' for at v�lge denne bibliotek som dit data bibliotek
@@ -181,11 +181,11 @@ ini_no_client_id#:#Intet Klient ID er angivet.
 ini_no_db_host#:#Intet udbyder navn
 ini_no_db_name#:#Intet database navn
 ini_no_db_user#:#Intet database brugernavn
-inifile#:#ini-file
+inifile#:#ini-fil
 inifile_can_write#:#ILIAS installationen kan ikke skrive til din ini-fil.
 inifile_cannot_write#:#ILIAS installationen kan ikke skrive til din ini-fil. Tjek venligst dine rettigheder f�rst .
 inifile_content#:#Ini-filen har følgende indhold:
-inifile_exists#:#En ini-fil eksisterer allerede. Installationen sletter nuv�rende indstillinger.
+inifile_exists#:#En ini-fil findes i forvejen. Installationen vil overskrive den eksisterende.
 inifile_fill_all#:#Udfyld alle felter.
 inifile_firsttime#:#der er ingen ini-file! Det ser ud til at dette er f�rste gang der er installeret ILIAS.
 inifile_written#:#ini-filen er gemt hos din udbyder.
@@ -398,10 +398,10 @@ zipcode#:#Postnummer
 3rdparty#:#3. parts tilføjelser
 check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
 collation#:#Collation
-ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
+ctrl_missing_desc#:#Kontrolstruktur mangler. Tryk venligst på F5.
 ctrl_structure#:#Kontrolstruktur
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. ###07 09 2006 new variable
-ctrl_structure_reloaded#:#Control Structure Reloaded.###07 09 2006 new variable
+ctrl_structure_reloaded#:#Kontrolstruktur genindlæst.
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
 db_not_installed#:#Database ikke installeret
 duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
