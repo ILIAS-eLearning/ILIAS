@@ -1127,7 +1127,7 @@ div.ilPermaLink
 	margin: 15px;
 }
 
-div.ilPermaLink .small, div.ilPermaLink a
+div.ilPermaLink .small
 {
 	font-size: 70%;
 }
@@ -1142,6 +1142,11 @@ div.ilPermaLink input
 {
 	font-size: 70%;
 	width: 350px;
+}
+
+div.ilPermaLink a
+{
+	font-size: 1em;
 }
 
 /* ----------------- invisible border ------------- */
