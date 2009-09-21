@@ -4,8 +4,11 @@
 <!-- END back_url -->
 <div style="float: right; text-align:right ">
 	<!-- BEGIN image -->
-	<img style="float:right; margin: 0px 0px 5px 20px;" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
+	<img style="margin: 0px 0px 5px 20px;" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
 	<!-- END image -->
+	<!-- BEGIN link -->
+	<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
+	<!-- END link -->
 	<a class="il_ContainerItemCommand" href="ilias.php?baseClass=ilMailGUI&type=new&rcp_to={MAIL_USR_LOGIN}">{TXT_MAIL}</a><br />
 	<!-- BEGIN vcard -->
 	<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" border="0"/>-->{TXT_DOWNLOAD_VCARD}</a>
@@ -62,6 +65,7 @@
 	</script>
 </div>
 <!-- END delicious_row -->
+<div style="clear:both;"></div>
 </div>
 <!-- BEGIN table_start -->
 <!-- END table_start -->

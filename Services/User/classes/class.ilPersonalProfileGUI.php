@@ -2189,7 +2189,7 @@ return;
 	*/
 	public function initPublicProfileForm()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilSetting;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -2200,13 +2200,20 @@ return;
 		$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
 			? $ilUser->prefs["public_profile"]
 			: "n";
+		if (!$ilSetting->get('enable_global_profiles') && $pub_prof == "g")
+		{
+			$pub_prof = "y";
+		}
 		$radg->setValue($pub_prof);
 			$op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n",$lng->txt("usr_public_profile_disabled_info"));
 			$radg->addOption($op1);
 			$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y",$lng->txt("usr_public_profile_logged_in_info"));
 			$radg->addOption($op2);
+		if ($ilSetting->get('enable_global_profiles'))
+		{
 			$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g",$lng->txt("usr_public_profile_global_info"));
 			$radg->addOption($op3);
+		}
 		$this->form->addItem($radg);
 		/*$cb = new ilCheckboxInputGUI($this->lng->txt("user_activate_public_profile"), "public_profile");
 

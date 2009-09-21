@@ -1946,6 +1946,7 @@ return $this->showServerInfoObject();
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$lng->loadLanguageModule("pd");
 	
 		// installation short title
 		$ti = new ilTextInputGUI($this->lng->txt("short_inst_name"), "short_inst_name");
@@ -1957,6 +1958,7 @@ return $this->showServerInfoObject();
 		
 		// public section
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
+		$cb->setInfo($lng->txt("pub_section_info"));
 			if ($ilSetting->get("pub_section"))
 			{
 				$cb->setChecked(true);
@@ -1964,8 +1966,7 @@ return $this->showServerInfoObject();
 			// search engine
 			include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
 			$robot_settings = ilRobotSettings::_getInstance();
-			$cb2 = new ilCheckboxInputGUI("", "open_google");
-			$cb2->setOptionTitle($this->lng->txt("search_engine"));
+			$cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
 			$cb2->setInfo($this->lng->txt("enable_search_engine"));
 			$cb->addSubItem($cb2);
 			if(!$robot_settings->checkModRewrite())
@@ -1987,6 +1988,13 @@ return $this->showServerInfoObject();
 					$cb2->setChecked(true);
 				}
 			}
+			
+		// Enable Global Profiles
+		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_global_profiles'), 'enable_global_profiles');
+		$cb_prop->setInfo($lng->txt('pd_enable_global_profiles_info'));
+		$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
+		$cb->addSubItem($cb_prop);
+			
 		$this->form->addItem($cb);
 		
 		// default repository view
@@ -2122,6 +2130,12 @@ return $this->showServerInfoObject();
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			
+			$global_profiles = ($_POST["pub_section"])
+				? (int)$_POST['enable_global_profiles']
+				: 0;
+				
+			$ilSetting->set('enable_global_profiles', $global_profiles);
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");
 		}
