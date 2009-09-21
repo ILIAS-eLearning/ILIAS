@@ -214,7 +214,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
 			$form->addItem($sb_prop);
 		}
-			
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));

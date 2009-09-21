@@ -3554,6 +3554,7 @@ common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all req
 common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
 common#:#pub_section#:#Public Area
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#public
 common#:#public_notes#:#Public Notes
 common#:#public_profile#:#Public Profile
@@ -10046,3 +10047,6 @@ grp#:#grp_notify_off#:#Notification about new registrations disabled
 common#:#spl_copy#:#Copy Survey Question Pool
 common#:#qpl_copy#:#Copy Test Question Pool
 common#:#title_required#:#Please insert a title.
+pd#:#pd_enable_global_profiles#:#Enable Global Profiles
+pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
+user#:#usr_link_to_profile#:#Link to Profile

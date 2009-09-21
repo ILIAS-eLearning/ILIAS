@@ -18,8 +18,9 @@ class ilPublicUserProfileGUI
 	*/
 	function __construct($a_user_id = 0)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
+		$lng->loadLanguageModule("user");
 		$this->setUserId($a_user_id);
 		$ilCtrl->saveParameter($this, "user_id");
 		if ($_GET["back_url"] != "")
@@ -130,7 +131,7 @@ class ilPublicUserProfileGUI
 	*/
 	function getHTML()
 	{
-		global $ilSetting, $lng, $ilCtrl, $lng;
+		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting;
 		
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
@@ -164,7 +165,8 @@ class ilPublicUserProfileGUI
 
 		// Check from Database if value
 		// of public_profile = "y" show user infomation
-		if ($user->getPref("public_profile") != "y" && $user->getPref("public_profile") != "g")
+		if ($user->getPref("public_profile") != "y" &&
+			($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')))
 		{
 			return;
 		}
@@ -189,12 +191,22 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("FIRSTNAME", $user->getUTitle()." ".$user->getFirstName());
 		$tpl->setVariable("LASTNAME", $user->getLastName());
 		
+		// vcard
 		$tpl->setCurrentBlock("vcard");
 		$tpl->setVariable("TXT_VCARD", $lng->txt("vcard"));
 		$tpl->setVariable("TXT_DOWNLOAD_VCARD", $lng->txt("vcard_download"));
 		$ilCtrl->setParameter($this, "user", $this->getUserId());
 		$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
-		$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
+		//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
+		
+		// link to global profile
+		if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
+		{
+			$tpl->setCurrentBlock("link");
+			$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
+			$tpl->setVariable("HREF_LINK", ILIAS_HTTP_PATH."/goto.php?client=".CLIENT_ID."&amp;target=usr_".$user->getId());
+			$tpl->parseCurrentBlock();
+		}
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");
 		$check_dir = ilUtil::getWebspaceDir();
