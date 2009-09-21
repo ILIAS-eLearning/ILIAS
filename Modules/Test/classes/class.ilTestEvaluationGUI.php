@@ -257,6 +257,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
 					$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
 					$evaluationrow['details'] = "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>";
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					$evaluationrow['gender'] = $userfields['gender'];
+					$evaluationrow['email'] = $userfields['email'];
+					$evaluationrow['institution'] = $userfields['institution'];
+					$evaluationrow['street'] = $userfields['street'];
+					$evaluationrow['city'] = $userfields['city'];
+					$evaluationrow['zipcode'] = $userfields['zipcode'];
+					$evaluationrow['country'] = $userfields['country'];
+					$evaluationrow['departement'] = $userfields['departement'];
+					$evaluationrow['matriculation'] = $userfields['matriculation'];
 					$counter++;
 					array_push($data, $evaluationrow);
 				}

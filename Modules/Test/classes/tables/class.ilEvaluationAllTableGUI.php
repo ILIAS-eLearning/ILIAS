@@ -192,49 +192,49 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		if ($this->hasSpecialColumn('email'))
 		{
 			$this->tpl->setCurrentBlock('email');
-			$this->tpl->setVariable("EMAIL", $data['email']);
+			$this->tpl->setVariable("EMAIL", strlen($data['email']) ? $data['email'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('institution'))
 		{
 			$this->tpl->setCurrentBlock('institution');
-			$this->tpl->setVariable("INSTITUTION", $data['institution']);
+			$this->tpl->setVariable("INSTITUTION", strlen($data['institution']) ? $data['institution'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('street'))
 		{
 			$this->tpl->setCurrentBlock('street');
-			$this->tpl->setVariable("STREET", $data['street']);
+			$this->tpl->setVariable("STREET", strlen($data['street']) ? $data['street'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('city'))
 		{
 			$this->tpl->setCurrentBlock('city');
-			$this->tpl->setVariable("CITY", $data['city']);
+			$this->tpl->setVariable("CITY", strlen($data['city']) ? $data['city'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('zipcode'))
 		{
 			$this->tpl->setCurrentBlock('zipcode');
-			$this->tpl->setVariable("ZIPCODE", $data['zipcode']);
+			$this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('country'))
 		{
 			$this->tpl->setCurrentBlock('country');
-			$this->tpl->setVariable("COUNTRY", $data['country']);
+			$this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('department'))
 		{
 			$this->tpl->setCurrentBlock('department');
-			$this->tpl->setVariable("DEPARTMENT", $data['department']);
+			$this->tpl->setVariable("DEPARTMENT", strlen($data['department']) ? $data['department'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->hasSpecialColumn('matriculation'))
 		{
 			$this->tpl->setCurrentBlock('matriculation');
-			$this->tpl->setVariable("MATRICULATION", $data['matriculation']);
+			$this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("REACHED", $data['reached']);
