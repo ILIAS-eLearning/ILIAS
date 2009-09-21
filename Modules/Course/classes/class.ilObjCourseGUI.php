@@ -3282,9 +3282,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// license overview
-		$lic_set = new ilSetting("license");
+		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id)
-		and $lic_set->get("license_counter"))
+		and ilLicenseAccess::_isEnabled())
 		{
 			$tabs_gui->addTarget("licenses",
 				$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
@@ -4552,10 +4552,12 @@ class ilObjCourseGUI extends ilContainerGUI
 	private function checkLicenses($a_keep = false)
 	{
 		global $lng;
-		
-		$lic_set = new ilSetting("license");
-		if ($lic_set->get("license_counter"))
+
+
+		include_once("Services/License/classes/class.ilLicenseAccess.php");
+		if (ilLicenseAccess::_isEnabled())
 		{
+			$lic_set = new ilSetting("license");
 			$buffer = $lic_set->get("license_warning");
 
 			include_once("./Services/License/classes/class.ilLicense.php");

@@ -176,26 +176,11 @@ class ilLicense
 	*/
 	function _checkAccess($a_usr_id, $a_obj_id)
 	{
-		global $ilDB, $ilUser;
-		
-		// check if user has already accessed
-		$query = 'SELECT read_count FROM read_event '
-				.'WHERE usr_id = %s AND obj_id = %s';
-			
-		$result = $ilDB->queryF($query,
-						array('integer','integer'),
-						array($a_usr_id, $a_obj_id));
-						
-		if ($row = $ilDB->fetchObject($result))
-		{
-			return true;
-		}
-
-		// otherwise check the number remaining licenses
-		$license =& new ilLicense($a_obj_id);
-		return ($license->getLicenses() == 0
-				or $license->getRemainingLicenses() > 0);
+		// Implementation moved
+		require_once("Services/License/classes/class.ilLicenseAccess.php");
+		return ilLicenseAccess::_checkAccess($a_usr_id, $a_obj_id);
 	}
+	
 	
 	/**
 	* Note the access of the current usr to an object
@@ -209,9 +194,10 @@ class ilLicense
 	{
 		global $ilDB, $ilUser, $ilSetting;
 		
+
 		// don't note the access if licensing is globally disabled
-		$lic_set = new ilSetting("license");
-		if (!$lic_set->get("license_counter"))
+		require_once("Services/License/classes/class.ilLicenseAccess.php");
+		if (!ilLicenseAccess::_isEnabled())
 		{
    			return;
 		}
