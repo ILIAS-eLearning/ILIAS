@@ -489,6 +489,8 @@ return;
 	*/
 	function renameFile()
 	{
+		global $lng;
+		
 		$new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
 		$new_name = str_replace("/", "", $new_name);
 		if ($new_name == "")
@@ -504,7 +506,14 @@ return;
 		rename($dir.ilUtil::stripSlashes($_GET["old_name"]), $dir.$new_name);
 
 		ilUtil::renameExecutables($this->main_dir);
-
+		if (@is_dir($dir.$new_name))
+		{
+			ilUtil::sendSuccess($lng->txt("cont_dir_renamed"), true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($lng->txt("cont_file_renamed"), true);
+		}
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
@@ -605,6 +614,8 @@ return;
 	*/
 	function deleteFile()
 	{
+		global $lng;
+		
 		if (!isset($_POST["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -631,11 +642,20 @@ return;
 
 			if (@is_dir($file))
 			{
+				$is_dir = true;
 				ilUtil::delDir($file);
 			}
 		}
 
 		$this->ctrl->saveParameter($this, "cdir");
+		if ($is_dir)
+		{
+			ilUtil::sendSuccess($lng->txt("cont_dir_deleted"), true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($lng->txt("cont_file_deleted"), true);
+		}
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
@@ -644,6 +664,8 @@ return;
 	*/
 	function unzipFile()
 	{
+		global $lng;
+		
 		if (!isset($_POST["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -668,6 +690,7 @@ return;
 		ilUtil::renameExecutables($this->main_dir);
 
 		$this->ctrl->saveParameter($this, "cdir");
+		ilUtil::sendSuccess($lng->txt("cont_file_unzipped"), true);
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
