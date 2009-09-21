@@ -2264,16 +2264,16 @@ common#:#role_add_local#:#Tilføj lokal rolle
 common#:#role_add_user#:#Tilføj Brug(ere) til en rolle
 common#:#role_added#:#Rolle tilføjet
 common#:#role_assigned_desk_items#:#Tildelte skrivebordsobjekter
-common#:#role_assigned_desktop_item#:#Created new assignment.###21 Apr 2005 new variable
+common#:#role_assigned_desktop_item#:#Oprettede ny tildeling.
 common#:#role_assignment#:#Rolletildeling
-common#:#role_assignment_updated#:#Rolle tildeling er blevet opdateret
+common#:#role_assignment_updated#:#Rolletildeling er blevet opdateret
 common#:#role_count_users#:#Antal brugere
 common#:#role_deleted#:#Rolle slettet
-common#:#role_deleted_desktop_items#:#Deleted assignment.###21 Apr 2005 new variable
+common#:#role_deleted_desktop_items#:#Slettede tildeling.
 common#:#role_desk_add#:#Tildel skrivebordsobjekt
 common#:#role_desk_none_created#:#Ingen tildelte skrivebordsobjekter for denne rolle.
 common#:#role_edit#:#Rediger Rolle
-common#:#role_header_edit_users#:#ændrer bruger tildeling###23 Dec 2005 content changed
+common#:#role_header_edit_users#:#Ret brugertildeling
 common#:#role_list_users#:#Liste af brugere
 common#:#role_mailto#:#Mail til alle tildelte brugere
 common#:#role_new#:#Ny rolle
@@ -2332,8 +2332,8 @@ common#:#sahs_leave#:#Afmeld SCORM/AICC Læremodul
 common#:#sahs_read#:#Læseadgang til SCORM/AICC læremodul
 common#:#sahs_visible#:#SCORM/AICC læremoduler synlige
 common#:#sahs_write#:#Rediger SCORM/AICC Læremodul
-common#:#salutation#:#Hilsen
-common#:#salutation_f#:#frk/fru###21 Apr 2005 new variable
+common#:#salutation#:#Titulering
+common#:#salutation_f#:#frk/fru
 common#:#salutation_m#:#Hr.
 common#:#save_and_back#:#Gem og gå tilbage
 common#:#save_message#:#Gem besked
@@ -4778,7 +4778,7 @@ crs#:#crs_hide_link_lms#:#Hide learning materials###21 Apr 2005 new variable
 crs#:#crs_hide_link_objectives#:#Hide objectives###21 Apr 2005 new variable
 crs#:#crs_hide_link_or#:#Hide other resources###21 Apr 2005 new variable
 crs#:#crs_hide_link_tst#:#Skjul tests
-crs#:#crs_html#:#HTML###21 Apr 2005 new variable
+crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Vigtig information
 crs#:#crs_info_download#:#Filer til download
 crs#:#crs_info_reg#:#Registreringsinformation
@@ -4795,7 +4795,7 @@ crs#:#crs_list_users#:#Vis brugere
 crs#:#crs_lm_assignment#:#Tildeling af lærematerialer
 crs#:#crs_lm_assignment_deleted#:#Tildeling fjernet
 crs#:#crs_lm_deassign#:#Fjern tildeling
-crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###21 Apr 2005 new variable
+crs#:#crs_lm_no_assignments_selected#:#Du skal vælge en tildeling.
 crs#:#crs_lms_already_assigned#:#Disse materialer er allerede tildelt.
 crs#:#crs_materials#:#Kursusmaterialer
 crs#:#crs_max_members_reached#:#Det maksimale antal deltagere er nået
@@ -4857,30 +4857,30 @@ crs#:#crs_notification#:#Advisering
 crs#:#crs_notify#:#Notify for new registrations###21 Apr 2005 new variable
 crs#:#crs_nr#:#Nr.###21 Apr 2005 new variable
 crs#:#crs_number_users_added#:#Det følgende antal brugere er blevet tilmeldt kurset:
-crs#:#crs_objective_accomplished#:#Accomplished###21 Apr 2005 new variable
-crs#:#crs_objective_assign_chapter#:#Assign chapters###21 Apr 2005 new variable
-crs#:#crs_objective_assign_lm#:#Assign learning material###21 Apr 2005 new variable
-crs#:#crs_objective_assign_question#:#Assign question###21 Apr 2005 new variable
-crs#:#crs_objective_deassign_question#:#Delete assignment###21 Apr 2005 new variable
-crs#:#crs_objective_delete_lm_assignment#:#Delete assignment###21 Apr 2005 new variable
+crs#:#crs_objective_accomplished#:#Fuldført
+crs#:#crs_objective_assign_chapter#:#Tildel kapitler
+crs#:#crs_objective_assign_lm#:#Tildel læremateriale
+crs#:#crs_objective_assign_question#:#Tildel spørgsmål
+crs#:#crs_objective_deassign_question#:#Slet spørgsmålstildeling
+crs#:#crs_objective_delete_lm_assignment#:#Slet tildeling
 crs#:#crs_objective_insert_percent#:#Vær venlig kun at anvende tal mellem 0 og 100.
 crs#:#crs_objective_modified#:#Opdateret læreobjekt
 crs#:#crs_objective_no_title_given#:#Angiv venligst en titel.
-crs#:#crs_objective_not_accomplished#:#Not accomplished###21 Apr 2005 new variable
-crs#:#crs_objective_overview_objectives#:#Overview objectives###21 Apr 2005 new variable
-crs#:#crs_objective_overview_question_assignment#:#Overview question assignment###21 Apr 2005 new variable
-crs#:#crs_objective_pretest#:#Self assessment###21 Apr 2005 new variable
-crs#:#crs_objective_question_assignment#:#Question assignment###21 Apr 2005 new variable
-crs#:#crs_objective_result#:#After test###21 Apr 2005 new variable
+crs#:#crs_objective_not_accomplished#:#Ikke fuldført
+crs#:#crs_objective_overview_objectives#:#Oversigt læremål
+crs#:#crs_objective_overview_question_assignment#:#Oversigt over tildeling af spørgsmål
+crs#:#crs_objective_pretest#:#Selvevaluering
+crs#:#crs_objective_question_assignment#:#Spørgsmålstildeling
+crs#:#crs_objective_result#:#Efter test
 crs#:#crs_objective_updated_test#:#Opdaterede ændringer
 crs#:#crs_objective_view#:#Objektorienteret syn
 crs#:#crs_objectives#:#Læremål
-crs#:#crs_objectives_assign_chapter#:#Assign chapter###21 Apr 2005 new variable
+crs#:#crs_objectives_assign_chapter#:#Tildel kapitel
 crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.###21 Apr 2005 new variable
-crs#:#crs_objectives_assigned_lms#:#Assigned learning materials###21 Apr 2005 new variable
-crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.###21 Apr 2005 new variable
+crs#:#crs_objectives_assigned_lms#:#Tildelt nyt læremateriale
+crs#:#crs_objectives_assigned_new_questions#:#Ny tildeling oprettet.
 crs#:#crs_objectives_assigned_questions#:#Assigned questions###21 Apr 2005 new variable
-crs#:#crs_objectives_chapter_assignment#:#Chapter assignment###21 Apr 2005 new variable
+crs#:#crs_objectives_chapter_assignment#:#Kapiteltildeling
 crs#:#crs_objectives_deassign_question_sure#:#Er du sikker på, at du vil fjerne det næste spørgsmål?
 crs#:#crs_objectives_deleted#:#Fjern læremål
 crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###21 Apr 2005 new variable
@@ -4946,29 +4946,29 @@ crs#:#crs_select_starter#:#Vælg startmateriale
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kursus indstillinger
 crs#:#crs_settings_saved#:#Indstillinger gemt
-crs#:#crs_show_link_lms#:#Show learning materials###21 Apr 2005 new variable
-crs#:#crs_show_link_objectives#:#Show objectives###21 Apr 2005 new variable
-crs#:#crs_show_link_or#:#Show other resources###21 Apr 2005 new variable
+crs#:#crs_show_link_lms#:#Vis undervisningsmateriale
+crs#:#crs_show_link_objectives#:#Vis mål
+crs#:#crs_show_link_or#:#Vis andre resurser
 crs#:#crs_show_link_tst#:#Vis tests
 crs#:#crs_show_members#:#Vis deltagere
 crs#:#crs_show_members_info#:#Tillad kursister at se hinanden i medlemsgalleriet og sende beskeder/mails.
 crs#:#crs_show_objectives_view#:#Objective view###21 Apr 2005 new variable
 crs#:#crs_size#:#Filstørrelse
 crs#:#crs_sort_activation#:#Sorter efter aktivering
-crs#:#crs_sort_manual#:#Sorter manuelt###08 Jun 2005 content changed
+crs#:#crs_sort_manual#:#Sorter manuelt
 crs#:#crs_sort_manual_info#:#Denne indstilling gør det muligt at sortere elementer manuelt.
 crs#:#crs_sort_timing_info#:#Sortering af elementer efter deres aktiveringsdato eller tidsindstillinger.
 crs#:#crs_sort_title#:#Titler
 crs#:#crs_sort_title_info#:#Vælg denne indstilling for at sortere kursusdele automatisk efter titel
 crs#:#crs_sortorder#:#Sorter
 crs#:#crs_sortorder_abo#:#Sortering af elementer
-crs#:#crs_start#:#Start###21 Apr 2005 new variable
+crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startmateriale
-crs#:#crs_starter_deleted#:#Removed assignment.###21 Apr 2005 new variable
-crs#:#crs_starters_already_assigned#:#This object was already assigned.###21 Apr 2005 new variable
-crs#:#crs_status#:#Status###21 Apr 2005 new variable
-crs#:#crs_status_changed#:#Kursus status###23 Dec 2005 content changed
-crs#:#crs_status_changed_body#:#Dit kursus status er blevet ændret.###23 Dec 2005 content changed
+crs#:#crs_starter_deleted#:#Opgave fjernet.
+crs#:#crs_starters_already_assigned#:#Objektet var allerede tildelt.
+crs#:#crs_status#:#Status
+crs#:#crs_status_changed#:#Kursus status
+crs#:#crs_status_changed_body#:#Dit kursus status er blevet ændret.
 crs#:#crs_structure#:#Kursus struktur
 crs#:#crs_subscribers#:#Abonnenter###23 Dec 2005 content changed
 crs#:#crs_subscribers_deleted#:#Slet abonnent/abonnenter
@@ -4982,11 +4982,11 @@ crs#:#crs_subscription_options_password#:#Tilmeldig med password
 crs#:#crs_subscription_requested#:#Du har anmodet om tilmelding til kurset.
 crs#:#crs_subscription_successful#:#Du er nu tilmeldt kurset.
 crs#:#crs_subscription_type#:#Tilmeldingstype
-crs#:#crs_suggest_lm#:#Suggest learning materials if:###21 Apr 2005 new variable
-crs#:#crs_suggestion_end#:#Suggested End
-crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives###21 Apr 2005 new variable
+crs#:#crs_suggest_lm#:#Foreslå undervisningsmateriale hvis:
+crs#:#crs_suggestion_end#:#Forslag slut
+crs#:#crs_sure_delete_selected_archives#:#Vil du slette de valgte arkiver?
 crs#:#crs_syllabus#:#Kursusindhold
-crs#:#crs_table_start_objects#:#Start objects###21 Apr 2005 new variable
+crs#:#crs_table_start_objects#:#Startobjekter
 crs#:#crs_test_status_complete#:#Afsluttet
 crs#:#crs_test_status_not_complete#:#Ikke fuldstændig
 crs#:#crs_test_status_random#:#Vilkårlig test
@@ -5048,7 +5048,7 @@ crs#:#crs_visibility_until#:#Midlertidigt tilgængelig
 crs#:#crs_visibility_unvisible#:#Ikke tilgængelig
 crs#:#crs_wait_info#:#Hvis denne funktion er aktiveret og det maksimale antal brugere overskrides vil nye tilmeldinger blive placeret på venteliste.
 crs#:#crs_waiting_list#:#Venteliste
-crs#:#crs_xml#:#XML###21 Apr 2005 new variable
+crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Din placering på ventelisten
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
@@ -9383,9 +9383,9 @@ content#:#cont_decimal#:#Decimal
 content#:#cont_start_value#:#Startværdi
 content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###15 05 2009 new variable
 common#:#collapse_all#:#Fold alle sammen
-common#:#expand_all#:#Expand All###15 05 2009 new variable
-sahs#:#sahs_objective#:#Learning Objective###15 05 2009 new variable
-sahs#:#sahs_objectives#:#Learning Objectives###15 05 2009 new variable
+common#:#expand_all#:#Fold alle ud
+sahs#:#sahs_objective#:#Læremål
+sahs#:#sahs_objectives#:#Læremål
 style#:#sty_type_sco_desct#:#SCO Description Heading###15 05 2009 new variable
 style#:#sty_type_sco_objt#:#SCO Objectives Heading###15 05 2009 new variable
 adve#:#adve_rte_settings#:#Rigtekst redigering
@@ -9450,33 +9450,33 @@ payment#:#payment_already_bought_but_no_access#:#Du har allerede købt varen %s,
 cmps#:#cmps_plugin_activated#:#Plugin blev aktiveret.
 cmps#:#cmps_plugin_deactivated#:#Plugin er deaktiveret.
 common#:#back_to_sess_content#:#Back to Session Content###26 06 2009 new variable
-common#:#crs_unsubscribe#:#Unsubscribe###26 06 2009 new variable
+common#:#crs_unsubscribe#:#Afmeld
 dateplaner#:#cal_edit_milestone#:#Ret milepæl
-common#:#grp_btn_unsubscribe#:#Unsubscribe From Group###26 06 2009 new variable
-dateplaner#:#cal_deadline#:#Deadline###26 06 2009 new variable
-dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
+common#:#grp_btn_unsubscribe#:#Afmeld gruppe
+dateplaner#:#cal_deadline#:#Deadline
+dateplaner#:#cal_ms_users_responsible#:#Ansvarlige brugere
 dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_ms_details#:#Milestone Details###26 06 2009 new variable
 dateplaner#:#cal_enable_group_milestones#:#Brug milepæle
 dateplaner#:#cal_enable_group_milestones_desc#:#Slå planlægning med milepæle i kalenderen til.
-dateplaner#:#cal_new_ms#:#New Milestone###26 06 2009 new variable
-dateplaner#:#cal_add_milestone#:#Add Milestone###26 06 2009 new variable
+dateplaner#:#cal_new_ms#:#Lav milepæl
+dateplaner#:#cal_add_milestone#:#Lav milepæl
 dateplaner#:#cal_task_completion#:#Task Completion###26 06 2009 new variable
-dateplaner#:#cal_responsible#:#Responsible###26 06 2009 new variable
-common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
-common#:#on_waiting_list#:#You are on the waiting list###26 06 2009 new variable
-common#:#leave_waiting_list#:#Leave Waiting List###26 06 2009 new variable
+dateplaner#:#cal_responsible#:#Ansvarlig
+common#:#preferences#:#Brugerdefinerede ønsker
+common#:#on_waiting_list#:#Du er på ventelisten
+common#:#leave_waiting_list#:#Forlad ventelisten
 cntr#:#cntr_manage#:#Ret
 cntr#:#cntr_ordering#:#Sortering
-cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
+cntr#:#cntr_text_media_editor#:#Text/medie editor
 cntr#:#cntr_saved_sorting#:#Rækkefølgen blev gemt
-chat#:#chat_show_smilies#:#Show smilies###26 06 2009 new variable
-chat#:#chat_hide_smilies#:#Hide smilies###26 06 2009 new variable
-chat#:#chat_no_room_selected#:#No room has been selected.###26 06 2009 new variable
+chat#:#chat_show_smilies#:#Vis smilies
+chat#:#chat_hide_smilies#:#Skjul smilies
+chat#:#chat_no_room_selected#:#Intet rum valgt.
 common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".###26 06 2009 new variable
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".###26 06 2009 new variable
-common#:#membership_leave#:#Leave###26 06 2009 new variable
+common#:#membership_leave#:#Forlad
 crs#:#event_section_information#:#Session Information###26 06 2009 new variable
 crs#:#event_btn_add_edit#:#Opret session og tildel materialer
 crs#:#crs_search_users#:#Find brugere
@@ -9486,7 +9486,7 @@ dateplaner#:#cal_type_sess#:#Sessionskalender
 crs#:#event_tbl_admins#:#Administratorer
 crs#:#event_tbl_tutors#:#Tutorer
 crs#:#event_tbl_members#:#Medlemmer
-crs#:#event_participant_selection#:#Participant Selection###26 06 2009 new variable
+crs#:#event_participant_selection#:#Deltagervalg
 crs#:#event_inc_admins#:#Vis administratorer
 crs#:#event_inc_tutors#:#Vis tutorer
 crs#:#event_inc_members#:#Vis medlemmer
@@ -9520,23 +9520,23 @@ registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:##
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###26 06 2009 new variable
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###26 06 2009 new variable
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###26 06 2009 new variable
-common#:#soap_wsdl_path#:#WSDL Path###26 06 2009 new variable
+common#:#soap_wsdl_path#:#WSDL sti
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###26 06 2009 new variable
-common#:#scorm_new#:#New SCORM/IACC Learning Module###26 06 2009 new variable
-common#:#scorm_add#:#Add SCORM/IACC Learning Module###26 06 2009 new variable
-common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###26 06 2009 new variable
-common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)###26 06 2009 new variable
-common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)###26 06 2009 new variable
-common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)###26 06 2009 new variable
-common#:#scorm_create_export_file_html#:#Create Export File (HTML)###26 06 2009 new variable
-common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###26 06 2009 new variable
-common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###26 06 2009 new variable
-common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###26 06 2009 new variable
+common#:#scorm_new#:#Nyt SCORM/IACC læremodul
+common#:#scorm_add#:#Lav SCORM/IACC læremodul
+common#:#scorm_create_export_file_scrom12#:#Lav eksportfil (SCORM 1.2)
+common#:#scorm_create_export_file_scrom2004#:#Lav eksportfil (SCORM 2004)
+common#:#scorm_create_export_file_pdf#:#Lav eksportfil (PDF)
+common#:#scorm_create_export_file_iso#:#Lav eksportfil (ISO for CD-ROM)
+common#:#scorm_create_export_file_html#:#Lav eksportfil (HTML)
+common#:#sahs_insert_page_from_clip#:#Indsæt sider fra udklipsholder
+common#:#sahs_insert_chap_from_clip#:#Indsæt kapitler fra udklipsholder
+common#:#sahs_insert_sco_from_clip#:#Indsæt SCOer fra udklipsholder
 sahs#:#sahs_insert_chapter#:#Indsæt kapitel
 sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###26 06 2009 new variable
 sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###26 06 2009 new variable
 sahs#:#sahs_insert_pagelayout#:#Indsæt skabelonside
-sahs#:#sahs_properties#:#Properties###26 06 2009 new variable
+sahs#:#sahs_properties#:#Egenskaber
 sahs#:#sahs_insert_page#:#Indsæt side
 sahs#:#sahs_insert_sco#:#Indsæt SCO
 sahs#:#sahs_chapter#:#Kapitel
@@ -9549,13 +9549,13 @@ sahs#:#sahs_questions#:#Spørgsmål
 sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_sequencing#:#Sequencing###26 06 2009 new variable
 sahs#:#sahs_objective_alignment#:#Objectives Alignment###26 06 2009 new variable
-content#:#cont_LocalFile#:#Local File###26 06 2009 new variable
-content#:#cont_Ressources#:#Ressources###26 06 2009 new variable
+content#:#cont_LocalFile#:#Lokal fil
+content#:#cont_Ressources#:#Resurser
 content#:#cont_Reading#:#Reading###26 06 2009 new variable
-content#:#cont_Hint#:#Hint###26 06 2009 new variable
-content#:#cont_ed_paste#:#Paste###26 06 2009 new variable
-content#:#cont_ed_insert_pcqst#:#Insert Question###26 06 2009 new variable
-content#:#cont_ed_select_pctext#:#Select Text Item###26 06 2009 new variable
+content#:#cont_Hint#:#Tip
+content#:#cont_ed_paste#:#Indsæt
+content#:#cont_ed_insert_pcqst#:#Indsæt spørgsmål
+content#:#cont_ed_select_pctext#:#Vælg tekstelement
 content#:#cont_question_pool#:#Question Pool###26 06 2009 new variable
 content#:#cont_question_type#:#Spørgsmålstype
 content#:#cont_text_type#:#Text Item Type###26 06 2009 new variable
@@ -9865,26 +9865,26 @@ grp#:#grp_missing_password#:#Indtast gruppepassword.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###12 08 2009 new variable
 user#:#user_field#:#Felt
 user#:#user_visible_in_profile#:#Synlig i brugerprofil
-grp#:#grp_already_assigned#:#You have already requested membership for this group.###12 08 2009 new variable
-common#:#sub_request_saved#:#Saved membership request###12 08 2009 new variable
-grp#:#grp_update_subscr_request#:#Update Membership Request###12 08 2009 new variable
-grp#:#grp_cancel_subscr_request#:#Delete Membership Request###12 08 2009 new variable
-crs#:#crs_update_subscr_request#:#Update Membership Request###12 08 2009 new variable
-crs#:#crs_cancel_subscr_request#:#Delete Membership Request###12 08 2009 new variable
-common#:#sub_request_deleted#:#Deleted membership request###12 08 2009 new variable
+grp#:#grp_already_assigned#:#Du har allerede anmodet om medlemsskab af denne gruppe.
+common#:#sub_request_saved#:#Anmodning om medlemsskab gemt
+grp#:#grp_update_subscr_request#:#Opdater anmodning om medlemsskab
+grp#:#grp_cancel_subscr_request#:#Slet anmodning om medlemsskab
+crs#:#crs_update_subscr_request#:#Opdater anmodning om deltagelse
+crs#:#crs_cancel_subscr_request#:#Slet anmodning om deltagelse
+common#:#sub_request_deleted#:#Slettede anmodning om medlemsskab
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###12 08 2009 new variable
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
 administration#:#adm_repository_cache_time#:#Repository Cache Time###12 08 2009 new variable
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###12 08 2009 new variable
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.###12 08 2009 new variable
-trac#:#trac_query#:#Title/Description###12 08 2009 new variable
+trac#:#trac_query#:#Titel/beskrivelse
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###12 08 2009 new variable
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email###12 08 2009 new variable
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
 cmps#:#no_changes#:#Ingen ændringer
 cmps#:#database_is_uptodate#:#Databasen er opdateret
-administration#:#path_to_mkisofs#:#Sti til mkisofs###18 08 2009 new variable
+administration#:#path_to_mkisofs#:#Sti til mkisofs
 common#:#obj_sty#:#Stilark
 dateplaner#:#cal_created_milestone#:#Milepæl blev tilføjet
 dateplaner#:#cal_created_milestone_resp_q#:#Milepæl tilføjet. Vælg venligst de brugere som er ansvarlige for at nå milepæl.
@@ -9914,11 +9914,11 @@ assessment#:#tst_report_never#:#Ingen testresultater er tilgængelige
 assessment#:#tst_results_access_never#:#Aldrig
 certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
 certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
-certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
+certificate#:#certificate_points_notavailable#:#Denne værdi kan ikke beregnes
 certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
 certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
-certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
+certificate#:#certificate_ph_salutation#:#Titulering
 certificate#:#certificate_ph_birthday#:#Brugerens fødselsdag
 payment#:#paya_deleted_selected_prices#:#Priser slettet
 search#:#lucene_tbl_create_ini#:#Lav Java-server initialiserings fil
