@@ -225,8 +225,8 @@ class ilFeedbackGUI
 				$tpl->setVariable("CHART_LINES", $chartlines);
 				break;
 		}
-		$tpl->setVariable("SELECTBOX_CHART_TYPE", $this->selectbox(ilUtil::stripSlashes($_POST['chart_type']),'chart_type',$chart_type,'onChange="document.forms[0].submit()"'));
-		$tpl->setVariable("SELECTBOX_USER", $this->selectbox(ilUtil::stripSlashes($_POST['chart_user']),'chart_user',$chart_user,'onChange="document.forms[0].submit()"',$this->lng->txt('all_users')));
+		$tpl->setVariable("SELECTBOX_CHART_TYPE", $this->selectbox(ilUtil::stripSlashes($_POST['chart_type']),'chart_type',$chart_type,'onChange="document.stats.submit()"'));
+		$tpl->setVariable("SELECTBOX_USER", $this->selectbox(ilUtil::stripSlashes($_POST['chart_user']),'chart_user',$chart_user,'onChange="document.stats.submit()"',$this->lng->txt('all_users')));
 
 
 

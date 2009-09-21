@@ -548,7 +548,7 @@ class ilFeedback
 		}
 		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.note,feedback_results.vote, feedback_results.votetime FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
-			' WHERE  feedback_results.note<>""'.
+			' WHERE  feedback_results.note IS NOT NULL '.
 			' '.$user_filter.' AND feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
 
@@ -571,7 +571,8 @@ class ilFeedback
 	{
 		global $ilDB;
 
-		$q='SELECT distinct(usr_data.login), feedback_results.user_id  FROM'.
+		$q='SELECT distinct(usr_data.login), feedback_results.user_id, feedback_results.votetime  '.
+			' FROM '.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
 			' WHERE feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
