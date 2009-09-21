@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Membership/classes/class.ilMembershipMailNotification.php';
+include_once './Services/Mail/classes/class.ilMailNotification.php';
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -9,7 +9,7 @@ include_once './Services/Membership/classes/class.ilMembershipMailNotification.p
  * 
  * @ingroup ServicesMembership
  */
-class ilCourseMembershipMailNotification extends ilMembershipMailNotification
+class ilCourseMembershipMailNotification extends ilMailNotification
 {
 	const TYPE_ADMISSION_MEMBER = 20;
 	const TYPE_DISMISS_MEMBER 	= 21;

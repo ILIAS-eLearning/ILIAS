@@ -13,7 +13,7 @@ include_once './Services/Mail/classes/class.ilMail.php';
  * 
  * @ingroup ServicesMembership
  */
-abstract class ilMembershipMailNotification
+abstract class ilMailNotification
 {
 	const SUBJECT_TITLE_LENGTH = 60;
 	
