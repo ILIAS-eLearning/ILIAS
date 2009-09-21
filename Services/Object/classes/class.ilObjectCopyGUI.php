@@ -566,7 +566,7 @@ class ilObjectCopyGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setTableWidth('60%');
 		$ilCtrl->setParameter($this,'new_type',$this->getType());
-		$ilCtrl->setParameter($this, 'copy_mode', self::SOURCE_SELECTION);
+		#$ilCtrl->setParameter($this, 'cp_mode', self::SOURCE_SELECTION);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		$this->form->setTitle($lng->txt($this->getType().'_copy'));
 		
