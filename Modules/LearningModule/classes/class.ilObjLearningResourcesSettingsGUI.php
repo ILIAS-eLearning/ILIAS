@@ -94,8 +94,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
 
-			$lic_set = new ilSetting("license");
-			if ($lic_set->get("license_counter"))
+			include_once("Services/License/classes/class.ilLicenseAccess.php");
+			if (ilLicenseAccess::_isEnabled())
 			{
 				$this->tabs_gui->addTarget("licenses",
 					$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),

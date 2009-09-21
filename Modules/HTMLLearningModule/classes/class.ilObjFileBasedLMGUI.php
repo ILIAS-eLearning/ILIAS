@@ -826,10 +826,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		global $ilSetting;
-		$lic_set = new ilSetting("license");
+		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id)
-		and $lic_set->get("license_counter"))
+		and ilLicenseAccess::_isEnabled())
 		{
 			$tabs_gui->addTarget("license",
 				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
