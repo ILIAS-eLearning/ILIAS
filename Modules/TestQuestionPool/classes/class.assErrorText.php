@@ -828,7 +828,7 @@ class assErrorText extends assQuestion
 	/**
 	* Object getter
 	*/
-	protected function __get($value)
+	public function __get($value)
 	{
 		switch ($value)
 		{
@@ -850,7 +850,7 @@ class assErrorText extends assQuestion
 	/**
 	* Object setter
 	*/
-	protected function __set($key, $value)
+	public function __set($key, $value)
 	{
 		switch ($key)
 		{

@@ -56,7 +56,7 @@ class assAnswerMatchingTerm
 	/**
 	* Object getter
 	*/
-	protected function __get($value)
+	public function __get($value)
 	{
 		switch ($value)
 		{
@@ -83,7 +83,7 @@ class assAnswerMatchingTerm
 	/**
 	* Object setter
 	*/
-	protected function __set($key, $value)
+	public function __set($key, $value)
 	{
 		switch ($key)
 		{
