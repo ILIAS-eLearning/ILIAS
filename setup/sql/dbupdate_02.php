@@ -16041,7 +16041,7 @@ if (!$ilDB->tableExists("payment_erps"))
   $ilDB->addPrimaryKey('payment_erps', array('erps_id'));  
   $ilDB->manipulateF("INSERT INTO payment_erps (erps_id, erp_id, active, settings) VALUES (%s, %s, %s, %s)",
         array("integer", "integer", "integer", "text"),
-        array(0, 0, 1, ''));
+        array(0, 0, 1, ' '));
 }
 ?>
 <#2887>
