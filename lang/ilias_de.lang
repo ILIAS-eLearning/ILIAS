@@ -6801,8 +6801,6 @@ grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_members#:#Mitglieder
 grp#:#grp_members_map#:#Karte Gruppenmitglieder
-grp#:#grp_membership_request_body#:#%1$s %2$s hat einen Aufnahmeantrag für die Gruppe "%5$s" gestellt.\n\nBitte bearbeiten Sie den Antrag auf der "Aufnahmeanträge" Seite der Gruppe.\n\nGruppe: "%5$s", %6$s\n\nAntragsteller: %1$s %2$s, %3$s, mailto:%4$s.\n\nBetreff:\n%7$s
-grp#:#grp_membership_request_subject#:#%1$s %2$s möchte der Gruppe "%3$s" beitreten.
 grp#:#grp_min_one_admin#:#Dieser Gruppe muß mindestens ein Administrator zugeordnet bleiben.
 grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
 grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
@@ -6832,8 +6830,6 @@ grp#:#grp_reg_request#:#Antrag mit Bestätigung
 grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren übermitteln.
 grp#:#grp_reg_start#:#Start:
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
-grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
-grp#:#grp_reject_subscriber_body#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
 grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
@@ -10067,3 +10063,8 @@ grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
 common#:#spl_copy#:#Fragenpool für Umfrage kopieren
 common#:#qpl_copy#:#Fragenpool für Test kopieren
 common#:#title_required#:#Bitte geben Sie einen Titel an.
+wiki#:#wiki_style#:#Style
+wiki#:#wiki_general_settings#:#Allgemeine Einstellungen
+style#:#style_current_style#:#Derzeitiger Style
+style#:#style_edit_style#:#Style editieren
+style#:#style_delete_style#:#Style löschen

@@ -8151,12 +8151,8 @@ grp#:#reg_grp_max_members#:#Maximum Of Users###02 06 2008 new variable
 grp#:#grp_reg_limited#:#Registration Period###02 06 2008 new variable
 dateplaner#:#grp_cal_reg_end#:#Registration End ###02 06 2008 new variable
 dateplaner#:#grp_cal_reg_start#:#Registration Start###02 06 2008 new variable
-grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".###02 06 2008 new variable
-grp#:#grp_membership_request_body#:#%1$s %2$s has requested membership for group "%5$s".\n\nPlease accept or refuse this request on the "Join Requests" page of the group.\n\nGroup: %5$s", %6$s\n\nRequestor: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s###02 06 2008 new variable
 grp#:#grp_accept_subscriber#:#Admission to group "%s" ###02 06 2008 new variable
 grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s ###02 06 2008 new variable
-grp#:#grp_reject_subscriber#:#Declined for group "%s" ###02 06 2008 new variable
-grp#:#grp_reject_subscriber_body#:#Your request to join group "%s" has been declined.###02 06 2008 new variable
 forum#:#frm_post_not_activated_yet#:#Not activated yet.###02 06 2008 new variable
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.###02 06 2008 new variable
 assessment#:#terms#:#Terms###02 06 2008 new variable
@@ -10017,3 +10013,54 @@ rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
 rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
 rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
 rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
+common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
+mail#:#mail_salutation_f#:#Hello###21 09 2009 new variable
+mail#:#mail_salutation_m#:#Hello###21 09 2009 new variable
+mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
+crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
+crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
+crs#:#crs_access#:#Access###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
+crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
+crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
+crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".###21 09 2009 new variable
+crs#:#crs_subscribe_wl#:#Your registration for course "%s".###21 09 2009 new variable
+wiki#:#wiki_style#:#Style###21 09 2009 new variable
+wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
+style#:#style_current_style#:#Current Style###21 09 2009 new variable
+style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
+style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
+grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
+grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"###21 09 2009 new variable
+grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.###21 09 2009 new variable
+grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 2009 new variable
+grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
+grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
+grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
+grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".###21 09 2009 new variable
+grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:###21 09 2009 new variable
+grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"###21 09 2009 new variable
+grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".###21 09 2009 new variable
+grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
+grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
+grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
+grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
+grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
+grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
+common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
+common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
+common#:#title_required#:#Please insert a title###21 09 2009 new variable
