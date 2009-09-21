@@ -16048,3 +16048,7 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#2888>
+<?php>
+	$ilDB->addTableColumn("lng_data", "remarks", array("type" => "text", "length" => 250, "notnull" => false, "default" => null));
+?>
