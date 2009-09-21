@@ -247,6 +247,12 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 
+		if (!strlen($_POST['Fobject']['title']))
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'), true);
+			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
+			$this->ctrl->redirect($this, 'create');
+		}
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 		if ($_POST["defaults"] > 0) 
@@ -2834,7 +2840,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			$this->ctrl->setParameter($this, "new_type", $this->type);
+			$this->ctrl->setParameter($this, "new_type", $new_type);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
@@ -2853,7 +2859,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
 			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
 			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("NEW_TYPE", $this->type);
+			$this->tpl->setVariable("NEW_TYPE", $new_type);
 			$this->tpl->parseCurrentBlock();
 
 		}

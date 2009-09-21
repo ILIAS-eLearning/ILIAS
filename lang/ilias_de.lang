@@ -10066,3 +10066,4 @@ grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
 grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
 common#:#spl_copy#:#Fragenpool für Umfrage kopieren
 common#:#qpl_copy#:#Fragenpool für Test kopieren
+common#:#title_required#:#Bitte geben Sie einen Titel an.

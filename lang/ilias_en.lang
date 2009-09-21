@@ -10045,3 +10045,4 @@ grp#:#grp_notify_on#:#Notification about new registrations enabled
 grp#:#grp_notify_off#:#Notification about new registrations disabled
 common#:#spl_copy#:#Copy Survey Question Pool
 common#:#qpl_copy#:#Copy Test Question Pool
+common#:#title_required#:#Please insert a title.
