@@ -7462,7 +7462,7 @@ trac#:#trac_total_online#:#Total Time Online
 trac#:#trac_update_edit_user#:#Saved settings
 trac#:#trac_updated_status#:#Saved learning progress status.
 trac#:#trac_user_data#:#User Data
-trac#:#trac_user_activities#:#Benutzeraktivitäten
+trac#:#trac_user_activities#:#User activities
 trac#:#trac_repository_changes#:#Changes in the repository
 trac#:#trac_usr_list#:#Users
 trac#:#trac_valid_request#:#Max. Time Between Requests

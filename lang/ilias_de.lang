@@ -8517,10 +8517,10 @@ rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
 rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar
 rbac#:#catr_write#:#Kategorie-Referenzen bearbeiten
-rbac#:#cmps_edit_permission#:#Change permission settings
-rbac#:#cmps_read#:#Read access to component settings
-rbac#:#cmps_visible#:#Component settings are visible
-rbac#:#cmps_write#:#Edit component settings
+rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
+rbac#:#cmps_read#:#Lesezugriff auf Komponenteneinstellungen
+rbac#:#cmps_visible#:#Komponenteneinstellungen sind sichtbar
+rbac#:#cmps_write#:#Komponenteneinstellungen bearbeiten
 rbac#:#crs_create_sess#:#Sitzung anlegen
 rbac#:#crs_create_wiki#:#Neues Wiki anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
@@ -8531,10 +8531,10 @@ rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
 rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar
 rbac#:#crsr_write#:#Kurs-Referenzen bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
-rbac#:#facs_edit_permission#:#Change permission settings
-rbac#:#facs_read#:#Read access to files & foldes settings
-rbac#:#facs_visible#:#Files & foldes settings are visible
-rbac#:#facs_write#:#Edit files & foldes settings
+rbac#:#facs_edit_permission#:#Rechteeinstellung ändern
+rbac#:#facs_read#:#Lesezugriff auf Einstellungen Dateien & Ordner
+rbac#:#facs_visible#:#Einstellungen Dateien & Ordner sind sichtbar
+rbac#:#facs_write#:#Einstellungen Dateien & Ordner bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
 rbac#:#filter_local_roles#:#Zeige nur lokale Rollen im aktuellen Kontext
@@ -8545,19 +8545,19 @@ rbac#:#grp_create_wiki#:#Neues Wiki anlegen
 rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#leave#:#Verlassen
-rbac#:#mcts_edit_permission#:#Change permission settings
-rbac#:#mcts_read#:#Read access to mediacast settings
-rbac#:#mcts_visible#:#Mediacast settings are visible
-rbac#:#mcts_write#:#Edit mediacast settings
+rbac#:#mcts_edit_permission#:#Rechteeinstellung ändern
+rbac#:#mcts_read#:#Lesezugriff auf Mediacast-Einstellungen
+rbac#:#mcts_visible#:#Mediacast-Einstellungen sind sichtbar
+rbac#:#mcts_write#:#Mediacast-Einstellungen bearbeiten
 rbac#:#mds_edit_permission#:#Rechteeinstellung ändern
 rbac#:#mds_read#:#Lesezugriff auf Metadata-Einstellungen
 rbac#:#mds_visible#:#Metadata-Einstellungen sind sichtbar
 rbac#:#mds_write#:#Schreibzugriff auf Metadata-Einstellungen
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
-rbac#:#pdts_edit_permission#:#Change permission settings
-rbac#:#pdts_read#:#Read access to personal desktop settings
-rbac#:#pdts_visible#:#Personal desktop settings are visible
-rbac#:#pdts_write#:#Edit personal desktop settings
+rbac#:#pdts_edit_permission#:#Rechteeinstellung ändern
+rbac#:#pdts_read#:#Lesezugriff auf Einstellungen für Persönlichen Schreibtisch
+rbac#:#pdts_visible#:#Einstellungen für Persönlichen Schreibtisch sind sichtbar
+rbac#:#pdts_write#:#Einstellungen für Persönlichen Schreibtisch bearbeiten
 rbac#:#perm_administrate#:#Verwalten
 rbac#:#perm_class_create#:#Neue Objekte erzeugen
 rbac#:#perm_class_create_desc#:#Hier stellen Sie ein, welche Objekte unter diesem Objekt angelegt werden dürfen.
@@ -8584,18 +8584,18 @@ rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
-rbac#:#root_create_catr#:#Create Category Reference
+rbac#:#root_create_catr#:#Kategorienreferenz erzeugen
 rbac#:#sess_copy#:#Kopieren
-rbac#:#sess_delete#:#Delete Session
+rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#sess_read#:#Lesezugriff auf Sitzungen
 rbac#:#sess_visible#:#Sitzungen sind sichtbar
 rbac#:#sess_write#:#Sitzungen bearbeiten
-rbac#:#svyf_edit_permission#:#Change permission settings
-rbac#:#svyf_read#:#Read access to survey settings
-rbac#:#svyf_visible#:#Survey settings are visible
-rbac#:#svyf_write#:#Edit survey settings
+rbac#:#svyf_edit_permission#:#Rechteeinstellung ändern
+rbac#:#svyf_read#:#Lesezugriff auf Umfrageeinstellungen
+rbac#:#svyf_visible#:#Umfrageeinstellungen sind sichtbar
+rbac#:#svyf_write#:#Umfrageeinstellungen bearbeiten
 rcrs#:#rcrs_call#:#Kurs aufrufen
 rcrs#:#rcrs_general_info#:#Allgemeine Informationen
 rcrs#:#rcrs_local_informations#:#Weitere Informationen
