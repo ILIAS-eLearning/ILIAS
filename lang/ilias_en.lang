@@ -8428,7 +8428,7 @@ crs#:#crs_subscription_max_members_short#:#Number of Members
 crs#:#max_members_not_numeric#:#Please check the maximum number of users.
 ps#:#ps_show_crs_access#:#Show last access time of course participants
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
-mail#:#mail_external_sender_noreply#:#noreply-Adresse
+mail#:#mail_external_sender_noreply#:#no-reply address
 mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for external system messages and notifications.
 chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 crs#:#sess_gen_attendance_list#:#Generate Attendance List
@@ -9865,7 +9865,7 @@ trac#:#trac_query#:#Title/Description
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
-cmps#:#no_changes#:#Keine Änderungen
+cmps#:#no_changes#:#No changes
 cmps#:#database_is_uptodate#:#The database is up to date.
 administration#:#path_to_mkisofs#:#Path to mkisofs
 common#:#obj_sty#:#Style
