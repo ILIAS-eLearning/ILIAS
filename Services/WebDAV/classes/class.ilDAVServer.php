@@ -603,17 +603,20 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		$path = $this->davDeslashify($options['path']);
 
-		// The $path variable may contain a path
-		// string that has been shortened, in order to make it mountable
-		// by Internet Explorer (IE). - We don't know this for sure though.
-		// The following steps converts the path into a verbose davPath
-		// which is human readable, and we create a short version for IE.
+		// The $path variable may contain a full or a shortened DAV path.
+		// We convert it into an object path, which we can then use to 
+		// construct a new full DAV path.
 		$objectPath = $this->toObjectPath($path);
+
+		// Construct a (possibly) full DAV path from the object path.
 		$fullPath = '';
 		foreach ($objectPath as $object)
 		{
 			if ($object->getRefId() == 1 && $this->isFileHidden($object))
 			{
+				// If the repository root object is hidden, we can not
+				// create a full path, because nothing would appear in the
+				// webfolder. We resort to a shortened path instead.
 				$fullPath .= '/ref_1';
 			}
 			else
@@ -621,13 +624,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
 			}
 		}
-		if (count($objectPath) > 1)
-		{
-			$shortenedPath = '/ref_'.
+
+		// Construct a shortened DAV path from the object path.
+		$shortenedPath = '/ref_'.
 				$objectPath[count($objectPath) - 1]->getRefId();
-		} else {
-			$shortenedPath = $fullPath;
-		}
+
 		if ($objDAV->isCollection())
 		{
 			$shortenedPath .= '/';
@@ -638,7 +639,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
 		$fullPath = '/'.CLIENT_ID.$fullPath;
 
-		$webfolderURI = $this->base_uri.$fullPath;
+		// Construct webfolder URI's. The URI's are used for mounting the
+		// webfolder. Since mounting using URI's is not standardized, we have
+		// to create different URI's for different browsers.
+		$webfolderURI = $this->base_uri.$shortenedPath;
 		$webfolderURI_Konqueror = ($this->isWebDAVoverHTTPS() ? "webdavs" : "webdav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
 				$shortenedPath;
@@ -657,7 +661,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
 		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 		echo "  <head>\n";
-		echo "  <title>".sprintf($lng->txt('webfolder_instructions_titletext'), $objectPath[count($objectPath) - 1]->getResourceName())."</title>\n";
+		echo "  <title>".sprintf($lng->txt('webfolder_instructions_titletext'), $webfolderTitle)."</title>\n";
 		echo "  </head>\n";
 		echo "  <body>\n";
 
@@ -1765,14 +1769,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 */
 	function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null, $genericURI = false)
 	{
-		if ($genericURI)
-		{
+		if ($genericURI) {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
 			$query = null;
-			
 		} else if ($this->clientOS == 'windows') {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
-			$query = null;
+			$query = 'mount-instructions';
 		} else if ($this->clientBrowser == 'konqueror') {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "webdavs:" : "webdav:");
 			$query = null;
@@ -1781,41 +1783,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$query = null;
 		} else {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
-
-		// FIXME - For browsers which supports the webdav mounting protocol
-		// the query string must by 'mount'.
-		$query = 'mount-instructions';
+			$query = 'mount-instructions';
 		}
 		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
 
-		// Create a nice URI for the root-node of the tree
-		if ($refId == 1) {
-			global $tree;
-			$nodePath = $tree->getNodePath($refId);
-			if (count($nodePath) > 1)
-			{
-				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
-						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
-						'/');
-			} else {
-				$rootObj = ilObjectDAV::createObject($nodePath[0]['child'],$nodePath[0]['type']);
-				if ($this->isFileHidden($rootObj))
-				{
-					$uri = $baseUri.'/ref_'.$nodePath[0]['child'].'/';
-				} else {
-					$uri = $baseUri.'/'.
-							$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
-							'/');
-				}
-			}
-		}
-		else
-		{
-			$uri = $baseUri.'/ref_'.$refId.'/';
-		}
-
-		// Display instructions for browsers which can't mount a dav volume
+		$uri = $baseUri.'/ref_'.$refId.'/';
 		if ($query != null)
 		{
 			$uri .= '?'.$query;
@@ -1839,7 +1812,29 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 */
 	function getFolderURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
 	{
-		return $this->getMountURI($refId, $nodeId, $ressourceName, $parentRefId);
+		if ($this->clientOS == 'windows') {
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
+			$query = null;
+		} else if ($this->clientBrowser == 'konqueror') {
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "webdavs:" : "webdav:");
+			$query = null;
+		} else if ($this->clientBrowser == 'nautilus') {
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "davs:" : "dav:");
+			$query = null;
+		} else {
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
+			$query = null;
+		}
+		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+
+		$uri = $baseUri.'/ref_'.$refId.'/';
+		if ($query != null)
+		{
+			$uri .= '?'.$query;
+		}
+
+		return $uri;
 	}
 	/**
 	 * Returns an URI for getting a object using WebDAV by its name.
