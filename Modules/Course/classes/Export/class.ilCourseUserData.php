@@ -118,7 +118,7 @@ class ilCourseUserData
 		
 		$query = "SELECT COUNT(*) num_entries FROM crs_user_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
-			"AND value != '' ".
+			"AND value != '' AND value IS NOT NULL ".
 			$and." ".
 			" ";
 		$res = $ilDB->query($query);
@@ -210,10 +210,11 @@ class ilCourseUserData
 	 	
 	 	$query = "INSERT INTO crs_user_data (value,usr_id,field_id) ".
 	 		"VALUES( ".
-	 		$this->db->quote($this->getValue() ,'integer').", ".
+	 		$this->db->quote($this->getValue() ,'text').", ".
 	 		$this->db->quote($this->user_id ,'integer').", ".
 	 		$this->db->quote($this->field_id ,'integer')." ".
 	 		")";
+			
 	 	$res = $ilDB->manipulate($query);
 	}
 

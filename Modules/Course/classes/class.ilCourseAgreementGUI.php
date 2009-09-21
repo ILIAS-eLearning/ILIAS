@@ -145,7 +145,7 @@ class ilCourseAgreementGUI
 	 */
 	private function save()
 	{
-	 	if(!$this->checkCourseDefinedFields())
+		if(!$this->checkCourseDefinedFields())
 	 	{
 	 		ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 	 		$this->showAgreement(false);
@@ -241,7 +241,7 @@ class ilCourseAgreementGUI
 			$course_user_data->setValue($value);
 			$course_user_data->update();
 			
-			if($field_obj->isRequired() and !strlen($value))
+			if($field_obj->isRequired() and !$value)
 			{
 				$all_required = false;
 			}

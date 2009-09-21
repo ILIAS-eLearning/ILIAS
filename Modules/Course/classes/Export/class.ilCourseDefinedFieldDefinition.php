@@ -300,7 +300,7 @@ class ilCourseDefinedFieldDefinition
 		global $lng;
 		
 		$options = array();
-		$options[-1] = $lng->txt('select_one');
+		$options[0] = $lng->txt('select_one');
 		
 		foreach($this->values as $value)
 		{
