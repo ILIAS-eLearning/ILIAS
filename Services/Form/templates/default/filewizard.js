@@ -8,7 +8,7 @@ function cleanImageWizardElements(rootel)
 	for (i = 0; i < images.length; i++) rootel.removeChild(images[i]);
 }
 
-function reindexImageWizardElements(rootel)
+function reindexImageWizardElements(rootel, postvar)
 {
 	// reindex rows
 	rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className.indexOf('odd') >= 0 || el.className.indexOf('even') >= 0) ? true : false; }, 'div', rootel);
@@ -22,6 +22,41 @@ function reindexImageWizardElements(rootel)
 		YAHOO.util.Dom.addClass(rows[i], alter);
 		add = (i == 0) ? "first" : ((i == rows.length-1) ? "last" : "");
 		if (add.length > 0) YAHOO.util.Dom.addClass(rows[i], add);
+
+		var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', rows[i]);
+		for (j = 0; j < addbuttons.length; j++)
+		{
+			addbuttons[j].id = 'add_' + postvar + '[' + i + ']';
+			addbuttons[j].name = 'cmd[add' + postvar + '][' + i + ']';
+			YAHOO.util.Event.addListener(addbuttons[j], 'click', addTextField);
+		}
+		var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', rows[i]);
+		for (j = 0; j < removebuttons.length; j++)
+		{
+			removebuttons[j].id = 'remove_' + postvar + '[' + i + ']';
+			removebuttons[j].name = 'cmd[remove' + postvar + '][' + i + ']';
+			YAHOO.util.Event.addListener(removebuttons[j], 'click', removeTextField);
+		}
+		var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', rows[i]);
+		if (upbuttons.length > 0)
+		{
+			for (j = 0; j < upbuttons.length; j++)
+			{
+				upbuttons[j].id = 'up_' + postvar + '[' + i + ']';
+				upbuttons[j].name = 'cmd[up' + postvar + '][' + i + ']';
+				YAHOO.util.Event.addListener(upbuttons[j], 'click', moveTextFieldUp);
+			}
+		}
+		var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', rows[i]);
+		if (downbuttons.length > 0)
+		{
+			for (j = 0; j < downbuttons.length; j++)
+			{
+				downbuttons[j].id = 'down_' + postvar + '[' + i + ']';
+				downbuttons[j].name = 'cmd[down' + postvar + '][' + i + ']';
+				YAHOO.util.Event.addListener(downbuttons[j], 'click', moveTextFieldDown);
+			}
+		}
 	}
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', rootel);
 	for (i = 0; i < textinputs.length; i++)
@@ -34,61 +69,18 @@ function reindexImageWizardElements(rootel)
 			hiddenfields[j].name = 'picture_' + rootel.id + '[' + i + ']';
 		}
 	}
-	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', rootel);
-	for (i = 0; i < addbuttons.length; i++)
-	{
-		addbuttons[i].id = 'add_' + rootel.id + '[' + i + ']';
-		addbuttons[i].name = 'cmd[add' + rootel.id + '][' + i + ']';
-	}
-	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', rootel);
-	for (i = 0; i < removebuttons.length; i++)
-	{
-		removebuttons[i].id = 'remove_' + rootel.id + '[' + i + ']';
-		removebuttons[i].name = 'cmd[remove' + rootel.id + '][' + i + ']';
-	}
-	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', rootel);
-	for (i = 0; i < upbuttons.length; i++)
-	{
-		upbuttons[i].id = 'up_' + rootel.id + '[' + i + ']';
-		upbuttons[i].name = 'cmd[up' + rootel.id + '][' + i + ']';
-	}
-	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', rootel);
-	for (i = 0; i < downbuttons.length; i++)
-	{
-		downbuttons[i].id = 'down_' + rootel.id + '[' + i + ']';
-		downbuttons[i].name = 'cmd[down' + rootel.id + '][' + i + ']';
-	}
 }
 
 function addTextField(e, obj)
 {
-	parent = this.parentNode;
-	maincontainer = parent.parentNode;
+	var parent = this.parentNode;
+	var maincontainer = parent.parentNode;
+	removeListeners(maincontainer);
 	
 	parentclone = parent.cloneNode(true);
 	cleanImageWizardElements(parentclone);
-	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', parentclone);
-	for (i = 0; i < addbuttons.length; i++)
-	{
-		YAHOO.util.Event.addListener(addbuttons[i], 'click', addTextField);
-	}
-	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', parentclone);
-	for (i = 0; i < removebuttons.length; i++)
-	{
-		YAHOO.util.Event.addListener(removebuttons[i], 'click', removeTextField);
-	}
-	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', parentclone);
-	for (i = 0; i < upbuttons.length; i++)
-	{
-		YAHOO.util.Event.addListener(upbuttons[i], 'click', moveTextFieldUp);
-	}
-	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', parentclone);
-	for (i = 0; i < downbuttons.length; i++)
-	{
-		YAHOO.util.Event.addListener(downbuttons[i], 'click', moveTextFieldDown);
-	}
 	
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
+	var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	parentindex = 0;
 	for (i = 0; i < textinputs.length; i++)
 	{
@@ -102,7 +94,7 @@ function addTextField(e, obj)
 	{
 		maincontainer.insertBefore(parentclone, textinputs[parentindex].parentNode);
 	}
-	reindexImageWizardElements(maincontainer);
+	reindexImageWizardElements(maincontainer, maincontainer.id);
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', parentclone);
 	textinputs[0].focus();
 	return false;
@@ -110,8 +102,8 @@ function addTextField(e, obj)
 
 function removeTextField(e, obj)
 {
-	parent = this.parentNode;
-	maincontainer = parent.parentNode;
+	var parent = this.parentNode;
+	var maincontainer = parent.parentNode;
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	if (textinputs.length == 1)
 	{
@@ -122,14 +114,15 @@ function removeTextField(e, obj)
 	else
 	{
 		maincontainer.removeChild(parent);
-		reindexImageWizardElements(maincontainer);
+		removeListeners(maincontainer);
+		reindexImageWizardElements(maincontainer, maincontainer.id);
 	}
 }
 
 function moveTextFieldUp(e, obj)
 {
-	parent = this.parentNode;
-	maincontainer = parent.parentNode;
+	var parent = this.parentNode;
+	var maincontainer = parent.parentNode;
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	rows = new Array();
 	foundindex = 0;
@@ -153,14 +146,14 @@ function moveTextFieldUp(e, obj)
 		{
 			maincontainer.appendChild(rows[j]);
 		}
-		reindexImageWizardElements(maincontainer);
+		reindexImageWizardElements(maincontainer, maincontainer.id);
 	}
 }
 
 function moveTextFieldDown(e, obj)
 {
-	parent = this.parentNode;
-	maincontainer = parent.parentNode;
+	var parent = this.parentNode;
+	var maincontainer = parent.parentNode;
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	rows = new Array();
 	foundindex = 0;
@@ -184,7 +177,7 @@ function moveTextFieldDown(e, obj)
 		{
 			maincontainer.appendChild(rows[j]);
 		}
-		reindexImageWizardElements(maincontainer);
+		reindexImageWizardElements(maincontainer, maincontainer.id);
 	}
 }
 
@@ -213,6 +206,30 @@ function imagewizardEvents(e)
 	{
 		button = downbuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', moveTextFieldDown);
+	}
+}
+
+function removeListeners(rootel)
+{
+	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', rootel);
+	for (i = 0; i < addbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(addbuttons[i]);
+	}
+	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', rootel);
+	for (i = 0; i < removebuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(removebuttons[i]);
+	}
+	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', rootel);
+	for (i = 0; i < upbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(upbuttons[i]);
+	}
+	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', rootel);
+	for (i = 0; i < downbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(downbuttons[i]);
 	}
 }
 
