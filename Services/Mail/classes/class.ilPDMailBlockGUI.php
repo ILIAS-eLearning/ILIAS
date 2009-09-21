@@ -202,7 +202,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("long");
 			if($mail['sender_id'] != ANONYMOUS_USER_ID)
 			{
-				if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+				if (in_array(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile'), array("y", "g")))
 				{
 					if(!($fullname = $user->getFullname()))
 					{

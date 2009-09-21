@@ -2002,7 +2002,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$new_user->anonymous = false;
 				$new_user->id = $user->getId();
 				$new_user->login = $user->getLogin();
-				if ($user->getPref('public_profile') == 'y') {
+				if (in_array($user->getPref("public_profile"), array("y", "g"))) {
 					// public_profile
 					$new_user->pp = '1';
 					$new_user->img = $user->getPersonalPicturePath();
@@ -2079,7 +2079,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 			$new_user->login = $user_obj->getLogin();
 			
-			if ($user_obj->getPref('public_profile') == 'y') {
+			if (in_array($user->getPref("public_profile"), array("y", "g"))) {
 				//public_profile
 				$new_user->pp = '1';
 				$new_user->img = $user_obj->getPersonalPicturePath();
@@ -2096,7 +2096,7 @@ class ilObjChatGUI extends ilObjectGUI
 			
 			if($ilUser->getId() != ANONYMOUS_USER_ID && $user != ANONYMOUS_USER_ID)	{
 				$ilCtrl->clearParameters($this);
-				if($user_obj->getPref('public_profile') == 'y')	{
+				if(in_array($user_obj->getPref("public_profile"), array("y", "g")))	{
 
 					$ilCtrl->setParameter($this, "user", $user_obj->getId());
 					$link = $ilCtrl->getLinkTarget($this, "showUserProfile");

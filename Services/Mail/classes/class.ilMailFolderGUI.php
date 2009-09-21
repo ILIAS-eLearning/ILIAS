@@ -360,7 +360,7 @@ class ilMailFolderGUI
 				if($mail["sender_id"] != ANONYMOUS_USER_ID)
 				{
 					$tmp_user = new ilObjUser($mail["sender_id"]); 
-					if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+					if (in_array(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile'), array("y", "g")))
 					{
 						$rowData["MAIL_FROM"] = $tmp_user->getFullname();
 					}					
@@ -903,7 +903,7 @@ class ilMailFolderGUI
 			$tmp_user = new ilObjUser($mailData['sender_id']);		
 			$this->ctrl->setParameter($this, 'mail_id', $_GET['mail_id']);
 			$this->ctrl->setParameter($this, 'user', $tmp_user->getId());				
-			if(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile') == 'y')
+			if (in_array(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile'), array("y", "g")))
 			{
 				$this->tpl->setVariable('PROFILE_LINK_FROM', $this->ctrl->getLinkTarget($this, 'showUser'));
 				$this->tpl->setVariable('FROM', $tmp_user->getFullname());

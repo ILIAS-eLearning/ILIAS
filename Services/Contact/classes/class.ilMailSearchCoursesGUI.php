@@ -496,7 +496,7 @@ class ilMailSearchCoursesGUI
 					$login = ilObjUser::_lookupLogin($member);
 	
 					$fullname = "";
-					if(ilObjUser::_lookupPref($member, 'public_profile') == 'y')
+					if(in_array(ilObjUser::_lookupPref($member, 'public_profile'), array("g", 'y')))
 						$fullname = $name['lastname'].', '.$name['firstname'];
 
 					$rowData = array(

@@ -511,7 +511,7 @@ class ilMail
 					{
 						$tmp_obj = new ilObjUser($uid);
 
-						if(ilObjUser::_lookupPref($uid, 'public_profile') == 'y')
+						if (in_array(ilObjUser::_lookupPref($uid, 'public_profile'), array("y", "g")))
 						{								
 							$rcp_to_array[] = $tmp_obj->getFullname().' ['.$recipient.']';
 						}
@@ -534,7 +534,7 @@ class ilMail
 				if($uid = ilObjUser::_lookupId($users))
 				{
 					$tmp_obj = new ilObjUser($uid);
-					if(ilObjUser::_lookupPref($uid, 'public_profile') == 'y')
+					if (in_array(ilObjUser::_lookupPref($uid, 'public_profile'), array("y", "g")))
 					{
 						return $tmp_obj->getFullname().' ['.$users.']';
 					}
