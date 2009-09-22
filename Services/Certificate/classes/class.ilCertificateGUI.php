@@ -318,6 +318,7 @@ class ilCertificateGUI
 
 		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
 		$bgimage->setRequired(FALSE);
+		$dbimage->setUseCache(false);
 		if (count($_POST)) 
 		{
 			// handle the background upload

@@ -169,7 +169,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$form->addCommandButton('save',$this->lng->txt('save'));
-			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		}
 
 		$this->tpl->setContent($form->getHTML());
@@ -188,11 +187,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form_settings = new ilSetting("certificate");
 		$form_settings->set("pageformat", $_POST["pageformat"]);
 		$this->settings();
-	}
-	
-	public function cancel()
-	{
-		$this->ctrl->redirect($this, "settings");
 	}
 }
 ?>

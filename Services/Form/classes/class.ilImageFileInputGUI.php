@@ -10,6 +10,7 @@
 */
 class ilImageFileInputGUI extends ilFileInputGUI
 {
+	protected $cache;
 	
 	/**
 	* Constructor
@@ -25,6 +26,28 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		$this->setType("image_file");
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setHiddenTitle("(".$lng->txt("form_image_file_input").")");
+		$this->cache = true;
+	}
+
+	/**
+	* Set cache
+	*
+	* @param	boolean	$a_cache	If false, the image will be forced to reload in the browser
+	* by adding an URL parameter with the actual timestamp
+	*/
+	public function setUseCache($a_cache)
+	{
+		$this->cache = ($a_cache) ? true : false;
+	}
+	
+	/**
+	* Get cache
+	*
+	* @return boolean
+	*/
+	public function getUseCache()
+	{
+		return $this->cache;
 	}
 
 	/**
@@ -96,7 +119,22 @@ class ilImageFileInputGUI extends ilFileInputGUI
 				$i_tpl->parseCurrentBlock();
 			}
 			$i_tpl->setCurrentBlock("image");
-			$i_tpl->setVariable("SRC_IMAGE", $this->getImage());
+			if (!$this->getUseCache())
+			{
+				$pos = strpos($this->getImage(), '?');
+				if ($pos !== false)
+				{
+					$i_tpl->setVariable("SRC_IMAGE", $this->getImage() . "&amp;time=" . time());
+				}
+				else
+				{
+					$i_tpl->setVariable("SRC_IMAGE", $this->getImage() . "?time=" . time());
+				}
+			}
+			else
+			{
+				$i_tpl->setVariable("SRC_IMAGE", $this->getImage());
+			}
 			$i_tpl->setVariable("ALT_IMAGE", $this->getAlt());
 			$i_tpl->parseCurrentBlock();
 		}
