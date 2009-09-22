@@ -3059,7 +3059,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			foreach ( $sub_nodes as $sub_node ) {
 				if ($sub_node->node_name() == "PlaceHolder") {
 					$curr_node->unlink_node();
-					$this->update();
 				}
 			}
 		}	
