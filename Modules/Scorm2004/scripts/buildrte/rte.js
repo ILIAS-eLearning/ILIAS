@@ -1,4 +1,4 @@
-// Build: 2009922143420 
+// Build: 2009922171047 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11272,6 +11272,12 @@ function save()
 			if (item.options) {
 				if (item.options.notracking === true) 
 				{
+					continue;
+				}
+			}
+			if (type == "objective") {
+				if (item.id == null) {
+					alert("Skipped");
 					continue;
 				}
 			}

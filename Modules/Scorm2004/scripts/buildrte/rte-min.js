@@ -1,4 +1,4 @@
-// Build: 2009922143420 
+// Build: 2009922171047 
 
 function ADLAuxiliaryResource()
 {}
@@ -2359,6 +2359,7 @@ function save()
 {var item=collection[k];if(item.dirty===0){continue;}
 if(item.options){if(item.options.notracking===true)
 {continue;}}
+if(type=="objective"){if(item.id==null){alert("Skipped");continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
