@@ -118,7 +118,7 @@ class ilScorm2004EditorExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 		
 		$this->outputIcons(false);
-		parent::formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id);
+		parent::formatObject($tpl, $a_node_id,$a_option,$a_obj_id);
 	}
 	
 	/**

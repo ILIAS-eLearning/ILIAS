@@ -1456,12 +1456,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// MetaData
 		$this->exportXMLMetaData($a_xml_writer);
 
-		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, &$expLog);
+		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
 		
 		// SCO Objects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Sco Objects");
 		$ilBench->start("ContentObjectExport", "exportScoObjects");
-		$this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, &$expLog);
+		$this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportScoObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Sco Objects");
 	
@@ -1507,7 +1507,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML4PDF($a_inst, $sco_folder, &$expLog);
+			$node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
 		}
 	}
 	
@@ -1529,7 +1529,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Sco Objects");
 		$ilBench->start("ContentObjectExport", "exportScoObjects");
-		$this->exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog);
+		$this->exportHTMLScoObjects($a_inst, $a_target_dir, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportScoObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Sco Objects");
 	
@@ -1607,7 +1607,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportScorm($a_inst, $sco_folder, $ver, &$expLog);
+			$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
 		}
 	}
 
@@ -1628,7 +1628,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML($a_inst, $sco_folder, &$expLog);
+			$node->exportHTML($a_inst, $sco_folder, $expLog);
 		}
 	}
 	/* get public export file
