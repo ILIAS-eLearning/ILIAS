@@ -1537,10 +1537,15 @@ class ilUserImportParser extends ilSaxParser
 				{
 					// Try to convert cdata into unix timestamp, or ignore it
 					$timestamp = strtotime($this->cdata);
-					if ($timestamp !== false)
+					if ($timestamp !== false && trim($this->cdata) != "0000-00-00 00:00:00")
 					{
 						$this->userObj->setTimeLimitFrom($timestamp);
 					}
+					elseif ($this->cdata == "0000-00-00 00:00:00") 
+					{
+					    $this->userObj->setTimeLimitFrom(null);
+					}
+
 				}
 				break;
 
@@ -1554,9 +1559,13 @@ class ilUserImportParser extends ilSaxParser
 				{
 					// Try to convert cdata into unix timestamp, or ignore it
 					$timestamp = strtotime($this->cdata);
-					if ($timestamp !== false)
+					if ($timestamp !== false && trim($this->cdata) != "0000-00-00 00:00:00")
 					{
 						$this->userObj->setTimeLimitUntil($timestamp);
+					}
+					elseif ($this->cdata == "0000-00-00 00:00:00") 
+					{
+					    $this->userObj->setTimeLimitUntil(null);
 					}
 				}
 				break;
@@ -1577,10 +1586,14 @@ class ilUserImportParser extends ilSaxParser
 				{
 					// Try to convert cdata into unix timestamp, or ignore it
 					$timestamp = strtotime($this->cdata);
-					if ($timestamp !== false)
+					if ($timestamp !== false && trim($this->cdata) != "0000-00-00 00:00:00")
 					{
 						$tmp_date = new ilDateTime($timestamp,IL_CAL_UNIX);
 						$this->userObj->setApproveDate($tmp_date->get(IL_CAL_DATETIME));
+					}
+					elseif ($this->cdata == "0000-00-00 00:00:00") 
+					{
+					    $this->userObj->setApproveDate(null);
 					}
 				}
 				break;
@@ -1596,7 +1609,7 @@ class ilUserImportParser extends ilSaxParser
 				{
 					// Try to convert cdata into unix timestamp, or ignore it
 					$timestamp = strtotime($this->cdata);
-					if ($timestamp !== false)
+					if ($timestamp !== false && trim($this->cdata) != "0000-00-00 00:00:00")
 					{
 						$tmp_date = new ilDateTime($timestamp,IL_CAL_UNIX);
 						$this->userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
