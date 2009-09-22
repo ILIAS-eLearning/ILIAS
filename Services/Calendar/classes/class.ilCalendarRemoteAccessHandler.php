@@ -76,6 +76,9 @@ class ilCalendarRemoteAccessHandler
 		$export->export();
 
 		echo $export->getExportString();
+		
+		#$fp = fopen('ilias.ics', 'w');
+		#fwrite($fp,$export->getExportString());
 		exit;
 	}
 	
@@ -90,3 +93,4 @@ class ilCalendarRemoteAccessHandler
 		$GLOBALS['lng']->loadLanguageModule('dateplaner');
 	}
 }
+?>

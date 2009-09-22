@@ -24,6 +24,7 @@
 include_once './Services/Calendar/classes/iCal/class.ilICalWriter.php';
 include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
+include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 
 /**
  * @classDescription Export calendar(s) to ical format
@@ -46,8 +47,8 @@ class ilCalendarExport
 	public function export()
 	{
 		$this->writer->addLine('BEGIN:VCALENDAR');
+		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.0//EN');
 		$this->writer->addLine('VERSION:2.0');
-		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V3.10//EN');
 		
 		$this->addTimezone();
 		$this->addCategories();
@@ -64,7 +65,9 @@ class ilCalendarExport
 	{
 		foreach($this->calendars as $category_id)
 		{
-			foreach(ilCalendarCategory::lookupAppointments($category_id) as $app_id)
+			foreach(ilCalendarCategoryAssignments::_getAssignedAppointments(
+				ilCalendarCategories::_getInstance()->getSubitemCategories($category_id)
+				) as $app_id)
 			{
 				$app = new ilCalendarEntry($app_id);
 				if($app->isMilestone())
@@ -101,16 +104,16 @@ class ilCalendarExport
 		if($app->isFullday())
 		{
 			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
-			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',$ilUser->getTimeZone());
+			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
-			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',$ilUser->getTimeZone());
+			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
 		}
 		else
 		{
 			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
-			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
+			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
-			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
+			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
 		}
 		
 		$this->writer->addLine('DTSTART:'.$start);
@@ -123,6 +126,7 @@ class ilCalendarExport
 			$this->writer->addLine('DESCRIPTION:'.ilICalWriter::escapeText($app->getDescription()));
 		if(strlen($app->getLocation()))
 			$this->writer->addLine('LOCATION:'.ilICalWriter::escapeText($app->getLocation()));
+
 		// TODO: URL
 		$this->writer->addLine('URL:'.ILIAS_HTTP_PATH);
 		$this->writer->addLine('END:VEVENT');
