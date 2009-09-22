@@ -313,6 +313,217 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'editiLinc');
 	}
 	
+	function addSocialBookmarkObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editSocialBookmarks");
+
+		include_once 'class.ilSocialBookmarks.php';
+		$form = ilSocialBookmarks::_initForm($this, 'create');
+		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+	}
+
+	function createSocialBookmarkObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once 'class.ilSocialBookmarks.php';
+		$form = ilSocialBookmarks::_initForm($this, 'create');
+		if ($form->checkInput())
+		{
+			$title = $form->getInput('title');
+			$link = $form->getInput('link');
+			$file = $form->getInput('image_file');
+			$active = $form->getInput('activate');
+
+			$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+			$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . time() . '.' . $extension;
+
+			$path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons';
+			if (!is_dir($path))	
+				ilUtil::createDirectory($path);
+
+			ilSocialBookmarks::_insertSocialBookmark($title, $link, $active, $icon_path);
+
+			ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $icon_path);
+
+			$this->editSocialBookmarksObject();
+		}
+		else
+		{
+			$this->__initSubTabs("editSocialBookmarks");
+			$form->setValuesByPost();
+			$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+		}
+	}
+
+	function updateSocialBookmarkObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once 'class.ilSocialBookmarks.php';
+		$form = ilSocialBookmarks::_initForm($this, 'update');
+		if ($form->checkInput())
+		{
+			$title = $form->getInput('title');
+			$link = $form->getInput('link');
+			$file = $form->getInput('image_file');
+			$active = $form->getInput('activate');
+			$id = $form->getInput('sbm_id');
+
+			if (!$file['name'])
+				ilSocialBookmarks::_updateSocialBookmark($id, $title, $link, $active);
+			else
+			{
+				$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+				$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . time() . '.' . $extension;
+
+				$path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons';
+				if (!is_dir($path))	
+					ilUtil::createDirectory($path);
+
+				ilSocialBookmarks::_deleteImage($id);
+				ilSocialBookmarks::_updateSocialBookmark($id, $title, $link, $active, $icon_path);	
+				ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $icon_path);
+			}
+
+			$this->editSocialBookmarksObject();
+		}
+		else
+		{
+			$this->__initSubTabs("editSocialBookmarks");
+			$form->setValuesByPost();
+			$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+		}
+	}
+
+	/**
+	* edit a social bookmark
+	* 
+	* @access	public
+	*/
+	function editSocialBookmarkObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->__initSubTabs("editSocialBookmarks");
+
+		include_once 'class.ilSocialBookmarks.php';		
+		$row = ilSocialBookmarks::_getEntry($_GET['sbm_id']);
+		$dset = array
+		(
+			'sbm_id' => $row->sbm_id,
+			'title' => $row->sbm_title,
+			'link' => $row->sbm_link,
+			'activate' => $row->sbm_active
+		);
+
+		$form = ilSocialBookmarks::_initForm($this, 'update');
+		$form->setValuesByArray($dset);
+		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+	}
+
+	function enableSocialBookmarksObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
+		include_once 'class.ilSocialBookmarks.php';
+		ilSocialBookmarks::_setActive($ids, true);
+		$this->editSocialBookmarksObject();
+	}
+
+	function disableSocialBookmarksObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+
+		}
+		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
+		include_once 'class.ilSocialBookmarks.php';
+		ilSocialBookmarks::_setActive($ids, false);
+		$this->editSocialBookmarksObject();
+	}
+
+	function deleteSocialBookmarksObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+
+		}
+
+		$this->__initSubTabs("editSocialBookmarks");
+
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
+
+		// set confirm/cancel commands
+		$c_gui->setFormAction($ilCtrl->getFormAction($this, "confirmDeleteSocialBookmarks"));
+		$c_gui->setHeaderText($lng->txt("socialbm_sure_delete_entry"));
+		$c_gui->setCancel($lng->txt("cancel"), "editSocialBookmarks");
+		$c_gui->setConfirm($lng->txt("confirm"), "confirmDeleteSocialBookmarks");
+		
+		include_once 'class.ilSocialBookmarks.php';
+		// add items to delete
+		foreach($ids as $id)
+		{
+			$entry = ilSocialBookmarks::_getEntry($id);
+			$c_gui->addItem("sbm_id[]", $id, $entry->sbm_title . ' (' . str_replace('{', '<span>{</span>', $entry->sbm_link) . ')');
+		}
+		
+		$this->tpl->setVariable('ADM_CONTENT', $c_gui->getHTML());
+	}
+
+	function confirmDeleteSocialBookmarksObject()
+	{
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
+		include_once 'class.ilSocialBookmarks.php';
+		ilSocialBookmarks::_delete($ids, false);
+		$this->editSocialBookmarksObject();
+	}
+
 	/**
 	* Configure social bookmark settings
 	* 
@@ -329,83 +540,80 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->__initSubTabs("editSocialBookmarks");
 		
-		$q = 'SELECT sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm';
-		$rset = $ilDB->query($q);
-		$dset = array();
-		while($row = $ilDB->fetchObject($rset))
+
+
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+		include_once 'class.ilSocialBookmarks.php';
+		$rset = ilSocialBookmarks::_getEntry();
+
+		$counter = 0;
+		foreach($rset as $row)
 		{
+			$current_selection_list = new ilAdvancedSelectionListGUI();
+			$current_selection_list->setListTitle($lng->txt("actions"));
+			$current_selection_list->setId("act_".$counter++);
+
+			$ilCtrl->setParameter($this, 'sbm_id', $row->sbm_id);
+
+			$current_selection_list->addItem($lng->txt("edit"), '', $ilCtrl->getLinkTarget($this, "editSocialBookmark"));
+			$current_selection_list->addItem($lng->txt("delete"), '', $ilCtrl->getLinkTarget($this, "deleteSocialBookmarks"));
+			
+			$toggle_action = '';
+			if ($row->sbm_active)
+			{
+				$current_selection_list->addItem($lng->txt("socialbm_disable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "disableSocialBookmarks"));
+			}
+			else
+			{
+				$current_selection_list->addItem($lng->txt("socialbm_enable"), '', $toggle_action = $ilCtrl->getLinkTarget($this, "enableSocialBookmarks"));
+			}
+
+
+
 			$dset[] = array
 			(
+				'CHECK' => ilUtil::formCheckbox(0, 'sbm_id[]', $row->sbm_id),
 				'ID' => $row->sbm_id,
 				'TITLE' => $row->sbm_title,
 				'LINK' => str_replace('{', '<span>{</span>', $row->sbm_link),
-				'ICON' => ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon),
-				'ACTIVE' => ilUtil::formCheckbox($row->sbm_active, 'sbm_active['.$row->sbm_id.']', 1, false)
+				'ICON' => $row->sbm_icon,
+				'ACTIVE' => $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled'),
+				'ACTIONS' => $current_selection_list->getHTML(),
+				'TOGGLE_LINK' => $toggle_action
 			);
+			$ilCtrl->clearParameters($this);
 		}
-		
+
 		require_once 'Services/Table/classes/class.ilTable2GUI.php';
 		$table = new ilTable2GUI($this, 'editSocialBookmarks');
-		$table->setFormAction($ilCtrl->getLinkTarget($this, 'saveSocialBookmarks'));
+		$table->setFormName('smtable');
+		$table->setId('smtable');
+		$table->setPrefix('sm');
+		$table->setFormAction($ilCtrl->getFormAction($this, 'saveSocialBookmarks'));
+		$table->addColumn('', 'check', '', true);
 		$table->addColumn($lng->txt('icon'), '');
 		$table->addColumn($lng->txt('title'), 'TITLE');
 		$table->addColumn($lng->txt('link'), 'LINK');
 		$table->addColumn($lng->txt('active'), 'ACTIVE');
+		$table->addColumn($lng->txt('actions'), '');
 		$table->setTitle($lng->txt('bm_manage_social_bm'));
 		$table->setData($dset);
 		$table->setRowTemplate('tpl.social_bookmarking_row.html', 'Services/Administration');
-		
-		$table->addCommandButton('saveSocialBookmarks', $lng->txt('save'));
+		$table->setSelectAllCheckbox('sbm_id');
+
+		$table->setDefaultOrderField("title");
+		$table->setDefaultOrderDirection("asc");
+
+		$table->addMultiCommand('enableSocialBookmarks', $lng->txt('socialbm_enable'));
+		$table->addMultiCommand('disableSocialBookmarks', $lng->txt('socialbm_disable'));
+		$table->addMultiCommand('deleteSocialBookmarks', $lng->txt('delete'));
+
+		$table->addCommandButton('addSocialBookmark', $lng->txt('create'));
 		
 		$this->tpl->setVariable('ADM_CONTENT', $table->getHTML());
 	}
 
-
-	/**
-	* Save social bookmark settings
-	*/
-	function saveSocialBookmarksObject()
-	{
-		global $ilCtrl, $ilDB, $ilAccess;
-
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
- 
-		$selected = is_array($_POST['sbm_active']) ? $_POST['sbm_active'] : array();
-
-		$available = is_array($_POST['available_ids']) ? $_POST['available_ids'] : array();
-
-		$q_activate = 'UPDATE bookmark_social_bm SET sbm_active = 1 ';
-		$q_deactivate = 'UPDATE bookmark_social_bm SET sbm_active = 0 ';
-
-		foreach($available as $a)
-		{
-			if (isset($selected[$a]))
-			{
-				$ar_activate[] = 'sbm_id='.$a;
-			}
-			else
-			{
-				$ar_deactivate[] = 'sbm_id='.$a;
-			}
-		}
-
-		if (count($ar_activate))
-		{
-			$q_activate .= ' WHERE ' . join(' OR ', $ar_activate);
-			$ilDB->manipulate($q_activate);
-		}
-		if (count($ar_deactivate))
-		{
-			$q_deactivate .= ' WHERE ' . join(' AND ', $ar_deactivate);
-			$ilDB->manipulate($q_deactivate);
-		}
-
-		$ilCtrl->redirect($this, "editSocialBookmarks");
-	}
-	
 
 	/**
 	* Configure jsMath settings

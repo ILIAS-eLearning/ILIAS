@@ -235,7 +235,8 @@ class ilPermanentLinkGUI
 			$linktpl = $row->sbm_link;
 			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
 			$linktpl = str_replace('{TITLE}', urlencode($title), $linktpl);
-			$current_selection_list->addItem($row->sbm_title, '', $linktpl, ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon) , $row->title, '_blank');
+//			$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . $row->sbm_icon;
+			$current_selection_list->addItem($row->sbm_title, '', $linktpl, $row->sbm_icon, $row->title, '_blank');
 			$cnt++;
 		}
 
