@@ -627,6 +627,16 @@ if ($this->getDBType() == "mysql")
 				$this->error_str);
 		}
 
+		// oracle workaround: do not set null, if null already given
+		if ($this->getDbType() == "oracle")
+		{
+			if ($def["notnull"] == true && $a_attributes["notnull"] == true)
+			{
+				unset($def["notnull"]);
+				unset($a_attributes["notnull"]);
+			}
+		}
+		
 		foreach ($a_attributes as $a => $v)
 		{
 			$def[$a] = $v;

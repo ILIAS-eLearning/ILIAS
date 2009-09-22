@@ -355,11 +355,12 @@ class ilDiskQuotaChecker
 		self::__updateDiskUsageReportOfUsers(new ilObjMailAccess(), 'mail_attachment');
 
 		// insert the sum of the disk usage of each user
+		// note: second % is needed to not fail on oracle char field
 		$ilDB->manipulate("INSERT INTO usr_pref ".
 			"(usr_id, keyword, value) ".
 			"SELECT usr_id, 'disk_usage', SUM(value) ".
 			"FROM usr_pref ".
-			"WHERE ".$ilDB->like("keyword", "text", 'disk_usage.%.size').
+			"WHERE ".$ilDB->like("keyword", "text", 'disk_usage.%.size%').
 			"GROUP BY usr_id"
 			);
 
