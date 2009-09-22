@@ -652,7 +652,7 @@ function exportSelected()
 		ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 		$this->ctrl->redirect($this, "showTrackingItems");
 	} else {
-		$this->object->exportSelected(0);
+		$this->object->exportSelected(0,$_POST["user"]);
 	}	
 }
 
