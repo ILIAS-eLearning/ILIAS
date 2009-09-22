@@ -251,7 +251,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		ilUtil::makeDir($a_target_dir.'/css');
 		ilUtil::makeDir($a_target_dir.'/objects');
 		ilUtil::makeDir($a_target_dir.'/images');
-		$this->exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, 'pdf');
+		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'pdf');
 	}
 	
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode)

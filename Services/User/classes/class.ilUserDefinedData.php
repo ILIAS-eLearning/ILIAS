@@ -71,7 +71,7 @@ class ilUserDefinedData
 						"usr_id" => array("integer", $this->getUserId()),
 						"field_id" => array("integer", $definition['field_id'])),
 						array(
-						"value" => array("text", $this->get("f_".$definition['field_id']))
+						"value" => array("clob", $this->get("f_".$definition['field_id']))
 						));
 			}
 			else
