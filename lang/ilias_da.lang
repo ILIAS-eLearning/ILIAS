@@ -10033,17 +10033,17 @@ style#:#style_edit_style#:#Ret stilark
 style#:#style_delete_style#:#Slet stilark
 crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
-grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_admission_new_sub#:#Din anmodning til gruppen "%s"
+grp#:#grp_mail_admission_new_bod#:#Vi bekræfter hermed at din anmodning om medlemsskab af gruppen "%s".
 grp#:#grp_mail_dismiss_sub#:#Medlemsskab i gruppe "%s" ophørt
 grp#:#grp_mail_dismiss_bod#:#Dit medlemsskab i gruppe "%s" er ophørt.
 grp#:#grp_mail_notification_reg_sub#:#Bruger har tilmeldt sig gruppe "%s"
 grp#:#grp_mail_notification_reg_bod#:#%s har tilmeldt sig gruppe "%s".
-grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_notification_explanation_admin#:#Du modtager denne besked fordi du er gruppeadministrator med advisering slået til.
+grp#:#grp_mail_unsubscribe_member_sub#:#Dit ophør af medlemsskab af gruppen "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#Dit medlemsskab er gruppen %s er hermed ophørt.\n.
 grp#:#grp_mail_notification_unsub_sub#:#Bruger forlod gruppen "%s"
-grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod#:#%s har ophørt sit medlemsskab af gruppen "%s".
 grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Din tilmelding til gruppen "%s"
 grp#:#grp_mail_subscribe_member_bod#:#Det glæder os at bekræfte din indmeldelse i gruppe "%s".
