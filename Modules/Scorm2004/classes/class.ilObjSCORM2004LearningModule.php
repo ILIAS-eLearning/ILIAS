@@ -673,7 +673,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			AND cp_item.resourceid = cp_resource.id 
 			AND scormtype = %s 
 			AND nodename = %s 
-			AND cp_node.slm_id = %s',
+			AND cp_node.slm_id = %s
+			GROUP BY cp_node.cp_node_id',
 			array('text','text', 'integer'),
 			array('sco','item', $this->getId())
 		); 
@@ -687,7 +688,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$obj_id = $this->getID();
 
 		$fields = fgetcsv($fhandle, 4096, ';');
-
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
 			$data = array_combine($fields, $csv_rows);
 			  //check the format
@@ -721,10 +721,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 								$nextId = $ilDB->nextId('cmi_node');
 								$val_set = $ilDB->manipulateF('
 								INSERT INTO cmi_node
-								(cp_node_id,user_id,completion_status,success_status,c_timestamp)
-								VALUES(%s,%s,%s,%s,%s)',
-								array('integer','integer','text','text','timestamp'),
-								array($nextId,$user_id,'completed','passed',$data['Date']));
+								(cp_node_id,user_id,completion_status,success_status,c_timestamp,cmi_node_id)
+								VALUES(%s,%s,%s,%s,%s,%s)',
+								array('integer','integer','text','text','timestamp','integer'),
+								array($sco_id,$user_id,'completed','passed',$data['Date'],$nextId));
 							}
 						}
 						
