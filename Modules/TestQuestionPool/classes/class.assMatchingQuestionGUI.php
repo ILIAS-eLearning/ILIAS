@@ -320,7 +320,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$definitions->setTextName($this->lng->txt('definition_text'));
 		$definitions->setImageName($this->lng->txt('definition_image'));
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-		$definitionvalues = (count($this->object->getDefinitions())) ? $this->object->getDefinitions() : array(new assAnswerMatchingDefinition());
+		if (!count($this->object->getDefinitions())) $this->object->addDefinition(new assAnswerMatchingDefinition());
+		$definitionvalues = $this->object->getDefinitions();
 		$definitions->setValues($definitionvalues);
 		$form->addItem($definitions);
 		
@@ -333,7 +334,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$terms->setTextName($this->lng->txt('term_text'));
 		$terms->setImageName($this->lng->txt('term_image'));
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-		$termvalues = (count($this->object->getTerms())) ? $this->object->getTerms() : array(new assAnswerMatchingTerm());
+		if (!count($this->object->getTerms())) $this->object->addTerm(new assAnswerMatchingTerm());
+		$termvalues = $this->object->getTerms();
 		$terms->setValues($termvalues);
 		$form->addItem($terms);
 		
@@ -346,7 +348,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
 		if (count($this->object->getMatchingPairs()) == 0)
 		{
-			$this->object->addMatchingPair(new assAnswerMatchingPair());
+			$this->object->addMatchingPair(new assAnswerMatchingPair($termvalues[0], $definitionvalues[0], 0));
 		}
 		$pairs->setPairs($this->object->getMatchingPairs());
 		$form->addItem($pairs);

@@ -647,13 +647,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 			get_class($this));
 
-		// certificate
-		$tabs_gui->addTarget("certificate",
-			$this->ctrl->getLinkTarget($this, "certificate"),
-			array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-				"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
-		);
-
+		// create and insert object in objecttree
+		switch ($this->object->getSubType())
+		{
+			
+			case "scorm2004":
+			case "scorm":
+				// certificate
+				$tabs_gui->addTarget("certificate",
+					$this->ctrl->getLinkTarget($this, "certificate"),
+					array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+						"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
+				);
+				break;
+		}
 		// edit meta
 /*
 		$tabs_gui->addTarget("meta_data",
