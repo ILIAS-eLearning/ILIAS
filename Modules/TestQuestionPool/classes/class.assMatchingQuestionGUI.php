@@ -78,7 +78,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setQuestion($questiontext);
-			$this->object->setShuffle($_POST["shuffle"]);
+			if (!$this->getSelfAssessmentEditingMode())
+			{
+				$this->object->setShuffle($_POST["shuffle"]);
+			}
+			else
+			{
+				$this->object->setShuffle(1);
+			}
 			$this->object->setThumbGeometry($_POST["thumb_geometry"]);
 			$this->object->setElementHeight($_POST["element_height"]);
 			if ($this->getSelfAssessmentEditingMode())
@@ -277,21 +284,21 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
 
-		// shuffle
-		$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
-		$shuffle_options = array(
-			0 => $this->lng->txt("no"),
-			1 => $this->lng->txt("matching_shuffle_terms_definitions"),
-			2 => $this->lng->txt("matching_shuffle_terms"),
-			3 => $this->lng->txt("matching_shuffle_definitions")
-		);
-		$shuffle->setOptions($shuffle_options);
-		$shuffle->setValue($this->object->getShuffle());
-		$shuffle->setRequired(FALSE);
-		$form->addItem($shuffle);
-
 		if (!$this->getSelfAssessmentEditingMode())
 		{
+			// shuffle
+			$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
+			$shuffle_options = array(
+				0 => $this->lng->txt("no"),
+				1 => $this->lng->txt("matching_shuffle_terms_definitions"),
+				2 => $this->lng->txt("matching_shuffle_terms"),
+				3 => $this->lng->txt("matching_shuffle_definitions")
+			);
+			$shuffle->setOptions($shuffle_options);
+			$shuffle->setValue($this->object->getShuffle());
+			$shuffle->setRequired(FALSE);
+			$form->addItem($shuffle);
+
 			$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
 			$element_height->setValue($this->object->getElementHeight());
 			$element_height->setRequired(false);

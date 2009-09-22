@@ -1309,7 +1309,7 @@ class assMatchingQuestion extends assQuestion
 		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
-		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['shuffle'] = true;
 		$result['feedback'] = array(
 			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
 			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
