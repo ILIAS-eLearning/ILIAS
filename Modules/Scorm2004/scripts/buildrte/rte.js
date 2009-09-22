@@ -1,4 +1,4 @@
-// Build: 2009921012802 
+// Build: 2009922143420 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11340,7 +11340,7 @@ function save()
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
-//	setTimeout("updateNav(true)",1000);
+	setTimeout("updateNav(true)",1000);
 	return i;
 }
 
@@ -12258,8 +12258,9 @@ var scoStartTime = null;
 
 var treeView=true;
 
-//remove later
 var pubAPI=null;
+
+var saveOnCommit = true;
 // Public interface
 window.scorm_init = init;
 
@@ -12361,19 +12362,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		return setReturn(103, '', 'false');
 	}	
 
-
-	function Commit(param) 
-	{
-		CommitInternal(param,true);
-	}
-
 	
+
 	/**
 	 * Sending changes to data provider 
 	 * @access private, but also bound to 'this'
 	 * @param {string} required; must be '' 
 	 */	 
-	function CommitInternal(param,saveToDB) 
+	function Commit(param) 
 	{
 		setReturn(-1, 'Commit(' + param + ')');
 		if (param!=='') 
@@ -12386,9 +12382,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
-				if (saveToDB) {
-					save();					
-				}
+				if (saveOnCommit == true) {
+					save();
+				}	
 				if (returnValue) 
 				{
 					dirty = false;
@@ -12424,7 +12420,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// resulting in code 111 (REQ_5.3)
 				Runtime.onTerminate(cmiItem, msec); // wrapup from LMS 
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
-				var returnValue = CommitInternal('',false); // save 
+				saveOnCommit = false;
+				var returnValue = Commit(''); // wrap up 
+				saveOnCommit = true;
 				state = TERMINATED;
 				onTerminate(cmiItem); // callback
 				return setReturn(error, '', returnValue);

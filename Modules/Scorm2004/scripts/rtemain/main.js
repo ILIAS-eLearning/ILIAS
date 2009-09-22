@@ -3380,8 +3380,9 @@ var scoStartTime = null;
 
 var treeView=true;
 
-//remove later
 var pubAPI=null;
+
+var saveOnCommit = true;
 // Public interface
 window.scorm_init = init;
 
