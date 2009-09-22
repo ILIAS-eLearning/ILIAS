@@ -973,5 +973,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 			
 		$this->ctrl->redirect($this, "showOrganization");
 	}
+	
+	/**
+	* Cancel action
+	*/
+	function cancel()
+	{
+		$this->ctrl->redirect($this, "showOrganization");
+	}
+	
 }
 ?>
