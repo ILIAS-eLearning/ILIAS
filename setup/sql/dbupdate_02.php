@@ -16011,7 +16011,7 @@ if (!$ilDB->tableExists("payment_erp"))
                       array (0, 'none', 'none', 'No ERP system', ''));                      
   $ilDB->manipulateF("INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
                       array ("integer", "text", "text", "text", "text"), 
-                      array (1, "E-conomic", "eco", "E-conomic online accounting system. Available in Danish, Deutch, Spanish, Norwegian, Swedish and English.", "http://www.e-conomic.dk"));
+                      array (1, "eco", "E-conomic", "E-conomic online accounting system. Available in Danish, Deutch, Spanish, Norwegian, Swedish and English.", "http://www.e-conomic.dk"));
 }
 ?>
 <#2886>
