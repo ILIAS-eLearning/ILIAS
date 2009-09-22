@@ -24,7 +24,7 @@
 /** 
 * @defgroup ServicesWebServicesECS Services/WebServices/ECS
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -643,7 +643,7 @@ class ilECSSettings
 	 	
 	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
 	 	{
-	 		if(isset($cert['serialNumber']) and $cert['serialNumber'])
+			if(isset($cert['serialNumber']) and $cert['serialNumber'])
 	 		{
 	 			$this->setCertSerialNumber($cert['serialNumber']);
 	 			$ilLog->write(__METHOD__.': Serial number is '.$cert['serialNumber']);

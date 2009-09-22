@@ -25,7 +25,7 @@
 * Storage of ECS exported objects.
 * This class stores the econent id and informations whether an object is exported or not. 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -204,7 +204,7 @@ class ilECSExport
 			$query = "INSERT INTO ecs_export (obj_id,econtent_id) ".
 				"VALUES ( ".
 				$this->db->quote($this->obj_id,'integer').", ".
-				"econtent_id = ".$this->db->quote($this->getEContentId(),'integer')." ".
+				$this->db->quote($this->getEContentId(),'integer')." ".
 				")";
 			$res = $ilDB->manipulate($query);
 		}

@@ -23,7 +23,7 @@
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -406,7 +406,7 @@ class ilECSTaskScheduler
 	 	{
 			return false;
 	 	}
-	 	
+		
 	 	if(!$this->settings->checkImportId())
 	 	{
 	 		$this->log->write(__METHOD__.': Import ID is deleted or not of type "category". Aborting');
