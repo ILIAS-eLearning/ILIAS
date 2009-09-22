@@ -253,7 +253,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->form->addItem($select);		
 		
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		#$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 	}
 
 	/**
