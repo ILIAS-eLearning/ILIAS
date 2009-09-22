@@ -60,7 +60,7 @@ class ilLicenseAccess
 
 		// check the object license
 		$query = 'SELECT licenses, used FROM license_data WHERE obj_id = %s';
-		$result = $ilDB->queryF($query, array('integer'), array($this->obj_id));
+		$result = $ilDB->queryF($query, array('integer'), array($a_obj_id));
 
 		if ($row = $ilDB->fetchObject($result))
 		{
