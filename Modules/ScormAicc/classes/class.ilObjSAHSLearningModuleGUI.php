@@ -164,9 +164,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				{
 					$style_gui->setCreationMode(true);
 				}
-				$ret =& $this->ctrl->forwardCommand($style_gui);
 				//$ret =& $style_gui->executeCommand();
 
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+				$ret =& $this->ctrl->forwardCommand($style_gui);
 				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
 				{
 					$style_id = $ret;
