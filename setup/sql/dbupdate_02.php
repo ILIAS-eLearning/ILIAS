@@ -8143,7 +8143,7 @@ RENAME TABLE `usr_defined_data` TO `udf_data`;
 	$res = $ilDB->query($query);
 	while($row = $ilDB->fetchObject($res))
 	{
-		$ilDB->modifyTableColumn('udf_data','f_'.$row->fid, array("type" => "text", "length" => 4000, "notnull" => false));
+		$ilDB->modifyTableColumn('udf_data','f_'.$row->fid, array("type" => "clob", "notnull" => false));
 	}
 ?>
 <#1709>
