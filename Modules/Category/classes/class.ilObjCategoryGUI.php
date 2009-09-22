@@ -126,7 +126,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 
 			default:
-				$this->checkPermission("visible");
+				if ($cmd == "infoScreen")
+				{
+					$this->checkPermission("visible");
+				}
+				else
+				{
+					$this->checkPermission("read");
+				}
 				
 				// add entry to navigation history
 				if (!$this->getCreationMode() &&
