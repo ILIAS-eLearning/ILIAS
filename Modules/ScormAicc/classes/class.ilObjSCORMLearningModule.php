@@ -116,6 +116,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function readObject()
 	{
+		global $ilErr;
+		
 		// the seems_utf8($str) function
 		include_once("include/inc.utf8checker.php");
 		$needs_convert = false;
@@ -235,8 +237,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		{
 			if (!$this->validate($this->getDataDirectory()))
 			{
-				$this->ilias->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),
-					$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),$ilErr->MESSAGE);
 			}
 		}
 
