@@ -10073,3 +10073,7 @@ registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benac
 registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
 common#:#join_session#:#Anmelden
+common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark Dienste gelöscht werden sollen?
+common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
+common#:#socialbm_enable#:#Aktivieren
+common#:#socialbm_disable#:#Deaktivieren

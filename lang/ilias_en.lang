@@ -10061,3 +10061,7 @@ content#:#cont_file_renamed#:#File has been renamed.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_file_deleted#:#File has been deleted.
 content#:#cont_file_unzipped#:#File has been unzipped.
+common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
+common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
+common#:#socialbm_enable#:#Enable
+common#:#socialbm_disable#:#Disable
