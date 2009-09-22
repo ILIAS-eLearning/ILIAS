@@ -90,7 +90,7 @@ class ilDBOracle extends ilDB
 	{
 		$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8';
 		$this->query("ALTER SESSION SET nls_length_semantics='CHAR'");
-		
+		$this->query("ALTER SESSION SET NLS_SORT = binary_ci");
 	}
 
 /*	function manipulate($sql)
