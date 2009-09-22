@@ -10077,3 +10077,13 @@ common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählte
 common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
 common#:#socialbm_enable#:#Aktivieren
 common#:#socialbm_disable#:#Deaktivieren
+common#:#pub_section_info#:#Die Option ermöglicht es Teile des Systems öffentlich, ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen wie Ressourcen öffentlich zugänglich sind.
+pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
+pd#:#pd_enable_global_profiles_info#:#Die Optione ermöglicht Benutzern ihr Profil global (im Internet) zugänglich zu machen.
+user#:#usr_link_to_profile#:#Link zum Profil
+content#:#cont_could_not_determine_resource_size#:#ILIAS konnte die Abmessungen nicht automatisch ermitteln.
+content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
+content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
+content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
+content#:#cont_file_deleted#:#Die Datei wurde umbenannt.
+content#:#cont_file_unzipped#:#Die Datei wurde entpackt.

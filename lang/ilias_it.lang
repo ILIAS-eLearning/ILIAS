@@ -10068,3 +10068,22 @@ grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 200
 common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
 common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
 common#:#title_required#:#Please insert a title###21 09 2009 new variable
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
+registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
+registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
+pd#:#pd_enable_global_profiles#:#Enable Global Profiles###22 09 2009 new variable
+pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.###22 09 2009 new variable
+user#:#usr_link_to_profile#:#Link to Profile###22 09 2009 new variable
+content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.###22 09 2009 new variable
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.###22 09 2009 new variable
+common#:#join_session#:#Join###22 09 2009 new variable
+content#:#cont_dir_renamed#:#Directory has been renamed.###22 09 2009 new variable
+content#:#cont_file_renamed#:#File has been renamed.###22 09 2009 new variable
+content#:#cont_dir_deleted#:#Directory has been deleted.###22 09 2009 new variable
+content#:#cont_file_deleted#:#File has been deleted.###22 09 2009 new variable
+content#:#cont_file_unzipped#:#File has been unzipped.###22 09 2009 new variable
+common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
+common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
+common#:#socialbm_enable#:#Enable###22 09 2009 new variable
+common#:#socialbm_disable#:#Disable###22 09 2009 new variable
