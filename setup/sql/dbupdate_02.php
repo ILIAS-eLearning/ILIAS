@@ -16052,3 +16052,14 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php>
 	$ilDB->addTableColumn("lng_data", "remarks", array("type" => "text", "length" => 250, "notnull" => false, "default" => null));
 ?>
+<#2889>
+<?php
+  $ilDB->manipulateF("INSERT INTO payment_erps (erps_id, erp_id, active, settings) VALUES (%s, %s, %s, %s)",
+    array("integer", "integer", "integer", "text"),
+    array(1,0,0,' '));
+?>
+<#2890>
+<?php
+  $ilDB->modifyTableColumn("payment_erps", "settings", 
+    array("type" => "text", "notnull" => false, "default" => null, "length" => 4000));
+?>
