@@ -10065,3 +10065,10 @@ common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the s
 common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
 common#:#socialbm_enable#:#Enable
 common#:#socialbm_disable#:#Disable
+payment#:#pays_erp#:#ERP
+payment#:#pays_erp_settings#:#ERP Settings
+payment#:#pays_erp_system#:#ERP System
+payment#:#pays_eco_agreement#:#Agreement Number
+payment#:#pays_eco_product_number#:#Product Number
+payment#:#pays_eco_payment_terms#:#Payment Terms
+payment#:#pays_eco_layout#:#Invoice Layout
