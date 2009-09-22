@@ -21,10 +21,12 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/WebServices/ECS/classes/class.ilECSContentWriterException.php';
+
 /** 
 * Handles request like update delete addEContent 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 

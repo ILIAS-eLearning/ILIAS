@@ -1543,10 +1543,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			if(count($parts = $reader->getPublishableParticipants()) > 1)
 			{
 				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
-				$publish_as = new ilCustomInputGUI('','');
-				$publish_as->setHtml('<strong>'.$this->lng->txt('ecs_publish_as').'</strong>');
+				#$publish_as = new ilCustomInputGUI('','');
+				#$publish_as->setHtml('<strong>'.$this->lng->txt('ecs_publish_as').'</strong>');
 				
-				$coms = new ilRadioGroupInputGUI('','ecs_owner');
+				#$publish_as = new ilCheckboxGroupInputGUI(
+				#	$this->lng->txt('ecs_publish_as'),
+				#	'ecs_owner'
+				#);
+				
+				$coms = new ilRadioGroupInputGUI($this->lng->txt('ecs_publish_as'),'ecs_owner');
 				$coms->setValue($owner);
 				
 				foreach($parts as $participant)
@@ -1557,8 +1562,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					$part->setInfo($community->getDescription());
 					$coms->addOption($part);
 				}
-				$publish_as->addSubItem($coms);
-				$on->addSubItem($publish_as);
+				#$publish_as->addSubItem($coms);
+				#$on->addSubItem($publish_as);
+				$on->addSubItem($coms);
 			}
 			//elseif(count($parts) == 1)
 			else
@@ -1570,18 +1576,34 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->form->addItem($hidden);
 			}
 			
-			$publish_for = new ilCustomInputGUI('','');
-			$publish_for->setHtml('<strong>'.$this->lng->txt('ecs_publish_for').'</strong>');
+			#$publish_for = new ilCustomInputGUI('','');
+			$publish_for = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_publish_for'),'ecs_mids');
+			$publish_for->setValue((array) $members);
+			
+			#$publish_for->setHtml('<strong>'.$this->lng->txt('ecs_publish_for').'</strong>');
 			
 			foreach($reader->getEnabledParticipants() as $participant)
 			{
 				$community = $reader->getCommunityById($participant->getCommunityId());
 				
-				$com = new ilCheckboxInputGUI('','ecs_mids[]');
-				$com->setOptionTitle($community->getTitle().': '.$participant->getParticipantName());
-				$com->setValue($participant->getMID());
-				$com->setChecked(in_array($participant->getMID(),$members));
-				$publish_for->addSubItem($com);
+				$com = new ilCheckboxInputGUI(
+					$community->getTitle().': '.$participant->getParticipantName(),
+					'ecs_mids'
+				);
+				
+				
+				$com = new ilCheckboxOption(
+					$community->getTitle().': '.$participant->getParticipantName(),
+					$participant->getMID()
+				);
+				$publish_for->addOption($com);					
+				
+				
+				#$com = new ilCheckboxInputGUI('111','ecs_mids[]');
+				#$com->setOptionTitle($community->getTitle().': '.$participant->getParticipantName());
+				#$com->setValue($participant->getMID());
+				#$com->setChecked(in_array($participant->getMID(),$members));
+				#$publish_for->addSubItem($com);
 			}
 			
 			$on->addSubItem($publish_for);
@@ -4483,7 +4505,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					break;
 				}
 				
-				if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId()))){
+				if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId())))
+				{
+					$this->ctrl->setReturn($this,'view');
 					include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 					$feedbackGUI = new ilFeedbackGUI();
 					$feedbackGUI->handleRequiredFeedback($this->object->getRefId());

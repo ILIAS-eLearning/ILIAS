@@ -23,7 +23,7 @@
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -444,7 +444,7 @@ class ilECSSettingsGUI
 		}
 		catch(ilECSConnectorException $e)
 		{
-			ilUtil::sendInfo('Cannot connect to ECS server: '.$e1->getMessage());
+			ilUtil::sendInfo('Cannot connect to ECS server: '.$e->getMessage());
 			$this->communities();
 			return false;
 		}
