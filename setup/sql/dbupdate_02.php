@@ -8729,8 +8729,8 @@ ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `os_
 					"type" => "text", "length" => 8, "notnull" => true, "default" => "users")
 			)
 		);
-		$ilDB->addPrimaryKey("payment_news",array("news_id"));
-		$ilDB->addIndex('payment_news', array('creation_date'), 'i1');
+		$ilDB->addPrimaryKey("payment_news", array("news_id"));
+		$ilDB->query('ALTER TABLE payment_news ADD INDEX c_date( creation_date)') ;
 	}
 ?>
 <#1854>
