@@ -465,9 +465,9 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->tpl->setContent($this->form->getHTML());
 			return false;	
 		}
-		
+var_dump($_POST); echo "<br><br>";
 		$data = $this->form->getInput('file');		
-
+var_dump($data); echo "<br><br>";
 		// delete trailing '/' in filename
 		while (substr($data["name"],-1) == '/')
 		{
@@ -504,9 +504,8 @@ class ilObjFileGUI extends ilObjectGUI
 			// END WebDAV: Ensure that object title ends with the filename extension
 		}
 		$this->object->setTitle($title);
-				
 
-		if (!empty($data["name"]["file"]))
+		if (!empty($data["name"]))
 		{
 			switch($this->form->getInput('replace'))
 			{
@@ -521,7 +520,6 @@ class ilObjFileGUI extends ilObjectGUI
 			}
 		}
 		$this->object->setDescription($this->form->getInput('description'));
-		
 		$this->update = $this->object->update();
 
 		// BEGIN ChangeEvent: Record update event.
