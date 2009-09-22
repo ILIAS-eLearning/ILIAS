@@ -214,7 +214,8 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
 			$this->tpl->setVariable("IMG_SPACE_DESK", ilUtil::getImagePath("spacer.gif", false));
 			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
-			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI&PDHistory=1"));
+			#$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI&PDHistory=1"));
+			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"));
 			$this->tpl->setVariable("TARGET_DESK", $this->target);
 			if ($this->active == "desktop")
 			{
