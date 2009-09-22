@@ -587,7 +587,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			{
 				$query = 'SELECT * FROM cmi_node ' 
 					   . 'WHERE user_id = %s AND cp_node_id = %s '
-					   . 'AND completion_status = %s AND success_status = %s';
+					   . 'AND completion_status = %s OR success_status = %s';
 				$res = $ilDB->queryF(
 					$query,
 					array('integer', 'integer', 'text', 'text'),
