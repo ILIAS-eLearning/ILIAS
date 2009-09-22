@@ -35,6 +35,16 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	 */
 	public function checkInput()
 	{
+		if ($this->getAcceptNamedColors() && substr($_POST[$this->getPostVar()], 0, 1) == "!")
+		{
+			$_POST[$this->getPostVar()] =
+				ilUtil::stripslashes(trim($_POST[$this->getPostVar()]));
+		}
+		else
+		{
+			$_POST[$this->getPostVar()] =
+				$this->determineHexcode(ilUtil::stripslashes(trim($_POST[$this->getPostVar()])));
+		}
 		return true;
 	}
 	
