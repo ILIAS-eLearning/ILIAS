@@ -1035,14 +1035,15 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if (!isset($_POST["pglayout"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-		}
-
-		 foreach ($_POST["pglayout"] as $item)
-		 {
-			$pg_layout = new ilPageLayout($item);
-			$pg_layout->activate($a_activate);
-		 }
-		 $this->ctrl->redirect($this, "viewPageLayouts");
+		} else {
+			ilUtil::sendSuccess($this->lng->txt("sty_opt_saved"),true);
+			foreach ($_POST["pglayout"] as $item)
+			{
+				$pg_layout = new ilPageLayout($item);
+				$pg_layout->activate($a_activate);
+			}
+		}	
+		$this->ctrl->redirect($this, "viewPageLayouts");
 	}
 	
 	function deactivateObject(){
