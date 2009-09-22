@@ -255,7 +255,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					$qtitle = assQuestion::_getTitle($qid);
 					$tpl->setVariable("TXT_QUESTION", $qtitle);
 					$ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $page["obj_id"]);
-					$tpl->setVariable("HREF_EDIT_QUESTION", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
+					//$tpl->setVariable("HREF_EDIT_QUESTION", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
 					
 					$tpl->setVariable("CSS_ROW", ilUtil::switchColor($i++, "tblrow1", "tblrow2"));
 					$tpl->parseCurrentBlock();
