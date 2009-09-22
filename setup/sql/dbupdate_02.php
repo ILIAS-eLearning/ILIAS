@@ -16081,4 +16081,5 @@ if (!$ilDB->tableExists("payment_erps"))
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'Folkd', 'http://www.folkd.com/submit/{LINK}', 'templates/default/images/socialbookmarks/folkd.gif',1));
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'Mister Wong', 'http://www.mister-wong.de/index.php?action=addurl&bm_url={LINK}&title={TITLE}', 'templates/default/images/socialbookmarks/wong.jpg',1));
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'StumbleUpon', 'http://www.stumbleupon.com/submit?url={LINK}&title={TITLE}', 'templates/default/images/socialbookmarks/stumbleupon.jpg',1));
+
 ?>
