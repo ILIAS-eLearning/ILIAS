@@ -192,6 +192,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 			}
 		}
 		
+		$max = 0;
 		if (is_array($_POST[$this->getPostVar()]['coords']['name']))
 		{
 			foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name)
@@ -206,7 +207,14 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 					$this->setAlert($lng->txt('form_msg_numeric_value_required'));
 					return false;
 				}
+				if ($_POST[$this->getPostVar()]['coords']['points'][$idx] > 0) $max = $_POST[$this->getPostVar()]['coords']['points'][$idx];
 			}
+		}
+
+		if ($max == 0)
+		{
+			$this->setAlert($lng->txt("enter_enough_positive_points"));
+			return false;
 		}
 		return true;
 	}
