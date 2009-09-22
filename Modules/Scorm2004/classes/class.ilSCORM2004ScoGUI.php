@@ -518,7 +518,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 		$cols = array("", "type", "file", "size", "date");
 		$header_params = array("ref_id" => $_GET["ref_id"], "baseClass" => $_GET["baseClass"],
-			"cmd" => "exportList", "cmdClass" => strtolower(get_class($this)));
+			"cmd" => "showExportList", "cmdClass" => strtolower(get_class($this)),
+			"cmdNode" => $_GET["cmdNode"], "obj_id" => $_GET["obj_id"]);
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
 
