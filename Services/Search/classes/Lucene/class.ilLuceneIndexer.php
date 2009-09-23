@@ -48,7 +48,7 @@ class ilLuceneIndexer
 	 */
 	public function index()
 	{
-		global $ilSetting;
+		global $ilSetting,$ilLog;
 		
 		try
 		{
