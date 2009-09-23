@@ -1192,7 +1192,7 @@ function showTrackingItem()
 	{
 		global $tpl;
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.scorm2004_export_buttons.html", 'Modules/Scorm2004');
+		$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
 
 		$buttons = array(
 			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
@@ -1204,112 +1204,30 @@ function showTrackingItem()
 		);
 		foreach ($buttons as $value => $text)
 		{
-			$this->tpl->setCurrentBlock('option');
-			$this->tpl->setVariable('OPTION_VALUE', $value);
-			$this->tpl->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($text));
-			$this->tpl->parseCurrentBlock();
+			$template->setCurrentBlock('option');
+			$template->setVariable('OPTION_VALUE', $value);
+			$template->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($text));
+			$template->parseCurrentBlock();
 		}
-		$this->tpl->setVariable('EXPORT_TITLE', $this->lng->txt('export'));
-		$this->tpl->setVariable('EXPORT_LABEL', $this->lng->txt('type'));
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));
+		$template->setVariable('EXPORT_TITLE', $this->lng->txt('export'));
+		$template->setVariable('EXPORT_LABEL', $this->lng->txt('type'));
+		$template->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));
 
 		$export_files = $this->object->getExportFiles();
 
-		// create table
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("EXPORT_TABLE", "export_table", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/LearningModule");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("cont_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
-			$this->lng->txt("cont_file"),
-			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
-
-		$cols = array("", "type", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"], "baseClass" => $_GET["baseClass"],
-			"cmd" => "exportList", "cmdClass" => strtolower(get_class($this)));
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		$tbl->disable("sort");
-
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
-
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "publishExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_public_access"));
-		$this->tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-		$tbl->render();
-		if(count($export_files) > 0)
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
+		$table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList');
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-				$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
-					? " <b>(".$this->lng->txt("public").")<b>"
-					: "";
-				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"].$public_str);
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
-
-				$file_arr = explode("__", $exp_file["file"]);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 4);
-			$this->tpl->parseCurrentBlock();
+			$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+				? " <b>(".$this->lng->txt("public").")<b>"
+				: "";
+			$file_arr = explode("__", $exp_file["file"]);
+			array_push($data, array('file' => $exp_file['file'], 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
 		}
-
-		$this->tpl->parseCurrentBlock();
-		
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
 	}
 
 	/**
@@ -1387,7 +1305,7 @@ function showTrackingItem()
 
 		// export
 		$tabs_gui->addTarget("export",
-		$this->ctrl->getLinkTarget($this, "showExportList"), "showExportList",
+		$this->ctrl->getLinkTarget($this, "showExportList"), array("showExportList", 'confirmDeleteExportFile'),
 		get_class($this));
 
 		// perm
@@ -2276,55 +2194,40 @@ function showTrackingItem()
 		ilUtil::deliverFile($export_dir."/".$file[1], $file[1]);
 	}
 	
-	/* confirmation screen for export file deletion
+	/**
+	* confirmation screen for export file deletion
 	*/
 	function confirmDeleteExportFile()
 	{
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
+			$this->ctrl->redirect($this, "showExportList");
 		}
 
-		$this->setTabs();
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+		$export_files = $this->object->getExportFiles();
 
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
-
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		foreach($_POST["file"] as $file)
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
+		$table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList', true);
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-				$file = explode(":", $file);
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file[1]." (".$file[0].")");
-				$this->tpl->parseCurrentBlock();
+			foreach ($_POST['file'] as $delete_file)
+			{
+				if (strcmp($delete_file, $exp_file['file']) == 0)
+				{
+					$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+						? " <b>(".$this->lng->txt("public").")<b>"
+						: "";
+					$file_arr = explode("__", $exp_file["file"]);
+					array_push($data, array('file' => $exp_file['file'], 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
+				}
+			}
 		}
-
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
-			"deleteExportFile"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
-
 
 	/**
 	* cancel deletion of export files
@@ -2341,14 +2244,14 @@ function showTrackingItem()
 	*/
 	function deleteExportFile()
 	{
-		foreach($_SESSION["ilExportFiles"] as $file)
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$export = new ilSCORM2004Export($this->object);
+		foreach($_POST['file'] as $idx => $file)
 		{
-			$file = explode(":", $file);
-			$export = new ilSCORM2004Export($this->object);
-			$export_dir = $export->getExportDirectoryForType($file[0]);
-		
-			$exp_file = $export_dir."/".$file[1];
-			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
+			$export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
+			$exp_file = $export_dir."/".$file;
+			include_once "./Services/Utilities/classes/class.ilStr.php";
+			$exp_dir = $export_dir."/".ilStr::subStr($file, 0, ilStr::strLen($file) - 4);
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
@@ -2358,6 +2261,7 @@ function showTrackingItem()
 				ilUtil::delDir($exp_dir);
 			}
 		}
+		ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
@@ -2379,7 +2283,6 @@ function showTrackingItem()
 		$export = new ilSCORM2004Export($this->object);
 		$export_dir = $export->getExportDirectoryForType($file[0]);
 		
-
 		if ($this->object->getPublicExportFile($file[0]) ==	$file[1])
 		{
 			$this->object->setPublicExportFile($file[0], "");

@@ -9722,6 +9722,7 @@ survey#:#spl_paste_success#:#The question(s) have been pasted into the question 
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.
 survey#:#msg_deleted_export_files#:#Export file(s) deleted
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted
+common#:#msg_deleted_export_files#:#Export file(s) deleted
 common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
 common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
