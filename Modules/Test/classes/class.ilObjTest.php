@@ -9155,7 +9155,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$print_output = str_replace("&nbsp;", "&#160;", $print_output);
 			$print_output = str_replace("&otimes;", "X", $print_output);
 		}
-
 		$xsl = file_get_contents("./Modules/Test/xml/question2fo.xsl");
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
