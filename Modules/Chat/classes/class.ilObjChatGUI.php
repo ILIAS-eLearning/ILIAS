@@ -211,7 +211,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$table = new ilTable2GUI($this, 'blockedUsers');
 		
 		$table->setTitle($lng->txt('chat_blocked_users'));
-		
+		$table->setId('cht_blocked_users_' . $this->object->getId());
 		$table->setFormAction($ilCtrl->getFormAction($this));
 		$table->addColumn('', 'checkbox', '2%', true);
 		$table->addColumn($lng->txt('chat_user_name'), 'login');
@@ -823,7 +823,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$table = new ilTable2GUI($this, $lng->txt('chat_recordings'));
 		$table->setTitle($lng->txt('chat_recordings'));
 		$table->setData($tablelines);
-		
+		$table->setId('cht_recordings_tbl_' . $this->object->getId());
 		$table->addColumn('', 'checkbox', '1%', true);
 		$table->addColumn($lng->txt('title'), 'RECORDING_TITLE', '35%');
 		$table->addColumn($lng->txt('chat_recording_moderator'), 'RECORDING_MODERATOR', '15%');

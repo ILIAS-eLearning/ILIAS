@@ -230,7 +230,7 @@ class ilBookmarkAdministrationGUI
 
 		include_once 'Services/PersonalDesktop/classes/class.ilBookmarkAdministrationTableGUI.php';
 		$table = new ilBookmarkAdministrationTableGUI($this);
-
+		$table->setId('bookmark_adm_table');
 		/*
 		// return to parent folder
 		// disabled
