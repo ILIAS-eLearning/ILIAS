@@ -1179,6 +1179,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
+		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
 
 		if (!$this->ini->write())
 		{
