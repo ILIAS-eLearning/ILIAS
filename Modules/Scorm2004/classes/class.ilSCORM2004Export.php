@@ -48,11 +48,11 @@ class ilScorm2004Export
 	* Constructor
 	* @access	public
 	*/
-	function ilScorm2004Export(&$a_cont_obj, $a_mode = "SCORM 2004")
+	function ilScorm2004Export(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
 	{
 		global $ilErr, $ilDB, $ilias;
 
-		$this->export_types = array("SCORM 2004","SCORM 1.2","HTML","ISO","PDF");
+		$this->export_types = array("SCORM 2004 3rd","SCORM 2004 4th","SCORM 1.2","HTML","ISO","PDF");
 		
 		if(!in_array($a_mode,$this->export_types))
 			die("Unsupported format");
@@ -101,8 +101,10 @@ class ilScorm2004Export
 				return $ret."_iso";
 			case "PDF":
 				return $ret."_pdf";
-			case "SCORM 2004":
-				return $ret."_scorm2004";
+			case "SCORM 2004 3rd":
+				return $ret."_scorm2004_3rd";
+			case "SCORM 2004 4th":
+				return $ret."_scorm2004_4th";
 			case "HTML":
 				return $ret."_html";
 			case "SCORM 1.2":		
@@ -149,8 +151,10 @@ class ilScorm2004Export
 	{
 		switch ($this->mode)
 		{
-			case "SCORM 2004":
-				return $this->buildExportFileSCORM("2004");
+			case "SCORM 2004 3rd":
+				return $this->buildExportFileSCORM("2004 3rd");
+			case "SCORM 2004 4th":
+				return $this->buildExportFileSCORM("2004 4th");	
 			case "SCORM 1.2":
 				return $this->buildExportFileSCORM("12");
 			case "HTML":
