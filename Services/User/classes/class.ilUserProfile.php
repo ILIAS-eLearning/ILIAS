@@ -71,6 +71,14 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getUTitle",
 						"group" => "personal_data"),
+		"birthday" => array(
+						"input" => "birthday",
+						"lang_var" => "birthday",
+						"maxlength" => 32,
+						"size" => 40,
+						"registration_hide" => true,
+						"method" => "getBirthday",
+						"group" => "personal_data"),
 		"gender" => array(
 						"input" => "radio",
 						"values" => array("f" => "gender_f", "m" => "gender_m"),
@@ -361,6 +369,24 @@ class ilUserProfile
 						$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$ti->setRequired($ilSetting->get("require_".$f));
 						$a_form->addItem($ti);
+					}
+					break;
+
+				case "birthday":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						$bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_".$f);
+						include_once "./Services/Calendar/classes/class.ilDateTime.php";
+						if (strlen($a_user->$m()))
+						{
+							$date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
+							$bi->setDate($date);
+						}
+						$bi->setShowEmpty(true);
+						$bi->setStartYear(1900);
+						$bi->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						$bi->setRequired($ilSetting->get("require_".$f));
+						$a_form->addItem($bi);
 					}
 					break;
 					

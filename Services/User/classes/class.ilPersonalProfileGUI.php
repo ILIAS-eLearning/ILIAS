@@ -1996,6 +1996,27 @@ return;
 			{
 				$ilUser->setUTitle($_POST["usr_title"]);
 			}
+			if ($this->workWithUserSetting("birthday"))
+			{
+				if (is_array($_POST['usr_birthday']))
+				{
+					if (is_array($_POST['usr_birthday']['date']))
+					{
+						if (($_POST['usr_birthday']['d'] > 0) && ($_POST['usr_birthday']['m'] > 0) && ($_POST['usr_birthday']['y'] > 0))
+						{
+							$ilUser->setBirthday(sprintf("%04d-%02d-%02d", $_POST['user_birthday']['y'], $_POST['user_birthday']['m'], $_POST['user_birthday']['d']));
+						}
+						else
+						{
+							$ilUser->setBirthday("");
+						}
+					}
+					else
+					{
+						$ilUser->setBirthday($_POST['usr_birthday']['date']);
+					}
+				}
+			}
 			$ilUser->setFullname();
 			if ($this->workWithUserSetting("institution"))
 			{
