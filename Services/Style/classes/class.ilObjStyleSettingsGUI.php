@@ -955,6 +955,12 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 	function setScopeObject()
 	{
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.explorer.html");
 		
