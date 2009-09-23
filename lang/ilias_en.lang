@@ -27,7 +27,7 @@ common#:#access_expired#:#expired
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes saved in the database before ILIAS 3.10.0 may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory. Local changes saved with ILIAS 3.10.0 or higher are kept, if they are newer than the modification date of the local language file.
+common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages will read the global language files of ILIAS and probably the local language files from the Customizing directory to the database. Global language files will not affect your manual changes. A local langage file will overwrite all manual changes that are older than the saving date of the local language file.
 common#:#delete_existing_file#:#Delete Existing File
 common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
