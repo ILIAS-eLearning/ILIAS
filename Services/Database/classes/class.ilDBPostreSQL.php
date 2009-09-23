@@ -83,6 +83,29 @@ class ilDBPostgreSQL extends ilDB
 	{
 		return false;
 	}
+	
+	/**
+	 * Lock table
+	 * 
+	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * @param array $a_tables
+	 * @param int $a_mode
+	 * @param string $a_alias
+	 * @return 
+	 */
+	public function lockTables($a_tables)
+	{
+		return true;
+	}
+	
+	/**
+	 * Unlock tables
+	 * @return 
+	 */
+	public function unlockTables()
+	{
+		return true;
+	}
 
 }
 ?>
