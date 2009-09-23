@@ -469,131 +469,56 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$this->setTabs();
 		$this->setLocator();
 		
-		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		//create SCORM 1.2 export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $ilCtrl->getLinkTarget($this, "exportScorm12"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("scorm_create_export_file_scrom12"));
-		$tpl->parseCurrentBlock();
 
-		//create SCORM 2004 export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $ilCtrl->getLinkTarget($this, "exportScorm2004"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("scorm_create_export_file_scrom2004"));
-		$tpl->parseCurrentBlock();
+		$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
 
-		//create PDF export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $ilCtrl->getLinkTarget($this, "exportPDF"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("scorm_create_export_file_pdf"));
-		$tpl->parseCurrentBlock();
+		$buttons = array(
+			"exportScorm2004_3rd" => $lng->txt("scorm_create_export_file_scrom2004"),
+			"exportScorm2004_4th" => $lng->txt("scorm_create_export_file_scrom2004_4th"),
+			"exportScorm12" => $lng->txt("scorm_create_export_file_scrom12"),
+			"exportPDF" => $lng->txt("scorm_create_export_file_pdf"),
+			"exportHTML" => $lng->txt("scorm_create_export_file_html")
+		);
+		foreach ($buttons as $value => $text)
+		{
+			$template->setCurrentBlock('option');
+			$template->setVariable('OPTION_VALUE', $value);
+			$template->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($text));
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable('EXPORT_TITLE', $lng->txt('export'));
+		$template->setVariable('EXPORT_LABEL', $lng->txt('type'));
+		$template->setVariable('FORMACTION', $ilCtrl->getFormAction($this, 'selectExport'));
 
-		//create HTML export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $ilCtrl->getLinkTarget($this, "exportHTML"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("scorm_create_export_file_html"));
-		$tpl->parseCurrentBlock();
-		
 		$export_files = $this->node_object->getExportFiles();
 
-		// create table
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/LearningModule");
-
-		$num = 0;
-
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($lng->txt("cont_export_files"));
-
-		$tbl->setHeaderNames(array("", $lng->txt("type"),
-			$lng->txt("cont_file"),
-			$lng->txt("cont_size"), $lng->txt("date") ));
-
-		$cols = array("", "type", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"], "baseClass" => $_GET["baseClass"],
-			"cmd" => "showExportList", "cmdClass" => strtolower(get_class($this)),
-			"cmdNode" => $_GET["cmdNode"], "obj_id" => $_GET["obj_id"]);
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		$tbl->disable("sort");
-
-
-		$tpl->setVariable("COLUMN_COUNTS", 5);
-
-		// delete button
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$tpl->setVariable("BTN_VALUE", $lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$tpl->setVariable("BTN_VALUE", $lng->txt("download"));
-		$tpl->parseCurrentBlock();
-
-//		$tpl->setCurrentBlock("tbl_action_btn");
-//		$tpl->setVariable("BTN_NAME", "publishExportFile");
-//		$tpl->setVariable("BTN_VALUE", $lng->txt("cont_public_access"));
-//		$tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-		$tbl->render();
-		if(count($export_files) > 0)
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
+		$table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList');
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				$tpl->setCurrentBlock("tbl_content");
-				$tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$tpl->setVariable("CSS_ROW", $css_row);
-
-				$tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-				//$public_str = ($exp_file["file"] == $this->node_object->getPublicExportFile($exp_file["type"]))
-				//	? " <b>(".$lng->txt("public").")<b>"
-				//	: "";
-				$tpl->setVariable("TXT_TYPE", $exp_file["type"]);
-				$tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
-
-				$file_arr = explode("__", $exp_file["file"]);
-				$tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			$tpl->setCurrentBlock("notfound");
-			$tpl->setVariable("TXT_OBJECT_NOT_FOUND", $lng->txt("obj_not_found"));
-			$tpl->setVariable("NUM_COLS", 4);
-			$tpl->parseCurrentBlock();
+			$filetype = $exp_file['type'];
+		//	$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($filetype))
+		//		? " <b>(".$this->lng->txt("public").")<b>"
+		//		: "";
+			$file_arr = explode("__", $exp_file["file"]);
+			array_push($data, array('file' => $exp_file['file'], 'filetype' => $filetype, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
 		}
-		$tpl->parseCurrentBlock();
+		$table_gui->setData($data);
+		$tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
+		
 		
 	}
+
+	function exportScorm2004_4th()
+	{
+		$export = new ilScorm2004Export($this->node_object,'SCORM 2004 4th');
+		$export->buildExportFile();
+		$this->ctrl->redirect($this, "showExportList");
+	}
+
 	
-	function exportScorm2004()
+	function exportScorm2004_3rd()
 	{
 		$export = new ilScorm2004Export($this->node_object,'SCORM 2004 3rd');
 		$export->buildExportFile();
@@ -630,75 +555,56 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	
 	function downloadExportFile()
 	{
-		global $ilias, $lng;
-		
 		if(!isset($_POST["file"]))
 		{
-			$ilias->raiseError($lng->txt("no_checkbox"),$ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			$ilias->raiseError($lng->txt("cont_select_max_one_item"),$ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		$file = explode(":", $_POST["file"][0]);
 		$export = new ilSCORM2004Export($this->node_object);
-		$export_dir = $export->getExportDirectoryForType($file[0]);
-		ilUtil::deliverFile($export_dir."/".$file[1], $file[1]);
+		$export_dir = $export->getExportDirectoryForType($_POST['type'][$_POST['file'][0]]);
+		ilUtil::deliverFile($export_dir."/".$_POST['file'][0], $_POST['file'][0]);
 	}
 	
-/* confirmation screen for export file deletion
+	/**
+	* confirmation screen for export file deletion
 	*/
 	function confirmDeleteExportFile()
 	{
-		global $ilias, $lng, $tpl;
+		global $lng, $tpl;
 		
 		if(!isset($_POST["file"]))
 		{
-			$ilias->raiseError($lng->txt("no_checkbox"),$ilias->error_obj->MESSAGE);
+			ilUtil::sendInfo($lng->txt("no_checkbox"),true);
+			$this->ctrl->redirect($this, "showExportList");
 		}
 
-		$this->setTabs();
+		ilUtil::sendQuestion($lng->txt("info_delete_sure"));
+		$export_files = $this->node_object->getExportFiles();
 
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
-
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
-
-		ilUtil::sendInfo($lng->txt("info_delete_sure"));
-
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$tpl->setCurrentBlock("table_header");
-		$tpl->setVariable("TEXT",$lng->txt("objects"));
-		$tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		foreach($_POST["file"] as $file)
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
+		$table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList', true);
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-			$file = explode(":", $file);
-			$tpl->setCurrentBlock("table_row");
-			$tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$tpl->setVariable("TEXT_CONTENT", $file[1]." (".$file[0].")");
-			$tpl->parseCurrentBlock();
+			foreach ($_POST['file'] as $delete_file)
+			{
+				if (strcmp($delete_file, $exp_file['file']) == 0)
+				{
+			//		$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+			//			? " <b>(".$this->lng->txt("public").")<b>"
+			//			: "";
+					$file_arr = explode("__", $exp_file["file"]);
+					array_push($data, array('file' => $exp_file['file'], 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
+				}
+			}
 		}
-
-		// cancel/confirm button
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $lng->txt("cancel"),
-			"deleteExportFile"  => $lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$tpl->setCurrentBlock("operation_btn");
-			$tpl->setVariable("BTN_NAME",$name);
-			$tpl->setVariable("BTN_VALUE",$value);
-			$tpl->parseCurrentBlock();
-		}
+		$table_gui->setData($data);
+		$tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
-
 
 	/**
 	* cancel deletion of export files
@@ -709,28 +615,25 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$this->ctrl->redirect($this, "showExportList");
 	}
 
+
 	/**
 	* delete export files
 	*/
 	function deleteExportFile()
 	{
-		foreach($_SESSION["ilExportFiles"] as $file)
+		global $lng;
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$export = new ilSCORM2004Export($this->node_object);
+		foreach($_POST['file'] as $idx => $file)
 		{
-			$file = explode(":", $file);
-			$export = new ilSCORM2004Export($this->node_object);
-			$export_dir = $export->getExportDirectoryForType($file[0]);
-		
-			$exp_file = $export_dir."/".$file[1];
-			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
+			$export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
+			$exp_file = $export_dir."/".$file;
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
 			}
-			if (@is_dir($exp_dir))
-			{
-				ilUtil::delDir($exp_dir);
-			}
 		}
+		ilUtil::sendSuccess($lng->txt('msg_deleted_export_files'), true);
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
