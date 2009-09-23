@@ -595,7 +595,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	
 	function exportScorm2004()
 	{
-		$export = new ilScorm2004Export($this->node_object,'SCORM 2004');
+		$export = new ilScorm2004Export($this->node_object,'SCORM 2004 3rd');
 		$export->buildExportFile();
 		$this->ctrl->redirect($this, "showExportList");
 	}

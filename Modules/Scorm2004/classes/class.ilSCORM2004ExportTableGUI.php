@@ -74,7 +74,6 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 		{
 			$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
 			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
-			$this->addMultiCommand('publishExportFile', $this->lng->txt('cont_public_access'));
 		}
 
 		$this->setRowTemplate("tpl.scorm2004_export_row.html", "Modules/Scorm2004");
