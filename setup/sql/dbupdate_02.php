@@ -16088,4 +16088,33 @@ if (!$ilDB->tableExists("payment_erps"))
   $ilDB->modifyTableColumn("style_parameter", "value", 
     array("type" => "text", "notnull" => false, "default" => null, "length" => 200, "fixed" => false));
 ?>
-
+<#2893>
+<?php
+  $ilDB->dropTable('payment_erps');
+?>
+<#2894>
+<?php
+if (!$ilDB->tableExists("payment_erps"))
+{
+  $fields = array (
+    'erp_id'    => array ('type' => 'integer', 'length'  => 4),
+    'erps_id'   => array ('type' => 'integer', 'length'  => 4),
+    'active'    => array ('type' => 'integer', 'length'  => 4),
+    'settings'  => array ('type' => 'text', 'length'  => 4000, 'notnull' => false, 'fixed' => false, "default" => null)
+  );
+  $ilDB->createTable('payment_erps', $fields);  
+  $ilDB->addPrimaryKey('payment_erps', array('erp_id', 'erps_id'));  
+}
+?>
+<#2895>
+<?php
+  $ilDB->manipulateF("INSERT INTO payment_erps (erp_id, erps_id, active, settings) VALUES (%s, %s, %s, %s)",
+    array("integer", "integer", "integer", "text"),
+    array(0, 0, 1, null));
+?>
+<#2896>
+<?php
+  $ilDB->manipulateF("INSERT INTO payment_erps (erp_id, erps_id, active, settings) VALUES (%s, %s, %s, %s)",
+    array("integer", "integer", "integer", "text"),
+    array(1, 0, 0, null));
+?>
