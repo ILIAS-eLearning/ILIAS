@@ -1195,9 +1195,9 @@ function showTrackingItem()
 		$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
 
 		$buttons = array(
-			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
 			"exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
-			"exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004"),
+			"exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004_4th"),
+			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
 			"exportPDF" => $this->lng->txt("scorm_create_export_file_pdf"),
 			"exportISO" => $this->lng->txt("scorm_create_export_file_iso"),
 			"exportHTML" => $this->lng->txt("scorm_create_export_file_html")
@@ -2295,7 +2295,7 @@ function showTrackingItem()
 	{
 		global $ilias;
 		
-		$export = new ilScorm2004Export($this->object,'SCORM 2004');
+		$export = new ilScorm2004Export($this->object,'SCORM 2004 3rd');
 		$zipfile = $export->buildExportFile();
 		$zipPathinfo = pathinfo($zipfile);
 		$file_path = $this->object->getDataDirectory()."/".($zipPathinfo["basename"]);
