@@ -171,10 +171,10 @@ class ilCalendarMonthGUI
 			{
 				$this->tpl->setVariable('TD_CLASS','caltoday');
 			}
-			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
-			{
-				$this->tpl->setVariable('TD_CLASS','calnow');
-			}
+			#elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			#{
+			#	$this->tpl->setVariable('TD_CLASS','calnow');
+			#}
 			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_MONTH))
 			{
 				$this->tpl->setVariable('TD_CLASS','calstd');
