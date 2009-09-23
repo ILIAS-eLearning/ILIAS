@@ -220,12 +220,22 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 	}
 
+	////
+	//// CREATION
+	////
 
 	/**
 	* no manual SCORM creation, only import at the time
 	*/
 	function createObject()
 	{
+		$this->ctrl->setParameter($this, "new_type", "sahs");
+		$this->initUploadForm();
+		$html = $this->form->getHTML();
+		$this->initCreationForm();
+		$html.= "<br />".$this->form->getHTML();
+		$this->tpl->setContent($html);
+return;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_create.html", "Modules/ScormAicc");
 		
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
@@ -304,6 +314,117 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 	
 		//$this->importObject();
+	}
+
+	/**
+	* Init  form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initCreationForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// text area
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$this->form->addItem($ta);
+		
+	
+		$this->form->addCommandButton("save", $lng->txt("create"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+	                
+		$this->form->setTitle($lng->txt("scorm_new"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+	}
+	
+	/**
+	* Init upload form.
+	*/
+	public function initUploadForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// type selection
+		$options = array(
+			"scorm2004" => $lng->txt("lm_type_scorm2004"),
+			"scorm" => $lng->txt("lm_type_scorm"),
+			"aicc" => $lng->txt("lm_type_aicc"),
+			"hacp" => $lng->txt("lm_type_hacp")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("type"), "sub_type");
+		$si->setOptions($options);
+		$this->form->addItem($si);
+		
+		// input file
+		$fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+		
+		// todo "uploaded file"
+		// todo wysiwyg editor removement
+		
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		if (ilUploadFiles::_getUploadDirectory())
+		{
+			$options = array();
+			$fi->setRequired(false);
+			$files = ilUploadFiles::_getUploadFiles();
+			$options[""] = $this->lng->txt("cont_select_from_upload_dir");
+			foreach($files as $file)
+			{
+				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
+				$options[$file] = $file;
+			}
+			// 
+			$si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
+			$si->setOptions($options);
+			$this->form->addItem($si);
+		}
+
+		
+		// validate file
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
+		$cb->setValue("y");
+		$cb->setChecked(true);
+		$this->form->addItem($cb);
+
+		// import for editing
+		$cb = new ilCheckboxInputGUI($this->lng->txt("scorm_editable"), "editable");
+		$cb->setInfo($this->lng->txt("scorm_editable_comments"));
+		$this->form->addItem($cb);
+		
+
+		$this->form->addCommandButton("upload", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+	                
+		$this->form->setTitle($lng->txt("import_sahs"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+	}
+	
+	/**
+	* Cancel action and go back to previous page
+	*/
+	function cancelObject($in_rep = false)
+	{
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	/**
@@ -390,7 +511,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$source = $_FILES["scormfile"]["tmp_name"];
 			if (($source == 'none') || (!$source))
 			{
-					$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
 			}
 			// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
 			switch ($__FILES["scormfile"]["error"])
@@ -520,12 +641,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		if (trim($_POST["title"]) == "")
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		
 		include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 		$newObj = new ilObjSCORM2004LearningModule();
-		$newObj->setTitle($_POST["Fobject"]["title"]);
+		$newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$newObj->setSubType("scorm2004");
 		$newObj->setEditable(true);
-		$newObj->setDescription($_POST["Fobject"]["desc"]);
+		$newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
