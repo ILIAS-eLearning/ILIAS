@@ -3136,7 +3136,7 @@ common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_pt#:#Portugisisch
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 3.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 3.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
+common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den ILIAS-Sprachdateien und aus den lokalen Sprachdateien des Customizing-Verzeichnisses in die Datenbank. Ihre manuelle Änderungen werden durch das Laden der globalen Sprachdateien nicht überschrieben. Die lokalen Sprachdateien überschreiben Ihre manuellen Änderungen nur, wenn diese älter sind als das letzte Speicherdatum der lokalen Sprachdatei.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 common#:#lang_ro#:#Rumänisch
 common#:#lang_ru#:#Russisch
@@ -10021,14 +10021,14 @@ common#:#status_no_permission#:#Kein Zugriff gewährt.
 mail#:#mail_salutation_f#:#Hallo
 mail#:#mail_salutation_m#:#Hallo
 mail#:#mail_salutation_n#:#Hallo
-crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin Benachritigungen aktivert sind.
+crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin die Benachrichtigungsfunktion aktivert ist.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_access#:#Zugang
 crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
-crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".\nWir hoffen, dass Sie einen anderen Kurs finden, der Ihren Wünschen entspricht.
+crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir freuen uns, Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Kurs "%s" erfolgt ist.
+crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Kurs "%s" erfolgt ist.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
@@ -10040,7 +10040,7 @@ grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
 grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktivert sind.
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".\nWir hoffen, dass Sie eine andere Gruppe finden, die Ihren Wünschen entspricht.
+grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
 grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
 grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
@@ -10070,16 +10070,16 @@ style#:#style_edit_style#:#Style editieren
 style#:#style_delete_style#:#Style löschen
 registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neuen Benutzers
 registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
-registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, sollten Sie es in der ILIAS-Benutzerverwaltung freischalten.
+registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
 common#:#join_session#:#Anmelden
-common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark Dienste gelöscht werden sollen?
-common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
+common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
+common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
 common#:#socialbm_enable#:#Aktivieren
 common#:#socialbm_disable#:#Deaktivieren
-common#:#pub_section_info#:#Die Option ermöglicht es Teile des Systems öffentlich, ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen wie Ressourcen öffentlich zugänglich sind.
+common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
-pd#:#pd_enable_global_profiles_info#:#Die Optione ermöglicht Benutzern ihr Profil global (im Internet) zugänglich zu machen.
+pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
 user#:#usr_link_to_profile#:#Link zum Profil
 content#:#cont_could_not_determine_resource_size#:#ILIAS konnte die Abmessungen nicht automatisch ermitteln.
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
