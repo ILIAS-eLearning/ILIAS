@@ -2278,17 +2278,17 @@ function showTrackingItem()
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$file = explode(":", $_POST["file"][0]);
 		$export = new ilSCORM2004Export($this->object);
-		$export_dir = $export->getExportDirectoryForType($file[0]);
-		
-		if ($this->object->getPublicExportFile($file[0]) ==	$file[1])
+		$file = $_POST['file'][0];
+		$type = $_POST['type'][$_POST['file'][0]];
+
+		if ($this->object->getPublicExportFile($type) == $file)
 		{
-			$this->object->setPublicExportFile($file[0], "");
+			$this->object->setPublicExportFile($type, "");
 		}
 		else
 		{
-			$this->object->setPublicExportFile($file[0], $file[1]);
+			$this->object->setPublicExportFile($type, $file);
 		}
 		$this->object->update();
 		$this->ctrl->redirect($this, "showExportList");
