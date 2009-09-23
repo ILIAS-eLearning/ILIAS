@@ -26,7 +26,7 @@
 * Could be used to split the xml handling in different responsible classes.
 * Use the methods addElementHandler, addDefaultElementHandler 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -47,7 +47,6 @@ class ilSaxController
 	 */
 	public function __construct()
 	{
-	 	
 	}
 	
 	/**
@@ -111,9 +110,9 @@ class ilSaxController
 	 */
 	public function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-	 	if(isset($this->element_handlers[$a_name]) or $this->handler_in_use)
+		if(isset($this->element_handlers[$a_name]) or $this->handler_in_use)
 	 	{
-	 		if(!$this->handler_in_use)
+			if(!$this->handler_in_use)
 	 		{
 		 		$this->handler_in_use = $this->element_handlers[$a_name];
 	 		}

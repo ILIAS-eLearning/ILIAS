@@ -979,7 +979,7 @@ class ilObjCourse extends ilContainer
 	*/
 	function update()
 	{
-		global $ilAppEventHandler;
+		global $ilAppEventHandler,$ilLog;
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		$sorting = new ilContainerSortingSettings($this->getId());
