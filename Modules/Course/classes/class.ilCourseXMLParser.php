@@ -35,7 +35,7 @@ include_once 'Modules/Course/classes/class.ilCourseConstants.php';
 /**
 * Course XML Parser
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
 * @extends ilMDSaxParser
@@ -64,14 +64,13 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
 		$this->log =& $ilLog;
 
-		$this->course_obj =& $a_course_obj;
+		$this->course_obj = $a_course_obj;
 		$this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
 		$this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
 		// flip the array so we can use array_key_exists
 		$this->course_members_array =  array_flip($this->course_members->getParticipants());
 
 		$this->md_obj = new ilMD($this->course_obj->getId(),0,'crs');
-
 		$this->setMDObject($this->md_obj);
 
 		$this->lng =& $lng;
@@ -109,7 +108,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		if($this->in_meta_data)
 		{
 			parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
-
 			return;
 		}
 
@@ -535,7 +533,8 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'Course':
 
 				$this->log->write('CourseXMLParser: import_id = '.$this->course_obj->getImportId());
-				$this->course_obj->updateSettings();
+				$this->course_obj->MDUpdateListener('General');
+				$this->course_obj->update();
 				$this->adv_md_handler->save();
 				break;
 

@@ -25,7 +25,7 @@
   /**
    * Soap course administration methods
    *
-   * @author Stefan Meyer <smeyer@databay.de>
+   * @author Stefan Meyer <smeyer.ilias@gmx.de>
    * @version $Id$
    *
    * @package ilias
@@ -79,6 +79,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to create courses','Server');
 		}
 
+
 		// Start import
 		include_once("Modules/Course/classes/class.ilObjCourse.php");
 
@@ -96,11 +97,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		$xml_parser = new ilCourseXMLParser($newObj);
 		$xml_parser->setXMLContent($crs_xml);
-
 		$xml_parser->startParsing();
-
-		$newObj->MDUpdateListener('General');
-
 		return $newObj->getRefId() ? $newObj->getRefId() : "0";
 		
 	}
