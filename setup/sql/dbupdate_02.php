@@ -16083,3 +16083,9 @@ if (!$ilDB->tableExists("payment_erps"))
 	$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) VALUES (%s, %s, %s, %s, %s)", array("integer", "text", "text", "text", "integer"), array($ilDB->nextId("bookmark_social_bm"), 'StumbleUpon', 'http://www.stumbleupon.com/submit?url={LINK}&title={TITLE}', 'templates/default/images/socialbookmarks/stumbleupon.jpg',1));
 
 ?>
+<#2892>
+<?php
+  $ilDB->modifyTableColumn("style_parameter", "value", 
+    array("type" => "text", "notnull" => false, "default" => null, "length" => 200, "fixed" => false));
+?>
+
