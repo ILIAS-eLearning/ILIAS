@@ -112,6 +112,7 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('checkbox');
 			$this->tpl->setVariable('CB_ID', $this->counter);
 			$this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($data['file']));
+			$this->tpl->setVariable("FILETYPE", $data["filetype"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		else

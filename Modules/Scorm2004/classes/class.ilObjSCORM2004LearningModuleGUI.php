@@ -1220,11 +1220,12 @@ function showTrackingItem()
 		$data = array();
 		foreach ($export_files as $exp_file)
 		{
+			$filetype = $exp_file['type'];
 			$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
 				? " <b>(".$this->lng->txt("public").")<b>"
 				: "";
 			$file_arr = explode("__", $exp_file["file"]);
-			array_push($data, array('file' => $exp_file['file'], 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
+			array_push($data, array('file' => $exp_file['file'], 'filetype' => $filetype, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'].$public_str));
 		}
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $template->get() . "\n" . $table_gui->getHTML());
@@ -2187,11 +2188,9 @@ function showTrackingItem()
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		$file = explode(":", $_POST["file"][0]);
 		$export = new ilSCORM2004Export($this->object);
-		$export_dir = $export->getExportDirectoryForType($file[0]);
-		ilUtil::deliverFile($export_dir."/".$file[1], $file[1]);
+		$export_dir = $export->getExportDirectoryForType($_POST['type'][$_POST['file'][0]]);
+		ilUtil::deliverFile($export_dir."/".$_POST['file'][0], $_POST['file'][0]);
 	}
 	
 	/**
