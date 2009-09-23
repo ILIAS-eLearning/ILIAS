@@ -27,6 +27,10 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 */
 abstract class ilDB extends PEAR
 {
+	const LOCK_WRITE = 1;
+	const LOCK_READ  = 2;
+	
+	
 	/**
 	* error class
 	* @var object error_class
@@ -1973,52 +1977,20 @@ if ($this->getDBType() == "mysql")
 		
 		return $this->handleError($res, "rollback()");
 	}
-
-	/**
-	* Lock existing table
-	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
-	* @return boolean
-	*/
-	static function _lockTables($a_table_params)
-	{
-		global $ilDB;
-		
-		if($ilDB instanceof ilDBOracle)
-		{
-			return true;	
-		}
-		
-		
-		$lock_str = 'LOCK TABLES ';
-		$counter = 0;
-		foreach($a_table_params as $table_name => $type)
-		{
-			$lock_str .= $counter++ ? ',' : '';
-			$lock_str .= $table_name.' '.$type;
-		}
-
-		$ilDB->query($lock_str);
-
-		return true;
-	}
 	
 	/**
-	* unlock tables
-	*/
-	static function _unlockTables()
-	{
-		global $ilDB;
-		
-		if($ilDB instanceof ilDBOracle)
-		{
-			return true;	
-		}
-		
-		$ilDB->query('UNLOCK TABLES');
-
-		return true;
-	}
+	 * Abstraction of lock table
+	 * @param array table definitions
+	 * @return 
+	 */
+	abstract public function lockTables($a_tables);
 	
+	/**
+	 * Unlock tables locked by previous lock table calls
+	 * @return 
+	 */
+	abstract public function unlockTables();
+
 	
 //
 //
