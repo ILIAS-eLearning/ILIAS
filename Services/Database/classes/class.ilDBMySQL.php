@@ -274,7 +274,6 @@ class ilDBMySQL extends ilDB
 	*/
 	function dropFulltextIndex($a_table, $a_name)
 	{
-echo "h";
 		$i_name = $this->constraintName($a_table, $a_name)."_idx";
 		$this->query("ALTER TABLE $a_table DROP FULLTEXT $i_name");
 	}
@@ -293,6 +292,58 @@ echo "h";
 			}
 		}
 	}
+	
+	/**
+	 * Lock table
+	 * 
+	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * @param array $a_tables
+	 * @param int $a_mode
+	 * @param string $a_alias
+	 * @return 
+	 */
+	public function lockTables($a_tables)
+	{
+		global $ilLog;
+		
+		$lock = 'LOCK TABLES ';
 
+		$counter = 0;
+		foreach($a_tables as $table)
+		{
+			if($counter++)
+			{
+				$lock .= ', ';
+			}
+			$lock .= ($table['name'].' ');
+			
+			if($table['alias'])
+			{
+				$lock .= ($table['alias'].' ');
+			}
+
+			switch($table['type'])
+			{
+				case ilDB::LOCK_READ:
+					$lock .= ' READ ';
+					break;
+				
+				case ilDB::LOCK_WRITE:
+					$lock .= ' WRITE ';
+					break;
+			}
+		}
+		$ilLog->write(__METHOD__.': '.$lock);
+		$this->query($lock);
+	}
+	
+	/**
+	 * Unlock tables
+	 * @return 
+	 */
+	public function unlockTables()
+	{
+		$this->query('UNLOCK TABLES');
+	}
 }
 ?>

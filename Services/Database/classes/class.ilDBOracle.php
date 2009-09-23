@@ -341,5 +341,60 @@ class ilDBOracle extends ilDB
 		}
 		return $concat_value;
 	}
+	
+	/**
+	 * Lock table
+	 * 
+	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * @param string $a_name
+	 * @param int $a_mode
+	 * @param string $a_alias
+	 * @return 
+	 */
+	public function lockTables($a_tables)
+	{
+		global $ilLog;
+		
+		$locks = array();
+
+		$counter = 0;
+		foreach($a_tables as $table)
+		{
+			$lock = 'LOCK TABLE ';
+
+			$lock .= ($table['name'].' ');
+
+			switch($table['type'])
+			{
+				case ilDB::LOCK_READ:
+					$lock .= ' IN SHARE MODE ';
+					break;
+				
+				case ilDB::LOCK_WRITE:
+					$lock .= ' IN EXCLUSIVE MODE ';
+					break;
+			}
+			
+			$locks[] = $lock;
+		}
+
+		// @TODO use and store a unique identifier to allow nested lock/unlocks
+		$this->db->beginTransaction('lock');
+		foreach($locks as $lock)
+		{
+			$this->db->query($lock);
+			$ilLog->write(__METHOD__.': '.$lock);
+		}
+		return true;
+	}
+
+	/**
+	 * Unlock tables
+	 * @return 
+	 */
+	public function unlockTables()
+	{
+		$this->db->commit('lock');
+	}
 }
 ?>

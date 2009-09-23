@@ -547,7 +547,10 @@ class ilTree
 
 				if($this->__isMainTree())
 				{
-					ilDB::_lockTables(array('tree' => 'WRITE'));
+					#ilDB::_lockTables(array('tree' => 'WRITE'));
+					$ilDB->lockTables(
+						array(
+							0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
 				}
 
 				// get left value of parent
@@ -564,7 +567,7 @@ class ilTree
 				{
 					if($this->__isMainTree())
 					{
-						ilDB::_unlockTables();
+						$ilDB->unlockTables();
 					}
 					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".
 											 $this->table_tree."!",$this->ilErr->WARNING);
@@ -591,7 +594,11 @@ class ilTree
 				{
 					if($this->__isMainTree())
 					{
-						ilDB::_lockTables(array('tree' => 'WRITE'));
+						#ilDB::_lockTables(array('tree' => 'WRITE'));
+						$ilDB->lockTables(
+							array(
+								0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						
 					}
 
 					// get lft and rgt value of parent
@@ -607,7 +614,7 @@ class ilTree
 					{
 						if($this->__isMainTree())
 						{
-							ilDB::_unlockTables();
+							$ilDB->unlockTables();
 						}
 						$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
 												$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
@@ -679,7 +686,11 @@ class ilTree
 				{
 					if($this->__isMainTree())
 					{
-						ilDB::_lockTables(array('tree' => 'WRITE'));
+						#ilDB::_lockTables(array('tree' => 'WRITE'));
+						$ilDB->lockTables(
+							array(
+								0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+
 					}
 
 					// get right value of parent
@@ -695,7 +706,7 @@ class ilTree
 					{
 						if($this->__isMainTree())
 						{
-							ilDB::_unlockTables();
+							$ilDB->unlockTables();
 						}
 						$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
 												 $a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
@@ -723,7 +734,11 @@ class ilTree
 				// this code shouldn't be executed
 				if($this->__isMainTree())
 				{
-					ilDB::_lockTables(array('tree' => 'WRITE'));
+					#ilDB::_lockTables(array('tree' => 'WRITE'));
+					$ilDB->lockTables(
+						array(
+							0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+					
 				}
 
 				// get right value of preceeding child
@@ -740,7 +755,7 @@ class ilTree
 				{
 					if($this->__isMainTree())
 					{
-						ilDB::_unlockTables();
+						$ilDB->unlockTables();
 					}
 					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parents mismatch! ".
 						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilErr->WARNING);
@@ -783,7 +798,7 @@ class ilTree
 		{
 			#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
 			$this->in_tree_cache[$a_node_id] = true;
-			ilDB::_unlockTables();
+			$ilDB->unlockTables();
 		}
 		
 		// reset deletion date
@@ -992,7 +1007,11 @@ class ilTree
 		// get lft and rgt values. Don't trust parameter lft/rgt values of $a_node
 		if($this->__isMainTree())
 		{
-			ilDB::_lockTables(array('tree' => 'WRITE'));
+			#ilDB::_lockTables(array('tree' => 'WRITE'));
+			$ilDB->lockTables(
+				array(
+					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+			
 		}
 
 		$query = sprintf('SELECT * FROM '.$this->table_tree.' '.
@@ -1047,7 +1066,7 @@ class ilTree
 		if($this->__isMainTree())
 		{
 			#$GLOBALS['ilLog']->write(__METHOD__.': Resetting in tree cache ');
-			ilDB::_unlockTables();
+			$ilDB->unlockTables();
 			$this->in_tree_cache = array();
 		}
 		// LOCKED ###########################################################
@@ -2074,8 +2093,14 @@ class ilTree
 		// LOCKED ###############################################
 		if($this->__isMainTree())
 		{
-			ilDB::_lockTables(array('tree' => 'WRITE',
-				'object_reference' => 'WRITE'));
+			$ilDB->lockTables(
+				array(
+					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE),
+					1 => array('name' => 'object_reference', 'type' => ilDB::LOCK_WRITE)));
+			
+			#ilDB::_lockTables(array('tree' => 'WRITE',
+			#	'object_reference' => 'WRITE'));
+				
 		}
 
 		// GET LEFT AND RIGHT VALUE
@@ -2114,7 +2139,7 @@ class ilTree
 			// Unlock locked tables before returning
 			if($this->__isMainTree())
 			{
-				ilDB::_unlockTables();
+				$ilDB->unlockTables();
 			}
 
 			return false;
@@ -2144,7 +2169,7 @@ class ilTree
 		
 		if($this->__isMainTree())
 		{
-			ilDB::_unlockTables();
+			$ilDB->unlockTables();
 		}
 
 		// LOCKED ###############################################
@@ -2521,20 +2546,33 @@ class ilTree
 	*/
 	function renumber($node_id = 1, $i = 1)
 	{
+		global $ilDB;
+		
 		// LOCKED ###################################
 		if($this->__isMainTree())
 		{
+			/*
 			ilDB::_lockTables(array($this->table_tree => 'WRITE',
 									 $this->table_obj_data => 'WRITE',
 									 $this->table_obj_reference => 'WRITE',
 									 'object_translation' => 'WRITE',
 									 'object_data od' => 'WRITE',
 									 'container_reference cr' => 'WRITE'));
+			*/	
+			$ilDB->lockTables(
+				array(			
+					0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE),
+					1 => array('name' => $this->table_obj_data, 'type' => ilDB::LOCK_WRITE),
+					2 => array('name' => $this->table_obj_reference, 'type' => ilDB::LOCK_WRITE),
+					3 => array('name' => 'object_translation', 'type' => ilDB::LOCK_WRITE),
+					4 => array('name' => 'object_data', 'type' => ilDB::LOCK_WRITE, 'alias' => 'od'),
+					5 => array('name' => 'container_reference', 'type' => ilDB::LOCK_WRITE, 'alias' => 'cr')
+				));
 		}
 		$return = $this->__renumber($node_id,$i);
 		if($this->__isMainTree())
 		{
-			ilDB::_unlockTables();
+			$ilDB->unlockTables();
 		}
 		// LOCKED ###################################
 		return $return;
@@ -2814,7 +2852,11 @@ class ilTree
 		
 		if($this->__isMainTree())
 		{
-			ilDB::_lockTables(array('tree' => 'WRITE'));
+			#ilDB::_lockTables(array('tree' => 'WRITE'));
+			$ilDB->lockTables(
+				array(
+					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+											 
 		}
 		// Receive node infos for source and target
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
@@ -2830,7 +2872,7 @@ class ilTree
 		{
 			if($this->__isMainTree())
 			{
-				ilDB::_unlockTables();
+				$ilDB->unlockTables();
 			}
 			$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
 			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
@@ -2858,7 +2900,7 @@ class ilTree
 		{
 			if($this->__isMainTree())
 			{
-			        ilDB::_unlockTables();
+				$ilDB->unlockTables();
 			}
 			$this->log->write(__METHOD__.' Target is child of source',$this->log->FATAL);
 			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
@@ -2932,7 +2974,7 @@ class ilTree
 			
 		if($this->__isMainTree())
 		{
-			ilDB::_unlockTables();
+			$ilDB->unlockTables();
 		}
 		return true;
     }
