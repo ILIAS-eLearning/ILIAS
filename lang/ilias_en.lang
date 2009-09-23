@@ -10081,3 +10081,4 @@ payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
 payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.
 payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
 payment#:#pays_eco_cur_handle_code#:#Currency Code
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
