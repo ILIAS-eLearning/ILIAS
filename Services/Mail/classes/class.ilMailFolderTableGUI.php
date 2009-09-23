@@ -37,7 +37,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		$this->current_folder = $current_folder;
 		$this->parentObject = $a_parent_obj;
 		
-		 
+		$this->setId('mail_folder_tbl');	
+ 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setPrefix('mtable');

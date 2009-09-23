@@ -298,11 +298,18 @@ class ilObjChatServerGUI extends ilObjectGUI
 		}
 		
 		$items = $_REQUEST["smiley_id"];
+
+		if (count($items) == 0)
+		{
+			ilUtil::sendInfo($lng->txt('select_one'), true);
+			$ilCtrl->redirect($this, "editSmilies");
+		}
+
 		include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
-		
+
 		$smilies = ilChatSmilies::_getSmiliesById($items); 
 		$tpl = new ilTemplate("tpl.chat_smilies_delete_multiple_confirm.html", true, true, "Modules/Chat");
-		$tpl->setVariable("SMILIES_DELETE_INTRO", $lng->txt('chat_smilies_delete_multiple_intro'));
+		$tpl->setVariable("SMILIES_DELETE_INTRO", $lng->txt('chat_confirm_delete_smiley'));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt('submit'));
 		$tpl->setVariable("TXT_CANCEL", $lng->txt('cancel'));
 		$tpl->setVariable("SMILIES_IDS", join(",", $items));
@@ -330,6 +337,11 @@ class ilObjChatServerGUI extends ilObjectGUI
 		
 		$ids = $_REQUEST["sel_ids"];
 		$parts = explode(",", $ids);
+
+		if (count($parts) == 0)
+		{
+			$ilCtrl->redirect($this, "editSmilies");
+		}
 		
 		include_once "Modules/Chat/classes/class.ilChatSmilies.php";
 		ilChatSmilies::_deleteMultipleSmilies($parts);
@@ -479,7 +491,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		
 		$tpl = new ilTemplate("tpl.chat_smiley_confirm_delete.html", true, true, "Modules/Chat");
 		$tpl->setVariable("TXT_CONFIRM_DELETE_SMILEY", $lng->txt('chat_confirm_delete_smiley'));
-		$tpl->setVariable("TXT_CONFIRM_DELETE", $lng->txt('chat_confirm_delete_smiley'));
+		$tpl->setVariable("TXT_CONFIRM_DELETE", $lng->txt('submit'));
 		$tpl->setVariable("TXT_CANCEL_DELETE", $lng->txt('cancel'));
 		$tpl->setVariable("SMILEY_ID", $_REQUEST["smiley_id"]);
 		//$tpl->setVariable("TABLE_NAV", $_REQUEST["_table_nav"]);

@@ -315,7 +315,7 @@ class ilMailSearchGroupsGUI
 		
 		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
 		$table = new ilMailSearchCoursesTableGUI($this, 'grp');
-		
+		$table->setId('search_grps_tbl');
 		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
 		
 		$counter = 0;
@@ -418,7 +418,7 @@ class ilMailSearchGroupsGUI
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp');
-
+			$table->setId('show_grps_mmbrs_tbl');
 			$lng->loadLanguageModule('crs');
 	
 			$counter = 0;

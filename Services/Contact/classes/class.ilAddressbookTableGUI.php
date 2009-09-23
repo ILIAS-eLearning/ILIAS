@@ -53,6 +53,8 @@ class ilAddressbookTableGUI extends ilTable2GUI
 	 	
 	 	parent::__construct($a_parent_obj, $a_parent_cmd);
 
+		$this->setId('addr_book');
+
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 	}
 	

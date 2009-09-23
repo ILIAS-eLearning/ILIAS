@@ -17,7 +17,7 @@ class ilChatRoomsTableGUI extends ilTable2GUI {
 		$this->hasWritePerm = $hasWritePerm;
 		parent::__construct($a_ref, $title);
 		$this->setTitle($lng->txt('chat_rooms'));
-		
+		$this->setId('cht_room_table_' . $a_ref->object->getId());
 	 	$this->addColumn('', 'checkbox', '1%', true);
 	 	$this->addColumn($lng->txt('chat_rooms'), 'room' , '79%');
 	 	$this->addColumn($lng->txt("actions"), '' , '20%');

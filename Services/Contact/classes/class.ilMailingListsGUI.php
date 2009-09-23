@@ -215,6 +215,7 @@ class ilMailingListsGUI
 		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
 				
 		$tbl = new ilTable2GUI($this);
+		$tbl->setId('show_mlng_lists_tbl');
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showForm');
 		$tbl->setTitle($this->lng->txt('mail_mailing_lists'));
 		$tbl->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');				
@@ -418,6 +419,7 @@ class ilMailingListsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		
 		$tbl = new ilTable2GUI($this);
+		$table->setId('show_mlng_mmbrs_list_tbl');
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showMemberForm');
 		$tbl->setTitle($this->lng->txt('mail_members_of_mailing_list') . ' ' .$this->mlists->getCurrentMailingList()->getTitle());
 		$tbl->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');				
