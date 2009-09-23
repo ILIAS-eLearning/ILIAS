@@ -1165,7 +1165,7 @@ if ($this->getDBType() == "mysql")
 		{
 			return true;
 		}
-		include_once("./Services/Database/classes/class.ilDBPostreSQL.php");
+		include_once("./Services/Database/classes/class.ilDBPostgreSQL.php");
 		$postgres_reserved_words = ilDBPostgreSQL::getReservedWords();
 		if (in_array(strtoupper($a_word), $postgres_reserved_words))
 		{
