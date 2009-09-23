@@ -1468,9 +1468,19 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$a_xml_writer->xmlEndTag("ContentObject");
 		$a_xml_writer->xmlDumpFile($a_target_dir.'/index.xml', false);
 		
+		if ($ver == "2004 4th") {
+			$revision ="4th";
+			$ver = "2004";
+		}
+	
+		if ($ver == "2004 3rd") {
+			$revision ="3rd";
+			$ver = "2004";
+		}
+		
 		include_once("class.ilContObjectManifestBuilder.php");
 		$manifestBuilder = new ilContObjectManifestBuilder($this);
-		$manifestBuilder->buildManifest($ver);
+		$manifestBuilder->buildManifest($ver,$revision);
 		$manifestBuilder->dump($a_target_dir);
 			
 		$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
@@ -1483,7 +1493,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		switch ($ver)
 		{
 			case "2004":
-				ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_130_export_2004',$a_target_dir,false);
+				if ($revision == "3rd") {
+					ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_130_export_2004',$a_target_dir,false);
+				} 
+	
+				if ($revision == "4th") {
+					ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_130_export_2004_4th',$a_target_dir,false);
+				} 				
 				break;
 			case "12":
 				ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_120_export_12',$a_target_dir,false);

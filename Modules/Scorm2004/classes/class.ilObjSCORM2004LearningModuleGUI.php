@@ -1180,7 +1180,13 @@ function showTrackingItem()
 
 		//create SCORM 2004 export file button
 		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm2004"));
+		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm2004_3rd"));
+		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_scrom2004"));
+		$tpl->parseCurrentBlock();
+
+		//create SCORM 2004 4th export file button
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm2004_4th"));
 		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_scrom2004"));
 		$tpl->parseCurrentBlock();
 
@@ -2205,9 +2211,17 @@ function showTrackingItem()
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
 	}
 
-	function exportScorm2004()
+
+	function exportScorm2004_4th()
 	{
-		$export = new ilScorm2004Export($this->object,'SCORM 2004');
+		$export = new ilScorm2004Export($this->object,'SCORM 2004 4th');
+		$export->buildExportFile();
+		$this->ctrl->redirect($this, "showExportList");
+	}
+	
+	function exportScorm2004_3rd()
+	{
+		$export = new ilScorm2004Export($this->object,'SCORM 2004 3rd');
 		$export->buildExportFile();
 		$this->ctrl->redirect($this, "showExportList");
 	}

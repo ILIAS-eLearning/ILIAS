@@ -60,7 +60,7 @@ class ilContObjectManifestBuilder
 	/**
 	 * build manifest structure
 	 */
-	function buildManifest($ver)
+	function buildManifest($ver, $revision)
 	{
 		require_once("classes/class.ilXmlWriter.php");
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
@@ -77,14 +77,14 @@ class ilContObjectManifestBuilder
 		switch ($this->version)
 		{
 			case "2004":
-		$attrs["xmlns:imsss"]="http://www.imsglobal.org/xsd/imsss";
-		$attrs["xmlns:adlseq"]="http://www.adlnet.org/xsd/adlseq_v1p3";
-		$attrs["xmlns:adlnav"]="http://www.adlnet.org/xsd/adlnav_v1p3";
-		$attrs["xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-		$attrs["xmlns:adlcp"]="http://www.adlnet.org/xsd/adlcp_v1p3";
-		$attrs["xmlns"]="http://www.imsglobal.org/xsd/imscp_v1p1";
-		$attrs["xsi:schemaLocation"]="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd";
-		$attrs["version"]="2004 3rd Edition";
+				$attrs["xmlns:imsss"]="http://www.imsglobal.org/xsd/imsss";
+				$attrs["xmlns:adlseq"]="http://www.adlnet.org/xsd/adlseq_v1p3";
+				$attrs["xmlns:adlnav"]="http://www.adlnet.org/xsd/adlnav_v1p3";
+				$attrs["xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
+				$attrs["xmlns:adlcp"]="http://www.adlnet.org/xsd/adlcp_v1p3";
+				$attrs["xmlns"]="http://www.imsglobal.org/xsd/imscp_v1p1";
+				$attrs["xsi:schemaLocation"]="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd";
+				$attrs["version"]="2004 ".$revision." Edition";
 				break;
 			case "12":
 				$attrs["xmlns"]="http://www.imsproject.org/xsd/imscp_rootv1p1p2";
@@ -100,7 +100,7 @@ class ilContObjectManifestBuilder
 		{
 		$this->writer->xmlStartTag("metadata");
 		$this->writer->xmlElement("schema",null,"ADL SCORM");
-		$this->writer->xmlElement("schemaversion",null,"2004 3rd Edition");
+		$this->writer->xmlElement("schemaversion",null,"2004 ".$revision." Edition");
         $this->writer->xmlElement("adlcp:location",null,"indexMD.xml");
 		$this->writer->xmlEndTag("metadata");
 		}
