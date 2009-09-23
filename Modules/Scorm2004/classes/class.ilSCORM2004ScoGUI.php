@@ -734,13 +734,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
-	function sco_resources()
+	function getExportResources()
 	{
-		global $tpl, $lng;
-		
-		$this->setTabs();
-		$this->setLocator();
-		$i = 0;
 		$export_files = array();
 		
 		require_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
@@ -763,7 +758,10 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 						$export_files[$i]["size"] = filesize(ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false));
 						$export_files[$i]["file"] = $media_obj->getTitle();
 						$export_files[$i]["type"] = $media_obj->getDescription();
-						$export_files[$i]["link"] = ilObjMediaObject::_lookupStandardItemPath($mob_id);
+						$export_files[$i]["path"] = ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false);
+						$this->ctrl->setParameter($this, "resource",
+							rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false)));
+						$export_files[$i]["link"] = $this->ctrl->getLinkTarget($this,"downloadResource");
 						$i++;
 					}
 				}
@@ -781,7 +779,20 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				}
 				unset($page_obj);
 		}
+		
+		return $export_files;
+	}
+	
+	function sco_resources()
+	{
+		global $tpl, $lng, $ilCtrl;;
+		
+		$this->setTabs();
+		$this->setLocator();
+		$i = 0;
 				
+		$export_files = $this->getExportResources();
+		
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
@@ -850,7 +861,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				$tpl->setVariable("TXT_DATE", $exp_file["date"]);
 
 				$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-				$tpl->setVariable("LINK_DOWNLOAD", $exp_file["link"]);
+				//$tpl->setVariable("LINK_DOWNLOAD",
+				//	$exp_file["link"]);
+				$ilCtrl->setParameter($this, "resource", rawurlencode($exp_file["path"]));
+				$tpl->setVariable("LINK_DOWNLOAD",
+					$ilCtrl->getLinkTarget($this, "downloadResource"));
 
 				$tpl->parseCurrentBlock();
 			}
@@ -863,6 +878,24 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->parseCurrentBlock();
+	}
+	
+	function downloadResource()
+	{
+		$export_files = $this->getExportResources();
+		
+		// check that file really belongs to SCORM module (security)
+		foreach ($export_files as $f)
+		{
+			if ($f["path"] == $_GET["resource"])
+			{
+				if (is_file($f["path"]))
+				{
+					ilUtil::deliverFile($f["path"], $f["file"]);
+				}
+			}
+		}
+		exit;
 	}
 	
 	function downloadFile()
