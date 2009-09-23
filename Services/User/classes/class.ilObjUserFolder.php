@@ -607,8 +607,6 @@ class ilObjUserFolder extends ilObject
 		array_push($export_settings, "auth_mode");
 		array_push($export_settings, "ext_account");
 		array_push($export_settings, "feedhash");
-		//@todo: remove when administration settings work
-		array_push($export_settings, "birthday");
 		
 		return $export_settings;
 	}
@@ -720,7 +718,8 @@ class ilObjUserFolder extends ilObject
 			"gender",
 			"firstname",
 			"lastname",
-			"title",			
+			"title",
+			"birthday",
 			"password",
 			"institution",
 			"department",
