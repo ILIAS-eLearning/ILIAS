@@ -102,7 +102,7 @@ class ilScorm2004Export
 			case "PDF":
 				return $ret."_pdf";
 			case "SCORM 2004 3rd":
-				return $ret."_scorm2004_3rd";
+				return $ret."_scorm2004";
 			case "SCORM 2004 4th":
 				return $ret."_scorm2004_4th";
 			case "HTML":
