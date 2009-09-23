@@ -375,6 +375,9 @@
 				</xsl:when>
 			</xsl:choose>
 			
+			<xsl:if test="colgroup">
+					<xsl:apply-templates select="colgroup"></xsl:apply-templates>
+			</xsl:if>
 			<xsl:if test="thead">
 				<fo:table-header xmlns:fo="http://www.w3.org/1999/XSL/Format">
 					<xsl:apply-templates select="thead"></xsl:apply-templates>
@@ -427,7 +430,7 @@
 					<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="display-align">top</xsl:attribute>
+					<xsl:attribute name="vertical-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrow2'">
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
@@ -438,7 +441,7 @@
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="display-align">top</xsl:attribute>
+					<xsl:attribute name="vertical-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrowmarked'">
 					<xsl:attribute name="background-color">#FFE4E4</xsl:attribute>
@@ -452,7 +455,7 @@
 					<xsl:attribute name="vertical-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='middle'">
-					<xsl:attribute name="display-align">center</xsl:attribute>
+					<xsl:attribute name="vertical-align">middle</xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
 			
