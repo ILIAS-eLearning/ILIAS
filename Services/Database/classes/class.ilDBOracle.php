@@ -379,7 +379,7 @@ class ilDBOracle extends ilDB
 		}
 
 		// @TODO use and store a unique identifier to allow nested lock/unlocks
-		$this->db->beginTransaction('lock');
+		$this->db->beginTransaction();
 		foreach($locks as $lock)
 		{
 			$this->db->query($lock);
@@ -394,7 +394,7 @@ class ilDBOracle extends ilDB
 	 */
 	public function unlockTables()
 	{
-		$this->db->commit('lock');
+		$this->db->commit();
 	}
 }
 ?>
