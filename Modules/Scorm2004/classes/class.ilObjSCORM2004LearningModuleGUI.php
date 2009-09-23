@@ -1165,50 +1165,54 @@ function showTrackingItem()
 	}
 	
 	/**
+	* Select the export type of the SCORM 2004 module
+	*/
+	public function selectExport()
+	{
+		switch ($_POST['select_export'])
+		{
+			case "exportScorm12":
+			case "exportScorm2004_3rd":
+			case "exportScorm2004_4th":
+			case "exportPDF":
+			case "exportISO":
+			case "exportHTML":
+				$this->ctrl->redirect($this, $_POST['select_export']);
+				break;
+			default:
+				$this->ctrl->redirect($this, 'showExportList');
+				break;
+		}
+	}
+	
+	/**
 	 * Show Export List
 	 */
 	function showExportList()
 	{
 		global $tpl;
 
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		//create SCORM 1.2 export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm12"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_scrom12"));
-		$tpl->parseCurrentBlock();
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.scorm2004_export_buttons.html", 'Modules/Scorm2004');
 
-		//create SCORM 2004 export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm2004_3rd"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_scrom2004"));
-		$tpl->parseCurrentBlock();
+		$buttons = array(
+			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
+			"exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
+			"exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004"),
+			"exportPDF" => $this->lng->txt("scorm_create_export_file_pdf"),
+			"exportISO" => $this->lng->txt("scorm_create_export_file_iso"),
+			"exportHTML" => $this->lng->txt("scorm_create_export_file_html")
+		);
+		foreach ($buttons as $value => $text)
+		{
+			$this->tpl->setCurrentBlock('option');
+			$this->tpl->setVariable('OPTION_VALUE', $value);
+			$this->tpl->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($text));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable('EXPORT_TITLE', $this->lng->txt('export'));
+		$this->tpl->setVariable('EXPORT_LABEL', $this->lng->txt('type'));
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'selectExport'));
 
-		//create SCORM 2004 4th export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportScorm2004_4th"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_scrom2004"));
-		$tpl->parseCurrentBlock();
-
-		//create PDF export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportPDF"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_pdf"));
-		$tpl->parseCurrentBlock();
-
-		//create ISO export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportISO"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_iso"));
-		$tpl->parseCurrentBlock();
-
-		//create HTML export file button
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportHTML"));
-		$tpl->setVariable("BTN_TXT", $this->lng->txt("scorm_create_export_file_html"));
-		$tpl->parseCurrentBlock();
-
-		
 		$export_files = $this->object->getExportFiles();
 
 		// create table
@@ -1216,7 +1220,7 @@ function showTrackingItem()
 		$tbl = new ilTableGUI();
 
 		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		$this->tpl->addBlockfile("EXPORT_TABLE", "export_table", "tpl.table.html");
 
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/LearningModule");

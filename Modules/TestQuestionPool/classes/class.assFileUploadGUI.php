@@ -249,6 +249,7 @@ class assFileUploadGUI extends assQuestionGUI
 				$table_gui->setSelectAllCheckbox("");
 				$table_gui->clearCommandButtons();
 				$table_gui->disable('select_all');
+				$table_gui->disable('numinfo');
 				$template->setCurrentBlock("files");
 				$template->setVariable('FILES', $table_gui->getHTML());	
 				$template->parseCurrentBlock();

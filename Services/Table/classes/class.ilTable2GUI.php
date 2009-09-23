@@ -804,6 +804,20 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $lng;
 		
+		$allcolumnswithwidth = true;
+		foreach ($this->column as $column)
+		{
+			if (!strlen($column["width"])) $allcolumnswithwidth = false;
+		}
+		if ($allcolumnswithwidth)
+		{
+			foreach ($this->column as $column)
+			{
+				$this->tpl->setCurrentBlock("tbl_colgroup_column");
+				$this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", $column["width"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		foreach ($this->column as $column)
 		{
 			if (!$this->enabled["sort"] || $column["sort_field"] == "" || $column["is_checkbox_action_column"])
