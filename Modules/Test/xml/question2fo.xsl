@@ -427,7 +427,7 @@
 					<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="vertical-align">top</xsl:attribute>
+					<xsl:attribute name="display-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrow2'">
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
@@ -438,7 +438,7 @@
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="vertical-align">top</xsl:attribute>
+					<xsl:attribute name="display-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrowmarked'">
 					<xsl:attribute name="background-color">#FFE4E4</xsl:attribute>
@@ -452,7 +452,7 @@
 					<xsl:attribute name="vertical-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='middle'">
-					<xsl:attribute name="vertical-align">middle</xsl:attribute>
+					<xsl:attribute name="display-align">center</xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
 			
@@ -484,17 +484,18 @@
 			</fo:block>
 		</fo:table-cell>
 	</xsl:template>
-
+	
  	<xsl:template match="colgroup">
  		<xsl:apply-templates/>
  	</xsl:template>
  	
  	<xsl:template match="col">
  		<fo:table-column xmlns:fo="http://www.w3.org/1999/XSL/Format">
- 			<xsl:attribute name="column-width">#<xsl:value-of select="@width"/></xsl:attribute>
+ 			<xsl:attribute name="column-width"><xsl:value-of select="@width"/></xsl:attribute>
  		</fo:table-column>
  	</xsl:template>
-
+ 	
+ 	
 	<xsl:template match="img">
 		<fo:inline xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:external-graphic xmlns:fo="http://www.w3.org/1999/XSL/Format">
@@ -568,25 +569,6 @@
 			<xsl:apply-templates/>
 		</fo:inline>
 	</xsl:template>
+</xsl:stylesheet>
 
- 	<xsl:template name="process-col-width">
- 		<xsl:param name="width"/>
- 		<xsl:if test="$width and $width != '0*'">
- 			<xsl:attribute name="column-width">
- 				<xsl:choose>
- 					<xsl:when test="contains($width, '*')">
- 						<xsl:text>proportional-column-width(</xsl:text>
- 						<xsl:value-of select="substring-before($width, '*')"/>
- 						<xsl:text>)</xsl:text>
- 					</xsl:when>
- 					<xsl:when test="contains($width, '%')">
- 						<xsl:value-of select="$width"/>
- 					</xsl:when>
- 					<xsl:otherwise>
- 						<xsl:value-of select="$width"/>px</xsl:otherwise>
- 				</xsl:choose>
- 			</xsl:attribute>
- 		</xsl:if>
- 	</xsl:template>
- 
- </xsl:stylesheet>
+
