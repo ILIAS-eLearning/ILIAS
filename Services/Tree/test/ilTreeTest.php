@@ -167,13 +167,13 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($bool,false);
 		
 		$node = $tree->getParentNodeData(24);
-		$this->assertEquals($node['title'],'Chat Server');
+		$this->assertEquals($node['title'],'Chat-Server');
 		
 		$bool = $tree->isGrandChild(9,24);
 		$this->assertEquals($bool,1);
 		
 		$node = $tree->getNodeDataByType('chac');
-		$this->assertEquals($node[0]['title'],'Chat Server');
+		$this->assertEquals($node[0]['title'],'Chat-Server');
 		
 		$bool = $tree->isDeleted(24);
 		$this->assertEquals($bool,false);
