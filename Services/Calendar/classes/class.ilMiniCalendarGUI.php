@@ -146,10 +146,10 @@ class ilMiniCalendarGUI
 			{
 				$a_tpl->setVariable('TD_CLASS','calminitoday');
 			}
-			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
-			{
-				$a_tpl->setVariable('TD_CLASS','calmininow');
-			}
+			#elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			#{
+			#	$a_tpl->setVariable('TD_CLASS','calmininow');
+			#}
 			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_MONTH))
 			{
 				$a_tpl->setVariable('TD_CLASS','calministd');
