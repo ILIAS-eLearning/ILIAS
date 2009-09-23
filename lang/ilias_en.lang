@@ -9534,7 +9534,7 @@ crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
-common#:#scorm_new#:#New SCORM/IACC Learning Module
+common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
 common#:#scorm_add#:#Add SCORM/IACC Learning Module
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
 common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)
