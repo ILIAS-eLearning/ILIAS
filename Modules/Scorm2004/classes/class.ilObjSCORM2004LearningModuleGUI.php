@@ -2249,15 +2249,9 @@ function showTrackingItem()
 		{
 			$export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
 			$exp_file = $export_dir."/".$file;
-			include_once "./Services/Utilities/classes/class.ilStr.php";
-			$exp_dir = $export_dir."/".ilStr::subStr($file, 0, ilStr::strLen($file) - 4);
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
-			}
-			if (@is_dir($exp_dir))
-			{
-				ilUtil::delDir($exp_dir);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
