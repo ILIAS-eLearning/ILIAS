@@ -1221,7 +1221,7 @@ function showTrackingItem()
 		foreach ($export_files as $exp_file)
 		{
 			$filetype = $exp_file['type'];
-			$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+			$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($filetype))
 				? " <b>(".$this->lng->txt("public").")<b>"
 				: "";
 			$file_arr = explode("__", $exp_file["file"]);
