@@ -124,7 +124,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		{
 			case "view":
 				include_once 'payment/classes/class.ilPaymentObject.php';
-
+				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
 				if(ilPaymentObject::_isBuyable($this->ref_id) && 
 				   !ilPaymentObject::_hasAccess($this->ref_id))
 				{					
@@ -133,6 +134,10 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				else
 				{
 					$frame = "ilContObj".$this->obj_id;
+				}
+				if ($sahs_obj->getEditable() == 1)
+				{
+					$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				}
 				break;
 
