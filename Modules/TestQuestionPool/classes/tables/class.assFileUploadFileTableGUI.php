@@ -86,6 +86,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_FILE', ilUtil::prepareFormOutput($a_set['value2']));
 		}
+		ilDatePresentation::setUseRelativeDates(false);
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"],IL_CAL_UNIX)));
 	}
 	
