@@ -462,6 +462,27 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		return $q_exporter->exportQuestion($matches[2]);
 	}
 	
+		
+	/**
+	* Select the export type of the SCORM 2004 module
+	*/
+	public function selectExport()
+	{
+		switch ($_POST['select_export'])
+		{
+			case "exportScorm12":
+			case "exportScorm2004_3rd":
+			case "exportScorm2004_4th":
+			case "exportPDF":
+			case "exportHTML":
+				$this->ctrl->redirect($this, $_POST['select_export']);
+				break;
+			default:
+				$this->ctrl->redirect($this, 'showExportList');
+				break;
+		}
+	}
+	
 	function showExportList()
 	{
 		global $tpl, $ilCtrl, $lng;
