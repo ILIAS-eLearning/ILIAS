@@ -169,13 +169,14 @@ class ilERPDebtor_eco extends ilERPDebtor
       $this->erp->client->CurrentInvoiceLine_SetUnitNetPrice(array('currentInvoiceLineHandle' => $cilh, 'value' => $amount));
 
       $this->erp->client->CurrentInvoice_SetIsVatIncluded(array('currentInvoiceHandle' => $cih, 'value' => 0));
+      $inv = $this->erp->client->CurrentInvoice_Book(array('currentInvoiceHandle' => $cih))->CurrentInvoice_BookResult;    
     }
     catch (Exception $e)
     {
-      die("Exception" . implode(',', $debug) . "<br/>" . $e->getMessage());      
+      die("Exception<br/>" . implode('<br/>', $debug) . "<br/>" . $e->getMessage());      
     }
 
-    return $this->erp->client->CurrentInvoice_Book(array('currentInvoiceHandle' => $cih))->CurrentInvoice_BookResult;    
+    return $inv;
     
   }
   
