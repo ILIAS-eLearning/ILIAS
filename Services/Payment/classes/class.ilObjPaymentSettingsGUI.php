@@ -2239,8 +2239,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       
       if ($deb->getDebtorByNumber($nr))
       {
-        $msg = $this->lng->txt('pays_erp_tst_existing');
-        
+        $msg = $this->lng->txt('pays_erp_tst_existing');        
       }
       else
       {
