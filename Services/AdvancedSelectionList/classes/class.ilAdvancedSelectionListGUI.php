@@ -358,7 +358,7 @@ class ilAdvancedSelectionListGUI
 		{
 			return "";
 		}
-		
+
 		$GLOBALS["tpl"]->addJavascript("./Services/AdvancedSelectionList/js/AdvancedSelectionList.js");
 
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
