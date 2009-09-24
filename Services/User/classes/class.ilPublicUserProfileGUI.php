@@ -319,8 +319,8 @@ class ilPublicUserProfileGUI
 		}
 		
 		// delicious row
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("user_profile") == "1" && $user->getPref("public_delicious") == "y")
+		//$d_set = new ilSetting("delicious");
+		if ($user->getPref("public_delicious") == "y")
 		{
 			$tpl->setCurrentBlock("delicious_row");
 			$tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));

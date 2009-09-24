@@ -2074,6 +2074,10 @@ return;
 			{
 				$ilUser->setMatriculation($_POST["usr_matriculation"]);
 			}
+			if ($this->workWithUserSetting("delicious"))
+			{
+				$ilUser->setDelicious($_POST["usr_delicious"]);
+			}
 
 			// delicious
 			$d_set = new ilSetting("delicious");
@@ -2259,7 +2263,8 @@ return;
 			"fax" => $ilUser->getFax(),
 			"email" => $ilUser->getEmail(),
 			"hobby" => $ilUser->getHobby(),
-			"matriculation" => $ilUser->getMatriculation()
+			"matriculation" => $ilUser->getMatriculation(),
+			"delicious" => $ilUser->getDelicious()
 			);
 		foreach($val_array as $key => $value)
 		{
@@ -2394,9 +2399,9 @@ return;
 				}
 			}
 
-			$d_set = new ilSetting("delicious");
-			if ($d_set->get("user_profile"))
-			{
+//			$d_set = new ilSetting("delicious");
+//			if ($d_set->get("user_profile"))
+//			{
 				if (($_POST["chk_delicious"]))
 				{
 					$ilUser->setPref("public_delicious","y");
@@ -2405,7 +2410,7 @@ return;
 				{
 					$ilUser->setPref("public_delicious","n");
 				}
-			}
+//			}
 			
 			// additional defined user data fields
 			foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
