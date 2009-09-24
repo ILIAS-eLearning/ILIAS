@@ -343,6 +343,7 @@ class ilContObjectManifestBuilder
 					if ($mob_id > 0 && ilObject::_exists($mob_id))
 					{
 						$media_obj = new ilObjMediaObject($mob_id);
+						if($media_obj->getLocationType() == "LocalFile")
 						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getMediaItem("Standard")->getLocation())), "");
 					}
 				}
