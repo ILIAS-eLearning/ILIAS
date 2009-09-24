@@ -1328,6 +1328,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// other data
 		$data["matriculation"] = $this->object->getMatriculation();
+		$data["delicious"] = $this->object->getDelicious();
 		$data["client_ip"] = $this->object->getClientIP();
 
 		// user defined fields
@@ -1336,7 +1337,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$user_defined_data = $this->object->getUserDefinedData();
 		foreach($this->user_defined_fields->getDefinitions() as $field_id => $definition)
 		{
-			$data["udf_".$field_id] = $user_defined_data[$field_id];
+			$data["udf_".$field_id] = $user_defined_data["f_".$field_id];
 		}
 
 		// settings
@@ -1691,6 +1692,14 @@ class ilObjUserGUI extends ilObjectGUI
 		$mr->setMaxLength(40);
 		$mr->setRequired(isset($settings["require_matriculation"]) &&
 			$settings["require_matriculation"]);
+		$this->form_gui->addItem($mr);
+
+		// delicious
+		$mr = new ilTextInputGUI($lng->txt("delicious"), "delicious");
+		$mr->setSize(40);
+		$mr->setMaxLength(40);
+		$mr->setRequired(isset($settings["require_delicious"]) &&
+			$settings["require_delicious"]);
 		$this->form_gui->addItem($mr);
 
 		// client IP
