@@ -317,12 +317,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  global $ilias, $ilUser;
 
 	  include_once './payment/classes/class.ilPaymentObject.php';
-  	  include_once './payment/classes/class.ilPaymentBookings.php';
-  	
-  	// Check for ERP-system
-  	$use_erp = file_exists( 'ec.php' );
-  	if ($use_erp) include_once 'ec.php';
-
+    include_once './payment/classes/class.ilPaymentBookings.php';
+    include_once './payment/classes/class.ilERP.php';
+    
+    $erp = new ilERP();
+    $system = $erp->getActive();
+   
 	  $cart = new ilPaymentShoppingCart($ilUser);
 	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
 	  
@@ -354,7 +354,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);
 	    
 	    // Should be moved to callback
-	    
+	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $ilUser, $sc[$i]);
 	    
 	    if ($use_erp) {
 	    bookUser($ilUser->getId(), $ilUser->firstname." ".$ilUser->lastname, $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
@@ -368,6 +368,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
+	
+	private function recordTransaction($erpsys, &$u, &$product)
+	{
+    include_once './payment/classes/class.ilERP_' . $erpsys;
+    include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys;
+    
+    $deb = "ERPDebtor_" . $erpsys;
+    
+    $cust = new $deb($u->getId(), $u->firstname, $u->email, $u->street, $u->zipcode, $u->city, $u->country, $u->phone_home, 0);
+    
+    
+	}
+	
 
 	public function finishPaypal()
 	{

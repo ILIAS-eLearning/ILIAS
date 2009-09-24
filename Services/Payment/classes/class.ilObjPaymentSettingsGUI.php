@@ -19,6 +19,7 @@ require_once './classes/class.ilObjectGUI.php';
 include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 include_once './payment/classes/class.ilPaymentPrices.php';
 
+
 class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
 	var $user_obj = null;
@@ -58,6 +59,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->TOPICS = 9;
 		$this->VATS = 10;
 		$this->SECTION_VATS = 11;
+		$this->SECTION_ERP = 13;
 		
 		$this->lng->loadLanguageModule('payment');
 	}
@@ -190,6 +192,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 												$this->__setMainSection($this->VATS);
 												$this->tabs_gui->setTabActive('vats');					
 												break;
+					case 'saveERPsettings' :
+					case 'erpSettings' : $this->__setSection($this->SECTION_ERP);
+                        $this->__setMainSection($this->SETTINGS);
+                        $this->tabs_gui->setTabActive('settings');
+                        break;
 												
 					default :					$this->__setSection($this->OTHERS);
 												$this->__setMainSection($this->OTHERS);
@@ -2091,8 +2098,260 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	
+	
+	
+	
+	private function getERPform_eco(&$op, $erps_id = 0)
+	{
+    $erp = new ilERP_eco();
+    $erp->loadSettings($erps_id);
+    $set = $erp->getSettings(0);
+    
+    $fields = array(
+      array("pays_eco_agreement", "agreement", 10),
+      array("username", "username", 16),
+      array("password", "password", 16),
+      array("pays_eco_product_number", "product", 6),
+      array("pays_eco_payment_terms", "terms", 6),
+      array("pays_eco_layout", "layout", 6), 
+      array("pays_eco_cur_handle_code", "code", 3)
+    );
+    
+    foreach ($fields as $f)
+    {
+      $txt = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
+      $txt->setMaxLength($f[2]);
+      $txt->setValue($set[$f[1]]);
+      $op->addSubItem($txt);
+    }
 
-        function epaySettingsObject($a_show_confirm = false)
+	}
+	
+	private function getERPform_none(&$op, $erps_id = 0)
+	{
+	
+	}
+	
+	
+	
+	
+	
+		
+	
+	/**
+	* Generates the settings form for ERP
+	*
+	*/	
+	private function getERPform()
+	{
+    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+    require_once './payment/classes/class.ilERP_eco.php';
+
+    $erp = new ilERP();
+    $systems = $erp->getAllERPs();
+    $active = $erp->getActive();
+
+    $frm = new ilPropertyFormGUI();
+    
+    //$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
+		$frm->setFormAction($this->ctrl->getFormAction($this, 'saveEEPsettings'));		
+		$frm->setTitle($this->lng->txt('pays_erp_settings'));		
+		$frm->addCommandButton('saveERPsettings',$this->lng->txt('save'));		
+		$frm->addCommandButton('testERPsettings',$this->lng->txt('test'));		
+
+    $rdo = new ilRadioGroupInputGUI($this->lng->txt("pays_erp_system"), "erp_id");
+		$rdo->setInfo("The ERP is currently in development");   
+		
+		$rdo->setValue($active['erp_id']);
+
+    foreach ($systems as $system)
+		{
+      $desc = $system['description'];
+      $desc .= empty($system['url']) ? '' : ' <a href="'.$system['url'].'" target="_blank">' . $this->lng->txt("additional_info") ."</a>";
+      
+      $op = new ilRadioOption($system['name'], $system['erp_id'], $desc);
+      
+      $function = "getERPform_" . $system['erp_short'];      
+      $this->$function(&$op, $active['erps_id']);
+      
+      $rdo->addOption($op);
+    }
+		
+      
+		$frm->addItem($rdo);		
+		return $frm;
+	}
+	
+	
+	/**
+	* ERP Object factory. Should be moved
+	* @access private
+	* @return mixed ERP instance
+	*/
+	private function getERPObject($system)
+	{
+		require_once './payment/classes/class.ilERP.php';		
+		switch ($system)
+		{		
+      case ERP_NONE:        
+        $instance = new ilERP();
+        break;
+      case ERP_ECONOMIC:
+        require_once './payment/classes/class.ilERP_eco.php';		
+        $instance = new ilERP_eco();                
+        break;
+      default:
+        die("Failed to create object. Report this bug to Mantis. System is '" . $system . "'");
+
+    }
+    return $instance;	
+	}
+	
+	
+	
+	private function getERParray()
+	{
+    $a = array();    
+    foreach ($_POST as $a_post => $a_value) if ($a_post != 'cmd') $a[$a_post] = ilUtil::stripSlashes($a_value);
+    return $a;
+  }
+  
+  private function testERPSettingsObject()
+  {
+    global $rbacsystem;
+    global $ilUser;
+    if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+    {
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilias->error_obj->MESSAGE);
+		}		
+    $system = (int) $_POST['erp_id'];
+    require_once './payment/classes/class.ilERP.php';	
+    if ($system == ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+    else
+    {
+      include_once './Services/Payment/classes/class.ilERPDebtor_eco.php';
+      
+      $deb = new ilERPDebtor_eco( 0 ); // "5798000416826");
+      $deb->setTestValues();
+      $nr = rand(1000,1020);
+      
+      if ($deb->getDebtorByNumber($nr))
+      {
+        $msg = $this->lng->txt('pays_erp_tst_existing');
+        
+      }
+      else
+      {
+        $deb->createDebtor($nr);
+        $msg = $this->lng->txt('pays_erp_tst_new');     
+        
+      }      
+      $msg .= " " . $nr . ", " . $deb->getName() . " ";
+      //ilUtil::sendInfo($msg);
+      
+      $amount = rand(10,1000);      
+      $pcs = rand(1,5);
+      $msg .= $this->lng->txt('pays_erp_tst_billed') . " " . $pcs . " x " . $amount .
+        "<br/>" . $this->lng->txt('total') . " " . number_format( $pcs*$amount, 2, ',','.');
+      
+      $inv = $deb->createInvoice($amount, "Test products from your ILIAS installation", $pcs);
+      $attach = $deb->getInvoicePDF($inv);
+            
+      $deb->sendInvoice("ERP TEST INVOICE", "For you my friend", $ilUser->getEmail(), $attach, "faktura");
+      
+      $msg .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');
+      
+      ilUtil::sendInfo($msg);
+      
+      
+       
+    }
+    
+    $this->erpSettingsObject();
+    
+  }
+  
+  
+  
+  
+  /**
+  * When updating ERP settings test connection and report error.
+  */
+  private function checkForERPerror(&$instance)
+  {
+    $message ="";
+    
+    if (!$instance->looksValid()) $message = str_replace('%s', $instance->getName, $this->lng->txt('pays_erp_bad_settings'));
+    else 
+    {    
+      $ok = $instance->connect();
+      if (!$ok) $message = "<b>" . str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_error')) . "</b><br/> " . $instance->getLastError();
+      else ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
+    }
+    if ($message != "") ilUtil::sendFailure($message);
+  }
+  
+  
+  
+	/**
+	* Save settings for ERP
+	*/	
+	private function saveERPsettingsObject()
+	{
+    global $rbacsystem;
+    if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+    {
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilias->error_obj->MESSAGE);
+		}		
+		
+		$settings= $this->getERParray();    		
+		$system = (int) $_POST['erp_id'];		
+		$instance = $this->getERPObject($system);				
+		//die("erp_id=".$system);
+    $instance->setSettings($settings);
+    
+    switch ($system)
+    {
+      case ERP_NONE:
+        break;
+      case ERP_ECONOMIC:
+        $this->checkForERPerror($instance);
+        break;      
+    }			
+		
+		$instance->setActive($system);      
+    $instance->saveSettings($settings );				
+    ilUtil::sendSuccess(str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_updated_settings')));     
+    $this->erpSettingsObject();
+    
+		return true;	
+	
+	}
+	
+	/**
+	* ERP
+	*
+	*/	
+	function erpSettingsObject($a_show_confirm = false)
+	{
+    global $rbacsystem;
+    if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_erp_settings.html','payment');
+		
+		$form = $this->getERPform();
+		
+		$this->tpl->setVariable('ERP_INFO', $this->lng->txt('pays_erp_info'));
+		$this->tpl->setVariable('ERP_SETTINGS',$form->getHTML());		
+    
+  }
+	
+
+    function epaySettingsObject($a_show_confirm = false)
         {
                 global $rbacsystem;
 
@@ -3311,7 +3570,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return $this->mainSection;
 	}
 
-	function __buildSettingsButtons()
+	private function __buildSettingsButtons()
 	{
 		if($this->__getMainSection() == $this->SETTINGS)
 		{
@@ -3340,6 +3599,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 											 '',
 											 '',
 											 $this->__getSection() == $this->SECTION_EPAY ? true : false);
+			$this->tabs_gui->addSubTabTarget('pays_erp',
+        $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
+        '',
+        '',
+        '',
+        $this->__getSection() == $this->SECTION_ERP ? true : false);
 		}
 	}
 
