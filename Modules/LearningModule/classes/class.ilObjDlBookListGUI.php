@@ -57,6 +57,7 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 		$this->payment_enabled = true;
 		$this->type = "dbk";
 		$this->gui_class_name = "ilobjdlbookgui";
+		$this->info_screen_enabled = true;
 		
 		// general commands array
 		include_once('./Modules/LearningModule/classes/class.ilObjDlBookAccess.php');
@@ -100,6 +101,12 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 			case "edit":
 				$cmd_link = "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$this->ref_id;
 				break;
+
+			case "infoScreen":
+				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
+					"&amp;cmd=infoScreen";
+				break;
+				
 
 			default:
 				$cmd_link = "repository.php?ref_id=".$this->ref_id."&amp;cmd=$a_cmd";

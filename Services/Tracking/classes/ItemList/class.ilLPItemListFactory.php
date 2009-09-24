@@ -66,6 +66,7 @@ class ilLPItemListFactory
 				$object->read();
 				return $obj_cache[$a_type.'_'.$a_id] =& $object;
 
+			case 'dbk':
 			case 'lm':
 				include_once 'Services/Tracking/classes/ItemList/class.ilLPContentObjectListGUI.php';
 

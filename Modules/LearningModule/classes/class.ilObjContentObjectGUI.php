@@ -2969,7 +2969,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and $this->object->getType() == 'lm')
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

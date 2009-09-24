@@ -240,6 +240,10 @@ class ilLPObjSettings
 				break;
 
 			case 'dbk':
+				return array(
+					LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+					LP_MODE_DEACTIVATE => $lng->txt('trac_mode_deactivated')
+				);
 			case 'lm':
 				return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
 							 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
