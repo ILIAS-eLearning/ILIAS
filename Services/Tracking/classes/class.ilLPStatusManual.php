@@ -93,6 +93,7 @@ class ilLPStatusManual extends ilLPStatus
 
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
+			case 'dbk':
 			case 'lm':
 			case 'htlm':
 				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
