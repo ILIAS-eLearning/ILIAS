@@ -142,7 +142,6 @@ class ilTemplate extends ilTemplateX
 			
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
-			$this->fillJavaScriptFiles();
 			$this->fillContentStyle();
 			$this->fillBodyClass();
 
@@ -163,6 +162,9 @@ class ilTemplate extends ilTemplateX
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
 			$this->fillToolbar();
+
+			// late loading of javascipr files, since operations above may add files
+			$this->fillJavaScriptFiles();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -350,7 +352,7 @@ class ilTemplate extends ilTemplateX
 
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
-			$this->fillJavaScriptFiles();
+			//$this->fillJavaScriptFiles();
 			$this->fillContentStyle();
 
 			// these fill just plain placeholder variables in tpl.main.html
@@ -370,7 +372,10 @@ class ilTemplate extends ilTemplateX
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
 			$this->fillToolbar();
-			
+
+			// late loading of javascipr files, since operations above may add files
+			$this->fillJavaScriptFiles();
+
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -501,7 +506,6 @@ class ilTemplate extends ilTemplateX
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 		}
-
 		if ($this->blockExists("js_file"))
 		{
 			foreach($this->js_files as $file)
