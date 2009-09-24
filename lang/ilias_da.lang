@@ -10068,18 +10068,29 @@ common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, us
 registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
 registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
 registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
-pd#:#pd_enable_global_profiles#:#Enable Global Profiles###22 09 2009 new variable
-pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.###22 09 2009 new variable
-user#:#usr_link_to_profile#:#Link to Profile###22 09 2009 new variable
+pd#:#pd_enable_global_profiles#:#Aktiver globale profiler
+pd#:#pd_enable_global_profiles_info#:#Hvis valgt kan brugere gøre deres profiler synlige på internet.
+user#:#usr_link_to_profile#:#Link til profil
 content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.###22 09 2009 new variable
 registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.###22 09 2009 new variable
-common#:#join_session#:#Join###22 09 2009 new variable
-content#:#cont_dir_renamed#:#Directory has been renamed.###22 09 2009 new variable
-content#:#cont_file_renamed#:#File has been renamed.###22 09 2009 new variable
-content#:#cont_dir_deleted#:#Directory has been deleted.###22 09 2009 new variable
-content#:#cont_file_deleted#:#File has been deleted.###22 09 2009 new variable
+common#:#join_session#:#Tilmeld
+content#:#cont_dir_renamed#:#Mappen blev omdøbt-
+content#:#cont_file_renamed#:#Filen blev omdøbt.
+content#:#cont_dir_deleted#:#Mappen blev slettet.
+content#:#cont_file_deleted#:#Filen blev slettet.
 content#:#cont_file_unzipped#:#File has been unzipped.###22 09 2009 new variable
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
 common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
-common#:#socialbm_enable#:#Enable###22 09 2009 new variable
-common#:#socialbm_disable#:#Disable###22 09 2009 new variable
+common#:#socialbm_enable#:#Aktiver
+common#:#socialbm_disable#:#Deaktiver
+payment#:#pays_erp_error#:#Fejl i kommunikation med %s!
+payment#:#pays_erp_updated_settings#:#ERP-indstillinger opdateret og %s er sat aktiv.
+payment#:#pays_erp_bad_settings#:#Ret venligst indstillingerne for %s da de er ugyldige.
+payment#:#pays_erp_connection_established#:#Kunne forbinde til %s.
+payment#:#pays_eco_cur_handle_code#:#Valutakode
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning system opsætning. Integrerer ILIAS med bogføringssystem.
+payment#:#pays_erp_tst_existing#:#Eksisterende debitor
+payment#:#pays_erp_tst_new#:#Nyoprettet debitor
+payment#:#pays_erp_tst_billed#:#faktureret 
+payment#:#pays_erp_tst_product#:#Dette er bare en testfaktura. I et rigtigt køb vil kursusnavnet stå her.
+payment#:#pays_erp_invoice_attached#:#Din faktura er vedhæftet denne mail.
