@@ -5,10 +5,10 @@
 * @modulegroup		language
 * @author		Simone Giannoni <giannoni@ksolutions.it>
 * @version		$Id$
-* @il_server		http://localhost:8888/ilias-trunk
-* @il_version		4.0.0 Beta2 2009-08-19
-* @created		2009-09-08 16:25:10
-* @created_by		mkunkel Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @il_server		http://www.ilias.de/test40x
+* @il_version		4.0.0
+* @created		2009-09-24 16:53:21
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
 	+-----------------------------------------------------------------------------+
@@ -58,6 +58,7 @@ administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Le impostazioni locali influenzano ad es. l'ordinamento nelle liste. Come esempio si veda nl_NL o de_DE. Localizzazioni multiple devono essere separate da virgola. Sarà utilizzata la prima localizzazione valida.
 administration#:#adm_repository_cache_time#:#Repository Cache Time
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.
+administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'
 administration#:#analysis_options#:#Opzioni di analisi
 administration#:#analyze_data#:#Analisi dell'integrità dei dati
 administration#:#analyzing#:#Analisi in corso...
@@ -82,6 +83,7 @@ administration#:#dump_tree_desc#:#Effettua una analisi dell'albero logico e stam
 administration#:#dumping_tree#:#Analisi dell'albero...
 administration#:#found#:#trovato.
 administration#:#found_none#:#non trovato.
+administration#:#history_loginname#:#Login Name History
 administration#:#initializing_gaps#:#Preparazione di uno spazio nell'albero...
 administration#:#language_administration#:#Amministrazione Lingua
 administration#:#language_all_modules#:#Tutti i moduli
@@ -131,6 +133,10 @@ administration#:#language_translation_enabled#:#Traduzione pagina abilitata
 administration#:#language_translation_mode#:#Modalità di traduzione
 administration#:#log_scan#:#Scrivi nel file di log i risultati
 administration#:#log_scan_desc#:#Scrive i risultati nel file 'scanlog.log' nella cartella del client.
+administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
+administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
+administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
+administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
 administration#:#nothing_to_purge#:#Niente da eliminare...
 administration#:#nothing_to_remove#:#Niente da cancellare...
 administration#:#nothing_to_restore#:#Niente da ripristinare...
@@ -140,6 +146,7 @@ administration#:#options#:#Opzioni
 administration#:#output_options#:#Opzioni di uscita
 administration#:#passwd_auto_generate#:#Invio e Generazione password
 administration#:#path_to_mkisofs#:#Path to mkisofs
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
 administration#:#purge_age_limit#:#Età limite
 administration#:#purge_age_limit_desc#:#Se questo campo ha un valore, verranno eliminati solo gli oggetti cancellati prima del numero di giorni corrispondente.
 administration#:#purge_count_limit#:#Numero limite
@@ -166,6 +173,7 @@ administration#:#restoring#:#Sto ripristinando...
 administration#:#restoring_missing_objs#:#Sto ripristinando gli oggetti mancanti...
 administration#:#restoring_trash#:#Sto ripristinando gli oggetti del cestino...
 administration#:#restoring_unbound_objs#:#Sto ripristinando gli oggetti scollegati...
+administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
 administration#:#scan#:#Scan del sistema
 administration#:#scan_completed#:#Scan completato
 administration#:#scan_desc#:#Esamina il sistema alla ricerca di oggetti corrotti/non validi/dispersi/scollegati.
@@ -183,6 +191,7 @@ administration#:#start_scan#:#Avvio!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Verifica del sistema
 administration#:#tree_corrupt#:#L'albero è corrotto! Puoi vedere i dettagli nel file di log.
+administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 administration#:#view_last_log#:#Vedi l'ultimo log
 administration#:#view_log#:#Vedi dettagli
 adve#:#adve_grp_glo#:#Glossaries
@@ -268,6 +277,9 @@ assessment#:#cannot_export_test#:#Non hai l'autorizzazione per esportare il test
 assessment#:#cannot_maintain_test#:#Non hai l'autorizzazione per fare manutenzione al test!
 assessment#:#cannot_read_questionpool#:#Non hai l'autorizzazione per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai l'autorizzazione per salvare i metadati!
+assessment#:#certificate_failed#:#Non idoneo
+assessment#:#certificate_ph_passed#:#"idoneo" o "non idoneo", a seconda dei risultati del test
+assessment#:#certificate_right#:#Diritti del certificato
 assessment#:#change_properties_from_random_to_standard#:#Stai cambiando le impostazioni di questo test da random a non random. Le raccolte di domande che hai aggiunto al test verranno cancellate. Vuoi cambiare queste impostazioni?
 assessment#:#change_properties_from_standard_to_random#:#Stai cambiando le impostazioni di questo test da non random a random. Le domande che hai aggiunto al test verranno cancellate dato che hai selezionato una raccolta di domande. Vuoi cambiare queste impostazioni?
 assessment#:#change_solution#:#Cambia la soluzione suggerita
@@ -1497,6 +1509,7 @@ chat#:#chat_user_visible#:#visibile
 chat#:#chat_whisper#:#Bisbiglio
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
+chat#:#check_configuration#:#Please check the chat server's settings.
 chat#:#edit_smilies#:#Elabora gli smilies
 chat#:#my_chats#:#Le mie Chat
 cmps#:#cmps_activate#:#Attivare
@@ -1512,6 +1525,7 @@ cmps#:#cmps_db_update#:#Script per l'attualizzazione della banca dati
 cmps#:#cmps_deactivate#:#Disattivato
 cmps#:#cmps_dir#:#Directory
 cmps#:#cmps_disable_creation#:#Disattivare la creazione
+cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:
 cmps#:#cmps_edit_settings#:#Impostazioni
 cmps#:#cmps_file_version#:#Aggiornamento del file
 cmps#:#cmps_group#:#Gruppo
@@ -1656,6 +1670,7 @@ common#:#advanced_editing_settings#:#Advanced editing settings
 common#:#advanced_editing_survey_settings#:#Tag HTML consentiti per lo strumento per i sondaggi di ILIAS
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment settings
+common#:#adve_cat_settings#:#Categoria Impostazioni
 common#:#adve_edit_permission#:#Modifica Impostazioni dei Permessi
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Impostazioni Generali
@@ -2004,6 +2019,7 @@ common#:#change_owner#:#Modifica il propritario
 common#:#change_sort_direction#:#Modifica la direzione dell&#039;ordinamento
 common#:#changeable#:#Modificabile
 common#:#changed_to#:#modificata in
+common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
@@ -2242,6 +2258,7 @@ common#:#dbk_new#:#Nuovo libro digitale
 common#:#dbk_read#:#Accedere in lettura ad un libro digitale
 common#:#dbk_visible#:#Vedere un libro digitale
 common#:#dbk_write#:#Modificare un libro digitale
+common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Tentativi - 1
@@ -3109,6 +3126,7 @@ common#:#java_server_no_connection#:#Attenzione: non è possibile connettersi al
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup informations
 common#:#join#:#Iscriviti
+common#:#join_session#:#Join
 common#:#kb#:#KB
 common#:#keywords#:#Parole chiave
 common#:#lang_bg#:#Bulgaro
@@ -3165,6 +3183,7 @@ common#:#last_access#:#Ultimo accesso:
 common#:#last_change#:#Data ultima modifica
 common#:#last_edited_on#:#Ultima modifica il
 common#:#last_login#:#Last login
+common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
 common#:#last_update#:#Data ultimo aggiornamento
 common#:#last_visit#:#Ultima visita
@@ -3921,6 +3940,8 @@ common#:#pays_read#:#Accedere in lettura alle impostazioni dei pagamenti
 common#:#pays_visible#:#Vedere le impostazioni dei pagamenti
 common#:#pays_write#:#Salvare le impostazioni dei pagamenti
 common#:#pd_enable_chatviewer#:#Abilita Chatviewer
+common#:#pd_enable_contacts#:#Enable Contacts
+common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pd_items_news_info#:#Se attivate, tutte le news collegate agli elementi che sono state aggiunte al desktopo personale saranno incluse nel blocco notizie.
 common#:#pdf_export#:#PDF Export
@@ -3991,6 +4012,7 @@ common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_write#:#Modifica Privacy/Security
 common#:#pub_section#:#Sezione pubblica
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#pubblico
 common#:#public_notes#:#Note pubbliche
 common#:#public_profile#:#Profilo pubblico
@@ -4002,6 +4024,7 @@ common#:#publishing_organisation#:#Casa editrice
 common#:#purpose#:#Scopo
 common#:#qpl#:#Raccolta di domande (per test)
 common#:#qpl_add#:#Aggiungi raccolta di domande
+common#:#qpl_copy#:#Copy Test Question Pool
 common#:#qpl_delete#:#Eliminare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#qpl_new#:#Nuova raccolta di domande
@@ -4305,6 +4328,7 @@ common#:#shib_visible#:#Vedere le impostazioni di Shibboleth
 common#:#shib_write#:#Modificare le impostazioni di Shibboleth
 common#:#shib_zipcode#:#Attributo per il codice postale
 common#:#shop#:#Shop
+common#:#shop_actions#:#Actions
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.
 common#:#show#:#Mostra
@@ -4328,7 +4352,11 @@ common#:#soap_user_administration#:#Amministrazione utenti esterna (SOAP)
 common#:#soap_user_administration_desc#:#Se selezionato, tutti gli utenti potranno essere amministrati tramite un client SOAP esterno.
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
+common#:#socialbm_disable#:#Disable
+common#:#socialbm_enable#:#Enable
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
+common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
+common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#sorting_header#:#Content Item Sorting
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.
@@ -4339,6 +4367,7 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spaziatore
 common#:#spl#:#Raccolta di domande (per sondaggi)
 common#:#spl_add#:#Aggiungi raccolta di domande
+common#:#spl_copy#:#Copy Survey Question Pool
 common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
@@ -4363,6 +4392,7 @@ common#:#state_unread#:#unread
 common#:#statistic#:#Statistiche
 common#:#statistics#:#Statistics
 common#:#status#:#Stato
+common#:#status_no_permission#:#No permission granted
 common#:#step#:#Passo
 common#:#stop_inheritance#:#Interrompi l&#039;ereditariet&#224;
 common#:#stop_moving_blocks#:#Stop Moving Blocks
@@ -4473,6 +4503,7 @@ common#:#time_segment#:#Intervallo di tempo
 common#:#tiny_icon#:#Small Icon
 common#:#title#:#Titolo
 common#:#title_long#:#Long Title
+common#:#title_required#:#Please insert a title
 common#:#to#:#A
 common#:#to_client_list#:#Vai alla lista di Client
 common#:#to_desktop#:#Invia sul desktop personale
@@ -4880,6 +4911,7 @@ content#:#cont_coords#:#Coordinate
 content#:#cont_copy_object#:#copia oggetto
 content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_copy_to_media_pool#:#Copia nella raccolta multimediale
+content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_export_file_html#:#Crea file di export (HTML)
@@ -4921,7 +4953,9 @@ content#:#cont_dependencies#:#Dipendenze
 content#:#cont_derive_from_obj#:#Deriva dall' oggetto
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_created#:#Directory has been created.
+content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Cartella/File
+content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_html#:#HTML inactive
 content#:#cont_disable_js#:#Disabilita i JavaScript
 content#:#cont_disable_media#:#Disabilita i file multimediali
@@ -5033,7 +5067,10 @@ content#:#cont_external#:#esterno
 content#:#cont_external_url#:#url esterna
 content#:#cont_file#:#File
 content#:#cont_file_created#:#File has been created.
+content#:#cont_file_deleted#:#File has been deleted.
 content#:#cont_file_from_repository#:#File dal Repository
+content#:#cont_file_renamed#:#File has been renamed.
+content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_FileListItem#:#Elemento del File (Standard)
 content#:#cont_files#:#Files
 content#:#cont_first_open#:#First Opened
@@ -5151,7 +5188,7 @@ content#:#cont_lk_term_new#:#Elemento Glossario (Nuovo frame)
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriet&#224;
-content#:#cont_localfile#:#File locale
+content#:#cont_LocalFile#:#File locale
 content#:#cont_location#:#Location
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Elemento dati
@@ -5492,6 +5529,7 @@ content#:#dgl_pagebreak#:#Interruzione di pagina
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#HTML export#:#Esporta HTML
+content#:#HTML_export#:#Esporta HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
@@ -5507,11 +5545,14 @@ content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; dis
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#Pages#:#Pagine
 content#:#pages from#:#Pagine da
+content#:#pages_from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#PDF export#:#Esporta PDF
+content#:#PDF_export#:#Esporta PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
+content#:#read_offline#:#Leggi offline
 content#:#saved_media_object#:#Saved media object.
 content#:#scorm_editable#:#Import editable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
@@ -5545,6 +5586,7 @@ content#:#seq_toc#:#Scegliere un'attività dalla Tabella Contenuti - TOC sulla s
 content#:#set_public_mode#:#Imposta in modalita' di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
+content#:#start_export#:#Inizia l' esportazione
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image "alt" attribute.
 crs#:#activation_times_not_valid#:#Il periodo di attivazione non è valido.
@@ -5553,6 +5595,7 @@ crs#:#assigned#:#Assegnato
 crs#:#contact_email_not_valid#:#l'indirizzo di posta del contatto non è valido.
 crs#:#crs_accept_subscriber#:#Iscrizione al corso "%s"
 crs#:#crs_accept_subscriber_body#:#Sei stato iscritto a questo corso.
+crs#:#crs_access#:#Access
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Attivazione
 crs#:#crs_add_archive_html#:#Crea archivio HTML
@@ -5603,6 +5646,7 @@ crs#:#crs_blocked_member_body#:#La tua iscrizione al corso "%s" non è più atti
 crs#:#crs_cancel_subscr_request#:#Cancella richiesta di membership
 crs#:#crs_cancel_subscription#:#Cancellato dal corso "%s"
 crs#:#crs_cancel_subscription_body#:#Un utente si &#232; cancellato dal corso.
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
 crs#:#crs_change_status#:#Modifica lo stato dell'obiettivo:
 crs#:#crs_chapter_already_assigned#:#Questi capitoli sono già stati aggiunti.
 crs#:#crs_contact#:#Contatto
@@ -5697,6 +5741,7 @@ crs#:#crs_info_settings#:#Informazioni sul corso
 crs#:#crs_info_start#:#Per favore lavora con tutti gli elementi del corso iniziato evidenziati. <br />Una volta che avrai terminato tutti gli oggetti marcati di rosso, gli elementi del nuovo corso saranno disponibili.
 crs#:#crs_item_availability_info#:#Scegli questa opzione per rendere disponibile l'elemento per un periodo di tempo prefissato. Se 'Visibilità' è spuntato l'elemento rimarrà visibile ma non accessibile agli utenti.
 crs#:#crs_item_presetting_info#:#Scegli questa opzione per suggerire agli utenti tempi di esecuzione
+crs#:#crs_join_request#:#Send
 crs#:#crs_learning_materials#:#Materiale formativo
 crs#:#crs_lim_assigned#:#gia assegnato a corsi "%s".
 crs#:#crs_list_users#:#Elenco degli utenti
@@ -5732,6 +5777,7 @@ crs#:#crs_move_up#:#Sposta in alto
 crs#:#crs_moved_item#:#Sposta corso
 crs#:#crs_moved_objective#:#Obiettivo formativo spostato.
 crs#:#crs_new_search#:#Nuova ricerca
+crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription#:#Nuova iscrizione al corso "%s"
 crs#:#crs_new_subscription_body#:#Un nuovo utente &#232; stato iscritto
 crs#:#crs_new_subscription_request#:#Richiesta di iscrizione al corso "%s"
@@ -5770,6 +5816,7 @@ crs#:#crs_no_users_selected#:#Non hai scelto alcun utente
 crs#:#crs_no_valid_member_id_given#:#Nessun Id utente valido
 crs#:#crs_not_available#:#-Non disponibile-
 crs#:#crs_notification#:#Notifiche
+crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.
 crs#:#crs_notify#:#Notifica per nuova registrazione
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Il seguente numero di utenti è stato assegnato al corso:
@@ -5859,6 +5906,7 @@ crs#:#crs_reg_lim_info#:#Le registrazioni sono possibili solamente nel periodo d
 crs#:#crs_reg_max_info#:#Definisci il numero massimo di utenti che può essere assegnato a questo corso
 crs#:#crs_reg_notify_info#:#Se scelta tutti gli amministratori/tutor del corso che hanno scelto l&#039;opzione &#039;Notifica&#039; saranno informati tramite email delle nuove registrazioni.
 crs#:#crs_reg_period#:#Periodo di registrazione
+crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_subscription_deactivated#:#La registrazione è disabilitata
 crs#:#crs_reg_subscription_end_earlier#:#La registrazione è terminata
 crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti è stato superato.
@@ -5921,6 +5969,10 @@ crs#:#crs_status#:#Stato
 crs#:#crs_status_changed#:#Stato corso
 crs#:#crs_status_changed_body#:#Il tuo stato nel corso "%s" è stato modificato.
 crs#:#crs_structure#:#Struttura del corso
+crs#:#crs_subscribe_member#:#Your registration for course "%s"
+crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
+crs#:#crs_subscribe_wl#:#Your registration for course "%s".
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Subscriber
 crs#:#crs_subscribers#:#Richieste di iscrizione
 crs#:#crs_subscribers_deleted#:#Iscritti eliminati
@@ -5985,6 +6037,8 @@ crs#:#crs_unblocked#:#Accesso libero
 crs#:#crs_unblocked_member#:#Stato in coso "%s"
 crs#:#crs_unblocked_member_body#:#La tua iscrizione al corso "%s" stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
+crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
+crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l&#039;iscrizione per questo corso?
 crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_objective#:#Modifica obiettivo formativo
@@ -6125,6 +6179,7 @@ crs#:#tutor_name#:#Nome
 crs#:#tutor_phone#:#Telefono
 crs#:#tutor_title#:#Titolo
 crs#:#user_fields#:#User Fields
+dateplaner#:#add_appointment#:#Add Appointment
 dateplaner#:#add_data#:#Dati addizionali
 dateplaner#:#app_#:#Inbox
 dateplaner#:#app_date#:#Inserisci evento
@@ -6765,6 +6820,8 @@ gmaps#:#gmaps_api_key_desc#:#Per usare le estensioni di Google Maps, devi regist
 gmaps#:#gmaps_enable_gmaps#:#Attiva Google Maps
 gmaps#:#gmaps_enable_gmaps_info#:#Attiva Google Maps nel profilo utenti, gruppi e corsi.
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
+gmaps#:#gmaps_latitude#:#Latitude
+gmaps#:#gmaps_longitude#:#Longitude
 gmaps#:#gmaps_lookup_address#:#Lookup Address
 gmaps#:#gmaps_public_profile_info#:#Mostra la location nel tuo profilo pubblico.
 gmaps#:#gmaps_settings#:#Impostazione di Google Maps
@@ -6802,7 +6859,33 @@ grp#:#grp_icon_settings#:#Icona del gruppo
 grp#:#grp_info_settings#:#Informazioni sul gruppo
 grp#:#grp_information#:#Informazioni Importanti
 grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
+grp#:#grp_join_request#:#Send
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
+grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".
+grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"
+grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.
+grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"
+grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".
+grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".
+grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
+grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
+grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"
+grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
+grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
+grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
+grp#:#grp_mail_status_sub#:#Changed status in group "%s"
+grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"
+grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".
+grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"
+grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.
+grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Group Map Location
 grp#:#grp_map_settings#:#Impostazioni della Mappa
 grp#:#grp_members#:#Members
@@ -6810,8 +6893,12 @@ grp#:#grp_members_map#:#Mappa dei membri del gruppo
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
-grp#:#grp_missing_title#:#Please enter a group title. 
+grp#:#grp_missing_title#:#Please enter a group title.
+grp#:#grp_new_status#:#Your new status is:
 grp#:#grp_notification#:#Notification
+grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.
+grp#:#grp_notify_off#:#Notification about new registrations disabled
+grp#:#grp_notify_on#:#Notification about new registrations enabled
 grp#:#grp_open#:#Open Group
 grp#:#grp_open_info#:#Non-members can see this group and join it directly..
 grp#:#grp_pass_request#:#Iscriviti con la password del gruppo
@@ -6835,6 +6922,7 @@ grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You w
 grp#:#grp_reg_request#:#Request Membership
 grp#:#grp_reg_request_info#:#Gli utenti interessati possono spedire un messaggio/richiesta all'amministratore del gruppo.
 grp#:#grp_reg_start#:#Registration Start:
+grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Unlimited registration period
 grp#:#grp_search_users#:#Search User
 grp#:#grp_select_one_file#:#Please select one file.
@@ -7191,9 +7279,12 @@ mail#:#mail_received_x_new_mails#:#Hai ricevuto %s nuove mail.
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
 mail#:#mail_s#:#eMail
 mail#:#mail_s_unread#:#eMail non lette
+mail#:#mail_salutation_f#:#Hello
 mail#:#mail_salutation_female#:#Intestazione, femminile
 mail#:#mail_salutation_general#:#Intestazione, generale
+mail#:#mail_salutation_m#:#Hello
 mail#:#mail_salutation_male#:#Intestazione, maschile
+mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#La eMail &#232; stata salvata
 mail#:#mail_search_addressbook#:#ricerca nella rubrica
 mail#:#mail_search_system#:#ricerca nel sistema
@@ -7265,6 +7356,7 @@ mcst#:#mcst_visibility_public#:#Pubblico
 mcst#:#mcst_visibility_users#:#Logged in Users
 mep#:#mep_all#:#All
 mep#:#mep_all_mobs#:#All Media Objects
+mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_copy_to_mep#:#Copia nella libreria multimediale
 mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_create_folder#:#Crea Contesto
@@ -7279,6 +7371,7 @@ mep#:#mep_folder_content#:#Folder Content
 mep#:#mep_format#:#Format
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
+mep#:#mep_page_created#:#Content snippet created.
 mep#:#mep_page_properties#:#Page Properties
 mep#:#mep_parent_folder#:#Sotto contesto
 mep#:#mep_thumbnail#:#Miniatura
@@ -8091,6 +8184,8 @@ payment#:#pay_no_vendors_created#:#Non sono stati creati venditori
 payment#:#pay_not_buyed_any_object#:#Non hai comprato nessun oggetto.
 payment#:#pay_order_date_from#:#Ordini a partire dal
 payment#:#pay_order_date_til#:#Ordini fino al
+payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
+payment#:#pay_order_paid_subject#:#Your invoice
 payment#:#pay_payed_bill#:#Fattura pagata
 payment#:#pay_payed_credit_card#:#L&#039;ordine &#232; stato acquistato con carta di credito.
 payment#:#pay_payed_debit_entry#:#L&#039;ordine &#232; stato acquistato con una voce a debito.
@@ -8333,6 +8428,7 @@ payment#:#pays_epay#:#ePay
 payment#:#pays_epay_auth_email#:#Email Notification
 payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
 payment#:#pays_epay_auth_token#:#Authentication Token
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
 payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
 payment#:#pays_epay_instant_capture#:#Instant Capture
 payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
@@ -8377,7 +8473,6 @@ payment#:#prices#:#Prezzi
 payment#:#reset_filter#:#Resetta il filtro
 payment#:#select_one_topic#:#Per favore seleziona per ultimo un topic.
 payment#:#set_filter#:#Seleziona un filtro
-common#:#shop_actions#:#Actions
 payment#:#shop_info#:#Informazioni sullo Shop
 payment#:#sort#:#Ordina
 payment#:#sort_asc#:#Ordina ascendente
@@ -8406,6 +8501,8 @@ pd#:#pd_enable_active_users#:#Abilita blocchi di Utenti Attivi.
 pd#:#pd_enable_block_moving#:#Abilita lo spostamento di blocchi
 pd#:#pd_enable_block_moving_info#:#Permetti agli utenti di organizzare i blocchi di contenuti sul Desktop Personale.
 pd#:#pd_enable_bookmarks#:#Abilita segnalibri
+pd#:#pd_enable_global_profiles#:#Enable Global Profiles
+pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 pd#:#pd_enable_my_memberships#:#Abilita "La Mia Iscrizione"
 pd#:#pd_enable_my_memberships_info#:#"La Mia Iscrizione" contiene tutti i Corsi e i Gruppi a cui l'utente è stato assegnato come membro.
 pd#:#pd_enable_my_offers#:#Abilita 'Oggetti selezionati'
@@ -8467,6 +8564,7 @@ ps#:#ps_error_message_invalid_password_min_length#:#La grandezza minima della pa
 ps#:#ps_error_message_password_max_less_min#:#La grandezza massima della password non può essere minore della grandezza minima.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#La grandezza massima della password non può essere minore di due (2) caratteri se la password deve conterere caratteri e numeri.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#La grandezza minima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici, speciali e numeri.
+ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#La grandezza massima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici e numeri.
 ps#:#ps_export_admin#:#Amministratori
 ps#:#ps_export_confirm#:#Conferma dell'utente all'accesso corsi
 ps#:#ps_export_course#:#Export avanzato dei dati utente nei corsi.
@@ -8620,6 +8718,29 @@ rbac#:#recf_read#:#Accesso in lettura agli Oggetti ripristinati
 rbac#:#recf_visible#:#Gli Oggetti ripristinati sono visibili
 rbac#:#recf_write#:#Edita gli oggetti ripristinati
 rbac#:#root_create_catr#:#Creare il Riferimento di Categoria
+rbac#:#root_create_chat#:#Create Chat
+rbac#:#root_create_crs#:#Create Course
+rbac#:#root_create_crsr#:#Create Course Referenc
+rbac#:#root_create_dbk#:#Create Digilib Book
+rbac#:#root_create_exc#:#Create Exercise
+rbac#:#root_create_feed#:#Create Web Feed
+rbac#:#root_create_file#:#Upload File
+rbac#:#root_create_frm#:#Create Forum
+rbac#:#root_create_glo#:#Create Glossary
+rbac#:#root_create_grp#:#Create Group
+rbac#:#root_create_htlm#:#Create HTML Learning Module
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar
+rbac#:#root_create_lm#:#Create ILIAS Learning Module
+rbac#:#root_create_mcst#:#Create Mediacast
+rbac#:#root_create_mep#:#Create Media Pool
+rbac#:#root_create_qpl#:#Create Question Pool Test
+rbac#:#root_create_rcrs#:#Create Course-Link
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#root_create_spl#:#Create Question Pool Survey
+rbac#:#root_create_svy#:#Create Survey
+rbac#:#root_create_tst#:#Create Test
+rbac#:#root_create_webr#:#Create Weblink
+rbac#:#root_create_wiki#:#Create Wiki
 rbac#:#sess_copy#:#Copia la Sessione
 rbac#:#sess_delete#:#Cancella la Sessione
 rbac#:#sess_edit_event#:#Edita gli Eventi del Calendario
@@ -8654,6 +8775,7 @@ registration#:#reg_add_assignment#:#Nuova Assegnazione
 registration#:#reg_added_assignment#:#Aggiunta nuova assegnazione
 registration#:#reg_approve#:#Registrazione con approvazione
 registration#:#reg_approve_info#:#se abilitato, ogni registrazione di nuovo Utente dovrà essere approvata da un Amministratore.
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
 registration#:#reg_available_roles#:#Ruoli disponibili:
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.
@@ -8672,9 +8794,12 @@ registration#:#reg_enable_access_limitations#:#Abilita la limitazione di accesso
 registration#:#reg_fixed#:#Seleziona dalla lista specifica
 registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-mail.
 registration#:#reg_mail_body_approve#:#You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator.
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.
 registration#:#reg_mail_body_profile#:#Dati del Profilo:
 registration#:#reg_mail_body_profile_changed#:#Il tuo profilo è cambiato !
 registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
+registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.
+registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_mail_new_user_body#:#E' stato registrato un nuovo utente
 registration#:#reg_missing_domain#:#Per favore, riempi tutti i campi.
 registration#:#reg_missing_role#:#Per favore, riempi tutti i campi.
@@ -8709,6 +8834,8 @@ sahs#:#sahs_learning_objectives#:#Obiettivi di Apprendimento
 sahs#:#sahs_new_chapter#:#Nuovo Capitolo
 sahs#:#sahs_new_page#:#Nuova Pagina
 sahs#:#sahs_new_sco#:#Nuovo SCO
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.
 sahs#:#sahs_objective#:#Obiettivo di Apprendimento
 sahs#:#sahs_objective_alignment#:#Allineamento Obiettivi
 sahs#:#sahs_objectives#:#Obiettivi di Apprendimento
@@ -9132,6 +9259,9 @@ style#:#sty_white_space#:#Spazio Vuoto
 style#:#sty_width#:#Larghezza
 style#:#sty_width_height#:#Larghezza x Altezza
 style#:#sty_word_spacing#:#Spaziatura delle Parole
+style#:#style_current_style#:#Current Style
+style#:#style_delete_style#:#Delete Style
+style#:#style_edit_style#:#Edit Style
 survey#:#add_category#:#Aggiungi categoria
 survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
@@ -9891,6 +10021,7 @@ user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Profile
+user#:#usr_link_to_profile#:#Link to Profile
 user#:#usr_public_profile_disabled#:#Public Profile Disabled
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
 user#:#usr_public_profile_global#:#Globale Visible
@@ -9898,6 +10029,7 @@ user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.
 user#:#usr_public_profile_logged_in#:#Logged in Users
 user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.
 webr#:#webr_active#:#Active
+webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
 webr#:#webr_deactivate#:#Deactivate Link
 webr#:#webr_edit_links#:#Edit Links
 webr#:#webr_edit_list#:#Edit Web Resource Lis
@@ -9922,6 +10054,7 @@ wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Edit
 wiki#:#wiki_failed#:#Failed
 wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor
+wiki#:#wiki_general_settings#:#General Settings
 wiki#:#wiki_grading#:#Grading
 wiki#:#wiki_history#:#History
 wiki#:#wiki_introduction#:#Introduction
@@ -9959,131 +10092,8 @@ wiki#:#wiki_short_title_already_in_use#:#This title is already used by another w
 wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.
 wiki#:#wiki_start_page#:#Start Page
 wiki#:#wiki_start_page_title#:#Start Page Title
+wiki#:#wiki_style#:#Style
 wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-gmaps#:#gmaps_latitude#:#Latitude###16 09 2009 new variable
-gmaps#:#gmaps_longitude#:#Longitude###16 09 2009 new variable
-administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'###16 09 2009 new variable
-administration#:#history_loginname#:#Login Name History###16 09 2009 new variable
-content#:#cont_LocalFile#:#Local File###16 09 2009 new variable
-payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
-chat#:#check_configuration#:#Please check the chat server's settings.###16 09 2009 new variable
-cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
-dateplaner#:#add_appointment#:#Add Appointment###16 09 2009 new variable
-common#:#pd_enable_contacts#:#Enable Contacts###16 09 2009 new variable
-common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
-payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
-payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
-administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
-administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
-administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
-administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
-administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
-administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.###16 09 2009 new variable
-common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.###16 09 2009 new variable
-mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
-sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
-sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
-common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
-webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
-grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
-crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
-grp#:#grp_join_request#:#Send###16 09 2009 new variable
-crs#:#crs_join_request#:#Send###16 09 2009 new variable
-rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
-rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
-rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
-rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
-rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
-rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
-rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
-rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
-rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
-rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
-rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
-rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
-rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
-rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
-rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
-rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
-rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
-rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
-rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
-rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
-common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
-mail#:#mail_salutation_f#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_m#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
-crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
-crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
-crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
-crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
-crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
-crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".###21 09 2009 new variable
-crs#:#crs_subscribe_wl#:#Your registration for course "%s".###21 09 2009 new variable
-wiki#:#wiki_style#:#Style###21 09 2009 new variable
-wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
-style#:#style_current_style#:#Current Style###21 09 2009 new variable
-style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
-style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
-grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
-grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
-grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
-grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
-grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
-common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
-common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
-common#:#title_required#:#Please insert a title###21 09 2009 new variable
-common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
-registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
-registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
-registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
-pd#:#pd_enable_global_profiles#:#Enable Global Profiles###22 09 2009 new variable
-pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.###22 09 2009 new variable
-user#:#usr_link_to_profile#:#Link to Profile###22 09 2009 new variable
-content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.###22 09 2009 new variable
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.###22 09 2009 new variable
-common#:#join_session#:#Join###22 09 2009 new variable
-content#:#cont_dir_renamed#:#Directory has been renamed.###22 09 2009 new variable
-content#:#cont_file_renamed#:#File has been renamed.###22 09 2009 new variable
-content#:#cont_dir_deleted#:#Directory has been deleted.###22 09 2009 new variable
-content#:#cont_file_deleted#:#File has been deleted.###22 09 2009 new variable
-content#:#cont_file_unzipped#:#File has been unzipped.###22 09 2009 new variable
-common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
-common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
-common#:#socialbm_enable#:#Enable###22 09 2009 new variable
-common#:#socialbm_disable#:#Disable###22 09 2009 new variable
