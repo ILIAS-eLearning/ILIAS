@@ -325,11 +325,16 @@ class ilContObjectManifestBuilder
 			$css = fread(fopen($active_css[0],'r'),filesize($active_css[0]));
 			preg_match_all("/url\(([^\)]*)\)/",$css,$css_files);
 			$css_files = array_unique($css_files[1]);
+			$currdir = getcwd();
+			chdir(dirname($active_css[0]));
 			foreach ($css_files as $fileref)
 			{
+				if(file_exists($fileref))
+				{
 				$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/images/".basename($fileref)), "");
 			}
-				
+			}
+			chdir($currdir);	
 			$pagetree = new ilTree($this->cont_obj->getId());
 			$pagetree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 			$pagetree->setTreeTablePK("slm_id");
@@ -343,8 +348,9 @@ class ilContObjectManifestBuilder
 					if ($mob_id > 0 && ilObject::_exists($mob_id))
 					{
 						$media_obj = new ilObjMediaObject($mob_id);
+						$media_obj = $media_obj->getMediaItem("Standard");
 						if($media_obj->getLocationType() == "LocalFile")
-						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getMediaItem("Standard")->getLocation())), "");
+							$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getLocation())), "");
 					}
 				}
 				$file_ids = $page_obj->collectFileItems();
