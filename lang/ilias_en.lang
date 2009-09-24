@@ -10085,3 +10085,5 @@ payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integ
 payment#:#pays_erp_tst_existing#:#Existing Debtor
 payment#:#pays_erp_tst_new#:#New Debtor
 payment#:#pays_erp_tst_billed#:#billed for
+payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.

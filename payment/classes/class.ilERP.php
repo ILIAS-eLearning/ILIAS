@@ -78,8 +78,9 @@ class ilERP
   */  
   public function getName()
   {
-    $class = get_class($this);
-    return $class;  //  '::name' removed to support PHP 5.2
+    return "n/a";
+    //$class = get_class($this);
+    //return $class;  //  '::name' removed to support PHP 5.2
   }
    
 	

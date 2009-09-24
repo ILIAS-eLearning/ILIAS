@@ -2249,20 +2249,19 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
         
       }      
       $msg .= " " . $nr . ", " . $deb->getName() . " ";
-      //ilUtil::sendInfo($msg);
+
       
       $amount = rand(10,1000);      
-      $pcs = rand(1,5);
+      $pcs = rand(1,10);
       $msg .= $this->lng->txt('pays_erp_tst_billed') . " " . $pcs . " x " . $amount .
         "<br/>" . $this->lng->txt('total') . " " . number_format( $pcs*$amount, 2, ',','.');
       
-      $inv = $deb->createInvoice($amount, "Test products from your ILIAS installation", $pcs);
+      $inv = $deb->createInvoice($amount, $this->lng->txt('pays_erp_tst_product'), $pcs);
       $attach = $deb->getInvoicePDF($inv);
             
-      $deb->sendInvoice("ERP TEST INVOICE", "For you my friend", $ilUser->getEmail(), $attach, "faktura");
+      $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
       
-      $msg .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');
-      
+      $msg .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');      
       ilUtil::sendInfo($msg);
       
       
