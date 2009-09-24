@@ -188,7 +188,7 @@ class ilObjLanguageExt extends ilObjLanguage
 
            // delete all existing entries
 			case 'delete':
-				ilObjLanguage::_deleteLangData($this->key);
+				ilObjLanguage::_deleteLangData($this->key, false);
 				$ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = ".
 					$ilDB->quote($this->key, "text"));
 				$to_keep = array();
