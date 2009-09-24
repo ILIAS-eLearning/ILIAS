@@ -1,4 +1,4 @@
-// Build: 2009922171047 
+// Build: 2009924033529 
 
 function ADLAuxiliaryResource()
 {}
@@ -2359,13 +2359,14 @@ function save()
 {var item=collection[k];if(item.dirty===0){continue;}
 if(item.options){if(item.options.notracking===true)
 {continue;}}
-if(type=="objective"){if(item.id==null){alert("Skipped");continue;}}
+if(type=="objective"){if(item.id==null){continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
 {if(z=='interactions'||z=='comments'||z=="objectives"||z=="correct_responses")
 {for(y in collection[k][z])
-{collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}
+{var valid=true;if(z=="objectives"){if(collection[k][z][y]['id']==null){valid=false;}}
+if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
 if(save.timeout)

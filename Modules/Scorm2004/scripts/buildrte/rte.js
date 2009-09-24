@@ -1,4 +1,4 @@
-// Build: 2009922171047 
+// Build: 2009924033529 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11277,7 +11277,6 @@ function save()
 			}
 			if (type == "objective") {
 				if (item.id == null) {
-					alert("Skipped");
 					continue;
 				}
 			}
@@ -11295,8 +11294,15 @@ function save()
 					
 					for (y in collection[k][z])
 					{
-					
-						collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
+						var valid = true;
+						if (z=="objectives") {
+							if (collection[k][z][y]['id'] == null) {
+								valid = false;
+							}
+						}
+						if (valid) {
+							collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
+						}	
 					}
 					walk(collection[k][z],z.substr(0,z.length-1));
 				}
