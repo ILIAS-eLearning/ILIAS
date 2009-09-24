@@ -22,8 +22,8 @@
 */
 
 /**
-* @author Jens Conze <jc@databay.de> 
-* @author Michael Jansen <mjansen@databay.de>
+* @author Nicolai Lundgaard <nicolai@ilias.dk>
+* @author Jesper Godvad <jesper@ilias.dk>
 * @version $Id: class.ilPaypalSettings.php 19533 2009-04-03 10:23:37Z nkrzywon $
 * 
 * 
@@ -268,7 +268,6 @@ class ilEPaySettings
 				VALUES (%s, %s)',
 				array('integer','text'), array($next_id, serialize($values)));
 			
-			//$this->setSettingsId($this->db->getLastInsertId());
 			$this->setSettingsId($next_id);			
 			
 		}
