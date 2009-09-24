@@ -502,7 +502,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		foreach($ids as $id)
 		{
 			$entry = ilSocialBookmarks::_getEntry($id);
-			$c_gui->addItem("sbm_id[]", $id, $entry->sbm_title . ' (' . str_replace('{', '<span>{</span>', $entry->sbm_link) . ')');
+			$c_gui->addItem("sbm_id[]", $id, $entry->sbm_title . ' (' . str_replace('{', '&#123;', $entry->sbm_link) . ')');
 		}
 		
 		$this->tpl->setVariable('ADM_CONTENT', $c_gui->getHTML());
@@ -576,7 +576,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				'CHECK' => ilUtil::formCheckbox(0, 'sbm_id[]', $row->sbm_id),
 				'ID' => $row->sbm_id,
 				'TITLE' => $row->sbm_title,
-				'LINK' => str_replace('{', '<span>{</span>', $row->sbm_link),
+				'LINK' => str_replace('{', '&#123;', $row->sbm_link),
 				'ICON' => $row->sbm_icon,
 				'ACTIVE' => $row->sbm_active ? $lng->txt('enabled') : $lng->txt('disabled'),
 				'ACTIONS' => $current_selection_list->getHTML(),
