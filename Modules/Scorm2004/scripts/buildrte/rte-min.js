@@ -1,4 +1,4 @@
-// Build: 2009924033529 
+// Build: 2009924033529  ILIAS 4 RELEASE
 
 function ADLAuxiliaryResource()
 {}
