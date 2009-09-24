@@ -27,6 +27,7 @@ class ilCronForumNotification
 
 		$numRows = 0;
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+		$mail_obj->enableSOAP(false);
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			// don not send a notification to the post author

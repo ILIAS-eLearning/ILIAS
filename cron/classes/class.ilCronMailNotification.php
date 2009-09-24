@@ -41,7 +41,7 @@ class ilCronMailNotification
 		$numRows = 0;
 		foreach($users as $user_id => $mail_data)
 		{
-			$tmp_mail_obj = new ilMail($user_id);		
+			$tmp_mail_obj = new ilMail($user_id);	
 
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);
