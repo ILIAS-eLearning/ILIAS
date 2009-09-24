@@ -199,11 +199,13 @@ class ilAICCUnit extends ilAICCObject
 		global $ilDB;
 		
 		parent::create();
+	
+		if($this->getMasteryScore() == NULL) $this->setMasteryScore(0);
 
 		$ilDB->manipulateF('
 		INSERT INTO aicc_units 
 		(	obj_id, 
-			c_type, 
+			c_type,
 			command_line, 
 			max_time_allowed, 
 			time_limit_action,
@@ -238,6 +240,8 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::update();
 		
+		if($this->getMasteryScore() == NULL) $this->setMasteryScore(0);
+
 		$ilDB->manipulateF('
 			UPDATE aicc_units 
 			SET c_type = %s,
