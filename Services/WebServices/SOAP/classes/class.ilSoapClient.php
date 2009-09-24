@@ -123,7 +123,7 @@ class ilSoapClient
 		$res = $this->client->call($a_operation,$a_params);
 		if($error = $this->client->getError())
 		{
-			#$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+			$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
 		}
 
 		return $res;
