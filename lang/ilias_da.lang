@@ -9913,7 +9913,7 @@ payment#:#paya_sure_delete_vats#:#Er du sikker på du vil slette sats(er)?
 assessment#:#tst_report_never#:#Ingen testresultater er tilgængelige
 assessment#:#tst_results_access_never#:#Aldrig
 certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
-certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
+certificate#:#certificate_var_user_birthday#:#1977-05-08
 certificate#:#certificate_points_notavailable#:#Denne værdi kan ikke beregnes
 certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
@@ -10078,7 +10078,7 @@ content#:#cont_dir_renamed#:#Mappen blev omdøbt-
 content#:#cont_file_renamed#:#Filen blev omdøbt.
 content#:#cont_dir_deleted#:#Mappen blev slettet.
 content#:#cont_file_deleted#:#Filen blev slettet.
-content#:#cont_file_unzipped#:#File has been unzipped.###22 09 2009 new variable
+content#:#cont_file_unzipped#:#Filen blev udpakket.
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
 common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
 common#:#socialbm_enable#:#Aktiver

@@ -122,10 +122,13 @@ class ilERPDebtor
     $mail->Attach(
     
     $mail->Send();*/
-      
-        
-    mail($to, $subject, "", $header);    
-    //if (!$mailing) die("AUCH!");
+    
+    $restore_me = ini_get('display_errors');
+    ini_set('display_errors', 0);
+    mail($to, $subject, "", $header);
+    ini_set('display_errors', $restore_me);
+    
+
   }
   
   public function setTestValues()
