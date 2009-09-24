@@ -1178,13 +1178,14 @@ class ilInitialisation
 			// check client IP of user
 			$this->checkUserClientIP();
 
-			// check user agreement
-			$this->checkUserAgreement();
 
 			// update last_login date once the user logged in
 			if ($this->script == "login.php" ||
 				$_GET["baseClass"] == "ilStartUpGUI")
 			{
+				// check user agreement
+				$this->checkUserAgreement();
+
 				// determine first login of user for setting an indicator
 				// which still is available in PersonalDesktop, Repository, ...
 				// (last login date is set to current date in next step)

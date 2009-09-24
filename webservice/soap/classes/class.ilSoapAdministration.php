@@ -116,6 +116,16 @@ class ilSoapAdministration
 					return false;
 			}
 		}
+		
+		global $ilUser;
+		
+		if(!$ilUser->hasAcceptedUserAgreement())
+		{
+			$this->__setMessage('User aggrement no accepted.');
+			$this->__setMessageCode('Server');
+			return false;
+		}
+		
 		// Check Soap enabled
 		return true;
 	}
