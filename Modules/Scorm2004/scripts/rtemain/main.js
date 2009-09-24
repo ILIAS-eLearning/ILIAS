@@ -2397,6 +2397,11 @@ function save()
 					continue;
 				}
 			}
+			if (type == "objective") {
+				if (item.id == null) {
+					continue;
+				}
+			}
 			var data = [];
 			for (var i=0, ni=schem.length; i<ni; i++) 
 			{
@@ -2411,8 +2416,15 @@ function save()
 					
 					for (y in collection[k][z])
 					{
-					
-						collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
+						var valid = true;
+						if (z=="objectives") {
+							if (collection[k][z][y]['id'] == null) {
+								valid = false;
+							}
+						}
+						if (valid) {
+							collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
+						}	
 					}
 					walk(collection[k][z],z.substr(0,z.length-1));
 				}
