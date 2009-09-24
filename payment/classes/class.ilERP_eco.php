@@ -157,7 +157,17 @@ class ilERP_eco extends ilERP
 		if (is_object($result))
 		{
 			if ($result->settings != "") $data = unserialize($result->settings);
-			else die(print_r($result));
+			else 
+			{
+        // set some defaults
+        $data['agreement']=0;
+        $data['username']='erpuser';
+        $data['password']='pasword1234';
+        $data['product']=0;
+        $data['terms']=0;
+        $data['layout']=0;
+        $data['code']='EUR';
+			}
 		}
 		
 		//$this->setERPsystem(ERP_ECONOMIC);		
