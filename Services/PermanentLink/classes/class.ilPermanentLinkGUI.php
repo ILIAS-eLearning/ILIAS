@@ -164,7 +164,7 @@ class ilPermanentLinkGUI
 
 		if ($this->getIncludePermanentLinkText())
 		{
-			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").": ");
+			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").":");
 		}
 
 		$title = '';
