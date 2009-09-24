@@ -67,12 +67,20 @@ class ilERP_eco extends ilERP
     }
     catch (Exception $e)
     {
-      $this->last_connection_error = $e->getMessage(); //. "<br/>(" . $this->agreement . "," . $this->username . "," . $this->password . ")<br/>" . self::wsdl;
+      $msg = $e->getMessage();
+      if (DEVMODE) $msg .= "<br/>(" . $this->agreement . "," . $this->username . "," . $this->password . ")<br/>" . self::wsdl;
+    
+      $this->last_connection_error = $msg;
       return false;
     }
     unset($this->last_connection_error); 
     $this->connection_ok = true;
     return true;    
+  }
+  
+  public function getName()
+  {
+    return "E-conomic";
   }
 
 	

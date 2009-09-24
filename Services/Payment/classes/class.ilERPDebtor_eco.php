@@ -61,7 +61,7 @@ class ilERPDebtor_eco extends ilERPDebtor
   private function assertConnected()
   {
     if (!$this->erp->connected()) $this->erp->connect(); else return true;    
-    if (!$this->erp->connected()) ilUtil::sendError($this->erp->getLastError());
+    if (!$this->erp->connected()) return false; //ilUtil::sendError($this->erp->getLastError());
   }
   
   /**
