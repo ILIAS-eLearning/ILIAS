@@ -3685,6 +3685,7 @@ else
 		global $ilias;
 		
 		$profile_fields =& $this->object->getProfileFields();
+
 		// For the following fields, the required state can not be changed
 		$fixed_required_fields = array(
 			"firstname" => 1,

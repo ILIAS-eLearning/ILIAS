@@ -332,7 +332,7 @@ class ilUserProfile
 				$a_form->addItem($sh);
 				$current_group = $p["group"];
 			}
-			
+
 			$m = $p["method"];
 			
 			$lv = ($p["lang_var"] != "")
