@@ -161,6 +161,7 @@ class ilAccountRegistrationGUI
 		$data["fields"]["hobby"] = "";
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["matriculation"] = "";
+		$data["fields"]["delicious"] = "";
 		
 		return $data;
 	}
@@ -226,7 +227,7 @@ class ilAccountRegistrationGUI
  			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($_POST['user'][$key],true));
 			
-			if($key == 'matriculation')
+			if($key == 'matriculation' || $key == 'delicious')
 			{
 				$this->display_odata = true;
 			}
