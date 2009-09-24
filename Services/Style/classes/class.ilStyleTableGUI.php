@@ -140,7 +140,7 @@ class ilStyleTableGUI extends ilTable2GUI
 			if (!ilObjStyleSheet::_isHideable($a_set["type"]) ||
 				(!empty($this->core_styles[$a_set["type"].".".
 				ilObjStyleSheet::_determineTag($a_set["type"]).
-				".".$a_set["class"]])))
+				".".$a_set["class"]]) && $a_set["type"] != "text_inline"))
 			{
 				$this->tpl->touchBlock("no_hide_checkbox");
 			}
