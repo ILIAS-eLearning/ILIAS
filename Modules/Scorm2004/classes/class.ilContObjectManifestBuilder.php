@@ -349,7 +349,7 @@ class ilContObjectManifestBuilder
 					{
 						$media_obj = new ilObjMediaObject($mob_id);
 						$media_obj = $media_obj->getMediaItem("Standard");
-						if($media_obj->getLocationType() == "LocalFile")
+						if($media_obj!=null && $media_obj->getLocationType() == "LocalFile")
 							$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getLocation())), "");
 					}
 				}
