@@ -465,9 +465,9 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->tpl->setContent($this->form->getHTML());
 			return false;	
 		}
-var_dump($_POST); echo "<br><br>";
+
 		$data = $this->form->getInput('file');		
-var_dump($data); echo "<br><br>";
+
 		// delete trailing '/' in filename
 		while (substr($data["name"],-1) == '/')
 		{
