@@ -895,6 +895,8 @@ class ilPermissionGUI
 	
 	function __showPermissionsCreateSection()
 	{
+		global $objDefinition;
+		
 		// no create operation for roles/role templates in local role folders
 		// access is controlled by 'administrate' (change permission settings) only
 		if ($this->gui_obj->object->getType() == 'rolf' and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
@@ -953,8 +955,21 @@ class ilPermissionGUI
 	
 					$this->tpl->setCurrentBlock("perm_item");
 					$this->tpl->setVariable("PERM_CHECKBOX",$box);
-					$this->tpl->setVariable("PERM_NAME",$this->lng->txt("obj".substr($perm['name'],6)));
-					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					if ($objDefinition->isPlugin(substr($perm['name'],7)))
+					{
+						$this->tpl->setVariable("PERM_NAME",
+							ilPlugin::lookupTxt("rep_robj", substr($perm['name'],7),
+							"obj_".substr($perm['name'],7)));
+						$this->tpl->setVariable("PERM_TOOLTIP",
+							ilPlugin::lookupTxt("rep_robj", substr($perm['name'],7),
+							$this->gui_obj->object->getType()."_".$perm['name']));
+					}
+					else
+					{
+						$this->tpl->setVariable("PERM_NAME",$this->lng->txt("obj".substr($perm['name'],6)));
+						$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					}
+					
 					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 					$this->tpl->parseCurrentBlock();
 				}
