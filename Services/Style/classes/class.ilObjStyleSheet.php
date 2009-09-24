@@ -264,7 +264,7 @@ class ilObjStyleSheet extends ilObject
 		
 	// these types can be hidden in the content editor
 	public static $hideable_types = array (
-			"text_inline", "table", "table_cell"
+			"table", "table_cell"
 		);
 
 	// tag that are used by style types
