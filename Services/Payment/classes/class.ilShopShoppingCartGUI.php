@@ -349,17 +349,17 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	    $booking_id = $book_obj->add();
 
-	    $subject = $this->lng->txt('pay_order_paid_subject'); 
+	    /*$subject = $this->lng->txt('pay_order_paid_subject'); 
 	    $message = $this->lng->txt('pay_order_paid_body');
-	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);
+	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);*/
 	    
 	    // Should be moved to callback
-	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $ilUser, $sc[$i]);
+	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $sc[$i]);
 	    
-	    if ($use_erp) {
-	    bookUser($ilUser->getId(), $ilUser->firstname." ".$ilUser->lastname, $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
+	    /*if ($use_erp) {
+	    bookUser($ilUser->getId(), $ilUser->getFullname(), $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
 		   $ilUser->country, $ilUser->phone_home, $sc[$i]["betrag"], $sc[$i]["buchungstext"], $subject, $message);
-		  }
+		  }*/
 
 	  }
 
@@ -369,14 +369,31 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
-	private function recordTransaction($erpsys, &$u, &$product)
+	private function recordTransaction($erpsys, $product)
 	{
-    include_once './payment/classes/class.ilERP_' . $erpsys;
-    include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys;
+    global $ilUser;
+    include_once './payment/classes/class.ilERP_' . $erpsys . '.php';
+    include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
     
-    $deb = "ERPDebtor_" . $erpsys;
+    $cls = "ilERPDebtor_" . $erpsys;
     
-    $cust = new $deb($u->getId(), $u->firstname, $u->email, $u->street, $u->zipcode, $u->city, $u->country, $u->phone_home, 0);
+    $deb = new $cls(
+      $ilUser->getId(),
+      $ilUser->getFullname(),
+      $ilUser->email,
+      $ilUser->street,
+      $ilUser->zipcode,
+      $ilUser->city,
+      $ilUser->country,
+      $ilUser->phone_home,
+      '0');
+      
+    if (!$deb->getDebtorByNumber($ilUser->getId())) $deb->createDebtor($ilUser->getId());
+    $inv = $deb->createInvoice($product['betrag'], $product['buchungstext'], 1);
+    $attach = $deb->getInvoicePDF($inv);
+    $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
+      $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
+    
     
     
 	}

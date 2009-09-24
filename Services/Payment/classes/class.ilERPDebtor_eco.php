@@ -64,6 +64,17 @@ class ilERPDebtor_eco extends ilERPDebtor
     if (!$this->erp->connected()) return false; //ilUtil::sendError($this->erp->getLastError());
   }
   
+  private function connectOrFail()
+  {
+    if ($this->erp->connected()) return true;
+    else
+    $this->erp->connect();
+    if ($this->erp->connected()) return true;
+    require_once './Services/Payment/exceptions/class.ilERPException.php';    
+    Throw new ilERPException( $this->erp->getLastError() );
+  }
+  
+  
   /**
   * Return handle to debtor or null if not exist
   */  
@@ -83,8 +94,7 @@ class ilERPDebtor_eco extends ilERPDebtor
   }
     
   
-  public function createDebtor($number)
-  //, $name, $email, $address, $postalcode, $city, $country, $phone, $ean )
+  public function createDebtor($number)  
   {    
     assert($number != 0);
     $this->assertConnected();    
@@ -138,16 +148,20 @@ class ilERPDebtor_eco extends ilERPDebtor
   
   public function createInvoice($amount, $desc, $pcs=1.0)
   {
-    $this->assertConnected();
-  assert($this->set['product'] == 100);
+    $this->connectOrFail();    
+    assert($this->set['product'] == 100);
+    $debug = array();
     
     try
     {
     
       $ph = $this->erp->client->Product_FindByNumber(array('number' => $this->set['product']))->Product_FindByNumberResult;
-      
+      $debug[]="Found product " . print_r($this->handle, true);
+      assert($this->handle);
       $cih = $this->erp->client->CurrentInvoice_Create(array('debtorHandle' => $this->handle))->CurrentInvoice_CreateResult;
+      $debug[]="Found debtor";
       $cilh = $this->erp->client->CurrentInvoiceLine_Create(array('invoiceHandle' => $cih))->CurrentInvoiceLine_CreateResult;
+      $debug[]="Invoice handle";
 
       $this->erp->client->CurrentInvoiceLine_SetProduct(array('currentInvoiceLineHandle' => $cilh, 'valueHandle' => $ph));
       $this->erp->client->CurrentInvoiceLine_SetDescription(array('currentInvoiceLineHandle' => $cilh, 'value' => $desc));
@@ -158,7 +172,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      die("Exception " . $e->getMessage());      
+      die("Exception" . implode(',', $debug) . "<br/>" . $e->getMessage());      
     }
 
     return $this->erp->client->CurrentInvoice_Book(array('currentInvoiceHandle' => $cih))->CurrentInvoice_BookResult;    
