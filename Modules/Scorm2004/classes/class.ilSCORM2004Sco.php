@@ -347,8 +347,13 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				$output .= '<div class="ilc_sco_obj_Objective">'.nl2br($objective->getObjectiveID()).'</div>';
 			}
 			$output .= "</div>";
-		}
+		}		
 		$output .='</td><tr></table>';
+		
+		//notify Question Exporter of new SCO
+		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+		ilQuestionExporter::indicateNewSco();
+
 		if($mode=='pdf') $output .='<!-- PAGE BREAK -->';
 		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
 		{
@@ -420,8 +425,6 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","./players",$output);
 		$output = preg_replace("/file=..\/..\/..\/.\//i","file=../",$output);
 
-		//export questions
-		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		if($mode!='pdf')
 		{
 		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);

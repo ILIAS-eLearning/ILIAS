@@ -73,6 +73,7 @@ class ilQuestionExporter
 
 	}
 	
+	
 	public function exportQuestion($a_ref_id) {
 		
 		if ($a_ref_id != "")
@@ -97,6 +98,12 @@ class ilQuestionExporter
 		} else {
 			return "Error: Question Type not implemented/Question editing not finished";
 		}
+	}
+	
+	static public function indicateNewSco() {
+		self::$exported = array();
+		self::$mobs = array(); 
+		self::$media_files = array(); 
 	}
 	
 	static public function getMobs() {
