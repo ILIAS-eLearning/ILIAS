@@ -346,6 +346,31 @@ class ilObjLanguage extends ilObject
 
 
 	/**
+	* get the date of the last local change
+	* @param    string  	language key
+	* @return   array       change_date "yyyy-mm-dd hh:mm:ss"
+	*/
+	function _getLastLocalChange($a_key)
+	{
+		global $ilDB;
+
+		$q = sprintf("SELECT max(local_change) last_change FROM lng_data ".
+					"WHERE lang_key = %s AND local_change IS NOT NULL",
+			$ilDB->quote($a_key, "text"));
+		$result = $ilDB->query($q);
+
+		if ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $row['last_change'];
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+
+	/**
 	 * insert language data from file into database
 	 * 
 	 * @param   string  $scope  empty (global) or "local"
