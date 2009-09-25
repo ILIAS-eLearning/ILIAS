@@ -329,6 +329,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  for ($i = 0; $i < count($sc); $i++)
 	  {
 	    $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
+	    
 	    $book_obj =& new ilPaymentBookings($ilUser->getId());
 
 	    $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
@@ -354,7 +355,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);*/
 	    
 	    // Should be moved to callback
-	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $sc[$i]);
+	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $sc[$i], $pobjectData);
 	    
 	    /*if ($use_erp) {
 	    bookUser($ilUser->getId(), $ilUser->getFullname(), $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
@@ -369,16 +370,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
-	private function recordTransaction($erpsys, $product)
+	private function recordTransaction($erpsys, $product, $pobjData)
 	{
     global $ilUser;
     include_once './payment/classes/class.ilERP_' . $erpsys . '.php';
     include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
     
+    $usr_id = $ilUser->getId();
+    
+    
     $cls = "ilERPDebtor_" . $erpsys;
     
     $deb = new $cls(
-      $ilUser->getId(),
+      $usr_id,
       $ilUser->getFullname(),
       $ilUser->email,
       $ilUser->street,
@@ -388,11 +392,28 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       $ilUser->phone_home,
       '0');
       
-    if (!$deb->getDebtorByNumber($ilUser->getId())) $deb->createDebtor($ilUser->getId());
+    if (!$deb->getDebtorByNumber($usr_id)) $deb->createDebtor($usr_id);
     $inv = $deb->createInvoice($product['betrag'], $product['buchungstext'], 1);
     $attach = $deb->getInvoicePDF($inv);
     $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
       $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
+    
+    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+    
+    $cp = ilCourseParticipants::_getInstanceByObjId(186);
+    
+    $cp->add($usr_id, IL_CRS_MEMBER);
+    $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+    
+        
+    //include_once("Services/Mail/classes/class.ilMail.php");
+    //$mail = new ilMail($ilUser->getId());
+    //$mail->sendMail($tmp_user->getLogin(), "", "", $subject, $body, array(), array('system'));
+    
+    
+    //ilCourseParticipants::_getInstanceByObjId(186)->add($ilUser->getId(), IL_CRS_MEMBER);
+    //ilCourseParticipants::getInstanceByRefId($pobjData['ref_id'])->add($ilUser->getId(), IL_CRS_MEMBER);    
+    // ilCourseParticipants::_getInstanceByRefId($pobjData['ref_id'])->sendNotification(ilCourseParticipants->NOTIFY_ACCEPT_USER);
     
     
     

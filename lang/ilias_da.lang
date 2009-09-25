@@ -9112,7 +9112,7 @@ search#:#lucene_show_relevance_info#:#Search results are sorted by their relevan
 payment#:#pay_payed_bill#:#Regning betalt
 payment#:#vat_title#:#Titel
 payment#:#vat_rate#:#Moms %
-payment#:#vat_unit#:#Momssats
+payment#:#vat_unit#:#Moms
 payment#:#paya_insert_vats#:#Opret sats
 payment#:#paya_no_vats_assigned#:#Ingen satser oprettet
 payment#:#paya_vat_not_valid#:#Satsen er ugyldig
@@ -9166,8 +9166,8 @@ chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 n
 chat#:#chat_smilies_status#:#Chat smilies
 chat#:#chat_smilies_activate#:#Aktiver smilies
 chat#:#chat_smilies_deactivate#:#Deaktiver smilies
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
-chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
+chat#:#chat_enable_autoscroll#:#Aktiver autoscroll
+chat#:#chat_chatviewer#:#Chatviser
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
 chat#:#chat_user_hidden#:#skjult
 chat#:#chat_user_visible#:#synlig
@@ -10094,3 +10094,4 @@ payment#:#pays_erp_tst_new#:#Nyoprettet debitor
 payment#:#pays_erp_tst_billed#:#faktureret 
 payment#:#pays_erp_tst_product#:#Dette er bare en testfaktura. I et rigtigt køb vil kursusnavnet stå her.
 payment#:#pays_erp_invoice_attached#:#Din faktura er vedhæftet denne mail.
+payment#:#pays_erp#:#ERP
