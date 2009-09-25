@@ -32,6 +32,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("users"));
 		$this->addColumn($this->lng->txt("last_refresh"));
+		$this->addColumn($this->lng->txt("last_change"));
 		$this->addColumn($this->lng->txt("usr_agreement"));
 		$this->setDefaultOrderField("name");
 		$this->setSelectAllCheckbox("id[]");
@@ -141,9 +142,14 @@ class ilLanguageTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("LAST_REFRESH",
 				ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"],IL_CAL_DATETIME)));
+
+			$last_change = ilObjLanguage::_getLastLocalChange($a_set['key']);
+			$this->tpl->setVariable("LAST_CHANGE",
+				ilDatePresentation::formatDate(new ilDateTime($last_change,IL_CAL_DATETIME)));
 		}
+
 		$this->tpl->setVariable("NR_OF_USERS", ilObjLanguage::countUsers($a_set["key"]));
-			
+
 		// make language name clickable
 		if ($rbacsystem->checkAccess("write",$this->folder->getRefId()))
 		{
