@@ -769,7 +769,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	function cancel()
 	{
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-	 	$this->ctrl->redirect($this, "showTrackingItems");
+	 	$this->ctrl->redirect($this, "properties");
 	}
 	
 	
