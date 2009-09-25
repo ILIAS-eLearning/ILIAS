@@ -649,6 +649,13 @@ class ilMDEditorGUI
 	function updateQuickEdit()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		
+		if(!trim($_POST['gen_title']))
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'));
+			$this->listQuickEdit();
+			return false;
+		}
 
 		// General values
 		$this->md_section = $this->md_obj->getGeneral();
@@ -1574,6 +1581,13 @@ class ilMDEditorGUI
 	function updateGeneral()
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		
+		if(!strlen(trim($_POST['gen_title'])))
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'));
+			$this->listGeneral();
+			return false;
+		}
 		
 		// General values
 		$this->md_section = $this->md_obj->getGeneral();
