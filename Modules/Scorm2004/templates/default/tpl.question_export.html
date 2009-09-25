@@ -3,7 +3,7 @@
 	<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="radio" class="name order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
+		<div class="ilc_qanswer_Answer"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
@@ -17,14 +17,14 @@
 <div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="checkbox" class="name order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
+		<div class="ilc_qanswer_Answer"><input type="checkbox" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 	</div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 </script>
 <!-- END multiplechoice -->
 <!-- BEGIN orderingquestion -->
@@ -62,7 +62,7 @@
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-	jQuery('#textarea{VAL_ID}').textLimiter();
+//	jQuery('#textarea{VAL_ID}').textLimiter();
 </script>
 <!-- END textquestion -->
 <!-- BEGIN imagemapquestion -->
