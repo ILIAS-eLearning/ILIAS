@@ -85,7 +85,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	function properties()
 	{	
 		global $rbacsystem, $tree, $tpl;
-
+		
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -96,13 +96,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
-		
-		// upload new version
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "newModuleVersion"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_sc_new_version"));
-		$this->tpl->parseCurrentBlock();
 
+		if (ilObjSAHSLearningModule::_lookupSubType($this->object->getID()) == "scorm") {
+			// upload new version
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "newModuleVersion"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_sc_new_version"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// scorm lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sahs_properties.html", "Modules/ScormAicc");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
