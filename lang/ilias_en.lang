@@ -7738,7 +7738,7 @@ common#:#objs_qst#:#Questions
 common#:#container_no_items#:#No Materials Available
 common#:#no_items#:#No Items
 common#:#search_engine#:#Search Engines
-common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).
+common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).<br />The Apache module "mod_rewrite" is required for this extension. Please take care that you have appropiate permissions to use .htaccess configurations.
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#cat_copy#:#Copy Category
