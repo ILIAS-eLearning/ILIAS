@@ -354,7 +354,7 @@ class ilObjLanguage extends ilObject
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT max(local_change) last_change FROM lng_data ".
+		$q = sprintf("SELECT MAX(local_change) last_change FROM lng_data ".
 					"WHERE lang_key = %s AND local_change IS NOT NULL",
 			$ilDB->quote($a_key, "text"));
 		$result = $ilDB->query($q);
