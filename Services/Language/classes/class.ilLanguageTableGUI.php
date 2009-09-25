@@ -101,6 +101,13 @@ class ilLanguageTableGUI extends ilTable2GUI
 				$remark = "";
 				break;
 		}
+		
+		// show page translation
+		if($ilSetting->get("lang_translate_". $a_set['key'], false))
+		{
+			$remark .= $remark ? '<br />' : '';
+			$remark .= "<span class=\"smallgreen\"> ".$lng->txt('language_translation_enabled')."</span>";
+		}
 
 		if (file_exists("./Customizing/clients/".CLIENT_ID."/agreement/".
 			"agreement_".$a_set["key"].".html"))
