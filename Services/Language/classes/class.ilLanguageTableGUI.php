@@ -113,7 +113,8 @@ class ilLanguageTableGUI extends ilTable2GUI
 		}
 		
 		// show page translation
-		if($ilSetting->get("lang_translate_". $a_set['key'], false))
+		if($ilSetting->get("lang_ext_maintenance")
+		and $ilSetting->get("lang_translate_". $a_set['key'], false))
 		{
 			$remark .= $remark ? '<br />' : '';
 			$remark .= "<span class=\"smallgreen\"> ".$lng->txt('language_translation_enabled')."</span>";
