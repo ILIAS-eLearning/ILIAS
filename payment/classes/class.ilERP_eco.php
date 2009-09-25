@@ -56,8 +56,7 @@ class ilERP_eco extends ilERP
   public function connect()
   {    
     try 
-    {
-      
+    {      
       $this->client = new SoapClient(self::wsdl, array("trace" => 1, "exceptions" => 1));
       $this->client->Connect(array(
         'agreementNumber' => $this->agreement,
@@ -178,8 +177,6 @@ class ilERP_eco extends ilERP
 			}
 		}
 		
-		//$this->setERPsystem(ERP_ECONOMIC);		
-		
 		$this->setAgreement( $data['agreement'] );
 		$this->setUsername( $data['username'] );
 		$this->setPassword( $data['password'] );
@@ -199,10 +196,7 @@ class ilERP_eco extends ilERP
 	public function getSettings($erps_id = 0)	
 	{
     $this->loadSettings($erps_id);
-    $ap = parent::getSettings();
-    
-    //assert($ap['erp_id'] == ERP_ECONOMIC);   
-	
+    $ap = parent::getSettings();	
     $ret = array();
     $ret['agreement'] = $this->agreement;   
     $ret['product'] = $this->product;

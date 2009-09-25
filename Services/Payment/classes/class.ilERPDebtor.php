@@ -80,14 +80,6 @@ class ilERPDebtor
       
   public function sendInvoice($subject, $message, $to = null, $content, $fname = "faktura")
   {
-    //global $client;
-
-    /*$bytes = $client->Invoice_GetPdf(array('invoiceHandle' => $ih))->Invoice_GetPdfResult;
-    
-    
-
-    $filename = "faktura.pdf";
-    $content = chunk_split(base64_encode($bytes));*/
     
     if (!isset($to)) $to = $this->email;
     $filename = $fname . ".pdf";    
@@ -128,9 +120,11 @@ class ilERPDebtor
     mail($to, $subject, "", $header);
     ini_set('display_errors', $restore_me);
     
-
   }
   
+  /**
+  * Generate random values to test integration with ERP
+  **/  
   public function setTestValues()
   {
     $fname = array("Jesper", "Nicolai", "Alex", "Stefan", "Helmut", "Elvis");
@@ -148,20 +142,10 @@ class ilERPDebtor
     $this->country = $country[rand(0,4)];
     $this->phone = "+" . rand(1,45) . " " . rand(100,999) . " " . rand(1000, 9999);
     $this->ean = 0;
-    $this->website = ilERPDebtor::website;    
-    
+    $this->website = ilERPDebtor::website;        
   }
 
 }
 
-
-
-class ilERPInvoice
-{
-  public function __construct()
-  {
-  
-  }
-}
 
 ?>

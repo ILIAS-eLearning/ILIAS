@@ -256,6 +256,9 @@ class ilPaymentObject
 		
 		return 0;
 	}
+	
+
+	
 
 	function _getCountObjectsByPayMethod($a_type)
 	{
@@ -274,6 +277,10 @@ class ilPaymentObject
 			case 'pm_paypal':
 				$pm = 3;
 				break;
+				
+			case 'pm_epay':
+        $pm = PAY_METHOD_EPAY;
+        break;
 
 			default:
 				$pm = -1;
@@ -423,7 +430,8 @@ class ilPaymentObject
 			
 		if ($_SESSION['pay_objects']['pay_method'] == "1" ||
 			$_SESSION['pay_objects']['pay_method'] == "2" ||
-			$_SESSION['pay_objects']['pay_method'] == "3")
+			$_SESSION['pay_objects']['pay_method'] == "3" ||
+			$_SESSION['pay_objects']['pay_method'] == "4")
 		{
 			$query .= ' AND pay_method = %s';
 			array_push($data_types, 'integer');
