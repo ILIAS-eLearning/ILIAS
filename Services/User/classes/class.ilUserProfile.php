@@ -54,6 +54,7 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getFirstname",
 						"required_fix_value" => 1,
+						"registration_fix_value" => 1,
 						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"lastname" => array(
@@ -62,6 +63,7 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getLastname",
 						"required_fix_value" => 1,
+						"registration_fix_value" => 1,
 						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"title" => array(

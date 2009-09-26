@@ -3685,6 +3685,25 @@ else
 		global $ilias;
 		
 		$profile_fields =& $this->object->getProfileFields();
+		
+		$valid = true;
+		foreach ($profile_fields as $field)
+		{
+			if (	$_POST["chb"]["required_".$field] &&
+					!(int)$_POST['chb']['registration_' . $field]
+			){
+				$valid = false;
+				break;
+			}
+		}
+		
+		if(!$valid)
+		{
+			global $lng;
+			ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
+			$this->settingsObject();
+			return;
+		}
 
 		// For the following fields, the required state can not be changed
 		$fixed_required_fields = array(
