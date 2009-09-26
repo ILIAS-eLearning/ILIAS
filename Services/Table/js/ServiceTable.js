@@ -75,7 +75,7 @@ function ilTableJSHandler(sUrl)
 	var ilTableCallback =
 	{
 		success: ilTableSuccessHandler,
-		failure: ilTableFailureHandler,
+		failure: ilTableFailureHandler
 	};
 
 	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilTableCallback);
