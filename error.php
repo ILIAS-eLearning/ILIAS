@@ -5,8 +5,8 @@ require_once "include/inc.header.php";
 $tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
 
 $tpl->setCurrentBlock("content");
-$tpl->setVariable("BACK",$_SESSION["referer"]);
-$tpl->setVariable("ERROR_MESSAGE",($_SESSION["message"]));
+$tpl->setVariable("ERROR_MESSAGE",($_SESSION["failure"]));
+$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
 $tpl->parseCurrentBlock();
 
 session_unregister("referer");
