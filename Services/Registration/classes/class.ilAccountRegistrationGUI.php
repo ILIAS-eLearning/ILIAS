@@ -190,7 +190,8 @@ class ilAccountRegistrationGUI
 				    (int)$settings['usr_settings_visible_registration_'.$key]) ||
 				    in_array($key, array('passwd', 'passwd2')) ||
 				   ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() ||
-				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
+                                     	$this->registration_settings->getRegistrationType() == IL_REG_APPROVE )
 				   ))
 				{
 					$this->tpl->setCurrentBlock($key."_section");
@@ -212,7 +213,8 @@ class ilAccountRegistrationGUI
 			    (int)$settings['require_' . $key])) 
 			    || in_array($key, array('login', 'passwd')) ||
 			    ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() || 
-				                     $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)))
+				                     $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
+                                     	$this->registration_settings->getRegistrationType() == IL_REG_APPROVE )))
 			{
 				$str = $str . '<span class="asterisk">*</span>';
 			}
@@ -498,7 +500,8 @@ class ilAccountRegistrationGUI
 
 		// email address is required if password generation is enabled or registration type = link confirmation
 		if(($this->registration_settings->passwordGenerationEnabled() ||
-		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION) &&
+		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
+           $this->registration_settings->getRegistrationType() == IL_REG_APPROVE ) &&
 		   !in_array('email', $require_keys))
 		{
 			$require_keys[] = 'email';
