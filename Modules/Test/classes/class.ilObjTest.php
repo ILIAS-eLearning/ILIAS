@@ -2191,6 +2191,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		return ($this->random_test) ? 1 : 0;
 	}
+	
+	
+	/**
+	 * Lookup random test
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function _lookupRandomTest($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT random_test FROM tst_tests ".
+			"WHERE obj_fi = ".$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->random_test ? true : false;
+		}
+		return false;
+	}
 
 /**
 * Gets the number of random questions used for a random test
