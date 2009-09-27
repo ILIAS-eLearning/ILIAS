@@ -10065,7 +10065,7 @@ common#:#spl_copy#:#Kopier spørgsmål til afstemning
 common#:#qpl_copy#:#Kopier spørgsmål til test
 common#:#title_required#:#Indtastning af titel er krævet.
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
-registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
+registration#:#reg_mail_new_user#:#Ny brugeroprettelse
 registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
 registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
 pd#:#pd_enable_global_profiles#:#Aktiver globale profiler

@@ -310,8 +310,20 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		}
 	}
 
-        //TODO: check for epay/pbs error
-        //TODO: flyt fakturering til callback
+
+
+  private function _ConvertGermanBookingToEnglish( $a_pobjData )
+  {
+  
+  
+  }
+
+  
+  /**
+  * Return from ePay
+  * @todo: Check for ePay/PBS error
+  * @todo: Flyt fakturering til callback
+  */        
 	public function finishEPay()
 	{
 	  global $ilias, $ilUser;
@@ -325,7 +337,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
    
 	  $cart = new ilPaymentShoppingCart($ilUser);
 	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
-	  
+
 	  for ($i = 0; $i < count($sc); $i++)
 	  {
 	    $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
@@ -370,17 +382,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
-	private function recordTransaction($erpsys, $product, $pobjData)
-	{
+	
+	/**
+	* ERP transaction
+	*/	
+	
+	private function bookERPtransaction( $erpsys, $product, $pobjData)
+	{	
     global $ilUser;
     include_once './payment/classes/class.ilERP_' . $erpsys . '.php';
     include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
     
-    $usr_id = $ilUser->getId();
-    
-    
-    $cls = "ilERPDebtor_" . $erpsys;
-    
+    $usr_id = $ilUser->getId();       
+    $cls = "ilERPDebtor_" . $erpsys;    
     $deb = new $cls(
       $usr_id,
       $ilUser->getFullname(),

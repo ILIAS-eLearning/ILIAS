@@ -6,6 +6,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Jens Conze <jc@databay.de> 
+* @author JEsper Gødvad <jesper@ilias.dk>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
@@ -1302,22 +1303,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		/*
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->parseCurrentBlock();
-
-		$tpl->setVariable("COLUMN_COUNTS",6);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		$tpl->setCurrentBlock("tbl_action_button");
-		$tpl->setVariable("BTN_NAME","deleteTrustee");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-		*/
+	
 		
 		$tbl->setTitle($this->lng->txt('objects'),'icon_pays.gif',$this->lng->txt('objects'));
 		$tbl->setHeaderNames(array($this->lng->txt('title'),
@@ -2099,10 +2085,95 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 	
-	
-	
-	
-	
+
+
+  /**
+  * Genereates the EPAY setup form
+  */
+  function epaySettingsObject($a_show_confirm = false)
+  {
+    global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		include_once './payment/classes/class.ilEPaySettings.php';
+
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_epay_settings.html','payment');
+		
+		$ppSet = ilEPaySettings::getInstance();
+				
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
+		$form->setTitle($this->lng->txt('pays_epay_settings'));
+		
+		$form->addCommandButton('saveEPaySettings',$this->lng->txt('save'));
+		
+    $fields = array (
+      array('pays_epay_server_host', 'server_host', $ppSet->getServerHost(), true, null),
+      array('pays_epay_server_path', 'server_path', $ppSet->getServerPath(), true, null),
+      array('pays_epay_merchant_number', 'merchang_number', $ppSet->getMerchantNumber(), true, null),
+      array('pays_epay_auth_token', 'auth_token', $ppSet->getAuthToken(), true, 'pays_epay_auth_token_info'),
+      array('pays_epay_auth_email', 'auth_email', $ppSet->getAuthEmail(), true, 'pays_epay_auth_email_info')
+    );
+		
+		foreach ($fields as $f)
+		{
+      $fi = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
+      $fi->setValue($f[2]);
+      $fi->setRequired($f[3]);
+      if ($f[4] != null ) $fi->setInfo($this->lng->txt($f[4]));
+      $form->addItem($fi);
+		
+		}
+		
+		/*
+		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_host'), 'server_host');
+		$formItem->setValue($ppSet->getServerHost());
+		$formItem->setRequired(true);
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_path'), 'server_path');
+		$formItem->setValue($ppSet->getServerPath());
+		$formItem->setRequired(true);
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_merchant_number'), 'merchant_number');
+		$formItem->setValue($ppSet->getMerchantNumber());
+		$formItem->setRequired(true);
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_token'), 'auth_token');
+		$formItem->setValue($ppSet->getAuthToken());
+		$formItem->setRequired(true);
+		$formItem->setInfo($this->lng->txt('pays_epay_auth_token_info'));
+		$form->addItem($formItem);
+		
+		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_email'), 'auth_email');
+		$formItem->setValue($ppSet->getAuthEmail());
+		$formItem->setRequired(true);
+		$formItem->setInfo($this->lng->txt('pays_epay_auth_email_info'));
+		$form->addItem($formItem);*/
+
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('pays_epay_instant_capture'), 'instant_capture');
+		$formItem->setChecked($ppSet->getInstantCapture() == "1");
+		$formItem->setInfo($this->lng->txt('pays_epay_instant_capture_info'));
+		$form->addItem($formItem);
+			
+		$this->tpl->setVariable('EPAY_INFO', $this->lng->txt('pays_epay_info'));
+		$this->tpl->setVariable('EPAY_SETTINGS',$form->getHTML());		
+	}
+
+
+
+	/**
+	* Generate the ERP setup form for display
+	*
+	*/	
 	private function getERPform_eco(&$op, $erps_id = 0)
 	{
     $erp = new ilERP_eco();
@@ -2134,12 +2205,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	}
 	
-	
-	
-	
-	
-		
-	
+
 	/**
 	* Generates the settings form for ERP
 	*
@@ -2177,10 +2243,24 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       $this->$function(&$op, $active['erps_id']);
       
       $rdo->addOption($op);
-    }
+    }      
+		$frm->addItem($rdo);
 		
-      
-		$frm->addItem($rdo);		
+    $path = new ilTextInputGUI($this->lng->txt('pays_pdf_path'), 'pdf_path');
+    $path->setMaxLength(200);
+    $path->setValue($this->lng->txt('disabled'));    
+    $path->setDisabled(true);
+    $frm->addItem($path);
+    
+
+		
+		$chk = new ilCheckboxInputGUI($this->lng->txt('enable_ean'), 'use_ean');
+		$chk->setChecked(true);
+		$chk->setDisabled(true);
+		$chk->setInfo('enable_ean_info');
+		$frm->addItem($chk);
+		
+		
 		return $frm;
 	}
 	
@@ -2349,64 +2429,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
   }
 	
 
-    function epaySettingsObject($a_show_confirm = false)
-        {
-                global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		include_once './payment/classes/class.ilEPaySettings.php';
-
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_epay_settings.html','payment');
-		
-		$ppSet = ilEPaySettings::getInstance();
-				
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
-		$form->setTitle($this->lng->txt('pays_epay_settings'));
-		
-		$form->addCommandButton('saveEPaySettings',$this->lng->txt('save'));
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_host'), 'server_host');
-		$formItem->setValue($ppSet->getServerHost());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_path'), 'server_path');
-		$formItem->setValue($ppSet->getServerPath());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_merchant_number'), 'merchant_number');
-		$formItem->setValue($ppSet->getMerchantNumber());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_token'), 'auth_token');
-		$formItem->setValue($ppSet->getAuthToken());
-		$formItem->setRequired(true);
-		$formItem->setInfo($this->lng->txt('pays_epay_auth_token_info'));
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_email'), 'auth_email');
-		$formItem->setValue($ppSet->getAuthEmail());
-		$formItem->setRequired(true);
-		$formItem->setInfo($this->lng->txt('pays_epay_auth_email_info'));
-		$form->addItem($formItem);
-
-		$formItem = new ilCheckboxInputGUI($this->lng->txt('pays_epay_instant_capture'), 'instant_capture');
-		$formItem->setChecked($ppSet->getInstantCapture() == "1");
-		$formItem->setInfo($this->lng->txt('pays_epay_instant_capture_info'));
-		$form->addItem($formItem);
-			
-		$this->tpl->setVariable('EPAY_INFO', $this->lng->txt('pays_epay_info'));
-		$this->tpl->setVariable('EPAY_SETTINGS',$form->getHTML());		
-	}
 
 	function saveEPaySettingsObject()
 	{
