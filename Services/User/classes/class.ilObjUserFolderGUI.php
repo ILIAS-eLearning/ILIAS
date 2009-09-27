@@ -3728,9 +3728,10 @@ else
 			{			
 				if (! $ilias->getSetting("usr_settings_course_export_" . $field) && $_POST["chb"]["course_export_" . $field] == "1")
 				{
-					$this->confirm_change = 1;
-					$this->settingsObject();
-					return;
+					#ilUtil::sendQuestion($this->lng->txt('confirm_message_course_export'));
+					#$this->confirm_change = 1;
+					#$this->settingsObject();
+					#return;
 				}			
 			}			
 		}
