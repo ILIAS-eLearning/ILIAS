@@ -103,6 +103,11 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	{
 		foreach($a_set['sub'] as $sub_data)
 		{
+			if($a_set['random'])
+			{
+				break;
+			}
+
 
 			if($sub_data['description'])
 			{
@@ -130,9 +135,13 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		if(count($a_set['sub']))
+		if(count($a_set['sub']) and !$a_set['random'])
 		{
 			$this->tpl->setVariable('TXT_QUESTIONS',$this->lng->txt('objs_qst'));
+		}
+		if($a_set['random'])
+		{
+			$this->tpl->setVariable('VAL_WARN',$this->lng->txt('crs_objective_random_warn'));
 		}
 
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
@@ -167,7 +176,10 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			if(!$tmp_tst = ilObjectFactory::getInstanceByRefId((int) $node['ref_id'],false))
 			{
 				continue;
-			}		
+			}
+			
+			include_once './Modules/Test/classes/class.ilObjTest.php';			
+			$tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
 
 			foreach($qst = $this->sortQuestions($tmp_tst->getAllQuestions()) as $question_data)
 			{

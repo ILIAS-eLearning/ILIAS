@@ -10089,4 +10089,5 @@ content#:#cont_file_deleted#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smilies wirklich gelöscht werden?
 common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
+crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
