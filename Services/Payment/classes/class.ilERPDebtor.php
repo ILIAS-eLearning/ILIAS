@@ -77,6 +77,24 @@ class ilERPDebtor
     return $this->email;
   }
   
+  /**
+  * Get all information about a Debtor
+  *
+  * @return mixed array with Debtor info
+  */  
+  public function getAll() 
+  {
+    $a['number'] = $this->number;
+    $a['name'] = $this->name;
+    $a['email'] = $this->email;
+    $a['address'] = $this->address;
+    $a['postalcode'] = $this->postalcode;
+    $a['city'] = $this->city;
+    $a['country'] = $this->country;
+    $a['ean'] = $this->ean;
+  }
+    
+  
       
   public function sendInvoice($subject, $message, $to = null, $content, $fname = "faktura")
   {
