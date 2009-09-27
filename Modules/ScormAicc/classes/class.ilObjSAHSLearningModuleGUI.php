@@ -406,6 +406,7 @@ return;
 
 		// import for editing
 		$cb = new ilCheckboxInputGUI($this->lng->txt("scorm_editable"), "editable");
+		$cb->setValue("y");
 		$cb->setInfo($this->lng->txt("scorm_editable_comments"));
 		$this->form->addItem($cb);
 		

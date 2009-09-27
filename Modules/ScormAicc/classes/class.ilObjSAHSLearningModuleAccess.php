@@ -125,6 +125,21 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
         
         return ilUtil::yn2tf($rec["c_online"]);
     }
+    
+    /**
+    * Lookup editable
+    */
+    static function _lookupEditable($a_obj_id)
+    {
+		global $ilDB;
+		
+		$set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+			array('integer'), array($a_obj_id));
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["editable"];
+    }
+    
 
     /**
     * check whether goto script will succeed

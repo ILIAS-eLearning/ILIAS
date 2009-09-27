@@ -82,11 +82,13 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		{
 			case "view":
 				$cmd_link = null;
-				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-				if ($sahs_obj->getEditable() != 1) {
+				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+				if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
+				{
 					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
-				} else {
+				}
+				else
+				{
 					$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
 				}
 				break;
@@ -174,10 +176,17 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
 
-		if (!ilObjSAHSLearningModuleAccess::_lookupOnline($this->obj_id))
+		$editable = ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id);
+		
+		if (!$editable && !ilObjSAHSLearningModuleAccess::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
+		}
+		else if ($editable)
+		{
+			$props[] = array("alert" => true,
+				"value" => $lng->txt("authoring_mode"));
 		}
 
 		if ($rbacsystem->checkAccess($this->ref_id, "write"))
