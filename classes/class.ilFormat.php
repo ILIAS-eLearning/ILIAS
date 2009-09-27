@@ -639,8 +639,8 @@ class ilFormat
 		//vd($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		
 		setlocale(LC_MONETARY, $money_locale);
-		
-		return money_format('%!2n', $float_number);
+		return $float_number;
+		//return money_format('%!2n', $float_number);
 	}
 
 	/**

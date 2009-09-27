@@ -89,8 +89,6 @@ class ilERPDebtor_eco extends ilERPDebtor
     $this->handle = null;
     
     if ($this->handle) return true; else return false;
-    
-    //return $this->handle;    
   }
     
   
@@ -135,6 +133,9 @@ class ilERPDebtor_eco extends ilERPDebtor
   {
     $this->dgh = $this->erp->client->debtorGroup_FindByNumber(array('number' => 1))->DebtorGroup_FindByNumberResult;
   }
+  
+  
+   
   
   public function setEAN($ean)
   {

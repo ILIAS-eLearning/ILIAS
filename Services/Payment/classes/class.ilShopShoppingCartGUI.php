@@ -400,8 +400,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     
     include_once './Modules/Course/classes/class.ilCourseParticipants.php';
     
-    $cp = ilCourseParticipants::_getInstanceByObjId(186);
+    $obj_id = ilObject::_lookupObjId($£pobjData['ref_id']);
     
+    $cp = ilCourseParticipants::_getInstanceByObjId($obj_id);    
     $cp->add($usr_id, IL_CRS_MEMBER);
     $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
     

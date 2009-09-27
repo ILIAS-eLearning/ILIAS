@@ -35,7 +35,8 @@ define("ERP_ECONOMIC", 1);
 class ilERP 
 {
   protected $username;
-  protected $password;  
+  protected $password;
+  protected $use_ean; // Danish public sector only.
   
   protected $db;
   protected $connection_ok;
@@ -60,9 +61,10 @@ class ilERP
 	public function loadSettings($erps_id=0)
 	{
     assert($erps_id == 0);
+    return true;
   }
   
-  /*
+  /**
   * Retrives the last ERP error
   * @return string
   */  
@@ -143,7 +145,6 @@ class ilERP
 	**/
 	public function saveSettings($settings)
 	{	
-    //$this->erps_id = 0;    
     unset( $settings['url']);
     unset( $settings['description']);
     unset( $settings['erp_short']);
@@ -184,6 +185,7 @@ class ilERP
     $system = $this->getERPConstants(self::erp_id);
     $a['username'] = $this->username;
     $a['password'] = $this->password;
+    $a['use_ean'] = $this->use_ean;
     return array_merge($system, $a);
 	}
 	
