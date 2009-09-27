@@ -16120,23 +16120,5 @@ if (!$ilDB->tableExists("payment_erps"))
 ?>
 <#2897>
 <?php
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_firstname', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_lastname', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_title', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_gender', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_institution', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_department', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_street', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_zipcode', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_city', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_country', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_phone_office', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_phone_home', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_phone_mobile', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_fax', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_email', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_hobby', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_referral_comment', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_matriculation', '1'));
-  $ilDB->manipulateF("INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)", array("text", "text", "text"), array('common', 'usr_settings_visible_registration_delicious', '1'));    
+  /* keep empty db step, because it was in svn for some revisions */    
 ?>
