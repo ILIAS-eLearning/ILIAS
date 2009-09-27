@@ -1763,8 +1763,27 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rbac_ua.html','Services/AccessControl');
+		
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$tb = new ilToolbarGUI();
+		$tb->setFormAction($this->ctrl->getFormAction($this));
+		$tb->addButton(
+			$this->lng->txt('role_add_user'),
+			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start')
+		);
+		$this->tpl->setVariable('BUTTONS_UA',$tb->getHTML());
+		
+		include_once './Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php';
+		$ut = new ilAssignedUsersTableGUI($this,'userassignment',$this->object->getId());
+		
+		$this->tpl->setVariable('TABLE_UA',$ut->getHTML());
+		
+		return true;
+		
 		$assigned_users = $rbacreview->assignedUsers($this->object->getId(),array("login","firstname","lastname","usr_id"));
-
+		
 		//if current user is admin he is able to add new members to group
 		$val_contact = $this->lng->txt("message");
 		$val_change = $this->lng->txt("edit");
