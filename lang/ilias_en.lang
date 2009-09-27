@@ -10087,5 +10087,6 @@ payment#:#pays_erp_tst_new#:#New Debtor
 payment#:#pays_erp_tst_billed#:#billed for
 payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.
 payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
-crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
+common#:#authoring_mode#:#Authoring Mode
+crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
