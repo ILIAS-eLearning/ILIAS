@@ -411,7 +411,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @param bool show warning, if group type has been changed
 	 * @return
 	 */
-	public function editObject($a_group_type_warning = false)
+	public function editObject()
 	{
 		$this->checkPermission("write");
 		
@@ -419,16 +419,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_settings');
 		
-		if($a_group_type_warning)
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.grp_edit.html','Modules/Group');
+		if($_GET['group_type_changed'])
 		{
-			unset($this->form);
+			$this->ctrl->clearParameters($this);
+			$this->tpl->setVariable('GRP_FORMACTION',$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable('TXT_SW_GRP_TYPE_S',$this->lng->txt('grp_change_type'));
+			$this->tpl->setVariable('TXT_SW_GRP_TYPE_C',$this->lng->txt('cancel'));
 			$this->initForm('update_group_type');
 		}
 		else
 		{
 			$this->initForm('edit');
 		}
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.grp_edit.html','Modules/Group');
 		$this->tpl->setVariable('EDIT_FORM',$this->form->getHTML());
 	}
 	
@@ -441,7 +444,22 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function updateGroupTypeObject()
 	{
-		$this->updateObject(true);
+		$type = $this->object->getGroupType() ? 
+			$this->object->getGroupType() :
+			$this->object->readGroupStatus();
+			
+		if($type == GRP_TYPE_PUBLIC)
+		{
+			$this->object->setGroupType(GRP_TYPE_CLOSED);
+		}
+		else
+		{
+			$this->object->setGroupType(GRP_TYPE_PUBLIC);
+		}
+		$this->object->updateGroupType();
+		$this->object->update();
+		ilUtil::sendSuccess($this->lng->txt('grp_type_changed_info'),true);
+		$this->ctrl->redirect($this,'edit');
 	}
 	
 	
@@ -450,7 +468,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	* @param bool update group type
 	* @access public
 	*/
-	public function updateObject($update_group_type = false)
+	public function updateObject()
 	{
 		global $ilErr;
 
@@ -470,18 +488,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->editObject();
 			return true;
 		}
-		
+
+		$modified = false;		
 		if($this->object->isGroupTypeModified($old_type) and !$update_group_type)
 		{
-			ilUtil::sendFailure($this->lng->txt('grp_warn_grp_type_changed'));
-			$this->editObject(true);
-			return true;
+			$modified = true;
+			$this->object->setGroupType($old_type);
 		}
-		if($update_group_type)
-		{
-			$this->object->updateGroupType();
-		}
-				
+		
 		$this->object->update();
 
 		// BEGIN ChangeEvents: Record update Object.
@@ -494,9 +508,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		// END PATCH ChangeEvents: Record update Object.
 
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$this->ctrl->redirect($this,'edit');
-		return true;
+		if($modified)
+		{
+			ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'),true);
+			$this->ctrl->setParameter($this,'group_type_changed',1);
+			$this->ctrl->redirect($this,'edit');
+			return false;			
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this,'edit');
+			return true;
+		}
 	}
 	
 	/**
@@ -2657,11 +2681,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				return true;
 
 			case 'update_group_type':
+				$grp_type->setValue(
+					$type == GRP_TYPE_PUBLIC ?
+					GRP_TYPE_CLOSED :
+					GRP_TYPE_PUBLIC
+				);
+
 				$this->form->setTitle($this->lng->txt('grp_edit'));
 				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.gif'));
-
-				$this->form->addCommandButton('updateGroupType',$this->lng->txt('grp_change_type'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				return true;				
 		}
 		return true;
