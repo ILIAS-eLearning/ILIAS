@@ -17,7 +17,7 @@ class ilUserQuery
 	static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
-		$a_course_group_filter = 0, $a_global_role_filter = 0)
+		$a_course_group_filter = 0, $a_role_filter = 0)
 	{
 		global $ilDB, $rbacreview;
 		
@@ -100,12 +100,12 @@ class ilUserQuery
 			$count_query.= $add;
 			$where = " AND";
 		}
-		if ($a_global_role_filter > 0)		// global role
+		if ($a_role_filter > 0)		// global role
 		{
 			$add = $where." usr_id IN (".
 				"SELECT DISTINCT ud.usr_id ".
 				"FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) ".
-				"WHERE rbac_ua.rol_id = ".$ilDB->quote($a_global_role_filter, "integer").")";
+				"WHERE rbac_ua.rol_id = ".$ilDB->quote($a_role_filter, "integer").")";
 			$query.= $add;
 			$count_query.= $add;
 			$where = " AND";
@@ -135,7 +135,7 @@ class ilUserQuery
 				$query.= " ORDER BY active ASC, time_limit_unlimited ASC, time_limit_until ASC";
 			}
 		}
-
+		
 		// count query
 		$set = $ilDB->query($count_query);
 		$cnt = 0;
