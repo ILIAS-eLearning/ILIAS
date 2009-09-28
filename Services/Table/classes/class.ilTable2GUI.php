@@ -949,9 +949,9 @@ class ilTable2GUI extends ilTableGUI
 		$this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
 		if (!$a_omit_offset)
 		{
-			if (!$this->getExternalSegmentation() && $nav[2] > $this->max_count)
+//echo "-".$nav[2]."-".$this->max_count."-";
+			if (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count)
 			{
-//	echo "!";
 				$this->resetOffset(true);
 			}
 			else
