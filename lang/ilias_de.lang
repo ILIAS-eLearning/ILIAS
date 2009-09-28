@@ -10095,3 +10095,4 @@ common#:#authoring_mode#:#Autorenmodus
 crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
+crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.

@@ -198,7 +198,7 @@ class ilEventParticipants
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _isRegistered($a_usr_id,$a_event_id)
+	public static function _isRegistered($a_usr_id,$a_event_id)
 	{
 		global $ilDB;
 
