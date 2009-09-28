@@ -168,7 +168,7 @@ class ilAccountRegistrationGUI
 
 	function displayForm()
 	{
-		global $ilias,$lng,$ObjDefinition;
+		global $ilias,$lng,$ObjDefinition,$ilSetting;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -186,14 +186,15 @@ class ilAccountRegistrationGUI
 			if(!in_array($key, array('login')))
 			{
 				// dont show fields, which are not enabled for registration
-				if((isset($settings['usr_settings_visible_registration_' . $key]) &&
-				    (int)$settings['usr_settings_visible_registration_'.$key]) ||
-				    in_array($key, array('passwd', 'passwd2')) ||
-				   ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() ||
-				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
-                                     	$this->registration_settings->getRegistrationType() == IL_REG_APPROVE )
-				   ))
-				{
+				if( isset($settings['require_' . $key]) && (int)$settings['require_' . $key] ||
+					(int)$ilSetting->get('usr_settings_visib_reg_' . $key, '1') ||
+					in_array($key, array('passwd', 'passwd2')) ||
+					$key == 'email' && (
+						$this->registration_settings->passwordGenerationEnabled() ||
+						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
+						$this->registration_settings->getRegistrationType() == IL_REG_APPROVE
+					)
+				){
 					$this->tpl->setCurrentBlock($key."_section");
 				}
 				else
@@ -487,14 +488,14 @@ class ilAccountRegistrationGUI
 			
 			if((int)$settings['require_'.$key])
 			{
-				if((int)$settings['usr_settings_visible_registration_'.$key])
-				{
+				#if((int)$settings['usr_settings_visib_reg_'.$key])
+				#{
 					$require_keys[] = $key;
-				}
-				else
-				{
-					$this->profile_incomplete = true;
-				}
+				#}
+				#else
+				#{
+				#	$this->profile_incomplete = true;
+				#}
 			}
 		}
 
