@@ -13,6 +13,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 {
+	private $confirm_change = false;
 	
 	/**
 	* Constructor
@@ -64,7 +65,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 			"required"  => "required_field",
 			"export" => "export",
 			"course_export" => "course_export",
-			"registration" => "header_visible_registration");
+			"visib_reg" => "header_visible_registration");
 //var_dump($a_set);
 		foreach ($props as $prop => $lv)
 		{
@@ -81,10 +82,6 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 				// determine checked status
 				$checked = false;
 				if ($a_set[$prop])
-				{
-					$checked = true;
-				}
-				if ($prop == "registration" && $a_set["visible_registration"])
 				{
 					$checked = true;
 				}
@@ -131,6 +128,11 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		
 		// field name
 		$this->tpl->setVariable("TXT_FIELD", $a_set["field_name"]);
+	}
+	
+	public function setConfirmChange()
+	{
+		$this->confirm_change = true;
 	}
 
 }
