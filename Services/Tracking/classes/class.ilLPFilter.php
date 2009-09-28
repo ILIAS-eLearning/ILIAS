@@ -47,7 +47,7 @@ class ilLPFilter
 
 	// Default values for filter
 	var $root_node = ROOT_FOLDER_ID;
-	var $filter_type = 'lm';
+	var $filter_type = 'crs';
 	var $hidden = array();
 
 	var $usr_id = null;
@@ -62,7 +62,7 @@ class ilLPFilter
 		$this->__read();
 
 		// Limit of filtered objects is search max hits
-		$this->limit = $ilias->getSetting('search_max_hits',50);
+		$this->limit = $ilias->getSetting('search_max_hits',10);
 	}
 
 	function getLimit()
@@ -91,7 +91,7 @@ class ilLPFilter
 	
 	function getFilterType()
 	{
-		return $this->filter_type ? $this->filter_type : 'lm';
+		return $this->filter_type ? $this->filter_type : 'crs';
 	}
 	function setFilterType($a_type)
 	{
@@ -325,7 +325,7 @@ class ilLPFilter
 		switch($this->getFilterType())
 		{
 			case 'lm':
-				return array('lm','sahs','htlm');
+				return array('lm','sahs','htlm','dbk');
 
 			default:
 				return array($this->getFilterType());

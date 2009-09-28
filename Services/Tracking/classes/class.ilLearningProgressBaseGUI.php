@@ -524,7 +524,7 @@ class ilLearningProgressBaseGUI
 			return "0%";
 		}
 
-		return sprintf("%.2f%%",$reached / $max * 100);
+		return sprintf("%d%%",$reached / $max * 100);
 	}
 
 	function __readItemStatusInfo($a_items)

@@ -129,7 +129,7 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 					}
 				}
 				return $this->user_status_info = array($this->lng->txt('trac_reached_points'),
-													   "0.00%");
+													   "0%");
 
 			case LP_MODE_TLT:
 				if(!$this->status_info['tlt'])
