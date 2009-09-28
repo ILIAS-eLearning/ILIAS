@@ -786,7 +786,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$url,
 				array("editQuestion", "save", "addArea", "addRect", "addCircle", "addPoly", 
 					 "uploadingImage", "uploadingImagemap", "areaEditor",
-					"removeArea", "saveShape", "saveEdit"),
+					"removeArea", "saveShape", "saveEdit", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

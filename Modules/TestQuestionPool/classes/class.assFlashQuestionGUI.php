@@ -536,7 +536,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "flashAddParam", "saveEdit"),
+				array("editQuestion", "save", "flashAddParam", "saveEdit", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

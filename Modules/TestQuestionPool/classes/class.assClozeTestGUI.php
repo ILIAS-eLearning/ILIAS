@@ -759,7 +759,7 @@ class assClozeTestGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "createGaps", "saveEdit"),
+				array("editQuestion", "originalSyncForm", "save", "createGaps", "saveEdit"),
 				$classname, "", $force_active);
 		}
 

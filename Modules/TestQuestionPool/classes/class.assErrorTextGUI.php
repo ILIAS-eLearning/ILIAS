@@ -442,7 +442,7 @@ class assErrorTextGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "analyze"),
+				array("editQuestion", "save", "saveEdit", "analyze", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

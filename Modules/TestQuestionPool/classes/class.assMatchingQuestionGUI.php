@@ -1267,7 +1267,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$ilTabs->addTarget("edit_properties",
 				$url,
 				array("editQuestion", "save", "saveEdit", "removeimageterms", "uploadterms", "removeimagedefinitions", "uploaddefinitions",
-					"addpairs", "removepairs", "addterms", "removeterms", "adddefinitions", "removedefinitions"),
+					"addpairs", "removepairs", "addterms", "removeterms", "adddefinitions", "removedefinitions", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 
