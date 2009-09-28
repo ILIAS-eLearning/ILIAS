@@ -358,15 +358,40 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 				$elements = split("{::}", $solutions[0]["value1"]);
 			}
 		}
-		
+		if (strlen($_SESSION['qst_selection']))
+		{
+			$this->object->moveRight($_SESSION['qst_selection'], $active_id, $pass);
+			unset($_SESSION['qst_selection']);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			if (count($solutions) == 1)
+			{
+				$elements = split("{::}", $solutions[0]["value1"]);
+			}
+		}
+		if (count($solutions) == 0)
+		{
+			$_SESSION['qst_ordering_horizontal_elements'] = $elements;
+		}
+		else
+		{
+			unset($_SESSION['qst_ordering_horizontal_elements']);
+		}
+		$idx = 0;
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
+			$template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+			$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $idx);
+			$idx++;
+			$url = $this->ctrl->getLinkTargetByClass('iltestoutputgui', 'gotoQuestion');
+			$template->setVariable("MOVE_RIGHT", $url);
+			$template->setVariable("TEXT_MOVE_RIGHT", $this->lng->txt('move_right'));
+			$template->setVariable("RIGHT_IMAGE", ilUtil::getImagePath('nav_arr_R.gif'));
 			$template->parseCurrentBlock();
 		}
 		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		$template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)

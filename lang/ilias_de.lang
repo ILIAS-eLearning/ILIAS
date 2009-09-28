@@ -3454,6 +3454,8 @@ common#:#mount_webfolder#:#Als Webordner öffnen
 common#:#move#:#Verschieben
 common#:#move_blocks#:#Blöcke verschieben
 common#:#move_down#:#Nach unten
+common#:#move_right#:#Nach rechts
+common#:#move_left#:#Nach links
 common#:#move_selected_items#:#Verschieben
 common#:#move_to#:#Ablegen in
 common#:#move_up#:#Nach oben

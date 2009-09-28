@@ -2949,6 +2949,8 @@ common#:#months#:#Months
 common#:#move#:#Move
 common#:#move_up#:#Move Up
 common#:#move_down#:#Move Down
+common#:#move_right#:#Move Right
+common#:#move_left#:#Move Left
 common#:#moveChapter#:#Move
 common#:#movePage#:#Move
 common#:#move_to#:#Move to
