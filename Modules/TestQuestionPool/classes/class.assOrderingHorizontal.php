@@ -327,6 +327,78 @@ class assOrderingHorizontal extends assQuestion
 		return true;
 	}
 
+	/*
+	* Move an element to the right during a test when a user selects/deselects a word without using javascript
+	*/
+	public function moveRight($position, $active_id, $pass = null)
+	{
+		global $ilDB;
+		global $ilUser;
+
+		if (is_null($pass))
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
+
+		$solutions =& $this->getSolutionValues($active_id, $pass);
+		$elements = array();
+		if (count($solutions) == 1)
+		{
+			$elements = split("{::}", $solutions[0]["value1"]);
+		}
+		else
+		{
+			$elements = $_SESSION['qst_ordering_horizontal_elements'];
+		}
+		if (count($elements))
+		{
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
+			);
+
+			if ($position < count($elements)-1)
+			{
+				$temp = $elements[$position];
+				$elements[$position] = $elements[$position+1];
+				$elements[$position+1] = $temp;
+			}
+			$entered_values = false;
+			$next_id = $ilDB->nextId('tst_solutions');
+			$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+				array('integer','integer','integer','text','integer','integer'),
+				array(
+					$next_id,
+					$active_id,
+					$this->getId(),
+					join($elements, '{::}'),
+					$pass,
+					time()
+				)
+			);
+			$entered_values = true;
+			if ($entered_values)
+			{
+				include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				}
+			}
+			else
+			{
+				include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+				}
+			}
+
+			$this->calculateReachedPoints($active_id, $pass);
+		}
+	}
+	
 	/**
 	* Returns the question type of the question
 	*

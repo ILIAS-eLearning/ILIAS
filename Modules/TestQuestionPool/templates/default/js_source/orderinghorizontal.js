@@ -5,27 +5,56 @@ var DDM = YAHOO.util.DragDropMgr;
 YAHOO.example.DDApp = {
 	init: function() 
 	{
-		ddelements = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', Dom.get('horizontal'));
-		for (i = 0; i < ddelements.length; i++)
+		// make non javascript navigation invisible
+		navielements = Dom.getElementsBy(function (el) { return (el.className == '2col') ? true : false; }, 'div', document);
+		for (i = 0; i < navielements.length; i++) navielements[i].style.display = 'none';
+		
+		ohorizontalquestions = Dom.getElementsBy(function (el) { return (el.className == 'horizontal') ? true : false; }, 'ul', document);
+		for (num = 0; num < ohorizontalquestions.length; num++)
 		{
-			new YAHOO.example.DDList(ddelements[i].id);
-			new YAHOO.util.DDTarget(ddelements[i].id);
+			ddelements = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', ohorizontalquestions[num]);
+			for (i = 0; i < ddelements.length; i++)
+			{
+				new YAHOO.example.DDList(ddelements[i].id);
+				new YAHOO.util.DDTarget(ddelements[i].id);
+			}
 		}
 		this.saveOrder();
 	},
 
 	saveOrder: function(e) {
-		items = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', Dom.get('horizontal'));
-		resultStr = '';
-		for (i = 0; i < items.length; i++)
+		ohorizontalquestions = Dom.getElementsBy(function (el) { return (el.className == 'horizontal') ? true : false; }, 'ul', document);
+		for (num = 0; num < ohorizontalquestions.length; num++)
 		{
-			textStr = "";
-			for (j = 0; j < items[i].childNodes.length; j++) textStr += items[i].childNodes[j].nodeValue;
-			resultStr += textStr;
-			if (i < items.length-1) resultStr += "{::}";
+			items = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', ohorizontalquestions[num]);
+			resultStr = '';
+			for (i = 0; i < items.length; i++)
+			{
+				textelements = Dom.getElementsBy(function (el) { return true; }, 'span', items[i]);
+				textStr = "";
+				for (j = 0; j < textelements[0].childNodes.length; j++) 
+				{
+					if (textelements[0].childNodes[j].nodeType == Node.ELEMENT_NODE)
+					{
+						for (k = 0; k < textelements[0].childNodes[j].childNodes.length; k++)
+						{
+							if (textelements[0].childNodes[j].childNodes[k].nodeType == Node.TEXT_NODE)
+							{
+								textStr += textelements[0].childNodes[j].childNodes[k].nodeValue;
+							}
+						}
+					}
+					else if (textelements[0].childNodes[j].nodeType == Node.TEXT_NODE)
+					{
+						textStr += textelements[0].childNodes[j].nodeValue;
+					}
+				}
+				resultStr += textStr;
+				if (i < items.length-1) resultStr += "{::}";
+			}
+			hidden = Dom.get('orderresult');
+			hidden.value = resultStr;
 		}
-		hidden = Dom.get('orderresult');
-		hidden.value = resultStr;
 	}
 };
 
@@ -33,7 +62,6 @@ YAHOO.example.DDList = function(id, sGroup, config) {
 
     YAHOO.example.DDList.superclass.constructor.call(this, id, sGroup, config);
 
-    this.logger = this.logger || YAHOO;
     var el = this.getDragEl();
     Dom.setStyle(el, "opacity", 0.67); // The proxy is slightly transparent
 
@@ -44,8 +72,6 @@ YAHOO.example.DDList = function(id, sGroup, config) {
 YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
 
     startDrag: function(x, y) {
-        this.logger.log(this.id + " startDrag");
-
         // make the proxy look like the source element
         var dragEl = this.getDragEl();
         var clickEl = this.getEl();

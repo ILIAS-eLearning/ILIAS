@@ -28,6 +28,22 @@
 	font-size: 150%;
 }
 
+.2col {
+	width: 100%;
+	float: left;
+}
+
+.rcol {
+	width: 50%;
+	float: right;
+	text-align. right;
+}
+
+.lcol {
+	width: 50%;
+	float: left;
+}
+
 #kioskOptions {
 	clear: both;
 	overflow: hidden;
@@ -248,18 +264,24 @@ div.last {
 	border-bottom: none;
 }
 
-ul#horizontal {
+ul.horizontal {
 	list-style: none; 
 	padding: 0; 
 	margin: 8px 0 0 0;
 }
 
-ul#horizontal li {
+ul.horizontal li {
 	float: left; 
 	padding: 5px;
 	margin: 10px;
 	font-weight: bold;
 	border: 1px black solid;
+}
+
+ul.horizontal li a {
+	text-decoration: none;
+	color: #000;
+	padding: 2px;
 }
 
 table.imagemapareas tr,
