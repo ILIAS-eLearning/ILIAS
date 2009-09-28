@@ -19,6 +19,7 @@ class ilTabsGUI
 	var $objDefinition;
 	var $target = array();
 	var $sub_target = array();
+	var $non_tabbed_link = array();
 
 	/**
 	* Constructor
@@ -325,6 +326,19 @@ class ilTabsGUI
 	}
 
 
+	/**
+	* Add a non-tabbed link (outside of tabs at same level)
+	*
+	* @param	string		id
+	* @param	string		text (no lang var!)
+	* @param	string		link
+	* @param	string		frame target
+	*/
+	function addNonTabbedLink($a_id, $a_text, $a_link, $a_frame = "")
+	{
+		$this->non_tabbed_link[] = array("text" => $a_text, "link" => $a_link,
+			"frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
+	}
 
 	/**
 	* get tabs code as html
@@ -379,7 +393,8 @@ class ilTabsGUI
 		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
 
         // do not display one tab only
-        if ((count($targets) > 1) || ($this->back_title != "" && !$a_get_sub_tabs))
+        if ((count($targets) > 1) || ($this->back_title != "" && !$a_get_sub_tabs)
+        	|| (count($this->non_tabbed_link) > 0 && !$a_get_sub_tabs))
 		{
 			foreach ($targets as $target)
 			{
@@ -439,6 +454,17 @@ class ilTabsGUI
 			else
 			{
 				$tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
+				
+				// non tabbed links
+				foreach ($this->non_tabbed_link as $link)
+				{
+					$tpl->setCurrentBlock("tab");
+					$tpl->setVariable("TAB_TYPE", "nontabbed");
+					$tpl->setVariable("TAB_TEXT", $link["text"]);
+					$tpl->setVariable("TAB_LINK", $link["link"]);
+					$tpl->setVariable("TAB_TARGET", $link["frame"]);
+					$tpl->parseCurrentBlock();
+				}
 			}
 
 			return $tpl->get();

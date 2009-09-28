@@ -45,7 +45,7 @@ class ilMemberViewGUI
 		{
 			return false;
 		}
-		global $tpl,$tree,$lng;
+		global $tpl,$tree,$lng,$ilTabs;
 		
 		// No course or group in path => aborting
 		if(!$tree->checkForParentType($a_ref_id, 'crs') and
@@ -72,11 +72,16 @@ class ilMemberViewGUI
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
 		if(($type == 'crs' or $type == 'grp') and $ilAccess->checkAccess('edit_permission','',$a_ref_id))
 		{
-			$tpl->setCurrentBlock('mem_view');
+			/* $tpl->setCurrentBlock('mem_view');
 			$tpl->setVariable('MEM_VIEW_HREF','repository.php?cmd=frameset&set_mode=flat&ref_id='.$a_ref_id.'&mv=1');
 			$tpl->setVariable('MEM_VIEW_IMG',ilUtil::getImagePath('icon_role.gif'));
 			$tpl->setVariable('MEM_VIEW_ALT',$lng->txt('mem_view_activate'));
-			$tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock(); */
+			
+			$ilTabs->addNonTabbedLink("members_view",
+				$lng->txt('mem_view_activate'),
+				'repository.php?cmd=frameset&set_mode=flat&ref_id='.$a_ref_id.'&mv=1'
+				);
 			return true;
 		}
 		return true;
