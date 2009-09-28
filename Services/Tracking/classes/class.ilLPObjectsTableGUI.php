@@ -5,22 +5,23 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once  './Services/Search/classes/class.ilSearchSettings.php';
 
 /**
-* TableGUI class for learning progress
+* TableGUI class for learning progress (object overview)
 *
-* @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPProgressTableGUI: ilFormPropertyDispatchGUI
+* @ilCtrl_Calls ilLPObjectsTableGUI: ilFormPropertyDispatchGUI
 * @ingroup ServicesTracking
 */
-class ilLPProgressTableGUI extends ilTable2GUI
+class ilLPObjectsTableGUI extends ilTable2GUI
 {
+	protected $objs = array();
+	
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_type = "", $a_user = "",
-		$a_objs = "")
+	function __construct($a_parent_obj, $a_parent_cmd, $a_type = "", $a_objs = "")
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
@@ -33,18 +34,17 @@ class ilLPProgressTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("trac_title_description"), "", "80%");
-		$this->addColumn($this->lng->txt("status"), "", "10%");
+		$this->addColumn($this->lng->txt("trac_title_description"), "", "90%");
 		$this->addColumn($this->lng->txt("actions"), "", "10%");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass("illpfiltergui"));
-		$this->setRowTemplate("tpl.lp_progress_list_row.html", "Services/Tracking");
+		$this->setRowTemplate("tpl.lp_object_list_row.html", "Services/Tracking");
 		#$this->disable("footer");
 		$this->setEnableHeader(true);
 		$this->setEnableNumInfo(true);
 		$this->setEnableTitle(true);
-		$this->setId("lp_table");
+		$this->setId("lp_obj_table");
 		$this->initFilter();
 
 		$this->setSelectAllCheckbox("item_id");
@@ -125,13 +125,11 @@ class ilLPProgressTableGUI extends ilTable2GUI
 		//$this->tpl->setVariable("", );
 		
 		$item_list = ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
-		$item_list->setCurrentUser($this->tracked_user->getId());
-		$item_list->readUserInfo();
 		$item_list->addCheckbox("");
 		$item_list->setCmdClass(get_class($this->parent_obj));
 		$item_list->addReferences($this->objs[$object_id]['ref_ids']);
 		$item_list->enable('path');
-		$item_list->renderSimpleProgress();
+		$item_list->renderObjectList();
 		
 		// Hide link
 		$this->tpl->setVariable("OBJ_ID", $object_id);

@@ -24,7 +24,7 @@
   /**
    * Class ilLPListOfProgress
    *
-   * @author Stefan Meyer <smeyer@databay.de>
+   * @author Stefan Meyer <smeyer.ilias@gmx.de>
    *
    * @version $Id$
    *
@@ -447,7 +447,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		// new table
 		reset($sorted_objs);
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-		$lp_table = new ilLPProgressTableGUI($this, "", $type, $this->tracked_user, $sorted_objs);
+		$lp_table = new ilLPProgressTableGUI($this, "", $type, $this->tracked_user, $objs);
 		$lp_table->setData($sorted_objs);
 		//$tpl->setVariable("LP_TABLE", $lp_table->getHTML());
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());

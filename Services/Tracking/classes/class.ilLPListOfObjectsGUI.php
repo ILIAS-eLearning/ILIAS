@@ -21,24 +21,25 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-* Class ilObjUserTrackingGUI
-*
-* @author Stefan Meyer <smeyer@databay.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI, ilPDFPresentation
-*
-* @package ilias-tracking
-*
-*/
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Search/classes/class.ilUserFilterGUI.php';
+include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 
+/**
+* Class ilObjUserTrackingGUI
+*
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
+*
+* @version $Id$
+*
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI
+*
+* @package ilias-tracking
+*
+*/
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 {
 	var $details_id = 0;
@@ -101,6 +102,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				}
 				$this->user_filter_gui = new ilUserFilterGUI($ilUser->getId());
 				$this->ctrl->forwardCommand($this->user_filter_gui);
+				break;
+				
+			case 'illpprogresstablegui':
+				include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+				$lp_table = new ilLPProgressTableGUI($this, "");
+				$lp_table->initFilter();
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($lp_table);
 				break;
 
 			default:
@@ -500,18 +509,19 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		include_once './Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
+		#$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
 
-		$this->__initFilter();
-		$this->__showFilter();
+		#$this->__showFilter();
 
-		$tpl = new ilTemplate('tpl.lp_loo_objects.html',true,true,'Services/Tracking');
+		#$tpl = new ilTemplate('tpl.lp_loo_objects.html',true,true,'Services/Tracking');
 
 		if($this->activePDF())
 		{
 			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
 		}
 
+		$this->__initFilter();
 		$this->filter->setRequiredPermission('edit_learning_progress');
 		if(!count($objs = $this->filter->getObjects()))
 		{
@@ -527,6 +537,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		}
 
 		// Show table header
+		/*
 		$tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
 		$tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
 		
@@ -534,10 +545,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
 		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
 		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
-
+		*/
 		// Sort objects by title
 		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
 
+		/*
 		// Render item list
 		$counter = 0;
 		foreach($sorted_objs as $object_id)
@@ -572,13 +584,25 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$tpl->setVariable("TBLROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$tpl->parseCurrentBlock();
 		}
-
+		*/
+		
+		reset($sorted_objs);
+		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+		$lp_table = new ilLPObjectsTableGUI($this, "", $type, $objs);
+		$lp_table->setMaxCount(count($sorted_objs));
+		$lp_table->setData($sorted_objs);
+		
+		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
+		
+		
+		/*
 		// Hide button
 		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
 		$tpl->setVariable("BTN_HIDE_SELECTED",$this->lng->txt('trac_hide'));
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass('illpfiltergui'));
-
+			
 		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
+		*/
 	}
 
 	// Private
