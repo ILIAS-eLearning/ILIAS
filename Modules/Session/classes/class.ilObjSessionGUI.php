@@ -156,6 +156,33 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
+	 * Called from info screen
+	 * @return 
+	 */
+	public function joinObject()
+	{
+		global $ilUser;
+		
+		$this->checkPermission('read');
+		
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';
+			
+		if(ilEventParticipants::_isRegistered($ilUser->getId(),$this->object->getId()))
+		{
+			$_SESSION['sess_hide_info'] = true;
+			ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
+			ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
+		}
+		else
+		{
+			ilEventParticipants::_register($ilUser->getId(),$this->object->getId());
+			ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
+		}
+		
+		$this->ctrl->redirect($this,'infoScreen');
+	}
+	
+	/**
 	 * unregister from session
 	 *
 	 * @access public
@@ -261,7 +288,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function infoScreen()
 	{
-		global $ilAccess, $ilUser,$ilCtrl,$tree;
+		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar;
 
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
@@ -271,7 +298,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
-		
+		if($this->object->enabledRegistration())
+		{
+			include_once './Modules/Session/classes/class.ilEventParticipants.php';
+			if(ilEventParticipants::_isRegistered($ilUser->getId(), $this->object->getId()))
+			{
+				$ilToolbar->addFormButton($this->lng->txt('event_unregister'),'join');
+			}
+			else
+			{
+				if(!isset($_SESSION['sess_hide_info']))
+				{
+					ilUtil::sendInfo($this->lng->txt('sess_join_info'));
+				}
+				$ilToolbar->addFormButton($this->lng->txt('join_session'),'join');
+			}
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		}
 		
 		// Session information
 		if(strlen($this->object->getLocation()) or strlen($this->object->getDetails()))
