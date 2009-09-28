@@ -60,6 +60,8 @@ class ilLPProgressTableGUI extends ilTable2GUI
 	{
 		global $lng;
 		
+		$this->setDisableFilterHiding(true);
+		
 		include_once("./Services/Tracking/classes/class.ilLPFilterGUI.php");
 		$filter_gui = new ilLPFilterGUI($this->tracked_user);
 		
