@@ -774,7 +774,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
+		
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
@@ -812,6 +813,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 			// copy default translation to variable for object data entry
 			$_POST["Fobject"]["title"] = $_POST["Fobject"][$_POST["default_language"]]["title"];
 			$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
+			
+			// check title
+			if (trim($_POST["Fobject"]["title"]) == "")
+			{
+				ilUtil::sendFailure($this->lng->txt("msg_no_title"), true);
+				$ilCtrl->redirect($this, "edit");
+			}
 
 			// first delete all translation entries...
 			$this->object->removeTranslations();
