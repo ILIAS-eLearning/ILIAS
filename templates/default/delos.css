@@ -2130,6 +2130,7 @@ div.ilMainHeader
 
 div.ilMemberViewMainHeader
 {
+	/* background-color: #981a0a; */
 	background-color: #981a0a;
 	right: 0px;
 	min-height: 50px;
@@ -2395,6 +2396,31 @@ a.back2tab, a.back2tab:hover
 	background:url("images/Back2Tab.gif") no-repeat left top;
     padding: 3px 8px 3px 16px;
 	font-size: 80%;
+}
+
+li.nontabbed
+{
+	float:left;
+	margin: 0px 2px 0px 0px;
+	padding: 0px;
+	/* border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #bccae5; */
+}
+
+a.nontabbed
+{
+	float: left;
+	display:block;
+	/* border-width: 1px;
+	border-style: solid;
+	border-color: #bccae5;
+	border-bottom-color: #a7b4cc; 
+	background-color: #e8effe; */
+	border-bottom-width: 0px;
+    padding: 5px 7px 4px 7px;;
+	font-size: 80%;
+	text-decoration: none;
 }
 
 /*  Commented Backslash Hack
