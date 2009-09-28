@@ -774,7 +774,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "addkvp", "removekvp"),
+				array("editQuestion", "save", "saveEdit", "addkvp", "removekvp", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

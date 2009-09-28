@@ -486,7 +486,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers"),
+				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 

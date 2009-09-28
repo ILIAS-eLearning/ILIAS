@@ -448,7 +448,7 @@ class assNumericGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "saveEdit"),
+				array("editQuestion", "save", "cancel", "saveEdit", "originalSyncForm"),
 				$classname, "", $force_active);
 		}
 
