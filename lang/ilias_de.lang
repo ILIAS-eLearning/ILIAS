@@ -10096,3 +10096,23 @@ crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
+payment#:#pays_erp#:#ERP###29 09 2009 new variable
+payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
+payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
+payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
+payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
+payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
+payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
+style#:#sty_opt_saved#:#Einstellungen gespeichert
+common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
+payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
+payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.###29 09 2009 new variable
+payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.###29 09 2009 new variable
+payment#:#pays_erp_connection_established#:#Connection established with %s successfully.###29 09 2009 new variable
+payment#:#pays_eco_cur_handle_code#:#Currency Code###29 09 2009 new variable
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.###29 09 2009 new variable
+payment#:#pays_erp_tst_existing#:#Existing Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
+payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
