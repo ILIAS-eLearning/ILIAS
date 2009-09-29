@@ -429,7 +429,7 @@ class ilSCORM13Package
 				foreach ( $founditems as $qp ) {
 					$newObj = new ilObjTest ( 0, true );
 					
-		// This is nonsense and creates a lot of invalid repository objects for each question
+		// This creates a lot of invalid repository objects for each question
 		// question are not repository objects (see e.g. table object_data), alex 29 Sep 2009
 					
 //					$newObj->setType ( $qp ['type'] );
