@@ -277,9 +277,6 @@ assessment#:#cannot_export_test#:#Non hai l'autorizzazione per esportare il test
 assessment#:#cannot_maintain_test#:#Non hai l'autorizzazione per fare manutenzione al test!
 assessment#:#cannot_read_questionpool#:#Non hai l'autorizzazione per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai l'autorizzazione per salvare i metadati!
-assessment#:#certificate_failed#:#Non idoneo
-assessment#:#certificate_ph_passed#:#"idoneo" o "non idoneo", a seconda dei risultati del test
-assessment#:#certificate_right#:#Diritti del certificato
 assessment#:#change_properties_from_random_to_standard#:#Stai cambiando le impostazioni di questo test da random a non random. Le raccolte di domande che hai aggiunto al test verranno cancellate. Vuoi cambiare queste impostazioni?
 assessment#:#change_properties_from_standard_to_random#:#Stai cambiando le impostazioni di questo test da non random a random. Le domande che hai aggiunto al test verranno cancellate dato che hai selezionato una raccolta di domande. Vuoi cambiare queste impostazioni?
 assessment#:#change_solution#:#Cambia la soluzione suggerita
@@ -1670,7 +1667,6 @@ common#:#advanced_editing_settings#:#Advanced editing settings
 common#:#advanced_editing_survey_settings#:#Tag HTML consentiti per lo strumento per i sondaggi di ILIAS
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment settings
-common#:#adve_cat_settings#:#Categoria Impostazioni
 common#:#adve_edit_permission#:#Modifica Impostazioni dei Permessi
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Impostazioni Generali
@@ -2258,7 +2254,6 @@ common#:#dbk_new#:#Nuovo libro digitale
 common#:#dbk_read#:#Accedere in lettura ad un libro digitale
 common#:#dbk_visible#:#Vedere un libro digitale
 common#:#dbk_write#:#Modificare un libro digitale
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Tentativi - 1
@@ -5529,7 +5524,6 @@ content#:#dgl_pagebreak#:#Interruzione di pagina
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Le seguenti risorse sono collegate con quel termine
 content#:#HTML export#:#Esporta HTML
-content#:#HTML_export#:#Esporta HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Modifica voce del menu
 content#:#lm_menu_entry_target#:#Obiettivo
@@ -5545,14 +5539,11 @@ content#:#msg_page_no_public_access#:#La pagina che hai richiesto non &#232; dis
 content#:#msg_page_not_public#:#La pagina non &#232; pubblica
 content#:#Pages#:#Pagine
 content#:#pages from#:#Pagine da
-content#:#pages_from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#PDF export#:#Esporta PDF
-content#:#PDF_export#:#Esporta PDF
 content#:#pg#:#Pagina
 content#:#public_section#:#Sezione pubblica
 content#:#read offline#:#Leggi offline
-content#:#read_offline#:#Leggi offline
 content#:#saved_media_object#:#Saved media object.
 content#:#scorm_editable#:#Import editable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
@@ -5586,7 +5577,6 @@ content#:#seq_toc#:#Scegliere un'attività dalla Tabella Contenuti - TOC sulla s
 content#:#set_public_mode#:#Imposta in modalita' di accesso pubblico
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
-content#:#start_export#:#Inizia l' esportazione
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image "alt" attribute.
 crs#:#activation_times_not_valid#:#Il periodo di attivazione non è valido.
@@ -8564,7 +8554,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#La grandezza minima della pa
 ps#:#ps_error_message_password_max_less_min#:#La grandezza massima della password non può essere minore della grandezza minima.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#La grandezza massima della password non può essere minore di due (2) caratteri se la password deve conterere caratteri e numeri.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#La grandezza minima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici, speciali e numeri.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#La grandezza massima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici e numeri.
 ps#:#ps_export_admin#:#Amministratori
 ps#:#ps_export_confirm#:#Conferma dell'utente all'accesso corsi
 ps#:#ps_export_course#:#Export avanzato dei dati utente nei corsi.
@@ -10097,3 +10086,33 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
+common#:#move_right#:#Move Right###29 09 2009 new variable
+common#:#move_left#:#Move Left###29 09 2009 new variable
+content#:#cont_localfile#:#Local File###29 09 2009 new variable
+common#:#msg_deleted_export_files#:#Export file(s) deleted###29 09 2009 new variable
+payment#:#pays_erp#:#ERP###29 09 2009 new variable
+payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
+payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
+payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
+payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
+payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
+payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
+style#:#sty_opt_saved#:#Options saved###29 09 2009 new variable
+chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smilies should be deleted?###29 09 2009 new variable
+common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004 4th Edition)###29 09 2009 new variable
+payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
+payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.###29 09 2009 new variable
+payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.###29 09 2009 new variable
+payment#:#pays_erp_connection_established#:#Connection established with %s successfully.###29 09 2009 new variable
+payment#:#pays_eco_cur_handle_code#:#Currency Code###29 09 2009 new variable
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.###29 09 2009 new variable
+payment#:#pays_erp_tst_existing#:#Existing Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
+payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
+common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
+common#:#authoring_mode#:#Authoring Mode###29 09 2009 new variable
+crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
+common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
+crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session###29 09 2009 new variable

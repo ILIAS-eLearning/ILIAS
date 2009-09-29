@@ -10090,3 +10090,32 @@ common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the s
 common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
 common#:#socialbm_enable#:#Enable###22 09 2009 new variable
 common#:#socialbm_disable#:#Disable###22 09 2009 new variable
+common#:#move_right#:#Move Right###29 09 2009 new variable
+common#:#move_left#:#Move Left###29 09 2009 new variable
+common#:#msg_deleted_export_files#:#Export file(s) deleted###29 09 2009 new variable
+payment#:#pays_erp#:#ERP###29 09 2009 new variable
+payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
+payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
+payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
+payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
+payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
+payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
+style#:#sty_opt_saved#:#Options saved###29 09 2009 new variable
+chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smilies should be deleted?###29 09 2009 new variable
+common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004 4th Edition)###29 09 2009 new variable
+payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
+payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.###29 09 2009 new variable
+payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.###29 09 2009 new variable
+payment#:#pays_erp_connection_established#:#Connection established with %s successfully.###29 09 2009 new variable
+payment#:#pays_eco_cur_handle_code#:#Currency Code###29 09 2009 new variable
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.###29 09 2009 new variable
+payment#:#pays_erp_tst_existing#:#Existing Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
+payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
+payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
+common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
+common#:#authoring_mode#:#Authoring Mode###29 09 2009 new variable
+crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
+common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
+crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session###29 09 2009 new variable
