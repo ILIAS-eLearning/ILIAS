@@ -172,16 +172,14 @@ a.callink:hover {
 	color: inherit;
 }
 
-// calendar block
-
-table.calmini
+table.calmini 
 {
 	width:100%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color: #D6D6D6;
 }
 
 .calminiheader {
@@ -265,10 +263,10 @@ td.calminiprev {
 	vertical-align:middle;
 }
 
-td.calminiweek {
+td.calminiweek, th.calminiweek {
 	vertical-align: top;
 	background-color: #FFFFFF;
-	font-size:90%;
+	font-size:60%;
 	text-align:center;
 	vertical-align:middle;
 }

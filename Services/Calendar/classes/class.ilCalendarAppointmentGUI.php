@@ -704,7 +704,7 @@ class ilCalendarAppointmentGUI
 			}
 			else
 			{
-				$seed_end->increment(IL_CAL_HOUR,2);
+				$seed_end->increment(IL_CAL_HOUR,1);
 			}
 			$this->app->setEnd($seed_end);
 			$this->app->setFullday($this->default_fulltime);
