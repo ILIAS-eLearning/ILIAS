@@ -428,22 +428,28 @@ class ilSCORM13Package
 				//					die(print_r($founditems));
 				foreach ( $founditems as $qp ) {
 					$newObj = new ilObjTest ( 0, true );
-					$newObj->setType ( $qp ['type'] );
-					$newObj->setTitle ( $qp ['title'] );
-					$newObj->create ( true );
-					$newObj->createReference ();
-					$newObj->putInTree ($_GET ["ref_id"]);
-					$newObj->setPermissions ( $sco->getId ());
-					$newObj->notify ("new", $_GET["ref_id"], $sco->getId (), $_GET["ref_id"], $newObj->getRefId () );
-					$newObj->mark_schema->flush ();
+					
+		// This is nonsense and creates a lot of invalid repository objects for each question
+		// question are not repository objects (see e.g. table object_data), alex 29 Sep 2009
+					
+//					$newObj->setType ( $qp ['type'] );
+//					$newObj->setTitle ( $qp ['title'] );
+//					$newObj->create ( true );
+//					$newObj->createReference ();
+//					$newObj->putInTree ($_GET ["ref_id"]);
+//					$newObj->setPermissions ( $sco->getId ());
+//					$newObj->notify ("new", $_GET["ref_id"], $sco->getId (), $_GET["ref_id"], $newObj->getRefId () );
+//					$newObj->mark_schema->flush ();
 					$qtiParser = new ilQTIParser ( $this->packageFolder . "/" . $f [entry], IL_MO_PARSE_QTI, 0, "" );
 					$qtiParser->setTestObject ( $newObj );
 					$result = $qtiParser->startParsing ();
-					$newObj->saveToDb ();
+//					$newObj->saveToDb ();
 					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
+//var_dump($qtis);
 				}
 			}
 		}
+//exit;
 		include_once 'class.ilSCORM2004Page.php';
 		$doc = new SimpleXMLElement($this->imsmanifest->saveXml());
 		$l = $doc->xpath ( "/ContentObject/MetaData" );
@@ -520,8 +526,12 @@ class ilSCORM13Package
 			foreach($tnode as $ttnode)
 				$t .= $ttnode->asXML();
 			$t .="</PageObject>";
+			
+			// alex: this is necessary due to the changes above
+			//foreach ($qtis as $old=>$q)
+			//	$t = str_replace($old,'il__qst_'.$q['test'], $t);
 			foreach ($qtis as $old=>$q)
-				$t = str_replace($old,'il__qst_'.$q['test'], $t);
+				$t = str_replace($old,'il__qst_'.$q['pool'], $t);
 			$pagex->setXMLContent($t);
 			$pagex->updateFromXML();
 	  	}
