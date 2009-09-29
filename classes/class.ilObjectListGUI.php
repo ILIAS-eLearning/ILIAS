@@ -23,6 +23,10 @@ include_once 'payment/classes/class.ilGeneralSettings.php';
 */
 class ilObjectListGUI
 {
+	const DETAILS_MINIMAL = 10;
+	const DETAILS_SEARCH = 20 ;
+	const DETAILS_ALL = 30;
+	
 	var $ctrl;
 	var $description_enabled = true;
 	var $preconditions_enabled = true;
@@ -59,6 +63,8 @@ class ilObjectListGUI
 	protected $bold_title = false;
 	
 	protected $copy_enabled = true;
+	
+	protected $details_level = self::DETAILS_ALL;
 	
 	/**
 	* constructor
@@ -804,6 +810,27 @@ class ilObjectListGUI
 	function getAdditionalInformation()
 	{
 		return $this->additional_information;
+	}
+	
+	/**
+	 * Details level
+	 * Currently used in Search which shows only limited properties of forums
+	 * Currently used for Sessions (switch between minimal and extended view for each session)
+	 * @param int $a_level
+	 * @return 
+	 */
+	public function setDetailsLevel($a_level)
+	{
+		$this->details_level = $a_level;
+	}
+	
+	/**
+	 * Get current details level
+	 * @return 
+	 */
+	public function getDetailsLevel()
+	{
+		return $this->details_level;
 	}
 	
 	/**

@@ -32,6 +32,8 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
+	protected $force_details;
+	
 	/**
 	* Constructor
 	*
@@ -39,7 +41,36 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	function __construct($container_gui_obj)
 	{
 		parent::__construct($container_gui_obj);
+		$this->initDetails();
 	}
+	
+	/**
+	 * get details level
+	 *
+	 * @access public
+	 * @param	int	$a_session_id
+	 * @return	int	DEATAILS_LEVEL
+	 */
+	public function getDetailsLevel($a_session_id)
+	{
+		if($this->getContainerGUI()->isActiveAdministrationPanel())
+		{
+			return self::DETAILS_DEACTIVATED;
+		}
+		if(isset($_SESSION['sess']['expanded'][$a_session_id]))
+		{
+			return $_SESSION['sess']['expanded'][$a_session_id];
+		}
+		if($a_session_id == $this->force_details)
+		{
+			return self::DETAILS_ALL;
+		}
+		else
+		{
+			return self::DETAILS_TITLE;
+		}
+	}
+	
 
 	/**
 	* Get content HTML for main column.
@@ -179,6 +210,45 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
 		return $output_html;
 	}
+	
+	/**
+	 * init details
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initDetails()
+	{
+		global $ilUser;
+		
+		if($_GET['expand'])
+		{
+			if($_GET['expand'] > 0)
+			{
+				$_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
+			}
+			else
+			{
+				$_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
+			}
+		}
+		
+		
+		if($this->getContainerObject()->getType() == 'crs')
+		{
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			if($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId()))
+			{
+				$this->force_details = $session;
+			}
+			elseif($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId()))
+			{
+				$this->force_details = $session;
+			}
+		}
+	}
+	
 
 } // END class.ilContainerSimpleContentGUI
 ?>
