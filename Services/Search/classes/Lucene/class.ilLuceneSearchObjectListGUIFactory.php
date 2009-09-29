@@ -62,6 +62,7 @@ class ilLuceneSearchObjectListGUIFactory
 		include_once($location."/class.".$full_class.".php");
 		$item_list_gui = new $full_class();
 
+		$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_SEARCH);
 		$item_list_gui->enableDelete(true);
 		$item_list_gui->enableCut(true);
 		$item_list_gui->enableSubscribe(true);

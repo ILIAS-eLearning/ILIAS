@@ -125,14 +125,17 @@ class ilObjSessionListGUI extends ilObjectListGUI
 			'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
 		*/
 		
-		if($items = self::lookupAssignedMaterials($this->obj_id))
+		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_MINIMAL)
 		{
-			$props[] = array(
-				'alert'		=> false,
-				'property'	=> $this->lng->txt('event_ass_materials_prop'),
-				'value'		=> count($items)
-			);
-				
+			if($items = self::lookupAssignedMaterials($this->obj_id))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('event_ass_materials_prop'),
+					'value'		=> count($items)
+				);
+					
+			}
 		}
 		return $props;
 	}

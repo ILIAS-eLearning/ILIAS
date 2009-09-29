@@ -416,21 +416,24 @@ abstract class ilContainerContentGUI
 			switch($this->getDetailsLevel($a_item_data['obj_id']))
 			{
 				case self::DETAILS_TITLE:
-					$item_list_gui->enableExpand(false);
+					$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_MINIMAL);
+					$item_list_gui->enableExpand(true);
 					$item_list_gui->setExpanded(false);
-					$item_list_gui->enableDescription(true);
+					$item_list_gui->enableDescription(false);
 					$item_list_gui->enableProperties(true);
 					break;
 					
 				case self::DETAILS_ALL:
-					$item_list_gui->enableExpand(false);
+					$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
+					$item_list_gui->enableExpand(true);
 					$item_list_gui->setExpanded(true);
 					$item_list_gui->enableDescription(true);
 					$item_list_gui->enableProperties(true);
 					break;
 										
 				default:
-					$item_list_gui->enableExpand(false);
+					$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
+					$item_list_gui->enableExpand(true);
 					$item_list_gui->enableDescription(true);
 					$item_list_gui->enableProperties(true);
 					break;
@@ -438,11 +441,13 @@ abstract class ilContainerContentGUI
 		}
 		
 		// show subitems
-		#if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE)
-		if($a_item_data['type'] == 'sess' and 
-			($this->getContainerGUI()->isActiveAdministrationPanel() or
-			$this->getContainerGUI()->isActiveOrdering()))
-		{
+		if($a_item_data['type'] == 'sess' and (
+											$this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE or
+											$this->getContainerGUI()->isActiveAdministrationPanel() or
+											$this->getContainerGUI()->isActiveOrdering()
+											)
+		)
+		{											
 			$pos = 1;
 			
 			include_once('./Services/Container/classes/class.ilContainerSorting.php');

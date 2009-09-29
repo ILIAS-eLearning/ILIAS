@@ -202,32 +202,37 @@ class ilObjForumListGUI extends ilObjectListGUI
 		}
 */
 
-include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
-if ($ilAccess->checkAccess('moderate_frm', '', $this->ref_id))
-{				
-	$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id);
-	$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id);
-	$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id);
-	$last_post = ilObjForumAccess::getLastPost($this->obj_id);
-}
-else
-{
-	$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id, true);
-	$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id, true);
-	$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id, true);
-	$last_post = ilObjForumAccess::getLastPost($this->obj_id);
-}
+		include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+		if ($ilAccess->checkAccess('moderate_frm', '', $this->ref_id))
+		{				
+			$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id);
+			$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id);
+			$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id);
+			$last_post = ilObjForumAccess::getLastPost($this->obj_id);
+		}
+		else
+		{
+			$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id, true);
+			$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id, true);
+			$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id, true);
+			$last_post = ilObjForumAccess::getLastPost($this->obj_id);
+		}
+
 		// Posts (Unread)		
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			$alert = ($num_unread_total > 0) ? true : false;
-			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_articles').' ('.$lng->txt('unread').')',
-				'value' => $num_posts_total.' ('.$num_unread_total.')');
-				
-			// New
-			$alert = ($num_new_total > 0)	? true : false;
-			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_new_articles'),
-				'value' => $num_new_total);			
+			
+			if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
+			{
+				$alert = ($num_unread_total > 0) ? true : false;
+				$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_articles').' ('.$lng->txt('unread').')',
+					'value' => $num_posts_total.' ('.$num_unread_total.')');
+					
+				// New
+				$alert = ($num_new_total > 0)	? true : false;
+				$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_new_articles'),
+					'value' => $num_new_total);
+			}
 		}
 		else
 		{
@@ -246,15 +251,19 @@ else
 //			'value' => $visits_total);	
 
 		/* Forum anonymized? */
-		include_once("./Modules/Forum/classes/class.ilForumProperties.php");
-		if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
+		
+		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
 		{
-			$props[] = array(
-						'alert' => false,
-						'newline' => false,
-						'property' => $lng->txt('forums_anonymized'),
-						'value' => $lng->txt('yes')
-			);
+			include_once("./Modules/Forum/classes/class.ilForumProperties.php");
+			if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
+			{
+				$props[] = array(
+							'alert' => false,
+							'newline' => false,
+							'property' => $lng->txt('forums_anonymized'),
+							'value' => $lng->txt('yes')
+				);
+			}
 		}
 		
 		// Last Post
