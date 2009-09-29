@@ -486,11 +486,18 @@ class ilInitialisation
 	/**
 	* set session cookie params for path, domain, etc.
 	*/
-	function setCookieParams()
+	function setCookieParams($context)
 	{
-		$cookie_domain = $_SERVER['SERVER_NAME'];
-		$cookie_path = dirname( $_SERVER['PHP_SELF'] );
+		if($context == 'webdav')
+		{
+			$cookie_path = '/';
+		}
+		else
+		{
+			$cookie_path = dirname( $_SERVER['PHP_SELF'] );			
+		}
 		$cookie_path .= (!preg_match("/\/$/", $cookie_path)) ? "/" : "";
+		$cookie_domain = $_SERVER['SERVER_NAME'];		
 
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
@@ -953,7 +960,7 @@ class ilInitialisation
 		umask(0117);
 		
 		// set cookie params
-		$this->setCookieParams();
+		$this->setCookieParams($context);
 
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
