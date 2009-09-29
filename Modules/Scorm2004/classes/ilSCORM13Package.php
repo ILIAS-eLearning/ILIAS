@@ -357,7 +357,7 @@ class ilSCORM13Package
 					ilSCORM2004Node::putInTree($chap, "", "");
 					$parent_id=$chap->getId();
 				}
-				if(preg_match("/il_\d+_sco_(\d+)/",$a['identifier'],&$match))
+				if(preg_match("/il_\d+_sco_(\d+)/",$a['identifier'], $match))
 				{
 					$sco = new ilSCORM2004Sco($this->slm);
 					$sco->setTitle($node->title);
