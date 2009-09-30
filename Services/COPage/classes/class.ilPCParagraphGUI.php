@@ -63,7 +63,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($a_style_id);
-			$chars = $style->getCharacteristics("text_block");
+			$types = array("text_block", "heading1", "heading2", "heading3");
+			$chars = array();
+			foreach ($types as $t)
+			{
+				$chars = array_merge($chars, $style->getCharacteristics($t));
+			}
 			$new_chars = array();
 			foreach ($chars as $char)
 			{
@@ -90,7 +95,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 
-		$this->getCharacteristicsOfCurrentStyle("text_block");	// scorm-2004
+		$this->getCharacteristicsOfCurrentStyle(
+			array("text_block", "heading1", "heading2", "heading3"));	// scorm-2004
 		
 		// get current command
 		$cmd = $this->ctrl->getCmd();
@@ -338,7 +344,16 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		foreach ($chars as $char => $char_lang)
 		{
-			$html = '<div class="ilc_text_block_'.$char.'" style="margin-top:2px; margin-bottom:2px; position:static;">'.$char_lang."</div>";
+			$t = "text_block";
+			$tag = "div";
+//echo "-".$char;
+			switch($char)
+			{
+				case "Headline1": $t = "heading1"; $tag = "h1"; break;
+				case "Headline2": $t = "heading2"; $tag = "h2"; break;
+				case "Headline3": $t = "heading3"; $tag = "h3"; break; 
+			}
+			$html = '<'.$tag.' class="ilc_'.$t.'_'.$char.'" style="margin-top:2px; margin-bottom:2px; position:static;">'.$char_lang."</".$tag.">";
 			$selection->addItem($char_lang, $char, "",
 				"", $char, "", $html);
 		}
