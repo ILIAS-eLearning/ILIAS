@@ -4673,7 +4673,7 @@ common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
 common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte auf den Persönlichen Schreibtisch zu legen.
 common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
-common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren
+common#:#usrf_read_users#:#Lesezugriff für lokale Administratoren
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#usrimport_action_failed#:#Aktion %1$s fehlgeschlagen.
