@@ -1286,7 +1286,7 @@ class ilObjStyleSheet extends ilObject
 		$sty = $ilDB->fetchAssoc($res);
 		$this->setUpToDate((boolean) $sty["uptodate"]);
 		$this->setScope($sty["category"]);
-		
+
 		// get style characteristics records
 		$this->chars = array();
 		$this->chars_by_type = array();

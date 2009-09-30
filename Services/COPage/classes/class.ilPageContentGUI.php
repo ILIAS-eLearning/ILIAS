@@ -112,7 +112,15 @@ class ilPageContentGUI
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($this->getStyleId());
-			$chars = $style->getCharacteristics($a_type, true);
+			$chars = array();
+			if (!is_array($a_type))
+			{
+				$a_type = array($a_type);
+			}
+			foreach ($a_type as $at)
+			{
+				$chars = array_merge($chars, $style->getCharacteristics($at, true));
+			}
 			$new_chars = array();
 			if (is_array($chars))
 			{
