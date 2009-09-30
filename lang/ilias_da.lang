@@ -10095,20 +10095,20 @@ payment#:#pays_erp_tst_billed#:#faktureret
 payment#:#pays_erp_tst_product#:#Dette er bare en testfaktura. I et rigtigt køb vil kursusnavnet stå her.
 payment#:#pays_erp_invoice_attached#:#Din faktura er vedhæftet denne mail.
 payment#:#pays_erp#:#ERP
-common#:#move_right#:#Move Right###29 09 2009 new variable
-common#:#move_left#:#Move Left###29 09 2009 new variable
-common#:#msg_deleted_export_files#:#Export file(s) deleted###29 09 2009 new variable
-payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
-payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
-payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
-payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
-payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
-payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
-style#:#sty_opt_saved#:#Options saved###29 09 2009 new variable
-chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smilies should be deleted?###29 09 2009 new variable
-common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004 4th Edition)###29 09 2009 new variable
-common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
-common#:#authoring_mode#:#Authoring Mode###29 09 2009 new variable
+common#:#move_right#:#Flyt til højre
+common#:#move_left#:#Flyt til venstre
+common#:#msg_deleted_export_files#:#Eksportfil(er) slettet
+payment#:#pays_erp_settings#:#ERP indstillinger
+payment#:#pays_erp_system#:#ERP system
+payment#:#pays_eco_agreement#:#Aftale nummer
+payment#:#pays_eco_product_number#:#Produktnummer
+payment#:#pays_eco_payment_terms#:#Betalingsbetingelser
+payment#:#pays_eco_layout#:#Faktura layout
+style#:#sty_opt_saved#:#Indstillinger gemt
+chat#:#chat_confirm_delete_smiley#:#Er du sikker på at de valgte smilies skal slettes?
+common#:#scorm_create_export_file_scrom2004_4th#:#Lav eksportfil (SCORM 2004 4th Edition)
+common#:#invalid_visible_required_options_selected#:#AAll fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
+common#:#authoring_mode#:#Forfattervisning
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
-common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
-crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session###29 09 2009 new variable
+common#:#udf_required_requires_visib_reg#:#Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen.
+crs#:#sess_join_info#:#Tryk på 'tilmeld' knappen hvis du ønsker at deltage i sessionen.
