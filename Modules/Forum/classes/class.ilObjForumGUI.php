@@ -3531,7 +3531,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function createThreadObject()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem, $ilAccess, $lng;
 		
 		if(!$ilAccess->checkAccess('add_thread,add_post', '', (int)$_GET['ref_id']))
 		{
