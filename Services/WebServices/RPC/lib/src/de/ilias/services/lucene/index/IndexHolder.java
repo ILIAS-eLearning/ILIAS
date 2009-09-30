@@ -114,6 +114,10 @@ public class IndexHolder {
 	 */
 	private static boolean deleteTree(File path) {
 		
+		if(!path.exists() || !path.isDirectory())
+		{
+			return false;
+		}
 		for(File del : path.listFiles()) {
 			
 			if(del.isDirectory()) {
