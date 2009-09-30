@@ -2079,7 +2079,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 			$new_user->login = $user_obj->getLogin();
 			
-			if (in_array($user->getPref("public_profile"), array("y", "g"))) {
+			if (in_array($user_obj->getPref("public_profile"), array("y", "g"))) {
 				//public_profile
 				$new_user->pp = '1';
 				$new_user->img = $user_obj->getPersonalPicturePath();
