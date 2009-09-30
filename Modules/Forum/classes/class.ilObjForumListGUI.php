@@ -252,9 +252,9 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 		/* Forum anonymized? */
 		
+		include_once("./Modules/Forum/classes/class.ilForumProperties.php");
 		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
 		{
-			include_once("./Modules/Forum/classes/class.ilForumProperties.php");
 			if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
 			{
 				$props[] = array(
