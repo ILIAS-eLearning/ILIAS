@@ -153,6 +153,23 @@ class ilObjTestAccess extends ilObjectAccess
 		{
 			$reached = $points[count($points)-1]["points"];
 			$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+			if (!strlen($max))
+			{
+				include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+				include_once "./Modules/Test/classes/class.ilObjTest.php";
+				$test = new ilObjTest($a_obj_id, false);
+				$test->loadFromDb();
+				$data = new ilTestEvaluationData($test);
+				$p = $data->getParticipants();
+				if (!is_null($p))
+				{
+					$user = $p[$points[count($points)-1]["active_fi"]];
+					if (!is_null($user))
+					{
+						$max = $user->getMaxpoints();
+					}
+				}
+			}
 		}
 		else
 		{
@@ -161,6 +178,23 @@ class ilObjTestAccess extends ilObjectAccess
 				if ($row["points"] > $reached) 
 				{
 					$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+					if (!strlen($max))
+					{
+						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+						include_once "./Modules/Test/classes/class.ilObjTest.php";
+						$test = new ilObjTest($a_obj_id, false);
+						$test->loadFromDb();
+						$data = new ilTestEvaluationData($test);
+						$p = $data->getParticipants();
+						if (!is_null($p))
+						{
+							$user = $p[$points[count($points)-1]["active_fi"]];
+							if (!is_null($user))
+							{
+								$max = $user->getMaxpoints();
+							}
+						}
+					}
 					$reached = $row["points"];
 				}
 			}
@@ -623,6 +657,23 @@ function _getQuestionCount($test_id)
 				{
 					$reached = $points[count($points)-1]["points"];
 					$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+					if (!strlen($max))
+					{
+						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+						include_once "./Modules/Test/classes/class.ilObjTest.php";
+						$test = new ilObjTest($a_obj_id, false);
+						$test->loadFromDb();
+						$data = new ilTestEvaluationData($test);
+						$p = $data->getParticipants();
+						if (!is_null($p))
+						{
+							$user = $p[$points[count($points)-1]["active_fi"]];
+							if (!is_null($user))
+							{
+								$max = $user->getMaxpoints();
+							}
+						}
+					}
 				}
 				else
 				{
@@ -631,6 +682,23 @@ function _getQuestionCount($test_id)
 						if ($row["points"] > $reached) 
 						{
 							$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+							if (!strlen($max))
+							{
+								include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+								include_once "./Modules/Test/classes/class.ilObjTest.php";
+								$test = new ilObjTest($a_obj_id, false);
+								$test->loadFromDb();
+								$data = new ilTestEvaluationData($test);
+								$p = $data->getParticipants();
+								if (!is_null($p))
+								{
+									$user = $p[$points[count($points)-1]["active_fi"]];
+									if (!is_null($user))
+									{
+										$max = $user->getMaxpoints();
+									}
+								}
+							}
 							$reached = $row["points"];
 						}
 					}
