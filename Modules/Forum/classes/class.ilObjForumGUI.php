@@ -403,6 +403,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, 'cmd', 'post');
 				
 				$tbl = new ilTable2GUI($this);
+				$tbl->setId('il_frm_thread_table_'.(int)$_GET['ref_id']);
 				$tbl->setFormAction($this->ctrl->getLinkTarget($this, 'showThreads'));
   				$tbl->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');				
 		
@@ -598,7 +599,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$tbl->setPrefix('frm_threads');
 				$tbl->setData($result);
 				
-				$tbl->addMultiCommand('please_choose', $this->lng->txt('please_choose'));
+				$tbl->addMultiCommand('', $this->lng->txt('please_choose'));
 				$tbl->addMultiCommand('html', $this->lng->txt('export_html'));				
 				if($this->ilias->getSetting('forum_notification') == 1)
 				{
@@ -1014,6 +1015,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->object->Forum->setForumId($this->object->getId());
 		
 		$tbl = new ilTable2GUI($this, 'showStatistics');
+		$tbl->setId('il_frm_statistic_table_'.(int)$_GET['ref_id']);
 		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.gif', $this->lng->txt('obj_'.$this->object->getType()));
 		$tbl->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 		$tbl->addColumn($this->lng->txt('frm_statistics_ranking'), 'ranking', '25%');
@@ -3331,7 +3333,8 @@ class ilObjForumGUI extends ilObjectGUI
 		if(!$this->hideToolbar())
 			$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 
-		$tblThr = new ilTable2GUI($this);		
+		$tblThr = new ilTable2GUI($this);
+		$tblThr->setId('il_frm_thread_move_table_'.(int)$_GET['frm_ref_id']);
 		$tblThr->setTitle($this->lng->txt('move_chosen_topics'));
 		$tblThr->addColumn($this->lng->txt('subject'), 'top_name', '100%');
 		$tblThr->disable('header');
