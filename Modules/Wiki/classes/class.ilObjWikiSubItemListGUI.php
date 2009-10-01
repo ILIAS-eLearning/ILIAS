@@ -58,10 +58,11 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_pg'));
 			$this->tpl->setVariable('SEPERATOR',':');
 			
-			#$this->getItemListGUI()->setChildId($sub_item);
-			$this->tpl->setVariable('LINK',ilObjWikiGUI::getGotoLink($this->getRefId(),$sub_item));
+			$title = ilWikiPage::lookupTitle($sub_item);
+			
+			$this->tpl->setVariable('LINK',ilObjWikiGUI::getGotoLink($this->getRefId(),$title));
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			$this->tpl->setVariable('TITLE',ilWikiPage::lookupTitle($sub_item));			
+			$this->tpl->setVariable('TITLE',$title);			
 			$this->tpl->parseCurrentBlock();
 		}
 		
