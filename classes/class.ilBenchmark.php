@@ -55,7 +55,11 @@ class ilBenchmark
 	*/
 	function start($a_module, $a_bench)
 	{
-		$this->bench[$a_module.":".$a_bench][] = microtime();
+return;
+		if ($this->isEnabled())
+		{
+			$this->bench[$a_module.":".$a_bench][] = microtime();
+		}
 	}
 
 
@@ -66,8 +70,12 @@ class ilBenchmark
 	*/
 	function stop($a_module, $a_bench)
 	{
-		$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
-			= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
+return;
+		if ($this->isEnabled())
+		{
+			$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
+				= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
+		}
 	}
 
 
@@ -77,7 +85,7 @@ class ilBenchmark
 	function save()
 	{
 		global $ilDB;
-
+return;
 		if ($this->isEnabled() &&
 			($this->getMaximumRecords() > $this->getCurrentRecordNumber()))
 		{
@@ -174,9 +182,14 @@ class ilBenchmark
 	*/
 	function isEnabled()
 	{
-		global $ilias;
+		global $ilSetting;
 
-		return (boolean) $ilias->getSetting("enable_bench");
+		if (!is_object($ilSetting))
+		{
+			return true;
+		}
+
+		return (boolean) $ilSetting->get("enable_bench");
 	}
 
 

@@ -1740,8 +1740,8 @@ return $this->showServerInfoObject();
 			$tabs_gui->addTarget("system_check",
 				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
-			$tabs_gui->addTarget("benchmarks",
-				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
+//			$tabs_gui->addTarget("benchmarks",
+//				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
