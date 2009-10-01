@@ -8599,7 +8599,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of
 chat#:#chat_chat_invitation#:#Chat Invitations
 chat#:#chat_general_settings#:#General Settings
 chat#:#chat_sounds#:#Sounds
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
+chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation and the notifier appears
 chat#:#chat_sound_status_activate#:#Activate Sounds
 chat#:#chat_sound_status_deactivate#:#Deactivate Sounds
 assessment#:#reset_pictures#:#Reset Picture Positions
@@ -9189,7 +9189,7 @@ chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords 
 chat#:#chat_upload_smiley#:#Upload Smiley
 chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.
 chat#:#chat_delete_selected#:#Delete selected Smilies
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received and the message notifier appears
 chat#:#edit_smilies#:#Edit Smilies
 chat#:#chat_message_notify#:#Message Notifier
 chat#:#chat_message_notify_activate#:#Activate Message Notify
