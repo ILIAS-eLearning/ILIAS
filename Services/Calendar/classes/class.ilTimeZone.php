@@ -31,7 +31,7 @@
 * 5) Use <code>date('T')</code>
 * 6) Use UTC
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -45,6 +45,7 @@ class ilTimeZone
 	const UTC = 'UTC';
 	
 	public static $instances = array();
+	public static $valid_tz = array();
 
 	protected static $default_timezone = '';
 	protected static $current_timezone = '';
@@ -124,12 +125,18 @@ class ilTimeZone
 		{
 			$instance = self::$instances[$a_tz] = new ilTimeZone($a_tz);
 		}
-		
-		// now validate timezone setting
-		if(!$instance->validateTZ())
+
+		// Validate timezone if it is not validated before
+		if(!array_key_exists($instance->getIdentifier(),self::$valid_tz))
 		{
-			throw new ilTimeZoneException('Unsupported timezone given.');
+			if(!$instance->validateTZ())
+			{
+				throw new ilTimeZoneException('Unsupported timezone given.');
+			}
+			self::$valid_tz[$instance->getIdentifier()] = true;
 		}
+
+		// now validate timezone setting
 		return $instance;
 	}
 	
