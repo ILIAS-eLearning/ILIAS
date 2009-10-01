@@ -237,7 +237,6 @@ class ilSearchResultPresentation
 		$this->html = '';
 		
 		$ilBench->start('Lucene','2000_pr');
-		#$this->newBockTemplate();
 		$item_html = array();
 		$this->parseResultReferences();
 		$ilBench->stop('Lucene','2000_pr');
@@ -356,7 +355,7 @@ class ilSearchResultPresentation
 	/**
 	 * Append path, relevance information
 	 */
-	public function appendAdditionalInformation(&$item_list_gui,$ref_id,$obj_id,$type)
+	public function appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type)
 	{
 		$sub = $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
 		$path = $this->appendPath($ref_id);
