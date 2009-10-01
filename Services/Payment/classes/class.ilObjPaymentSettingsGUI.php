@@ -4055,6 +4055,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		include_once 'Services/Table/classes/class.ilTable2GUI.php';
 		$tbl = new ilTable2GUI($this, 'vats');
+		$tbl->setId('pay_vats_tbl');
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'createVat');
 		$tbl->setTitle($this->lng->txt('payment_tax_rates'));
 		$tbl->setRowTemplate('tpl.shop_vats_list_row.html', 'Services/Payment');				

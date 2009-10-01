@@ -54,6 +54,7 @@ class ilShopTopicsTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	parent::__construct($a_parent_obj, $a_parent_cmd);
+	 	$this->setId('shop_topics_tbl');
 	 	$this->addColumn('', 'checkbox', '1%');
 	 	$this->addColumn($this->lng->txt('title'), 'title' , '40%');
 	 	$this->addColumn($this->lng->txt('date'), 'date' , '22%');

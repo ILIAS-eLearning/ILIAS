@@ -494,6 +494,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		}
 
 		$tbl = new ilTable2GUI($this);
+		$tbl->setId('shop_news_tbl');
 		$tbl->setTitle($this->lng->txt('news'), 'icon_news.gif', $this->lng->txt('news'));		
 		$tbl->setRowTemplate('tpl.shop_news_row.html', 'Services/Payment'); 
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showNews');
@@ -576,6 +577,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		}
 		
 		$tbl = new ilTable2GUI($this);
+		$tbl->setId('shop_news_archive_tbl');
 		$tbl->setTitle($this->lng->txt('archive'), 'icon_news.gif',$this->lng->txt('news'));	
 		$tbl->setRowTemplate('tpl.shop_news_row.html', 'Services/Payment'); 
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showArchive');

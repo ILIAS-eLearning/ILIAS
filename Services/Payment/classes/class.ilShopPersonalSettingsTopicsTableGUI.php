@@ -54,6 +54,7 @@ class ilShopPersonalSettingsTopicsTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	parent::__construct($a_parent_obj, $a_parent_cmd);
+	 	$this->setId('shop_topics_settings_tbl');
 	 	$this->addColumn($this->lng->txt('title'), 'title' , '70%');
 	 	$this->addColumn($this->lng->txt('pay_sorting_value'), 'sorting' , '30%');
 	 		 	
