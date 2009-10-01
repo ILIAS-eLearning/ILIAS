@@ -1387,9 +1387,9 @@ chat#:#chat_message_notify_deactivate#:#deaktiviere Nachrichtenhinweise
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderatorenpasswort
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#Sound bei neuen Einladungen abspielen
+chat#:#chat_new_invitation_sound_status#:#Sound bei neuen Einladungen abspielen wenn die Benachrichtigung erscheint.
 chat#:#chat_new_message#:#Neue Nachricht
-chat#:#chat_new_message_sound_status#:#Einen Sound abspielen, wenn eine neue Nachricht erhalten wurde.
+chat#:#chat_new_message_sound_status#:#Einen Sound abspielen, wenn eine neue Nachricht erhalten wurde und dadurch der Nachrichtenhinweis erscheint.
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
