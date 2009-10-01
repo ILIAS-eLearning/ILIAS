@@ -95,7 +95,7 @@ class ilForumModeratorsGUI
 	public function showModeratorsSearchResult($users = array())
 	{
 		$tbl = new ilTable2GUI($this);
-		
+		$tbl->setId('frm_show_mods_search_tbl');
 		$tbl->setTitle($this->lng->txt('users'));
 		$tbl->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum'); 
 					
@@ -219,6 +219,7 @@ class ilForumModeratorsGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forum_moderators.html',	'Modules/Forum');
 				
 		$tbl = new ilTable2GUI($this);
+		$tbl->setId('frm_show_mods_tbl');
 		$tbl->setFormAction($this->ctrl->getFormAction($this, 'detachModeratorRole'));
 		$tbl->setTitle($this->lng->txt('frm_moderators'));
 		$tbl->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum'); 
