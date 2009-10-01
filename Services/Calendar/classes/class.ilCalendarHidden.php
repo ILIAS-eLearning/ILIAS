@@ -29,7 +29,6 @@
 *
 * @ingroup ServicesCalendar
 */
-
 class ilCalendarHidden
 {
 	protected static $instances = array();
