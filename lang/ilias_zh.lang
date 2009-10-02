@@ -10131,3 +10131,8 @@ common#:#authoring_mode#:#Authoring Mode###29 09 2009 new variable
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
 common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
 crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session###29 09 2009 new variable
+administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously###02 10 2009 new variable
+administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
+payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
+payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
+payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable

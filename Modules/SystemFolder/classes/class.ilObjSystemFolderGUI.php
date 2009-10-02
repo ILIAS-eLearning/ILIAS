@@ -2029,6 +2029,12 @@ return $this->showServerInfoObject();
 		$si->setInfo($this->lng->txt("adm_repository_cache_time_info"));
 		$this->form->addItem($si);
 		
+		// load action commands asynchronously 
+		$cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
+		$cb->setInfo($this->lng->txt("adm_item_cmd_asynch_info"));
+		$cb->setChecked($ilSetting->get("item_cmd_asynch"));
+		$this->form->addItem($cb);
+		
 		// locale
 		$ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
 		$ti->setMaxLength(80);
@@ -2129,6 +2135,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("locale", $_POST["locale"]);
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
+			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			
 			$global_profiles = ($_POST["pub_section"])
 				? (int)$_POST['enable_global_profiles']

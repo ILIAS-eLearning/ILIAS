@@ -388,7 +388,7 @@ abstract class ilContainerContentGUI
 	*/
 	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false)
 	{
-		global $ilSetting,$ilAccess;
+		global $ilSetting,$ilAccess,$ilCtrl;
 
 		// Pass type, obj_id and tree to checkAccess method to improve performance
 		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id'],$a_item_data['type'],$a_item_data['obj_id'],$a_item_data['tree']))
@@ -492,8 +492,18 @@ abstract class ilContainerContentGUI
 			}
 		}
 
+		if ($ilSetting->get("item_cmd_asynch"))
+		{
+			$asynch = true;
+			$ilCtrl->setParameter($this->container_gui, "cmdrefid", $a_item_data['ref_id']);
+			$asynch_url = $ilCtrl->getLinkTarget($this->container_gui,
+					"getAsynchItemList");
+			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
+		}
+		
 		$html = $item_list_gui->getListItemHTML($a_item_data['ref_id'],
-			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description']);
+			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description'],
+			$asynch, false, $asynch_url);
 		$this->determineAdminCommands($a_item_data["ref_id"],
 			$item_list_gui->adminCommandsIncluded());
 			

@@ -224,16 +224,24 @@ function ilShowAdvSelList(id, opt)
 		}
 	}
 	
+	ilAdvFixPosition(id);
+
+	// get content asynchronously
+	if (ilGetOption(opt, 'asynch'))
+	{
+		ilAdvAsynchLoader(id, ilGetOption(opt, 'asynch_url'));
+	}
+}
+
+function ilAdvFixPosition(id)
+{
 	obj = document.getElementById('ilAdvSelListTable_' + id);
-//	obj2 = document.getElementById('ilAdvSelListTableInner_' + id);
 	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
+
 	obj.style.overflow = '';
 	var wih = ilGetWinInnerHeight();
 	var yoff = ilGetWinPageYOffset();
 	
-/*alert("anchor.offsetLeft:" + anchor.offsetLeft
-	);*/
-
 	//obj.style.left = anchor.offsetLeft + 'px';
 	obj.style.left = (absLeft(anchor) + 2) + 'px';
 	obj.style.top = ((absTop(anchor) + anchor.offsetHeight) + 2) + 'px';
@@ -250,10 +258,7 @@ function ilShowAdvSelList(id, opt)
 			newHeight = 150;
 		}
 		obj.style.height = newHeight + "px";
-//		obj2.style.height = newHeight + "px";
-		//obj.style.width = obj.offsetWidth + 20 + "px";
 		obj.style.width = obj.offsetWidth + 20 + "px";
-//alert("Too small wih: " + wih + ", obj height: " + obj.offsetHeight);
 	}
 	
 	// if too low: show it higher
@@ -277,6 +282,84 @@ function ilShowAdvSelList(id, opt)
 		obj.style.left = (wiw - (elmWidth + 10)) + "px";
 	}
 	obj.style.overflow = 'auto';
+	
+}
+
+function ilAdvAsynchLoader(list_id, sUrl)
+{
+	var ilAdvCallback =
+	{
+		success: ilAdvSuccessHandler,
+		failure: ilAdvFailureHandler,
+		argument: { list_id: list_id}
+	};
+
+	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilAdvCallback);
+	
+	return false;
+}
+
+// Success Handler
+var ilAdvSuccessHandler = function(o)
+{
+	// parse headers function
+	function parseHeaders()
+	{
+		var allHeaders = headerStr.split("\n");
+		var headers;
+		for(var i=0; i < headers.length; i++)
+		{
+			var delimitPos = header[i].indexOf(':');
+			if(delimitPos != -1)
+			{
+				headers[i] = "<p>" +
+				headers[i].substring(0,delimitPos) + ":"+
+				headers[i].substring(delimitPos+1) + "</p>";
+			}
+		return headers;
+		}
+	}
+
+	// perform modification
+	if(typeof o.responseText != "undefined")
+	{
+		// this a little bit complex procedure fixes innerHTML with forms in IE
+		var newdiv = document.createElement("div");
+		newdiv.innerHTML = o.responseText;
+		var list_div = document.getElementById("ilAdvSelListTable_" + o.argument.list_id);
+		if (!list_div)
+		{
+			return;
+		}
+		list_div.innerHTML = '';
+		list_div.appendChild(newdiv);
+		
+		// for safari: eval all javascript nodes
+		if (YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1")
+		{
+			//alert("webkit!");
+			var els = YAHOO.util.Dom.getElementsBy(function(el){return true;}, "script", newdiv);
+			for(var i= 0; i<=els.length; i++)
+			{
+				eval(els[i].innerHTML);
+			}
+		}
+		ilAdvFixPosition(o.argument.list_id);
+		
+		//div.innerHTML = "Transaction id: " + o.tId;
+		//div.innerHTML += "HTTP status: " + o.status;
+		//div.innerHTML += "Status code message: " + o.statusText;
+		//div.innerHTML += "HTTP headers: " + parseHeaders();
+		//div.innerHTML += "Server response: " + o.responseText;
+		//div.innerHTML += "Argument object: property foo = " + o.argument.foo +
+		//				 "and property bar = " + o.argument.bar;
+	}
+}
+
+// Success Handler
+var ilAdvFailureHandler = function(o)
+{
+	//alert('FailureHandler');
 }
 
 /**
