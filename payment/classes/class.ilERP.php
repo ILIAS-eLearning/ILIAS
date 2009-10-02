@@ -92,7 +92,7 @@ class ilERP
   */  
   public function getLastError()
   {
-    return $this->error_msg;
+    return "ERP. " . $this->error_msg;
   }
   
   /**
