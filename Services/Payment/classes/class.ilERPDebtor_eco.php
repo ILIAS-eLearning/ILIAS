@@ -148,6 +148,7 @@ class ilERPDebtor_eco extends ilERPDebtor
       try
       {
         $this->handle = $this->erp->client->Debtor_CreateFromData(array('data' => $deb))->Debtor_CreateFromDataResult;
+        
       }
       catch (Exception $e)
       {
