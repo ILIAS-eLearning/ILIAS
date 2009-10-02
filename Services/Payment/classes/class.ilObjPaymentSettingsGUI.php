@@ -2366,10 +2366,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
       
       $msg .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');      
-      ilUtil::sendInfo($msg);
-      
-      
-       
+      ilUtil::sendInfo($msg);       
     }
     
     $this->erpSettingsObject();

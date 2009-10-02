@@ -34,31 +34,40 @@ require_once './Services/Payment/classes/class.ilERPDebtor.php';
 require_once './payment/classes/class.ilERP_eco.php';
 
 class ilERPDebtor_eco extends ilERPDebtor
-{
-  
-  
+{  
   private $set;
-  private $erp;
-  
+  private $erp;  
+  private $invH;
   
   /**
   * Retrive or create Debtor
   */
-  public function __construct( 
-    $number, $name="", $email="", 
-    $address="", $postalcode="", $city="", $country="", $phone="", $ean="",
-    $dgh=1 )
+  public function __construct()  
   {
     
-    $this->erp = new ilERP_eco();
+    $this->erp = ilERP_eco::_getInstance();
     $this->set = $this->erp->getSettings();        
     
-    parent::__construct( $number, $name, $email, $address, $postalcode, $city, $country, $phone, $ean);
+    parent::__construct();
     
-    $this->dgh = $dgh;
+    //$this->dgh = $dgh;
   }
   
-  private function assertConnected()
+  public function getLastError()
+  {
+    return $this->erp->getLastError();
+  }
+  public function setError($something)
+  { 
+    $this->erp->setError($something);
+  }
+  public function error()
+  {
+    return $this->erp->error();
+  }
+  
+  
+  /*private function assertConnected()
   {
     if (!$this->erp->connected()) $this->erp->connect(); else return true;    
     if (!$this->erp->connected()) return false; //ilUtil::sendError($this->erp->getLastError());
@@ -73,34 +82,70 @@ class ilERPDebtor_eco extends ilERPDebtor
     require_once './Services/Payment/exceptions/class.ilERPException.php';    
     Throw new ilERPException( $this->erp->getLastError() );
   }
-  
+  */
   
   /**
-  * Return handle to debtor or null if not exist
+  * Return true if debtor found in e-conomic and set handle to that debtor
+  * @return bool 
   */  
   public function getDebtorByNumber($number)
   {
-    $this->assertConnected();  
-    if ($number != 0) 
-    {
-      $this->handle = $this->erp->client->Debtor_FindByNumber(array('number' => $number))->Debtor_FindByNumberResult;
-    }
-    else
     $this->handle = null;
-    
-    if ($this->handle) return true; else return false;
+    if ($this->erp->connect())
+    {       
+      $this->handle = $this->erp->client->Debtor_FindByNumber(array('number' => $number))->Debtor_FindByNumberResult;
+      return true;
+    }
+    return false;
   }
-    
   
+  
+  public function setDebtorGroup($number=1)
+  {
+    $this->dgh = $this->erp->client_debtorGroup_FindByNumber(
+      array('number' => $number))->DebtorGroup_FindByNumberResult;
+  }
+  
+  
+  
+  /**
+  * Create a new debtor in e-conomic and set handle to that debtor
+  * @return bool if creation was successfull
+  */    
   public function createDebtor($number)  
-  {    
-    assert($number != 0);
-    $this->assertConnected();    
-  
-    $o = new stdClass();
-    $o->Number = $number;
-    $this->getDebtorGroup();
-    $o->DebtorGroupHandle = $this->dgh;
+  {
+    if (($number != 0) && (!$this->erp->error()))
+    {
+      $cust = $this->getAll();
+    
+      $deb = new stdClass();      
+      $deb->Number = $number;
+      if (!isset($this->dgh)) $this->setDebtorGroup(); // cheating
+      $deb->DebtorGroupHandle = $this->dgh;
+      
+      $deb->Name = $cust['name'];
+      $deb->Email = $cust['email'];
+      $deb->Address = $cust['address'];
+      $deb->PostalCode = $cust['postalcode'];
+      $deb->City = $cust['city'];
+      $deb->Country = $cust['country'];
+      $deb->TelephoneAndFaxNumber = $cust['phone'];
+      $deb->Website = $this['website'];
+            
+      $deb->VatZone = "HomeCountry";
+      $deb->IsAccessible = true;
+      
+      $deb->CurrencyHandle = new stdClass();
+      $deb->CurrencyHandle->Code = $this->set['code'];
+      
+      $deb->TermOfPaymentHandle = new stdClass();
+      $deb->TermofPaymentHandle->Id = $this->set['terms'];
+      
+      $deb->LayoutHandle = new stdClass();
+      $deb->LayoutHandle->Id = $this->set['layout'];
+      
+/*     
+      
     $o->Name = $this->name;
     $o->VatZone = "HomeCountry";
     $o->Email = $this->email;
@@ -117,16 +162,20 @@ class ilERPDebtor_eco extends ilERPDebtor
     $o->TermOfPaymentHandle = new stdClass();
     $o->TermOfPaymentHandle->Id = $this->set['terms']; //3
     $o->LayoutHandle = new stdClass();
-    $o->LayoutHandle->Id = $this->set['layout']; // 9  
+    $o->LayoutHandle->Id = $this->set['layout']; // 9  */
     
-    try
-    {
-      $this->handle = $this->erp->client->Debtor_CreateFromData(array('data' => $o))->Debtor_CreateFromDataResult;
+      try
+      {
+        $this->handle = $this->erp->client->Debtor_CreateFromData(array('data' => $deb))->Debtor_CreateFromDataResult;
+      }
+      catch (Exception $e)
+      {
+        $this->setError("(e-conomic creating debtor) " . $e->getMessage());
+        return false;
+      }
+      return true;
     }
-    catch (Exception $e)
-    {
-      die( "Report this bug to Mantis. " . $e->getMessage());
-    }
+    return false;
   }
   
   public function getDebtorGroup()
@@ -135,55 +184,116 @@ class ilERPDebtor_eco extends ilERPDebtor
   }
   
   
-   
   
+  /**
+  * Set EAN number on debtor. Return true if success
+  */  
   public function setEAN($ean)
   {
-    assert(strlen($ean)==13);
-    $this->erp->client->Debtor_SetEan(array('debtorHandle' => $this->handle, 'value' => $ean));
+    if (!strlen($ean)==13)    
+    $this->setError("(cannot set EAN number. Must be 13 digits not '" . $ean .".");
+    else      
+    try 
+    {
+      $this->erp->client->Debtor_SetEan(array('debtorHandle' => $this->handle, 'value' => $ean));
+      return true;
+    }
+    catch (Exception $e)
+    {
+      $this->setError("(setEan " . $ean . ") " . $e->getMessage());      
+    }
+    return false;    
   }
   
   /**
   * Create invoice
-  */
-  
-  public function createInvoice($amount, $desc, $pcs=1.0)
+  */  
+  public function createInvoice()
   {
-    $this->connectOrFail();    
-    assert($this->set['product'] == 100);
-    $debug = array();
-    
+      
     try
-    {
-    
-      $ph = $this->erp->client->Product_FindByNumber(array('number' => $this->set['product']))->Product_FindByNumberResult;
-      $debug[]="Found product " . print_r($this->handle, true);
-      assert($this->handle);
-      $cih = $this->erp->client->CurrentInvoice_Create(array('debtorHandle' => $this->handle))->CurrentInvoice_CreateResult;
-      $debug[]="Found debtor";
-      $cilh = $this->erp->client->CurrentInvoiceLine_Create(array('invoiceHandle' => $cih))->CurrentInvoiceLine_CreateResult;
-      $debug[]="Invoice handle";
-
-      $this->erp->client->CurrentInvoiceLine_SetProduct(array('currentInvoiceLineHandle' => $cilh, 'valueHandle' => $ph));
-      $this->erp->client->CurrentInvoiceLine_SetDescription(array('currentInvoiceLineHandle' => $cilh, 'value' => $desc));
-      $this->erp->client->CurrentInvoiceLine_SetQuantity(array('currentInvoiceLineHandle' => $cilh, 'value' => (float) $pcs));
-      $this->erp->client->CurrentInvoiceLine_SetUnitNetPrice(array('currentInvoiceLineHandle' => $cilh, 'value' => $amount));
-
-      $this->erp->client->CurrentInvoice_SetIsVatIncluded(array('currentInvoiceHandle' => $cih, 'value' => 0));
-      $inv = $this->erp->client->CurrentInvoice_Book(array('currentInvoiceHandle' => $cih))->CurrentInvoice_BookResult;    
+    {            
+      $this->invH = $this->erp->client->CurrentInvoice_Create(array('debtorHandle' => $this->handle))->CurrentInvoice_CreateResult;
+      
+      $this->erp->client->CurrentInvoice_SetIsVatIncluded( 
+        array('currentInvoiceHandle' => $invoiceH, 'value' => 0));     
     }
     catch (Exception $e)
     {
-      die("Exception<br/>" . implode('<br/>', $debug) . "<br/>" . $e->getMessage());      
+      $this->erp->setError("(createInvoice) " . $e->getMessage);      
     }
-
-    return $inv;
-    
+  }
+  
+  /**
+  * Create a line on a invoice
+  * Don't care about product currently
+  *
+  */
+  public function createInvoiceLine( $product, $desc, $quantity, $unetprice )
+  {
+    if (!isset($this->invH)) $this->setError("(createInvoiceLine) InvoiceHandle not set.");
+    else 
+    try
+    {
+      $productH = $this->getProduct( $this->set['product'] );
+      $lineH = $this->erp->client->CurrentInvoiceLine_Create(
+        array('invoiceHandle' => $this->invH ))->CurrentInvoiceLine_CreateResult;
+        
+      $this->erp->client->CurrentInvoiceLine_SetProduct(
+        array('currentInvoiceLineHandle' => $lineH, 'valueHandle' => $productH ));
+      $this->erp->client->CurrentInvoiceLine_SetDescription(
+        array('currentInvoiceLineHandle' => $lineH, 'value' => $desc ));
+      $this->erp->client->CurrentInvoiceLine_SetQuantity(
+        array('currentInvoiceLineHandle' => $lineH, 'value' => (float) $quantity ));
+      $this->erp->client->CurrentInvoiceLine_UnitNetPrice(
+        array('currentInvoiceLineHandle' => $lineH, 'value' => $unetprice )); 
+    }
+    catch (Exception $e)
+    {
+      $this->er->setError("(createInvoiceLine) " . $e->getMessage());            
+    }
+  }
+  
+  /**
+  * Finish the invoice.
+  * Return a handle to it.
+  */
+  public function bookInvoice()
+  {
+    try
+    {
+      return $this->erp->client->CurrentInvoice_Book(
+        array('currentInvoiceHandle' => $this->invH))->CurrentInvoice_BookResult;
+    }
+    catch (Exception $e)
+    {
+      $this->setError("(bookInvoice) " . $e->getMessage());
+    }
+  }
+  
+  private function getProduct($product = null)
+  {
+    $product = $this->set['product'];
+    try
+    {
+      return $this->erp->client->Product_FindByNumber(array('number' => $product))->Product_FindByNumberResult;
+    }
+    catch (Exception $e)
+    {
+      $this->erp->setError("(getProduct) " . $e->getMessage());    
+    }    
+  }  
+  
+  
+  
+  public function getInvoiceNumber()
+  {
+  
   }
   
   public function getInvoicePDF($ih)
   {
-    $this->assertConnected();
+    //$this->assertConnected();
     
     $bytes = $this->erp->client->Invoice_GetPdf( array('invoiceHandle' => $ih))->Invoice_GetPdfResult;
     $content = chunk_split(base64_encode($bytes));

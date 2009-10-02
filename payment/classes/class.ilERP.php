@@ -40,7 +40,8 @@ class ilERP
   
   protected $db;
   protected $connection_ok;
-  protected $last_connection_error;
+  protected $error_raised;
+  protected $error_msg;
   
   private $erps_id; // future support for several settings  
   
@@ -65,12 +66,33 @@ class ilERP
   }
   
   /**
+  * Set error
+  */  
+  public function setError($msg)
+  {
+    $this->error_raised = true;
+    $this->error_msg .= $msg;
+  }  
+  
+  public function error()
+  {
+    if ($this->error_raised) return true; else return false;
+  }
+  
+  public function reset_error()
+  {
+    $this->error_raised = false;
+    unset($this->error_msg);
+  }
+  
+  
+  /**
   * Retrives the last ERP error
   * @return string
   */  
   public function getLastError()
   {
-    return $this->last_connection_error;
+    return $this->error_msg;
   }
   
   /**
@@ -81,8 +103,6 @@ class ilERP
   public function getName()
   {
     return "n/a";
-    //$class = get_class($this);    
-    //return $class;  //  '::name' removed to support PHP 5.2
   }
    
 	

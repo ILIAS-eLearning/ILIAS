@@ -100,13 +100,6 @@ class ilEPaySettings
 		}
 		
 		$this->setAll($data);
-/*
-		$this->setServerHost($data["server_host"]);
-		$this->setServerPath($data["server_path"]);
-		$this->setMerchantNumber($data["merchant_number"]);
-		$this->setAuthToken($data["auth_token"]);
-		$this->setAuthEmail($data["auth_email"]);
-		$this->setInstantCapture($data['instant_capture']);*/
 	}	
 	
 	/** 
@@ -270,15 +263,6 @@ class ilEPaySettings
 	public function save()
 	{
 		global $ilDB;
-		
-		/*$values = array(
-			"server_host" => $this->getServerHost(),
-			"server_path" => $this->getServerPath(),
-			"merchant_number" => $this->getMerchantNumber(),
-			"auth_token" => $this->getAuthToken(),
-			"auth_email" => $this->getAuthEmail(),
-			"instant_capture" => $this->getInstantCapture()
-		);		*/
 		$values = $this->getAll();
 
 		if ($this->getSettingsId())
@@ -293,7 +277,6 @@ class ilEPaySettings
 		}
 		else
 		{
-      die();
 			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $ilDB->manipulateF('
 				INSERT INTO payment_settings
@@ -303,7 +286,6 @@ class ilEPaySettings
 				array('integer','text'), array($next_id, serialize($values)));
 			
 			$this->setSettingsId($next_id);			
-			
 		}
 	}	
 }
