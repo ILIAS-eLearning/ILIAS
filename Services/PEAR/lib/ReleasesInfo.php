@@ -33,5 +33,8 @@ MDB2/Driver/oci8.php, line 1398:
 Patched interpretation of "http://" as string instead of file handle.
 due to ILIAS bug #4636
 
+MDB2/Driver/mysql.php, line 395
+Performance fix
+
 */
 ?>

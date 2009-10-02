@@ -391,7 +391,9 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
     function connect()
     {
         if (is_resource($this->connection)) {
-            if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+        	// Performance fix: == is much faster than array_diff
+            #if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+            if($this->connected_dsn == $this->dsn
                 && $this->opened_persistent == $this->options['persistent']
                 && $this->connected_database_name == $this->database_name
             ) {
