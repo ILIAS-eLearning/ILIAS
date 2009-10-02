@@ -795,7 +795,6 @@ class ilAccountRegistrationGUI
 		$settings = $ilias->getAllSettings();
 
 		// Always send mail to approvers
-		
 		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
 			$mail = new ilRegistrationMailNotification();
