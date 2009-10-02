@@ -341,7 +341,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  
 	  include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
 	  $cls = "ilERPDebtor_" . $erpsys;
-	  $usr_id = $ilUser->getId();          
+	  $usr_id = (int) $ilUser->getId();          
     $deb = new $cls();
     if (!$deb->getDebtorByNumber($usr_id))
     {
