@@ -45,6 +45,9 @@ class ilAuthContainerMultiple extends Auth_Container
 	public function __construct()
 	{
 		parent::__construct();
+		
+		include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+		$this->current_container = new ilAuthContainerMDB2();
 	}
 	
     /**
