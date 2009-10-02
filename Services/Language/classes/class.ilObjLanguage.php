@@ -552,20 +552,35 @@ class ilObjLanguage extends ilObject
 		$a_lang_key, $a_value, $a_local_change = null)
 	{
 		global $ilDB;
-
+		
+		$ilDB->replace(
+			'lng_data',
+			array(
+				'module'		=> array('text',$a_module),
+				'identifier'	=> array('text',$a_identifier),
+				'lang_key'		=> array('text',$a_lang_key)
+				),
+			array(
+				'value'			=> array('text',$a_value),
+				'local_change'	=> array('timestamp',$a_local_change)
+			)
+		);
+		return true;
+		
+		/*
 		$ilDB->manipulate(sprintf("DELETE FROM lng_data WHERE module = %s AND ".
 			"identifier = %s AND lang_key = %s",
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
 			$ilDB->quote($a_lang_key, "text")));
 
-		// insert a new value if no local value exists
-		// reset local_change if the values are equal
+
 		$ilDB->manipulate(sprintf("INSERT INTO lng_data " .
 			"(module, identifier, lang_key, value, local_change) " .
 			"VALUES (%s,%s,%s,%s,%s)",
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
 			$ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "text"),
 			$ilDB->quote($a_local_change, "timestamp")));
+		*/
 	}
 	
 	/**
