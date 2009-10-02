@@ -273,11 +273,11 @@ class ilERPDebtor_eco extends ilERPDebtor
   
   }
   
-  public function getInvoicePDF($ih)
+  public function getInvoicePDF()
   {
     //$this->assertConnected();
     
-    $bytes = $this->erp->client->Invoice_GetPdf( array('invoiceHandle' => $ih))->Invoice_GetPdfResult;
+    $bytes = $this->erp->client->Invoice_GetPdf( array('invoiceHandle' => $this->invH))->Invoice_GetPdfResult;
     $content = chunk_split(base64_encode($bytes));
     return $content;
     
