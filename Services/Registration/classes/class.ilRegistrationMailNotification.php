@@ -61,8 +61,8 @@ class ilRegistrationMailNotification extends ilMailNotification
 					$this->getMail()->appendInstallationSignature(true);
 					$this->getMail()->enableSoap(false);
 					$this->sendMail(array($rcp),array('system'));
-					break;
 				}
+				break;
 
 			case self::TYPE_NOTIFICATION_CONFIRMATION:
 				
@@ -95,8 +95,8 @@ class ilRegistrationMailNotification extends ilMailNotification
 					$this->getMail()->appendInstallationSignature(true);
 					$this->getMail()->enableSoap(false);
 					$this->sendMail(array($rcp),array('system'));
-					break;
 				}
+				break;
 		}
 	}
 	
