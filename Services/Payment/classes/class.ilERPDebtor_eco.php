@@ -197,7 +197,7 @@ class ilERPDebtor_eco extends ilERPDebtor
       $this->invH = $this->erp->client->CurrentInvoice_Create(array('debtorHandle' => $this->handle))->CurrentInvoice_CreateResult;
       
       $this->erp->client->CurrentInvoice_SetIsVatIncluded( 
-        array('currentInvoiceHandle' => $invoiceH, 'value' => 0));     
+        array('currentInvoiceHandle' => $this->invH, 'value' => 0));     
     }
     catch (Exception $e)
     {
