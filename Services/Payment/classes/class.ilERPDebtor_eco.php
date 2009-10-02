@@ -114,8 +114,8 @@ class ilERPDebtor_eco extends ilERPDebtor
   */    
   public function createDebtor($number)  
   {
-    if (($number != 0) && (!$this->erp->error()))
-    {
+    //if (($number != 0) && (!$this->erp->error()))
+    //{
       $cust = $this->getAll();
     
       $deb = new stdClass();      
@@ -155,8 +155,8 @@ class ilERPDebtor_eco extends ilERPDebtor
         return false;
       }
       return true;
-    }
-    return false;
+    //}
+    //return false;
   }
   
   public function getDebtorGroup()
