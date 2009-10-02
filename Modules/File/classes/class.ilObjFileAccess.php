@@ -40,7 +40,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 * repository page, we only create it once, and cache it here.
 	 * @see function _isFileInline
 	 */
-	private static $_inlineFileExtensionsArray;
+	protected static $_inlineFileExtensionsArray;
 	// END WebDAV cache inline file extensions
 
 
@@ -208,15 +208,13 @@ class ilObjFileAccess extends ilObjectAccess
 	 */
 	public static function _isFileInline($a_file_name)
 	{
-		if (self::$_inlineFileExtensionsArray == null)
+		if (self::$_inlineFileExtensionsArray === null)		// the === makes a huge difference, if the array is empty
 		{
 			require_once 'Services/Administration/classes/class.ilSetting.php';
 			$settings = new ilSetting('file_access');
 			self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1, PREG_SPLIT_NO_EMPTY);
 		}
-
 		$extension = self::_getFileExtension($a_file_name);
-
 		return in_array($extension, self::$_inlineFileExtensionsArray);
 	}
 	/**
