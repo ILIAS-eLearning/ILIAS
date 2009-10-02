@@ -362,7 +362,7 @@ class ilAdvancedSelectionListGUI
 		$GLOBALS["tpl"]->addJavascript("./Services/AdvancedSelectionList/js/AdvancedSelectionList.js");
 
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
-			"Services/AdvancedSelectionList");
+			"Services/AdvancedSelectionList", "DEFAULT", false, true);
 			
 		reset($items);
 
