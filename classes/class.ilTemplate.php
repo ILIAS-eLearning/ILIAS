@@ -35,6 +35,8 @@ class ilTemplate extends ilTemplateX
 	var $admin_panel_commands = array();
 	
 	private $addFooter; // creates an output of the ILIAS footer
+	
+	protected static $il_cache = array();
 
 	/**
 	* constructor
@@ -46,13 +48,16 @@ class ilTemplate extends ilTemplateX
 	* @access	public
 	*/
 	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false)
+		$plugin = false, $a_use_cache = false)
 	{
 		global $ilias;
-		
+//echo "<br>-".$file."-";
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		$this->addFooter = TRUE;
+		
+		$this->il_use_cache = $a_use_cache;
+		$this->il_cur_key = $file."/".$in_module;
 
 		$fname = $this->getTemplatePath($file, $in_module, $plugin);
 
@@ -82,6 +87,49 @@ class ilTemplate extends ilTemplateX
 		
 		return true;
 	}
+	
+	// overwrite their init function
+    function init()
+    {
+        $this->free();
+        $this->buildFunctionlist();
+        
+        $cache_hit = false;
+        if ($this->il_use_cache)
+        {
+        	// cache hit
+        	if (is_array(self::$il_cache[$this->il_cur_key]))
+        	{
+        		$cache_hit = true;
+//echo "cache hit";
+        		$this->err = self::$il_cache[$this->il_cur_key]["err"];
+        		$this->flagBlocktrouble = self::$il_cache[$this->il_cur_key]["flagBlocktrouble"];
+        		$this->blocklist = self::$il_cache[$this->il_cur_key]["blocklist"];
+        		$this->blockdata = self::$il_cache[$this->il_cur_key]["blockdata"];
+        		$this->blockinner = self::$il_cache[$this->il_cur_key]["blockinner"];
+        		$this->blockparents = self::$il_cache[$this->il_cur_key]["blockparents"];
+        	}
+        }
+        
+		if (!$cache_hit)
+		{
+			$this->findBlocks($this->template);
+	        if ($this->il_use_cache)
+	        {
+        		self::$il_cache[$this->il_cur_key]["err"] = $this->err;
+        		self::$il_cache[$this->il_cur_key]["flagBlocktrouble"] = $this->flagBlocktrouble;
+        		self::$il_cache[$this->il_cur_key]["blocklist"] = $this->blocklist;
+        		self::$il_cache[$this->il_cur_key]["blockdata"] = $this->blockdata;
+        		self::$il_cache[$this->il_cur_key]["blockinner"] = $this->blockinner;
+        		self::$il_cache[$this->il_cur_key]["blockparents"] = $this->blockparents;
+	        }
+		}
+		
+        // we don't need it any more
+        $this->template = '';
+        $this->buildBlockvariablelist();
+
+    } // end func init
 	
 	/*
 	* Sets wheather the ILIAS footer should be shown or not

@@ -844,10 +844,8 @@ class ilObjectListGUI
 		
 		if (isset($this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id]))
 		{
-//echo "A";
 			return $this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id];
 		}
-//echo "<br>Check access in checkCommandAccess";
 		$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
 		if ($ilAccess->getPreventCachingLastResult())
 		{
@@ -1738,7 +1736,7 @@ class ilObjectListGUI
 		if(is_object($this->getContainerObject()) and 
 			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
 		{
-			if($this->checkCommandAccess('delete','delete',$this->ref_id,$this->type))
+			if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
 			{
 				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
 				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "delete");
@@ -1749,7 +1747,7 @@ class ilObjectListGUI
 			return false;
 		}
 		
-		if($this->checkCommandAccess('delete','delete',$this->ref_id,$this->type))
+		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
@@ -1783,7 +1781,7 @@ class ilObjectListGUI
 		{
 			global $objDefinition;
 	
-			if($this->checkCommandAccess('delete','link',$this->ref_id,$this->type) and
+			if($this->checkCommandAccess('delete','',$this->ref_id,$this->type) and
 				$objDefinition->allowLink(ilObject::_lookupType($this->obj_id)))
 			{
 				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
@@ -1798,7 +1796,7 @@ class ilObjectListGUI
 
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
-		if($this->checkCommandAccess('delete','link',$this->ref_id,$this->type))
+		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
@@ -1827,7 +1825,7 @@ class ilObjectListGUI
 		if(is_object($this->getContainerObject()) and 
 			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
 		{
-			if($this->checkCommandAccess('delete','cut',$this->ref_id,$this->type))
+			if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
 			{
 				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
 				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "cut");
@@ -1840,8 +1838,8 @@ class ilObjectListGUI
 		// END PATCH Lucene Search
 
 		// if the permission is changed here, it  has
-		// also to be changed in ilContainerGUI, admin command check
-		if($this->checkCommandAccess('delete','cut',$this->ref_id,$this->type))
+		// also to be changed in ilContainerContentGUI, determineAdminCommands
+		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
@@ -2351,8 +2349,8 @@ class ilObjectListGUI
 
 		// initialization
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
-		$this->tpl =& new ilTemplate ("tpl.container_list_item.html", true, true);
-		$this->ctpl =& new ilTemplate ("tpl.container_list_item_commands.html", true, true);
+		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
+		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 
