@@ -24,7 +24,7 @@
 /**
 * @author Jesper Godvad <jesper@ilias.dk>
 * @author Nicolai Lundgaard <nicolai@ilias.dk>
-* 
+* @version $Id$
 * 
 * @ingroup payment
 */
@@ -40,6 +40,7 @@ class ilERP_eco extends ilERP
   private $layout;
   private $code;
   
+  private static $instance = null;
   
   public $client;
   
@@ -52,7 +53,46 @@ class ilERP_eco extends ilERP
     parent::__construct();
     $this->loadSettings(0);    
   }
-   
+  
+  
+  
+  /**
+	* Static method to get the singleton instance
+	* 
+	* @access	public
+	* @return	object $instance Singular E-conomic instance
+	*/
+	public static function _getInstance()
+	{
+		if (isset(self::$instance) and self::$instance)
+		{
+      return self::$instance;    
+    }
+    return self::$instance = new ilERP_eco();
+    
+	}
+
+	
+	/**
+	* Return e-conomic settings as an array
+	* 
+	* @access public
+	* @return	array
+	*/
+	public function getSettings($erps_id = 0)	
+	{
+    $this->loadSettings($erps_id);
+    $ap = parent::getSettings();	
+    $ret = array();
+    $ret['agreement'] = $this->agreement;   
+    $ret['product'] = $this->product;
+    $ret['terms'] = $this->terms;
+    $ret['layout'] = $this->layout;
+    $ret['code'] = $this->code;    
+    
+    return array_merge($ap, $ret);    
+	}
+	   
   public function connect()
   {    
     try 
@@ -66,14 +106,12 @@ class ilERP_eco extends ilERP
     }
     catch (Exception $e)
     {
-      $msg = $e->getMessage();
+      $msg = "(when trying to connect) " . $e->getMessage();
       if (DEVMODE) $msg .= "<br/>(" . $this->agreement . "," . $this->username . "," . $this->password . ")<br/>" . self::wsdl;
-    
-      $this->last_connection_error = $msg;
+      
+      $this->setError( $msg );
       return false;
     }
-    unset($this->last_connection_error); 
-    $this->connection_ok = true;
     return true;    
   }
   
@@ -186,27 +224,7 @@ class ilERP_eco extends ilERP
 		$this->setCode( $data['code']);		
 	}
 	
-	
-	/**
-	* Return e-conomic settings as an array
-	* 
-	* @access public
-	* @return	array
-	*/
-	public function getSettings($erps_id = 0)	
-	{
-    $this->loadSettings($erps_id);
-    $ap = parent::getSettings();	
-    $ret = array();
-    $ret['agreement'] = $this->agreement;   
-    $ret['product'] = $this->product;
-    $ret['terms'] = $this->terms;
-    $ret['layout'] = $this->layout;
-    $ret['code'] = $this->code;    
-    
-    return array_merge($ap, $ret);   
-    
-	}
+
 	
 }
 ?>

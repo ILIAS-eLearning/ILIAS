@@ -334,9 +334,31 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     
     $erp = new ilERP();
     $system = $erp->getActive();
+    $erpsys = $system['erp_short'];
    
 	  $cart = new ilPaymentShoppingCart($ilUser);
 	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
+	  
+	  include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
+	  $cls = "ilERPDebtor_" . $erpsys;
+	  $usr_id = $ilUser->getId();          
+    $deb = new $cls();
+    if (!$deb->getDebtorByNumber($usr_id))
+    {
+      $deb->setAll( array(
+        'number' => $usr_id,
+        'name' => $ilUser->getFullName(),
+        'email' => $ilUser->email,
+        'address' => $ilUser->street,
+        'postalcode' => $ilUser->zipcode,
+        'city' => $ilUser->city,
+        'country' => $ilUser->country,
+        'phone' => $ilUser->phone_mobile)
+      );
+      $deb->createDebtor($usr_id);
+    }
+    
+    $inv = $deb->createInvoice();
 
 	  for ($i = 0; $i < count($sc); $i++)
 	  {
@@ -361,81 +383,60 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    $book_obj->setTransactionExtern($_GET['tid']);
 
 	    $booking_id = $book_obj->add();
-
-	    /*$subject = $this->lng->txt('pay_order_paid_subject'); 
-	    $message = $this->lng->txt('pay_order_paid_body');
-	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);*/
+	    
+	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
 	    
 	    // Should be moved to callback
-	    if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
-	    
-	    /*if ($use_erp) {
-	    bookUser($ilUser->getId(), $ilUser->getFullname(), $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
-		   $ilUser->country, $ilUser->phone_home, $sc[$i]["betrag"], $sc[$i]["buchungstext"], $subject, $message);
-		  }*/
+	    //if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
 
 	  }
-
-	  $cart->emptyShoppingCart();
 	  
-	  ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
+	  if ($deb->error())
+	  {
+      $cart->emptyShoppingCart();
+      ilUtil::sendFailure($deb->getLastError());
+    }
+    else 
+    {	  	  
+      $attach = $deb->getInvoicePDF($inv);
+      $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
+      $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
+    
+      include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+    
+    
+      try
+      {
+        $obj_id = ilObject::_lookupObjId($pobjData['ref_id']);    
+        $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
+        $cp->add($usr_id, IL_CRS_MEMBER);
+      }
+      catch (Exception $e)
+      {
+        ilUtil::sendFailure($e->getMessage());
+      }
+         
+      $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+      ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
+    }
+   
+	  
+	  $cart->emptyShoppingCart();	  
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
 	
+		
 	/**
 	* ERP transaction
 	*/	
-	
 	private function bookERPtransaction( $erpsys, $product, $pobjData)
 	{	
     global $ilUser;
-    include_once './payment/classes/class.ilERP_' . $erpsys . '.php';
-    include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
     
-    $usr_id = $ilUser->getId();       
-    $cls = "ilERPDebtor_" . $erpsys;    
-    $deb = new $cls(
-      $usr_id,
-      $ilUser->getFullname(),
-      $ilUser->email,
-      $ilUser->street,
-      $ilUser->zipcode,
-      $ilUser->city,
-      $ilUser->country,
-      $ilUser->phone_home,
-      '0');
-      
-    if (!$deb->getDebtorByNumber($usr_id)) $deb->createDebtor($usr_id);
     $inv = $deb->createInvoice($product['betrag'], $product['buchungstext'], 1);
-    $attach = $deb->getInvoicePDF($inv);
-    $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
-      $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
     
-    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-    
-    
-    $obj_id = ilObject::_lookupObjId($£pobjData['ref_id']);
-    
-    $cp = ilCourseParticipants::_getInstanceByObjId($obj_id);    
-    
-    $cp->add($usr_id, IL_CRS_MEMBER);
-    
-    echo $e->getMessage();
-    
-    $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
-    
-        
-    //include_once("Services/Mail/classes/class.ilMail.php");
-    //$mail = new ilMail($ilUser->getId());
-    //$mail->sendMail($tmp_user->getLogin(), "", "", $subject, $body, array(), array('system'));
-    
-    
-    //ilCourseParticipants::_getInstanceByObjId(186)->add($ilUser->getId(), IL_CRS_MEMBER);
-    //ilCourseParticipants::getInstanceByRefId($pobjData['ref_id'])->add($ilUser->getId(), IL_CRS_MEMBER);    
-    // ilCourseParticipants::_getInstanceByRefId($pobjData['ref_id'])->sendNotification(ilCourseParticipants->NOTIFY_ACCEPT_USER);
-    
-    
+
     
 	}
 	

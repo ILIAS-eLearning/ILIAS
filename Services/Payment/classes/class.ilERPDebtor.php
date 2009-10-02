@@ -44,7 +44,7 @@ class ilERPDebtor
   protected $ean;
   protected $website;
 
-  protected $handle;
+  protected $handle; // debtor
   protected $dgh;
   
   const website = "http://www.ilias.dk";
@@ -54,18 +54,20 @@ class ilERPDebtor
   
   
   
-  protected function __construct( $number, $name, $email, $address="", $postalcode="", $city="", $country="", $phone="", $ean="" )    
+  protected function __construct()
   {
-      $this->number     = $number;
-      $this->name       = $name;
-      $this->email      = $email;
-      $this->address    = $address;
-      $this->postalcode = $postalcode;
-      $this->city       = $city;
-      $this->country    = $country;
-      $this->phone      = $phone;
-      $this->ean        = $ean;  
+    // Avoid null values
+    $this->setAll( array(
+     'name' => '',
+     'email' => '',
+     'address' => '',
+     'postalcode' => '',
+     'city' => '')
+    );
+     
   }
+  
+  
   
   public function getName()
   {
@@ -92,9 +94,22 @@ class ilERPDebtor
     $a['city'] = $this->city;
     $a['country'] = $this->country;
     $a['ean'] = $this->ean;
+    $a['website'] = $this->website;
+    $a['dgh'] = $this->dgh;
+    $a['phone'] = $this->phone;
   }
-    
   
+   
+  /**
+  * Set information about a Debtor
+  */
+  public function setAll($values)
+  {
+    foreach ($values as $key => $value)
+    $this->$key = $value;
+  }
+  
+
       
   public function sendInvoice($subject, $message, $to = null, $content, $fname = "faktura")
   {
