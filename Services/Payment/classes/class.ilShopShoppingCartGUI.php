@@ -396,12 +396,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 
 	  }
-	  $deb->bookInvoice();
+	  $inv = $deb->bookInvoice();
 	  
 	  if ($deb->error())
 	  {      
       ilUtil::sendFailure("!!!" . $deb->getLastError());
-      $cart->emptyShoppingCart();
+      //$cart->emptyShoppingCart();
     }
     else 
     {	  	  
@@ -411,9 +411,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
       ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
       $cart->emptyShoppingCart();	  
+      $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
     }
-	  
-	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
+	  	  
 	}
 	
 	
