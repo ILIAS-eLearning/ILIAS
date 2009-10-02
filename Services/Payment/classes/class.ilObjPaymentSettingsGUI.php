@@ -2257,7 +2257,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$chk = new ilCheckboxInputGUI($this->lng->txt('enable_ean'), 'use_ean');
 		$chk->setChecked(true);
 		$chk->setDisabled(true);
-		$chk->setInfo('enable_ean_info');
+		$chk->setInfo($this->lng->txt('enable_ean_info'));
 		$frm->addItem($chk);
 		
 		
