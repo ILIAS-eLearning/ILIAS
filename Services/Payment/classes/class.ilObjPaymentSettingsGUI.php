@@ -2105,7 +2105,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_epay_settings.html','payment');
 		
-		$ppSet = ilEPaySettings::getInstance();
+		
+		$ePayObj = ilEPaySettings::getInstance();
+		
+		$ep = $ePayObj->getAll();
 				
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
@@ -2114,53 +2117,25 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$form->addCommandButton('saveEPaySettings',$this->lng->txt('save'));
 		
     $fields = array (
-      array('pays_epay_server_host', 'server_host', $ppSet->getServerHost(), true, null),
-      array('pays_epay_server_path', 'server_path', $ppSet->getServerPath(), true, null),
-      array('pays_epay_merchant_number', 'merchang_number', $ppSet->getMerchantNumber(), true, null),
-      array('pays_epay_auth_token', 'auth_token', $ppSet->getAuthToken(), true, 'pays_epay_auth_token_info'),
-      array('pays_epay_auth_email', 'auth_email', $ppSet->getAuthEmail(), true, 'pays_epay_auth_email_info')
+      array('pays_epay_server_host', 'server_host',  true, null),
+      array('pays_epay_server_path', 'server_path', true, null),
+      array('pays_epay_merchant_number', 'merchant_number', true, null),
+      array('pays_epay_auth_token', 'auth_token', true, 'pays_epay_auth_token_info'),
+      array('pays_epay_auth_email', 'auth_email', true, 'pays_epay_auth_email_info')
     );
 		
 		foreach ($fields as $f)
 		{
       $fi = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
-      $fi->setValue($f[2]);
-      $fi->setRequired($f[3]);
-      if ($f[4] != null ) $fi->setInfo($this->lng->txt($f[4]));
-      $form->addItem($fi);
+      $fi->setValue($ep[$f[1]]);
+      $fi->setRequired($f[2]);
+      if ($f[3] != null ) $fi->setInfo($this->lng->txt($f[3]));
+      $form->addItem($fi);		
+		}		
 		
-		}
-		
-		/*
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_host'), 'server_host');
-		$formItem->setValue($ppSet->getServerHost());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_server_path'), 'server_path');
-		$formItem->setValue($ppSet->getServerPath());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_merchant_number'), 'merchant_number');
-		$formItem->setValue($ppSet->getMerchantNumber());
-		$formItem->setRequired(true);
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_token'), 'auth_token');
-		$formItem->setValue($ppSet->getAuthToken());
-		$formItem->setRequired(true);
-		$formItem->setInfo($this->lng->txt('pays_epay_auth_token_info'));
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('pays_epay_auth_email'), 'auth_email');
-		$formItem->setValue($ppSet->getAuthEmail());
-		$formItem->setRequired(true);
-		$formItem->setInfo($this->lng->txt('pays_epay_auth_email_info'));
-		$form->addItem($formItem);*/
 
 		$formItem = new ilCheckboxInputGUI($this->lng->txt('pays_epay_instant_capture'), 'instant_capture');
-		$formItem->setChecked($ppSet->getInstantCapture() == "1");
+		$formItem->setChecked($ep['instant_capture'] == 1);
 		$formItem->setInfo($this->lng->txt('pays_epay_instant_capture_info'));
 		$form->addItem($formItem);
 			
@@ -2168,7 +2143,57 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable('EPAY_SETTINGS',$form->getHTML());		
 	}
 
+  function saveEPaySettingsObject()
+	{
+		include_once './payment/classes/class.ilEPaySettings.php';
+		global $rbacsystem;
+		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$epSet = ilEPaySettings::getInstance();
+		
+		$arr = array ($_POST['server_host'], $_POST['server_path'], $_POST['merchant_number'],
+      $_POST['auth_token'], $_POST['auth_email']);      
+    $arr = array_map("ilUtil::stripSlashes", $arr);
+    $arr['instant_capture'] = isset($_POST['instant_capture']) ? 1 : 0;
+    
+    //$arr['instant_capture'] = ($arr['instant_capture'] == 1) ? true : false;
+		
+		/*$epSet->setServerHost(ilUtil::stripSlashes($_POST['server_host']));
+		$epSet->setServerPath(ilUtil::stripSlashes($_POST['server_path']));
+		$epSet->setMerchantNumber(ilUtil::stripSlashes($_POST['merchant_number']));
+		$epSet->setAuthToken(ilUtil::stripSlashes($_POST['auth_token']));
+		$epSet->setAuthEmail(ilUtil::stripSlashes($_POST['auth_email']));
+		$epSet->setInstantCapture(ilUtil::stripSlashes($_POST['instant_capture'] ? "1" : "0"));*/
+		
+		$epSet->setAll($arr);
+		
+		if (!$epSet->valid()) 
+		{
 
+		/*if ($_POST['server_host'] == '' ||
+			$_POST['server_path'] == '' ||
+			$_POST['merchant_number'] == '' ||
+			$_POST['auth_token'] == '')
+		{*/
+			$this->error = $this->lng->txt('pays_epay_settings_not_valid');
+			ilUtil::sendFailure($this->error);
+			$this->epaySettingsObject();
+			return;
+		}
+		
+		$epSet->save();
+				
+		$this->epaySettingsObject();
+
+		ilUtil::sendSuccess($this->lng->txt('pays_updated_epay_settings'));
+
+		return true;
+	}
+	
+	
 
 	/**
 	* Generate the ERP setup form for display
@@ -2431,46 +2456,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 
 
-	function saveEPaySettingsObject()
-	{
-		include_once './payment/classes/class.ilEPaySettings.php';
-
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'read'
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$epSet = ilEPaySettings::getInstance();
-		
-		$epSet->setServerHost(ilUtil::stripSlashes($_POST['server_host']));
-		$epSet->setServerPath(ilUtil::stripSlashes($_POST['server_path']));
-		$epSet->setMerchantNumber(ilUtil::stripSlashes($_POST['merchant_number']));
-		$epSet->setAuthToken(ilUtil::stripSlashes($_POST['auth_token']));
-		$epSet->setAuthEmail(ilUtil::stripSlashes($_POST['auth_email']));
-		$epSet->setInstantCapture(ilUtil::stripSlashes($_POST['instant_capture'] ? "1" : "0"));
-
-		if ($_POST['server_host'] == '' ||
-			$_POST['server_path'] == '' ||
-			$_POST['merchant_number'] == '' ||
-			$_POST['auth_token'] == '')
-		{
-			$this->error = $this->lng->txt('pays_epay_settings_not_valid');
-			ilUtil::sendFailure($this->error);
-			$this->epaySettingsObject();
-			return;
-		}
-		
-		$epSet->save();
-				
-		$this->epaySettingsObject();
-
-		ilUtil::sendSuccess($this->lng->txt('pays_updated_epay_settings'));
-
-		return true;
-	}
+	
 
 	function paypalSettingsObject($a_show_confirm = false)
 	{	

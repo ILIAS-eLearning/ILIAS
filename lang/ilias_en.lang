@@ -10096,3 +10096,4 @@ common#:#udf_required_requires_visib_reg#:#When field is set to "required", it m
 crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session.
 payment#:#enable_ean#:#Enable EAN
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
+payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.
