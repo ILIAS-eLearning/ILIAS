@@ -421,10 +421,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     
     $cp->add($usr_id, IL_CRS_MEMBER);
     
-    catch (Exception $e)
-    {
-      echo $e->getMessage();
-    }
+    echo $e->getMessage();
+    
     $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
     
         
