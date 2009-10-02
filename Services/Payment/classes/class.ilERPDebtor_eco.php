@@ -143,26 +143,7 @@ class ilERPDebtor_eco extends ilERPDebtor
       
       $deb->LayoutHandle = new stdClass();
       $deb->LayoutHandle->Id = $this->set['layout'];
-      
-/*     
-      
-    $o->Name = $this->name;
-    $o->VatZone = "HomeCountry";
-    $o->Email = $this->email;
-    $o->Address = $this->address;
-    $o->PostalCode = $this->postalcode;
-    $o->City = $this->city;
-    $o->Country = $this->country;
-    $o->TelephoneAndFaxNumber = $this->phone;
-    $o->IsAccessible = true;
-    $o->Website = $this->website;
-    
-    $o->CurrencyHandle = new stdClass();
-    $o->CurrencyHandle->Code = $this->set['code'];
-    $o->TermOfPaymentHandle = new stdClass();
-    $o->TermOfPaymentHandle->Id = $this->set['terms']; //3
-    $o->LayoutHandle = new stdClass();
-    $o->LayoutHandle->Id = $this->set['layout']; // 9  */
+
     
       try
       {
@@ -220,7 +201,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      $this->erp->setError("(createInvoice) " . $e->getMessage);      
+      $this->erp->setError("(createInvoice) " . $e->getMessage());
     }
   }
   
@@ -250,7 +231,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      $this->er->setError("(createInvoiceLine) " . $e->getMessage());            
+      $this->erp->setError("(createInvoiceLine) " . $e->getMessage());            
     }
   }
   
@@ -263,7 +244,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     try
     {
       return $this->erp->client->CurrentInvoice_Book(
-        array('currentInvoiceHandle' => $this->invH))->CurrentInvoice_BookResult;
+        array('currentInvoiceHandle' => $this->invH))->CurrentInvoice_BookResult();
     }
     catch (Exception $e)
     {
@@ -276,7 +257,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     $product = $this->set['product'];
     try
     {
-      return $this->erp->client->Product_FindByNumber(array('number' => $product))->Product_FindByNumberResult;
+      return $this->erp->client->Product_FindByNumber(array('number' => $product))->Product_FindByNumberResult();
     }
     catch (Exception $e)
     {
