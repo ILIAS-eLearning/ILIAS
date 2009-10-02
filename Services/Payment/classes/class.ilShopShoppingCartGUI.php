@@ -394,7 +394,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  
 	  if ($deb->error())
 	  {      
-      ilUtil::sendFailure($deb->getLastError());
+      ilUtil::sendFailure("!!!" . $deb->getLastError());
       $cart->emptyShoppingCart();
     }
     else 
