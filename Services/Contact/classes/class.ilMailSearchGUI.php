@@ -78,7 +78,7 @@ class ilMailSearchGUI
 		$_SESSION["mail_search_results_to"] = $_POST["search_name_to"];
 		$_SESSION["mail_search_results_cc"] = $_POST["search_name_cc"];
 		$_SESSION["mail_search_results_bcc"] = $_POST["search_name_bcc"];
-		
+
 		$this->saveMailData();
 		
 		$this->ctrl->returnToParent($this);
@@ -352,11 +352,11 @@ class ilMailSearchGUI
 				
 				$result = array();				
 				$counter = 0;
-				$members = array();
+				
 				
 				foreach ($groups as $grp)
 				{	
-
+					$members = array();
 					$roles = $rbacreview->getAssignableChildRoles($grp['ref_id']);
 					foreach ($roles as $role)
 					{
