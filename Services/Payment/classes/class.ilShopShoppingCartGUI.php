@@ -367,7 +367,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    $message = str_replace('%products%', '\t' . $sc[$i]["buchungstext"] . '\n', $message);*/
 	    
 	    // Should be moved to callback
-	    if ($system['erp_id'] != ERP_NONE) $this->recordTransaction($system['erp_short'], $sc[$i], $pobjectData);
+	    if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
 	    
 	    /*if ($use_erp) {
 	    bookUser($ilUser->getId(), $ilUser->getFullname(), $ilUser->email, $ilUser->street, $ilUser->zipcode, $ilUser->city,
@@ -414,10 +414,17 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     
     include_once './Modules/Course/classes/class.ilCourseParticipants.php';
     
+    
     $obj_id = ilObject::_lookupObjId($£pobjData['ref_id']);
     
     $cp = ilCourseParticipants::_getInstanceByObjId($obj_id);    
+    
     $cp->add($usr_id, IL_CRS_MEMBER);
+    
+    catch (Exception $e)
+    {
+      echo $e->getMessage();
+    }
     $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
     
         

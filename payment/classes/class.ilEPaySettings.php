@@ -41,7 +41,9 @@ class ilEPaySettings
 	private $vendor;
 	private $auth_token;
 	private $page_style;
+	private $merchant_number;
 	private $ssl;
+	private $instant_capture;
 	
 	static private $instance = null;
 	
@@ -96,13 +98,15 @@ class ilEPaySettings
 			if ($result->epay != "") $data = unserialize($result->epay);
 			else $data = array();
 		}
-
+		
+		$this->setAll($data);
+/*
 		$this->setServerHost($data["server_host"]);
 		$this->setServerPath($data["server_path"]);
 		$this->setMerchantNumber($data["merchant_number"]);
 		$this->setAuthToken($data["auth_token"]);
 		$this->setAuthEmail($data["auth_email"]);
-		$this->setInstantCapture($data['instant_capture']);
+		$this->setInstantCapture($data['instant_capture']);*/
 	}	
 	
 	/** 
@@ -135,7 +139,7 @@ class ilEPaySettings
 		$this->server_host = $a_server_host;
 	}
 	
-	public function getServerHost()
+	private function getServerHost()
 	{
 		return $this->server_host;
 	}
@@ -145,17 +149,17 @@ class ilEPaySettings
 		$this->server_path = $a_server_path;
 	}
 	
-	public function getServerPath()
+	private function getServerPath()
 	{
 		return $this->server_path;
 	}
 	
 	public function setMerchantNumber($a_merchant_number)
 	{
-		$this->merchant_number = $a_merchant_number;
+		$this->merchant_number = (int) $a_merchant_number;
 	}
 	
-	public function getMerchantNumber()
+	private function getMerchantNumber()
 	{
 		return $this->merchant_number;
 	}
@@ -165,7 +169,7 @@ class ilEPaySettings
 		$this->auth_token = $a_auth_token;
 	}
 	
-	public function getAuthToken()
+	private function getAuthToken()
 	{
 		return $this->auth_token;
 	}
@@ -176,17 +180,18 @@ class ilEPaySettings
 		$this->auth_email = $a_auth_email;
 	}
 	
-	public function getAuthEmail()
+	private function getAuthEmail()
 	{
 		return $this->auth_email;
 	}
 
 	public function setInstantCapture($a_instant_capture)
 	{
+    if ((!$a_instant_capture == 1) || (!$a_instant_capture== '1')) $a_instant_capture=0; else $a_instant_capture=1;
 		$this->instant_capture = $a_instant_capture;
 	}
 	
-	public function getInstantCapture()
+	private function getInstantCapture()
 	{
 		return $this->instant_capture;
 	}
@@ -198,19 +203,46 @@ class ilEPaySettings
 	 * @access	public
 	 * @return	array $values Array of all epay settings
 	 */
-	function getAll()
+	public function getAll()
 	{
 		$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
-			"merchant_number" => $this->getMerchantNumber(),
+			"merchant_number" => (int) $this->getMerchantNumber(),
 			"auth_token" => $this->getAuthToken(),
 			"auth_email" => $this->getAuthEmail(),
 			"instant_capture" => $this->getInstantCapture()
-		);
-		
+		);		
 		return $values;
 	}
+	
+	/**
+	* Set all ePay settings using an array
+	*/	
+	public function setAll($a)
+	{
+    if (isset($a['server_host'])) $this->setServerHost($a['server_host']);
+    if (isset($a['server_path'])) $this->setServerPath($a['server_path']);
+    if (isset($a['merchant_number'])) $this->setMerchantNumber($a['merchant_number']);
+    if (isset($a['auth_token'])) $this->setAuthToken($a['auth_token']);
+    if (isset($a['auth_email'])) $this->setAuthEmail($a['auth_email']);
+    if (isset($a['instant_capture'])) $this->setInstantCapture($a['instant_capture']);    
+	}
+	
+	/**
+	* Check if the current settings looks valid
+	*/	
+	public function valid()
+	{
+    $r = true;
+    $a = $this->getAll();
+    if ( ($a['server_host'] == '') || ($a['server_path'] == '') ) $r = false;
+    if ( (int) $a['merchant_number'] <= 0 ) $r = false;
+    if ( ((int) $a['instant_capture'] != 0 ) && ((int) $a['instant_capture'] != 1)) $r = false;
+    return $r;
+	}
+	
+	
 
 	/** 
 	 * Clears the payment settings for the epay payment method 
@@ -239,14 +271,15 @@ class ilEPaySettings
 	{
 		global $ilDB;
 		
-		$values = array(
+		/*$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
 			"merchant_number" => $this->getMerchantNumber(),
 			"auth_token" => $this->getAuthToken(),
 			"auth_email" => $this->getAuthEmail(),
 			"instant_capture" => $this->getInstantCapture()
-		);		
+		);		*/
+		$values = $this->getAll();
 
 		if ($this->getSettingsId())
 		{
@@ -260,6 +293,7 @@ class ilEPaySettings
 		}
 		else
 		{
+      die();
 			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $ilDB->manipulateF('
 				INSERT INTO payment_settings
