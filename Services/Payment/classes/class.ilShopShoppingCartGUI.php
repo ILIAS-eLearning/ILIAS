@@ -384,8 +384,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	    $booking_id = $book_obj->add();
 	    
-	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );	    
-	    
+	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
+	    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+	    $obj_id = ilObject::_lookupObjId($pobjData['ref_id']);    
+      $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
+      $cp->add($usr_id, IL_CRS_MEMBER);
+      $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);	    
 	    // Should be moved to callback
 	    //if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
 
@@ -402,22 +406,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       $attach = $deb->getInvoicePDF($inv);
       $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
       $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
-    
-      include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-    
-    
-      try
-      {
-        $obj_id = ilObject::_lookupObjId($pobjData['ref_id']);    
-        $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
-        $cp->add($usr_id, IL_CRS_MEMBER);
-      }
-      catch (Exception $e)
-      {
-        ilUtil::sendFailure($e->getMessage());
-      }
-         
-      $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+
       ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
       $cart->emptyShoppingCart();	  
     }
