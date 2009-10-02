@@ -384,17 +384,18 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	    $booking_id = $book_obj->add();
 	    
-	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
+	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );	    
 	    
 	    // Should be moved to callback
 	    //if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
 
 	  }
+	  $deb->bookInvoice();
 	  
 	  if ($deb->error())
-	  {
-      $cart->emptyShoppingCart();
+	  {      
       ilUtil::sendFailure($deb->getLastError());
+      $cart->emptyShoppingCart();
     }
     else 
     {	  	  
@@ -418,10 +419,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
          
       $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
       ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
+      $cart->emptyShoppingCart();	  
     }
-   
 	  
-	  $cart->emptyShoppingCart();	  
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	

@@ -10112,8 +10112,8 @@ common#:#authoring_mode#:#Forfattervisning
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
 common#:#udf_required_requires_visib_reg#:#Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen.
 crs#:#sess_join_info#:#Tryk på 'tilmeld' knappen hvis du ønsker at deltage i sessionen.
-administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously###02 10 2009 new variable
+administration#:#adm_item_cmd_asynch#:#Hent resurse handlingslister asynkront
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
-payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
-payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
+payment#:#enable_ean#:#Aktiver EAN
+payment#:#enable_ean_info#:#Krævet for at handle med det offentlige i Danmark. Klik her for at læse <a href="http://www.oes.dk/sw1903.asp" target="_blank">mere om EAN</a>.
+payment#:#pays_epay_settings_not_valid#:#ePay indstillingerne kunne ikke gemmes fordi de er ugyldige.
