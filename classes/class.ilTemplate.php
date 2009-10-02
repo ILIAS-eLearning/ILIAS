@@ -108,12 +108,15 @@ class ilTemplate extends ilTemplateX
         		$this->blockdata = self::$il_cache[$this->il_cur_key]["blockdata"];
         		$this->blockinner = self::$il_cache[$this->il_cur_key]["blockinner"];
         		$this->blockparents = self::$il_cache[$this->il_cur_key]["blockparents"];
+        		$this->blockvariables = self::$il_cache[$this->il_cur_key]["blockvariables"];
         	}
         }
         
 		if (!$cache_hit)
 		{
 			$this->findBlocks($this->template);
+			$this->template = '';
+			$this->buildBlockvariablelist();
 	        if ($this->il_use_cache)
 	        {
         		self::$il_cache[$this->il_cur_key]["err"] = $this->err;
@@ -122,12 +125,12 @@ class ilTemplate extends ilTemplateX
         		self::$il_cache[$this->il_cur_key]["blockdata"] = $this->blockdata;
         		self::$il_cache[$this->il_cur_key]["blockinner"] = $this->blockinner;
         		self::$il_cache[$this->il_cur_key]["blockparents"] = $this->blockparents;
+        		self::$il_cache[$this->il_cur_key]["blockvariables"] = $this->blockvariables;
 	        }
 		}
 		
         // we don't need it any more
         $this->template = '';
-        $this->buildBlockvariablelist();
 
     } // end func init
 	

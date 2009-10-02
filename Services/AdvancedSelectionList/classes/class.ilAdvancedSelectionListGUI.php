@@ -12,6 +12,7 @@ class ilAdvancedSelectionListGUI
 {
 	private $items = array();
 	private $id = "asl";
+	private $asynch = false;
 	
 	const DOWN_ARROW_LIGHT = "mm_down_arrow.gif";
 	const DOWN_ARROW_DARK = "mm_down_arrow_dark.gif";
@@ -347,14 +348,59 @@ class ilAdvancedSelectionListGUI
 	}
 	
 	/**
+	* Set asynch mode (this is set to true, if list should get items asynchronously)
+	*
+	* @param	boolean		turn asynch mode on/off
+	*/
+	function setAsynch($a_val)
+	{
+		if ($a_val)
+		{
+			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+			ilYuiUtil::initConnection();
+		}
+		$this->asynch = $a_val;
+	}
+	
+	/**
+	* Get asynch mode
+	*
+	* @return	boolean		turn asynch mode on/off
+	*/
+	function getAsynch()
+	{
+		return $this->asynch;
+	}
+	
+	/**
+	* Set asynch url
+	*
+	* @param	string		asynch url
+	*/
+	function setAsynchUrl($a_val)
+	{
+		$this->asynch_url = $a_val;
+	}
+	
+	/**
+	* Get asynch url
+	*
+	* @return	string		asynch url
+	*/
+	function getAsynchUrl()
+	{
+		return $this->asynch_url;
+	}
+	
+	/**
 	* Get selection list HTML
 	*/
-	public function getHTML()
+	public function getHTML($a_only_cmd_list_asynch = false)
 	{
 		$items = $this->getItems();
 
 		// do not show list, if no item is in list
-		if (count($items) == 0)
+		if (count($items) == 0 && !$this->getAsynch())
 		{
 			return "";
 		}
@@ -368,81 +414,98 @@ class ilAdvancedSelectionListGUI
 
 		$cnt = 0;
 
-		foreach($items as $item)
-		{			
-			$sel_arr[$item["ref_id"]] = $item["title"];
-			$this->css_row = ($this->css_row != "tblrow1_mo")
-				? "tblrow1_mo"
-				: "tblrow2_mo";
-
-			if ($this->getUseImages())
-			{
-				if ($item["img"])
+		if ($this->getAsynch())
+		{
+			$tpl->setCurrentBlock("asynch_request");
+			$tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("loader.gif"));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($items as $item)
+			{			
+				$sel_arr[$item["ref_id"]] = $item["title"];
+				$this->css_row = ($this->css_row != "tblrow1_mo")
+					? "tblrow1_mo"
+					: "tblrow2_mo";
+	
+				if ($this->getUseImages())
 				{
-					$tpl->setCurrentBlock("image");
-					$tpl->setVariable("IMG_ITEM", $item["img"]);
-					$tpl->setVariable("ALT_ITEM", $item["alt"]);
+					if ($item["img"])
+					{
+						$tpl->setCurrentBlock("image");
+						$tpl->setVariable("IMG_ITEM", $item["img"]);
+						$tpl->setVariable("ALT_ITEM", $item["alt"]);
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->touchBlock("no_image");
+					}
+				}
+				
+				if ($item["frame"])
+				{
+					$tpl->setCurrentBlock("frame");
+					$tpl->setVariable("TARGET_ITEM", $item["frame"]);
 					$tpl->parseCurrentBlock();
+				}
+					
+				if ($this->getItemLinkClass() != "")
+				{
+					$tpl->setCurrentBlock("item_link_class");
+					$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
+					$tpl->parseCurrentBlock();
+				}
+	
+				$tpl->setCurrentBlock("item");
+				if ($this->getOnClickMode() ==
+					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
+				{
+	//				$tpl->setVariable("ONCLICK_ITEM",
+	//					'onclick="parent.location='."'".$item["link"]."';".'"');
+					$tpl->setVariable("ONCLICK_ITEM",'');
+					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
+				}
+				else if ($this->getOnClickMode() ==
+					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
+				{
+					$tpl->setVariable("ONCLICK_ITEM",
+						'onclick="ilAdvSelListFormSubmit(\''.$this->getId().'\''.
+							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
+							"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
+				}
+				else if ($this->getOnClickMode() ==
+					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
+				{
+					$tpl->setVariable("ONCLICK_ITEM",
+						'onclick="ilAdvSelListFormSelect(\''.$this->getId().'\''.
+							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
+							"'".$item["title"]."');\"");
+				}
+	
+				$tpl->setVariable("CSS_ROW", $this->css_row);
+				if ($item["html"] == "")
+				{
+					$tpl->setVariable("TXT_ITEM", $item["title"]);
 				}
 				else
 				{
-					$tpl->touchBlock("no_image");
+					$tpl->setVariable("TXT_ITEM", $item["html"]);
 				}
-			}
-			
-			if ($item["frame"])
-			{
-				$tpl->setCurrentBlock("frame");
-				$tpl->setVariable("TARGET_ITEM", $item["frame"]);
+
 				$tpl->parseCurrentBlock();
 			}
-				
-			if ($this->getItemLinkClass() != "")
-			{
-				$tpl->setCurrentBlock("item_link_class");
-				$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
-				$tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock("item");
-			if ($this->getOnClickMode() ==
-				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
-			{
-//				$tpl->setVariable("ONCLICK_ITEM",
-//					'onclick="parent.location='."'".$item["link"]."';".'"');
-				$tpl->setVariable("ONCLICK_ITEM",'');
-				$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
-			}
-			else if ($this->getOnClickMode() ==
-				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
-			{
-				$tpl->setVariable("ONCLICK_ITEM",
-					'onclick="ilAdvSelListFormSubmit(\''.$this->getId().'\''.
-						", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-						"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
-			}
-			else if ($this->getOnClickMode() ==
-				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
-			{
-				$tpl->setVariable("ONCLICK_ITEM",
-					'onclick="ilAdvSelListFormSelect(\''.$this->getId().'\''.
-						", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-						"'".$item["title"]."');\"");
-			}
-
-			$tpl->setVariable("CSS_ROW", $this->css_row);
-			if ($item["html"] == "")
-			{
-				$tpl->setVariable("TXT_ITEM", $item["title"]);
-			}
-			else
-			{
-				$tpl->setVariable("TXT_ITEM", $item["html"]);
-			}
-			
-			$tpl->parseCurrentBlock();
 		}
-	
+
+		$tpl->setCurrentBlock("cmd_table");
+		$tpl->parseCurrentBlock();
+		
+		if ($a_only_cmd_list_asynch)
+		{
+			return $tpl->get("cmd_table");
+		}
+
 		if ($this->getHeaderIcon() != ilAdvancedSelectionListGUI::NO_ICON)
 		{
 			$tpl->setCurrentBlock("top_img");
@@ -494,15 +557,19 @@ class ilAdvancedSelectionListGUI
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 			$tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
 		}
+		
+		$asynch_str = $this->getAsynch()
+			? "true"
+			: "false";
 		$toggle = $this->getAdditionalToggleElement();
 		if (is_array($toggle))
 		{
 			$tpl->setVariable("TOGGLE_OPTIONS", "{toggle_el: '".$toggle["el"]."', toggle_class_on: '".
-				$toggle["class_on"]."'}");
+				$toggle["class_on"]."', asynch: ".$asynch_str.", asynch_url: '".$this->getAsynchUrl()."'}");
 		}
 		else
 		{
-			$tpl->setVariable("TOGGLE_OPTIONS", "null");
+			$tpl->setVariable("TOGGLE_OPTIONS", "{asynch: ".$asynch_str.", asynch_url: '".$this->getAsynchUrl()."'}");
 		}
 
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());

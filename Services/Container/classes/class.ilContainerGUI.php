@@ -3059,5 +3059,25 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
 
+	/**
+	* Get item list command drop down asynchronously
+	*/
+	function getAsynchItemListObject()
+	{
+		global $ilCtrl;
+		
+		$ref_id = $_GET["cmdrefid"];
+		$obj_id = ilObject::_lookupObjId($ref_id);
+		$type = ilObject::_lookupType($obj_id);
+
+		include_once './classes/class.ilObjectListGUIFactory.php';
+		$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($type);
+		$item_list_gui->setContainerObject($this);
+		$html = $item_list_gui->getListItemHTML($ref_id,
+			$obj_id, "", "", true, true);
+		echo $html;
+		exit;
+	}
+	
 }
 ?>

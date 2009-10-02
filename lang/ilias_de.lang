@@ -10116,3 +10116,8 @@ payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
 payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
 payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
 payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
+administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously###02 10 2009 new variable
+administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
+payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
+payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
+payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable

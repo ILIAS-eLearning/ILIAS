@@ -2009,7 +2009,8 @@ class ilObjectListGUI
 	* @param	object		$a_tpl		template object
 	* @param	int			$a_ref_id	item reference id
 	*/
-	function insertCommands()
+	function insertCommands($a_use_asynch = false, $a_get_asynch_commands = false,
+		$a_asynch_url = "")
 	{
 		global $lng;
 
@@ -2023,6 +2024,8 @@ class ilObjectListGUI
 			: $this->ref_id;
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
+		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
+		$this->current_selection_list->setAsynchUrl($a_asynch_url);
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
 		$this->current_selection_list->setId("act_".$id_ref);
 		$this->current_selection_list->setSelectionHeaderClass("small");
@@ -2038,6 +2041,12 @@ class ilObjectListGUI
 
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);
 		
+		// only standard command?
+		$only_default = false;
+		if ($a_use_asynch && !$a_get_asynch_commands)
+		{
+			$only_default = true;
+		}
 
 		$this->default_command = false;
 		
@@ -2047,7 +2056,7 @@ class ilObjectListGUI
 			{
 				if (!$command["default"] === true)
 				{
-					if (!$this->std_cmd_only)
+					if (!$this->std_cmd_only && !$only_default)
 					{
 						// workaround for repository frameset
 						$command["link"] = 
@@ -2099,12 +2108,12 @@ class ilObjectListGUI
 		}
 
 		// info screen commmand
-		if ($this->getInfoScreenStatus())
+		if ($this->getInfoScreenStatus() && !$only_default)
 		{
 			$this->insertInfoScreenCommand();
 		}
 
-		if (!$this->isMode(IL_LIST_AS_TRIGGER))
+		if (!$this->isMode(IL_LIST_AS_TRIGGER) && !$only_default)
 		{
 			// delete
 			if ($this->delete_enabled)
@@ -2146,6 +2155,11 @@ class ilObjectListGUI
 		}
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 
+		if ($a_use_asynch && $a_get_asynch_commands)
+		{
+			return $this->current_selection_list->getHTML(true);
+		}
+		
 		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
 			$this->current_selection_list->getHTML());
 	}
@@ -2335,11 +2349,11 @@ class ilObjectListGUI
 	* @param	int			$a_description	item description
 	* @return	string		html code
 	*/
-	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description)
+	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
+		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
 	{
-
-		global $ilAccess, $ilBench, $ilUser;
-
+		global $ilAccess, $ilBench, $ilUser, $ilCtrl;
+		
 		// this variable stores wheter any admin commands
 		// are included in the output
 		$this->adm_commands_included = false;
@@ -2353,6 +2367,11 @@ class ilObjectListGUI
 		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
+		
+		if ($a_use_asynch && $a_get_asynch_commands)
+		{
+			return $this->insertCommands(true, true);
+		}
 
 		// read from cache
 		include_once("./Services/Object/classes/class.ilListItemAccessCache.php");
@@ -2374,15 +2393,16 @@ class ilObjectListGUI
 		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 
 
-// commands
+		// commands
 		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
-		$this->insertCommands();
+		$this->insertCommands($a_use_asynch, $a_get_asynch_commands, $a_asynch_url);
 		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
 
 		// write to cache
 		$this->storeAccessCache();
 
 		// payment
+// todo
 		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
 		$this->insertPayment();
 		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
