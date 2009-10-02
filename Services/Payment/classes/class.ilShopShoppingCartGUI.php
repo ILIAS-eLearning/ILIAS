@@ -357,6 +357,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       );
       $deb->createDebtor($usr_id);
     }
+    print_r($deb->getAll());
     
     $inv = $deb->createInvoice();
     
