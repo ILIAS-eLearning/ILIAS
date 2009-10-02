@@ -406,7 +406,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     }
     else 
     {	  	  
-      $attach = $deb->getInvoicePDF($inv);
+      $attach = $deb->getInvoicePDF();
       $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
       $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
 
