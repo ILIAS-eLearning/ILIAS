@@ -386,12 +386,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	    
 	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
 	    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-	    $obj_id = ilObject::_lookupObjId($pobjData['ref_id']);    
+	    $obj_id = ilObject::_lookupObjId($$sc[$i]["pobject_id"]);    
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
       $cp->add($usr_id, IL_CRS_MEMBER);
       $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);	    
 	    // Should be moved to callback
-	    //if ($system['erp_id'] != ERP_NONE) $this->bookERPtransaction($system['erp_short'], $sc[$i], $pobjectData);
+
 
 	  }
 	  $deb->bookInvoice();
