@@ -89,6 +89,29 @@ class ilObjSession extends ilObject
 	}
 	
 	/**
+	 * Get session data
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function lookupSession($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM event ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data['location'] 	= $row->location ? $row->location : '';
+			$data['details']	= $row->details ? $row->details : '';
+			$data['name']		= $row->tutor_name ? $row->tutor_name : '';
+			$data['email']		= $row->tutor_email ? $row->tutor_email : '';
+			$data['phone']		= $row->tutor_phone ? $row->tutor_phone : '';
+		}
+		return (array) $data;
+	}
+	
+	/**
 	 * get title
 	 * (overwritten from base class)
 	 *

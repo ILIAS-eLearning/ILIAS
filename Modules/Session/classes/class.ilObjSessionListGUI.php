@@ -31,7 +31,6 @@ include_once('./classes/class.ilObjectListGUI.php');
 *
 * @ingroup ModulesSession
 */
-
 class ilObjSessionListGUI extends ilObjectListGUI
 {
 	protected $app_info = array();
@@ -107,6 +106,25 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	}
 	
 	/**
+	 * Only check cmd access for cmd 'register' and 'unregister'
+	 * @param string $a_permission
+	 * @param object $a_cmd
+	 * @param object $a_ref_id
+	 * @param object $a_type
+	 * @param object $a_obj_id [optional]
+	 * @return 
+	 */
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
+	{
+		if($a_cmd != 'register' and $a_cmd != 'unregister')
+		{
+			$a_cmd = '';
+		}
+		return parent::checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
+	}
+	
+	
+	/**
 	 * get properties
 	 *
 	 * @access public
@@ -135,6 +153,60 @@ class ilObjSessionListGUI extends ilObjectListGUI
 					'value'		=> count($items)
 				);
 					
+			}
+		}
+		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
+		{
+			include_once './Modules/Session/classes/class.ilObjSession.php';
+			$session_data = ilObjSession::lookupSession($this->obj_id);
+			
+			if(strlen($session_data['location']))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('event_location'),
+					'value'		=> $session_data['location']
+				);
+			}
+			if(strlen($session_data['details']))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('event_details_workflow'),
+					'value'		=> nl2br($session_data['details']),
+					'newline'	=> true
+				);
+			}
+			$has_new_line = false;
+			if(strlen($session_data['name']))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('event_lecturer'),
+					'value'		=> $session_data['name'],
+					'newline'	=> true
+				);
+				$has_new_line = true;				
+			}
+			if(strlen($session_data['email']))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('tutor_email'),
+					'value'		=> $session_data['email'],
+					'newline'	=> $has_new_line ? false : true
+				);
+				$has_new_line = true;				
+			}
+			if(strlen($session_data['phone']))
+			{
+				$props[] = array(
+					'alert'		=> false,
+					'property'	=> $this->lng->txt('tutor_phone'),
+					'value'		=> $session_data['phone'],
+					'newline'	=> $has_new_line ? false : true
+				);
+				$has_new_line = true;	
 			}
 		}
 		return $props;
