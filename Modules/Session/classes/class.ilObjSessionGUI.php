@@ -355,6 +355,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		include_once './Modules/Session/classes/class.ilSessionObjectListGUIFactory.php';
 		include_once './Modules/Session/classes/class.ilEventItems.php';
+		include_once './Modules/Course/classes/class.ilCourseItems.php';
 		
 		$html = '';
 		$eventItems = new ilEventItems($this->object->getId());

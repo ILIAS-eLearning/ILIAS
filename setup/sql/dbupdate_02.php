@@ -16122,3 +16122,9 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php
   /* keep empty db step, because it was in svn for some revisions */    
 ?>
+
+<#2898>
+<?php
+	$ilDB->addIndex('cal_categories',array('obj_id'),'i2');
+?>
+
