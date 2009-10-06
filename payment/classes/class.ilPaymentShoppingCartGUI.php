@@ -191,7 +191,10 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			{
 				$bonus = $coupon_discount_items[$entry["pobject_id"]]["math_price"] - $coupon_discount_items[$entry["pobject_id"]]["discount_price"];
 			}
+			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
 			
+			$booking_obj->setTransaction(($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4)));
 			$booking_obj->setPobjectId($entry['pobject_id']);
 			$booking_obj->setCustomerId($this->user_obj->getId());
 			$booking_obj->setVendorId($pobject->getVendorId());

@@ -444,6 +444,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		}
 		else
 		{
+			
 			$res = $this->paypal_obj->checkData($fp);
 			if ($res == SUCCESS)
 			{
@@ -629,7 +630,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								$tpl->setCurrentBlock('loop_items');
 								$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
 								$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
-								$tpl->setVariable('LOOP_ITEMS_AMOUNT', $price);
+								$tpl->setVariable('LOOP_ITEMS_AMOUNT', $float_price);
 								$tpl->parseCurrentBlock('loop_items');														
 							}
 
