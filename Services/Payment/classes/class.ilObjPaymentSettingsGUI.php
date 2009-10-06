@@ -194,6 +194,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 												$this->tabs_gui->setTabActive('vats');					
 												break;
 					case 'saveERPsettings' :
+					case 'delERPpreview': 
 					case 'erpSettings' : $this->__setSection($this->SECTION_ERP);
                         $this->__setMainSection($this->SETTINGS);
                         $this->tabs_gui->setTabActive('settings');
@@ -2239,18 +2240,35 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
     include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
     require_once './payment/classes/class.ilERP_eco.php';
+    
+    global $ilias;
+    
 
     $erp = new ilERP();
     $systems = $erp->getAllERPs();
     $active = $erp->getActive();
+    global $ilias;
 
     $frm = new ilPropertyFormGUI();
     
     //$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
 		$frm->setFormAction($this->ctrl->getFormAction($this, 'saveEEPsettings'));		
 		$frm->setTitle($this->lng->txt('pays_erp_settings'));		
+		
+		if (ilERP::preview_exists()) 
+		{
+      $preview_link = "<br/><a href='". ilERP::getPreviewUrl() ."' target='_blank'>" . $this->lng->txt('pays_erp_invoice_preview') . "</a>";
+      $frm->addCommandButton('delERPpreview', $this->lng->txt('pays_erp_invoice_delpreview') );
+    }		
+		
 		$frm->addCommandButton('saveERPsettings',$this->lng->txt('save'));		
 		$frm->addCommandButton('testERPsettings',$this->lng->txt('test'));		
+		
+		$savepdf = new ilCheckboxInputGUI($this->lng->txt('pays_erp_invoice_copies'), 'save_copy');		
+		$chk =     new ilCheckboxInputGUI($this->lng->txt('enable_ean'),    'use_ean');
+		
+		$savepdf->setDisabled( $active['erp_id']  == ERP_NONE);        
+    $chk->setDisabled( $active['erp_id'] == ERP_NONE);
 
     $rdo = new ilRadioGroupInputGUI($this->lng->txt("pays_erp_system"), "erp_id");
 		$rdo->setInfo("The ERP is currently in development");   
@@ -2267,27 +2285,30 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       $function = "getERPform_" . $system['erp_short'];      
       $this->$function(&$op, $active['erps_id']);
       
+      
+      
       $rdo->addOption($op);
     }      
 		$frm->addItem($rdo);
 		
-    $path = new ilTextInputGUI($this->lng->txt('pays_pdf_path'), 'pdf_path');
-    $path->setMaxLength(200);
-    $path->setValue($this->lng->txt('disabled'));    
-    $path->setDisabled(true);
-    $frm->addItem($path);
+		$savepdf->setChecked( $active['save_copy'] );       
+    $chk->setChecked( $active['use_ean']);                
     
-
+    
 		
-		$chk = new ilCheckboxInputGUI($this->lng->txt('enable_ean'), 'use_ean');
-		$chk->setChecked(true);
-		$chk->setDisabled(true);
+		$savepdf->setInfo($this->lng->txt('pays_erp_invoice_copies_info') .' ' .ilERP::getSaveDirectory() . "<br/>" . $preview_link);
+		
+		$frm->addItem($savepdf);
+		
+		
+		
 		$chk->setInfo($this->lng->txt('enable_ean_info'));
 		$frm->addItem($chk);
 		
-		
 		return $frm;
 	}
+	
+	private function
 	
 	
 	/**
@@ -2308,8 +2329,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
         $instance = new ilERP_eco();                
         break;
       default:
-        die("Failed to create object. Report this bug to Mantis. System is '" . $system . "'");
-
+        throw new ilERPExcaption("Failed to get ERP instance. Report bug to mantis.");        
     }
     return $instance;	
 	}
@@ -2319,8 +2339,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	private function getERParray()
 	{
     $a = array();    
-    foreach ($_POST as $a_post => $a_value) if ($a_post != 'cmd') $a[$a_post] = ilUtil::stripSlashes($a_value);
+    foreach ($_POST as $a_post => $a_value) if ($a_post != 'cmd') $a[$a_post] = ilUtil::stripSlashes($a_value);    
+    $a['use_ean'] =   (isset($_POST['use_ean'])) ? 1 : 0;
+    $a['save_copy'] = (isset($_POST['save_copy'])) ? 1 : 0;
     return $a;
+  }
+  
+  private function delERPpreviewObject()
+  {
+    require_once './payment/classes/class.ilERP.php';
+    if (ilERP::preview_exists()) ilERP::preview_delete(); 
+    ilUtil::sendInfo($this->lng->txt('pays_erp_invoice_deleted'));
+    $this->erpSettingsObject();
   }
   
   private function testERPSettingsObject()
@@ -2330,45 +2360,60 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
     if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
     {
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilias->error_obj->MESSAGE);
-		}		
-    $system = (int) $_POST['erp_id'];
-    require_once './payment/classes/class.ilERP.php';	
-    if ($system == ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
-    else
-    {
-      include_once './Services/Payment/classes/class.ilERPDebtor_eco.php';
-      
-      $deb = new ilERPDebtor_eco( 0 ); // "5798000416826");
-      $deb->setTestValues();
-      $nr = rand(1000,1020);
-      
-      if ($deb->getDebtorByNumber($nr))
-      {
-        $msg = $this->lng->txt('pays_erp_tst_existing');        
-      }
+		}	
+		try
+    {        	
+      $this->saveERPsettingsObject();		
+      $system = (int) $_POST['erp_id'];
+      require_once './payment/classes/class.ilERP.php';	
+      if ($system == ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
       else
       {
-        $deb->createDebtor($nr);
-        $msg = $this->lng->txt('pays_erp_tst_new');     
+        include_once './Services/Payment/classes/class.ilERPDebtor_eco.php';      
+        $good = "";
+      
+        $deb = new ilERPDebtor_eco(); // "5798000416826");
         
-      }      
-      $msg .= " " . $nr . ", " . $deb->getName() . " ";
-
-      
-      $amount = rand(10,1000);      
-      $pcs = rand(1,10);
-      $msg .= $this->lng->txt('pays_erp_tst_billed') . " " . $pcs . " x " . $amount .
-        "<br/>" . $this->lng->txt('total') . " " . number_format( $pcs*$amount, 2, ',','.');
-      
-      $inv = $deb->createInvoice($amount, $this->lng->txt('pays_erp_tst_product'), $pcs);
-      $attach = $deb->getInvoicePDF($inv);
-            
-      $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
-      
-      $msg .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');      
-      ilUtil::sendInfo($msg);       
+        $nr = rand(1030,1040);        
+        if ($deb->getDebtorByNumber($nr))
+        {          
+          $good .= $this->lng->txt('pays_erp_tst_existing');        
+        }
+        else
+        {
+          $deb->setTestValues();
+          $deb->createDebtor($nr);
+          
+          $good = $this->lng->txt('pays_erp_tst_new');     
+          
+        } 
+        $good .= " " . $nr . ", " . $deb->getName() . " ";
+        
+        $amount = rand(10,1000);      
+        $pcs = rand(1,10);
+        $good .= $this->lng->txt('pays_erp_tst_billed') . " " . $pcs . " x " . $amount .
+          "<br/>" . $this->lng->txt('total') . " " . number_format( $pcs*$amount, 2, ',','.');
+        
+        $deb->createInvoice();
+        $deb->createInvoiceLine( 0, $this->lng->txt('pays_erp_tst_product'), $pcs, $amount);
+        $deb->createInvoiceLine( 0, "www.ilias.dk", 1, 1);       
+        $v = $deb->bookInvoice();
+        $good .= ", # " . $deb->getInvoiceNumber(); 
+        
+        $attach = $deb->getInvoicePDF($v); //$inv);
+        
+        $deb->saveInvoice($attach, true);                 
+        $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
+        
+        $good .= "<br/>" . $ilUser->getEmail() . " => " . $this->lng->txt('mail_sent');      
+        ilUtil::sendInfo($good);       
+      }
     }
-    
+    catch (ilERPException $e)
+    {
+      ilUtil::sendInfo($good);
+      ilUtil::sendFailure($e->getMessage());
+    }    
     $this->erpSettingsObject();
     
   }
@@ -2386,9 +2431,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
     if (!$instance->looksValid()) $message = str_replace('%s', $instance->getName, $this->lng->txt('pays_erp_bad_settings'));
     else 
     {    
-      $ok = $instance->connect();
-      if (!$ok) $message = "<b>" . str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_error')) . "</b><br/> " . $instance->getLastError();
-      else ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
+      $instance->connect();      
+      ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
     }
     if ($message != "") ilUtil::sendFailure($message);
   }
@@ -2406,10 +2450,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilias->error_obj->MESSAGE);
 		}		
 		
-		$settings= $this->getERParray();    		
+		$settings = $this->getERParray();    		
 		$system = (int) $_POST['erp_id'];		
 		$instance = $this->getERPObject($system);				
-		//die("erp_id=".$system);
     $instance->setSettings($settings);
     
     switch ($system)
@@ -2422,10 +2465,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
     }			
 		
 		$instance->setActive($system);      
-    $instance->saveSettings($settings );				
-    ilUtil::sendSuccess(str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_updated_settings')));     
-    $this->erpSettingsObject();
-    
+    $instance->saveSettings($settings);
+    ilUtil::sendSuccess(str_replace('%s', $instance->getName(), $this->lng->txt('pays_erp_updated_settings')));
+    $this->erpSettingsObject();    
 		return true;	
 	
 	}
@@ -2446,8 +2488,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$form = $this->getERPform();
 		
 		$this->tpl->setVariable('ERP_INFO', $this->lng->txt('pays_erp_info'));
-		$this->tpl->setVariable('ERP_SETTINGS',$form->getHTML());		
-    
+		$this->tpl->setVariable('ERP_SETTINGS',$form->getHTML());		    
   }
 	
 

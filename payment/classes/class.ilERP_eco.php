@@ -94,7 +94,8 @@ class ilERP_eco extends ilERP
 	}
 	   
   public function connect()
-  {    
+  {
+    if ($this->connection_ok) return;    
     try 
     {      
       $this->client = new SoapClient(self::wsdl, array("trace" => 1, "exceptions" => 1));
@@ -106,13 +107,9 @@ class ilERP_eco extends ilERP
     }
     catch (Exception $e)
     {
-      $msg = "(when trying to connect) " . $e->getMessage();
-      if (DEVMODE) $msg .= "<br/>(" . $this->agreement . "," . $this->username . "," . $this->password . ")<br/>" . self::wsdl;
-      
-      $this->setError( $msg );
-      return false;
+      throw new ilERPException(__FILE__ . ":" . __LINE__ . " " . $e->getMessage());
     }
-    return true;    
+    $this->connection_ok = true;
   }
   
   public function getName()

@@ -16135,3 +16135,7 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php
   $ilDB->addTableColumn("payment_erp", "use_ean", array("type" => "integer", "length" => 4, "default" => 0));
 ?>
+<#2901>
+<?php
+  $ilDB->manipulate("UPDATE payment_erp SET save_copy=1, use_ean=1 WHERE erp_id=1");
+?>

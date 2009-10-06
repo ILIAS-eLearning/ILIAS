@@ -34,16 +34,18 @@ class ilERPDebtor
 {
 
   protected $number;
-  protected $name;
-  protected $email;
-  protected $address;
-  protected $postalcode;
-  protected $city;
-  protected $country;
-  protected $phone;
+  protected $name = '';
+  protected $email = '';
+  protected $address = '';
+  protected $postalcode = '';
+  protected $city = '';
+  protected $country = '';
+  protected $phone = '';
   protected $ean;
   protected $website;
-
+  protected $invoice_booked = false;
+  protected $invoice_number = 0;
+  
   protected $handle; // debtor
   protected $dgh;
   
@@ -55,19 +57,13 @@ class ilERPDebtor
   
   
   protected function __construct()
-  {
-    // Avoid null values
-    $this->setAll( array(
-     'name' => '',
-     'email' => '',
-     'address' => '',
-     'postalcode' => '',
-     'city' => '')
-    );
-     
+  {     
   }
   
-  
+  public function getInvoiceNumber()
+  {
+    return $this->invoice_number;
+  }
   
   public function getName()
   {
@@ -85,7 +81,7 @@ class ilERPDebtor
   * @return mixed array with Debtor info
   */  
   public function getAll() 
-  {
+  {    
     $a['number'] = $this->number;
     $a['name'] = $this->name;
     $a['email'] = $this->email;
@@ -97,6 +93,7 @@ class ilERPDebtor
     $a['website'] = $this->website;
     $a['dgh'] = $this->dgh;
     $a['phone'] = $this->phone;
+    return $a;
   }
   
    
@@ -109,11 +106,24 @@ class ilERPDebtor
     $this->$key = $value;
   }
   
+  
+  
+  
+  
+  public function saveInvoice($contens, $preview=true)
+  {
+    $file = ($preview) ? ilERP::getPreviewFile() : ilERP::getSaveDirectory() . $this->getInvoiceNumber(). ".pdf";
+    $fp = fopen( $file, 'w+' );
+    fwrite($fp, $contens);
+    fclose($fp);  
+  }
 
       
-  public function sendInvoice($subject, $message, $to = null, $content, $fname = "faktura")
+  public function sendInvoice($subject, $message, $to = null, $bytes, $fname = "faktura")
   {
-    
+
+    $content = chunk_split(base64_encode($bytes));
+
     if (!isset($to)) $to = $this->email;
     $filename = $fname . ".pdf";    
         
