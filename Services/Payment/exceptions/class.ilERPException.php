@@ -23,7 +23,7 @@ class ilERPException extends ilException
 	*/
 	public function __construct($a_message)
 	{
-	 	parent::__construct("ERP: " . $a_message);
+	 	parent::__construct($a_message);
 	}
 }
 ?>

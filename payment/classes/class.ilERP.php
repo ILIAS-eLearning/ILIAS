@@ -31,22 +31,28 @@
 define("ERP_NONE", 0);
 define("ERP_ECONOMIC", 1);
 
+require_once './Services/Payment/exceptions/class.ilERPException.php';
 
 class ilERP 
 {
   protected $username;
   protected $password;
   protected $use_ean; // Danish public sector only.
+  protected $save_copy;
+  public $connection_ok = false;
   
   protected $db;
-  protected $connection_ok;
-  protected $error_raised;
-  protected $error_msg;
   
   private $erps_id; // future support for several settings  
   
   const erp_id = ERP_NONE;
   const name = "n/a";
+    
+  const preview_pre = "invoice_";
+  const preview_ext = ".pdf";
+  
+  
+  //private static $ilias_ini;
   	
 	public function __construct()
 	{
@@ -65,36 +71,49 @@ class ilERP
     return true;
   }
   
-  /**
-  * Set error
-  */  
-  public function setError($msg)
+  
+  private static function _getFilename()
   {
-    $this->error_raised = true;
-    $this->error_msg .= $msg;
+    global $ilias;
+    return self::preview_pre . $ilias->client_id . self::preview_ext;
+  }
+  
+  public static function getPreviewFile()
+  {
+    global $ilias;
+    return   $ilias->ini_ilias->GROUPS['server']['absolute_path'] . '/' . self::_getFilename();  
+  } 
+  
+  
+  public static function getPreviewUrl()
+  {
+    global $ilias;
+    return $ilias->ini_ilias->GROUPS['server']['http_path'] . '/' . self::_getFilename() ;
+  }
+  public static function getPreviewLink()
+  {
+    return self::getPreviewUrl . self::_getFilename() ;
   }  
-  
-  public function error()
+  public static function getSaveDirectory()  
   {
-    if ($this->error_raised) return true; else return false;
+    global $ilias;
+    return $ilias->ini_ilias->GROUPS['clients']['datadir'] . '/' . $ilias->client_id .'/invoices/';
   }
   
-  public function reset_error()
+  public static function preview_exists()
   {
-    $this->error_raised = false;
-    unset($this->error_msg);
+    return file_exists( self::getPreviewFile() );
+  }
+  public static function preview_delete()
+  {
+    if (self::preview_exists())
+    unlink (self::getPreviewFile());
   }
   
+ 
   
-  /**
-  * Retrives the last ERP error
-  * @return string
-  */  
-  public function getLastError()
-  {
-    return "ERP. " . $this->error_msg;
-  }
   
+
   /**
   * Get name of current ERP system.
   * Usefull for messages
@@ -110,7 +129,7 @@ class ilERP
 	* Set the username used to login to ERP
 	* @param string $v ERP login name
 	*/		
-	protected function setUsername ( $v ) 
+	protected function setUsername( $v ) 
 	{
     $this->username = $v;
 	}
@@ -119,10 +138,24 @@ class ilERP
 	* Set the password used in the ERP
 	* @param string $v ERP password
 	*/		
-	protected function setPassword ($v )
+	protected function setPassword($v )
 	{
     $this->password = $v;
 	}
+	
+	/**
+	* Set the directory for saving invoices
+	* @param string $v directory
+	*/
+	protected function setSaveCopy( $v )
+	{
+    $this->save_copy = (int) $v;
+	}
+	
+	protected function setUseEAN( $v )
+	{
+    $this->use_ean = (int) $v;
+  }
 	
 	/**
 	* Get the list of ILIAS supported ERPs 
@@ -153,7 +186,7 @@ class ilERP
 	*/	
 	public function getActive()
 	{
-    $row = $this->db->query('SELECT payment_erps.erp_id, payment_erps.erps_id, payment_erp.erp_short FROM payment_erps,payment_erp WHERE payment_erps.active=1 AND payment_erps.erp_id=payment_erp.erp_id LIMIT 1');
+    $row = $this->db->query('SELECT payment_erps.erp_id, payment_erps.erps_id, payment_erp.erp_short,payment_erp.use_ean, payment_erp.save_copy FROM payment_erps,payment_erp WHERE payment_erps.active=1 AND payment_erps.erp_id=payment_erp.erp_id LIMIT 1');
     $values = $row->fetchRow(MDB2_FETCHMODE_ASSOC);
     return $values;
 	}
@@ -170,16 +203,33 @@ class ilERP
     unset( $settings['erp_short']);
     unset( $settings['name']);
     
+    
+    
+    $settings['save_copy'] = (int) $settings['save_copy'];
+    $settings['use_ean'] = (int) $settings['use_ean'];       
+    
+    
     if ($settings['erp_id'] == 0) 
     {
       unset($settings);
-      $settings['erp_id'] = 0;
+      $settings['erp_id'] = 0;      
     }    
+    
+    $this->db->manipulateF("
+      UPDATE payment_erp SET save_copy=%s, use_ean=%s WHERE erp_id=%s",
+      array("integer", "integer", "integer"),
+      array($settings['save_copy'], $settings['use_ean'], $settings['erp_id'])
+    );
+    
+    unset($settings['save_copy']);
+    unset($settings['use_ean']);
 	
     $this->db->manipulateF("
       UPDATE payment_erps SET settings=%s WHERE erps_id=%s AND erp_id=%s",
       array("text", "integer", "integer"),
-      array( serialize($settings), $this->erps_id, $settings['erp_id']));    
+      array( serialize($settings), $this->erps_id, $settings['erp_id']));
+      
+    
       
     return true;	
 	}		
@@ -192,6 +242,9 @@ class ilERP
 	{   
     $this->setUsername( $a['username'] );
     $this->setPassword( $a['passsword'] );    
+    $this->setSaveCopy( $a['save_copy'] );
+    $this->setUseEAN(   $a['use_ean'] );
+    
 	}
 	
 	/**
@@ -206,6 +259,7 @@ class ilERP
     $a['username'] = $this->username;
     $a['password'] = $this->password;
     $a['use_ean'] = $this->use_ean;
+    $a['save_copy'] = $this->save_copy;
     return array_merge($system, $a);
 	}
 	
@@ -220,13 +274,18 @@ class ilERP
 	public function connect()
 	{
     $this->connection_ok = true;
-    return true;
+  }
+  public function disconnect()
+  {
+    $this->connection_ok = false;
   }
   
+  
+  /*
   public function connected()
   {
     return $this->connection_ok;
-  }
+  }*/
 	
 	/**
 	* Get some ERP system specific variables, stored in payment_erp

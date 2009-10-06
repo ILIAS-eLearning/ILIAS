@@ -341,80 +341,78 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  
 	  include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
 	  $cls = "ilERPDebtor_" . $erpsys;
-	  $usr_id = (int) $ilUser->getId();          
+	  $usr_id =  $ilUser->getId();          
     $deb = new $cls();
-    if (!$deb->getDebtorByNumber($usr_id))
+    
+    
+    try
     {
-      $deb->setAll( array(
-        'number' => $usr_id,
-        'name' => $ilUser->getFullName(),
-        'email' => $ilUser->email,
-        'address' => $ilUser->street,
-        'postalcode' => $ilUser->zipcode,
-        'city' => $ilUser->city,
-        'country' => $ilUser->country,
-        'phone' => $ilUser->phone_mobile)
-      );
-      $deb->createDebtor($usr_id);
-    }
-    print_r($deb->getAll());
-    
-    $inv = $deb->createInvoice();
-    
-    /* Shitty german variables begin here - what a wast of time for me :-(((( */
+      
+      if (!$deb->getDebtorByNumber($usr_id))
+      {
+        $deb->setAll( array(
+          'number' => $usr_id,
+          'name' => $ilUser->getFullName(),
+          'email' => $ilUser->email,
+          'address' => $ilUser->street,
+          'postalcode' => $ilUser->zipcode,
+          'city' => $ilUser->city,
+          'country' => $ilUser->country,
+          'phone' => $ilUser->phone_mobile)
+        );
+        $deb->createDebtor($usr_id);
+      }
+                
+      $deb->createInvoice();
 
-	  for ($i = 0; $i < count($sc); $i++)
-	  {
-	    $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
-	    
-	    $book_obj =& new ilPaymentBookings($ilUser->getId());
+      for ($i = 0; $i < count($sc); $i++)
+      {
+        $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
+        
+        $book_obj =& new ilPaymentBookings($ilUser->getId());
 
-	    $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+        $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
 
-	    $book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
-	    $book_obj->setPobjectId(isset($sc[$i]["pobject_id"]) ? $sc[$i]["pobject_id"] : 0);
-	    $book_obj->setCustomerId($ilUser->getId());
-	    $book_obj->setVendorId($pobjectData["vendor_id"]);
-	    $book_obj->setPayMethod(PAY_METHOD_EPAY);
-	    $book_obj->setOrderDate(time());
-	    $book_obj->setDuration($sc[$i]["dauer"]);
-	    $book_obj->setPrice($sc[$i]["betrag_string"]);
-	    $book_obj->setDiscount(0);
-	    $book_obj->setPayed(1);
-	    $book_obj->setAccess(1);
-	    $book_obj->setVoucher('');
-	    $book_obj->setTransactionExtern($_GET['tid']);
+        $book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
+        $book_obj->setPobjectId(isset($sc[$i]["pobject_id"]) ? $sc[$i]["pobject_id"] : 0);
+        $book_obj->setCustomerId($ilUser->getId());
+        $book_obj->setVendorId($pobjectData["vendor_id"]);
+        $book_obj->setPayMethod(PAY_METHOD_EPAY);
+        $book_obj->setOrderDate(time());
+        $book_obj->setDuration($sc[$i]["dauer"]);
+        $book_obj->setPrice($sc[$i]["betrag_string"]);
+        $book_obj->setDiscount(0);
+        $book_obj->setPayed(1);
+        $book_obj->setAccess(1);
+        $book_obj->setVoucher('');
+        $book_obj->setTransactionExtern($_GET['tid']);
 
-	    $booking_id = $book_obj->add();
-	    
-	    $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
-	    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-	    $obj_id = ilObject::_lookupObjId($pobjectData["ref_id"]);    
-      $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
-      $cp->add($usr_id, IL_CRS_MEMBER);
-      $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);	    
-	    // Should be moved to callback
+        $booking_id = $book_obj->add();
+        
+        $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
+        include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $obj_id = ilObject::_lookupObjId($pobjectData["ref_id"]);    
+        $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
+        $cp->add($usr_id, IL_CRS_MEMBER);
+        $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);	    
+        // Should be moved to callback
 
-
-	  }
-	  $inv = $deb->bookInvoice();
-	  
-	  if ($deb->error())
-	  {      
-      ilUtil::sendFailure("!!!" . $deb->getLastError());
-      //$cart->emptyShoppingCart();
-    }
-    else 
-    {	  	  
-      $attach = $deb->getInvoicePDF();
+      }
+      $invoice_number = $deb->bookInvoice();
+      $attach = $deb->getInvoicePDF($invoice_number);
+      $deb->saveInvoice($attach, false);
       $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
-      $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
+        $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
 
       ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
       $cart->emptyShoppingCart();	  
-      $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
-    }
-	  	  
+        
+	  }
+	  catch (ilERPException $e)
+	  {
+      ilUtil::sendFailure($e->getMessage());
+	  }
+	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
 	
