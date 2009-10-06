@@ -70,6 +70,13 @@ public class DBFactory {
 
 					logger.info("Loading Mysql driver...");
 					Class.forName( "com.mysql.jdbc.Driver");
+
+					logger.info("Using URL: " +
+							client.getDbUrl() +
+							client.getDbUser() + "/" +
+							client.getDbPass() 
+					);
+
 					return DriverManager.getConnection(
 							client.getDbUrl(),
 							client.getDbUser(),
@@ -81,13 +88,14 @@ public class DBFactory {
 					logger.info("Loading Oracle driver...");
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					
-					logger.info(
+					logger.info("Using URL: " +
 							"jdbc:oracle:thin:" +
 							client.getDbUser() + "/" +
 							client.getDbPass() + "@" + 
 							client.getDbHost() + "/" +
 							client.getDbName()
 					);
+					
 					return DriverManager.getConnection(
 							"jdbc:oracle:thin:" +
 							client.getDbUser() + "/" +
@@ -98,10 +106,10 @@ public class DBFactory {
 				}
 			} 
 			catch (SQLException e) {
-				logger.error("Cannot connect to database.");
+				logger.error("Cannot connect to database: " + e);
 			} 
 			catch (ConfigurationException e) {
-				logger.error("Cannot connect to database.");
+				logger.error("Cannot connect to database: " + e);
 			} 
 			catch (ClassNotFoundException e) {
 				// no oracle driver!
@@ -121,7 +129,7 @@ public class DBFactory {
 		
 	
 	};
-
+	
 	
 	/**
 	 * get singleton db connection for each url
