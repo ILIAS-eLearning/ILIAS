@@ -58,7 +58,7 @@ class ilPurchasePaypal
 
 	function ilPurchasePaypal(&$user_obj)
 	{
-		global $ilDB,$lng;
+		global $ilDB, $lng;
 
 		$this->user_obj =& $user_obj;
 		$this->db =& $ilDB;
@@ -82,7 +82,7 @@ class ilPurchasePaypal
 	function openSocket()
 	{
 		// post back to PayPal system to validate
-		$fp = @fsockopen ($this->paypalConfig["server_host"], 80, $errno, $errstr, 30);
+		$fp = @fsockopen ($path = $this->paypalConfig["server_host"], 80, $errno, $errstr, 30);
 		return $fp;
 	}
 
@@ -98,9 +98,10 @@ class ilPurchasePaypal
 		$auth_token = $this->paypalConfig["auth_token"];
 
 		$req .= "&tx=$tx_token&at=$auth_token";
-		$header .= "POST " . $this->paypalConfig["server_path"] . " HTTP/1.0\r\n";
+		$header .= "POST " . $this->paypalConfig["server_path"] . " HTTP/1.0\r\n";	
+		$header .= "Host:".$this->paypalConfig["server_host"]."\r\n"; 	
 		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";   
 
 		fputs ($fp, $header . $req);
 		// read the body data
@@ -120,6 +121,7 @@ class ilPurchasePaypal
 				$res .= $line;
 			}
 		}
+
 		// parse the data
 		$lines = explode("\n", $res);
 		$keyarray = array();
@@ -175,14 +177,18 @@ class ilPurchasePaypal
 		{
 			return ERROR_FAIL;
 		}
+		else
+			return ERROR_FAIL;
 	}
 
 	function __checkTransactionId($a_id)
 	{
+		global $ilDB;
 /*
  			$query = "SELECT * FROM payment_statistic ".
 			"WHERE transaction_extern = '".$a_id."'";
 */
+	
 		$res = $this->db->query('SELECT * FROM payment_statistic WHERE transaction_extern = '.$ilDB->quote($a_id, 'integer'));
 
 		return $res->numRows() ? true : false;
@@ -322,7 +328,9 @@ class ilPurchasePaypal
 				{
 					$bonus = $coupon_discount_items[$sc[$i]["pobject_id"]]["math_price"] - $coupon_discount_items[$sc[$i]["pobject_id"]]["discount_price"];	
 				}				
-
+			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+				
 				$book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
 				$book_obj->setPobjectId($sc[$i]["pobject_id"]);
 				$book_obj->setCustomerId($ilUser->getId());
@@ -337,7 +345,33 @@ class ilPurchasePaypal
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
 				$book_obj->setTransactionExtern($a_id);
+
+	/*			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
+				$obj_type = $ilObjDataCache->lookupType($obj_id);
+				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+	
+				$oVAT = new ilShopVats((int)$pobject->getVatId());
+				$obj_vat_rate = $oVAT->getRate();
+				$obj_vat_unit = $pobject->getVat(ilPaymentPrices::_getPriceString($entry['price_id']));
 				
+				$book_obj->setObjectTitle($obj_title);
+				$book_obj->setVatRate($obj_vat_rate);
+				$book_obj->setVatUnit($obj_vat_unit);
+	
+				
+				include_once './payment/classes/class.ilGeneralSettings.php';
+				$genSet = new ilGeneralSettings();
+				$save_user_adr_bill = $genSet->get('save_user_adr_bill');	
+				
+				if($save_user_adr_bill == '1')
+				{
+					$book_obj->setStreet($_SESSION['paypal']['personal_data']['strasse'], $_SESSION['bill']['personal_data']['hausNr']);
+					$book_obj->setPoBox($_SESSION['paypal']['personal_data']['postfach']);
+					$book_obj->setZipcode($_SESSION['paypal']['personal_data']['PLZ']);
+					$book_obj->setCity($_SESSION['paypal']['personal_data']['ort']);
+					$book_obj->setCountry($_SESSION['paypal']['personal_data']['land']);
+				}
+	*/								
 				$booking_id = $book_obj->add();
 				
 				if (!empty($_SESSION["coupons"]["paypal"]) && $booking_id)
