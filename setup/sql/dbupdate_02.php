@@ -16127,4 +16127,11 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php
 	$ilDB->addIndex('cal_categories',array('obj_id'),'i2');
 ?>
-
+<#2899>
+<?php
+  $ilDB->addTableColumn("payment_erp", "save_copy", array("type" => "integer", "length" => 4, "default" => 0));
+?>
+<#2900>
+<?php
+  $ilDB->addTableColumn("payment_erp", "use_ean", array("type" => "integer", "length" => 4, "default" => 0));
+?>
