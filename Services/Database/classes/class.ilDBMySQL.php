@@ -28,8 +28,14 @@ class ilDBMySQL extends ilDB
 	*/
 	function getDSN()
 	{
+		$db_port_str = "";
+		if (trim($this->getdbPort()) != "")
+		{
+			$db_port_str = ":".$this->getdbPort();
+		}
+
 		return "mysql://".$this->getDBUser().":".$this->getDBPassword().
-			"@".$this->getdbHost()."/".$this->getDBName();
+			"@".$this->getdbHost().$db_port_str."/".$this->getDBName();
 	}
 
 	/**

@@ -179,6 +179,7 @@ class ilClient
 		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
 		$this->db->setDBUser($this->getdbUser());
+		$this->db->setDBPort($this->getdbPort());
 		$this->db->setDBPassword($this->getdbPass());
 		$this->db->setDBHost($this->getdbHost());
 		$this->db->setDBName($this->getdbName());
@@ -234,6 +235,7 @@ class ilClient
                                                 'phptype' => 'oci8',
                                                 'hostspec' => $this->getdbHost(),
                                                 'username' => $this->getdbUser(),
+												'port' => $this->getdbPort(),
                                                 'password' => $this->getdbPass(),
                                                 );
 				//$this->dsn = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/?service=".$this->getdbName();
@@ -241,6 +243,7 @@ class ilClient
 					'phptype' => 'oci8',
 					'hostspec' => $this->getdbHost(),
 					'username' => $this->getdbUser(),
+					'port' => $this->getdbPort(),
 					'password' => $this->getdbPass(),
 					'service' => $this->getdbName()
 					);
@@ -248,8 +251,13 @@ class ilClient
 				
 			case "mysql":
 			default:
-				$this->dsn_host = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
-				$this->dsn = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/".$this->getdbName();
+				$db_port_str = "";
+				if (trim($this->getdbPort()) != "")
+				{
+					$db_port_str = ":".$this->getdbPort();
+				}
+				$this->dsn_host = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost().$db_port_str;
+				$this->dsn = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost().$db_port_str."/".$this->getdbName();
 				break;
 		}				
 	}
@@ -307,6 +315,24 @@ class ilClient
 	function getDbUser()
 	{
 		return $this->ini->readVariable("db","user");
+	}
+
+	/**
+	* get db port
+	* @return	string	db port
+	*/
+	function getDbPort()
+	{
+		return $this->ini->readVariable("db","port");
+	}
+
+	/**
+	* set db port
+	* @param	string
+	*/
+	function setDbPort($a_str)
+	{
+		$this->ini->setVariable("db","port",$a_str);
 	}
 
 	/**

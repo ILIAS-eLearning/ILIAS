@@ -94,6 +94,26 @@ abstract class ilDB extends PEAR
 	}
 
 	/**
+	* Set database port
+	*
+	* @param	string		database port
+	*/
+	function setDBPort($a_port)
+	{
+		$this->db_port = $a_port;
+	}
+	
+	/**
+	* Get database port
+	*
+	* @param	string		database port
+	*/
+	function getDBPort()
+	{
+		return $this->db_port;
+	}
+
+	/**
 	* Set database host
 	*
 	* @param	string		database host
@@ -197,6 +217,7 @@ abstract class ilDB extends PEAR
 		{
 			$this->setDBUser($clientIniFile ->readVariable("db", "user"));
 			$this->setDBHost($clientIniFile ->readVariable("db", "host"));
+			$this->setDBPort($clientIniFile ->readVariable("db", "port"));
 			$this->setDBPassword($clientIniFile ->readVariable("db", "pass"));
 			$this->setDBName($clientIniFile ->readVariable("db", "name"));
 		}
@@ -210,7 +231,7 @@ abstract class ilDB extends PEAR
 		//set up error handling
 		$this->error_class = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
-		
+//echo $this->getDSN();
 		//check dsn
 		if ($this->getDSN() == "")
 		{

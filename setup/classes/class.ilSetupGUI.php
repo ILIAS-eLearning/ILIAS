@@ -1604,13 +1604,13 @@ else
 		if ($_SESSION["db_type"] == "mysql")
 		{
 			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
+			$ti->setRequired(true);
 		}
 		else
 		{
 			$ti = new ilTextInputGUI($lng->txt("db_service_name"), "db_name");
 		}
 		$ti->setMaxLength(40);
-		$ti->setRequired(true);
 		$this->form->addItem($ti);
 		
 		// db user
@@ -1618,7 +1618,12 @@ else
 		$ti->setMaxLength(40);
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
-		
+
+		// db port
+		$ti = new ilTextInputGUI($lng->txt("db_port"), "db_port");
+		$ti->setMaxLength(8);
+		$this->form->addItem($ti);
+
 		// db password
 		$ti = new ilTextInputGUI($lng->txt("db_pass"), "db_pass");
 		$ti->setMaxLength(40);
@@ -1639,6 +1644,7 @@ else
 	
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
+		$values["db_port"] = $this->setup->getClient()->getDbPort();
 		$values["db_pass"] = $this->setup->getClient()->getDbPass();
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["client_id"] = $this->setup->getClient()->getId();
@@ -1700,6 +1706,7 @@ else
 				$this->setup->getClient()->setDbHost($_POST["db_host"]);
 				$this->setup->getClient()->setDbName($_POST["db_name"]);
 				$this->setup->getClient()->setDbUser($_POST["db_user"]);
+				$this->setup->getClient()->setDbPort($_POST["db_port"]);
 				$this->setup->getClient()->setDbPass($_POST["db_pass"]);
 				$this->setup->getClient()->setDbType($_SESSION["db_type"]);
 				$this->setup->getClient()->setDSN();
@@ -2022,6 +2029,10 @@ else
 		// user
 		$ne = new ilNonEditableValueGUI($lng->txt("user"), "db_user");
 		$this->form->addItem($ne);
+
+		// port
+		$ne = new ilNonEditableValueGUI($lng->txt("port"), "db_port");
+		$this->form->addItem($ne);
 		
 		// creation / collation for mysql
 		if ($this->setup->getClient()->getDBType() == "mysql" && $a_install)
@@ -2127,6 +2138,7 @@ else
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
+		$values["db_port"] = $this->setup->getClient()->getDbPort();
 		$values["db_type"] = $lng->txt("db_".$this->setup->getClient()->getDbType());
 		if (is_object($dbupdate))
 		{
