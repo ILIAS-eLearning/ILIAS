@@ -169,20 +169,14 @@ class ilPermanentLinkGUI
 
 		$title = '';
 		
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-		{
-			// fetch default title for bookmark
+		// fetch default title for bookmark
 
-			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
-			$title = $ilObjDataCache->lookupTitle($obj_id);
-			if (!$title)
-				$bookmark->setTitle("untitled");
+		$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+		$title = $ilObjDataCache->lookupTitle($obj_id);
+		if (!$title)
+			$bookmark->setTitle("untitled");
 
-			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
-
-			//$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
-			//$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
-		}
+		$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
 		$tpl->setVariable("LINK", $href);
 		
@@ -226,21 +220,23 @@ class ilPermanentLinkGUI
 		
 		$cnt = 0;
 
-		$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI']));
-		$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
-		$cnt++;
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI']));
+			$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
+			$cnt++;
+		}
 
 		while ($row = $ilDB->fetchObject($rset))
 		{
 			$linktpl = $row->sbm_link;
 			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
 			$linktpl = str_replace('{TITLE}', urlencode($title), $linktpl);
-//			$icon_path = ilUtil::getWebspaceDir() . DIRECTORY_SEPARATOR . 'social_bm_icons' . DIRECTORY_SEPARATOR . $row->sbm_icon;
 			$current_selection_list->addItem($row->sbm_title, '', $linktpl, $row->sbm_icon, $row->title, '_blank');
 			$cnt++;
 		}
 
-		if ($cnt == 1)
+		if ($cnt == 1 && $_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
 			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
@@ -248,10 +244,12 @@ class ilPermanentLinkGUI
 			$loc_tpl->setVariable("ICON", ilUtil::getImagePath('icon_bm.gif'));
 			return $loc_tpl->get();
 		}
-		else
+		else if ($cnt >= 1)
 		{
 			return $current_selection_list->getHTML();
 		}
+		else
+			return '';
 
 	}
 }
