@@ -48,6 +48,8 @@ public class ServerSettings {
 	private InetAddress host;
 	private String hostString;
 	private int port;
+	
+	private String tnsAdmin = "";
 
 	private File indexPath;
 	private File logFile;
@@ -76,6 +78,26 @@ public class ServerSettings {
 			instance = new ServerSettings();
 		}
 		return instance;
+	}
+	
+	/**
+	 * Get TNS admin directory
+	 */
+	public String lookupTnsAdmin() {
+		
+		if(getTnsAdmin().length() > 0) {
+			return getTnsAdmin();
+		}
+		try {
+		
+			if(System.getenv("TNS_ADMIN").length() > 0) 
+				return System.getenv("TNS_ADMIN");
+		}
+		catch(SecurityException e) {
+			logger.error("Cannot access environment variable TNS_ADMIN due to security manager limitations: " + e);
+			throw e;
+		}
+		return "";
 	}
 	
 	public String getServerUrl() {
@@ -189,6 +211,23 @@ public class ServerSettings {
 		this.logLevel = Level.toLevel(logLevel.trim(),Level.INFO);
 	}
 
+	/**
+	 * Get tns admin directory
+	 * @return
+	 */
+	public String getTnsAdmin() {
+		return tnsAdmin;
+	}
+
+	/**
+	 * Set tns admin directory
+	 * @param tnsAdmin
+	 */
+	public void setTnsAdmin(String tnsAdmin) {
+		this.tnsAdmin = tnsAdmin;
+	}
+
+	
 	/**
 	 * @param indexPath
 	 *            the indexPath to set
