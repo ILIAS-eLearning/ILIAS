@@ -40,9 +40,9 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function __construct()
 	{
-		global $ilClientIniFile;
+		global $ilClientIniFile, $ilDB;
 		
-		$options['dsn']			= IL_DSN;
+		$options['dsn']			= $ilDB->getDSN();
 		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
 		$options['usernamecol']	= $ilClientIniFile->readVariable('auth', 'usercol');
 		$options['passwordcol']	= $ilClientIniFile->readVariable('auth', 'passcol');

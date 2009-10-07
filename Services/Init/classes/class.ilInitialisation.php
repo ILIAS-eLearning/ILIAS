@@ -449,7 +449,6 @@ class ilInitialisation
 		$ilDB->connect();
 		$GLOBALS['ilDB'] = $ilDB;
 		
-		define ("IL_DSN", $ilDB->getDSN());
 	}
 
 	/**

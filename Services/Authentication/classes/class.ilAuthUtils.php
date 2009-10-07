@@ -328,7 +328,7 @@ class ilAuthUtils
 				/*			
 				// build option string for PEAR::Auth
 				$auth_params = array();
-				$auth_params['dsn'] = IL_DSN;
+				$auth_params['dsn'] = $ilDB->getDSN();
 				$auth_params['table'] = $ilClientIniFile->readVariable("auth", "table");
 				$auth_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
 				$auth_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");

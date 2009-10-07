@@ -33,8 +33,15 @@ class ilDBOracle extends ilDB
 			$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
 		} 
 
-		return "oci8://".$this->getDBUser().":".$this->getDBPassword()."@".
-			$this->getDBHost()."/?service=".$this->getDBName();
+		return array('phptype' => 'oci8',
+                        'hostspec' => $this->getDBHost(),
+                        'username' => $this->getDBUser(),
+                        'password' => $this->getDBPassword(),
+                        'service' => $this->getDBName(),
+                        );
+		
+		//return "oci8://".$this->getDBUser().":".$this->getDBPassword()."@".
+		//	$this->getDBHost()."/?service=".$this->getDBName();
 	}
 
 	/**
