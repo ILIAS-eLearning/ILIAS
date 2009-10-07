@@ -508,3 +508,4 @@ zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/
 server_settings#:#Server Settings###21 09 2009 new variable
 time_zone#:#Time Zone###21 09 2009 new variable
 please_select#:#Please Selec###21 09 2009 new variable
+db_port#:#Database Port###07 10 2009 new variable
