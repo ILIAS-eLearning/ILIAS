@@ -84,6 +84,15 @@ class ilDBOracle extends ilDB
 	}
 
 	/**
+	* Standard way to connect to db
+	*/
+	function doConnect()
+	{
+		$this->db = MDB2::connect($this->getDSN(),
+			array("use_transactions" => true));
+	}
+
+	/**
 	* Initialize the database connection
 	*/
 	function initConnection()
