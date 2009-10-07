@@ -222,8 +222,21 @@ class ilClient
 		switch($this->getDbType())
 		{
 			case "oracle":
-				$this->dsn_host = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
-				$this->dsn = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/?service=".$this->getdbName();
+				//$this->dsn_host = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
+				$this->dsn_host = array(
+                                                'phptype' => 'oci8',
+                                                'hostspec' => $this->getdbHost(),
+                                                'username' => $this->getdbUser(),
+                                                'password' => $this->getdbPass(),
+                                                );
+				//$this->dsn = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/?service=".$this->getdbName();
+				$this->dsn = $this->dsn = array(
+					'phptype' => 'oci8',
+					'hostspec' => $this->getdbHost(),
+					'username' => $this->getdbUser(),
+					'password' => $this->getdbPass(),
+					'service' => $this->getdbName()
+					);
 				break;
 				
 			case "mysql":
