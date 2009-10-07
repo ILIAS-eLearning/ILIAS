@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import de.ilias.services.settings.ServerSettings;
 
 /**
  * A thread local singleton for db connections
@@ -63,6 +64,8 @@ public class DBFactory {
 		protected Connection initialValue() {
 			try {
 				ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+				ServerSettings server = ServerSettings.getInstance();
+				
 				logger.info("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
 
 				// MySQL
@@ -72,7 +75,7 @@ public class DBFactory {
 					Class.forName( "com.mysql.jdbc.Driver");
 
 					logger.info("Using URL: " +
-							client.getDbUrl() +
+							client.getDbUrl() + "/" +
 							client.getDbUser() + "/" +
 							client.getDbPass() 
 					);
@@ -88,21 +91,29 @@ public class DBFactory {
 					logger.info("Loading Oracle driver...");
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					
-					logger.info("Using URL: " +
-							"jdbc:oracle:thin:" +
-							client.getDbUser() + "/" +
-							client.getDbPass() + "@" + 
-							client.getDbHost() + "/" +
-							client.getDbName()
-					);
+					if(client.getDbName().length() == 0) {
+						
+						String url = "jdbc:oracle:thin:" + client.getDbUser() + "/" + client.getDbPass() + "@" + client.getDbHost();
+						logger.info("Using tnsname.ora: " + url);
+						
+						try {
+							System.setProperty("oracle.net.tns_admin",server.lookupTnsAdmin());
+						}
+						catch(SecurityException e) {
+							logger.error("Cannot connect to database: " + e);
+							return null;
+						}
+						catch(NullPointerException e) {
+							logger.error("No TNS_ADMIN given: " + e);
+							return null;
+						}
+						return DriverManager.getConnection(url);
+					}
 					
-					return DriverManager.getConnection(
-							"jdbc:oracle:thin:" +
-							client.getDbUser() + "/" +
-							client.getDbPass() + "@" + 
-							client.getDbHost() + "/" +
-							client.getDbName()
+					logger.info("Using URL: " +
+							client.getDbUrl()
 					);
+					return DriverManager.getConnection(client.getDbUrl());
 				}
 			} 
 			catch (SQLException e) {

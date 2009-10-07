@@ -49,6 +49,7 @@ public class ClientSettings {
 	
 	private String dbType;
 	private String dbHost;
+	private String dbPort;
 	private String dbName;
 	private String dbUser;
 	private String dbPass;
@@ -244,13 +245,30 @@ public class ClientSettings {
 		}
 	}
 
+	/**
+	 * get db url
+	 * @return
+	 */
 	public String getDbUrl() {
 
 		if(getDbType().equals("mysql")) {
-			return "jdbc:mysql://" + getDbHost() + "/" + getDbName();	
+			
+			if(getDbPort().length() > 0) {
+				return "jdbc:mysql://" + getDbHost() + ":" + getDbPort() + "/" + getDbName();
+			}
+			else {
+				return "jdbc:mysql://" + getDbHost() + "/" + getDbName();
+			}
 		}
 		else {
-			return "jdbc:mysql://" + getDbHost() + "/" + getDbName();	
+			
+			StringBuffer url = new StringBuffer();
+			url.append("jdbc:oracle:thin:" + getDbUser() + "/" + getDbPass() + "@//" + getDbHost());
+			if(getDbPort().length() > 0) {
+				url.append(":" + getDbPort());
+			}
+			url.append("/" + getDbName());
+			return url.toString();
 		}
 	}
 	
@@ -322,5 +340,21 @@ public class ClientSettings {
 	 */
 	public void setDbPass(String dbPass) {
 		this.dbPass = dbPass;
+	}
+
+	/**
+	 * set Db port
+	 * @param purgeString
+	 */
+	public void setDbPort(String purgeString) {
+		this.dbPort = purgeString;
+	}
+	
+	/**
+	 * get db port
+	 * @return
+	 */
+	public String getDbPort() {
+		return this.dbPort;
 	}
 }

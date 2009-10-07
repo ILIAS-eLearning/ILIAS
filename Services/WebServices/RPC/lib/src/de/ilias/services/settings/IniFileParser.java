@@ -147,6 +147,7 @@ public class IniFileParser {
 			
 			clientSettings.setDbType(purgeString(prefs.node("db").get("type",""),true));
 			clientSettings.setDbHost(purgeString(prefs.node("db").get("host",""),true));
+			clientSettings.setDbPort(purgeString(prefs.node("db").get("port",""),true));
 			clientSettings.setDbUser(purgeString(prefs.node("db").get("user",""),true));
 			clientSettings.setDbPass(purgeString(prefs.node("db").get("pass",""),true));
 			clientSettings.setDbName(purgeString(prefs.node("db").get("name",""),true));
@@ -154,6 +155,7 @@ public class IniFileParser {
 			logger.debug("Client ID: " + clientSettings.getClient());
 			logger.debug("DB Type: " + clientSettings.getDbType());
 			logger.debug("DB Host: " +clientSettings.getDbHost());
+			logger.debug("DB Port: " + clientSettings.getDbPort());
 			logger.debug("DB Name: " +clientSettings.getDbName());
 			logger.debug("DB User: " +clientSettings.getDbUser());
 			logger.debug("DB Pass: " +clientSettings.getDbPass());
