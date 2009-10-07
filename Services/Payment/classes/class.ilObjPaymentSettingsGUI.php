@@ -2308,8 +2308,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return $frm;
 	}
 	
-	private function
-	
+
 	
 	/**
 	* ERP Object factory. Should be moved
