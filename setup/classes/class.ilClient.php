@@ -163,12 +163,19 @@ class ilClient
 	function connect()
 	{
 		// check parameters
+		// To support oracle tnsnames.ora dbname is not required
+		if (!$this->getdbHost() || !$this->getdbUser())
+		{
+			$this->error = "empty_fields";
+			return false;
+		}
+		/*
 		if (!$this->getdbHost() || !$this->getdbName() || !$this->getdbUser())
 		{
 			$this->error = "empty_fields";
 			return false;
 		}
-
+		*/
 		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
 		$this->db->setDBUser($this->getdbUser());
