@@ -148,7 +148,7 @@ administration#:#tree_corrupt#:#Træ er korrupt! Se scanlog for detaljer
 administration#:#view_last_log#:#Se sidste scanlog
 administration#:#view_log#:#Se detaljer
 administration#:#course_export#:#Kursus eksport
-administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
+administration#:#confirm_message_course_export#:#Du har tilføjet kursuseksport funktionalitet på et eller flere felter. Bekræft venligst ændringerne.
 common#:#access_expired#:#udløbet
 common#:#res_links#:#Oversigts links
 common#:#short_inst_name#:#Kort titel
@@ -318,9 +318,9 @@ common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
 common#:#assessment_log_manual_scoring#:#Manuel karaktergivning
 common#:#assessment_log_manual_scoring_desc#:#Hvis der gives manuelle karakterer i et spørgsmål bør alle spørgsmål af samme type vurderes af en censor. Vær opmærksom på denne indstilling, da efterfølgende manuelkaraktergivning af automatiske-scorede spørgsmål kan give juridiske problemer.
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###21 Apr 2005 new variable
+common#:#assessment_log#:#Lav en Test&Evaluerings log for en afgrænset periode
 common#:#assessment_log_datetime#:#Dato/Klokken
-common#:#assessment_log_for_test#:#For test###21 Apr 2005 new variable
+common#:#assessment_log_for_test#:#For test
 common#:#assessment_log_log_entries#:#log indgange
 common#:#assessment_log_no_log#:#Der er ingen log for den valgte test i den angivne periode.
 common#:#assessment_log_open_calendar#:#Klick her for at åbne en kalender for valg af dato (JavaScript påkrævet!)
@@ -363,7 +363,7 @@ common#:#at_location#:#Sted
 common#:#attachment#:#Vedhæft
 common#:#attachments#:#Vedhæftede
 common#:#attend#:#Vedhæft
-common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
+common#:#auth_active_roles#:#Globale roller aktiveret i oprettelse
 common#:#auth_allow_local#:#Tillad lokal autentificering
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
@@ -1844,15 +1844,15 @@ common#:#html_block#:#HTML bolk
 common#:#feed#:#Nyheds feed
 common#:#obj_feed#:#Web feed
 common#:#objs_feed#:#Web feeds
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#feed_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#feed_visible#:#Web feed er synligt
 common#:#feed_read#:#Læseadgang til Web feed
 common#:#feed_write#:#Ret webfeed
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#mcst_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#mcst_visible#:#MediaCast er synligt
 common#:#mcst_read#:#Læseadgang til MediaCast
 common#:#mcst_write#:#Rediger MediaCast
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
+common#:#nwss_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
 common#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
 common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
@@ -1927,12 +1927,12 @@ common#:#obj_adm_desc#:#hoved system indstillingers mappe indeholder alle ting t
 common#:#obj_adve#:#Avanceret redigering
 common#:#obj_adve_desc#:#Administrationsindstillinger for avanceret redigering, så som JavaScript baserede Rich Text editors, LaTeX understøttelse osv.
 common#:#obj_alm#:#Læremodul AICC
-common#:#obj_assf#:#Test&Assessment###21 Apr 2005 new variable
-common#:#obj_assf_desc#:#Test&Assessment log settings.###23 Dec 2005 new variable
+common#:#obj_assf#:#Test&Evaluering
+common#:#obj_assf_desc#:#Test&Evaluering logindstillinger
 common#:#obj_auth#:#Autentificering
 common#:#obj_auth_desc#:#Konfigurer din verifikation (lokal, LDAP, ...)
 common#:#obj_cat#:#Kategori
-common#:#obj_cen#:#Centra Event###21 Apr 2005 new variable
+common#:#obj_cen#:#Centra møde
 common#:#obj_chac#:#Chatindstillinger
 common#:#obj_chac_desc#:#Konfigurer din chatserver her. Aktiver/deaktiver chats
 common#:#obj_chat#:#Chat
@@ -1993,14 +1993,14 @@ common#:#obj_stys#:#Layoutopsætning
 common#:#obj_stys_desc#:#Administrer layoutopsætning her
 common#:#obj_svy#:#Undersøgelse
 common#:#obj_tax#:#Taxonomy###21 Apr 2005 new variable
-common#:#obj_taxf#:#Taxonomies###21 Apr 2005 new variable
+common#:#obj_taxf#:#Taxonomier
 common#:#obj_taxf_desc#:#Mappe til taksonomier
 common#:#obj_trac#:#Brugersporing
 common#:#obj_trac_desc#:#Sporing/Overvågning af brugere
-common#:#obj_tst#:#Test###21 Apr 2005 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition###21 Apr 2005 new variable
 common#:#obj_type#:#Objekt Type
-common#:#obj_url#:#URL###21 Apr 2005 new variable
+common#:#obj_url#:#URL
 common#:#obj_uset#:#Brugerindstillinger
 common#:#obj_usr#:#bruger
 common#:#obj_user#:#Bruger
@@ -2048,16 +2048,16 @@ common#:#objs_sahs#:#SCORM/AICC Læremoduler
 common#:#objs_spl#:#Spørgsmål til undersøgelse
 common#:#objs_st#:#Kapitler
 common#:#objs_svy#:#Undersøgelser
-common#:#objs_tst#:#Tests###21 Apr 2005 new variable
+common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekt Typer
-common#:#objs_url#:#URLs###21 Apr 2005 new variable
+common#:#objs_url#:#URL'er
 common#:#objs_usr#:#Brugere
 common#:#objs_webr#:#Webresurser
 common#:#of#:#Af
 common#:#offline#:#offline
-common#:#offline_version#:#Offline Version###21 Apr 2005 new variable
+common#:#offline_version#:#Offline version
 common#:#ok#:#OK
-common#:#go#:#Go###08 12 2006 new variable
+common#:#go#:#Kør
 common#:#hh_mm_ss#:#tt:mm:ss
 common#:#hh_mm#:#tt:mm
 common#:#old#:#Gammel
@@ -2066,7 +2066,7 @@ common#:#online_chapter#:#Online Kapitel
 common#:#online_time#:#Time online (DD:HH:MM:SS)
 common#:#online_version#:#Online version
 common#:#open_views_inside_frameset#:#Åben liste i frame
-common#:#operation#:#Operation###21 Apr 2005 new variable
+common#:#operation#:#Operation
 common#:#optimize#:#Optimer
 common#:#options_for_subobjects#:#Muligheder for Underobjekter
 common#:#order_by#:#List efter
@@ -2080,10 +2080,10 @@ common#:#owner_updated#:#Ejer opdateret
 common#:#page#:#side
 common#:#page_edit#:#Rediger side
 common#:#pages#:#Sider
-common#:#parameter#:#Parameter###21 Apr 2005 new variable
+common#:#parameter#:#Parameter
 common#:#parse#:#Parse###21 Apr 2005 new variable
 common#:#passed#:#Bestået
-common#:#passwd#:#Password###21 Apr 2005 new variable
+common#:#passwd#:#Password
 common#:#passwd_generation#:#Password generering
 common#:#passwd_generation_info#:#Hvis aktiveret kan passwords kun vælges fra en liste
 common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
@@ -2146,15 +2146,15 @@ common#:#phrase#:#Motto
 common#:#please_choose#:#-- vælg --
 common#:#please_enter_target#:#indtast en destination
 common#:#please_enter_title#:#indtast en titel
-common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###21 Apr 2005 new variable
+common#:#please_select_a_delivered_file_to_delete#:#Du skal vælge mindst en leveret fil for at slette den.
 common#:#please_select_a_delivered_file_to_download#:#Du skal vælge mindst en leveret fil for at downloade den!
 common#:#please_wait#:#Vent venligst...
 common#:#port#:#Port
 common#:#position#:#Position
-common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###19 Apr 2006 new variable
+common#:#precondition_not_accessible#:#Du har ikke rettigheder til at se forhåndsbetingelserne for dette objekt.
 common#:#preconditions#:#Betingelser
 common#:#predefined_template#:#Fordefineret rolleskabelon
-common#:#presentation_options#:#Presentation Options###21 Apr 2005 new variable
+common#:#presentation_options#:#Præsentationsvalg
 common#:#previous#:#sidste
 common#:#print#:#Udskriv
 common#:#print_view#:#Udskriftsvisning
@@ -2181,7 +2181,7 @@ common#:#qpl_add#:#tilføj spørgsmål til test
 common#:#qpl_delete#:#Slet spørgsmål til test
 common#:#qpl_edit_permission#:#Ændre rettighedsindstillinger
 common#:#qpl_new#:#Ny spørgsmål til test
-common#:#qpl_read#:#Read access to Question Pool for Test###21 Apr 2005 new variable
+common#:#qpl_read#:#Læseadgang til spørgsmålsbibliotek til test
 common#:#qpl_upload_file#:#Upload fil
 common#:#qpl_visible#:#Spørgsmålssamling til tests er synlig
 common#:#qpl_write#:#Rediger spørgsmålssamling til tests
@@ -2204,7 +2204,7 @@ common#:#reg_mail_body_text1#:#Velkommen til ILIAS e-læring
 common#:#reg_mail_body_text2#:#For at få adgang til  ILIAs brug følgende data:
 common#:#reg_mail_body_text3#:#Yderligere personlig information: 
 common#:#reg_mail_subject#:#ILIAS eLæring - Din brugerkonto
-common#:#reg_passwd_via_mail#:#Dit password vil blive sendt til din email du har angivet herunder.###21 Apr 2005 new variable
+common#:#reg_passwd_via_mail#:#Dit password vil blive sendt til din email du har angivet herunder.
 common#:#register#:#Registrer
 common#:#register_info#:#Udfyld venligst formularen for at blive registreret (Felter der er markeret med en stjerne er påkrævede).
 common#:#registered_since#:#Registreret siden
@@ -2219,15 +2219,15 @@ common#:#remove_personal_picture#:#Fjern
 common#:#remove_translation#:#Fjern Oversættelse
 common#:#rename#:#Omdøb
 common#:#rename_file#:#Omdøb fil
-common#:#repeat_scan#:#Gentager virusscan...###21 Apr 2005 new variable
-common#:#repeat_scan_failed#:#Repeat scan failed.###21 Apr 2005 new variable
-common#:#repeat_scan_succeded#:#Repeat scan succeded.###21 Apr 2005 new variable
+common#:#repeat_scan#:#Gentager scanning
+common#:#repeat_scan_failed#:#Scangentagelse fejlede.
+common#:#repeat_scan_succeded#:#Scangentagelse lykkedes.
 common#:#replace_file#:#Overskriv fil
 common#:#reply#:#Svar
 common#:#repository#:#Oversigt
 common#:#repository_admin#:#Overblik, skrald og rettigheder
 common#:#repository_admin_desc#:#Sæt rettigheder for objekter i oversigten, genskab og fjern indholdet i skraldespanden.
-common#:#repository_frame#:#Repository Content###28 Feb 2006 new variable
+common#:#repository_frame#:#Oversigtsindhold
 common#:#request_membership#:#Anmod om medlemsskab
 common#:#require_city#:#Kræver by
 common#:#require_country#:#Kræver land
@@ -2242,7 +2242,7 @@ common#:#require_institution#:#Kræver Arbejdsplads
 common#:#require_lastname#:#Kræver Efternavn
 common#:#require_login#:#Kræver login
 common#:#require_mandatory#:#påkrævet
-common#:#require_matriculation#:#Require matriculation number###21 Apr 2005 new variable
+common#:#require_matriculation#:#Kræv matrikulationsnummer
 common#:#require_passwd#:#Kræver password
 common#:#require_passwd2#:#Kræver gentagelse af password
 common#:#require_phone_home#:#Kræver hjemme telefon
@@ -2252,7 +2252,7 @@ common#:#require_referral_comment#:#Kræver kommentar
 common#:#require_street#:#Kræver Gade
 common#:#require_zipcode#:#Kræver Postnummer
 common#:#required_field#:#Krævet
-common#:#reset#:#Reset###21 Apr 2005 new variable
+common#:#reset#:#Reset
 common#:#resources#:#Resourcer
 common#:#retype_password#:#Gentag password
 common#:#right#:#Højre
@@ -2282,7 +2282,7 @@ common#:#role_no_groups_selected#:#Vælg venligst en gruppe
 common#:#role_no_results_found#:#Ingen reultater fundet
 common#:#role_no_roles_selected#:#Vælg en rolle
 common#:#role_no_users_no_desk_items#:#Da du ikke kan tildele brugere til denne rolle kan du heller ikke tildele personlige skrivebords objekter.
-common#:#role_protect_permissions#:#Lås rettigheder###
+common#:#role_protect_permissions#:#Lås rettigheder
 common#:#role_search_enter_search_string#:#indtast et søgeord
 common#:#role_search_users#:#Bruger søgning
 common#:#role_select_desktop_item#:#Vælg et eller flere objekter som skal tildeles denne rolle.
@@ -2395,7 +2395,7 @@ common#:#set_offline#:#Sæt til Offline
 common#:#set_online#:#Sæt til Online
 common#:#settings#:#Indstillinger
 common#:#settings_saved#:#Indstillingerne blev gemt
-common#:#shib#:#Shibboleth###17 Aug 2005 new variable
+common#:#shib#:#Shibboleth
 common#:#shib_active#:#Aktiver shibbolethsupport
 common#:#shib_city#:#Attribute for city###17 Aug 2005 new variable
 common#:#shib_configure#:#Configure Shibboleh Authentication###17 Aug 2005 new variable
@@ -2505,7 +2505,7 @@ common#:#svy_not_finished#:#ikke afsluttet
 common#:#svy_not_started#:#Ikke påbegyndt
 common#:#svy_participate#:#Deltag I en undersøgelse
 common#:#svy_read#:#Læseadgang til undersøgelsen
-common#:#svy_run#:#Run###20 Jun 2005 new variable
+common#:#svy_run#:#Kør
 common#:#svy_upload_file#:#Upload fil
 common#:#svy_visible#:#Undersøgelsen er synlig
 common#:#svy_warning_survey_not_complete#:#Spørgeskemaet er ikke færdigt!
@@ -2515,7 +2515,7 @@ common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#valg af system sprog
 common#:#system_groups#:#System Grupper
 common#:#system_grp#:#System Gruppe
-common#:#system_information#:#System information###21 Apr 2005 new variable
+common#:#system_information#:#Systeminformation
 common#:#system_language#:#System sprog
 common#:#system_message#:#Systembesked
 common#:#system_style_settings#:#Indstillinger for stil
@@ -2535,12 +2535,12 @@ common#:#taxf_edit_permission#:#Skift rettighedsindstillinger
 common#:#taxf_read#:#Skrive rettigheder til skatteafgiftsmappe
 common#:#taxf_visible#:#Skatteafgiftsmappe er synlig
 common#:#taxf_write#:#Skriverettigheder til taksonomimappen
-common#:#test#:#Test###21 Apr 2005 new variable
+common#:#test#:#Test
 common#:#test_intern#:#Test intern
 common#:#test_module#:#Testmodul
-common#:#tests#:#Tests###21 Apr 2005 new variable
+common#:#tests#:#Tests
 common#:#thread#:#Thread
-common#:#thumbnail#:#Thumbnail###23 Dec 2005 new variable
+common#:#thumbnail#:#Galleri
 common#:#time_d#:#Dag
 common#:#time_h#:#Time
 common#:#time_limit#:#Adgang
@@ -2551,10 +2551,10 @@ common#:#time_limit_message#:#Besked (tidsbegrænsning)
 common#:#time_limit_no_users_selected#:#Vælg venligst en bruger.
 common#:#time_limit_not_valid#:#Perioden er ikke gyldig.
 common#:#time_limit_not_within_owners#:#Din adgang er tidsbegrænset.
-common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
+common#:#time_limit_owner#:#Ejer (tidsbegræsning)
 common#:#time_limit_reached#:#Din adgangsperiode er udløbet.
 common#:#time_limit_unlimited#:#Ubegrænset (tidsgrænse)
-common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
+common#:#time_limit_until#:#Indtil (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Brugerdata er opdateret
 common#:#time_limits#:#Adgang
 common#:#time_segment#:#Tidsperiode
@@ -2583,7 +2583,7 @@ common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree)
 common#:#tree_left#:#Left
 common#:#tree_right#:#Right
 common#:#treeview#:#Træoversigt
-common#:#tst#:#Test###21 Apr 2005 new variable
+common#:#tst#:#Test
 common#:#tst_add#:#Tilføj tekst
 common#:#tst_anon_eval#:#Resultater
 common#:#tst_delete#:#Slet test
@@ -2647,12 +2647,12 @@ common#:#update#:#Rediger
 common#:#update_applied#:#Opdatering gennemført
 common#:#update_language#:#Opdater sprog
 common#:#update_on_conflict#:#Opdater ved konflikt
-common#:#upload#:#Upload###21 Apr 2005 new variable
+common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload fejl: Fil ikke fundet.
 common#:#uploaded_and_checked#:#Filen er blevet uploadet og checket, Du kan nu importere filen.
 common#:#uri#:#URI
 common#:#url#:#URL
-common#:#url_a#:#en URL###21 Apr 2005 new variable
+common#:#url_a#:#en URL
 common#:#url_add#:#Tilføj URL
 common#:#url_added#:#URL tilføjet
 common#:#url_create_url#:#Opret URL
@@ -2660,9 +2660,9 @@ common#:#url_delete#:#Slet URL
 common#:#url_description#:#URL-beskrivelse
 common#:#url_edit#:#Ændre URL
 common#:#url_edit_permission#:#Ændre rettighedsindstillinger
-common#:#url_new#:#New URL###21 Apr 2005 new variable
+common#:#url_new#:#Ny URL
 common#:#url_not_found#:#Fil ikke fundet
-common#:#url_read#:#Open URL###21 Apr 2005 new variable
+common#:#url_read#:#Følg URL
 common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#url_visible#:#URL er synlig
 common#:#url_write#:#Ændre URL
@@ -2730,7 +2730,7 @@ common#:#usrf_read#:#Læseadgang til brugerkonti
 common#:#usrf_read_users#:#Rolletildeling for lokale administratorer
 common#:#usrf_visible#:#Brugerkonti er synlige
 common#:#usrf_write#:#Rediger brugerkonti
-common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
+common#:#usrimport_action_failed#:#Handling %1$s fejlede
 common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
 common#:#usrimport_cant_delete#:#Kan ikke udføre handlingen \"fjern\". Der er ikke en sådan bruger i databasen.
