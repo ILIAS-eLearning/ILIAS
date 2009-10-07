@@ -218,8 +218,8 @@ abstract class ilDB extends PEAR
 		}
 
 		//connect to database
-		$this->db = MDB2::connect($this->getDSN(),
-			array("use_transactions" => true));
+		$this->doConnect();
+		
 		if ($a_return_false_for_error && MDB2::isError($this->db))
 		{
 			return false;
@@ -231,18 +231,7 @@ abstract class ilDB extends PEAR
 		if (!$this->isDbError($this->db))
 		{
 			$this->db->setOption('portability', MDB2_PORTABILITY_ALL);
-/*
-if ($this->getDBType() == "mysql")
-{
-			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
-			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
-
-			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_FIX_CASE);
-			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
-}*/
-
 		}
-
 		//check error
 		$this->handleError($this->db);
 		
@@ -250,6 +239,15 @@ if ($this->getDBType() == "mysql")
 		$this->initConnection();
 
 		return true;
+	}
+	
+	/**
+	* Standard way to connect to db
+	*/
+	function doConnect()
+	{
+		$this->db = MDB2::connect($this->getDSN(),
+			array("use_transactions" => true));
 	}
 	
 	/**
