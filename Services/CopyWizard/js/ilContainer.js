@@ -21,10 +21,13 @@ function ilDisableChilds(the_form)
 			continue;
 		}
 
-		var depth = id_info[0];
+		var sDepth = id_info[0];
 		var type = id_info[1];
 		var ref_id = id_info[2];
 		var action = id_info[3];
+		
+		var depth = parseInt(sDepth);
+		
 
 		if(disable == true && depth > stored_depth)
 		{
