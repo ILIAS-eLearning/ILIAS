@@ -729,11 +729,15 @@ class ilSetup extends PEAR
 			unset($this->client);
 			return false;		
 		}
-		
+
+		$s1 = $this->client->db->query("SELECT value from settings WHERE keyword = ".
+			$this->client->db->quote('system_role_id','text'));
+		$r1 = $this->client->db->fetchAssoc($s1);
+		//var_dump ($r1);
 		$q = "SELECT usr_data.usr_id FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON rbac_ua.usr_id=usr_data.usr_id ".
 			 "LEFT JOIN settings ON settings.value = rbac_ua.rol_id ".
-			 "WHERE settings.keyword='system_role_id' ".
+			 "WHERE settings.keyword = ".$this->client->db->quote('system_role_id','text')."  ".
 			 "AND usr_data.login=".$this->client->db->quote($a_auth_data["username"],'text')." ".
 			 "AND usr_data.passwd=".$this->client->db->quote(md5($a_auth_data["password"]),'text');
 		$r = $this->client->db->query($q);

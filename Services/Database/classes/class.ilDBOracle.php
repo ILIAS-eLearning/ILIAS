@@ -37,7 +37,7 @@ class ilDBOracle extends ilDB
                         'hostspec' => $this->getDBHost(),
                         'username' => $this->getDBUser(),
                         'password' => $this->getDBPassword(),
-                        'service' => $this->getDBName(),
+                        'service' => $this->getDBName()
                         );
 		
 		//return "oci8://".$this->getDBUser().":".$this->getDBPassword()."@".
