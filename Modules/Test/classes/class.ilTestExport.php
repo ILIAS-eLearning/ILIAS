@@ -493,13 +493,13 @@ class ilTestExport
 									if ($pass == 0 && !$firstrowwritten)
 									{
 										$worksheet->write(0, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
-										$firstrowwritten = true;
 									}
 								}
 								$col++;
 							}
 						}
 					}
+					$firstrowwritten = true;
 				}
 				$counter++;
 			}
