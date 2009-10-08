@@ -2294,9 +2294,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$savepdf->setChecked( $active['save_copy'] );       
     $chk->setChecked( $active['use_ean']);                
     
+    $save_msg = $this->lng->txt('pays_erp_invoice_copies_info') .' ' .ilERP::getSaveDirectory();
     
+    if (!is_writable( ilERP::getSaveDirectory() )) $save_msg .= "<br/><b>" . $this->lng->txt('pays_erp_invoice_nowrite') . "</b>";
+    $save_msg .= $preview_link;
 		
-		$savepdf->setInfo($this->lng->txt('pays_erp_invoice_copies_info') .' ' .ilERP::getSaveDirectory() . "<br/>" . $preview_link);
+		$savepdf->setInfo($save_msg);
 		
 		$frm->addItem($savepdf);
 		

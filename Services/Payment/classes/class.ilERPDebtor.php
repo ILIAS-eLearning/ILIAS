@@ -113,7 +113,11 @@ class ilERPDebtor
   public function saveInvoice($contens, $preview=true)
   {
     $file = ($preview) ? ilERP::getPreviewFile() : ilERP::getSaveDirectory() . $this->getInvoiceNumber(). ".pdf";
-    $fp = fopen( $file, 'w+' );
+    $fp = @fopen( $file, 'w+' );
+    if (!$fp)
+    {
+      throw new ilERPException("Cannot write " . $file);
+    }    
     fwrite($fp, $contens);
     fclose($fp);  
   }
