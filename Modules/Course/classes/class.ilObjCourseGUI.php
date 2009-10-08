@@ -1862,6 +1862,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$newObj->initDefaultRoles();
 		$newObj->initCourseMemberObject();
 		$newObj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
+		$newObj->members_obj->updateNotification($ilUser->getId(),1);
 		
 		// BEGIN ChangeEvent: Record write event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
