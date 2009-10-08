@@ -2532,6 +2532,7 @@ class ilMail
 		$lang = $a_language ? $a_language : $lng;
 		
 		$gender = ilObjUser::_lookupGender($a_usr_id);
+		$gender = $gender ? $gender : 'n';
 		$name = ilObjUser::_lookupName($a_usr_id);
 		return $lang->txt('mail_salutation_'.$gender).' '.
 			($name['title'] ? $name['title'].' ' : '').
