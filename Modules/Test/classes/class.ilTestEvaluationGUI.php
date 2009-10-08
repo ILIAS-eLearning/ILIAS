@@ -1134,7 +1134,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$command_solution_details = "outCorrectSolution";
 			}
-			$detailsoverview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outUserResultsOverview", $command_solution_details);
+			$detailsoverview = (!$hide_details) ? $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outUserResultsOverview", $command_solution_details) : '';
 
 			$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
