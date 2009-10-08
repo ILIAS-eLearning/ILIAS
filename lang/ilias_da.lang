@@ -9753,8 +9753,8 @@ survey#:#codes_created#:#Code(s) created###24 07 2009 new variable
 survey#:#language_changed#:#Language changed###24 07 2009 new variable
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.###24 07 2009 new variable
 content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###24 07 2009 new variable
-content#:#cont_uploaded_file#:#Existing file###24 07 2009 new variable
-content#:#cont_upload_dir#:#Upload directory###24 07 2009 new variable
+content#:#cont_uploaded_file#:#Eksisterende fil
+content#:#cont_upload_dir#:#Upload mappe
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###24 07 2009 new variable
 common#:#notifications#:#Notifications###24 07 2009 new variable
 assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable

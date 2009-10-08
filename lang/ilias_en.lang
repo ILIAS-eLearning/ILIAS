@@ -10104,3 +10104,4 @@ payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:
 payment#:#pays_erp_invoice_preview#:#View test invoice in new window
 payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice
 payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.
