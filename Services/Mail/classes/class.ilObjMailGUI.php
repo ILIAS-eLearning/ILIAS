@@ -70,6 +70,13 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this, 'save'));
 		$this->form->setTitle($this->lng->txt('general_settings'));
 		
+		// Subject prefix
+		$pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'),'mail_subject_prefix');
+		$pre->setSize(12);
+		$pre->setMaxLength(32);
+		$pre->setInfo($this->lng->txt('mail_subject_prefix_info'));
+		$this->form->addItem($pre);
+		
 		// incoming type
 		include_once 'Services/Mail/classes/class.ilMailOptions.php';
 		$options = array(
@@ -127,6 +134,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';	
 		
 		$this->form->setValuesByArray(array(
+			'mail_subject_prefix' => $settings['mail_subject_prefix'] ? $settings['mail_subject_prefix'] : '[ILIAS]',
 			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
 			'pear_mail_enable' => ($settings['pear_mail_enable'] == 'y' && $is_pear_mail_installed) ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
@@ -146,6 +154,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->initForm();		
 		if($this->form->checkInput())
 		{
+			$this->ilias->setSetting('mail_subject_prefix',$this->form->getInput('mail_subject_prefix'));
 			$this->ilias->setSetting('mail_incoming_mail', (int)$this->form->getInput('mail_incoming_mail'));
 			$this->ilias->setSetting('mail_maxsize_attach', $this->form->getInput('mail_maxsize_attach'));
 			$this->ilias->setSetting('pear_mail_enable', $this->form->getInput('pear_mail_enable'));
