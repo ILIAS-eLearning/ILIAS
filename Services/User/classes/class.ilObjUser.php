@@ -1889,7 +1889,7 @@ class ilObjUser extends ilObject
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		return $row->matricultation ? $row->matriculation : '';
+		return $row->matriculation ? $row->matriculation : '';
 	}
 
 	/**
