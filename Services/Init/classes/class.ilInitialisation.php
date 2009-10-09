@@ -1034,7 +1034,7 @@ class ilInitialisation
 		}
 
 		// $ilias initialisation
-			global $ilias, $ilBench;
+		global $ilias, $ilBench;
 		$ilBench->start("Core", "HeaderInclude_GetILIASObject");
 		$ilias = new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;
@@ -1169,11 +1169,13 @@ class ilInitialisation
 //	echo "<br>B-".$ilAuth->getAuth()."-".$ilAuth->_sessionName."-".$ilias->account->isCurrentUserActive()."-";
 //}
 //var_dump ($session[_authsession]);
-		if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
+		#if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
+		#	(defined("IL_PHPUNIT_TEST") && DEVMODE))
+			
+		if($ilAuth->getStatus() == '' &&
+			$ilias->account->isCurrentUserActive() ||
 			(defined("IL_PHPUNIT_TEST") && DEVMODE))
 		{
-
-			
 //echo "C"; exit;
 			$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 //var_dump($_SESSION);
