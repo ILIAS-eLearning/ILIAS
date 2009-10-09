@@ -10121,3 +10121,5 @@ administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the reposit
 payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
 payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail-Betreff
+mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. 

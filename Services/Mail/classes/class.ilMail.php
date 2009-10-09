@@ -2501,8 +2501,11 @@ class ilMail
 		global $ilClientIniFile;
 		
 		$signature = "\n\n* * * * *\n";
-		$signature .= CLIENT_ID."\n";
 		$signature .= $ilClientIniFile->readVariable('client', 'name')."\n";
+		if(strlen($desc = $ilClientIniFile->readVariable('client', 'description'))) 
+		{
+			$signature .= $desc."\n";
+		}
 		$signature .= ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID;
 		
 		return $signature;
@@ -2517,7 +2520,7 @@ class ilMail
 		global $ilSetting;
 		static $prefix = null;
 		
-		return $prefix == null ? $ilSetting->get('mail_subject_prefix','[ILIAS]') : $prefix;
+		return $prefix == null ? $ilSetting->get('mail_subject_prefix','') : $prefix;
 	}
 	
 	/**

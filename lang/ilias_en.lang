@@ -10105,3 +10105,5 @@ payment#:#pays_erp_invoice_preview#:#View test invoice in new window
 payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice
 payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted
 payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.
+mail#:#mail_subject_prefix#:#Mail Subject
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
