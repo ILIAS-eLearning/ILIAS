@@ -16139,3 +16139,11 @@ if (!$ilDB->tableExists("payment_erps"))
 <?php
   $ilDB->manipulate("UPDATE payment_erp SET save_copy=1, use_ean=1 WHERE erp_id=1");
 ?>
+
+<#2902>
+<?php
+	$ilDB->insert("settings", array(
+		"module" => array("text", 'common'),
+		"keyword" => array("text", 'mail_subject_prefix'),
+		"value" => array("clob", '[ILIAS]')));
+?>
