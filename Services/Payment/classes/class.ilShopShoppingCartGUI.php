@@ -330,20 +330,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	  include_once './payment/classes/class.ilPaymentObject.php';
     include_once './payment/classes/class.ilPaymentBookings.php';
-    include_once './payment/classes/class.ilERP.php';
+    include_once './Services/Payment/classes/class.ilERP.php';
     
-    $erp = new ilERP();
-    $system = $erp->getActive();
-    $erpsys = $system['erp_short'];
+    
+    $active =ilERP::getActive();
+    $erpsys = $active['erp_short'];
    
 	  $cart = new ilPaymentShoppingCart($ilUser);
 	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
 	  
-	  include_once './Services/Payment/classes/class.ilERPDebtor_' . $erpsys . '.php';
-	  $cls = "ilERPDebtor_" . $erpsys;
+	  $cls = "ilERPDebtor_" . $active['erp_short']; 
+	  include_once './Services/Payment/classes/class.' . $cls. '.php';
+	  $deb = new $cls();
 	  $usr_id =  $ilUser->getId();          
-    $deb = new $cls();
-    
     
     try
     {

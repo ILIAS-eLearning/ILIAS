@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Jens Conze <jc@databay.de> 
-* @author JEsper Gødvad <jesper@ilias.dk>
+* @author Jesper Gødvad <jesper@ilias.dk>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
@@ -195,6 +195,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 												break;
 					case 'saveERPsettings' :
 					case 'delERPpreview': 
+					case 'testERPsettings' :
 					case 'erpSettings' : $this->__setSection($this->SECTION_ERP);
                         $this->__setMainSection($this->SETTINGS);
                         $this->tabs_gui->setTabActive('settings');
@@ -2059,25 +2060,48 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		
 		$genSet->clearAll();
+				
+		
+		/*$values = array(
+			'currency_unit' => $_POST['currency_unit']),
+			'currency_subunit' => $_POST['currency_subunit']),
+			'address' => $_POST['address']),
+			'bank_data' => $_POST['bank_data']),
+			'add_info' => $_POST['add_info']),
+			'pdf_path' => $_POST['pdf_path']),
+			'topics_allow_custom_sorting' => $_POST['topics_allow_custom_sorting']),
+			'topics_sorting_type' => $_POST['topics_sorting_type']),
+			'topics_sorting_direction' => $_POST['topics_sorting_direction']),
+			'max_hits' => $_POST['max_hits']),
+			'shop_enabled' => $_POST['shop_enabled']),	
+			'save_customer_address_enabled' => $_POST['save_customer_address_enabled']),
+			'hide_advanced_search' => $_POST['hide_advanced_search']),
+			'hide_filtering' => $_POST['hide_filtering']),
+			'hide_coupons' => $_POST['hide_coupons']),
+			'hide_news' => $_POST['hide_news'])
+		);*/
 		$values = array(
-			'currency_unit' => ilUtil::stripSlashes($_POST['currency_unit']),
-			'currency_subunit' => ilUtil::stripSlashes($_POST['currency_subunit']),
-			'address' => ilUtil::stripSlashes($_POST['address']),
-			'bank_data' => ilUtil::stripSlashes($_POST['bank_data']),
-			'add_info' => ilUtil::stripSlashes($_POST['add_info']),
-//			'vat_rate' => (float) str_replace(',', '.', ilUtil::stripSlashes($_POST['vat_rate'])),
-			'pdf_path' => ilUtil::stripSlashes($_POST['pdf_path']),
-			'topics_allow_custom_sorting' => ilUtil::stripSlashes($_POST['topics_allow_custom_sorting']),
-			'topics_sorting_type' => ilUtil::stripSlashes($_POST['topics_sorting_type']),
-			'topics_sorting_direction' => ilUtil::stripSlashes($_POST['topics_sorting_direction']),
-			'max_hits' => ilUtil::stripSlashes($_POST['max_hits']),
-			'shop_enabled' => ilUtil::stripSlashes($_POST['shop_enabled']),	
-			'save_customer_address_enabled' => ilUtil::stripSlashes($_POST['save_customer_address_enabled']),
-			'hide_advanced_search' => ilUtil::stripSlashes($_POST['hide_advanced_search']),
-			'hide_filtering' => ilUtil::stripSlashes($_POST['hide_filtering']),
-			'hide_coupons' => ilUtil::stripSlashes($_POST['hide_coupons']),
-			'hide_news' => ilUtil::stripSlashes($_POST['hide_news'])
+			'currency_unit',
+			'currency_subunit',
+			'address',
+			'bank_data',
+			'add_info',
+			'pdf_path',
+			'topics_allow_custom_sorting',
+			'topics_sorting_type',
+			'topics_sorting_direction',
+			'max_hits',
+			'shop_enabled',
+			'save_customer_address_enabled',
+			'hide_advanced_search',
+			'hide_filtering',
+			'hide_coupons',
+			'hide_news'
 		);
+		
+		foreach ($values as $value) $values[$value] = ilUtil::stripSlashes($_POST[$value]);		
+		
+		
 		$genSet->setAll($values);
 		$this->generalSettingsObject();
 
@@ -2095,7 +2119,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
   {
     global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
@@ -2105,7 +2128,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		include_once './payment/classes/class.ilEPaySettings.php';
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_epay_settings.html','payment');
-		
 		
 		$ePayObj = ilEPaySettings::getInstance();
 		
@@ -2131,9 +2153,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       $fi->setValue($ep[$f[1]]);
       $fi->setRequired($f[2]);
       if ($f[3] != null ) $fi->setInfo($this->lng->txt($f[3]));
+      if ($f[1] == 'auth_token') $fi->setInputType('password');
       $form->addItem($fi);		
 		}		
-		
 
 		$formItem = new ilCheckboxInputGUI($this->lng->txt('pays_epay_instant_capture'), 'instant_capture');
 		$formItem->setChecked($ep['instant_capture'] == 1);
@@ -2160,25 +2182,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
     $arr = array_map("ilUtil::stripSlashes", $arr);
     $arr['instant_capture'] = isset($_POST['instant_capture']) ? 1 : 0;
     
-    //$arr['instant_capture'] = ($arr['instant_capture'] == 1) ? true : false;
-		
-		/*$epSet->setServerHost(ilUtil::stripSlashes($_POST['server_host']));
-		$epSet->setServerPath(ilUtil::stripSlashes($_POST['server_path']));
-		$epSet->setMerchantNumber(ilUtil::stripSlashes($_POST['merchant_number']));
-		$epSet->setAuthToken(ilUtil::stripSlashes($_POST['auth_token']));
-		$epSet->setAuthEmail(ilUtil::stripSlashes($_POST['auth_email']));
-		$epSet->setInstantCapture(ilUtil::stripSlashes($_POST['instant_capture'] ? "1" : "0"));*/
+
 		
 		$epSet->setAll($arr);
 		
 		if (!$epSet->valid()) 
 		{
-
-		/*if ($_POST['server_host'] == '' ||
-			$_POST['server_path'] == '' ||
-			$_POST['merchant_number'] == '' ||
-			$_POST['auth_token'] == '')
-		{*/
 			$this->error = $this->lng->txt('pays_epay_settings_not_valid');
 			ilUtil::sendFailure($this->error);
 			$this->epaySettingsObject();
@@ -2221,6 +2230,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
       $txt = new ilTextInputGUI($this->lng->txt($f[0]), $f[1]);
       $txt->setMaxLength($f[2]);
       $txt->setValue($set[$f[1]]);
+      if ($f[0] == 'password') $txt->setInputType('password');
       $op->addSubItem($txt);
     }
 
@@ -2238,20 +2248,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	*/	
 	private function getERPform()
 	{
-    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-    require_once './payment/classes/class.ilERP_eco.php';
+    include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+    require_once './Services/Payment/classes/class.ilERP_eco.php';
     
     global $ilias;
-    
-
-    $erp = new ilERP();
-    $systems = $erp->getAllERPs();
-    $active = $erp->getActive();
+      
+    $systems = ilERP::getAllERPs();
+    $active = ilERP::getActive();    
     global $ilias;
 
     $frm = new ilPropertyFormGUI();
     
-    //$form->setFormAction($this->ctrl->getFormAction($this, 'saveEPaySettings'));
+    
 		$frm->setFormAction($this->ctrl->getFormAction($this, 'saveEEPsettings'));		
 		$frm->setTitle($this->lng->txt('pays_erp_settings'));		
 		
@@ -2319,19 +2327,21 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	* @return mixed ERP instance
 	*/
 	private function getERPObject($system)
-	{
-		require_once './payment/classes/class.ilERP.php';		
+	{		
+    require_once './Services/Payment/classes/class.ilERP.php';
 		switch ($system)
 		{		
       case ERP_NONE:        
-        $instance = new ilERP();
+        require_once './Services/Payment/classes/class.ilERP_none.php';		
+        $instance = new ilERP_none();
         break;
       case ERP_ECONOMIC:
-        require_once './payment/classes/class.ilERP_eco.php';		
+        require_once './Services/Payment/classes/class.ilERP_eco.php';		
         $instance = new ilERP_eco();                
         break;
-      default:
-        throw new ilERPExcaption("Failed to get ERP instance. Report bug to mantis.");        
+      default:        
+        throw new ilERPException("System " . $system . " is invalid.");        
+        break;
     }
     return $instance;	
 	}
@@ -2349,7 +2359,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
   
   private function delERPpreviewObject()
   {
-    require_once './payment/classes/class.ilERP.php';
+    require_once './Services/Payment/classes/class.ilERP.php';
     if (ilERP::preview_exists()) ilERP::preview_delete(); 
     ilUtil::sendInfo($this->lng->txt('pays_erp_invoice_deleted'));
     $this->erpSettingsObject();
@@ -2366,16 +2376,17 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		try
     {        	
       $this->saveERPsettingsObject();		
-      $system = (int) $_POST['erp_id'];
-      require_once './payment/classes/class.ilERP.php';	
-      if ($system == ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
-      else
-      {
-        include_once './Services/Payment/classes/class.ilERPDebtor_eco.php';      
-        $good = "";
-      
-        $deb = new ilERPDebtor_eco(); // "5798000416826");
+      $active = ilERP::getActive();
+      assert ($active['erp_id'] == (int) $_POST['erp_id']);
         
+      $cls = "ilERPDebtor_" . $active['erp_short'] ;
+      require_once './Services/Payment/classes/class.' . $cls . ".php";
+            
+      if ($active['erp_id']== ERP_NONE) ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+      else
+      { 
+        
+        $deb = new $cls();        
         $nr = rand(1030,1040);        
         if ($deb->getDebtorByNumber($nr))
         {          
@@ -2402,7 +2413,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
         $v = $deb->bookInvoice();
         $good .= ", # " . $deb->getInvoiceNumber(); 
         
-        $attach = $deb->getInvoicePDF($v); //$inv);
+        $attach = $deb->getInvoicePDF($v); 
         
         $deb->saveInvoice($attach, true);                 
         $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura");
