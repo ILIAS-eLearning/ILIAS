@@ -39,33 +39,22 @@ abstract class ilERP
   protected $password;
   protected $use_ean; // Danish public sector only.
   protected $save_copy;
-  public $connection_ok = false;
-  
-  protected static $db;
-  
+    
   private $erps_id =0; // future support for several settings  
-  
-  const erp_id = ERP_NONE;
-  const name = "n/a";
+  private static $erp_id = ERP_NONE;
     
   const preview_pre = "invoice_";
   const preview_ext = ".pdf";
+  //abstract erp_id;
   
-  public static function sjover() { return "HEJ"; }
+  abstract public function getName(); 	
+	abstract public function loadSettings($erps_id=0);
+	//abstract public function saveSettings($settings);
+  abstract public function looksValid();
+	abstract public function connect();	
+  abstract public function disconnect();
   
-  //private static $ilias_ini;
-  	
-	
-	
-	/**
-	* Virtual function. Should be overridden by subclasses to support specific ERPs
-	*
-	**/	
-	public function loadSettings($erps_id=0)
-	{
-    assert($erps_id == 0);
-    return true;
-  }
+
   
   /**
   * Get filename for preview invoice
@@ -107,20 +96,63 @@ abstract class ilERP
     if (self::preview_exists())
     unlink (self::getPreviewFile());
   }
-  
- 
-  
-  
-
   /**
-  * Get name of current ERP system.
-  * Usefull for messages
-  * @return string
-  */  
-  public function getName()
-  {
-    return "n/a";
-  }
+	* Get the list of ILIAS supported ERPs 
+	* @return mixed array of ERPs	
+	*/
+  public static function getAllERPs()
+	{
+    global $ilDB;
+    $res = $ilDB->query('SELECT * FROM payment_erp ORDER BY erp_id' );    
+    $a = array();        
+    while ( $result = $res->fetchRow(MDB2_FETCHMODE_ASSOC) ) $a[$result['erp_id']] = $result;
+    return $a;    
+	}  
+ 
+  /**
+	* Set settings posted by some form
+	*/	
+	public function setSettings($a)
+	{
+    $this->setUsername( $a['username'] );
+    $this->setPassword( $a['passsword'] );    
+    $this->setSaveCopy( $a['save_copy'] );
+    $this->setUseEAN(   $a['use_ean'] );	
+	}
+	
+  public function saveSettings($settings)  
+  {	
+    global $ilDB;
+    unset( $settings['url']);
+    unset( $settings['description']);
+    unset( $settings['erp_short']);
+    unset( $settings['name']);
+    
+    $settings['save_copy'] = (int) $settings['save_copy'];
+    $settings['use_ean'] = (int) $settings['use_ean'];           
+    
+    if ($settings['erp_id'] == 0) 
+    {
+      unset($settings);
+      $settings['erp_id'] = 0;      
+    }    
+    
+    $ilDB->manipulateF("
+      UPDATE payment_erp SET save_copy=%s, use_ean=%s WHERE erp_id=%s",
+      array("integer", "integer", "integer"),
+      array($settings['save_copy'], $settings['use_ean'], $settings['erp_id'])
+    );
+    
+    unset($settings['save_copy']);
+    unset($settings['use_ean']);
+	
+    $ilDB->manipulateF("
+      UPDATE payment_erps SET settings=%s WHERE erps_id=%s AND erp_id=%s",
+      array("text", "integer", "integer"),
+      array( serialize($settings), $this->erps_id, $settings['erp_id']));
+    return true;	
+	}		  	
+	
    
 	
 	/**
@@ -155,18 +187,7 @@ abstract class ilERP
     $this->use_ean = (int) $v;
   }
 	
-	/**
-	* Get the list of ILIAS supported ERPs 
-	* @return mixed array of ERPs	
-	*/
-  public static function getAllERPs()
-	{
-    global $ilDB;
-    $res = $ilDB->query('SELECT * FROM payment_erp ORDER BY erp_id' );    
-    $a = array();        
-    while ( $result = $res->fetchRow(MDB2_FETCHMODE_ASSOC) ) $a[$result['erp_id']] = $result;
-    return $a;    
-	}
+	
 
 	/**
 	* Sets a specific configuration active and disable all other ERPs.
@@ -192,62 +213,12 @@ abstract class ilERP
     return $values;
 	}
 	
-  /**
-	* Save setup for some generic ERP-system
-	*
-	* @access public
-	**/
-	public function saveSettings($settings)
-	{	
-    global $ilDB;
-    unset( $settings['url']);
-    unset( $settings['description']);
-    unset( $settings['erp_short']);
-    unset( $settings['name']);
-    
-    
-    
-    $settings['save_copy'] = (int) $settings['save_copy'];
-    $settings['use_ean'] = (int) $settings['use_ean'];       
-    
-    
-    if ($settings['erp_id'] == 0) 
-    {
-      unset($settings);
-      $settings['erp_id'] = 0;      
-    }    
-    
-    $ilDB->manipulateF("
-      UPDATE payment_erp SET save_copy=%s, use_ean=%s WHERE erp_id=%s",
-      array("integer", "integer", "integer"),
-      array($settings['save_copy'], $settings['use_ean'], $settings['erp_id'])
-    );
-    
-    unset($settings['save_copy']);
-    unset($settings['use_ean']);
-	
-    $ilDB->manipulateF("
-      UPDATE payment_erps SET settings=%s WHERE erps_id=%s AND erp_id=%s",
-      array("text", "integer", "integer"),
-      array( serialize($settings), $this->erps_id, $settings['erp_id']));
-      
-    
-      
-    return true;	
-	}		
+
 	
 	
-	/**
-	* Set settings posted by some form
-	*/	
-	public function setSettings($a)
-	{   
-    $this->setUsername( $a['username'] );
-    $this->setPassword( $a['passsword'] );    
-    $this->setSaveCopy( $a['save_copy'] );
-    $this->setUseEAN(   $a['use_ean'] );
-    
-	}
+	
+	
+
 	
 	/**
 	* Return all relevant settings for a configuration. 
@@ -255,9 +226,8 @@ abstract class ilERP
 	* and subclasses should merge their data into the output.	
 	**/	
 	public function getSettings($elvis_is_alive = 0)
-	{
-    //$system = $this->getERPConstants($this->erp_id);
-    $system = $this->getERPConstants(self::erp_id);
+	{    
+    $system = $this->getERPConstants(self::$erp_id);
     $a['username'] = $this->username;
     $a['password'] = $this->password;
     $a['use_ean'] = $this->use_ean;
@@ -265,23 +235,8 @@ abstract class ilERP
     return array_merge($system, $a);
 	}
 	
-	/**
-	*
-	*/
-	public function looksValid()
-	{    
-    return true;
-  }
 	
-	public function connect()
-	{
-    $this->connection_ok = true;
-  }
-  public function disconnect()
-  {
-    $this->connection_ok = false;
-  }
-  
+	
 
 	/**
 	* Get some ERP system specific variables, stored in payment_erp

@@ -45,7 +45,7 @@ class ilERP_eco extends ilERP
   public $client;
   
   const wsdl = "https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL";
-  const erp_id = ERP_ECONOMIC;
+  private static $erp_id = ERP_ECONOMIC;
   const name = "E-conomic";
 	
 	public function __construct()
@@ -66,7 +66,7 @@ class ilERP_eco extends ilERP
 	{
 		if (isset(self::$instance) and self::$instance)
 		{
-      return self::$instance;    
+      return self::$instance; 
     }
     return self::$instance = new ilERP_eco();
     
@@ -111,6 +111,11 @@ class ilERP_eco extends ilERP
     }
     $this->connection_ok = true;
   }
+  public function disconnect()
+  {
+    unset($this->client);
+    $this->connection_ok = false;
+  }
   
   public function getName()
   {
@@ -151,8 +156,7 @@ class ilERP_eco extends ilERP
 	* @access public
 	*/
 	public function setSettings( $a )
-	{
-    
+	{    
     $this->setAgreement( $a['agreement'] );    
     $this->setProduct( $a['product'] );
     $this->setTerms( $a['terms'] );
@@ -170,7 +174,7 @@ class ilERP_eco extends ilERP
 	*/	
 	public function looksValid()
 	{
-      if (!parent::looksValid()) return false;
+      //if (!parent::looksValid()) return false;
 	
       $s = $this->getSettings();
       $ok = true;
@@ -179,8 +183,6 @@ class ilERP_eco extends ilERP
       if (($s['product']==0) || ($s['terms']==0) || ($s['layout']==0) ) $ok = false;       
       return $ok;	
 	}
-	
-	
 	
 	/** 
 	 * Called from constructor to fetch settings from database
@@ -219,9 +221,6 @@ class ilERP_eco extends ilERP
 		$this->setTerms( $data['terms']);
 		$this->setLayout( $data['layout']);
 		$this->setCode( $data['code']);		
-	}
-	
-
-	
+	}	
 }
 ?>
