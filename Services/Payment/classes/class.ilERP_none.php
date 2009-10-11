@@ -43,14 +43,12 @@ class ilERP_none extends ilERP
   private static $instance = null;
   
   public $client;
-  
-  const wsdl = "https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL";
+    
   const erp_id = ERP_NONE;
   const name = "none";
 	
 	public function __construct()
-	{
-    
+	{    
     $this->loadSettings(0);    
   }
   
@@ -80,36 +78,18 @@ class ilERP_none extends ilERP
 	* @return	array
 	*/
 	public function getSettings($erps_id = 0)	
-	{
-    $this->loadSettings($erps_id);
-    $ap = parent::getSettings();	
-    $ret = array();
-    $ret['agreement'] = $this->agreement;   
-    $ret['product'] = $this->product;
-    $ret['terms'] = $this->terms;
-    $ret['layout'] = $this->layout;
-    $ret['code'] = $this->code;    
+	{    
+    return parent::getSettings();	
     
-    return array_merge($ap, $ret);    
 	}
 	   
   public function connect()
   {
-    if ($this->connection_ok) return;    
-    try 
-    {      
-      $this->client = new SoapClient(self::wsdl, array("trace" => 1, "exceptions" => 1));
-      $this->client->Connect(array(
-        'agreementNumber' => $this->agreement,
-        'userName' => $this->username,
-        'password' => $this->password)
-      );
-    }
-    catch (Exception $e)
-    {
-      throw new ilERPException(__FILE__ . ":" . __LINE__ . " " . $e->getMessage());
-    }
     $this->connection_ok = true;
+  }  
+  public function disconnect()
+  {
+    $this->connection_ok = false;
   }
   
   public function getName()
@@ -118,31 +98,7 @@ class ilERP_none extends ilERP
   }
 
 	
-	/**
-	* Set the e-conomic agreement number
-	* @access private
-	*/	
-	private function setAgreement( $v ) 
-	{
-    $this->agreement = (int) $v;
-	}	
-  private function setProduct( $v )
-  {
-    $this->product = (int) $v;
-  }
-  private function setTerms( $v )
-  {
-    $this->terms = (int) $v;
-  }
-  private function setLayout( $v )
-  {
-    $this->layout = (int) $v;
-  }
-  private function setCode( $v )
-  {
-    $this->code = $v;
-  }
- 
+	
 	
 	
 	/**
@@ -151,15 +107,8 @@ class ilERP_none extends ilERP
 	* @access public
 	*/
 	public function setSettings( $a )
-	{
-    
-    $this->setAgreement( $a['agreement'] );    
-    $this->setProduct( $a['product'] );
-    $this->setTerms( $a['terms'] );
-    $this->setLayout( $a['layout'] );
-    $this->setCode( $a['code'] );
-    parent::setSettings($a);
-    
+  {
+  parent::setSettings($a);    
 	}
 	
 	/**
@@ -170,14 +119,15 @@ class ilERP_none extends ilERP
 	*/	
 	public function looksValid()
 	{
-      if (!parent::looksValid()) return false;
+    return true;
+      /*if (!parent::looksValid()) return false;
 	
       $s = $this->getSettings();
       $ok = true;
       return true;
       if ($s['agreement'] == 0) $ok = false;      
       if (($s['product']==0) || ($s['terms']==0) || ($s['layout']==0) ) $ok = false;       
-      return $ok;	
+      return $ok;	*/
 	}
 	
 	
@@ -189,6 +139,8 @@ class ilERP_none extends ilERP
 	 */
 	public function loadSettings($erps_id = 0)
 	{
+	}
+	/*
     global $ilDB;
 
 		$res = $ilDB->queryf('SELECT * FROM payment_erps WHERE erps_id=%s AND erp_id=%s', 
@@ -221,8 +173,9 @@ class ilERP_none extends ilERP
 		$this->setLayout( $data['layout']);
 		$this->setCode( $data['code']);		
 	}
-	
+	*/
 
+  
 	
 }
 ?>
