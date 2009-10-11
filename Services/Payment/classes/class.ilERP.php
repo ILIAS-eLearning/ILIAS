@@ -33,7 +33,7 @@ define("ERP_ECONOMIC", 1);
 
 require_once './Services/Payment/exceptions/class.ilERPException.php';
 
-class ilERP 
+abstract class ilERP 
 {
   protected $username;
   protected $password;
@@ -41,9 +41,9 @@ class ilERP
   protected $save_copy;
   public $connection_ok = false;
   
-  protected $db;
+  protected static $db;
   
-  private $erps_id; // future support for several settings  
+  private $erps_id =0; // future support for several settings  
   
   const erp_id = ERP_NONE;
   const name = "n/a";
@@ -51,15 +51,11 @@ class ilERP
   const preview_pre = "invoice_";
   const preview_ext = ".pdf";
   
+  public static function sjover() { return "HEJ"; }
   
   //private static $ilias_ini;
   	
-	public function __construct()
-	{
-		global $ilDB;
-		$this->db =& $ilDB;		
-		$this->erps_id = 0;		
-	}  
+	
 	
 	/**
 	* Virtual function. Should be overridden by subclasses to support specific ERPs
@@ -71,7 +67,10 @@ class ilERP
     return true;
   }
   
-  
+  /**
+  * Get filename for preview invoice
+  * invoice_[client_id].pdf
+  */  
   private static function _getFilename()
   {
     global $ilias;
@@ -82,8 +81,7 @@ class ilERP
   {
     global $ilias;
     return   $ilias->ini_ilias->GROUPS['server']['absolute_path'] . '/' . self::_getFilename();  
-  } 
-  
+  }   
   
   public static function getPreviewUrl()
   {
@@ -161,9 +159,10 @@ class ilERP
 	* Get the list of ILIAS supported ERPs 
 	* @return mixed array of ERPs	
 	*/
-  public function getAllERPs()
+  public static function getAllERPs()
 	{
-    $res = $this->db->query('SELECT * FROM payment_erp ORDER BY erp_id' );    
+    global $ilDB;
+    $res = $ilDB->query('SELECT * FROM payment_erp ORDER BY erp_id' );    
     $a = array();        
     while ( $result = $res->fetchRow(MDB2_FETCHMODE_ASSOC) ) $a[$result['erp_id']] = $result;
     return $a;    
@@ -176,17 +175,19 @@ class ilERP
 	**/	
 	public function setActive($erp_system = 0, $erp_settings = 0)
 	{
-    $this->db->query('UPDATE payment_erps SET active=0');
-    $this->db->query('UPDATE payment_erps SET active=1 WHERE erp_id=' . $erp_system . ' AND erps_id=' . $erp_settings);
+    global $ilDB;
+    $ilDB->query('UPDATE payment_erps SET active=0');
+    $ilDB->query('UPDATE payment_erps SET active=1 WHERE erp_id=' . $erp_system . ' AND erps_id=' . $erp_settings);
 	}
 	
 	/**
 	* Get information about what ERP is activated
 	* @return mixed 
 	*/	
-	public function getActive()
+	public static function getActive()
 	{
-    $row = $this->db->query('SELECT payment_erps.erp_id, payment_erps.erps_id, payment_erp.erp_short,payment_erp.use_ean, payment_erp.save_copy FROM payment_erps,payment_erp WHERE payment_erps.active=1 AND payment_erps.erp_id=payment_erp.erp_id LIMIT 1');
+    global $ilDB;
+    $row = $ilDB->query('SELECT payment_erps.erp_id, payment_erps.erps_id, payment_erp.erp_short,payment_erp.use_ean, payment_erp.save_copy FROM payment_erps,payment_erp WHERE payment_erps.active=1 AND payment_erps.erp_id=payment_erp.erp_id LIMIT 1');
     $values = $row->fetchRow(MDB2_FETCHMODE_ASSOC);
     return $values;
 	}
@@ -198,6 +199,7 @@ class ilERP
 	**/
 	public function saveSettings($settings)
 	{	
+    global $ilDB;
     unset( $settings['url']);
     unset( $settings['description']);
     unset( $settings['erp_short']);
@@ -215,7 +217,7 @@ class ilERP
       $settings['erp_id'] = 0;      
     }    
     
-    $this->db->manipulateF("
+    $ilDB->manipulateF("
       UPDATE payment_erp SET save_copy=%s, use_ean=%s WHERE erp_id=%s",
       array("integer", "integer", "integer"),
       array($settings['save_copy'], $settings['use_ean'], $settings['erp_id'])
@@ -224,7 +226,7 @@ class ilERP
     unset($settings['save_copy']);
     unset($settings['use_ean']);
 	
-    $this->db->manipulateF("
+    $ilDB->manipulateF("
       UPDATE payment_erps SET settings=%s WHERE erps_id=%s AND erp_id=%s",
       array("text", "integer", "integer"),
       array( serialize($settings), $this->erps_id, $settings['erp_id']));
@@ -280,13 +282,7 @@ class ilERP
     $this->connection_ok = false;
   }
   
-  
-  /*
-  public function connected()
-  {
-    return $this->connection_ok;
-  }*/
-	
+
 	/**
 	* Get some ERP system specific variables, stored in payment_erp
 	*
@@ -294,7 +290,8 @@ class ilERP
 	*/
 	public function getERPconstants($erp_system = 0)
 	{
-    $res = $this->db->query('SELECT * FROM payment_erp WHERE erp_id=' . $erp_system);
+    global $ilDB;
+    $res = $ilDB->query('SELECT * FROM payment_erp WHERE erp_id=' . $erp_system);
     $result = $res->fetchRow(MDB2_FETCHMODE_ASSOC);    
     return $result;    
 	}

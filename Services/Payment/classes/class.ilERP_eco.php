@@ -30,7 +30,7 @@
 */
 
 
-require_once './payment/classes/class.ilERP.php';
+require_once './Services/Payment/classes/class.ilERP.php';
 
 class ilERP_eco extends ilERP
 { 
@@ -50,7 +50,7 @@ class ilERP_eco extends ilERP
 	
 	public function __construct()
 	{
-    parent::__construct();
+    //parent::__construct();
     $this->loadSettings(0);    
   }
   
@@ -189,8 +189,9 @@ class ilERP_eco extends ilERP
 	 */
 	public function loadSettings($erps_id = 0)
 	{
+    global $ilDB;
 
-		$res = $this->db->queryf('SELECT * FROM payment_erps WHERE erps_id=%s AND erp_id=%s', 
+		$res = $ilDB->queryf('SELECT * FROM payment_erps WHERE erps_id=%s AND erp_id=%s', 
       array("integer", "integer"),
       array($erps_id, ERP_ECONOMIC));
 		
@@ -210,8 +211,7 @@ class ilERP_eco extends ilERP
         $data['layout']=0;
         $data['code']='EUR';
 			}
-		}
-		
+		}		
 		$this->setAgreement( $data['agreement'] );
 		$this->setUsername( $data['username'] );
 		$this->setPassword( $data['password'] );

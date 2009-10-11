@@ -31,7 +31,7 @@
 
 
 require_once './Services/Payment/classes/class.ilERPDebtor.php';
-require_once './payment/classes/class.ilERP_eco.php';
+require_once './Services/Payment/classes/class.ilERP_eco.php';
 
 class ilERPDebtor_eco extends ilERPDebtor
 {  
@@ -53,27 +53,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     //$this->dgh = $dgh;
   }
   
-  
-  
-  
-  
-  /*private function assertConnected()
-  {
-    if (!$this->erp->connected()) $this->erp->connect(); else return true;    
-    if (!$this->erp->connected()) return false; //ilUtil::sendError($this->erp->getLastError());
-  }
-  
-  private function connectOrFail()
-  {
-    if ($this->erp->connected()) return true;
-    else
-    $this->erp->connect();
-    if ($this->erp->connected()) return true;
-    require_once './Services/Payment/exceptions/class.ilERPException.php';    
-    Throw new ilERPException( $this->erp->getLastError() );
-  }
-  */
-  
+    
   /**
   * Return true if debtor found in e-conomic and set handle to that debtor
   * @return bool 
@@ -95,9 +75,7 @@ class ilERPDebtor_eco extends ilERPDebtor
   
   
   public function setDebtorGroup($number=1)
-  {
-    
-    
+  {    
     $this->dgh = $this->erp->client->debtorGroup_FindByNumber(
       array('number' => $number))->DebtorGroup_FindByNumberResult;
   }
@@ -189,8 +167,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      throw new ilERPException(__FILE__ . ":" . __LINE__ . " "  . $e->getMessage());
-      
+      throw new ilERPException(__FILE__ . ":" . __LINE__ . " "  . $e->getMessage());      
     }
   }
   
@@ -280,37 +257,10 @@ class ilERPDebtor_eco extends ilERPDebtor
     {
       throw new ilERPException("(getInvoicePDF) " . $e->getMessage());
     }
-    //$this->saveInvoice($bytes);
     return $bytes;    
   }
+ 
   
-  
-  function bookUser($number, $name, $email, $address, $postalcode, $city, $country, $phone, $amount, $desc, $ean = null)
-  {    
-    $frommail = "noreply@inetworks.dk";
-    $fromname = "inetworks";
-    $subject = "test";
-    $message = "test test";
-    
-    if ($erp->connect())
-    {
-    
-      try
-      {
-        $this->dgh = $this->client->debtorGroup_FindByNumber(array('number' => 1))->DebtorGroup_FindByNumberResult;
-        $d = new ilERPDebtor_eco($dgh, $number, $name, $email, $address, $postalcode, $city, $country, $phone, $ean);
-        $ih = $d->createInvoice($this->product, $amount, $desc);
-        $d->sendInvoice($ih, $frommail, $fromname, $subject, $message);
-      }
-      catch (Exception $e)
-      {
-        header('HTTP/1.1 500 Internal Server Error');
-        die($e->getMessage());
-      }
-      
-    }
-    else ilUtil::sendFailure(":-( connect");    
-  }
 }
  
 ?>
