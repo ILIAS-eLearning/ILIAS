@@ -10105,7 +10105,7 @@ payment#:#pays_eco_layout#:#Faktura layout
 style#:#sty_opt_saved#:#Indstillinger gemt
 chat#:#chat_confirm_delete_smiley#:#Er du sikker på at de valgte smilies skal slettes?
 common#:#scorm_create_export_file_scrom2004_4th#:#Lav eksportfil (SCORM 2004 4th Edition)
-common#:#invalid_visible_required_options_selected#:#AAll fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
+common#:#invalid_visible_required_options_selected#:#Alle krævede felter skal være synlige i brugeroprettelsen.
 common#:#authoring_mode#:#Forfattervisning
 crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
 common#:#udf_required_requires_visib_reg#:#Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen.
@@ -10115,13 +10115,13 @@ administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the reposit
 payment#:#enable_ean#:#Aktiver EAN
 payment#:#enable_ean_info#:#Krævet for at handle med det offentlige i Danmark. Klik her for at læse <a href="http://www.oes.dk/sw1903.asp" target="_blank">mere om EAN</a>.
 payment#:#pays_epay_settings_not_valid#:#ePay indstillingerne kunne ikke gemmes fordi de er ugyldige.
-news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
-news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
-payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
-payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
-payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
-payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
-payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
-payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
-mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable
+news#:#news_cache#:#Nyhedscache (minutter)
+news#:#news_cache_info#:#Opdater nyhedsblok alle x minutter '0' er hver gang. Højere værdier forbedrer systemets ydelse, men kan vise utilgængelige emner på listen.
+payment#:#pays_erp_invoice_copies#:#Gem kopier af fakturaer
+payment#:#pays_erp_invoice_copies_info#:#Kopier gemmes i:
+payment#:#pays_erp_invoice_preview#:#Vis test-faktura i nyt vindue
+payment#:#pays_erp_invoice_delpreview#:#Slet test-faktura
+payment#:#pays_erp_invoice_deleted#:#Test-faktura blev slettet.
+payment#:#pays_erp_invoice_nowrite#:#Kan ikke skrive til mappen.
+mail#:#mail_subject_prefix#:#Emne
+mail#:#mail_subject_prefix_info#:#Indtast den tekst som indsættes før emnelinjer på udgående autogenererede emails
