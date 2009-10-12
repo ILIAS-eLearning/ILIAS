@@ -41,13 +41,23 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->dynamic = false;
 
 		// store current access check results
-		$this->acc_results = $ilAccess->getResults();
+//		$this->acc_results = $ilAccess->getResults();
 		
 		// read access cache
-		$this->acc_cache_hit = $ilAccess->readCache(
-			((int) $news_set->get("acc_cache_mins")) * 60);
+//		$this->acc_cache_hit = $ilAccess->readCache(
+//			((int) $news_set->get("acc_cache_mins")) * 60);
 
-		if ($this->getDynamic() && !$this->acc_cache_hit)
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$this->acache = new ilNewsCache();
+		$cres = $this->acache->getEntry($ilUser->getId().":0");
+		$this->cache_hit = false;
+		if ($this->acache->getLastAccessStatus() == "hit")
+		{
+			self::$st_data = unserialize($cres);
+			$this->cache_hit = true;
+		}
+
+		if ($this->getDynamic() && !$this->cache_hit)
 		{
 			$this->dynamic = true;
 			$data = array();
@@ -91,14 +101,21 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	function getNewsData()
 	{
 		global $ilUser, $ilAccess;
+
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$this->acache = new ilNewsCache();
 		
 		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
 		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId(), false,
 			false, $per);
-		if (!$this->acc_cache_hit)
-		{
-			$ilAccess->storeCache();
-		}
+//		if (!$this->acc_cache_hit)
+//		{
+//			$ilAccess->storeCache();
+//		}
+
+		$this->acache->storeEntry($ilUser->getId().":0",
+			serialize($data));
+
 		return $data;
 	}
 	

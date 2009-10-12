@@ -147,11 +147,13 @@ class ilCache
 			"ilias_version = ".$ilDB->quote(ILIAS_VERSION_NUMERIC, "text")." AND ".
 			"entry_id = ".$ilDB->quote($a_id, "text")
 			);
+
 		if ($rec  = $ilDB->fetchAssoc($set))
 		{
 			$this->entry = $rec["value"];
 			return true;
 		}
+
 		return false;
 	}
 	
@@ -231,12 +233,15 @@ class ilCache
 			? "cache_clob"
 			: "cache_text";
 			
-		$q = "DELETE FROM $table ";
+		$q = "DELETE FROM $table WHERE ".
+			"component = ".$ilDB->quote($this->getComponent(), "text").
+			" AND name = ".$ilDB->quote($this->getName(), "text");
+
 		$fds = array("int_key_1" => array("v" => $a_int_key1, "t" => "integer"),
 			"int_key_2" => array("v" => $a_int_key2, "t" => "integer"),
 			"text_key_1" => array("v" => $a_text_key1, "t" => "text"),
 			"text_key_2" => array("v" => $a_text_key1, "t" => "text"));
-		$sep = " WHERE";
+		$sep = " AND";
 		foreach ($fds as $k => $fd)
 		{
 			if (!is_null($fd["v"]))
@@ -249,5 +254,22 @@ class ilCache
 		$ilDB->manipulate($q);
 	}
 	
+	/**
+	* Delete all entries of cache
+	*/
+	public function deleteAllEntries()
+	{
+		global $ilDB;
+
+		$table = $this->getUseLongContent()
+			? "cache_clob"
+			: "cache_text";
+			
+		$q = "DELETE FROM $table WHERE ".
+			"component = ".$ilDB->quote($this->getComponent(), "text").
+			" AND name = ".$ilDB->quote($this->getName(), "text");
+		$ilDB->manipulate($q);
+	}
+
 }
 ?>

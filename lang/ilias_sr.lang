@@ -7266,8 +7266,6 @@ common#:#filetype#:#File Type###09 07 2007 new variable
 crs#:#event_files#:#Assigned File###09 07 2007 new variable
 news#:#news_loading_news#:#Loading News...###25 07 2007 new variable
 news#:#news_no_js_click_here#:#If news are not displayed, click here.###25 07 2007 new variable
-news#:#news_acc_cache#:#Permission Check (Minutes)###25 07 2007 new variable
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###25 07 2007 new variable
 common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
 pd#:#pd_enable_bookmarks#:#Enable Bookmarks###16 08 2007 new variable
 pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
@@ -10117,3 +10115,13 @@ administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the reposit
 payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
 payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
+news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
+news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
+payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
+payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
+payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable

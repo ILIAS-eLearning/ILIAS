@@ -4099,8 +4099,6 @@ block_html#:#block_html_block_content#:#Indhold
 news#:#news_block_news_for_context#:#Nyheder
 news#:#news_loading_news#:#Henter nyheder
 news#:#news_no_js_click_here#:#Klik her hvis ingen nyheder vises.
-news#:#news_acc_cache#:#Rettighedskontrol (minutter)
-news#:#news_acc_cache_info#:#Kontroller læserettigheder for nyheder hvert x minut (gælder det personlige skrivebord). '0' betyder hver gang. Højere værdier forbedrer ydelsen men nyheder kan linke til utilgængeligt indhold.
 news#:#news_nr_of_items#:#Maksimalt antal nyheder pr. objekt
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Relateret til
@@ -10117,3 +10115,13 @@ administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the reposit
 payment#:#enable_ean#:#Aktiver EAN
 payment#:#enable_ean_info#:#Krævet for at handle med det offentlige i Danmark. Klik her for at læse <a href="http://www.oes.dk/sw1903.asp" target="_blank">mere om EAN</a>.
 payment#:#pays_epay_settings_not_valid#:#ePay indstillingerne kunne ikke gemmes fordi de er ugyldige.
+news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
+news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
+payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
+payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
+payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable
