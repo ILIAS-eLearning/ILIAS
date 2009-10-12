@@ -1525,16 +1525,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setMultipart(true);
 		
+		/*
 		$full = new ilCheckboxInputGUI('','fulltime');
 		$full->setChecked($this->object->getFirstAppointment()->enabledFulltime() ? true : false);
 		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
 		$full->setAdditionalAttributes('onchange="ilToggleSessionTime(this);"');
 		#$this->form->addItem($full);
+		*/
 		
+		$this->lng->loadLanguageModule('dateplaner');
 		include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
 		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-		$dur = new ilDateDurationInputGUI('','event');
+		$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
 		$dur->setStartText($this->lng->txt('event_start_date'));
 		$dur->setEndText($this->lng->txt('event_end_date'));
 		$dur->enableToggleFullTime(
@@ -1549,7 +1552,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->form->addItem($dur);
 		
-				
+		/*
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
 		$start->setMinuteStepSize(5);
@@ -1563,6 +1566,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$end->setDate($this->object->getFirstAppointment()->getEnd());
 		$end->setShowTime(true);
 		#$this->form->addItem($end);
+		*/
 
 		// Recurrence
 		if($a_mode == 'create')
