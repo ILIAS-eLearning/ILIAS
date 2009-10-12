@@ -1,0 +1,60 @@
+<!-- BEGIN prop_date_activation -->
+			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
+<!-- END prop_date_activation -->
+<!-- BEGIN toggle_fullday -->
+			<input type="checkbox" id="{FULLDAY_POSTVAR}_fulltime" onchange="ilToggleFullTime(this,'{FULLDAY_POSTVAR}');" name="{FULLDAY_TOGGLE_NAME}" value="1" {FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
+				<label for="{FULLDAY_POSTVAR}_fulltime">{TXT_TOGGLE_FULLDAY}</label>
+			<br /><br />
+<!-- END toggle_fullday -->
+
+			<table class="nobackground" datatable="0">
+				<tbody>
+					<tr>
+						<td style="text-align: right;vertical-align: top">
+							{TXT_START}:&nbsp;
+						</td>
+						<td>
+							{START_SELECT} <input type="image" alt="{TXT_START_CALENDAR}" title="{TXT_START_CALENDAR}" src="{IMG_START_CALENDAR}" id="btn_cal_start_{START_ID}" />
+							<!-- BEGIN show_start_time -->
+							<br />{START_TIME_SELECT} {TXT_START_TIME}
+							<!-- END show_start_time -->
+							<script type="text/javascript">
+							//<![CDATA[
+							Calendar.setup( 
+							{ 
+								button : "btn_cal_start_{DATE_ID_START}",
+								inputFieldsDate : "{INPUT_FIELDS_START}",
+								onUpdate : ilUpdateEndDate
+							}
+							);
+							YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}"));
+							YAHOO.util.Event.onDOMReady(ilInitDuration,prefix = new String("{POST_VAR}"));
+							
+							//]]>
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;vertical-align: top;padding-top: 1em">
+							{TXT_END}:&nbsp;		
+						</td>
+						<td style="padding-top: 1em">
+							{END_SELECT} <input type="image" alt="{TXT_END_CALENDAR}" title="{TXT_END_CALENDAR}" src="{IMG_END_CALENDAR}" id="btn_cal_end_{END_ID}" />
+							<!-- BEGIN show_end_time -->
+							<br />{END_TIME_SELECT} {TXT_END_TIME}
+							<!-- END show_end_time -->
+							<script type="text/javascript">
+								//<![CDATA[
+								Calendar.setup( 
+								{ 
+									button : "btn_cal_end_{DATE_ID_END}",
+									inputFieldsDate : "{INPUT_FIELDS_END}",
+								}
+								);
+								
+								//]]>
+							</script>
+						</td>
+					</tr>
+				</tbody>
+			</table>
