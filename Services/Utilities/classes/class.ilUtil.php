@@ -960,7 +960,18 @@ class ilUtil
 		$day = (int) $day;
 
 		// build day select
-		$sel_day .= "<select ".$disabled."name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
+		
+		$sel_day .= '<select ';
+		if(isset($a_further_options['select_attributes']))
+		{
+			foreach($a_further_options['select_attributes'] as $name => $value)
+			{
+				$sel_day .= ($name.'="'.$value.'" ');
+			}
+		}
+		
+		$sel_day .= $disabled."name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
+		
 		if ($emptyoption) $sel_day .= "<option value=\"0\">--</option>\n";
 		for ($i = 1; $i <= 31; $i++)
 		{
@@ -970,7 +981,15 @@ class ilUtil
 		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
 		// build month select
-		$sel_month .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
+		$sel_month = '<select ';
+		if(isset($a_further_options['select_attributes']))
+		{
+			foreach($a_further_options['select_attributes'] as $name => $value)
+			{
+				$sel_month .= ($name.'="'.$value.'" ');
+			}
+		}
+		$sel_month .= $disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
 		if ($emptyoption) $sel_month .= "<option value=\"0\">--</option>\n";
 		for ($i = 1; $i <= 12; $i++)
@@ -988,7 +1007,15 @@ class ilUtil
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
 
 		// build year select
-		$sel_year .= "<select ".$disabled."name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
+		$sel_year = '<select ';
+		if(isset($a_further_options['select_attributes']))
+		{
+			foreach($a_further_options['select_attributes'] as $name => $value)
+			{
+				$sel_year .= ($name.'="'.$value.'" ');
+			}
+		}
+		$sel_year .= $disabled."name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
 		if ((strlen($startyear) == 0) || ($startyear > $year))
 		{
 			if (!$emptyoption || $year != 0) $startyear = $year - 5;
@@ -1066,7 +1093,15 @@ class ilUtil
 			$second = (int)$second;
 		}
 		// build hour select
-		$sel_hour .= "<select ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
+		$sel_hour = '<select ';
+		if(isset($a_further_options['select_attributes']))
+		{
+			foreach($a_further_options['select_attributes'] as $name => $value)
+			{
+				$sel_hour .= $name.'='.$value.' ';
+			}
+		}
+		$sel_hour .= " ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
 
 		for ($i = 0; $i <= 23; $i++)
 		{

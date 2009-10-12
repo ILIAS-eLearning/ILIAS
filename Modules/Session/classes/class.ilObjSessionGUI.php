@@ -698,9 +698,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->handleFileUpload();
 		
-		ilUtil::sendSuccess($this->lng->txt('event_updated'));
-		$this->object->initFiles();
-		$this->editObject();
+		ilUtil::sendSuccess($this->lng->txt('event_updated'),true);
+		$this->ctrl->redirect($this,'edit');
+		#$this->object->initFiles();
+		#$this->editObject();
 		return true;
 	}
 	
@@ -1524,26 +1525,44 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setMultipart(true);
 		
-		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 		$full = new ilCheckboxInputGUI('','fulltime');
 		$full->setChecked($this->object->getFirstAppointment()->enabledFulltime() ? true : false);
 		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
 		$full->setAdditionalAttributes('onchange="ilToggleSessionTime(this);"');
-		$this->form->addItem($full);
+		#$this->form->addItem($full);
 		
+		include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
+		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
+		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		$dur = new ilDateDurationInputGUI('','event');
+		$dur->setStartText($this->lng->txt('event_start_date'));
+		$dur->setEndText($this->lng->txt('event_end_date'));
+		$dur->enableToggleFullTime(
+			$this->lng->txt('event_fulltime_info'),
+			$this->object->getFirstAppointment()->enabledFulltime() ? true : false 
+		);
+		$dur->setMinuteStepSize(5);
+		$dur->setShowTime(true);
+		$dur->setShowDate(true);
+		$dur->setStart($this->object->getFirstAppointment()->getStart());
+		$dur->setEnd($this->object->getFirstAppointment()->getEnd());
+		
+		$this->form->addItem($dur);
+		
+				
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
 		$start->setMinuteStepSize(5);
 		$start->setDate($this->object->getFirstAppointment()->getStart());
 		$start->setShowTime(true);
-		$this->form->addItem($start);
+		#$this->form->addItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
 		$end->setMinuteStepSize(5);
 		$end->setDate($this->object->getFirstAppointment()->getEnd());
 		$end->setShowTime(true);
-		$this->form->addItem($end);
+		#$this->form->addItem($end);
 
 		// Recurrence
 		if($a_mode == 'create')
@@ -1672,37 +1691,37 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilUser;
 
-		$this->object->getFirstAppointment()->setStartingTime($this->__toUnix($_POST['start']['date'],$_POST['start']['time']));
-		$this->object->getFirstAppointment()->setEndingTime($this->__toUnix($_POST['end']['date'],$_POST['end']['time']));
-		$this->object->getFirstAppointment()->toggleFullTime((bool) $_POST['fulltime']);
+		$this->object->getFirstAppointment()->setStartingTime($this->__toUnix($_POST['event']['start']['date'],$_POST['event']['start']['time']));
+		$this->object->getFirstAppointment()->setEndingTime($this->__toUnix($_POST['event']['end']['date'],$_POST['event']['end']['time']));
+		$this->object->getFirstAppointment()->toggleFullTime((bool) $_POST['event']['fulltime']);
 		
 		include_once('./Services/Calendar/classes/class.ilDate.php');
 		if($this->object->getFirstAppointment()->isFullday())
 		{
-			$start = new ilDate($_POST['start']['date']['y'].'-'.$_POST['start']['date']['m'].'-'.$_POST['start']['date']['d'],
+			$start = new ilDate($_POST['event']['start']['date']['y'].'-'.$_POST['event']['start']['date']['m'].'-'.$_POST['event']['start']['date']['d'],
 				IL_CAL_DATE);
 			$this->object->getFirstAppointment()->setStart($start);
 				
-			$end = new ilDate($_POST['end']['date']['y'].'-'.$_POST['end']['date']['m'].'-'.$_POST['end']['date']['d'],
+			$end = new ilDate($_POST['event']['end']['date']['y'].'-'.$_POST['event']['end']['date']['m'].'-'.$_POST['event']['end']['date']['d'],
 				IL_CAL_DATE);
 			$this->object->getFirstAppointment()->setEnd($end);
 		}
 		else
 		{
-			$start_dt['year'] = (int) $_POST['start']['date']['y'];
-			$start_dt['mon'] = (int) $_POST['start']['date']['m'];
-			$start_dt['mday'] = (int) $_POST['start']['date']['d'];
-			$start_dt['hours'] = (int) $_POST['start']['time']['h'];
-			$start_dt['minutes'] = (int) $_POST['start']['time']['m'];
+			$start_dt['year'] = (int) $_POST['event']['start']['date']['y'];
+			$start_dt['mon'] = (int) $_POST['event']['start']['date']['m'];
+			$start_dt['mday'] = (int) $_POST['event']['start']['date']['d'];
+			$start_dt['hours'] = (int) $_POST['event']['start']['time']['h'];
+			$start_dt['minutes'] = (int) $_POST['event']['start']['time']['m'];
 			
 			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 			$this->object->getFirstAppointment()->setStart($start);
 
-			$end_dt['year'] = (int) $_POST['end']['date']['y'];
-			$end_dt['mon'] = (int) $_POST['end']['date']['m'];
-			$end_dt['mday'] = (int) $_POST['end']['date']['d'];
-			$end_dt['hours'] = (int) $_POST['end']['time']['h'];
-			$end_dt['minutes'] = (int) $_POST['end']['time']['m'];
+			$end_dt['year'] = (int) $_POST['event']['end']['date']['y'];
+			$end_dt['mon'] = (int) $_POST['event']['end']['date']['m'];
+			$end_dt['mday'] = (int) $_POST['event']['end']['date']['d'];
+			$end_dt['hours'] = (int) $_POST['event']['end']['time']['h'];
+			$end_dt['minutes'] = (int) $_POST['event']['end']['time']['m'];
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 			$this->object->getFirstAppointment()->setEnd($end);
 		}
@@ -1884,7 +1903,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		}
 	}
-	
 	
 	/**
 	 * Build tabs
