@@ -189,9 +189,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
 		// Access Cache
 		$min_opts = array(0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60);
-		$min_sel = new ilSelectInputGUI($lng->txt("news_acc_cache"),
+		$min_sel = new ilSelectInputGUI($lng->txt("news_cache"),
 			"news_acc_cache_mins");
-		$min_sel->setInfo($lng->txt("news_acc_cache_info"));
+		$min_sel->setInfo($lng->txt("news_cache_info"));
 		$min_sel->setOptions($min_opts);
 		$min_sel->setValue($news_set->get("acc_cache_mins"));
 		$form->addItem($min_sel);
@@ -283,6 +283,11 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	public function saveSettings()
 	{
 		global $ilCtrl, $ilSetting;
+		
+		// empty news cache
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$this->acache = new ilNewsCache();
+		$this->acache->deleteAllEntries();
 		
 		$news_set = new ilSetting("news");
 		$feed_set = new ilSetting("feed");

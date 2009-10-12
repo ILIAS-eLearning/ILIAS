@@ -7885,8 +7885,6 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#1 File has been added.
 news#:#news_1_file_updated#:#1 File has been updated.
 news#:#news_1_postings#:#1 Posting has been added.
-news#:#news_acc_cache#:#Permission Check (Minutes)
-news#:#news_acc_cache_info#:#Check read permissions for news items all x minutes (personal desktop only). '0' means everytime. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_all_items#:#All Items
 news#:#news_allow_longer_periods#:#Allow Longer Periods
 news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.
@@ -10136,3 +10134,13 @@ administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the reposit
 payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
 payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
+news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
+news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
+payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
+payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
+payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable

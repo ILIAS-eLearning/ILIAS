@@ -58,18 +58,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setEnableNumInfo(true);
 		
 		$this->dynamic = false;
-		
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
 		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
 		$this->cache_hit = false;
-		
 		if ($this->acache->getLastAccessStatus() == "hit")
 		{
 			self::$st_data = unserialize($cres);
 			$this->cache_hit = true;
 		}
-		
 		if ($this->getDynamic() && !$this->cache_hit)
 		{
 			$this->dynamic = true;
@@ -108,13 +105,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
-		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
+/*		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
 		if ($this->acache->getLastAccessStatus() == "hit" && false)
 		{
 			$news_data = unserialize($cres);
 		}
 		else
-		{
+		{*/
 			$news_item = new ilNewsItem();
 			$news_item->setContextObjId($ilCtrl->getContextObjId());
 			$news_item->setContextObjType($ilCtrl->getContextObjType());
@@ -134,11 +131,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			
 			$news_data = $news_item->getNewsForRefId($_GET["ref_id"], false, false, 0,
 				$prevent_aggregation, $forum_grouping);
-				
-			$this->acache->storeEntry($ilUser->getId().":".$_GET["ref_id"],
-				$news_data);
 
-		}
+			$this->acache->storeEntry($ilUser->getId().":".$_GET["ref_id"],
+				serialize($news_data));
+
+//		}
 //var_dump($news_data);
 		return $news_data;
 	}
