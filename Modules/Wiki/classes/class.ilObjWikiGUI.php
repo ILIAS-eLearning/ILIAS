@@ -988,11 +988,18 @@ class ilObjWikiGUI extends ilObjectGUI
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		$this->setContentStyleSheet();
+		
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+
 
 		// determine target frames for internal links
 		$page_gui->setOutputMode("print");
 		$page_content = $page_gui->showPage();
-		$tpl->setVariable("CONTENT", $page_content.
+		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
 		'<script type="text/javascript" language="javascript1.2">
 		<!--
 			// Do print the page
