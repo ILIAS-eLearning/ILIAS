@@ -3463,41 +3463,93 @@ class ilUtil
 		return $url;
 	}
 
-    function generatePasswords ($a_number)
-    {
-        $ret = array();
-        srand((double) microtime()*1000000);
+	/**
+	* Generate a number of passwords
+	*/
+	function generatePasswords ($a_number)
+	{
+		$ret = array();
+		srand((double) microtime()*1000000);
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
 
         for ($i=1; $i<=$a_number; $i++)
         {
-            $length  = rand(6,10);
-            $next  = rand(1,2);
-            //$chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            $vowels = "aeiou";
-            $consonants = "bcdfghjklmnpqrstvwxyz";
-            $pw = "";
-
-            for ($j=0; $j < $length; $j++)
-            {
-                switch ($next)
-                {
-                    case 1:
-					$pw.= $consonants[rand(0,strlen($consonants)-1)];
-					$next = 2;
-                    break;
-
-                    case 2:
-					$pw.= $vowels[rand(0,strlen($vowels)-1)];
-					$next = 1;
-				break;
-                }
-             }
-
-             $ret[] = $pw;
-         }
-
-         return $ret;
-    }
+        	$min = ($security->getPasswordMinLength() > 0)
+        		? $security->getPasswordMinLength()
+        		: 6;
+        	$max = ($security->getPasswordMaxLength() > 0)
+        		? $security->getPasswordMaxLength()
+        		: 10;
+			if ($min > $max)
+			{
+				$max = $max + 1;
+			}
+			$length  = rand($min,$max);
+			$next  = rand(1,2);
+			$vowels = "aeiou";
+			$consonants = "bcdfghjklmnpqrstvwxyz";
+			$numbers = "1234567890";
+			$special = "_.+?#-*@!$%~";
+			$pw = "";
+			
+			// position for number
+			if ($security->isPasswordCharsAndNumbersEnabled())
+			{
+				$num_pos = rand(0, $length - 1);
+			}
+			
+			// position for special character
+			if ($security->isPasswordSpecialCharsEnabled())
+			{
+				$spec_pos = rand(0, $length - 1);
+				if ($security->isPasswordCharsAndNumbersEnabled())
+				{
+					if ($num_pos == $spec_pos)	// not same position for number/special
+					{
+						if ($spec_pos > 0)
+						{
+							$spec_pos -= 1;
+						}
+						else
+						{
+							$spec_pos += 1;
+						}
+					}
+				}
+			}
+			for ($j=0; $j < $length; $j++)
+			{
+				if ($security->isPasswordCharsAndNumbersEnabled() && $num_pos == $j)
+				{
+					$pw.= $numbers[rand(0,strlen($numbers)-1)];
+				}
+				else if ($security->isPasswordSpecialCharsEnabled() && $spec_pos == $j)
+				{
+					$pw.= $special[rand(0,strlen($special)-1)];
+				}
+				else
+				{
+					switch ($next)
+					{
+						case 1:
+							$pw.= $consonants[rand(0,strlen($consonants)-1)];
+							$next = 2;
+							break;
+						
+						case 2:
+							$pw.= $vowels[rand(0,strlen($vowels)-1)];
+							$next = 1;
+							break;
+					}
+				}
+			}
+		
+			$ret[] = $pw;
+		}
+		return $ret;
+	}
 
 	function removeTrailingPathSeparators($path)
 	{
