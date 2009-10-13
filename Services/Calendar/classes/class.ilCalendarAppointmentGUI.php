@@ -203,6 +203,24 @@ class ilCalendarAppointmentGUI
 		
 		if (!$a_as_milestone)
 		{
+			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
+			#$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
+			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
+			$dur->setStartText($this->lng->txt('cal_start'));
+			$dur->setEndText($this->lng->txt('cal_end'));
+			$dur->enableToggleFullTime(
+				$this->lng->txt('cal_fullday_title'),
+				$this->app->isFullday() ? true : false 
+			);
+			$dur->setMinuteStepSize(5);
+			$dur->setShowDate(true);
+			$dur->setShowTime(true);
+			$dur->setStart($this->app->getStart());
+			$dur->setEnd($this->app->getEnd());
+			$this->form->addItem($dur);
+
+			/*
 			$tpl->addJavaScript('./Services/Calendar/js/toggle_appointment_time.js');		
 			$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
 			$fullday->setChecked($this->app->isFullday() ? true : false);
@@ -223,7 +241,8 @@ class ilCalendarAppointmentGUI
 			$end->setMinuteStepSize(5);
 			#$fullday->addSubItem($end);
 			$this->form->addItem($end);
-		
+			*/
+			
 			// recurrence
 			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
 			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
@@ -239,7 +258,7 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			$deadline = new ilDateTimeInputGUI($this->lng->txt('cal_deadline'),'start');
+			$deadline = new ilDateTimeInputGUI($this->lng->txt('cal_deadline'),'event[start]');
 			$deadline->setDate($this->app->getStart());
 			$deadline->setShowTime(false);
 			$deadline->setMinuteStepSize(5);
@@ -743,16 +762,16 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			$this->app->setFullday(isset($_POST['fullday']) ? true : false);
+			$this->app->setFullday(isset($_POST['event']['fullday']) ? true : false);
 		}
 
 		if($this->app->isFullday())
 		{
-			$start = new ilDate($_POST['start']['date']['y'].'-'.$_POST['start']['date']['m'].'-'.$_POST['start']['date']['d'],
+			$start = new ilDate($_POST['event']['start']['date']['y'].'-'.$_POST['event']['start']['date']['m'].'-'.$_POST['event']['start']['date']['d'],
 				IL_CAL_DATE);
 			$this->app->setStart($start);
 				
-			$end = new ilDate($_POST['end']['date']['y'].'-'.$_POST['end']['date']['m'].'-'.$_POST['end']['date']['d'],
+			$end = new ilDate($_POST['event']['end']['date']['y'].'-'.$_POST['event']['end']['date']['m'].'-'.$_POST['event']['end']['date']['d'],
 				IL_CAL_DATE);
 
 			if ($a_as_milestone)
@@ -767,19 +786,19 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			$start_dt['year'] = (int) $_POST['start']['date']['y'];
-			$start_dt['mon'] = (int) $_POST['start']['date']['m'];
-			$start_dt['mday'] = (int) $_POST['start']['date']['d'];
-			$start_dt['hours'] = (int) $_POST['start']['time']['h'];
-			$start_dt['minutes'] = (int) $_POST['start']['time']['m'];
+			$start_dt['year'] = (int) $_POST['event']['start']['date']['y'];
+			$start_dt['mon'] = (int) $_POST['event']['start']['date']['m'];
+			$start_dt['mday'] = (int) $_POST['event']['start']['date']['d'];
+			$start_dt['hours'] = (int) $_POST['event']['start']['time']['h'];
+			$start_dt['minutes'] = (int) $_POST['event']['start']['time']['m'];
 			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE,$this->timezone);
 			$this->app->setStart($start);
 
-			$end_dt['year'] = (int) $_POST['end']['date']['y'];
-			$end_dt['mon'] = (int) $_POST['end']['date']['m'];
-			$end_dt['mday'] = (int) $_POST['end']['date']['d'];
-			$end_dt['hours'] = (int) $_POST['end']['time']['h'];
-			$end_dt['minutes'] = (int) $_POST['end']['time']['m'];
+			$end_dt['year'] = (int) $_POST['event']['end']['date']['y'];
+			$end_dt['mon'] = (int) $_POST['event']['end']['date']['m'];
+			$end_dt['mday'] = (int) $_POST['event']['end']['date']['d'];
+			$end_dt['hours'] = (int) $_POST['event']['end']['time']['h'];
+			$end_dt['minutes'] = (int) $_POST['event']['end']['time']['m'];
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$this->timezone);
 			$this->app->setEnd($end);
 		}
