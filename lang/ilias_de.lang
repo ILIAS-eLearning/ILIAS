@@ -10129,3 +10129,4 @@ payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 200
 payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
 payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
 payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
+grp#:#grp_reg_period#:#Registrierungszeitraum
