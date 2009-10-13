@@ -661,6 +661,8 @@ class ilObjLanguage extends ilObject
 	 */
 	function check($scope = '')
 	{
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+		
 		if (!empty($scope))
 		{
 			if ($scope == 'global')
@@ -703,7 +705,7 @@ class ilObjLanguage extends ilObject
 		{
 			$this->ilias->raiseError("Wrong Header in ".$lang_file,$this->ilias->error_obj->MESSAGE);
 		}
-
+		
 		// check (counting) elements of each lang-entry
 		$line = 0;
 		foreach ($content as $key => $val)
@@ -715,6 +717,10 @@ class ilObjLanguage extends ilObject
 			{
 				$line = $n + 36;
 				$this->ilias->raiseError("Wrong parameter count in ".$lang_file." in line $line (Value: $val)! Please check your language file!",$this->ilias->error_obj->MESSAGE);
+			}
+			if (!ilStr::isUtf8($separated[2]))
+			{
+				$this->ilias->raiseError("Non UTF8 character found in ".$lang_file." in line $line (Value: $val)! Please check your language file!",$this->ilias->error_obj->MESSAGE);
 			}
 		}
 
