@@ -16147,3 +16147,26 @@ if (!$ilDB->tableExists("payment_erps"))
 		"keyword" => array("text", 'mail_subject_prefix'),
 		"value" => array("clob", '[ILIAS]')));
 ?>
+<#2903>
+<?php
+// remove copy operation from icrs object
+// first get the type object id
+$query = 'SELECT obj_id FROM object_data WHERE type = %s AND title = %s';
+$res = $ilDB->queryF($query, array('text', 'text'), array('typ', 'icrs'));
+$rowType = $ilDB->fetchAssoc($res);
+
+// afterwards determine the operation id
+$query = 'SELECT ops_id FROM rbac_operations WHERE operation = %s';
+$res = $ilDB->queryF($query, array('text'), array('copy'));
+$rowOperation = $ilDB->fetchAssoc($res);
+
+if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
+{
+	// delete data
+	$query = 'DELETE FROM rbac_ta WHERE typ_id = %s AND ops_id = %s';
+	$ilDB->manipulateF($query, array('integer', 'integer'), array((int)$rowType['obj_id'], (int)$rowOperation['ops_id']));
+	
+	$query = 'DELETE FROM rbac_templates WHERE type = %s AND ops_id = %s';
+	$ilDB->manipulateF($query, array('text', 'integer'), array('icrs', (int)$rowOperation['ops_id']));	
+}
+?>
