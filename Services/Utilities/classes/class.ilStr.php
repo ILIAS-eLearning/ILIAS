@@ -118,6 +118,47 @@ class ilStr
 		return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);		
 	}
 
+	/**
+	* Check whether string is utf-8
+	*/
+	function isUtf8($a_str)
+	{
+		if (function_exists("mb_detect_encoding"))
+		{
+			if (mb_detect_encoding($a_str, "UTF-8") == "UTF-8")
+			{
+				return true;
+			}
+		}
+		else
+		{
+			// copied from http://www.php.net/manual/en/function.mb-detect-encoding.php
+			$c=0; $b=0;
+			$bits=0;
+			$len=strlen($str);
+			for($i=0; $i<$len; $i++){
+				$c=ord($str[$i]);
+				if($c > 128){
+					if(($c >= 254)) return false;
+					elseif($c >= 252) $bits=6;
+					elseif($c >= 248) $bits=5;
+					elseif($c >= 240) $bits=4;
+					elseif($c >= 224) $bits=3;
+					elseif($c >= 192) $bits=2;
+					else return false;
+					if(($i+$bits) > $len) return false;
+					while($bits > 1){
+						$i++;
+						$b=ord($str[$i]);
+						if($b < 128 || $b > 191) return false;
+						$bits--;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 	
 
 } // END class.ilUtil
