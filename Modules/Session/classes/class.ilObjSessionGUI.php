@@ -1535,7 +1535,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->lng->loadLanguageModule('dateplaner');
 		include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
+		#$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
 		$dur->setStartText($this->lng->txt('event_start_date'));
