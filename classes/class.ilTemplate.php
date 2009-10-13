@@ -829,7 +829,7 @@ class ilTemplate extends ilTemplateX
 				$ftpl->setCurrentBlock("i_entry");
 				$ftpl->setVariable("I_ENTRY", "Total (".$total." Bytes, 100%)");
 				$ftpl->parseCurrentBlock();
-				$ftpl->setCurrentBlock("incuded_files");
+				$ftpl->setCurrentBlock("included_files");
 				$ftpl->parseCurrentBlock();				
 			}
 
