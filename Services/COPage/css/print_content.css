@@ -25,6 +25,10 @@ td.ilInvisibleBorder
 	padding:40px;
 }
 
+div.ilInvisibleBorder
+{
+	padding:40px;
+}
 
 
 /* --- content styles (will move to content.css) --- */
