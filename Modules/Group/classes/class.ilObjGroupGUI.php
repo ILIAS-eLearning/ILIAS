@@ -2637,7 +2637,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$dur->setShowTime(true);
 			$dur->setStart($this->object->getRegistrationStart());
 			$dur->setEnd($this->object->getRegistrationEnd());
-
+			
 			$time_limit->addSubItem($dur);
 		
 			/*
