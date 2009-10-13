@@ -2526,7 +2526,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	protected function initForm($a_mode = 'edit')
 	{
-		global $ilUser;
+		global $ilUser,$tpl;
 		
 		if(is_object($this->form))
 		{
@@ -2626,6 +2626,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
 		$time_limit->setChecked($this->object->isRegistrationUnlimited() ? false : true);
 		
+			$this->lng->loadLanguageModule('dateplaner');
+			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
+			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_period'),'reg');
+			$dur->setStartText($this->lng->txt('cal_start'));
+			$dur->setEndText($this->lng->txt('cal_end'));
+			$dur->setMinuteStepSize(5);
+			$dur->setShowDate(true);
+			$dur->setShowTime(true);
+			$dur->setStart($this->object->getRegistrationStart());
+			$dur->setEnd($this->object->getRegistrationEnd());
+
+			$time_limit->addSubItem($dur);
+		
+			/*
 			$start = new ilDateTimeInputGUI($this->lng->txt('grp_reg_start'),'registration_start');
 			$start->setShowTime(true);
 			$start->setDate($this->object->getRegistrationStart());
@@ -2636,7 +2651,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$end->setDate($this->object->getRegistrationEnd());
 			
 			$time_limit->addSubItem($end);
-		
+			*/
+			
 		$this->form->addItem($time_limit);
 				
 			// max member
@@ -2708,8 +2724,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setRegistrationType(ilUtil::stripSlashes($_POST['registration_type']));
 		$this->object->setPassword(ilUtil::stripSlashes($_POST['password']));
 		$this->object->enableUnlimitedRegistration((bool) !$_POST['reg_limit_time']);
-		$this->object->setRegistrationStart($this->loadDate('registration_start'));
-		$this->object->setRegistrationEnd($this->loadDate('registration_end'));
+		$this->object->setRegistrationStart($this->loadDate('start'));
+		$this->object->setRegistrationEnd($this->loadDate('end'));
 		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
 		$this->object->setMaxMembers((int) $_POST['registration_max_members']);
 		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
@@ -2730,12 +2746,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
-		$dt['year'] = (int) $_POST[$a_field]['date']['y'];
-		$dt['mon'] = (int) $_POST[$a_field]['date']['m'];
-		$dt['mday'] = (int) $_POST[$a_field]['date']['d'];
-		$dt['hours'] = (int) $_POST[$a_field]['time']['h'];
-		$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
-		$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
+		$dt['year'] = (int) $_POST['reg'][$a_field]['date']['y'];
+		$dt['mon'] = (int) $_POST['reg'][$a_field]['date']['m'];
+		$dt['mday'] = (int) $_POST['reg'][$a_field]['date']['d'];
+		$dt['hours'] = (int) $_POST['reg'][$a_field]['time']['h'];
+		$dt['minutes'] = (int) $_POST['reg'][$a_field]['time']['m'];
+		$dt['seconds'] = (int) $_POST['reg'][$a_field]['time']['s'];
 		
 		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 		return $date;		

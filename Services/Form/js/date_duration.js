@@ -1,10 +1,6 @@
 function ilInitDuration(event,args,prefix)
 {
-	var fulltime;
-	
-	fulltime = document.getElementById(prefix + "_fulltime").checked;
-
-	if (fulltime) 
+	if (ilIsFulltime(prefix)) 
 	{
 		old = new Date(
 			document.getElementById(prefix + "[start][date]_y").options[document.getElementById(prefix + "[start][date]_y").selectedIndex].value,
@@ -25,16 +21,25 @@ function ilInitDuration(event,args,prefix)
 	}
 }
 
+function ilIsFulltime(prefix)
+{
+	var checkFull = document.getElementById(prefix + "_fulltime");
+	
+	if(checkFull != null)
+	{
+		return checkFull.checked;
+	}
+	// No fulltime toggle
+	return document.getElementById(prefix + "[start][time]_h") == null ? true : false;
+}
+
 function ilUpdateEndDate(cal)
 {
 	var start;
 	var end;
 	var diff;
-	var fulltime;
-	
-	fulltime = document.getElementById(prefix + "_fulltime").checked;
 
-	if (fulltime) 
+	if (ilIsFulltime(prefix)) 
 	{
 		start = new Date(
 			document.getElementById(prefix + "[start][date]_y").options[document.getElementById(prefix + "[start][date]_y").selectedIndex].value, 
@@ -110,7 +115,7 @@ function ilUpdateEndDate(cal)
 		}
 	}
 	
-	if(fulltime)
+	if(ilIsFulltime(prefix))
 	{
 		return;
 	}
