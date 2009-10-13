@@ -154,6 +154,18 @@ function ilToggleFullTime(check,prefix)
 		status = false;
 	}
 
+	if(status)
+	{
+		old.setHours(0);
+		old.setMinutes(0);
+	}
+	else
+	{
+		old.setHours(document.getElementById(prefix + "[start][time]_h").selectedIndex);
+		old.setMinutes(document.getElementById(prefix + "[start][time]_m").selectedIndex);
+	}
+	
+
 	document.getElementById(prefix + '[start][time]_h').disabled = status;
 	document.getElementById(prefix + '[start][time]_m').disabled = status;
 	document.getElementById(prefix + '[end][time]_h').disabled = status;
