@@ -65,26 +65,26 @@ class ilPurchaseBillGUI
 		
 		if (!is_array($_SESSION['bill']['personal_data']))
 		{
-			$_SESSION['bill']['personal_data']['vorname'] = $this->user_obj->getFirstname();
-			$_SESSION['bill']['personal_data']['nachname'] = $this->user_obj->getLastname();
+			$_SESSION['bill']['personal_data']['firstname'] = $this->user_obj->getFirstname();
+			$_SESSION['bill']['personal_data']['lastname'] = $this->user_obj->getLastname();
 			if (strpos('_' . $this->user_obj->getStreet(), ' ') > 0)
 			{
 				$houseNo = substr($this->user_obj->getStreet(), strrpos($this->user_obj->getStreet(), ' ')+1);
 				$street = substr($this->user_obj->getStreet(), 0, strlen($this->user_obj->getStreet())-(strlen($houseNo)+1));
-				$_SESSION['bill']['personal_data']['strasse'] = $street;
-				$_SESSION['bill']['personal_data']['hausNr'] = $houseNo;
+				$_SESSION['bill']['personal_data']['street'] = $street;
+				$_SESSION['bill']['personal_data']['house_number'] = $houseNo;
 			}
 			else
 			{
-				$_SESSION['bill']['personal_data']['strasse'] = $this->user_obj->getStreet();
-				$_SESSION['bill']['personal_data']['hausNr'] = '';
+				$_SESSION['bill']['personal_data']['street'] = $this->user_obj->getStreet();
+				$_SESSION['bill']['personal_data']['house_number'] = '';
 			}
-			$_SESSION['bill']['personal_data']['postfach'] = '';
-			$_SESSION['bill']['personal_data']['PLZ'] = $this->user_obj->getZipcode();
-			$_SESSION['bill']['personal_data']['ort'] = $this->user_obj->getCity();
-			$_SESSION['bill']['personal_data']['land'] = $this->__getCountryCode($this->user_obj->getCountry());
-			$_SESSION['bill']['personal_data']['EMailAdresse'] = $this->user_obj->getEmail();
-			$_SESSION['bill']['personal_data']['sprache'] = $this->user_obj->getLanguage();
+			$_SESSION['bill']['personal_data']['po_box'] = '';
+			$_SESSION['bill']['personal_data']['zipcode'] = $this->user_obj->getZipcode();
+			$_SESSION['bill']['personal_data']['city'] = $this->user_obj->getCity();
+			$_SESSION['bill']['personal_data']['country'] = $this->__getCountryCode($this->user_obj->getCountry());
+			$_SESSION['bill']['personal_data']['email'] = $this->user_obj->getEmail();
+			$_SESSION['bill']['personal_data']['language'] = $this->user_obj->getLanguage();
 		}
 		
 		if (!is_array($_SESSION['coupons']['bill']))
@@ -149,29 +149,29 @@ class ilPurchaseBillGUI
 			// fill defaults
 	
 			$this->error != '' && isset($_POST['country']) ? $this->__showCountries($this->tpl, $_POST['country']) 
-									: $this->__showCountries($this->tpl, $_SESSION['bill']['personal_data']['land']);
+									: $this->__showCountries($this->tpl, $_SESSION['bill']['personal_data']['country']);
 			$this->tpl->setVariable('FIRSTNAME', $this->user_obj->getFirstname());
 			$this->tpl->setVariable('LASTNAME', $this->user_obj->getLastname());
 			$this->tpl->setVariable('STREET',
 									$this->error != '' && isset($_POST['street'])
 									? ilUtil::prepareFormOutput($_POST['street'],true)
-									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['strasse'],true));
+									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['street'],true));
 			$this->tpl->setVariable('HOUSE_NUMBER',
 									$this->error != '' && isset($_POST['house_number'])
 									? ilUtil::prepareFormOutput($_POST['house_number'],true)
-									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['hausNr'],true));
+									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['house_number'],true));
 			$this->tpl->setVariable('PO_BOX',
 									$this->error != '' && isset($_POST['po_box'])
 									? ilUtil::prepareFormOutput($_POST['po_box'],true)
-									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['postfach'],true));
+									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['po_box'],true));
 			$this->tpl->setVariable('ZIPCODE',
 									$this->error != '' && isset($_POST['zipcode'])
 									? ilUtil::prepareFormOutput($_POST['zipcode'],true)
-									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['PLZ'],true));
+									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['zipcode'],true));
 			$this->tpl->setVariable('CITY',
 									$this->error != '' && isset($_POST['city'])
 									? ilUtil::prepareFormOutput($_POST['city'],true)
-									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['ort'],true));
+									: ilUtil::prepareFormOutput($_SESSION['bill']['personal_data']['city'],true));
 			$this->tpl->setVariable('EMAIL', $this->user_obj->getEmail());
 
 		}
@@ -180,12 +180,12 @@ class ilPurchaseBillGUI
 	function getPersonalData()
 	{	
 
-		if ($_SESSION['bill']['personal_data']['vorname'] == '' ||
-			$_SESSION['bill']['personal_data']['nachname'] == '' ||
+		if ($_SESSION['bill']['personal_data']['firstname'] == '' ||
+			$_SESSION['bill']['personal_data']['lastname'] == '' ||
 			$_POST['zipcode'] == '' ||
 			$_POST['city'] == '' ||
 			$_POST['country'] == '' ||
-			$_SESSION['bill']['personal_data']['EMailAdresse'] == '')
+			$_SESSION['bill']['personal_data']['email'] == '')
 		{
 
 			$this->error = $this->lng->txt('pay_bmf_personal_data_not_valid');
@@ -205,17 +205,17 @@ class ilPurchaseBillGUI
 			return;
 		}
 
-		$_SESSION['bill']['personal_data']['vorname'] = $this->user_obj->getFirstname();
-		$_SESSION['bill']['personal_data']['nachname'] = $this->user_obj->getLastname();
-		$_SESSION['bill']['personal_data']['strasse'] = $_POST['street'];
-		$_SESSION['bill']['personal_data']['hausNr'] = $_POST['house_number'];
-		$_SESSION['bill']['personal_data']['postfach'] = $_POST['po_box'];
-		$_SESSION['bill']['personal_data']['PLZ'] = $_POST['zipcode'];
-		$_SESSION['bill']['personal_data']['ort'] = $_POST['city'];
-		$_SESSION['bill']['personal_data']['land'] = $_POST['country'];
+		$_SESSION['bill']['personal_data']['firstname'] = $this->user_obj->getFirstname();
+		$_SESSION['bill']['personal_data']['lastname'] = $this->user_obj->getLastname();
+		$_SESSION['bill']['personal_data']['street'] = $_POST['street'];
+		$_SESSION['bill']['personal_data']['house_number'] = $_POST['house_number'];
+		$_SESSION['bill']['personal_data']['po_box'] = $_POST['po_box'];
+		$_SESSION['bill']['personal_data']['zipcode'] = $_POST['zipcode'];
+		$_SESSION['bill']['personal_data']['city'] = $_POST['city'];
+		$_SESSION['bill']['personal_data']['country'] = $_POST['country'];
 
-		$_SESSION['bill']['personal_data']['EmailAdresse'] = $this->user_obj->getEmail();
-		$_SESSION['bill']['personal_data']['sprache'] = $this->user_obj->getLanguage();
+		$_SESSION['bill']['personal_data']['email'] = $this->user_obj->getEmail();
+		$_SESSION['bill']['personal_data']['language'] = $this->user_obj->getLanguage();
 
 		$this->error = '';
 		$this->showBillConfirm();
@@ -377,11 +377,11 @@ class ilPurchaseBillGUI
 				
 				if($save_customer_address_enabled == '1')
 				{
-					$book_obj->setStreet($_SESSION['bill']['personal_data']['strasse'], $_SESSION['bill']['personal_data']['hausNr']);
-					$book_obj->setPoBox($_SESSION['bill']['personal_data']['postfach']);
-					$book_obj->setZipcode($_SESSION['bill']['personal_data']['PLZ']);
-					$book_obj->setCity($_SESSION['bill']['personal_data']['ort']);
-					$book_obj->setCountry($_SESSION['bill']['personal_data']['land']);
+					$book_obj->setStreet($_SESSION['bill']['personal_data']['street'], $_SESSION['bill']['personal_data']['house_number']);
+					$book_obj->setPoBox($_SESSION['bill']['personal_data']['po_box']);
+					$book_obj->setZipcode($_SESSION['bill']['personal_data']['zipcode']);
+					$book_obj->setCity($_SESSION['bill']['personal_data']['city']);
+					$book_obj->setCountry($_SESSION['bill']['personal_data']['country']);
 				}
 				
 				$booking_id = $book_obj->add();
@@ -468,19 +468,19 @@ class ilPurchaseBillGUI
 		$tpl->setVariable('TXT_BANK_DATA', utf8_decode($this->lng->txt('pay_bank_data')));
 
 
-		$tpl->setVariable('CUSTOMER_FIRSTNAME', $customer['vorname']);
-		$tpl->setVariable('CUSTOMER_LASTNAME', $customer['nachname']);
-		if($customer['postfach']== '')
+		$tpl->setVariable('CUSTOMER_FIRSTNAME', $customer['firstname']);
+		$tpl->setVariable('CUSTOMER_LASTNAME', $customer['lastname']);
+		if($customer['po_box']== '')
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $customer['strasse']. ' ' . $customer['hausNr']);
+			$tpl->setVariable('CUSTOMER_STREET', $customer['street']. ' ' . $customer['house_number']);
 		}
 		else
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $customer['postfach']);
+			$tpl->setVariable('CUSTOMER_STREET', $customer['po_box']);
 		}
-		$tpl->setVariable('CUSTOMER_ZIPCODE', $customer['PLZ']);
-		$tpl->setVariable('CUSTOMER_CITY', $customer['ort']);
-		$tpl->setVariable('CUSTOMER_COUNTRY', $customer['land']);
+		$tpl->setVariable('CUSTOMER_ZIPCODE', $customer['zipcode']);
+		$tpl->setVariable('CUSTOMER_CITY', $customer['city']);
+		$tpl->setVariable('CUSTOMER_COUNTRY', $customer['country']);
 
 		$tpl->setVariable('BILL_NO', $transaction);
 		$tpl->setVariable('DATE', date('d.m.Y'));
@@ -632,8 +632,8 @@ class ilPurchaseBillGUI
 		
 		$genSet = new ilGeneralSettings();
 		$save_customer_address_enabled = $genSet->get('save_customer_address_enabled');
-		
-		$booking_obj =& new ilPaymentBookings();
+
+	$booking_obj =& new ilPaymentBookings();
 		
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 			
@@ -700,11 +700,11 @@ class ilPurchaseBillGUI
 			//sets the customers address for the bill if enabled in administration
 			if($save_customer_address_enabled == '1')
 			{
-				$booking_obj->setStreet($_SESSION['bill']['personal_data']['strasse'], $_SESSION['bill']['personal_data']['hausNr']);
-				$booking_obj->setPoBox($_SESSION['bill']['personal_data']['postfach']);
-				$booking_obj->setZipcode($_SESSION['bill']['personal_data']['PLZ']);
-				$booking_obj->setCity($_SESSION['bill']['personal_data']['ort']);
-				$booking_obj->setCountry($_SESSION['bill']['personal_data']['land']);
+				$booking_obj->setStreet($_SESSION['bill']['personal_data']['street'], $_SESSION['bill']['personal_data']['house_number']);
+				$booking_obj->setPoBox($_SESSION['bill']['personal_data']['po_box']);
+				$booking_obj->setZipcode($_SESSION['bill']['personal_data']['zipcode']);
+				$booking_obj->setCity($_SESSION['bill']['personal_data']['city']);
+				$booking_obj->setCountry($_SESSION['bill']['personal_data']['country']);
 			}
 				
 			$current_booking_id = $booking_obj->add();			
