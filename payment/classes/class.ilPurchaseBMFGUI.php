@@ -66,26 +66,26 @@ class ilPurchaseBMFGUI
 		
 		if (!is_array($_SESSION["bmf"]["personal_data"]))
 		{
-			$_SESSION["bmf"]["personal_data"]["vorname"] = $this->user_obj->getFirstname();
-			$_SESSION["bmf"]["personal_data"]["nachname"] = $this->user_obj->getLastname();
+			$_SESSION["bmf"]["personal_data"]["firstname"] = $this->user_obj->getFirstname();
+			$_SESSION["bmf"]["personal_data"]["lastname"] = $this->user_obj->getLastname();
 			if (strpos("_" . $this->user_obj->getStreet(), " ") > 0)
 			{
 				$houseNo = substr($this->user_obj->getStreet(), strrpos($this->user_obj->getStreet(), " ")+1);
 				$street = substr($this->user_obj->getStreet(), 0, strlen($this->user_obj->getStreet())-(strlen($houseNo)+1));
-				$_SESSION["bmf"]["personal_data"]["strasse"] = $street;
-				$_SESSION["bmf"]["personal_data"]["hausNr"] = $houseNo;
+				$_SESSION["bmf"]["personal_data"]["street"] = $street;
+				$_SESSION["bmf"]["personal_data"]["house_number"] = $houseNo;
 			}
 			else
 			{
-				$_SESSION["bmf"]["personal_data"]["strasse"] = $this->user_obj->getStreet();
-				$_SESSION["bmf"]["personal_data"]["hausNr"] = "";
+				$_SESSION["bmf"]["personal_data"]["street"] = $this->user_obj->getStreet();
+				$_SESSION["bmf"]["personal_data"]["house_number"] = "";
 			}
-			$_SESSION["bmf"]["personal_data"]["postfach"] = "";
-			$_SESSION["bmf"]["personal_data"]["PLZ"] = $this->user_obj->getZipcode();
-			$_SESSION["bmf"]["personal_data"]["ort"] = $this->user_obj->getCity();
-			$_SESSION["bmf"]["personal_data"]["land"] = $this->__getCountryCode($this->user_obj->getCountry());
-			$_SESSION["bmf"]["personal_data"]["EMailAdresse"] = $this->user_obj->getEmail();
-			$_SESSION["bmf"]["personal_data"]["sprache"] = $this->user_obj->getLanguage();
+			$_SESSION["bmf"]["personal_data"]["po_box"] = "";
+			$_SESSION["bmf"]["personal_data"]["zipcode"] = $this->user_obj->getZipcode();
+			$_SESSION["bmf"]["personal_data"]["city"] = $this->user_obj->getCity();
+			$_SESSION["bmf"]["personal_data"]["country"] = $this->__getCountryCode($this->user_obj->getCountry());
+			$_SESSION["bmf"]["personal_data"]["email"] = $this->user_obj->getEmail();
+			$_SESSION["bmf"]["personal_data"]["language"] = $this->user_obj->getLanguage();
 		}
 		
 		if (!is_array($_SESSION["coupons"]["bmf"]))
@@ -157,7 +157,7 @@ class ilPurchaseBMFGUI
 
 		// fill defaults
 
-		$this->error != "" && isset($_POST['country']) ? $this->__showCountries($this->tpl, $_POST['country']) : $this->__showCountries($this->tpl, $_SESSION['bmf']['personal_data']['land']);
+		$this->error != "" && isset($_POST['country']) ? $this->__showCountries($this->tpl, $_POST['country']) : $this->__showCountries($this->tpl, $_SESSION['bmf']['personal_data']['country']);
 /*		$this->tpl->setVariable("FIRSTNAME",
 								$this->error != "" && isset($_POST['firstname'])
 								? ilUtil::prepareFormOutput($_POST['firstname'],true)
@@ -171,27 +171,23 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("STREET",
 								$this->error != "" && isset($_POST['street'])
 								? ilUtil::prepareFormOutput($_POST['street'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['strasse'],true));
+								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['street'],true));
 		$this->tpl->setVariable("HOUSE_NUMBER",
 								$this->error != "" && isset($_POST['house_number'])
 								? ilUtil::prepareFormOutput($_POST['house_number'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['hausNr'],true));
+								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['house_number'],true));
 		$this->tpl->setVariable("PO_BOX",
 								$this->error != "" && isset($_POST['po_box'])
 								? ilUtil::prepareFormOutput($_POST['po_box'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['postfach'],true));
+								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['po_box'],true));
 		$this->tpl->setVariable("ZIPCODE",
 								$this->error != "" && isset($_POST['zipcode'])
 								? ilUtil::prepareFormOutput($_POST['zipcode'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['PLZ'],true));
+								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['zipcode'],true));
 		$this->tpl->setVariable("CITY",
 								$this->error != "" && isset($_POST['city'])
 								? ilUtil::prepareFormOutput($_POST['city'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['ort'],true));
-/*		$this->tpl->setVariable("EMAIL",
-								$this->error != "" && isset($_POST['email'])
-								? ilUtil::prepareFormOutput($_POST['email'],true)
-								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['EMailAdresse'],true));*/
+								: ilUtil::prepareFormOutput($_SESSION['bmf']["personal_data"]['city'],true));
 		$this->tpl->setVariable("EMAIL", $this->user_obj->getEmail());
 
 		}
@@ -199,15 +195,13 @@ class ilPurchaseBMFGUI
 
 	function getPersonalData()
 	{
-/*		if ($_POST"firstname"] == "" ||
-			$_POST["lastname"] == "" ||*/
-		if ($_SESSION["bmf"]["personal_data"]["vorname"] == "" ||
-			$_SESSION["bmf"]["personal_data"]["nachname"] == "" ||
+
+		if ($_SESSION["bmf"]["personal_data"]["firstname"] == "" ||
+			$_SESSION["bmf"]["personal_data"]["lastname"] == "" ||
 			$_POST["zipcode"] == "" ||
 			$_POST["city"] == "" ||
 			$_POST["country"] == "" ||
-/*			$_POST["email"] == "")*/
-			$_SESSION["bmf"]["personal_data"]["EMailAdresse"] == "")
+			$_SESSION["bmf"]["personal_data"]["email"] == "")
 		{
 			$this->error = $this->lng->txt('pay_bmf_personal_data_not_valid');
 			ilUtil::sendInfo($this->error);
@@ -225,21 +219,19 @@ class ilPurchaseBMFGUI
 			return;
 		}
 
-/*		$_SESSION["bmf"]["personal_data"]["vorname"] = $_POST["firstname"];
-		$_SESSION["bmf"]["personal_data"]["nachname"] = $_POST["lastname"];*/
-		$_SESSION["bmf"]["personal_data"]["vorname"] = $this->user_obj->getFirstname();
-		$_SESSION["bmf"]["personal_data"]["nachname"] = $this->user_obj->getLastname();
-		$_SESSION["bmf"]["personal_data"]["strasse"] = $_POST["street"];
-		$_SESSION["bmf"]["personal_data"]["hausNr"] = $_POST["house_number"];
-		$_SESSION["bmf"]["personal_data"]["postfach"] = $_POST["po_box"];
-		$_SESSION["bmf"]["personal_data"]["PLZ"] = $_POST["zipcode"];
-		$_SESSION["bmf"]["personal_data"]["ort"] = $_POST["city"];
-		$_SESSION["bmf"]["personal_data"]["land"] = $_POST["country"];
-/*		$_SESSION["bmf"]["personal_data"]["EMailAdresse"] = $_POST["email"];*/
-		$_SESSION["bmf"]["personal_data"]["EmailAdresse"] = $this->user_obj->getEmail();
-		$_SESSION["bmf"]["personal_data"]["sprache"] = $this->user_obj->getLanguage();
 
-		if ($_SESSION["bmf"]["personal_data"]["land"] != "DE")
+		$_SESSION["bmf"]["personal_data"]["firstname"] = $this->user_obj->getFirstname();
+		$_SESSION["bmf"]["personal_data"]["lastname"] = $this->user_obj->getLastname();
+		$_SESSION["bmf"]["personal_data"]["street"] = $_POST["street"];
+		$_SESSION["bmf"]["personal_data"]["house_number"] = $_POST["house_number"];
+		$_SESSION["bmf"]["personal_data"]["po_box"] = $_POST["po_box"];
+		$_SESSION["bmf"]["personal_data"]["zipcode"] = $_POST["zipcode"];
+		$_SESSION["bmf"]["personal_data"]["city"] = $_POST["city"];
+		$_SESSION["bmf"]["personal_data"]["country"] = $_POST["country"];
+		$_SESSION["bmf"]["personal_data"]["email"] = $this->user_obj->getEmail();
+		$_SESSION["bmf"]["personal_data"]["language"] = $this->user_obj->getLanguage();
+
+		if ($_SESSION["bmf"]["personal_data"]["country"] != "DE")
 		{
 			if ($_SESSION["bmf"]["payment_type"] == "debit_entry")
 			{
@@ -270,7 +262,6 @@ class ilPurchaseBMFGUI
 		{
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bmf_payment_type.html','payment');
-		#$this->tpl = new ilTemplate('tpl.pay_bmf_payment_type.html', true, true, 'payment');
 
 		$this->tpl->setVariable("PAYMENT_TYPE_FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -284,7 +275,7 @@ class ilPurchaseBMFGUI
 		$this->tpl->setVariable("TXT_CLOSE_WINDOW",$this->lng->txt('close_window'));
 
 		// set plain text variables
-		if ($_SESSION["bmf"]["personal_data"]["land"] == "DE")
+		if ($_SESSION["bmf"]["personal_data"]["country"] == "DE")
 		{
 			$this->tpl->setVariable("TXT_DEBIT_ENTRY",$this->lng->txt('pay_bmf_debit_entry'));
 		}
@@ -302,8 +293,8 @@ class ilPurchaseBMFGUI
 		}
 		else
 		{
-			if (($_SESSION["bmf"]["personal_data"]["land"] != "DE" && $_POST["payment_type"] != "debit_entry") ||
-				$_SESSION["bmf"]["personal_data"]["land"] == "DE")
+			if (($_SESSION["bmf"]["personal_data"]["country"] != "DE" && $_POST["payment_type"] != "debit_entry") ||
+				$_SESSION["bmf"]["personal_data"]["country"] == "DE")
 			{
 				$this->tpl->setVariable("PAYMENT_TYPE_" . strtoupper($_SESSION["bmf"]["payment_type"]), " checked") ;
 			}
@@ -322,7 +313,7 @@ class ilPurchaseBMFGUI
 	function getPaymentType()
 	{
 		if (($_POST["payment_type"] != "credit_card" && $_POST["payment_type"] != "debit_entry") ||
-			($_SESSION["bmf"]["personal_data"]["land"] != "DE" && $_POST["payment_type"] == "debit_entry"))
+			($_SESSION["bmf"]["personal_data"]["country"] != "DE" && $_POST["payment_type"] == "debit_entry"))
 		{
 			$this->error = $this->lng->txt('pay_bmf_payment_type_not_valid');
 			ilUtil::sendInfo($this->error);
@@ -664,7 +655,7 @@ class ilPurchaseBMFGUI
 							ilUtil::sendInfo($this->lng->txt('pay_bmf_thanks'));
 	
 							$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_debit_entry.html','payment');
-							#$this->tpl = new ilTemplate('tpl.pay_bmf_debit_entry.html', true, true, 'payment');
+
 							if ($this->ilias->getSetting("https") != 1)
 							{
 								$this->tpl->setCurrentBlock("buyed_objects");
@@ -903,7 +894,6 @@ class ilPurchaseBMFGUI
 		}
 		else
 		{
-
 		$payment = new KreditkartenzahlungWS();
 
 		$customer = new Kunde($this->user_obj->getId());
@@ -1025,6 +1015,7 @@ class ilPurchaseBMFGUI
 			}
 			else
 			{
+	
 				// everything ok => send confirmation, fill statistik, delete session, delete shopping cart.
 				$this->__sendBill($customer, $_SESSION["bmf"]["payment_type"], $bookingList, $resultObj);
 
@@ -1907,21 +1898,21 @@ class Kunde
 			$values = $_SESSION["bmf"]["personal_data"];
 		}
 
-		if ($values["sprache"] != NULL)
+		if ($values["language"] != NULL)
 		{
-			$this->sprache = $values["sprache"];
+			$this->sprache = $values["language"];
 		}
-		if ($values["vorname"] != NULL)
+		if ($values["firstname"] != NULL)
 		{
-			$this->vorname = utf8_decode($values["vorname"]);
+			$this->vorname = utf8_decode($values["firstname"]);
 		}
-		if ($values["nachname"] != NULL)
+		if ($values["lastname"] != NULL)
 		{
-			$this->nachname = utf8_decode($values["nachname"]);
+			$this->nachname = utf8_decode($values["lastname"]);
 		}
-		if ($values["EMailAdresse"] != NULL)
+		if ($values["email"] != NULL)
 		{
-			$this->EMailAdresse = utf8_decode($values["EMailAdresse"]);
+			$this->EMailAdresse = utf8_decode($values["email"]);
 		}
 
 		$address = new Adresse();
@@ -1949,29 +1940,29 @@ class Adresse
 
 		if (is_array($values))
 		{
-			if ($values["strasse"] != NULL)
+			if ($values["street"] != NULL)
 			{
-				$this->strasse = utf8_decode($values["strasse"]);
+				$this->strasse = utf8_decode($values["street"]);
 			}
-			if ($values["hausNr"] != NULL)
+			if ($values["house_number"] != NULL)
 			{
-				$this->hausNr = utf8_decode($values["hausNr"]);
+				$this->hausNr = utf8_decode($values["house_number"]);
 			}
-			if ($values["postfach"] != NULL)
+			if ($values["po_box"] != NULL)
 			{
-				$this->postfach = utf8_decode($values["postfach"]);
+				$this->postfach = utf8_decode($values["po_box"]);
 			}
-			if ($values["land"] != NULL)
+			if ($values["country"] != NULL)
 			{
-				$this->land = utf8_decode($values["land"]);
+				$this->land = utf8_decode($values["country"]);
 			}
-			if ($values["PLZ"] != NULL)
+			if ($values["zipcode"] != NULL)
 			{
-				$this->PLZ = utf8_decode($values["PLZ"]);
+				$this->PLZ = utf8_decode($values["zipcode"]);
 			}
-			if ($values["ort"] != NULL)
+			if ($values["city"] != NULL)
 			{
-				$this->ort = utf8_decode($values["ort"]);
+				$this->ort = utf8_decode($values["city"]);
 			}
 		}
 	}
@@ -2191,37 +2182,37 @@ class LieferAdresse
 
 		if (is_array($values))
 		{
-			if ($values["vorname"] != NULL)
+			if ($values["firstname"] != NULL)
 			{
-				$this->vorname = utf8_decode($values["vorname"]);
+				$this->vorname = utf8_decode($values["firstname"]);
 			}
-			if ($values["nachname"] != NULL)
+			if ($values["lastname"] != NULL)
 			{
-				$this->nachname = utf8_decode($values["nachname"]);
+				$this->nachname = utf8_decode($values["lastname"]);
 			}
-			if ($values["strasse"] != NULL)
+			if ($values["street"] != NULL)
 			{
-				$this->strasse = utf8_decode($values["strasse"]);
+				$this->strasse = utf8_decode($values["street"]);
 			}
-			if ($values["hausNr"] != NULL)
+			if ($values["house_number"] != NULL)
 			{
-				$this->hausNr = utf8_decode($values["hausNr"]);
+				$this->hausNr = utf8_decode($values["house_number"]);
 			}
-			if ($values["postfach"] != NULL)
+			if ($values["po_box"] != NULL)
 			{
-				$this->postfach = utf8_decode($values["postfach"]);
+				$this->postfach = utf8_decode($values["po_box"]);
 			}
-			if ($values["land"] != NULL)
+			if ($values["country"] != NULL)
 			{
-				$this->land = utf8_decode($values["land"]);
+				$this->land = utf8_decode($values["country"]);
 			}
-			if ($values["PLZ"] != NULL)
+			if ($values["zipcode"] != NULL)
 			{
-				$this->PLZ = utf8_decode($values["PLZ"]);
+				$this->PLZ = utf8_decode($values["zipcode"]);
 			}
-			if ($values["ort"] != NULL)
+			if ($values["city"] != NULL)
 			{
-				$this->ort = utf8_decode($values["ort"]);
+				$this->ort = utf8_decode($values["city"]);
 			}
 		}
 	}
