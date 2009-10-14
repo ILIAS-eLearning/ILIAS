@@ -226,7 +226,7 @@ class ilRbacSystem
 			}
 			if (! in_array($ops_id,$ops)) 
 			{
-				$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$a_ops_id.' failed');
+				//$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$a_ops_id.' failed');
 				// Store negative outcome in cache.
 				// Note: we only cache up to 1000 results to avoid memory overflows
 				if (count(self::$_checkAccessOfUserCache) < 1000) 
@@ -241,7 +241,7 @@ class ilRbacSystem
 		// Note: we only cache up to 1000 results to avoid memory overflows
 		if (count(self::$_checkAccessOfUserCache) < 1000) 
 		{
-			$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$ops_id.' granted');
+			//$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$ops_id.' granted');
 			self::$_checkAccessOfUserCache[$cacheKey] = true;
 		}
 		return true;
