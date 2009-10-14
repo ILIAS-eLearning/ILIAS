@@ -1251,7 +1251,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					{
 						$ilTabs->addTarget("cont_inst_map_areas",
 							$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
-							get_class("ilpcimagemapeditorgui"));
+							"ilpcimagemapeditorgui");
 					}
 				}
 			}
