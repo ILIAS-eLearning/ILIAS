@@ -3140,7 +3140,7 @@ assessment#:#width#:#bredte
 assessment#:#height#:#Højde
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Konkatnering
-assessment#:#confirm_delete_all_user_data#:#Er du sikker på at du vil slette alle brugerdata fra denne test?
+assessment#:#confirm_delete_all_user_data#:#Er du sikker på at du vil slette alle besvarelser i testen?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?
 assessment#:#confirm_sync_questions#:#Spørgsmålet du har ændret er en kopi som er blevet lavet for at blive brugt i en aktiv test. ønsker du at ændre det originale spørgsmål?
 assessment#:#coordinates#:#Koordinater
@@ -3151,7 +3151,7 @@ assessment#:#create_gaps#:#Opret huller
 assessment#:#create_imagemap#:#Opret et imagekort
 assessment#:#create_new#:#Opret ny
 assessment#:#definition#:#Definition
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
+assessment#:#delete_all_user_data#:#Slet alle besvarelser
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#delete_area#:#Slet område
 assessment#:#delete_image#:#Delete image
@@ -3351,14 +3351,14 @@ assessment#:#ordering_question_javascript_hint#:#Please drag a definition/pictur
 assessment#:#output#:#Output###25 10 2006 new variable
 assessment#:#output_mode#:#Output mode
 assessment#:#participants#:#Deltagere
-assessment#:#participants_data#:#Participants Data###12 11 2006 new variable
-assessment#:#participants_evaluation#:#Evaluation for all Test Participants###29 11 2006 new variable
-assessment#:#participants_invitation#:#Fixed Participants###12 11 2006 new variable
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.###12 11 2006 new variable
+assessment#:#participants_data#:#Besvarelsesdata
+assessment#:#participants_evaluation#:#Evaluering af alle besvarelser
+assessment#:#participants_invitation#:#Brugerbegrænsning
+assessment#:#participants_invitation_description#:#Du kan begrænse tilgængeligheden til testen til en bestemt gruppe af brugere. For at aktivere funktionaliten skal du afkrydse checkboksen og trykke gem.
 assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.###12 11 2006 new variable
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#bestået
-assessment#:#passed_only#:#Passed tests only###12 10 2006 new variable
+assessment#:#passed_only#:#Kun beståede
 assessment#:#passed_short#:#bestået
 assessment#:#percentage#:#Procent
 assessment#:#percentage_solved#:#Du har løst %.2f procent af disse spørgsmål!
@@ -3481,8 +3481,8 @@ assessment#:#set_edit_mode#:#Vælg
 assessment#:#set_filter#:#Sæt filter
 assessment#:#set_manual_feedback#:#Sæt manuel feedback
 assessment#:#shape#:#Form
-assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
-assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
+assessment#:#show_pass_overview#:#Vis overblik for de markerede besvarelser
+assessment#:#show_user_answers#:#Vis de markerede besvarelser
 assessment#:#shuffle_answers#:#Bland svar
 assessment#:#solution_hint#:#Foreslået løsning
 assessment#:#solution_may_contain_keywords#:#Løsningen må indeholde et af de følgende ord
@@ -3919,7 +3919,7 @@ bibitem#:#bibitem_series_volume#:#Lydstyrke
 bibitem#:#bibitem_technical_report#:#Teknisk report
 bibitem#:#bibitem_type#:#Type###21 Apr 2005 new variable
 bibitem#:#bibitem_unpublished#:#Ikke udgivet
-bibitem#:#bibitem_url#:#URL###21 Apr 2005 new variable
+bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#hvor udgivet
 bibitem#:#bibitem_year#:#år
 chat#:#cancel_talk#:#Fortryd chat
@@ -4126,7 +4126,7 @@ news#:#news_subscribe#:#Abonner
 news#:#news_unsubscribe#:#Uabonner
 news#:#news_internal_news#:#Interne nyheder
 news#:#news_get_feed_url#:#Hent feed URL
-news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
+news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_get_feed_title#:#Personlig feed URL
 news#:#news_get_feed_info#:#Dette er en personlig nyhedsfeed URL. Feedet inkluderer kun nyheder som er angivet som offentlige af skribenten. Feeded er ikke beskyttet af autentificeringsprocedurer. Undlad venligst at dele denne URL med andre.
 news#:#news_feed_url#:#Feed URL
@@ -8190,16 +8190,16 @@ dateplaner#:#cal_cal_type#:#Kalendertype
 dateplaner#:#cal_type_personal#:#Privat kalender
 dateplaner#:#cal_type_system#:#Offentlig kalender
 rbac#:#crs_edit_event#:#Ret kalender aftaler
-rbac#:#grp_edit_event#:#Edit Calendar Events###02 06 2008 new variable
-rbac#:#sess_edit_event#:#Edit Calendar Events###02 06 2008 new variable
-rbac#:#cals_edit_event#:#Administrate Public Calendars###02 06 2008 new variable
-assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
-form#:#form_min_value#:#Minimum Value###23 07 2008 new variable
-form#:#form_max_value#:#Maximum Value###23 07 2008 new variable
-form#:#form_format#:#Format###23 07 2008 new variable
-form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
-form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
-form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
+rbac#:#grp_edit_event#:#Ret kalender indhold
+rbac#:#sess_edit_event#:#Ret kalender indhold
+rbac#:#cals_edit_event#:#Administrer offentlige kalendere
+assessment#:#show_detailed_results#:#Vis detaljerede besvarelser
+form#:#form_min_value#:#Minimumværdi
+form#:#form_max_value#:#Maksimum værdi
+form#:#form_format#:#Format
+form#:#form_msg_value_too_high#:#Værdien er for høj. Du skal indtaste en lavere værdi
+form#:#form_msg_value_too_low#:#Værdien er for lav, du skal indtaste en højere værdi.
+form#:#form_msg_numeric_value_required#:#Du skal indtaste en numerisk værdi.
 wiki#:#wiki_last_visited_page#:#Sidst besøgte side
 wiki#:#wiki_short_title_already_in_use#:#Denne titel bruges allerede af en anden wiki. Vælg venligst en anden.
 wiki#:#wiki_msg_short_name_regexp#:#Den korte titel må ikke begynde med et tal og må ikke indeholde disse karakterer:
