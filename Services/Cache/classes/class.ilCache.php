@@ -224,7 +224,7 @@ class ilCache
 	/**
 	 * Delete by additional keys
 	 */
-	protected function deleteByAdditionalKeys($a_int_key1 = null, $a_int_key2 = null,
+	public function deleteByAdditionalKeys($a_int_key1 = null, $a_int_key2 = null,
 		$a_text_key1 = null, $a_text_key2 = null)
 	{
 		global $ilDB;
@@ -240,13 +240,13 @@ class ilCache
 		$fds = array("int_key_1" => array("v" => $a_int_key1, "t" => "integer"),
 			"int_key_2" => array("v" => $a_int_key2, "t" => "integer"),
 			"text_key_1" => array("v" => $a_text_key1, "t" => "text"),
-			"text_key_2" => array("v" => $a_text_key1, "t" => "text"));
+			"text_key_2" => array("v" => $a_text_key2, "t" => "text"));
 		$sep = " AND";
 		foreach ($fds as $k => $fd)
 		{
 			if (!is_null($fd["v"]))
 			{
-				$q = $sep." ".$k." = ".$ilDB->quote($fd["v"], $fd["t"]);
+				$q .= $sep." ".$k." = ".$ilDB->quote($fd["v"], $fd["t"]);
 				$set = " AND";
 			}
 		}

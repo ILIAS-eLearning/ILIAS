@@ -71,13 +71,18 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	 */
 	protected function initCategories()
 	{
-		$this->mode = self::CAL_MODE_PD;
-	
-		if(!is_object($this->categories))
+		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+		if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 		{
-			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP,(int)$_GET['ref_id']);
+			$this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP;
 		}
+		else
+		{
+			$this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS;
+		}
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		ilCalendarCategories::_getInstance()->initialize($this->mode,(int)$_GET['ref_id'],true);
 	}
 
 	/**

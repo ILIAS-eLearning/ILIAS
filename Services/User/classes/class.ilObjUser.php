@@ -3014,6 +3014,9 @@ class ilObjUser extends ilObject
 				" (%s,%s,%s,%s)", array("integer", "text", "integer", "text"),
 				array($a_item_id,$a_type,$a_usr_id,$a_par));
 		}
+		
+		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
+		ilCalendarCategories::deletePDItemsCache($a_usr_id);
 	}
 
 	/**
@@ -3064,6 +3067,9 @@ class ilObjUser extends ilObject
 			" item_id = %s AND type = %s  AND user_id = %s",
 			array("integer", "text", "integer"),
 			array($a_item_id, $a_type, $a_usr_id));
+
+		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
+		ilCalendarCategories::deletePDItemsCache($a_usr_id);
 	}
 
 	/**

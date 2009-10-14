@@ -23,6 +23,7 @@
 
 include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+include_once './Services/Calendar/classes/class.ilCalendarCache.php';
 
 /**
 * class for calendar categories
@@ -35,9 +36,10 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 
 class ilCalendarCategories
 {
-	const MODE_PERSONAL_DESKTOP = 1;
 	const MODE_REPOSITORY = 2;
 	const MODE_REMOTE_ACCESS = 3;
+	const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
+	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
 	
 	protected static $instance = null;
 	
@@ -135,6 +137,48 @@ class ilCalendarCategories
 	}
 	
 	/**
+	 * Delete cache (add remove desktop item)
+	 * @param object $a_usr_id
+	 * @return 
+	 */
+	public static function deletePDItemsCache($a_usr_id)
+	{
+		ilCalendarCache::getInstance()->deleteByAdditionalKeys(
+			$a_usr_id,
+			self::MODE_PERSONAL_DESKTOP_ITEMS,
+			'categories'
+		);
+	}
+	
+
+	/**
+	 * Serialize categories 
+	 * @return 
+	 */
+	protected function sleep()
+	{
+		return serialize(
+			array(
+				'categories'		=> $this->categories,
+				'categories_info'	=> $this->categories_info
+			)
+		);
+	}
+	
+	/**
+	 * Load from serialize string
+	 * @param string serialize categories
+	 * @return 
+	 */
+	protected function wakeup($a_ser)
+	{
+		$info = unserialize($a_ser);
+		
+		$this->categories = $info['categories'];
+		$this->categories_info = $info['categories_info'];
+	}
+
+	/**
 	 * initialize visible categories
 	 *
 	 * @access public
@@ -142,12 +186,25 @@ class ilCalendarCategories
 	 * @param int ref_id of root node
 	 * @return
 	 */
-	public function initialize($a_mode,$a_source_ref_id = 0)
+	public function initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
 	{
+		if($a_use_cache)
+		{
+			// Read categories from cache
+			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
+			{
+				$GLOBALS['ilLog']->logStack();
+				$GLOBALS['ilLog']->write(__METHOD__.':Cache hit');
+				$this->wakeup($cats);
+				return;
+			}
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.':Cache miss');
+		
+		
 		switch($a_mode)
 		{
 			case self::MODE_REMOTE_ACCESS:
-			case self::MODE_PERSONAL_DESKTOP:
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 				{
@@ -159,11 +216,31 @@ class ilCalendarCategories
 				}
 				break;
 				
+			case self::MODE_PERSONAL_DESKTOP_MEMBERSHIP:
+				$this->readPDCalendars();
+				break;
+				
+			case self::MODE_PERSONAL_DESKTOP_ITEMS:
+				$this->readSelectedItemCalendars();
+				break;
+				
 			case self::MODE_REPOSITORY:
 				$this->root_ref_id = $a_source_ref_id;
 				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
 				$this->readReposCalendars();
 				break;
+		}
+		
+		if($a_use_cache)
+		{
+			// Store in cache
+			ilCalendarCache::getInstance()->storeEntry(
+				$this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id,
+				$this->sleep(),
+				$this->user_id,
+				$a_mode,
+				'categories'
+			);
 		}
 	}
 	
@@ -517,10 +594,6 @@ class ilCalendarCategories
 			$exists = false;
 			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
 			{
-				if($tree->isDeleted($ref_id))
-				{
-					continue;
-				}
 				if($ilAccess->checkAccess('edit_event','',$ref_id))
 				{
 					$exists = true;
