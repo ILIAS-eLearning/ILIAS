@@ -164,7 +164,6 @@ function ilToggleFullTime(check,prefix)
 		old.setHours(document.getElementById(prefix + "[start][time]_h").selectedIndex);
 		old.setMinutes(document.getElementById(prefix + "[start][time]_m").selectedIndex);
 	}
-	
 
 	document.getElementById(prefix + '[start][time]_h').disabled = status;
 	document.getElementById(prefix + '[start][time]_m').disabled = status;

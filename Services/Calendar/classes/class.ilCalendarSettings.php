@@ -43,6 +43,8 @@ class ilCalendarSettings
 	const TIME_FORMAT_24 = 1;
 	const TIME_FORMAT_12 = 2;
 	
+	const DEFAULT_CACHE_MINUTES = 10;
+	
 	private static $instance = null;
 
 	private $db = null;
@@ -54,6 +56,9 @@ class ilCalendarSettings
 	private $day_end = null;
 	private $enabled = false;
 	private $cal_settings_id = 0;
+	
+	private $cache_enabled = false;
+	private $cache_minutes = 0;
 
 	/**
 	 * singleton contructor
@@ -86,6 +91,44 @@ class ilCalendarSettings
 			return self::$instance;
 		}
 		return self::$instance = new ilCalendarSettings();
+	}
+	
+	/**
+	 * Enable cache
+	 * @param object $a_status
+	 * @return 
+	 */
+	protected function useCache($a_status)
+	{
+		$this->cache_enabled = $a_status;
+	}
+	
+	/**
+	 * Check if cache is used
+	 * @return 
+	 */
+	public function isCacheUsed()
+	{
+		return $this->cache_enabled;
+	}
+	
+	/**
+	 * Set time of cache storage
+	 * @param int $a_min
+	 * @return 
+	 */
+	public function setCacheMinutes($a_min)
+	{
+		$this->cache_minutes = $a_min;
+	}
+	
+	/**
+	 * Get cache minutes
+	 * @return 
+	 */
+	public function getCacheMinutes()
+	{
+		return (int) $this->cache_minutes;
 	}
 
 	/**
@@ -260,6 +303,7 @@ class ilCalendarSettings
 		$this->storage->set('enable_grp_milestones',(int) $this->getEnableGroupMilestones());
 		$this->storage->set('default_day_start',(int) $this->getDefaultDayStart());
 		$this->storage->set('default_day_end',(int) $this->getDefaultDayEnd());
+		$this->storage->set('cache_minutes',(int) $this->getCacheMinutes());
 	}
 
 	/**
@@ -278,6 +322,8 @@ class ilCalendarSettings
 		$this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
 		$this->setDefaultDayStart($this->storage->get('default_day_start',self::DEFAULT_DAY_START));
 		$this->setDefaultDayEnd($this->storage->get('default_day_end',self::DEFAULT_DAY_END));
+		$this->setCacheMinutes($this->storage->get('cache_minutes',self::DEFAULT_CACHE_MINUTES));
+		$this->useCache($this->getCacheMinutes() != 0);
 	}
 	
 	/**

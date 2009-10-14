@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
 /** 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
@@ -60,8 +61,16 @@ class ilCalendarPresentationGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
-		$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP);
-	
+		
+		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+		if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+		{
+			$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+		}
+		else
+		{
+			$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+		}
 	}
 	
 	

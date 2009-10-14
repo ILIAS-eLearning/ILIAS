@@ -359,5 +359,4 @@ class ilCalendarSchedule
 		return true;
 	}
 }
-
 ?>

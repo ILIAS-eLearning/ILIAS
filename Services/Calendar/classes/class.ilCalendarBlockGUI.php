@@ -22,6 +22,7 @@
 */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 
 /**
 * Calendar blocks, displayed in different contexts, e.g. groups and courses
@@ -37,9 +38,6 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
-	const CAL_MODE_REPOSITORY = 1;
-	const CAL_MODE_PD = 2;
-	
 	public $ctrl = null;
 
 	static $block_type = "cal";
@@ -387,7 +385,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		// add edit commands
 		#if ($this->getEnableEdit())
-		if($this->mode == self::CAL_MODE_REPOSITORY and 
+		if($this->mode == ilCalendarCategories::MODE_REPOSITORY and 
 			$ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
 		{
 
@@ -457,14 +455,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	 */
 	protected function initCategories()
 	{
-		$this->mode = self::CAL_MODE_REPOSITORY;
-		if(!is_object($this->categories))
-		{
-			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-			$this->categories = ilCalendarCategories::_getInstance()->initialize(
-				ilCalendarCategories::MODE_REPOSITORY,
-				(int)$_GET['ref_id']);
-		}
+		$this->mode = ilCalendarCategories::MODE_REPOSITORY;
+
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int) $_GET['ref_id'],true);
 	}
 	
 	/**

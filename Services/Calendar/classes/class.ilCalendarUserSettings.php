@@ -54,7 +54,7 @@ class ilCalendarUserSettings
 	 *
 	 * @access public
 	 * @param int user id
-	 * @return ilCalendarUserSettings
+	 * @return object ilCalendarUserSettings
 	 * @static
 	 */
 	public static function _getInstanceByUserId($a_user_id)
@@ -69,7 +69,7 @@ class ilCalendarUserSettings
 	/**
 	 * get instance for logged in user 
 	 *
-	 * @return
+	 * @return object ilCalendarUserSettings
 	 * @static
 	 */
 	 public static function _getInstance()
