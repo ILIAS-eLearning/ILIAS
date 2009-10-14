@@ -692,7 +692,7 @@ echo htmlentities($a_text);*/
 	static function xml2outputReplaceLists($a_text)
 	{
 		$segments = ilPCParagraph::segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
-			"</SimpleListItem>", "<SimpleListItem>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
+			"</SimpleListItem>", "<SimpleListItem>", "<SimpleListItem/>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
 
 		$current_list = array();
 		$text = "";
@@ -732,6 +732,20 @@ echo htmlentities($a_text);*/
 			}
 			else if ($segments[$i] == "</SimpleListItem>")
 			{
+				$li = false;
+			}
+			else if ($segments[$i] == "<SimpleListItem/>")
+			{
+				if ($list_start)
+				{
+					$text.= "<br />";
+					$list_start = false;
+				}
+				foreach($current_list as $list)
+				{
+					$text.= $list;
+				}
+				$text.= "<br />";
 				$li = false;
 			}
 			else
