@@ -34,17 +34,17 @@ YAHOO.example.DDApp = {
 				textStr = "";
 				for (j = 0; j < textelements[0].childNodes.length; j++) 
 				{
-					if (textelements[0].childNodes[j].nodeType == Node.ELEMENT_NODE)
+					if (textelements[0].childNodes[j].nodeType == 1)
 					{
 						for (k = 0; k < textelements[0].childNodes[j].childNodes.length; k++)
 						{
-							if (textelements[0].childNodes[j].childNodes[k].nodeType == Node.TEXT_NODE)
+							if (textelements[0].childNodes[j].childNodes[k].nodeType == 3)
 							{
 								textStr += textelements[0].childNodes[j].childNodes[k].nodeValue;
 							}
 						}
 					}
-					else if (textelements[0].childNodes[j].nodeType == Node.TEXT_NODE)
+					else if (textelements[0].childNodes[j].nodeType == 3)
 					{
 						textStr += textelements[0].childNodes[j].nodeValue;
 					}
