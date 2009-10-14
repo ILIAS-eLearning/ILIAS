@@ -137,7 +137,7 @@ class ilObjFolder extends ilContainer
 	 * @return returns first created directory
 	 */
 	private static function recurseFolder ($refid, $title, $tmpdir) {
-		global $rbacsystem, $tree;
+		global $rbacsystem, $tree, $ilAccess;
 				
 		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
 		ilUtil::makeDir($tmpdir);
@@ -146,7 +146,7 @@ class ilObjFolder extends ilContainer
 		
 		foreach ($subtree as $child) 
 		{
-			if (!$rbacsystem->checkAccess("read", $child["ref_id"]))
+			if (!$ilAccess->checkAccess("read", "", $child["ref_id"]))
 			{
 				continue;			
 			}
@@ -172,11 +172,11 @@ class ilObjFolder extends ilContainer
 	}
 	
 	public function downloadFolder() {
-		global $lng, $rbacsystem;
+		global $lng, $rbacsystem, $ilAccess;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
-		if (!$rbacsystem->checkAccess("read", $this->getRefId()))
+		if (!$ilAccess->checkAccess("read", "", $this->getRefId()))
 		{
 			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): missing read permission!",$this->ilErr->WARNING);
 		}
