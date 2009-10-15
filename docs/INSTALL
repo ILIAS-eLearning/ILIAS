@@ -614,7 +614,7 @@ components:
 
     - you need write access to the file /etc/crontab
     - add the following line in /etc/crontab
-    0 2 * * * APACHEUSER /usr/bin/php ILIAS_ABSOLUTE_PATH/setup/cron.php > /dev/null
+    0 2 * * * APACHEUSER /usr/bin/php ILIAS_ABSOLUTE_PATH/cron/cron.php > /dev/null
 
     To understand this even more, I'll show you what each of the values mean for
     the above cron tab.
