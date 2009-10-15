@@ -7501,7 +7501,6 @@ grp#:#grouping_change_assignment#:#Change Assignment
 grp#:#crs_grp_assign_crs#:#Assignment of Groups
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
 grp#:#crs_grouping_select_one#:#Please select one membership limitation.
-grp#:#crs_grp_info_reg#:#You can only register to one of these groups:
 trac#:#trac_anonymized_info_short#:#(Anonymized)
 barometer#:#barometer_add#:#Add new Feedback
 chat#:#chat_server_ssl_settings#:#SSL Settings
