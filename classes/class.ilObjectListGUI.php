@@ -1653,7 +1653,20 @@ class ilObjectListGUI
 			return;
 		}
 		
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id,$this->obj_id) as $condition)
+		// Sort by title
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id) as $condition)
+		{
+			$condition['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
+		}
+		
+		$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+		for($i = 0; $i < count($conditions); $i++)
+		{
+			$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
+		}
+
+		$conditions = ilUtil::sortArray($conditions,'title','DESC');
+		foreach($conditions as $condition)
 		{
 			if(ilConditionHandler::_checkCondition($condition['id']))
 			{
