@@ -72,6 +72,25 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		include_once('class.ilObjCourseAccess.php');
 		$this->commands = ilObjCourseAccess::_getCommands();
 	}
+	
+	/**
+	 * Only check cmd access for cmd 'register' and 'unregister'
+	 * @param string $a_permission
+	 * @param object $a_cmd
+	 * @param object $a_ref_id
+	 * @param object $a_type
+	 * @param object $a_obj_id [optional]
+	 * @return 
+	 */
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
+	{
+		if($a_cmd != 'view' and $a_cmd != 'leave')
+		{
+			$a_cmd = '';
+		}
+		return parent::checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
+	}
+	
 
 	/**
 	* inititialize new item

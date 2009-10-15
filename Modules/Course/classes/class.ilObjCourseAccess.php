@@ -68,20 +68,6 @@ class ilObjCourseAccess extends ilObjectAccess
 				} 
 				break;
 
-			case 'join':
-				
-				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-				if(ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
-				{
-					return false;
-				}
-
-				if($participants->isAssigned($a_user_id))
-				{
-					return false;
-				}
-				break;
-				
 			case 'leave':
 
 				// Regular member
@@ -101,6 +87,7 @@ class ilObjCourseAccess extends ilObjectAccess
 					{
 						return false;
 					}
+					return true;
 				}
 				break;
 		}
@@ -142,6 +129,27 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				} 
 				break;
+				
+			case 'join':
+				
+				if(!self::_registrationEnabled($a_obj_id))
+				{
+					return false;
+				}
+				
+				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+				if(ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+				{
+					return false;
+				}
+
+				if($participants->isAssigned($a_user_id))
+				{
+					return false;
+				}
+				break;
+				
+				
 		}
 		return true;
 	}
