@@ -835,7 +835,7 @@ class ilPurchaseBMFGUI
 
 	function getCreditCard()
 	{
-		if ($_POST["card_holder"] == "" ||
+/**/		if ($_POST["card_holder"] == "" ||
 			$_POST["card_number"]["block_1"] == "" ||
 			$_POST["card_number"]["block_2"] == "" ||
 			$_POST["card_number"]["block_3"] == "" ||
@@ -873,7 +873,7 @@ class ilPurchaseBMFGUI
 		$_SESSION["bmf"]["credit_card"]["kreditkartenNr"]["block_3"] = $_POST["card_number"]["block_3"];
 		$_SESSION["bmf"]["credit_card"]["kreditkartenNr"]["block_4"] = $_POST["card_number"]["block_4"];
 		$_SESSION["bmf"]["credit_card"]["kartenpruefnummer"] = $_POST["check_number"];
-
+/**/ # zum testen
 		$this->error = "";
 		$this->sendCreditCard();
 	}
@@ -894,163 +894,164 @@ class ilPurchaseBMFGUI
 		}
 		else
 		{
-		$payment = new KreditkartenzahlungWS();
-
-		$customer = new Kunde($this->user_obj->getId());
-
-		$creditCard = new Kreditkarte();
-
-		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
-
-		$tmp_bookEntries = $sc_obj->getShoppingCart();
-		if (!is_array($tmp_bookEntries))
-		{
-			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
-		}
-		else
-		{
-			$totalAmount = 0;
-			for ($i = 0; $i < count($tmp_bookEntries); $i++)
+			$payment = new KreditkartenzahlungWS();
+	
+			$customer = new Kunde($this->user_obj->getId());
+	
+			$creditCard = new Kreditkarte();
+	
+			$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
+	
+			$tmp_bookEntries = $sc_obj->getShoppingCart();
+			if (!is_array($tmp_bookEntries))
 			{
-				$booking = true;
-				
-				if (!empty($_SESSION["coupons"]["bmf"]))
-				{
-					$price = $tmp_bookEntries[$i]["betrag"];
-					$tmp_bookEntries[$i]["math_price"] = (float) $price;
-																		
-					foreach ($_SESSION["coupons"]["bmf"] as $key => $coupon)
-					{				
-						$this->coupon_obj->setId($coupon["pc_pk"]);
-						$this->coupon_obj->setCurrentCoupon($coupon);
-						
-						$tmp_pobject =& new ilPaymentObject($this->user_obj, $tmp_bookEntries[$i]['pobject_id']);						
-				
-						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-						{
-							$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += (float) $price;
-							$_SESSION["coupons"]["bmf"][$key]["items"][] = $tmp_bookEntries[$i];
-							
-							$booking = false;									
-						}								
-						
-						unset($tmp_pobject);
-					}							
-				}										
-					
-				if ($booking)
-				{												
-					$tmp_bookEntries[$i]["betrag_string"] = number_format( (float) $tmp_bookEntries[$i]["betrag"] , 2, ",", ".");						
-																
-					$bookEntries[] = new Buchung($tmp_bookEntries[$i]);
-					$totalAmount += $tmp_bookEntries[$i]["betrag"];
-				}
-				else
-				{
-					$tmp_bookEntries[$i]["betrag_string"] = number_format( (float) $tmp_bookEntries[$i]["betrag"] , 2, ",", ".");
-				}												
-			}
-			
-			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["bmf"]);
-				
-			if (is_array($coupon_discount_items) && !empty($coupon_discount_items))
-			{
-				foreach ($coupon_discount_items as $item)
-				{
-					$item["betrag"] = $item["discount_price"];
-					$bookEntries[] = new Buchung($item);
-					$totalAmount += $item["discount_price"];
-				}										
-			}
-			
-			$values = array("betrag" => $totalAmount, "buchungen" => $bookEntries);						
-			$bookingList = new BuchungsListe($this->user_obj->getId(), $values);
-		}
-
-		$resultObj = $payment->zahlenUndAnlegenKunde($customer, $creditCard, $bookingList);
-		$result = $resultObj->ergebnis;
-
-
-		if (is_object($result))
-		{
-
-			if ($result->code < 0)
-			{
-				$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
-				$this->tpl->touchBlock("stop_floating");
-				$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $result->code . ": " . $result->kurzText . "<br>\n" . $result->langText;
-				if ($result->code == -103 ||
-					$result->code == -104 ||
-					$result->code == -107 ||
-					($result->code <= -202 && $result->code >= -208) ||
-					$result->code == -213)
-				{
-					ilUtil::sendInfo($error);
-					$this->showPersonalData();
-				}
-				else if ($result->code == -507 ||
-					$result->code == -510 ||
-					$result->code == -511)
-				{
-					ilUtil::sendInfo($error);
-					$this->showPaymentType();
-				}
-				else if ($result->code == -701 ||
-					$result->code == -1701 ||
-					$result->code == -1706 ||
-					$result->code == -1707 ||
-					$result->code == -1710 ||
-					$result->code == -1711)
-				{
-					ilUtil::sendInfo($error);
-					$this->showCreditCard();
-				}
-				else
-				{
-					$error .= "<br>\n" . $this->lng->txt('pay_bmf_server_error_sysadmin');
-					ilUtil::sendInfo($error);
-					$this->showPersonalData();
-				}
-
+				ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 			}
 			else
 			{
-	
-				// everything ok => send confirmation, fill statistik, delete session, delete shopping cart.
-				$this->__sendBill($customer, $_SESSION["bmf"]["payment_type"], $bookingList, $resultObj);
-
-				$this->__addBookings($resultObj,$bookingList->getTransaction());
-				$this->__emptyShoppingCart();
-				$this->__clearSession();
-
-				$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
-				$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_thanks'));
-				$this->tpl->touchBlock("stop_floating");
-				
-				ilUtil::sendInfo($this->lng->txt('pay_bmf_thanks'));
-
-				$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_credit_card.html','payment');
-				#$this->tpl = new ilTemplate('tpl.pay_bmf_credit_card.html', true, true, 'payment');
-				if ($this->ilias->getSetting("https") != 1)
+				$totalAmount = 0;
+				for ($i = 0; $i < count($tmp_bookEntries); $i++)
 				{
-					$this->tpl->setCurrentBlock("buyed_objects");
-					#$this->ctrl->redirectByClass("ilPaymentBuyedObjectsGUI", "ilpaymentbuyedobjectsgui");
-					#$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
-					$link = $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui');
-					$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", $link);
-					$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
-					$this->tpl->parseCurrentBlock("buyed_objects");
+					$booking = true;
+					
+					if (!empty($_SESSION["coupons"]["bmf"]))
+					{
+						$price = $tmp_bookEntries[$i]["betrag"];
+						$tmp_bookEntries[$i]["math_price"] = (float) $price;
+																			
+						foreach ($_SESSION["coupons"]["bmf"] as $key => $coupon)
+						{				
+							$this->coupon_obj->setId($coupon["pc_pk"]);
+							$this->coupon_obj->setCurrentCoupon($coupon);
+							
+							$tmp_pobject =& new ilPaymentObject($this->user_obj, $tmp_bookEntries[$i]['pobject_id']);						
+					
+							if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+							{
+								$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += (float) $price;
+								$_SESSION["coupons"]["bmf"][$key]["items"][] = $tmp_bookEntries[$i];
+								
+								$booking = false;									
+							}								
+							
+							unset($tmp_pobject);
+						}							
+					}										
+						
+					if ($booking)
+					{												
+						$tmp_bookEntries[$i]["betrag_string"] = number_format( (float) $tmp_bookEntries[$i]["betrag"] , 2, ",", ".");						
+																	
+						$bookEntries[] = new Buchung($tmp_bookEntries[$i]);
+						$totalAmount += $tmp_bookEntries[$i]["betrag"];
+					}
+					else
+					{
+						$tmp_bookEntries[$i]["betrag_string"] = number_format( (float) $tmp_bookEntries[$i]["betrag"] , 2, ",", ".");
+					}												
 				}
-				$this->tpl->setVariable("TXT_CLOSE_WINDOW", $this->lng->txt('close_window'));
+				
+				$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["bmf"]);
+					
+				if (is_array($coupon_discount_items) && !empty($coupon_discount_items))
+				{
+					foreach ($coupon_discount_items as $item)
+					{
+						$item["betrag"] = $item["discount_price"];
+						$bookEntries[] = new Buchung($item);
+						$totalAmount += $item["discount_price"];
+					}										
+				}
+				
+				$values = array("betrag" => $totalAmount, "buchungen" => $bookEntries);						
+				$bookingList = new BuchungsListe($this->user_obj->getId(), $values);
 			}
-		}
-		else
-		{
-			$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
-			$this->tpl->touchBlock("stop_floating");
-			ilUtil::sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
-		}
-
+	
+			$resultObj = $payment->zahlenUndAnlegenKunde($customer, $creditCard, $bookingList);
+			$result = $resultObj->ergebnis;
+	
+//		if(true == true) #zum testen
+			if (is_object($result))
+			{
+	
+/**/			if ($result->code < 0)
+				{
+					$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+					$this->tpl->touchBlock("stop_floating");
+					$error = $this->lng->txt('pay_bmf_server_error_code') . " " . $result->code . ": " . $result->kurzText . "<br>\n" . $result->langText;
+					if ($result->code == -103 ||
+						$result->code == -104 ||
+						$result->code == -107 ||
+						($result->code <= -202 && $result->code >= -208) ||
+						$result->code == -213)
+					{
+						ilUtil::sendInfo($error);
+						$this->showPersonalData();
+					}
+					else if ($result->code == -507 ||
+						$result->code == -510 ||
+						$result->code == -511)
+					{
+						ilUtil::sendInfo($error);
+						$this->showPaymentType();
+					}
+					else if ($result->code == -701 ||
+						$result->code == -1701 ||
+						$result->code == -1706 ||
+						$result->code == -1707 ||
+						$result->code == -1710 ||
+						$result->code == -1711)
+					{
+						ilUtil::sendInfo($error);
+						$this->showCreditCard();
+					}
+					else
+					{
+						$error .= "<br>\n" . $this->lng->txt('pay_bmf_server_error_sysadmin');
+						ilUtil::sendInfo($error);
+						$this->showPersonalData();
+					}
+	
+				}
+				else
+				{
+/**/#zum testen	
+					// everything ok => send confirmation, fill statistik, delete session, delete shopping cart.
+					$this->__sendBill($customer, $_SESSION["bmf"]["payment_type"], $bookingList, $resultObj);
+	
+					$this->__addBookings($resultObj,$bookingList->getTransaction());
+					$this->__emptyShoppingCart();
+					$this->__clearSession();
+	
+					$this->tpl->setVariable("HEADER",$this->lng->txt('pay_bmf_your_order'));
+					$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('pay_bmf_thanks'));
+					$this->tpl->touchBlock("stop_floating");
+					
+					ilUtil::sendInfo($this->lng->txt('pay_bmf_thanks'));
+	
+					$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.pay_bmf_credit_card.html','payment');
+					#$this->tpl = new ilTemplate('tpl.pay_bmf_credit_card.html', true, true, 'payment');
+					if ($this->ilias->getSetting("https") != 1)
+					{
+						$this->tpl->setCurrentBlock("buyed_objects");
+						#$this->ctrl->redirectByClass("ilPaymentBuyedObjectsGUI", "ilpaymentbuyedobjectsgui");
+						#$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
+						$link = $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui');
+						$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", $link);
+						$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
+						$this->tpl->parseCurrentBlock("buyed_objects");
+					}
+					$this->tpl->setVariable("TXT_CLOSE_WINDOW", $this->lng->txt('close_window'));
+				}
+/**/
+			}
+			else
+			{
+				$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
+				$this->tpl->touchBlock("stop_floating");
+				ilUtil::sendInfo($this->lng->txt('pay_bmf_server_error_communication'));
+			}
+/**/ #zum testen
 		}
 
 	}
@@ -1255,10 +1256,13 @@ class ilPurchaseBMFGUI
 
 	function __addBookings($a_result,$a_transaction)
 	{
+		global $ilObjDataCache;
+		
 		include_once './payment/classes/class.ilPaymentBookings.php';
 		include_once './payment/classes/class.ilPaymentShoppingCart.php';
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once './payment/classes/class.ilPaymentPrices.php';
+		include_once './Services/Payment/classes/class.ilShopUtils.php';
 		
 		$booking_obj =& new ilPaymentBookings();
 		
@@ -1322,6 +1326,31 @@ class ilPurchaseBMFGUI
 			$booking_obj->setVoucher($a_result->buchungsListe->buchungen[$i++]->belegNr);
 			$booking_obj->setTransactionExtern($a_result->buchungsListe->kassenzeichen);
 
+			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+
+			$oVAT = new ilShopVats((int)$pobject->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $pobject->getVat(ilPaymentPrices::_getPriceString($entry['price_id']));
+			
+			$booking_obj->setObjectTitle($obj_title);
+			$booking_obj->setVatRate($obj_vat_rate);
+			$booking_obj->setVatUnit($obj_vat_unit);
+
+			//sets the customers address for the bill if enabled in administration
+			include_once './payment/classes/class.ilPayMethods.php';
+			
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			
+			if($save_user_adr_bmf == 1)
+			{
+				$booking_obj->setStreet($_SESSION['bmf']['personal_data']['street'], $_SESSION['bmf']['personal_data']['house_number']);
+				$booking_obj->setPoBox($_SESSION['bmf']['personal_data']['po_box']);
+				$booking_obj->setZipcode($_SESSION['bmf']['personal_data']['zipcode']);
+				$booking_obj->setCity($_SESSION['bmf']['personal_data']['city']);
+				$booking_obj->setCountry($_SESSION['bmf']['personal_data']['country']);
+			}
+			
 			$current_booking_id = $booking_obj->add();			
 			
 			if (!empty($_SESSION["coupons"]["bmf"]) && $current_booking_id)

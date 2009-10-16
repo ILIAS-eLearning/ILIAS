@@ -88,7 +88,7 @@ class ilPaypalSettings
 			SELECT paypal FROM payment_settings WHERE settings_id = %s',
 			array('integer'), array($this->getSettingsId()));
 
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$result = $this->db->fetchObject($res);
 		
 		$data = array();
 		if (is_object($result))
@@ -115,7 +115,7 @@ class ilPaypalSettings
 
 		$res = $this->db->query('SELECT * FROM payment_settings');
 
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$result = $this->db->fetchObject($res);
 		
 		$this->setSettingsId($result->settings_id);
 	}

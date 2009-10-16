@@ -127,7 +127,7 @@ class ilPaymentShoppingCart
 		
 		if (is_object($res))
 		{
-			return $res->fetchRow(DB_FETCHMODE_ASSOC);
+			return $this->db->fetchAssoc($res);
 		}
 	}
 
@@ -225,7 +225,7 @@ class ilPaymentShoppingCart
 			WHERE customer_id = %s',
 			array('integer'), array($this->user_obj->getId()));
 			
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->sc_entries[$row->psc_id]["psc_id"] = $row->psc_id;
 			$this->sc_entries[$row->psc_id]["customer_id"] = $row->customer_id; 
@@ -308,7 +308,7 @@ class ilPaymentShoppingCart
 
 			$price = (float)$price_data['price'];
 
-			$f_result[$counter]["betrag"] = ilFormat::_getLocalMoneyFormat( (float) $price);
+			$f_result[$counter]["betrag"] =  $price;
 			$f_result[$counter]["betrag_string"] = $price_string;
  
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
@@ -352,7 +352,7 @@ class ilPaymentShoppingCart
 		array('integer'),
 		array($a_pobject_id));
 			
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$this->vat_id = $row->vat_id;
 		}
@@ -362,7 +362,7 @@ class ilPaymentShoppingCart
 			array('integer'),
 			array($this->vat_id));
 			
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$this->vat_rate = $row->vat_rate;
 

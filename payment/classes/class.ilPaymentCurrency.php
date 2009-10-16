@@ -37,7 +37,7 @@ class ilPaymentCurrency
 		$res = $ilDB->query('SELECT * FROM payment_currencies');
 
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$currencies[$row->currency_id]['currency_id']		= $row->currency_id;
 			$currencies[$row->currency_id]['unit']				= $row->unit;
@@ -54,7 +54,7 @@ class ilPaymentCurrency
 			array('integer'), array($a_currency_id));
 
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$currencies['currency_id']		= $row->currency_id;
 			$currencies['unit']				= $row->unit;
@@ -70,7 +70,7 @@ class ilPaymentCurrency
 			SELECT unit FROM payment_currencies WHERE currency_id = %s',
 			array('integer'), array($a_currency_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->unit;
 		}
@@ -84,7 +84,7 @@ class ilPaymentCurrency
 			SELECT subunit FROM payment_currencies WHERE currency_id = %s',
 			array('integer'), array($a_currency_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->subunit;
 		}

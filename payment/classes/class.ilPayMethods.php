@@ -64,5 +64,15 @@ class ilPayMethods
 
 		return true;
 	}
+	
+	function _disable($a_type)
+	{
+		global $ilias;
+
+		$ilias->setSetting($a_type,0);
+
+		return true;		
+	}
+	
 }
 ?>

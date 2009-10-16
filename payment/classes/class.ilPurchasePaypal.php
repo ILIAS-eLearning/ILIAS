@@ -184,10 +184,6 @@ class ilPurchasePaypal
 	function __checkTransactionId($a_id)
 	{
 		global $ilDB;
-/*
- 			$query = "SELECT * FROM payment_statistic ".
-			"WHERE transaction_extern = '".$a_id."'";
-*/
 	
 		$res = $this->db->query('SELECT * FROM payment_statistic WHERE transaction_extern = '.$ilDB->quote($a_id, 'integer'));
 
@@ -328,9 +324,9 @@ class ilPurchasePaypal
 				{
 					$bonus = $coupon_discount_items[$sc[$i]["pobject_id"]]["math_price"] - $coupon_discount_items[$sc[$i]["pobject_id"]]["discount_price"];	
 				}				
-			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
-			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-				
+				$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+				$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+		
 				$book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
 				$book_obj->setPobjectId($sc[$i]["pobject_id"]);
 				$book_obj->setCustomerId($ilUser->getId());
@@ -339,41 +335,30 @@ class ilPurchasePaypal
 				$book_obj->setOrderDate(time());
 				$book_obj->setDuration($sc[$i]["dauer"]);
 				$book_obj->setPrice($sc[$i]["betrag_string"]);
-				//$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : "");
 				$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : 0);
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
 				$book_obj->setTransactionExtern($a_id);
-
-	/*			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
-				$obj_type = $ilObjDataCache->lookupType($obj_id);
-				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+			
+				$book_obj->setObjectTitle($sc[$i]['buchungstext']);
+				$book_obj->setVatRate($sc[$i]['vat_rate']);
+				$book_obj->setVatUnit($sc[$i]['vat_unit']);
 	
-				$oVAT = new ilShopVats((int)$pobject->getVatId());
-				$obj_vat_rate = $oVAT->getRate();
-				$obj_vat_unit = $pobject->getVat(ilPaymentPrices::_getPriceString($entry['price_id']));
-				
-				$book_obj->setObjectTitle($obj_title);
-				$book_obj->setVatRate($obj_vat_rate);
-				$book_obj->setVatUnit($obj_vat_unit);
-	
-				
-				include_once './payment/classes/class.ilGeneralSettings.php';
-				$genSet = new ilGeneralSettings();
-				$save_user_adr_bill = $genSet->get('save_user_adr_bill');	
-				
+				include_once './payment/classes/class.ilPayMethods.php';
+				$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0;
+			
 				if($save_user_adr_bill == '1')
 				{
-					$book_obj->setStreet($_SESSION['paypal']['personal_data']['strasse'], $_SESSION['bill']['personal_data']['hausNr']);
-					$book_obj->setPoBox($_SESSION['paypal']['personal_data']['postfach']);
-					$book_obj->setZipcode($_SESSION['paypal']['personal_data']['PLZ']);
-					$book_obj->setCity($_SESSION['paypal']['personal_data']['ort']);
-					$book_obj->setCountry($_SESSION['paypal']['personal_data']['land']);
+					$book_obj->setStreet($_SESSION['paypal']['personal_data']['street'], $_SESSION['bill']['personal_data']['house_number']);
+					$book_obj->setPoBox($_SESSION['paypal']['personal_data']['po_box']);
+					$book_obj->setZipcode($_SESSION['paypal']['personal_data']['zipcode']);
+					$book_obj->setCity($_SESSION['paypal']['personal_data']['city']);
+					$book_obj->setCountry($_SESSION['paypal']['personal_data']['country']);
 				}
-	*/								
+									
 				$booking_id = $book_obj->add();
-				
+		
 				if (!empty($_SESSION["coupons"]["paypal"]) && $booking_id)
 				{				
 					foreach ($_SESSION["coupons"]["paypal"] as $coupon)

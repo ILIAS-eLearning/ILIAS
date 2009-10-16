@@ -10129,3 +10129,6 @@ payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new var
 payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
 payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
 grp#:#grp_reg_period#:#Registrierungszeitraum
+payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
+payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
+payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen

@@ -79,7 +79,7 @@ class ilPaymentPrices
 			WHERE price_id = %s',
 			array('integer'), array($a_price_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$price['duration'] = $row->duration;
 			$price['unlimited_duration'] = $row->unlimited_duration;
@@ -361,7 +361,7 @@ class ilPaymentPrices
 		array($this->getPobjectId()));
 		
 				
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->prices[$row->price_id]['pobject_id'] = $row->pobject_id;
 			$this->prices[$row->price_id]['price_id'] = $row->price_id;

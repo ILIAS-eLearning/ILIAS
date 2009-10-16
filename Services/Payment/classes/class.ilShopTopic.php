@@ -70,7 +70,7 @@ class ilShopTopic
 		        array('integer', 'integer'),
 		        array($ilUser->getId(), $this->id));
 		        
-			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $this->db->fetchObject($result))
 			{
 				$this->setTitle($row->pt_topic_title);
 				$this->setSorting($row->pt_topic_sort);
@@ -171,7 +171,7 @@ class ilShopTopic
 		$result = $ilDB->queryf("SELECT pt_topic_title FROM payment_topics WHERE pt_topic_pk = %s",
 		        	 array('integer'), array($a_id));
 
-       	 while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+       	 while($row = $ilDB->fetchObject($result))
 		{
 			return $row->pt_topic_title;
 		}

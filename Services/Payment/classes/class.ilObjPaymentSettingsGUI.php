@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Jens Conze <jc@databay.de> 
-* @author Jesper Gødvad <jesper@ilias.dk>
+* @author Jesper Gï¿½dvad <jesper@ilias.dk>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
@@ -1744,15 +1744,27 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable('DELETE_VALUE',$this->lng->txt('delete'));
 		$this->tpl->parseCurrentBlock();
 		
-		// show CUSTOMER_DATA if isset -> setting: save_customer_address
-		include_once './payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
-		$save_customer_address_enabled = $genSet->get('save_customer_address_enabled');
+		// show CUSTOMER_DATA if isset -> setting: save_user_address
+		include_once './payment/classes/class.ilPayMethods.php';
 
-		if($save_customer_address_enabled == '1')
+		switch($booking['b_pay_method'])
 		{
-			$this->showCustomerTable();
-		}
+			case $this->pobject->PAY_METHOD_BILL:
+				$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? $this->showCustomerTable() : 0;	
+				break;
+
+			case $this->pobject->PAY_METHOD_BMF:
+				$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? $this->showCustomerTable() : 0;
+				break;
+
+			case $this->pobject->PAY_METHOD_PAYPAL:
+				$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? $this->showCustomerTable() : 0; 
+				break;
+
+			default:
+				break;
+		}		
+		
 	}
 	function updateStatisticObject()
 	{
@@ -1956,12 +1968,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setRequired(true);
 		$form->addItem($formItem);
 
-		// customer address
-		$formItem = new ilCheckboxInputGUI($this->lng->txt('save_customer_address'), 'save_customer_address_enabled');
-		$formItem->setChecked((int)$genSetData['save_customer_address_enabled']);
-		$formItem->setInfo($this->lng->txt('save_customer_address_info'));
-		$form->addItem($formItem);
-		
+
 		// default sorting type
 		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_type'), 'topics_sorting_type');
 		$formItem->setValue($genSetData['topics_sorting_type']);
@@ -2074,7 +2081,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			'topics_sorting_direction' => $_POST['topics_sorting_direction']),
 			'max_hits' => $_POST['max_hits']),
 			'shop_enabled' => $_POST['shop_enabled']),	
-			'save_customer_address_enabled' => $_POST['save_customer_address_enabled']),
 			'hide_advanced_search' => $_POST['hide_advanced_search']),
 			'hide_filtering' => $_POST['hide_filtering']),
 			'hide_coupons' => $_POST['hide_coupons']),
@@ -2092,7 +2098,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			'topics_sorting_direction',
 			'max_hits',
 			'shop_enabled',
-			'save_customer_address_enabled',
 			'hide_advanced_search',
 			'hide_filtering',
 			'hide_coupons',
@@ -2860,49 +2865,127 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 	}		
 	
-	function payMethodsObject()
+	function payMethodsObject($askForDeletingAddresses = array(),$oConfirmationGUI = '')
 	{
+	
 		include_once './payment/classes/class.ilPayMethods.php';
+		include_once 'Services/Table/classes/class.ilTable2GUI.php';
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 
-		global $rbacsystem;
-
+		global $rbacsystem, $ilCtrl;
+		
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_pay_methods.html','payment');
+		
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
 		}
+	
+		if(count($askForDeletingAddresses))
+		{
+			
+			$oConfirmationGUI = new ilConfirmationGUI();
+			
+			// set confirm/cancel commands
+			$oConfirmationGUI->setFormAction($ilCtrl->getFormAction($this, "deleteAddressesForPaymethods"));
+			$oConfirmationGUI->setHeaderText($this->lng->txt("info_delete_sure"));
+			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "paymethods");
+			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "deleteAddressesForPaymethods");
+			
+			foreach($askForDeletingAddresses as $pm)
+			{
+				$oConfirmationGUI->addHiddenItem('pm[]',$pm);
+				
+				if($pm == 'bill') $oConfirmationGUI->additem('paymethod','bill', $this->lng->txt('delete_addresses_bill'));
+				if($pm == 'bmf') $oConfirmationGUI->additem('paymethod','bmf', $this->lng->txt('delete_addresses_bmf'));
+				if($pm == 'paypal')$oConfirmationGUI->additem('paymethod','paypal', $this->lng->txt('delete_addresses_paypal'));
+				//if($pm == 'epay')$oConfirmationGUI->additem('paymethod','epay', $this->lng->txt('delete_addresses_epay'));
+			}
+			
+			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHtml());
+			return true;	
+		}
+		
+		$tbl = new ilTable2GUI($this, 'paymethods');
+		$tbl->setId('pay_methods_tbl');
+		$tbl->setFormAction($this->ctrl->getFormAction($this), 'savePayMethods');
+		
+		$result = array();		
 
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pays_pay_methods.html','payment');
+		$counter = 0;
+		$result[$counter][] = $this->lng->txt('pays_online');
+		$result[$counter][] = $this->lng->txt('pays_bill');
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_bill') ? 1 : 0,'pm_bill',1);								
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0,'save_user_adr_bill',1);
+		$this->ctrl->clearParameters($this);
+		$counter++;
+		
+		$result[$counter][] = $this->lng->txt('pays_online');
+		$result[$counter][] = $this->lng->txt('pays_bmf');
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_bmf') ? 1 : 0,'pm_bmf',1);								
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0,'save_user_adr_bmf',1);
+		$this->ctrl->clearParameters($this);
+		$counter++;
 
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_pays.gif'));
-		$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_pays'));
-		$this->tpl->setVariable('TITLE',$this->lng->txt('pays_pay_methods'));
-		$this->tpl->setVariable('TXT_ONLINE',$this->lng->txt('pays_online'));
-		$this->tpl->setVariable('TXT_BILL',$this->lng->txt('pays_bill'));
-		$this->tpl->setVariable('BILL_CHECK',ilUtil::formCheckbox(
-									(int) ilPayMethods::_enabled('pm_bill') ? 1 : 0,'pm_bill',1));
+		$result[$counter][]= $this->lng->txt('pays_online');
+		$result[$counter][] = $this->lng->txt('pays_paypal');
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_paypal') ? 1 : 0,'pm_paypal',1);								
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0,'save_user_adr_paypal',1);
+		$this->ctrl->clearParameters($this);
+		$counter++;
+		
+		$result[$counter][] = $this->lng->txt('pays_online');
+		$result[$counter][] = $this->lng->txt('pays_epay');
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_epay') ? 1 : 0,'pm_epay',1);								
+		$result[$counter][] = '';
+			// ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0,'save_user_adr_epay',1);
+		$this->ctrl->clearParameters($this);
 
-		$this->tpl->setVariable('TXT_ENABLED',$this->lng->txt('enabled'));
-		$this->tpl->setVariable('TXT_ONLINE',$this->lng->txt('pays_online'));
-		$this->tpl->setVariable('TXT_BMF',$this->lng->txt('pays_bmf'));
-		$this->tpl->setVariable('BMF_ONLINE_CHECK',ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_bmf'),'pm_bmf',1));
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMAACTION
+		$tpl->setCurrentBlock('tbl_form_header');
+
+		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this), 'savePayMethods');
 		
-		$this->tpl->setVariable('TXT_ENABLED',$this->lng->txt('enabled'));
-		$this->tpl->setVariable('TXT_ONLINE',$this->lng->txt('pays_online'));
-		$this->tpl->setVariable('TXT_PAYPAL',$this->lng->txt('pays_paypal'));
-		$this->tpl->setVariable('PAYPAL_ONLINE_CHECK',ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_paypal'),'pm_paypal',1));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt('pays_pay_methods'),'icon_pays.gif',$this->lng->txt('bookings'));
+		$tbl->setHeaderNames(array($this->lng->txt('pays_online'),
+								   $this->lng->txt('paya_pay_method'),
+								   $this->lng->txt('enabled'),
+								   $this->lng->txt('save_customer_address')));
+
+		$tbl->setHeaderVars(array('online',
+								  'pm',
+								  'enabled',
+								  'adr_check'),
+							$this->ctrl->getParameterArray($this,'paymethods',false));
+					
+
+		$offset = $_GET['offset'];
+
+		$tbl->disable('sort');
+		$tbl->disable('linkbar');
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET['limit']);
+		$tbl->setMaxCount(count($result));
+		$tbl->setFooter('tblfooter',$this->lng->txt('previous'),$this->lng->txt('next'));
+		$tbl->setData($result);
+
+		$tpl->setVariable('COLUMN_COUNTS',5);
+		$tpl->setCurrentBlock('plain_buttons');
+		$tpl->setVariable('PBTN_NAME','savePayMethods');
+		$tpl->setVariable('PBTN_VALUE',$this->lng->txt('save'));
+		$tpl->parseCurrentBlock();
+		$tbl->render();
+
+		$this->tpl->setVariable('PAYMETHODS',$tbl->tpl->get());	
+		return true;		
 		
-		$this->tpl->setVariable('TXT_ENABLED',$this->lng->txt('enabled'));
-		$this->tpl->setVariable('TXT_ONLINE',$this->lng->txt('pays_online'));
-		$this->tpl->setVariable('TXT_EPAY',$this->lng->txt('pays_epay'));
-		$this->tpl->setVariable('EPAY_ONLINE_CHECK',ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_epay'),'pm_epay',1));
-		
-		// footer
-		$this->tpl->setVariable('COLUMN_COUNT',3);
-		$this->tpl->setVariable('PBTN_NAME','savePayMethods');
-		$this->tpl->setVariable('PBTN_VALUE',$this->lng->txt('save'));
-		
+
 	}
 
 	function savePayMethodsObject()
@@ -2910,15 +2993,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		include_once './payment/classes/class.ilPayMethods.php';
 		include_once './payment/classes/class.ilPaymentObject.php';
 
-
 		global $rbacsystem;
-
+		
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
 		}
-		
 
 		// check current payings
 		if(ilPayMethods::_enabled('pm_bill') and !$_POST['pm_bill'])
@@ -2983,7 +3064,57 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		  ilPayMethods::_enable('pm_epay');
 		}
 
-		$this->payMethodsObject();
+		
+		// check: (enable/disable) save billing address of users for selected paymethod 
+
+		//get old values before saving new settings
+		$save_user_adr_bill = ilPayMethods::_enabled('save_user_adr_bill');
+		$save_user_adr_bmf = ilPayMethods::_enabled('save_user_adr_bmf');
+		$save_user_adr_paypal = ilPayMethods::_enabled('save_user_adr_paypal');
+		$save_user_adr_epay = ilPayMethods::_enabled('save_user_adr_epay');
+		
+		$askForDeletingAddresses = array();
+		
+		if(isset($_POST['save_user_adr_bill']))
+		{
+			ilPayMethods::_enable('save_user_adr_bill');
+		}
+		else if($save_user_adr_bill == true && $_POST['save_user_adr_bill'] == false)
+		{
+			//confirmation: sure delete all user address for this paymethod?
+			$askForDeletingAddresses[] = 'bill';
+			
+		}
+		if(isset($_POST['save_user_adr_bmf']))
+		{
+			ilPayMethods::_enable('save_user_adr_bmf');
+		}
+		else if($save_user_adr_bmf == true && $_POST['save_user_adr_bmf'] == false)
+		{
+			//confirmation: sure delete all user address for this paymethod?
+			$askForDeletingAddresses[] = 'bmf';
+			
+		}
+		if(isset($_POST['save_user_adr_paypal']))
+		{
+			ilPayMethods::_enable('save_user_adr_paypal');
+		}
+			else if($save_user_adr_paypal == true && $_POST['save_user_adr_paypal'] == false)
+		{
+			//confirmation: sure delete all user address for this paymethod?
+			$askForDeletingAddresses[] = 'paypal';
+		}
+		if(isset($_POST['save_user_adr_epay']))
+		{
+		  ilPayMethods::_enable('save_user_adr_epay');
+		}
+		else if($save_user_adr_epay == true && $_POST['save_user_adr_epay'] == false)
+		{
+			//confirmation: sure delete all user address for this paymethod?
+			$askForDeletingAddresses[] = 'epay';
+		}
+		
+		$this->payMethodsObject($askForDeletingAddresses,$oConfirmationGUI);
 
 		ilUtil::sendSuccess($this->lng->txt('pays_updated_pay_method'));
 
@@ -4350,6 +4481,53 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt('saved'));
 		return $this->vatsObject();
 				
-	}		
+	}	
+
+function deleteAddressesForPaymethodsObject()
+	{
+		// delete addresses here
+		
+		include_once './payment/classes/class.ilPaymentBookings.php';
+		include_once './payment/classes/class.ilPayMethods.php';
+		
+		$this->__initBookingObject();	
+		
+		foreach($_POST['pm'] as $pm)
+		{
+			
+			switch($pm)
+			{
+				case 'bill':
+					$pay_method = 1;
+					ilPayMethods::_disable('save_user_adr_bill');
+					break;
+	
+				case 'bmf':
+					$pay_method = 2;
+					ilPayMethods::_disable('save_user_adr_bmf');				
+					break;
+	
+				case 'paypal':
+					$pay_method = 3;
+					ilPayMethods::_disable('save_user_adr_paypal');														
+					break;
+					
+				case 'epay':
+					/*					
+					 $pay_method = 4;
+					ilPayMethods::_disable('save_user_adr_epay');		
+					 **/
+					break;
+	
+				default:
+					$pay_method = -1;
+			}	
+			
+			//$get_bookings = $this->booking_obj->getBookingsByPaymethod($pay_method);
+
+			$del_bookings = $this->booking_obj->deleteAddressesByPaymethod((int)$pay_method);
+		}	
+		return $this->payMethodsObject();
+	}	
 } // END class.ilObjPaymentSettingsGUI
 ?>

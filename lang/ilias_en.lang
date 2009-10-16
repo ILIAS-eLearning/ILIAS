@@ -10107,3 +10107,6 @@ payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
 grp#:#grp_reg_period#:#Registration Period
+payment#:#delete_addresses_bill#:#Delete Billing addresses
+payment#:#delete_addresses_bmf#:#Delete BMF addresses
+payment#:#delete_addresses_paypal#:#Delete Paypal addresses
