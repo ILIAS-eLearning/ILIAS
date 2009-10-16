@@ -388,7 +388,7 @@ class ilStartUpGUI
 			$pi->setRetype(false);
 			$pi->setSize(20);
 			$form->addItem($pi);
-			$form->addCommandButton("butSubmit", $lng->txt("submit"));
+			$form->addCommandButton("butSubmit", $lng->txt("log_in"));
 			$tpl->setVariable("LOGIN_FORM", $form->getHTML());
 			
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
