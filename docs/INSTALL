@@ -490,53 +490,8 @@ components:
 
         cp php.ini-dist /opt/ilias/config/php.ini
 
-    Open the file in your favourite editor.
-		
-    The parameter 'memory_limit' defines the maximum amount of memory a php
-    script may consume. The default value of 8M maybe to low for some ILIAS
-    scripts. We recommend to set this parameter to 40M.
-
-    There are a few more settings in php.ini that might require modification:
-
-    - session.gc_maxlifetime
-
-      determines how many seconds an ILIAS session may be inactive before it is
-      destroyed by the PHP session management. When setting this parameter
-      please take into consideration that when working with the online editor
-      tool an author may remain on an editor page for a much longer time than a
-      normal user, e.g. when typing a longer text. However, for security reasons
-      the value should not be set too high. We recommend to set it to 3600
-      seconds (= 1 hour).
-
-    - max_execution_time
-
-      is the maximum execution time of each script in seconds. Some of the ILIAS
-      scripts generating content for offline use may run longer than the default
-      30 seconds. Depending on the performance of your server we recommend a
-      value of up to 180 seconds.
-
-    - post_max_size and upload_max_filesize
-
-      determine the the maximum upload file size. Especially when using the
-      file exchange functions in ILIAS the default value might be too low and
-      should be corrected. 'post_max_size' should be always some megabytes higher
-      than 'upload_max_filesize'.
-
-    - include_path
-
-      make sure that the pear library is within your include path of php.
-      if you followed the installation instruction above, just add
-      '.:/opt/ilias/lib/pear'.
-	  
-    - error_reporting
-	  
-      Some distributions output PHP notifications of error level "notice".
-      These messages are usually not crucial and must be supressed by setting:
-	  error_reporting  =  E_ALL & ~E_NOTICE & ~E_STRICT
-	  
-	  for PHP 5.3.0 and higher:
-	  
-	  error_reporting  =  E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
+    Visit http://www.ilias.de/docu/goto.php?target=pg_6531_367&client_id=docu
+    to get current recommendations for php.ini settings.
 
 
 2.4 Installing ILIAS
