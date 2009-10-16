@@ -503,10 +503,14 @@ class ilInfoScreenGUI
 			include_once 'classes/class.ilObjectFactory.php';
 			if(!$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false))
 			{
-				$ownerObj = ilObjectFactory::getInstanceByObjId(6);	
+				$ownerObj = ilObjectFactory::getInstanceByObjId(6, false);	
 			} 
 
-			if ($ownerObj->hasPublicProfile()) 
+			if (! is_object($ownerObj))		// root user deleted
+			{
+				$this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
+			}
+			else if ($ownerObj->hasPublicProfile()) 
 			{
 				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());				
 				$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName(),$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
