@@ -77,7 +77,7 @@ class ilShopVats
 			   			WHERE vat_id = %s',
 			array('integer'), array($this->id) );	
 			
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $this->db->fetchObject($res))
 			{		
 				$this->setTitle($row->vat_title);
 				$this->setRate($row->vat_rate);	
@@ -187,7 +187,7 @@ class ilShopVats
 				array($this->getId())
 			);
 
-			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $this->db->fetchObject($result))
 			{
 				throw new ilShopException(sprintf($this->lng->txt('paya_vat_not_deleted'), $this->title));
 			}		

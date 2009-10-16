@@ -146,17 +146,6 @@ class ilPaymentBookings
 	{
 		return $this->unlimited_duration;
 	}
-
-	function setVatUnit($a_vat_unit)
-	{
-		$this->vat_unit = $a_vat_unit;
-	}
-	
-	function getVatUnit()
-	{
-		return $this->vat_unit;
-	}
-		
 	
 	function setPrice($a_price)
 	{
@@ -252,9 +241,33 @@ class ilPaymentBookings
 	 {
 	 	$this->country = $a_country;
 	 }
-		
-		
+	function setVatUnit($a_vat_unit)
+	{
 
+		$this->vat_unit = $a_vat_unit;
+	} 
+	function getVatUnit()
+	{
+		
+		return $this->vat_unit;
+	}		
+	function setVatRate($a_vat_rate)
+	{
+		$this->vat_rate = $a_vat_rate;
+	}
+	function getVatRate()
+	{
+		return $this->vat_rate;
+	}
+	function setObjectTitle($a_object_title)
+	{
+		$this->object_title = $a_object_title;
+	}
+	function getObjectTitle()
+	{
+		return $this->object_title;
+	}
+	 
 	function add()
 	{
 		$next_id = $this->db->nextId('payment_statistic');
@@ -280,10 +293,13 @@ class ilPaymentBookings
 				po_box,
 				zipcode,
 				city,
-				country
+				country,
+				vat_rate,
+				vat_unit,
+				object_title
 			)
 			VALUES 
-				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
 			array(	'integer',
 					'text', 
 					'integer', 
@@ -302,6 +318,9 @@ class ilPaymentBookings
 					'text',
 					'text',
 					'text',
+					'text',
+					'float',
+					'float',
 					'text'),
 			array(	$next_id,
 					$this->getTransaction(),
@@ -321,7 +340,10 @@ class ilPaymentBookings
 					$this->getPoBox(),
 					$this->getZipcode(),
 					$this->getCity(),
-					$this->getCountry()
+					$this->getCountry(),
+					$this->getVatRate(),
+					$this->getVatUnit(),
+					$this->getObjectTitle()
 				));
 
 		return  $next_id;
@@ -371,7 +393,7 @@ class ilPaymentBookings
 			array($a_usr_id)
 		);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{ 
 			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
 			$booking[$row->booking_id]['transaction'] = $row->transaction;
@@ -396,7 +418,9 @@ class ilPaymentBookings
 			$booking[$row->booking_id]['zipcode'] = $row->zipcode;
 			$booking[$row->booking_id]['city'] = $row->city;
 			$booking[$row->booking_id]['country'] = $row->country;
-			
+			$booking[$row->booking_id]['vat_rate'] = $row->vat_rate;
+			$booking[$row->booking_id]['vat_unit'] = $row->vat_unit;			
+			$booking[$row->booking_id]['object_title'] = $row->object_title;						
 		}
 
 		return $booking ? $booking : array();
@@ -416,7 +440,7 @@ class ilPaymentBookings
 			array('integer'),
 		 	array($a_booking_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$booking['booking_id'] = $row->booking_id;
 			$booking['transaction'] = $row->transaction;
@@ -424,6 +448,10 @@ class ilPaymentBookings
 			$booking['customer_id'] = $row->customer_id;
 			$booking['order_date'] = $row->order_date;
 			$booking['duration'] = $row->duration;
+			$booking['vat_rate'] = $row->vat_rate;
+			$booking['vat_unit'] = $row->vat_unit;			
+			$booking['object_title'] = $row->object_title;	
+			
 			$booking['price'] = $row->price;
 			$booking['discount'] = $row->discount;			
 			$booking['payed'] = $row->payed;
@@ -456,7 +484,7 @@ class ilPaymentBookings
 			array('integer'),
 			array($a_vendor_id));
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			return $row['bid'];
 		}
@@ -473,7 +501,7 @@ class ilPaymentBookings
 			array('integer'),
 			array($a_vendor_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->bid;
 		}
@@ -490,7 +518,7 @@ class ilPaymentBookings
 			array('integer'),
 			array($a_pobject_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->bid;
 		}
@@ -499,7 +527,7 @@ class ilPaymentBookings
 
 	function _hasAccess($a_pobject_id,$a_user_id = 0)
 	{
-		global $ilDB,$ilias;
+		global $ilDB, $ilias;
 
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
 
@@ -512,7 +540,7 @@ class ilPaymentBookings
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$orderDateYear = date("Y", $row->order_date);
 			$orderDateMonth = date("m", $row->order_date);
@@ -562,7 +590,7 @@ class ilPaymentBookings
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$orderDateYear = date("Y", $row->order_date);
 			$orderDateMonth = date("m", $row->order_date);
@@ -607,7 +635,7 @@ class ilPaymentBookings
 					array('integer'),
 					array('1'));
 				
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $this->db->fetchObject($res))
 				{
 					return $row->bid;
 				}
@@ -620,7 +648,7 @@ class ilPaymentBookings
 					array('integer'),
 					array('2'));
 				
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $this->db->fetchObject($res))
 				{
 					return $row->bid;
 				}
@@ -633,7 +661,20 @@ class ilPaymentBookings
 					array('integer'),
 					array('3'));
 
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $this->db->fetchObject($res))
+				{
+					return $row->bid;
+				}
+				return 0;
+				
+			case 'pm_epay':
+				$res = $this->db->queryf ('
+					SELECT COUNT(booking_id) bid FROM payment_statistc
+					WHERE pay_method = %s',
+					array('integer'),
+					array('4'));
+
+				while($row = $this->db->fetchObject($res))
 				{
 					return $row->bid;
 				}
@@ -643,7 +684,7 @@ class ilPaymentBookings
 				return 0;
 		}
 	}
-
+	
 	// PRIVATE
 	function __read()
 	{
@@ -765,7 +806,7 @@ class ilPaymentBookings
 			$res= $this->db->queryf($query, $data_types, $data);
 		} 
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->bookings[$row->booking_id]['booking_id'] = $row->booking_id;
 			$this->bookings[$row->booking_id]['transaction'] = $row->transaction;
@@ -811,5 +852,134 @@ class ilPaymentBookings
 		}
 		return $vendors ? $vendors : array();
 	}
+	
+
+ 	public static function __readBillByTransaction($a_user_id, $a_transaction_nr)
+	{
+		global $ilDB;
+	
+		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po 
+					WHERE ps.pobject_id = po.pobject_id
+					AND customer_id = %s
+					AND transaction = %s';
+		
+		$i = 0;
+		$res = $ilDB->queryF($query, array('integer','text'), array($a_user_id, $a_transaction_nr));
+		while($row = $ilDB->fetchObject($res))
+		{
+			$bookings[$i]['booking_id'] = $row->booking_id;
+			$bookings[$i]['transaction'] = $row->transaction;
+			$bookings[$i]['pobject_id'] = $row->pobject_id;
+			$bookings[$i]['customer_id'] = $row->customer_id;
+			$bookings[$i]['order_date'] = $row->order_date;
+			$bookings[$i]['duration'] = $row->duration;
+			$bookings[$i]['duration_from'] = $row->duration_from;
+			$bookings[$i]['duration_until'] = $row->duration_until;			
+			$bookings[$i]['price'] = $row->price;
+			$bookings[$i]['discount'] = $row->discount;
+			$bookings[$i]['payed'] = $row->payed;
+			$bookings[$i]['access'] = $row->access;
+			$bookings[$i]['ref_id'] = $row->ref_id;
+			$bookings[$i]['status'] = $row->status;
+			$bookings[$i]['pay_method'] = $row->pay_method;
+			$bookings[$i]['vendor_id'] = $row->vendor_id;
+			$bookings[$i]['b_vendor_id'] = $row->b_vendor_id;
+			$bookings[$i]['b_pay_method'] = $row->b_pay_method;
+			$bookings[$i]['voucher'] = $row->voucher;
+			$bookings[$i]['transaction_extern'] = $row->transaction_extern;
+			$bookings[$i]['price_type'] = $row->price_type;
+			$bookings[$i]['street'] = $row->street;
+			$bookings[$i]['po_box'] = $row->po_box;
+			$bookings[$i]['zipcode'] = $row->zipcode;
+			$bookings[$i]['city'] = $row->city;
+			$bookings[$i]['country'] = $row->country;	
+			$bookings[$i]['vat_rate'] = $row->vatrate;	
+			$bookings[$i]['vat_unit'] = $row->vat_unit;	
+			$bookings[$i]['object_title'] = $row->object_title;		
+			$i++;
+		}
+		
+		return $bookings;
+	}	
+		
+	function getDistinctTransactions($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM payment_statistic
+			WHERE customer_id = %s
+			GROUP BY transaction
+			ORDER BY order_date DESC';
+
+		$res = $ilDB->queryF($query, array('integer'), array($a_user_id));
+		while($row = $ilDB->fetchObject($res))
+		{
+			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
+			$booking[$row->booking_id]['transaction'] = $row->transaction;
+			$booking[$row->booking_id]['pobject_id'] = $row->pobject_id;
+			$booking[$row->booking_id]['customer_id'] = $row->customer_id;
+			$booking[$row->booking_id]['order_date'] = $row->order_date;
+			$booking[$row->booking_id]['duration'] = $row->duration;
+			$booking[$row->booking_id]['duration_from'] = $row->duration_from;
+			$booking[$row->booking_id]['duration_until'] = $row->duration_until;
+			$booking[$row->booking_id]['price'] = $row->price;
+			$booking[$row->booking_id]['discount'] = $row->discount;
+			$booking[$row->booking_id]['payed'] = $row->payed;
+			$booking[$row->booking_id]['access'] = $row->access;
+			$booking[$row->booking_id]['ref_id'] = $row->ref_id;
+			$booking[$row->booking_id]['status'] = $row->status;
+			$booking[$row->booking_id]['pay_method'] = $row->pay_method;
+			$booking[$row->booking_id]['vendor_id'] = $row->vendor_id;
+			$booking[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
+			$booking[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
+			$booking[$row->booking_id]['voucher'] = $row->voucher;
+			$booking[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
+			$booking[$row->booking_id]['price_type'] = $row->price_type;
+			$booking[$row->booking_id]['street'] = $row->street;
+			$booking[$row->booking_id]['po_box'] = $row->po_box;
+			$booking[$row->booking_id]['zipcode'] = $row->zipcode;
+			$booking[$row->booking_id]['city'] = $row->city;
+			$booking[$row->booking_id]['country'] = $row->country;			
+			$booking[$row->booking_id]['vat_rate'] = $row->vat_rate;
+			$booking[$row->booking_id]['vat_unit'] = $row->vat_unit;			
+			$booking[$row->booking_id]['object_title'] = $row->object_title;						
+		}
+		return $booking ? $booking : array();
+	}
+ 	
+	function getBookingsByPaymethod($pay_method)
+	{
+		global $ilDB;
+				
+		$res = $ilDB->queryF('
+		SELECT * FROM payment_statistic WHERE b_pay_method = %s', array('integer'), array($pay_method));
+		$i = 0;
+		
+		while($row = $ilDB->fetchObject($res))
+		{
+		  $booking[$i]['booking_id'] = $row->booking_id;
+		  $booking[$i]['pay_method'] = $row->b_pay_method;
+		  $i++;
+		}
+		return $booking ? $booking : array();
+	}
+	
+	function deleteAddressesByPaymethod($pay_method)
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF('
+			UPDATE payment_statistic 
+			SET street = null,
+				po_box = null,
+				city = null,
+				zipcode = null,
+				country = null
+			WHERE b_pay_method = %s',
+		array('integer'),
+		array($pay_method));
+	}
+	
+		
 }
 ?>

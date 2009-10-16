@@ -177,7 +177,7 @@ class ilShopTopics
 		}
 		
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$oTopic = new ilShopTopic();
 			$oTopic->setId($row->pt_topic_pk);

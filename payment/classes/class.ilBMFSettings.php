@@ -97,7 +97,7 @@ class ilBMFSettings
 			array($this->getSettingsId())
 		);
 			
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$result = $this->db->fetchObject($res);
 
 		$data = array();
 
@@ -135,7 +135,7 @@ class ilBMFSettings
 	{
 		$result = $this->db->query('SELECT settings_id FROM payment_settings');
 			
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))	
+		while($row = $this->db->fetchObject($result))	
 		{	
 			$this->setSettingsId($row->settings_id);
 		}	

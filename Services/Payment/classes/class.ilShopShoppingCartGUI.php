@@ -52,7 +52,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	public function __construct($user_obj)
 	{		
 		parent::__construct();
-		
+
 		$this->user_obj = $user_obj;
 		
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
@@ -147,6 +147,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	
 	private function addBookings($pay_method, $coupon_session)
 	{
+		global $ilias,$ilUser,$ilObjDataCache;
+		
 		include_once './payment/classes/class.ilPaymentBookings.php';
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once './payment/classes/class.ilPaymentPrices.php';	
@@ -202,11 +204,38 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$booking_obj->setOrderDate(time());
 			$booking_obj->setDuration($price['duration']);
 			$booking_obj->setPrice(ilPaymentPrices::_getPriceString($entry['price_id']));
-			//$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : '');
 			$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
 
+			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+
+			$oVAT = new ilShopVats((int)$pobject->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $pobject->getVat($booking_obj->getPrice());
+		
+			$booking_obj->setObjectTitle($obj_title);
+			$booking_obj->setVatRate($obj_vat_rate);
+			$booking_obj->setVatUnit($obj_vat_unit);
+			
+			include_once './payment/classes/class.ilPayMethods.php';
+			$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
+			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
+			 
+			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
+				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+			{
+				$booking_obj->setStreet($ilUser->getStreet());
+				
+				$booking_obj->setZipcode($ilUser->getZipcode());
+				$booking_obj->setCity($ilUser->getCity());
+				$booking_obj->setCountry($ilUser->getCountry());
+			}			
+			
 			$current_booking_id = $booking_obj->add();
 			
 			if ($current_booking_id)
@@ -671,6 +700,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							}
 							else
 							{
+								
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBMFGUI', ''));
 							}	

@@ -117,7 +117,7 @@ class ilPaymentVendors
 		$res = $this->db->query('SELECT * FROM payment_vendors');
 
 				
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->vendors[$row->vendor_id]['vendor_id'] = $row->vendor_id;
 			$this->vendors[$row->vendor_id]['cost_center'] = $row->cost_center;
@@ -145,7 +145,7 @@ class ilPaymentVendors
 			SELECT * FROM payment_vendors WHERE vendor_id = %s',
 			array('integer'),array($a_usr_id));
 	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->cost_center;
 		}

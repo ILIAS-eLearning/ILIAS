@@ -373,7 +373,7 @@ class ilPaymentBillVendor
 			array('integer'),
 			array($this->getPobjectId()));
 					
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->has_data = true;
 

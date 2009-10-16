@@ -96,11 +96,10 @@ class ilGeneralSettings
 				topics_allow_custom_sorting = %s,
 				max_hits = %s,
 				shop_enabled = %s,
-				save_customer_address_enabled = %s,
-hide_advanced_search = %s,
-hide_filtering = %s,
-hide_coupons = %s,
-hide_news = %s
+				hide_advanced_search = %s,
+				hide_filtering = %s,
+				hide_coupons = %s,
+				hide_news = %s
 			WHERE settings_id = %s', 
 			array( 	'text', 
 					'text', 
@@ -112,13 +111,12 @@ hide_news = %s
 					'integer', 
 					'text', 
 					'integer', 
+					'integer',
+					'integer',
+					'integer',
 					'integer', 
 					'integer',
-					'integer',
-				'integer',
-				'integer', 
-				'integer',
-				'integer'),
+					'integer'),
 			array(	NULL,
 					NULL,
 					NULL,
@@ -131,10 +129,9 @@ hide_news = %s
 					'20',
 					'0',
 					'0',
-				'0',
-				'0',
-				'0',
-				'0',
+					'0',
+					'0',
+					'0',
 					$this->getSettingsId())
 			);
 
@@ -160,7 +157,6 @@ hide_news = %s
 			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
 			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
 			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
-			if(!$a_values['save_customer_address_enabled']) $a_values['save_customer_address_enabled'] = 0;	
 			if(!$a_values['hide_advanced_search']) $a_values['hide_advanced_search'] = 0;
 			if(!$a_values['hide_filtering']) $a_values['hide_filtering'] = 0;
 			if(!$a_values['hide_coupons']) $a_values['hide_coupons'] = 0;
@@ -180,11 +176,10 @@ hide_news = %s
 					topics_allow_custom_sorting = %s,
 					max_hits = %s,
 					shop_enabled = %s,
-					save_customer_address_enabled = %s,
-hide_advanced_search = %s,
-hide_filtering = %s,
-hide_coupons = %s,
-hide_news = %s
+					hide_advanced_search = %s,
+					hide_filtering = %s,
+					hide_coupons = %s,
+					hide_news = %s
 				WHERE settings_id = %s', 
 				array( 'text', 
 						'text', 
@@ -196,13 +191,12 @@ hide_news = %s
 						'text',
 						'integer', 
 						'integer', 
-						'integer', 
 						'integer',
 						'integer',
-'integer',
-'integer',
-'integer',
-'integer'),
+						'integer',
+						'integer',
+						'integer',
+						'integer'),
 				array(
 					$a_values['currency_unit'],
 					$a_values['currency_subunit'],
@@ -215,7 +209,6 @@ hide_news = %s
 					$a_values['topics_allow_custom_sorting'],					
 					$a_values['max_hits'],
 					$a_values['shop_enabled'],
-					$a_values['save_customer_address_enabled'],
 					$a_values['hide_advanced_search'],
 					$a_values['hide_filtering'],
 					$a_values['hide_coupons'],
@@ -240,7 +233,6 @@ hide_news = %s
 			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
 			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
 			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
-			if(!$a_values['save_customer_address_enabled']) $a_values['save_customer_address_enabled'] = 0;	
 			if(!$a_values['hide_advanced_search']) $a_values['hide_advanced_search'] = 0;
 			if(!$a_values['hide_filtering']) $a_values['hide_filtering'] = 0;
 			if(!$a_values['hide_coupons']) $a_values['hide_coupons'] = 0;
@@ -262,13 +254,12 @@ hide_news = %s
 					topics_sorting_direction,
 					shop_enabled,
 					max_hits,
-					save_customer_address_enabled,
-hide_advanced_search,
-hide_filtering,
-hide_coupons,
-hide_news
+					hide_advanced_search,
+					hide_filtering,
+					hide_coupons,
+					hide_news
 				)
-				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
 				array( 'integer',
 						'text', 
 						'text', 
@@ -281,7 +272,6 @@ hide_news
 						'text', 
 						'integer', 
 						'integer', 
-						'integer',
 				       'integer',
 				       'integer',
 				       'integer',
@@ -299,9 +289,8 @@ hide_news
 					$a_values['topics_sorting_direction'],
 					$a_values['shop_enabled'],
 					$a_values['max_hits'],
-					$a_values['save_customer_address_enabled'],
-$a_values['hide_advanced_search'],
-$a_values['hide_filtering'],
+					$a_values['hide_advanced_search'],
+					$a_values['hide_filtering'],
 					$a_values['hide_coupons'],
 					$a_values['hide_news']
 					)
@@ -333,11 +322,10 @@ $a_values['hide_filtering'],
 			$data['topics_sorting_direction'] = $row->topics_sorting_direction;
 			$data['max_hits'] = $row->max_hits;
 			$data['shop_enabled'] = $row->shop_enabled;
-			$data['save_customer_address_enabled'] = $row->save_customer_address_enabled;
-				$data['hide_advanced_search'] = $row->hide_advanced_search;
-				$data['hide_filtering'] = $row->hide_filtering;
-				$data['hide_coupons'] = $row->hide_coupons;
-				$data['hide_news'] = $row->hide_news;
+			$data['hide_advanced_search'] = $row->hide_advanced_search;
+			$data['hide_filtering'] = $row->hide_filtering;
+			$data['hide_coupons'] = $row->hide_coupons;
+			$data['hide_news'] = $row->hide_news;
 		}
 		$this->settings = $data;
 	}

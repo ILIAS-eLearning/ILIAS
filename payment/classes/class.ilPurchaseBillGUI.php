@@ -363,19 +363,22 @@ class ilPurchaseBillGUI
 				$book_obj->setOrderDate(time());
 				$book_obj->setDuration($sc[$i]['dauer']);
 				$book_obj->setUnlimitedDuration($sc[i]['unlimited_duration']);
-				$book_obj->setVatUnit($sc[i]['vat_unit']);
 				$book_obj->setPrice($sc[$i]['betrag_string']);
 				$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : '');
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
 				$book_obj->setTransactionExtern('');
-
-				include_once './payment/classes/class.ilGeneralSettings.php';
-				$genSet = new ilGeneralSettings();
-				$save_customer_address_enabled = $genSet->get('save_customer_address_enabled');	
+	
+				$book_obj->setVatRate($sc[$i]['vat_rate']);
+				$book_obj->setVatUnit($sc[$i]['vat_unit']);
+				$book_obj->setObjectTitle($sc[$i]['buchungstext']);
+	
+				include_once './payment/classes/class.ilPayMethods.php';
 				
-				if($save_customer_address_enabled == '1')
+				$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+				
+				if($save_user_adr_bill == 1)
 				{
 					$book_obj->setStreet($_SESSION['bill']['personal_data']['street'], $_SESSION['bill']['personal_data']['house_number']);
 					$book_obj->setPoBox($_SESSION['bill']['personal_data']['po_box']);
@@ -383,7 +386,7 @@ class ilPurchaseBillGUI
 					$book_obj->setCity($_SESSION['bill']['personal_data']['city']);
 					$book_obj->setCountry($_SESSION['bill']['personal_data']['country']);
 				}
-				
+	
 				$booking_id = $book_obj->add();
 				
 				if (!empty($_SESSION['coupons']['bill']) && $booking_id)
@@ -629,11 +632,11 @@ class ilPurchaseBillGUI
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once './payment/classes/class.ilPaymentPrices.php';
 		include_once './payment/classes/class.ilGeneralSettings.php';
+		include_once './payment/classes/class.ilPayMethods.php';
 		
-		$genSet = new ilGeneralSettings();
-		$save_customer_address_enabled = $genSet->get('save_customer_address_enabled');
+		$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;
 
-	$booking_obj =& new ilPaymentBookings();
+		$booking_obj =& new ilPaymentBookings();
 		
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 			
@@ -696,9 +699,21 @@ class ilPurchaseBillGUI
 			$booking_obj->setAccess(1);
 			$booking_obj->setVoucher($a_result->buchungsListe->buchungen[$i++]->belegNr);			
 			$booking_obj->setTransactionExtern($a_result->buchungsListe->kassenzeichen);
+
+			$booking_obj->setVatUnit($entry['vat_unit']);
+			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
+				$obj_type = $ilObjDataCache->lookupType($obj_id);
+				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+	
+				$oVAT = new ilShopVats((int)$pobject->getVatId());
+				$obj_vat_rate = $oVAT->getRate();
+				
 			
+				$book_obj->setObjectTitle($obj_title);
+				$book_obj->setVatRate($obj_vat_rate);
+		
 			//sets the customers address for the bill if enabled in administration
-			if($save_customer_address_enabled == '1')
+			if($save_user_adr_bill == 1)
 			{
 				$booking_obj->setStreet($_SESSION['bill']['personal_data']['street'], $_SESSION['bill']['personal_data']['house_number']);
 				$booking_obj->setPoBox($_SESSION['bill']['personal_data']['po_box']);

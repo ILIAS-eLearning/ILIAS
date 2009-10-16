@@ -50,7 +50,7 @@ class ilShopVatsList implements Iterator
 
 		$statement = $ilDB->prepare(trim($query), $types);
 		$result = $ilDB->execute($statement, $data);
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($result))
 		{
 			return true;	
 		}		
@@ -97,7 +97,7 @@ class ilShopVatsList implements Iterator
 		}
 
 		$res = $this->db->query($query.$order_limit);	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{			
 			$oVAT = new ilShopVats();
 			$oVAT->setId($row->vat_id);			
@@ -108,7 +108,7 @@ class ilShopVatsList implements Iterator
 		}
 		
 		$res = $this->db->query(str_replace('*', 'COUNT(vat_id) AS num_vat_list', $query));	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{			
 			$this->num_vat_list = $row->num_vat_list;
 			break;	

@@ -16170,3 +16170,42 @@ if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
 	$ilDB->manipulateF($query, array('text', 'integer'), array('icrs', (int)$rowOperation['ops_id']));	
 }
 ?>
+<#2904>
+<?php
+	$set = $ilDB->query('SELECT * FROM payment_settings');
+	if ($rec  = $ilDB->fetchAssoc($set))
+	{
+		$save_user_adr = $rec["save_customer_address_enabled"];
+	}
+	if($save_user_adr == '1')
+	{	
+		$ilDB->insert("settings", array(
+		"module" => array("text", 'common'),
+		"keyword" => array("text", 'save_user_adr_bill'),
+		"value" => array("clob", '1')));
+	}
+	
+	$ilDB->dropTableColumn('payment_settings', 'save_customer_address_enabled');
+
+?>
+<#2905>
+<?php
+	$ilDB->addTableColumn("payment_statistic", "vat_rate", array(
+		"type" => "float",
+		"notnull" => true,
+		"default" => 0
+	));
+	
+	$ilDB->addTableColumn("payment_statistic", "vat_unit", array(
+		"type" => "float",
+		"notnull" => true,
+		"default" => 0
+	));	
+
+	$ilDB->addTableColumn("payment_statistic", "object_title", array(
+		"type" => "text",
+		"notnull" => false,
+	 	"length" => 128, 
+	 	"fixed" => false
+	));	
+?>

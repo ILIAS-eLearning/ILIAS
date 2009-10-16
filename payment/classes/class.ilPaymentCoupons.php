@@ -198,7 +198,7 @@ class ilPaymentCoupons
 			$res= $this->db->queryf($query, $data_types, $data);
 		} 
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->coupons[$row->pc_pk]['pc_pk'] = $row->pc_pk;
 			$this->coupons[$row->pc_pk]['usr_id'] = $row->usr_id;
@@ -581,7 +581,7 @@ class ilPaymentCoupons
 			SELECT * FROM payment_coupons
 			WHERE pc_pk = %s', array('integer'), array($a_coupon_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{			
 			$this->setId($row->pc_pk);
 			$this->setCouponUser($row->usr_id);
@@ -624,7 +624,7 @@ class ilPaymentCoupons
 			array('integer'), 
 			array($a_coupon_id));
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->objects[] = $row->ref_id;
 		}		
@@ -645,7 +645,7 @@ class ilPaymentCoupons
 			array('integer'), 
 			array($a_coupon_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->codes[$row->pcc_pk]['pcc_pk'] = $row->pcc_pk;
 			$this->codes[$row->pcc_pk]['pcc_code'] = $row->pcc_code;
@@ -666,7 +666,7 @@ class ilPaymentCoupons
 			array('integer'),
 			array($a_coupon_id));
 			
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$this->used_codes[$row->pct_pk]['pct_pk'] = $row->pct_pk;
 			$this->used_codes[$row->pct_pk]['pcc_code'] = $row->pcc_code;
@@ -688,7 +688,7 @@ class ilPaymentCoupons
 			array($a_coupon_code));
 
 				
-		if (is_object($row = $res->fetchRow(DB_FETCHMODE_OBJECT)))
+		if (is_object($row = $this->db->fetchObject($res)))
 		{
 			$coupon['pc_pk'] = $row->pc_pk;			
 			$coupon['pc_title'] = $row->pc_title;
@@ -750,7 +750,7 @@ class ilPaymentCoupons
 				array('integer'),
 				array($coupon['pcc_pk']));
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $this->db->fetchObject($res);
 			
 			if ($row->used_coupons >= $coupon["pc_uses"]) return $this->COUPON_TOO_MUCH_USED;
 		}
@@ -792,7 +792,7 @@ class ilPaymentCoupons
 			array('integer'),
 			array($a_code_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $this->db->fetchObject($res))
 		{
 			$code['pcc_pk'] = $row->pcc_pk;
 			$code['pcc_pc_fk'] = $row->pcc_pc_fk;
