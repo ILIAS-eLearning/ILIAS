@@ -12,7 +12,7 @@
 class ilTablePropertiesStorage
 {
 	var $properties = array (
-		"filter" => array("storage" => "session"),
+		"filter" => array("storage" => "db"),
 		"direction" => array("storage" => "db"),
 		"order" => array("storage" => "db"),
 		"offset" => array("storage" => "session")

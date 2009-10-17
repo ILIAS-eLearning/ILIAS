@@ -2845,10 +2845,17 @@ div.ilTableSelectAll
 	padding:3px 6px;
 }
 
-div.ilTableCommandRow
+div.ilTableCommandRow, div.ilTableCommandRowTop
 {
 	background-color: #F8F8F8;
 	padding:3px 6px;
+	font-size: 90%;
+}
+
+div.ilTableCommandRowTop {
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#D6D6D6;
 }
 
 span.ilTableFootLight

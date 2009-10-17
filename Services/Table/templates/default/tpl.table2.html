@@ -61,6 +61,36 @@ ilTableHideFilter['tfil_{FI_ID}'] = true;
   </div>
 <!-- END top_navigation -->
 <!-- BEGIN outer_start_2 --><div class="ilTableOuter"><!-- END outer_start_2 -->
+<!-- BEGIN tbl_top_action_row -->
+<div class="ilTableCommandRowTop">
+		<div style="float:left;">
+<!-- BEGIN tbl_top_action_img_arrow -->
+		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
+<!-- END tbl_top_action_img_arrow -->
+<!-- BEGIN mi_top_sel_button -->
+	{MI_BUTTON_SELECT} <input class="submit" type="submit" name="cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
+<!-- END mi_top_sel_button -->
+<!-- BEGIN tbl_top_cmd_select -->
+		  {SELECT_CMDS}
+		  <input class="submit" type="submit" name="select_cmd2" value="{TXT_EXECUTE}" />
+<!-- END tbl_top_cmd_select -->
+<!-- BEGIN tbl_top_single_cmd -->
+		  <input class="submit" type="submit" name="cmd[{SINGLE_CMD}]" value="{TXT_SINGLE_CMD}" />
+<!-- END tbl_top_single_cmd -->
+		</div>
+<!-- BEGIN top_buttons -->
+<div style="text-align:right;">
+<!-- BEGIN sel_top_button -->
+	{SBUTTON_SELECT} <input class="submit" type="submit" name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
+<!-- END sel_top_button -->
+<!-- BEGIN plain_top_button -->
+	<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" <!-- BEGIN top_cmdonclick -->onclick="{CMD_ONCLICK}" <!-- END top_cmdonclick -->/>
+<!-- END plain_top_button -->
+</div>
+<!-- END top_buttons -->
+<div style="clear:both;"></div>
+</div>
+<!-- END tbl_top_action_row -->
 <!-- BEGIN tbl_table_start -->
 <table class="{CSS_TABLE}" {WIDTH} {ID} datatable="{DATA_TABLE}">
 <!-- END tbl_table_start -->
