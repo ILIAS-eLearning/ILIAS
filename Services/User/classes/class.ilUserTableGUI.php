@@ -48,6 +48,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 
 		$this->setSelectAllCheckbox("id[]");
+		$this->setTopCommands(true);
 
 		if ($rbacsystem->checkAccess('delete', $a_parent_obj->object->getRefId()))
 		{

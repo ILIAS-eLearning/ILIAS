@@ -28,6 +28,7 @@ class ilTable2GUI extends ilTableGUI
 	
 	protected $mi_sel_buttons = null;
 	protected $disable_filter_hiding = false;
+	protected $top_commands = false;
 	
 	/**
 	* Constructor
@@ -751,6 +752,26 @@ class ilTable2GUI extends ilTableGUI
 			"target" => $a_target, "img" => $a_img);
 	}
 
+	/**
+	* Set top commands (display command buttons on top of table, too)
+	*
+	* @param	boolean		top commands true/false
+	*/
+	function setTopCommands($a_val)
+	{
+		$this->top_commands = $a_val;
+	}
+	
+	/**
+	* Get top commands (display command buttons on top of table, too)
+	*
+	* @return	boolean		top commands true/false
+	*/
+	function getTopCommands()
+	{
+		return $this->top_commands;
+	}
+	
 	/**
 	* Add a column to the header.
 	*
@@ -1657,6 +1678,17 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("SBTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("SBTN_VALUE", $button["text"]);
 				$this->tpl->parseCurrentBlock();
+				
+				if ($this->getTopCommands())
+				{
+					$this->tpl->setCurrentBlock("sel_top_button");
+					$this->tpl->setVariable("SBUTTON_SELECT", 
+						ilUtil::formSelect($button["selected"], $button["sel_var"],
+							$button["options"], false, true));
+					$this->tpl->setVariable("SBTN_NAME", $button["cmd"]);
+					$this->tpl->setVariable("SBTN_VALUE", $button["text"]);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$buttons = true;
 			$action_row = true;
@@ -1678,6 +1710,20 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("PBTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("PBTN_VALUE", $button["text"]);
 				$this->tpl->parseCurrentBlock();
+				
+				if ($this->getTopCommands())
+				{
+					if (strlen($button['onclick']))
+					{
+						$this->tpl->setCurrentBlock('top_cmdonclick');
+						$this->tpl->setVariable('CMD_ONCLICK', $button['onclick']);
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("plain_top_button");
+					$this->tpl->setVariable("PBTN_NAME", $button["cmd"]);
+					$this->tpl->setVariable("PBTN_VALUE", $button["text"]);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			
 			$buttons = true;
@@ -1696,6 +1742,18 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("MI_BTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("MI_BTN_VALUE", $button["text"]);
 				$this->tpl->parseCurrentBlock();
+				
+				if ($this->getTopCommands())
+				{
+					$this->tpl->setCurrentBlock("mi_top_sel_button");
+					$this->tpl->setVariable("MI_BUTTON_SELECT", 
+						ilUtil::formSelect($button["selected"], $button["sel_var"],
+							$button["options"], false, true));
+					$this->tpl->setVariable("MI_BTN_NAME", $button["cmd"]);
+					$this->tpl->setVariable("MI_BTN_VALUE", $button["text"]);
+					$this->tpl->parseCurrentBlock();
+				}
+
 			}
 			$arrow = true;
 			$action_row = true;
@@ -1713,10 +1771,23 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("SELECT_CMDS",
 				ilUtil::formSelect("", "selected_cmd", $sel, false, true));
 			$this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
-			$this->tpl->setVariable('SELECT_CMD','select_cmd');
 			$this->tpl->parseCurrentBlock();
 			$arrow = true;
 			$action_row = true;
+			
+			if ($this->getTopCommands())
+			{
+				$this->tpl->setCurrentBlock("tbl_top_cmd_select");
+				$sel = array();
+				foreach ($this->multi as $mc)
+				{
+					$sel[$mc["cmd"]] = $mc["text"];
+				}
+				$this->tpl->setVariable("SELECT_CMDS",
+					ilUtil::formSelect("", "selected_cmd2", $sel, false, true));
+				$this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
+				$this->tpl->parseCurrentBlock();
+			}			
 		}
 		elseif(count($this->multi) == 1  && $this->dataExists())
 		{
@@ -1732,6 +1803,20 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			$arrow = true;
 			$action_row = true;
+			
+			if ($this->getTopCommands())
+			{
+				$this->tpl->setCurrentBlock("tbl_top_single_cmd");
+				$sel = array();
+				foreach ($this->multi as $mc)
+				{
+					$cmd = $mc['cmd'];
+					$txt = $mc['text'];
+				}
+				$this->tpl->setVariable("TXT_SINGLE_CMD",$txt);
+				$this->tpl->setVariable("SINGLE_CMD",$cmd);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		if ($arrow)
@@ -1740,13 +1825,25 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
 			$this->tpl->parseCurrentBlock();
+
+			if ($this->getTopCommands())
+			{
+				$this->tpl->setCurrentBlock("tbl_top_action_img_arrow");
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.gif"));
+				$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		if ($action_row)
 		{
 			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("COLUMN_COUNTS", $this->getColumnCount());
 			$this->tpl->parseCurrentBlock();
+			if ($this->getTopCommands())
+			{
+				$this->tpl->setCurrentBlock("tbl_top_action_row");
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 	
