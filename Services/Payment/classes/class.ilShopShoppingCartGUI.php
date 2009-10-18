@@ -563,9 +563,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
   public function ePayCallback()
   {
     $f = fopen("callback.txt", "a");
+    fwrite( $f, "HEP");
     fwrite( $f, print_r($_POST, true));
-    fclose($f);
-  
+    fclose($f);  
   }
 
 	public function showItems()
@@ -726,8 +726,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('LANGUAGE', 1);
 							$tpl->setVariable('GROUP', "");
 							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
-							$tpl->setVariable('DESCRIPTION', "Hep hey");
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/callback.php");
+							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ")");
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
 							//echo $this->totalAmount['PAY_METHOD_EPAY'];
