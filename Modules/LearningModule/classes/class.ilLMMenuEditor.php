@@ -222,7 +222,8 @@ class ilLMMenuEditor
 		
 		if (!is_array($a_entries))
 		{
-			return false;
+			$q = "UPDATE lm_menu SET active = ".$ilDB->quote("n", "text").
+				" WHERE lm_id = ".$ilDB->quote($this->lm_id, "integer");
 		}
 		
 		// update active status
@@ -233,6 +234,7 @@ class ilLMMenuEditor
 			 "ELSE ".$ilDB->quote("n", "text")." ".
 			 "END " .
 			 "WHERE lm_id = ".$ilDB->quote($this->lm_id, "integer");
+
 		$ilDB->manipulate($q);
 	}
 	
