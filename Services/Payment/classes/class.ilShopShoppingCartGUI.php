@@ -397,9 +397,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       {
         $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
         
+        
         $book_obj =& new ilPaymentBookings($ilUser->getId());
 
         $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+        
+
+			//$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
+			
 
         $book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
         $book_obj->setPobjectId(isset($sc[$i]["pobject_id"]) ? $sc[$i]["pobject_id"] : 0);
@@ -407,8 +412,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
         $book_obj->setVendorId($pobjectData["vendor_id"]);
         $book_obj->setPayMethod(PAY_METHOD_EPAY);
         $book_obj->setOrderDate(time());
-        $book_obj->setDuration($sc[$i]["dauer"]);
-        $book_obj->setPrice($sc[$i]["betrag_string"]);
+        $book_obj->setDuration($sc[$i]["duration"]);
+        $book_obj->setPrice(ilPaymentPrices::_getPriceString($sc[$i]["price_id"]));
         $book_obj->setDiscount(0);
         $book_obj->setPayed(1);
         $book_obj->setAccess(1);
@@ -720,15 +725,15 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('CURRENCY', "208");
 							$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
 							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
-                                                        $tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
+              $tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
 							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
 							$tpl->setVariable('ADDFEE', 1);
 							$tpl->setVariable('LANGUAGE', 1);
 							$tpl->setVariable('GROUP', "");
 							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/callback.php");
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php");
 							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ")");
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") " . ILIAS_HTTP_PATH );
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
 							//echo $this->totalAmount['PAY_METHOD_EPAY'];
