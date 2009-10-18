@@ -3417,8 +3417,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			// falls drei hintereinander...
 			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);
 
-			//$context_node->set_content($newcontent);
-//var_dump($newcontent);
+			// workaround for preventing template engine
+			// from hiding paragraph text that is enclosed
+			// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
+			$newcontent = str_replace("{", "&#123;", $newcontent);
+			$newcontent = str_replace("}", "&#125;", $newcontent);
+
+//echo htmlentities($newcontent);
 			$a_output = str_replace("[[[[[Code;".($i + 1)."]]]]]", $newcontent, $a_output);
 			
 			if ($outputmode != "presentation" && is_object($this->offline_handler)
