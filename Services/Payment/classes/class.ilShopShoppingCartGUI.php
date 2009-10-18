@@ -560,7 +560,13 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     return false;
   }
 	      
+  public function ePayCallback()
+  {
+    $f = fopen("callback.txt", "a");
+    fwrite( $f, print_r($_POST, true));
+    fclose($f);
   
+  }
 
 	public function showItems()
 	{
@@ -716,6 +722,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
                                                         $tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
 							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
+							$tpl->setVariable('ADDFEE', 1);
+							$tpl->setVariable('LANGUAGE', 1);
+							$tpl->setVariable('GROUP', "");
+							$tpl->setVariable('CARDTYPE', "");
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
 							$tpl->setVariable('DESCRIPTION', "Hep hey");
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
