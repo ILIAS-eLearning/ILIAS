@@ -40,6 +40,11 @@ class ilERPDebtor_none extends ilERPDebtor
   const senderEmail = "noreply@ilias.dk";
   const senderName  = "ILIAS ERP";
   
+  public function __construct()
+  {
+  
+  }
+  
   
   public function getDebtorByNumber($number)
   {
@@ -83,9 +88,6 @@ class ilERPDebtor_none extends ilERPDebtor
   {}
   
   
-  protected function __construct()
-  {     
-  }
   
   public function getInvoiceNumber()
   {
