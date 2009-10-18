@@ -715,6 +715,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->updateProperties();
 
 		$this->__initLMMenuEditor();
+//var_dump($_POST["menu_entries"]); exit;
 		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -3444,7 +3445,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
 
-		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy');
+		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs');
 		$exp->setSelectableTypes($sel_types);
 
 		//$exp->setTargetGet("obj_id");
