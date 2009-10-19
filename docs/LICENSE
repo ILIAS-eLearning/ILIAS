@@ -26,7 +26,7 @@ ILIAS uses the following libraries that ar licensed under different licenses:
 - ImageMagick convert (Services/Windows/bin32/convert) Imagemagick license
   see http://www.imagemagick.org/script/license.php
 - Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
-
+- Nuvola Icon Set (templates/default/images) is licensed under LGPL
 
 Other libraries used in ILIAS, that use GPL license:
 
