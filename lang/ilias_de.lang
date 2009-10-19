@@ -10132,3 +10132,4 @@ grp#:#grp_reg_period#:#Registrierungszeitraum
 payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
 payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
 payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
+dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.

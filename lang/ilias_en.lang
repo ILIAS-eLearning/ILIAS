@@ -10111,3 +10111,4 @@ grp#:#grp_reg_period#:#Registration Period
 payment#:#delete_addresses_bill#:#Delete Billing addresses
 payment#:#delete_addresses_bmf#:#Delete BMF addresses
 payment#:#delete_addresses_paypal#:#Delete Paypal addresses
+dateplaner#:#cal_created_appointment#:#Created new appointment.

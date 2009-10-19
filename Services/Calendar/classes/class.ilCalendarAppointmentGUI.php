@@ -383,12 +383,17 @@ class ilCalendarAppointmentGUI
 			if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
 				&& ($type == "grp" || $type == "crs"))
 			{
-				ilUtil::sendInfo($this->lng->txt('cal_created_milestone_resp_q'));
+				ilUtil::sendSuccess($this->lng->txt('cal_created_milestone_resp_q'),true);
 				return $this->showResponsibleUsersList($cat_info['obj_id']);
+			}
+			elseif($a_as_milestone)
+			{
+				ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'),true);
+				$this->ctrl->returnToParent($this);
 			}
 			else
 			{
-				ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'));
+				ilUtil::sendSuccess($this->lng->txt('cal_created_appointment'),true);
 				$this->ctrl->returnToParent($this);
 			}
 		}
