@@ -2070,9 +2070,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		// member type
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = array(
-			ilCourseContants::CRS_MEMBER => $lng->txt("crs_member"),
-			ilCourseContants::CRS_TUTOR => $lng->txt("crs_tutor"),
-			ilCourseContants::CRS_ADMIN => $lng->txt("crs_admin")
+			ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+			ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
+			ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
 			);
 		$si = new ilSelectInputGUI("", "member_type");
 		$si->setOptions($options);
@@ -2685,13 +2685,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			switch($_POST['member_type'])
 			{
-				case ilCourseContants::CRS_MEMBER:
+				case ilCourseConstants::CRS_MEMBER:
 					$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
 					break;
-				case ilCourseContants::CRS_TUTOR:
+				case ilCourseConstants::CRS_TUTOR:
 					$this->object->members_obj->add($user_id,IL_CRS_TUTOR);
 					break;
-				case ilCourseContants::CRS_ADMIN:
+				case ilCourseConstants::CRS_ADMIN:
 					$this->object->members_obj->add($user_id,IL_CRS_ADMIN);
 					break;
 				
@@ -4365,9 +4365,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$rep_search->setCallback($this,
 					'assignMembersObject',
 					array(
-						ilCourseContants::CRS_MEMBER => $this->lng->txt('crs_member'),
-						ilCourseContants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
-						ilCourseContants::CRS_ADMIN => $this->lng->txt('crs_admin')
+						ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
+						ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
+						ilCourseConstants::CRS_ADMIN => $this->lng->txt('crs_admin')
 						)
 					);
 

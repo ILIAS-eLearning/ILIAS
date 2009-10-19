@@ -44,7 +44,7 @@ define('IL_CRS_VIEW_BY_TYPE', 5);
 define('IL_CRS_ARCHIVE_DOWNLOAD',3);
 define('IL_CRS_ARCHIVE_NONE',0);
 
-class ilCourseContants
+class ilCourseConstants
 {
 	const CRS_MEMBER = 1;
 	const CRS_TUTOR = 2;
