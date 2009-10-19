@@ -1,6 +1,6 @@
 
-ILIAS is licensed under GPL version 2 or (at your option) any later version
-with the following exceptions:
+ILIAS is licensed under GPL version 2 or (at your option) any later version.
+ILIAS uses the following libraries that ar licensed under different licenses:
 
 - PEAR Auth (Services/PEAR) is licensed under PHP license.
 - PEAR MDB2 (Services/PEAR) is licensed under BSD license
