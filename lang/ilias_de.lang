@@ -10027,7 +10027,7 @@ crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteli
 crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
 crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Kurs "%s" erfolgt ist.
+crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in den Kurs "%s" erfolgt ist.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
@@ -10044,7 +10044,7 @@ grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
 grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
 grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
-grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns, Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in Gruppe "%s" erfolgt ist.
+grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
 grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
 grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
 grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\n Wählen Sie dazu bitte folgenden Link:
@@ -10093,13 +10093,13 @@ crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
-payment#:#pays_erp#:#ERP###29 09 2009 new variable
-payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
-payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
+payment#:#pays_erp#:#ERP
+payment#:#pays_erp_settings#:#ERP-Einstellungen
+payment#:#pays_erp_system#:#ERP-System
 payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
 payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
 payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
-payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
+payment#:#pays_eco_layout#:#Layout Rechnung
 style#:#sty_opt_saved#:#Einstellungen gespeichert
 common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
 payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
@@ -10113,15 +10113,15 @@ payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
 payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
 payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
 payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
-administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously###02 10 2009 new variable
-administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
+administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
+administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden aysnchron geladen. Dies erhöht die Perfomanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Pop-up-Menüs kommen.
 payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
 payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. 
-news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
-news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
+news#:#news_cache#:#Nachrichten-Cache (Minuten)
+news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugänngliche Objekte verweisen.
 payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
 payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
 payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
