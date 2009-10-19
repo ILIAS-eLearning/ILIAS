@@ -208,7 +208,7 @@ class ilPermanentLinkGUI
 
 		// social bookmarkings
 		
-		$q = 'SELECT sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm WHERE sbm_active = 1';
+		$q = 'SELECT sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm WHERE sbm_active = 1 ORDER BY sbm_title';
 		$rset = $ilDB->query($q);
 		
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
