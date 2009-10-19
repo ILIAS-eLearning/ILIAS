@@ -1,4 +1,46 @@
-		    GNU GENERAL PUBLIC LICENSE
+
+ILIAS is licensed under GPL version 2 or (at your option) any later version
+with the following exceptions:
+
+- PEAR Auth (Services/PEAR) is licensed under PHP license.
+- PEAR MDB2 (Services/PEAR) is licensed under BSD license
+- PEAR HTML_Template_IT (Services/PEAR) is licensed under modified BSD license
+- PEAR Log (Services/PEAR) is licensed under MIT license
+- PEAR HTTP_Request/2 (Services/PEAR) is licensed under BSD license
+- PEAR NET_Socket (Services/PEAR) is licensed under PHP license
+- PEAR NET_Url/2 (Services/PEAR) is licensed under BSD license
+- PEAR XML_RPC2 (Services/PEAR) is licensed under LGPL license
+- YUI (Services/YUI) is licensed under BSD license
+- JSON.php (Services/JSON/include) is licensed under BSD license
+- EvalMath (Services/Math/classes) is licensed under BSD license
+- FLV Player (Services/MediaObjects/flash_flv_player) is CC licensed as
+  "Attribution-Noncommercial-Share Alike 3.0 Unported" or commercially:
+  https://www.longtailvideo.com/players/order/
+- MP3 Player (Services/MediaObjects/flash_mp3_player) is CC licensed as
+  "Attribution-Noncommercial-Share Alike 3.0 Unported" or commercially:
+  https://www.longtailvideo.com/players/order/
+- TinyMCE (Services/RTE/tiny_mce) is licensed under LGPL
+- NuSOAP (Services/SOAPAuth/include) is licensed under LGPL
+- Info(Un)Zip (Services/Windows/bin32/(un)zip) is licensed under InfoZip license
+  see http://www.info-zip.org/pub/infozip/license.html
+- ImageMagick convert (Services/Windows/bin32/convert) Imagemagick license
+  see http://www.imagemagick.org/script/license.php
+- Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
+
+
+Other libraries used in ILIAS, that are GPL:
+
+- PHPExcel (Services/Excel)
+- Parts of MediaWiki (Services/COPage/mediawikidiff, Services/Utilities/classes,
+  include/Unicode)
+- Parts of phpBB (Services/COPage/phpBB)
+- Syntax Highlighter (Services/COPage/syntax_highlight)
+- MagpieRSS (Services/Feeds/magpierss)
+- HtmlPurifier (Services/Html/HtmlPurifier)
+
+
+1)
+			GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.
@@ -338,3 +380,19 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
+
+2)
+      PHP License, see http://www.php.net/license/3_01.txt
+            
+3)
+      BSD License, see http://www.opensource.org/licenses/bsd-license.php
+
+4)
+      MIT License, see http://www.opensource.org/licenses/mit-license.php
+
+5)
+      LGPL License, see http://www.gnu.org/licenses/lgpl.html
+      
+6)
+      CC "Attribution-Noncommercial-Share Alike 3.0 Unported" license, see
+      http://creativecommons.org/licenses/by-nc-sa/3.0/
