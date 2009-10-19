@@ -28,7 +28,7 @@ ILIAS uses the following libraries that ar licensed under different licenses:
 - Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
 
 
-Other libraries used in ILIAS, that are GPL:
+Other libraries used in ILIAS, that use GPL license:
 
 - PHPExcel (Services/Excel)
 - Parts of MediaWiki (Services/COPage/mediawikidiff, Services/Utilities/classes,
