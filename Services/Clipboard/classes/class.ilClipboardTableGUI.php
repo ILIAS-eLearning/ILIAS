@@ -76,6 +76,8 @@ class ilClipboardTableGUI extends ilTable2GUI
 		global $ilUser;
 		
 		$objs = $ilUser->getClipboardObjects("mob");
+		$objs2 = $ilUser->getClipboardObjects("incl");
+		$objs = array_merge($objs, $objs2);
 		$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 
 		$this->setData($objs);
@@ -89,23 +91,34 @@ class ilClipboardTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl, $ilAccess;
 
-		// output thumbnail
-		$mob = new ilObjMediaObject($a_set["id"]);
-		$med = $mob->getMediaItem("Standard");
-		$target = $med->getThumbnailTarget();
-		if ($target != "")
+		if ($a_set["type"] == "mob")
+		{
+			// output thumbnail
+			$mob = new ilObjMediaObject($a_set["id"]);
+			$med = $mob->getMediaItem("Standard");
+			$target = $med->getThumbnailTarget();
+			if ($target != "")
+			{
+				$this->tpl->setCurrentBlock("thumbnail");
+				$this->tpl->setVariable("IMG_THUMB", $target);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else if ($a_set["type"] == "incl")
 		{
 			$this->tpl->setCurrentBlock("thumbnail");
-			$this->tpl->setVariable("IMG_THUMB", $target);
+			$this->tpl->setVariable("IMG_THUMB",
+				ilUtil::getImagePath("icon_pg.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		// allow editing of media objects
-		if ($this->parent_obj->mode != "getObject")
+		if ($this->parent_obj->mode != "getObject" && $a_set["type"] == "mob")
 		{					
 			// output edit link
 			$this->tpl->setCurrentBlock("edit");
-			$ilCtrl->setParameter($this->parent_obj, "clip_mob_id", $a_set["id"]);
+			$ilCtrl->setParameter($this->parent_obj, "clip_item_id", $a_set["id"]);
+			$ilCtrl->setParameterByClass("ilObjMediaObjectGUI", "clip_item_id", $a_set["id"]);
 			$this->tpl->setVariable("EDIT_LINK",
 				$ilCtrl->getLinkTargetByClass("ilObjMediaObjectGUI", "edit",
 					array("ilEditClipboardGUI")));
@@ -122,9 +135,12 @@ class ilClipboardTableGUI extends ilTable2GUI
 		}
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-		$this->tpl->setVariable("MEDIA_INFO",
-			ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
-		$this->tpl->setVariable("CHECKBOX_ID", $a_set["id"]);
+		if ($a_set["type"] == "mob")
+		{
+			$this->tpl->setVariable("MEDIA_INFO",
+				ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
+		}
+		$this->tpl->setVariable("CHECKBOX_ID", $a_set["type"].":".$a_set["id"]);
 	}
 
 }

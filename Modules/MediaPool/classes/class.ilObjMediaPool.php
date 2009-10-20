@@ -558,6 +558,23 @@ class ilObjMediaPool extends ilObject
 		}
 		return false;
 	}
+	
+	/**
+	* Check wheter a mep item id is in the media pool
+	*/
+	static function isItemIdInTree($a_pool_id, $a_item_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM mep_tree WHERE child = ".
+			$ilDB->quote($a_item_id, "integer").
+			" AND mep_id = ".$ilDB->quote($a_pool_id, "integer"));
+		if ($rec  = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
 
 }
 ?>

@@ -534,7 +534,7 @@
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
 	
-	<xsl:if test="$edit = 'y' or $edit = 'p'">
+	<xsl:if test="$edit = 'y' or $edit = 'p' or $edit = 'd'">
 	
 		<!-- delete -->
 		<xsl:call-template name="EditMenuItem">
@@ -3091,7 +3091,7 @@
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
 				<xsl:with-param name="pc_id" select="../@PCID" />
-				<xsl:with-param name="edit">y</xsl:with-param>
+				<xsl:with-param name="edit">d</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
 	</div>

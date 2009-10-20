@@ -879,23 +879,65 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$not_inserted = array();
 		if (is_array($ids))
 		{
-			foreach ($ids as $id)
+			foreach ($ids as $id2)
 			{
-				if (ilObjMEdiaPool::isForeignIdInTree($this->object->getId(), $id))
+				$id = explode(":", $id2);
+				$type = $id[0];
+				$id = $id[1];
+				
+				if ($type == "mob")		// media object
 				{
-					$not_inserted[] = ilObject::_lookupTitle($id)." [".
-						$id."]";
-				}
-				else
-				{
-					$item = new ilMediaPoolItem();
-					$item->setType("mob");
-					$item->setForeignId($id);
-					$item->setTitle(ilObject::_lookupTitle($id));
-					$item->create();
-					if ($item->getId() > 0)
+					if (ilObjMEdiaPool::isForeignIdInTree($this->object->getId(), $id))
 					{
-						$this->object->insertInTree($item->getId(), $_GET["mepitem_id"]);
+						$not_inserted[] = ilObject::_lookupTitle($id)." [".
+							$id."]";
+					}
+					else
+					{
+						$item = new ilMediaPoolItem();
+						$item->setType("mob");
+						$item->setForeignId($id);
+						$item->setTitle(ilObject::_lookupTitle($id));
+						$item->create();
+						if ($item->getId() > 0)
+						{
+							$this->object->insertInTree($item->getId(), $_GET["mepitem_id"]);
+						}
+					}
+				}
+				if ($type == "incl")		// content snippet
+				{
+					include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+					include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+					if (ilObjMEdiaPool::isItemIdInTree($this->object->getId(), $id))
+					{
+						$not_inserted[] = ilMediaPoolPage::lookupTitle($id)." [".
+							$id."]";
+					}
+					else
+					{
+						$original = new ilMediaPoolPage($id);
+						
+						// copy the page into the pool
+						$item = new ilMediaPoolItem();
+						$item->setType("pg");
+						$item->setTitle(ilMediaPoolItem::lookupTitle($id));
+						$item->create();
+						if ($item->getId() > 0)
+						{
+							$this->object->insertInTree($item->getId(), $_GET["mepitem_id"]);
+							
+							// create page
+							include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+							$page = new ilMediaPoolPage();
+							$page->setId($item->getId());
+							$page->create();
+							
+							// copy content
+							$page->setXMLContent($original->copyXMLContent());
+							$page->buildDom();
+							$page->update();
+						}
 					}
 				}
 			}
@@ -973,8 +1015,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			{
 				$ilUser->addObjectToClipboard($fid, "mob", "");
 			}
+			if ($type == "pg")
+			{
+				$ilUser->addObjectToClipboard($obj_id, "incl", "");
+			}
 		}
-
 		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"),true);
 		$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 	}

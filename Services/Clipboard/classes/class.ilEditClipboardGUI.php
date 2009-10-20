@@ -58,7 +58,7 @@ class ilEditClipboardGUI
 		$ilCtrl->setParameter($this, "returnCommand",
 			rawurlencode($_GET["returnCommand"]));
 
-		$ilCtrl->saveParameter($this, array("clip_mob_id"));
+		$ilCtrl->saveParameter($this, array("clip_item_id"));
 	}
 
 	/**
@@ -89,7 +89,8 @@ class ilEditClipboardGUI
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "view"));
 				require_once("classes/class.ilTabsGUI.php");
-				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_mob_id"],false, false);
+				//$id = explode(":",$_GET["clip_item_id"]);
+				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_item_id"],false, false);
 				$mob_gui->setTabs();
 				$ret =& $ilCtrl->forwardCommand($mob_gui);
 				switch($cmd)
@@ -198,10 +199,18 @@ class ilEditClipboardGUI
 
 		foreach($_POST["id"] AS $obj_id)
 		{
-			$ilUser->removeObjectFromClipboard($obj_id, "mob");
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$mob = new ilObjMediaObject($obj_id);
-			$mob->delete();			// this method don't delete, if mob is used elsewhere
+			$id = explode(":", $obj_id);
+			if ($id[0] == "mob")
+			{
+				$ilUser->removeObjectFromClipboard($id[1], "mob");
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$mob = new ilObjMediaObject($id[1]);
+				$mob->delete();			// this method don't delete, if mob is used elsewhere
+			}
+			if ($id[0] == "incl")
+			{
+				$ilUser->removeObjectFromClipboard($id[1], "incl");
+			}
 		}
 		$ilCtrl->redirect($this, "view");
 	}
@@ -228,8 +237,7 @@ class ilEditClipboardGUI
 		}
 
 		$_SESSION["ilEditClipboard_mob_id"] = $_POST["id"];
-		ilUtil::redirect(ilUtil::appendUrlParameterString(
-			$_GET["returnCommand"], "clip_obj_type=mob&clip_obj_id=".$_POST["id"][0]));
+		ilUtil::redirect($_GET["returnCommand"]);
 	}
 	
 	function _getSelectedIDs()

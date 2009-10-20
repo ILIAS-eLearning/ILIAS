@@ -946,15 +946,32 @@ return true;
 	*/
 	function insertFromClipboard()
 	{
+		include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
+		$ids = ilEditClipboardGUI::_getSelectedIDs();
 		include_once ("./Services/COPage/classes/class.ilPCMediaObject.php");
-		if ($_GET["clip_obj_id"] != "")
+		if ($ids != "")
 		{
-			if ($_GET["clip_obj_type"] == "mob")
+			foreach ($ids as $id2)
 			{
-				$this->content_obj = new ilPCMediaObject($this->page->getDom());
-				$this->content_obj->readMediaObject($_GET["clip_obj_id"]);
-				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
-				$this->updated = $this->page->update();
+				$id = explode(":", $id2);
+				$type = $id[0];
+				$id = $id[1];
+				if ($type == "mob")
+				{
+					$this->content_obj = new ilPCMediaObject($this->page->getDom());
+					$this->content_obj->readMediaObject($id);
+					$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
+					$this->updated = $this->page->update();
+				}
+				if ($type == "incl")
+				{
+					include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
+					$this->content_obj = new ilPCContentInclude($this->page->getDom());
+					$this->content_obj->create($this->page, $_GET["hier_id"]);
+					$this->content_obj->setContentType("mep");
+					$this->content_obj->setContentId($id);
+					$this->updated = $this->page->update();
+				}
 			}
 		}
 		$this->ctrl->returnToParent($this);
