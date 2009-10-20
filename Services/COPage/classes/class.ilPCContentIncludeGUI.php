@@ -154,7 +154,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	}
 
 	/**
-	* create new media object in dom and update page in db
+	* create new content include in dom and update page in db
 	*/
 	function create()
 	{
@@ -164,6 +164,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 		{
 			for($i = count($_POST["id"]) - 1; $i>=0; $i--)
 			{
+				// similar code in ilpageeditorgui::insertFromClipboard
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 				include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 				$this->content_obj = new ilPCContentInclude($this->dom);

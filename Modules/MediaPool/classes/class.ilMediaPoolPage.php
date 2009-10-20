@@ -135,18 +135,8 @@ class ilMediaPoolPage extends ilPageObject
 	{
 		global $ilDB;
 	
-// todo
-/*
-	
-		$query = "SELECT * FROM il_media_pool_page".
-			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
-		$set = $ilDB->query($query);
-		if($rec = $ilDB->fetchAssoc($set))
-		{
-			return $rec["title"];
-		}
-*/		
-		return false;
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		return ilMediaPoolItem::lookupTitle($a_page_id);
 	}
 
 	/**

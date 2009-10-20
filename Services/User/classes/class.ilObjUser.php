@@ -3237,6 +3237,12 @@ class ilObjUser extends ilObject
 		return $items;
 	}
 
+	////
+	////
+	////	Edit Clipboard
+	////
+	////
+	
 	/**
 	* add an item to user's personal clipboard
 	*
@@ -3389,6 +3395,11 @@ class ilObjUser extends ilObject
 			if ($obj["type"] == "mob")
 			{
 				$obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
+			}
+			if ($obj["type"] == "incl")
+			{
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+				$obj["title"] = ilMediaPoolPage::lookupTitle($obj["item_id"]);
 			}
 			$objects[] = array ("id" => $obj["item_id"],
 				"type" => $obj["type"], "title" => $obj["title"],
