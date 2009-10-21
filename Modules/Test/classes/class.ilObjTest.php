@@ -1772,33 +1772,59 @@ class ilObjTest extends ilObject
 	public function getUsedRandomQuestionpools()
 	{
 		global $ilDB;
-		$result = $ilDB->queryF('SELECT tst_rnd_cpy.*, tst_test_random.num_of_q FROM tst_rnd_cpy, tst_test_random WHERE tst_rnd_cpy.tst_fi = %s AND tst_rnd_cpy.tst_fi = tst_test_random.test_fi AND tst_rnd_cpy.qpl_fi = tst_test_random.questionpool_fi',
-			array('integer'),
-			array($this->getTestId())
-		);
-		$pools = array();
-		while ($row = $ilDB->fetchAssoc($result))
+		if ($this->isNewRandomTest())
 		{
-			if (is_array($pools[$row['qpl_fi']]))
+			$result = $ilDB->queryF('SELECT tst_rnd_cpy.*, tst_test_random.num_of_q FROM tst_rnd_cpy, tst_test_random WHERE tst_rnd_cpy.tst_fi = %s AND tst_rnd_cpy.tst_fi = tst_test_random.test_fi AND tst_rnd_cpy.qpl_fi = tst_test_random.questionpool_fi',
+				array('integer'),
+				array($this->getTestId())
+			);
+			$pools = array();
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$pools[$row['qpl_fi']]['count']++;
+				if (is_array($pools[$row['qpl_fi']]))
+				{
+					$pools[$row['qpl_fi']]['count']++;
+				}
+				else
+				{
+					$pools[$row['qpl_fi']]['count'] = 1;
+				}
+				$pools[$row['qpl_fi']]['num_of_q'] = $row['num_of_q'];
 			}
-			else
-			{
-				$pools[$row['qpl_fi']]['count'] = 1;
-			}
-			$pools[$row['qpl_fi']]['num_of_q'] = $row['num_of_q'];
-		}
-		$result = $ilDB->queryF('SELECT * FROM tst_rnd_qpl_title WHERE tst_fi = %s',
-			array('integer'),
-			array($this->getTestId())
-		);
+			$result = $ilDB->queryF('SELECT * FROM tst_rnd_qpl_title WHERE tst_fi = %s',
+				array('integer'),
+				array($this->getTestId())
+			);
 
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$pools[$row['qpl_fi']]['title'] = $row['qpl_title'];
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$pools[$row['qpl_fi']]['title'] = $row['qpl_title'];
+			}
+			return $pools;
 		}
-		return $pools;
+		else
+		{
+			$result = $ilDB->queryF('SELECT tst_test_random.* FROM tst_test_random WHERE tst_test_random.test_fi = %s',
+				array('integer'),
+				array($this->getTestId())
+			);
+			$pools = array();
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$pools[$row['questionpool_fi']]['count'] = $row['num_of_q'];
+				$pools[$row['questionpool_fi']]['num_of_q'] = $row['num_of_q'];
+			}
+			$result = $ilDB->queryF('SELECT * FROM tst_rnd_qpl_title WHERE tst_fi = %s',
+				array('integer'),
+				array($this->getTestId())
+			);
+
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$pools[$row['qpl_fi']]['title'] = $row['qpl_title'];
+			}
+			return $pools;
+		}
 	}
 
 	/**
