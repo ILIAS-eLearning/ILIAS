@@ -3906,7 +3906,10 @@ class ilUtil
 		// - take care of html exports (-> see buildLatexImages)
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$jsMathSetting = new ilSetting("jsMath");
-		if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
+		$use_jsmath = 
+			$jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault"))));
+			
+		if ($use_jsmath)
 		{
 			$info = "";
 			if (!$tpl->out_jsmath_info)
@@ -3919,18 +3922,67 @@ class ilUtil
 				$tpl->out_jsmath_info = TRUE;
 			}
 			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
-			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '</span>[[info]]'", $a_text);
-					// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
-			$result_text = str_replace("[[info]]", $info, $result_text);
 			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
 		}
-		else
+		
+		// this is a fix for bug5362
+		$cpos = 0;
+		$o_start = $a_start;
+		$o_end = $a_end;
+		$a_start = str_replace("\]", "]", $a_start);
+		$a_start = str_replace("\[", "[", $a_start);
+		$a_end = str_replace("\]", "]", $a_end);
+		$a_end = str_replace("\[", "[", $a_end);
+		$a_end = str_replace("\/", "/", $a_end);
+
+		while (is_int($spos = strpos($a_text, $a_start, $cpos)))	// find next start
 		{
-			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
-				" />'", $a_text);
+			if (is_int ($epos = strpos($a_text, $a_end, $spos + 1)))
+			{
+				$tex = substr($a_text, $spos + strlen($a_start), $epos - $spos - strlen($a_start));
+
+				// replace, if tags do not go across div borders
+				if (!is_int(strpos($tex, "</div>")))
+				{
+					if (!$use_jsmath)
+					{
+						$a_text = substr($a_text, 0, $spos).
+							"<img alt=\"".htmlentities($tex)."\" src=\"".$a_cgi."?".
+							rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', $tex))))."\" ".
+							" />".
+							substr($a_text, $epos + strlen($a_end));
+					}
+					else
+					{
+						$tex = $a_start.$tex.$a_end;
+//echo "<br>1:".$tex;
+						$replacement = 
+							preg_replace('/' . $o_start . '(.*?)' . $o_end . '/ie',
+							"'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '</span>[[info]]'", $tex);
+							// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
+//echo "<br>2:".htmlentities($replacement);
+						$a_text = substr($a_text, 0, $spos).
+							$replacement.
+							substr($a_text, $epos + strlen($a_end));
+					}
+				}
+			}
+			$cpos = $spos + 1;
 		}
+		
+		if ($use_jsmath)
+		{
+			$a_text = str_replace("[[info]]", $info, $a_text);
+		}
+
+		$result_text = $a_text;
+
+//			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+//				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
+//				" />'", $a_text);
+
+//echo htmlentities($a_text);
+
 		return $result_text;
 	}
 
