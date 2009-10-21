@@ -383,6 +383,7 @@ class assMatchingQuestion extends assQuestion
 
 	public function duplicateImages($question_id)
 	{
+		global $ilLog;
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		if (!file_exists($imagepath))
