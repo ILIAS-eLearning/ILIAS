@@ -135,13 +135,19 @@
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
 		<xsl:for-each select="//Footnote">
-			<div class="ilc_page_fn_Footnote">
-			<a>
-			<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
-			<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
-			</a>
-			<xsl:apply-templates />
-			</div>
+			<xsl:choose>
+			<xsl:when test="./ancestor::*[@Enabled = 'False']">
+			</xsl:when>
+			<xsl:otherwise>
+				<div class="ilc_page_fn_Footnote">
+				<a>
+				<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
+				<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
+				</a>
+				<xsl:apply-templates />
+				</div>
+			</xsl:otherwise>
+			</xsl:choose>
 		</xsl:for-each>
 	</xsl:if>
 
