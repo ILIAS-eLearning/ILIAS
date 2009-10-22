@@ -631,7 +631,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup IM
 	*/
-	function _lookupIm($a_user, $a_type)
+	function _lookupIm($a_user_id, $a_type)
 	{
 		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
 	}

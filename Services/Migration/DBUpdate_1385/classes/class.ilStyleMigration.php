@@ -174,6 +174,10 @@ class ilStyleMigration
 				case "table":
 					$types[] = "table";
 					break;
+					
+				default:
+					$types[] = array();
+					break;
 			}
 
 			// check if style_char set exists
