@@ -1099,7 +1099,7 @@ class ilTree
 		for ($i=0; $i < count($pathIds); $i++)
 		{
 			if ($i > 0) $inClause .= ',';
-			$inClause .= $ilDB->quote($pathIds[$i]);
+			$inClause .= $ilDB->quote($pathIds[$i],'integer');
 		}
 		$inClause .= ')';
 
@@ -1107,7 +1107,7 @@ class ilTree
 			'FROM '.$this->table_tree.' '.
             $this->buildJoin().' '.
 			'WHERE '.$inClause.' '.
-            'AND '.$this->table_tree.'.'.$this->tree_pk.' = '.$this->ilDB->quote($this->tree_id).' '.
+            'AND '.$this->table_tree.'.'.$this->tree_pk.' = '.$this->ilDB->quote($this->tree_id,'integer').' '.
 			'ORDER BY depth';
 		$r = $ilDB->query($q);
 
@@ -1383,7 +1383,7 @@ class ilTree
 		{
 			$titlePath[$i] = strtolower(UtfNormal::toNFC($titlePath[$i]));
 			if ($i > 0) $inClause .= ',';
-			$inClause .= $ilDB->quote($titlePath[$i]);
+			$inClause .= $ilDB->quote($titlePath[$i],'text');
 		}
 		$inClause .= ')';
 
@@ -2978,6 +2978,40 @@ class ilTree
 		}
 		return true;
     }
+	
+	/**
+	 * This method is used for change existing objects 
+	 * and returns all necessary information for this action.
+	 * The former use of ilTree::getSubtree needs to much memory.
+	 * @param ref_id ref_id of source node 
+	 * @return 
+	 */
+	public function getRbacSubtreeInfo($a_endnode_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type ".
+			"FROM ".$this->table_tree." t1 ".
+			"JOIN ".$this->table_tree." t2 ON (t2.lft BETWEEN t1.lft AND t1.rgt) ".
+			"JOIN ".$this->table_obj_reference." obr ON t2.child = obr.ref_id ".
+			"JOIN ".$this->table_obj_data." obd ON obr.obj_id = obd.obj_id ".
+			"WHERE t1.child = ".$ilDB->quote($a_endnode_id,'integer')." ".
+			"AND t1.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
+			"AND t2.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
+			"ORDER BY t2.depth";
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$nodes[$row->child]['lft']	= $row->lft;
+			$nodes[$row->child]['rgt']	= $row->rgt;
+			$nodes[$row->child]['child']= $row->child;
+			$nodes[$row->child]['type']	= $row->type;
+			
+		}
+		return (array) $nodes;
+	}
+	
 
 
 } // END class.tree
