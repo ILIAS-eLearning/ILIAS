@@ -291,8 +291,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			$pd_set = new ilSetting("pd");
 			$osi_server = $pd_set->get("osi_host");
 			
-			if (trim($osi_server) != "")
-			{
+//			if (trim($osi_server) != "")
+//			{
 				// instant messengers
 				// 1 indicates to use online status check
 				$im_arr = array("icq" => 1,
@@ -305,8 +305,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 											
 				// use onlinestatus.org
 				// when enabled all instant messengers are checked online and ignores settings above
-				$osi_enable = true;
-		
+				if (trim($osi_server) != "")
+				{
+					$osi_enable = true;
+				}
+
 				foreach ($im_arr as $im_name => $im_check)
 				{
 					if ($im_id = ilObjUser::_lookupIm($a_set["id"], $im_name))
@@ -316,7 +319,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 							case "icq":
 								//$im_url = "http://people.icq.com/people/webmsg.php?to=".$im_id;
 								$im_url = "http://people.icq.com/people/about_me.php?uin=".$im_id;
-								$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
+								//$im_img = "http://status.icq.com/online.gif?icq=".$im_id."&img=5";
+								$im_img = "http://wwp.icq.com/scripts/online.dll?icq=".$im_id."&img=5";
 								break;
 							
 							case "yahoo":
@@ -366,7 +370,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 						$this->tpl->parseCurrentBlock();
 					}
 				}
-			}
+//			}
 		}
 					
 		// username

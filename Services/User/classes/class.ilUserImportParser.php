@@ -2496,7 +2496,7 @@ class ilUserImportParser extends ilSaxParser
 				 	$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' or 'associated' expected for preference $key.");
 				break;
 			case 'mail_incoming_type':
-			    if (!in_array($value, array("0","1","2")))
+			    if (!in_array((int) $value, array("0","1","2")))
 			        $this->logFailure("---", "Wrong value '$value': Value \"0\" (LOCAL),\"1\" (EMAIL) or \"2\" (BOTH) expected for preference $key.");
 				break;
 			case 'weekstart':
