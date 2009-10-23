@@ -697,6 +697,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					$export_files[$i]["size"] = $file_obj->getFileSize();
 					$export_files[$i]["file"] = $file_obj->getFileName();
 					$export_files[$i]["type"] = $file_obj->getFileType();
+					$export_files[$i]["file_id"] = $file_id;
 					$this->ctrl->setParameter($this, "file_id",$file_id);
 					$export_files[$i]["link"] = $this->ctrl->getLinkTarget($this,"downloadFile","");
 					$i++;
@@ -716,7 +717,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$i = 0;
 				
 		$export_files = $this->getExportResources();
-		
+
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
@@ -788,6 +789,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				//$tpl->setVariable("LINK_DOWNLOAD",
 				//	$exp_file["link"]);
 				$ilCtrl->setParameter($this, "resource", rawurlencode($exp_file["path"]));
+				$ilCtrl->setParameter($this, "file_id", rawurlencode($exp_file["file_id"]));
 				$tpl->setVariable("LINK_DOWNLOAD",
 					$ilCtrl->getLinkTarget($this, "downloadResource"));
 
@@ -807,15 +809,30 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	function downloadResource()
 	{
 		$export_files = $this->getExportResources();
-		
+
+		if ($_GET["file_id"] > 0)
+		{
+			$file = new ilObjFile($_GET["file_id"], false);
+		}
+
 		// check that file really belongs to SCORM module (security)
 		foreach ($export_files as $f)
 		{
-			if ($f["path"] == $_GET["resource"])
+			if (is_object($file))
 			{
-				if (is_file($f["path"]))
+				if ($f["file"] == $file->getFileName())
 				{
-					ilUtil::deliverFile($f["path"], $f["file"]);
+					$file->sendFile();
+				}
+			}
+			else
+			{
+				if ($f["path"] == $_GET["resource"])
+				{
+					if (is_file($f["path"]))
+					{
+						ilUtil::deliverFile($f["path"], $f["file"]);
+					}
 				}
 			}
 		}
