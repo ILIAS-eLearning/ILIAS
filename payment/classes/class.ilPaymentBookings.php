@@ -348,13 +348,8 @@ class ilPaymentBookings
 
 		return  $next_id;
 	}
-	
-	/**
-	* Can (only) update information about payment and access
-	* 
-	* @return bool
-	*/						 
-	public function update()
+						 
+	function update()
 	{
 		if($this->getBookingId())
 		{
@@ -690,8 +685,8 @@ class ilPaymentBookings
 		}
 	}
 	
-	
-	private function __read()
+	// PRIVATE
+	function __read()
 	{
 
 		$data = array();

@@ -605,7 +605,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
 						$obj_type = $ilObjDataCache->lookupType($obj_id);
 						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
-						$desc[] = $obj_title;
+						$desc[] = "[" . $obj_type . "] " . $obj_title;
 						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 						
 						$direct_paypal_info_output = true;
@@ -731,7 +731,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('CARDTYPE', "");
 							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId());
 							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . "  " . implode("," $desc));
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
 							//echo $this->totalAmount['PAY_METHOD_EPAY'];
