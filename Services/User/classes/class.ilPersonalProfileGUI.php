@@ -2632,7 +2632,7 @@ return;
 			{
 				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 				$ilUser->resetPassword($_POST["new_password"], $_POST["new_password"]);
-				if ($_POST["current_password"] == $_POST["new_password"])
+				if ($_POST["current_password"] != $_POST["new_password"])
 				{
 					$ilUser->setLastPasswordChangeToNow();
 				}
