@@ -21,8 +21,46 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/**
+*  Sry... need to commit this to test it *
+*/
+
+
+
+chdir(dirname(__FILE__));
+chdir('../../..');
+
+require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
+
+$_COOKIE["ilClientId"] = $_SERVER['argv'][3];
+$_POST['username'] = $_SERVER['argv'][1];
+$_POST['password'] = $_SERVER['argv'][2];
+
+$_REQUEST
+
+$pay_user = $_REQUEST['usr'];
+
+include_once './include/inc.header.php';
+
+include_once './payment/classes/class.ilPaymentObject.php';
+include_once './payment/classes/class.ilPaymentBookings.php';
+
+global $ilLog;
+global $ilias;
+
+require_once 'class.ilERP.php';
+
+$active = ilERP::getActive();
+$cls = "ilERPDebtor_" . $active['erp_short']; 
+include_once './Services/Payment/classes/class.' . $cls. '.php';
+
     $f = fopen("callback.txt", "a");
-    fwrite( $f, "HEP");
-    fwrite( $f, print_r($_POST, true));
+    fwrite( $f, "Callback:");
+    fwrite( $f, print_r($_REQUEST, true));
+    fwrite( $f, print_r($active, true));
+    
+    $bo  =& new ilPaymentBookings($ilUser->getId());
+    
     fclose($f);
 ?>
