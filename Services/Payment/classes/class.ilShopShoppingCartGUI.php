@@ -392,52 +392,72 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       }
                 
       $deb->createInvoice();
-
-      for ($i = 0; $i < count($sc); $i++)
+      
+      
+      foreach ($sc as $i)
       {
-        $pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
+        
+        $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
+        $bo  =& new ilPaymentBookings($ilUser->getId());
         
         
-        $book_obj =& new ilPaymentBookings($ilUser->getId());
-
         $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+        $bo->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
+        $bo->setPobjectId( isset($i['pobject_id']) ? $i['pobject_id'] : 0 );
+        $bo->setCustomerId( $ilUser->getId() );
+        $bo->setVendorId( $pod['vendor_id'] );
+        $bo->setPayMethod(PAY_METHOD_EPAY);
+        $bo->setOrderDate(time());
+        $bo->setDuration($i['dauer']); // duration
+        $bo->setPrice(  $i['betrag_string'] );
+        $bo->setPrice( ilPaymentPrices::_getPriceString( $i['price_id'] ));
         
-
-			//$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
-			
-
-        $book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
-        $book_obj->setPobjectId(isset($sc[$i]["pobject_id"]) ? $sc[$i]["pobject_id"] : 0);
-        $book_obj->setCustomerId($ilUser->getId());
-        $book_obj->setVendorId($pobjectData["vendor_id"]);
-        $book_obj->setPayMethod(PAY_METHOD_EPAY);
-        $book_obj->setOrderDate(time());
-        $book_obj->setDuration($sc[$i]["duration"]);
-        $book_obj->setPrice(ilPaymentPrices::_getPriceString($sc[$i]["price_id"]));
-        $book_obj->setDiscount(0);
-        $book_obj->setPayed(1);
-        $book_obj->setAccess(1);
-        $book_obj->setVoucher('');
-        $book_obj->setTransactionExtern($_GET['tid']);
-
-        $booking_id = $book_obj->add();
+        $bo->setDiscount(0);
+        $bo->setPayed(1);
+        $bo->setAccess(1);
+        $bo->setVoucher('');
+        $bo->setVatRate( $i['vat_rate'] );
+        $bo->setVatUnit( $i['vat_unit'] );
+        $bo->setTransactionExtern($_GET['tid']);
         
-        $deb->createInvoiceLine( 000, $sc[$i]["buchungstext"], 1, $sc[$i]["betrag"] );
-        include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-        $obj_id = ilObject::_lookupObjId($pobjectData["ref_id"]);    
-        $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
-        $cp->add($usr_id, IL_CRS_MEMBER);
-        $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);	    
-        // Should be moved to callback
-
+        // psc_id
+        // obj_id
+        // betrag_string = "42 DKK"
+        // vat_rate => 0
+        // vat_unig => 0
+        
+        
+        $boid = $bo->add();
+        
+        $product_name = $i['buchungstext'];
+        $amount = $i['betrag'];
+        
+        
+        if ( $i['typ'] == 'crs')
+        {
+          include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+          $deb->createInvoiceLine( 0, $product_name, 1, $amount );
+          
+          $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
+          $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
+          $cp->add($usr_id, IL_CRS_MEMBER);
+          $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+        }
       }
+        
       $invoice_number = $deb->bookInvoice();
       $attach = $deb->getInvoicePDF($invoice_number);
       $deb->saveInvoice($attach, false);
+      
       $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
         $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
 
+      
+      
+
       ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
+      
+      
       $cart->emptyShoppingCart();	  
         
 	  }
@@ -718,6 +738,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							break;
 		
    					case PAY_METHOD_EPAY:
+   					// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
 						  $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
 							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
