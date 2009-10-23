@@ -2449,10 +2449,16 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
     if (!$instance->looksValid()) $message = str_replace('%s', $instance->getName, $this->lng->txt('pays_erp_bad_settings'));
     else 
     {    
-      $instance->connect();      
-      ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
-    }
-    if ($message != "") ilUtil::sendFailure($message);
+      try
+      {
+        $instance->connect();
+        ilUtil::sendInfo(str_replace('%s', $instance->getName(), $this->lng->txt("pays_erp_connection_established")));
+      }
+      catch (ilERPException $e)
+      {
+        ilUtil::sendFailure($e->getMessage());
+      }
+    }    
   }
   
   

@@ -117,7 +117,7 @@ try
 catch (Exception $e)
 {
   
-  fwrite( $f, "Callback:" . $e->getMessage() . "\n");
+  fwrite( $f, "EXCEPTION:\n" . $e->getMessage() . "\n");
   fwrite( $f, print_r($_REQUEST, true));
   fwrite( $f, print_r($active, true));
   fclose($f);
