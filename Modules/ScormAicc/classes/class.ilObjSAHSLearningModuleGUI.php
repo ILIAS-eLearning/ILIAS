@@ -131,9 +131,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				// add read / back button
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$info->addButton($this->lng->txt("view"),
-						"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-						' target="ilContObj'.$this->object->getId().'" ');
+					if (!$this->object->getEditable())
+					{
+						$info->addButton($this->lng->txt("view"),
+							"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
+							' target="ilContObj'.$this->object->getId().'" ');
+					}
 				}
 
 				$info->enableNews();
