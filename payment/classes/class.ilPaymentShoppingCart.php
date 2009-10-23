@@ -311,6 +311,7 @@ class ilPaymentShoppingCart
 			$f_result[$counter]["betrag"] =  $price;
 			$f_result[$counter]["betrag_string"] = $price_string;
  
+      require_once './Services/Payment/classes/class.ilShopVats.php';
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
 			$f_result[$counter]['vat_rate'] = $oVAT->getRate();
 			$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($price);

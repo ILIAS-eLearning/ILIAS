@@ -359,6 +359,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	  include_once './payment/classes/class.ilPaymentObject.php';
     include_once './payment/classes/class.ilPaymentBookings.php';
+    require_once './payment/classes/class.ilPaymentShoppingCart.php';
     include_once './Services/Payment/classes/class.ilERP.php';
     
     

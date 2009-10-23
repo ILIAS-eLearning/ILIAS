@@ -46,6 +46,7 @@ try
 
   include_once './payment/classes/class.ilPaymentObject.php';
   include_once './payment/classes/class.ilPaymentBookings.php';
+  require_once './payment/classes/class.ilPaymentShoppingCart.php';
   require_once './Services/User/classes/class.ilObjUser.php';
 
   global $ilLog;
