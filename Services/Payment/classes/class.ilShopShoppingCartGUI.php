@@ -376,7 +376,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     try
     {
       
-      if (!$deb->getDebtorByNumber($usr_id))
+      /*if (!$deb->getDebtorByNumber($usr_id))
       {
         $deb->setAll( array(
           'number' => $usr_id,
@@ -392,7 +392,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
       }
                 
       $deb->createInvoice();
-      
+      */
       
       foreach ($sc as $i)
       {
@@ -413,8 +413,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
         $bo->setPrice( ilPaymentPrices::_getPriceString( $i['price_id'] ));
         
         $bo->setDiscount(0);
-        $bo->setPayed(1);
-        $bo->setAccess(1);
+        $bo->setPayed(0);
+        $bo->setAccess(0);
         $bo->setVoucher('');
         $bo->setVatRate( $i['vat_rate'] );
         $bo->setVatUnit( $i['vat_unit'] );
@@ -432,33 +432,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
         $product_name = $i['buchungstext'];
         $amount = $i['betrag'];
         
-        
-        if ( $i['typ'] == 'crs')
-        {
-          include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-          $deb->createInvoiceLine( 0, $product_name, 1, $amount );
-          
-          $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
-          $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
-          $cp->add($usr_id, IL_CRS_MEMBER);
-          $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
-        }
       }
-        
-      $invoice_number = $deb->bookInvoice();
-      $attach = $deb->getInvoicePDF($invoice_number);
-      $deb->saveInvoice($attach, false);
-      
-      $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
-        $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
-
-      
-      
-
-      ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);
-      
-      
-      $cart->emptyShoppingCart();	  
+      ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);          
         
 	  }
 	  catch (ilERPException $e)
@@ -608,6 +583,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$genSet = new ilGeneralSettings();
 		$pay_methods = $this->_getPayMethods( true );
 		$num_items = 0;
+		$desc = array();
 		if (is_array($pay_methods))
 		{			
 			for ($p = 0; $p < count($pay_methods); $p++)
@@ -629,6 +605,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
 						$obj_type = $ilObjDataCache->lookupType($obj_id);
 						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+						$desc[] = $obj_title;
 						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 						
 						$direct_paypal_info_output = true;
@@ -752,9 +729,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('LANGUAGE', 1);
 							$tpl->setVariable('GROUP', "");
 							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php");
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId());
 							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") " . ILIAS_HTTP_PATH );
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $this->user_obj . "  " . implode("," $desc));
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
 							//echo $this->totalAmount['PAY_METHOD_EPAY'];
