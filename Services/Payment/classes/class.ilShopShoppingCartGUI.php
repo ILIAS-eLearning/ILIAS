@@ -731,7 +731,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('CARDTYPE', "");
 							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId());
 							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $this->user_obj . "  " . implode("," $desc));
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . "  " . implode("," $desc));
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
 							
 							//echo $this->totalAmount['PAY_METHOD_EPAY'];
