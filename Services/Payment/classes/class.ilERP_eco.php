@@ -107,6 +107,7 @@ class ilERP_eco extends ilERP
     }
     catch (Exception $e)
     {
+      $this->connection_ok = false;
       throw new ilERPException(__FILE__ . ":" . __LINE__ . " " . $e->getMessage());
     }
     $this->connection_ok = true;
