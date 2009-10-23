@@ -258,8 +258,6 @@ class ilPaymentObject
 	}
 	
 
-	
-
 	function _getCountObjectsByPayMethod($a_type)
 	{
 		global $ilDB;
@@ -267,15 +265,15 @@ class ilPaymentObject
 		switch($a_type)
 		{
 			case 'pm_bill':
-				$pm = 1;
+				$pm = PAY_METHOD_BILL;
 				break;
 
 			case 'pm_bmf':
-				$pm = 2;
+				$pm = PAY_METHOD_BMF;
 				break;
 
 			case 'pm_paypal':
-				$pm = 3;
+				$pm = PAY_METHOD_PAYPAL;
 				break;
 				
 			case 'pm_epay':
