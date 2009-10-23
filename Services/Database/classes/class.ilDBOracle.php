@@ -18,6 +18,7 @@ include_once ("./Services/Database/classes/class.ilDB.php");
 class ilDBOracle extends ilDB
 {
 	const CLOB_BUFFER_SIZE = 2000;
+	const LIMIT_EXPRESSIONS_IN_LIST = 1000;
 
 
 	/**
@@ -358,6 +359,49 @@ class ilDBOracle extends ilDB
 		}
 		return $concat_value;
 	}
+	
+	/**
+	* Overwritten implementation of <code>$ilDB->in</code>
+	* to avoid ORA-01795 (maximum number of expressions in a list is 1000)
+	* 
+	* This implementation rewrites the in clause to 
+	* <code>field IN (1,2,3,...,1000) OR field IN (1000,1001,...,2000)</code>
+	*
+	* Example:
+	*	$ids = array(10,12,18);
+	*	$st = $ilDB->prepare("SELECT * FROM table ".
+	*		"WHERE ".$ilDB->in("id", $ids),
+	*		$ilDB->addTypesToArray($types, "integer", count($ids)));
+	*	$set = $ilDB->execute($st, $ids);
+	*/
+	function in($a_field, $a_values, $negate = false, $a_type = "")
+	{
+		if(count($a_values) <= self::LIMIT_EXPRESSIONS_IN_LIST)
+		{
+			return parent::in($a_field,$a_values,$negate,$a_type);
+		}
+		
+		$first = true;
+		$concat = $negate ? ' AND ' : ' OR ';
+		$in = '(';
+		do
+		{
+			if(!$first)
+			{
+				$in .= $concat;
+				
+			}
+			$first = false;
+			
+			$spliced = array_splice($a_values, 0, self::LIMIT_EXPRESSIONS_IN_LIST);
+			$in .= parent::in($a_field, $spliced, $negate, $a_type);
+			
+		}
+		while($a_values);
+
+		return $in." ) ";
+	}
+	
 	
 	/**
 	 * Lock table
