@@ -33,37 +33,37 @@ chdir('../../..');
 require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
+/*
 $_COOKIE["ilClientId"] = $_SERVER['argv'][3];
 $_POST['username'] = $_SERVER['argv'][1];
-$_POST['password'] = $_SERVER['argv'][2];
+$_POST['password'] = $_SERVER['argv'][2];*/
 
 $usr_id = $_REQUEST['ilUser'];
 
-
-
-include_once './include/inc.header.php';
-
-include_once './payment/classes/class.ilPaymentObject.php';
-include_once './payment/classes/class.ilPaymentBookings.php';
-require_once 'Services/User/classes/class.ilObjUser.php';
-
-global $ilLog;
-global $ilias;
-
-require_once './Services/Payment/classes/class.ilERP.php';
-$active = ilERP::getActive();
-$cls = "ilERPDebtor_" . $active['erp_short']; 
-include_once './Services/Payment/classes/class.' . $cls. '.php';
-
-
-$cart = new ilPaymentShoppingCart($ilUser);
-$sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
-$deb = new $cls();
-
-$ilUser = new ilObjUser($usr_id);
-
 try
 {
+  include_once './include/inc.header.php';
+
+  include_once './payment/classes/class.ilPaymentObject.php';
+  include_once './payment/classes/class.ilPaymentBookings.php';
+  require_once './Services/User/classes/class.ilObjUser.php';
+
+  global $ilLog;
+  global $ilias;
+
+  require_once './Services/Payment/classes/class.ilERP.php';
+  $active = ilERP::getActive();
+  $cls = "ilERPDebtor_" . $active['erp_short']; 
+  include_once './Services/Payment/classes/class.' . $cls. '.php';
+
+
+  $cart = new ilPaymentShoppingCart($ilUser);
+  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
+  $deb = new $cls();
+
+  $ilUser = new ilObjUser($usr_id);
+
+
   if (!$deb->getDebtorByNumber($usr_id))
   {
     $deb->setAll( array(
@@ -115,13 +115,13 @@ try
   
   $cart->emptyShoppingCart();
 }
-catch (ilERPException $e)
+catch (Exception $e)
 {
-    $f = fopen("callback.txt", "a");
-    fwrite( $f, "Callback:" . $e->getMessage() . "\n");
-    fwrite( $f, print_r($_REQUEST, true));
-    fwrite( $f, print_r($active, true));
-    fclose($f);
+  $f = fopen("callback.txt", "a");
+  fwrite( $f, "Callback:" . $e->getMessage() . "\n");
+  fwrite( $f, print_r($_REQUEST, true));
+  fwrite( $f, print_r($active, true));
+  fclose($f);
 }
 
 ?>
