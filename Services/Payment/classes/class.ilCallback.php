@@ -33,12 +33,13 @@ chdir('../../..');
 require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
-/*
-$_COOKIE["ilClientId"] = $_SERVER['argv'][3];
-$_POST['username'] = $_SERVER['argv'][1];
-$_POST['password'] = $_SERVER['argv'][2];*/
+$f = fopen("callback.txt", "a");
+fwrite($f, "--- " . date() . " --- \n");
+
+$debug = true;
 
 $usr_id = $_REQUEST['ilUser'];
+fwrite($f, "User: $usr_id  \n");
 
 try
 {
@@ -49,14 +50,13 @@ try
   require_once './payment/classes/class.ilPaymentShoppingCart.php';
   require_once './Services/User/classes/class.ilObjUser.php';
 
-  global $ilLog;
+  //global $ilLog;
   global $ilias;
 
   require_once './Services/Payment/classes/class.ilERP.php';
   $active = ilERP::getActive();
   $cls = "ilERPDebtor_" . $active['erp_short']; 
   include_once './Services/Payment/classes/class.' . $cls. '.php';
-
 
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
@@ -102,9 +102,7 @@ try
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
       $cp->add($usr_id, IL_CRS_MEMBER);
       $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
-    }    
-    
-    
+    }
   }
     
   $invoice_number = $deb->bookInvoice();
@@ -118,11 +116,12 @@ try
 }
 catch (Exception $e)
 {
-  $f = fopen("callback.txt", "a");
+  
   fwrite( $f, "Callback:" . $e->getMessage() . "\n");
   fwrite( $f, print_r($_REQUEST, true));
   fwrite( $f, print_r($active, true));
   fclose($f);
+  die($e->getMessage());
 }
-
+echo "Done.";
 ?>
