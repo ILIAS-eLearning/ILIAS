@@ -120,14 +120,6 @@ class ilERP_none extends ilERP
 	public function looksValid()
 	{
     return true;
-      /*if (!parent::looksValid()) return false;
-	
-      $s = $this->getSettings();
-      $ok = true;
-      return true;
-      if ($s['agreement'] == 0) $ok = false;      
-      if (($s['product']==0) || ($s['terms']==0) || ($s['layout']==0) ) $ok = false;       
-      return $ok;	*/
 	}
 	
 	
@@ -140,41 +132,7 @@ class ilERP_none extends ilERP
 	public function loadSettings($erps_id = 0)
 	{
 	}
-	/*
-    global $ilDB;
-
-		$res = $ilDB->queryf('SELECT * FROM payment_erps WHERE erps_id=%s AND erp_id=%s', 
-      array("integer", "integer"),
-      array($erps_id, ERP_ECONOMIC));
-		
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
-				
-		if (is_object($result))
-		{
-			if ($result->settings != "") $data = unserialize($result->settings);
-			else 
-			{
-        // set some defaults
-        $data['agreement']=0;
-        $data['username']='erpuser';
-        $data['password']='pasword1234';
-        $data['product']=0;
-        $data['terms']=0;
-        $data['layout']=0;
-        $data['code']='EUR';
-			}
-		}
-		
-		$this->setAgreement( $data['agreement'] );
-		$this->setUsername( $data['username'] );
-		$this->setPassword( $data['password'] );
-		$this->setProduct( $data['product']);
-		$this->setTerms( $data['terms']);
-		$this->setLayout( $data['layout']);
-		$this->setCode( $data['code']);		
-	}
-	*/
-
+	
   
 	
 }
