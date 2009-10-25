@@ -254,7 +254,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      throw new ilERPException(__FILE__ . ":" . __LINE__ " " . $e->getMessage());
+      throw new ilERPException(__FILE__ . ":" . __LINE__ . " " . $e->getMessage());
     }
     return $bytes;    
   }
