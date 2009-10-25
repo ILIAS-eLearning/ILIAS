@@ -42,14 +42,14 @@ function wlog($txt)
   fwrite($file, $txt);
 }
 
-function openLog()
+function opnLog()
 {
   global $file;
   $file = fopen("callback.txt", "a");
   wlog( "--- " . date(DATE_RFC822) . " --- \n");
 }
 
-if ($debug) openLog();
+if ($debug) opnLog();
 
 $usr_id = $_REQUEST['ilUser'];
 
@@ -134,13 +134,19 @@ try
   $invoice_number = $deb->bookInvoice();
   $attach = $deb->getInvoicePDF($invoice_number);
   $deb->saveInvoice($attach, false);
-    
-  $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
+  
+  $deb->sendInvoice("Your invoice " . $invoice_number,
+      $deb->getFullName() . ", \nYour invoice is attached this mail.",
+      $ilUser->getEmail(),
+      $attach,
+      "Invoice-" . $invoice_number
+  );
+  /*$deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
         $deb->getFullName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), 
         $ilUser->getEmail(), 
         $attach, "faktura " . $invoice_number
-  );
-  wlog("Sent " . $this->lng->txt('pay_order_paid_subject') . " " . $invoice_number);
+  );*/
+  wlog("Sent invoice " . $invoice_number);
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
