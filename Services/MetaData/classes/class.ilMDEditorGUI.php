@@ -2473,40 +2473,46 @@ class ilMDEditorGUI
 			$first = true;
 			foreach($ids = $this->md_section->getTypicalAgeRangeIds() as $id)
 			{
-				if ($first)
-				{
-					$this->tpl->setCurrentBlock("agerange_head");
-					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE",
-						$this->lng->txt("meta_typical_age_range"));
-					$this->tpl->setVariable("ROWSPAN_AGERANGE", count($ids));
-					$this->tpl->parseCurrentBlock();
-					$first = false;
-				}
-					
 				$md_age = $this->md_section->getTypicalAgeRange($id);
 				
-				$this->ctrl->setParameter($this, 'meta_index', $id);
-				$this->ctrl->setParameter($this, 'meta_path', 'educational_typical_age_range');
+				// extra test due to bug 5316 (may be due to eLaix import)
+				if (is_object($md_age))
+				{
+				
+					if ($first)
+					{
+						$this->tpl->setCurrentBlock("agerange_head");
+						$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE",
+							$this->lng->txt("meta_typical_age_range"));
+						$this->tpl->setVariable("ROWSPAN_AGERANGE", count($ids));
+						$this->tpl->parseCurrentBlock();
+						$first = false;
+					}
+						
+					
+					$this->ctrl->setParameter($this, 'meta_index', $id);
+					$this->ctrl->setParameter($this, 'meta_path', 'educational_typical_age_range');
+		
+					$this->tpl->setCurrentBlock("typicalagerange_delete");
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_DELETE",
+						$this->ctrl->getLinkTarget($this, "deleteElement"));
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+					$this->tpl->parseCurrentBlock();
 	
-				$this->tpl->setCurrentBlock("typicalagerange_delete");
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_DELETE",
-					$this->ctrl->getLinkTarget($this, "deleteElement"));
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("typicalagerange_loop");
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL_LANGUAGE",
-					$this->__showLanguageSelect('educational[TypicalAgeRange]['.$id.'][Language]',
-					$md_age->getTypicalAgeRangeLanguageCode()));
-				$this->ctrl->setParameter($this, "section_element", "educational_typical_age_range");
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_ADD",
-					$this->ctrl->getLinkTarget($this, "addSectionElement"));
-				$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-				$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("typicalagerange_loop");
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL_LANGUAGE",
+						$this->__showLanguageSelect('educational[TypicalAgeRange]['.$id.'][Language]',
+						$md_age->getTypicalAgeRangeLanguageCode()));
+					$this->ctrl->setParameter($this, "section_element", "educational_typical_age_range");
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_ACTION_ADD",
+						$this->ctrl->getLinkTarget($this, "addSectionElement"));
+					$this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			/* Description */
