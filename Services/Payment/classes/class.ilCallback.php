@@ -85,7 +85,12 @@ try
   foreach ($sc as $i)
   {
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
+    
+    fwrite( $f, var_dump($pod));
+    
     $bo  =& new ilPaymentBookings($ilUser->getId());
+    
+    fwrite( $f, var_dump($bo));
     
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
     {    
@@ -102,6 +107,10 @@ try
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
       $cp->add($usr_id, IL_CRS_MEMBER);
       $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+    }
+    else
+    {
+      fwrite($f, "Type error exptcted crs but got '" . $i['typ'] . "'");
     }
   }
     
