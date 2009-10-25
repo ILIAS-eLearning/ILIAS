@@ -25,7 +25,8 @@
 *  Sry... need to commit this to test it *
 */
 
-
+$debug = true;
+$file = null;
 
 chdir(dirname(__FILE__));
 chdir('../../..');
@@ -33,12 +34,19 @@ chdir('../../..');
 require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
-$debug = true;
+function wlog($txt)
+{
+  global $file;
+  global $debug;
+  if ($debug)
+  fwrite($file, $txt);
+}
 
 function openLog()
-{  
-  $f = fopen("callback.txt", "a");
-  fwrite($f, "--- " . date(DATE_RFC822) . " --- \n");
+{
+  global $file;
+  $file = fopen("callback.txt", "a");
+  wlog( "--- " . date(DATE_RFC822) . " --- \n");
 }
 
 if ($debug) openLog();
@@ -64,12 +72,12 @@ try
 
   $ilUser = new ilObjUser($usr_id);
   
-  fwrite( $f, "Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n");
+  wlog("Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n");
   
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
   
-  fwrite( $f, "Items in cart: " . count($sc) . "\n");   
+  wlog("Items in cart: " . count($sc) . "\n");   
   
   $deb = new $cls();
 
@@ -86,7 +94,7 @@ try
       'phone' => $ilUser->phone_mobile)
     );
     $deb->createDebtor($usr_id);
-    fwrite ($f, "User created in e-conomic.\n");
+    wlog("User created in e-conomic.\n");
   }  
   
   $deb->createInvoice();  
@@ -119,7 +127,7 @@ try
     }
     else
     {
-      fwrite($f, "Type error exptcted crs but got '" . $i['typ'] . "'");
+      wlog("Type error exptcted crs but got '" . $i['typ'] . "'");
     }
   }
     
@@ -132,17 +140,14 @@ try
         $ilUser->getEmail(), 
         $attach, "faktura " . $invoice_number
   );
-  fwrite($f, "Sent " . $this->lng->txt('pay_order_paid_subject') . " " . $invoice_number);
+  wlog("Sent " . $this->lng->txt('pay_order_paid_subject') . " " . $invoice_number);
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
-{
-  
-  fwrite( $f, "EXCEPTION:\n" . $e->getMessage() . "\n");
-  fwrite( $f, print_r($_REQUEST, true));
-  //fwrite( $f, print_r($active, true));
-  fclose($f);
-  die($e->getMessage());
+{  
+  wlog("EXCEPTION:\n" . $e->getMessage() . "\n");
+  echo $e->getMessage();
 }
 echo "Done.";
+if ($debug) fclose($file);
 ?>
