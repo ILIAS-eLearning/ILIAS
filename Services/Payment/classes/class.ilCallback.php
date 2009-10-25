@@ -34,12 +34,12 @@ require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
 $f = fopen("callback.txt", "a");
-fwrite($f, "--- " . date() . " --- \n");
+fwrite($f, "--- " . date(DATE_RFC822) . " --- \n");
 
 $debug = true;
 
 $usr_id = $_REQUEST['ilUser'];
-fwrite($f, "User: $usr_id  \n");
+//fwrite($f, "User: $usr_id  \n");
 
 try
 {
@@ -60,6 +60,9 @@ try
 
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
+  
+  fwrite( $f, "Shopping cart\n" . var_dump($sc));
+  
   $deb = new $cls();
 
   $ilUser = new ilObjUser($usr_id);
@@ -81,16 +84,12 @@ try
   }  
   
   $deb->createInvoice();
+  fwrite( $f, "Invoice created.\n");
   
   foreach ($sc as $i)
   {
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
-    
-    fwrite( $f, var_dump($pod));
-    
     $bo  =& new ilPaymentBookings($ilUser->getId());
-    
-    fwrite( $f, var_dump($bo));
     
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
     {    
@@ -128,7 +127,7 @@ catch (Exception $e)
   
   fwrite( $f, "EXCEPTION:\n" . $e->getMessage() . "\n");
   fwrite( $f, print_r($_REQUEST, true));
-  fwrite( $f, print_r($active, true));
+  //fwrite( $f, print_r($active, true));
   fclose($f);
   die($e->getMessage());
 }
