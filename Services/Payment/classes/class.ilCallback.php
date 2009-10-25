@@ -139,7 +139,7 @@ try
   $deb->saveInvoice($attach, false);
   wlog("Invoice is saved.\n");
   $deb->sendInvoice("Your invoice " . $invoice_number,
-      $deb->getFullName() . ", \nYour invoice is attached this mail.",
+      $ilUser->getFullName() . ", \nYour invoice is attached this mail.",
       $ilUser->getEmail(),
       $attach,
       "Invoice-" . $invoice_number
