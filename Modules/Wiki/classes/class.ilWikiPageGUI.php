@@ -78,9 +78,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			case "ilpageobjectgui":
 				$page_gui = new ilPageObjectGUI("wpg",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
+				$page_gui->setPresentationTitle($this->getWikiPage()->getTitle());
 				return $ilCtrl->forwardCommand($page_gui);
 				
 			default:
+				$this->setPresentationTitle($this->getWikiPage()->getTitle());
 				return parent::executeCommand();
 		}
 	}

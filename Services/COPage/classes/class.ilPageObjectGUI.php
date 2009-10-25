@@ -62,6 +62,7 @@ class ilPageObjectGUI
 	var $rawpagecontent = false;
 	var $layoutmode = false;
 	var $enabledcontentincludes = false;
+	var $compare_mode = false;
 
 	/**
 	* Constructor
@@ -803,6 +804,26 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set compare mode
+	*
+	* @param	boolean		compare_mode
+	*/
+	function setCompareMode($a_val)
+	{
+		$this->compare_mode = $a_val;
+	}
+	
+	/**
+	* Get compare mode
+	*
+	* @return	boolean		compare_mode
+	*/
+	function getCompareMode()
+	{
+		return $this->compare_mode;
+	}
+	
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository
@@ -1185,54 +1206,69 @@ class ilPageObjectGUI
 					else	// preview
 					{
 						$tpl = new ilTemplate("tpl.page_preview.html", true, true, "Services/COPage");
-						
-						// 
-						if ($_GET["old_nr"] > 0)
+						include_once("./Services/User/classes/class.ilUserUtil.php");
+ 
+						$c_old_nr = $this->getPageObject()->old_nr;
+						if ($c_old_nr > 0)
 						{
 							$hist_info =
-								$this->getPageObject()->getHistoryInfo($_GET["old_nr"]);
+								$this->getPageObject()->getHistoryInfo($c_old_nr);
 								
-							// previous revision
-							if (is_array($hist_info["previous"]))
+							if (!$this->getCompareMode())
 							{
-								$tpl->setCurrentBlock("previous_rev");
-								$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
-								$ilCtrl->setParameter($this, "old_nr", $hist_info["previous"]["nr"]);
-								$tpl->setVariable("HREF_PREV",
+								// previous revision
+								if (is_array($hist_info["previous"]))
+								{
+									$tpl->setCurrentBlock("previous_rev");
+									$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
+									$ilCtrl->setParameter($this, "old_nr", $hist_info["previous"]["nr"]);
+									$tpl->setVariable("HREF_PREV",
+										$ilCtrl->getLinkTarget($this, "preview"));
+									$tpl->parseCurrentBlock();
+								}
+								else
+								{
+									$tpl->setCurrentBlock("previous_rev_disabled");
+									$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
+									$tpl->parseCurrentBlock();
+								}
+								
+								// next revision
+								$tpl->setCurrentBlock("next_rev");
+								$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
+								$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
+								$tpl->setVariable("HREF_NEXT",
 									$ilCtrl->getLinkTarget($this, "preview"));
 								$tpl->parseCurrentBlock();
-							}
-							else
-							{
-								$tpl->setCurrentBlock("previous_rev_disabled");
-								$tpl->setVariable("TXT_PREV_REV", $lng->txt("cont_previous_rev"));
+								
+								// latest revision
+								$tpl->setCurrentBlock("latest_rev");
+								$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
+								$ilCtrl->setParameter($this, "old_nr", "");
+								$tpl->setVariable("HREF_LATEST",
+									$ilCtrl->getLinkTarget($this, "preview"));
 								$tpl->parseCurrentBlock();
+							
+								// rollback
+								if ($c_old_nr > 0 && $ilUser->getId() != ANONYMOUS_USER_ID)
+								{
+									$tpl->setCurrentBlock("rollback");
+									$ilCtrl->setParameter($this, "old_nr", $c_old_nr);
+									$tpl->setVariable("HREF_ROLLBACK",
+										$ilCtrl->getLinkTarget($this, "rollbackConfirmation"));
+									$ilCtrl->setParameter($this, "old_nr", "");
+									$tpl->setVariable("TXT_ROLLBACK",
+										$lng->txt("cont_rollback"));
+									$tpl->parseCurrentBlock();
+								}
 							}
-							
-							// next revision
-							$tpl->setCurrentBlock("next_rev");
-							$tpl->setVariable("TXT_NEXT_REV", $lng->txt("cont_next_rev"));
-							$ilCtrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
-							$tpl->setVariable("HREF_NEXT",
-								$ilCtrl->getLinkTarget($this, "preview"));
-							$tpl->parseCurrentBlock();
-							
-							// latest revision
-							$tpl->setCurrentBlock("latest_rev");
-							$tpl->setVariable("TXT_LATEST_REV", $lng->txt("cont_latest_rev"));
-							$ilCtrl->setParameter($this, "old_nr", "");
-							$tpl->setVariable("HREF_LATEST",
-								$ilCtrl->getLinkTarget($this, "preview"));
-							$tpl->parseCurrentBlock();
 							
 							$tpl->setCurrentBlock("hist_nav");
 							$tpl->setVariable("TXT_REVISION", $lng->txt("cont_revision"));
 							$tpl->setVariable("VAL_REVISION_DATE",
 								ilDatePresentation::formatDate(new ilDateTime($hist_info["current"]["hdate"], IL_CAL_DATETIME)));
-							$login = ilObjUser::_lookupLogin($hist_info["current"]["user"]);
-							$name = ilObjUser::_lookupName($hist_info["current"]["user"]);
 							$tpl->setVariable("VAL_REV_USER",
-								$name["lastname"].", ".$name["firstname"]." [".$login."]");
+								ilUserUtil::getNamePresentation($hist_info["current"]["user_id"]));
 							$tpl->parseCurrentBlock();
 						}
 					}
@@ -2278,7 +2314,7 @@ class ilPageObjectGUI
 	function compareVersion()
 	{
 		global $lng;
-		
+
 		$tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
 		$compare = $this->obj->compareVersion($_POST["left"], $_POST["right"]);
 		
@@ -2288,6 +2324,8 @@ class ilPageObjectGUI
 		$lpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$lpage_gui->setPageObject($lpage);
 		$lpage_gui->setPreventHTMLUnmasking(true);
+		$lpage_gui->setPresentationTitle($this->getPresentationTitle());
+		$lpage_gui->setCompareMode(true);
 		$lhtml = $lpage_gui->showPage();
 		$lhtml = $this->replaceDiffTags($lhtml);
 		$lhtml = str_replace("&lt;br /&gt;", "<br />", $lhtml);
@@ -2299,6 +2337,8 @@ class ilPageObjectGUI
 		$rpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$rpage_gui->setPageObject($rpage);
 		$rpage_gui->setPreventHTMLUnmasking(true);
+		$rpage_gui->setPresentationTitle($this->getPresentationTitle());
+		$rpage_gui->setCompareMode(true);
 		$rhtml = $rpage_gui->showPage();
 		$rhtml = $this->replaceDiffTags($rhtml);
 		$rhtml = str_replace("&lt;br /&gt;", "<br />", $rhtml);
