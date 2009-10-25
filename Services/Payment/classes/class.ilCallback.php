@@ -58,15 +58,13 @@ try
   $cls = "ilERPDebtor_" . $active['erp_short']; 
   include_once './Services/Payment/classes/class.' . $cls. '.php';
 
+  $ilUser = new ilObjUser($usr_id);
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
   
   fwrite( $f, "Shopping cart\n" . var_dump($sc));
   
   $deb = new $cls();
-
-  $ilUser = new ilObjUser($usr_id);
-
 
   if (!$deb->getDebtorByNumber($usr_id))
   {
