@@ -33,10 +33,15 @@ chdir('../../..');
 require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
-$f = fopen("callback.txt", "a");
-fwrite($f, "--- " . date(DATE_RFC822) . " --- \n");
-
 $debug = true;
+
+function openLog()
+{  
+  $f = fopen("callback.txt", "a");
+  fwrite($f, "--- " . date(DATE_RFC822) . " --- \n");
+}
+
+if ($debug) openLog();
 
 $usr_id = $_REQUEST['ilUser'];
 
@@ -58,9 +63,8 @@ try
   include_once './Services/Payment/classes/class.' . $cls. '.php';
 
   $ilUser = new ilObjUser($usr_id);
-  //$ilUser->read();
   
-  fwrite( $f, "Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n.");
+  fwrite( $f, "Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n");
   
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
@@ -124,8 +128,11 @@ try
   $deb->saveInvoice($attach, false);
     
   $deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
-        $deb->getName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), $ilUser->getEmail(), $attach, "faktura" );
-  
+        $deb->getFullName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), 
+        $ilUser->getEmail(), 
+        $attach, "faktura " . $invoice_number
+  );
+  fwrite($f, "Sent " . $this->lng->txt('pay_order_paid_subject') . " " . $invoice_number);
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
