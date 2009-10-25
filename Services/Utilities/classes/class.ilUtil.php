@@ -2213,7 +2213,7 @@ class ilUtil
 	* @param	string	dir to delete
 	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
 	*/
-	function delDir($a_dir)
+	function delDir($a_dir, $a_clean_only = false)
 	{
 		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
 		{
@@ -2247,7 +2247,10 @@ class ilUtil
 		}
 
 		closedir($current_dir);
-		@rmdir(${a_dir});
+		if (!$a_clean_only)
+		{
+			@rmdir(${a_dir});
+		}
 	}
 
 

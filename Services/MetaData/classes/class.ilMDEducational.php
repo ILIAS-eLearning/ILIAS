@@ -476,7 +476,12 @@ class ilMDEducational extends ilMDBase
 		foreach($typ_ages as $id)
 		{
 			$key =& $this->getTypicalAgeRange($id);
-			$key->toXML($writer);
+			
+			// extra test due to bug 5316 (may be due to eLaix import)
+			if (is_object($key))
+			{
+				$key->toXML($writer);
+			}
 		}
 		if(!count($typ_ages))
 		{
