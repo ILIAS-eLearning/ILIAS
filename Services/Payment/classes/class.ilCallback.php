@@ -134,10 +134,10 @@ try
     
   $inv = $deb->bookInvoice();
   $invoice_number = $deb->getInvoiceNumber();
-  wlog("Invoice is " . $invoice_number );
+  wlog("Invoice is #" . $invoice_number ."\n" );
   $attach = $deb->getInvoicePDF($inv);
   $deb->saveInvoice($attach, false);
-  
+  wlog("Invoice is saved.\n");
   $deb->sendInvoice("Your invoice " . $invoice_number,
       $deb->getFullName() . ", \nYour invoice is attached this mail.",
       $ilUser->getEmail(),
