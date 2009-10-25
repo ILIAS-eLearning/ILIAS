@@ -93,6 +93,10 @@ try
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
     $bo  =& new ilPaymentBookings($ilUser->getId());
     
+    $product_name = $i['buchungstext'];
+    $duration = $i['dauer'];
+    $amount = $i['betrag'];
+    
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
     {    
       $bo->setPayed(1);
