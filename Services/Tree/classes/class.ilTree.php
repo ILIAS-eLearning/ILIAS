@@ -2998,7 +2998,7 @@ class ilTree
 			"WHERE t1.child = ".$ilDB->quote($a_endnode_id,'integer')." ".
 			"AND t1.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
 			"AND t2.".$this->tree_pk." = ".$ilDB->quote($this->tree_id,'integer')." ".
-			"ORDER BY t2.depth";
+			"ORDER BY t2.lft";
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

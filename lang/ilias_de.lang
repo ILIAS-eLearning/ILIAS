@@ -10133,3 +10133,11 @@ payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
 payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
 payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
+rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
+rbac#:#rbac_local_policies#:#Lokale Zugriffsregelungen
+rbac#:#rbac_keep_local_policies#:#Lokale Zugriffsregelungen beibehalten
+rbac#:#rbac_delete_local_policies#:#Lokale Zugriffsregelungen überschreiben
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
+rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
+rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Objektrechte werden an die lokalen Zugriffsregelungen angepasst und anschließend geschützt.

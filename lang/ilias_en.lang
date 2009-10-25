@@ -10112,3 +10112,11 @@ payment#:#delete_addresses_bill#:#Delete Billing addresses
 payment#:#delete_addresses_bmf#:#Delete BMF addresses
 payment#:#delete_addresses_paypal#:#Delete Paypal addresses
 dateplaner#:#cal_created_appointment#:#Created new appointment.
+rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"
+rbac#:#rbac_local_policies#:#Local Policies
+rbac#:#rbac_keep_local_policies#:#Keep Local Policies
+rbac#:#rbac_delete_local_policies#:#Delete Local Policies
+rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
+rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
+rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.
