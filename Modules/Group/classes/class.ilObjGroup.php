@@ -117,6 +117,25 @@ class ilObjGroup extends ilContainer
 		$this->setRegisterMode(true); // ???
 	}
 	
+	/**
+	 * Lookup group type
+	 * @param object $a_id
+	 * @return 
+	 */
+	public static function lookupGroupTye($a_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT grp_type FROM grp_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->grp_type;
+		}
+		return GRP_TYPE_UNKNOWN;
+	}
+	
 	// Setter/Getter
 	/**
 	 * set information

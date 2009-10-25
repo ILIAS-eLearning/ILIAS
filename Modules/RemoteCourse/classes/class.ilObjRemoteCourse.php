@@ -444,6 +444,8 @@ class ilObjRemoteCourse extends ilObject
 	 */
 	public function delete()
 	{
+		global $ilDB;
+		
 		if(!parent::delete())
 		{
 			return false;

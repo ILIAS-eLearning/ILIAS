@@ -16209,3 +16209,7 @@ if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
 	 	"fixed" => false
 	));	
 ?>
+<#2906>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
