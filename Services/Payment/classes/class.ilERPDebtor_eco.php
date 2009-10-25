@@ -50,7 +50,6 @@ class ilERPDebtor_eco extends ilERPDebtor
     
     parent::__construct();
     
-    //$this->dgh = $dgh;
   }
   
     
@@ -255,7 +254,7 @@ class ilERPDebtor_eco extends ilERPDebtor
     }
     catch (Exception $e)
     {
-      throw new ilERPException("(getInvoicePDF) " . $e->getMessage());
+      throw new ilERPException(__FILE__ . ":" . __LINE__ " " . $e->getMessage());
     }
     return $bytes;    
   }
