@@ -1760,6 +1760,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			case $this->pobject->PAY_METHOD_PAYPAL:
 				$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? $this->showCustomerTable() : 0; 
 				break;
+				
+			case $this->pobject->PAY_METHOD_EPAY:
+        $save_user_adr_epay =(int) ilPayMethods::_enabled('svae_user_adr_epay') ? $this->showCustomerTable() : 0;
 
 			default:
 				break;
@@ -2939,8 +2942,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$result[$counter][] = $this->lng->txt('pays_online');
 		$result[$counter][] = $this->lng->txt('pays_epay');
 		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_epay') ? 1 : 0,'pm_epay',1);								
-		$result[$counter][] = '';
-		ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0,'save_user_adr_epay',1);
+		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0,'save_user_adr_epay',1);
 		$this->ctrl->clearParameters($this);
 
 		$tbl =& $this->__initTableGUI();
@@ -4513,11 +4515,9 @@ function deleteAddressesForPaymethodsObject()
 					ilPayMethods::_disable('save_user_adr_paypal');														
 					break;
 					
-				case 'epay':
-					/*					
-					 $pay_method = 4;
-					ilPayMethods::_disable('save_user_adr_epay');		
-					 **/
+				case 'epay':										
+					$pay_method = 4;
+					ilPayMethods::_disable('save_user_adr_epay');							
 					break;
 	
 				default:
