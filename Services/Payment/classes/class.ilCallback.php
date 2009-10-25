@@ -39,7 +39,6 @@ fwrite($f, "--- " . date(DATE_RFC822) . " --- \n");
 $debug = true;
 
 $usr_id = $_REQUEST['ilUser'];
-//fwrite($f, "User: $usr_id  \n");
 
 try
 {
@@ -59,10 +58,14 @@ try
   include_once './Services/Payment/classes/class.' . $cls. '.php';
 
   $ilUser = new ilObjUser($usr_id);
+  //$ilUser->read();
+  
+  fwrite( $f, "Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n.");
+  
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
   
-  fwrite( $f, "Shopping cart\n" . var_dump($sc));
+  fwrite( $f, "Items in cart: " . count($sc) . "\n");   
   
   $deb = new $cls();
 
@@ -79,13 +82,14 @@ try
       'phone' => $ilUser->phone_mobile)
     );
     $deb->createDebtor($usr_id);
+    fwrite ($f, "User created in e-conomic.\n");
   }  
   
-  $deb->createInvoice();
-  fwrite( $f, "Invoice created.\n");
+  $deb->createInvoice();  
   
   foreach ($sc as $i)
   {
+    fwrite( $f, "cart item " . print_r($i, true) . "\n");
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
     $bo  =& new ilPaymentBookings($ilUser->getId());
     
@@ -99,6 +103,7 @@ try
     {
       include_once './Modules/Course/classes/class.ilCourseParticipants.php';
       $deb->createInvoiceLine( 0, $product_name . " (" . $bo->getBookingId() . ")", 1, $amount );
+      fwrite ($f, "invoice line: 0, " . $product_name . " " . $bo->getBookingId() );
       
       $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
