@@ -88,14 +88,14 @@ try
   $deb->createInvoice();  
   
   foreach ($sc as $i)
-  {
-    fwrite( $f, "cart item " . print_r($i, true) . "\n");
+  {    
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
     $bo  =& new ilPaymentBookings($ilUser->getId());
     
     $product_name = $i['buchungstext'];
     $duration = $i['dauer'];
     $amount = $i['betrag'];
+    // psc_id, pobject_id, obj_id, typ, betrag_string
     
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
     {    
@@ -106,8 +106,7 @@ try
     if ( $i['typ'] == 'crs')
     {
       include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-      $deb->createInvoiceLine( 0, $product_name . " (" . $bo->getBookingId() . ")", 1, $amount );
-      fwrite ($f, "invoice line: 0, " . $product_name . " " . $bo->getBookingId() );
+      $deb->createInvoiceLine( 0, $product_name . " (" . $duration. ")", 1, $amount );      
       
       $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
