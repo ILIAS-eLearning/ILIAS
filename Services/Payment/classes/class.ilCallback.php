@@ -120,7 +120,7 @@ try
     {
       include_once './Modules/Course/classes/class.ilCourseParticipants.php';
       $deb->createInvoiceLine( 0, $product_name . " (" . $duration. ")", 1, $amount );      
-      wlog( $productname . "\n");
+      wlog( $product_name . "\n");
       $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
       $cp->add($usr_id, IL_CRS_MEMBER);
@@ -132,9 +132,10 @@ try
     }
   }
     
-  $invoice_number = $deb->bookInvoice();
-  wlog("Invoice is " . $invoice_number);
-  $attach = $deb->getInvoicePDF($invoice_number);
+  $inv = $deb->bookInvoice();
+  $invoice_number = $deb->getInvoiceNumber();
+  wlog("Invoice is " . $invoice_number );
+  $attach = $deb->getInvoicePDF($inv);
   $deb->saveInvoice($attach, false);
   
   $deb->sendInvoice("Your invoice " . $invoice_number,
