@@ -242,8 +242,9 @@ class ilERPDebtor_eco extends ilERPDebtor
   }  
   
   
-  
-  
+  /**
+  * @input handle
+  */  
   public function getInvoicePDF($v)
   {    
     if (!($this->invoice_booked)) throw new ilERPException("(getInvoicePDF) Cannot generate PDF of unbooked invoice.");
