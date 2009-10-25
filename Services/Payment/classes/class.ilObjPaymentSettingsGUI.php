@@ -2901,7 +2901,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				if($pm == 'bill') $oConfirmationGUI->additem('paymethod','bill', $this->lng->txt('delete_addresses_bill'));
 				if($pm == 'bmf') $oConfirmationGUI->additem('paymethod','bmf', $this->lng->txt('delete_addresses_bmf'));
 				if($pm == 'paypal')$oConfirmationGUI->additem('paymethod','paypal', $this->lng->txt('delete_addresses_paypal'));
-				//if($pm == 'epay')$oConfirmationGUI->additem('paymethod','epay', $this->lng->txt('delete_addresses_epay'));
+				if($pm == 'epay')$oConfirmationGUI->additem('paymethod','epay', $this->lng->txt('delete_addresses_epay'));
 			}
 			
 			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHtml());
@@ -2940,7 +2940,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$result[$counter][] = $this->lng->txt('pays_epay');
 		$result[$counter][] = ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_epay') ? 1 : 0,'pm_epay',1);								
 		$result[$counter][] = '';
-			// ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0,'save_user_adr_epay',1);
+		ilUtil::formCheckbox((int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0,'save_user_adr_epay',1);
 		$this->ctrl->clearParameters($this);
 
 		$tbl =& $this->__initTableGUI();
