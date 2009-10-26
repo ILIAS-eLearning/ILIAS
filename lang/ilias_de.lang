@@ -10140,4 +10140,4 @@ rbac#:#rbac_delete_local_policies#:#Lokale Zugriffsregelungen überschreiben
 rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
 rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
-rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Objektrechte werden an die lokalen Zugriffsregelungen angepasst und anschließend geschützt.
+rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt.

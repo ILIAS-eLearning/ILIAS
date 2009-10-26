@@ -33,6 +33,12 @@ require_once "./classes/class.ilObject.php";
 */
 class ilObjRole extends ilObject
 {
+	const MODE_PROTECTED_DELETE_LOCAL_POLICIES = 1;
+	const MODE_PROTECTED_KEEP_LOCAL_POLICIES = 2;
+	const MODE_UNPROTECTED_DELETE_LOCAL_POLICIES = 3;
+	const MODE_UNPROTECTED_KEEP_LOCAL_POLICIES = 4;
+	
+	
 	/**
 	* reference id of parent object
 	* this is _only_ neccessary for non RBAC protected objects
@@ -579,5 +585,381 @@ class ilObjRole extends ilObject
 	{
 		return substr(ilObject::_lookupTitle($a_role_id), 0, 3) == 'il_';
 	}
+	
+	/**
+	 * Change existing objects
+	 * @param int $a_start_node
+	 * @param int $a_mode
+	 * @param array filter Filter of object types (array('all') => change all objects
+	 * @return
+	 */
+	public function changeExistingObjects($a_start_node,$a_mode,$a_filter)
+	{
+		global $tree,$rbacreview;
+		
+		// Get node info of subtree
+		$nodes = $tree->getRbacSubtreeInfo($a_start_node);
+		
+		#var_dump($nodes);
+		
+		// get local policies
+		$all_local_policies = $rbacreview->getObjectsWithStopedInheritance($this->getId());
+		
+		
+		// filter relevant roles
+		$local_policies = array();
+		foreach($all_local_policies as $lp)
+		{
+			if(isset($nodes[$lp]))
+			{
+				$local_policies[] = $lp;
+			}
+		}
+		
+		// Delete deprecated policies		
+		switch($a_mode)
+		{
+			case self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES:
+			case self::MODE_PROTECTED_DELETE_LOCAL_POLICIES:
+				$local_policies = $this->deleteLocalPolicies($a_start_node,$local_policies,$a_filter);
+				#$local_policies = array($a_start_node == ROOT_FOLDER_ID ? SYSTEM_FOLDER_ID : $a_start_node);
+				break;
+		}
+		$this->adjustPermissions($a_mode,$nodes,$local_policies,$a_filter);
+		
+		#var_dump(memory_get_peak_usage());
+		#var_dump(memory_get_usage());
+	}
+	
+	/**
+	 * Delete local policies
+	 * @param array $a_policies array of object ref ids that define local policies 
+	 * @return 
+	 */
+	protected function deleteLocalPolicies($a_start,$a_policies,$a_filter)
+	{
+		global $rbacreview,$rbacadmin;
+		
+		$local_policies = array();
+		foreach($a_policies as $policy)
+		{
+			if($policy == $a_start or $policy == SYSTEM_FOLDER_ID)
+			{
+				$local_policies[] = $policy;
+				continue;
+			}
+			if(!in_array('all',$a_filter) and !in_array(ilObject::_lookupType(ilObject::_lookupObjId($policy)),$a_filter))
+			{
+				$local_policies[] = $policy;
+				continue;
+			}
+			
+			if($rolf = $rbacreview->getRoleFolderIdOfObject($policy))
+			{
+				$rbacadmin->deleteLocalRole($this->getId(),$rolf);
+			}
+		}
+		return $local_policies;
+	}
+	
+	/**
+	 * Adjust permissions
+	 * @param int $a_mode
+	 * @param array $a_nodes array of nodes
+	 * @param array $a_policies array of object ref ids 
+	 * @return 
+	 */
+	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter)
+	{
+		global $rbacadmin;
+		
+		$operation_stack = array();
+		$policy_stack = array();
+		$left_stack = array();
+		$right_stack = array();
+		
+		$start_node = current($a_nodes);
+		array_push($left_stack, $start_node['lft']);
+		array_push($right_stack, $start_node['rgt']);
+		$this->updatePolicyStack($policy_stack, $start_node['child']);
+		$this->updateOperationStack($operation_stack, $start_node['child']);
+		
+		$local_policy = false;
+		foreach($a_nodes as $node)
+		{
+			$lft = end($left_stack);
+			$rgt = end($right_stack);
+			
+			#echo "----STACK---- ".$lft.' - '.$rgt.'<br/>';
+
+			if(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
+			{
+				#echo "LEFT ".$node['child'].'<br>';
+				array_pop($operation_stack);
+				array_pop($policy_stack);
+				array_pop($left_stack);
+				array_pop($right_stack);
+				$local_policy = false;
+			}
+			
+			if($local_policy)
+			{
+				#echo "LOCAL ".$node['child'].' left:'.$node['lft'].' right: '.$node['rgt'].'<br>';
+				// Continue if inside of local policy
+				continue;
+			}
+			
+			// Start node => set permissions and continue
+			if($node['child'] == $start_node['child'])
+			{
+				if($this->isHandledObjectType($a_filter,$node['type']))
+				{
+					// Set permissions
+					$perms = end($operation_stack);
+					$rbacadmin->grantPermission(
+						$this->getId(), 
+						(array) $perms[$node['type']],
+						$node['child']
+					);
+				}
+				continue;
+			}
+			
+			// Node has local policies => update permission stack and continue
+			if(in_array($node['child'], $a_policies) and ($node['child'] != SYSTEM_FOLDER_ID))
+			{
+				#echo "POLICIES ".$node['child'].' left:'.$node['lft'].' right: '.$node['rgt'].'<br>';
+				$local_policy = true;
+				$this->updatePolicyStack($policy_stack, $node['child']);
+				$this->updateOperationStack($operation_stack, $node['child']);
+				array_push($left_stack,$node['lft']);
+				array_push($right_stack, $node['rgt']);
+				continue;
+			}
+			
+			// Continue if this object type is in filter
+			if(!$this->isHandledObjectType($a_filter,$node['type']))
+			{
+				continue;
+			}
+		
+			#echo "MODE: ".$a_mode.'TYPE: '.$node['type'].'<br>';
+			// Node is course => create course permission intersection
+			if(($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
+				$a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'crs'))
+				
+			{
+				#echo "CRS ".$node['child'].'<br>';
+				// Copy role permission intersection
+				
+				$perms = end($operation_stack);
+				$this->createPermissionIntersection($policy_stack,$perms['crs'],$node['child'],$node['type']);
+				if($this->updateOperationStack($operation_stack,$node['child']))
+				{
+					#echo "CRS SUCCESS ".$node['child'].'<br>';
+					$this->updatePolicyStack($policy_stack, $node['child']);
+					array_push($left_stack, $node['lft']);
+					array_push($right_stack, $node['rgt']);
+				}
+			}
+			
+			// Node is group => create group permission intersection
+			if(($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
+				$a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'grp'))
+			{
+				#echo "GRP ".$node['child'].'<br>';
+				// Copy role permission intersection
+				$perms = end($operation_stack);
+				$this->createPermissionIntersection($policy_stack,$perms['grp'],$node['child'],$node['type']);
+				if($this->updateOperationStack($operation_stack,$node['child']))
+				{
+					#echo "GRP SUCCESS ".$node['child'].'<br>';
+					$this->updatePolicyStack($policy_stack, $node['child']);
+					array_push($left_stack, $node['lft']);
+					array_push($right_stack, $node['rgt']);
+				}
+			}
+
+			#echo "GRANTED ".$node['child'].'<br>';
+			// Set permission
+			$perms = end($operation_stack);
+			$rbacadmin->grantPermission(
+				$this->getId(), 
+				(array) $perms[$node['type']],
+				$node['child']
+			);
+			#var_dump("ALL INFO ",$this->getId(),$perms[$node['type']]);
+		}
+	}
+	
+	/**
+	 * Check if type is filterer
+	 * @param array $a_filter
+	 * @param string $a_type
+	 * @return 
+	 */
+	protected function isHandledObjectType($a_filter,$a_type)
+	{
+		if(in_array('all',$a_filter))
+		{
+			return true;
+		}
+		return in_array($a_type,$a_filter);
+	}
+	
+	/**
+	 * Update operation stack
+	 * @param array $a_stack
+	 * @param int $a_node
+	 * @return 
+	 */
+	protected function updateOperationStack(&$a_stack,$a_node)
+	{
+		global $rbacreview;
+		
+		if($a_node == ROOT_FOLDER_ID)
+		{
+			$rolf = ROLE_FOLDER_ID;
+		}
+		else
+		{
+			$rolf = $rbacreview->getRoleFolderIdOfObject($a_node);
+		}
+		
+		if(!$rolf)
+		{
+			return false;
+		}
+		
+		$a_stack[] = $rbacreview->getAllOperationsOfRole(
+			$this->getId(),
+			$rolf
+		);
+		return true;
+	}
+	
+	/**
+	 * Update policy stack
+	 * @param object $a_node
+	 * @return 
+	 */
+	protected function updatePolicyStack(&$a_stack,$a_node)
+	{
+		global $rbacreview;
+		
+		if($a_node == ROOT_FOLDER_ID)
+		{
+			$rolf = ROLE_FOLDER_ID;
+		}
+		else
+		{
+			$rolf = $rbacreview->getRoleFolderIdOfObject($a_node);
+		}
+		
+		if(!$rolf)
+		{
+			return false;
+		}
+		
+		$a_stack[] = $rolf;
+		return true;
+	}
+	
+	/**
+	 * Create course group permission intersection
+	 * @param array operation stack
+	 * @param int $a_id
+	 * @param string $a_type
+	 * @return 
+	 */
+	protected function createPermissionIntersection($policy_stack,$a_current_ops,$a_id,$a_type)
+	{
+			global $ilDB, $rbacreview,$rbacadmin;
+			
+			static $course_non_member_id = null;
+			static $group_non_member_id = null;
+			static $group_open_id = null;
+			static $group_closed_id = null;
+			
+			// Get template id
+			switch($a_type)
+			{
+				case 'grp':
+					
+					include_once './Modules/Group/classes/class.ilObjGroup.php';
+					$type = ilObjGroup::lookupGroupTye(ilObject::_lookupObjId($a_id));
+					#var_dump("GROUP TYPE",$type);
+					switch($type)
+					{
+						case GRP_TYPE_CLOSED:
+							if(!$group_closed_id)
+							{
+								$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
+								$res = $ilDB->query($query);
+								while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+								{
+									$group_closed_id = $row->obj_id;
+								}
+							}
+							$template_id = $group_closed_id;
+							#var_dump("GROUP CLOSED id:" . $template_id);
+							break;
+
+						case GRP_TYPE_OPEN:
+						default:
+							if(!$group_open_id)
+							{
+								$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
+								$res = $ilDB->query($query);
+								while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+								{
+									$group_open_id = $row->obj_id;
+								}
+							}
+							$template_id = $group_open_id;
+							#var_dump("GROUP OPEN id:" . $template_id);
+							break;
+					}
+					break;
+					
+				case 'crs':
+					if(!$course_non_member_id)
+					{
+						$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
+						$res = $ilDB->query($query);
+						while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+						{
+							$course_non_member_id = $row->obj_id;
+						}
+					}
+					$template_id = $course_non_member_id;
+					break;
+			}
+
+			$current_ops = $a_current_ops[$a_type];
+			
+			// Create intersection template permissions
+			if($template_id)
+			{
+				$rolf = $rbacreview->getRoleFolderIdOfObject($a_id);
+				
+				$rbacadmin->copyRolePermissionIntersection(
+					$template_id, ROLE_FOLDER_ID, 
+					$this->getId(), end($policy_stack),
+					$rolf,$this->getId()
+				);
+			}
+			else
+			{
+				#echo "No template id for ".$a_id.' of type'.$a_type.'<br>';
+			}
+			#echo "ROLE ASSIGN: ".$rolf.' AID'.$a_id;
+			if($rolf)
+			{
+				$rbacadmin->assignRoleToFolder($this->getId(),$rolf,"n");	
+			}
+			return true;
+	}
+	
 } // END class.ilObjRole
 ?>

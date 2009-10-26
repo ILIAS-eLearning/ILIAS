@@ -1298,6 +1298,48 @@ class ilObjRoleGUI extends ilObjectGUI
 		// update object data entry (to update last modification date)
 		$this->object->update();
 		
+		// set protected flag
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		{
+			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+		}
+		
+		// Redirect if Change existing objects is not chosen
+		if(!$_POST['recursive'] and !is_array($_POST['recursive_list']))
+		{
+			ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+			$this->ctrl->redirect($this, "perm");
+		}
+
+		// New implementation
+		if($this->isChangeExistingObjectsConfirmationRequired())
+		{
+			$this->showChangeExistingObjectsConfirmation();
+			return true;
+		}
+		
+		$start = ($this->rolf_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->rolf_ref_id));
+		if($_POST['protected'])
+		{
+			$this->object->changeExistingObjects(
+				$start,
+				ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+				array('all')
+			);
+		}
+		else
+		{
+			$this->object->changeExistingObjects(
+				$start,
+				ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+				array('all')
+			);
+		}
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+		$this->ctrl->redirect($this,'perm');
+		return true;
+			
+		
 		// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
 		// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
 		if ($_POST["recursive"] or is_array($_POST["recursive_list"]))
@@ -1410,14 +1452,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 		}// END IF RECURSIVE
 		
-		// set protected flag
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
-		{
-			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
-		}
 
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true); 
-		$this->ctrl->redirect($this, "perm");
 	}
 
 
@@ -2739,6 +2774,120 @@ class ilObjRoleGUI extends ilObjectGUI
 			return $ilAccess->checkAccess($a_perm_obj,'',$this->obj_ref_id);
 		}
 	}
+	
+	/**
+	 * Check if a confirmation about further settings is required or not
+	 * @return bool
+	 */
+	protected function isChangeExistingObjectsConfirmationRequired()
+	{
+		global $rbacreview;
+		
+		if(!(int) $_POST['recursive'] and !is_array($_POST['recursive_list']))
+		{
+			return false;
+		}
+		
+		// Role is protected
+		if($rbacreview->isProtected($this->rolf_ref_id, $this->object->getId()))
+		{
+			// TODO: check if recursive_list is enabled
+			// and if yes: check if inheritance is broken for the relevant object types
+			return count($rbacreview->getFoldersAssignedToRole($this->object->getId())) > 1;
+		}
+		else
+		{
+			// TODO: check if recursive_list is enabled
+			// and if yes: check if inheritance is broken for the relevant object types
+			return count($rbacreview->getFoldersAssignedToRole($this->object->getId())) > 1;
+		}
+	}
+	
+	/**
+	 * Show confirmation screen
+	 * @return 
+	 */
+	protected function showChangeExistingObjectsConfirmation()
+	{
+		$protected = $_POST['protected'];
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,'changeExistingObjects'));
+		$form->setTitle($this->lng->txt('rbac_change_existing_confirm_tbl'));
+		
+		$form->addCommandButton('changeExistingObjects', $this->lng->txt('change_existing_objects'));
+		$form->addCommandButton('perm',$this->lng->txt('cancel'));
+		
+		$hidden = new ilHiddenInputGUI('type_filter');
+		$hidden->setValue(
+			$_POST['recursive'] ?
+				serialize(array('all')) :
+				serialize($_POST['recursive_list'])
+		);
+		$form->addItem($hidden);
+
+		$rad = new ilRadioGroupInputGUI($this->lng->txt('rbac_local_policies'),'mode');
+		
+		if($protected)
+		{
+			$rad->setValue(ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES);
+			$keep = new ilRadioOption(
+				$this->lng->txt('rbac_keep_local_policies'),
+				ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+				$this->lng->txt('rbac_keep_local_policies_info')
+			);
+		}
+		else
+		{
+			$rad->setValue(ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES);
+			$keep = new ilRadioOption(
+				$this->lng->txt('rbac_keep_local_policies'),
+				ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+				$this->lng->txt('rbac_unprotected_keep_local_policies_info')
+			);
+			
+		}
+		$rad->addOption($keep);
+		
+		if($protected)
+		{
+			$del =  new ilRadioOption(
+				$this->lng->txt('rbac_delete_local_policies'),
+				ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
+				$this->lng->txt('rbac_delete_local_policies_info')
+			);
+		}
+		else
+		{
+			$del =  new ilRadioOption(
+				$this->lng->txt('rbac_delete_local_policies'),
+				ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+				$this->lng->txt('rbac_unprotected_delete_local_policies_info')
+			);
+		}
+		$rad->addOption($del);
+		
+		$form->addItem($rad);
+		$this->tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Change existing objects
+	 * @return 
+	 */
+	protected function changeExistingObjectsObject()
+	{
+		global $tree,$rbacreview,$rbacadmin;
+		
+		$mode = (int) $_POST['mode'];
+		$start = ($this->rolf_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->rolf_ref_id));
+		$this->object->changeExistingObjects($start,$mode,unserialize(ilUtil::stripSlashes($_POST['type_filter'])));
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'perm');
+	}
+	
 	
 } // END class.ilObjRoleGUI
 ?>
