@@ -746,12 +746,14 @@ class ilAccessHandler
 			{
 				$has_access = true;
 			}
-			// no license needed, if permissions can be set
-			// edit_permissions allows to change the numbers of licenses
+			/* 	resolved mantis issue #5288:
+			*	admins should not automatically have read access!
+			*   their read access will also be noted and consume a license
 			elseif ($this->rbacsystem->checkAccessOfUser($a_user_id, "edit_permissions", $a_ref_id))
 			{
 				$has_access = true;
 			}
+			*/
 			// now do the real check
 			else
 			{
