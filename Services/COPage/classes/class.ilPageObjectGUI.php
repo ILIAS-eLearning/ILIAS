@@ -885,6 +885,7 @@ class ilPageObjectGUI
 	function determineSourcecodeDownloadScript()
 	{
 		global $ilCtrl;
+
 		$l = $this->sourcecode_download_script;
 		if ($this->sourcecode_download_script == "" && $this->getOutputMode() != "offline")
 		{
