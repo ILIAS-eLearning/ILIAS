@@ -99,7 +99,7 @@ try
   else wlog("Existing e-conomic Debtor.\n");  
   
   $deb->createInvoice();  
-  
+  $products = array();
   foreach ($sc as $i)
   {    
     $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
@@ -108,7 +108,7 @@ try
     $product_name = $i['buchungstext'];
     $duration = $i['dauer'];
     $amount = $i['betrag'];
-    $products = array();
+    
     // psc_id, pobject_id, obj_id, typ, betrag_string
     
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
@@ -152,7 +152,7 @@ try
         $ilUser->getEmail(), 
         $attach, $lng->txt('pays_invoice') ."-" . $invoice_number
   );
-  wlog("Sent invoice " . $invoice_number . " with " . $produtcs);
+  wlog("Sent invoice " . $invoice_number . " with " . $produtcs . "\n");
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
