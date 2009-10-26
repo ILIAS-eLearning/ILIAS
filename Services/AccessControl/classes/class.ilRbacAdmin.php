@@ -302,11 +302,12 @@ class ilRbacAdmin
 									 $this->ilErr->WARNING);
 		}
 		
+		/*
 		if (count($a_ops) == 0)
 		{
 			return false;
 		}
-		
+		*/
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
@@ -327,6 +328,11 @@ class ilRbacAdmin
 			'AND ref_id = %s';
 		$res = $ilDB->queryF($query,array('integer','integer'),
 			array($a_rol_id,$a_ref_id));
+			
+		if(!count($a_ops))
+		{
+			return false;
+		}
 
 		$query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) ".
 			 "VALUES ".

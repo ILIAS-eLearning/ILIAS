@@ -1260,6 +1260,7 @@ class ilRbacReview
 		
 		if (!isset($a_ref_id))
 		{
+			$GLOBALS['ilLog']->logStack();
 			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
@@ -1323,6 +1324,35 @@ class ilRbacReview
 
 		return $ops ? $ops : array();
 	}
+	
+	/**
+	* get all possible operations of a specific role
+	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	* @access	public
+	* @param	integer	role_id
+	* @param	integer	role folder id
+	* @return	array	array of operation_id and types
+	*/
+	public function getAllOperationsOfRole($a_rol_id, $a_parent = 0)
+	{
+		global $ilDB;
+		
+		if(!$a_parent)
+		{
+			$a_parent = ROLE_FOLDER_ID;
+		}
+		
+		$query = "SELECT ops_id,type FROM rbac_templates ".
+			"WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".
+			"AND parent = ".$ilDB->quote($a_parent,'integer');
+		$res = $ilDB->query($query);
+		while ($row = $ilDB->fetchObject($res))
+		{
+			$ops_arr[$row->type][] = $row->ops_id;
+		}
+		return (array) $ops_arr;
+	}
+	
 
 	/**
 	* get all possible operations of a specific role
