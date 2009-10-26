@@ -195,7 +195,7 @@ class ilObjMediaPool extends ilObject
 		// delete childs
 		foreach ($childs as $child)
 		{
-			$fid = ilMediaPoolItem::lookupForeignKey($child["obj_id"]);
+			$fid = ilMediaPoolItem::lookupForeignId($child["obj_id"]);
 			switch ($child["type"])
 			{
 				case "mob":
@@ -207,14 +207,14 @@ class ilObjMediaPool extends ilObject
 					}
 					break;
 
-				case "fold":
+/*				case "fold":
 					if  (ilObject::_lookupType($fid) == "fold")
 					{
 						include_once("./Modules/Folder/classes/class.ilObjFolder.php");
 						$fold = new ilObjFolder($fid, false);
 						$fold->delete();
 					}
-					break;
+					break;*/
 			}
 		}
 		
