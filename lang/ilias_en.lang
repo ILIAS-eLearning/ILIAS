@@ -10120,3 +10120,4 @@ rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local pol
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
 rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.
+payment#:#pays_invoice#:#Invoice
