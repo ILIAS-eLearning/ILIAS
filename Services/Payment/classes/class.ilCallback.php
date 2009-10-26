@@ -108,6 +108,7 @@ try
     $product_name = $i['buchungstext'];
     $duration = $i['dauer'];
     $amount = $i['betrag'];
+    $products = array();
     // psc_id, pobject_id, obj_id, typ, betrag_string
     
     if (!($bo->getPayedStatus()) && ($bo->getAccessStatus()))
@@ -120,7 +121,7 @@ try
     {
       include_once './Modules/Course/classes/class.ilCourseParticipants.php';
       $deb->createInvoiceLine( 0, $product_name . " (" . $duration. ")", 1, $amount );      
-      wlog( $product_name . "\n");
+      $products[] = $product_name;
       $obj_id = ilObject::_lookupObjId($pod["ref_id"]);    
       $cp = ilCourseParticipants::_getInstanceByObjId($obj_id); 
       $cp->add($usr_id, IL_CRS_MEMBER);
@@ -134,22 +135,24 @@ try
     
   $inv = $deb->bookInvoice();
   $invoice_number = $deb->getInvoiceNumber();
-  wlog("Invoice is #" . $invoice_number ."\n" );
+  //wlog("Invoice is #" . $invoice_number ."\n" );
   $attach = $deb->getInvoicePDF($inv);
   $deb->saveInvoice($attach, false);
-  wlog("Invoice is saved.\n");
-  $deb->sendInvoice("Your invoice " . $invoice_number,
+  //wlog("Invoice is saved.\n");
+  /*$deb->sendInvoice("Your invoice " . $invoice_number,
       $ilUser->getFullName() . ", \nYour invoice is attached this mail.",
       $ilUser->getEmail(),
       $attach,
       "Invoice-" . $invoice_number
-  );
-  /*$deb->sendInvoice($this->lng->txt('pay_order_paid_subject'), 
-        $deb->getFullName() . ",\n" . $this->lng->txt('pays_erp_invoice_attached'), 
-        $ilUser->getEmail(), 
-        $attach, "faktura " . $invoice_number
   );*/
-  wlog("Sent invoice " . $invoice_number);
+  $lng->loadLanguageModule('payment');
+  $deb->sendInvoice($lng->txt('pay_order_paid_subject'), 
+        $ilUser->getFullName() . ",\n" . 
+          str_replace( '%products%', implode(",", $products), $lng->txt('pay_order_paid_body')) , 
+        $ilUser->getEmail(), 
+        $attach, $lng->txt('pays_invoice') ."-" . $invoice_number
+  );
+  wlog("Sent invoice " . $invoice_number . " with " . $produtcs);
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
