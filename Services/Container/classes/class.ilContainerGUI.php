@@ -182,7 +182,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
 		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
+//		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
@@ -287,7 +287,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
-		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
+//		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
