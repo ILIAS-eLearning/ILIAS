@@ -80,8 +80,19 @@ class ilPCListItem extends ilPageContent
 	*/
 	function deleteItem()
 	{
-		$li =& $this->getNode();
-		$li->unlink($li);
+		$parent_node = $this->getNode()->parent_node();
+		$cnt = count($parent_node->child_nodes());
+		if ($cnt == 1)
+		{
+			// if list item is the last one -> delete whole list
+			$grandma = $parent_node->parent_node();
+			$grandma->unlink($grandma);
+		}
+		else
+		{
+			$li =& $this->getNode();
+			$li->unlink($li);
+		}
 	}
 
 	/**
