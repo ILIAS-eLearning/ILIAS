@@ -152,11 +152,12 @@ class ilAdministrationExplorer extends ilExplorer
 		return $rbacsystem->checkAccess('read',$a_ref_id);
 	}
 	
-	function isVisible($a_ref_id,$a_type)
+	function isVisible($a_ref_id, $a_type)
 	{
 		global $rbacsystem, $ilBench;
 
-		if ($this->tree->getParentId($a_ref_id) == ROOT_FOLDER_ID && $a_type != "adm")
+		if ($this->tree->getParentId($a_ref_id) == ROOT_FOLDER_ID && $a_type != "adm" &&
+			$_GET["admin_mode"] != "repository")
 		{
 			return false;
 		}
@@ -174,8 +175,8 @@ class ilAdministrationExplorer extends ilExplorer
 		{
 			return false;
 		}
-		$ilBench->stop("Explorer", "setOutput_isVisible");
 
+		$ilBench->stop("Explorer", "setOutput_isVisible");
 		return $visible;
 	}
 	
@@ -229,7 +230,7 @@ class ilAdministrationExplorer extends ilExplorer
 			}
 			$this->rootfolder_shown = true;
 		}
-		
+
 		return true;
 	}
 	
