@@ -203,7 +203,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillWindowTitle();
 
 			// these fill blocks in tpl.adm_content.html
-			$this->fillHeaderIcon();
+			$this->fillHeader();
 			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
@@ -226,7 +226,6 @@ class ilTemplate extends ilTemplateX
 					$this->fillTabs();
 				}
 				$this->fillMainContent();
-				$this->fillTitle();
 				if ($a_main_menu)
 				{
 					$this->fillMainMenu();
@@ -413,7 +412,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillWindowTitle();
 
 			// these fill blocks in tpl.adm_content.html
-			$this->fillHeaderIcon();
+			$this->fillHeader();
 			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
@@ -434,7 +433,6 @@ class ilTemplate extends ilTemplateX
 				$this->setCurrentBlock("content");
 				$this->fillTabs();
 				$this->fillMainContent();
-				$this->fillTitle();
 				$this->fillMainMenu();
 				$this->parseCurrentBlock();
 			}
@@ -673,35 +671,7 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 	}
-		
-	function fillHeaderIcon()
-	{
-		global $lng;
-		
-		if ($this->icon_path != "")
-		{
-			if ($this->icon_desc != "")
-			{
-				$this->setCurrentBlock("header_image_desc");
-				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
-				$this->parseCurrentBlock();
-			}
-			$this->setCurrentBlock("header_image");
-			if ($this->icon_desc != "")
-			{
-				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
-			}
-			else
-			{
-				// empty alt tag for images that, e.g. are directly attached in heading
-				// and would only repeat the heading text
-				$this->setVariable("IMAGE_ALT", "");
-			}
-			$this->setVariable("IMG_HEADER", $this->icon_path);
-			$this->parseCurrentBlock();
-		}
-	}
-	
+
 	/**
 	* add ILIAS footer
 	*/
@@ -1277,14 +1247,54 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	* Fill title
+	* Fill header
 	*/
-	private function fillTitle()
+	private function fillHeader()
 	{
+		global $lng;
+		
+		if ($this->icon_path != "")
+		{
+			if ($this->icon_desc != "")
+			{
+				$this->setCurrentBlock("header_image_desc");
+				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
+				$this->parseCurrentBlock();
+			}
+			$this->setCurrentBlock("header_image");
+			if ($this->icon_desc != "")
+			{
+				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
+			}
+			else
+			{
+				// empty alt tag for images that, e.g. are directly attached in heading
+				// and would only repeat the heading text
+				$this->setVariable("IMAGE_ALT", "");
+			}
+			$this->setVariable("IMG_HEADER", $this->icon_path);
+			$this->parseCurrentBlock();
+			$header = true;
+		}
+
 		if ($this->title != "")
 		{
 			$this->title = ilUtil::stripScriptHTML($this->title);			
 			$this->setVariable("HEADER", $this->title);
+			$header = true;
+		}
+		
+		if ($header)
+		{
+			$this->setCurrentBlock("header_image");
+			$this->parseCurrentBlock();
+		}
+		
+		if ($this->title_desc != "")
+		{
+			$this->setCurrentBlock("header_desc");
+			$this->setVariable("H_DESCRIPTION", $this->title_desc);
+			$this->parseCurrentBlock();
 		}
 	}
 	
@@ -1322,7 +1332,8 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setDescription($a_descr)
 	{
-		$this->setVariable("H_DESCRIPTION", $a_descr);
+		$this->title_desc = $a_descr;
+//		$this->setVariable("H_DESCRIPTION", $a_descr);
 	}
 	
 	/**
