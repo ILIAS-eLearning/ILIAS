@@ -389,7 +389,7 @@ class ilTabsGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
 
         // do not display one tab only
@@ -454,7 +454,7 @@ class ilTabsGUI
 			else
 			{
 				$tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
-				
+
 				// non tabbed links
 				foreach ($this->non_tabbed_link as $link)
 				{

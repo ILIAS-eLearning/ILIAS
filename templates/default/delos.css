@@ -638,7 +638,7 @@ table.il_Locator
 
 div.il_Locator {
 	padding-top: 2px;
-	padding-left: 13px;
+	padding-left: 8px;
 	vertical-align:top;
 	font-size: 80%;
 	font-weight: normal;
@@ -1049,7 +1049,7 @@ div.il_Header, a#il_mhead_t_focus
 h1.ilHeader
 {
 	margin: 0px;
-	padding: 0px 10px 0px 50px;
+	padding: 15px 10px 0px 50px;
 }
 span.ilHeader
 {
@@ -1066,7 +1066,7 @@ div.il_HeaderInner
 {
 	float:left;
 	margin: 0px;
-	padding: 15px 10px 20px 10px;
+	padding: 0px 10px 20px 10px;
 	color:#222222;
 }
 

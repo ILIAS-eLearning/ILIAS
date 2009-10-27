@@ -464,11 +464,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 	function prepareOutput()
 	{
+		global $ilTabs;
+		
 		parent::prepareOutput();
 
-		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
+//		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
 
-		$this->tpl->setCurrentBlock("tab");
+		$ilTabs->addTab("search", $this->lng->txt("search"),
+			$this->ctrl->getLinkTargetByClass('ilsearchgui'));
+		$ilTabs->addTab("adv_search", $this->lng->txt("search_advanced"),
+			$this->ctrl->getLinkTarget($this));
+		$ilTabs->activateTab("adv_search");
+
+		/*$this->tpl->setCurrentBlock("tab");
 		$this->tpl->setVariable("TAB_TYPE","tabinactive");
 		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilsearchgui'));
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search"));
@@ -478,7 +486,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TAB_TYPE","tabactive");
 		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTarget($this));
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 	}
 
 	// PRIVATE

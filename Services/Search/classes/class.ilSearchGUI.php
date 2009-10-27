@@ -459,24 +459,33 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function prepareOutput()
 	{
+		global $ilTabs;
+		
 		parent::prepareOutput();
 
-		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
+//		$this->tpl->addBlockFile("TABS","tabs","tpl.tabs.html");
 
-		$this->tpl->setCurrentBlock("tab");
+		$ilTabs->addTab("search", $this->lng->txt("search"),
+			$this->ctrl->getLinkTarget($this));
+		
+		/*$this->tpl->setCurrentBlock("tab");
 		$this->tpl->setVariable("TAB_TYPE","tabactive");
 		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTarget($this));
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 		if (!$this->settings->getHideAdvancedSearch())
 		{
-			$this->tpl->setCurrentBlock("tab");
+			/*$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE","tabinactive");
 			$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('iladvancedsearchgui'));
 			$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
+			$ilTabs->addTab("adv_search", $this->lng->txt("search_advanced"),
+				$this->ctrl->getLinkTargetByClass('iladvancedsearchgui'));
 		}
+		
+		$ilTabs->activateTab("search");
 	}
 
 	// PRIVATE
