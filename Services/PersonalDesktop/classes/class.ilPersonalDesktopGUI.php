@@ -143,8 +143,10 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+				//	$this->lng->txt("personal_desktop"));
 				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-					$this->lng->txt("personal_desktop"));
+					"");
 
 				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
 				$feedback_gui = new ilFeedbackGUI();
@@ -244,8 +246,10 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+				//	$this->lng->txt("personal_desktop"));
 				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-					$this->lng->txt("personal_desktop"));
+					"");
 				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
 				$mailgui = new ilMailAddressbookGUI();
 				$ret = $this->ctrl->forwardCommand($mailgui);
@@ -316,8 +320,10 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
@@ -439,8 +445,10 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 	}
@@ -731,8 +739,10 @@ class ilPersonalDesktopGUI
 	*/
 	function displayHeader()
 	{
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 	}
 	
