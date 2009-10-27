@@ -308,7 +308,17 @@ class ilObjectGUI
 	{
 		$this->tpl->setTitle($this->object->getPresentationTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			// alt text would be same as heading -> empty alt text
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"),
+				"");
+		}
+		else
+		{
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"),
+				$this->lng->txt("obj_" . $this->object->getType()));
+		}
 	}
 	
 	protected function showUpperIcon()
