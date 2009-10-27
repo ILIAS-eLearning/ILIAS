@@ -687,6 +687,16 @@ class ilTemplate extends ilTemplateX
 				$this->parseCurrentBlock();
 			}
 			$this->setCurrentBlock("header_image");
+			if ($this->icon_desc != "")
+			{
+				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
+			}
+			else
+			{
+				// empty alt tag for images that, e.g. are directly attached in heading
+				// and would only repeat the heading text
+				$this->setVariable("IMAGE_ALT", "");
+			}
 			$this->setVariable("IMG_HEADER", $this->icon_path);
 			$this->parseCurrentBlock();
 		}
