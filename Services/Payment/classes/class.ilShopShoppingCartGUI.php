@@ -377,23 +377,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     try
     {
       
-      /*if (!$deb->getDebtorByNumber($usr_id))
-      {
-        $deb->setAll( array(
-          'number' => $usr_id,
-          'name' => $ilUser->getFullName(),
-          'email' => $ilUser->email,
-          'address' => $ilUser->street,
-          'postalcode' => $ilUser->zipcode,
-          'city' => $ilUser->city,
-          'country' => $ilUser->country,
-          'phone' => $ilUser->phone_mobile)
-        );
-        $deb->createDebtor($usr_id);
-      }
-                
-      $deb->createInvoice();
-      */
       
       foreach ($sc as $i)
       {
@@ -420,6 +403,17 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
         $bo->setVatRate( $i['vat_rate'] );
         $bo->setVatUnit( $i['vat_unit'] );
         $bo->setTransactionExtern($_GET['tid']);
+        
+        include_once './payment/classes/class.ilPayMethods.php';
+        $save_adr = (int) ilPaymethods::_enabled('save_user_adr_epay') ? 1 : 0;
+        if($save_user_adr_epay == 1)
+        {
+          $bo->setStreet($ilUser->getStreet());
+          $bo->setPoBox();
+          $bo->setZipcode($ilUser->getZipcode());
+          $bo->setCity($ilUser->getCity);
+          $bo->setCountry($ilUser->getCountry());
+        }
         
         // psc_id
         // obj_id

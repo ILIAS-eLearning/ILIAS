@@ -148,11 +148,11 @@ try
   $lng->loadLanguageModule('payment');
   $deb->sendInvoice($lng->txt('pay_order_paid_subject'), 
         $ilUser->getFullName() . ",\n" . 
-          str_replace( '%products%', implode(",", $products), $lng->txt('pay_order_paid_body')) , 
+          str_replace( '%products%', implode(", ", $products), $lng->txt('pay_order_paid_body')) , 
         $ilUser->getEmail(), 
         $attach, $lng->txt('pays_invoice') ."-" . $invoice_number
   );
-  wlog("Sent invoice " . $invoice_number . " with " . $produtcs . "\n");
+  wlog("Sent invoice " . $invoice_number . " with " . implode(", ", $products) . "\n");
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
