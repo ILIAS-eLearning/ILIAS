@@ -257,7 +257,7 @@ common#:#advanced_editing_allow_javascript_editor#:#Brug rig tekst redigering
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
-common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
+common#:#advanced_editing_lm_settings#:#Læremodul og indstillinger for ordliste
 common#:#advanced_editing_no_rte#:#Brug ikke rig tekst redigering
 common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
 common#:#advanced_editing_survey_settings#:#Tilladte HTML tags i ILIAS afstemingsværktøj
@@ -265,7 +265,7 @@ common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & evalueringsindstillinger
 common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
 common#:#adve_general_settings#:#Generelle indstillinger
-common#:#adve_lm_settings#:#LM / Glossary Settings
+common#:#adve_lm_settings#:#LM / Ordliste indstillinger
 common#:#adve_read#:#Access Advanced Editing Administration
 common#:#adve_survey_settings#:#Afstemningsindstillinger
 common#:#adve_visible#:#Avanceret redigering administration er synlig
@@ -9960,7 +9960,7 @@ webr#:#webr_sort_manual#:#Sorter manuelt
 webr#:#webr_sort_title#:#Sorter efter titel
 webr#:#webr_edit_list#:#Ret webresurse liste
 payment#:#pay_order_paid_subject#:#Tak for din bestilling
-payment#:#pay_order_paid_body#:#Din bestilling på %products% er blevet behandlet og din faktura sendes vedhæftet denne mail. 
+payment#:#pay_order_paid_body#:#Din bestilling på %products% er blevet behandlet og vi sender hermed din faktura, som er vedhæftet denne mail. 
 gmaps#:#gmaps_latitude#:#Breddegrad
 gmaps#:#gmaps_longitude#:#Længdegrad
 administration#:#allow_change_loginname#:#Tillad ændring af brugernavn fra profilen
@@ -9969,14 +9969,14 @@ chat#:#check_configuration#:#Kontroller indstillingerne for chat-serveren.
 cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
 dateplaner#:#add_appointment#:#Lav aftale
 common#:#pd_enable_contacts#:#Aktiver kontakter
-common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
+common#:#pd_enable_contacts_requires_mail#:#Kræver mail-rettigheder
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
-administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
+administration#:#reuse_of_loginnames_contained_in_history#:#Ingen genbrug af brugernavne
 administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
 administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
-administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.###16 09 2009 new variable
+administration#:#loginname_change_blocking_time_invalidity_info#:#Du skal indtaste en numerisk værdi.
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.###16 09 2009 new variable
 mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
@@ -9994,7 +9994,7 @@ rbac#:#root_create_dbk#:#Lav digilibbog
 rbac#:#root_create_exc#:#Lav øvelse
 rbac#:#root_create_file#:#Upload fil
 rbac#:#root_create_frm#:#Lav forum
-rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
+rbac#:#root_create_glo#:#Lav ordliste
 rbac#:#root_create_grp#:#Lav gruppe
 rbac#:#root_create_htlm#:#Lav HTML læremodul
 rbac#:#root_create_icrs#:#Lav LearnLinc seminar
@@ -10125,3 +10125,4 @@ payment#:#pays_erp_invoice_deleted#:#Test-faktura blev slettet.
 payment#:#pays_erp_invoice_nowrite#:#Kan ikke skrive til mappen.
 mail#:#mail_subject_prefix#:#Emne
 mail#:#mail_subject_prefix_info#:#Indtast den tekst som indsættes før emnelinjer på udgående autogenererede emails
+payment#:#pays_invoice#:#faktura
