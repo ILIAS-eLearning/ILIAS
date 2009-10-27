@@ -131,9 +131,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+		 return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
-					 'obj_type'	=> array('integer',$this->getObjType()),
+					 'obj_type'	=> array('text',$this->getObjType()),
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
 					 'typical_age_range'	=> array('text',$this->getTypicalAgeRange()),
@@ -194,11 +194,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
 			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
-
+			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_typical_age_range_id;
+			$ids[] = $row->meta_tar_id;
 		}
 		return $ids ? $ids : array();
 	}
