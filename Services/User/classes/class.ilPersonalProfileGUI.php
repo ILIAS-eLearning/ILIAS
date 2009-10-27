@@ -846,8 +846,10 @@ return;
 			}
 		}
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1292,8 +1294,10 @@ return;
 		$this->__initSubTabs('showMailOptions');
 		$ilTabs->setSubTabActive('mail_settings');
 		
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
+		//	$lng->txt('personal_desktop'));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-			$lng->txt('personal_desktop'));
+			"");
 		$this->tpl->setTitle($lng->txt('personal_desktop'));
 		
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
@@ -1437,8 +1441,10 @@ return;
 		$this->__initSubTabs('showMailOptions');
 		$ilTabs->setSubTabActive('mail_settings');
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
+		//	$lng->txt('personal_desktop'));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-			$lng->txt('personal_desktop'));
+			"");
 		$this->tpl->setTitle($lng->txt('personal_desktop'));
 
 		$this->initMailOptionsForm();
@@ -1453,7 +1459,8 @@ return;
 		global $lng, $ilCtrl, $tpl, $ilUser;
 
 		$this->__initSubTabs("showjsMath");
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1525,7 +1532,8 @@ return;
 			$zoom =  $def["zoom"];
 		}
 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1842,7 +1850,8 @@ return;
 
 		$this->__initSubTabs('showChatOptions');
 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
 		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_desktop'));
 		
 		$form = false;
@@ -1887,8 +1896,10 @@ return;
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
 
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
 		if (!$a_no_init)
@@ -2189,8 +2200,10 @@ return;
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->setSubTabActive("public_profile");
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
 		if (!$a_no_init)
@@ -2450,8 +2463,10 @@ return;
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->setSubTabActive("password");
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
 		if (!$a_no_init)
@@ -2659,8 +2674,10 @@ return;
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->setSubTabActive("general_settings");
 
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 
 		if (!$a_no_init)

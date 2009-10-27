@@ -59,8 +59,10 @@ class ilPDNewsGUI
 	*/
 	function displayHeader()
 	{
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			$this->lng->txt("personal_desktop"));
+			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		
 		// display infopanel if something happened

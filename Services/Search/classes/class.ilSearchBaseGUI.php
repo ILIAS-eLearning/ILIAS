@@ -55,7 +55,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 //		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
 //		$this->tpl->setLocator();
 		
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_src_b.gif"), $lng->txt("search"));
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_src_b.gif"),
+		//	$lng->txt("search"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_src_b.gif"),
+			"");
 		$this->tpl->setTitle($lng->txt("search"));
 
 		ilUtil::infoPanel();
