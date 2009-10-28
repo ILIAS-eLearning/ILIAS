@@ -72,6 +72,14 @@ class ilAuthFactory
 	 */
 	const CONTEXT_CALENDAR	= 6;
 	
+	
+	/**
+	 * @var int
+	 * Calendar authentication with auth token 
+	 */
+	const CONTEXT_CALENDAR_TOKEN = 7;
+	
+	
 
 	/**
 	 * @var int
@@ -157,6 +165,13 @@ class ilAuthFactory
 			case self::CONTEXT_CALENDAR:
 				include_once './Services/Calendar/classes/class.ilAuthCalendar.php';
 				return new ilAuthCalendar($deco,$options);
+				
+			case self::CONTEXT_CALENDAR_TOKEN:
+				include_once './Services/Calendar/classes/class.ilAuthCalendarToken.php';
+				include_once './Services/Calendar/classes/class.ilAuthContainerCalendarToken.php';
+				// Force token authentication
+				$GLOBALS['ilLog']->write('Calling calendar token');
+				return new ilAuthCalendarToken(new ilAuthContainerCalendarToken(),$options);
 				
 			case self::CONTEXT_CRON:
 				include_once './cron/classes/class.ilAuthCron.php';

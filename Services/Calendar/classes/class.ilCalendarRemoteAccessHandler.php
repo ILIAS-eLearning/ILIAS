@@ -74,22 +74,26 @@ class ilCalendarRemoteAccessHandler
 		$cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
 		$export = new ilCalendarExport($cats->getCategories());
 		$export->export();
-
+		
 		echo $export->getExportString();
 		
 		#$fp = fopen('ilias.ics', 'w');
 		#fwrite($fp,$export->getExportString());
+		$GLOBALS['ilAuth']->logout();
 		exit;
 	}
 	
 	protected function initIlias()
 	{
 		include_once './Services/Authentication/classes/class.ilAuthFactory.php';
-		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR);
+		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR_TOKEN);
+		
+		$_POST['username'] = 'cal_auth_token';
+		$_POST['password'] = 'cal_auth_token';
 		
 		include_once("Services/Init/classes/class.ilInitialisation.php");
 		$GLOBALS['ilInit'] = new ilInitialisation();
-		$GLOBALS['ilInit']->initILIAS('webdav');
+		$GLOBALS['ilInit']->initILIAS();
 		$GLOBALS['lng']->loadLanguageModule('dateplaner');
 	}
 }
