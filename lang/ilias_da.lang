@@ -5459,7 +5459,6 @@ grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new var
 grp#:#crs_grouping_select_one#:#Vælg en medlemsbegrænsning
 grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
 grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
-grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
 grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
 grp#:#grp_registration_unlimited#:#Ubegrænset registrering
@@ -10126,3 +10125,27 @@ payment#:#pays_erp_invoice_nowrite#:#Kan ikke skrive til mappen.
 mail#:#mail_subject_prefix#:#Emne
 mail#:#mail_subject_prefix_info#:#Indtast den tekst som indsættes før emnelinjer på udgående autogenererede emails
 payment#:#pays_invoice#:#faktura
+common#:#no_owner#:#No Owner###28 10 2009 new variable
+grp#:#grp_reg_period#:#Registration Period###28 10 2009 new variable
+payment#:#delete_addresses_bill#:#Delete Billing addresses###28 10 2009 new variable
+payment#:#delete_addresses_bmf#:#Delete BMF addresses###28 10 2009 new variable
+payment#:#delete_addresses_paypal#:#Delete Paypal addresses###28 10 2009 new variable
+dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
+rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
+rbac#:#rbac_local_policies#:#Local Policies###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies#:#Keep Local Policies###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies#:#Delete Local Policies###28 10 2009 new variable
+rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.###28 10 2009 new variable
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
+common#:#admin_force_noti#:#Notification active###28 10 2009 new variable
+common#:#user_toggle_noti#:#Member is not allowed to deactivate notification###28 10 2009 new variable
+common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
+common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
+common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
+common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
+common#:#moderators#:#Moderators###28 10 2009 new variable
+common#:#tutors#:#Tutors###28 10 2009 new variable
+common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
+common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable

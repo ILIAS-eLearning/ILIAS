@@ -215,7 +215,6 @@ assessment#:#add_answer_yn#:#Odpovědi ano/ne
 assessment#:#add_applet_parameter#:#Přidat parametr apletu
 assessment#:#add_area#:#Přidat plochu
 assessment#:#add_circle#:#Přidat kruhovou plochu
-assessment#:#add_flash_parameter#:#Přidat parametr Flash
 assessment#:#add_gap#:#Přidat text mezery
 assessment#:#add_imagemap#:#Import rastrového obrázku
 assessment#:#add_matching_pair#:#Přidat odpovídající pár
@@ -254,7 +253,6 @@ assessment#:#assClozeTest#:#Otázka s doplňováním textu
 assessment#:#assErrorText#:#Error Text
 assessment#:#assessment_eval_settings#:#Ukaž následující pole Hodnocení všem uživatelům
 assessment#:#assFileUpload#:#File Upload Question
-assessment#:#assFlashApp#:#Aplikace Flash
 assessment#:#assFlashQuestion#:#Flash Question
 assessment#:#assImagemapQuestion#:#Otázka s rastrovým obrázkem
 assessment#:#assJavaApplet#:#Otázka s Java apletem
@@ -283,83 +281,6 @@ assessment#:#cannot_export_test#:#Nemáte oprávnění k exportování testu!
 assessment#:#cannot_maintain_test#:#Nemáte oprávnění k vytváření testu!
 assessment#:#cannot_read_questionpool#:#Nemáte oprávnění ke čtení dat zásobníku otázek!
 assessment#:#cannot_save_metaobject#:#Nemáte oprávnění k ukládání metadat!
-assessment#:#certificate#:#Certifikát
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Obrázek pozadí
-assessment#:#certificate_bottom#:#Nahoře
-assessment#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
-assessment#:#certificate_custom#:#Vlastní formát...
-assessment#:#certificate_delete#:#Smazat certifikát
-assessment#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
-assessment#:#certificate_error_import#:#Během importu certifikátu se vyskytla chyba!
-assessment#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
-assessment#:#certificate_export#:#Export certifikátu
-assessment#:#certificate_failed#:#selhalo
-assessment#:#certificate_left#:#Levý
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Okraje hlavní části
-assessment#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
-assessment#:#certificate_padding_top#:#Souběh horního okraje
-assessment#:#certificate_page_format#:#Formát stránky
-assessment#:#certificate_pageheight#:#Výška stránky
-assessment#:#certificate_pagewidth#:#Šířka stránky
-assessment#:#certificate_passed#:#předán
-assessment#:#certificate_ph_city#:#Město adresy uživatele
-assessment#:#certificate_ph_country#:#Země adresy uživatele
-assessment#:#certificate_ph_date#:#Aktuální datum
-assessment#:#certificate_ph_datetime#:#Aktuální datum a čas
-assessment#:#certificate_ph_department#:#Katedra uživatele
-assessment#:#certificate_ph_firstname#:#Křestní jméno uživatele
-assessment#:#certificate_ph_fullname#:#Celé jméno uživatelé (titul, jméno a příjmení)
-assessment#:#certificate_ph_institution#:#Instituce uživatele
-assessment#:#certificate_ph_introduction#:#Následující rezervovaná místa lze využít
-assessment#:#certificate_ph_lastname#:#Příjmení uživatele
-assessment#:#certificate_ph_marklong#:#Známka uživatele (oficiální verze)
-assessment#:#certificate_ph_markshort#:#Známka uživatele (zkrácená verze)
-assessment#:#certificate_ph_maxpoints#:#Maximum dosažitelných bodů
-assessment#:#certificate_ph_passed#:#"prospěl" nebo "neprospěl", v závislosti na výsledcích testu
-assessment#:#certificate_ph_resultpercent#:#Dosažená procenta uživatele
-assessment#:#certificate_ph_resultpoints#:#Dosažené body uživatele
-assessment#:#certificate_ph_street#:#Ulice adresy uživatele
-assessment#:#certificate_ph_testtitle#:#Název testu
-assessment#:#certificate_ph_title#:#Titul uživatele
-assessment#:#certificate_ph_zipcode#:#PSČ adresy uživatele
-assessment#:#certificate_preview#:#Zobrazit náhled certifikátu
-assessment#:#certificate_right#:#Pravý
-assessment#:#certificate_show#:#Zobrazit certifikát
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
-assessment#:#certificate_status_incomplete#:#Certifikát není hotový
-assessment#:#certificate_text#:#Text certifikátu
-assessment#:#certificate_top#:#Vrchol
-assessment#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Výborně-mínus
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#Prospěl
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Praha
-assessment#:#certificate_var_user_country#:#Česká republika
-assessment#:#certificate_var_user_department#:#Katedra uživatelské podpory
-assessment#:#certificate_var_user_firstname#:#Jan
-assessment#:#certificate_var_user_fullname#:#Ing. Jan Novák
-assessment#:#certificate_var_user_institution#:#Univerzita ILIAS
-assessment#:#certificate_var_user_lastname#:#Novák
-assessment#:#certificate_var_user_street#:#Hlavní třída 100
-assessment#:#certificate_var_user_title#:#Ing.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Viditelnost
-assessment#:#certificate_visibility_always#:#Vždy viditelné
-assessment#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
-assessment#:#certificate_visibility_never#:#Neviditelné
-assessment#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
-assessment#:#certificate_wrong_unit#:#Vložil(a) jste chybné jednotky
-assessment#:#certificate_wrong_units#:#Vložil(a) jste chybnou sadu jednotek
 assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z namátkového testu na nenamátkový test. Informace o již přidaných zásobnících otázek do namátkového testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenamátkového testu na namátkový test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro namátkový test. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_solution#:#Změna doporučeného řešení
@@ -529,8 +450,6 @@ assessment#:#final_statement#:#Závěrečné sdělení
 assessment#:#final_statement_show#:#Zobrazit závěrečné sdělení
 assessment#:#final_statement_show_desc#:#Je-li vybráno, pak závěrečné sdělení bude zobrazeno přímo po ukončení testu, ještě před prezentací výsledků tohoto testu.
 assessment#:#fixed_participants_hint#:#Tento test je dostupný skupině stálých účastníků zobrazených níže. Toto nastavení můžete změnit deaktivací zaškrtávacího políčka stálých účastníků v tabulce %s.
-assessment#:#flash_attributes#:#Atributy Flash
-assessment#:#flash_parameters#:#Parametry Flash
 assessment#:#flashfile#:#Soubor Flash
 assessment#:#forcejs#:#Vynutit výstup JavaScript pro otázky testu
 assessment#:#forcejs_desc#:#Pokud je zaškrtnuto, pro otázky testu bude vybrán výstup JavaScriptu, pokud výstup JavaScriptu a havarijní řešení existuje.
@@ -1741,8 +1660,6 @@ common#:#adopt_perm_from_template#:#Zkopírovat nastavení oprávnění
 common#:#advanced_editing_allow_html_tags#:#Povolit vybrané HTML značky pro editaci textu
 common#:#advanced_editing_allow_javascript_editor#:#Zapnout Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#HTML značky pro testy a nástroje hodnocení ILIAS povoleny
-common#:#advanced_editing_cat_page_editing#:#Zapnout úpravu obsahu pro stránky kategorií
-common#:#advanced_editing_cat_page_editing_desc#:#Zapíná úpravu obsahu stránek kategorií. Pokud je vypnuto, kategorie jsou zobrazeny jako sada seznamů položek.
 common#:#advanced_editing_frm_post_settings#:#Nastavení pošty fóra
 common#:#advanced_editing_lm_js_editing#:#Zapnout plochu HTML pro úpravu obsahu
 common#:#advanced_editing_lm_js_editing_desc#:#Zapnuty plocha HTML a podpora JavaScriptu pro editaci stránek ve výukových modulech a rejstřících.
@@ -1755,7 +1672,6 @@ common#:#advanced_editing_settings#:#Rozšířená nastavení editace
 common#:#advanced_editing_survey_settings#:#Povolení značky HTML pro nástroje dozoru ILIAS
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
-common#:#adve_cat_settings#:#Nastavení kategorií
 common#:#adve_edit_permission#:#Změna nastavení práv
 common#:#adve_frm_post_settings#:#Pošta fóra
 common#:#adve_general_settings#:#Obecná nastavení
@@ -2344,7 +2260,6 @@ common#:#dbk_new#:#Nová digitální kniha
 common#:#dbk_read#:#Právo číst na digitální knihu
 common#:#dbk_visible#:#Digitální kniha je viditelná
 common#:#dbk_write#:#Upravit digitální knihu
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Nastavit neaktivní
 common#:#decrease_attempts#:#Attempts - 1
@@ -3474,7 +3389,6 @@ common#:#mcst_visible#:#MediaCast je viditelný
 common#:#mcst_write#:#Upravit MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#Zde není žádné volné místo.
-common#:#mem_already_on_list#:#Již jste zařazen(a) na seznam čekatelů.
 common#:#mem_end#:#Konec registrace:
 common#:#mem_free_places#:#Volná místa:
 common#:#mem_max_users#:#Maximum uživatelů:
@@ -6126,7 +6040,6 @@ crs#:#crs_unblocked#:#Volný vstup
 crs#:#crs_unblocked_member#:#Status v kurzu "%s"
 crs#:#crs_unblocked_member_body#:#Vaše členství v kurzu "%s" bylo obnoveno.
 crs#:#crs_unlimited#:#Neomezeno
-crs#:#crs_unsubscribe#:#Vyškrtnout
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Chcete se vyškrtnout z tohoto kurzu?
@@ -6926,7 +6839,6 @@ grp#:#crs_grouping_select_one#:#Označte prosím jedno omezení členství.
 grp#:#crs_grp_added_grouping#:#Nové omezení členství přidáno.
 grp#:#crs_grp_assign_crs#:#Zařazení skupin
 grp#:#crs_grp_enter_title#:#Vyplňte prosím všechna požadovaná pole.
-grp#:#crs_grp_info_reg#:#Můžete se zaregistrovat do jedné z těchto skupin:
 grp#:#crs_grp_no_courses_assigned#:#Žádná zařazená skupina
 grp#:#crs_grp_table_assigned_courses#:#Zařazené skupiny
 grp#:#grouping_change_assignment#:#Změnit zařazení
@@ -6935,7 +6847,6 @@ grp#:#grp_accept_subscriber_body#:#Byl(a) jste přijat(a) do skupiny "%1$s".\n\n
 grp#:#grp_added_to_list#:#Byl(a) jste zařazen(a) na seznam čekatelů. Jste zařazen(a) v pořadí %s.
 grp#:#grp_admins#:#Správci
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Zrušit příslušnost ke skupině
 grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 grp#:#grp_change_type#:#Změnit typ skupiny
 grp#:#grp_closed#:#Skupina uzavřena
@@ -6982,8 +6893,6 @@ grp#:#grp_map_location#:#Umístění mapy skupiny
 grp#:#grp_map_settings#:#Nastavení mapy
 grp#:#grp_members#:#Příslušníci
 grp#:#grp_members_map#:#Mapa členů skupiny
-grp#:#grp_membership_request_body#:#%1$s %2$s požádal o členství ve skupině "%5$s".\n\nAkceptujte prosím, nebo zamítněte tento požadavek na stránce "Požadavky zařazení" do skupiny.\n\nSkupina: %5$s", %6$s\n\nŽadatel: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubjekt:\n%7$s
-grp#:#grp_membership_request_subject#:#%1$s %2$s žádá o zařazení do skupiny "%3$s".
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
@@ -7018,8 +6927,6 @@ grp#:#grp_reg_request_info#:#Zájemci mohou poslat žádost/zprávu správci sku
 grp#:#grp_reg_start#:#Registrace začíná:
 grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Neomezené období registrace
-grp#:#grp_reject_subscriber#:#Zamítnuto pro skupinu "%s"
-grp#:#grp_reject_subscriber_body#:#Váš požadavek o zařazení do skupiny "%s" byl zamíthut.
 grp#:#grp_search_users#:#Search User
 grp#:#grp_select_one_file#:#Vyberte prosím jeden soubor.
 grp#:#grp_selected_users#:#Vybraní účastníci
@@ -8080,8 +7987,6 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#1 soubor byl přídán.
 news#:#news_1_file_updated#:#1 soubor byl aktualizován.
 news#:#news_1_postings#:#1 příspěvek byl přídán.
-news#:#news_acc_cache#:#Kontrolovat oprávnění (Minuty)
-news#:#news_acc_cache_info#:#Kontrolovat oprávnění číst pro položky zpráv každé x minuty (pouze osobní pracovní plocha). '0' znamená stále. Vyšší hodnoty zlepšují výkon, ale zprávy mohou být spojeny s nedostupnými položkami.
 news#:#news_all_items#:#Všechny položky
 news#:#news_allow_longer_periods#:#Umožnit delší periody
 news#:#news_allow_longer_periods_info#:#Uživatelé mohou vybrat delší periody zpráv na osobní pracovní ploše.
@@ -8681,7 +8586,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#Minimální délka hesla nem
 ps#:#ps_error_message_password_max_less_min#:#Maximální délka hesla nemůže být menší než minimální délka hesla.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimální délka hesla nemůže být menší než 2 pokud heslo má obsahovat písmena a číslice.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimální délka hesla nemůže být menší než 3 pokud heslo má obsahovat písmena, číslice a speciální znaky.
 ps#:#ps_export_admin#:#Administrátoři
 ps#:#ps_export_confirm#:#Schválení uživatele při vstupu do kurzu
 ps#:#ps_export_course#:#Rozšířený export dat uživatelského profilu v kurzech
@@ -9668,11 +9572,8 @@ survey#:#no_questions_available#:#Zde nejsou dostupné žádné otázky!
 survey#:#no_search_results#:#Není žádný výsledek hledání!
 survey#:#no_target_selected_for_move#:#Musíte vybrat cílové umístění!
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_group_invited#:#Žádný uživatel vybrané skupiny nevlastní odpovídající oprávnění spustit anketu. Žádný uživatel nebyl pozván.
-survey#:#no_user_of_role_invited#:#Všichni uživatelé vybrané role(í) nedostali odpovídající oprávnění ke spuštění ankety. Žádný uživatel nebyl pozván.
 survey#:#no_user_or_group_selected#:#Vyberte prosím volbu, co hledáte (uživatelé a/nebo skupiny)!
 survey#:#no_user_phrases_defined#:#Žádné uživatelsky definované fráze nejsou dostupné!
-survey#:#nominal_question_mr_not_checked#:#Zvolte prosím alespoň jednu z nabízených odpovědí!
 survey#:#nominal_question_not_checked#:#Zvolte prosím jednu z nabízených odpovědí!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#nepoužit
@@ -9682,7 +9583,6 @@ survey#:#offline#:#offline (neaktivován)
 survey#:#on#:#Zapnuto
 survey#:#on_additional#:#Zapnuto, a dodatečně
 survey#:#or#:#nebo
-survey#:#ordinal_question_not_checked#:#Vyberte prosím jednu z nabízených odpovědí!
 survey#:#orientation#:#Orientace
 survey#:#outro#:#Závěrečná značka
 survey#:#percentage_of_entered_values#:#Procento uživatelů, kteří vložili tuto hodnotu
@@ -9818,8 +9718,6 @@ survey#:#survey_use_start_button#:#Musíte vložit anketu použitím startovací
 survey#:#SurveyMatrixQuestion#:#Maticová otázka
 survey#:#SurveyMetricQuestion#:#Metrická otázka
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Nominální otázka
-survey#:#SurveyOrdinalQuestion#:#Ordinální otázka
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Textová otázka
 survey#:#svy_all_user_data_deleted#:#Všechna uživatelská data této ankety byly smazány!
@@ -10221,3 +10119,39 @@ wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_wiki_page#:#Stránka Wiki
 wiki#:#wiki_wiki_search#:#Hledání ve Wiki
+news#:#news_cache#:#News Cache (Minutes)###28 10 2009 new variable
+news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###28 10 2009 new variable
+content#:#cont_LocalFile#:#Local File###28 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###28 10 2009 new variable
+payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###28 10 2009 new variable
+payment#:#pays_erp_invoice_preview#:#View test invoice in new window###28 10 2009 new variable
+payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###28 10 2009 new variable
+payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###28 10 2009 new variable
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###28 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail Subject###28 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.###28 10 2009 new variable
+common#:#no_owner#:#No Owner###28 10 2009 new variable
+grp#:#grp_reg_period#:#Registration Period###28 10 2009 new variable
+payment#:#delete_addresses_bill#:#Delete Billing addresses###28 10 2009 new variable
+payment#:#delete_addresses_bmf#:#Delete BMF addresses###28 10 2009 new variable
+payment#:#delete_addresses_paypal#:#Delete Paypal addresses###28 10 2009 new variable
+dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
+rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
+rbac#:#rbac_local_policies#:#Local Policies###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies#:#Keep Local Policies###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies#:#Delete Local Policies###28 10 2009 new variable
+rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.###28 10 2009 new variable
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
+payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
+common#:#admin_force_noti#:#Notification active###28 10 2009 new variable
+common#:#user_toggle_noti#:#Member is not allowed to deactivate notification###28 10 2009 new variable
+common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
+common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
+common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
+common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
+common#:#moderators#:#Moderators###28 10 2009 new variable
+common#:#tutors#:#Tutors###28 10 2009 new variable
+common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
+common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
