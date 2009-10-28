@@ -1,37 +1,23 @@
-﻿/**
-* ILIAS language file
-*
-* @module		language file english
-* @modulegroup	language 
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
-* @version		$Id$
-*/
+﻿/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
+/**
+* ILIAS language file (All entries)
+*
+* @module		language file French
+* @modulegroup		language
+* @author		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version		$Id$
+* @il_server		http://www.ilias.de/test40x
+* @il_version		4.0.0
+* @created		2009-10-28 10:45:10
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
+*/
 
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode!
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Access Key
@@ -50,10 +36,13 @@ acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
+administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously
+administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
 administration#:#adm_repository_cache_time#:#Repository Cache Time
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.
+administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'
 administration#:#analysis_options#:#Options d'analyse
 administration#:#analyze_data#:#Analyse et réparation de l'intégrité des données
 administration#:#analyzing#:#Analyse en cours...
@@ -78,6 +67,7 @@ administration#:#dump_tree_desc#:#Produit une analyse de l'arbre et affiche tous
 administration#:#dumping_tree#:#Nettoyage de l'arbre ('Dumping tree') ...
 administration#:#found#:# trouvé(s).
 administration#:#found_none#:#aucun(e) trouvé(e).
+administration#:#history_loginname#:#Login Name History
 administration#:#initializing_gaps#:#Initialiser les lacunes dans l'arbre ...
 administration#:#language_administration#:#Language Administration
 administration#:#language_all_modules#:#Tous les modules
@@ -127,6 +117,10 @@ administration#:#language_translation_enabled#:#Traduction des pages activée
 administration#:#language_translation_mode#:#Mode de traduction
 administration#:#log_scan#:#Résultats de l'analyse du journal.
 administration#:#log_scan_desc#:#Ecriture des résultats de l'analyse dans le fichier 'scanlog.log' dans le dossier de données du client.
+administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
+administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
+administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
+administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
 administration#:#nothing_to_purge#:#Rien à purger...
 administration#:#nothing_to_remove#:#Rien à supprimer...
 administration#:#nothing_to_restore#:#Rien à restaurer...
@@ -136,6 +130,7 @@ administration#:#options#:#Options
 administration#:#output_options#:#Options de restitution
 administration#:#passwd_auto_generate#:#Envoi/génération de mot de passe
 administration#:#path_to_mkisofs#:#Path to mkisofs
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
 administration#:#purge_age_limit#:#Âge limite
 administration#:#purge_age_limit_desc#:#Si ce champ contient une valeur, seuls les objets qui ont été supprimés avant le nombre de jours spécifié seront purgés.
 administration#:#purge_count_limit#:#Décompte limite
@@ -162,6 +157,7 @@ administration#:#restoring#:#Restauration en cours...
 administration#:#restoring_missing_objs#:#Restauration des objets manquants en cours...
 administration#:#restoring_trash#:#Restauration de la corbeille en cours...
 administration#:#restoring_unbound_objs#:#Restauration des objets orphelins et des sous-objets
+administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
 administration#:#scan#:#Examiner
 administration#:#scan_completed#:#Examen terminé
 administration#:#scan_desc#:#Examiner le system à la recher d'objets corrompus, invalides, manquants ou orphelins.
@@ -179,6 +175,7 @@ administration#:#start_scan#:#Démarrer
 administration#:#stop_scan#:#Arrêter
 administration#:#systemcheck#:#Vérification du système
 administration#:#tree_corrupt#:#L'arborescence est corrompue.  Voyez le journal de l'analyse pour plus de détails.
+administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.
 administration#:#view_last_log#:#Voir la dernière analyse du journal
 administration#:#view_log#:#Voir
 adve#:#adve_grp_glo#:#Glossaries
@@ -197,13 +194,13 @@ assessment#:#add_answer_tf#:#Ajouter réponses vrai/faux
 assessment#:#add_answer_yn#:#Ajouter réponses oui/non
 assessment#:#add_applet_parameter#:#Ajouter paramètre de l'applet
 assessment#:#add_area#:#Ajouter zone
-assessment#:#add_circle#:#Add circle area
+assessment#:#add_circle#:#Ajouter un disque
 assessment#:#add_gap#:#Ajouter une nouvelle valeur
 assessment#:#add_imagemap#:#Ajouter image réactive
 assessment#:#add_matching_pair#:#Ajouter appariement
-assessment#:#add_poly#:#Add polygon area
+assessment#:#add_poly#:#Ajouter une aire de polygone
 assessment#:#add_questionpool#:#Ajouter jeu de questions
-assessment#:#add_rect#:#Add rectangle area
+assessment#:#add_rect#:#Ajouter une aire de rectangle
 assessment#:#add_solution#:#Ajouter suggestion de solution
 assessment#:#addSuggestedSolution#:#Add suggested solution
 assessment#:#all_available_question_pools#:#Tous les jeux de questions disponibles
@@ -307,8 +304,8 @@ assessment#:#delete_all_user_data#:#Supprimer les données de test de tous les u
 assessment#:#delete_all_user_data_confirmation#:#Voulez-vous vraiment supprimer les données de test de tous les utilisateurs de ce test ?
 assessment#:#delete_area#:#Détruire zone
 assessment#:#delete_image#:#Effacer image
-assessment#:#delete_image_header#:#Delete image
-assessment#:#delete_image_question#:#Do you really want to delete the image?
+assessment#:#delete_image_header#:#Supprimer l'image
+assessment#:#delete_image_question#:#Êtes-vous certaint de vouloir supprimer l'image ?
 assessment#:#delete_user_data#:#Supprimer les données de test des utilisateurs sélectionnés
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution
 assessment#:#description_maxchars#:#Si rien n'est saisi, le nombre maximum de caractères pour cette réponse texte est illimité.
@@ -520,7 +517,7 @@ assessment#:#material_file#:#Fichier matériau
 assessment#:#maxchars#:#Nombre maximum de caractères
 assessment#:#maximum_nr_of_tries_reached#:#Vous avez atteint le nombre de tentatives maximal pour ce test. Vous ne pouvez plus entrer dans le test.
 assessment#:#maximum_points#:#Nombre maximum de points possibles
-assessment#:#maxsize#:#Maximum file upload size 
+assessment#:#maxsize#:#Maximum file upload size
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 assessment#:#meaning#:#Signification
 assessment#:#min_percentage_ne_0#:#Vous devez définir un pourcentage minimal de 0 %. Le schéma de note n'a pas été enregistré.
@@ -632,7 +629,7 @@ assessment#:#qpl_question_is_in_use#:#La question que vous êtes sur le point de
 assessment#:#qpl_questions_deleted#:#Question(s) détruite(s).
 assessment#:#qpl_select_file_for_import#:#Vous devez sélectionner un fichier à importer
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
-assessment#:#qst_nr_of_tries#:#Number of tries
+assessment#:#qst_nr_of_tries#:#Nombre de tentatives
 assessment#:#qt_multiple_choice#:#Question à choix multiple
 assessment#:#question_cumulated_statistics#:#Résultats cumulés des questions
 assessment#:#question_instances_title#:#Cette question est utilisée dans les tests suivants
@@ -926,6 +923,7 @@ assessment#:#tst_report_after_date#:#After a fixed score reporting date
 assessment#:#tst_report_after_first_question#:#Donner le score dès la première question
 assessment#:#tst_report_after_question#:#Donner le score après chaque question.
 assessment#:#tst_report_after_test#:#Donner le score après la fin du test.
+assessment#:#tst_report_never#:#No test results available
 assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass
 assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.
 assessment#:#tst_result_user_name#:#Résultats du test de %s
@@ -936,6 +934,7 @@ assessment#:#tst_results_access_always#:#Toujours
 assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_description#:#Ce paramètre commande l'accès des participants à leur résultat au test. Si les résultats sont accessibles après la fin du test, les participants pourront voir leurs résultats après la fin de leur premier passage, même s'ils sont autorisés à passer ce test plusieurs fois. Si vous choisissez de définir une date et un horaire d'accès aux résultats, les participants ne pourront pas voir leurs résultats avant. Vous devez choisir cette option si vous voulez utiliser le système d'évaluation ECST avec des questions à notation manuelle. Si « Toujours » est coché, les participants pourront voir leurs résultats à n'importe quel moment, même s'ils n'ont pas terminé le test.
 assessment#:#tst_results_access_finished#:#Après la fin du test
+assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_aggregated#:#Résultats agrégés au test
 assessment#:#tst_results_back_evaluation#:#Retour à la vue globale de l'évaluation
 assessment#:#tst_results_back_introduction#:#Retour à l'introduction
@@ -1219,6 +1218,7 @@ certificate#:#certificate_page_format_info#:#Please select the default page form
 certificate#:#certificate_pageheight#:#Hauteur de page
 certificate#:#certificate_pagewidth#:#Largeur de page
 certificate#:#certificate_passed#:#réussi
+certificate#:#certificate_ph_birthday#:#Birthday of the user
 certificate#:#certificate_ph_city#:#City of the user's address
 certificate#:#certificate_ph_country#:#Country of the user's address
 certificate#:#certificate_ph_date#:#Date réelle
@@ -1236,14 +1236,19 @@ certificate#:#certificate_ph_maxpoints#:#Maximum de points disponibles
 certificate#:#certificate_ph_passed#:#"réussite" ou "échec", en fonction des résultats du test
 certificate#:#certificate_ph_resultpercent#:#Pourcentage obtenu par l'utilisateur
 certificate#:#certificate_ph_resultpoints#:#Points obtenus par l'utilisateur
+certificate#:#certificate_ph_salutation#:#Salutation
+certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module
 certificate#:#certificate_ph_street#:#Street of the user's address
 certificate#:#certificate_ph_testtitle#:#Titre du test
 certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
+certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Afficher la prévisualisation du certificat
 certificate#:#certificate_right#:#Droite
 certificate#:#certificate_settings#:#Certificate Settings
+certificate#:#certificate_short_name#:#Certificate file short title
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_show#:#Afficher le Certificat
 certificate#:#certificate_status#:#État
 certificate#:#certificate_status_complete#:#Le certificat est complet et peut être utilisé
@@ -1258,6 +1263,7 @@ certificate#:#certificate_var_result_mark_short#:#B
 certificate#:#certificate_var_result_passed#:#réussi
 certificate#:#certificate_var_result_percent#:#83%
 certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_user_birthday#:#1977-05-08
 certificate#:#certificate_var_user_city#:#Anytown, NY
 certificate#:#certificate_var_user_country#:#USA
 certificate#:#certificate_var_user_department#:#Customer Support
@@ -1265,6 +1271,7 @@ certificate#:#certificate_var_user_firstname#:#Jane
 certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
 certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#100 Main Street
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
@@ -1289,13 +1296,13 @@ chat#:#chat_add_internal_ip#:#Veuillez saisir l'adresse IP interne du serveur.
 chat#:#chat_add_moderator_password#:#Veuillez saisir un mot de passe de modérateur
 chat#:#chat_add_port#:#Veuillez saisir le port du serveur.
 chat#:#chat_add_private_chatroom#:#Ajouter un salon de discussion privé
-chat#:#chat_add_smiley#:#Add Smiley
+chat#:#chat_add_smiley#:#Ajouter un émoticône
 chat#:#chat_add_ssl_port#:#Veuillez indique le port du serveur SSL
-chat#:#chat_add_to_addressbook#:#Add to Contacts
+chat#:#chat_add_to_addressbook#:#Ajouter aux contacts
 chat#:#chat_add_to_bookmark#:#Add to Bookmarks
 chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.
 chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks
-chat#:#chat_address#:#Addresse du salaon de discussion
+chat#:#chat_address#:#Adresse du salon de discussion
 chat#:#chat_address_user#:#Adresse de l'utilisateur du salon de discussion
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
@@ -1316,6 +1323,7 @@ chat#:#chat_chatviewer#:#Chat Viewer
 chat#:#chat_color#:#Couleur de police
 chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?
 chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?
+chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smilies should be deleted?
 chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?
 chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room
 chat#:#chat_current_image_path#:#Current Image Path
@@ -1483,6 +1491,7 @@ chat#:#chat_user_visible#:#visible
 chat#:#chat_whisper#:#Chuchoter
 chat#:#chat_yellow#:#jaune
 chat#:#chats#:#Chats
+chat#:#check_configuration#:#Please check the chat server's settings.
 chat#:#edit_smilies#:#Edit Smilies
 chat#:#my_chats#:#Mes chats
 cmps#:#cmps_activate#:#Activate
@@ -1498,6 +1507,7 @@ cmps#:#cmps_db_update#:#DB Update Script
 cmps#:#cmps_deactivate#:#Deactivate
 cmps#:#cmps_dir#:#Directory
 cmps#:#cmps_disable_creation#:#Disable Creation
+cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:
 cmps#:#cmps_edit_settings#:#Settings
 cmps#:#cmps_file_version#:#Update File Version
 cmps#:#cmps_group#:#Group
@@ -1542,21 +1552,21 @@ cmps#:#cmps_update_db#:#Update DB
 cmps#:#cmps_version#:#Version
 cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
 cmps#:#no_changes#:#Keine Änderungen
-cntr#:#cntr_add_new_item#:#Add New Item
+cntr#:#cntr_add_new_item#:#Ajouter un nouvel objet
 cntr#:#cntr_back_to_old_editor#:#Retour à l'ancien éditeur
 cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands
 cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
-cntr#:#cntr_manage#:#Manage
+cntr#:#cntr_manage#:#Gérer
 cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
 cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
-cntr#:#cntr_ordering#:#Sorting
+cntr#:#cntr_ordering#:#Classement
 cntr#:#cntr_page_actions#:#Page Actions
 cntr#:#cntr_saved_sorting#:#Saved Sorting.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.
 cntr#:#cntr_switched_editor#:#Échangé avec le nouveau contenu.
-cntr#:#cntr_text_media_editor#:#Text/Media Editor
+cntr#:#cntr_text_media_editor#:#Éditeur de texte/média
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
@@ -1584,7 +1594,7 @@ common#:#account_expires_body#:#Votre compte est limité, il expirera le :
 common#:#account_expires_subject#:#[ILIAS 3] Votre compte expire
 common#:#accs_edit_permission#:#Change permission settings
 common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Accessibility Settings are visible
+common#:#accs_visible#:#Les paramètres d'accessibilité sont visibles
 common#:#accs_write#:#Edit Accessibility Settings
 common#:#action#:#Action
 common#:#action_aborted#:#Action annulée
@@ -1606,7 +1616,7 @@ common#:#add_members#:#Ajouter membres
 common#:#add_new_user_defined_field#:#Ajouter un champ supplémentaire au profil utilisateur
 common#:#add_new_user_defined_select_field#:#Ajouter des boutons de sélection
 common#:#add_new_user_defined_text_field#:#Ajouter un champ de saisie de texte
-common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field
+common#:#add_new_user_defined_wysiwyg_field#:#Ajouter une zone de texte (WYSIWYG)
 common#:#add_note#:#Ajouter une note
 common#:#add_parameter#:#New Parameter
 common#:#add_translation#:#Ajouter traduction
@@ -1614,7 +1624,7 @@ common#:#add_user#:#Ajouter utilisateur local
 common#:#add_user_defined_field#:#Ajouter un nouveau champ de saisie
 common#:#added_new_condition#:#Nouvelle condition créée
 common#:#additional_info#:#Information supplémentaire
-common#:#address#:#Address
+common#:#address#:#Adresse
 common#:#adm_create_tax#:#Créer taxinomie
 common#:#adm_edit_permission#:#Changer les paramètres de permission
 common#:#adm_read#:#Accès en lecture aux paramètres de base du système
@@ -1653,7 +1663,7 @@ common#:#adve_visible#:#L'administration de l'édition enrichie est visible
 common#:#adve_write#:#Administration de l'édition enrichie
 common#:#agree_date#:#Accepté le
 common#:#all_authors#:#Tous les auteurs
-common#:#all_commands#:#All Commands
+common#:#all_commands#:#Commandes
 common#:#all_global_roles#:#Rôles globaux
 common#:#all_lms#:#Tous les modules d'apprentissage
 common#:#all_local_roles#:#Rôles locaux (tous)
@@ -1832,6 +1842,7 @@ common#:#authenticate_ilias#:#Connexion à ILIAS
 common#:#authenticate_with#:#Connexion à :
 common#:#authentication_settings#:#Authentification
 common#:#author#:#Auteur
+common#:#authoring_mode#:#Authoring Mode
 common#:#authors#:#Auteurs
 common#:#auto_registration#:#Approuver les enregistrements automatiquement
 common#:#available#:#Disponible
@@ -1852,15 +1863,15 @@ common#:#benchmark_settings#:#Paramètres des bancs d'essais
 common#:#benchmarks#:#Bancs d'essais
 common#:#bib_data#:#Données bibliographiques
 common#:#big_icon#:#Grande icône
-common#:#birthday#:#Birthday
+common#:#birthday#:#Date de naissance
 common#:#bkm_import#:#Importer liste de liens internet
 common#:#bkm_import_ok#:#Importation réussie %d liste(s) de liens internet et %d dossier(s) de liste de liens internet.
 common#:#bkm_sendmail#:#Envoyer en pièce jointe par messagerie
-common#:#block#:#Block
-common#:#block_management#:#Block Management
+common#:#block#:#Bloc
+common#:#block_management#:#Gestion des blocs
 common#:#bm#:#Lien internet
-common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
-common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks
+common#:#bm_add_to_ilias#:#Ajouter à mes liens internet
+common#:#bm_add_to_social_bookmarks#:#Ajouter à des partages de signets
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bmf#:#Dossier de liens internet
 common#:#bold#:#Gras
@@ -1885,7 +1896,7 @@ common#:#btn_remove_system#:#Supprimer du système
 common#:#btn_undelete#:#Restaurer
 common#:#buy#:#Buy
 common#:#by#:#par
-common#:#by_location#:#Trier par localisation
+common#:#by_location#:#Trier par emplacement
 common#:#by_type#:#Trier par type
 common#:#bytes#:#octets
 common#:#cal_from#:#From:
@@ -1944,7 +1955,7 @@ common#:#cat_read_users#:#Accès en lecture aux comptes utilisateurs locaux
 common#:#cat_title#:#Titre Catégorie
 common#:#cat_undo_last_page_changes#:#Annuler dernières modifications de la page
 common#:#cat_visible#:#La catégorie est visible
-common#:#cat_wizard_page#:#Copy Category (Step 2/2)
+common#:#cat_wizard_page#:#Copier une catégorie (étape 2/2)
 common#:#cat_write#:#Modifier catégorie
 common#:#categories#:#Catégories
 common#:#categories_imported#:#Importation des catégorie terminée
@@ -1990,6 +2001,7 @@ common#:#change_owner#:#Changer le propriétaire
 common#:#change_sort_direction#:#Changer ordre de tri
 common#:#changeable#:#Modifiable
 common#:#changed_to#:#changé en
+common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapitre
 common#:#chapter_number#:#Numéro de chapitre
 common#:#chapter_title#:#Titre du chapitre
@@ -2009,7 +2021,7 @@ common#:#chat_link_to_this_chat#:#Link to this chat
 common#:#chat_moderate#:#Modérer le salon de discussion
 common#:#chat_new#:#Nouveau chat
 common#:#chat_read#:#Accès en lecture/écriture au chat
-common#:#chat_settings#:#Chat Settings
+common#:#chat_settings#:#Paramètres du Chat
 common#:#chat_users_active#:#Utilisateurs actifs
 common#:#chat_visible#:#Le chat est visible
 common#:#chat_write#:#Modifier chat
@@ -2027,7 +2039,7 @@ common#:#check_web_resources_desc#:#Si cette option est active, toutes les resso
 common#:#checked#:#Coché
 common#:#checked_files#:#Fichiers importables
 common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password
-common#:#chg_ilias_password#:#Change ILIAS Password
+common#:#chg_ilias_password#:#Modifier le mot de passe Ilias
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue
@@ -2043,17 +2055,17 @@ common#:#client#:#Client
 common#:#client_id#:#ID client
 common#:#client_ip#:#IP client
 common#:#clipboard#:#Presse-papier
-common#:#clone_existing_course#:#Copy Existing Course
-common#:#clone_option_in_cat#:#Copy in Existing Category
-common#:#clone_option_in_crs#:#Copy in Existing Course
+common#:#clone_existing_course#:#Copier un cours existant
+common#:#clone_option_in_cat#:#Copier dans une catégorie existante
+common#:#clone_option_in_crs#:#Copier dans un cours existant
 common#:#clone_target#:#Target Folder
 common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)
 common#:#close#:#Fermer
 common#:#close_window#:#Fermer la fenêtre
 common#:#cnt_new#:#(%s Nouveaux)
 common#:#collapse#:#Replier
-common#:#collapse_all#:#Collapse All
-common#:#collapsed#:#Collapsed
+common#:#collapse_all#:#Replier tout
+common#:#collapsed#:#Replié
 common#:#comma_separated#:#Séparé par des virgules (CSV)
 common#:#comment#:#commentaire
 common#:#compose#:#Écrire un message
@@ -2089,12 +2101,12 @@ common#:#continue_work#:#Continuer
 common#:#contra#:#Contre
 common#:#cookies_howto#:#Comment autoriser les cookies
 common#:#copied_object#:#Objet copié
-common#:#copy#:#Copie
+common#:#copy#:#Copier
 common#:#copy_all#:#Copier tout
 common#:#copy_n_of_suffix#:#- Copie (%1$s)
 common#:#copy_of#:#Copie de
 common#:#copy_of_suffix#:#- Copie
-common#:#copy_selected_items#:#Copy
+common#:#copy_selected_items#:#Copier
 common#:#copy_to#:#vers
 common#:#copyChapter#:#Copie
 common#:#copyPage#:#Copie
@@ -2104,7 +2116,7 @@ common#:#country#:#Pays
 common#:#course#:#Cours
 common#:#courses#:#Cours
 common#:#create#:#Créer
-common#:#create_block#:#Create Block
+common#:#create_block#:#Créer un bloc
 common#:#create_date#:#Créé le
 common#:#create_export_file#:#Créer fichier d'exportation
 common#:#create_in#:#Créer dans
@@ -2179,7 +2191,7 @@ common#:#crs_status_blocked#:#[Accès refusé]
 common#:#crs_status_pending#:#[En attente d'inscription]
 common#:#crs_subscribers_assigned#:#Nouveaux utilisateurs assignés
 common#:#crs_title#:#Course Title
-common#:#crs_unsubscribe#:#Unsubscribe
+common#:#crs_unsubscribe#:#Désinscrire
 common#:#crs_visible#:#Le cours est visible
 common#:#crs_wizard_page#:#Copier Cours (étape 2/2)
 common#:#crs_write#:#Modifier cours
@@ -2192,7 +2204,7 @@ common#:#cumulative_time#:#Temps cumulé
 common#:#cur_number_rec#:#Nombre actuel d'enregistrements
 common#:#current_ip#:#Numéro IP actuel:
 common#:#current_ip_alert#:#Attention : si vous saisissez un numéro IP erroné, vous ne pourrez plus accéder à la plateforme Ilias avec ce compte d'utilisateur.
-common#:#current_password#:#Mot de passe courant
+common#:#current_password#:#Mot de passe actuel
 common#:#custom_icon_size_big#:#Personnaliser la taille de l'icône (grande)
 common#:#custom_icon_size_standard#:#Taille de l'icône personnalisée (standard)
 common#:#custom_icon_size_tiny#:# Taille de l'icône personnalisée (petite)
@@ -2202,7 +2214,7 @@ common#:#daily#:#quotidiennement
 common#:#data_privacy#:#Configuration de la confidentialité des données
 common#:#database#:#Base de données
 common#:#database_version#:#Version courante de la base de données
-common#:#dataset#:#Item
+common#:#dataset#:#Objet
 common#:#date#:#Date
 common#:#dateplaner#:#Agenda
 common#:#day#:#Jour
@@ -2251,7 +2263,7 @@ common#:#delete_existing_file#:#Delete Existing File
 common#:#delete_object#:#Détruire objet(s)
 common#:#delete_parameter#:#Delete Parameter
 common#:#delete_selected#:#Détruire sélection
-common#:#delete_selected_items#:#Supprimer les items sélectionnés
+common#:#delete_selected_items#:#Supprimer les objets sélectionnés
 common#:#delete_tr_data#:#Détruire données de suivi
 common#:#deleted#:#Détruit
 common#:#deleted_user#:#L'utilisateur a été détruit
@@ -2320,7 +2332,7 @@ common#:#enable#:#Activer
 common#:#enable_calendar#:#Activer l'agenda
 common#:#enable_custom_icons#:#Autoriser les icônes personnalisés
 common#:#enable_custom_icons_info#:#Ceci permet de définir des icônes personnalisées pour des catégories, des cours ou des groupes particuliers. L'onglet propriétés des catégories, cours ou groupes permet de téléverser un fichier image destiné à servir d'icône.
-common#:#enable_disk_quota#:#Activate Disk Quota
+common#:#enable_disk_quota#:#Activer le quota de disque
 common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder#:#Enable Downloading Folders
@@ -2439,7 +2451,7 @@ common#:#execute#:#Exécuter
 common#:#exercise_time_over#:#Vous avez atteint la limite de temps de l'exercice. Vous ne pouvez plus proposer de fichiers !
 common#:#exp_html#:#Exporter HTML
 common#:#expand#:#Développer
-common#:#expand_all#:#Expand All
+common#:#expand_all#:#Déplier tout
 common#:#expanded#:#Expanded
 common#:#explorer_frame#:#Explorer Tree
 common#:#export#:#Exporter
@@ -2725,8 +2737,8 @@ common#:#grp_added#:#Groupe ajouté
 common#:#grp_already_applied#:#Vous avez déjà demandé votre inscription à ce groupe. Veuillez attendre la confirmation.
 common#:#grp_app_send_mail#:#Envoyer un message au candidat
 common#:#grp_back#:#Retour
-common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
-common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? 
+common#:#grp_btn_unsubscribe#:#Désinscrire du groupe
+common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
 common#:#grp_copy#:#Copier Groupe
 common#:#grp_copy_threads_info#:#Veuillez désigner quels matériaux devraient être copiés, liés ou même omis.
 common#:#grp_count_members#:#Nombre de membres
@@ -2836,7 +2848,7 @@ common#:#hist_lm_pg_create#:#Page créée.
 common#:#hist_lm_pg_cut#:#Page coupée du chapitre "%1" [%2].
 common#:#hist_lm_pg_paste#:#Page collée dans le chapitre "%1" [%2].
 common#:#hist_lm_pg_update#:#Page modifiée.
-common#:#hist_lm_st_create#:#Chapter créée.
+common#:#hist_lm_st_create#:#Chapitre créée.
 common#:#hist_lm_st_cut_page#:#Page "%1" [%2] coupée du chapitre.
 common#:#hist_lm_st_paste_page#:#Page "%1" [%2] collée dans le chapitre.
 common#:#hist_no_entries#:#Aucune donnée dans l'historique
@@ -2883,7 +2895,7 @@ common#:#icla_add#:#Ajouter salle de classe iLinc
 common#:#icla_deleted#:#LearnLinc classroom(s) deleted
 common#:#icla_edit#:#Edit LearnLinc Classroom
 common#:#icla_new#:#Nouvelle salle de classe iLinc
-common#:#icon#:#Icon
+common#:#icon#:#Icône
 common#:#icon_settings#:#Configuration de l'icône
 common#:#icons_in_header#:#Ligne supérieure
 common#:#icons_in_item_rows#:#Rangées d'objet
@@ -3033,7 +3045,7 @@ common#:#info_err_user_not_exist#:#Cet utilisateur avec ce user_id n'existe pas
 common#:#info_from_role#:#Obtenu par le rôle
 common#:#info_is_member#:#L'utilisateur est membre
 common#:#info_is_not_member#:#L'utilisateur n'est pas membre
-common#:#info_message#:#Information Message
+common#:#info_message#:#Message d'information
 common#:#info_not_assigned#:#non assigné
 common#:#info_owner_of_object#:#Propriétaire de l'objet
 common#:#info_permission_origin#:#Permissions d'origine
@@ -3083,6 +3095,7 @@ common#:#instant_messengers#:#Messageries instantanées
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Rôles locaux (seulement auto-générés)
 common#:#internal_system#:#Système interne
+common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
 common#:#invisible_block#:#Bloc invisible
 common#:#invisible_block_mess#:#Vous n'avez pas la permission de voir ce bloc.
 common#:#ip_address#:#Adresse IP
@@ -3095,6 +3108,7 @@ common#:#java_server_no_connection#:#Attention : connexion impossible au serveur
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Informations d'installation
 common#:#join#:#S'inscrire
+common#:#join_session#:#Join
 common#:#kb#:#Ko
 common#:#keywords#:#Mots-clés
 common#:#lang_bg#:#Bulgare
@@ -3151,6 +3165,7 @@ common#:#last_access#:#Dernier accès
 common#:#last_change#:#Dernière modification
 common#:#last_edited_on#:#Dernière édition le
 common#:#last_login#:#Dernière connexion
+common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
 common#:#last_update#:#Dernière mise à jour
 common#:#last_visit#:#Dernière visite
@@ -3233,7 +3248,7 @@ common#:#lm_new#:# Document ILIAS
 common#:#lm_read#:#Accès en lecture au document ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
-common#:#lm_type_scorm#:#SCORM
+common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004
 common#:#lm_visible#:#Le document ILIAS est visible
 common#:#lm_write#:#Modifier document ILIAS
@@ -3256,7 +3271,7 @@ common#:#local_language_file#:#Fichier langue Local
 common#:#local_language_files#:#Fichiers langue Locaux
 common#:#local_languages_already_installed#:#Les fichiers langue sélectionnés sont déjà installés
 common#:#location#:#Position
-common#:#locator#:#Emplacement:
+common#:#locator#:#Emplacement :
 common#:#lock_file#:#Lock file
 common#:#log_in#:#Login
 common#:#logic_and#:#et
@@ -3348,11 +3363,11 @@ common#:#mcst_add#:#Ajouter MediaCast
 common#:#mcst_copy#:#Copier MediaCast
 common#:#mcst_delete#:#Supprimer Mediacast
 common#:#mcst_edit_permission#:#Modifier les paramètres de permission
-common#:#mcst_new#:#New MediaCast
+common#:#mcst_new#:#Nouveau MediaCast
 common#:#mcst_read#:#Accès en lecture au MediaCast
 common#:#mcst_visible#:#Le MediaCast est visible
 common#:#mcst_write#:#Modifier MediaCast
-common#:#mem_add_to_wl#:#Add to Waiting List
+common#:#mem_add_to_wl#:#Ajouter à la liste d'attente
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Période d'inscription :
 common#:#mem_free_places#:#Free Places:
@@ -3365,7 +3380,7 @@ common#:#mem_reg_type#:#Type d'inscription
 common#:#mem_start#:#Début d'inscription
 common#:#mem_unlimited#:#Unlimited
 common#:#mem_view_activate#:#Activate Members View
-common#:#mem_view_close#:#Close Member View
+common#:#mem_view_close#:#Fermer l'affichage du membre
 common#:#mem_view_deactivate#:#Deactivate Members View
 common#:#mem_view_long#:#Member View
 common#:#mem_waiting_list#:#Users on Waiting List:
@@ -3438,6 +3453,8 @@ common#:#mount_webfolder#:#Open as webfolder
 common#:#move#:#Couper
 common#:#move_blocks#:#Déplacer des Blocs
 common#:#move_down#:#Déplacer vers le bas
+common#:#move_left#:#Move Left
+common#:#move_right#:#Move Right
 common#:#move_selected_items#:#Déplacer les objets sélectionnés
 common#:#move_to#:#Couper vers
 common#:#move_up#:#Déplacer vers le haut
@@ -3451,6 +3468,7 @@ common#:#msg_cloned#:#Objet(s) sélectionné(s) copié(s)
 common#:#msg_copy_clipboard#:#Objet(s) sélectionné(s) enregistré(s) dans le presse-papier (Action : copier)
 common#:#msg_cut_clipboard#:#Objet(s) sélectionné(s) enregistré(s) dans le presse-papier (Action : couper)
 common#:#msg_cut_copied#:#Objet(s) sélectionné(s) déplacé(s)
+common#:#msg_deleted_export_files#:#Export file(s) deleted
 common#:#msg_deleted_role#:#Rôle supprimé
 common#:#msg_deleted_roles#:#Rôle(s) supprimé(s)
 common#:#msg_deleted_roles_rolts#:#Rôles et modèles de rôles supprimés
@@ -3616,7 +3634,7 @@ common#:#note#:#Annotation
 common#:#note_all_pub_notes#:#Toutes les notes
 common#:#note_my_pub_notes#:#Notes personnelles uniquement
 common#:#notes#:#Notes
-common#:#notes_and_comments#:#Notes and Comments
+common#:#notes_and_comments#:#Notes et commentaires
 common#:#notifications#:#Notifications
 common#:#num_users#:#Nombre d'utilisateurs
 common#:#number_of_accesses#:#Nombre d'accès
@@ -3626,7 +3644,7 @@ common#:#nwss_read#:#Accès en lecture aux paramètres des flux internes et exte
 common#:#nwss_visible#:#Les paramètres des flux interne et externe d'actualité (RSS) sont visibles
 common#:#nwss_write#:#Modifier les paramètres des flux internes et externes d'actualité (RSS)
 common#:#obj#:#Objet
-common#:#obj_accs#:#Accessibility
+common#:#obj_accs#:#Accessibilité
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_adm#:#Paramètres système
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
@@ -3641,15 +3659,15 @@ common#:#obj_calendar#:#Agenda
 common#:#obj_cals#:#Agenda
 common#:#obj_cals_desc#:#General Calendar settings.
 common#:#obj_cat#:#Catégorie
-common#:#obj_cat_duplicate#:#Copy Category
-common#:#obj_cat_select#:#-- Please select one Category --
+common#:#obj_cat_duplicate#:#Copier une catégorie
+common#:#obj_cat_select#:#-- Veuillez sélectionner une catégorie--
 common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Evénement Centra
 common#:#obj_cert#:#Certificates
 common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_chac#:#Paramètres de chat
 common#:#obj_chac_desc#:#Configurez votre serveur de chat ici. Activez/désactivez les chats.
-common#:#obj_chap#:#Chapter
+common#:#obj_chap#:#Chapitre
 common#:#obj_chat#:#Chat
 common#:#obj_cmps#:#Modules, Services and Plugins
 common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.
@@ -3692,7 +3710,7 @@ common#:#obj_lngf#:#Langues
 common#:#obj_lngf_desc#:#Gérez les langues de votre système ici.
 common#:#obj_lo#:#Cours
 common#:#obj_lrss#:#Learning Resources
-common#:#obj_lrss_desc#:#Configure all types of learning modules.
+common#:#obj_lrss_desc#:#Configurer tous les types de documents d'apprentissage.
 common#:#obj_mail#:#Paramètres de messagerie
 common#:#obj_mail_desc#:#Configurez les paramètres de messagerie globaux ici.
 common#:#obj_mcst#:#MediaCast
@@ -3736,10 +3754,10 @@ common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Rechercher
 common#:#obj_seas_desc#:#Définir les paramètres de recherche ici.
 common#:#obj_sess#:#Session
-common#:#obj_sess_duplicate#:#Copy Session
-common#:#obj_sess_select#:#-- Please select one Session --
+common#:#obj_sess_duplicate#:#Copier une session
+common#:#obj_sess_select#:#-- Veuillez sélectionner une session --
 common#:#obj_spl#:#Jeu de questions (enquête)
-common#:#obj_spl_duplicate#:#Copy Question Pool Survey
+common#:#obj_spl_duplicate#:#Copier un jeu de questions d'enquête
 common#:#obj_spl_select#:#-- Veuillez sélectionner un jeu de questions d'enquête --
 common#:#obj_st#:#Chapitre
 common#:#obj_sty#:#Style
@@ -3807,7 +3825,7 @@ common#:#objs_icrs#:#Cours iLinc
 common#:#objs_lm#:# Document ILIAS
 common#:#objs_lng#:#Langues
 common#:#objs_lo#:#Objets d'apprentissage
-common#:#objs_lres#:#Learning Resources
+common#:#objs_lres#:#Documents
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#MediaCasts
 common#:#objs_mep#:#Galeries multimédias
@@ -3907,6 +3925,8 @@ common#:#pays_read#:#Accéder aux paramètres de paiement
 common#:#pays_visible#:#Les paramètres de paiement sont visibles
 common#:#pays_write#:#Modifier paramètres de paiement
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
+common#:#pd_enable_contacts#:#Enable Contacts
+common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_items_news#:#Inclure les actualités des objets personnels
 common#:#pd_items_news_info#:#Si cette option est activée, toutes les actualités relatives aux items qui ont été ajoutées au bureau personnel seront incluses dans le bloc actualités.
 common#:#pdf_export#:#PDF Exportation
@@ -3917,10 +3937,10 @@ common#:#perm_role_info_glob_1#:#Ce formulaire définit les permissions du rôle
 common#:#perm_role_info_glob_2#:#Si vous voulez modifier les permissions du rôle '%s' pour tous les objets existants dans 'Activités' , vous devez cocher l'option 'Modifier les objets existants' au bas de l'écran.
 common#:#perm_settings#:#Permissions
 common#:#perm_special_options#:#Options spéciales
-common#:#perma_link#:#Lien direct
+common#:#perma_link#:#Lien permanent
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission refusée
-common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.
+common#:#permission_denied_filed_locked_by#:#Accès refusé. Le téléchargement a été bloqué par '%s'.
 common#:#permission_settings#:#Paramètres de permission
 common#:#permission_settings_info#:#Ce formulaire définit quels sont les rôles autorisés à agir sur l'objet '%s'.
 common#:#person_title#:#Titre
@@ -3977,6 +3997,7 @@ common#:#ps_read#:#Accès en lecture aux paramètres de confidentialité/sécuri
 common#:#ps_visible#:#Les paramètres de confidentialité/sécurité sont visibles
 common#:#ps_write#:#Modifier confidentialité/sécurité
 common#:#pub_section#:#Section publique
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#public
 common#:#public_notes#:#Notes publiques
 common#:#public_profile#:#Profil public
@@ -3988,6 +4009,7 @@ common#:#publishing_organisation#:#Organisation de publication
 common#:#purpose#:#But
 common#:#qpl#:#Jeu de questions (test)
 common#:#qpl_add#:#Ajouter jeu de questions (test)
+common#:#qpl_copy#:#Copier un jeu de questions de test
 common#:#qpl_delete#:#Détruire jeu de questions (test)
 common#:#qpl_edit_permission#:#Modifier les paramètres de permission
 common#:#qpl_new#:#Nouveau jeu de questions (test)
@@ -4076,7 +4098,7 @@ common#:#required_field#:#Champ obligatoire
 common#:#res_links#:#Localisation de l'objet
 common#:#res_links_short#:#Links
 common#:#reset#:#Réinitialiser
-common#:#reset_filter#:#Reset filter
+common#:#reset_filter#:#Réinitialiser le filtre
 common#:#resources#:#Ressources
 common#:#retype_password#:#Saisir le mot de passe à nouveau
 common#:#right#:#Droit
@@ -4176,13 +4198,14 @@ common#:#save_settings#:#Enregistrer paramètres
 common#:#save_user_related_data#:#Enregistrer données relatives aux accès utilisateur
 common#:#saved#:#Enregistré
 common#:#saved_successfully#:#Enregistré avec succès
-common#:#scorm_add#:#Add SCORM/IACC Learning Module
+common#:#scorm_add#:#Ajouter un document SCORM/AICC
 common#:#scorm_create_export_file_html#:#Create Export File (HTML)
 common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)
 common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
 common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)
-common#:#scorm_new#:#New SCORM/IACC Learning Module
+common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004 4th Edition)
+common#:#scorm_new#:#Nouveau document SCORM/AICC
 common#:#search#:#Rechercher
 common#:#search_active#:#Inclure utilisateurs actifs
 common#:#search_engine#:#Chercher moteurs de recherche
@@ -4242,7 +4265,7 @@ common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
-common#:#session_reminder_session_duration#:#(Session Duration: %s).
+common#:#session_reminder_session_duration#:#(Durée de la session : %s).
 common#:#set#:#Fixer
 common#:#set_edit_mode#:#Définir le mode d'édition
 common#:#set_offline#:#Mettre hors-ligne
@@ -4291,10 +4314,12 @@ common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Edit Shibboleth settings
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#shop#:#Shop
+common#:#shop_actions#:#Actions
 common#:#short_inst_name#:#Titre court
 common#:#short_inst_name_info#:#Ce titre apparaîtra dans le bandeau du navigateur. Si aucune valeur n'est saisie, 'ILIAS' sera utilisé.
 common#:#show#:#Afficher
 common#:#show_details#:#Afficher détails
+common#:#show_filter#:#Afficher le filtre
 common#:#show_hidden_block#:#Show Hidden Block
 common#:#show_list#:#Afficher liste
 common#:#show_members#:#Afficher membres
@@ -4313,10 +4338,14 @@ common#:#soap_user_administration#:#Administration utilisateur externe (SOAP)
 common#:#soap_user_administration_desc#:#Si cette option est active, tous les comptes utilisateurs peuvent être administrés par un client SOAP externe.
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
+common#:#socialbm_disable#:#Disable
+common#:#socialbm_enable#:#Enable
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
+common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.
+common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Trié selon cette colonne
 common#:#sorting_header#:#Tri des objets
-common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.
+common#:#sorting_info_manual#:#Choisissez ce mode pour trier les objets manuellement.
 common#:#sorting_info_title#:#Choisissez ce mode pour trier les objets selon leur titre
 common#:#sorting_manual_header#:#Trié manuellement
 common#:#sorting_save#:#Sauvegarder le classement
@@ -4324,6 +4353,7 @@ common#:#sorting_title_header#:#Trié selon le titre
 common#:#spacer#:#Séparateur
 common#:#spl#:#Jeu de questions (enquête)
 common#:#spl_add#:#Ajouter jeu de questions (enquête)
+common#:#spl_copy#:#Copier un jeu de questions d'enquête
 common#:#spl_delete#:#Détruire jeu de questions (enquête)
 common#:#spl_edit_permission#:#Modifier les paramètres de permission
 common#:#spl_new#:#Nouveau jeu de questions (enquête)
@@ -4340,7 +4370,7 @@ common#:#st_new#:#Nouveau chapitre
 common#:#standard_fields#:#Champs standards
 common#:#standard_icon#:#Icône standard
 common#:#startpage#:#Page de départ
-common#:#stat_selected#:#Selected
+common#:#stat_selected#:#Sélectionné
 common#:#state_changed#:#Modifié
 common#:#state_changed_inside#:#Modifications internes
 common#:#state_new#:#Nouveau
@@ -4348,6 +4378,7 @@ common#:#state_unread#:#unread
 common#:#statistic#:#Statistiques
 common#:#statistics#:#Statistics
 common#:#status#:#Etat
+common#:#status_no_permission#:#Aucune permission accordée
 common#:#step#:#Etape
 common#:#stop_inheritance#:#Supprimer l'héritage
 common#:#stop_moving_blocks#:#Arrêter déplacement des blocs
@@ -4369,7 +4400,7 @@ common#:#submit#:#Valider
 common#:#subobjects#:#Sous-objets
 common#:#subscription#:#Inscription
 common#:#subtabs#:#SubTabs
-common#:#success_message#:#Success Message
+common#:#success_message#:#Message de réussite
 common#:#summary#:#Résumé
 common#:#sure_delete_selected_users#:#Etes-vous sûr(e) de vouloir détruire les utilisateurs sélectionnés ?
 common#:#survey_defaults#:#Default Settings for Surveys
@@ -4407,7 +4438,7 @@ common#:#system_styles#:#Styles système
 common#:#systemcheck_cron#:#Process System Check in Cronjob
 common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Importer à partir de messages d'ILIAS 2
-common#:#tabs#:#Tabs
+common#:#tabs#:#Onglets
 common#:#tagging_my_tags#:#Mes mots clés
 common#:#tags_edit_permission#:#Modifier les paramètres de permission
 common#:#tags_read#:#Read access to Tagging Settings
@@ -4458,6 +4489,7 @@ common#:#time_segment#:#Unité de temps
 common#:#tiny_icon#:#Petite Icône
 common#:#title#:#Titre
 common#:#title_long#:#Titre long
+common#:#title_required#:#Please insert a title
 common#:#to#:#à
 common#:#to_client_list#:#Vers la sélection de client
 common#:#to_desktop#:#Créer raccourci sur le bureau
@@ -4521,6 +4553,7 @@ common#:#udf_field_deleted#:#Champ supprimé.
 common#:#udf_name_already_exists#:#Ce nom de champ existe déjà. Veuillez en choisir un différent.
 common#:#udf_no_entries#:#Veuillez saisir au moins une valeur.
 common#:#udf_no_name_given#:#Veuillez saisir un nom de champ.
+common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"
 common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Boîte de sélection(Les valeurs sont fixées)
@@ -4709,7 +4742,7 @@ common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder
 common#:#webfolder_mount_dir_with#:#Ouvrez cette page comme un 'Dossier Web' avec <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">autre navigateur Internet</a>.
 common#:#webr#:#Ressource web
 common#:#webr_active#:#Actif
-common#:#webr_add#:#Ajouter ressource web
+common#:#webr_add#:#Ajouter une ressource web
 common#:#webr_add_item#:#Ajouter ressource web
 common#:#webr_copy#:#Copier Ressource Web
 common#:#webr_delete#:#Supprimer ressource web
@@ -4742,8 +4775,8 @@ common#:#who_is_online#:#Qui est connecté ?
 common#:#width#:#Largeur
 common#:#width_x_height#:#Largeur x Hauteur
 common#:#wiki#:#Wiki
-common#:#wiki_add#:#Add Wiki
-common#:#wiki_copy#:#Copy Wiki
+common#:#wiki_add#:#Ajouter un Wiki
+common#:#wiki_copy#:#Copier un Wiki
 common#:#wiki_delete#:#Delete Wiki
 common#:#wiki_edit_content#:#Edit Wiki Pages
 common#:#wiki_edit_permission#:#Modifier les paramètres de permission
@@ -4782,20 +4815,20 @@ content#:#cont_activation#:#Activation
 content#:#cont_active#:#Activer menu
 content#:#cont_add_area#:#Ajouter zone
 content#:#cont_add_change_comment#:#Ajouter commentaire de modification
-content#:#cont_add_circle#:#Add Circle
+content#:#cont_add_circle#:#Ajouter un cercle
 content#:#cont_add_definition#:#Ajouter définition
 content#:#cont_add_elements#:#Cliquez sur ces espaces pour ajouter de nouveaux éléments.
-content#:#cont_add_file#:#Add File
+content#:#cont_add_file#:#Ajouter un fichier
 content#:#cont_add_fullscreen#:#Ajouter plein écran
-content#:#cont_add_polygon#:#Add Polygon
-content#:#cont_add_rectangle#:#Add Rectangle
-content#:#cont_add_tab#:#Add Tab
+content#:#cont_add_polygon#:#Ajouter un polygone
+content#:#cont_add_rectangle#:#Ajouter un rectangle
+content#:#cont_add_tab#:#Ajouter des onglets
 content#:#cont_added_comment#:#Commentaire ajouté à l'historique
 content#:#cont_added_term#:#Terme ajouté
 content#:#cont_Additional#:#Additionel
-content#:#cont_adjust_size#:#Adjust Size
-content#:#cont_align#:#Alignment
-content#:#cont_all_closed#:#All Closed
+content#:#cont_adjust_size#:#Ajuster la taille
+content#:#cont_align#:#Alignement
+content#:#cont_all_closed#:#Tous fermés
 content#:#cont_all_definitions#:#Toutes les définitions
 content#:#cont_all_pages#:#Toutes les pages
 content#:#cont_alphabetic#:#Alphabétique A, B, ...
@@ -4810,11 +4843,11 @@ content#:#cont_assign_full#:#Assigner plein écran
 content#:#cont_assign_std#:#Assigner standard
 content#:#cont_assign_translation#:#Assigner traduction
 content#:#cont_assignments_deleted#:#Les assignations ont été détruites
-content#:#cont_autoindent#:#Auto-indententation
+content#:#cont_autoindent#:#Auto-indentation
 content#:#cont_autostart#:#Autostart
 content#:#cont_back#:#Retour
 content#:#cont_bb_tip#:#Astuce : les Style peuvent être rapidement appliqués à un texte sélectionné.
-content#:#cont_behavior#:#Behavior
+content#:#cont_behavior#:#Comportement
 content#:#cont_Block#:#Block
 content#:#cont_booktitle#:#Titre du livre
 content#:#cont_bottom#:#Bas
@@ -4824,7 +4857,7 @@ content#:#cont_cant_copy_folders#:#Les dossiers ne peuvent pas être copiés dan
 content#:#cont_cant_del_full#:#Suppression du fichier plein écran impossible
 content#:#cont_cant_del_std#:#Suppression du fichier vue standard impossible
 content#:#cont_caption#:#Titre
-content#:#cont_center#:#Center
+content#:#cont_center#:#Centre
 content#:#cont_change_object_reference#:#Change Object Reference
 content#:#cont_change_type#:#Modifier le type
 content#:#cont_chap_and_pages#:#Chapitres et pages
@@ -4855,9 +4888,9 @@ content#:#cont_click_next_point#:# Veuillez cliquer sur le point suivant du poly
 content#:#cont_click_starting_point#:# Veuillez cliquer sur le point de départ du polygone
 content#:#cont_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée
 content#:#cont_Code#:#Code
-content#:#cont_colspan#:#Col. Span
+content#:#cont_colspan#:#Envergure col.
 content#:#cont_confirm_delete#:#Etes-vous sûr(e) de vouloir détruire cet objet?
-content#:#cont_constrain_proportions#:#Constrain Proportions
+content#:#cont_constrain_proportions#:#Maintenir les proportions
 content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
 content#:#cont_contents#:#Contenus
@@ -4865,6 +4898,7 @@ content#:#cont_coords#:#Coordonnées
 content#:#cont_copy_object#:#insérer l'objet
 content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_copy_to_media_pool#:#Copier dans le jeu de ressources multimédia
+content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.
 content#:#cont_create_dir#:#Créer dossier
 content#:#cont_create_export_file#:#Créer fichier d'exportation
 content#:#cont_create_export_file_html#:#Créer fichier d'exportation (HTML)
@@ -4878,22 +4912,24 @@ content#:#cont_credit_off#:#Pas de crédit
 content#:#cont_credit_on#:#Crédit
 content#:#cont_credits#:#Crédits
 content#:#cont_cross_reference#:#Référence croisée
-content#:#cont_current_chapter#:#Current Chapter
-content#:#cont_current_page#:#Current Page
+content#:#cont_current_chapter#:#Chapitre en cours
+content#:#cont_current_page#:#Page en cours
 content#:#cont_current_style#:#Current Style
 content#:#cont_current_version#:#Current Version
-content#:#cont_custom#:#Custom
-content#:#cont_custom_size#:#Custom Size
+content#:#cont_custom#:#Personnalisé
+content#:#cont_custom_size#:#Taille personnalisée
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#Désactiver
 content#:#cont_deactivate_page#:#Désactiver Page
 content#:#cont_deactivated#:#Deactivated
+content#:#cont_debug#:#Show debug menu
+content#:#cont_debugpw#:#Password
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_layout#:#Présentation standard
 content#:#cont_def_lesson_mode#:#Mode de leçon par défaut
 content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_def_organization#:#défaut
-content#:#cont_default#:#Default
+content#:#cont_default#:#Par défaut
 content#:#cont_definition#:#Définition
 content#:#cont_definitions#:#Définitions
 content#:#cont_del_assignment#:#Supprimer assignation
@@ -4903,7 +4939,10 @@ content#:#cont_delete_track_data#:#Supprimer les données de suivi
 content#:#cont_dependencies#:#Dépendances
 content#:#cont_derive_from_obj#:#Alignement de l'objet
 content#:#cont_details#:#Détails
+content#:#cont_dir_created#:#Directory has been created.
+content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Dossier/fichier
+content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_html#:#HTML inactif
 content#:#cont_disable_js#:#JavaScript inactif
 content#:#cont_disable_media#:#Média inactif
@@ -4923,33 +4962,33 @@ content#:#cont_ed_atable#:#Advanced Table
 content#:#cont_ed_class#:#Style
 content#:#cont_ed_col_left#:#déplacer colonne à gauche
 content#:#cont_ed_col_right#:#déplacer colonne à droite
-content#:#cont_ed_copy_clip#:#copier dans le presse-papier
+content#:#cont_ed_copy_clip#:#Copier dans le presse-papier
 content#:#cont_ed_delete#:#détruire
 content#:#cont_ed_delete_col#:#Détruire colonne
-content#:#cont_ed_delete_item#:#détruire objet
-content#:#cont_ed_delete_row#:#détruire ligne
+content#:#cont_ed_delete_item#:#Détruire objet
+content#:#cont_ed_delete_row#:#Détruire ligne
 content#:#cont_ed_dtable#:#Data Table
-content#:#cont_ed_edit#:#modifier
-content#:#cont_ed_edit_data#:#Éditer les données
-content#:#cont_ed_edit_files#:#Edit Files
-content#:#cont_ed_edit_prop#:#modifier propriétés
+content#:#cont_ed_edit#:#Modifier
+content#:#cont_ed_edit_data#:#Modifier les données
+content#:#cont_ed_edit_files#:#Modifier les fichiers
+content#:#cont_ed_edit_prop#:#Modifier propriétés
 content#:#cont_ed_enable#:#Désactiver les éléments
 content#:#cont_ed_flist#:# File List
 content#:#cont_ed_go#:#Envoi
-content#:#cont_ed_insert_atable#:#Insert Advanced Table
-content#:#cont_ed_insert_code#:#insérer code
-content#:#cont_ed_insert_dtable#:#Insert Data Table
-content#:#cont_ed_insert_filelist#:#insérer  liste de fichiers
+content#:#cont_ed_insert_atable#:#Ajouter un tableau enrichi
+content#:#cont_ed_insert_code#:#Ajouter un code
+content#:#cont_ed_insert_dtable#:#Ajouter tableau
+content#:#cont_ed_insert_filelist#:#Ajouter une liste de fichiers
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
-content#:#cont_ed_insert_list#:#insérer liste
-content#:#cont_ed_insert_map#:#Insert Map
-content#:#cont_ed_insert_media#:#insérer média
-content#:#cont_ed_insert_par#:#insérer paragr.
-content#:#cont_ed_insert_pcqst#:#Insert Question
-content#:#cont_ed_insert_plach#:#Insert Placeholder
-content#:#cont_ed_insert_repobj#:#Insert Resource List
-content#:#cont_ed_insert_section#:#Insert Section
-content#:#cont_ed_insert_tabs#:#Insert Tabs
+content#:#cont_ed_insert_list#:#Ajouter une liste
+content#:#cont_ed_insert_map#:#Ajouter une carte
+content#:#cont_ed_insert_media#:#Ajouter un média
+content#:#cont_ed_insert_par#:#Ajouter un texte
+content#:#cont_ed_insert_pcqst#:#Ajouter une question
+content#:#cont_ed_insert_plach#:#Ajouter un emplacement
+content#:#cont_ed_insert_repobj#:#Ajouter une liste
+content#:#cont_ed_insert_section#:#Ajouter une section
+content#:#cont_ed_insert_tabs#:#Ajouter des onglets
 content#:#cont_ed_item_down#:#déplacer objet vers le bas
 content#:#cont_ed_item_up#:#déplacer objet vers le haut
 content#:#cont_ed_list#:# Advanced List
@@ -4962,7 +5001,7 @@ content#:#cont_ed_new_item_before#:#nouvel objet avant
 content#:#cont_ed_new_row_after#:#nouvelle ligne après
 content#:#cont_ed_new_row_before#:#nouvelle ligne avant
 content#:#cont_ed_par#:#Text
-content#:#cont_ed_paste#:#Paste
+content#:#cont_ed_paste#:#Coller
 content#:#cont_ed_paste_clip#:#coller depuis le presse-papier
 content#:#cont_ed_pglprop#:#Page Layout Properties
 content#:#cont_ed_plachmedia#:#Placeholder Media
@@ -4990,13 +5029,13 @@ content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
 content#:#cont_edit_src#:#Modifier source code
 content#:#cont_edit_style#:#Edit Style
 content#:#cont_edit_tab_properties#:#Propriétés du tableau
-content#:#cont_edit_tabs#:#Properties
+content#:#cont_edit_tabs#:#Propriétés
 content#:#cont_edit_term#:#Modifier terme
 content#:#cont_edition#:#Modifierion
 content#:#cont_empty_mep_folder#:#Il n'y a aucun média dans ce dossier.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
 content#:#cont_enable_html#:#HTML actif
-content#:#cont_enable_js#:# JavaScript actif
+content#:#cont_enable_js#:#JavaScript actif
 content#:#cont_enable_media#:#Médias actifs
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
 content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.
@@ -5014,15 +5053,19 @@ content#:#cont_export_type#:#Export-Type
 content#:#cont_external#:#externe
 content#:#cont_external_url#:#URL externe
 content#:#cont_file#:#Fichier
+content#:#cont_file_created#:#File has been created.
+content#:#cont_file_deleted#:#File has been deleted.
 content#:#cont_file_from_repository#:#File From Repository
+content#:#cont_file_renamed#:#File has been renamed.
+content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_FileListItem#:#File List Item (Standard)
 content#:#cont_files#:#Fichiers
-content#:#cont_first_open#:#First Opened
-content#:#cont_first_row_style#:#First Row Style
+content#:#cont_first_open#:#Premier ouvert
+content#:#cont_first_row_style#:#Style de la première ligne
 content#:#cont_fix_tree#:#Réparer la structure
 content#:#cont_fix_tree_confirm#:#Veuillez exécuter cette commande seulement si l'arborescence de ce document est corrompue, par ex. si des objets vides apparaissent dans la vue d'exploration.
 content#:#cont_footer#:#Bas de page
-content#:#cont_force_all_open#:#Force All Opened
+content#:#cont_force_all_open#:#Tous ouverts
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Cette opération n'est pas possible!
 content#:#cont_frame_botright#:#Détails du contenu (Glossaire)
@@ -5043,10 +5086,11 @@ content#:#cont_Headline1#:#Titre 1
 content#:#cont_Headline2#:#Titre 2
 content#:#cont_Headline3#:#Titre 3
 content#:#cont_height#:#Hauteur
+content#:#cont_hidenavig#:#Hide leftside Navigation-Tree
 content#:#cont_Hint#:#Hint
 content#:#cont_how_published#:#Publié comment XXX
 content#:#cont_href#:#href
-content#:#cont_html_table#:#HTML Table
+content#:#cont_html_table#:#Tableau HTML
 content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image réactive
 content#:#cont_import_id#:#identifiant
@@ -5056,26 +5100,26 @@ content#:#cont_insert_as_subchapter#:#Insert as Subchapter
 content#:#cont_insert_chapter#:#Insert Chapter
 content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard
 content#:#cont_insert_file_item#:#Insérer objet fichier
-content#:#cont_insert_file_list#:#Insérer liste de fichiers
-content#:#cont_insert_list#:#Insérer liste
+content#:#cont_insert_file_list#:#Ajouter une liste de fichiers
+content#:#cont_insert_list#:#Ajouter une liste
 content#:#cont_insert_map#:#Insert Map
-content#:#cont_insert_mob#:#Insérer objet média
+content#:#cont_insert_mob#:#Ajouter un média
 content#:#cont_insert_new_footnote#:#insérer nouvelle note de bas de page
 content#:#cont_insert_page#:#Insert Page
 content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
-content#:#cont_insert_par#:#Insérer paragraphe
+content#:#cont_insert_par#:#Ajouter un texte
 content#:#cont_insert_resources#:#Insert Resource List
 content#:#cont_insert_search#:#Veuillez insérer un terme de recherche
 content#:#cont_insert_section#:#Insert Section
-content#:#cont_insert_src#:#insérer code source
+content#:#cont_insert_src#:#Ajouter un code source
 content#:#cont_insert_subchapter#:#Insert Subchapter
 content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard
-content#:#cont_insert_table#:#Insérer tableau
+content#:#cont_insert_table#:#Ajouter tableau
 content#:#cont_insert_tabs#:#Insert Tabs
 content#:#cont_inst_map_areas#:#Instance Link Areas
 content#:#cont_internal#:#interne
 content#:#cont_internal_link#:#lien interne
-content#:#cont_internal_links#:#Internal Links
+content#:#cont_internal_links#:#Liens internes
 content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed
 content#:#cont_is_visible#:#est visible
 content#:#cont_isbn#:#ISBN
@@ -5103,8 +5147,8 @@ content#:#cont_layout_toc2win#:#Table of Contents
 content#:#cont_layout_toc2win_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open in separate window.
 content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic
 content#:#cont_layout_toc2windyn_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open dynamically a frame at bottom-right.
-content#:#cont_left#:#Left
-content#:#cont_left_float#:#Left, Floating
+content#:#cont_left#:#Gauche
+content#:#cont_left_float#:#Flottement à gauche
 content#:#cont_link#:#Lien
 content#:#cont_link_area#:#Zone de lien
 content#:#cont_link_ext#:#Lien (externe)
@@ -5131,8 +5175,8 @@ content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriété du document
-content#:#cont_LocalFile#:#Local File
-content#:#cont_location#:#Location
+content#:#cont_localfile#:#Fichier local
+content#:#cont_location#:#Localisation
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Elément de données
 content#:#cont_manifest#:#Manifeste
@@ -5142,7 +5186,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_Media#:#Media (Standard)
 content#:#cont_media_placeh#:#Click and edit to insert media
-content#:#cont_media_placehl#:#Media Placeholder
+content#:#cont_media_placehl#:#Emplacement du média
 content#:#cont_media_source#:#Source de média
 content#:#cont_mep_structure#:#Structure du média pool
 content#:#cont_missing_preconditions#:#Vous devez remplis les conditions suivantes avant de pouvoir accéder au chapitre "%s".
@@ -5164,32 +5208,33 @@ content#:#cont_new_file#:#Nouveau fichier
 content#:#cont_new_media_obj#:#Nouvel objet média
 content#:#cont_new_mob#:#New Media Object
 content#:#cont_new_module_added#:#New version of module uploaded successfully
-content#:#cont_new_tab#:#New Tab
+content#:#cont_new_tab#:#Nouvel onglet
 content#:#cont_new_term#:#Nouveau terme
 content#:#cont_next_rev#:#Next Revision
 content#:#cont_no_access#:#Pas d'accès
 content#:#cont_no_assign_itself#:#L'objet ne peut pas être assigné à lui-même
-content#:#cont_no_caption#:#No Caption
-content#:#cont_no_glossary#:#No glossary
+content#:#cont_no_caption#:#Aucune légende
+content#:#cont_no_glossary#:#Sans glossaire
 content#:#cont_no_manifest#:#Pas de fichier imsmanifest.xml trouvé dans le dossier principal
 content#:#cont_no_object_found#:#Aucun objet portant ce titre n'a été trouvé
 content#:#cont_no_page#:#Aucune page trouvée
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.
-content#:#cont_no_parameters#:#No Parameters
+content#:#cont_no_parameters#:#Aucun paramètre
 content#:#cont_no_subdir_in_zip#:#La commande Zip a échoué ou le fichier importé est invalide.<br>Il ne contient pas de sous-dossier '%s'.
-content#:#cont_no_text#:#No Text
+content#:#cont_no_text#:#Aucun texte
 content#:#cont_no_zip_file#:#Le fichier d'importation n'est pas un fichier ZIP.
+content#:#cont_nomenu#:#Disable Topnavigation-Bar
 content#:#cont_none#:#Aucun
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
-content#:#cont_nr_col_footer#:#Footer Columns
-content#:#cont_nr_col_header#:#Header Columns
+content#:#cont_nr_col_footer#:#Pied de page colonnes
+content#:#cont_nr_col_header#:#Entête colonnes
 content#:#cont_nr_cols#:#Nombre de colonnes
 content#:#cont_nr_items#:#Nombre d'objets
 content#:#cont_nr_row_footer#:#Footer Rows
 content#:#cont_nr_row_header#:#Header Rows
 content#:#cont_nr_rows#:#Nombre de lignes
 content#:#cont_Number#:#Nombre
-content#:#cont_number_of_tabs#:#Number of Tabs
+content#:#cont_number_of_tabs#:#Nombre d'onglets
 content#:#cont_number_std#:#Standard
 content#:#cont_number_type#:#Number Type
 content#:#cont_numbered_list#:#Liste numérotée
@@ -5205,7 +5250,7 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisations
 content#:#cont_orig_size#:#Taille originale
 content#:#cont_page_activation#:#Page Activation
-content#:#cont_page_compare#:#Compare Selected Revisions
+content#:#cont_page_compare#:#Comparer les révisions sélectionnées
 content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.
 content#:#cont_page_deactivated#:#Page désactivée.
 content#:#cont_page_deactivated_elements#:#La page contient des éléments désactivés.
@@ -5218,29 +5263,29 @@ content#:#cont_pages_and_subchapters#:#Subchapters and Pages
 content#:#cont_parameter#:#Paramètre
 content#:#cont_parameters#:#paramètres
 content#:#cont_paste_from_clipboard#:#Coller depuis le presse-papier
-content#:#cont_paste_table#:#Paste Table
+content#:#cont_paste_table#:#Copier tableau
 content#:#cont_pc_code#:#Code
 content#:#cont_pc_deleted#:#Deleted Content
-content#:#cont_pc_dtab#:#Data Table
-content#:#cont_pc_flist#:#File List
-content#:#cont_pc_hacc#:#Accordion (Horizontal)
+content#:#cont_pc_dtab#:#Tableau
+content#:#cont_pc_flist#:#Liste de fichiers
+content#:#cont_pc_hacc#:#Accordéon (Horizontal)
 content#:#cont_pc_incl#:#Content Snippet
-content#:#cont_pc_list#:#Advanced List
-content#:#cont_pc_map#:#Map
-content#:#cont_pc_mob#:#Media
+content#:#cont_pc_list#:#Liste enrichie
+content#:#cont_pc_map#:#Carte
+content#:#cont_pc_mob#:#Média
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
-content#:#cont_pc_par#:#Text
+content#:#cont_pc_par#:#Texte
 content#:#cont_pc_qst#:#Question
-content#:#cont_pc_res#:#Resource
+content#:#cont_pc_res#:#Ressource
 content#:#cont_pc_sec#:#Section
-content#:#cont_pc_tab#:#Advanced Table
-content#:#cont_pc_vacc#:#Accordion (Vertical)
+content#:#cont_pc_tab#:#Tableau enrichi
+content#:#cont_pc_vacc#:#Accordéon (Vertical)
 content#:#cont_personal_clipboard#:#Presse-papier personnel
 content#:#cont_pg_content#:#Contenu de page
 content#:#cont_pg_title#:#Titre de page
 content#:#cont_please_enter_a_term#:#Please enter a term.
-content#:#cont_please_select#:#veuillez sélectionner
+content#:#cont_please_select#:#Veuillez sélectionner
 content#:#cont_Poly#:#Polygone
 content#:#cont_position#:#Position
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
@@ -5256,9 +5301,9 @@ content#:#cont_public_notes#:#Notes publiques
 content#:#cont_public_notes_desc#:#Autorise les utilisateurs à partager leurs notes sur toutes les pages du document.
 content#:#cont_publisher#:#Editeur
 content#:#cont_purpose#:#But
-content#:#cont_qtries#:#Number of tries for questions
+content#:#cont_qtries#:#Nombre d'essai pour les questions
 content#:#cont_question_placeh#:#Click and edit to insert question
-content#:#cont_question_placehl#:#Question Placeholder
+content#:#cont_question_placehl#:#Emplacement de la question
 content#:#cont_question_pool#:#Question Pool
 content#:#cont_question_type#:#Question Type
 content#:#cont_Reading#:#Reading
@@ -5277,26 +5322,26 @@ content#:#cont_repository_item_links#:#Liens vers des activités
 content#:#cont_resize_explanation#:#Si cette option est active, les images téléversées sont automatiquement redimensionnées à la largeur et la hauteur spécifiées.
 content#:#cont_resize_explanation2#:#Cette fonction redimensionne les fichiers images à la largeur et la hauteur spécifiées
 content#:#cont_resize_image#:#Redimensionner les images
-content#:#cont_resize_img#:#Resize Image File
+content#:#cont_resize_img#:#Redimensionner l'image
 content#:#cont_resource#:#Ressource
-content#:#cont_resource_size#:#Resource Size
+content#:#cont_resource_size#:#Taille d'origine
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Ressources
 content#:#cont_Ressources#:#Ressources
 content#:#cont_revision#:#Revision
-content#:#cont_right#:#Right
-content#:#cont_right_float#:#Right, Floating
+content#:#cont_right#:#Droite
+content#:#cont_right_float#:#Flottement à droite
 content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?
 content#:#cont_roman#:#Romain I, II, ...
 content#:#cont_roman_s#:#Roman i, ii, ...
-content#:#cont_rowspan#:#Row Span
+content#:#cont_rowspan#:#Envergure ligne
 content#:#cont_rvalue#:#Valeur
-content#:#cont_save_all_titles#:#Save Titles
-content#:#cont_save_positions#:#Save Positions
+content#:#cont_save_all_titles#:#Enregistrer les titres
+content#:#cont_save_positions#:#Sauvegarder le classement
 content#:#cont_save_positions_and_classes#:#Save Positions and Style Classes
-content#:#cont_save_spans#:#Save Spans
-content#:#cont_save_widths#:#Save Widths
+content#:#cont_save_spans#:#Sauvegarder les envergures
+content#:#cont_save_widths#:#Enregistrer les largeurs
 content#:#cont_saved_map_area#:#Zone enregistrée
 content#:#cont_saved_map_data#:#Données d'image réactive enregistrées
 content#:#cont_sc_auto_review#:#Mettre le mode de leçon en 'revision' si l'étudiant a terminé le SCO
@@ -5305,7 +5350,7 @@ content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_max_attempt#:#Max. number of attempts
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.
 content#:#cont_sc_new_version#:#Téléverser une nouvelle version
-content#:#cont_sc_preview#:#Preview
+content#:#cont_sc_preview#:#Prévisualisation
 content#:#cont_sc_stat_browsed#:#Parcouru
 content#:#cont_sc_stat_completed#:#Terminé
 content#:#cont_sc_stat_failed#:#Echec
@@ -5314,6 +5359,7 @@ content#:#cont_sc_stat_not_attempted#:#Non tenté
 content#:#cont_sc_stat_passed#:#Passé
 content#:#cont_sc_stat_running#:#En cours
 content#:#cont_sc_title#:#titre
+content#:#cont_sc_usession#:#Unlimited Session Timeout
 content#:#cont_sc_version#:#Version
 content#:#cont_scheduled_activation#:#Scheduled Activation
 content#:#cont_school#:#Ecole
@@ -5332,7 +5378,7 @@ content#:#cont_select_term#:#Selectionner terme
 content#:#cont_select_translation#:#Veuillez saisir l'assignation dans la liste ci-dessus
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.
-content#:#cont_selected_pg_chap#:#Selected Pages/Chapters
+content#:#cont_selected_pg_chap#:#Pages/chapitres sélectionnés
 content#:#cont_series#:#Collection
 content#:#cont_series_editor#:#Responsable de collection
 content#:#cont_series_title#:#Titre de collection
@@ -5346,9 +5392,9 @@ content#:#cont_set_into#:#insérer à l'intérieur
 content#:#cont_set_link#:#Régler lien
 content#:#cont_set_shape#:#Modifier forme
 content#:#cont_set_start_file#:#Régler fichier de départ
-content#:#cont_set_styles#:#Set Styles
+content#:#cont_set_styles#:#Appliquer le style
 content#:#cont_set_styles_and_widths#:#Set Styles and Widths
-content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
+content#:#cont_set_tab_style_info#:#Cocher les cellules du tableau pour leur appliquer le style sélectionné.
 content#:#cont_set_width#:#Fixer la largeur
 content#:#cont_shape#:#Forme
 content#:#cont_show#:#Afficher
@@ -5360,14 +5406,14 @@ content#:#cont_skip_chapter#:#Passer le chapitre
 content#:#cont_source#:#Source
 content#:#cont_span#:#Span
 content#:#cont_Special#:#Special
-content#:#cont_spreadsheet_table#:#Spreadsheet Table
+content#:#cont_spreadsheet_table#:#Tableau de tableur
 content#:#cont_src#:#Code source
 content#:#cont_src_other#:#autre
 content#:#cont_st_on_pg#:#cette fonction n'est pas autorisée
 content#:#cont_st_title#:#Titre de chapitre
-content#:#cont_StandardTable#:#Standard Table
+content#:#cont_StandardTable#:#Tableau simple
 content#:#cont_start#:#Start
-content#:#cont_start_value#:#Start Value
+content#:#cont_start_value#:#Valeur de départ
 content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.
 content#:#cont_startfile#:#Fichier de départ
 content#:#cont_status#:#Statut
@@ -5379,41 +5425,41 @@ content#:#cont_subchapters#:#Sous-chapitres
 content#:#cont_synchronize_frames#:#Synchronise les fenêtres sur
 content#:#cont_synchronize_frames_desc#:#Cette option active la synchronisation de la fenêtre de la table des matières avec le contenu de la fenêtre et nettoie les fenêtre supplémentaires en mode « 3 fenêtres » (3 windows). Mais cela ralentit la consultation du document.
 content#:#cont_syntax_help#:#Aide sur la syntaxe
-content#:#cont_tab_cont_height#:#Content Height
-content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_cont_height#:#Hauteur du contenu
+content#:#cont_tab_cont_width#:#Largeur du contenu
 content#:#cont_table#:#Tableau
 content#:#cont_table_border#:#Bordure du tableau
-content#:#cont_table_cell_properties#:#Table Cell Properties
+content#:#cont_table_cell_properties#:#Propriétés des cellules du tableau
 content#:#cont_table_cellpadding#:#Largeur des cellules du tableau
 content#:#cont_table_cellspacing#:#Espacement des cellules du tableau
 content#:#cont_table_html_import#:#Importer tableau HTML
 content#:#cont_table_html_import_info#:#L'importation fonctionne uniquement avec les tableaux conformes au standard XHTML. Table doit être la balise racine.
-content#:#cont_table_properties#:#Table Properties
+content#:#cont_table_properties#:#Propriétés du tableau
 content#:#cont_table_spreadsheet_import#:#Importation tableur
 content#:#cont_table_spreadsheet_import_info#:#Collez un tableau depuis un tableur dans la zone de texte en utilisant le presse-papier.
 content#:#cont_table_width#:#Largeur du tableau
 content#:#cont_TableContent#:#Contenu du tableau
-content#:#cont_tabs#:#Tabs
-content#:#cont_tabs_acc_hor#:#Horizontal Accordion
-content#:#cont_tabs_acc_ver#:#Vertical Accordion
+content#:#cont_tabs#:#Onglets
+content#:#cont_tabs_acc_hor#:#Accordéon horizontal
+content#:#cont_tabs_acc_ver#:#Accordéon vertical
 content#:#cont_tabs_accordion#:#Accordion
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?
-content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.
+content#:#cont_tabs_hor_align_info#:#Les accordéons horizontaux seront toujours alignés à gauche.
 content#:#cont_tabs_hor_tabs#:#Horizontal Tabs
 content#:#cont_target_missing#:#Target Missing
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.
 content#:#cont_term#:#Terme
 content#:#cont_terms#:#Termes
-content#:#cont_text_acc#:#Accent:
+content#:#cont_text_acc#:#Accent :
 content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Commentaire :
 content#:#cont_text_emp#:#Texte accentué :
-content#:#cont_text_fn#:#Note de bas de page:
-content#:#cont_text_iln#:#Lien interne, e.g.:
+content#:#cont_text_fn#:#Note de bas de page :
+content#:#cont_text_iln#:#Lien interne, e.g. :
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
-content#:#cont_text_placehl#:#Text Placeholder
+content#:#cont_text_placehl#:#Emplacement du texte
 content#:#cont_text_quot#:#Citation :
 content#:#cont_text_str#:#Texte gras :
 content#:#cont_text_tex#:#Code LaTeX :
@@ -5448,7 +5494,7 @@ content#:#cont_upload_file#:#Téléverser fichier
 content#:#cont_uploaded_file#:#Existing file
 content#:#cont_url#:#URL
 content#:#cont_usage#:#Usage
-content#:#cont_use_same_resource_as_above#:#Use the same resource as above
+content#:#cont_use_same_resource_as_above#:#Utilisez la même ressource que précédemment
 content#:#cont_users_have_mob_in_clip1#:#Cet objet média est dans le presse-papier de
 content#:#cont_users_have_mob_in_clip2#:#utilisateur(s).
 content#:#cont_validate_file#:#Valider fichier
@@ -5464,7 +5510,7 @@ content#:#cont_year#:#Année
 content#:#cont_zip_file_invalid#:#Le fichier n'est pas un fichier d'importation valide.<br>Il ne contient pas un fichier '%s'.
 content#:#content_current#:#Current
 content#:#content_last#:#Last
-content#:#content_page_history#:#Page History
+content#:#content_page_history#:#Historique
 content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.
 content#:#dgl_pagebreak#:#Saut de page
 content#:#glo_definition_abbr#:#Déf.
@@ -5477,7 +5523,7 @@ content#:#lm_menu_entry_title#:#Titre
 content#:#lm_menu_new_entry#:#Créer une nouvelle entrée de menu
 content#:#lm_menu_select_internal_object#:#Sélectionner objet interne >>
 content#:#lm_menu_select_object_to_add#:#Veuillez sélectionner l'objet que vous voulez ajouter au menu
-content#:#mep_folder_created#:#Added new folder.
+content#:#mep_folder_created#:#Nouveau dossier ajouté.
 content#:#msg_entry_added#:#Entrée de menu ajoutée
 content#:#msg_entry_removed#:#Entrée de menu supprimée
 content#:#msg_entry_updated#:#Entrée de menu mise à jour
@@ -5491,11 +5537,14 @@ content#:#pg#:#Page
 content#:#public_section#:#Section publique
 content#:#read offline#:#Lire hors ligne
 content#:#saved_media_object#:#Saved media object.
-content#:#scorm_editable#:#Import editable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
+content#:#scorm_editable#:#Importation modifiable
+content#:#scorm_editable_comments#:#Fonctionne uniquement avec des contenus SCORM 1.2/2004
+content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Suivant
+content#:#scplayer_debugger#:#Show Debugger
 content#:#scplayer_exit#:#Quitter
 content#:#scplayer_exitall#:#Tout quitter
+content#:#scplayer_expandtree#:#Expand All
 content#:#scplayer_hidetree#:#Cacher l'arborescence
 content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE
 content#:#scplayer_previous#:#Précédent
@@ -5520,14 +5569,15 @@ content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity t
 content#:#set_public_mode#:#Définir le mode d'accès public
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
-content#:#text_repr#:#Text Representation
-content#:#text_repr_info#:#Used for image "alt" attribute.
+content#:#text_repr#:#Texte de substitution
+content#:#text_repr_info#:#Attribut "alt" utilisé pour l'image
 crs#:#activation_times_not_valid#:#La période d'accès est terminée.
 crs#:#add_event#:#Ajouter événement
 crs#:#assigned#:#Assigné
 crs#:#contact_email_not_valid#:#L'adresse électronique de contact n'est pas valide.
 crs#:#crs_accept_subscriber#:#Inscription au cours
 crs#:#crs_accept_subscriber_body#:#Vous avez été inscrit à ce cours
+crs#:#crs_access#:#Access
 crs#:#crs_access_password#:#Mot de passe
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Créer archive HTML
@@ -5578,6 +5628,7 @@ crs#:#crs_blocked_member_body#:#Votre appartenance est terminée
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#Désabonnement du cours
 crs#:#crs_cancel_subscription_body#:#Un utilisateur s'est désabonné du cours
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
 crs#:#crs_change_status#:#Changer l'état de l'objectif :
 crs#:#crs_chapter_already_assigned#:#Ces chapitres sont déjà assignés
 crs#:#crs_contact#:#Contact
@@ -5672,6 +5723,7 @@ crs#:#crs_info_settings#:#Informations sur le cours
 crs#:#crs_info_start#:#Veuillez travailler avec les objets de cours ci-dessus.<br />Quand vous aurez terminé tous les objets marqués en rouge, d'autres objets seront activés.
 crs#:#crs_item_availability_info#:#Choisissez cette option pour rendre cet objet disponible pendant une période de temps définie. Si 'visibilité' est coché, l'objet restera visible mais pas accessible aux apprenants.
 crs#:#crs_item_presetting_info#:#Choisissez cette option pour donner aux apprenants les suggestions de durée.
+crs#:#crs_join_request#:#Send
 crs#:#crs_learning_materials#:#Matériaux d'apprentissage
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
 crs#:#crs_list_users#:#Liste des utilisateurs
@@ -5707,6 +5759,7 @@ crs#:#crs_move_up#:#Déplacer vers e haut
 crs#:#crs_moved_item#:#Objets du cours déplacés
 crs#:#crs_moved_objective#:#Objectif pédagogique déplacé
 crs#:#crs_new_search#:#Nouvelle recherche
+crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription#:#Nouvel abonnement à cours "%s"
 crs#:#crs_new_subscription_body#:#Un nouvel utilisateur a été inscrit
 crs#:#crs_new_subscription_request#:#Demande d'inscription au cours "%s"
@@ -5745,6 +5798,7 @@ crs#:#crs_no_users_selected#:#Vous n'avez sélectionné aucun utilisateur
 crs#:#crs_no_valid_member_id_given#:#Pas d'id de membre valide
 crs#:#crs_not_available#:#- Non disponible -
 crs#:#crs_notification#:#Notification
+crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.
 crs#:#crs_notify#:#Notifier des nouvelles inscriptions
 crs#:#crs_nr#:#N°
 crs#:#crs_number_users_added#:#Le nombre d'utilisateurs suivant a été inscrit au cours
@@ -5775,6 +5829,7 @@ crs#:#crs_objective_points#:#Point(s)
 crs#:#crs_objective_pretest#:#Auto-évaluation
 crs#:#crs_objective_qst_summary#:#Overview Question Assignment
 crs#:#crs_objective_question_assignment#:#Assignation de question
+crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.
 crs#:#crs_objective_result#:#Après le test
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
 crs#:#crs_objective_self_assessment#:#Initial Test
@@ -5834,6 +5889,7 @@ crs#:#crs_reg_lim_info#:#Inscriptions possibles seulement pendant une période l
 crs#:#crs_reg_max_info#:#Définissez le nombre maximum d'utilisateurs pouvant être inscrits à ce cours. '0' signifie illimité.
 crs#:#crs_reg_notify_info#:#Si cela est activé, tous les administrateurs et tuteurs avec le statut 'notification' seront informés des nouvelles inscriptions par courrier électronique.
 crs#:#crs_reg_period#:#Période d'inscription
+crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_subscription_deactivated#:#L'inscription est désactivée.
 crs#:#crs_reg_subscription_end_earlier#:#La période d'inscription a expiré.
 crs#:#crs_reg_subscription_max_members_reached#:#Le nombre maximal d'utilisateurs est dépassé.
@@ -5896,6 +5952,10 @@ crs#:#crs_status#:#Statut
 crs#:#crs_status_changed#:#Statut de cours
 crs#:#crs_status_changed_body#:#Votre statut de cours a été changé
 crs#:#crs_structure#:#Structure du cours
+crs#:#crs_subscribe_member#:#Your registration for course "%s"
+crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
+crs#:#crs_subscribe_wl#:#Your registration for course "%s".
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Souscripteur
 crs#:#crs_subscribers#:#Inscriptions
 crs#:#crs_subscribers_deleted#:#Détruired abonné(s)
@@ -5960,6 +6020,8 @@ crs#:#crs_unblocked#:#Entrée libre
 crs#:#crs_unblocked_member#:#Appartenance au cours
 crs#:#crs_unblocked_member_body#:#Votre appartenance a été restaurée
 crs#:#crs_unlimited#:#Illimité
+crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
+crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
 crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours
 crs#:#crs_update_objective#:#Modifier objectifs pédagogiques
@@ -6072,6 +6134,7 @@ crs#:#sess_gen_attendance_list#:#Generate Attendance List
 crs#:#sess_gen_comment#:#Generate Column for Comments
 crs#:#sess_gen_mark_title#:#Generate Column for Notes
 crs#:#sess_gen_signature#:#Generate Column for Signatures
+crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session
 crs#:#sess_limit#:#Limit Number of Sessions
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions
 crs#:#sess_num_next#:#Number of Following Sessions
@@ -6100,6 +6163,7 @@ crs#:#tutor_name#:#Nom
 crs#:#tutor_phone#:#Téléphone
 crs#:#tutor_title#:#Titre
 crs#:#user_fields#:#Champs utilisateur
+dateplaner#:#add_appointment#:#Ajouter un événement
 dateplaner#:#add_data#:#Données additionnelles
 dateplaner#:#app_#:#événements attribués au groupe
 dateplaner#:#app_date#:#Ajouter un événement
@@ -6135,13 +6199,13 @@ dateplaner#:#cal_create#:#Créer
 dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
 dateplaner#:#cal_daily#:#Quotidiennement
-dateplaner#:#cal_day_end#:#Day End
+dateplaner#:#cal_day_end#:#Début de journée
 dateplaner#:#cal_day_of_month#:#Jour du mois
 dateplaner#:#cal_day_overview#:#Day Overview
 dateplaner#:#cal_day_s#:#Jour(s)
 dateplaner#:#cal_day_selection#:#Select Day
-dateplaner#:#cal_day_start#:#Day Start
-dateplaner#:#cal_day_week_view#:#Day/Week View Settings
+dateplaner#:#cal_day_start#:#Finde journée
+dateplaner#:#cal_day_week_view#:#Propriétés de l'affichage semaine/mois
 dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_declined#:#Refusé
 dateplaner#:#cal_def_time_format#:#Format de date par défaut
@@ -6172,7 +6236,7 @@ dateplaner#:#cal_fullday_title#:#Aucune durée spécifiée
 dateplaner#:#cal_global_settings#:#Paramètres généraux
 dateplaner#:#cal_in#:#dans
 dateplaner#:#cal_last#:#Dernier
-dateplaner#:#cal_month_overview#:#Month Overview
+dateplaner#:#cal_month_overview#:#Mois
 dateplaner#:#cal_month_s#:#Mois
 dateplaner#:#cal_month_selection#:#Select Month
 dateplaner#:#cal_monthly#:#Mensuel
@@ -6209,7 +6273,7 @@ dateplaner#:#cal_task_completion#:#Task Completion
 dateplaner#:#cal_third#:#Troisième
 dateplaner#:#cal_time_format_info#:#Veuillez choisir le format d'affichage de l'heure
 dateplaner#:#cal_timezone_info#:#Veuillez indiquer la ville de votre fuseau horaire la plus proche.
-dateplaner#:#cal_type_crs#:#Course Calendar
+dateplaner#:#cal_type_crs#:#Agenda de cours
 dateplaner#:#cal_type_grp#:#Agenda de groupe
 dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.
 dateplaner#:#cal_type_personal#:#Agenda privé
@@ -6221,8 +6285,8 @@ dateplaner#:#cal_unshared_selected_usr#:#Partage avec les utilisateurs sélectio
 dateplaner#:#cal_user_settings#:#Propriétés de l'agenda
 dateplaner#:#cal_user_time_format#:#Format horaire
 dateplaner#:#cal_user_timezone#:#Fuseau horaire
-dateplaner#:#cal_week_abbrev#:#W
-dateplaner#:#cal_week_month_view#:#Week/Month View Settings
+dateplaner#:#cal_week_abbrev#:#Sem.
+dateplaner#:#cal_week_month_view#:#Propriétés de l'affichage jour/semaine
 dateplaner#:#cal_week_overview#:#Week Overview
 dateplaner#:#cal_week_s#:#Semaine(s)
 dateplaner#:#cal_week_selection#:#Select Week
@@ -6598,7 +6662,7 @@ form#:#form_hierarchy_drag_drop_help#:#Glissez-déposez les icônes pour déplac
 form#:#form_hours#:#Heures
 form#:#form_image_file_input#:#Image File Input
 form#:#form_max_value#:#Valeur maximale
-form#:#form_min_value#:#Valeur minimake
+form#:#form_min_value#:#Valeur minimale
 form#:#form_minutes#:#Minutes
 form#:#form_months#:#Mois
 form#:#form_msg_file_cannot_write_to_disk#:#Ne peut pas écrire sur le disque.
@@ -6617,7 +6681,7 @@ form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!
 form#:#form_password_not_allowed_for_auth#:#Il n'est possible de changer de mot de passe avec cette méthode d'authentification.
 form#:#form_password_required_for_auth#:#Un mot de passe est nécessaire pour cette méthode d'authentification.
-form#:#form_retype_password#:#Retaper le mot de passe
+form#:#form_retype_password#:#Veuillez saisir le mot de passe de nouveau
 form#:#form_seconds#:#Secondes
 forum#:#activate_current_and_childs#:#Acecpter tous les messages
 forum#:#activate_new_posts#:#Modérer les nouveaux messages
@@ -6700,7 +6764,7 @@ forum#:#frm_moderators#:#Moderators
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
 forum#:#frm_moderators_do_search#:#Search
 forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.
-forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. 
+forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator.
 forum#:#frm_moderators_search#:#User Search
 forum#:#frm_moderators_search_query#:#Searchterm(s)
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
@@ -6740,7 +6804,9 @@ gmaps#:#gmaps_api_key_desc#:#Dans le but d'utiliser l'extension Google Maps, Vou
 gmaps#:#gmaps_enable_gmaps#:#Activer les cartes Google
 gmaps#:#gmaps_enable_gmaps_info#:#Activer Google Maps dans le profil des utilisateurs, les groupes et les cours.
 gmaps#:#gmaps_extt_gmaps#:#Cartes Google
-gmaps#:#gmaps_lookup_address#:#Lookup Address
+gmaps#:#gmaps_latitude#:#Latitude
+gmaps#:#gmaps_longitude#:#Longitude
+gmaps#:#gmaps_lookup_address#:#Recherche d'adresse
 gmaps#:#gmaps_public_profile_info#:#Afficher localisation géographique dans le profil personnel.
 gmaps#:#gmaps_settings#:#Paramètres Google Maps
 gmaps#:#gmaps_std_location#:#Localisation par défaut
@@ -6777,7 +6843,33 @@ grp#:#grp_icon_settings#:#Icône du groupe
 grp#:#grp_info_settings#:#Information sur le groupe
 grp#:#grp_information#:#Information importante
 grp#:#grp_information_info#:#Cette information sera affichée sur la page info et pour les nouvelles inscriptions.
+grp#:#grp_join_request#:#Send
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s"
+grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".
+grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"
+grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.
+grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"
+grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".
+grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".
+grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
+grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
+grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"
+grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
+grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
+grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
+grp#:#grp_mail_status_sub#:#Changed status in group "%s"
+grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"
+grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".
+grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"
+grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.
+grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Carte de localisation du groupe
 grp#:#grp_map_settings#:#Propriétés Carte
 grp#:#grp_members#:#Membres
@@ -6785,8 +6877,12 @@ grp#:#grp_members_map#:#Carte des membres du groupe
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
-grp#:#grp_missing_title#:#Please enter a group title. 
+grp#:#grp_missing_title#:#Please enter a group title.
+grp#:#grp_new_status#:#Your new status is:
 grp#:#grp_notification#:#Notification
+grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.
+grp#:#grp_notify_off#:#Notification about new registrations disabled
+grp#:#grp_notify_on#:#Notification about new registrations enabled
 grp#:#grp_open#:#Groupe ouvert
 grp#:#grp_open_info#:#Les non-membres peuvent voir le groupe et s'y inscrire directement.
 grp#:#grp_pass_request#:#S'inscrire avec un mot de passe de groupe
@@ -6810,6 +6906,7 @@ grp#:#grp_reg_req_info_screen#:#Vous pouvez demander votre inscription à ce gro
 grp#:#grp_reg_request#:#Demande d'inscription
 grp#:#grp_reg_request_info#:#Les utilisateurs intéressés peuvent envoyer une demande à l'administrateur du groupe.
 grp#:#grp_reg_start#:#Début d'inscription :
+grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Période d'inscription illimitée
 grp#:#grp_search_users#:#Search User
 grp#:#grp_select_one_file#:#Veuillez sélectionner un fichier.
@@ -7039,7 +7136,7 @@ license#:#license_counter#:#License counter
 license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules
 license#:#license_updated#:#The license data was updated.
 license#:#license_warning#:#License warning
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. 
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course.
 license#:#potential_accesses#:#Potential accesses
 license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
 license#:#remaining_licenses#:#Available licenses
@@ -7122,7 +7219,7 @@ mail#:#mail_into_addressbook#:#Ajouter au carnet d'adresse
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#Liste des membres
 mail#:#mail_mailing_list#:#Liste de destinataires
-mail#:#mail_mailing_lists#:#Listes de destinataires
+mail#:#mail_mailing_lists#:#Groupes de contacts
 mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Vous avez déjà associé la totalité des contacts de votre carnet d'adresse à cette liste de destinataires.
 mail#:#mail_mailing_lists_no_addressbook_entries#:#Vous n'avez pas encore de contat dans vtore carnet d'adresse
 mail#:#mail_mark_read#:#Marquer les messages comme lus
@@ -7137,9 +7234,9 @@ mail#:#mail_moved#:#Message(s) déplacé(s)
 mail#:#mail_moved_to_trash#:#Message(s) déplacé(s) dans la corbeille
 mail#:#mail_multiple_recipients_found#:#Saisissez une adresse électronique plus spécifique. ILIAS a trouvé de multiples destinataires avec cette adresse électronique : %s
 mail#:#mail_my_courses#:#Cours
-mail#:#mail_my_entries#:#Mes contacts
+mail#:#mail_my_entries#:#Contacts
 mail#:#mail_my_groups#:#Groupes
-mail#:#mail_my_mailing_lists#:#Mes listes de destinataires
+mail#:#mail_my_mailing_lists#:#Groupes de contacts
 mail#:#mail_nacc_admin_mail#:#Adresse électronique de l'administrateur.
 mail#:#mail_nacc_client_name#:#Nom client
 mail#:#mail_nacc_ilias_url#:#URL du système ILIAS.
@@ -7166,9 +7263,12 @@ mail#:#mail_received_x_new_mails#:#Vous avez reçu %s nouveaux messages.
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
 mail#:#mail_s#:#Message(s)
 mail#:#mail_s_unread#:#Message(s) non lu(s)
+mail#:#mail_salutation_f#:#Hello
 mail#:#mail_salutation_female#:#Salutation, féminin
 mail#:#mail_salutation_general#:#Salutation, général
+mail#:#mail_salutation_m#:#Hello
 mail#:#mail_salutation_male#:#Salutation, masculin
+mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#Le message a été sauvé
 mail#:#mail_search_addressbook#:#Rechercher dans le carnet d'adresses
 mail#:#mail_search_system#:#chercher dans le système
@@ -7223,7 +7323,7 @@ mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback
 mcst#:#mcst_mimetypes#:#Mime Types
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
 mcst#:#mcst_news_item_visibility_info#:#Les informations publiques sont accessibles en dehors d'Ilias sans authentification, via RSS. Veuillez ne pas inclure d'information confidentielle.
-mcst#:#mcst_nr_items#:#Nombre d'items
+mcst#:#mcst_nr_items#:#Nombre d'objets
 mcst#:#mcst_play_time#:#Durée enregistrement
 mcst#:#mcst_reference_info#:#Fournit une URL pointant la ressource
 mcst#:#mcst_set_playtime#:#Playtime has been set.
@@ -7238,15 +7338,16 @@ mcst#:#mcst_videoportable_title#:#Fichiers vidéo supplémentaires pour des appa
 mcst#:#mcst_visibility_info#:#Les items publics peuvent être lus via RSS sans authentification.
 mcst#:#mcst_visibility_public#:#Public
 mcst#:#mcst_visibility_users#:#Utilisateurs connectés
-mep#:#mep_all#:#All
+mep#:#mep_all#:#Tous
 mep#:#mep_all_mobs#:#All Media Objects
+mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_copy_to_mep#:#Copie à la galerie multimédia
 mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_create_folder#:#Créer un dossier
 mep#:#mep_create_mob#:#Créer un objet média
-mep#:#mep_default_height#:#Default Height
-mep#:#mep_default_width#:#Default Width
-mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.
+mep#:#mep_default_height#:#Hauteur par défaut
+mep#:#mep_default_width#:#Largeur par défaut
+mep#:#mep_default_width_height_info#:#Largeur et hauteur par défaut sont utilisés comme choix par défaut pour l'ajout de nouveaux médias.
 mep#:#mep_edit_content_snippet#:#Edit Content Snippet
 mep#:#mep_edit_folder#:#Edit Folder
 mep#:#mep_folder#:#Folder
@@ -7254,6 +7355,7 @@ mep#:#mep_folder_content#:#Folder Content
 mep#:#mep_format#:#Format
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
+mep#:#mep_page_created#:#Content snippet created.
 mep#:#mep_page_properties#:#Page Properties
 mep#:#mep_parent_folder#:#Dossier parent
 mep#:#mep_thumbnail#:#Vignette
@@ -7264,7 +7366,7 @@ mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. Thes
 meta#:#md_adv_active#:#Actif
 meta#:#md_adv_add_value#:#Ajouter une valeur
 meta#:#md_adv_added_new_record#:#Added new Dataset
-meta#:#md_adv_create_field#:#Add Field
+meta#:#md_adv_create_field#:#Ajouter un champ
 meta#:#md_adv_create_record#:#Add new Dataset
 meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?
 meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?
@@ -7866,7 +7968,9 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#1 fichier a été ajouté.
 news#:#news_1_file_updated#:#1 fichier a été mis à jour
 news#:#news_1_postings#:#1 message a été posté
-news#:#news_all_items#:#Tous les items
+news#:#news_acc_cache#:#Vérification de la permission (Minutes)
+news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
+news#:#news_all_items#:#Tous les articles
 news#:#news_allow_longer_periods#:#Autoriser une période plus longue
 news#:#news_allow_longer_periods_info#:#Les utilisateurs peuvent choisir une période plus longue sur leur bureau personnel.
 news#:#news_allow_shorter_periods#:#Autoriser une période plus courte
@@ -7927,7 +8031,7 @@ news#:#news_related_to#:#Relatif à
 news#:#news_rss_period#:#Période du RSS
 news#:#news_settings#:#Paramètres des Infos internes
 news#:#news_subscribe#:#S'inscrire
-news#:#news_time_period#:#Time Period
+news#:#news_time_period#:#Période
 news#:#news_unsubscribe#:#Annuler inscription
 news#:#news_visibility_public#:#Public
 news#:#news_visibility_users#:#Utilisateurs connectés
@@ -7943,14 +8047,14 @@ news#:#priv_feed_no_auth_title#:#L'authentification a échoué.
 news#:#priv_feed_settings#:#Paramètres du flux d'actualité (RSS) personnel
 notes#:#notes_activate_comments#:#Activer les commentaires publics
 notes#:#notes_add_comment#:#Ajouter un commentaire
-notes#:#notes_add_note#:#Add Note
+notes#:#notes_add_note#:#Ajouter une note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Commentaire
-notes#:#notes_deactivate_comments#:#Deactivate Public Comments
+notes#:#notes_deactivate_comments#:#Désactiver les commentaires publics
 notes#:#notes_edit_comment#:#Edit Comment
 notes#:#notes_edit_note#:#Edit Note
 notes#:#notes_hide_comments#:#Hide Comments
-notes#:#notes_label#:#Label
+notes#:#notes_label#:#Marque
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_note_deleted#:#The note has been deleted.
 notes#:#notes_notes_deleted#:#The notes have been deleted.
@@ -7961,6 +8065,8 @@ payment#:#currency_cent#:#Centime
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Durée
 payment#:#edit_topic#:#Edit Topic
+payment#:#enable_ean#:#Enable EAN
+payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
 payment#:#excel_export#:#Exportation Excel
 payment#:#filter_by#:#by
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.
@@ -8029,13 +8135,25 @@ payment#:#pay_enable_shop#:#Enable Webshop
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
 payment#:#pay_ending#:#se termine par
 payment#:#pay_entitled_retrieve#:#Autorisé à récupérer les données pour
+payment#:#pay_epay_canceled#:#The payment was canceled.
+payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
 payment#:#pay_expires_info#:#Cet objet est jetable. Le paiement a expiré, vous ne pouvez pa s l'acheter.
 payment#:#pay_filter#:#Filtre
 payment#:#pay_goto_buyed_objects#:#Aller aux objets achetés
 payment#:#pay_goto_shopping_cart#:#Aller au panier
 payment#:#pay_header#:#Paiement
+payment#:#pay_hide_advanced_search#:#Hide Advanced Search
+payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
+payment#:#pay_hide_coupons#:#Hide coupons
+payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
+payment#:#pay_hide_filtering#:#Hide Filtering
+payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.
+payment#:#pay_hide_news#:#Hide news
+payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
+payment#:#pay_hint_epay#:#Tip to ePay
 payment#:#pay_hint_paypal#:#Hint for PayPal
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_item_already_in_sc#:#Cet objet est déjà dans votre panier.
 payment#:#pay_item_already_in_sc_choose_another#:#Cet article vient d'être supprimé de votre panier, choisissez une autre combinaison prix/durée .
@@ -8052,6 +8170,8 @@ payment#:#pay_no_vendors_created#:#Pas de vendeurs créés
 payment#:#pay_not_buyed_any_object#:#Vous n'avez acheté aucun objet.
 payment#:#pay_order_date_from#:#Date de commande à partir du
 payment#:#pay_order_date_til#:#Date de commande jusqu'au
+payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
+payment#:#pay_order_paid_subject#:#Your invoice
 payment#:#pay_payed_bill#:#Rechnung bezahlt
 payment#:#pay_payed_credit_card#:#La commande a été payée par carte de crédit.
 payment#:#pay_payed_debit_entry#:#La commande a été payée par entrée de débit
@@ -8154,6 +8274,7 @@ payment#:#paya_delete_price#:#Supprimer prix
 payment#:#paya_delete_trustee_msg#:#Supprimer administrateur sélectionné
 payment#:#paya_deleted_last_price#:#Le dernier prix a été supprimé.
 payment#:#paya_deleted_object#:#Paiement pour l'objet sélectionné arrêté
+payment#:#paya_deleted_selected_prices#:#Price(s) deleted
 payment#:#paya_details_updated#:#Détails mis à jour
 payment#:#paya_disabled#:#Inactif
 payment#:#paya_edit_details#:#Modifier détails
@@ -8209,6 +8330,7 @@ payment#:#paya_sure_delete_selected_prices#:# Etes-vous sûr(e) de vouloir détr
 payment#:#paya_sure_delete_selected_trustees#:# Etes-vous sûr(e) de vouloir détruire les administrateurs sélectionnés ?
 payment#:#paya_sure_delete_stat#:#Etes-vous sûr(e) de vouloir détruire ces statistiques ?
 payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?
+payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
 payment#:#paya_transaction#:#Transaction
 payment#:#paya_trustee_table#:#Administrateurs
 payment#:#paya_trustees#:#Administrateurs
@@ -8233,9 +8355,9 @@ payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VA
 payment#:#payment_edit_vat#:#Edit VAT
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.
 payment#:#payment_news#:#Shop News
-payment#:#payment_news_add_news#:#Add Shop News 
+payment#:#payment_news_add_news#:#Add Shop News
 payment#:#payment_news_archive_period#:#Archive-Period
-payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive 
+payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive
 payment#:#payment_news_created#:#Shop news added
 payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?
 payment#:#payment_news_deleted#:#Shop news deleted
@@ -8286,8 +8408,39 @@ payment#:#pays_currency_subunit#:#Unité monétaire (1/100) (par ex. Centime)
 payment#:#pays_currency_unit#:#Unité monétaire (par ex. EUR)
 payment#:#pays_delete_vendor#:#Supprimer l'assignation de l'utilisateur
 payment#:#pays_deleted_number_vendors#:#Le nombre de vendeurs suivant ont été détruits :
+payment#:#pays_eco_agreement#:#Agreement Number
+payment#:#pays_eco_cur_handle_code#:#Currency Code
+payment#:#pays_eco_layout#:#Invoice Layout
+payment#:#pays_eco_payment_terms#:#Payment Terms
+payment#:#pays_eco_product_number#:#Product Number
 payment#:#pays_edit_vendor#:#Modifier utilisateur
 payment#:#pays_email_vendor#:#E-Mail address of the vendor
+payment#:#pays_epay#:#ePay
+payment#:#pays_epay_auth_email#:#Email Notification
+payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
+payment#:#pays_epay_auth_token#:#Authentication Token
+payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
+payment#:#pays_epay_instant_capture#:#Instant Capture
+payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
+payment#:#pays_epay_merchant_number#:#Merchant id
+payment#:#pays_epay_server_host#:#Server host
+payment#:#pays_epay_server_path#:#Server path
+payment#:#pays_epay_settings#:#ePay configuration
+payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.
+payment#:#pays_erp#:#ERP
+payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.
+payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
+payment#:#pays_erp_error#:#Error interacting with %s!
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
+payment#:#pays_erp_settings#:#ERP Settings
+payment#:#pays_erp_system#:#ERP System
+payment#:#pays_erp_tst_billed#:#billed for
+payment#:#pays_erp_tst_existing#:#Existing Debtor
+payment#:#pays_erp_tst_new#:#New Debtor
+payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.
+payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
 payment#:#pays_general#:#General
 payment#:#pays_general_settings#:#Paramètres généraux
 payment#:#pays_general_settings_not_valid#:#Vos paramètres généraux ne sont pas valides. Veuillez vérifier que tous les champs sont remplis correctement.
@@ -8312,6 +8465,7 @@ payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Voulez-vous vraiment supprimer le(s) vendeur(s) suivant(s)
 payment#:#pays_too_many_vendors_selected#:#Veuillez sélectionner un seul client pour cette action.
 payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.
+payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
 payment#:#pays_updated_general_settings#:#Vos paramètres généraux ont été mis à jour.
 payment#:#pays_updated_pay_method#:#Méthode de paiement changée
 payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.
@@ -8352,6 +8506,8 @@ pd#:#pd_enable_active_users#:#Activer Bloc des utilisateurs connectés
 pd#:#pd_enable_block_moving#:#Activer le déplacement des blocs
 pd#:#pd_enable_block_moving_info#:#Autoriser les utilisateurs à réorganiser les blocs de contenu sur le bureau personnel.
 pd#:#pd_enable_bookmarks#:#Activer les liste des liens Internet
+pd#:#pd_enable_global_profiles#:#Enable Global Profiles
+pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'
 pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.
 pd#:#pd_enable_my_offers#:#Enable 'Selected Items'
@@ -8360,7 +8516,7 @@ pd#:#pd_enable_notes#:#Activer les notes
 pd#:#pd_my_memberships#:#Mes appartenances
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.
-pd#:#pd_my_offers#:#Items sélectionnés
+pd#:#pd_my_offers#:#Objets sélectionnés
 pd#:#pd_osi_host#:#Hôte OSI
 pd#:#pd_osi_host_info#:#Online Status Indicator Host (facultatif) de la messagerie instantanée. Voir :
 pd#:#pd_personal_items_default_view#:#Default View
@@ -8554,7 +8710,7 @@ rbac#:#perm_use_local_policy#:#Utiliser règle locale
 rbac#:#perm_use_local_policy_desc#:#Si la règle locale est activée, vous pourrez définir une configuration des permissions par défaut différentes pour cet objet courant.
 rbac#:#rbac_delete_role#:#Delete Role
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
-rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 rbac#:#rcrs_delete#:#Delete Course-Link
 rbac#:#rcrs_edit_permission#:#Modifier les paramètres de permission
@@ -8566,6 +8722,29 @@ rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_visible#:#Restored Objects are visible
 rbac#:#recf_write#:#Edit Restored Objects
 rbac#:#root_create_catr#:#Create Category Reference
+rbac#:#root_create_chat#:#Create Chat
+rbac#:#root_create_crs#:#Create Course
+rbac#:#root_create_crsr#:#Create Course Referenc
+rbac#:#root_create_dbk#:#Create Digilib Book
+rbac#:#root_create_exc#:#Create Exercise
+rbac#:#root_create_feed#:#Create Web Feed
+rbac#:#root_create_file#:#Upload File
+rbac#:#root_create_frm#:#Create Forum
+rbac#:#root_create_glo#:#Create Glossary
+rbac#:#root_create_grp#:#Create Group
+rbac#:#root_create_htlm#:#Create HTML Learning Module
+rbac#:#root_create_icrs#:#Create LearnLinc Seminar
+rbac#:#root_create_lm#:#Create ILIAS Learning Module
+rbac#:#root_create_mcst#:#Create Mediacast
+rbac#:#root_create_mep#:#Create Media Pool
+rbac#:#root_create_qpl#:#Create Question Pool Test
+rbac#:#root_create_rcrs#:#Create Course-Link
+rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#root_create_spl#:#Create Question Pool Survey
+rbac#:#root_create_svy#:#Create Survey
+rbac#:#root_create_tst#:#Create Test
+rbac#:#root_create_webr#:#Create Weblink
+rbac#:#root_create_wiki#:#Create Wiki
 rbac#:#sess_copy#:#Copy Session
 rbac#:#sess_delete#:#Delete Session
 rbac#:#sess_edit_event#:#Edit Calendar Events
@@ -8600,6 +8779,7 @@ registration#:#reg_add_assignment#:#Nouvelle assignation
 registration#:#reg_added_assignment#:#Nouvele assignation ajoutée.
 registration#:#reg_approve#:#Enregistrement avec approbation
 registration#:#reg_approve_info#:#Si cette case est cochée, toute nouvelle inscription d'utilisateur doit être approuvée par un administrateur.
+registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
 registration#:#reg_available_roles#:#Rôles disponibles :
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.
@@ -8618,9 +8798,12 @@ registration#:#reg_enable_access_limitations#:#Activier la restriction d'accès
 registration#:#reg_fixed#:#Sélection dans une liste spécifiée
 registration#:#reg_info_pwd#:#Si cette option est activée, les mots de passe seront automatiquement transmis aux nouveaux utilisateurs par messagerie électronique.
 registration#:#reg_mail_body_approve#:#Vous êtes déjà inscrit sur la plate-forme ILIAS et avez reçu un message électronique contenant les informations sur votre compte. Maintenant, votre compte utilisateur a été activé par un administrateur.
+registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.
 registration#:#reg_mail_body_profile#:#Données du profil :
 registration#:#reg_mail_body_profile_changed#:#votre profil a été modifié !
 registration#:#reg_mail_body_pwd_generation#:#Votre demande de compte utilisateur va être examiné par un administrateur et devrait être traitée sous 48h. Vous serez informé de la réponse par un message électronique.
+registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.
+registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_mail_new_user_body#:#Un nouvel utilisateur a été enregistré.
 registration#:#reg_missing_domain#:#Veuillez compléter tous les champs.
 registration#:#reg_missing_role#:#Veuillez compléter tous les champs.
@@ -8646,15 +8829,17 @@ rep#:#rep_intro5#:#En cliquant sur le titre de la catégorie, vous entrez à l'i
 rep#:#rep_intro6#:#Après, vous pouvez ajouter toutes les ressources que vous souhaitez à votre catégorie.
 sahs#:#sahs_chapter#:#Chapter
 sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.
-sahs#:#sahs_insert_chapter#:#Insert Chapter
+sahs#:#sahs_insert_chapter#:#Ajouter un chapitre
 sahs#:#sahs_insert_page#:#Insert Page
 sahs#:#sahs_insert_pagelayout#:#Insert Template Page
 sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter
-sahs#:#sahs_insert_sco#:#Insert SCO
+sahs#:#sahs_insert_sco#:#Ajouter un SCO
 sahs#:#sahs_learning_objectives#:#Learning Objectives
 sahs#:#sahs_new_chapter#:#New Chapter
 sahs#:#sahs_new_page#:#New Page
 sahs#:#sahs_new_sco#:#New SCO
+sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.
+sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.
 sahs#:#sahs_objective#:#Learning Objective
 sahs#:#sahs_objective_alignment#:#Objectives Alignment
 sahs#:#sahs_objectives#:#Learning Objectives
@@ -8676,8 +8861,11 @@ search#:#lucene_advanced_settings_table#:#Advanced Search Settings
 search#:#lucene_advances_settings_table#:#Advances Search Settings
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)
 search#:#lucene_and#:#AND
+search#:#lucene_cpu#:#Maximum Number of Threads
+search#:#lucene_create_ini#:#Create Configuration File
 search#:#lucene_default_operator#:#Default Operator
 search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.
+search#:#lucene_download_ini#:#Download Configuration File
 search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.
 search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.
 search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.
@@ -8692,21 +8880,31 @@ search#:#lucene_err_quotes#:#Please close all quote (") marks.
 search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.
 search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.
 search#:#lucene_general_settings#:#General Settings
+search#:#lucene_host#:#Host
+search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.
+search#:#lucene_index_path#:#Directory for Index Files
+search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.
 search#:#lucene_last_index_time#:#Last Index Generation
 search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.
+search#:#lucene_level#:#Log-Level
+search#:#lucene_log#:#Path to Logfile
+search#:#lucene_log_info#:#The file will be created automatically.
 search#:#lucene_max_sub#:#Number of Subitems
 search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.
 search#:#lucene_more_hits_link#:#%s more hits...
 search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.
 search#:#lucene_num_fragments#:#Number of Text Fragments
 search#:#lucene_or#:#OR
+search#:#lucene_port#:#Port
 search#:#lucene_relevance#:#Relevance of Search Results
+search#:#lucene_relevance_short#:#Relevance
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.
 search#:#lucene_size_fragments#:#Size of Text Fragments
+search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_active#:#Inclure utilisateurs actifs
 search#:#search_added_new_folder#:#Nouveau dossier ajouté
 search#:#search_adv_md#:#Métadonnées étendues
@@ -8724,14 +8922,14 @@ search#:#search_change#:#Changer
 search#:#search_choose_object_type#:#Choisissez au moins un type d'objet.
 search#:#search_concatenation#:#Concaténation
 search#:#search_content#:#Contenu de page
-search#:#search_crs_title#:#Course Name
+search#:#search_crs_title#:#Nom du cours
 search#:#search_dbk_content#:#Bibliothèque digitale (contenu)
 search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)
 search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon permanente.
 search#:#search_details_info#:#Recherche détaillée. Choisissez au moins un objet au-dessus.
 search#:#search_direct#:#Recherche directe
 search#:#search_fast_info#:#Recherche dans les titres, descriptions et mot-clé de tous les types d'objets
-search#:#search_for_crs_members#:#Search for Course Members
+search#:#search_for_crs_members#:#Recherche de membres de cours
 search#:#search_for_grp_members#:#Recherche de membres de groupe
 search#:#search_for_role_members#:#Recherche de membres de rôle
 search#:#search_for_users#:#Recherche d'utilisateurs
@@ -8783,7 +8981,7 @@ search#:#search_save_as_select#:#Enregistrer sous :
 search#:#search_search_for#:#Rechercher
 search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistré
 search#:#search_search_results#:#Résultats de recherche
-search#:#search_search_term#:#Terme de recherche
+search#:#search_search_term#:#Terme(s) de recherche
 search#:#search_select_exactly_one_object#:#Vous devez sélectionner exactement un objet.
 search#:#search_select_folder#:#Sélectionnez un dossier exactement. Il est impossible de renommer les résultats de la recherche.
 search#:#search_select_one#:#Selectionner un dossier
@@ -8791,9 +8989,9 @@ search#:#search_select_one_action#:#--Selectionner une action--
 search#:#search_select_one_folder_select#:#--Selectionner un dossier--
 search#:#search_select_one_result#:#Selectionner au moins un résultat de recherche
 search#:#search_select_one_select#:#--Selectionner un dossier--
-search#:#search_select_search_area#:#Select Search Area
+search#:#search_select_search_area#:#Sélectionner un domaine de recherche
 search#:#search_show_result#:#Afficher
-search#:#search_term_combination#:#Combination
+search#:#search_term_combination#:#Combinaison
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Enquêtes
 search#:#search_type#:#Type de recherche
@@ -8840,8 +9038,8 @@ shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule
 shib#:#shib_update_roles#:#Role Assignments
 style#:#sty_acopy#:#Copy
 style#:#sty_add_characteristic#:#Add Style Class
-style#:#sty_add_color#:#Add Color
-style#:#sty_add_image#:#Add Image
+style#:#sty_add_color#:#Ajouter une couleur
+style#:#sty_add_image#:#Ajouter une image
 style#:#sty_add_pgl#:#Add Page Layout
 style#:#sty_add_template#:#Add Template
 style#:#sty_added_characteristic#:#Added style class.
@@ -8949,6 +9147,7 @@ style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Numbered List
 style#:#sty_opacity#:#Opacity
+style#:#sty_opt_saved#:#Options saved
 style#:#sty_overflow#:#Overflow
 style#:#sty_padding#:#Padding
 style#:#sty_page_char#:#Page
@@ -9065,6 +9264,9 @@ style#:#sty_white_space#:#White Space
 style#:#sty_width#:#Width
 style#:#sty_width_height#:#Width x Height
 style#:#sty_word_spacing#:#Word Spacing
+style#:#style_current_style#:#Style actuel
+style#:#style_delete_style#:#Delete Style
+style#:#style_edit_style#:#Edit Style
 survey#:#add_category#:#Ajouter catégorie
 survey#:#add_heading#:#Ajouter titre
 survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et haute pour les nombres standards que vous voulez ajouter comme catégories
@@ -9807,8 +10009,8 @@ trac#:#vm_days_of_period#:#Jours de la période
 trac#:#vm_times_of_day#:#Horaires des jours
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
-user#:#user_activate_public_profile#:#Activate Public Profile
-user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.
+user#:#user_activate_public_profile#:#Activer le profil public
+user#:#user_activate_public_profile_info#:#Activation globale du profil public. S'il est activé, votre prénom et votre nom seront visibles par les autres utilisateurs connectés
 user#:#user_activation#:#Activation
 user#:#user_all#:#All
 user#:#user_any#:#Any
@@ -9819,17 +10021,34 @@ user#:#user_limited_access#:#Limited Access
 user#:#user_member_of_course_group#:#Member of Course/Group
 user#:#user_no_courses#:#No Courses Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
-user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization
-user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.
+user#:#user_public_profile_info#:#Veuillez cocher les données personnelles pour les rendre visibles par les autres utilisateurs.
+user#:#user_screen_reader_optimization#:#Optimisation de la lecture de l'écran
+user#:#user_screen_reader_optimization_info#:#Mise au point automatique et  optimisation Ajax pour améliorer les performances de lecture d'écran.
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Profile
-user#:#usr_public_profile_disabled#:#Public Profile Disabled
-user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
+user#:#usr_link_to_profile#:#Link to Profile
+user#:#usr_public_profile_disabled#:#Profil public désactivé
+user#:#usr_public_profile_disabled_info#:#Vos données personnelles ne sont visibles que des administrateurs.
 user#:#usr_public_profile_global#:#Globale Visible
 user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.
-user#:#usr_public_profile_logged_in#:#Logged in Users
-user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.
+user#:#usr_public_profile_logged_in#:#Utilisateurs connectés
+user#:#usr_public_profile_logged_in_info#:#Vos données personnelles ne sont visibles que des utilisateurs connectés.
+webr#:#webr_active#:#Active
+webr#:#webr_container_info#:#Veuillez saisir un titre et éventuellement une description présentant cette ressource web
+webr#:#webr_deactivate#:#Deactivate Link
+webr#:#webr_edit_links#:#Modifier les liens
+webr#:#webr_edit_list#:#Modifier la liste de ressources web
+webr#:#webr_edit_settings#:#Edit Settings
+webr#:#webr_inactive_success#:#The chosen link is deactivated.
+webr#:#webr_link_added#:#A new link has been created.
+webr#:#webr_link_target#:#Cible de la ressource web
+webr#:#webr_link_title#:#Nom de la ressource web
+webr#:#webr_list_desc#:#Description de la liste de ressources web
+webr#:#webr_list_title#:#Titre de la liste de ressources web
+webr#:#webr_new_link#:#Ajouter un nouveau lien
+webr#:#webr_sort_manual#:#Sort Manually
+webr#:#webr_sort_title#:#Sort by Title
+webr#:#webr_sorting#:#Link Sorting
 wiki#:#wiki_activate_rating#:#Activer la notation
 wiki#:#wiki_all_pages#:#Toutes les pages
 wiki#:#wiki_article#:#Article
@@ -9840,6 +10059,7 @@ wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Edit
 wiki#:#wiki_failed#:#Échec
 wiki#:#wiki_feedback_from_tutor#:#Remarques du tuteur
+wiki#:#wiki_general_settings#:#General Settings
 wiki#:#wiki_grading#:#Notation
 wiki#:#wiki_history#:#Historique
 wiki#:#wiki_introduction#:#Introduction
@@ -9877,251 +10097,8 @@ wiki#:#wiki_short_title_already_in_use#:#Ce titre est déjà utilisé par un aut
 wiki#:#wiki_short_title_desc2#:#Ce titre sera utilisé dans les liens au Wiki. Une fois défini, vous ne devez plus le modifier sinon les utilisateurs perdront leur lien vers ce Wiki.
 wiki#:#wiki_start_page#:#Page de départ
 wiki#:#wiki_start_page_title#:#Titre de la page de départ
+wiki#:#wiki_style#:#Style
 wiki#:#wiki_what_links_here#:#Quels liens sur cette page ?
 wiki#:#wiki_what_links_to_page#:#Quels liens pointent vers la page "%s" ?
 wiki#:#wiki_wiki_page#:#Page Wiki
 wiki#:#wiki_wiki_search#:#Wiki recherche
-assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
-assessment#:#tst_results_access_never#:#Never###07 09 2009 new variable
-content#:#cont_localfile#:#Local File###07 09 2009 new variable
-certificate#:#certificate_var_user_salutation#:#Mrs.###07 09 2009 new variable
-certificate#:#certificate_var_user_birthday#:#1977-05-08###07 09 2009 new variable
-certificate#:#certificate_points_notavailable#:#This value cannot be calculated###07 09 2009 new variable
-certificate#:#certificate_short_name#:#Certificate file short title###07 09 2009 new variable
-certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.###07 09 2009 new variable
-certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent###07 09 2009 new variable
-certificate#:#certificate_ph_salutation#:#Salutation###07 09 2009 new variable
-certificate#:#certificate_ph_birthday#:#Birthday of the user###07 09 2009 new variable
-payment#:#paya_deleted_selected_prices#:#Price(s) deleted###07 09 2009 new variable
-search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File###07 09 2009 new variable
-search#:#lucene_host#:#Host###07 09 2009 new variable
-search#:#lucene_port#:#Port###07 09 2009 new variable
-search#:#lucene_index_path#:#Directory for Index Files###07 09 2009 new variable
-search#:#lucene_log#:#Path to Logfile###07 09 2009 new variable
-search#:#lucene_level#:#Log-Level###07 09 2009 new variable
-search#:#lucene_cpu#:#Maximum Number of Threads###07 09 2009 new variable
-search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.###07 09 2009 new variable
-search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.###07 09 2009 new variable
-search#:#lucene_log_info#:#The file will be created automatically.###07 09 2009 new variable
-search#:#lucene_download_ini#:#Download Configuration File###07 09 2009 new variable
-search#:#lucene_create_ini#:#Create Configuration File###07 09 2009 new variable
-common#:#show_filter#:#Show Filter###07 09 2009 new variable
-payment#:#pays_epay#:#ePay###07 09 2009 new variable
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.###07 09 2009 new variable
-payment#:#pays_epay_settings#:#ePay configuration###07 09 2009 new variable
-payment#:#pays_epay_server_host#:#Server host###07 09 2009 new variable
-payment#:#pays_epay_server_path#:#Server path###07 09 2009 new variable
-payment#:#pays_epay_merchant_number#:#Merchant id###07 09 2009 new variable
-payment#:#pays_epay_auth_token#:#Authentication Token###07 09 2009 new variable
-payment#:#pays_epay_auth_email#:#Email Notification###07 09 2009 new variable
-payment#:#pays_epay_instant_capture#:#Instant Capture###07 09 2009 new variable
-payment#:#pay_hint_epay#:#Tip to ePay###07 09 2009 new variable
-payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.###07 09 2009 new variable
-payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.###07 09 2009 new variable
-payment#:#pay_epay_canceled#:#The payment was canceled.###07 09 2009 new variable
-search#:#lucene_relevance_short#:#Relevance###07 09 2009 new variable
-content#:#cont_sc_usession#:#Unlimited Session Timeout###07 09 2009 new variable
-content#:#cont_nomenu#:#Disable Topnavigation-Bar###07 09 2009 new variable
-content#:#cont_hidenavig#:#Hide leftside Navigation-Tree###07 09 2009 new variable
-content#:#scplayer_expandtree#:#Expand All###07 09 2009 new variable
-content#:#scplayer_collapsetree#:#Collapse All###07 09 2009 new variable
-content#:#cont_debug#:#Show debug menu###07 09 2009 new variable
-content#:#cont_debugpw#:#Password###07 09 2009 new variable
-content#:#scplayer_debugger#:#Show Debugger###07 09 2009 new variable
-content#:#cont_dir_created#:#Directory has been created.###07 09 2009 new variable
-content#:#cont_file_created#:#File has been created.###07 09 2009 new variable
-webr#:#webr_new_link#:#Add New Link###07 09 2009 new variable
-webr#:#webr_link_target#:#Link Target###07 09 2009 new variable
-webr#:#webr_link_title#:#Link Name###07 09 2009 new variable
-webr#:#webr_active#:#Active###07 09 2009 new variable
-webr#:#webr_link_added#:#A new link has been created.###07 09 2009 new variable
-webr#:#webr_deactivate#:#Deactivate Link###07 09 2009 new variable
-webr#:#webr_inactive_success#:#The chosen link is deactivated.###07 09 2009 new variable
-payment#:#pay_hide_advanced_search#:#Hide Advanced Search###07 09 2009 new variable
-payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.###07 09 2009 new variable
-payment#:#pay_hide_filtering#:#Hide Filtering###07 09 2009 new variable
-payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.###07 09 2009 new variable
-payment#:#pay_hide_coupons#:#Hide coupons###07 09 2009 new variable
-payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.###07 09 2009 new variable
-payment#:#pay_hide_news#:#Hide news###07 09 2009 new variable
-payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.###07 09 2009 new variable
-payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.###07 09 2009 new variable
-payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.###07 09 2009 new variable
-webr#:#webr_list_title#:#Title of Web Resource List###07 09 2009 new variable
-webr#:#webr_list_desc#:#Description of Web Resource List###07 09 2009 new variable
-webr#:#webr_edit_links#:#Edit Links###07 09 2009 new variable
-payment#:#pays_updated_epay_settings#:#Settings for ePay was updated###07 09 2009 new variable
-payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?###07 09 2009 new variable
-common#:#shop_actions#:#Actions###Replacement of the wording of 'actions' when in shop.
-webr#:#webr_edit_settings#:#Edit Settings###07 09 2009 new variable
-webr#:#webr_sorting#:#Link Sorting###07 09 2009 new variable
-webr#:#webr_sort_manual#:#Sort Manually###07 09 2009 new variable
-webr#:#webr_sort_title#:#Sort by Title###07 09 2009 new variable
-webr#:#webr_edit_list#:#Edit Web Resource Lis###07 09 2009 new variable
-gmaps#:#gmaps_latitude#:#Latitude###16 09 2009 new variable
-gmaps#:#gmaps_longitude#:#Longitude###16 09 2009 new variable
-administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'###16 09 2009 new variable
-administration#:#history_loginname#:#Login Name History###16 09 2009 new variable
-payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.###16 09 2009 new variable
-chat#:#check_configuration#:#Please check the chat server's settings.###16 09 2009 new variable
-cmps#:#cmps_duplicate_positions#:#Please note, that the following positions are assigned multiple times:###16 09 2009 new variable
-dateplaner#:#add_appointment#:#Add Appointment###16 09 2009 new variable
-common#:#pd_enable_contacts#:#Enable Contacts###16 09 2009 new variable
-common#:#pd_enable_contacts_requires_mail#:#Requires mail permission###16 09 2009 new variable
-payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
-payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
-administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
-administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
-administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
-administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
-administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
-administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.###16 09 2009 new variable
-common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.###16 09 2009 new variable
-mep#:#mep_page_created#:#Content snippet created.###16 09 2009 new variable
-mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.###16 09 2009 new variable
-sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
-sahs#:#sahs_oa_no_scos#:#The chapter does not contain any SCOs yet.###16 09 2009 new variable
-common#:#last_refresh#:#Last Refresh###16 09 2009 new variable
-webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
-grp#:#grp_reg_subject#:#Message###16 09 2009 new variable
-crs#:#crs_reg_subject#:#Message###16 09 2009 new variable
-grp#:#grp_join_request#:#Send###16 09 2009 new variable
-crs#:#crs_join_request#:#Send###16 09 2009 new variable
-rbac#:#root_create_chat#:#Create Chat###16 09 2009 new variable
-rbac#:#root_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#root_create_dbk#:#Create Digilib Book###16 09 2009 new variable
-rbac#:#root_create_exc#:#Create Exercise###16 09 2009 new variable
-rbac#:#root_create_file#:#Upload File###16 09 2009 new variable
-rbac#:#root_create_frm#:#Create Forum###16 09 2009 new variable
-rbac#:#root_create_glo#:#Create Glossary###16 09 2009 new variable
-rbac#:#root_create_grp#:#Create Group###16 09 2009 new variable
-rbac#:#root_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#root_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
-rbac#:#root_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
-rbac#:#root_create_mep#:#Create Media Pool###16 09 2009 new variable
-rbac#:#root_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
-rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
-rbac#:#root_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
-rbac#:#root_create_svy#:#Create Survey###16 09 2009 new variable
-rbac#:#root_create_tst#:#Create Test###16 09 2009 new variable
-rbac#:#root_create_webr#:#Create Weblink###16 09 2009 new variable
-rbac#:#root_create_wiki#:#Create Wiki###16 09 2009 new variable
-rbac#:#root_create_rcrs#:#Create Course-Link###16 09 2009 new variable
-rbac#:#root_create_mcst#:#Create Mediacast###16 09 2009 new variable
-rbac#:#root_create_feed#:#Create Web Feed###16 09 2009 new variable
-rbac#:#root_create_crsr#:#Create Course Referenc###16 09 2009 new variable
-common#:#status_no_permission#:#No permission granted###21 09 2009 new variable
-mail#:#mail_salutation_f#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_m#:#Hello###21 09 2009 new variable
-mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
-crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
-crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
-crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
-crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
-crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
-crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".###21 09 2009 new variable
-crs#:#crs_subscribe_wl#:#Your registration for course "%s".###21 09 2009 new variable
-wiki#:#wiki_style#:#Style###21 09 2009 new variable
-wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
-style#:#style_current_style#:#Current Style###21 09 2009 new variable
-style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
-style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
-grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
-grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
-grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
-grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
-grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
-grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
-common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
-common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
-common#:#title_required#:#Please insert a title###21 09 2009 new variable
-common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
-registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
-registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
-registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
-pd#:#pd_enable_global_profiles#:#Enable Global Profiles###22 09 2009 new variable
-pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.###22 09 2009 new variable
-user#:#usr_link_to_profile#:#Link to Profile###22 09 2009 new variable
-content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.###22 09 2009 new variable
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.###22 09 2009 new variable
-common#:#join_session#:#Join###22 09 2009 new variable
-content#:#cont_dir_renamed#:#Directory has been renamed.###22 09 2009 new variable
-content#:#cont_file_renamed#:#File has been renamed.###22 09 2009 new variable
-content#:#cont_dir_deleted#:#Directory has been deleted.###22 09 2009 new variable
-content#:#cont_file_deleted#:#File has been deleted.###22 09 2009 new variable
-content#:#cont_file_unzipped#:#File has been unzipped.###22 09 2009 new variable
-common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
-common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
-common#:#socialbm_enable#:#Enable###22 09 2009 new variable
-common#:#socialbm_disable#:#Disable###22 09 2009 new variable
-common#:#move_right#:#Move Right###29 09 2009 new variable
-common#:#move_left#:#Move Left###29 09 2009 new variable
-common#:#msg_deleted_export_files#:#Export file(s) deleted###29 09 2009 new variable
-payment#:#pays_erp#:#ERP###29 09 2009 new variable
-payment#:#pays_erp_settings#:#ERP Settings###29 09 2009 new variable
-payment#:#pays_erp_system#:#ERP System###29 09 2009 new variable
-payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
-payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
-payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
-payment#:#pays_eco_layout#:#Invoice Layout###29 09 2009 new variable
-style#:#sty_opt_saved#:#Options saved###29 09 2009 new variable
-chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smilies should be deleted?###29 09 2009 new variable
-common#:#scorm_create_export_file_scrom2004_4th#:#Create Export File (SCORM 2004 4th Edition)###29 09 2009 new variable
-payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
-payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.###29 09 2009 new variable
-payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.###29 09 2009 new variable
-payment#:#pays_erp_connection_established#:#Connection established with %s successfully.###29 09 2009 new variable
-payment#:#pays_eco_cur_handle_code#:#Currency Code###29 09 2009 new variable
-payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.###29 09 2009 new variable
-payment#:#pays_erp_tst_existing#:#Existing Debtor###29 09 2009 new variable
-payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
-payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
-payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
-payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
-common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.###29 09 2009 new variable
-common#:#authoring_mode#:#Authoring Mode###29 09 2009 new variable
-crs#:#crs_objective_random_warn#:#You can not use random tests in combination with learning objectives.###29 09 2009 new variable
-common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
-crs#:#sess_join_info#:#Please click the Join button if you want to take part at this session###29 09 2009 new variable
-administration#:#adm_item_cmd_asynch#:#Load Resource Action Lists Asynchronously###02 10 2009 new variable
-administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
-payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
-payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
-news#:#news_cache#:#News Cache (Minutes)###12 10 2009 new variable
-news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###12 10 2009 new variable
-payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
-payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
-payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
-payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
-payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
-payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
-mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable
