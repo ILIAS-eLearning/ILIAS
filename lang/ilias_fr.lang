@@ -6819,7 +6819,6 @@ grp#:#crs_grouping_select_one#:#Veuillez sélectionner une restriction d'apparte
 grp#:#crs_grp_added_grouping#:#Nouvelle restriction à l'appratenance au groupe ajoutée.
 grp#:#crs_grp_assign_crs#:#Assignation des groupes
 grp#:#crs_grp_enter_title#:#Veuillez renseigner les champs obligatoires.
-grp#:#crs_grp_info_reg#:#Vous pouvez seulement vous inscrire à l'un de ces groupes :
 grp#:#crs_grp_no_courses_assigned#:#Auncun groupe assigné
 grp#:#crs_grp_table_assigned_courses#:#Groupes assignés
 grp#:#grouping_change_assignment#:#Assignation modifiée
@@ -7968,8 +7967,6 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#1 fichier a été ajouté.
 news#:#news_1_file_updated#:#1 fichier a été mis à jour
 news#:#news_1_postings#:#1 message a été posté
-news#:#news_acc_cache#:#Vérification de la permission (Minutes)
-news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
 news#:#news_all_items#:#Tous les articles
 news#:#news_allow_longer_periods#:#Autoriser une période plus longue
 news#:#news_allow_longer_periods_info#:#Les utilisateurs peuvent choisir une période plus longue sur leur bureau personnel.
@@ -10102,3 +10099,39 @@ wiki#:#wiki_what_links_here#:#Quels liens sur cette page ?
 wiki#:#wiki_what_links_to_page#:#Quels liens pointent vers la page "%s" ?
 wiki#:#wiki_wiki_page#:#Page Wiki
 wiki#:#wiki_wiki_search#:#Wiki recherche
+news#:#news_cache#:#News Cache (Minutes)###28 10 2009 new variable
+news#:#news_cache_info#:#Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items.###28 10 2009 new variable
+content#:#cont_LocalFile#:#Local File###28 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###28 10 2009 new variable
+payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###28 10 2009 new variable
+payment#:#pays_erp_invoice_preview#:#View test invoice in new window###28 10 2009 new variable
+payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###28 10 2009 new variable
+payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###28 10 2009 new variable
+payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###28 10 2009 new variable
+mail#:#mail_subject_prefix#:#Mail Subject###28 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.###28 10 2009 new variable
+common#:#no_owner#:#No Owner###28 10 2009 new variable
+grp#:#grp_reg_period#:#Registration Period###28 10 2009 new variable
+payment#:#delete_addresses_bill#:#Delete Billing addresses###28 10 2009 new variable
+payment#:#delete_addresses_bmf#:#Delete BMF addresses###28 10 2009 new variable
+payment#:#delete_addresses_paypal#:#Delete Paypal addresses###28 10 2009 new variable
+dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
+rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
+rbac#:#rbac_local_policies#:#Local Policies###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies#:#Keep Local Policies###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies#:#Delete Local Policies###28 10 2009 new variable
+rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.###28 10 2009 new variable
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
+rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
+payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
+common#:#admin_force_noti#:#Notification active###28 10 2009 new variable
+common#:#user_toggle_noti#:#Member is not allowed to deactivate notification###28 10 2009 new variable
+common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
+common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
+common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
+common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
+common#:#moderators#:#Moderators###28 10 2009 new variable
+common#:#tutors#:#Tutors###28 10 2009 new variable
+common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
+common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
