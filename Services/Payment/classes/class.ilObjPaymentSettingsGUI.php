@@ -1762,7 +1762,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				break;
 				
 			case $this->pobject->PAY_METHOD_EPAY:
-        $save_user_adr_epay =(int) ilPayMethods::_enabled('svae_user_adr_epay') ? $this->showCustomerTable() : 0;
+        $save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? $this->showCustomerTable() : 0;
 
 			default:
 				break;
