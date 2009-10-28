@@ -10131,3 +10131,6 @@ common#:#moderators#:#Moderators
 common#:#tutors#:#Tutors
 common#:#settings_for_new_members#:#Settings for new Members
 common#:#forums_notification_settings#:#Forums Notification Settings
+dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.
+dateplaner#:#cal_subscription_header#:#Calendar Address
+dateplaner#:#cal_subscription_url#:#Calendar URL:

@@ -137,7 +137,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$cmd_class == "ilcalendardaygui" ||
 			$cmd_class == "ilcalendarweekgui" ||
 			$cmd_class == "ilcalendarmonthgui" ||
-			$cmd_class == "ilcalendarinboxgui")
+			$cmd_class == "ilcalendarinboxgui" ||
+			$_GET['cmd'] == 'showCalendarSubscription')
 		{
 			return IL_SCREEN_CENTER;
 		}
@@ -385,6 +386,20 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		// add edit commands
 		#if ($this->getEnableEdit())
+		
+		if($this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS or
+			$this->mode == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
+		{
+			$this->addBlockCommand(
+				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
+				'',
+				'',
+				ilUtil::getImagePath('ical.gif','Services/Calendar'),
+				true
+			);
+		}
+		
+		
 		if($this->mode == ilCalendarCategories::MODE_REPOSITORY and 
 			$ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
 		{
@@ -483,7 +498,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		return true;
 	}
-	
+
 	/**
 	* Set seed
 	*/
@@ -513,6 +528,61 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		global $ilCtrl;
 		
 		$ilCtrl->returnToParent($this);
+	}
+	
+	
+	public function showCalendarSubscription()
+	{
+		global $lng, $ilUser;
+		
+		$tpl = new ilTemplate('tpl.show_calendar_subscription.html',true,true,'Services/Calendar');
+		
+		$tpl->setVariable('TXT_TITLE',$lng->txt('cal_subscription_header'));
+		$tpl->setVariable('TXT_INFO',$lng->txt('cal_subscription_info'));
+		$tpl->setVariable('TXT_CAL_URL',$lng->txt('cal_subscription_url'));
+		
+		include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
+		
+		switch($this->mode)
+		{
+			case ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS:
+			case ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP:
+				$selection = ilCalendarAuthenticationToken::SELECTION_PD;
+				$calendar = 0;
+				break;
+			
+			default:
+				$selection = ilCalendarAuthenticationToken::SELECTION_CATEGORY;
+				// TODO: calendar id
+				$calendar = ilObject::_lookupObjId((int) $_GET['ref_id']);	
+				break;		 
+		}
+		if($hash = ilCalendarAuthenticationToken::lookupAuthToken($ilUser->getId(), $selection, $calendar))
+		{
+			;
+		}
+		else
+		{
+			$token = new ilCalendarAuthenticationToken($ilUser->getId());
+			$token->setSelectionType($selection);
+			$token->setCalendar($calendar);
+			$hash = $token->add();
+		}
+		$url = ILIAS_HTTP_PATH.'/calendar.php?client_id='.CLIENT_ID.'&token='.$hash;
+		
+		$tpl->setVariable('VAL_CAL_URL',$url);
+		$tpl->setVariable('VAL_CAL_URL_TXT',$url);
+		
+		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+		$content_block = new ilPDContentBlockGUI();
+		$content_block->setContent($tpl->get());
+		$content_block->setTitle($lng->txt("calendar"));
+		#$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->addHeaderCommand($this->ctrl->getParentReturn($this),
+			$lng->txt("selected_items_back"));
+
+		return $content_block->getHTML();
+		
 	}
 }
 

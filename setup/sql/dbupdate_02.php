@@ -16213,6 +16213,7 @@ if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
 <#2907>
 <?php
 	$ilDB->addTableColumn("frm_notification", "admin_force_noti", array(
@@ -16251,4 +16252,30 @@ if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
 		"notnull" => true,
 		"default" => 0
 	));	
+?>
+
+<#2909>
+<?php
+if (!$ilDB->tableExists("cal_auth_token"))
+{
+	$ilDB->createTable("cal_auth_token",
+		array(
+			"user_id" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"hash" => array(
+				"type" => "text", "length" => 32, "fixed" => false, "notnull" => true
+			),
+			"selection" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"calendar" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			)
+		)
+	);
+	$ilDB->addPrimaryKey("cal_auth_token", array("user_id", "hash"));
+	$ilDB->addIndex('cal_auth_token',array('hash'),'i1');
+	$ilDB->addIndex('cal_auth_token',array('user_id'),'i2');
+}
 ?>

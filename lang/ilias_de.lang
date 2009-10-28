@@ -10150,6 +10150,9 @@ common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#moderators#:#Moderatoren
 common#:#tutors#:#Tutoren
 common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
+dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
+dateplaner#:#cal_subscription_header#:#Kalender-Adresse
+dateplaner#:#cal_subscription_url#:#Kalender URL:
 common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen
 common#:#no_owner#:#No Owner###28 10 2009 new variable
 payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
