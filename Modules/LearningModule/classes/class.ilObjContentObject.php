@@ -2437,5 +2437,49 @@ class ilObjContentObject extends ilObject
 		$this->checkTree();
 	}
 
+	/**
+	* Validate all pages
+	*/
+	function validatePages()
+	{
+		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
+
+		$mess = "";
+		
+		$pages = ilLMPageObject::getPageList($this->getId());
+		foreach ($pages as $page)
+		{
+			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
+			{
+				$cpage = new ilPageObject($this->getType(), $page["obj_id"]);
+				$cpage->buildDom();
+				$error = @$cpage->validateDom();
+				
+				if ($error != "")
+				{
+					$this->lng->loadLanguageModule("content");
+					ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
+					$title = ilLMObject::_lookupTitle($page["obj_id"]);
+					$page_obj = new ilLMPageObject($this, $page["obj_id"]);
+					$mess.= $this->lng->txt("obj_pg").": ".$title;
+					$mess.= '<div class="small">';
+					foreach ($error as $e)
+					{
+						$err_mess = implode($e, " - ");
+						if (!is_int(strpos($err_mess, ":0:")))
+						{
+							$mess.= htmlentities($err_mess)."<br />";
+						}
+					}
+					$mess.= '</div>';
+					$mess.= "<br />";
+				}
+			}
+		}
+		
+		return $mess;
+	}
+	
 }
 ?>
