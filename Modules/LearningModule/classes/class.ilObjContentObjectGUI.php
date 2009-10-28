@@ -853,7 +853,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -863,6 +863,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
+			$this->initCreationForm();
+			$f1 = $this->form->getHTML();
+			$this->initImportForm();
+			$f2 = $this->form->getHTML();
+			$this->tpl->setContent($f1."<br />".$f2);
+			
+			
+			
+return;
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -886,7 +895,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-
+			
+			
 			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
 			//	"adm_object.php?cmd=gateway&ref_id=".
 			//	$_GET["ref_id"]."&new_type=".$new_type));
@@ -926,11 +936,84 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
+	* Init creation form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initCreationForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		
+		$this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+		$this->form->setTableWidth("600px");
+		
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setRequired(true);
+		//$ti->setSize();
+		$this->form->addItem($ti);
+		
+		// text area
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		//$ta->setCols();
+		//$ta->setRows();
+		$this->form->addItem($ta);
+		
+		$this->form->addCommandButton("save", $this->lng->txt($new_type."_add"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($this->lng->txt($new_type."_new"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this, "save"));
+	}
+	
+	/**
+	* Init import form.
+	*/
+	public function initImportForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		
+		$this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+		$this->form->setTableWidth("600px");
+		
+		// import file
+		$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$fi->setSize(30);
+		$this->form->addItem($fi);
+		
+		// validation
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
+		$cb->setInfo($this->lng->txt(""));
+		$this->form->addItem($cb);
+		
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+	                
+		$this->form->setTitle($this->lng->txt("import_".$new_type));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+	
+	/**
 	* save new content object to db
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $rbacsystem;
+		global $rbacadmin, $rbacsystem, $tpl;
 
 		// always call parent method first to create an object_data entry & a reference
 		//$newObj = parent::saveObject();
@@ -938,22 +1021,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			return;
 		}
-		else
+		
+		$this->initCreationForm();
+		if ($this->form->checkInput())
 		{
-			// check title
-			if ($_POST["Fobject"]["title"] == "")
-			{
-				$this->ilias->raiseError($this->lng->txt("please_enter_title"), $this->ilias->error_obj->MESSAGE);
-				return;
-			}
-
 			// create and insert object in objecttree
 			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 			$newObj = new ilObjContentObject();
 			$newObj->setType($this->type);
-			$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
-			$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));	// set by meta_gui->save
+			$newObj->setTitle($_POST["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
+			$newObj->setDescription($_POST["desc"]);	// set by meta_gui->save
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
@@ -973,6 +1052,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			ilUtil::sendSuccess($this->lng->txt($this->type."_added"), true);
 			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilLMEditorGUI");
+
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
 		}
 	}
 
@@ -1158,104 +1243,115 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		global $_FILES, $rbacsystem, $ilDB;
+		global $_FILES, $rbacsystem, $ilDB, $tpl;
 
 		include_once "./Modules/LearningModule/classes/class.ilObjLearningModule.php";
 
-		// check if file was uploaded
-		$source = $_FILES["xmldoc"]["tmp_name"];
-		if (($source == 'none') || (!$source))
-		{
-			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
-		}
-		// check create permission
-		/*
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
-		}*/
-
-		// check correct file type
-		$info = pathinfo($_FILES["xmldoc"]["name"]);
-		if (strtolower($info["extension"]) != "zip")
-		{
-			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			return;
 		}
 
-		// create and insert object in objecttree
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-		$newObj = new ilObjContentObject();
-		$newObj->setType($_GET["new_type"]);
-		$newObj->setTitle($_FILES["xmldoc"]["name"]);
-		$newObj->setDescription("");
-		$newObj->create(true);
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
-		// create learning module tree
-		$newObj->createLMTree();
-
-		// create import directory
-		$newObj->createImportDirectory();
-
-		// copy uploaded file to import directory
-		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-
-		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
-			$_FILES["xmldoc"]["name"], $full_path);
-
-		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
-
-		// unzip file
-		ilUtil::unzip($full_path);
-
-		// determine filename of xml file
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-
-		// check whether subdirectory exists within zip file
-		if (!is_dir($newObj->getImportDirectory()."/".$subdir))
+		$this->initImportForm();
+		if ($this->form->checkInput())
 		{
-			$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
-				$this->ilias->error_obj->MESSAGE);
+			// create and insert object in objecttree
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			$newObj = new ilObjContentObject();
+			$newObj->setType($_GET["new_type"]);
+			$newObj->setTitle($_FILES["xmldoc"]["name"]);
+			$newObj->setDescription("");
+			$newObj->create(true);
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
+			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+	
+			// create learning module tree
+			$newObj->createLMTree();
+	
+			// create import directory
+			$newObj->createImportDirectory();
+	
+			// copy uploaded file to import directory
+			$file = pathinfo($_FILES["xmldoc"]["name"]);
+			$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+	
+			ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
+				$_FILES["xmldoc"]["name"], $full_path);
+	
+			//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+	
+			// unzip file
+			ilUtil::unzip($full_path);
+	
+			// determine filename of xml file
+			$subdir = basename($file["basename"],".".$file["extension"]);
+			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+	
+			// check whether subdirectory exists within zip file
+			if (!is_dir($newObj->getImportDirectory()."/".$subdir))
+			{
+				$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
+					$this->ilias->error_obj->MESSAGE);
+			}
+	
+			// check whether xml file exists within zip file
+			if (!is_file($xml_file))
+			{
+				$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
+					$this->ilias->error_obj->MESSAGE);
+			}
+	
+			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+			$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+			$contParser->startParsing();
+			ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
+			$newObj->MDUpdateListener('General');
+	
+			// import style
+			$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
+			if (is_file($style_file))
+			{
+				require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$style = new ilObjStyleSheet();
+				$style->import($style_file);
+				$newObj->writeStyleSheetId($style->getId());
+			}
+			
+			// delete import directory
+			ilUtil::delDir($newObj->getImportDirectory());
+			
+			// validate
+			if ($_POST["validate"])
+			{
+				$mess = $newObj->validatePages();
+			}
+			
+			if ($mess == "")
+			{
+				ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
+		
+				// handle internal links to this learning module
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				ilPageObject::_handleImportRepositoryLinks($newObj->getImportId(),
+					$newObj->getType(), $newObj->getRefId());
+				ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+					"&baseClass=ilLMEditorGUI");
+			}
+			else
+			{
+				$link = '<a href="'."ilias.php?ref_id=".$newObj->getRefId().
+					"&baseClass=ilLMEditorGUI".'" target="_top">'.$this->lng->txt("btn_next").'</a>';
+				$tpl->setContent("<br />".$link."<br /><br />".$mess.$link);
+			}
 		}
-
-		// check whether xml file exists within zip file
-		if (!is_file($xml_file))
+		else
 		{
-			$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
-				$this->ilias->error_obj->MESSAGE);
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
 		}
-
-		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
-		$contParser->startParsing();
-		ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-		$newObj->MDUpdateListener('General');
-
-		// import style
-		$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
-		if (is_file($style_file))
-		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-			$style = new ilObjStyleSheet();
-			$style->import($style_file);
-			$newObj->writeStyleSheetId($style->getId());
-		}
-
-		// delete import directory
-		ilUtil::delDir($newObj->getImportDirectory());
-		ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
-
-		// handle internal links to this learning module
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		ilPageObject::_handleImportRepositoryLinks($newObj->getImportId(),
-			$newObj->getType(), $newObj->getRefId());
-		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
-			"&baseClass=ilLMEditorGUI");
 	}
 
 	/**
