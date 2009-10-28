@@ -10141,3 +10141,13 @@ rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
 rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
 rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt.
+common#:#admin_force_noti#:#Benachrichtigung aktiv
+common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
+common#:#enable_admin_force#:#Benachrichtigung aktivieren
+common#:#disable_admin_force#:#Benachrichtigung deaktivieren
+common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktiveren
+common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
+common#:#moderators#:#Moderatoren
+common#:#tutors#:#Tutoren
+common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
+common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen

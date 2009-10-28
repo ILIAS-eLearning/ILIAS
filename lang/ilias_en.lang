@@ -10121,3 +10121,13 @@ rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all 
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.
 rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.
 payment#:#pays_invoice#:#Invoice
+common#:#admin_force_noti#:#Notification active
+common#:#user_toggle_noti#:#Member is not allowed to deactivate notification
+common#:#enable_admin_force#:#Activate notification
+common#:#disable_admin_force#:#Deactivate notification
+common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
+common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
+common#:#moderators#:#Moderators
+common#:#tutors#:#Tutors
+common#:#settings_for_new_members#:#Settings for new Members
+common#:#forums_notification_settings#:#Forums Notification Settings

@@ -16213,3 +16213,42 @@ if((int)$rowType['obj_id'] && (int)$rowOperation['ops_id'])
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#2907>
+<?php
+	$ilDB->addTableColumn("frm_notification", "admin_force_noti", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+	
+	$ilDB->addTableColumn("frm_notification", "user_toggle_noti", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));	
+
+	$ilDB->addTableColumn("frm_notification", "user_id_noti", array(
+		"type" => "integer",
+	 	"length" => 4, 
+		"notnull" => false,
+	 	"default" => NULL
+	));	
+?>
+<#2908>
+<?php
+	$ilDB->addTableColumn("frm_settings", "admin_force_noti", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+	
+	$ilDB->addTableColumn("frm_settings", "user_toggle_noti", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));	
+?>
