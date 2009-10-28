@@ -5167,9 +5167,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			if ($nr == 0) return array();
 			$rand_keys = array_rand($ids, $nr);
 			$selection = array();
-			foreach ($rand_keys as $key)
+			if (is_array($rand_keys))
 			{
-				$selection[$ids[$key]] = $ids[$key];
+				foreach ($rand_keys as $key)
+				{
+					$selection[$ids[$key]] = $ids[$key];
+				}
+			}
+			else
+			{
+				$selection[$ids[$rand_keys]] = $ids[$rand_keys];
 			}
 			return $selection;
 		}
@@ -5269,9 +5276,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($nr_of_questions == 0) return array();
 		$rand_keys = array_rand($found_ids, $nr_of_questions);
 		$result = array();
-		foreach ($rand_keys as $key)
+		if (is_array($rand_keys))
 		{
-			$result[$found_ids[$key]] = $found_ids[$key];
+			foreach ($rand_keys as $key)
+			{
+				$result[$found_ids[$key]] = $found_ids[$key];
+			}
+		}
+		else
+		{
+			$result[$found_ids[$rand_keys]] = $found_ids[$rand_keys];
 		}
 		return $result;
 	}
