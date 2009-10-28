@@ -2459,7 +2459,7 @@ class ilForum
 
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
 		$res = $ilDB->queryf('
-			SELECT DISTINCT user_id FROM frm_notification 
+			SELECT user_id FROM frm_notification 
 			WHERE thread_id = %s
 			AND user_id <> %s',
 			array('integer', 'integer'),
@@ -2495,7 +2495,7 @@ class ilForum
 	
 	function sendForumNotifications($post_data)
 	{
-		global $ilDB, $ilAccess, $ilUser;
+		global $ilDB, $ilAccess;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2529,12 +2529,9 @@ class ilForum
 		{
 			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
 		}
-		
-		
+
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		
-/*		//old
- 		 $res = $ilDB->queryf('
+		$res = $ilDB->queryf('
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
@@ -2542,39 +2539,8 @@ class ilForum
 			GROUP BY frm_notification.user_id',
 			array('integer', 'integer'),
 			array($post_data['pos_top_fk'], $_SESSION['AccountId']));
-*/		
-	
-		// check frm_notification_option
-		include_once('./Modules/Forum/classes/class.ilForumNotification.php');
-		$admins = ilForumNotification::checkParentNodeTree($_GET['ref_id']);
-
-		if(in_array($ilUser->getId(), $admins))
-		{
-			// user is admin || moderator || tutor -> check if 'forced' notification is enabled
-			$res = $ilDB->queryf('
-			SELECT DISTINCT frm_notification.user_id FROM frm_notification, frm_data 
-			WHERE frm_data.top_pk = %s
-			AND frm_notification.frm_id = frm_data.top_frm_fk 
-			AND frm_notification.user_id <> %s
-			GROUP BY frm_notification.user_id',
-			array('integer', 'integer'),
-			array($post_data['pos_top_fk'], $_SESSION['AccountId'] ));			
-		}
-		else
-		{
-			// user is only a member -> select only users with 'normal' notification  
-			$res = $ilDB->queryf('
-			SELECT frm_notification.user_id FROM frm_notification, frm_data 
-			WHERE frm_data.top_pk = %s
-			AND frm_notification.frm_id = frm_data.top_frm_fk 
-			AND frm_notification.user_id <> %s
-			AND frm_notification.admin_force_noti = %s
-			GROUP BY frm_notification.user_id',
-			array('integer', 'integer', 'integer'),
-			array($post_data['pos_top_fk'], $_SESSION['AccountId'], 0 ));				
 		
-		}
-	
+		
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($obj_id);
 		
