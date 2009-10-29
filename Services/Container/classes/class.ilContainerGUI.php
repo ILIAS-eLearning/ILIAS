@@ -169,7 +169,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$link_xml = $this->getLinkXML($int_links);
 		$page_gui =& new ilPageObjectGUI($this->object->getType(),
 			$this->object->getId());
-		$page_gui->setStyleId($this->object->getStyleSheetId());
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->object->getStyleSheetId(), $this->object->getType()));
 //echo "--".$this->object->getStyleSheetId()."-";
 		// $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
 		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
@@ -279,7 +281,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// get page object
 		$page_gui =& new ilPageObjectGUI($this->object->getType(),
 			$this->object->getId());
-		$page_gui->setStyleId($this->object->getStyleSheetId());
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->object->getStyleSheetId(), $this->object->getType()));
+
 
 		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 		//$page_gui->setTemplateTargetVar("ADM_CONTENT");

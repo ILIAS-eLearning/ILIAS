@@ -88,11 +88,10 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 					$this->getParentGUI()->object->getId());
 				$page_gui->setEditPreview(true);
 				$page_gui->setPresentationTitle($this->node_object->getTitle());
-				if ($this->slm_object->getStyleSheetId() > 0 &&
-					ilObject::_lookupType($this->slm_object->getStyleSheetId()) == "sty")
-				{
-					$page_gui->setStyleId($this->slm_object->getStyleSheetId());
-				}
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->slm_object->getStyleSheetId(), "sahs"));
+
 				//$page_gui->activateMetaDataEditor($this->content_object->getID(),
 				//	$this->obj->getId(), $this->obj->getType(),
 				//	$this->obj, "MDUpdateListener");

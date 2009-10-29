@@ -70,6 +70,7 @@ class ilQuestionExporter
 		
 		$this->tpl = new ilTemplate("tpl.question_export.html", true, true, "Modules/Scorm2004");
 		
+		// fix for bug 5386, alex 29.10.2009
 		if (!$a_preview_mode)
 		{
 			$this->tpl->setVariable("FORM_BEGIN", "<form>");

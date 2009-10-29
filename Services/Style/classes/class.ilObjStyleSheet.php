@@ -1434,6 +1434,36 @@ class ilObjStyleSheet extends ilObject
 		$this->_writeUpToDate($this->getId(), true);
 	}
 
+	/**
+	* Get effective Style Id
+	*
+	* @param	integer		style id that may be set in object
+	* @param	string		object type
+	*/
+	static function getEffectiveContentStyleId($a_style_id, $a_type = "")
+	{
+		global $ilSetting;
+		
+		// check global fixed content style
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		if ($fixed_style > 0)
+		{
+			$a_style_id = $fixed_style;
+		}
+
+		// check global default style
+		if ($a_style_id <= 0)
+		{
+			$a_style_id = $ilSetting->get("default_content_style_id");
+		}
+
+		if ($a_style_id > 0 && ilObject::_lookupType($a_style_id) == "sty")
+		{
+			return $a_style_id;
+		}
+		
+		return 0;
+	}
 
 	/**
 	* get content style path
