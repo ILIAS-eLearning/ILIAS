@@ -21,12 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-*  Sry... need to commit this to test it *
-*/
-
-$debug = true;
-$file = null;
 
 chdir(dirname(__FILE__));
 chdir('../../..');
@@ -34,35 +28,16 @@ chdir('../../..');
 require_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
-function wlog($txt)
-{
-  global $file;
-  global $debug;
-  if ($debug)
-  fwrite($file, $txt);
-}
-
-function opnLog()
-{
-  global $file;
-  $file = fopen("callback.txt", "a");
-  wlog( "--- " . date(DATE_RFC822) . " --- \n");
-}
-
-if ($debug) opnLog();
-
 $usr_id = $_REQUEST['ilUser'];
 
 try
 {
   include_once './include/inc.header.php';
-
   include_once './payment/classes/class.ilPaymentObject.php';
   include_once './payment/classes/class.ilPaymentBookings.php';
   require_once './payment/classes/class.ilPaymentShoppingCart.php';
   require_once './Services/User/classes/class.ilObjUser.php';
 
-  //global $ilLog;
   global $ilias;
 
   require_once './Services/Payment/classes/class.ilERP.php';
@@ -71,14 +46,8 @@ try
   include_once './Services/Payment/classes/class.' . $cls. '.php';
 
   $ilUser = new ilObjUser($usr_id);
-  
-  wlog("Payment for user #" . $usr_id . " " . $ilUser->getFullname() . "\n");
-  
   $cart = new ilPaymentShoppingCart($ilUser);
   $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
-  
-  wlog("Items in cart: " . count($sc) . "\n");   
-  
   $deb = new $cls();
 
   if (!$deb->getDebtorByNumber($usr_id))
@@ -94,10 +63,7 @@ try
       'phone' => $ilUser->phone_mobile)
     );
     $deb->createDebtor($usr_id);
-    wlog("User created in e-conomic.\n");
-  }
-  else wlog("Existing e-conomic Debtor.\n");  
-  
+  }  
   $deb->createInvoice();  
   $products = array();
   foreach ($sc as $i)
@@ -127,24 +93,13 @@ try
       $cp->add($usr_id, IL_CRS_MEMBER);
       $cp->sendNotification($cp->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
     }
-    else
-    {
-      wlog("Type error exptcted crs but got '" . $i['typ'] . "'");
-    }
   }
     
   $inv = $deb->bookInvoice();
   $invoice_number = $deb->getInvoiceNumber();
-  //wlog("Invoice is #" . $invoice_number ."\n" );
+
   $attach = $deb->getInvoicePDF($inv);
   $deb->saveInvoice($attach, false);
-  //wlog("Invoice is saved.\n");
-  /*$deb->sendInvoice("Your invoice " . $invoice_number,
-      $ilUser->getFullName() . ", \nYour invoice is attached this mail.",
-      $ilUser->getEmail(),
-      $attach,
-      "Invoice-" . $invoice_number
-  );*/
   $lng->loadLanguageModule('payment');
   $deb->sendInvoice($lng->txt('pay_order_paid_subject'), 
         $ilUser->getFullName() . ",\n" . 
@@ -152,14 +107,10 @@ try
         $ilUser->getEmail(), 
         $attach, $lng->txt('pays_invoice') ."-" . $invoice_number
   );
-  wlog("Sent invoice " . $invoice_number . " with " . implode(", ", $products) . "\n");
   $cart->emptyShoppingCart();
 }
 catch (Exception $e)
 {  
-  wlog("EXCEPTION:\n" . $e->getMessage() . "\n");
-  echo $e->getMessage();
+  die($e->getMessage());
 }
-echo "Done.";
-if ($debug) fclose($file);
 ?>
