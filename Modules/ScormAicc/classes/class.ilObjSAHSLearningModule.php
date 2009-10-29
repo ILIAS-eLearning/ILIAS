@@ -605,7 +605,7 @@ class ilObjSAHSLearningModule extends ilObject
 		{
 			return false;
 		}
-
+ 
 		// delete meta data of scorm content object
 /*
 		$nested = new ilNestedSetXML();
@@ -648,20 +648,33 @@ class ilObjSAHSLearningModule extends ilObject
 		if ($this->getSubType() != "scorm")
 		{
 			// delete aicc data
-			// this is highly dependent on the database
-			$ilDB->manipulateF('
-				DELETE FROM aicc_units 
-				USING aicc_object, aicc_units 
-				WHERE aicc_object.obj_id = aicc_units.obj_id 
-				AND aicc_object.slm_id = %s', 
-				array('integer'), array($this->getId()));
-				
-			$ilDB->manipulateF('
-				DELETE FROM aicc_course 
-				USING aicc_object, aicc_course 
-				WHERE aicc_object.obj_id = aicc_course.obj_id 
+ 			$res = $ilDB->queryF('
+				SELECT aicc_object.obj_id FROM aicc_object, aicc_units
+				WHERE aicc_object.obj_id = aicc_units.obj_id
 				AND aicc_object.slm_id = %s',
 				array('integer'), array($this->getId()));
+			
+				while($row = $ilDB->fetchAssoc($res))
+				{
+					$obj_id = $row['obj_id'];
+					$ilDB->manipulateF('
+					DELETE FROM aicc_units WHERE obj_id = %s', 
+					array('integer'), array($obj_id));				
+				}
+			
+			$res = $ilDB->queryF('
+				SELECT aicc_object.obj_id FROM aicc_object, aicc_course
+				WHERE aicc_object.obj_id = aicc_course.obj_id
+				AND aicc_object.slm_id = %s',
+				array('integer'), array($this->getId()));
+			
+				while($row = $ilDB->fetchAssoc($res))
+				{
+					$obj_id = $row['obj_id'];
+					$ilDB->manipulateF('
+					DELETE FROM aicc_course WHERE obj_id = %s',
+					array('integer'), array($obj_id));		
+				}
 
 			$ilDB->manipulateF('
 				DELETE FROM aicc_object WHERE slm_id = %s',
