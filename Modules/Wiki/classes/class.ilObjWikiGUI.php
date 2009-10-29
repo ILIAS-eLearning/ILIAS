@@ -61,7 +61,9 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
-				$wpage_gui->setStyleId($this->object->getStyleSheetId());
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->object->getStyleSheetId(), "wiki"));
 				$this->setContentStyleSheet();
 
 				if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
@@ -784,7 +786,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 			ilWikiUtil::makeDbTitle($page));
-		$wpage_gui->setStyleId($this->object->getStyleSheetId());
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->object->getStyleSheetId(), "wiki"));
+
 		$this->setContentStyleSheet();
 		//$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		
@@ -1110,7 +1115,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				// individual style
 				if (!ilObjStyleSheet::_lookupStandard($style_id))
 				{
-					$st = new ilNonEditableValueGUI($lng->txt("wiki_current_style"));
+					$st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
 					$st->setValue(ilObject::_lookupTitle($style_id));
 					$this->form->addItem($st);
 
@@ -1129,7 +1134,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			{
 				$style_sel = ilUtil::formSelect ($style_id, "style_id",
 					$st_styles, false, true);
-				$style_sel = new ilSelectInputGUI($lng->txt("wiki_current_style"), "style_id");
+				$style_sel = new ilSelectInputGUI($lng->txt("style_current_style"), "style_id");
 				$style_sel->setOptions($st_styles);
 				$style_sel->setValue($style_id);
 				$this->form->addItem($style_sel);
