@@ -277,14 +277,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		
 		// get page object
 		$page_gui =& new ilPageObjectGUI($this->object->getType(),
 			$this->object->getId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
-
 
 		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 		//$page_gui->setTemplateTargetVar("ADM_CONTENT");

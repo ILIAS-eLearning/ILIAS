@@ -1604,6 +1604,10 @@ class ilLMPresentationGUI
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
 		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->lm->getStyleSheetId(), "lm"));
+
 		$page_object_gui->setTemplateOutput(false);
 		$ilBench->stop("ContentPresentation", "ilPage_getPageObjectGUI");
 		
@@ -3083,6 +3087,10 @@ class ilLMPresentationGUI
 			{
 				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getFooterPage());
 				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getFooterPage());
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->lm->getStyleSheetId(), "lm"));
+
 	
 				// determine target frames for internal links
 				$page_object_gui->setLinkFrame($_GET["frame"]);
@@ -3100,6 +3108,10 @@ class ilLMPresentationGUI
 			{
 				//$page_object =& new ilPageObject($this->lm->getType(), $this->lm->getHeaderPage());
 				$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $this->lm->getHeaderPage());
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->lm->getStyleSheetId(), "lm"));
+
 	
 				// determine target frames for internal links
 				$page_object_gui->setLinkFrame($_GET["frame"]);
@@ -3220,6 +3232,10 @@ class ilLMPresentationGUI
 					$page_id = $node["obj_id"];
 					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 					$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
+					include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+					$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+						$this->lm->getStyleSheetId(), "lm"));
+
 
 					// get lm page
 					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
