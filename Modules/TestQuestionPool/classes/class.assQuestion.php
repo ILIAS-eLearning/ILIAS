@@ -639,6 +639,7 @@ class assQuestion
 	public static function _getSuggestedSolutionOutput($question_id)
 	{
 		$question =& assQuestion::_instanciateQuestion($question_id);
+		if (!is_object($question)) return "";
 		return $question->getSuggestedSolutionOutput();
 	}
 
@@ -2295,6 +2296,7 @@ class assQuestion
 		if (strcmp($question_id, "") != 0)
 		{
 			$question_type = assQuestion::_getQuestionType($question_id);
+			if (!strlen($question_type)) return null;
 			assQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
