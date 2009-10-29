@@ -1391,6 +1391,13 @@ class ilObject
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 			
+			// remove news
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$news_item = new ilNewsItem();
+			$news_item->deleteNewsOfContext($this->getId(), $this->getType());
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
+
 			$remove = true;
 		}
 		else
@@ -1431,13 +1438,6 @@ class ilObject
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}
-
-		// remove news
-		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_item = new ilNewsItem();
-		$news_item->deleteNewsOfContext($this->getId(), $this->getType());
-		include_once("./Services/Block/classes/class.ilBlockSetting.php");
-		ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
 		// BEGIN WebDAV: Delete WebDAV properties
 		$query = "DELETE FROM dav_property ".
