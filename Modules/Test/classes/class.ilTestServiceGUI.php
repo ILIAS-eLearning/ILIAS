@@ -281,24 +281,26 @@ class ilTestServiceGUI
 				{
 					$maintemplate->setCurrentBlock("printview_question");
 					$question_gui = $this->object->createQuestionGUI("", $question);
-
-					if ($show_reached_points)
+					if (is_object($question_gui))
 					{
-						$template->setCurrentBlock("result_points");
-						$template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->object->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->object->getMaximumPoints());
-						$template->parseCurrentBlock();
+						if ($show_reached_points)
+						{
+							$template->setCurrentBlock("result_points");
+							$template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->object->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->object->getMaximumPoints());
+							$template->parseCurrentBlock();
+						}
+						$template->setVariable("COUNTER_QUESTION", $counter.". ");
+						$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
+
+						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
+						$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+
+						$template->setVariable("SOLUTION_OUTPUT", $result_output);
+						$maintemplate->setCurrentBlock("printview_question");
+						$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
+						$maintemplate->parseCurrentBlock();
+						$counter ++;
 					}
-					$template->setVariable("COUNTER_QUESTION", $counter.". ");
-					$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
-
-					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
-
-					$template->setVariable("SOLUTION_OUTPUT", $result_output);
-					$maintemplate->setCurrentBlock("printview_question");
-					$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
-					$maintemplate->parseCurrentBlock();
-					$counter ++;
 				}
 			}
 		}
