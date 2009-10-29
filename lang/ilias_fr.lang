@@ -1026,7 +1026,7 @@ assessment#:#tst_submit_results#:#Oui, je confirme l'envoi des réponses.
 assessment#:#tst_test_output#:#Résultat du test
 assessment#:#tst_text_count_system#:#Système de notation
 assessment#:#tst_time_already_spent#:#Temps déjà passé
-assessment#:#tst_time_already_spent_left#:#Vous avez perdu %s.
+assessment#:#tst_time_already_spent_left#:#Il vous reste %s.
 assessment#:#tst_title_output#:#Présentation du titre des questions
 assessment#:#tst_title_output_description#:#Choisissez une des options de présentation du titre des questions et du nombre de points à obtenir pendant le test
 assessment#:#tst_title_output_full#:#Afficher le titre des questions et les points à obtenir
