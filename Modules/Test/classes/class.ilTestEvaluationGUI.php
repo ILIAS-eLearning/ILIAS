@@ -200,7 +200,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$remove = FALSE;
 				if ($passedonly)
 				{
-					if ($userdata->getPassed() == FALSE)
+					$mark_obj = $this->object->getMarkSchema()->getMatchingMark($userdata->getReachedPointsInPercent());
+					if ($mark_obj->getPassed() == FALSE)
 					{
 						$remove = TRUE;
 					}
@@ -274,7 +275,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$table_gui->setData($data);
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
 		$this->tpl->setVariable('EVALUATION_DATA', $table_gui->getHTML());	
 		if (count($foundParticipants) > 0)

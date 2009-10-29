@@ -218,7 +218,6 @@ class ilTestEvaluationUserData
 	function getReached()
 	{
 		return $this->getReachedPoints($this->getScoredPass());
-		//return $this->reached;
 	}
 	
 	function setReached($a_reached)
@@ -229,7 +228,6 @@ class ilTestEvaluationUserData
 	function getMaxpoints()
 	{
 		return $this->getAvailablePoints($this->getScoredPass());
-		//return $this->maxpoints;
 	}
 	
 	function setMaxpoints($a_max_points)
