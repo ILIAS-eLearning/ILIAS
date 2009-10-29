@@ -162,7 +162,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$additionalFields = $this->object->getEvaluationAdditionalFields();
+		if (!$this->object->getAnonymity())
+		{
+			$additionalFields = $this->object->getEvaluationAdditionalFields();
+		}
+		else
+		{
+			$additionalFields = array();
+		}
 		if ($this->object->ects_output)
 		{
 			array_push($additionalFields, 'ects_grade');
@@ -799,7 +806,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		foreach ($fields as $dbfield)
 		{
 			$checkbox = new ilCheckboxInputGUI($this->lng->txt($dbfield), "cb_" . $dbfield);
-//			$checkbox->setInfo($lng->txt("assessment_use_javascript_desc"));
 			if ($this->object->getAnonymity()) 
 			{
 				$checkbox->setDisabled(TRUE);
