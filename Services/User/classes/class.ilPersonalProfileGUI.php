@@ -2380,7 +2380,7 @@ return;
 
 			// if check on Institute
 			$val_array = array("institution", "department", "upload", "street",
-				"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
+				"zipcode", "city", "country", "phone_office", "phone_home", "phone_mobile",
 				"fax", "email", "hobby", "matriculation");
 	
 			// set public profile preferences

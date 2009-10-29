@@ -225,13 +225,13 @@ class ilPublicUserProfileGUI
 		}
 		
 		// address
-		if ($user->getPref("public_street") == "y" || $user->getPref("public_zip") == "y"
+		if ($user->getPref("public_street") == "y" || $user->getPref("public_zipcode") == "y"
 			|| $user->getPref("public_city") == "y" || $user->getPref("public_countr") == "y")
 		{
 			$tpl->setCurrentBlock("address");
 			$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
 			$val_arr = array ("getStreet" => "street",
-			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country");
+			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country");
 			foreach ($val_arr as $key => $value)
 			{
 				// if value "y" show information
@@ -432,7 +432,7 @@ class ilPublicUserProfileGUI
 
 		$val_arr = array("getInstitution" => "institution", "getDepartment" => "department",
 			"getStreet" => "street",
-			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
+			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country",
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
 			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
 			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
@@ -455,7 +455,7 @@ class ilPublicUserProfileGUI
 					case "street":
 						$adr[2] = $user->$key();
 						break;
-					case "zip":
+					case "zipcode":
 						$adr[5] = $user->$key();
 						break;
 					case "city":
