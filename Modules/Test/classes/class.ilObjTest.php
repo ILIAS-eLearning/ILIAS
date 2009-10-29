@@ -5183,7 +5183,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		else
 		{
 			// old style random questions
-			return $this->randomSelectQuestions($nr, 0, 1, $qpls, $pass);
+			return $this->randomSelectQuestions($nr, 0, 1, $qplids, $pass);
 		}
 	}
 
