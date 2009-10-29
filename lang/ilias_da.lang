@@ -10139,12 +10139,12 @@ rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local pol
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
 rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
-common#:#admin_force_noti#:#Notification active###28 10 2009 new variable
-common#:#user_toggle_noti#:#Member is not allowed to deactivate notification###28 10 2009 new variable
+common#:#admin_force_noti#:#Advisering aktiv
+common#:#user_toggle_noti#:#Medlemmet har ikke rettigheder til at afbryde advisering
 common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
 common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
-common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
+common#:#disable_hide_user_toggle#:#Medlemmet har ikke rettigheder til at deaktivere
 common#:#moderators#:#Moderatorer
 common#:#tutors#:#Tutorer
 common#:#settings_for_new_members#:#Indstillinger for nye medlemmer
