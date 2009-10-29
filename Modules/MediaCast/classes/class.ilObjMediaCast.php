@@ -252,13 +252,13 @@ class ilObjMediaCast extends ilObject
 	function delete()
 	{
 		global $ilDB;
-		
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
 		// delete all items
 		$med_items = $this->getItemsArray();
 		foreach ($med_items as $item)
@@ -267,7 +267,7 @@ class ilObjMediaCast extends ilObject
 			$news_item = new ilNewsItem($item["id"]);
 			$news_item->delete();
 		}
-		
+
 		// delete record of table il_media_cast_data
 		$query = "DELETE FROM il_media_cast_data".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");

@@ -73,24 +73,31 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
-		$nid = $ilDB->nextId("write_event");
 		if ($parent_obj_id == null)
 		{
-			$query = sprintf('INSERT INTO write_event '.
-				'(write_id, obj_id, parent_obj_id, usr_id, action, ts) '.
-				'SELECT %s, %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
+			$pset = $ilDB->query('SELECT r2.obj_id par_obj_id FROM object_reference r1 '.
 				'JOIN tree t ON t.child = r1.ref_id '.
 				'JOIN object_reference r2 ON r2.ref_id = t.parent '.
-				'WHERE r1.obj_id = %s ',
-				$ilDB->quote($nid,'integer'),
-				$ilDB->quote($obj_id,'integer'),
-				$ilDB->quote($usr_id,'integer'),
-				$ilDB->quote($action,'text'),
-				$ilDB->quote($obj_id,'integer'));
-			$aff = $ilDB->manipulate($query);
+				'WHERE r1.obj_id = '.$ilDB->quote($obj_id,'integer'));
+			
+			while ($prec = $ilDB->fetchAssoc($pset))
+			{
+				$nid = $ilDB->nextId("write_event");
+				$query = sprintf('INSERT INTO write_event '.
+					'(write_id, obj_id, parent_obj_id, usr_id, action, ts) VALUES '.
+					'(%s, %s, %s, %s, %s, '.$ilDB->now().')',
+					$ilDB->quote($nid,'integer'),
+					$ilDB->quote($obj_id,'integer'),
+					$ilDB->quote($prec["par_obj_id"],'integer'),
+					$ilDB->quote($usr_id,'integer'),
+					$ilDB->quote($action,'text'));
+
+				$aff = $ilDB->manipulate($query);
+			}
 		}
 		else
 		{
+			$nid = $ilDB->nextId("write_event");
 			$query = sprintf('INSERT INTO write_event '.
 				'(write_id, obj_id, parent_obj_id, usr_id, action, ts) '.
 				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().')',
