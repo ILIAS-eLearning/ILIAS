@@ -9625,7 +9625,7 @@ content#:#cont_pc_res#:#Resource
 content#:#cont_pc_map#:#Map
 content#:#cont_pc_list#:#Advanced List
 common#:#session_reminder_lead_time#:#Leadtime
-common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
+common#:#session_reminder_lead_time_info#:#Please specify the leadtime for the session reminder in seconds. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 300 (= 5 min.)<br / >The current length of a user session is %s.
 rbac#:#rbac_delete_role#:#Delete Role
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
