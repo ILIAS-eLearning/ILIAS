@@ -1618,7 +1618,7 @@ class ilObjTest extends ilObject
 			{
 				if ($value["count"] > 0)
 				{
-					$rndquestions = $this->generateRandomPass($value["count"], array($value["qpl"]), $pass);
+					$rndquestions = $this->generateRandomPass($value["count"], array($value), $pass);
 					foreach ($rndquestions as $question_id)
 					{
 						array_push($allquestions, $question_id);
