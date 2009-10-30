@@ -28,7 +28,7 @@
 *
 * @package core
 */
-
+ 
 include_once './payment/classes/class.ilPurchasePaypal.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once './payment/classes/class.ilPaymentBaseGUI.php';
@@ -141,10 +141,12 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	
 	private function addBookings($pay_method, $coupon_session)
 	{
+		global $ilias,$ilUser,$ilObjDataCache;
+		
 		include_once './payment/classes/class.ilPaymentBookings.php';
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once './payment/classes/class.ilPaymentPrices.php';
-	
+	include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 	
 		$booking_obj = new ilPaymentBookings();		
 		$sc_obj = new ilPaymentShoppingCart($this->user_obj);			
@@ -158,7 +160,6 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			
 			if (!empty($_SESSION["coupons"][$coupon_session]))
 			{					
-				//$entry["math_price"] = (float) ilPaymentPrices::_getPriceFromArray($price);
 				$entry["math_price"] = $entry['price'];
 									
 				foreach ($_SESSION["coupons"][$coupon_session] as $key => $coupon)
@@ -168,7 +169,6 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			
 					if ($this->coupon_obj->isObjectAssignedToCoupon($pobject->getRefId()))
 					{
-						//$_SESSION["coupons"][$coupon_session][$key]["total_objects_coupon_price"] += (float) ilPaymentPrices::_getPriceFromArray($price);
 						$_SESSION["coupons"][$coupon_session][$key]["total_objects_coupon_price"] +=  $entry['price'];
 						$_SESSION["coupons"][$coupon_session][$key]["items"][] = $entry;									
 					}				
@@ -207,6 +207,38 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
 
+			
+			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+
+			$oVAT = new ilShopVats((int)$pobject->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $pobject->getVat($booking_obj->getPrice());
+		
+			$booking_obj->setObjectTitle($obj_title);
+			$booking_obj->setVatRate($obj_vat_rate);
+			$booking_obj->setVatUnit($obj_vat_unit);
+			
+			include_once './payment/classes/class.ilPayMethods.php';
+			$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
+			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
+			 
+			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
+				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+			{
+				$booking_obj->setStreet($this->user_obj->getStreet());
+				
+				$booking_obj->setZipcode($this->user_obj->getZipcode());
+				$booking_obj->setCity($this->user_obj->getCity());
+				$booking_obj->setCountry($this->user_obj->getCountry());
+			}			
+			
+			
+			
+			
 			$current_booking_id = $booking_obj->add();
 			
 			if ($current_booking_id)

@@ -420,7 +420,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			}
 			else
 			{
-				$f_result[$counter][] = ilFormat::formatDate($booking['duration_from'],'date') .' - '. ilFormat::formatDate($booking['duration_until'],'date') ;
+					$f_result[$counter][] = $this->lng->txt("unlimited_duration");
 			}
 			$f_result[$counter][] = $booking['price'];
 			$f_result[$counter][] = ($booking['discount'] != '' ? $booking['discount'] : '&nbsp;');

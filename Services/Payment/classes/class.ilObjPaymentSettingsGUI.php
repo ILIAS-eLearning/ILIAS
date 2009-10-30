@@ -1601,7 +1601,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 									.$tmp_purchaser_email 
 									: $this->lng->txt('user_deleted'));
 			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
-			$f_result[$counter][] = $booking['duration'];
+			//$f_result[$counter][] = $booking['duration'];
+					
+			if($booking['duration'] != 0)
+			{
+				$f_result[$counter][] = $booking['duration'].' '.$this->lng->txt('paya_months');
+			
+			}
+			else
+			{
+				//$f_result[$counter][] = ilFormat::formatDate($booking['duration_from'],'date') .' - '. ilFormat::formatDate($booking['duration_until'],'date') ;
+				$f_result[$counter][] = $this->lng->txt("unlimited_duration");
+			}
 			
 
 			$f_result[$counter][] = $booking['price'];
@@ -1728,7 +1739,17 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				break;
 		}
 		$this->tpl->setVariable('ORDER_DATE',date('Y m d H:i:s',$booking['order_date']));
-		$this->tpl->setVariable('DURATION',$booking['duration'].' '.$this->lng->txt('paya_months'));
+	//	$this->tpl->setVariable('DURATION',$booking['duration'].' '.$this->lng->txt('paya_months'));
+		if($booking['duration'] != 0)
+		{
+			$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
+		}
+		else
+		{				
+			$this->tpl->setVariable("DURATION",$this->lng->txt("unlimited_duration"));
+
+		}		
+		
 		$this->tpl->setVariable('PRICE',$booking['price']);
 		
 		$yes_no = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
@@ -3681,7 +3702,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	function saveCustomerObject()
 	{
-		global $ilias;
+		global $ilias, $ilUser,$ilObjDataCache;
 
 		if(!isset($_GET['sell_id']))
 		{
@@ -3729,7 +3750,40 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->booking_obj->setAccess((int) $_POST['access']);
 		$this->booking_obj->setPayed((int) $_POST['payed']);
 		$this->booking_obj->setVoucher('');
+			$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
+			include_once 'Services/Payment/classes/class.ilShopVatsList.php';
+			$oVAT = new ilShopVats((int)$obj->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $obj->getVat($this->booking_obj->getPrice());
+		
+			$this->booking_obj->setObjectTitle($obj_title);
+			$this->booking_obj->setVatRate($obj_vat_rate);
+			$this->booking_obj->setVatUnit($obj_vat_unit);
+			
+			include_once './payment/classes/class.ilPayMethods.php';
+			$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
+			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
+			 
+			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
+				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+			{
+				global $ilObjUser;
+				$user_id[] = $_GET["user_id"];
+			
+				$cust_obj = ilObjUser::_readUsersProfileData($user_id);
+			
+				$this->booking_obj->setStreet($cust_obj[$_GET["user_id"]]['street'],'');
+				
+				$this->booking_obj->setZipcode($cust_obj[$_GET["user_id"]]['zipcode']);
+				$this->booking_obj->setCity($cust_obj[$_GET["user_id"]]['city']);
+				$this->booking_obj->setCountry($cust_obj[$_GET["user_id"]]['country']);
+			}			
+		
 		if($this->booking_obj->add())
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
@@ -3821,7 +3875,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		// get customer_obj
 		$tmp_user = ilObjectFactory::getInstanceByObjId($booking['customer_id'], false);
-		
+	
 		$this->tpl->setVariable('TYPE_IMG_2',ilUtil::getImagePath('icon_usr.gif'));
 		$this->tpl->setVariable('ALT_IMG_2',$this->lng->txt('obj_usr'));
 		if(is_object($tmp_user))
@@ -3848,7 +3902,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable('TXT_CITY',$this->lng->txt('city'));
 		$this->tpl->setVariable('TXT_COUNTRY',$this->lng->txt('country'));
 
-		$email = (isset($tmp_user)) ? $this->lng->txt('user_deleted') : $tmp_user->getEmail();
+		$email = (!isset($tmp_user)) ? $this->lng->txt('user_deleted') : $tmp_user->getEmail();
 		$this->tpl->setVariable('EMAIL',$email); 
 		$this->tpl->setVariable('STREET',$booking['street']);
 		$this->tpl->setVariable('PO_BOX',$booking['po_box']);
