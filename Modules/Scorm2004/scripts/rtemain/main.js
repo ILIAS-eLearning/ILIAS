@@ -2835,7 +2835,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
-	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
+	var randNumber = "?rand="+Math.floor(Math.random()*1000000)+"&";  //prevent caching
+	if (item.parameters == null) {item.parameters="";}
+	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
 }
 
 
