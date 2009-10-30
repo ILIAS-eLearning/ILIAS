@@ -82,7 +82,7 @@ $p = pure = {
 			var att = content.join('');
 			return (/\=\"\"/.test(att)) ? '' : att;},
  	utils:{
- 		CLASSNAME:/MSIE\s+(6|7)/.test(navigator.userAgent)? 'className':'class',
+ 		CLASSNAME:/MSIE\s+(6|7|8)/.test(navigator.userAgent)? 'className':'class',
 		NS:/MSIE/.test(navigator.userAgent) ? 'pure_':'pure:',
 		PURECLASS:/MSIE/.test(navigator.userAgent) ? 'pure_class':'pure:class',
 		AUTO:/MSIE/.test(navigator.userAgent) ? 'pure_autoRender':'pure:autoRender',
