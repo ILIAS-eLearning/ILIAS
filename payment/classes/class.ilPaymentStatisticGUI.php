@@ -543,12 +543,16 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 		$this->tpl->setVariable("ORDER_DATE",date('Y m d H:i:s',$booking['order_date']));
 					
-		if($booking['duration'] == $this->lng->txt('unlimited_duration'))
+		if($booking['duration'] != 0)
 		{
-			$this->tpl->setVariable("DURATION",$booking['duration']);
+			$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
 		}
-		else	
-		$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
+		else
+		{				
+			$this->tpl->setVariable("DURATION",$this->lng->txt("unlimited_duration"));
+
+		}		
+
 		$this->tpl->setVariable("PRICE",ilFormat::_getLocalMoneyFormat($booking['price']));
 		
 		$yes_no = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
@@ -829,7 +833,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 	function saveCustomer()
 	{
-		global $ilias;
+		global $ilias,$ilObjDataCache, $ilUser;
+
 
 		if(!isset($_GET['sell_id']))
 		{
@@ -871,12 +876,47 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->booking_obj->setPayMethod((int) $_POST["pay_method"]);
 		$this->booking_obj->setOrderDate(time());
 		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
+
 		$this->booking_obj->setDuration($price["duration"]);
 		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
 		$this->booking_obj->setAccess((int) $_POST['access']);
 		$this->booking_obj->setPayed((int) $_POST['payed']);
 		$this->booking_obj->setVoucher('');
+			
+			$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
+			include_once 'Services/Payment/classes/class.ilShopVatsList.php';
+			$oVAT = new ilShopVats((int)$obj->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $obj->getVat($this->booking_obj->getPrice());
+		
+			$this->booking_obj->setObjectTitle($obj_title);
+			$this->booking_obj->setVatRate($obj_vat_rate);
+			$this->booking_obj->setVatUnit($obj_vat_unit);
+			
+			include_once './payment/classes/class.ilPayMethods.php';
+			$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
+			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
+			 
+			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
+				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+			{
+				global $ilObjUser;
+				$user_id[] = $_GET["user_id"];
+			
+				$cust_obj = ilObjUser::_readUsersProfileData($user_id);
+			
+				$this->booking_obj->setStreet($cust_obj[$_GET["user_id"]]['street'],'');
+				
+				$this->booking_obj->setZipcode($cust_obj[$_GET["user_id"]]['zipcode']);
+				$this->booking_obj->setCity($cust_obj[$_GET["user_id"]]['city']);
+				$this->booking_obj->setCountry($cust_obj[$_GET["user_id"]]['country']);
+			}			
+		
 		if($this->booking_obj->add())
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
@@ -972,7 +1012,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
-				//vd($a_cmd.$a_text.$a_target);
 	}		
 
 	function __search($a_search_string)
