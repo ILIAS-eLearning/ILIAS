@@ -63,9 +63,13 @@ class ilMailAddressbookGUI
 
 	public function executeCommand()
 	{
+		global $ilUser;
 		$this->showSubTabs();
 
 		$forward_class = $this->ctrl->getNextClass($this);
+		
+		// delete all stored maildata
+		$this->umail->savePostData($ilUser->getId(), array(), '', '', '', '', '', '', '', '');
 		
 		switch($forward_class)
 		{
@@ -459,35 +463,29 @@ class ilMailAddressbookGUI
 			{				
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'addr_id[]', $entry["addr_id"]);
 				
+				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
+				
 				if ($entry["login"] != "")
 				{
-					//$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
-					//$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
-					//$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
-					//$this->ctrl->clearParametersByClass("ilmailformgui");
 					if ($mailing_allowed)
-						$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
+					{
+						$result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
+						$result[$counter]['login_linked_login'] = $entry["login"];
+					}
 					else
-						$result[$counter]['login'] = $entry["login"];
+						$result[$counter]['login_unliked'] = $entry["login"];
 				}				
 				
 				$result[$counter]['firstname'] = $entry["firstname"];
 				$result[$counter]['lastname'] = $entry["lastname"];
-				
+								
 				if ($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
 				{
-					$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
-					$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["email"]));
-					$result[$counter]['email'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["email"] . "</a>";
-					$this->ctrl->clearParametersByClass("ilmailformgui");
-					//$result[$counter]['email'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id[]=".$entry['addr_id'] . "\">" . $entry["email"] . "</a>";
+					$result[$counter]['email_linked_email'] = $entry["email"];
+					$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
 				}
 				else
-				{
-					$result[$counter]['email'] = $entry["email"] ? $entry["email"] : "&nbsp;";
-				}
-				
-				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
+					$result[$counter]['email_unlinked'] = $entry["email"] ? $entry["email"] : "&nbsp;";
 		
 				$current_selection_list = new ilAdvancedSelectionListGUI();
 				$current_selection_list->setListTitle($this->lng->txt("actions"));
