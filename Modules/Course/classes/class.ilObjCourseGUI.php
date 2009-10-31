@@ -4554,6 +4554,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			return true;
 		}
 		
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		if(ilMemberViewSettings::getInstance()->isActive())
+		{
+			return true;
+		}		
+		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 		$privacy = ilPrivacySettings::_getInstance();
