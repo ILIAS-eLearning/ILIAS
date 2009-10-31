@@ -682,12 +682,17 @@ class ilConditionHandler
 	*/
 	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
 	{
-		global $ilBench,$ilUser;
+		global $ilBench,$ilUser,$tree;
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
 		{
+			if($tree->isDeleted($condition['trigger_ref_id']))
+			{
+				continue;
+			}
+			
 			$ilBench->start("ilConditionHandler", "checkCondition");
 			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
 			$ilBench->stop("ilConditionHandler", "checkCondition");
