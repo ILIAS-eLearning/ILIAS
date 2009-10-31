@@ -22,12 +22,10 @@
 */
 
 
-define('AUTH_IDLED',       -1);
-define('AUTH_EXPIRED',     -2);
-define('AUTH_WRONG_LOGIN', -3);
-
 /** @defgroup ServicesAuthShibboleth Services/AuthShibboleth
  */
+ 
+include_once("Auth/Auth.php");
 
 /**
 * Class Shibboleth
@@ -36,7 +34,7 @@ define('AUTH_WRONG_LOGIN', -3);
 *
 * @ingroup ServicesAuthShibboleth
 */
-class ShibAuth
+class ShibAuth extends Auth
 {
 	/**
 	 * Username
@@ -95,33 +93,23 @@ class ShibAuth
 	*/
 	function ShibAuth($authParams, $updateUserData = false)
 	{
-		$this->updateUserData = $updateUserData;
-		
+        if ($authParams["sessionName"] != "") {
+            parent::Auth("", array("sessionName" => $authParams["sessionName"]));
+        }
+        else {
+            parent::Auth("");
+        }
+
+        $this->updateUserData = $updateUserData;
+
+
 		if (!empty($authParams['sessionName'])) {
-			$this->_sessionName = $authParams['sessionName'];
+			$this->setSessionName($authParams['sessionName']);
 			unset($authParams['sessionName']);
 		}
 		
 	}
 	
-	/**
-	* Checks if the current user is authenticated yet
-	* @access	public
-	* @return	boolean	true if user is authenticated
-	*/
-	function getAuth()
-	{
-		$session = &$this->_importGlobalVariable('session');
-		
-		if (!empty($session) &&
-		(isset($session[$this->_sessionName]['registered']) &&
-		$session[$this->_sessionName]['registered'] === true))
-		{
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	/**
 	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
@@ -156,71 +144,8 @@ class ShibAuth
 			$this->expire = $time;
 		}
 	}
-	
-	/**
-	* Checks if there is a session with valid auth information.
-	*
-	* @access private
-	* @return boolean  Whether or not the user is authenticated.
-	*/
-	function checkAuth()
-	{
-		 $session = &$this->_importGlobalVariable('session');
 
-		if (isset($session[$this->_sessionName])) {
-			// Check if authentication session is expired
-			if ($this->expire > 0 &&
-				isset($session[$this->_sessionName]['timestamp']) &&
-				($session[$this->_sessionName]['timestamp'] + $this->expire) < time()) {
-				
-				$this->logout();
-				$this->expired = true;
-				$this->status = AUTH_EXPIRED;
-				
-				return false;
-			}
-			
-			// Check if maximum idle time is reached
-			if ($this->idle > 0 &&
-				isset($session[$this->_sessionName]['idle']) &&
-				($session[$this->_sessionName]['idle'] + $this->idle) < time()) {
-				
-				$this->logout();
-				$this->idled = true;
-				$this->status = AUTH_IDLED;
-				
-				return false;
-			}
-			
-			if (isset($session[$this->_sessionName]['registered']) &&
-				isset($session[$this->_sessionName]['username']) &&
-				$session[$this->_sessionName]['registered'] == true &&
-				$session[$this->_sessionName]['username'] != '') {
-				
-				Auth::updateIdle();
-				
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	/**
-	* Start new auth session
-	*
-	* @access public
-	* @return void
-	*/
-	function start()
-	{
-		@session_start();
-		
-		if (!$this->checkAuth()) {
-			//$this->login();
-		}
-	}
-	
+
 	/**
 	* Login function
 	*
@@ -229,15 +154,12 @@ class ShibAuth
 	*/
 	function login()
 	{
-	
 		global $ilias, $rbacadmin;
-		
 		if (!empty($_SERVER[$ilias->getSetting('shib_login')]))
 		{
 			
 			// Store user's Shibboleth sessionID for logout
-			$session = &$this->_importGlobalVariable('session');
-			$session[$this->_sessionName]['shibboleth_session_id'] = $_SERVER['Shib-Session-ID'];
+			$this->session['shibboleth_session_id'] = $_SERVER['Shib-Session-ID'];
 			
 			// Get loginname of user, new login name is generated if user is new
 			$username = $this->generateLogin();
@@ -334,13 +256,17 @@ class ShibAuth
 				ilShibbolethRoleAssignmentRules::doAssignments($userObj->getId(),$_SERVER);
 				
 				unset($userObj);
+
+                // Authorize this user
+                $this->setAuth($username);
 				
 			}
 			else
 			{
 				// Update user account
-				$userObj->checkUserId();
-				$userObj->read();
+				$uid = $userObj->checkUserId();
+			        $userObj->setId($uid);
+				$userObj->read($uid);
 				
 				if ( 
 					$ilias->getSetting('shib_update_gender')
@@ -415,36 +341,7 @@ class ShibAuth
 			$this->status = AUTH_WRONG_LOGIN;
 		}
 	}
-	
-	/**
-	* Register variable in a session telling that the user
-	* has logged in successfully
-	*
-	* @access public
-	* @param  string Username
-	* @return void
-	*/
-	function setAuth($username)
-	{
-		$session = &$this->_importGlobalVariable('session');
-		
-		if (!isset($session[$this->_sessionName]) && !isset($_SESSION)) {
-			session_register($this->_sessionName);
-		}
-		
-		if (!isset($session[$this->_sessionName]) || !is_array($session[$this->_sessionName])) {
-			$session[$this->_sessionName] = array();
-		}
-		
-		if(!isset($session[$this->_sessionName]['data'])){
-			$session[$this->_sessionName]['data']       = array();
-		}
-			$session[$this->_sessionName]['registered'] = true;
-			$session[$this->_sessionName]['username']   = $username;
-			$session[$this->_sessionName]['timestamp']  = time();
-			$session[$this->_sessionName]['idle']       = time();
-	}
-	
+
 	/**
 	* Logout function
 	*
@@ -457,106 +354,9 @@ class ShibAuth
 	*/
 	function logout()
 	{
-		$session = &$this->_importGlobalVariable('session');
-		
-		
-		$this->username = '';
-		
-		$session[$this->_sessionName] = array();
-		if (isset($_SESSION)) {
-			unset($session[$this->_sessionName]);
-		} else {
-			session_unregister($this->_sessionName);
-		}
+		parent::logout();
 	}
 	
-	/**
-	* Get the username
-	*
-	* @access public
-	* @return string
-	*/
-	function getUsername()
-	{
-		$session = &$this->_importGlobalVariable('session');
-		if (!isset($session[$this->_sessionName]['username'])) {
-			return '';
-		}
-		return $session[$this->_sessionName]['username'];
-	}
-	
-	/**
-	* Get the current status
-	*
-	* @access public
-	* @return string
-	*/
-	function getStatus()
-	{
-		
-		return $status;
-	}
-	
-	/**
-	* Import variables from special namespaces.
-	*
-	* @access private
-	* @param string Type of variable (server, session, post)
-	* @return array
-	*/
-	function &_importGlobalVariable($variable)
-	{
-		$var = null;
-		
-		switch (strtolower($variable)) {
-		
-			case 'server' :
-				if (isset($_SERVER)) {
-					$var = &$_SERVER;
-				} else {
-					$var = &$GLOBALS['HTTP_SERVER_VARS'];
-				}
-				break;
-			
-			case 'session' :
-				if (isset($_SESSION)) {
-					$var = &$_SESSION;
-				} else {
-					$var = &$GLOBALS['HTTP_SESSION_VARS'];
-				}
-				break;
-			
-			case 'post' :
-				if (isset($_POST)) {
-					$var = &$_POST;
-				} else {
-					$var = &$GLOBALS['HTTP_POST_VARS'];
-				}
-				break;
-			
-			case 'cookie' :
-				if (isset($_COOKIE)) {
-					$var = &$_COOKIE;
-				} else {
-					$var = &$GLOBALS['HTTP_COOKIE_VARS'];
-				}
-				break;
-			
-			case 'get' :
-				if (isset($_GET)) {
-					$var = &$_GET;
-				} else {
-					$var = &$GLOBALS['HTTP_GET_VARS'];
-				}
-				break;
-			
-			default:
-				break;
-		
-		}
-
-		return $var;
-	}
 	
 	/**
 	* Automatically generates the username/screenname of a Shibboleth user or returns
