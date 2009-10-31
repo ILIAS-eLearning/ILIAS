@@ -85,7 +85,29 @@ class ilMemberViewSettings
 	 */
 	public function isActive()
 	{
-		return (bool) $this->active;
+		global $tree;
+		
+		if(!$this->active)
+		{
+			// Not active
+			return false;
+		}
+				
+		if(!isset($_GET['ref_id']))
+		{
+			// No ref id given => mail, search, personal desktop menu in other tab
+			return false;
+		}
+		
+		$sub_ids = $tree->getSubTreeIds($this->getContainer());
+		
+		if(!in_array((int) $_GET['ref_id'],$sub_ids) and 
+			$this->getContainer() != (int) $_GET['ref_id']) 
+		{
+			// outside of course
+			return false;
+		}
+		return true;
 	}
 	
 	/**
