@@ -133,6 +133,7 @@ class ilCalendarDayGUI
 			$this->user_settings->getDayStart(),
 			$this->user_settings->getDayEnd()
 		);
+		
 		$colspan = $this->calculateColspan($hours);
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::DAY);
@@ -204,7 +205,9 @@ class ilCalendarDayGUI
 			
 			for($i = ($colspan - 1);$i > $hour['apps_num'];$i--)
 			{
-				$this->tpl->touchBlock('empty_cell');
+				$this->tpl->setCurrentBlock('empty_cell');
+				$this->tpl->setVariable('EMPTY_WIDTH',(100 / (int) ($colspan - 1)).'%');
+				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('time_row');
 			$this->tpl->setVariable('TIME',$hour['txt']);
