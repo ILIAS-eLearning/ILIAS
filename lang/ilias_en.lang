@@ -8164,7 +8164,7 @@ rbac#:#sess_edit_permission#:#Change Permission Settings
 common#:#obj_sess#:#Session
 common#:#objs_sess#:#Sessions
 rbac#:#crs_create_sess#:#Create Session
-rbac#:#sess_copy#:#Copy Session
+common#:#sess_copy#:#Copy Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_sess_select#:#-- Please select one Session --
 common#:#sess#:#Session

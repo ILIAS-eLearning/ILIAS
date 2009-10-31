@@ -8584,7 +8584,7 @@ rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
 rbac#:#root_create_catr#:#Kategorienreferenz erzeugen
-rbac#:#sess_copy#:#Kopieren
+common#:#sess_copy#:#Sitzung kopieren
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
