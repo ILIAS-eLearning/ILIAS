@@ -97,7 +97,7 @@ class ilLocatorGUI
 			$path = $tree->getPathFull($a_ref_id,$a_start);
 
 			// add item for each node on path
-			foreach ($path as $key => $row)
+			foreach ((array) $path as $key => $row)
 			{
 				if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp", "icrs")))
 				{
