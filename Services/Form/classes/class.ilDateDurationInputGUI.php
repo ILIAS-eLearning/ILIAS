@@ -521,6 +521,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("DATE_ID_START", $this->getPostVar());
 			
 			$tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
+			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+			$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
 			$tpl->setVariable("START_SELECT",
 				ilUtil::makeDateSelect(
 					$this->getPostVar()."[start][date]",
