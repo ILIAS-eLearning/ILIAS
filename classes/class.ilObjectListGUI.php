@@ -1641,7 +1641,7 @@ class ilObjectListGUI
 	*/
 	function insertPreconditions()
 	{
-		global $ilAccess, $lng, $objDefinition;
+		global $ilAccess, $lng, $objDefinition,$tree;
 
 		include_once("classes/class.ilConditionHandler.php");
 
@@ -1668,6 +1668,10 @@ class ilObjectListGUI
 		$conditions = ilUtil::sortArray($conditions,'title','DESC');
 		foreach($conditions as $condition)
 		{
+			if($tree->isDeleted($condition['trigger_ref_id']))
+			{
+				continue;
+			}
 			if(ilConditionHandler::_checkCondition($condition['id']))
 			{
 				continue;
