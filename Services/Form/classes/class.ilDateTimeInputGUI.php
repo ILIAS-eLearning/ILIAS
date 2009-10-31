@@ -352,6 +352,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
 			$tpl->setVariable("DATE_ID", $this->getPostVar());
 			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
+			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+			$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
 			$tpl->setVariable("DATE_SELECT",
 				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
 					$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));
