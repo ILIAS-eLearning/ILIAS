@@ -250,7 +250,6 @@ class ilCache
 				$set = " AND";
 			}
 		}
-		
 		$ilDB->manipulate($q);
 	}
 	
