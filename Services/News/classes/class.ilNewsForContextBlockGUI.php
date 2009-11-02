@@ -45,7 +45,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	function ilNewsForContextBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser;
-		
+
 		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
@@ -62,6 +62,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->acache = new ilNewsCache();
 		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
 		$this->cache_hit = false;
+
 		if ($this->acache->getLastAccessStatus() == "hit")
 		{
 			self::$st_data = unserialize($cres);
@@ -88,7 +89,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$data = array();
 		}
-		
+
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		$this->setData($data);
@@ -102,7 +103,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	function getNewsData()
 	{
 		global $ilCtrl, $ilUser;
-		
+
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
 /*		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
@@ -262,7 +263,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-		
+
 		$hide_block = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
 			0, $this->block_id);
 		if ($hide_block)
@@ -274,7 +275,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->setTitle($this->getProperty("title"));
 		}
-		
+
 		$public_feed = ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
 			0, $this->block_id);
 		if ($public_feed)
@@ -305,7 +306,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$lng->txt("news_subscribe"));
 		}
 */
-		
+
 		// add edit commands
 		if ($this->getEnableEdit())
 		{
@@ -335,11 +336,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			return "";
 		}
-		
+
 		// do not display empty news blocks for users
 		// who do not have write permission
 		if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
-			$this->getRepositoryMode())
+			$this->getRepositoryMode() && !$this->dynamic)
 		{
 			return "";
 		}
@@ -349,6 +350,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 //			$en = getJSEnabler();
 		}
+
 		return parent::getHTML().$en;
 	}
 
