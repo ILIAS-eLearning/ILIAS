@@ -150,6 +150,21 @@ class ilCalendarCategories
 		);
 	}
 	
+	/**
+	 * Delete cache
+	 * @param object $a_usr_id
+	 * @return 
+	 */
+	public static function deleteRepositoryCache($a_usr_id)
+	{
+		ilCalendarCache::getInstance()->deleteByAdditionalKeys(
+			$a_usr_id,
+			self::MODE_REPOSITORY,
+			'categories'
+		);
+		
+	}
+	
 
 	/**
 	 * Serialize categories 
@@ -160,7 +175,8 @@ class ilCalendarCategories
 		return serialize(
 			array(
 				'categories'		=> $this->categories,
-				'categories_info'	=> $this->categories_info
+				'categories_info'	=> $this->categories_info,
+				'subitem_categories'=> $this->subitem_categories
 			)
 		);
 	}
@@ -176,6 +192,7 @@ class ilCalendarCategories
 		
 		$this->categories = $info['categories'];
 		$this->categories_info = $info['categories_info'];
+		$this->subitem_categories = $info['subitem_categories'];
 	}
 
 	/**
@@ -190,14 +207,17 @@ class ilCalendarCategories
 	{
 		if($a_use_cache)
 		{
+			#$GLOBALS['ilLog']->write('READ cache:'. $this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id);
+			
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
 				$this->wakeup($cats);
 				return;
 			}
+			
+			#$GLOBALS['ilLog']->write('MISS cache');
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.':Cache miss');
 		
 		
 		switch($a_mode)
@@ -232,7 +252,9 @@ class ilCalendarCategories
 		if($a_use_cache)
 		{
 			// Store in cache
-			ilCalendarCache::getInstance()->storeEntry(
+			#$GLOBALS['ilLog']->write('WRITE cache:'. $this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id);
+			
+			ilCalendarCache::getInstance()->storeUnlimitedEntry(
 				$this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id,
 				$this->sleep(),
 				$this->user_id,

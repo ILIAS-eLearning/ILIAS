@@ -73,7 +73,7 @@ class ilCalendarCache extends ilCache
 	 * @param object $a_value
 	 * @return 
 	 */
-	public function storeUnlimitedEntry($a_entry_id,$a_value)
+	public function storeUnlimitedEntry($a_entry_id,$a_value,$a_key1 = 0,$a_key2 = 0,$a_key3 = '',$a_key4 = '')
 	{
 		if(!ilCalendarSettings::_getInstance()->isCacheUsed())
 		{
@@ -81,7 +81,7 @@ class ilCalendarCache extends ilCache
 		}
 		// Unlimited is a year
 		$this->setExpiresAfter(60 * 60 * 24 * 365);
-		parent::storeEntry($a_entry_id,$a_value);
+		parent::storeEntry($a_entry_id,$a_value, $a_key1, $a_key2, $a_key3, $a_key4);
 		$this->setExpiresAfter(ilCalendarSettings::_getInstance()->getCacheMinutes());
 		return true;
 	}

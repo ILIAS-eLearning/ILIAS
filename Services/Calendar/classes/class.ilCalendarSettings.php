@@ -43,7 +43,7 @@ class ilCalendarSettings
 	const TIME_FORMAT_24 = 1;
 	const TIME_FORMAT_12 = 2;
 	
-	const DEFAULT_CACHE_MINUTES = 10;
+	const DEFAULT_CACHE_MINUTES = 0;
 	
 	private static $instance = null;
 
@@ -109,6 +109,7 @@ class ilCalendarSettings
 	 */
 	public function isCacheUsed()
 	{
+		return false;
 		return $this->cache_enabled;
 	}
 	
