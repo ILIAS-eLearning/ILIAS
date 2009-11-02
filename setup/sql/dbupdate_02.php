@@ -6513,6 +6513,23 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 		$q = "ALTER TABLE `style_parameter` ADD COLUMN `type` varchar(30) NOT NULL default ''";
 			$ilDB->query($q);
 	}
+	
+	// bugfix for bug 5361
+	$set = $ilDB->query("SELECT * FROM style_parameter WHERE class = 'LMNavigation' AND tag = 'td'");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$set2 = $ilDB->query("SELECT * FROM style_parameter WHERE class = 'LMNavigation' AND tag = 'div' ".
+			"AND parameter = '".$rec["parameter"]."'");
+		if ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			$ilDB->query("DELETE FROM style_parameter WHERE id = ".$rec["id"]);
+		}
+		else
+		{
+			$ilDB->query("UPDATE style_parameter SET tag = 'div' WHERE id = ".$rec["id"]);
+		}
+	}
+	
 ?>
 <#1385>
 <?php
