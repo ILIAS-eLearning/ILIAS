@@ -1,6 +1,8 @@
 <?php /*
 
 Versions:
+PEAR				1.7.1
+
 Log					1.11.5
 
 Auth				1.6.1
@@ -29,6 +31,10 @@ HTTP_Request		1.4.4
 	Net_Socket		>= 1.0.7		 
 
 Patches:
+
+PEAR only the files PEAR.php and PEAR/FixPHP5PEARWarnings.php are hold in this package. Check includes 
+of further required classes in PEAR.php before updating to a newer version.
+
 MDB2/Driver/oci8.php, line 1398:
 Patched interpretation of "http://" as string instead of file handle.
 due to ILIAS bug #4636
