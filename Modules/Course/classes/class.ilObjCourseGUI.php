@@ -2675,7 +2675,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$added_users = 0;
 		foreach($_POST["user"] as $user_id)
 		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id))
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
 			{
 				continue;
 			}
