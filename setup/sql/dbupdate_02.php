@@ -16296,3 +16296,9 @@ if (!$ilDB->tableExists("cal_auth_token"))
 	$ilDB->addIndex('cal_auth_token',array('user_id'),'i2');
 }
 ?>
+<#2910>
+<?php
+	$ilDB->addIndex('mep_tree',array('child'),'ch');
+	$ilDB->addIndex('mep_tree',array('parent'),'pa');
+	$ilDB->addIndex('mep_tree',array('mep_id'),'me');
+?>
