@@ -3382,15 +3382,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$content = str_replace("&amp;gt;", "&gt;", $content);
 //			$content = str_replace("&", "&amp;", $content);					
 //var_dump($content);
-			$rows  	 = "<TR valign=\"top\">";
+			$rows  	 = "<tr valign=\"top\">";
 			$rownumbers = "";
 			$linenumbers= "";
 
 			//if we have to show line numbers
 			if (strcmp($showlinenumbers,"y")==0)
 			{
-				$linenumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
-				$linenumbers .= "<PRE class=\"ilc_Code\">";
+				$linenumbers = "<td nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
+				$linenumbers .= "<pre class=\"ilc_Code\">";
 
 				for ($j=0; $j < $rownums; $j++)
 				{
@@ -3402,12 +3402,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$linenumbers .= "\n";
 					}
 				}
-				$linenumbers .= "</PRE>";
-				$linenumbers .= "</TD>";
+				$linenumbers .= "</pre>";
+				$linenumbers .= "</td>";
 			}
 			
-			$rows .= $linenumbers."<TD class=\"ilc_Sourcecode\"><PRE class=\"ilc_Code\">".$content."</PRE></TD></TR>";
-			$rows .= "</TR>";
+			$rows .= $linenumbers."<td class=\"ilc_Sourcecode\"><pre class=\"ilc_Code\">".$content."</pre></td>";
+			$rows .= "</tr>";
 
 			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />; 
 			// workaround: add a space after each br.
