@@ -988,6 +988,16 @@ class ilInitialisation
 			//ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
 													// this is also source of a bug (see mantis)
 		}
+		
+		// allow login by submitting user data
+		// in query string when DEVMODE is enabled
+		if( DEVMODE
+		    && isset($_GET['username']) && strlen($_GET['username'])
+		    && isset($_GET['password']) && strlen($_GET['password'])
+		){
+			$_POST['username'] = $_GET['username'];
+			$_POST['password'] = $_GET['password'];
+		}
 
 		// maintenance mode
 		$this->handleMaintenanceMode();
