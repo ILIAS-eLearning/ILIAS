@@ -2311,12 +2311,14 @@ class ilObjUser extends ilObject
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();
-    	if( $security->isPasswordChangeOnFirstLoginEnabled() &&
-    		$this->getLastPasswordChangeTS() == 0 )
-    	{
+    	
+		if( !ilAuthUtils::_needsExternalAccountByAuthMode( $this->getAuthMode(true) )
+			&& $security->isPasswordChangeOnFirstLoginEnabled()
+			&& $this->getLastPasswordChangeTS() == 0
+		){
 			return true;
-     	}
-    	return false;
+		}
+		else return false;
     }
 
     public function isPasswordExpired()
