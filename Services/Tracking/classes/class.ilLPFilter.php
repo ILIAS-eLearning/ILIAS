@@ -283,7 +283,7 @@ class ilLPFilter
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
 		$query_parser =& new ilQueryParser($this->getQueryString());
-		$query_parser->setMinWordLength(0);
+		$query_parser->setMinWordLength(0,true);
 		$query_parser->setCombination(QP_COMBINATION_OR);
 		$query_parser->parse();
 		if(!$query_parser->validate())

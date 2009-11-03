@@ -331,7 +331,7 @@ class ilObjectCopyGUI
 		
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 		$query_parser = new ilQueryParser($this->form->getInput('tit'));
-		$query_parser->setMinWordLength(1);
+		$query_parser->setMinWordLength(1,true);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
 		if(!$query_parser->validate())

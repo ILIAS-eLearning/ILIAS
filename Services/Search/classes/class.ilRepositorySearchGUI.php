@@ -429,7 +429,7 @@ class ilRepositorySearchGUI
 
 		$query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
 		$query_parser->setCombination(QP_COMBINATION_OR);
-		$query_parser->setMinWordLength(1);
+		$query_parser->setMinWordLength(1,true);
 		$query_parser->parse();
 
 		if(!$query_parser->validate())
