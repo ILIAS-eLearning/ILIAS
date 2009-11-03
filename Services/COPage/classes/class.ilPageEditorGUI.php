@@ -812,7 +812,7 @@ return true;
 	*/
 	function assignCharacteristicForm()
 	{
-		global $tpl;
+		global $tpl, $lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -837,8 +837,16 @@ return true;
 				}
 			}
 		
-			$this->initCharacteristicForm($_POST["target"], $types);
-			$tpl->setContent($this->form->getHTML());
+			if (count($types) == 0)
+			{
+				ilUtil::sendFailure($lng->txt("cont_select_par_or_section"), true);
+				$this->ctrl->returnToParent($this);
+			}
+			else
+			{
+				$this->initCharacteristicForm($_POST["target"], $types);
+				$tpl->setContent($this->form->getHTML());
+			}
 		}
 		else
 		{

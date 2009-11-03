@@ -700,9 +700,31 @@
 	<xsl:param name="par_counter" select="-1" />
 
 	<xsl:choose>
+		<xsl:when test="@Characteristic = 'Headline1'">
+		<!-- Label -->
+		<h1>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h1>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline2'">
+		<!-- Label -->
+		<h2>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h2>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline3'">
+		<!-- Label -->
+		<h3>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h3>
+		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
 		</div>
 		</xsl:when>
 		<xsl:otherwise>
@@ -715,12 +737,23 @@
 
 <xsl:template name="ShowParagraph">
 	<xsl:param name="p_id" select = "-1"/>
-	<xsl:if test="not(@Characteristic)">
-	<xsl:attribute name="class">ilc_Standard</xsl:attribute>
-	</xsl:if>
-	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
-	<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
-	</xsl:if>
+	<xsl:choose>
+		<xsl:when test="not(@Characteristic)">
+			<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline1'">
+			<xsl:attribute name="class">ilc_heading1_Headline1</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline2'">
+			<xsl:attribute name="class">ilc_heading2_Headline2</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline3'">
+			<xsl:attribute name="class">ilc_heading3_Headline3</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="not (@Characteristic = 'Code')">
+			<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+		</xsl:when>
+	</xsl:choose>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
 	<xsl:choose>
