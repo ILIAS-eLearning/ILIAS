@@ -2537,6 +2537,12 @@ class ilMail
 		$gender = ilObjUser::_lookupGender($a_usr_id);
 		$gender = $gender ? $gender : 'n';
 		$name = ilObjUser::_lookupName($a_usr_id);
+		
+		if(!strlen($name['firstname']))
+		{
+			return $lang->txt('mail_salutation_anonymous').',';
+		}
+		
 		return $lang->txt('mail_salutation_'.$gender).' '.
 			($name['title'] ? $name['title'].' ' : '').
 			($name['firstname'] ? $name['firstname'].' ' : '').
