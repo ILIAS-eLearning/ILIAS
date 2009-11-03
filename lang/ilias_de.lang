@@ -7231,7 +7231,7 @@ mcst#:#mcst_entry#:#Mediacast-Einträge
 mcst#:#mcst_file_extension_settings#:#Unterstützte Dateiformate
 mcst#:#mcst_global_settings#:#Globale Einstellungen
 mcst#:#mcst_incl_files_in_rss#:#Media-Dateien in Webfeed einfügen
-mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Media-Dateien als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, erhält der Benutzer nur einen Nachricht über ein neues Objekt.
+mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Media-Dateien als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, erhält der Benutzer nur eine Nachricht über ein neues Objekt.
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
