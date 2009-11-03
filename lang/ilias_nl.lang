@@ -8062,7 +8062,6 @@ rbac#:#sess_edit_permission#:#Change Permission Settings###02 06 2008 new variab
 common#:#obj_sess#:#Session###02 06 2008 new variable
 common#:#objs_sess#:#Sessions###02 06 2008 new variable
 rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
-rbac#:#sess_copy#:#Copy Session###02 06 2008 new variable
 common#:#obj_sess_duplicate#:#Copy Session###02 06 2008 new variable
 common#:#obj_sess_select#:#-- Please select one Session --###02 06 2008 new variable
 common#:#sess#:#Session###02 06 2008 new variable
@@ -10149,3 +10148,10 @@ common#:#moderators#:#Moderators###28 10 2009 new variable
 common#:#tutors#:#Tutors###28 10 2009 new variable
 common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
 common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
+common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
+dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
+dateplaner#:#cal_subscription_header#:#Calendar Address###03 11 2009 new variable
+dateplaner#:#cal_subscription_url#:#Calendar URL:###03 11 2009 new variable
+mail#:#mail_salutation_anonymous#:#Hello###03 11 2009 new variable
+content#:#cont_select_par_or_section#:#Please select at least one paragraph or section###03 11 2009 new variable
