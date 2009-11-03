@@ -46,6 +46,7 @@ class ilQueryParser
 	var $quoted_words = array();
 	var $message; // Translated error message
 	var $combination; // combiniation of search words e.g 'and' or 'or'
+	protected $settings = null;
 
 	/**
 	* Constructor
@@ -62,12 +63,27 @@ class ilQueryParser
 		$this->query_str = $a_query_str;
 		$this->message = '';
 
-		$this->min_word_length = MIN_WORD_LENGTH;
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		$this->settings = ilSearchSettings::getInstance();
+
+		if(!$this->setMinWordLength(1))
+		{
+			$this->setMinWordLength(MIN_WORD_LENGTH);
+		}
 	}
 
-	function setMinWordLength($a_length)
+	function setMinWordLength($a_length,$a_force = false)
 	{
+		// Due to a bug in mysql fulltext search queries with min_word_legth < 3
+		// might freeze the system.
+		// Thus min_word_length cannot be set to values < 3 if the mysql fulltext is used.
+		if(!$a_force and $this->settings->enabledIndex() and $a_length < 3)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Disabled min word length');
+			return false;			
+		}
 		$this->min_word_length = $a_length;
+		return true;
 	}
 	function getMinWordLength()
 	{
@@ -155,11 +171,11 @@ class ilQueryParser
 				continue;
 			}
 			
-			#if(strlen(trim($word)) < $this->getMinWordLength())
-			#{
-			#	$this->setMessage($this->lng->txt('search_minimum_three'));
-			#	continue;
-			#}
+			if(strlen(trim($word)) < $this->getMinWordLength())
+			{
+				$this->setMessage($this->lng->txt('search_minimum_three'));
+				continue;
+			}
 			$this->words[] = ilUtil::prepareDBString($word);
 		}
 		

@@ -1422,7 +1422,7 @@ class ilObjectGUI
 		$this->lng->loadLanguageModule('search');
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 		$query_parser =& new ilQueryParser(ilUtil::stripSlashes($_SESSION['wizard_search_title']));
-		$query_parser->setMinWordLength(1);
+		$query_parser->setMinWordLength(1,true);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
 		if(!$query_parser->validate())

@@ -227,7 +227,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
 		$query_parser =& new ilQueryParser($a_title);
-		$query_parser->setMinWordLength(0);
+		$query_parser->setMinWordLength(0,true);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
 		if(!$query_parser->validate())
@@ -238,7 +238,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
 
-		$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
+
+		#$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 		$object_search->setFields(array('title'));
 		$object_search->appendToFilter('role');
 		$object_search->appendToFilter('rolt');
