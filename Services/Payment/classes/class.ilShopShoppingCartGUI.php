@@ -48,6 +48,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	private $totalAmount = array();
 	
 	private $totalVat = 0;
+	private $epSet;
 
 	public function __construct($user_obj)
 	{		
@@ -60,8 +61,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$ppSet = ilPaypalSettings::getInstance();
 		$this->paypalConfig = $ppSet->getAll();	
 		
-		$epSet = ilEPaySettings::getInstance();
-		$this->epayConfig = $epSet->getAll();
+		$this->epSet = ilEPaySettings::getInstance();
+		$this->epayConfig = $this->epSet->getAll();
 
 		$this->checkCouponsOfShoppingCart();		
 	}
@@ -340,13 +341,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	}
 
 
-
-  private function _ConvertGermanBookingToEnglish( $a_pobjData )
-  {
-  
-  
-  }
-
   
   /**
   * Return from ePay
@@ -356,85 +350,18 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	public function finishEPay()
 	{
 	  global $ilias, $ilUser;
-
-	  include_once './payment/classes/class.ilPaymentObject.php';
-    include_once './payment/classes/class.ilPaymentBookings.php';
-    require_once './payment/classes/class.ilPaymentShoppingCart.php';
-    include_once './Services/Payment/classes/class.ilERP.php';
-    
-    
-    $active =ilERP::getActive();
-    $erpsys = $active['erp_short'];
-   
-	  $cart = new ilPaymentShoppingCart($ilUser);
-	  $sc = $cart->getShoppingCart(PAY_METHOD_EPAY);
-	  
-	  $cls = "ilERPDebtor_" . $active['erp_short']; 
-	  include_once './Services/Payment/classes/class.' . $cls. '.php';
-	  $deb = new $cls();
-	  $usr_id =  $ilUser->getId();          
+    require_once '/Services/Payment/classes/class.ilPurchase.php';
+    $buy = new ilPurchase( $ilUser->getId(), PAY_METHOD_EPAY );
     
     try
     {
-      
-      
-      foreach ($sc as $i)
-      {
-        
-        $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
-        $bo  =& new ilPaymentBookings($ilUser->getId());
-        
-        
-        $inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
-        $bo->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
-        $bo->setPobjectId( isset($i['pobject_id']) ? $i['pobject_id'] : 0 );
-        $bo->setCustomerId( $ilUser->getId() );
-        $bo->setVendorId( $pod['vendor_id'] );
-        $bo->setPayMethod(PAY_METHOD_EPAY);
-        $bo->setOrderDate(time());
-        $bo->setDuration($i['dauer']); // duration
-        $bo->setPrice(  $i['betrag_string'] );
-        $bo->setPrice( ilPaymentPrices::_getPriceString( $i['price_id'] ));
-        
-        $bo->setDiscount(0);
-        $bo->setPayed(0);
-        $bo->setAccess(0);
-        $bo->setVoucher('');
-        $bo->setVatRate( $i['vat_rate'] );
-        $bo->setVatUnit( $i['vat_unit'] );
-        $bo->setTransactionExtern($_GET['tid']);
-        
-        include_once './payment/classes/class.ilPayMethods.php';
-        $save_adr = (int) ilPaymethods::_enabled('save_user_adr_epay') ? 1 : 0;
-        if($save_user_adr_epay == 1)
-        {
-          $bo->setStreet($ilUser->getStreet());
-          $bo->setPoBox();
-          $bo->setZipcode($ilUser->getZipcode());
-          $bo->setCity($ilUser->getCity);
-          $bo->setCountry($ilUser->getCountry());
-        }
-        
-        // psc_id
-        // obj_id
-        // betrag_string = "42 DKK"
-        // vat_rate => 0
-        // vat_unig => 0
-        
-        
-        $boid = $bo->add();
-        
-        $product_name = $i['buchungstext'];
-        $amount = $i['betrag'];
-        
-      }
-      ilUtil::sendSuccess($this->lng->txt('pay_epay_success'), true);          
-        
+      $buy->purchase($_REQUEST['tid'] );
 	  }
 	  catch (ilERPException $e)
 	  {
-      ilUtil::sendFailure($e->getMessage());
-	  }
+      ilUtil::sendFailure($e->getMessage());   
+    }
+    ilUtil::sendSuccess($this->lng->txt('pay_epay_success')); // . print_r($_REQUEST, true) . " ilUser=" . $ilUser->getId(), true);          
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 	
@@ -555,13 +482,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     return false;
   }
 	      
-  public function ePayCallback()
-  {
-    $f = fopen("callback.txt", "a");
-    fwrite( $f, "HEP");
-    fwrite( $f, print_r($_POST, true));
-    fclose($f);  
-  }
 
 	public function showItems()
 	{
@@ -724,12 +644,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('LANGUAGE', 1);
 							$tpl->setVariable('GROUP', "");
 							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId());
-							///$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'ePayCallback'));
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
+
 							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
 							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
-							
-							//echo $this->totalAmount['PAY_METHOD_EPAY'];
+							$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));							
 							
 						        break;
 						case PAY_METHOD_PAYPAL:							

@@ -66,16 +66,43 @@ class ilEPaySettings
 	/**
 	* Constructor
 	* 
-	* @access	private
 	*/
-	private function ilEPaySettings()
+	private function __construct()
 	{
-		global $ilDB;
-
-		$this->db =& $ilDB;
-
 		$this->getSettings();
 	}
+
+	
+	/**
+	* This function validates data received from ePay, and verifies the md5key is valid
+	* @return bool
+	*/
+  public function validateEPayData($amount, $orderid, $transactionid, $md5Key)
+  {
+    $this->getSettings();
+    $password = $this->getAuthToken();
+    $strForValidate = "";
+    $strForValidate = $amount . $orderid . $transactionid . $password;
+    if (md5($strForValidate) == $md5Key) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  /**
+  * This function generates a valid MD5 key on the data about to be transmitted
+  * to ePay. ePay will again verify the data and if the data is not valid and
+  * error will be thrown (redirected to decline)
+  */
+  public function generatekeyForEpay($cur, $amount, $orderid) 
+  {
+    $this->getSettings();
+    $password = $this->getAuthToken();
+    return md5($cur . $amount . $orderid . $password);
+  }
+	
 	
 	/** 
 	 * Called from constructor to fetch settings from database
@@ -84,9 +111,10 @@ class ilEPaySettings
 	 */
 	private function getSettings()
 	{
+    global $ilDB;
 		$this->fetchSettingsId();
 		
-		$res = $this->db->queryf('
+		$res = $ilDB->queryf('
 			SELECT epay FROM payment_settings WHERE settings_id = %s',
 			array('integer'), array($this->getSettingsId()));
 
@@ -109,8 +137,9 @@ class ilEPaySettings
 	 */
 	private function fetchSettingsId()
 	{
+    global $ilDB;
 
-		$res = $this->db->query('SELECT * FROM payment_settings');
+		$res = $ilDB->query('SELECT * FROM payment_settings');
 
 		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
