@@ -10131,9 +10131,9 @@ payment#:#delete_addresses_bmf#:#Slet BMF adresser
 payment#:#delete_addresses_paypal#:#Slet Paypal adresser
 dateplaner#:#cal_created_appointment#:#Oprettede ny aftale.
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
-rbac#:#rbac_local_policies#:#Local Policies###28 10 2009 new variable
-rbac#:#rbac_keep_local_policies#:#Keep Local Policies###28 10 2009 new variable
-rbac#:#rbac_delete_local_policies#:#Delete Local Policies###28 10 2009 new variable
+rbac#:#rbac_local_policies#:#Lokale rettigheder
+rbac#:#rbac_keep_local_policies#:#Behold lokale rettigheder
+rbac#:#rbac_delete_local_policies#:#Slet lokale rettigheder
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.###28 10 2009 new variable
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
@@ -10148,10 +10148,10 @@ common#:#moderators#:#Moderatorer
 common#:#tutors#:#Tutorer
 common#:#settings_for_new_members#:#Indstillinger for nye medlemmer
 common#:#forums_notification_settings#:#Forum adviseringsindstillinger
-common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+common#:#sess_copy#:#Kopier session
 content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
-dateplaner#:#cal_subscription_header#:#Calendar Address###03 11 2009 new variable
-dateplaner#:#cal_subscription_url#:#Calendar URL:###03 11 2009 new variable
-mail#:#mail_salutation_anonymous#:#Hello###03 11 2009 new variable
+dateplaner#:#cal_subscription_header#:#Kalender adresse
+dateplaner#:#cal_subscription_url#:#Kalender URL:
+mail#:#mail_salutation_anonymous#:#Kære
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section###03 11 2009 new variable
