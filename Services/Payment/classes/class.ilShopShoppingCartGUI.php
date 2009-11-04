@@ -280,6 +280,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		if (ilPayMethods::_enabled('pm_bill')) $pay_methods[] = PAY_METHOD_BILL;
 		if (ilPayMethods::_enabled('pm_bmf')) $pay_methods[] = PAY_METHOD_BMF;
 		if (ilPayMethods::_enabled('pm_paypal')) $pay_methods[] = PAY_METHOD_PAYPAL;		
+		if (ilPayMethods::_enabled('pm_epay')) $pay_methods[] = PAY_METHOD_EPAY;
 
 		if (is_array($pay_methods))
 		{			
@@ -297,6 +298,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				{
 					$coupon_session_id = 'paypal';
 				}
+				else if ($pay_methods[$p] == PAY_METHOD_EPAY)
+				{
+          $coupon_session_id = 'epay';
+        }
 
 				if (!is_array($_SESSION['coupons'][$coupon_session_id]))
 				{
@@ -350,7 +355,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	public function finishEPay()
 	{
 	  global $ilias, $ilUser;
-    require_once '/Services/Payment/classes/class.ilPurchase.php';
+    require_once './Services/Payment/classes/class.ilPurchase.php';
     $buy = new ilPurchase( $ilUser->getId(), PAY_METHOD_EPAY );
     
     try
@@ -359,25 +364,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	  }
 	  catch (ilERPException $e)
 	  {
-      ilUtil::sendFailure($e->getMessage());   
+      $msg = $e->getMessage();
+      if (DEVMODE) $msg .= " " . print_r($_REQUEST, true);
+      ilUtil::sendFailure($msg);   
     }
-    ilUtil::sendSuccess($this->lng->txt('pay_epay_success')); // . print_r($_REQUEST, true) . " ilUser=" . $ilUser->getId(), true);          
+    ilUtil::sendSuccess($this->lng->txt('pay_epay_success'));
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
-	}
-	
-	
-		
-	/**
-	* ERP transaction
-	*/	
-	private function bookERPtransaction( $erpsys, $product, $pobjData)
-	{	
-    global $ilUser;
-    
-    $inv = $deb->createInvoice($product['betrag'], $product['buchungstext'], 1);
-    
-
-    
 	}
 	
 
@@ -811,7 +803,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			 		break;
 			 	case PAY_METHOD_BMF:
 			 		$coupon_session_id = 'bmf';
-			 		break;			 	
+			 		break;			 
+        case PAY_METHOD_EPAY;
+          $coupon_session_id = 'epay';
+          break;
 			}
 			
 			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
@@ -885,6 +880,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		 	case PAY_METHOD_BMF:
 		 		$coupon_session = 'bmf';
 		 		break;
+      case PAY_METHOD_EPAY:
+        $coupon_session = 'epay';
+        break;
 		 	default:
 		 		$coupon_session = 'bmf';
 		 		break;
