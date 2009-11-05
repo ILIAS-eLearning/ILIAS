@@ -10159,3 +10159,4 @@ payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
 content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren, allerdings ist es wahrscheinlich, daß die fehlerhaften Seiten nicht editiert werden können.
 mail#:#mail_salutation_anonymous#:#Hallo
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
+common#:#group#:#Gruppe
