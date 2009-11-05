@@ -86,11 +86,6 @@ var ilBlockFailureHandler = function(o)
 
 function ilBlockJSHandler(block_id, sUrl)
 {
-	obj = document.getElementById(block_id + "_blimg");
-	if (obj)
-	{
-		obj.src = "./templates/default/images/loader.gif";
-	}
 	var ilBlockCallback =
 	{
 		success: ilBlockSuccessHandler,
@@ -100,6 +95,14 @@ function ilBlockJSHandler(block_id, sUrl)
 
 	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilBlockCallback);
 	
+	obj = document.getElementById(block_id + "_loader");
+	if (obj)
+	{
+		var loadergif = document.createElement('img');
+		loadergif.src = "./templates/default/images/loader.gif";
+		loadergif.border = 0;
+		obj.appendChild(loadergif)
+	}
 	return false;
 }
 
