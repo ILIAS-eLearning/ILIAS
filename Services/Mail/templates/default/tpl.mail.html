@@ -1,12 +1,12 @@
 <!-- BEGIN confirm_empty_trash -->
 <form action="{ACTION_EMPTY_TRASH_CONFIRMATION}" class="il_Form" method="POST">
   <table class="fullwidth_invisible">
-	  <tr>
-		<td align="center">
-		  <input class="submit" type="submit" name="cmd[performEmptyTrash]" value="{BUTTON_CONFIRM_EMPTY_TRASH}" />
-		  <input class="submit" type="submit" name="cmd[cancelEmptyTrash]" value="{BUTTON_CANCEL_EMPTY_TRASH}" />
-		</td>
-	  </tr>
+          <tr>
+                <td align="center">
+                  <input class="submit" type="submit" name="cmd[performEmptyTrash]" value="{BUTTON_CONFIRM_EMPTY_TRASH}" />
+                  <input class="submit" type="submit" name="cmd[cancelEmptyTrash]" value="{BUTTON_CANCEL_EMPTY_TRASH}" />
+                </td>
+          </tr>
   </table>
   </form>
   <br />
@@ -29,18 +29,17 @@
 <!-- END confirm_delete -->
 
 <!-- BEGIN show_folder -->
-<form action="{ACTION_FLAT}" class="il_Form" method="POST">
+<form action="{ACTION_FLAT}" class="il_Form" method="post">
   <table class="std">
 	  <tr class="std">
-		<td class="option">{TXT_FOLDERS}
-		</td>
+		<td class="option">{TXT_FOLDERS}</td>
 		<td class="option_row">
 		  <select name="mobj_id">
 			<!-- BEGIN flat_select -->
-			<option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
+			<option value="{FLAT_VALUE}"{FLAT_SELECTED}>{FLAT_NAME}</option>
 			<!-- END flat_select -->
 		  </select>
-		  <input class="submit" type="SUBMIT" name="cmd[showFolder]" value="{FOLDER_VALUE}"/>
+		  <input class="submit" type="submit" name="cmd[showFolder]" value="{FOLDER_VALUE}" />
 		</td>
 	  </tr>
   </table><br />
