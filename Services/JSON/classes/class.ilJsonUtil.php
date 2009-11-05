@@ -19,7 +19,7 @@ class ilJsonUtil
 		}
 		else
 		{
-			include_once '../include/json.php';
+			include_once './Services/JSON/include/json.php';
 			$json = new Services_JSON(SERVICES_JSON_SUPPRESS_ERRORS);
 			return $json->encode($mixed);
 		}
@@ -33,7 +33,7 @@ class ilJsonUtil
 		}
 		else
 		{
-			include_once '../include/json.php';
+			include_once './Services/JSON/include/json.php';
 			$json = new Services_JSON(SERVICES_JSON_SUPPRESS_ERRORS);
 			return $json->decode($json_notated_string);
 		}
