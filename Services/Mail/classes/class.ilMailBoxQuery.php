@@ -37,11 +37,13 @@ class ilMailBoxQuery
 		$queryCount = 'SELECT COUNT(mail_id) cnt FROM mail '
 			   	    . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   		. 'WHERE user_id = %s '
+					. 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   		. 'AND folder_id = %s ' 
 					. 'UNION ALL '
 					. 'SELECT COUNT(mail_id) cnt FROM mail '
 					. 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   		. 'WHERE user_id = %s '
+					. 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   		. 'AND folder_id = %s '
 					. 'AND m_status = %s';   
 		
@@ -72,6 +74,7 @@ class ilMailBoxQuery
 		// item query
 		$query = 'SELECT mail.* cnt FROM mail '
 			   . 'LEFT JOIN usr_data ON usr_id = sender_id '
+			   . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   . 'WHERE user_id = %s '
 			   . 'AND folder_id = %s';	   
 		
