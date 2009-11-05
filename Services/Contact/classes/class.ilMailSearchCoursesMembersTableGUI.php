@@ -37,7 +37,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$mail = new ilMail($_SESSION["AccountId"]);
 		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
 
-		parent::__construct($a_parent_obj);
+		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
 		$this->parentObject = $a_parent_obj;
 		$mode = array();
