@@ -43,8 +43,8 @@ class ilMailFolderGUI
 	private $ctrl = null;
 	private $lng = null;
 	
-	private $umail = null;
-	private $mbox = null;
+	public $umail = null;
+	public $mbox = null;
 
 	private $errorDelete = false;
 
@@ -177,9 +177,9 @@ class ilMailFolderGUI
 	*/
 	public function askForEmptyTrash()
 	{
-		if ($this->umail->countMailsOfFolder($_GET["mobj_id"]))
-		{		
-			ilUtil::sendInfo($this->lng->txt("mail_empty_trash_confirmation"));		
+		if($this->umail->countMailsOfFolder((int)$_GET['mobj_id']))
+		{	
+			ilUtil::sendQuestion($this->lng->txt('mail_empty_trash_confirmation'));
 			$this->askForConfirmation = true;
 		}
 		
@@ -208,224 +208,108 @@ class ilMailFolderGUI
 		$this->tpl->show();
 		
 		return true;
-	}
+	}	
 
 	/**
 	* Shows current folder. Current Folder is determined by $_GET["mobj_id"]
 	*/
 	public function showFolder()
 	{
-		global $ilUser;	
+		global $ilUser;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-
-		$isTrashFolder = ($this->mbox->getTrashFolder() == $_GET["mobj_id"]) ? true : false;
-
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
+		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
+		
 		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
 		
-		$isSentOrDraftFolder = $_GET['mobj_id'] == $this->mbox->getSentFolder() ||
-								$_GET['mobj_id'] == $this->mbox->getDraftsFolder(); 
+		$sentFolderId = $this->mbox->getSentFolder();
+		$draftsFolderId = $this->mbox->getDraftsFolder();
 		
-		$mailtable = new ilMailFolderTableGUI($this->mbox, $this, $_GET["mobj_id"], $isSentOrDraftFolder);
+		$isTrashFolder = $_GET['mobj_id'] == $this->mbox->getTrashFolder();
+		$isSentFolder = $_GET['mobj_id'] == $sentFolderId;	
+		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;		
 
 		// BEGIN CONFIRM_DELETE
-		if($_POST["selected_cmd"] == "deleteMails" &&
+		if($_POST['selected_cmd'] == 'deleteMails' &&
 			!$this->errorDelete &&
-			$_POST["selected_cmd"] != "confirm" &&
+			$_POST['selected_cmd'] != 'confirm' &&
 			$isTrashFolder)
 		{
-			if(isset($_REQUEST["mail_id"]) && !is_array($_REQUEST["mail_id"])) $_REQUEST["mail_id"] = array($_REQUEST["mail_id"]);
-			foreach((array)$_REQUEST["mail_id"] as $id)
+			if(isset($_REQUEST['mail_id']) && !is_array($_REQUEST['mail_id'])) $_REQUEST['mail_id'] = array($_REQUEST['mail_id']);
+			foreach((array)$_REQUEST['mail_id'] as $id)
 			{
-				$this->tpl->setCurrentBlock("mail_ids");
-				$this->tpl->setVariable("MAIL_ID_VALUE", $id);
+				$this->tpl->setCurrentBlock('mail_ids');
+				$this->tpl->setVariable('MAIL_ID_VALUE', $id);
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("confirm_delete");
-			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));			
+			$this->tpl->setCurrentBlock('confirm_delete');
+			$this->tpl->setVariable('BUTTON_CONFIRM',$this->lng->txt('confirm'));
+			$this->tpl->setVariable('BUTTON_CANCEL',$this->lng->txt('cancel'));			
 			$this->tpl->parseCurrentBlock();
-		}	
-		
-		// BEGIN MAIL ACTIONS
-		$actions = $this->mbox->getActions($_GET["mobj_id"]);
-		$mailtable->setMailActions($actions, $isTrashFolder);
-		$this->tpl->setCurrentBlock("mailactions");
-		
-		$folders = $this->mbox->getSubFolders();		
-		
-		$mtree = new ilTree($ilUser->getId());
-		$mtree->setTableNames('mail_tree','mail_obj_data');
+		}
+					
+		$mailtable = new ilMailFolderTableGUI($this, (int)$_GET['mobj_id'], 'showFolder');
+		$mailtable->isSentFolder($isSentFolder)
+				  ->isDraftFolder($isDraftFolder)
+				  ->isTrashFolder($isTrashFolder)
+				  ->setSelectedItems($_POST['mail_id'])
+				  ->prepareHTML();		
 		
 		// SHOW_FOLDER ONLY IF viewmode is flatview
-		if(!isset($_SESSION["viewmode"]) || $_SESSION["viewmode"] == 'flat')
-		{
-			$this->tpl->setCurrentBlock("show_folder");
-			$this->tpl->setCurrentBLock("flat_select");
-		   
+		$folders = $this->mbox->getSubFolders();		
+		$mtree = new ilTree($ilUser->getId());
+		$mtree->setTableNames('mail_tree', 'mail_obj_data');		
+		if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
+		{		   
 			foreach($folders as $folder)
 			{
+				$this->tpl->setCurrentBLock('flat_select');
 				$folder_d = $mtree->getNodeData($folder['obj_id']);
-				if($folder["obj_id"] == $_GET["mobj_id"])
+				if($folder['obj_id'] == $_GET['mobj_id'])
 				{
-					$this->tpl->setVariable("FLAT_SELECTED","selected");
+					$this->tpl->setVariable('FLAT_SELECTED', ' selected="selected"');
 				}
-				$this->tpl->setVariable("FLAT_VALUE",$folder["obj_id"]);
-				if($folder["type"] == 'user_folder')
+				$this->tpl->setVariable('FLAT_VALUE', $folder['obj_id']);
+				if($folder['type'] == 'user_folder')
 				{
-					$pre = "";
-					for ($i = 2; $i < $folder_d["depth"] - 1; $i++)
-						$pre .= "&nbsp";
-					if ($folder_d["depth"] > 1)
-						$pre .= "+";					
-					$this->tpl->setVariable("FLAT_NAME", $pre." ".$folder["title"]);
+					$pre = '';
+					for ($i = 2; $i < $folder_d['depth'] - 1; $i++)
+						$pre .= '&nbsp';
+					if ($folder_d['depth'] > 1)
+						$pre .= '+';					
+					$this->tpl->setVariable('FLAT_NAME', $pre.' '.$folder['title']);
 				}
 				else
 				{
-					$this->tpl->setVariable("FLAT_NAME", $this->lng->txt("mail_".$folder["title"]));
+					$this->tpl->setVariable('FLAT_NAME', $this->lng->txt('mail_'.$folder['title']));
 				}
 				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setVariable("TXT_FOLDERS", $this->lng->txt("mail_change_to_folder"));
-			$this->tpl->setVariable("FOLDER_VALUE",$this->lng->txt("submit"));
-			$this->tpl->parseCurrentBlock();
+			}			
 			
-			#$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-			$this->tpl->setVariable("ACTION_FLAT", $this->ctrl->getFormAction($this, 'showFolder'));
-			#$this->ctrl->clearParameters($this);
-		}
-		// END SHOW_FOLDER		
-		
-		// BEGIN MAILS
-		$mailData = $this->umail->getMailsOfFolder($_GET["mobj_id"]);
-		$mail_count = count($mailData);
-		
-		if ($isTrashFolder == true && $mail_count > 0)
-		{
-			if ($this->askForConfirmation == true)
-			{
-				$this->tpl->setCurrentBlock("CONFIRM_EMPTY_TRASH");
-				$this->tpl->setVariable("ACTION_EMPTY_TRASH_CONFIRMATION", $this->ctrl->getFormAction($this, 'performEmptyTrash'));
-				$this->tpl->setVariable("BUTTON_CONFIRM_EMPTY_TRASH", $this->lng->txt("confirm"));
-				$this->tpl->setVariable("BUTTON_CANCEL_EMPTY_TRASH", $this->lng->txt("cancel"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("EMPTY_TRASH");
-			$this->tpl->setVariable("LINK_EMPTY_TRASH", $this->ctrl->getLinkTarget($this, "askForEmptyTrash"));
-			$this->tpl->setVariable("TXT_EMPTY_TRASH", $this->lng->txt("mail_empty_trash"));
+			$this->tpl->setCurrentBlock('show_folder');
+			$this->tpl->setVariable('TXT_FOLDERS', $this->lng->txt('mail_change_to_folder'));
+			$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('submit'));
+			$this->tpl->setVariable('ACTION_FLAT', $this->ctrl->getFormAction($this, 'showFolder'));
 			$this->tpl->parseCurrentBlock();			
 		}
+		// END SHOW_FOLDER
 		
-		// TODO: READ FROM MAIL_OPTIONS
-		$mail_max_hits = $ilUser->getPref('hits_per_page');
-		$counter = 0;
-
-		$folder_node = $mtree->getNodeData($_GET['mobj_id']);
-
-		$tableData = array();
-		
-		foreach ($mailData as $mail)
+		// BEGIN Trash delete confirmation	
+		if($mailtable->isTrashFolder() && 
+		   $mailtable->getNumerOfMails() > 0)
 		{
-			$rowData = array();
-			if($mail["sender_id"] &&
-				!ilObjectFactory::ObjectIdExists($mail["sender_id"]))
+			if($this->askForConfirmation == true)
 			{
-				--$mail_count;
-				continue;
-			}
-			++$counter;
-			
-			$rowData["MAIL_ID"] = $mail["mail_id"];
-
-			if(is_array($_POST["mail_id"]))
-			{
-				//$this->tpl->setVariable("CHECKBOX_CHECKED",in_array($mail["mail_id"],$_POST["mail_id"]) ? 'checked' : "");
-				if (in_array($mail["mail_id"],$_POST["mail_id"]))
-				{
-					$rowData["CHECKED"] = " checked='checked' ";	
-				}
-			}
-
-			// GET FULLNAME OF SENDER
-			if($_GET['mobj_id'] == $this->mbox->getSentFolder() ||
-				$_GET['mobj_id'] == $this->mbox->getDraftsFolder())
-			{
-				$rowData["MAIL_LOGIN"] = $this->umail->formatNamesForOutput($mail['rcp_to']);
-			}
-			else
-			{
-				if($mail["sender_id"] != ANONYMOUS_USER_ID)
-				{
-					$tmp_user = new ilObjUser($mail["sender_id"]); 
-					if (in_array(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile'), array("y", "g")))
-					{
-						$rowData["MAIL_FROM"] = $tmp_user->getFullname();
-					}					
-					if(!($login = $tmp_user->getLogin()))
-					{
-						$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
-						$rowData["MAIL_LOGIN"] = $mail["import_name"]." (".$this->lng->txt("user_deleted").")"; 				
-					}
-					$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
-					
-					$rowData["IMG_SENDER"] = $pic_path;
-					$rowData["ALT_SENDER"] = $login;
-					$rowData["MAIL_LOGIN"] = $login;
-				}
-				else
-				{
-					$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);					
-					$pic_path = $tmp_user->getPersonalPicturePath('xxsmall');
-					
-					$rowData["IMG_SENDER"] = $pic_path;
-					$rowData["ALT_SENDER"] = ilMail::_getAnonymousName();
-					$rowData["MAIL_LOGIN"] = ilMail::_getAnonymousName();
-				}
-			}
-			//$this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
-			$rowData["MAILCLASS"] = $mail["m_status"] == 'read' ? 'mailread' : 'mailunread';
-			// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
-			if($_GET["mobj_id"] == $this->mbox->getDraftsFolder())
-			{
-				$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $mail["mail_id"]);
-				$this->ctrl->setParameterByClass("ilmailformgui", "type", "draft");
-				$rowData["MAIL_LINK_READ"] = $this->ctrl->getLinkTargetByClass("ilmailformgui");
-				$this->ctrl->clearParametersByClass("ilmailformgui");
-			}
-			else
-			{
-				$this->ctrl->setParameter($this, "mail_id", $mail["mail_id"]);
-				$this->ctrl->setParameter($this, "cmd", "showMail");
-				$rowData["MAIL_LINK_READ"] = $this->ctrl->getLinkTarget($this);
-				$this->ctrl->clearParameters($this);
-			}
-			$rowData["MAIL_SUBJECT"] = htmlspecialchars($mail["m_subject"]);
-			$rowData["MAIL_DATE"] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)); 
-			$tableData[] = $rowData;
+				$this->tpl->setCurrentBlock('CONFIRM_EMPTY_TRASH');
+                $this->tpl->setVariable('ACTION_EMPTY_TRASH_CONFIRMATION', $this->ctrl->getFormAction($this, 'performEmptyTrash'));
+                $this->tpl->setVariable('BUTTON_CONFIRM_EMPTY_TRASH', $this->lng->txt('confirm'));
+                $this->tpl->setVariable('BUTTON_CANCEL_EMPTY_TRASH', $this->lng->txt('cancel'));
+                $this->tpl->parseCurrentBlock();
+			}		
 		}
-		// END MAILS
-		$mailtable->setData($tableData);
+		// END Trash delete confirmation		
 		
-		// MAIL SUMMARY
-		$mail_counter = $this->umail->getMailCounterData();
-
-		$txt_folder = "";
-		$img_folder = "";
-		if($folder_node["m_type"] == 'user_folder')
-		{
-			$txt_folder = $folder_node["title"];
-			$img_folder = "icon_user_folder.gif";		
-		}
-		else
-		{
-			$txt_folder = $this->lng->txt("mail_".$folder_node["title"]);
-			$img_folder = "icon".substr($folder_node["title"], 1).".gif";
-		}
-		
-		$mailtable->setTitleData($txt_folder,$mail_counter["total"],$mail_counter["unread"], $img_folder);
 		$this->tpl->setVariable('MAIL_TABLE', $mailtable->getHtml());
 		$this->tpl->show();
 	}
@@ -735,7 +619,7 @@ class ilMailFolderGUI
 					}
 					else
 					{
-						ilUtil::sendInfo($this->lng->txt("mail_sure_delete"));
+						ilUtil::sendQuestion($this->lng->txt("mail_sure_delete"));
 					}
 				} // END IF MAILBOX IS TRASH FOLDER
 				else

@@ -609,19 +609,17 @@ class ilMail
 		$this->mail_counter["unread"] = 0;
 
 		$res = $ilDB->queryf("
-			SELECT * FROM ". $this->table_mail ."
-			WHERE user_id = %s
-			AND folder_id = %s 
+			SELECT ".$this->table_mail.".* FROM ". $this->table_mail ."
+			LEFT JOIN object_data ON obj_id = sender_id
+			WHERE user_id = %s			
+			AND folder_id = %s
+			AND ((sender_id > 0 AND sender_id IS NOT NULL AND obj_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL))
 			ORDER BY send_time DESC",
 			array('integer', 'integer'),
 			array($this->user_id, $a_folder_id));
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($row->sender_id and !ilObjectFactory::ObjectIdExists($row->sender_id))
-			{
-				continue;
-			}
 			$tmp = $this->fetchMailData($row);
 
 			if ($tmp["m_status"] == 'read')
