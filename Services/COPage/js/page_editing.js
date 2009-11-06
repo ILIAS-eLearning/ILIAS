@@ -6,6 +6,10 @@ var edit_area_class = Array();
 var edit_area_original_class = Array();
 var openedMenu="";					// menu currently opened
 var current_mouse_over_id;
+var cmd_called = false;
+
+ilAddOnLoad(function(){var preloader = new Image();
+preloader.src = "./templates/default/images/loader.gif";});
 
 document.onmousemove=followmouse1;
 
@@ -116,6 +120,7 @@ function ilGetMouseY(e)
 */
 function doMouseOver (id, mclass)
 {
+	if (cmd_called) return;
 	if(stopHigh) return;
 	stopHigh=true;
 	overId = id;
@@ -156,6 +161,7 @@ function doMouseOver (id, mclass)
 */
 function doMouseOut(id, mclass)
 {
+	if (cmd_called) return;
 	if (id!=overId) return;
 	stopHigh = false;
 	obj = document.getElementById(id);
@@ -187,6 +193,8 @@ function followmouse1(e)
 
 function showMenu(id, x, y)
 {
+	if (cmd_called) return;
+	
 	var obj = document.getElementById(id);
 
 	obj.style.visibility = '';
@@ -217,6 +225,7 @@ function showMenu(id, x, y)
 
 function hideMenu(id)
 {
+	if (cmd_called) return;
 	obj = document.getElementById(id);
 	if (obj)
 	{
@@ -234,6 +243,7 @@ var overId = "";
 
 function doMouseDown(id) 
 {
+	if (cmd_called) return;
 	//dd.elements.contextmenu.hide();
 	if(mouseDownBlocked) return;
 	mouseDownBlocked = true;
@@ -350,6 +360,8 @@ function extractHierId(id)
 */
 function doMouseClick(e, id) 
 {
+	if (cmd_called) return;
+	
 	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
@@ -410,6 +422,7 @@ function doMouseClick(e, id)
 */
 function doMouseDblClick(e, id) 
 {
+	if (cmd_called) return;
 	if (current_mouse_over_id == id)
 	{
 		obj = document.getElementById(id);
@@ -432,6 +445,7 @@ function doMouseDblClick(e, id)
 var doCloseContextMenuCounter = -1;
 function doCloseContextMenu() 
 {
+	if (cmd_called) return;
 	if (doCloseContextMenuCounter>-1) 
 	{
 		doCloseContextMenuCounter--;
@@ -455,7 +469,7 @@ var clickcmdid = 0;
 
 function doActionForm(cmd, command, value, target)    
 {
-	
+	if (cmd_called) return;
 //alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
     doCloseContextMenuCounter = 2;
 
@@ -500,20 +514,37 @@ function doActionForm(cmd, command, value, target)
 	hid_cmd.value = value;
 	hid_exec = document.getElementById("cmform_exec");
 	hid_exec.name = cmd;
-//alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
+	
+	cmd_called = true;
+	
+	if (ccell)
+	{
+		var loadergif = document.createElement('img');
+		loadergif.src = "./templates/default/images/loader.gif";
+		loadergif.border = 0;
+		loadergif.style.position = 'absolute';
+		ccell.bgColor='';
+		ccell.appendChild(loadergif);
+	}
     obj.submit();
 }
 
+var ccell = null;
+
 function M_in(cell) 
 {
+	if (cmd_called) return;
     cell.style.cursor='pointer';
     cell.bgColor='#C0C0FF';
     doCloseContextMenuCounter=-1;
+    ccell = cell;
 }
 function M_out(cell) 
 {
+	if (cmd_called) return;
     cell.bgColor='';
     doCloseContextMenuCounter=5;
+    ccell = null;
 }
 
 var oldMposx = -1;

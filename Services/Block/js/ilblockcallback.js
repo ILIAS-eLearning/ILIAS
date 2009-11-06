@@ -101,7 +101,7 @@ function ilBlockJSHandler(block_id, sUrl)
 		var loadergif = document.createElement('img');
 		loadergif.src = "./templates/default/images/loader.gif";
 		loadergif.border = 0;
-		obj.appendChild(loadergif)
+		obj.appendChild(loadergif);
 	}
 	return false;
 }
