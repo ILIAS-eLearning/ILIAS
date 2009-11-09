@@ -659,7 +659,11 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
 		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
 		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
+		{
+			$template->setVariable("SAVE", $this->lng->txt("save"));
+		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";
