@@ -329,8 +329,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		
 		//get old manifest file	
 		$old_manifest = file_get_contents($this->object->getDataDirectory()."/".$tocheck);
+		
+		//reload fixed version of file
+		$check ='/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
+		$replace="xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
+		$reload_manifest = preg_replace($check, $replace, $new_manifest);
+
 		//do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
-		if ($new_manifest == $old_manifest || utf8_encode($new_manifest) == $old_manifest ){
+		if (strcmp($new_manifest,$old_manifest) == 0 || strcmp(utf8_encode($new_manifest),$old_manifest) == 0 ||
+			strcmp ($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest),$old_manifest) == 0 ){
 
 			//get exisiting module version
 			$module_version = $this->object->getModuleVersion();
