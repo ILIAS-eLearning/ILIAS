@@ -1557,7 +1557,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$tpl = new ilTemplate("tpl.chat_message.html",true,true,'Modules/Chat');
 		$_POST['message'] = htmlentities(trim($_POST['message']));
 		$_POST['message'] = ilUtil::stripSlashes($_POST['message']);
-		
+		$_POST['message'] = preg_replace('/%u([0-9A-Fa-f]{4})/im', '&#x$1;', $_POST['message']);
 		// make links clickable
 		$_POST['message'] = ilUtil::makeClickable($_POST['message']);
 		
