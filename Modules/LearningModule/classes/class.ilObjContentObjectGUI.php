@@ -1312,7 +1312,15 @@ return;
 	
 			// import style
 			$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
-			if (is_file($style_file))
+			$style_zip_file = $newObj->getImportDirectory()."/".$subdir."/style.zip";
+			if (is_file($style_zip_file))	// try to import style.zip first
+			{
+				require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$style = new ilObjStyleSheet();
+				$style->import($style_zip_file);
+				$newObj->writeStyleSheetId($style->getId());
+			}
+			else if (is_file($style_file))	// try to import style.xml
 			{
 				require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet();
