@@ -346,7 +346,7 @@ class ilSetup extends PEAR
 		{
 			if(@is_dir('./setup/sql/ilDBTemplate'))
 			{
-				include_once './Services/Database/classes/class.ilTableDataParser.php';
+				include_once './Services/Database/classes/class.ilSimpleXMLTableDataParser.php';
 				include_once './classes/class.ilSaxParserException.php';
 				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
 				foreach($reader as $file)
@@ -354,7 +354,7 @@ class ilSetup extends PEAR
 					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
 					try 
 					{
-						$parser = new ilTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml',true);
+						$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
 						$parser->startParsing();
 						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
 						
