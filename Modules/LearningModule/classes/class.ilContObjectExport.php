@@ -152,7 +152,13 @@ class ilContObjectExport
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
-			$style_obj->exportXML($this->export_dir."/".$this->subdir);
+			//$style_obj->exportXML($this->export_dir."/".$this->subdir);
+			$style_obj->setExportSubDir("style");
+			$style_file = $style_obj->export();
+			if (is_file($style_file))
+			{
+				copy($style_file, $this->export_dir."/".$this->subdir."/style.zip");
+			}
 		}
 
 		// dump xml document to screen (only for debugging reasons)

@@ -1733,6 +1733,23 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
+	* Clear export directory
+	*/
+	function cleanExportDirectory()
+	{
+		$sty_data_dir = ilUtil::getDataDir()."/sty";
+		$style_dir = $sty_data_dir."/sty_".$this->getId();
+		// create export subdirectory
+		$ex_dir = $style_dir."/export";
+		
+		if (is_dir($ex_dir))
+		{
+			ilUtil::delDir($ex_dir, true);
+		}
+	}
+
+	
+	/**
 	* Create export directory
 	*/
 	function createExportSubDirectory()
@@ -1755,11 +1772,26 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
+	* Set local directory, that will be included within the zip file
+	*/
+	function setExportSubDir($a_dir)
+	{
+		$this->export_sub_dir = $a_dir;
+	}
+
+	/**
 	* The local directory, that will be included within the zip file
 	*/
 	function getExportSubDir()
 	{
-		return "sty_".$this->getId();
+		if ($this->export_sub_dir == "")
+		{
+			return "sty_".$this->getId();
+		}
+		else
+		{
+			return $this->export_sub_dir;
+		}
 	}
 	
 	/**
@@ -1769,6 +1801,7 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function export()
 	{
+		$this->cleanExportDirectory();
 		$ex_dir = $this->createExportDirectory();
 		$this->createExportSubDirectory();
 		$this->exportXML($ex_dir."/".$this->getExportSubDir());
@@ -1872,6 +1905,10 @@ class ilObjStyleSheet extends ilObject
 		{
 			ilUtil::unzip($im_dir."/".$file_name);
 			$subdir = basename($file["basename"],".".$file["extension"]);
+			if (!is_dir($im_dir."/".$subdir))
+			{
+				$subdir = "style";				// check style subdir
+			}
 			$xml_file = $im_dir."/".$subdir."/style.xml";
 		}
 		else	// handle xml file directly (old style)
@@ -2876,6 +2913,7 @@ class ilObjStyleSheet extends ilObject
 				")");
 		}
 		
+		include_once("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
 		$this->writeTemplatePreview($tid, 
 			ilObjStyleSheetGUI::_getTemplatePreview($this, $a_type, $tid, true));
 		
