@@ -3932,11 +3932,13 @@ class ilUtil
 		$cpos = 0;
 		$o_start = $a_start;
 		$o_end = $a_end;
-		$a_start = str_replace("\]", "]", $a_start);
+		$a_start = str_replace("\\", "", $a_start);
+		$a_end = str_replace("\\", "", $a_end);
+		/*$a_start = str_replace("\]", "]", $a_start);
 		$a_start = str_replace("\[", "[", $a_start);
 		$a_end = str_replace("\]", "]", $a_end);
 		$a_end = str_replace("\[", "[", $a_end);
-		$a_end = str_replace("\/", "/", $a_end);
+		$a_end = str_replace("\/", "/", $a_end);*/
 
 		while (is_int($spos = strpos($a_text, $a_start, $cpos)))	// find next start
 		{
@@ -3988,6 +3990,51 @@ class ilUtil
 
 		return $result_text;
 	}
+
+	/**
+    * replace [tex]...[/tex] tags with formula image code
+    *
+    * added additional parameters to make this method usable
+    * for other start and end tags as well
+    */
+    function __insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+    {
+        global $tpl, $lng, $ilUser;
+
+//echo "<br><br>".htmlentities($a_text);
+//echo "<br>-".htmlentities($a_start)."-".htmlentities($a_end)."-";
+        
+        // - take care of html exports (-> see buildLatexImages)
+        include_once "./Services/Administration/classes/class.ilSetting.php";
+        $jsMathSetting = new ilSetting("jsMath");
+        if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
+        {
+            $info = "";
+            if (!$tpl->out_jsmath_info)
+            {
+                include_once "./classes/class.ilTemplate.php";
+                $template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
+                $lng->loadLanguageModule("jsmath");
+                $template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
+                $info = $template->get();
+                $tpl->out_jsmath_info = TRUE;
+            }
+            $a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
+            $result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+                "'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '</span>[[info]]'", $a_text);
+                    // added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
+            $result_text = str_replace("[[info]]", $info, $result_text);
+            $tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
+        }
+        else
+        {
+            $result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
+                "'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
+                " />'", $a_text);
+        }
+
+        return $result_text;
+    }
 
 	/**
 	* replace [text]...[/tex] tags with formula image code
