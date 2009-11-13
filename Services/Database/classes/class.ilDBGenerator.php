@@ -322,7 +322,8 @@ class ilDBGenerator
 				// inserts
 				if($isDirectory)
 				{
-					$this->buildInsertStatementsXML($table,$path);
+					$this->buildInsertStatement($table, $path);
+					#$this->buildInsertStatementsXML($table,$path);
 				}
 				else
 				{
@@ -513,6 +514,46 @@ class ilDBGenerator
 				fwrite($a_file, $seq_st);
 			}
 		}
+	}
+	
+	/**
+	 * Write seerialized insert data to array
+	 * @param object $a_table
+	 * @param object $a_basedir
+	 * @return 
+	 */
+	public function buildInsertStatement($a_table,$a_basedir)
+	{
+		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
+		$ins_st = "";
+		$first = true;
+		$row = 0;
+		while ($rec = $this->il_db->fetchAssoc($set))
+		{
+			$fields = array();
+			$types = array();
+			$values = array();
+			$value = 0;
+			foreach($rec as $f => $v)
+			{
+				if($this->fields[$f]['type'] == 'text' and $this->fields[$f]['length'] >= 1000)
+				{
+					$v = $this->shortenText($a_table, $f, $v, $this->fields[$f]['length']);
+				}
+				
+				$values[$f] = array(
+					$this->fields[$f]['type'],
+					$v
+				);
+			}
+			
+			$rows[$a_table][$row++] = $values; 
+		}
+		$fp = fopen($a_basedir.'/'.$a_table.'.data','w');
+		fwrite($fp,serialize((array) $rows));
+		fclose($fp);
+		
+		return true;
 	}
 	
 	/**
