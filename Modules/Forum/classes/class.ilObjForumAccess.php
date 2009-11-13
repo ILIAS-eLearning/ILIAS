@@ -181,7 +181,7 @@ class ilObjForumAccess extends ilObjectAccess
 			$frm_id = $rec["top_pk"];
 			$res = $ilDB->queryf("SELECT COUNT(*) cnt
 				FROM frm_user_read INNER JOIN frm_posts ON (frm_user_read.post_id = frm_posts.pos_pk) 
-				WHERE usr_id = %s AND thread_id IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
+				WHERE frm_user_read.usr_id = %s AND thread_id IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
 				$act_clause,
 				array('integer', 'integer'), array($ilUser->getId(), $frm_id));
 			
@@ -217,7 +217,7 @@ class ilObjForumAccess extends ilObjectAccess
 			$res = $ilDB->queryf('
 				SELECT COUNT(pos_pk) cnt
 				FROM frm_posts
-				LEFT JOIN frm_user_read ON (post_id = pos_pk AND usr_id = %s)
+				LEFT JOIN frm_user_read ON (post_id = pos_pk AND frm_user_read.usr_id = %s)
 				LEFT JOIN frm_thread_access ON (pos_thr_fk = frm_thread_access.thread_id AND frm_thread_access.usr_id = %s)
 				WHERE pos_top_fk = %s
 				AND ((pos_date > frm_thread_access.access_old_ts OR pos_update > frm_thread_access.access_old_ts)
@@ -227,9 +227,9 @@ class ilObjForumAccess extends ilObjectAccess
 				array('integer','integer', 'integer', 'timestamp','timestamp','integer'),
 				array($ilUser->getId(), $ilUser->getId(), $frm_id, $new_deadline,$new_deadline, $ilUser->getId())
 				);
-			
+
 			$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				
+					
 			return (int) $rec['cnt'];
 		}
 		
