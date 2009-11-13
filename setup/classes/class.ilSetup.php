@@ -346,7 +346,7 @@ class ilSetup extends PEAR
 		{
 			if(@is_dir('./setup/sql/ilDBTemplate'))
 			{
-				include_once './Services/Database/classes/class.ilSimpleXMLTableDataParser.php';
+				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
 				include_once './classes/class.ilSaxParserException.php';
 				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
 				foreach($reader as $file)
@@ -354,7 +354,8 @@ class ilSetup extends PEAR
 					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
 					try 
 					{
-						$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
+						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.data');
+						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
 						$parser->startParsing();
 						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
 						
@@ -1802,7 +1803,11 @@ class tmpDirectoyIterator extends DirectoryIterator
 		{
 			return false;
 		}
-		if($this->isFile() and substr(parent::getFileName(),-4) != '.xml')
+		if($this->isFile() and substr(parent::getFileName(),-4) == '.xml')
+		{
+			return false;
+		}
+		if($this->isFile() and substr(parent::getFileName(),-5) != '.data')
 		{
 			return true;
 		}
