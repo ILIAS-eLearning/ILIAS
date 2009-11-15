@@ -530,6 +530,11 @@ class ilDBGenerator
 
 		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
 		$row = 0;
+		
+		umask(0000);
+		mkdir($a_basedir.'/'.$a_table.'_inserts',fileperms($a_basedir));
+		
+		$filenum = 1;
 		while ($rec = $this->il_db->fetchAssoc($set))
 		{
 			$values = array();
@@ -551,8 +556,8 @@ class ilDBGenerator
 			if($row >= 1000)
 			{
 				$ilLog->write('Writing insert statements after 1000 lines...');
-				$fp = fopen($a_basedir.'/'.$a_table.'.data','a');
-				fwrite($fp,serialize((array) $rows)."\n");
+				$fp = fopen($a_basedir.'/'.$a_table.'_inserts/'.$filenum++.'.data','w');
+				fwrite($fp,serialize((array) $rows));
 				fclose($fp);
 				
 				$row = 0;
@@ -560,9 +565,12 @@ class ilDBGenerator
 			}
 			
 		}
-		$fp = fopen($a_basedir.'/'.$a_table.'.data','a');
-		fwrite($fp,serialize((array) $rows)."\n");
-		fclose($fp);
+		if($rows)
+		{
+			$fp = fopen($a_basedir.'/'.$a_table.'_inserts/'.$filenum++.'.data','w');
+			fwrite($fp,serialize((array) $rows)."\n");
+			fclose($fp);
+		}
 		
 		$ilLog->write('Finished export of: '.$a_table);
 		if(function_exists('memory_get_usage'))
