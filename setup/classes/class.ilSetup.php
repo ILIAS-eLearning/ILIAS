@@ -354,7 +354,7 @@ class ilSetup extends PEAR
 					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
 					try 
 					{
-						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.data');
+						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
 						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
 						$parser->startParsing();
 						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
@@ -1807,7 +1807,7 @@ class tmpDirectoyIterator extends DirectoryIterator
 		{
 			return false;
 		}
-		if($this->isFile() and substr(parent::getFileName(),-5) != '.data')
+		if($this->isFile() and substr(parent::getFileName(),-8) != '_inserts')
 		{
 			return true;
 		}

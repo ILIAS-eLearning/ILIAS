@@ -7,37 +7,44 @@
  */
 class ilArrayTableDataParser
 {
-	protected $file = null;
-	protected $xml = null;
+	protected $dir = null;
 	
 	protected $value = '';
 	
-	public function __construct($a_xml)
+	public function __construct($data_dir)
 	{
-		$this->file = $a_xml;
+		$this->dir = $data_dir;
 	}
 	
 	public function startParsing()
 	{
 		global $ilDB,$ilLog;
-
-		$fp = fopen($this->file,'r');
-		while(!feof($fp))
+		
+		if(!$dp = opendir($this->dir))
 		{
-			$ilLog->write(__METHOD__.': Reading new line of '.$this->file);
-			$buffer = fgets($fp);
-			$ilLog->write(__METHOD__.': Line length '.strlen($buffer));
-			$content = unserialize($buffer);
+			$ilLog->write(__METHOD__.': Cannot open data directory: '.$this->dir);
+			return false;
+		}
+	
+		$ilLog->write(__METHOD__.': Reading table data from: '.$this->dir);
+		while (false !== ($file = readdir($dp))) 
+		{
+			$ilLog->write(__METHOD__.': Handling file: '.$file);
+			if(substr($file, -5) != '.data')
+			{
+				$ilLog->write(__METHOD__.': Ignoring file: '.$file);
+				continue;
+			}
+			
+			$content = file_get_contents($this->dir.DIRECTORY_SEPARATOR.$file);
+
+			$ilLog->write(__METHOD__.': Reading inserts of '.$this->dir.'/'.$file);
+			$content = unserialize($content);
 
 			if(!is_array($content))
 			{
-				fclose($fp);
-				$ilLog->write(__METHOD__.': No entries found for '.$this->file);
-				if(function_exists('memory_get_usage'))
-				{
-					$ilLog->write(__METHOD__.': Memory usage '.memory_get_usage(true));
-				}
-				return false;
+				$ilLog->write(__METHOD__.': No entries found in '.$this->dir.'/'.$file);
+				continue;
 			}
 
 			foreach($content as $table => $rows)
@@ -47,9 +54,12 @@ class ilArrayTableDataParser
 					$ilDB->insert($table,$row);
 				}
 			}
+			if(function_exists('memory_get_usage'))
+			{
+				$ilLog->write(__METHOD__.': Memory usage '.memory_get_usage(true));
+			}
 		}
-		fclose($fp);
-		return true;
+		fclose($dp);
 	}
 
 }
