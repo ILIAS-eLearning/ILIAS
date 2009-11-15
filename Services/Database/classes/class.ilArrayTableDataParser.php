@@ -5,7 +5,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-class ilArrayTableDataParser extends ilSaxParser
+class ilArrayTableDataParser
 {
 	protected $file = null;
 	protected $xml = null;
@@ -15,43 +15,41 @@ class ilArrayTableDataParser extends ilSaxParser
 	public function __construct($a_xml)
 	{
 		$this->file = $a_xml;
-		
-		#$this->xml = simplexml_load_file($this->file);
 	}
 	
 	public function startParsing()
 	{
-		global $ilDB;
+		global $ilDB,$ilLog;
 
-		$content = file_get_contents($this->file);
-		$content = unserialize($content);
-
-		foreach($content as $table => $rows)
+		$fp = fopen($this->file,'r');
+		while(!feof($fp))
 		{
-			foreach($rows as $row)
+			$ilLog->write(__METHOD__.': Reading new line of '.$this->file);
+			$buffer = fgets($fp);
+			$ilLog->write(__METHOD__.': Line length '.strlen($buffer));
+			$content = unserialize($buffer);
+
+			if(!is_array($content))
 			{
-				#var_dump($row);
-				$ilDB->insert($table,$row);
+				fclose($fp);
+				$ilLog->write(__METHOD__.': No entries found for '.$this->file);
+				if(function_exists('memory_get_usage'))
+				{
+					$ilLog->write(__METHOD__.': Memory usage '.memory_get_usage(true));
+				}
+				return false;
+			}
+
+			foreach($content as $table => $rows)
+			{
+				foreach($rows as $row)
+				{
+					$ilDB->insert($table,$row);
+				}
 			}
 		}
-		
+		fclose($fp);
 		return true;
-		/*
-		foreach($this->xml->Row as $row)
-		{
-			$data = array();
-			foreach($row->children() as $value)
-			{
-				$type = (string) $value['type'];
-				$content = (string) $value;
-				$data[(string) $value['name']] = array(
-					$type,$content);
-				
-			}
-			$ilDB->insert($this->table,$data);
-		}
-		*/
-		
 	}
 
 }
