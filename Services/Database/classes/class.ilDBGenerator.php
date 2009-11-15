@@ -17,7 +17,7 @@ class ilDBGenerator
 	var $whitelist = array();
 	var $blacklist = array();
 	var $tables = array();
-	
+
 	/**
 	* Constructor
 	*/
@@ -524,16 +524,15 @@ class ilDBGenerator
 	 */
 	public function buildInsertStatement($a_table,$a_basedir)
 	{
+		global $ilLog;
+		
+		$ilLog->write('Starting export of:'.$a_table);
+
 		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
-		$ins_st = "";
-		$first = true;
 		$row = 0;
 		while ($rec = $this->il_db->fetchAssoc($set))
 		{
-			$fields = array();
-			$types = array();
 			$values = array();
-			$value = 0;
 			foreach($rec as $f => $v)
 			{
 				if($this->fields[$f]['type'] == 'text' and $this->fields[$f]['length'] >= 1000)
@@ -547,12 +546,29 @@ class ilDBGenerator
 				);
 			}
 			
-			$rows[$a_table][$row++] = $values; 
+			$rows[$a_table][$row++] = $values;
+			
+			if($row >= 1000)
+			{
+				$ilLog->write('Writing insert statements after 1000 lines...');
+				$fp = fopen($a_basedir.'/'.$a_table.'.data','a');
+				fwrite($fp,serialize((array) $rows)."\n");
+				fclose($fp);
+				
+				$row = 0;
+				unset($rows);
+			}
+			
 		}
-		$fp = fopen($a_basedir.'/'.$a_table.'.data','w');
-		fwrite($fp,serialize((array) $rows));
+		$fp = fopen($a_basedir.'/'.$a_table.'.data','a');
+		fwrite($fp,serialize((array) $rows)."\n");
 		fclose($fp);
 		
+		$ilLog->write('Finished export of: '.$a_table);
+		if(function_exists('memory_get_usage'))
+		{
+			$ilLog->write('Memory usage: '.memory_get_usage(true));
+		}
 		return true;
 	}
 	
