@@ -1021,6 +1021,12 @@ class ilObjectListGUI
 				}
 			}
 			// END WebDAV Display locking information
+			
+			if($this->getDetailsLevel() == self::DETAILS_SEARCH)
+			{
+				return $props;
+			}
+			
 			// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
 			if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
 			{
