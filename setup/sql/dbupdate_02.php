@@ -16302,3 +16302,7 @@ if (!$ilDB->tableExists("cal_auth_token"))
 	$ilDB->addIndex('mep_tree',array('parent'),'pa');
 	$ilDB->addIndex('mep_tree',array('mep_id'),'me');
 ?>
+<#2911>
+<?php
+	$ilDB->addIndex('rbac_templates',array('rol_id', 'parent'),'rp');
+?>

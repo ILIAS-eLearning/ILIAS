@@ -1,6 +1,5 @@
 <?php
 
-exit;
 
 // This is an example file how a test db and csv files can be generated
 // for a load test
@@ -24,6 +23,6 @@ $loader->setEnableLog(true);
 //$loader->removeAllDesktopItems();
 //$loader->deactivateCalendarsOnPersonalDesktop();
 //$loader->createDump("./Services/LoadTest/data/cat_200_crs_300_file_40_cal_30_news_1/db.sql",
-//	"/usr/local/mysql/bin/mysqldump");
+//	"mysqldump");
 
 ?>
