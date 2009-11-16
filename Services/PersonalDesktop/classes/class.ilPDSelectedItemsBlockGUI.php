@@ -36,7 +36,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 {
 	const VIEW_MY_OFFERS = 0;
 	const VIEW_MY_MEMBERSHIPS = 1;
-	
+
 	static $block_type = "pditems";
 	
 	private $view = self::VIEW_MY_OFFERS;
@@ -50,7 +50,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		global $ilCtrl, $lng, $ilUser;
 		
 		parent::ilBlockGUI();
-		
+
 		$lng->loadLanguageModule('pd');
 		
 		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));		
@@ -183,7 +183,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	function getHTML()
 	{
 		global $ilCtrl, $ilSetting;
-		
+
 		// both views are activated (show buttons)
 		if($ilSetting->get('disable_my_offers') == 0 &&
 		   $ilSetting->get('disable_my_memberships') == 0)
@@ -199,7 +199,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			);
 			$ilCtrl->clearParameters($this);
 		}
-		
+
 		// workaround to show details row
 		$this->setData(array("dummy"));
 
@@ -414,8 +414,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache, $rbacreview;
 			
-		$output = false;		
-		
+		$output = false;
 		$items = $this->getObjectsByMembership();
 		$item_html = array();		
 		if(count($items) > 0)
@@ -709,7 +708,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	function getSelectedItemsBlockHTML()
 	{
 		global $ilUser, $rbacsystem, $objDefinition, $ilBench;
-		
+
 		$tpl =& $this->newBlockTemplate();
 		
 		switch ($ilUser->getPref("pd_order_items"))
@@ -895,7 +894,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
 		
 		$output = false;
-		
+
 		$items = $ilUser->getDesktopItems();
 		$item_html = array();
 
@@ -909,7 +908,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
-			
+
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -917,7 +916,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				if ($cur_obj_type != $item["type"])
 				{
 					$item_list_gui =& $this->getItemListGUI($item["type"]);
-					
+
 					$item_list_gui->enableIcon(true);
 					$item_list_gui->enableDelete(false);
 					$item_list_gui->enableCut(false);
