@@ -2601,7 +2601,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d))) {
+		if (!isNaN(parseFloat(d)) && !(/[A-Za-z]/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;

@@ -1,4 +1,4 @@
-// Build: 20091030014836 
+// Build: 20091117131335 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11479,7 +11479,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d))) {
+		if (!isNaN(parseFloat(d)) && !(/[A-Za-z]/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
