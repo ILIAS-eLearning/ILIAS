@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/Search/classes/class.ilAdvancedSearch.php';
+
 /**
 * Class ilFulltextMetaDataSearch
 *
@@ -32,8 +34,6 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAdvancedSearch.php';
-
 class ilFulltextAdvancedSearch extends ilAdvancedSearch
 {
 
