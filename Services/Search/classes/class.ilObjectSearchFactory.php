@@ -263,9 +263,16 @@ class ilObjectSearchFactory
 	 */
 	public static function _getAdvancedSearchInstance($query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextAdvancedSearch.php';
-		return new ilFulltextAdvancedSearch($query_parser);
+		if(ilSearchSettings::getInstance()->enabledIndex())
+		{
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextAdvancedSearch.php';
+			return new ilFulltextAdvancedSearch($query_parser);
+		}
+		else
+		{
+			include_once './Services/Search/classes/Like/class.ilLikeAdvancedSearch.php';
+			return new ilLikeAdvancedSearch($query_parser);
+		}
 	}
 
 	/**

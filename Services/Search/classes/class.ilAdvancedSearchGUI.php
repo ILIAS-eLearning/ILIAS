@@ -173,10 +173,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			$this->__storeEntries($res,$res_con);
 		}
-		if($res_tit =& $this->__performTitleSearch())
-		{
-			$this->__storeEntries($res,$res_tit);
-		}
 		if($res_lan =& $this->__performLanguageSearch())
 		{
 			$this->__storeEntries($res,$res_lan);
@@ -229,7 +225,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			$this->__storeEntries($res,$res_key);
 		}
-
 		if($this->search_mode == 'in_results')
 		{
 			include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -610,6 +605,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$res_web =& $web_search->performSearch();
 			$res->mergeEntries($res_web);
 		}
+		if($tit_res = $this->__performTitleSearch())
+		{
+			$res->mergeEntries($tit_res);
+		}
 
 		return $res;
 	}
@@ -641,6 +640,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		
 		// merge them
 		$res_tit->mergeEntries($res_key);
+		
 		
 		return $res_tit;
 	}
@@ -739,14 +739,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	function &__performEntitySearch()
 	{
 		// Return if 'any'
-		if(!$this->options['lom_role_entity'])
+		if(!$this->options['lom_role_entry'])
 		{
 			return false;
 		}
+		
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['entity']));
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_role_entry']));
 		#$query_parser->setCombination($this->options['entity_ao']);
 		$query_parser->setCombination(QP_COMBINATION_OR);
 		$query_parser->parse();
@@ -1076,13 +1077,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	}
 
 
-	function __storeEntries(&$res,&$new_res)
+	function __storeEntries($res,$new_res)
 	{
-
 		if($this->stored == false)
 		{
-			
-
 			$res->mergeEntries($new_res);
 			$this->stored = true;
 
@@ -1091,7 +1089,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		else
 		{
 			$res->intersectEntries($new_res);
-			
 			return true;
 		}
 	}
