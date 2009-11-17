@@ -1,4 +1,4 @@
-// Build: 20091030014836 
+// Build: 20091117131335 
 
 function ADLAuxiliaryResource()
 {}
@@ -2407,7 +2407,7 @@ return api;}
 var api={cmi:{},adl:{}};var data=activitiesByCAM[cp_node_id];getAPIWalk(Runtime.models.cmi.cmi,data,api.cmi);return api;}
 function setItemValue(key,dest,source,destkey)
 {if(source&&source.hasOwnProperty(key))
-{var d=source[key];var temp=d;if(!isNaN(parseFloat(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
+{var d=source[key];var temp=d;if(!isNaN(parseFloat(d))&&!(/[A-Za-z]/.test(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
 if(key=="title"){d=temp;}
 dest[destkey?destkey:key]=d;}}
 function setAPI(cp_node_id,api)
