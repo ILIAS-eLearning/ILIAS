@@ -351,8 +351,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		else
 		{
+			$allowed = $this->getRteTagString();
+			if ($this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>")))
+			{
+				$allowed.= "<span>";
+			}
 			$_POST[$this->getPostVar()] = ($this->getUseRte())
-				? ilUtil::stripSlashes($_POST[$this->getPostVar()], true, $this->getRteTagString())
+				? ilUtil::stripSlashes($_POST[$this->getPostVar()], true, $allowed)
 				: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		}
 
