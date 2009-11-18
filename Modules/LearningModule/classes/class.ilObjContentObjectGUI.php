@@ -3283,7 +3283,7 @@ return;
 
 				// EDIT IMAGE
 				$this->ctrl->setParameterByClass('ilLMPageObjectGUI','obj_id',$invalid['page_id']);
-				$this->tpl->setVariable("ROW_EDIT_LINK",$this->ctrl->getLinkTargetByClass('ilLMPageObjectGUI','view'));
+				$this->tpl->setVariable("ROW_EDIT_LINK",$this->ctrl->getLinkTargetByClass('ilLMPageObjectGUI','edit'));
 
 				$this->tpl->setVariable("ROW_IMG",ilUtil::getImagePath('edit.gif'));
 				$this->tpl->setVariable("ROW_ALT_IMG",$this->lng->txt('edit'));
