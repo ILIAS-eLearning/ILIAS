@@ -409,8 +409,8 @@ public class ilServer {
 		settings = ServerSettings.getInstance();
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(settings.getServerUrl()));
-		config.setConnectionTimeout(3 * 1000);
-		config.setReplyTimeout(24 * 60 * 60 * 1000);
+		config.setConnectionTimeout(0);
+		config.setReplyTimeout(0);
 		
 		client = new XmlRpcClient();
 		client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
