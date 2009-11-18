@@ -385,6 +385,21 @@ class ilContainer extends ilObject
 		$sorting->setSortMode($this->getOrderType());
 		$sorting->update();
 		
+		// copy content page
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		if (ilPageObject::_exists($this->getType(),
+			$this->getId()))
+		{
+			$orig_page = new ilPageObject($this->getType(), $this->getId());
+			$new_page_object = new ilPageObject($this->getType());
+			$new_page_object->setParentId($new_obj->getId());
+			$new_page_object->setId($new_obj->getId());
+			$new_page_object->createFromXML();
+			$new_page_object->setXMLContent($orig_page->getXMLContent());
+			$new_page_object->buildDom();
+			$new_page_object->update();
+		}
+		
 		return $new_obj;
 	}
 	
