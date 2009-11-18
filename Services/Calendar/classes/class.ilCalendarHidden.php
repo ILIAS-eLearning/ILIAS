@@ -104,6 +104,34 @@ class ilCalendarHidden
 	}
 	
 	/**
+	 * Filter hidden categories (and hidden subitem categories) from category array
+	 * @param object $categories
+	 * @param object $category_info
+	 * @return 
+	 */
+	public function filterHidden($categories,$category_info)
+	{
+		foreach($category_info as $cat_id => $info)
+		{
+			if($this->isHidden($cat_id))
+			{
+				$hidden = array_merge((array) $hidden,(array) $info['subitem_ids'],array($cat_id));
+			}
+		}
+		return (array) array_diff((array) $categories, (array) $hidden);
+	}
+	
+	/**
+	 * Check if category is hidden.
+	 * @param object $a_cat_id
+	 * @return 
+	 */
+	public function isHidden($a_cat_id)
+	{
+		return in_array($a_cat_id, $this->hidden);
+	}
+	
+	/**
 	 * check whether an appoinment is visible or not
 	 *
 	 * @access public

@@ -241,6 +241,7 @@ class ilCalendarSchedule
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($a_include_subitem_calendars);
+		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($ilUser->getId())->getCategoriesInfo());
 		
 		if(!count($cats))
 		{
@@ -279,6 +280,7 @@ class ilCalendarSchedule
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($this->enabledSubitemCalendars());
+		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($ilUser->getId())->getCategoriesInfo());
 		
 		if(!count($cats))
 		{
