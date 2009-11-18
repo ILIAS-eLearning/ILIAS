@@ -179,9 +179,11 @@ public class ServerSettings {
 
 		this.logFile = new File(logFile);
 		if(!this.logFile.isAbsolute()) {
-			throw new ConfigurationException("Absolute path to log file required: " + logFile);
+			logger.error("Absolute path to logfile required: " + logFile);
+			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
 		}
 		if(this.logFile.isDirectory()) {
+			logger.error("Absolute path to logfile required. Directory name given: " + logFile);
 			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
 		}
 		if(this.logFile.createNewFile()) {
