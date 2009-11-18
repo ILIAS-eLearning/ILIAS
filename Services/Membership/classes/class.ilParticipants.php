@@ -687,6 +687,12 @@ class ilParticipants
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
 		$this->addDesktopItem($a_usr_id);
+		
+		// Delete subscription request
+		$this->deleteSubscriber($a_usr_id);
+		
+		include_once './Services/Membership/classes/class.ilWaitingList.php';
+		ilWaitingList::_deleteUser($a_usr_id);
 
 		if($this->type == 'crs') {
 		 	// Add event: used for ecs accounts
