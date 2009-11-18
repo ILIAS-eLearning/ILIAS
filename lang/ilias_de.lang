@@ -9901,7 +9901,7 @@ search#:#search_crs_title#:#Kursname
 license#:#remaining_licenses#:#Verfügbare Lizenen
 license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
 user#:#user_field#:#Feld
-user#:#user_visible_in_profile#:#Sichtbar im Profile
+user#:#user_visible_in_profile#:#Sichtbar im Profil
 payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#lucene_host#:#Host
