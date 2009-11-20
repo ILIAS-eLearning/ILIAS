@@ -16306,3 +16306,11 @@ if (!$ilDB->tableExists("cal_auth_token"))
 <?php
 	$ilDB->addIndex('rbac_templates',array('rol_id', 'parent'),'rp');
 ?>
+<#2912>
+<?php
+	$ilDB->addIndex('desktop_item',array('item_id'),'it');
+?>
+<#2913>
+<?php
+	$ilDB->addIndex('crs_items',array('obj_id'),'ob');
+?>
