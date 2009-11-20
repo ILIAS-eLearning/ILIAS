@@ -3940,9 +3940,9 @@ class ilUtil
 		$a_end = str_replace("\[", "[", $a_end);
 		$a_end = str_replace("\/", "/", $a_end);*/
 
-		while (is_int($spos = strpos($a_text, $a_start, $cpos)))	// find next start
+		while (is_int($spos = stripos($a_text, $a_start, $cpos)))	// find next start
 		{
-			if (is_int ($epos = strpos($a_text, $a_end, $spos + 1)))
+			if (is_int ($epos = stripos($a_text, $a_end, $spos + 1)))
 			{
 				$tex = substr($a_text, $spos + strlen($a_start), $epos - $spos - strlen($a_start));
 
