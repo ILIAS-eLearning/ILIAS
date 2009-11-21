@@ -80,22 +80,32 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		}
 
 		// mail sent
-		if ($this->exc->members_obj->getStatusSentByMember($member_id))
+		if ($this->sent_col)
 		{
-			$this->tpl->setCurrentBlock("mail_sent");
-			if (($st = ilObjExercise::_lookupSentTime($this->exc->getId(),
-				$member_id)) > 0)
+			if ($this->exc->members_obj->getStatusSentByMember($member_id))
 			{
-				$this->tpl->setVariable("TXT_MAIL_SENT",
-					sprintf($lng->txt("exc_sent_at"),
-					ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+				$this->tpl->setCurrentBlock("mail_sent");
+				if (($st = ilObjExercise::_lookupSentTime($this->exc->getId(),
+					$member_id)) > 0)
+				{
+					$this->tpl->setVariable("TXT_MAIL_SENT",
+						sprintf($lng->txt("exc_sent_at"),
+						ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_MAIL_SENT",
+						$lng->txt("sent"));
+				}
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
+				$this->tpl->setCurrentBlock("mail_sent");
 				$this->tpl->setVariable("TXT_MAIL_SENT",
-					$lng->txt("sent"));
+					"&nbsp;");
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->parseCurrentBlock();
 		}
 
 		// checkbox
