@@ -112,32 +112,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("asstextsubset");
 
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($question);
+		$this->addBasicQuestionFormProperties($form);
 
 		// number of requested answers
 		$correctanswers = new ilNumberInputGUI($this->lng->txt("nr_of_correct_answers"), "correctanswers");
@@ -172,18 +147,6 @@ class assTextSubsetGUI extends assQuestionGUI
 		$textrating->setValue($this->object->getTextRating());
 		$form->addItem($textrating);
 
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
-	
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
 		$choices = new ilAnswerWizardInputGUI($this->lng->txt("answers"), "answers");

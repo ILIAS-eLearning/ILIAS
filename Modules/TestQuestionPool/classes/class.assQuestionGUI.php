@@ -480,6 +480,7 @@ class assQuestionGUI
 		}
 		else
 		{
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
 			$this->feedback();
 		}
 	}
@@ -823,6 +824,7 @@ class assQuestionGUI
 		if (!$this->getSelfAssessmentEditingMode())
 		{
 			$question->setUseRte(TRUE);
+			$question->setRteTagSet('full');
 			$question->addPlugin("latex");
 			$question->addButton("latex");
 			$question->addButton("pastelatex");

@@ -118,33 +118,7 @@ class assNumericGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("assnumeric");
 
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($question);
+		$this->addBasicQuestionFormProperties($form);
 
 		// maxchars
 		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
@@ -154,18 +128,6 @@ class assNumericGUI extends assQuestionGUI
 		$maxchars->setRequired(true);
 		if ($this->object->getMaxChars() > 0) $maxchars->setValue($this->object->getMaxChars());
 		$form->addItem($maxchars);
-
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
 
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
