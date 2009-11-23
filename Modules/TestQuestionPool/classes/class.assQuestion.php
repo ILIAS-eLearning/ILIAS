@@ -2724,10 +2724,10 @@ class assQuestion
 * @access public
 * @see $question
 */
-  function getQuestion() 
+	function getQuestion() 
 	{
-    return $this->question;
-  }
+		return $this->question;
+	}
 
 /**
 * Sets the question string of the question object
@@ -2736,10 +2736,10 @@ class assQuestion
 * @access public
 * @see $question
 */
-  function setQuestion($question = "") 
+	function setQuestion($question = "") 
 	{
-    $this->question = $question;
-  }
+		$this->question = $question;
+	}
 
 	/**
 	* Returns the question type of the question
