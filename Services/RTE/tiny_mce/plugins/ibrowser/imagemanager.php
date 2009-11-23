@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "HTML/Template/ITX.php";
 include_once "config.php"; 
 
 $dir = getcwd();
@@ -29,7 +28,6 @@ chdir("../../../../../");
 include_once "webservice/soap/include/inc.soap_functions.php";
 $mobs = ilSoapFunctions::getMobsOfObject($_GET["session_id"]."::".$_GET["client_id"], $_GET["obj_type"].":html", $_GET["obj_id"]);
 chdir($dir);
-
 $preview = "";
 $arr_tinyMCE_image_files = array();
 $request_uri = urldecode(empty($_POST['request_uri'])?(empty($_GET['request_uri'])?'':$_GET['request_uri']):$_POST['request_uri']);
@@ -55,6 +53,7 @@ if (isset($_FILES['img_file']['size']) && $_FILES['img_file']['size']>0)
 	$mobs[$media_object->getId()] = $media_object->getId();
 }
 
+//require_once "HTML/Template/ITX.php";
 $tpl = new HTML_Template_ITX();
 $tpl->loadTemplatefile("tpl.imagemanager.html", TRUE, TRUE);
 
