@@ -2835,8 +2835,17 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
-	var randNumber = "?rand="+Math.floor(Math.random()*1000000)+"&";  //prevent caching
-	if (item.parameters == null) {item.parameters="";}
+	var envEditor = this.config.envEditor;
+	var randNumber="";
+	if (envEditor==1) {
+		randNumber = "?rand="+Math.floor(Math.random()*1000000)+"&"; 
+	} 
+	if (item.parameters == null) {
+		item.parameters="";
+	} 
+	if (item.parameters != "" && envEditor==false) {
+		item.parameters = "?"+ item.parameters;
+	} 
 	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
 }
 

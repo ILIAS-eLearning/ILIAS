@@ -168,6 +168,12 @@ class ilSCORM13Player
 				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
 		$this->userId=$ilUser->getID();
+	
+		if ($_GET['envEditor'] != null) {
+			$this->envEditor = $_GET['envEditor'];
+		} else {	
+			$this->envEditor = 0;
+		}	
 		
 	}
 
@@ -301,7 +307,8 @@ class ilSCORM13Player
 			'hide_navig' => $this->slm->getHideNavig(),
 			'debug' => $this->slm->getDebug(),
 			'package_url' =>  $this->getDataDirectory()."/",
-			'session_ping' => $session_timeout
+			'session_ping' => $session_timeout,
+			'envEditor' => $this->envEditor 
 		);
 				
 		

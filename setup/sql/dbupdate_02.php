@@ -16314,3 +16314,7 @@ if (!$ilDB->tableExists("cal_auth_token"))
 <?php
 	$ilDB->addIndex('crs_items',array('obj_id'),'ob');
 ?>
+<#2914>
+<?php
+  $ilDB->modifyTableColumn("cp_mapinfo", "targetobjectiveid", array("type" => "text",  "length" => 255, "notnull" => false, "default" => null));
+?>

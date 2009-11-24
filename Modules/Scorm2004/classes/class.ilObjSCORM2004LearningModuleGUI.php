@@ -2315,7 +2315,7 @@ function showTrackingItem()
 		//$this->object->update();
 			
 		//redirect to view player
-		ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$this->object->getRefID());
+		ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$this->object->getRefID()."&envEditor=1");
 	}
 
 } // END class.ilObjSCORM2004LearningModuleGUI
