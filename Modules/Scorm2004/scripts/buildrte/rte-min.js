@@ -1,4 +1,4 @@
-// Build: 20091117131335 
+// Build: 20091124213647 
 
 function ADLAuxiliaryResource()
 {}
@@ -2223,7 +2223,7 @@ function setResource(id,url,base)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-var resContainer=window.document.getElementById("res");resContainer.src=url;resContainer.name=RESOURCE_NAME;}
+var resContainer=window.document.getElementById("res");console.log("Set URL"+url);resContainer.src=url;resContainer.name=RESOURCE_NAME;}
 else
 {open(url,RESOURCE_NAME);}
 if(guiItem)
@@ -2450,7 +2450,9 @@ syncSharedCMI(item);updateNav();updateControls();scoStartTime=currentTime();item
 if(currentAPI){if((item.exit=="normal"||item.exit==""||item.exit=="time-out"||item.exit=="logout")&&(item.exit!="suspend"&&item.entry!="resume")){err=currentAPI.SetValueIntern("cmi.completion_status","unknown");err=currentAPI.SetValueIntern("cmi.success_status","unknown");err=currentAPI.SetValueIntern("cmi.entry","ab-initio");pubAPI.cmi.entry="ab-initio";pubAPI.cmi.suspend_data=null;pubAPI.cmi.total_time="PT0H0M0S";}
 if(item.exit=="suspend"){pubAPI.cmi.entry="resume";pubAPI.cmi.exit="";}
 if(item.exit=="time-out"||item.exit=="logout"){err=currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");pubAPI.cmi.total_time="PT0H0M0S";}}
-var randNumber="?rand="+Math.floor(Math.random()*1000000)+"&";if(item.parameters==null){item.parameters="";}
+var envEditor=this.config.envEditor;var randNumber="";if(envEditor==1){randNumber="?rand="+Math.floor(Math.random()*1000000)+"&";}
+if(item.parameters==null){item.parameters="";}
+if(item.parameters!=""&&envEditor==false){item.parameters="?"+item.parameters;}
 setResource(item.id,item.href+randNumber+item.parameters,this.config.package_url);}
 function syncSharedCMI(item){var mStatusVector=msequencer.getObjStatusSet(item.id);var mObjStatus=new ADLObjStatus();var obj;var err
 if(mStatusVector!=null){for(i=0;i<mStatusVector.length;i++){var idx=-1;mObjStatus=mStatusVector[i];var objCount=currentAPI.GetValueIntern("cmi.objectives._count");for(var j=0;j<objCount;j++){var obj="cmi.objectives."+j+".id";var nr=currentAPI.GetValueIntern(obj);if(nr==mObjStatus.mObjID){idx=j;break;}}
