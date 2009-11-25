@@ -6154,7 +6154,7 @@ dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
 dateplaner#:#cal_daily#:#Täglich
-dateplaner#:#cal_day_end#:#Tageende
+dateplaner#:#cal_day_end#:#Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
@@ -10121,7 +10121,7 @@ payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved be
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. 
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugänngliche Objekte verweisen.
+news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugängliche Objekte verweisen.
 payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
 payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
 payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
