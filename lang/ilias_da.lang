@@ -924,7 +924,7 @@ common#:#extt_configure#:#konfigurer...
 common#:#extt_edit_permission#:#Ændre rettighedsindstillinger
 common#:#extt_ilinc#:#Netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Flere muligheder
-common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
+common#:#extt_ilinc_akclassvalues_active#:#Brug omkostningsafdeling
 common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
 common#:#extt_ilinc_akclassvalues_required#:#Cost center required
 common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
@@ -1314,8 +1314,8 @@ common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc seminarmedlem
 common#:#ilias_version#:#ILIAS version
 common#:#ilinc_add_user#:#Tilføj bruger(e)
-common#:#ilinc_akclassvalue#:#Cost center
-common#:#ilinc_akclassvalues#:#Cost centers
+common#:#ilinc_akclassvalue#:#Omkostningscenter
+common#:#ilinc_akclassvalues#:#Omkostningscentre
 common#:#ilinc_classroom_always_open#:#Klasseværelset er altid åbent
 common#:#ilinc_classroom_closed#:#Klasseværrelse er lukket
 common#:#ilinc_classroom_open#:#Klasserummet er tilgængeligt
@@ -5453,12 +5453,12 @@ forum#:#new_post#:#Nyt indlæg
 forum#:#frm_wizard_page#:#Kopier forum (Skridt 2/2)
 forum#:#fmr_copy_threads_info#:#Du har mulighed for at kopiere enkelte tråde. Kun begyndelsen af de valgte tråde vil blive kopieret.
 forum#:#forums_notification_disabled#:#Advisering deaktiveret
-grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
+grp#:#crs_add_grouping#:#Opret medlemsskabsbegrænsning
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
 grp#:#crs_grouping_select_one#:#Vælg en medlemsbegrænsning
 grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
-grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
+grp#:#crs_grp_enter_title#:#Du skal udfylde alle de krævede felter.
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
 grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
 grp#:#grp_registration_unlimited#:#Ubegrænset registrering
@@ -5471,10 +5471,10 @@ grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
 ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
 ilinc#:#akclassvalue1#:#Cost center 1
 ilinc#:#akclassvalue2#:#Cost center 2
-ilinc#:#akclassvalues#:#Cost centers
-ilinc#:#ilinc_akuservalue1#:#Cost center 1
-ilinc#:#ilinc_akuservalue2#:#Cost center 2
-ilinc#:#ilinc_akuservalues#:#Cost centers
+ilinc#:#akclassvalues#:#Omkostningscentre
+ilinc#:#ilinc_akuservalue1#:#Omkostningscenter 1
+ilinc#:#ilinc_akuservalue2#:#Omkostningscenter 2
+ilinc#:#ilinc_akuservalues#:#Omkostningscentre
 ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.
 ilinc#:#ilinc_akuservalues_refreshed#:#Cost centers updated
 ilinc#:#ilinc_connection_error#:#Fejl: Ingen tilslutning til iLinc server!
@@ -9391,7 +9391,7 @@ adve#:#adve_grp_wiki#:#Wikier
 adve#:#adve_grp_scorm#:#SCORM redigering
 adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
 adve#:#adve_grp_test#:#Test & Evaluering
-adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
+adve#:#adve_grp_rep#:#Oversigtssider
 adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
 content#:#cont_behavior#:#Behavior###15 05 2009 new variable
 content#:#cont_all_closed#:#Alle lukket
@@ -9672,11 +9672,11 @@ assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
 content#:#cont_no_text#:#Ingen tekst
 content#:#cont_print_selection#:#Print View Selection###24 07 2009 new variable
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###24 07 2009 new variable
-dateplaner#:#cal_day_end#:#Day End###24 07 2009 new variable
-dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variable
-dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
-common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
-assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
+dateplaner#:#cal_day_end#:#Sluttidspunkt
+dateplaner#:#cal_day_week_view#:#Dag/uge visningsindstillinger
+dateplaner#:#cal_week_month_view#:#Uge/måneds visningsindstillinger
+common#:#event_ass_materials_prop#:#Materialer til session
+assessment#:#resize_images#:#Skaler billeder
 common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
 common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
 common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
@@ -9688,7 +9688,7 @@ mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. Thes
 mep#:#mep_create_content_snippet#:#Create Content Snippet###24 07 2009 new variable
 mep#:#mep_new_folder#:#Ny mappe
 mep#:#mep_edit_folder#:#Ret mappe
-assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
+assessment#:#thumb_size#:#Minature størrelse
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
 common#:#adve_frm_post_settings#:#Forumindlæg
 common#:#advanced_editing_frm_post_settings#:#Indstillinger for indlæg i fora
@@ -9713,8 +9713,8 @@ survey#:#internal_link#:#Internet link
 survey#:#materials#:#Materialer
 survey#:#materials_deleted#:#Materiale(r) blev slettet.
 survey#:#phrase_added#:#Phrase added###24 07 2009 new variable
-survey#:#matrix_left_pole#:#Left Pole###24 07 2009 new variable
-survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
+survey#:#matrix_left_pole#:#Venstreretning
+survey#:#matrix_right_pole#:#Højreretning
 survey#:#row_text#:#Rækketekst
 common#:#header_visible_registration#:#Synlig i brugeroprettelse
 common#:#visible_registration#:#Synlig i brugeroprettelse
@@ -9728,8 +9728,8 @@ survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please 
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###24 07 2009 new variable
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
 survey#:#msg_deleted_export_files#:#Eksport fil(er) slettet
-assessment#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
-common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)###24 07 2009 new variable
+assessment#:#msg_deleted_export_files#:#Eksportfil(er) slettet.
+common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)
 common#:#add_new_user_defined_wysiwyg_field#:#Lav nyt tekstområde (WYSIWYG) felt
 common#:#udf_update_wysiwyg_field#:#Ret (WYSIWYG) tekstområde felt
 search#:#search_crs_title#:#Kursusnavn
@@ -9817,7 +9817,7 @@ crs#:#sess_num_next#:#Antal fremtidige sessioner
 crs#:#sess_limit_info#:#Vælg denne for at begrænse antallet af synlige sessioner.
 common#:#advanced_editing_rep_page_editing#:#Brug indholdsredigering i oversigten
 common#:#advanced_editing_rep_page_editing_desc#:#Dette aktiverer CMS funktionaliteten der gør det muligt at lave tekst/grafik i kategorier, kurser, grupper og mapper.
-common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
+common#:#adve_rep_settings#:#Indstillinger for Oversigten
 content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
 survey#:#users_invited#:#%s brugere blev inviteret
@@ -9828,16 +9828,16 @@ assessment#:#msg_total_questions_too_high#:#The number of questions is greater t
 common#:#auth_ldap_migration#:#Account Migration###06 08 2009 new variable
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.###06 08 2009 new variable
 survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###06 08 2009 new variable
-assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
-assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
+assessment#:#delete_image_header#:#Slet billede
+assessment#:#delete_image_question#:#Er du sikker på du vil slette billedet?
 assessment#:#answer_image#:#Answer Image###06 08 2009 new variable
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
 assessment#:#msg_questions_moved#:#Question(s) moved###06 08 2009 new variable
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###06 08 2009 new variable
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 2009 new variable
 chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
-search#:#lucene_advanced_settings_table#:#Advanced Search Settings###06 08 2009 new variable
-dateplaner#:#cal_day_start#:#Day Start###06 08 2009 new variable
+search#:#lucene_advanced_settings_table#:#Avancerede søgeindstillinger
+dateplaner#:#cal_day_start#:#Starttidspunkt
 survey#:#questionblock_inserted#:#Question Block inserted###06 08 2009 new variable
 survey#:#questionblocks_inserted#:#Question Blocks inserted###06 08 2009 new variable
 survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable
@@ -9853,7 +9853,7 @@ content#:#mep_folder_created#:#Mappe blev tilføjet
 assessment#:#available_terms#:#Available Terms###12 08 2009 new variable
 assessment#:#selection#:#Selection###12 08 2009 new variable
 mcst#:#mcst_set_playtime#:#Afspilningstid sat.
-mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.###12 08 2009 new variable
+mcst#:#mcst_unable_to_determin_playtime#:#Kunne ikke opdate spillelængden. Du kan sætte den manuelt ved at trykke på ret.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.###12 08 2009 new variable
 grp#:#grp_missing_title#:#Indtast gruppens titel.
 grp#:#grp_missing_grp_type#:#Vælg gruppetype.
@@ -9870,7 +9870,7 @@ crs#:#crs_cancel_subscr_request#:#Slet anmodning om deltagelse
 common#:#sub_request_deleted#:#Slettede anmodning om medlemsskab
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###12 08 2009 new variable
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
-administration#:#adm_repository_cache_time#:#Repository Cache Time###12 08 2009 new variable
+administration#:#adm_repository_cache_time#:#Oversigt cache-tid
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###12 08 2009 new variable
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.###12 08 2009 new variable
@@ -10154,4 +10154,4 @@ dateplaner#:#cal_subscription_info#:#Please use the following address to access 
 dateplaner#:#cal_subscription_header#:#Kalender adresse
 dateplaner#:#cal_subscription_url#:#Kalender URL:
 mail#:#mail_salutation_anonymous#:#Kære
-content#:#cont_select_par_or_section#:#Please select at least one paragraph or section###03 11 2009 new variable
+content#:#cont_select_par_or_section#:#Du skal vælge mindst en paragraf eller sektion.
