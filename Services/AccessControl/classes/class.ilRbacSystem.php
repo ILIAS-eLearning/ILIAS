@@ -164,12 +164,14 @@ class ilRbacSystem
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
+			$GLOBALS['ilLog']->logStack();
 			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
 							"ref_id: ".$a_ref_id." operations: ".$a_operations,$this->ilErr->WARNING);
 		}
 
 		if (!is_string($a_operations))
 		{
+			$GLOBALS['ilLog']->logStack();
 			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilErr->WARNING);
 		}
 
