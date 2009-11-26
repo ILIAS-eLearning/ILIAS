@@ -40,13 +40,23 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function __construct()
 	{
-		global $ilClientIniFile, $ilDB;
+		global $ilClientIniFile, $ilDB, $ilIliasIniFile;
 		
 		$options['dsn']			= $ilDB->getDSN();
 		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
 		$options['usernamecol']	= $ilClientIniFile->readVariable('auth', 'usercol');
 		$options['passwordcol']	= $ilClientIniFile->readVariable('auth', 'passcol');
 		
+		// studip mode: check against submitted md5 password for ilSoapUserAdministration::login()
+		// todo: check whether we should put this to another place
+		if (preg_match('/^[a-f0-9]{32,32}$/i', $_POST['password']))
+		{
+			if ($ilIliasIniFile->readVariable('server', 'studip'))
+			{
+				$options['cryptType'] = 'none';
+			}
+		}
+
 		parent::__construct($options);
 	}
 	
