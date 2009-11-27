@@ -12,7 +12,7 @@
 				GROUP BY file_id,file_name
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
 				<Transformer name="FilenameExtractor" />
 			</Field>
 			<DataSource type="File" action="append">
