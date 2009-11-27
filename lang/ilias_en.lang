@@ -10138,3 +10138,5 @@ dateplaner#:#cal_subscription_url#:#Calendar URL:
 mail#:#mail_salutation_anonymous#:#Hello
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
 common#:#group#:#Group
+mep#:#mobs_always_show_file_manager#:#Always Show File Manager
+mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).

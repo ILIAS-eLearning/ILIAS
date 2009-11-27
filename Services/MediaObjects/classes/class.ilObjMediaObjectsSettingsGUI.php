@@ -127,6 +127,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 			// perform save
 			$mset = new ilSetting("mobs");		
 			$mset->set("mep_activate_pages", $_POST["activate_pages"]);
+			$mset->set("file_manager_always", $_POST["file_manager_always"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -152,6 +153,11 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$cb->setInfo($lng->txt("mobs_activate_pages_info"));
 		$this->form->addItem($cb);
 	
+		// activate page in media pool 
+		$cb = new ilCheckboxInputGUI($lng->txt("mobs_always_show_file_manager"), "file_manager_always");
+		$cb->setInfo($lng->txt("mobs_always_show_file_manager_info"));
+		$this->form->addItem($cb);
+
 		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("settings"));
@@ -167,6 +173,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	
 		$mset = new ilSetting("mobs");
 		$values["activate_pages"] = $mset->get("mep_activate_pages");
+		$values["file_manager_always"] = $mset->get("file_manager_always");
 	
 		$this->form->setValuesByArray($values);
 	}
