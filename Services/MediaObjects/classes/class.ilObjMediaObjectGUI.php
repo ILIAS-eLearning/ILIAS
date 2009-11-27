@@ -1711,8 +1711,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			// object files
 			$std_item = $this->object->getMediaItem("Standard");
 			$full_item = $this->object->getMediaItem("Fullscreen");
-			if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()) ||
+			$mset = new ilSetting("mobs");
+			if ($mset->get("file_manager_always") ||
+				(!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()) ||
 				(is_object($full_item) && !in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())))
+				)
 			{
 //				$ilTabs->addTarget("cont_files",
 //					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
