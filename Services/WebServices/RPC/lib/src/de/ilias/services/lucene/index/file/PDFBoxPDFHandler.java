@@ -27,8 +27,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 
 /**
  * 
