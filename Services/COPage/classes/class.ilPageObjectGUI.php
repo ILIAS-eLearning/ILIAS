@@ -1300,6 +1300,7 @@ class ilPageObjectGUI
 					}
 				}
 
+				// linked media objects
 				if (count($mob_links) > 0)
 				{
 					$tpl->setCurrentBlock("med_link");
@@ -1309,6 +1310,23 @@ class ilPageObjectGUI
 					$tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
 					$tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
 					//$this->tpl->setVariable("TXT_COPY_TO_POOL", $this->lng->txt("cont_copy_to_mediapool"));
+					$tpl->parseCurrentBlock();
+				}
+				
+				// content snippets used
+				$snippets = $this->getPageObject()->collectContentIncludes();
+				if (count($snippets) > 0)
+				{
+					foreach ($snippets as $s)
+					{
+						include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+						$sn_arr[$s["id"]] = ilMediaPoolPage::lookupTitle($s["id"]);
+					}
+					$tpl->setCurrentBlock("med_link");
+					$tpl->setVariable("TXT_CONTENT_SNIPPETS_USED", $this->lng->txt("cont_snippets_used"));
+					$tpl->setVariable("SEL_SNIPPETS",
+						ilUtil::formSelect(0, "ci_id", $sn_arr, false, true));
+					$tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
 					$tpl->parseCurrentBlock();
 				}
 				
