@@ -10140,3 +10140,5 @@ content#:#cont_select_par_or_section#:#Please select at least one paragraph or s
 common#:#group#:#Group
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
+content#:#cont_snippets_used#:#Used Content Snippets
+content#:#cont_show_info#:#Show Info

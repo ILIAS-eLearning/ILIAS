@@ -486,6 +486,20 @@ class ilPageObject
 	}
 
 	/**
+	* Lookup parent id
+	*/
+	static function lookupParentId($a_id, $a_type)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT parent_id FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
+				"AND parent_type=".$ilDB->quote($a_type, "text"));
+		$rec = $ilDB->fetchAssoc($res);
+		return $rec["parent_id"];
+	}
+	
+	
+	/**
 	* Set Activation Start.
 	*
 	* @param	date	$a_activationstart	Activation Start

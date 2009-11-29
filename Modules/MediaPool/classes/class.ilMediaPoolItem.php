@@ -242,5 +242,24 @@ class ilMediaPoolItem
 				);
 		}
 	}
+	
+	/**
+	 * Get media pools for item id
+	 */
+	static function getPoolForItemId($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM mep_tree ".
+			" WHERE child = ".$ilDB->quote($a_id, "integer")
+			);
+		$pool_ids = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$pool_ids[] = $rec["mep_id"];
+		}
+		return $pool_ids;		// currently this array should contain only one id
+	}
+	
 }
 ?>

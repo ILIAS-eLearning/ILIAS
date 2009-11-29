@@ -214,7 +214,7 @@ class ilPageEditorGUI
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
-				$cmd != "copyLinkedMediaToMediaPool" &&
+				$cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
 				$cmd != "deleteSelected" && $cmd != "paste" &&
 				$cmd != "copySelected" && $cmd != "cutSelected" &&
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "" || $_POST["imagemap_x"] != "") &&
@@ -1004,5 +1004,46 @@ return true;
 		}
 	}
 
+	/**
+	* Show snippet info
+	*/
+	function showSnippetInfo()
+	{
+		global $tpl, $lng, $ilAccess, $ilCtrl;
+		
+		$stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
+		
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		$mep_pools = ilMediaPoolItem::getPoolForItemId($_POST["ci_id"]);
+		foreach ($mep_pools as $mep_id)
+		{
+			$ref_ids = ilObject::_getAllReferences($mep_id);
+			$edit_link = false;
+			foreach ($ref_ids as $rid)
+			{
+				if (!$edit_link && $ilAccess->checkAccess("write", "", $rid))
+				{
+					$stpl->setCurrentBlock("edit_link");
+					$stpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+					$stpl->setVariable("HREF_EDIT",
+						"./goto.php?target=mep_".$rid);
+					$stpl->parseCurrentBlock();
+				}
+			}
+			$stpl->setCurrentBlock("pool");
+			$stpl->setVariable("TXT_MEDIA_POOL", $lng->txt("obj_mep"));
+			$stpl->setVariable("VAL_MEDIA_POOL", ilObject::_lookupTitle($mep_id));
+			$stpl->parseCurrentBlock();
+		}
+		
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+		$stpl->setVariable("TXT_TITLE", $lng->txt("title"));
+		$stpl->setVariable("VAL_TITLE", ilMediaPoolPage::lookupTitle($_POST["ci_id"]));
+		$stpl->setVariable("TXT_BACK", $lng->txt("back"));
+		$stpl->setVariable("HREF_BACK",
+			$ilCtrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
+		$tpl->setContent($stpl->get());
+	}
+	
 }
 ?>
