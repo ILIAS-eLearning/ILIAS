@@ -108,6 +108,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		
 		if($show_content)
 		{
+			$this->setDefaultOrderField('lastname');
 			$this->enable('sort');
 			$this->enable('header');
 			$this->enable('numinfo');
