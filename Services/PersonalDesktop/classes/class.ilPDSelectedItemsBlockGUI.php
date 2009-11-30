@@ -391,16 +391,20 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			{
 				foreach($item_references as $ref_id)
 				{
-					$references[$ref_id] =
+					$title = $ilObjDataCache->lookupTitle($obj_id);
+					$type = $ilObjDataCache->lookupType($obj_id);
+					
+					$references[$title.$ref_id] =
 						array('ref_id' => $ref_id,
 							  'obj_id' => $obj_id, 
-							  'type' => $ilObjDataCache->lookupType($obj_id),
-							  'title' => $ilObjDataCache->lookupTitle($obj_id),
+							  'type' => $type,
+							  'title' => $title,
 							  'description' => $ilObjDataCache->lookupDescription($obj_id),
 							  'parent_ref' => $tree->getParentId($ref_id));
 				}	
 			}		
 		}
+		ksort($references);		
 		return is_array($references) ? $references : array();
 	}
 	
@@ -423,7 +427,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$ref_ids = array();
 			foreach($items as $item)
 			{
-				$ref_ids[] = $item;
+				$ref_ids[] = $item['ref_id'];
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
@@ -552,7 +556,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$ref_ids = array();
 			foreach($items as $item)
 			{
-				$ref_ids[] = $item;
+				$ref_ids[] = $item['ref_id'];
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
