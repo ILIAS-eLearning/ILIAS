@@ -10160,3 +10160,8 @@ content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sin
 mail#:#mail_salutation_anonymous#:#Hallo
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
 common#:#group#:#Gruppe
+dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronistation
+dateplaner#:#cal_sync_cache#:#Kalender-Cache
+dateplaner#:#cal_sync_disabled#:#Ausgeschaltet
+dateplaner#:#cal_sync_enabled#:#Eingeschaltet
+dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.

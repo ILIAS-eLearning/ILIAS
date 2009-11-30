@@ -16318,3 +16318,28 @@ if (!$ilDB->tableExists("cal_auth_token"))
 <?php
   $ilDB->modifyTableColumn("cp_mapinfo", "targetobjectiveid", array("type" => "text",  "length" => 255, "notnull" => false, "default" => null));
 ?>
+
+<#2915>
+<?php
+	$ilDB->addTableColumn(
+		'cal_auth_token',
+		'ical',
+		array(
+			'type'		=> 'clob',
+			'notnull'	=> false
+		)
+	);
+?>
+<#2916>
+<?php
+	$ilDB->addTableColumn(
+		'cal_auth_token',
+		'c_time',
+		array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'	=> true,
+			'default'	=> 0
+		)
+	);
+?>
