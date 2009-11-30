@@ -10142,3 +10142,8 @@ mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 content#:#cont_snippets_used#:#Used Content Snippets
 content#:#cont_show_info#:#Show Info
+dateplaner#:#cal_sync_header#:#Synchronisation Settings
+dateplaner#:#cal_sync_cache#:#Calendar Cache
+dateplaner#:#cal_sync_disabled#:#Disabled
+dateplaner#:#cal_sync_enabled#:#Enabled
+dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.   

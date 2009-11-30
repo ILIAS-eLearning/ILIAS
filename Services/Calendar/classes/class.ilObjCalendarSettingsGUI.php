@@ -208,6 +208,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
 		$this->settings->setDefaultDayStart((int) $_POST['dst']);
 		$this->settings->setDefaultDayEnd((int) $_POST['den']);
+		$this->settings->enableSynchronisationCache((bool) $_POST['cache']);
+		$this->settings->setSynchronisationCacheMinutes((int) $_POST['sync_cache_time']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -309,6 +311,31 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$day_end->setValue($this->settings->getDefaultDayEnd());
 		$this->form->addItem($day_end);
 		
+		// Synchronisation cache
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('cal_sync_header'));
+		$this->form->addItem($sec);
+		
+		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'),'cache');
+		$cache->setValue((int) $this->settings->isSynchronisationCacheEnabled());
+		$cache->setInfo($this->lng->txt('cal_sync_cache_info'));
+		$cache->setRequired(true);
+		
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_disabled'),0);
+		$cache->addOption($sync_cache);
+		
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_enabled'),1);
+		$cache->addOption($sync_cache);
+		
+		$cache_t = new ilNumberInputGUI('','sync_cache_time');
+		$cache_t->setValue($this->settings->getSynchronisationCacheMinutes());
+		$cache_t->setMinValue(0);
+		$cache_t->setSize(3);
+		$cache_t->setMaxLength(3);
+		$cache_t->setSuffix($this->lng->txt('form_minutes'));
+		$sync_cache->addSubItem($cache_t);
+		
+		$this->form->addItem($cache);
 		
 	}
 }

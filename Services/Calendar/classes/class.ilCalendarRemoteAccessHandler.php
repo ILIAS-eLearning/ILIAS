@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
+
 /**
  * @classDescription Handles requests from external calendar applications
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -31,14 +33,19 @@
  */
 class ilCalendarRemoteAccessHandler
 {
-	
+	private $token_handler = null;	
+
 	/**
 	 * Constructor
 	 * @return 
 	 */
 	public function __construct()
 	{
-		
+	}
+	
+	public function getTokenHandler()
+	{
+		return $this->token_handler;
 	}
 	
 	/**
@@ -66,6 +73,13 @@ class ilCalendarRemoteAccessHandler
 	public function handleRequest()
 	{
 		$this->initIlias();
+		$this->initTokenHandler();
+		
+		if($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired())
+		{
+			echo $this->getTokenHandler()->getIcal();
+			exit;
+		}
 		
 		include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
 		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
@@ -74,6 +88,9 @@ class ilCalendarRemoteAccessHandler
 		$cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
 		$export = new ilCalendarExport($cats->getCategories());
 		$export->export();
+	
+		$this->getTokenHandler()->setIcal($export->getExportString());
+		$this->getTokenHandler()->storeIcal();
 		
 		echo $export->getExportString();
 		
@@ -81,6 +98,15 @@ class ilCalendarRemoteAccessHandler
 		#fwrite($fp,$export->getExportString());
 		$GLOBALS['ilAuth']->logout();
 		exit;
+	}
+	
+	protected function initTokenHandler()
+	{
+		$this->token_handler = new ilCalendarAuthenticationToken(
+			ilCalendarAuthenticationToken::lookupUser($_GET['token']),
+			$_GET['token']
+		);
+		return true;
 	}
 	
 	protected function initIlias()

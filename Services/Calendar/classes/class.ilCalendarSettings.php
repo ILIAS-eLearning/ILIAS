@@ -44,7 +44,9 @@ class ilCalendarSettings
 	const TIME_FORMAT_12 = 2;
 	
 	const DEFAULT_CACHE_MINUTES = 0;
+	const DEFAULT_SYNC_CACHE_MINUTES = 10;
 	
+
 	private static $instance = null;
 
 	private $db = null;
@@ -59,6 +61,9 @@ class ilCalendarSettings
 	
 	private $cache_enabled = false;
 	private $cache_minutes = 0;
+	
+	private $sync_cache_enabled = true;
+	private $sync_cache_minutes = 10;
 
 	/**
 	 * singleton contructor
@@ -289,7 +294,44 @@ class ilCalendarSettings
 	{
 		return $this->enablegroupmilestones;
 	}
-
+	
+	/**
+	 * Check if cache is active for calendar synchronisation
+	 * @return 
+	 */
+	public function isSynchronisationCacheEnabled()
+	{
+		return (bool) $this->sync_cache_enabled;
+	}
+	
+	/**
+	 * En/Disable synchronisation cache
+	 * @return 
+	 */
+	public function enableSynchronisationCache($a_status)
+	{
+		$this->sync_cache_enabled = $a_status;
+	}
+	
+	/**
+	 * Set synchronisation cache minutes
+	 * @param object $a_min
+	 * @return 
+	 */
+	public function setSynchronisationCacheMinutes($a_min)
+	{
+		$this->sync_cache_minutes = $a_min;
+	}
+	
+	/**
+	 * get synchronisation cache minutes
+	 * @return 
+	 */
+	public function getSynchronisationCacheMinutes()
+	{
+		return $this->sync_cache_minutes;
+	}
+	
 	/**
 	 * save 
 	 *
@@ -305,6 +347,8 @@ class ilCalendarSettings
 		$this->storage->set('default_day_start',(int) $this->getDefaultDayStart());
 		$this->storage->set('default_day_end',(int) $this->getDefaultDayEnd());
 		$this->storage->set('cache_minutes',(int) $this->getCacheMinutes());
+		$this->storage->set('sync_cache_enabled',(int) $this->isSynchronisationCacheEnabled());
+		$this->storage->set('sync_cache_minutes',(int) $this->getSynchronisationCacheMinutes());
 	}
 
 	/**
@@ -325,6 +369,8 @@ class ilCalendarSettings
 		$this->setDefaultDayEnd($this->storage->get('default_day_end',self::DEFAULT_DAY_END));
 		$this->setCacheMinutes($this->storage->get('cache_minutes',self::DEFAULT_CACHE_MINUTES));
 		$this->useCache($this->getCacheMinutes() != 0);
+		$this->enableSynchronisationCache($this->storage->get('sync_cache_enabled'),$this->isSynchronisationCacheEnabled());
+		$this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes',self::DEFAULT_SYNC_CACHE_MINUTES));
 	}
 	
 	/**
