@@ -169,7 +169,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 				"value" => $lng->txt("no_start_file"));
 		}
 
-		if ($rbacsystem->checkAccess($this->ref_id, "write"))
+		if ($rbacsystem->checkAccess("write",$this->ref_id))
 		{
 			$props[] = array("alert" => false, "property" => $lng->txt("type"),
 				"value" => $lng->txt("htlm"));
