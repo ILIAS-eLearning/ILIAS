@@ -9677,8 +9677,8 @@ common#:#mobs_read#:#Read access to Media Objects/Pools Settings
 common#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#obj_mobs#:#Media Objects/Pools
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
-mep#:#mobs_activate_pages#:#Activate Content Pages Management
-mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.
+mep#:#mobs_activate_pages#:#Activate Content Snippets Management
+mep#:#mobs_activate_pages_info#:#Allow to add content snippets to media pools. These snippets can be re-used (not edited) in learning modules etc.
 mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_edit_folder#:#Edit Folder

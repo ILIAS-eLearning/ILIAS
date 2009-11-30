@@ -2330,6 +2330,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// determine all media aliases of the page
 		if ($a_xml == "")
 		{
+			$this->buildDom();
 			$xpc = xpath_new_context($this->dom);
 			$path = "//ContentInclude";
 			$res =& xpath_eval($xpc, $path);
