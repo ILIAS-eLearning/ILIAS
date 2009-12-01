@@ -22,6 +22,9 @@ public class FilnameExtractor implements ContentTransformer {
 	 */
 	public String transform(String content) {
 
-		return content.substring(0,content.lastIndexOf("."));
+		if(content.lastIndexOf(".") > 0) {
+			return content.substring(0,content.lastIndexOf("."));
+		}
+		return content;
 	}
 }
