@@ -265,6 +265,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if (key($_POST["cmd"]) == "update" || key($_POST["cmd"]) == "create_par")
 		{
 			$s_text = ilUtil::stripSlashes($_POST["par_content"], false);
+			// prevent curly brackets from being swallowed up by template engine
+			$s_text = str_replace("{", "&#123;", $s_text);
+			$s_text = str_replace("}", "&#125;", $s_text);
 		}
 		else if (!$a_insert)
 		{
