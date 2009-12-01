@@ -36,11 +36,22 @@ class ilNewsCache extends ilCache
 	}
 	
 	/**
+	 * Check if cache is disabled
+	 * @return 
+	 */
+	public function isDisabled()
+	{
+		return self::$disabled or parent::isDisabled();
+	}
+	
+	
+	
+	/**
 	 * Read an entry
 	 */
 	function readEntry($a_id)
 	{
-		if (!self::$disabled)
+		if (!$this->isDisabled())
 		{
 			return parent::readEntry($a_id);
 		}
@@ -54,7 +65,7 @@ class ilNewsCache extends ilCache
 	function storeEntry($a_id, $a_value)
 	{
 		global $ilSetting;
-		if (!self::$disabled)
+		if(!$this->isDisabled())
 		{
 			parent::storeEntry($a_id, $a_value);
 		}

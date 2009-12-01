@@ -32,11 +32,21 @@ class ilListItemAccessCache extends ilCache
 	}
 	
 	/**
+	 * Check if cache is disabled
+	 * @return 
+	 */
+	public function isDisabled()
+	{
+		return self::$disabled or parent::isDisabled();
+	}
+	
+	
+	/**
 	 * Read an entry
 	 */
 	function readEntry($a_id)
 	{
-		if (!self::$disabled)
+		if (!$this->isDisabled())
 		{
 			return parent::readEntry($a_id);
 		}
@@ -50,7 +60,7 @@ class ilListItemAccessCache extends ilCache
 	function storeEntry($a_id, $a_value, $a_ref_id = 0)
 	{
 		global $ilSetting;
-		if (!self::$disabled)
+		if (!$this->isDisabled())
 		{
 			parent::storeEntry($a_id, $a_value, $a_ref_id);
 		}
