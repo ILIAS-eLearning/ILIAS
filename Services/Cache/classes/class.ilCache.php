@@ -31,6 +31,17 @@ class ilCache
 	}
 	
 	/**
+	 * Check if cache is disabled
+	 * Forced if member view is active
+	 * @return bool
+	 */
+	public function isDisabled()
+	{
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		return ilMemberViewSettings::getInstance()->isActive();
+	}
+	
+	/**
 	 * Set component
 	 *
 	 * @param	string	component

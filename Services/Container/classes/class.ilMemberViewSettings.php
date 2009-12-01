@@ -28,13 +28,12 @@
  */
 class ilMemberViewSettings
 {
-
-
 	private static $instance = null;
 	
 	private $active = false;
 	private $enabled = false;
 	private $container = null;
+	private $container_items = array();
 	
 	/**
 	 * Constructor (singleton)
@@ -99,9 +98,7 @@ class ilMemberViewSettings
 			return false;
 		}
 		
-		$sub_ids = $tree->getSubTreeIds($this->getContainer());
-		
-		if(!in_array((int) $_GET['ref_id'],$sub_ids) and 
+		if(!in_array((int) $_GET['ref_id'],$this->container_items) and 
 			$this->getContainer() != (int) $_GET['ref_id']) 
 		{
 			// outside of course
@@ -166,7 +163,7 @@ class ilMemberViewSettings
 	 */
 	protected function read()
 	{
-		global $ilSetting;
+		global $ilSetting,$tree;
 		
 		$this->enabled = $ilSetting->get('preview_learner');
 		
@@ -174,6 +171,7 @@ class ilMemberViewSettings
 		{
 			$this->active = true;
 			$this->container = (int) $_SESSION['member_view_container'];
+			$this->container_items = $tree->getSubTreeIds($this->getContainer());
 		}
 	} 
 }
