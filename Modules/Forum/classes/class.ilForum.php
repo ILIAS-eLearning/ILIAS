@@ -2487,7 +2487,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   $this->formatNotification($post_data),
+												   strip_tags($this->formatNotification($post_data)),
 												  array(),array("system"));
 			}
 		}
@@ -2563,7 +2563,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL			
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   $this->formatNotification($post_data),
+												   strip_tags($this->formatNotification($post_data)),
 												   array(),array("system"));
 			
 			}
@@ -2633,7 +2633,7 @@ class ilForum
 			{
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
 												   $subject,
-												   $message,
+												   strip_tags($message),
 												   array(), array("system"));
 			}
 		}
