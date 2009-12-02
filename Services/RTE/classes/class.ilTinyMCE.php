@@ -172,7 +172,7 @@ class ilTinyMCE extends ilRTE
 			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
-			$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
+			$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
 			$tpl->setVariable("LANG", $this->_getEditorLanguage());
 
 			if($this->getRTERootBlockElement() !== null)
@@ -275,7 +275,7 @@ class ilTinyMCE extends ilRTE
 		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($buttontags) . ",backcolor,removeformat");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
-		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
+		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
 		$template->setVariable("LANG", $this->_getEditorLanguage());
 		$template->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("HeadContent");
