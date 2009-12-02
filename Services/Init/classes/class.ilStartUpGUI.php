@@ -718,9 +718,11 @@ class ilStartUpGUI
 		{
 			$tpl->setCurrentBlock("client_list");
 			$tpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
+			$this->ctrl->setParameter($this, "client_id", $client_id);
 			$tpl->setVariable("CMD_CLIENT_LIST",
 				$this->ctrl->getLinkTarget($this, "showClientList"));
 			$tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this, "client_id", "");
 		}
 
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
