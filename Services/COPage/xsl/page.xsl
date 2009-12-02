@@ -2883,14 +2883,16 @@
 		<xsl:if test="$mode != 'edit'">
 			<xsl:if test="@Type = 'VerticalAccordion'">
 			<script type="text/javascript">
-				ilInitAccordion('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+				ilAccordionData[ilAccordionData.length] =
+					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
 					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select="@Behavior"/>');
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
 			<script type="text/javascript">
-				ilInitAccordion('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+				ilAccordionData[ilAccordionData.length] =
+					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_HAccordionToggleDef', 'il_HAccordionToggleActiveDef',
 					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>');
 			</script>

@@ -31,6 +31,7 @@ class ilTemplate extends ilTemplateX
 	
 	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
+	var $js_files_batch = array("Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 	var $admin_panel_commands = array();
 	
@@ -557,22 +558,30 @@ class ilTemplate extends ilTemplateX
 		}
 		if ($this->blockExists("js_file"))
 		{
-			foreach($this->js_files as $file)
+			// three batches
+			for ($i=1; $i<=3; $i++)
 			{
-				if (is_file($file) || substr($file, 0, 4) == "http")
+				reset($this->js_files);
+				foreach($this->js_files as $file)
 				{
-					$this->setCurrentBlock("js_file");
-
-					if ($this->js_files_vp[$file])
+					if (is_file($file) || substr($file, 0, 4) == "http")
 					{
-						$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
+						if ($this->js_files_batch[$file] == $i)
+						{
+							$this->setCurrentBlock("js_file");
+		
+							if ($this->js_files_vp[$file])
+							{
+								$this->setVariable("JS_FILE", ilUtil::appendUrlParameterString($file,$vers));
+							}
+							else
+							{
+								$this->setVariable("JS_FILE", $file);
+							}
+							
+							$this->parseCurrentBlock();
+						}
 					}
-					else
-					{
-						$this->setVariable("JS_FILE", $file);
-					}
-					
-					$this->parseCurrentBlock();
 				}
 			}
 		}
@@ -1609,12 +1618,18 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Add a javascript file that should be included in the header.
 	*/
-	function addJavaScript($a_js_file, $a_add_version_parameter = true)
+	function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
 	{
+		// three batches currently
+		if ($a_batch < 1 || $a_batch > 3)
+		{
+			$a_batch = 2;
+		}
 		if (!in_array($a_js_file, $this->js_files))
 		{
 			$this->js_files[] = $a_js_file;
 			$this->js_files_vp[$a_js_file] = $a_add_version_parameter;
+			$this->js_files_batch[$a_js_file] = $a_batch;
 		}
 	}
 

@@ -153,7 +153,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$_POST[$this->getPostVar()]["longitude"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["longitude"]);
 		if ($this->getRequired() &&
-			(trim($_POST[$this->getPostVar()]) == "" || trim($_POST[$this->getPostVar()]) == ""))
+			(trim($_POST[$this->getPostVar()]["latitude"]) == "" || trim($_POST[$this->getPostVar()]["longitude"]) == ""))
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
 
