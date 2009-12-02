@@ -266,6 +266,7 @@ class ilAuthUtils
 		{
 			$authmode = AUTH_CURRENT;
 		}
+		
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
@@ -278,6 +279,7 @@ class ilAuthUtils
 
 				include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerRadius());
+				break;
 
 			case AUTH_SHIBBOLETH:
 				// build option string for SHIB::Auth
@@ -305,10 +307,9 @@ class ilAuthUtils
 				break;
 
 			case AUTH_ECS:
-				$auth_params = array();
-				$auth_params['sessionName'] = "_authhttp".md5($realm);
-				require_once('./Services/WebServices/ECS/classes/class.ilAuthECS.php');
-				$ilAuth = new ilAuthECS($auth_params,$_GET['ecs_hash']);
+
+				include_once './Services/WebServices/ECS/classes/class.ilAuthContainerECS.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerECS());
 				break;
 				
 			case AUTH_INACTIVE:
@@ -360,7 +361,7 @@ class ilAuthUtils
 				*/
 			
 		}
-
+		
                 // Due to a bug in Pear Auth_HTTP, we can't use idle time 
                 // with WebDAV clients. If we used it, users could never log
                 // back into ILIAS once their session idled out. :(
@@ -368,7 +369,7 @@ class ilAuthUtils
 			$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		}
 		$ilAuth->setExpire(0);
-                
+		
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
