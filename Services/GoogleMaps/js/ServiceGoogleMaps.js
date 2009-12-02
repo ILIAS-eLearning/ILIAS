@@ -30,7 +30,7 @@ if (window.GIcon)
 */
 function ilInitMaps()
 {
-	var obj
+	var obj;
 
 	// get all spans
 	obj = document.getElementsByTagName('div')

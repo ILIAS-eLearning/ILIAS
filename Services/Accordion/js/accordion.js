@@ -5,6 +5,7 @@
 // Complete rewrite using YUI instead of prototype by Alex Killing for
 // ILIAS open source
 
+ilAccordionData = Array();
 
 function ilGetNextSibling(n)
 {
@@ -176,6 +177,20 @@ accordion.prototype =
 		myAnim.animate();
 	}
 }
+
+ilAddOnLoad(ilInitAccordions);
+
+function ilInitAccordions()
+{
+	// run through accordions
+	for (var i=0; i<ilAccordionData.length; i++)
+	{
+		ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
+			ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
+			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7]);
+	}
+}
+
 
 function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior)
 {

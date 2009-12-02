@@ -158,7 +158,7 @@ class ilAccordionGUI
 		ilYuiUtil::initEvent();
 		ilYuiUtil::initDom();
 		ilYuiUtil::initAnimation();
-		$tpl->addJavaScript("./Services/Accordion/js/accordion.js");
+		$tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
 	}
 	
 	/**
