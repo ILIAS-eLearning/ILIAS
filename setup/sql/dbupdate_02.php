@@ -7668,29 +7668,23 @@ if ($res->numRows() == 1)
 <#1588>
 <?php
 
-// Convert read_event last_access to unixtime for faster updates of user entries
-$query = "SELECT *,UNIX_TIMESTAMP(last_access) ut FROM read_event ";
-$res = $ilDB->query($query);
-$events = array();
-while($row = $ilDB->fetchAssoc($res))
-{
-	$events[] = $row;
-}
-
-// Convert table 
-$query = 'ALTER TABLE `read_event` CHANGE `last_access` `last_access` INT';
+// Create temporary field
+$query = "ALTER TABLE `read_event` ADD `last_access2` INT NOT NULL AFTER `last_access` ";
 $ilDB->query($query);
 
-// Update existing values
-foreach($events as $event)
-{
-	$query = 'UPDATE read_event '.
-		'SET last_access = '.$ilDB->quote($event['ut']).' '.
-		'WHERE obj_id = '.$ilDB->quote($event['obj_id']).' '.
-		'AND usr_id = '.$ilDB->quote($event['usr_id']);
-	$ilDB->query($query);
-}
-?>
+// Migrate last_access
+$query = "UPDATE read_event SET last_access2 = UNIX_TIMESTAMP(last_access)";
+$ilDB->query($query);
+
+// Drop last_access
+$query = "ALTER TABLE read_event DROP `last_access`";
+$ilDB->query($query);
+
+// Rename last_access2
+$query = "ALTER TABLE `read_event` CHANGE `last_access2` `last_access` INT( 11 ) NOT NULL";
+$ilDB->query($query);
+
+?> 
 
 <#1589>
 <?php
