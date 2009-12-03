@@ -202,6 +202,7 @@ public class HitHighlighter {
 		highlighter = new Highlighter(formatter,queryScorer);
 		Fragmenter fragmenter = new SimpleFragmenter(luceneSettings.getFragmentSize());
 		highlighter.setTextFragmenter(fragmenter);
+		highlighter.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);
 		
 		// Title description highlighter -> bigger FRAGMENT SIZE
 		titleHighlighter = new Highlighter(formatter,queryScorer);
