@@ -347,9 +347,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$sizeFrag = new ilNumberInputGUI($this->lng->txt('lucene_size_fragments'),'fragmentSize');
 		$sizeFrag->setRequired(true);
 		$sizeFrag->setSize(2);
-		$sizeFrag->setMaxLength(3);
+		$sizeFrag->setMaxLength(4);
 		$sizeFrag->setMinValue(10);
-		$sizeFrag->setMaxValue(100);
+		$sizeFrag->setMaxValue(1000);
 		$sizeFrag->setInfo($this->lng->txt('lucene_size_frag_info'));
 		$sizeFrag->setValue($this->settings->getFragmentSize());
 		$this->form->addItem($sizeFrag);
