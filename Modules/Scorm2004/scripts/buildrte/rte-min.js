@@ -1,4 +1,4 @@
-// Build: 20091124213647 
+// Build: 20091203143517 
 
 function ADLAuxiliaryResource()
 {}
@@ -2223,7 +2223,7 @@ function setResource(id,url,base)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-var resContainer=window.document.getElementById("res");console.log("Set URL"+url);resContainer.src=url;resContainer.name=RESOURCE_NAME;}
+var resContainer=window.document.getElementById("res");resContainer.src=url;resContainer.name=RESOURCE_NAME;}
 else
 {open(url,RESOURCE_NAME);}
 if(guiItem)

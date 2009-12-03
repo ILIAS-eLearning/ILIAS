@@ -1,4 +1,4 @@
-// Build: 20091124213647 
+// Build: 20091203143517 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10595,7 +10595,6 @@ function setResource(id, url, base)
 			h = self.innerHeight-60;
 		} 
 		var resContainer = window.document.getElementById("res");
-		console.log("Set URL" + url);
 		resContainer.src=url;
 		resContainer.name=RESOURCE_NAME;
 	} 
