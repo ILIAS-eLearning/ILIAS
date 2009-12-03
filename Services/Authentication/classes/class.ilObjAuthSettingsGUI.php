@@ -241,7 +241,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			foreach ($_POST["loginMessage"] as $key => $val)
 			{				
-				$this->loginSettings->set("login_message_".$key, $val);
+				$this->loginSettings->set("login_message_".$key,
+					ilUtil::stripSlashes($val));
 			}
 		}
 		
