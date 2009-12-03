@@ -313,7 +313,7 @@ class ilObjectDAV
 	{
 		// The 'visible' operation is only permitted if the object is online,
 		// or if the user is also permitted the perform the 'write' operation.
-if (false)
+if (false)		// old implementation deactivated
 {
 		$ops = explode(',',$operations);
 		if (in_array('visible',$ops) && ! in_array('write',$ops))
@@ -326,7 +326,7 @@ if (false)
 		global $rbacsystem;
 		return $rbacsystem->checkAccess($operations, $this->getRefId(), $type);
 }
-else
+else 		// this one fixes bug #5367
 {
 		global $ilAccess;
 		$operations = explode(",",$operations."");
