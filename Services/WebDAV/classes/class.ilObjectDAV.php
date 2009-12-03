@@ -58,7 +58,10 @@ class ilObjectDAV
 	*/
 	function ilObjectDAV($refId, $obj = null) 
 	{
-		$this->writelog('<constructor>('.$refId.','.get_class($obj).')');
+		if (is_object($obj))
+		{
+			$this->writelog('<constructor>('.$refId.','.get_class($obj).')');
+		}
 		$this->refId = $refId;
 		$this->obj =& $obj;
 	}
@@ -310,6 +313,8 @@ class ilObjectDAV
 	{
 		// The 'visible' operation is only permitted if the object is online,
 		// or if the user is also permitted the perform the 'write' operation.
+if (false)
+{
 		$ops = explode(',',$operations);
 		if (in_array('visible',$ops) && ! in_array('write',$ops))
 		{
@@ -320,6 +325,20 @@ class ilObjectDAV
 		
 		global $rbacsystem;
 		return $rbacsystem->checkAccess($operations, $this->getRefId(), $type);
+}
+else
+{
+		global $ilAccess;
+		$operations = explode(",",$operations."");
+		foreach ($operations as $operation)
+		{
+			if (!$ilAccess->checkAccess($operation, '', $this->getRefId(), $type))
+			{
+				return false;
+			}
+		}
+		return true;
+}
 	}
 	
 	/**

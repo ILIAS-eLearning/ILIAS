@@ -33,7 +33,10 @@ class ilUserQuery
 			" FROM usr_data";
 			
 		// filter
-		$where = " WHERE";
+		$query.= " WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$count_query.= " WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$where = " AND";
+		
 		if ($a_string_filter != "")		// email, name, login
 		{
 			$add = $where." (".$ilDB->like("usr_data.login", "text", "%".$a_string_filter."%")." ".

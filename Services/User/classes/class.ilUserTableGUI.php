@@ -229,11 +229,17 @@ class ilUserTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
+		if ($user["usr_id"] != 6)
+		{
+			$this->tpl->setCurrentBlock("checkb");
+			$this->tpl->setVariable("ID", $user["usr_id"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable("VAL_LOGIN", $user["login"]);
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
 		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
 		$this->tpl->setVariable("VAL_EMAIL", $user["email"]);
-		$this->tpl->setVariable("ID", $user["usr_id"]);
 		$this->tpl->setVariable("VAL_LAST_LOGIN",
 			ilDatePresentation::formatDate(new ilDateTime($user['last_login'],IL_CAL_DATETIME)));
 		$this->tpl->setVariable("VAL_ACCESS_UNTIL", $user["access_until"]);
