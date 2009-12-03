@@ -503,16 +503,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tmp_course = ilObjectFactory::getInstanceByRefId((int) $_GET['ref_id'],false);
 		$items = new ilCourseItems($tmp_course);
 
-		include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
-		ilCalendarCategories::deletePDItemsCache($ilUser->getId());
-		ilCalendarCategories::deleteRepositoryCache($ilUser->getId());
-
 		if($a_redirect_on_success) 
 		{
 			ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 			$this->ctrl->returnToParent($this);
 		}
-		
 		
 		return true;
 	

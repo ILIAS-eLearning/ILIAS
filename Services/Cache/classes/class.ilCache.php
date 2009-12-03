@@ -151,13 +151,14 @@ class ilCache
 			? "cache_clob"
 			: "cache_text";
 	
-		$set = $ilDB->query("SELECT value FROM $table WHERE ".
+		$query = "SELECT value FROM $table WHERE ".
 			"component = ".$ilDB->quote($this->getComponent(), "text")." AND ".
 			"name = ".$ilDB->quote($this->getName(), "text")." AND ".
 			"expire_time > ".$ilDB->quote(time(), "integer")." AND ".
 			"ilias_version = ".$ilDB->quote(ILIAS_VERSION_NUMERIC, "text")." AND ".
-			"entry_id = ".$ilDB->quote($a_id, "text")
-			);
+			"entry_id = ".$ilDB->quote($a_id, "text");
+		
+		$set = $ilDB->query($query);
 
 		if ($rec  = $ilDB->fetchAssoc($set))
 		{
@@ -219,7 +220,7 @@ class ilCache
 			"expire_time" => array("integer", (int) (time() + $this->getExpiresAfter())),
 			"ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
 			));
-		
+			
 		// In 1/2000 times, delete old entries
 		$num = rand(1,2000);
 		if ($num == 500)

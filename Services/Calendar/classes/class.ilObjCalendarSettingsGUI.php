@@ -208,8 +208,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
 		$this->settings->setDefaultDayStart((int) $_POST['dst']);
 		$this->settings->setDefaultDayEnd((int) $_POST['den']);
-		$this->settings->enableSynchronisationCache((bool) $_POST['cache']);
+		$this->settings->enableSynchronisationCache((bool) $_POST['sync_cache']);
 		$this->settings->setSynchronisationCacheMinutes((int) $_POST['sync_cache_time']);
+		$this->settings->setCacheMinutes((int) $_POST['cache_time']);
+		$this->settings->useCache((bool) $_POST['cache']);	
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -287,6 +289,27 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$option = new ilRadioOption($this->lng->txt('l_mo'),1);
 		$radio->addOption($option);
 		
+		// Calendar cache		
+		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_cache'),'cache');
+		$cache->setValue((int) $this->settings->isCacheUsed());
+		$cache->setInfo($this->lng->txt('cal_cache_info'));
+		$cache->setRequired(true);
+		
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_disabled'),0);
+		$cache->addOption($sync_cache);
+		
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_enabled'),1);
+		$cache->addOption($sync_cache);
+		
+		$cache_t = new ilNumberInputGUI('','cache_time');
+		$cache_t->setValue($this->settings->getCacheMinutes());
+		$cache_t->setMinValue(0);
+		$cache_t->setSize(3);
+		$cache_t->setMaxLength(3);
+		$cache_t->setSuffix($this->lng->txt('form_minutes'));
+		$sync_cache->addSubItem($cache_t);
+		$this->form->addItem($cache);
+		
 		// enable milestone planning in groups
 		$checkm = new ilCheckboxInputGUI($this->lng->txt('cal_enable_group_milestones'),'enable_grp_milestones');
 		$checkm->setValue(1);
@@ -316,7 +339,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$sec->setTitle($this->lng->txt('cal_sync_header'));
 		$this->form->addItem($sec);
 		
-		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'),'cache');
+		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'),'sync_cache');
 		$cache->setValue((int) $this->settings->isSynchronisationCacheEnabled());
 		$cache->setInfo($this->lng->txt('cal_sync_cache_info'));
 		$cache->setRequired(true);
