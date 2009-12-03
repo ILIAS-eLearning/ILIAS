@@ -59,8 +59,8 @@ class ilCalendarSettings
 	private $enabled = false;
 	private $cal_settings_id = 0;
 	
-	private $cache_enabled = false;
-	private $cache_minutes = 0;
+	private $cache_enabled = true;
+	private $cache_minutes = 1;
 	
 	private $sync_cache_enabled = true;
 	private $sync_cache_minutes = 10;
@@ -103,7 +103,7 @@ class ilCalendarSettings
 	 * @param object $a_status
 	 * @return 
 	 */
-	protected function useCache($a_status)
+	public function useCache($a_status)
 	{
 		$this->cache_enabled = $a_status;
 	}
@@ -114,7 +114,6 @@ class ilCalendarSettings
 	 */
 	public function isCacheUsed()
 	{
-		return false;
 		return $this->cache_enabled;
 	}
 	
@@ -349,6 +348,7 @@ class ilCalendarSettings
 		$this->storage->set('cache_minutes',(int) $this->getCacheMinutes());
 		$this->storage->set('sync_cache_enabled',(int) $this->isSynchronisationCacheEnabled());
 		$this->storage->set('sync_cache_minutes',(int) $this->getSynchronisationCacheMinutes());
+		$this->storage->set('cache_enabled',(int) $this->isCacheUsed());
 	}
 
 	/**
@@ -367,8 +367,8 @@ class ilCalendarSettings
 		$this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
 		$this->setDefaultDayStart($this->storage->get('default_day_start',self::DEFAULT_DAY_START));
 		$this->setDefaultDayEnd($this->storage->get('default_day_end',self::DEFAULT_DAY_END));
+		$this->useCache($this->storage->get('cache_enabled'),$this->cache_enabled);
 		$this->setCacheMinutes($this->storage->get('cache_minutes',self::DEFAULT_CACHE_MINUTES));
-		$this->useCache($this->getCacheMinutes() != 0);
 		$this->enableSynchronisationCache($this->storage->get('sync_cache_enabled'),$this->isSynchronisationCacheEnabled());
 		$this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes',self::DEFAULT_SYNC_CACHE_MINUTES));
 	}

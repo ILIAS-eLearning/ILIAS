@@ -45,7 +45,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		global $ilLog;
+		global $ilLog,$ilUser;
 		
 		switch($a_component)
 		{
@@ -70,6 +70,10 @@ class ilCalendarAppEventListener implements ilAppEventListener
 						self::deleteCategory($a_parameter['obj_id']);
 						break;
 				}
+				include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
+				ilCalendarCategories::deletePDItemsCache($ilUser->getId());
+				ilCalendarCategories::deleteRepositoryCache($ilUser->getId());
+
 				break;
 				
 		}

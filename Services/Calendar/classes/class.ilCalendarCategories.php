@@ -207,16 +207,12 @@ class ilCalendarCategories
 	{
 		if($a_use_cache)
 		{
-			#$GLOBALS['ilLog']->write('READ cache:'. $this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id);
-			
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
 				$this->wakeup($cats);
 				return;
 			}
-			
-			#$GLOBALS['ilLog']->write('MISS cache');
 		}
 		
 		
@@ -252,9 +248,7 @@ class ilCalendarCategories
 		if($a_use_cache)
 		{
 			// Store in cache
-			#$GLOBALS['ilLog']->write('WRITE cache:'. $this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id);
-			
-			ilCalendarCache::getInstance()->storeUnlimitedEntry(
+			ilCalendarCache::getInstance()->storeEntry(
 				$this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id,
 				$this->sleep(),
 				$this->user_id,
