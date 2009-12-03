@@ -796,7 +796,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		    WHERE(scorm_object.slm_id = %s
 		    AND scorm_object.obj_id=sc_item.obj_id 
 		    AND sc_item.identifierref = sc_resource.import_id 
-		    AND sc_resource.scormtype = %s
+		    AND sc_resource.scormtype = %s)
 		    GROUP BY scorm_object.obj_id,
 		    		scorm_object.title,
 		    		scorm_object.c_type,
@@ -1077,7 +1077,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		WHERE(scorm_object.slm_id = %s
 		AND scorm_object.obj_id = sc_item.obj_id 
 		AND sc_item.identifierref = sc_resource.import_id 
-		AND sc_resource.scormtype = %s
+		AND sc_resource.scormtype = %s)
 		GROUP BY scorm_object.obj_id,
 				scorm_object.title,
 				scorm_object.c_type,
