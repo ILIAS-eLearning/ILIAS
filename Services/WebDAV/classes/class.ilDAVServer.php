@@ -277,6 +277,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// store information for the requested path itself
 		// FIXME : create display name for object.
 		$encodedPath = $this->davUrlEncode($path);
+
 		$files['files'][] =& $this->fileinfo($encodedPath, $encodedPath, $objDAV);
 
 		// information for contained resources requested?
@@ -314,7 +315,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 							$collectionDAV->encodedPath.'/'.$this->davUrlEncode($childDAV->getDisplayName()),
 							$childDAV
 						);
-
 						if ($options['depth']=='infinity' && $childDAV->isCollection()) {
 							// add a collection to the end of the breadthFirst list
 							$breadthFirst[] = $childDAV;
@@ -332,7 +332,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			global $ilUser;
 			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId(), false);
 		}
-
 		// ok, all done
 		$this->writelog('PROPFIND():true options='.var_export($options, true).' files='.var_export($files,true));
 		return true;
@@ -484,7 +483,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 
 		//$this->writelog('fileinfo():'.var_export($info, true));
-
 		return $info;
 	}
 
@@ -878,7 +876,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$objDAV =& $this->getObject($path);
 		if (is_null($objDAV))
 		{
-			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
+			$ttype = $parentDAV->getILIASFileType();
+			$isperm = $parentDAV->isPermitted('create', $ttype);
+			if (! $isperm)
 			{
                 $this->writelog('PUT is forbidden, because user has no create permission');
 
@@ -893,7 +893,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$objDAV->setContentLength($options['content_length']);
 			}
 			$objDAV->write();
-
 			// Record write event
 			if (ilChangeEvent::_isActive())
 			{
@@ -957,6 +956,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		$out =& $objDAV->getContentOutputStream();
 		$this->writelog('PUT outputstream='.$out);
+
 		return $out;
 	}
 
@@ -1618,6 +1618,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		global $tree;
 
 		$nodePath = $this->toNodePath($davPath);
+
 		if (is_null($nodePath))
 		{
 			return null;

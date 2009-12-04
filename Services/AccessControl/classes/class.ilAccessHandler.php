@@ -270,6 +270,7 @@ class ilAccessHandler
 				$this->obj_type_cache[$a_ref_id] = $a_type;
 			}
 		}
+
 		$ilBench->stop("AccessControl", "0500_lookup_id_and_type");
 
 		// to do: payment handling
@@ -285,12 +286,13 @@ class ilAccessHandler
 		}
 
 		// rbac check for current object
-		if (!$this->doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id))
+		if (!$this->doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type))
 		{
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
+
 		// check read permission for all parents
 		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if (!$par_check)
@@ -449,9 +451,9 @@ class ilAccessHandler
 	
 	/**
 	 * rbac check for current object
-	 * 
+	 * -> type should be used for create permission
 	 */
-	function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)
+	function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type)
 	{
 		global $lng, $ilBench, $ilErr, $ilLog;
 
@@ -472,10 +474,13 @@ class ilAccessHandler
 		}
 		else
 		{
-			$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id);
+			$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id, $a_type);
 			if (!is_array($this->stored_rbac_access) || count($this->stored_rbac_access) < 1000)
 			{
-				$this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id] = $access;
+				if ($a_permission != "create")
+				{
+					$this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id] = $access;
+				}
 			}
 		}
 
@@ -484,7 +489,10 @@ class ilAccessHandler
 		{
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 		}
-		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
+		if ($a_permission != "create")
+		{
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
+		}
 		$ilBench->stop("AccessControl", "2500_checkAccess_rbac_check");
 
 		return $access;
