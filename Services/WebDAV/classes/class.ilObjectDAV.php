@@ -313,7 +313,7 @@ class ilObjectDAV
 	{
 		// The 'visible' operation is only permitted if the object is online,
 		// or if the user is also permitted the perform the 'write' operation.
-if (true)		// old implementation deactivated
+if (false)		// old implementation deactivated
 {
 		$ops = explode(',',$operations);
 		if (in_array('visible',$ops) && ! in_array('write',$ops))
