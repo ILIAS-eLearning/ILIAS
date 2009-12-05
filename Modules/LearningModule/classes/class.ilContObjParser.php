@@ -282,7 +282,7 @@ class ilContObjParser extends ilMDSaxParser
 				if ($type_arr[0] == "sqst")
 				{
 					require_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-					assQuestion::_resolveIntLinks($source["id"]);
+					SurveyQuestion::_resolveIntLinks($source["id"]);
 				}
 				$done[$key] = $key;
 			}
