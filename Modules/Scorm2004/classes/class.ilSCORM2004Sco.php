@@ -236,6 +236,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			}
 		}	
 		copy('images/spacer.gif',$a_target_dir."/images/spacer.gif");
+		copy('images/enlarge.gif',$a_target_dir."/images/enlarge.gif");
 		chdir($currdir);
 		fwrite(fopen($a_target_dir.'/css/system.css','w'),$css);
 		//copy(ilUtil::getStyleSheetLocation("filesystem"), $a_target_dir.'/css/system.css');
@@ -428,6 +429,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 
 		if($mode!='pdf')
 		{
+			$output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
 		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
 		$output = preg_replace("/&#123;/","",$output);
 		$output = preg_replace("/&#125;/","",$output);
@@ -447,6 +449,14 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		
 	}
 	
+	private function fixFullscreeenLink($matches) 
+	{
+		$media_obj = new ilObjMediaObject($matches[1]);
+		if($media_obj->hasFullscreenItem())
+		{	
+			return "href=\"./objects/il_".IL_INST_ID."_mob_".$matches[1]."/".$media_obj->getMediaItem("Fullscreen")->getLocation()."\"";
+		}
+	}
 	
 	//callback function for question export
 	private function insertQuestion($matches) {
