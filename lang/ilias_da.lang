@@ -1113,11 +1113,11 @@ common#:#group_password_registration_msg#:#For at blive medlem af denne gruppe s
 common#:#group_registration#:#Indmeldelse
 common#:#group_registration_expiration_date#:#Udløbsdag
 common#:#group_registration_expiration_time#:#Udløbstid
-common#:#group_registration_expired#:#Registreringsperioden er udløbet eller du er (endnu) ikke aktiveret
+common#:#group_registration_expired#:#Tilmeldingsperioden er udløbet eller du er (endnu) ikke aktiveret
 common#:#group_registration_expired_msg#:#Perioden hvor du kunne tilmelde dig gruppen er udløbet. Kontakt gruppeadministratoren hvis du vil indmeldes i gruppen.
 common#:#group_registration_mode#:#Tilmeldingsmetode
 common#:#group_registration_time#:#Indmeldelsesperiode
-common#:#group_req_direct#:#Direkte registrering
+common#:#group_req_direct#:#Direkte tilmelding
 common#:#group_req_password#:#Tilmeld med gruppepassword
 common#:#group_req_registration#:#Anmod om medlemsskab
 common#:#group_req_registration_msg#:#For at blive medlem at gruppen skal du skrive en anmodning, hvorefter administrator i gruppen kan gøre dig til medlem. <br />Du vil derefter modtage en besked-
@@ -10067,8 +10067,8 @@ registration#:#reg_mail_body_confirmation#:#To confirm this registration enter t
 pd#:#pd_enable_global_profiles#:#Aktiver globale profiler
 pd#:#pd_enable_global_profiles_info#:#Hvis valgt kan brugere gøre deres profiler synlige på internet.
 user#:#usr_link_to_profile#:#Link til profil
-content#:#cont_could_not_determine_resource_size#:#ILIAS could not automatically determine the resource size.###22 09 2009 new variable
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.###22 09 2009 new variable
+content#:#cont_could_not_determine_resource_size#:#ILIAS kunne ikke automatisk opdage resursens størrelse.
+registration#:#reg_approve_needs_recipient#:#Du bør som minimum vælge en bruger der adviseres om nye tilmeldinger når tilmeldingstypen "med godkendelse" er valgt.
 common#:#join_session#:#Tilmeld
 content#:#cont_dir_renamed#:#Mappen blev omdøbt-
 content#:#cont_file_renamed#:#Filen blev omdøbt.
@@ -10109,7 +10109,7 @@ crs#:#crs_objective_random_warn#:#You can not use random tests in combination wi
 common#:#udf_required_requires_visib_reg#:#Når en feltindtastning er krævet skal det være synligt i brugeroprettelsen.
 crs#:#sess_join_info#:#Tryk på 'tilmeld' knappen hvis du ønsker at deltage i sessionen.
 administration#:#adm_item_cmd_asynch#:#Hent resurse handlingslister asynkront
-administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.###02 10 2009 new variable
+administration#:#adm_item_cmd_asynch_info#:#Kommandoer i f.eks. oversigtsvisningen hentes asynkront. Dette forbedrer den overordnede ydelse i systemet men sløver kommandovisningen en smule.
 payment#:#enable_ean#:#Aktiver EAN
 payment#:#enable_ean_info#:#Krævet for at handle med det offentlige i Danmark. Klik her for at læse <a href="http://www.oes.dk/sw1903.asp" target="_blank">mere om EAN</a>.
 payment#:#pays_epay_settings_not_valid#:#ePay indstillingerne kunne ikke gemmes fordi de er ugyldige.
@@ -10130,19 +10130,19 @@ payment#:#delete_addresses_bill#:#Slet faktureringsadresser
 payment#:#delete_addresses_bmf#:#Slet BMF adresser
 payment#:#delete_addresses_paypal#:#Slet Paypal adresser
 dateplaner#:#cal_created_appointment#:#Oprettede ny aftale.
-rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
+rbac#:#rbac_change_existing_confirm_tbl#:#Indstillinger for "Ret eksisterende objekter"
 rbac#:#rbac_local_policies#:#Lokale rettigheder
 rbac#:#rbac_keep_local_policies#:#Behold lokale rettigheder
 rbac#:#rbac_delete_local_policies#:#Slet lokale rettigheder
-rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.###28 10 2009 new variable
-rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.###28 10 2009 new variable
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Hvis aktiveret erstattes alle lokale rettighedsændringer i kurser og grupper med nyinitaliserede.
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Vælg denne indstilling for at beholde alle lokale rettighedsændringer.
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
-rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
+rbac#:#rbac_keep_local_policies_info#:#Vælg denne indstilling for at beholde alle lokale rettighedsændringer. Objekt-rettighederne bliver tilpasset disse rettigheder og derefter beskyttet.
 common#:#admin_force_noti#:#Advisering aktiv
 common#:#user_toggle_noti#:#Medlemmet har ikke rettigheder til at afbryde advisering
-common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
-common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
-common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
+common#:#enable_admin_force#:#Aktiver advisering
+common#:#disable_admin_force#:#Deaktiver advisering
+common#:#enable_hide_user_toggle#:#Medlemmer tillades ikke at deaktivere
 common#:#disable_hide_user_toggle#:#Medlemmet har ikke rettigheder til at deaktivere
 common#:#moderators#:#Moderatorer
 common#:#tutors#:#Tutorer
