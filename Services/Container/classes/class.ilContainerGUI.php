@@ -1692,7 +1692,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(count($no_paste))
 		{
 			$error .= $error != '' ? '<br />' : '';
-			$error .= implode('<br />', $not_allowed_subobject);
+			$error .= implode('<br />', $no_paste);
 		}
 		
 		if($error != '')
@@ -1939,7 +1939,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$expanded = $_GET['paste_linked_repexpand'];
 		}
 		
-		$this->tpl->setVariable('FORM_TARGET', '_self');
+		$this->tpl->setVariable('FORM_TARGET', '_top');
 		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPasteIntoMultipleObjects'));
 
 		$exp->setExpand($expanded);
@@ -2006,7 +2006,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$expanded = $_GET['paste_cut_repexpand'];
 		}
 		
-		$this->tpl->setVariable('FORM_TARGET', '_self');
+		$this->tpl->setVariable('FORM_TARGET', '_top');
 		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPasteIntoMultipleObjects'));
 
 		$exp->setExpand($expanded);
