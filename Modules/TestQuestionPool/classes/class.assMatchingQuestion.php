@@ -987,18 +987,15 @@ class assMatchingQuestion extends assQuestion
 			{
 				$entered_values++;
 				$next_id = $ilDB->nextId('tst_solutions');
-				$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','text','integer','integer'),
-					array(
-						$next_id,
-						$active_id,
-						$this->getId(),
-						$term,
-						$definition,
-						$pass,
-						time()
-					)
-				);
+				$affectedRows = $ilDB->insert("tst_solutions", array(
+					"solution_id" => array("integer", $next_id),
+					"active_fi" => array("integer", $active_id),
+					"question_fi" => array("integer", $this->getId()),
+					"value1" => array("clob", $term),
+					"value2" => array("clob", $definition),
+					"pass" => array("integer", $pass),
+					"tstamp" => array("integer", time())
+				));
 			}
 			$saveWorkingDataResult = true;
 		}

@@ -633,17 +633,15 @@ class assImagemapQuestion extends assQuestion
 		if (strlen($_GET["selImage"]))
 		{
 			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
-				array("integer","integer","integer","text","integer","integer"),
-				array(
-					$next_id,
-					$active_id,
-					$this->getId(),
-					$_GET["selImage"],
-					$pass,
-					time()
-				)
-			);
+			$affectedRows = $ilDB->insert("tst_solutions", array(
+				"solution_id" => array("integer", $next_id),
+				"active_fi" => array("integer", $active_id),
+				"question_fi" => array("integer", $this->getId()),
+				"value1" => array("clob", $_GET['selImage']),
+				"value2" => array("clob", null),
+				"pass" => array("integer", $pass),
+				"tstamp" => array("integer", time())
+			));
 
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())

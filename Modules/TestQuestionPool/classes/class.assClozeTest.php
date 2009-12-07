@@ -1191,26 +1191,15 @@ class assClozeTest extends assQuestion
 								$value = str_replace(",", ".", $value);
 							}
 							$next_id = $ilDB->nextId("tst_solutions");
-							$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-								array(
-									"integer",
-									"integer", 
-									"integer",
-									"text",
-									"text",
-									"integer",
-									"integer"
-								),
-								array(
-									$next_id,
-									$active_id,
-									$this->getId(),
-									trim($matches[1]),
-									trim($value),
-									$pass,
-									time()
-								)
-							);
+							$affectedRows = $ilDB->insert("tst_solutions", array(
+								"solution_id" => array("integer", $next_id),
+								"active_fi" => array("integer", $active_id),
+								"question_fi" => array("integer", $this->getId()),
+								"value1" => array("clob", trim($matches[1])),
+								"value2" => array("clob", trim($value)),
+								"pass" => array("integer", $pass),
+								"tstamp" => array("integer", time())
+							));
 							$entered_values++;
 						}
 					}

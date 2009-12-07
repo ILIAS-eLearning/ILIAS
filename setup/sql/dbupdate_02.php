@@ -16337,3 +16337,25 @@ if (!$ilDB->tableExists("cal_auth_token"))
 		)
 	);
 ?>
+<#2917>
+<?php
+	$ilDB->addTableColumn("tst_solutions", "value1_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null
+	));
+		$ilDB->manipulate('UPDATE tst_solutions SET value1_tmp = value1');
+	$ilDB->dropTableColumn('tst_solutions', 'value1');
+	$ilDB->renameTableColumn("tst_solutions", "value1_tmp", "value1");
+?>
+<#2918>
+<?php
+$ilDB->addTableColumn("tst_solutions", "value2_tmp", array(
+	"type" => "clob",
+	"notnull" => false,
+	"default" => null
+));
+$ilDB->manipulate('UPDATE tst_solutions SET value2_tmp = value2');
+$ilDB->dropTableColumn('tst_solutions', 'value2');
+$ilDB->renameTableColumn("tst_solutions", "value2_tmp", "value2");
+?>

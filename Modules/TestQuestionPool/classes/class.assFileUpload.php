@@ -568,18 +568,15 @@ class assFileUpload extends assQuestion
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
 					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					$next_id = $ilDB->nextId('tst_solutions');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
-						array("integer","integer", "integer", "text", "text", "integer","integer"),
-						array(
-							$next_id,
-							$active_id, 
-							$this->getId(),
-							$newfile,
-							$_FILES["upload"]["name"],
-							$pass,
-							time()
-						)
-					);
+					$affectedRows = $ilDB->insert("tst_solutions", array(
+						"solution_id" => array("integer", $next_id),
+						"active_fi" => array("integer", $active_id),
+						"question_fi" => array("integer", $this->getId()),
+						"value1" => array("clob", $newfile),
+						"value2" => array("clob", $_FILES['upload']['name']),
+						"pass" => array("integer", $pass),
+						"tstamp" => array("integer", time())
+					));
 					$entered_values = true;
 				}
 			}

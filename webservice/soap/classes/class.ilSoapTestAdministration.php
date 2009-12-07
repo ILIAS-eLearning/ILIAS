@@ -22,14 +22,14 @@
   */
 
 
-  /**
-   * Test & Assessment Soap functions
-   *
-   * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-   * @version $Id$
-   *
-   * @package ilias
-   */
+/**
+ * Test & Assessment Soap functions
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @version $Id$
+ *
+ * @package ilias
+ */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapTestAdministration extends ilSoapAdministration
@@ -43,15 +43,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare("SELECT * FROM tst_times WHERE active_fi = ? ORDER BY started DESC",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s ORDER BY started DESC",
+			array('integer'),
+			array($active_id)
 		);
 		if ($result->numRows())
 		{
@@ -103,30 +97,25 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$ilDB = $GLOBALS['ilDB'];
 		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
-			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer', 'integer', 'integer'),
+				array($active_id, $question_id, $pass)
 			);
-			$ilDB->query($deletequery);
 		}
 		$queries = array();
 		for($i = 0; $i < count($solution); $i += 3)
 		{
-			$query = sprintf("INSERT INTO tst_solutions ".
-				"SET active_fi = %s, ".
-				"question_fi = %s, ".
-				"value1 = %s, ".
-				"value2 = %s, ".
-				"points = %s, ".
-				"pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($solution[$i]),
-				$ilDB->quote($solution[$i+1]),
-				$ilDB->quote($solution[$i+2]),
-				$ilDB->quote($pass . "")
-			);
+			$next_id = $ilDB->nextId('tst_solutions');
+			$affectedRows = $ilDB->insert("tst_solutions", array(
+				"solution_id" => array("integer", $next_id),
+				"active_fi" => array("integer", $active_id),
+				"question_fi" => array("integer", $question_id),
+				"value1" => array("clob", $solution[$i]),
+				"value2" => array("clob", $solution[$i+1]),
+				"points" => array("float", $solution[$i+2]),
+				"pass" => array("integer", $pass),
+				"tstamp" => array("integer", time())
+			));
 			$ilDB->query($query);
 			array_push($queries, $query);
 		}
@@ -195,36 +184,31 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$ilDB = $GLOBALS['ilDB'];
 		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
-			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer', 'integer', 'integer'),
+				array($active_id, $question_id, $pass)
 			);
-			$ilDB->query($deletequery);
 		}
 		$queries = array();
+		$totalrows = 0;
 		for($i = 0; $i < count($solutions); $i += 3)
 		{
-			$query = sprintf("INSERT INTO tst_solutions ".
-				"SET active_fi = %s, ".
-				"question_fi = %s, ".
-				"value1 = %s, ".
-				"value2 = %s, ".
-				"points = %s, ".
-				"pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($solutions[$i]),
-				$ilDB->quote($solutions[$i+1]),
-				$ilDB->quote($solutions[$i+2]),
-				$ilDB->quote($pass . "")
-			);
-			$ilDB->query($query);
-			array_push($queries, $query);
+			$next_id = $ilDB->nextId('tst_solutions');
+			$affectedRows = $ilDB->insert("tst_solutions", array(
+				"solution_id" => array("integer", $next_id),
+				"active_fi" => array("integer", $active_id),
+				"question_fi" => array("integer", $question_id),
+				"value1" => array("clob", $solution[$i]),
+				"value2" => array("clob", $solution[$i+1]),
+				"points" => array("float", $solution[$i+2]),
+				"pass" => array("integer", $pass),
+				"tstamp" => array("integer", time())
+			));
+			$totalrows += $affectedRows;
 		}
-		if (count($queries) == 0)
+		if (count($totalrows) == 0)
 		{
-			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries: $solution", "");
+			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries");
 		}
 		else
 		{
@@ -264,15 +248,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		$use_previous_answers = 1;
 
-		$statement = $ilDB->prepare("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
 		if ($result->numRows())
 		{
@@ -282,17 +260,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$lastpass = 0;
 		if ($use_previous_answers)
 		{
-			$statement = $ilDB->prepare("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = ? AND question_fi = ?",
-				array(
-					"integer",
-					"integer"
-				)
-			);
-			$result = $ilDB->execute($statement, 
-				array(
-					$active_id,
-					$question_id
-				)
+			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
+				array('integer', 'integer'),
+				array($active_id, $question_id)
 			);
 			if ($result->numRows() == 1)
 			{
@@ -307,19 +277,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		if (($active_id > 0) && ($question_id > 0) && (strlen($lastpass) > 0))
 		{
-			$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-				array(
-					"integer",
-					"integer",
-					"integer"
-				)
-			);
-			$result = $ilDB->execute($statement, 
-				array(
-					$active_id,
-					$question_id,
-					$lastpass
-				)
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer', 'integer', 'integer'),
+				array($active_id, $question_id, $lastpass)
 			);
 			if ($result->numRows())
 			{
@@ -358,42 +318,24 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		global $lng, $ilDB;
 
-		$statement = $ilDB->prepare("SELECT user_fi, test_fi FROM tst_active WHERE active_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT user_fi, test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
 		$user_id = $row["user_fi"];
 		$test_id = $row["test_fi"];
 
-		$statement = $ilDB->prepare("SELECT anonymity FROM tst_tests WHERE test_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$test_id
-			)
+		$result = $ilDB->queryF("SELECT anonymity FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($test_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
 		$anonymity = $row["anonymity"];
 		
-		$statement = $ilDB->prepare("SELECT firstname, lastname, title, login FROM usr_data WHERE usr_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$user_id
-			)
+		$result = $ilDB->queryF("SELECT firstname, lastname, title, login FROM usr_data WHERE usr_id = %s",
+			array('integer'),
+			array($user_id)
 		);
 
 		$userdata = array();
@@ -454,15 +396,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		global $lng, $ilDB;
 
-		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
+			array('integer'),
+			array($active_id)
 		);
 		if ($result->numRows() != 1) return -1;
 		$row = $ilDB->fetchAssoc($result);
@@ -499,15 +435,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		global $lng, $ilDB;
 
-		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
+			array('integer'),
+			array($active_id)
 		);
 		if ($result->numRows() != 1) return -1;
 		$row = $ilDB->fetchAssoc($result);
@@ -515,17 +445,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		$sequence = new ilTestSequence($active_id, $pass, $is_random);
-		$statement = $ilDB->prepare("SELECT question_fi, points FROM tst_test_result WHERE active_fi = ? AND pass = ?",
-			array(
-				"integer",
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id,
-				$pass
-			)
+		$result = $ilDB->queryF("SELECT question_fi, points FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+			array('integer', 'integer'),
+			array($active_id, $pass)
 		);
 		$reachedpoints = array();
 		while ($row = $ilDB->fetchAssoc($result))
@@ -577,15 +499,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		global $lng, $ilDB;
 
-		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
+			array('integer'),
+			array($active_id)
 		);
 		if ($result->numRows() != 1) return 0;
 		$row = $ilDB->fetchAssoc($result);
