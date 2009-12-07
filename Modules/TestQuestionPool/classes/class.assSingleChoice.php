@@ -618,10 +618,12 @@ class assSingleChoice extends assQuestion
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$affectedRows = $ilDB->manipulateF("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-					array('text','integer'),
-					array($_POST["multiple_choice_result"], $update)
-				);
+				$affectedRows = $ilDB->update("tst_solutions", array(
+					"value1" => array("clob", $_POST["multiple_choice_result"]),
+					"tstamp" => array("integer", time())
+				), array(
+				"solution_id" => array("integer", $update)
+				));
 				$entered_values++;
 			}
 			else
@@ -637,17 +639,15 @@ class assSingleChoice extends assQuestion
 			if (strlen($_POST["multiple_choice_result"]))
 			{
 				$next_id = $ilDB->nextId('tst_solutions');
-				$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
-					array('integer','integer','integer','text','integer','integer'),
-					array(
-						$next_id,
-						$active_id,
-						$this->getId(),
-						$_POST["multiple_choice_result"],
-						$pass,
-						time()
-					)
-				);
+				$affectedRows = $ilDB->insert("tst_solutions", array(
+					"solution_id" => array("integer", $next_id),
+					"active_fi" => array("integer", $active_id),
+					"question_fi" => array("integer", $this->getId()),
+					"value1" => array("clob", $_POST['multiple_choice_result']),
+					"value2" => array("clob", null),
+					"pass" => array("integer", $pass),
+					"tstamp" => array("integer", time())
+				));
 				$entered_values++;
 			}
 		}

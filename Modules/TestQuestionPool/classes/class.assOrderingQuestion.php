@@ -806,20 +806,15 @@ class assOrderingQuestion extends assQuestion
 								if ($answer->getRandomID() == $randomid)
 								{
 									$next_id = $ilDB->nextId('tst_solutions');
-									$query = $ilDB->manipulateF("INSERT INTO tst_solutions ".
-										"(solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES ".
-										"(%s, %s, %s, %s, %s, %s, %s)",
-										array('integer','integer','integer','text','text','integer','integer'),
-										array(
-											$next_id,
-											$active_id,
-											$this->getId(),
-											$answeridx,
-											trim($ordervalue),
-											$pass,
-											time()
-										)
-									);
+									$affectedRows = $ilDB->insert("tst_solutions", array(
+										"solution_id" => array("integer", $next_id),
+										"active_fi" => array("integer", $active_id),
+										"question_fi" => array("integer", $this->getId()),
+										"value1" => array("clob", $answeridx),
+										"value2" => array("clob", trim($ordervalue)),
+										"pass" => array("integer", $pass),
+										"tstamp" => array("integer", time())
+									));
 									$ordervalue++;
 									$entered_values++;
 								}
@@ -843,18 +838,15 @@ class assOrderingQuestion extends assQuestion
 									if ($answer->getRandomID() == $matches[1])
 									{
 										$next_id = $ilDB->nextId('tst_solutions');
-										$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-											array('integer','integer','integer','text','text','integer','integer'),
-											array(
-												$next_id,
-												$active_id,
-												$this->getId(),
-												$answeridx,
-												$value,
-												$pass,
-												time()
-											)
-										);
+										$affectedRows = $ilDB->insert("tst_solutions", array(
+											"solution_id" => array("integer", $next_id),
+											"active_fi" => array("integer", $active_id),
+											"question_fi" => array("integer", $this->getId()),
+											"value1" => array("clob", $answeridx),
+											"value2" => array("clob", $value),
+											"pass" => array("integer", $pass),
+											"tstamp" => array("integer", time())
+										));
 										$entered_values++;
 									}
 								}
