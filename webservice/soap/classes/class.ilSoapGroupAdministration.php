@@ -248,16 +248,19 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 		}
 
 
+		include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+		$group_members = ilGroupParticipants::_getInstanceByObjId($tmp_group->getId());
+
 		switch($type)
 		{
 			case 'Admin':
-				return $tmp_group->addMember($user_id,$tmp_group->getDefaultAdminRole());
+				$group_members->add($tmp_user->getId(),IL_GRP_ADMIN);
+				break;
 
 			case 'Member':
-				return $tmp_group->addMember($user_id,$tmp_group->getDefaultMemberRole());
+				$group_members->add($tmp_user->getId(),IL_GRP_MEMBER);
 				break;
 		}
-
 		return true;
 	}
 
