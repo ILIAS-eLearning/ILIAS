@@ -104,6 +104,32 @@ class ilForum
 	{
 		$this->lng =& $lng;
 	}
+	
+	/**
+	 * 
+	 * Get the ilLanguage instance for the passed user id
+	 * 
+	 * @param	integer	$usr_id	a user id
+	 * @return	ilLanguage
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function _getLanguageInstanceByUsrId($usr_id)
+	{
+		static $lngCache = array();
+		
+		$languageShorthandle = ilObjUser::_lookupLanguage($usr_id);
+		
+		// lookup in cache array
+		if(!isset($lngCache[$languageShorthandle]))
+		{
+			$lngCache[$languageShorthandle] = new ilLanguage($languageShorthandle);
+			$lngCache[$languageShorthandle]->loadLanguageModule('forum');
+		}
+		
+		return $lngCache[$languageShorthandle];
+	}
 
 	/**
 	* set object id which refers to ILIAS obj_id
@@ -2467,6 +2493,10 @@ class ilForum
 		
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($obj_id);
+		
+		// save language of the current user
+		global $lng;
+		$userLanguage = $lng;
 
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2483,7 +2513,10 @@ class ilForum
 			}
 			
 			if($send_mail)
-			{									
+			{
+				// set forum language instance for earch user
+				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
+				
 				// SEND NOTIFICATIONS BY E-MAIL
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
@@ -2491,6 +2524,9 @@ class ilForum
 												  array(),array("system"));
 			}
 		}
+		
+		// reset language
+		$this->setLanguage($userLanguage);
 	}
 	
 	function sendForumNotifications($post_data)
@@ -2544,6 +2580,10 @@ class ilForum
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($obj_id);
 		
+		// save language of the current user
+		global $lng;
+		$userLanguage = $lng;
+		
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{			
@@ -2559,7 +2599,10 @@ class ilForum
 			}
 			
 			if($send_mail)
-			{								
+			{
+				// set forum language instance for earch user
+				$this->setLanguage(self::_getLanguageInstanceByUsrId($row['user_id']));
+				
 				// SEND NOTIFICATIONS BY E-MAIL			
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
@@ -2568,6 +2611,9 @@ class ilForum
 			
 			}
 		}
+		
+		// reset language
+		$this->setLanguage($userLanguage);
 	}
 	
 	function formatPostActivationNotificationSubject()
@@ -2625,17 +2671,27 @@ class ilForum
 			// GET AUTHOR OF NEW POST
 			$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
 			
-			$subject = $this->formatPostActivationNotificationSubject();
-			$message = $this->formatPostActivationNotification($post_data);
-
+			// save language of the current user
+			global $lng;
+			$userLanguage = $lng;
+			
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-			foreach ($moderators as $moderator)
+			foreach ($moderators as $moderator)		
 			{
+				// set forum language instance for earch user
+				$this->setLanguage(self::_getLanguageInstanceByUsrId($moderator));
+				
+				$subject = $this->formatPostActivationNotificationSubject();
+				$message = $this->formatPostActivationNotification($post_data);
+				
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
 												   $subject,
 												   strip_tags($message),
 												   array(), array("system"));
 			}
+			
+			// reset language
+			$this->setLanguage($userLanguage);
 		}
 	}
 
