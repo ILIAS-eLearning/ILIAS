@@ -411,7 +411,10 @@ else 		// this one fixes bug #5367
 		$newObj->setType($this->getILIASFileType());
 		$newObj->setTitle($name);
 		$newObj->setFileName($name);
-		$newObj->setFileType('application/octet-stream');
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		$mime = ilMimeTypeUtil::getMimeType("", $name, 'application/octet-stream');
+		//$newObj->setFileType('application/octet-stream');
+		$newObj->setFileType($mime);
 		//$newObj->setDescription('');
 		$newObj->create();
 		$newObj->createReference();

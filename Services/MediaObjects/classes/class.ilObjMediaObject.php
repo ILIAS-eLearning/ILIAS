@@ -1118,6 +1118,10 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function getMimeType ($a_file)
 	{
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		$mime = ilMimeTypeUtil::getMimeType($a_file);
+		return $mime;
+/*
 		// check if mimetype detection enabled in php.ini
 		$set = ini_get("mime_magic.magicfile");
 		// get mimetype
@@ -1133,9 +1137,6 @@ class ilObjMediaObject extends ilObject
 			$path = pathinfo($a_file);
 			$ext = ".".strtolower($path["extension"]);
 
-			/**
-			* map of mimetypes.py from python.org (there was no author mentioned in the file)
-			*/
 			$types_map = ilObjMediaObject::getExt2MimeMap();
 			$mime = $types_map[$ext];
 		}
@@ -1147,6 +1148,7 @@ class ilObjMediaObject extends ilObject
 		}
 
 		return $mime;
+*/
 	}
 
 	/**

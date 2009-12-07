@@ -362,6 +362,9 @@ class ilObjFile extends ilObject
 
 	function setFileType($a_type)
 	{
+		global $ilLog;
+		
+		
 		$this->filetype = $a_type;
 	}
 
@@ -573,11 +576,11 @@ class ilObjFile extends ilObject
 			global $ilClientIniFile;
 			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1')
 			{
-				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType(), $this->isInline());
+				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType($file), $this->isInline());
 			}
 			else
 			{
-				ilUtil::deliverFile($file, basename($file), $this->guessFileType(), $this->isInline());
+				ilUtil::deliverFile($file, basename($file), $this->guessFileType($file), $this->isInline());
 			}
 			return true;
 		}
@@ -618,7 +621,22 @@ class ilObjFile extends ilObject
 	 * If getFileType() returns 'application/octet-stream', the file extension is
 	 * used to guess a more accurate file type.
 	 */
-	function guessFileType() {
+	function guessFileType($a_file = "") {
+		
+		$path = pathinfo($a_file);
+		if ($path["extension"] != "")
+		{
+			$filename = $path["basename"];
+		}
+		else
+		{
+			$filename = "dummy.".$this->getFileExtension();
+		}
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		$mime = ilMimeTypeUtil::getMimeType($a_file, $filename, $this->getFileType());
+		return $mime;
+		
+/*
 		$fileType = $this->getFileType();
 		if (strlen($fileType) == 0) {	
 			$fileType = 'application/octet-stream';
@@ -653,6 +671,7 @@ class ilObjFile extends ilObject
 			}
 		}
 		return $fileType;
+*/
 	}
 	
 	/**

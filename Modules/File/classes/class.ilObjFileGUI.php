@@ -389,17 +389,13 @@ class ilObjFileGUI extends ilObjectGUI
 			// create and insert file in grp_tree
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$fileObj = new ilObjFile();
-			// BEGIN WebDAV: Workaround for Firefox: Enforce filetype application/pdf for filetype application/x-pdf
-			$fileObj->setFileType(
-					$_FILES["Fobject"]["type"]["file"] == 'application/x-pdf' ?
-						'application/pdf' :
-						$_FILES["Fobject"]["type"]["file"]
-				);
-			// END WebDAV: Workaround for Firefox: Enforce filetype application/pdf for filetype application/x-pdf
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($upload_file["name"]);
-			$fileObj->setFileType($upload_file["type"]);
+			//$fileObj->setFileType($upload_file["type"]);
+			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
+				"", $upload_file["name"], $upload_file["type"]));
 			$fileObj->setFileSize($upload_file["size"]);
 			$fileObj->create();
 			$fileObj->createReference();
@@ -515,7 +511,10 @@ class ilObjFileGUI extends ilObjectGUI
 				case 0:
 					$this->object->replaceFile($data['tmp_name'],$data['name']);
 					$this->object->setFileName($data['name']);
-					$this->object->setFileType($data['type']);
+					//$this->object->setFileType($data["type"]);
+					include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+					$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
+						"", $data["name"], $data["type"]));
 					$this->object->setFileSize($data['size']);
 			}
 		}
