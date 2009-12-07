@@ -437,6 +437,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 		}
 
+		$i = 0;
 		foreach ($solutions as $solution)
 		{
 			$definition = $this->object->getDefinitionWithIdentifier($solution['value2']);
@@ -463,7 +464,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->parseCurrentBlock();
 				}
 			}
-			$i = 0;
 			if (is_object($term))
 			{
 				if (strlen($term->picture))
