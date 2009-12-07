@@ -54,15 +54,8 @@ class ilCronForumNotification
 				
 				if($send_mail)
 				{
-					// SEND NOTIFICATIONS BY E-MAIL
-					$user_language = ilObjUser::_lookupLanguage($row['user_id']);
-					if(!is_object($lng[$user_language]))
-					{
-						$lng[$user_language] = new ilLanguage($user_language);
-						$lng[$user_language]->loadLanguageModule('forum');
-					}					
-					
-					$frm->setLanguage($lng[$user_language]);			
+					// SEND NOTIFICATIONS BY E-MAIL					
+					$frm->setLanguage(ilForum::_getLanguageInstanceByUsrId($row['user_id']));			
 					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row['user_id']),'','',
 													   $frm->formatNotificationSubject($row),
 													   strip_tags($frm->formatNotification($row, 1)),
