@@ -872,6 +872,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
             return '403 Forbidden';
         }
+        
+		// determine mime type
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		$mime = ilMimeTypeUtil::getMimeType("", $name, $options['content_type']);
 
 		$objDAV =& $this->getObject($path);
 		if (is_null($objDAV))
@@ -887,7 +891,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$options["new"] = true;
 			$objDAV =& $parentDAV->createFile($name);
 			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
-			$objDAV->setContentType($options['content_type']);
+			//$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentType($mime);
 			if ($options['content_length'] != null)
 			{
 				$objDAV->setContentLength($options['content_length']);
@@ -909,7 +914,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$options["new"] = false;
 			$objDAV =& $parentDAV->createFileFromNull($name, $objDAV);
 			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
-			$objDAV->setContentType($options['content_type']);
+			//$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentType($mime);
 			if ($options['content_length'] != null)
 			{
 				$objDAV->setContentLength($options['content_length']);
@@ -937,7 +943,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$objDAV->createNewVersion();
 			}
 
-			$objDAV->setContentType($options['content_type']);
+			//$objDAV->setContentType($options['content_type']);
+			$objDAV->setContentType($mime);
 			if ($options['content_length'] != null)
 			{
        			$objDAV->setContentLength($options['content_length']);

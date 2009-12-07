@@ -68,7 +68,7 @@ class ilMDFormat extends ilMDBase
 	function update()
 	{
 		global $ilDB;
-		
+
 		if($this->getMetaId())
 		{
 			if($this->db->update('il_meta_format',
