@@ -896,7 +896,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	function getSelectedItemsPerLocation(&$tpl)
 	{
 		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
-		
+
 		$output = false;
 
 		$items = $ilUser->getDesktopItems();
@@ -942,7 +942,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}
 				// render item row
 				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
-				
+		$item_list_gui->setContainerObject($this);
 				$html = $item_list_gui->getListItemHTML($item["ref_id"],
 				$item["obj_id"], $item["title"], $item["description"]);
 				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
