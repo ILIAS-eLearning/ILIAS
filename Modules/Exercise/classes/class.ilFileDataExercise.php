@@ -321,16 +321,17 @@ class ilFileDataExercise extends ilFileData
 			if (!is_dir($sourcedir))
 				continue;
 			$userName = ilObjUser::_lookupName($id);
-			$directory = ilUtil::getASCIIFilename($userName["lastname"]."_".$userName["firstname"]);
+			$directory = ilUtil::getASCIIFilename(trim($userName["lastname"])."_".trim($userName["firstname"]));
 			if (array_key_exists($directory, $cache))
 			{
 				// first try is to append the login;
-				$directory = ilUtil::getASCIIFilename($directory."_". ilObjUser::_lookupLogin($id));
+				$directory = ilUtil::getASCIIFilename($directory."_".trim(ilObjUser::_lookupLogin($id)));
 				if (array_key_exists($directory, $cache)) {
 					// second and secure: append the user id as well.
 					$directory .= "_".$id;
 				}
 			}
+
 			$cache[$directory] = $directory;
 			ilUtil::makeDir ($directory);
 			$sourcefiles = scandir($sourcedir);
@@ -350,8 +351,11 @@ class ilFileDataExercise extends ilFileData
 
 				if (!copy ($sourcefile, $targetfile))
 				{
-					echo 'Could not copy '.$sourcefile.' to '.$targetfile;
-				} else
+					//echo 'Could not copy '.$sourcefile.' to '.$targetfile;
+					$this->ilias->raiseError('Could not copy '.basename($sourcefile)." to '".$targetfile."'.",
+						$this->ilias->error_obj->MESSAGE);
+				}
+				else
 				{
 					// preserve time stamp
 					touch($targetfile, filectime($sourcefile));
