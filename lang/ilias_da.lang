@@ -5375,12 +5375,12 @@ dateplaner#:#timeslice#:#Tid:
 dateplaner#:#viewlist#:#Opdater liste###Knap tekst
 dateplaner#:#wk_short#:#Uge
 exercise#:#exc_comment#:#Kommentar
-exercise#:#exc_comment_for_learner#:#Comment for Learner
-exercise#:#exc_failed#:#Failed
+exercise#:#exc_comment_for_learner#:#Kommentar til aflevering
+exercise#:#exc_failed#:#Ikke bestået
 exercise#:#exc_feedback_from_tutor#:#Feedback from Tutor
-exercise#:#exc_grading#:#Grading
-exercise#:#exc_mark#:#Mark
-exercise#:#exc_notgraded#:#Not Graded
+exercise#:#exc_grading#:#Evaluering
+exercise#:#exc_mark#:#Karakter
+exercise#:#exc_notgraded#:#Ikke vurderet
 exercise#:#exc_passed#:#Bestået
 exercise#:#exc_send_mail#:#Send mail
 exercise#:#exc_your_submission#:#Aflevering af opgave
@@ -6294,7 +6294,7 @@ payment#:#pay_bmf_terms_conditions_read#:#Jeg har læst Regler & Betingelser og 
 payment#:#pay_bmf_terms_conditions_show#:#vis
 payment#:#pay_bmf_thanks#:#Tak for din ordre.
 payment#:#pay_bmf_total_amount#:#Total beløb
-payment#:#pay_bmf_subtotal_amount#:#Subtotal amount###16 08 2007 new variable
+payment#:#pay_bmf_subtotal_amount#:#Subtotal beløb
 payment#:#pay_bmf_validity#:#gyldig indtil
 payment#:#pay_bmf_vat_included#:#Inkl. moms
 payment#:#pay_bmf_your_order#:#Din ordre
