@@ -288,7 +288,12 @@ class ilPermissionGUI
 			// get roles where inheritance is stopped was cancelled
 			$linked_roles = $rbacreview->getLinkedRolesOfRoleFolder($rolf_id);
 			$linked_roles_to_remove = array_diff($linked_roles,$stop_inherit_roles);
-				
+			
+			// Only delete local policies for filtered roles
+			$linked_roles_to_remove = (array) array_intersect(
+				(array) $linked_roles_to_remove,
+				(array) array_keys($this->roles));
+
 			// remove roles where stopped inheritance is cancelled and purge rolefolder if empty
 			foreach ($linked_roles_to_remove as $role_id)
 			{
