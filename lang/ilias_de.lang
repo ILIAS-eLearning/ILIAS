@@ -8367,14 +8367,14 @@ payment#:#vat_title#:#Steuer-Titel
 payment#:#vat_unit#:#Steuer-Einheit
 payment#:#vats#:#Steuern
 pd#:#pd_enable_active_users#:#Aktiviere Block 'Aktive Benutzer'
-pd#:#pd_enable_block_moving#:#Aktivere Verschieben der Blöcke
+pd#:#pd_enable_block_moving#:#Aktiviere 'Verschieben der Blöcke'
 pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
-pd#:#pd_enable_bookmarks#:#Aktiviere Bookmarks
+pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#Aktiviere 'Meine Angebote'
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
-pd#:#pd_enable_notes#:#Aktiviere Notizen
+pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um ein Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fälllen erscheinen die betroffenen Objekte automatisch an diesem Ort.
@@ -10122,12 +10122,12 @@ mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. 
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugängliche Objekte verweisen.
-payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices###12 10 2009 new variable
-payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:###12 10 2009 new variable
-payment#:#pays_erp_invoice_preview#:#View test invoice in new window###12 10 2009 new variable
-payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###12 10 2009 new variable
-payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###12 10 2009 new variable
-payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###12 10 2009 new variable
+payment#:#pays_erp_invoice_copies#:#Speichere Kopien der erzeugten Rechnungen
+payment#:#pays_erp_invoice_copies_info#:#Kopien werden gespeichert in:
+payment#:#pays_erp_invoice_preview#:#Proberechnung in neuem Fenster anzeigen
+payment#:#pays_erp_invoice_delpreview#:#Proberechnung löschen
+payment#:#pays_erp_invoice_deleted#:#Proberechnung gelöscht
+payment#:#pays_erp_invoice_nowrite#:#In Verzeichnis kann nicht geschrieben/gespeichert werden.
 grp#:#grp_reg_period#:#Registrierungszeitraum
 payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
 payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
@@ -10145,7 +10145,7 @@ common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#enable_admin_force#:#Benachrichtigung aktivieren
 common#:#disable_admin_force#:#Benachrichtigung deaktivieren
-common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktiveren
+common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#moderators#:#Moderatoren
 common#:#tutors#:#Tutoren
@@ -10154,9 +10154,9 @@ dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mitt
 dateplaner#:#cal_subscription_header#:#Kalender-Adresse
 dateplaner#:#cal_subscription_url#:#Kalender URL:
 common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen
-common#:#no_owner#:#No Owner###28 10 2009 new variable
-payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
-content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren, allerdings ist es wahrscheinlich, daß die fehlerhaften Seiten nicht editiert werden können.
+common#:#no_owner#:#Kein Besitzer
+payment#:#pays_invoice#:#Rechnung
+content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
 mail#:#mail_salutation_anonymous#:#Hallo
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
 common#:#group#:#Gruppe
