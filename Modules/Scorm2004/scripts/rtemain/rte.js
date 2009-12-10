@@ -239,6 +239,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			sValue = String(sValue);
 		}
 		var r = setValue(sPath, sValue);
+	
+		if (sPath == "cmi.completion_status" && mlaunch.mActivityID != null ) {
+				statusHandler(mlaunch.mActivityID,"completion",sValue);
+		}
+			
+		if (sPath == "cmi.success_status" && mlaunch.mActivityID != null ) {
+				statusHandler(mlaunch.mActivityID,"success",sValue);
+		}
+
 		//sclogdump("ReturnInern: "+sPath + " : "+ r);
 		return error ? '' : setReturn(0, '', r); 	
 		

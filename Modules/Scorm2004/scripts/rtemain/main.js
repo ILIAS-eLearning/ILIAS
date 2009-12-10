@@ -1599,6 +1599,7 @@ function onDocumentClick (e)
 				//alert(activities[mlaunch.mActivityID]);	
 				//throw away API from previous sco and sync CMI and ADLTree
 				onItemUndeliver();
+				statusHandler(mlaunch.mActivityID,"completion","unknown");
 				onItemDeliver(activities[mlaunch.mActivityID]);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
@@ -2159,13 +2160,29 @@ function init(config)
 		}
 	}
 	
+	initStatusArray();
+
 	updateControls();
 	updateNav();
 	if (this.config.session_ping>0)
 	{
 		setTimeout("pingSession()", this.config.session_ping*1000);
 	}
-	
+
+}
+
+//used for visual tree feedback
+function initStatusArray() {
+	for (element in msequencer.mSeqTree.mActivityMap) {
+		console.warn(element);
+		statusArray[element] = new Object();
+		statusArray[element]['completion'] = null;
+		statusArray[element]['success'] = null;
+	}
+}
+
+function statusHandler(scoID, type,status) {
+	statusArray[scoID][type] = status;
 }
 
 function pingSession() 
@@ -3257,12 +3274,14 @@ function updateNav(ignore) {
 			//not attempted
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
 				toggleClass(elm,"not_attempted",1);
+				console.log("Set not attempted");
 			}
 		
 			//incomplete
-			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete") {
+			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown") {
 				removeClass(elm,"not_attempted",1);
 				toggleClass(elm,"incomplete",1);	
+				console.log("Set incomplete");
 			}
 			
 			//just in case-support not required due to spec
@@ -3272,7 +3291,7 @@ function updateNav(ignore) {
 			}
 			
 			//completed
-			if (node_stat_completion=="completed") {
+			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
 				removeClass(elm,"not_attempted",1);
 				removeClass(elm,"incomplete",1);
 				removeClass(elm,"browsed",1);
@@ -3282,10 +3301,11 @@ function updateNav(ignore) {
 			//overwrite if we have information on success (interaction sco) - ignore success=unknown
 			
 			var node_stat_success=activities[tree[i].mActivityID].success_status;
-			if (node_stat_success=="passed" || node_stat_success=="failed" ) {
+			if (node_stat_success=="passed" || node_stat_success=="failed" || statusArray[[tree[i].mActivityID]]['success'] == "failed" ||
+				statusArray[[tree[i].mActivityID]]['success'] == "passed") {
 				
 				//passed
-				if (node_stat_success=="passed") {
+				if (node_stat_success=="passed" || statusArray[[tree[i].mActivityID]]['success'] == "passed") {
 					removeClass(elm,"failed",1);
 					toggleClass(elm,"passed",1);
 				//failed
@@ -3403,7 +3423,9 @@ var scoStartTime = null;
 
 var treeView=true;
 
+//course wide variables
 var pubAPI=null;
+var statusArray = new Object(); //just used for visual feedback
 
 var saveOnCommit = true;
 // Public interface
