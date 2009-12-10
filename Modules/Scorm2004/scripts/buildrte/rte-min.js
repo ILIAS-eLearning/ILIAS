@@ -1,4 +1,4 @@
-// Build: 20091210134735 
+// Build: 20091210160622 
 
 function ADLAuxiliaryResource()
 {}
@@ -2381,7 +2381,7 @@ result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};var i=
 {act.dirty=0;}}
 if(typeof this.config.time==="number"&&this.config.time>10)
 {clearTimeout(save.timeout);save.timeout=window.setTimeout(save,this.config.time*1000);}
-setTimeout("updateNav(true)",1000);return i;}
+return i;}
 function getAPI(cp_node_id)
 {function getAPISet(k,dat,api)
 {if(dat!=undefined&&dat!==null)
@@ -2439,7 +2439,7 @@ function onWindowUnload()
 function onItemDeliver(item)
 {var url=item.href,v;if(item.sco)
 {var data=getAPI(item.foreignId);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var choice=validRequests['mChoice'];for(var k in choice){}
-data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=globalAct.learner_id;data.cmi.cp_node_id=item.foreignId;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;if(item.objectives)
+data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=globalAct.learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;if(item.objectives)
 {for(k in item.objectives){v=item.objectives[k];if(v.primary==true){if(v.satisfiedByMeasure&&v.minNormalizedMeasure!==undefined)
 {v=v.minNormalizedMeasure;}
 else if(v.satisfiedByMeasure)
@@ -2519,7 +2519,7 @@ if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
 var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
-if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}
+if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}
 if(node_stat_completion=="browsed"){removeClass(elm,"not_attempted",1);toggleClass(elm,"browsed",1);}
 if(node_stat_completion=="completed"|| statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"incomplete",1);removeClass(elm,"browsed",1);toggleClass(elm,"completed",1);}
 var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){removeClass(elm,"failed",1);toggleClass(elm,"passed",1);}else{removeClass(elm,"passed",1);toggleClass(elm,"failed",1);}}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm,"asset",1);}}}}
@@ -2577,9 +2577,7 @@ function SetValueIntern(sPath,sValue){if(typeof sValue==="number")
 {sValue=sValue.toFixed(3);}
 else
 {sValue=String(sValue);}
-var r=setValue(sPath,sValue);if(sPath=="cmi.completion_status"&&mlaunch.mActivityID!=null){statusHandler(mlaunch.mActivityID,"completion",sValue);}
-if(sPath=="cmi.success_status"&&mlaunch.mActivityID!=null){statusHandler(mlaunch.mActivityID,"success",sValue);}
-return error?'':setReturn(0,'',r);}
+var r=setValue(sPath,sValue);return error?'':setReturn(0,'',r);}
 function SetValue(sPath,sValue)
 {setReturn(-1,'SetValue('+sPath+', '+sValue+')');sclogdump("Set: "+sPath+" : "+sValue,"cmi");switch(state)
 {case NOT_INITIALIZED:sclogdump("Error 132: not initialized","error");return setReturn(132,'','false');case RUNNING:if(typeof(sPath)!=='string')
@@ -2591,7 +2589,9 @@ if(typeof sValue==="number")
 else
 {sValue=String(sValue);}
 try
-{var r=setValue(sPath,sValue);if(!error){sclogdump("SetValue-return: "+true,"cmi");}else{sclogdump("SetValue-return: "+false,"error");}
+{var r=setValue(sPath,sValue);if(!error){if(sPath=="cmi.completion_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"completion",sValue);}
+if(sPath=="cmi.success_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"success",sValue);}
+sclogdump("SetValue-return: "+true,"cmi");}else{sclogdump("SetValue-return: "+false,"error");}
 return error?'false':'true';}catch(e)
 {sclogdump("351: Exception "+e,"error");return setReturn(351,'Exception '+e,'false');}
 break;case TERMINATED:sclogdump("Error 133: Terminated","error");return setReturn(133,'','false');}}
@@ -2756,4 +2756,5 @@ return def['default'];}};this.adl={maxOccur:1,type:Object,permission:READWRITE,c
 if(normal||suspended)
 {data.cmi.session_time=session_time.toString();total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);data.cmi.total_time=total_time.toString();data.cmi.entry="";if(data.cmi.exit==="suspend"){data.cmi.entry="resume";data.cmi.session_time="";}}
 if(not_attempted)
-{data.cmi.success_status='incomplete';}};
+{data.cmi.success_status='incomplete';}
+if(all("treeView")!=null){updateNav(true);}};
