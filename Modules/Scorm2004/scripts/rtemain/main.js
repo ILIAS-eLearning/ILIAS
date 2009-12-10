@@ -2125,6 +2125,8 @@ function init(config)
 		
 	}	
 	
+	initStatusArray();
+	
 	if (wasSuspended==true) {
 	 	mlaunch = msequencer.navigate(NAV_RESUMEALL);
 	} else {
@@ -2160,8 +2162,6 @@ function init(config)
 		}
 	}
 	
-	initStatusArray();
-
 	updateControls();
 	updateNav();
 	if (this.config.session_ping>0)
@@ -2174,7 +2174,6 @@ function init(config)
 //used for visual tree feedback
 function initStatusArray() {
 	for (element in msequencer.mSeqTree.mActivityMap) {
-		console.warn(element);
 		statusArray[element] = new Object();
 		statusArray[element]['completion'] = null;
 		statusArray[element]['success'] = null;
@@ -3274,14 +3273,12 @@ function updateNav(ignore) {
 			//not attempted
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
 				toggleClass(elm,"not_attempted",1);
-				console.log("Set not attempted");
 			}
 		
 			//incomplete
 			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown") {
 				removeClass(elm,"not_attempted",1);
 				toggleClass(elm,"incomplete",1);	
-				console.log("Set incomplete");
 			}
 			
 			//just in case-support not required due to spec
