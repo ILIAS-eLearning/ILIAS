@@ -1,4 +1,4 @@
-// Build: 20091210134735 
+// Build: 20091210160622 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11368,7 +11368,7 @@ function save()
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
-	setTimeout("updateNav(true)",1000);
+//	setTimeout("updateNav(true)",1000);
 	return i;
 }
 
@@ -11643,6 +11643,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.learner_name = globalAct.learner_name;
 		data.cmi.learner_id = globalAct.learner_id;
 		data.cmi.cp_node_id = item.foreignId;
+		data.scoid = item.id;
 		data.cmi.session_time = undefined;
 		data.cmi.completion_threshold = item.completionThreshold;
 		data.cmi.launch_data = item.dataFromLMS;
@@ -12154,7 +12155,8 @@ function updateNav(ignore) {
 			}
 		
 			//incomplete
-			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown") {
+			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown" ||
+				statusArray[[tree[i].mActivityID]]['completion'] == "incomplete") {
 				removeClass(elm,"not_attempted",1);
 				toggleClass(elm,"incomplete",1);	
 			}
@@ -12547,15 +12549,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			sValue = String(sValue);
 		}
 		var r = setValue(sPath, sValue);
-	
-		if (sPath == "cmi.completion_status" && mlaunch.mActivityID != null ) {
-				statusHandler(mlaunch.mActivityID,"completion",sValue);
-		}
-			
-		if (sPath == "cmi.success_status" && mlaunch.mActivityID != null ) {
-				statusHandler(mlaunch.mActivityID,"success",sValue);
-		}
-
 		//sclogdump("ReturnInern: "+sPath + " : "+ r);
 		return error ? '' : setReturn(0, '', r); 	
 		
@@ -12604,6 +12597,13 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					var r = setValue(sPath, sValue);
 					if (!error) {
+							if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
+								statusHandler(cmiItem.scoid,"completion",sValue);
+							}
+
+							if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
+								statusHandler(cmiItem.scoid,"success",sValue);
+							}
 						sclogdump("SetValue-return: "+ true,"cmi");
 					} else {
 						sclogdump("SetValue-return: "+ false,"error");
@@ -13553,6 +13553,8 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
-	
+	if (all("treeView")!=null) {
+		updateNav(true);
+	}
 };
 

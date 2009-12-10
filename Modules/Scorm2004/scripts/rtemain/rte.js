@@ -239,15 +239,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			sValue = String(sValue);
 		}
 		var r = setValue(sPath, sValue);
-	
-		if (sPath == "cmi.completion_status" && mlaunch.mActivityID != null ) {
-				statusHandler(mlaunch.mActivityID,"completion",sValue);
-		}
-			
-		if (sPath == "cmi.success_status" && mlaunch.mActivityID != null ) {
-				statusHandler(mlaunch.mActivityID,"success",sValue);
-		}
-
 		//sclogdump("ReturnInern: "+sPath + " : "+ r);
 		return error ? '' : setReturn(0, '', r); 	
 		
@@ -296,6 +287,13 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					var r = setValue(sPath, sValue);
 					if (!error) {
+							if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
+								statusHandler(cmiItem.scoid,"completion",sValue);
+							}
+
+							if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
+								statusHandler(cmiItem.scoid,"success",sValue);
+							}
 						sclogdump("SetValue-return: "+ true,"cmi");
 					} else {
 						sclogdump("SetValue-return: "+ false,"error");
@@ -1245,6 +1243,8 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
-	
+	if (all("treeView")!=null) {
+		updateNav(true);
+	}
 };
 
