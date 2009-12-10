@@ -233,7 +233,7 @@ common#:#add_condition#:#Opret betingelse
 common#:#add_member#:#Tilføj medlem
 common#:#add_members#:#Tilføj medlemmer
 common#:#add_new_user_defined_field#:#Lav brugerdefineret felt
-common#:#add_new_user_defined_select_field#:#Add New Select Box
+common#:#add_new_user_defined_select_field#:#Lav ny fullemenu felt.
 common#:#add_new_user_defined_text_field#:#Tilføj tekstfelt
 common#:#add_note#:#Tilføj note
 common#:#add_translation#:#Tilføj oversættelse
@@ -949,7 +949,7 @@ common#:#faq_exercise#:#FAQ øvelse
 common#:#fax#:#Fax
 common#:#feedback#:#Tilbagemelding
 common#:#feedback_recipient#:#Tilbagemelding fra modtager
-common#:#field_name#:#Field Name
+common#:#field_name#:#Feltnavn
 common#:#field_type#:#Felttype
 common#:#file#:#Fil
 common#:#file_a#:#en Fil
@@ -2613,7 +2613,7 @@ common#:#udf_added_field#:#Nyt felt tilføjet.
 common#:#udf_delete_header#:#Slet felt
 common#:#udf_delete_sure#:#Er du sikker på du vil SLETTE dette felt og alle indtastede brugerdata?
 common#:#udf_duplicate_entries#:#Værdierne skal være unikke
-common#:#udf_field_deleted#:#Deleted field.
+common#:#udf_field_deleted#:#Det brugerdefinerede felt blev slettet.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
 common#:#udf_no_entries#:#Indtast mindst en værdi.
 common#:#udf_no_name_given#:#Please enter a field name.
@@ -9777,10 +9777,10 @@ license#:#remaining_licenses#:#Available licenses###24 07 2009 new variable
 license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###24 07 2009 new variable
 license#:#used_licenses#:#Consumed licenses###24 07 2009 new variable
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###24 07 2009 new variable
-user#:#user_access_limited#:#Limited###24 07 2009 new variable
-user#:#user_access_unlimited#:#Unlimited###24 07 2009 new variable
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###24 07 2009 new variable
-common#:#birthday#:#Birthday###24 07 2009 new variable
+user#:#user_access_limited#:#Periodisk
+user#:#user_access_unlimited#:#Altid
+license#:#zero_licenses_explanation#:#Vælg 0 for at deaktivere licenser.
+common#:#birthday#:#Fødselsdag
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###24 07 2009 new variable
 content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.###24 07 2009 new variable
 assessment#:#tst_remove_mark#:#Remove this mark###24 07 2009 new variable
