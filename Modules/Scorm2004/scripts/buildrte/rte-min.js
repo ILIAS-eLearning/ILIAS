@@ -1,4 +1,4 @@
-// Build: 20091210131138 
+// Build: 20091210134735 
 
 function ADLAuxiliaryResource()
 {}
@@ -2293,13 +2293,13 @@ var cur=suspendData.mCurActivity;msequencer.mSeqTree.mCurActivity=null;var first
 for(var element in suspendData.States){var source=suspendData.States[element];for(var subelement in source){msequencer.mSeqTree.mActivityMap[element][subelement]=source[subelement];}}
 var tempCur=new Object();for(var element in suspendData.mCurTracking){tempCur[element]=new ADLTracking;for(var subelement in suspendData.mCurTracking[element]){if(subelement!="mObjectives"){tempCur[element][subelement]=suspendData.mCurTracking[element][subelement];}else{for(var obj in suspendData.mCurTracking[element]["mObjectives"]){tempCur[element]["mObjectives"][obj]=new SeqObjectiveTracking();for(var prop in suspendData.mCurTracking[element]["mObjectives"][obj]){tempCur[element]["mObjectives"][obj][prop]=suspendData.mCurTracking[element]["mObjectives"][obj][prop];}}}}}
 for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTracking"]=tempCur[element];}}
-if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
+initStatusArray();if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
 if(count==1||this.config.hide_navig==1){toggleView();}
 if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
-initStatusArray();updateControls();updateNav();if(this.config.session_ping>0)
+updateControls();updateNav();if(this.config.session_ping>0)
 {setTimeout("pingSession()",this.config.session_ping*1000);}}
-function initStatusArray(){for(element in msequencer.mSeqTree.mActivityMap){console.warn(element);statusArray[element]=new Object();statusArray[element]['completion']=null;statusArray[element]['success']=null;}}
+function initStatusArray(){for(element in msequencer.mSeqTree.mActivityMap){statusArray[element]=new Object();statusArray[element]['completion']=null;statusArray[element]['success']=null;}}
 function statusHandler(scoID,type,status){statusArray[scoID][type]=status;}
 function pingSession()
 {var r=sendJSONRequest(this.config.ping_url);setTimeout("pingSession()",this.config.session_ping*1000);}
@@ -2518,8 +2518,8 @@ var tree=msequencer.mSeqTree.mActivityMap;var disable;for(i in tree){var disable
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);console.log("Set not attempted");}
-if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);console.log("Set incomplete");}
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
+if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}
 if(node_stat_completion=="browsed"){removeClass(elm,"not_attempted",1);toggleClass(elm,"browsed",1);}
 if(node_stat_completion=="completed"|| statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"incomplete",1);removeClass(elm,"browsed",1);toggleClass(elm,"completed",1);}
 var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){removeClass(elm,"failed",1);toggleClass(elm,"passed",1);}else{removeClass(elm,"passed",1);toggleClass(elm,"failed",1);}}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm,"asset",1);}}}}
