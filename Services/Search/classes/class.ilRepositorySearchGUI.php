@@ -630,6 +630,12 @@ class ilRepositorySearchGUI
 	 */
 	protected function listUsers()
 	{
+		// get parameter is used e.g. in exercises to provide
+		// "add members of course" link
+		if ($_GET["list_obj"] != "" && !is_array($_POST['obj']))
+		{
+			$_POST['obj'][0] = $_GET["list_obj"];
+		}
 		if(!is_array($_POST['obj']) or !$_POST['obj'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
