@@ -23,7 +23,7 @@ class ilPCTabsTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "", "1");
 		$this->addColumn($lng->txt("cont_position"), "", "1");
-		$this->addColumn($lng->txt("cont_caption"), "", "100%");
+		$this->addColumn($lng->txt("title"), "", "100%");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.tabs_row.html",
