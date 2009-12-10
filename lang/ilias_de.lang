@@ -4808,7 +4808,7 @@ content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
 content#:#cont_add_polygon#:#Polygon# hinzufügen
 content#:#cont_add_rectangle#:#Viereck hinzufügen
-content#:#cont_add_tab#:#Tab hinzufügen
+content#:#cont_add_tab#:#Register hinzufügen
 content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_Additional#:#Zusatz
@@ -4968,7 +4968,7 @@ content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter Einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
 content#:#cont_ed_insert_section#:#Block einfügen
-content#:#cont_ed_insert_tabs#:#Tabulatoren einfügen
+content#:#cont_ed_insert_tabs#:#Register einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
@@ -5090,7 +5090,7 @@ content#:#cont_insert_src#:#Programmcode einfügen
 content#:#cont_insert_subchapter#:#Unterkapitel einfügen
 content#:#cont_insert_subchapter_from_clip#:#Unterkapitel aus Zwischenablage einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
-content#:#cont_insert_tabs#:#Tabulatoren einfügen
+content#:#cont_insert_tabs#:#Register einfügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
@@ -5183,7 +5183,7 @@ content#:#cont_new_file#:#Neue Datei
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
-content#:#cont_new_tab#:#Neuer Tab
+content#:#cont_new_tab#:#Neuer Register
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_no_access#:#Kein Zugriff
@@ -5208,7 +5208,7 @@ content#:#cont_nr_row_footer#:#Fußzeile Reihen
 content#:#cont_nr_row_header#:#Kopfzeile Zeilen
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_Number#:#Nummer
-content#:#cont_number_of_tabs#:#Anzahl der Tabulatoren
+content#:#cont_number_of_tabs#:#Anzahl der Register
 content#:#cont_number_std#:#Standard
 content#:#cont_number_type#:#Nummerntyp
 content#:#cont_numbered_list#:#Nummerierte Liste
@@ -5412,13 +5412,13 @@ content#:#cont_table_spreadsheet_import#:#Tabellenimport
 content#:#cont_table_spreadsheet_import_info#:#Fügen Sie eine Tabelle aus dem Tabellenkalkulationsprogramm über die Zwischenablage ein.
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_TableContent#:#Tabelleninhalt
-content#:#cont_tabs#:#Tabs
+content#:#cont_tabs#:#Register
 content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
 content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_accordion#:#Akkordeon
 content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass alle Tabs und ihre Inhalte gelöscht werden sollen.
 content#:#cont_tabs_hor_align_info#:#Horizontale Akkordeons sind immer linksbündig angeordnet.
-content#:#cont_tabs_hor_tabs#:#Horizontale Tabulatoren
+content#:#cont_tabs_hor_tabs#:#Horizontale Akkordeons
 content#:#cont_target_missing#:#Zielpunkt fehlt
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
@@ -5460,7 +5460,7 @@ content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_update_resources#:#Materialliste aktualisieren
 content#:#cont_update_section#:#Block aktualisieren
-content#:#cont_update_tabs#:#Tabulatoren aktualisieren
+content#:#cont_update_tabs#:#Register aktualisieren
 content#:#cont_upload_dir#:#Upload-Verzeichnis
 content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
 content#:#cont_upload_file#:#Datei hochladen
@@ -8996,7 +8996,7 @@ style#:#sty_table_template_bw_zebra#:#Grauer Zebrastreifen
 style#:#sty_table_template_colored_zebra#:#Farbige Zebrastreifen
 style#:#sty_table_template_no_zebra#:#Keine Zebrastreifen
 style#:#sty_table_templates#:#Tabellen-Templates
-style#:#sty_tabs_char#:#Tabs & Akkordeons
+style#:#sty_tabs_char#:#Register & Akkordeons
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normal
 style#:#sty_template_layout#:#Template-Layout
