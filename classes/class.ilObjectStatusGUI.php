@@ -253,7 +253,7 @@ class ilObjectStatusGUI
 		// check permissions of user
 		foreach ($ops_list as $ops)
 		{
-			$access = $ilAccess->doRBACCheck($ops['operation'],"info",$this->object->getRefId(),$this->user->getId());
+			$access = $ilAccess->doRBACCheck($ops['operation'],"info",$this->object->getRefId(),$this->user->getId(),$this->object->getType());
 
 			$result_set[$counter][] = $access ? $icon_ok : $icon_not_ok;
 			$result_set[$counter][] = $lng->txt($this->object->getType()."_".$ops['operation']);
