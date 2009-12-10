@@ -10028,7 +10028,7 @@ style#:#style_current_style#:#Nuværende stilark
 style#:#style_edit_style#:#Ret stilark
 style#:#style_delete_style#:#Slet stilark
 crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
+grp#:#grp_mail_permanent_link#:#Tryk på nedenstående link for at få mere information om gruppen: 
 grp#:#grp_mail_admission_new_sub#:#Din anmodning til gruppen "%s"
 grp#:#grp_mail_admission_new_bod#:#Vi bekræfter hermed at din anmodning om medlemsskab af gruppen "%s".
 grp#:#grp_mail_dismiss_sub#:#Medlemsskab i gruppe "%s" ophørt
