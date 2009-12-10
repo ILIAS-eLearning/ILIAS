@@ -52,9 +52,10 @@ var ilBlockSuccessHandler = function(o)
 		block_div.appendChild(newdiv);
 		
 		// for safari: eval all javascript nodes
-		if (YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1")
+		if ((YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1") ||
+			(YAHOO.env.ua.ie != "0" && YAHOO.env.ua.ie != "1"))
 		{
-			//alert("webkit!");
+			//alert("webkit or ie!");
 			var els = YAHOO.util.Dom.getElementsBy(function(el){return true;}, "script", newdiv);
 			for(var i= 0; i<=els.length; i++)
 			{
