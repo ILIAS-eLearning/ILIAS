@@ -354,7 +354,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				{
 					$tmp_user = $this->getUserInstance(ANONYMOUS_USER_ID);	
 					
-					$mail['img_sender'] = $tmp_user->getPersonalPicturePath('xxsmall');
+					$mail['img_sender'] = ilUtil::getImagePath('HeaderIcon_50.png');
 					$mail['mail_login'] = $mail['alt_sender'] = ilMail::_getAnonymousName();
 				}
 			}
