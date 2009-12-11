@@ -393,7 +393,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
-				'',
+				$lng->txt('ical_export'),
 				'',
 				ilUtil::getImagePath('ical.gif','Services/Calendar'),
 				true
