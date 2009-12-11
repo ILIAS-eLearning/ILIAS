@@ -523,7 +523,9 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IMG_DOWN", $this->getHeaderIcon());
 					break;
 			}
-			$tpl->setVariable("ALT_SEL_TOP", $this->getListTitle());
+			// do not repeat title (accessibility) -> empty alt
+			//$tpl->setVariable("ALT_SEL_TOP", $this->getListTitle());
+			$tpl->setVariable("ALT_SEL_TOP", "");
 			$tpl->parseCurrentBlock();
 		}
 		
