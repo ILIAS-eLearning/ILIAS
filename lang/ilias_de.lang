@@ -2626,7 +2626,7 @@ common#:#forums_moderators#:#Moderatoren
 common#:#forums_new_articles#:#Neue Beiträge
 common#:#forums_overview#:#Übersicht Foren
 common#:#forums_threads#:#Themen
-common#:#forums_use_alias#:#Sie können hier ein Alias eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als anonym markiert.
+common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
@@ -6709,7 +6709,7 @@ forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
 forum#:#frm_anonymous_posting#:#Anonymes Schreiben
-forum#:#frm_anonymous_posting_desc#:#Wenn diese Option eingeschaltet ist, ist anonymes Schreiben in diesem Forum erlaubt.
+forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer ohne Nennung ihres Benutzernamens oder mit einem Pseudonym Beiträge in diesem Forum schreiben. Wichtig: diese Option hat keinen Einfluss auf die Rechte des "Anonymous"-Benutzers.
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_moderator_f#:#Moderatorin
