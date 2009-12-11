@@ -2829,7 +2829,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
 					}
 			
-					if($this->objProperties->isAnonymized())
+					if($this->objProperties->isAnonymized() || $node->getUserId() == ANONYMOUS_USER_ID)
 					{
 						if ($usr_data['login'] != '') $tpl->setVariable('AUTHOR', $usr_data['login']);
 						else $tpl->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
