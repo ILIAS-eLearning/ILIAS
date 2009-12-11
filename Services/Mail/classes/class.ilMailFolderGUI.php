@@ -811,7 +811,7 @@ class ilMailFolderGUI
 			$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);		
 			$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
 			$this->tpl->setCurrentBlock('pers_image');
-			$this->tpl->setVariable('IMG_SENDER', $tmp_user->getPersonalPicturePath('xsmall'));
+			$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIcon.png'));
 			$this->tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
 			$this->tpl->parseCurrentBlock();
 		}
