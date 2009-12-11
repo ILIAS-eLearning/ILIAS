@@ -1744,7 +1744,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		// alias
-		if($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
+		if($this->objProperties->isAnonymized() && 
+		   in_array($_GET['action'], array('showreply', 'ready_showreply')))
 		{
 			$oAnonymousNameGUI = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
 			$oAnonymousNameGUI->setMaxLength(64);
