@@ -5613,7 +5613,7 @@ forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_anonymous_posting#:#Anonymous Posting
-forum#:#frm_anonymous_posting_desc#:#If enabled, anonymous posting is allowed within this forum.
+forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum anonymously or by using a pseudonym. Notice: This setting is not allowing the anonymous user to post to this forum.
 forum#:#frm_default_view#:#Default View
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
 forum#:#frm_statistics_enabled#:#Enable Statistics
@@ -7769,7 +7769,7 @@ registration#:#auth_radius_sync_info#:#If enabled new user accounts will be crea
 common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
 common#:#forums_your_name#:#Your Name
-common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous.
+common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by 'anonym'.
 common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
 common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
 common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
