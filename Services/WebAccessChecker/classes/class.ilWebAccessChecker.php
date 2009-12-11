@@ -25,6 +25,8 @@ require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./classes/class.ilObject.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
+//var_dump($_SESSION);
+
 /**
 * Class ilWebAccessChecker
 *

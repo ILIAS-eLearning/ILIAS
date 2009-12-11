@@ -55,25 +55,22 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 
-		switch ($a_cmd)
-		{
-			case "view":
-
-				if ((!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
-					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id)) ||
-					ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "")
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}
-				break;
-		}
-
 		switch ($a_permission)
 		{
 			case "visible":
 				if (!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id) &&
 					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
+				}
+				break;
+
+			case "read":
+
+				if ((!ilObjFileBasedLMAccess::_lookupOnline($a_obj_id)
+					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id)) ||
+					ilObjFileBasedLMAccess::_determineStartUrl($a_obj_id) == "")
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
