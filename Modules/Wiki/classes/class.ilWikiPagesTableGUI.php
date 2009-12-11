@@ -138,6 +138,15 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		$this->setData($pages);
 	}
 	
+	function numericOrdering($a_field)
+	{
+		if ($a_field == "cnt")
+		{
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	* Standard Version of Fill Row. Most likely to
 	* be overwritten by derived class.
