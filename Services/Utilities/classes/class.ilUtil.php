@@ -814,31 +814,15 @@ class ilUtil
 		//$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 		//	"mailto:\\1", $ret);
 
+		// mask existing image tags
+		$ret = str_replace('src="http://', '"***masked_im_start***', $ret);
+		
 		include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
 		$parser = new ilMWParserAdapter();
 		$ret = $parser->replaceFreeExternalLinks($ret);
 
-		//
-		// Old Behaviour is unsafe, Thanks to L4teral
-		//
-		/*
-			// URL mit ://-Angabe
-			$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
-			"<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
-
-			// www-URL ohne ://-Angabe
-			$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
-			"\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-
-			// ftp-URL ohne ://-Angabe
-			$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
-			"\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-
-			// E-Mail
-			$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
-			"<a  href=\"mailto:\\1\">\\1</a>", $ret);
-		}
-		*/
+		// unmask existing image tags
+		$ret = str_replace('"***masked_im_start***', 'src="http://', $ret);
 
 		// Should be Safe
 
