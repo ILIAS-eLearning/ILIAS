@@ -967,6 +967,8 @@ class ilMailFolderGUI
 			$tplprint->setVariable('FROM', ilMail::_getAnonymousName());
 		}
 		
+		$tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
+		
 		// TO
 		$tplprint->setVariable("TXT_TO", $this->lng->txt("mail_to"));
 		$tplprint->setVariable("TO", $mailData["rcp_to"]);
