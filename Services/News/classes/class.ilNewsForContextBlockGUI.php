@@ -649,6 +649,7 @@ if (empty(self::$st_data))
 				$tpl->setCurrentBlock("content");
 				$tpl->setVariable("VAL_CONTENT",
 					nl2br(ilUtil::makeClickable($item["content"])));
+//$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
 				$tpl->parseCurrentBlock();
 			}
 			if (trim($item["content_long"]) != "")	// long content
