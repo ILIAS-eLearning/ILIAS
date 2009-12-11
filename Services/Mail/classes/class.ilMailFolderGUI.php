@@ -711,6 +711,8 @@ class ilMailFolderGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_read.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER",$this->lng->txt("mail_mails_of"));
 		
+		if ($_SESSION["viewmode"] == "tree") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
+		
 		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 		
 		// buttons...
@@ -814,6 +816,8 @@ class ilMailFolderGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		$this->tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
+		
 		// TO
 		$this->tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));		
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -843,34 +847,39 @@ class ilMailFolderGUI
 		$this->tpl->setVariable('CSSROW_DATE', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// ATTACHMENTS
-		if($mailData["attachments"])
+		if($mailData['attachments'])
 		{
-			$this->tpl->setCurrentBlock("attachment");
-			$this->tpl->setCurrentBlock("a_row");
+			$this->tpl->setCurrentBlock('attachment');
+			$this->tpl->setCurrentBlock('a_row');
 			$counter = 1;
-			foreach($mailData["attachments"] as $file)
+			foreach($mailData['attachments'] as $file)
 			{
-				$this->tpl->setVariable("A_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("FILE",md5($file));
-				$this->tpl->setVariable("FILE_NAME",$file);
+				$this->tpl->setVariable('A_CSSROW', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
+				$this->tpl->setVariable('FILE', md5($file));
+				$this->tpl->setVariable('FILE_NAME', $file);
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("TXT_ATTACHMENT",$this->lng->txt("attachments"));
-			$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
+			$this->tpl->setVariable('TXT_ATTACHMENT', $this->lng->txt('attachments'));
+			$this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		// MESSAGE
-		$this->tpl->setVariable("TXT_MESSAGE", $this->lng->txt("message"));
+		$this->tpl->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
 		
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("MAIL_MESSAGE", ilUtil::htmlencodePlainString($mailData["m_message"], true));
-		
+		$this->tpl->setVariable('MAIL_MESSAGE', ilUtil::htmlencodePlainString($mailData['m_message'], true));
+
 		$isTrashFolder = false;
-		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])
+		if ($this->mbox->getTrashFolder() == $_GET['mobj_id'])
 		{
 			$isTrashFolder = true;
 		}
+		
+		// Bottom toolbar		
+		$oBottomToolbar = new ilToolbarGUI();
+		
+		$selectOptions = array();		
 		$actions = $this->mbox->getActions($_GET["mobj_id"]);				
 		foreach($actions as $key => $action)
 		{
@@ -882,64 +891,55 @@ class ilMailFolderGUI
 					if ($folder["type"] != 'trash' ||
 						!$isTrashFolder)
 					{
-						$this->tpl->setCurrentBlock("movemail");
-						$this->tpl->setVariable("MOVEMAIL_VALUE", $folder["obj_id"]);
-						if($folder["type"] != 'user_folder')
-						{
-							$this->tpl->setVariable("MOVEMAIL_NAME",$action." ".$this->lng->txt("mail_".$folder["title"]).($folder["type"] == 'trash' ? " (".$this->lng->txt("delete").")" : ""));
+						$optionText = '';
+						if($folder['type'] != 'user_folder')
+						{							
+							$optionText = $action.' '.$this->lng->txt('mail_'.$folder['title']).($folder['type'] == 'trash' ? ' ('.$this->lng->txt('delete').')' : '');
 						}
 						else
 						{
-							$this->tpl->setVariable("MOVEMAIL_NAME",$action." ".$folder["title"]);
+							$optionText = $action.' '.$folder['title'];
 						}
-						$this->tpl->parseCurrentBlock();
+						
+						$selectOptions[$folder['obj_id']] = $optionText;
 					}
 				}
 			}
-		}	
-		if ($_SESSION["viewmode"] == "tree") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
-		$this->tpl->setVariable("TXT_MOVEMAIL_SEND", $this->lng->txt('submit'));
+		}		
+		if(is_array($selectOptions) && count($selectOptions))
+		{
+			include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+			$oActionSelectBox = new ilSelectInputGUI();
+			$oActionSelectBox->setOptions($selectOptions);
+			$oBottomToolbar->addInputItem($oActionSelectBox);
+			$oBottomToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
+		}
 		
-		// PREV- & NEXT-BUTTON
-		
-		$prevMail = $this->umail->getPreviousMail($_GET["mail_id"]);
-		$nextMail = $this->umail->getNextMail($_GET["mail_id"]);
-		
-		if (is_array($prevMail) || is_array($nextMail))
-		{			
-			$show = false;
+		// Navigation
+		$prevMail = $this->umail->getPreviousMail($_GET['mail_id']);
+		$nextMail = $this->umail->getNextMail($_GET['mail_id']);		
+		if(is_array($prevMail) || is_array($nextMail))
+		{
+			$oBottomToolbar->addSeparator();
 			
-			$tplbtn = new ilTemplate("tpl.buttons.html", true, true);			
-					
-			if ($prevMail["mail_id"])
+			if($prevMail['mail_id'])
 			{
-				$show = true;
-				
-				$tplbtn->setCurrentBlock("btn_cell");
-				$this->ctrl->setParameter($this, "mail_id", $prevMail["mail_id"]);
-				$this->ctrl->setParameter($this, "cmd", "showMail");
-				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
+				$this->ctrl->setParameter($this, 'cmd', 'showMail');				
+				$oBottomToolbar->addButton($this->lng->txt('previous'), $this->ctrl->getLinkTarget($this));
 				$this->ctrl->clearParameters($this);
-				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("previous"));
-				$tplbtn->parseCurrentBlock();
 			}				
 			
-			if ($nextMail["mail_id"])
+			if($nextMail['mail_id'])
 			{
-				$show = true;
-				
-				$tplbtn->setCurrentBlock("btn_cell");
-				$this->ctrl->setParameter($this, "mail_id", $nextMail["mail_id"]);
-				$this->ctrl->setParameter($this, "cmd", "showMail");
-				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);
+				$this->ctrl->setParameter($this, 'cmd', 'showMail');
+				$oBottomToolbar->addButton($this->lng->txt('next'), $this->ctrl->getLinkTarget($this));
 				$this->ctrl->clearParameters($this);
-				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("next"));
-				$tplbtn->parseCurrentBlock();
 			}
-			
-			if ($show == true)$this->tpl->setVariable("NAV_BUTTONS", $tplbtn->get());
-		}			
-
+		}
+		
+		$this->tpl->setVariable('MAIL_NAVIGATION', $oBottomToolbar->getHTML());
 		$this->tpl->show();
 	}	
 
