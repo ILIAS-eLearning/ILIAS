@@ -10150,4 +10150,5 @@ dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointme
 dateplaner#:#cal_cache#:#Kalender-Cache
 dateplaner#:#cal_cache_disabled#:#Disabled
 dateplaner#:#cal_cache_enabled#:#Enabled
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.   
+dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  
+payment#:#no_vendor_selected#:#No vendor selected. 

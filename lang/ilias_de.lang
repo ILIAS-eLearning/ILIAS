@@ -10169,3 +10169,4 @@ dateplaner#:#cal_cache#:#Kalender-Cache
 dateplaner#:#cal_cache_disabled#:#Ausgeschaltet
 dateplaner#:#cal_cache_enabled#:#Eingeschaltet
 dateplaner#:#cal_cache_info#:#Wenn aktiviert, wird die Anzeige des Kalenders auf dem Persönlichen Schreibtisch und im Magazin nur alle x-Minuten aktualisiert.
+payment#:#no_vendor_selected#:#Kein Verkäufer ausgewählt.

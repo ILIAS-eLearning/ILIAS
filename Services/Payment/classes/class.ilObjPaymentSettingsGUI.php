@@ -1268,9 +1268,25 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 			$f_result[$counter][] = $vat_rate;
 						
-			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
-			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
-
+//			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
+//			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+			if($data['vendor_id'] == 0)
+			{
+				$f_result[$counter][] = $this->lng->txt('no_vendor_selected');			
+			}
+			else
+			{
+				$tmp_user = ilObjectFactory::getInstanceByObjId($data['vendor_id'], false);
+				if(is_object($tmp_user))
+				{
+					$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+				}
+				else
+				{
+					$f_result[$counter][] = $this->lng->txt('no_vendor_selected');			
+				}
+			}
+			
 			// Get number of purchasers
 			
 			$f_result[$counter][] = ilPaymentBookings::_getCountBookingsByObject($data['pobject_id']);
