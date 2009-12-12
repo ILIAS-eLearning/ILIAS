@@ -96,8 +96,14 @@ class ilStr
 	*/
 	function strCmp($a, $b)
 	{
-//echo "<br>-$a-$b-".strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b))."-";
-		return (strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+		if (class_exists("Collator"))
+		{
+			return (Collator::compare(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+		}
+		else
+		{
+			return (strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+		}
 	}
 	
 	/**
