@@ -3361,12 +3361,15 @@ class ilLMPresentationGUI
 			foreach($glossary_links as $key => $link)
 			{
 				$term = ilGlossaryTerm::_lookGlossaryTerm($link["id"]);
-				$terms[$term.":".$key] = $link;
+				$terms[$term.":".$key] = array("key" => $key, "link" => $link, "term" => $term);
 			}
-			ksort($terms);
+			$terms = ilUtil::sortArray($terms, "term", "asc");
+			//ksort($terms);
 
-			foreach($terms as $key => $link)
+			foreach($terms as $t)
 			{
+				$link = $t["link"];
+				$key = $t["key"];
 				$defs = ilGlossaryDefinition::getDefinitionList($link["id"]);
 				$def_cnt = 1;
 

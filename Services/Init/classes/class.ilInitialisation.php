@@ -652,6 +652,7 @@ class ilInitialisation
 		{
 			$larr = explode(",", trim($ilSetting->get("locale")));
 			$ls = array();
+			$first = $larr[0];
 			foreach ($larr as $l)
 			{
 				if (trim($l) != "")
@@ -662,6 +663,10 @@ class ilInitialisation
 			if (count($ls) > 0)
 			{
 				setlocale(LC_ALL, $ls);
+				if (class_exists("Collator"))
+				{
+					Collator::create($first);
+				}
 			}
 		}
 	}
