@@ -96,9 +96,11 @@ class ilStr
 	*/
 	function strCmp($a, $b)
 	{
-		if (class_exists("Collator"))
+		global $ilCollator;
+
+		if (is_object($ilCollator))
 		{
-			return (Collator::compare(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+			return ($ilCollator->compare(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
 		}
 		else
 		{

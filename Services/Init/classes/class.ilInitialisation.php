@@ -665,7 +665,7 @@ class ilInitialisation
 				setlocale(LC_ALL, $ls);
 				if (class_exists("Collator"))
 				{
-					Collator::create($first);
+					$GLOBALS["ilCollator"] = new Collator($first);
 				}
 			}
 		}
