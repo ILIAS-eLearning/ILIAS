@@ -488,6 +488,24 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
+			//collect media objects
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
+			$mob_ids = $page_obj->getMediaObjectIds();
+			foreach($mob_ids as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
+
+			// collect all file items
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
+			$file_ids = $page_obj->getFileItemIds();
+			foreach($file_ids as $file_id)
+			{
+				$this->file_ids[$file_id] = $file_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
+			
 			$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 			if (count($q_ids) > 0)
 			{
