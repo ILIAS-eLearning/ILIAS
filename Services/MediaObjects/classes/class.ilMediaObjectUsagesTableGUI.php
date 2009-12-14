@@ -61,7 +61,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		
 		$clip_cnt = 0;
 		$to_del = array();
-		
 		$agg_usages = array();
 		foreach($usages as $k => $usage)
 		{
