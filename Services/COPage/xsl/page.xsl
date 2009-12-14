@@ -2535,16 +2535,30 @@
 		<xsl:when test = "substring-before($data,'.flv') != ''"> 
 			<embed src="./Services/MediaObjects/flash_flv_player/flvplayer.swf" bgcolor="#FFFFFF"
 				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
-				<xsl:choose>
-					<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="$curType = 'Reference'">
+					<xsl:choose>
+						<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+							( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+							<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+				<xsl:if test="$curType != 'Reference'">
+					<xsl:choose>
+						<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+							( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+							<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
