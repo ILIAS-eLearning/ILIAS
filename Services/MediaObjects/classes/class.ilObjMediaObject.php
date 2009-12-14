@@ -908,16 +908,38 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 
-		// get usages in learning modules
+		// get usages in pages
 		$q = "SELECT * FROM mob_usage WHERE id = ".
 			$ilDB->quote($a_id, "integer");
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $ilDB->fetchAssoc($us_set))
 		{
-			$ret[] = array("type" => $us_rec["usage_type"],
-				"id" => $us_rec["usage_id"],
-				"hist_nr" => $us_rec["usage_hist_nr"]);
+			$ut = "";
+			if(is_int(strpos($us_rec["usage_type"], ":")))
+			{
+				$us_arr = explode(":", $us_rec["usage_type"]);
+				$ut = $us_arr[1];
+				$ct = $us_arr[0];
+			}
+
+			// check whether page exists
+			$skip = false;
+			if ($ut == "pg")
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				if (!ilPageObject::_exists($ct, $us_rec["usage_id"]))
+				{
+					$skip = true;
+				}
+			}
+				
+			if (!$skip)
+			{
+				$ret[] = array("type" => $us_rec["usage_type"],
+					"id" => $us_rec["usage_id"],
+					"hist_nr" => $us_rec["usage_hist_nr"]);
+			}
 		}
 
 		// get usages in media pools
