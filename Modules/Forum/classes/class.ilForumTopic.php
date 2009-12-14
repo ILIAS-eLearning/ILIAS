@@ -1094,7 +1094,7 @@ class ilForumTopic
 	}
 	function getModeratorRight()
 	{
-		return $this->orderField;
+		return $this->is_moderator;
 	}
 	function getFrmObjId()
 	{
