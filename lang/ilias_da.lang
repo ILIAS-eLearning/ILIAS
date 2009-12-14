@@ -9581,14 +9581,14 @@ content#:#cont_pc_sec#:#Sektion
 content#:#cont_pc_dtab#:#Datatabel
 content#:#cont_pc_tab#:#Advanceret tabel
 content#:#cont_pc_code#:#Code###26 06 2009 new variable
-content#:#cont_pc_vacc#:#Accordion (Vertical)###26 06 2009 new variable
-content#:#cont_pc_hacc#:#Accordion (Horizontal)###26 06 2009 new variable
+content#:#cont_pc_vacc#:#Harmonika (vertikal)###26 06 2009 new variable
+content#:#cont_pc_hacc#:#Harmonika (horizontal)###26 06 2009 new variable
 content#:#cont_pc_res#:#Resurse
-content#:#cont_pc_map#:#Map###26 06 2009 new variable
+content#:#cont_pc_map#:#Kort
 content#:#cont_pc_list#:#Detaljeret liste
 common#:#session_reminder_lead_time#:#Leadtime###26 06 2009 new variable
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###26 06 2009 new variable
-rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
+rbac#:#rbac_delete_role#:#Slet rolle
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
 common#:#download_with_uploaded_filename#:#Hent med uploaded filnavn
@@ -9602,18 +9602,18 @@ common#:#lang_size_mb#:#MB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_bytes#:#bytes
 common#:#webdav#:#WebDAV
-common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
+common#:#downloading_settings#:#Henter indstillinger
 common#:#enable_disk_quota#:#Brug diskkvoter
 common#:#enable_disk_quota_info#:#Gør det muligt at sætte en diskkvote for hver brugerkonto og hver globale rolle. Diskforbruget bestemmes dagligt ved hjælp af cronjob og listes i brugerredigerings formularen og diskkvote rapporten.
 common#:#enable_disk_quota_reminder_mail#:#Send advisering om overforbrug
 common#:#mail_attachment#:#Vedhæftning
 content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
 content#:#cont_select#:#Vælg
-survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###24 07 2009 new variable
-survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###24 07 2009 new variable
-survey#:#invitation_off#:#No invitations###24 07 2009 new variable
-assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
-assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple-choice (med flere besvarelser)
+survey#:#SurveySingleChoiceQuestion#:#Multiple-choice (med enkelt besvarelse)
+survey#:#invitation_off#:#Ingen invitationer
+assessment#:#assErrorText#:#Fejlbesked
+assessment#:#textsize_errortext_info#:#Indtast tekst-størrelsen på fejlbeskeder i procenter, hvis du ønsker en anden størrelse end 100%
 common#:#disk_quota#:#Diskkvoter
 common#:#disk_usage#:#Diskforbrug
 common#:#disk_quota_report#:#Kvoterapport
@@ -9626,19 +9626,19 @@ common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited du
 common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###24 07 2009 new variable
 common#:#disk_quota_reminder_mail#:#Påmindelsesmail
 common#:#disk_quota_reminder_mail_desc#:#Kvote påmindelsen sendes til brugere som har overskredet deres kvote. Mailen sendes en gang om dagen når ILIAS cron-jobbet kører. Brugere som allerede har modtaget en påmindelse får en ny efter 7 dage så længe de har overskredet grænsen.
-common#:#last_reminder#:#Last reminder###24 07 2009 new variable
+common#:#last_reminder#:#Sidste påmindelse
 common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###24 07 2009 new variable
 common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###24 07 2009 new variable
 common#:#filter_users_without_disk_usage#:#Only users with no disk space used###24 07 2009 new variable
 common#:#filter_users_with_disk_usage#:#Only users with disk space used###24 07 2009 new variable
 common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###24 07 2009 new variable
-common#:#filter_users_with_access#:#Only users with access###24 07 2009 new variable
-common#:#filter_users_without_access#:#Only users without access###24 07 2009 new variable
+common#:#filter_users_with_access#:#Kun brugere med adgang
+common#:#filter_users_without_access#:#Kun brugere uden adgang
 common#:#statistics#:#Statistics###24 07 2009 new variable
-ldap#:#ldap_global_role#:#Global Role###24 07 2009 new variable
-ldap#:#ldap_local_role#:#Local Role###24 07 2009 new variable
+ldap#:#ldap_global_role#:#Global rolle
+ldap#:#ldap_local_role#:#Lokal rolle
 ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###24 07 2009 new variable
-ldap#:#ldap_update_roles#:#Role Assignments###24 07 2009 new variable
+ldap#:#ldap_update_roles#:#Rolletildelinger
 ldap#:#ldap_check_role_assignment#:#Assignment of Roles After Later Logins###24 07 2009 new variable
 ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles###24 07 2009 new variable
