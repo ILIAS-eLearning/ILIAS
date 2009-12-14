@@ -2002,8 +2002,8 @@ common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
-common#:#disable_anonymous_fora#:#Disable Anonymous Forum
-common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.
+common#:#disable_anonymous_fora#:#Disable "Remain incognito" in forums
+common#:#disable_anonymous_fora_desc#:#If this option is enabled, the feature "Remain incognito" is not available in forums anymore. In case this feature is already activated in certain forums, it is still possible to deavtivate it.
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
@@ -5612,7 +5612,7 @@ forum#:#forums_thread_new_entry#:#New topic has been created
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
-forum#:#frm_anonymous_posting#:#Anonymous Posting
+forum#:#frm_anonymous_posting#:#Remain incognito
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum anonymously or by using a pseudonym. Notice: This setting is not allowing the anonymous user to post to this forum.
 forum#:#frm_default_view#:#Default View
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
@@ -10151,5 +10151,6 @@ dateplaner#:#cal_cache#:#Kalender-Cache
 dateplaner#:#cal_cache_disabled#:#Disabled
 dateplaner#:#cal_cache_enabled#:#Enabled
 dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  
-payment#:#no_vendor_selected#:#No vendor selected.
+payment#:#no_vendor_selected#:#No vendor selected. 
 dateplaner#:#ical_export#:#iCal Export
+forum#:#frm_pseudonym#:#Pseudonym
