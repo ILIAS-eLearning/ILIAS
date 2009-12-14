@@ -2745,27 +2745,28 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					// get author data
 					unset($author);
-					if (ilObject::_exists($node->getUserId()))
+					if($node->getUserId())
 					{
-						$author = $frm->getUser($node->getUserId());
-					}
-					else
-					{
-						$node->setUserId(0);
-					}
+						$author = $this->getUserInstance($node->getUserId());
+						if(null === $author)
+						{
+							unset($author);
+							$node->setUserId(0);
+						}	
+					}					
 		
-					if ($this->objProperties->isAnonymized())
+					if($node->getUserId())
+					{
+						// GET USER DATA, USED FOR IMPORTED USERS											
+						$usr_data = $frm->getUserData($node->getUserId(), $node->getImportName());						
+					}					
+					else
 					{
 						$usr_data = array(
 							'usr_id' => 0,
 							'login' => $node->getUserAlias(),
 							'public_profile' => 'n'
-						);
-					}					
-					else
-					{
-						// GET USER DATA, USED FOR IMPORTED USERS											
-						$usr_data = $frm->getUserData($node->getUserId(), $node->getImportName());
+						);	
 					}
 		
 					$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -2829,81 +2830,85 @@ class ilObjForumGUI extends ilObjectGUI
 					{
 						$tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
 					}
-			
-					if($this->objProperties->isAnonymized() || $node->getUserId() == ANONYMOUS_USER_ID)
+					
+					if($node->getUserId() && 
+					   $node->getUserId() != ANONYMOUS_USER_ID)
 					{
-						if ($usr_data['login'] != '') $tpl->setVariable('AUTHOR', $usr_data['login']);
-						else $tpl->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
-					}
-					else
-					{
-						if($node->getUserId())
+						$user_obj = $this->getUserInstance($usr_data['usr_id']);
+						// user image
+						$webspace_dir = ilUtil::getWebspaceDir();
+						$image_dir = $webspace_dir.'/usr_images';
+						$xthumb_file = $image_dir.'/usr_'.$user_obj->getID().'_xsmall.jpg';
+
+						if ($user_obj->getPref('public_upload') == 'y' &&
+							($user_obj->getPref('public_profile') == 'y' || 
+							 $user_obj->getPref('public_profile') == 'g') &&
+							@is_file($xthumb_file))
 						{
-							$user_obj = new ilObjUser($usr_data['usr_id']);
-							// user image
-							$webspace_dir = ilUtil::getWebspaceDir();
-							$image_dir = $webspace_dir.'/usr_images';
-							$xthumb_file = $image_dir.'/usr_'.$user_obj->getID().'_xsmall.jpg';
+							#$tpl->setCurrentBlock('usr_image');
+							$tpl->setVariable('USR_IMAGE', $xthumb_file.'?t='.rand(1, 99999));
+							#$tpl->parseCurrentBlock();
+							//$tpl->setCurrentBlock('posts_row');
+						}							
 
-							if ($user_obj->getPref('public_upload') == 'y' &&
-								($user_obj->getPref('public_profile') == 'y' || 
-								 $user_obj->getPref('public_profile') == 'g') &&
-								@is_file($xthumb_file))
-							{
-								#$tpl->setCurrentBlock('usr_image');
-								$tpl->setVariable('USR_IMAGE', $xthumb_file.'?t='.rand(1, 99999));
-								#$tpl->parseCurrentBlock();
-								//$tpl->setCurrentBlock('posts_row');
-							}							
-
-							if ($usr_data['public_profile'] == 'n')
-							{
-								$tpl->setVariable('AUTHOR',	$usr_data['login']);
-							}
-							else
-							{
-								$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since').':');
-								$tpl->setVariable('REGISTERED_SINCE',$frm->convertDate($author->getCreateDate()));		
-								$this->ctrl->setParameter($this, 'backurl', $backurl);
-								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-								$this->ctrl->setParameter($this, 'user', $usr_data['usr_id']);
-								$href = $this->ctrl->getLinkTarget($this, 'showUser');
-								$tpl->setVariable('AUTHOR',	"<a href=\"".$href."\">".$usr_data['login']."</a>");
-							}			
-							
-							if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
-							{
-								$numPosts = $frm->countUserArticles($author->id);
-							}
-							else
-							{
-								$numPosts = $frm->countActiveUserArticles($author->id);	
-							}
-							
-							$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts').':');
-							$tpl->setVariable('NUM_POSTS', $numPosts);
-
-							if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) || $usr_data['public_profile'] != 'n')
-							{
-								$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
-							}
-							
-							if(ilForum::_isModerator($_GET['ref_id'], $node->getUserId()))
-							{						
-								if($user_obj->getGender() == 'f')
-								{
-									$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
-								}
-								else if($user_obj->getGender() == 'm')
-								{
-									$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
-								}
-							}
+						if ($usr_data['public_profile'] == 'n')
+						{
+							$tpl->setVariable('AUTHOR',	$usr_data['login']);
 						}
 						else
 						{
-							$tpl->setVariable('AUTHOR', $usr_data['login']);
+							$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since').':');
+							$tpl->setVariable('REGISTERED_SINCE',$frm->convertDate($author->getCreateDate()));		
+							$this->ctrl->setParameter($this, 'backurl', $backurl);
+							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+							$this->ctrl->setParameter($this, 'user', $usr_data['usr_id']);
+							$href = $this->ctrl->getLinkTarget($this, 'showUser');
+							$tpl->setVariable('AUTHOR',	"<a href=\"".$href."\">".$usr_data['login']."</a>");
+						}			
+						
+						if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+						{
+							$numPosts = $frm->countUserArticles($author->id);
 						}
+						else
+						{
+							$numPosts = $frm->countActiveUserArticles($author->id);	
+						}
+						
+						$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts').':');
+						$tpl->setVariable('NUM_POSTS', $numPosts);
+
+						if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) || $usr_data['public_profile'] != 'n')
+						{
+							$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
+						}
+						
+						if(ilForum::_isModerator($_GET['ref_id'], $node->getUserId()))
+						{						
+							if($user_obj->getGender() == 'f')
+							{
+								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
+							}
+							else if($user_obj->getGender() == 'm')
+							{
+								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
+							}
+						}
+					}
+					else
+					{
+						if(strlen($usr_data['login']))
+						{
+							$tpl->setVariable('AUTHOR', $usr_data['login']);
+							if($node->getUserId() != ANONYMOUS_USER_ID)
+							{
+								$tpl->setVariable('PSEUDONYM', $this->lng->txt('frm_pseudonym'));
+							}							
+						}
+						else
+						{
+							$tpl->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
+						}						
 					}
 		
 					// prepare post
@@ -3955,6 +3960,34 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		// forward the command
 		$this->ctrl->forwardCommand($info);
+	}
+	
+	/**
+	 * 
+	 * Caching method for user instances
+	 *  
+	 * @access	private
+	 * @param	integer		$a_usr_id	Id of a user instance
+	 * @return	ilObjUser	or null
+	 * 
+	 */
+	private function getUserInstance($a_usr_id)
+	{		
+		static $userObjectCache = array();
+		
+		if(isset($userObjectCache[$a_usr_id])) return $userObjectCache[$a_usr_id];
+		
+		$oUser = ilObjectFactory::getInstanceByObjId($a_usr_id, false);
+		if(!is_object($oUser) || $oUser->getType() != 'usr')
+		{
+			$userObjectCache[$a_usr_id] = null;
+		}
+		else
+		{
+			$userObjectCache[$a_usr_id] = $oUser;
+		}		 
+		
+		return $userObjectCache[$a_usr_id];
 	}
 } // END class.ilObjForumGUI
 ?>
