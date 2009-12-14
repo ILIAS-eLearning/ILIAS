@@ -1396,6 +1396,9 @@ class ilMail
 	function checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_type)
 	{
 		$error_message = '';
+		
+		$a_m_subject = trim($a_m_subject);
+		$a_rcp_to = trim($a_rcp_to);
 
 		if (empty($a_m_subject))
 		{
