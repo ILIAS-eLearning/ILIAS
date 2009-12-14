@@ -493,9 +493,18 @@ class ilInitialisation
 		}
 		else
 		{
-			$cookie_path = dirname( $_SERVER['PHP_SELF'] );			
+			$cookie_path = dirname( $_SERVER['PHP_SELF'] );
 		}
-		$cookie_path .= (!preg_match("/\/$/", $cookie_path)) ? "/" : "";
+		
+		/* if ilias is called directly within the docroot $cookie_path
+		is set to '/' expecting on servers running under windows..
+		here it is set to '\'.
+		in both cases a further '/' won't be appended due to the following regex
+		*/
+		$cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
+		
+		if($cookie_path == "\\") $cookie_path = '/';
+		
 		$cookie_domain = $_SERVER['SERVER_NAME'];		
 
 		define('IL_COOKIE_EXPIRE',0);
