@@ -13,7 +13,7 @@ class ilCronForumNotification
 {
 	public function sendMails($res)
 	{		
-		global $ilias, $rbacsystem, $ilAccess, $ilDB;
+		global $ilias, $rbacsystem, $ilAccess, $ilDB, $lng;
 		
 		static $cache = array();
 
@@ -32,9 +32,21 @@ class ilCronForumNotification
 		{
 			// don not send a notification to the post author
 			if($row['pos_usr_id'] != $row['user_id'])
-			{					
-				// GET AUTHOR OF NEW POST
-				$row['pos_usr_name'] = ilObjUser::_lookupLogin($row['pos_usr_id']);
+			{
+				// GET AUTHOR OF NEW POST	
+				if($row['pos_usr_id'])
+				{
+					$row['pos_usr_name'] = ilObjUser::_lookupLogin($row['pos_usr_id']);
+				}
+				else if(strlen($row['pos_usr_alias']))
+				{
+					$row['pos_usr_name'] = $row['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
+				}
+				
+				if($row['pos_usr_name'] == '')
+				{
+					$row['pos_usr_name'] = $lng->txt('forums_anonymous');
+				}
 				
 				// get all references of obj_id
 				if(!isset($cache[$row['obj_id']]))		
@@ -70,7 +82,9 @@ class ilCronForumNotification
 
 	public function sendNotifications()
 	{
-		global $ilDB, $ilLog, $ilSetting;
+		global $ilDB, $ilLog, $ilSettingm, $lng;
+		
+		$lng->loadLanguageModule('forum');
 
 		if(!($lastDate = $ilSetting->get('cron_forum_notification_last_date')))
 		{
