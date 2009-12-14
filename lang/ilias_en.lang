@@ -2003,7 +2003,7 @@ common#:#enable_custom_icons_info#:#This allows to define custom icons for singl
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
 common#:#disable_anonymous_fora#:#Disable "Remain incognito" in forums
-common#:#disable_anonymous_fora_desc#:#If this option is enabled, the feature "Remain incognito" is not available in forums anymore. In case this feature is already activated in certain forums, it is still possible to deavtivate it.
+common#:#disable_anonymous_fora_desc#:#If this option is enabled, the feature "Remain incognito" is not available in forums anymore. In case this feature is already activated in certain forums, it is still possible to deactivate it.
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_js_edit#:#Enable JavaScript Editing
