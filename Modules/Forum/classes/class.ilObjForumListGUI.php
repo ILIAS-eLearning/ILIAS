@@ -288,20 +288,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				ilObjForumAccess::prepareMessageForLists($last_post["pos_message"])."</a> ".
 			strtolower($lng->txt('from'))."&nbsp;";
 			
-			if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
-			{
-				if ($last_post["pos_usr_alias"] != '')
-				{
-					$lpCont .= $last_post["pos_usr_alias"];
-					
-				}
-				else
-				{
-					$lpCont .= $lng->txt('forums_anonymous');					
-				}
-				$lpCont .= ', '.ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
-			}
-			else
+			if($last_post['pos_usr_id'])
 			{
 				if (ilObject::_lookupType($last_post["pos_usr_id"]) == "usr" &&
 					in_array(ilObjUser::_lookupPref($last_post["pos_usr_id"], "public_profile"), array("y", "g"))
@@ -317,6 +304,19 @@ class ilObjForumListGUI extends ilObjectListGUI
 				{
 					$lpCont .= $last_user['login'].', '.ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
 				}
+			}
+			else
+			{
+				if(strlen($last_post['pos_usr_alias']))
+				{
+					$lpCont .= ($last_post['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')');
+				}
+				else
+				{
+					$lpCont .= $lng->txt('forums_anonymous');
+				}
+
+				$lpCont .= ', '.ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
 			}
 						
 			/* At least one (last) posting? */

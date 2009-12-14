@@ -2449,7 +2449,7 @@ class ilForum
 
 	function sendThreadNotifications($post_data)
 	{
-		global $ilDB, $ilAccess;
+		global $ilDB, $ilAccess, $lng;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2470,14 +2470,15 @@ class ilForum
 		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if(ilForumProperties::getInstance($obj_id)->isAnonymized())
-		{
-			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
-		}
-		else
+		if($post_data['pos_usr_id'])
 		{
 			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
 		}
+		else if(strlen($post_data['pos_usr_alias']))
+		{
+			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
+		}
+		
 		if($post_data['pos_usr_name'] == '')
 		{
 			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
@@ -2531,7 +2532,7 @@ class ilForum
 	
 	function sendForumNotifications($post_data)
 	{
-		global $ilDB, $ilAccess;
+		global $ilDB, $ilAccess, $lng;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2553,14 +2554,15 @@ class ilForum
 		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if(ilForumProperties::getInstance()->isAnonymized())
-		{
-			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
-		}
-		else
+		if($post_data['pos_usr_id'])
 		{
 			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
 		}
+		else if(strlen($post_data['pos_usr_alias']))
+		{
+			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
+		}
+		
 		if($post_data['pos_usr_name'] == '')
 		{
 			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
@@ -2651,7 +2653,7 @@ class ilForum
 	
 	function sendPostActivationNotification($post_data)
 	{		
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $lng;
 		
 		if (is_array($moderators = $this->getModerators()))
 		{
@@ -2669,7 +2671,19 @@ class ilForum
 			}
 	
 			// GET AUTHOR OF NEW POST
-			$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
+			if($post_data['pos_usr_id'])
+			{
+				$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+			}
+			else if(strlen($post_data['pos_usr_alias']))
+			{
+				$post_data['pos_usr_name'] = $post_data['pos_usr_alias'].' ('.$lng->txt('frm_pseudonym').')';
+			}
+			
+			if($post_data['pos_usr_name'] == '')
+			{
+				$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
+			}
 			
 			// save language of the current user
 			global $lng;
