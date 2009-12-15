@@ -343,7 +343,6 @@ class ilMailSearchGUI
 	
 			 	$tbl_users->setDefaultOrderField('login');						
 				$tbl_users->setPrefix('usr_');
-				// disabled. template creates nested forms... must be fixed
 				$tbl_users->enable('select_all');				
 				$tbl_users->setSelectAllCheckbox('search_name_to_usr');
 				$tbl_users->setFormName('recipients');
