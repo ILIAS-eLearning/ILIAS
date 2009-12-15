@@ -6708,8 +6708,8 @@ forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
-forum#:#frm_anonymous_posting#:#Identität verschleiern
-forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer ohne Nennung ihres Benutzernamens oder mit einem Pseudonym Beiträge in diesem Forum schreiben. Wichtig: diese Option hat keinen Einfluss auf die Rechte des "Anonymous"-Benutzers.
+forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
+forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben.
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_moderator_f#:#Moderatorin
