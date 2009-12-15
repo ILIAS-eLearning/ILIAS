@@ -415,11 +415,7 @@ class ilObjForumGUI extends ilObjectGUI
 			  	$tbl->addColumn($this->lng->txt('forums_last_post'),'lp_date');
 					
 				foreach ($threads as $thread)
-				{	
-					$result[$counter]['check'] = ilUtil::formCheckbox(
-						(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]',  $thread->getId()
-					);
-				
+				{				
 					if ($thrNum > $pageHits && $z >= ($Start + $pageHits))
 					{
 						break;
@@ -427,25 +423,13 @@ class ilObjForumGUI extends ilObjectGUI
 	
 					if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 					{
-						if ($this->objProperties->isAnonymized())
-						{
-							$usr_data = array(
-								'usr_id' => 0,
-								'login' => $thread->getUserAlias(),
-								'firstname' => '',
-								'lastname' => '',
-								'public_profile' => 'n'
-							);
-						}						
-						else
-						{
-							// get user data, used for imported users
-							$usr_data = $frm->getUserData($thread->getUserId(), $thread->getImportName());
-						}
-
-						$thread->setCreateDate($frm->convertDate($thread->getCreateDate()));
-		
 						$this->ctrl->setParameter($this, 'thr_pk', $thread->getId());
+						
+						$result[$counter]['check'] = ilUtil::formCheckbox(
+							(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]',  $thread->getId()
+						);						
+						
+						$thread->setCreateDate($frm->convertDate($thread->getCreateDate()));					
 						
 						if ($thread->isSticky())
 						{
@@ -479,46 +463,60 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						if ($num_posts > 0)
 						{
-									$result[$counter]['th_title'] = "<div><a href=\"".
-										$this->ctrl->getLinkTarget($this, 'showThreadFrameset').
-										"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];								
-						}
+							$result[$counter]['th_title'] = "<div><a href=\"".
+								$this->ctrl->getLinkTarget($this, 'showThreadFrameset').
+								"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];								
+						}						
+						
 						// get author data
-						if ($this->objProperties->isAnonymized())
+						if($thread->getUserId())
+						{										
+							$usr_data = $frm->getUserData($thread->getUserId(), $thread->getImportName());
+						}					
+						else
 						{
-							if ($usr_data['login'] != '')
+							$usr_data = array(
+								'usr_id' => 0,
+								'login' => $thread->getUserAlias(),
+								'firstname' => '',
+								'lastname' => '',
+								'public_profile' => 'n'
+							);
+						}						
+						
+						if($thread->getUserId() && 
+						   $thread->getUserId() != ANONYMOUS_USER_ID)
+						{						
+							$this->ctrl->setParameter($this, 'backurl', urlencode('repository.php?ref_id='.$_GET['ref_id'].'&offset='.$Start));
+							$this->ctrl->setParameter($this, 'user', $thread->getUserId());
+							if ($usr_data['public_profile'] == 'n')
 							{
-								$result[$counter]['author'] = $usr_data['login'];									
+								$result[$counter]['author'] = $usr_data['login'];												
 							}
 							else
-							{ 
-								$result[$counter]['author'] = $this->lng->txt('forums_anonymous');									
-							}							
+							{
+					
+								$result[$counter]['author'] = "<a href=\"".
+									$this->ctrl->getLinkTarget($this, 'showUser').
+									"\">".$usr_data['login']."</a>";													
+							}
+							$this->ctrl->clearParameters($this);
 						}
 						else
 						{
-							if ($thread->getUserId() && $usr_data['usr_id'] != 0)
+							if(strlen($thread->getUserAlias()))
 							{
-								$this->ctrl->setParameter($this, 'backurl', urlencode('repository.php?ref_id='.$_GET['ref_id'].'&offset='.$Start));
-								$this->ctrl->setParameter($this, 'user', $usr_data['usr_id']);
-								if ($usr_data['public_profile'] == 'n')
+								$result[$counter]['author'] = $thread->getUserAlias();
+								if($node->getUserId() != ANONYMOUS_USER_ID)
 								{
-									$result[$counter]['author'] = $usr_data['login'];												
-								}
-								else
-								{
-						
-									$result[$counter]['author'] = "<a href=\"".
-										$this->ctrl->getLinkTarget($this, 'showUser').
-										"\">".$usr_data['login']."</a>";													
-								}
-								$this->ctrl->clearParameters($this);
+									$result[$counter]['author'] .= ' ('.$this->lng->txt('frm_pseudonym').')';
+								}						
 							}
 							else
 							{
-								$result[$counter]['author'] = $usr_data['login'];										
-							}
-						}
+								$result[$counter]['author'] = $this->lng->txt('forums_anonymous');
+							}						
+						}					
 	
 						$result[$counter]['num_posts'] = $num_posts;
 						if($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -533,11 +531,9 @@ class ilObjForumGUI extends ilObjectGUI
 								$result[$counter]['num_posts'].= "<br><span class='alert' style='white-space:nowrap;'>".
 									$lng->txt("new").": ".$num_new."</span>";
 							}
-						}
-						
+						}						
 				
-						$result[$counter]['num_visit'] = $thread->getVisits();	
-			
+						$result[$counter]['num_visit'] = $thread->getVisits();				
 						
 						if ($num_posts > 0)
 						{
@@ -551,21 +547,24 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 							
 							if (is_object($objLastPost))
-							{					
-								if ($this->objProperties->isAnonymized())
-								{
-									$last_usr_data = array(
-										'usr_id' => 0,
-										'login' => $objLastPost->getUserAlias(),
-										'firstname' => '',
-										'lastname' => '',
-										'public_profile' => 'n'
-									);
-								}
-								else
+							{
+								$lastPostAuthor = '';								
+								if ($objLastPost->getUserId())
 								{
 									$last_usr_data = $frm->getUserData($objLastPost->getUserId(), $objLastPost->getImportName());
-								}					
+									$lastPostAuthor = $last_usr_data['login'];
+								}
+								else
+								{									
+									if(strlen($objLastPost->getUserAlias()))
+									{
+										$lastPostAuthor = $objLastPost->getUserAlias().' ('.$this->lng->txt('frm_pseudonym').')';						
+									}
+									else
+									{
+										$lastPostAuthor = $this->lng->txt('forums_anonymous');
+									}
+								}
 										
 								$this->ctrl->setParameter($this, 'thr_pk', $objLastPost->getThreadId());
 								
@@ -573,24 +572,11 @@ class ilObjForumGUI extends ilObjectGUI
 										$frm->convertDate($objLastPost->getCreateDate())."</div>".
 										'<div style="white-space:nowrap">'.$this->lng->txt('from').' '."<a href=\"".
 										$this->ctrl->getLinkTarget($this, 'showThreadFrameset').'#'.$objLastPost->getId().
-										"\">".$usr_data['login']."</a></div>";
-												
-								
-								if($this->objProperties->isAnonymized())
-								{
-									if($last_usr_data['login'] != '')
-									{
-										$result[$counter]['lp_title'] = $last_usr_data['login'];											
-									}
-									else
-									{
-										$result[$counter]['lp_title'] = $this->lng->txt('forums_anonymous');																					
-									}
-								}								
+										"\">".$lastPostAuthor."</a></div>";
 							}
 						}										
 
-					} 
+					}
 					$counter++;
 				}
 				
@@ -1933,8 +1919,7 @@ class ilObjForumGUI extends ilObjectGUI
 				else
 				{
 					$user_alias = $ilUser->getLogin();	
-				}		
-				
+				}
 				
 				$newPost = $frm->generatePost(
 					$topicData['top_pk'], 
@@ -3578,31 +3563,32 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->initTopicCreateForm();
 		if($this->create_topic_form_gui->checkInput())
 		{
-			// build new thread
 			if($this->objProperties->isAnonymized())
-			{			
-				$newPost = $frm->generateThread(
-					$topicData['top_pk'],
-					0,
-					$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
-					ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
-					$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
-					$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
-					$this->create_topic_form_gui->getInput('alias')
-				);
+			{
+				if(!strlen($this->create_topic_form_gui->getInput('alias')))
+				{
+					$user_alias = $this->lng->txt('forums_anonymous');
+				}
+				else
+				{
+					$user_alias = $this->create_topic_form_gui->getInput('alias');
+				}
 			}
 			else
 			{
-				$newPost = $frm->generateThread(
-					$topicData['top_pk'],
-					$ilUser->getId(),
-					$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
-					ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
-					$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
-					$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
-					$ilUser->getLogin()
-				);
-			}
+				$user_alias = $ilUser->getLogin();	
+			}			
+			
+			// build new thread
+			$newPost = $frm->generateThread(
+				$topicData['top_pk'],
+				($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()),
+				$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
+				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
+				$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
+				$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
+				$user_alias
+			);
 			
 			$file = $_FILES['userfile'];
 			

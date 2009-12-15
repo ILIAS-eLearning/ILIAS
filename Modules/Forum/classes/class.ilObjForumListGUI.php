@@ -292,7 +292,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 			
 			if($last_post['pos_usr_id'])
 			{
-				if (ilObject::_lookupType($last_post["pos_usr_id"]) == "usr" &&
+				if ($last_post['pos_usr_id'] != ANONYMOUS_USER_ID &&
+				    ilObject::_lookupType($last_post["pos_usr_id"]) == "usr" &&
 					in_array(ilObjUser::_lookupPref($last_post["pos_usr_id"], "public_profile"), array("y", "g"))
 				)
 				{
