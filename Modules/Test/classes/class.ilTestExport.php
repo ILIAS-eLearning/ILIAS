@@ -353,6 +353,7 @@ class ilTestExport
 		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		$counter = 1;
 		$data =& $this->test_obj->getCompleteEvaluationData(TRUE, $filterby, $filtertext);
+		$firstrowwritten = false;
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$remove = FALSE;
@@ -462,7 +463,6 @@ class ilTestExport
 					$worksheet->write($row, $col++, $data->getParticipant($active_id)->getLastPass() + 1);
 				}
 				$startcol = $col;
-				$firstrowwritten = false;
 				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
 					$col = $startcol;
@@ -497,54 +497,236 @@ class ilTestExport
 								}
 								$col++;
 							}
+							$firstrowwritten = true;
 						}
 					}
-					$firstrowwritten = true;
 				}
 				$counter++;
 			}
 		}
-		// test participant result export
-		$usernames = array();
-		$participantcount = count($data->getParticipants());
-		$allusersheet = false;
-		$pages = 0;
-		foreach ($data->getParticipants() as $active_id => $userdata) 
+		if ($this->test_obj->isSingleChoiceTest() && !$this->test_obj->isRandomTest())
 		{
-			$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
-			if (array_key_exists($username, $usernames))
+			// special tab for single choice tests
+			$titles =& $this->test_obj->getQuestionTitlesAndIndexes();
+			$positions = array();
+			$pos = 0;
+			$row = 0;
+			foreach ($titles as $id => $title)
 			{
-				$usernames[$username]++;
-				$username .= " ($i)";
+				$positions[$id] = $pos;
+				$pos++;
 			}
-			else
+			$usernames = array();
+			$participantcount = count($data->getParticipants());
+			$allusersheet = false;
+			$pages = 0;
+			$resultsheet =& $workbook->addWorksheet($this->lng->txt("eval_all_users"));
+
+			$col = 0;
+			$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('name')), $format_title);
+			$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('login')), $format_title);
+			if (count($additionalFields))
 			{
-				$usernames[$username] = 1;
-			}
-			if ($participantcount > 250) {
-				if (!$allusersheet || ($pages-1) < floor($row / 64000)) {
-					$resultsheet =& $workbook->addWorksheet($this->lng->txt("eval_all_users") . (($pages > 0) ? " (".($pages+1).")" : ""));
-					$allusersheet = true;
-					$row = 0;
-					$pages++;
+				foreach ($additionalFields as $fieldname)
+				{
+					if (strcmp($fieldname, "matriculation") == 0)
+					{
+						$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('matriculation')), $format_title);
+					}
 				}
-			} else {
-				$resultsheet =& $workbook->addWorksheet($username);
 			}
-			if (method_exists($resultsheet, "writeString"))
+			$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('test')), $format_title);
+			foreach ($titles as $title)
 			{
+				$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($title), $format_title);
+			}
+			$row++;
+
+			foreach ($data->getParticipants() as $active_id => $userdata) 
+			{
+				$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
+				if (array_key_exists($username, $usernames))
+				{
+					$usernames[$username]++;
+					$username .= " ($i)";
+				}
+				else
+				{
+					$usernames[$username] = 1;
+				}
+				$col = 0;
+				$resultsheet->write($row, $col++, $username);
+				$resultsheet->write($row, $col++, $userdata->getLogin());
+				if (count($additionalFields))
+				{
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($additionalFields as $fieldname)
+					{
+						if (strcmp($fieldname, "matriculation") == 0)
+						{
+							if (strlen($userfields[$fieldname]))
+							{
+								$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($userfields[$fieldname]));
+							}
+							else
+							{
+								$col++;
+							}
+						}
+					}
+				}
+				$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->test_obj->getTitle()));
 				$pass = $userdata->getScoredPass();
-				$row = ($allusersheet) ? $row : 0;
-				$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass+1, $userdata->getName())), $format_bold);
-				$row += 2;
 				if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
 				{
 					foreach ($userdata->getQuestions($pass) as $question)
-					{ 
-						$question =& $this->test_obj->_instanciateQuestion($question["aid"]);
-						if (is_object($question))
+					{
+						$objQuestion =& $this->test_obj->_instanciateQuestion($question["aid"]);
+						if (is_object($objQuestion))
 						{
-							$row = $question->setExportDetailsXLS($resultsheet, $row, $active_id, $pass, $format_title, $format_bold);
+							$solution = $objQuestion->getSolutionValues($active_id, $pass);
+							$pos = $positions[$question["aid"]];
+							$selectedanswer = "x";
+							foreach ($objQuestion->getAnswers() as $id => $answer)
+							{
+								if ($id == $solution[0]["value1"])
+								{
+									$selectedanswer = $answer->getAnswertext();
+								}
+							}
+							$resultsheet->write($row, $col+$pos, ilExcelUtils::_convert_text($selectedanswer));
+						}
+					}
+				}
+				$row++;
+			}
+			if ($this->test_obj->isSingleChoiceTestWithoutShuffle())
+			{
+				// special tab for single choice tests without shuffle option
+				$pos = 0;
+				$row = 0;
+				$usernames = array();
+				$allusersheet = false;
+				$pages = 0;
+				$resultsheet =& $workbook->addWorksheet($this->lng->txt("eval_all_users") . " (2)");
+
+				$col = 0;
+				$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('name')), $format_title);
+				$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('login')), $format_title);
+				if (count($additionalFields))
+				{
+					foreach ($additionalFields as $fieldname)
+					{
+						if (strcmp($fieldname, "matriculation") == 0)
+						{
+							$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('matriculation')), $format_title);
+						}
+					}
+				}
+				$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('test')), $format_title);
+				foreach ($titles as $title)
+				{
+					$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($title), $format_title);
+				}
+				$row++;
+
+				foreach ($data->getParticipants() as $active_id => $userdata) 
+				{
+					$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
+					if (array_key_exists($username, $usernames))
+					{
+						$usernames[$username]++;
+						$username .= " ($i)";
+					}
+					else
+					{
+						$usernames[$username] = 1;
+					}
+					$col = 0;
+					$resultsheet->write($row, $col++, $username);
+					$resultsheet->write($row, $col++, $userdata->getLogin());
+					if (count($additionalFields))
+					{
+						$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+						foreach ($additionalFields as $fieldname)
+						{
+							if (strcmp($fieldname, "matriculation") == 0)
+							{
+								if (strlen($userfields[$fieldname]))
+								{
+									$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($userfields[$fieldname]));
+								}
+								else
+								{
+									$col++;
+								}
+							}
+						}
+					}
+					$resultsheet->write($row, $col++, ilExcelUtils::_convert_text($this->test_obj->getTitle()));
+					$pass = $userdata->getScoredPass();
+					if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
+					{
+						foreach ($userdata->getQuestions($pass) as $question)
+						{
+							$objQuestion =& $this->test_obj->_instanciateQuestion($question["aid"]);
+							if (is_object($objQuestion))
+							{
+								$solution = $objQuestion->getSolutionValues($active_id, $pass);
+								$pos = $positions[$question["aid"]];
+								$selectedanswer = chr(65+$solution[0]["value1"]);
+								$resultsheet->write($row, $col+$pos, ilExcelUtils::_convert_text($selectedanswer));
+							}
+						}
+					}
+					$row++;
+				}
+			}
+		}
+		else
+		{
+			// test participant result export
+			$usernames = array();
+			$participantcount = count($data->getParticipants());
+			$allusersheet = false;
+			$pages = 0;
+			foreach ($data->getParticipants() as $active_id => $userdata) 
+			{
+				$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
+				if (array_key_exists($username, $usernames))
+				{
+					$usernames[$username]++;
+					$username .= " ($i)";
+				}
+				else
+				{
+					$usernames[$username] = 1;
+				}
+				if ($participantcount > 250) {
+					if (!$allusersheet || ($pages-1) < floor($row / 64000)) {
+						$resultsheet =& $workbook->addWorksheet($this->lng->txt("eval_all_users") . (($pages > 0) ? " (".($pages+1).")" : ""));
+						$allusersheet = true;
+						$row = 0;
+						$pages++;
+					}
+				} else {
+					$resultsheet =& $workbook->addWorksheet($username);
+				}
+				if (method_exists($resultsheet, "writeString"))
+				{
+					$pass = $userdata->getScoredPass();
+					$row = ($allusersheet) ? $row : 0;
+					$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass+1, $userdata->getName())), $format_bold);
+					$row += 2;
+					if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
+					{
+						foreach ($userdata->getQuestions($pass) as $question)
+						{ 
+							$question =& $this->test_obj->_instanciateQuestion($question["aid"]);
+							if (is_object($question))
+							{
+								$row = $question->setExportDetailsXLS($resultsheet, $row, $active_id, $pass, $format_title, $format_bold);
+							}
 						}
 					}
 				}
