@@ -939,6 +939,49 @@ class ilObjTest extends ilObject
 		}
 	}
 
+	/**
+	* Returns TRUE if the test contains single choice results only
+	*
+	* @return boolean 
+	* @access public
+	*/
+	function isSingleChoiceTest()
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_type.type_tag) foundtypes FROM qpl_questions, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND qpl_qst_type.type_tag = %s",
+			array('integer', 'text'),
+			array($this->getTestId(), "assSingleChoice")
+		);
+		if ($result->numRows() == 1)
+		{
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	/**
+	* Returns TRUE if the test contains single choice results and no shuffle only
+	*
+	* @return boolean 
+	* @access public
+	*/
+	function isSingleChoiceTestWithoutShuffle()
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_sc.shuffle) foundshuffles FROM qpl_questions, qpl_qst_sc, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND qpl_questions.question_id = qpl_qst_sc.question_fi AND tst_active.test_fi = %s AND qpl_qst_type.type_tag = %s",
+			array('integer', 'text'),
+			array($this->getTestId(), "assSingleChoice")
+		);
+		if ($result->numRows() == 1)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return ($row['foundshuffles'] == 0);
+		}
+		return FALSE;
+	}
+
 /**
 * Returns 1 (true), if a test is complete for use
 *
@@ -3721,6 +3764,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($titles, $row["title"]);
+			}
+		}
+		return $titles;
+	}
+
+	/**
+	* Returns the titles of the test questions in question sequence
+	*
+	* @return array The question titles
+	* @access public
+	* @see $questions
+	*/
+	function &getQuestionTitlesAndIndexes()
+	{
+		$titles = array();
+		if (!$this->isRandomTest())
+		{
+			global $ilDB;
+			$result = $ilDB->queryF("SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+				array('integer'),
+				array($this->getTestId())
+			);
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$titles[$row['question_id']] = $row["title"];
 			}
 		}
 		return $titles;
