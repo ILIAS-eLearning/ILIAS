@@ -82,9 +82,10 @@ class ilMailAttachmentGUI
 		{			
 			foreach($_POST['filename'] as $file)
 			{
-				if(file_exists($this->mfile->getMailPath().'/'.basename($ilUser->getId().'_'.$file)))
+				// decode post value
+				if(file_exists($this->mfile->getMailPath().'/'.basename($ilUser->getId().'_'.urldecode($file))))
 				{
-					$files[] = $file;
+					$files[] = urldecode($file);
 				}
 			}
 		}
@@ -102,7 +103,7 @@ class ilMailAttachmentGUI
 
 	public function deleteAttachments()
 	{
-		if(!$_POST["filename"])
+		if(!is_array($_POST["filename"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("mail_select_one_file"));
 			$this->errorDelete = true;
@@ -117,32 +118,40 @@ class ilMailAttachmentGUI
 
 	public function confirmDeleteAttachments()
 	{
-		if(!$_POST["filename"])
+		if(!is_array($_POST['filename']))
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_select_one_mail"));
+			ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
 		}
-		else if($error = $this->mfile->unlinkFiles($_POST["filename"]))
+		
+		// decode post values
+		$files = array();
+		foreach($_POST['filename'] as $value)
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_error_delete_file")." ".$error);
+			$files[] = urldecode($value);
+		}
+		
+		if(strlen(($error = $this->mfile->unlinkFiles($files))))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_error_delete_file').' '.$error);
 		}
 		else
 		{
 			$mailData = $this->umail->getSavedData();
-			if (is_array($mailData["attachments"]))
+			if (is_array($mailData['attachments']))
 			{
 				$tmp = array();
-				for ($i = 0; $i < count($mailData["attachments"]); $i++)
+				for ($i = 0; $i < count($mailData['attachments']); $i++)
 				{
-					if (!in_array($mailData["attachments"][$i], $_POST["filename"]))
+					if (!in_array($mailData['attachments'][$i], $files))
 					{
-						$tmp[] = $mailData["attachments"][$i];
+						$tmp[] = $mailData['attachments'][$i];
 					}
 				}
-				$mailData["attachments"] = $tmp;
+				$mailData['attachments'] = $tmp;
 				$this->umail->saveAttachments($tmp);
 			}
 
-			ilUtil::sendInfo($this->lng->txt("mail_files_deleted"));
+			ilUtil::sendInfo($this->lng->txt('mail_files_deleted'));
 		}
 
 		$this->showAttachments();
@@ -215,12 +224,12 @@ class ilMailAttachmentGUI
 			{
 				$this->tpl->setCurrentBlock('files');
 				if((!isset($_POST["cmd"]["deleteAttachments"]) && is_array($mailData["attachments"]) && in_array($file["name"],$mailData["attachments"])) ||
-				   (isset($_POST["cmd"]["deleteAttachments"]) && is_array($_POST["filename"]) && in_array($file["name"],$_POST["filename"])))
+				   (isset($_POST["cmd"]["deleteAttachments"]) && is_array($_POST["filename"]) && in_array(urlencode($file["name"]), $_POST["filename"])))
 				{
 					$this->tpl->setVariable("CHECKED",'checked');
 				}
 				$this->tpl->setVariable('CSSROW',++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable('FILE_NAME',$file["name"]);
+				$this->tpl->setVariable('FILE_NAME',urlencode($file["name"]));
 				$this->tpl->setVariable("NAME",$file["name"]);
 				$this->tpl->setVariable("SIZE",$file["size"]);
 				$this->tpl->setVariable("CTIME",$file["ctime"]);

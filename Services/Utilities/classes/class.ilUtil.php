@@ -4494,7 +4494,7 @@ class ilUtil
 	
 	public static function _sanitizeFilemame($a_filename)
 	{
-		return strip_tags($a_filename);
+		return strip_tags(self::stripSlashes($a_filename));
 	}
 } // END class.ilUtil
 
