@@ -671,6 +671,7 @@ class ilColumnGUI
 			if (count($add_blocks) > 0)
 			{
 				$this->tpl->setCurrentBlock("add_block_selector");
+				$ilCtrl->setParameter($this, "block_type", "");
 				$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
 				$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
 					false, true, 0, "ilEditSelect", array("id" => "il_add_bl_sel_".$this->getSide())));
