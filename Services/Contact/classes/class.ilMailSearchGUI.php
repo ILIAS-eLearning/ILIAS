@@ -75,7 +75,15 @@ class ilMailSearchGUI
 
 	public function adopt()
 	{
-		$_SESSION["mail_search_results_to"] = $_POST["search_name_to"];
+		// necessary because of select all feature of ilTable2GUI
+		$recipients = array();
+		$recipients = array_merge($recipients, (array)$_POST['search_name_to_addr']);
+		$recipients = array_merge($recipients, (array)$_POST['search_name_to_usr']);
+		$recipients = array_merge($recipients, (array)$_POST['search_name_to_grp']);
+
+		$recipients = array_unique($recipients);
+
+		$_SESSION["mail_search_results_to"] = $recipients;
 		$_SESSION["mail_search_results_cc"] = $_POST["search_name_cc"];
 		$_SESSION["mail_search_results_bcc"] = $_POST["search_name_bcc"];
 
@@ -206,7 +214,7 @@ class ilMailSearchGUI
 				$counter = 0;		
 				foreach ($entries as $entry)
 				{
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', ($entry['login'] ? $entry['login'] : $entry['email'])) . 
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_addr[]', ($entry['login'] ? $entry['login'] : $entry['email'])) . 
 										          ilUtil::formCheckbox(0, 'search_name_cc[]', ($entry['login'] ? $entry['login'] : $entry['email'])) .
 										          ilUtil::formCheckbox(0, 'search_name_bcc[]', ($entry['login'] ? $entry['login'] : $entry['email']));		
 					$result[$counter]['login'] = $entry['login'];
@@ -240,9 +248,9 @@ class ilMailSearchGUI
 
 			 	$tbl_addr->setDefaultOrderField('login');							
 				$tbl_addr->setPrefix('addr_');			
-				// disabled. template creates nested forms... must be fixed
-				//$tbl_addr->enable('select_all');				
-				//$tbl_addr->setSelectAllCheckbox('search_name_to');					
+				$tbl_addr->enable('select_all');				
+				$tbl_addr->setSelectAllCheckbox('search_name_to_addr');
+				$tbl_addr->setFormName('recipients');
 
 				$this->tpl->setVariable('TABLE_ADDR', $tbl_addr->getHTML());				
 			}
@@ -292,7 +300,7 @@ class ilMailSearchGUI
 				{					
 					$login = ilObjUser::_lookupLogin($user['obj_id']);			
 
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', $login) . 
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_usr[]', $login) . 
 							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
 					$result[$counter]['login'] = $login;
@@ -336,8 +344,9 @@ class ilMailSearchGUI
 			 	$tbl_users->setDefaultOrderField('login');						
 				$tbl_users->setPrefix('usr_');
 				// disabled. template creates nested forms... must be fixed
-				//$tbl_users->enable('select_all');				
-				//$tbl_users->setSelectAllCheckbox('search_name_to');				
+				$tbl_users->enable('select_all');				
+				$tbl_users->setSelectAllCheckbox('search_name_to_usr');
+				$tbl_users->setFormName('recipients');
 	
 				$this->tpl->setVariable('TABLE_USERS', $tbl_users->getHTML());
 			}			
@@ -368,7 +377,7 @@ class ilMailSearchGUI
 					}
 					$str_members = implode(',',$members);
 					
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', $str_members) . 
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) . 
 							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]',$str_members);		
 					$result[$counter]['title'] = $grp['title'];
@@ -385,7 +394,8 @@ class ilMailSearchGUI
 			 	$tbl_grp->setDefaultOrderField('title');							
 				$tbl_grp->setPrefix('grp_');			
 				$tbl_grp->enable('select_all');				
-				$tbl_grp->setSelectAllCheckbox('search_name_to');				
+				$tbl_grp->setSelectAllCheckbox('search_name_to_grp');
+				$tbl_grp->setFormName('recipients');			
 	
 				$this->tpl->setVariable('TABLE_GRP', $tbl_grp->getHTML());
 			}
