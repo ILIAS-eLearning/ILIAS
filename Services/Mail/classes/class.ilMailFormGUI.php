@@ -123,6 +123,16 @@ class ilMailFormGUI
 	{
 		global $ilUser;
 		
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
+		
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$f_message = $this->umail->formatLinebreakMessage(ilUtil::securePlainString($_POST['m_message']));
 		$this->umail->setSaveInSentbox(true);		
@@ -135,7 +145,7 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
 				ilUtil::securePlainString($_POST['m_subject']), $f_message,
-				$_POST['attachments'],
+				$files,
 //				$_POST['m_type'],
 				$m_type,
 				ilUtil::securePlainString($_POST['use_placeholders'])
@@ -165,10 +175,20 @@ class ilMailFormGUI
 
 		$draftsId = $this->mbox->getDraftsFolder();
 		
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
+		
 		if(isset($_SESSION["draft"]))
 		{
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->umail->updateDraft($draftsId,$_POST["attachments"],
+			$this->umail->updateDraft($draftsId, $files,
 				ilUtil::securePlainString($_POST["rcp_to"]),
 				ilUtil::securePlainString($_POST["rcp_cc"]),
 				ilUtil::securePlainString($_POST["rcp_bcc"]),
@@ -189,7 +209,7 @@ class ilMailFormGUI
 		}
 		else
 		{
-			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$_POST["attachments"],
+			if ($this->umail->sendInternalMail($draftsId,$_SESSION["AccountId"],$files,
 					// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 					ilUtil::securePlainString($_POST["rcp_to"]),
 					ilUtil::securePlainString($_POST["rcp_cc"]),
@@ -233,9 +253,19 @@ class ilMailFormGUI
 
 		if ($save)
 		{
+			// decode post values
+			$files = array();
+			if(is_array($_POST['attachments']))
+			{
+				foreach($_POST['attachments'] as $value)
+				{
+					$files[] = urldecode($value);
+				}
+			}
+			
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 			$this->umail->savePostData($ilUser->getId(),
-										 $_POST["attachments"],
+										 $files,
 										 ilUtil::securePlainString($_POST["rcp_to"]),
 										 ilUtil::securePlainString($_POST["rcp_cc"]),
 										 ilUtil::securePlainString($_POST["rcp_bcc"]),
@@ -280,10 +310,20 @@ class ilMailFormGUI
 	public function searchCoursesTo()
 	{
 		global $ilUser;
+		
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$this->umail->savePostData($ilUser->getId(),
-									$_POST["attachments"],
+									$files,
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
@@ -305,10 +345,20 @@ class ilMailFormGUI
 	public function searchGroupsTo()
 	{
 		global $ilUser;
+		
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$this->umail->savePostData($ilUser->getId(),
-									$_POST["attachments"],
+									$files,
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
@@ -423,9 +473,19 @@ class ilMailFormGUI
 
 	public function editAttachments()
 	{
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
+		
 		// Note: For security reasons, ILIAS only allows Plain text messages.
 		$this->umail->savePostData($_SESSION["AccountId"],
-									$_POST["attachments"],
+									$files,
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
@@ -695,7 +755,7 @@ class ilMailFormGUI
 			foreach($mailData["attachments"] as $key => $data)
 			{
 				$hidden = new ilHiddenInputGUI('attachments[]');
-				$hidden->setValue($data);
+				$hidden->setValue(urlencode($data));
 				$form_gui->addItem($hidden);
 				$size = round(filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data) / 1024);
 				if ($size < 1) $size = 1;
