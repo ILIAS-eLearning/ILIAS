@@ -117,6 +117,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 		{
 			return array();
 		}
+		
+		$lng->loadLanguageModule('forum');
 
 /*		include_once('./Modules/Forum/classes/class.ilForum.php');
 		include_once('./Modules/Forum/classes/class.ilObjForum.php');
