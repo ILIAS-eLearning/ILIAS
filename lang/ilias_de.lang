@@ -10171,4 +10171,7 @@ dateplaner#:#cal_cache_enabled#:#Eingeschaltet
 dateplaner#:#cal_cache_info#:#Wenn aktiviert, wird die Anzeige des Kalenders auf dem Persönlichen Schreibtisch und im Magazin nur alle x-Minuten aktualisiert.
 payment#:#no_vendor_selected#:#Kein Verkäufer ausgewählt.
 dateplaner#:#ical_export#:#iCal-Export
-forum#:#frm_pseudonym#:#Pseudonym
+forum#:#frm_pseudonym#:#Pseudonymmep#:#mobs_always_show_file_manager#:#Always Show File Manager###15 12 2009 new variable
+mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###15 12 2009 new variable
+content#:#cont_snippets_used#:#Used Content Snippets###15 12 2009 new variable
+content#:#cont_show_info#:#Show Info###15 12 2009 new variable
