@@ -513,7 +513,7 @@ class ilObjFileGUI extends ilObjectGUI
 					$this->object->setFileName($data['name']);
 					//$this->object->setFileType($data["type"]);
 					include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-					$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
+					$this->object->setFileType(ilMimeTypeUtil::getMimeType(
 						"", $data["name"], $data["type"]));
 					$this->object->setFileSize($data['size']);
 			}
