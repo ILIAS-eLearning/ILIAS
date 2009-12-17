@@ -590,15 +590,16 @@ class ilObjChatServerGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilSetting;
 
-		if(!$rbacsystem->checkAccess('write', $this->ref_id)) {
+		if(!$rbacsystem->checkAccess('write', $this->ref_id))
+		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->initForm('edit');
+		$this->tabs_gui->setTabActive('settings');
 		
+		$this->initForm('edit');		
 		if(!$this->form_gui->checkInput())
-		{			
-			$this->tabs_gui->setTabActive('edit_properties');					
+		{						
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHtml());
 			return;
@@ -631,7 +632,9 @@ class ilObjChatServerGUI extends ilObjectGUI
 			if(!$this->object->server_conf->update())
 			{
 				ilUtil::sendFailure($this->object->server_conf->getErrorMessage());
-				return $this->editObject();
+				$this->form_gui->setValuesByPost();
+				$this->tpl->setContent($this->form_gui->getHtml());
+				return;
 			}
 			else
 			{
