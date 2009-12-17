@@ -724,7 +724,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		global $ilAccess;
 		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
-			$template->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
