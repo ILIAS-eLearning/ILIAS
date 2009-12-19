@@ -87,6 +87,10 @@ if no installation id is given.
 
 bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> updateIndex <CLIENT> &
 
+6) Performing a query
+
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> search <CLIENT> "ilias"
+
 
 B Preparing ILIAS
 --------------------------------------------------------------------------------
