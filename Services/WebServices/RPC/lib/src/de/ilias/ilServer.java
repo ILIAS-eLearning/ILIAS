@@ -224,7 +224,8 @@ public class ilServer {
 			params.add(arguments[2]);
 			params.add(arguments[3]);
 			params.add(1);
-			client.execute("RPCSearchHandler.search",params);
+			String response  = (String) client.execute("RPCSearchHandler.search",params);
+			System.out.println(response);
 			return true;
 		} 
 		catch (Exception e) {
