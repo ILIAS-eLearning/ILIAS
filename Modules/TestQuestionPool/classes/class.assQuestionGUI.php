@@ -220,9 +220,9 @@ class assQuestionGUI
 	function writeOtherPostData($result = 0)
 	{
 		$this->object->setEstimatedWorkingTime(
-			ilUtil::stripSlashes($_POST["Estimated"]["h"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["m"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["s"])
+			$_POST["Estimated"]["h"],
+			$_POST["Estimated"]["m"],
+			$_POST["Estimated"]["s"]
 		);
 
 		$saved = false;
@@ -824,7 +824,8 @@ class assQuestionGUI
 		if (!$this->getSelfAssessmentEditingMode())
 		{
 			$question->setUseRte(TRUE);
-			$question->setRteTagSet('full');
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 			$question->addPlugin("latex");
 			$question->addButton("latex");
 			$question->addButton("pastelatex");
@@ -1001,33 +1002,53 @@ class assQuestionGUI
 	*
 	* @access public
 	*/
-	function feedback()
+	function feedback($checkonly = false)
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_question_feedback.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
-		$template->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$template->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
-		$template->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$template->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
-		$template->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
-		{
-			$template->setVariable("SAVE", $this->lng->txt("save"));
-		}
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('feedback_answers'));
+		$form->setTableWidth("100%");
+		$form->setId("feedback");
 
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
+		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
+		$complete->setRequired(false);
+		$complete->setRows(10);
+		$complete->setCols(80);
+		$complete->setUseRte(true);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$complete->addPlugin("latex");
+		$complete->addButton("latex");
+		$complete->addButton("pastelatex");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($complete);
+
+		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
+		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
+		$incomplete->setRequired(false);
+		$incomplete->setRows(10);
+		$incomplete->setCols(80);
+		$incomplete->setUseRte(true);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$incomplete->addPlugin("latex");
+		$incomplete->addButton("latex");
+		$incomplete->addButton("pastelatex");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($incomplete);
+
+		$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
 	}
 	
 	public function outQuestionType()
@@ -1050,7 +1071,7 @@ class assQuestionGUI
 		$template->setVariable("TEXT_QUESTION_TYPE", assQuestion::_getQuestionTypeName($this->object->getQuestionType()));
 		return $template->get();
 	}
-	
+
 	/**
 	* Allows to add suggested solutions for questions
 	*

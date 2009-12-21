@@ -71,17 +71,17 @@ class assErrorTextGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			// adding estimated working time
 			$this->writeOtherPostData();
-			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
-			$this->object->setErrorText(ilUtil::stripSlashes($_POST["errortext"]));
-			$points_wrong = ilUtil::stripSlashes(str_replace(",", ".", $_POST["points_wrong"]));
+			$this->object->setTextSize($_POST["textsize"]);
+			$this->object->setErrorText($_POST["errortext"]);
+			$points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
 			if (strlen($points_wrong) == 0) $points_wrong = -1.0;
 			$this->object->setPointsWrong($points_wrong);
 			
@@ -90,7 +90,7 @@ class assErrorTextGUI extends assQuestionGUI
 			{
 				foreach ($_POST['errordata']['key'] as $idx => $val)
 				{
-					$this->object->addErrorData(ilUtil::stripSlashes($val), ilUtil::stripSlashes($_POST['errordata']['value'][$idx]), ilUtil::stripSlashes($_POST['errordata']['points'][$idx]));
+					$this->object->addErrorData($val, $_POST['errordata']['value'][$idx], $_POST['errordata']['points'][$idx]);
 				}
 			}
 			return 0;
@@ -173,6 +173,7 @@ class assErrorTextGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
@@ -186,7 +187,7 @@ class assErrorTextGUI extends assQuestionGUI
 	public function analyze()
 	{
 		$this->writePostData(true);
-		$this->object->setErrorData($this->object->getErrorsFromText(ilUtil::stripSlashes($_POST['errortext'])));
+		$this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
 		$this->editQuestion();
 	}
 
@@ -351,6 +352,21 @@ class assErrorTextGUI extends assQuestionGUI
 	{
 		$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $matches[1]);
 		return $this->ctrl->getLinkTargetByClass('iltestoutputgui', 'gotoQuestion');
+	}
+
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		$this->object->cleanupMediaObjectUsage();
+		parent::saveFeedback();
 	}
 
 	/**

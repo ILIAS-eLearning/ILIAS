@@ -239,6 +239,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
+		$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{

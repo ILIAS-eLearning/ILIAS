@@ -1349,7 +1349,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$random_test = ilUtil::stripSlashes($_POST["random_test"]);
+					$random_test = $_POST["random_test"];
 				}
 			}
 			else
@@ -1376,9 +1376,9 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setIntroduction($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setShowInfo(($_POST["showinfo"]) ? 1 : 0);
-			$this->object->setFinalStatement(ilUtil::stripSlashes($_POST["finalstatement"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setFinalStatement($_POST["finalstatement"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setShowFinalStatement(($_POST["showfinalstatement"]) ? 1 : 0);
 			$this->object->setSequenceSettings(($_POST["chb_postpone"]) ? 1 : 0);
 			$this->object->setShuffleQuestions(($_POST["chb_shuffle_questions"]) ? 1 : 0);
@@ -1426,9 +1426,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
 			$this->object->setForceJS(($_POST["forcejs"]) ? 1 : 0);
 			$this->object->setTitleOutput($_POST["title_output"]);
-			$this->object->setPassword(ilUtil::stripSlashes($_POST["password"]));
-			$this->object->setAllowedUsers(ilUtil::stripSlashes($_POST["allowedUsers"]));
-			$this->object->setAllowedUsersTimeGap(ilUtil::stripSlashes($_POST["allowedUsersTimeGap"]));
+			$this->object->setPassword($_POST["password"]);
+			$this->object->setAllowedUsers($_POST["allowedUsers"]);
+			$this->object->setAllowedUsersTimeGap($_POST["allowedUsersTimeGap"]);
 
 			if ($this->object->isRandomTest())
 			{
@@ -2345,7 +2345,7 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/mark_short_(\d+)/", $key, $matches)) 
 			{
-				$this->object->mark_schema->addMarkStep($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
+				$this->object->mark_schema->addMarkStep(ilUtil::stripSlashes($_POST["mark_short_$matches[1]"]), ilUtil::stripSlashes($_POST["mark_official_$matches[1]"]), ilUtil::stripSlashes($_POST["mark_percentage_$matches[1]"]), ilUtil::stripSlashes($_POST["passed_$matches[1]"]));
 			}
 		}
 		$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
@@ -2464,7 +2464,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
 				}
-				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
+				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, ilUtil::stripSlashes($this->object->ects_grades["A"]), ilUtil::stripSlashes($this->object->ects_grades["B"]), ilUtil::stripSlashes($this->object->ects_grades["C"]), ilUtil::stripSlashes($this->object->ects_grades["D"]), ilUtil::stripSlashes($this->object->ects_grades["E"]));
 			}
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
@@ -2829,7 +2829,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));

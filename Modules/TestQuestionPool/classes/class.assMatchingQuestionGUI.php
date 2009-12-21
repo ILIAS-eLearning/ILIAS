@@ -72,11 +72,11 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			if (!$this->getSelfAssessmentEditingMode())
 			{
@@ -94,9 +94,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 			// adding estimated working time
 			$this->object->setEstimatedWorkingTime(
-				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
 			);
 
 			// Delete all existing answers and create new answers from the form data
@@ -123,7 +123,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 						$filename = "";
 					}
 				}
-				$this->object->addTerm(new assAnswerMatchingTerm(ilUtil::stripSlashes($answer), $filename, $_POST['terms']['identifier'][$index]));
+				$this->object->addTerm(new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index]));
 			}
 
 			// add definitions
@@ -144,7 +144,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 						$filename = "";
 					}
 				}
-				$this->object->addDefinition(new assAnswerMatchingDefinition(ilUtil::stripSlashes($answer), $filename, $_POST['definitions']['identifier'][$index]));
+				$this->object->addDefinition(new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index]));
 			}
 
 			// add matching pairs
@@ -373,6 +373,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues()))))
 			{
 				$errors = true;
@@ -1214,8 +1215,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}

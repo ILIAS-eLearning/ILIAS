@@ -66,24 +66,24 @@ class assTextQuestionGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			$this->object->setPoints($_POST["points"]);
 			$this->object->setMaxNumOfChars($_POST["maxchars"]);
-			$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setKeywords($_POST["keywords"]);
 			$this->object->setTextRating($_POST["text_rating"]);
 			if ($this->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setEstimatedWorkingTime(
-				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
 			);
 			return 0;
 		}
@@ -172,6 +172,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
@@ -409,8 +410,9 @@ class assTextQuestionGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}

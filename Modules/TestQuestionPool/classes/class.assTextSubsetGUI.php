@@ -71,11 +71,11 @@ class assTextSubsetGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			$this->object->setCorrectAnswers($_POST["correctanswers"]);
 			$this->object->setTextRating($_POST["text_rating"]);
@@ -83,7 +83,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			$this->object->flushAnswers();
 			foreach ($_POST['answers']['answer'] as $index => $answer)
 			{
-				$answertext = ilUtil::stripSlashes($answer, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+				$answertext = $answer;
 				$this->object->addAnswer($answertext, $_POST['answers']['points'][$index], $index);
 			}
 			return 0;
@@ -168,6 +168,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			$form->setValuesByPost();
 			$points->setValue($this->object->getMaximumPoints());
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
@@ -397,8 +398,9 @@ class assTextSubsetGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}

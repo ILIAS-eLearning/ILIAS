@@ -2284,6 +2284,33 @@ class ilUtil
 
 		return $a_arr;
 	}
+	
+	/**
+	* Strip slashes from array and sub-arrays
+	*/
+	public static function stripSlashesRecursive($a_data, $a_strip_html = true, $a_allow = "")
+	{
+		if (is_array($a_data))
+		{
+			foreach ($a_data as $k => $v)
+			{
+				if (is_array($v))
+				{
+					$a_data[$k] = ilUtil::stripSlashesRecursive($v, $a_strip_html, $a_allow);
+				}
+				else
+				{
+					$a_data[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
+				}
+			}
+		}
+		else
+		{
+			$a_data = ilUtil::stripSlashes($a_data, $a_strip_html, $a_allow);
+		}
+
+		return $a_data;
+	}
 
 	/**
 	* strip slashes if magic qoutes is enabled
