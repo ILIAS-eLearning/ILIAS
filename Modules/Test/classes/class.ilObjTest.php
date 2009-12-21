@@ -9335,8 +9335,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		// remove the following two lines if the new HTML2PDF RPC function works
 		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
-		return;
-		
+
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once "./Services/Transformation/classes/class.ilHTML2PDF.php";
 		$html2pdf = new ilHTML2PDF();
