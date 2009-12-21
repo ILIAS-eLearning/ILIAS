@@ -115,7 +115,6 @@ class assNumericRange
 	* Get the upper limit
 	*
 	* Returns the upper limit of the range
-	
 	* @return double The upper limit
 	* @access public
 	* @see $upperlimit
@@ -181,7 +180,6 @@ class assNumericRange
 	* Set the points
 	*
 	* Sets the points of the range
-	
 	* @param double $points The points
 	* @access public
 	* @see $points

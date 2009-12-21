@@ -71,17 +71,17 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
-			$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
+			$this->object->setPoints($_POST["points"]);
 			// adding estimated working time
 			$this->writeOtherPostData();
-			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
-			$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
+			$this->object->setTextSize($_POST["textsize"]);
+			$this->object->setOrderText($_POST["ordertext"]);
 			return 0;
 		}
 		else
@@ -143,6 +143,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
@@ -362,6 +363,21 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
+	}
+
+	/**
+	* Saves the feedback for a single choice question
+	*
+	* @access public
+	*/
+	function saveFeedback()
+	{
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		$this->object->cleanupMediaObjectUsage();
+		parent::saveFeedback();
 	}
 
 	/**

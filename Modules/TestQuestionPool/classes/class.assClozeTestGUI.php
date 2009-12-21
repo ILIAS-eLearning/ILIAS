@@ -78,9 +78,9 @@ class assClozeTestGUI extends assQuestionGUI
 		if (!$hasErrors)
 		{
 			$this->object->flushGaps();
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setComment($_POST["comment"]);
 			$this->object->setTextgapRating($_POST["textgap_rating"]);
 			$this->object->setIdenticalScoring($_POST["identical_scoring"]);
 			if ($this->getSelfAssessmentEditingMode())
@@ -89,12 +89,12 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 			$this->object->setFixedTextLength($_POST["fixedTextLength"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$cloze_text = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$cloze_text = $_POST["question"];
 			$this->object->setClozeText($cloze_text);
 			$this->object->setEstimatedWorkingTime(
-				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
 			);
 
 			if (is_array($_POST['gap']))
@@ -115,22 +115,22 @@ class assClozeTestGUI extends assQuestionGUI
 						{
 							foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
 							{
-								$this->object->addGapAnswer($idx, $order, ilUtil::stripSlashes($value, FALSE));
+								$this->object->addGapAnswer($idx, $order, $value);
 							}
 						}
 					}
 					if (array_key_exists('gap_' . $idx . '_numeric', $_POST))
 					{
-						if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->addGapAnswer($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric']), FALSE));
-						$this->object->setGapAnswerLowerBound($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower']), FALSE));
-						$this->object->setGapAnswerUpperBound($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper']), FALSE));
-						$this->object->setGapAnswerPoints($idx, 0, ilUtil::stripSlashes($_POST['gap_' . $idx . '_numeric_points']));
+						if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->addGapAnswer($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric']));
+						$this->object->setGapAnswerLowerBound($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower']));
+						$this->object->setGapAnswerUpperBound($idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper']));
+						$this->object->setGapAnswerPoints($idx, 0, $_POST['gap_' . $idx . '_numeric_points']);
 					}
 					if (is_array($_POST['gap_' . $idx]['points']))
 					{
 						foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
 						{
-							$this->object->setGapAnswerPoints($idx, $order, ilUtil::stripSlashes($value));
+							$this->object->setGapAnswerPoints($idx, $order, $value);
 						}
 					}
 				}
@@ -304,6 +304,7 @@ class assClozeTestGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
@@ -694,8 +695,9 @@ class assClozeTestGUI extends assQuestionGUI
 	function saveFeedback()
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$this->object->saveFeedbackGeneric(0, ilUtil::stripSlashes($_POST["feedback_incomplete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->saveFeedbackGeneric(1, ilUtil::stripSlashes($_POST["feedback_complete"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+		$errors = $this->feedback(true);
+		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
+		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}
