@@ -10159,16 +10159,16 @@ common#:#group#:#Group###15 12 2009 new variable
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager###15 12 2009 new variable
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###15 12 2009 new variable
 content#:#cont_snippets_used#:#Used Content Snippets###15 12 2009 new variable
-content#:#cont_show_info#:#Show Info###15 12 2009 new variable
+content#:#cont_show_info#:#Vis info
 dateplaner#:#cal_sync_header#:#Synchronisation Settings###15 12 2009 new variable
-dateplaner#:#cal_sync_cache#:#Calendar Cache###15 12 2009 new variable
-dateplaner#:#cal_sync_disabled#:#Disabled###15 12 2009 new variable
-dateplaner#:#cal_sync_enabled#:#Enabled###15 12 2009 new variable
+dateplaner#:#cal_sync_cache#:#Kalendar cache
+dateplaner#:#cal_sync_disabled#:#Deaktiveret
+dateplaner#:#cal_sync_enabled#:#Aktiveret
 dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.###15 12 2009 new variable
-dateplaner#:#cal_cache#:#Kalender-Cache###15 12 2009 new variable
-dateplaner#:#cal_cache_disabled#:#Disabled###15 12 2009 new variable
-dateplaner#:#cal_cache_enabled#:#Enabled###15 12 2009 new variable
+dateplaner#:#cal_cache#:#Kalender-cache
+dateplaner#:#cal_cache_disabled#:#Deaktiveret
+dateplaner#:#cal_cache_enabled#:#Aktiveret
 dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  ###15 12 2009 new variable
-payment#:#no_vendor_selected#:#No vendor selected. ###15 12 2009 new variable
-dateplaner#:#ical_export#:#iCal Export###15 12 2009 new variable
-forum#:#frm_pseudonym#:#Pseudony###15 12 2009 new variable
+payment#:#no_vendor_selected#:#Ingen sælger valgt.
+dateplaner#:#ical_export#:#iCal eksport
+forum#:#frm_pseudonym#:#Pseudonym
