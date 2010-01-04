@@ -15,49 +15,76 @@ class ilUserUtil
 	 * Default behaviour is:
 	 * - lastname, firstname if public profile enabled
 	 * - [loginname] (always)
+	 * modifications by jposselt at databay . de :
+	 * if $a_user_id is an array of user ids the method returns an array of
+	 * "id" => "NamePresentation" pairs.
 	 */
 	static function getNamePresentation($a_user_id, 
 		$a_user_image = false, $a_profile_link = false, $a_profile_back_link = "",
 		$a_force_first_lastname = false)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilDB;
 		
-		if (ilObject::_lookupType($a_user_id) != "usr")
+		if (!($return_as_array = is_array($a_user_id)))
+			$a_user_id = array($a_user_id);
+		
+		$sql = 'SELECT
+					a.usr_id, 
+					firstname,
+					lastname,
+					title,
+					login,
+					value public_profile
+				FROM
+					usr_data a 
+					LEFT JOIN 
+						usr_pref b ON 
+							a.usr_id = b.usr_id AND
+							keyword = %s
+				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
+		
+		$userrow = $ilDB->queryF($sql, array('text'), array('public_profile'));
+		
+		$names = array();
+		
+		while ($row = $ilDB->fetchObject($userrow))
 		{
-			return $lng->txt("unknown");
-		}
-		
-		$user = ilObjUser::_lookupName($a_user_id);
-		$login = ilObjUser::_lookupLogin($a_user_id);
-
-		if ($a_force_first_lastname ||
-			in_array(ilObjUser::_lookupPref($a_user_id, "public_profile"), array("y", "g")))
-		{
-			$pres = $user["lastname"].", ".$user["title"]." ".$user["firstname"]." ";
-		}
-		
-		$pres.= "[".$login."]";
-		
-		if ($a_profile_link && 
-			in_array(ilObjUser::_lookupPref($a_user_id, "public_profile"), array("y", "g")))
-		{
-			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_user_id);
-			if ($a_profile_back_link != "")
+			if ($a_force_first_lastname ||
+				$has_public_profile = in_array($row->public_profile, array("y", "g")))
 			{
-				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-					rawurlencode($a_profile_back_link));
+				$pres = $row->lastname.", ".($t = $row->title ? $t . " " : "").$row->firstname." ";
 			}
-			$pres = '<a href="'.$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML").'">'.$pres.'</a>';
+			
+			$pres.= "[".$row->login."]";
+			
+			if ($a_profile_link && $has_public_profile)
+			{
+				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $row->usr_id);
+				if ($a_profile_back_link != "")
+				{
+					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+						rawurlencode($a_profile_back_link));
+				}
+				$pres = '<a href="'.$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML").'">'.$pres.'</a>';
+			}
+	
+			if ($a_user_image)
+			{
+				$img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
+				$pres = '<img border="0" src="'.$img.'" alt="'.$lng->txt("icon").
+					" ".$lng->txt("user_picture").'" /> '.$pres;
+			}
+
+			$names[$row->usr_id] = $pres; 
 		}
 
-		if ($a_user_image)
+		foreach($a_user_id as $id)
 		{
-			$img = ilObjUser::_getPersonalPicturePath($a_user_id, "xxsmall");
-			$pres = '<img border="0" src="'.$img.'" alt="'.$lng->txt("icon").
-				" ".$lng->txt("user_picture").'" /> '.$pres;
+			if (!$names[$id])
+				$names[$id] = "unknown";
 		}
 
-		return $pres;
+		return $return_as_array ? $names : $names[$a_user_id[0]];
 	}
 	
 }
