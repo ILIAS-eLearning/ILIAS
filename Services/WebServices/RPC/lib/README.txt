@@ -14,6 +14,11 @@ This Java server has been tested with Sun Java Runtime Environment 1.6.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 
+PHP curl is required for using the Java server features.
+On Debian based systems try:
+
+bash$ apt-get install php5-curl 
+
 
 A Installation
 -------------------------------------------------------------------------------
