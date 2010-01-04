@@ -138,8 +138,9 @@ class ilAuthShibbolethSettingsGUI
 			$this->tpl->setVariable(strtoupper($setting), $settings[$setting]);
 			$this->tpl->setVariable('SHIB_UPDATE_'.strtoupper($field), $settings["shib_update_".$field]);
 			
-			if ($settings["shib_update_".$field])
+			if ($settings["shib_update_".$field]) {
 				$this->tpl->setVariable('CHK_SHIB_UPDATE_'.strtoupper($field), 'checked="checked"');
+			}
 		}
 		
 		// Set some default values
