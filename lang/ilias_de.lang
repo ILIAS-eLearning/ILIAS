@@ -6,15 +6,15 @@
 * @author		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
 * @il_server		http://localhost:8888/ilias-trunk
-* @il_version		4.0.0 Beta1 2009-07-24
-* @created		2009-08-17 16:36:13
-* @created_by		mkunkel Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @il_version		4.0.2 2009-12-15
+* @created		2010-01-06 15:18:43
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -34,7 +34,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -54,10 +54,13 @@ acc#:#acc_previous#:#Zurück (zur vorigen Seite)
 acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
+administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
+administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden aysnchron geladen. Dies erhöht die Perfomanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Pop-up-Menüs kommen.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
 administration#:#adm_repository_cache_time_info#:#Cache-Zeit für Magazinzugriffe. Setzen Sie den Wert auf 0, um den Cache zu deaktivieren. Höhere Werte verbessern die Performanz des Magazins, können aber zur Anzeige von fehlenden Berechtigungen führen.
+administration#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing#:#Analysiert...
@@ -82,6 +85,7 @@ administration#:#dump_tree_desc#:#Analysiere die Baumstruktur und liste alle Bau
 administration#:#dumping_tree#:#Liste Tree auf...
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
+administration#:#history_loginname#:#Benutzernamen Historie
 administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur...
 administration#:#language_administration#:#Sprachverwaltung
 administration#:#language_all_modules#:#Alle Module
@@ -131,6 +135,10 @@ administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
 administration#:#language_translation_mode#:#Übersetzungsmodus
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
+administration#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
+administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
+administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
+administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
@@ -140,6 +148,7 @@ administration#:#options#:#Optionen
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
 administration#:#purge_age_limit#:#Begrenze Alter
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
@@ -166,6 +175,7 @@ administration#:#restoring#:#Wiederhergestellt...
 administration#:#restoring_missing_objs#:#Stelle verlorene Objekte wieder her
 administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
 administration#:#restoring_unbound_objs#:#Stellt nichtzugeordnete Objekte und Teilobjekte wieder her...
+administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
 administration#:#scan#:#Untersuche
 administration#:#scan_completed#:#Untersuchung beendet
 administration#:#scan_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
@@ -183,6 +193,7 @@ administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
+administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 adve#:#adve_grp_glo#:#Glossare
@@ -927,10 +938,10 @@ assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
-assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
+assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_reset_processing_time_desc#:#Wenn diese Option ausgewählt ist, wird die bereits abgelaufene Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt, so dass wieder die maximale Bearbeitungsdauer zur Verfügung steht. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
@@ -938,10 +949,10 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access#:#Zugang zu den Testergebnissen
 assessment#:#tst_results_access_always#:#Immer
-assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_access_date#:#Datum
 assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben. Ist 'Nie' ausgewählt, haben die Teilnehmer keinen Zugriff auf die Testergebnisse.
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
+assessment#:#tst_results_access_never#:#Nie
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
@@ -1225,9 +1236,7 @@ certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seit
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
-certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
-certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztitel für die Dateibenennung ein. Der Kurztitel wird als Teil des Zertifikat-Dateinamens verwendet: JJMMTT_[Nachname]_[SHORT_TITLE]_Zertifikat.pdf.
-certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
+certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_date#:#Aktuelles Datum
@@ -1245,17 +1254,19 @@ certificate#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
 certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
 certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_scormtitle#:#Titel des SCORM Lernmoduls
+certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM Lernmoduls in Prozent
+certificate#:#certificate_ph_scormtitle#:#Titel des SCORM Lernmoduls
 certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_testtitle#:#Titel des Tests
 certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
 certificate#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
 certificate#:#certificate_right#:#Rechts
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
+certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
+certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztitel für die Dateibenennung ein. Der Kurztitel wird als Teil des Zertifikat-Dateinamens verwendet: JJMMTT_[Nachname]_[SHORT_TITLE]_Zertifikat.pdf.
 certificate#:#certificate_show#:#Zertifikat anzeigen
 certificate#:#certificate_status#:#Status
 certificate#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
@@ -1270,15 +1281,15 @@ certificate#:#certificate_var_result_mark_short#:#2
 certificate#:#certificate_var_result_passed#:#bestanden
 certificate#:#certificate_var_result_percent#:#83%
 certificate#:#certificate_var_result_points#:#38
-certificate#:#certificate_var_user_salutation#:#Frau
-certificate#:#certificate_var_user_city#:#Köln
 certificate#:#certificate_var_user_birthday#:#08.05.1977
+certificate#:#certificate_var_user_city#:#Köln
 certificate#:#certificate_var_user_country#:#Deutschland
 certificate#:#certificate_var_user_department#:#Benutzerbetreuung
 certificate#:#certificate_var_user_firstname#:#Erika
 certificate#:#certificate_var_user_fullname#:#Erika Mustermann
 certificate#:#certificate_var_user_institution#:#ILIAS open source
 certificate#:#certificate_var_user_lastname#:#Mustermann
+certificate#:#certificate_var_user_salutation#:#Frau
 certificate#:#certificate_var_user_street#:#Heidestraße 17
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#51147
@@ -1330,6 +1341,7 @@ chat#:#chat_chatviewer#:#Chatviewer
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?
 chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
+chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smilies wirklich gelöscht werden?
 chat#:#chat_confirm_kick_user#:#Sind Sie sicher, dass der Benutzer rausgeworfen werden soll?
 chat#:#chat_confirm_user_invite#:#Der Benutzer wird in den Chat eingeladen
 chat#:#chat_current_image_path#:#aktuelles Bild
@@ -1497,6 +1509,7 @@ chat#:#chat_user_visible#:#sichtbar
 chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
+chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
 chat#:#edit_smilies#:#Smilies bearbeiten
 chat#:#my_chats#:#Meine Chats
 cmps#:#cmps_activate#:#Aktivieren
@@ -1512,6 +1525,7 @@ cmps#:#cmps_db_update#:#Skript für Datenbankaktualisierung
 cmps#:#cmps_deactivate#:#Deaktivieren
 cmps#:#cmps_dir#:#Verzeichnis
 cmps#:#cmps_disable_creation#:#Erstellung ausschalten
+cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
 cmps#:#cmps_edit_settings#:#Einstellungen
 cmps#:#cmps_file_version#:#Dateiversion aktualisieren
 cmps#:#cmps_group#:#Gruppe
@@ -1634,6 +1648,7 @@ common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
+common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#admin_panel#:#Administrationsmenü
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
@@ -1677,7 +1692,6 @@ common#:#all_topics#:#Alle Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
-administration#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
 common#:#allow_register#:#Verfügbar im Registrierformular
 common#:#alm#:#Lernmodul AICC
@@ -1847,6 +1861,7 @@ common#:#authenticate_ilias#:#Direkt über die ILIAS-Datenbank anmelden
 common#:#authenticate_with#:#Anmelden bei:
 common#:#authentication_settings#:#Authentifizierung
 common#:#author#:#Autor/in
+common#:#authoring_mode#:#Autorenmodus
 common#:#authors#:#Autor/innen
 common#:#auto_registration#:#Neu registrierte Benutzerkonten automatisch freigeben
 common#:#available#:#Verfügbar
@@ -2005,6 +2020,7 @@ common#:#change_owner#:#Besitzer ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changeable#:#Änderbar
 common#:#changed_to#:#gewechselt zu
+common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
@@ -2122,7 +2138,6 @@ common#:#create#:#Erstellen
 common#:#create_block#:#Block erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
-administration#:#history_loginname#:#Benutzernamen Historie
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
@@ -2283,10 +2298,12 @@ common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
 common#:#details#:#Details
 common#:#disable#:#ausschalten
+common#:#disable_admin_force#:#Benachrichtigung deaktivieren
 common#:#disable_anonymous_fora#:#"Identität verschleiern" für Foren deaktivieren
 common#:#disable_anonymous_fora_desc#:#Wenn diese Option ausgewählt ist, ist das Feature "Identität verschleiern" für Foren nicht mehr verfügbar. Ist das Feature in bestimmten Foren bereits aktiviert, kann dies jedoch noch rückgängig gemacht werden.
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
+common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#disabled#:#Ausgeschaltet
 common#:#disk_quota#:#Disk Quota
 common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
@@ -2333,6 +2350,7 @@ common#:#email_feedback#:#E-Mail-Feedback
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_admin_force#:#Benachrichtigung aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
@@ -2344,6 +2362,7 @@ common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und
 common#:#enable_ext_lang_maint#:#Aktiviere «Erweiterte Sprachenverwaltung»
 common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
 common#:#enable_fora_statistics_desc#:#Wenn diese deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
+common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript-Editor
@@ -2624,6 +2643,7 @@ common#:#forums_forum_notification_enabled#:#Sie werden über neue Nachrichten i
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_moderators#:#Moderatoren
 common#:#forums_new_articles#:#Neue Beiträge
+common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen
 common#:#forums_overview#:#Übersicht Foren
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
@@ -2642,7 +2662,7 @@ common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_edit_permission#:#Rechteeinstellungen ändern
 common#:#frm_edit_post#:#Forumbeiträge anlegen
-common#:#frm_latest_postings#:#Letzte Artikel
+common#:#frm_latest_postings#:#Letzte Beiträge
 common#:#frm_moderate_frm#:#Forumbeiträge löschen, Zensur
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
@@ -2691,6 +2711,7 @@ common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
 common#:#go#:#Los
+common#:#group#:#Gruppe
 common#:#group_access_denied#:#Zugriff verweigert
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden
 common#:#group_create_chat#:#Neuen Chat anlegen
@@ -3099,6 +3120,7 @@ common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
+common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#invisible_block#:#Unsichtbarer Block
 common#:#invisible_block_mess#:#Sie haben nicht das Recht, diesen Block zu sehen.
 common#:#ip_address#:#IP-Adresse
@@ -3111,6 +3133,7 @@ common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
+common#:#join_session#:#Anmelden
 common#:#kb#:#KByte
 common#:#keywords#:#Schlagwörter
 common#:#lang_bg#:#Bulgarisch
@@ -3167,6 +3190,7 @@ common#:#last_access#:#Letzter Zugriff
 common#:#last_change#:#Letzte Änderung
 common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_login#:#Letztes Login
+common#:#last_refresh#:#Letzte Aktualisierung
 common#:#last_reminder#:#Letzte Erinnerung
 common#:#last_update#:#Letzte Aktualisierung
 common#:#last_visit#:#Letzter Besuch
@@ -3421,6 +3445,7 @@ common#:#mobs_read#:#Lesezugriff auf Einstellungen für Medienobjekte und -pools
 common#:#mobs_visible#:#Einstellungen für Medienobjekte und -pools sind sichtbar
 common#:#mobs_write#:#Medienobjekte und -pools bearbeiten
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
+common#:#moderators#:#Moderatoren
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Monat
@@ -3454,8 +3479,8 @@ common#:#mount_webfolder#:#Als Webordner öffnen
 common#:#move#:#Verschieben
 common#:#move_blocks#:#Blöcke verschieben
 common#:#move_down#:#Nach unten
-common#:#move_right#:#Nach rechts
 common#:#move_left#:#Nach links
+common#:#move_right#:#Nach rechts
 common#:#move_selected_items#:#Verschieben
 common#:#move_to#:#Ablegen in
 common#:#move_up#:#Nach oben
@@ -3469,6 +3494,7 @@ common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, an den die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Kopieren-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
+common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles#:#Rollen gelöscht
 common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gelöscht
@@ -3607,6 +3633,7 @@ common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
 common#:#no_objects#:#Keine Objekte
+common#:#no_owner#:#Kein Besitzer
 common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
 common#:#no_permission#:#Sie haben nicht die entsprechenden Zugriffsrechte!
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
@@ -3925,6 +3952,8 @@ common#:#pays_read#:#Lesezugriff auf Paymenteinstellungen
 common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
+common#:#pd_enable_contacts#:#Aktiviere Kontakte
+common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung
 common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
 common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#pdf_export#:#PDF-Export
@@ -3995,6 +4024,7 @@ common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
 common#:#pub_section#:#Öffentlicher Bereich
+common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
 common#:#public_profile#:#Öffentliches Profil
@@ -4006,6 +4036,7 @@ common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#purpose#:#Verwendung
 common#:#qpl#:#Fragenpool für Test
 common#:#qpl_add#:#Fragenpool hinzufügen
+common#:#qpl_copy#:#Fragenpool für Test kopieren
 common#:#qpl_delete#:#Fragenpool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
 common#:#qpl_new#:#Neuer Fragenpool für Test
@@ -4200,6 +4231,7 @@ common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
 common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
 common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
 common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
+common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
 common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
 common#:#search#:#Suche
 common#:#search_active#:#Active Benutzer
@@ -4254,6 +4286,7 @@ common#:#server#:#Server
 common#:#server_data#:#Serverdaten
 common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
+common#:#sess_copy#:#Sitzung kopieren
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
@@ -4267,6 +4300,7 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
+common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#shib#:#Shibboleth
@@ -4309,6 +4343,7 @@ common#:#shib_visible#:#Einstellungen für Shibboleth sind sichtbar
 common#:#shib_write#:#Einstellungen für Shibboleth editieren
 common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#shop#:#Shop
+common#:#shop_actions#:#Aktionen
 common#:#short_inst_name#:#Kurztitel
 common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'
 common#:#show#:#Anzeigen
@@ -4332,7 +4367,11 @@ common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
+common#:#socialbm_disable#:#Deaktivieren
+common#:#socialbm_enable#:#Aktivieren
 common#:#socialbm_extt_social_bookmarks#:#SocialBookmarks
+common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
+common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_manual#:#Wenn ausgewählt, können die Materialien manuell in beliebiger Reihenfolge sortiert werden.
@@ -4343,6 +4382,7 @@ common#:#sorting_title_header#:#Nach Titel
 common#:#spacer#:#Trenner
 common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool hinzufügen
+common#:#spl_copy#:#Fragenpool für Umfrage kopieren
 common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
@@ -4367,6 +4407,7 @@ common#:#state_unread#:#ungelesen
 common#:#statistic#:#Statistik
 common#:#statistics#:#Statistik
 common#:#status#:#Status
+common#:#status_no_permission#:#Kein Zugriff gewährt.
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#stop_moving_blocks#:#Verschieben der Blöcke beenden
@@ -4477,6 +4518,7 @@ common#:#time_segment#:#Zeitraum
 common#:#tiny_icon#:#Kleines Icon
 common#:#title#:#Titel
 common#:#title_long#:#Langtitel
+common#:#title_required#:#Bitte geben Sie einen Titel an.
 common#:#to#:#Bis
 common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Auf Schreibtisch legen
@@ -4523,6 +4565,7 @@ common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um a
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 common#:#tst_write#:#Test bearbeiten
+common#:#tutors#:#Tutoren
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
@@ -4540,6 +4583,7 @@ common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
 common#:#udf_no_entries#:#Bitte geben Sie mindestens einen Wert ein.
 common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
+common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
 common#:#udf_type_select#:#Auswahlliste (feste Werte)
@@ -4624,6 +4668,7 @@ common#:#user_profile_other#:#Weitere Informationen
 common#:#user_send_new_account_mail#:#Sende
 common#:#user_statistics#:#Statistik
 common#:#user_status#:#Benutzerstatus
+common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#userdata#:#Benutzerdaten
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -4884,6 +4929,7 @@ content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
 content#:#cont_copy_to_media_pool#:#In Medienpool kopieren
+content#:#cont_could_not_determine_resource_size#:#ILIAS konnte die Abmessungen nicht automatisch ermitteln.
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
@@ -4907,6 +4953,8 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
+content#:#cont_debug#:#Debug-Menü anzeigen
+content#:#cont_debugpw#:#Zugangspasswort
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
@@ -4922,7 +4970,10 @@ content#:#cont_delete_track_data#:#Lösche Trackingdaten
 content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
+content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
+content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
+content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
 content#:#cont_disable_html#:#HTML inaktiv
 content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medien inaktiv
@@ -5033,7 +5084,11 @@ content#:#cont_export_type#:#Export-Typ
 content#:#cont_external#:#extern
 content#:#cont_external_url#:#Externe URL
 content#:#cont_file#:#Datei
+content#:#cont_file_created#:#Datei wurde angelegt.
+content#:#cont_file_deleted#:#Die Datei wurde umbenannt.
 content#:#cont_file_from_repository#:#Datei aus Magazin
+content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
+content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
 content#:#cont_files#:#Dateien
 content#:#cont_first_open#:#Zuerst geöffnet
@@ -5062,6 +5117,7 @@ content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
 content#:#cont_Headline3#:#Überschrift 3
 content#:#cont_height#:#Höhe
+content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
 content#:#cont_Hint#:#Hinweis
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
@@ -5070,6 +5126,7 @@ content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_import_tracking#:#Protokolldaten importieren
+content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
 content#:#cont_insert_as_chapter#:#Als Kapitel einfügen
 content#:#cont_insert_as_subchapter#:#Als Unterkapitel einfügen
 content#:#cont_insert_chapter#:#Kapitel einfügen
@@ -5150,7 +5207,7 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
-content#:#cont_LocalFile#:#Lokale Datei
+content#:#cont_localfile#:#Lokale Datei
 content#:#cont_location#:#Position
 content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
@@ -5198,6 +5255,7 @@ content#:#cont_no_parameters#:#Keine Parameter
 content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'.
 content#:#cont_no_text#:#Kein Text
 content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
+content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_none#:#Keine
 content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
 content#:#cont_nr_col_footer#:#Fußzeile Spalten
@@ -5333,6 +5391,7 @@ content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
+content#:#cont_sc_usession#:#Session-Timeout deaktivieren
 content#:#cont_sc_version#:#Modulversion
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_school#:#Schule
@@ -5347,6 +5406,7 @@ content#:#cont_select_media_pool#:#Media-Pool auswählen
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
 content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
+content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
 content#:#cont_select_term#:#Bitte wählen sie einen Begriff aus.
 content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
@@ -5372,10 +5432,12 @@ content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
+content#:#cont_show_info#:#Info anzeigen
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_show_print_view#:#Druckansicht
 content#:#cont_size#:#Größe
 content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
+content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
 content#:#cont_source#:#Quelle
 content#:#cont_span#:#Abstand
 content#:#cont_Special#:#Spezial
@@ -5512,9 +5574,12 @@ content#:#read offline#:#Offline lesen
 content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scorm_editable#:#Zur Bearbeitung importieren
 content#:#scorm_editable_comments#:#Funktioniert nur mit SCORM 1.2/2004-Paketen
+content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
+content#:#scplayer_debugger#:#Debugger zeigen
 content#:#scplayer_exit#:#Schliessen
 content#:#scplayer_exitall#:#Bearbeitung Beenden
+content#:#scplayer_expandtree#:#Baum ausklappen
 content#:#scplayer_hidetree#:#Baum Verbergen
 content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
 content#:#scplayer_previous#:#Zurück
@@ -5547,6 +5612,7 @@ crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
+crs#:#crs_access#:#Zugang
 crs#:#crs_access_password#:#Passwort
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
@@ -5597,6 +5663,7 @@ crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.
+crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
 crs#:#crs_contact#:#Kontakt
@@ -5691,6 +5758,7 @@ crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
+crs#:#crs_join_request#:#Abschicken
 crs#:#crs_learning_materials#:#Materialien
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
 crs#:#crs_list_users#:#Benutzer auflisten
@@ -5726,6 +5794,7 @@ crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
+crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%s ist dem Kurs %s beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
@@ -5764,6 +5833,7 @@ crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notification#:#Benachrichtigungen
+crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin die Benachrichtigungsfunktion aktivert ist.
 crs#:#crs_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
@@ -5794,6 +5864,7 @@ crs#:#crs_objective_points#:#Punkt(e)
 crs#:#crs_objective_pretest#:#Nach Einstiegstest
 crs#:#crs_objective_qst_summary#:#Fragenübersicht
 crs#:#crs_objective_question_assignment#:#Fragenzuordnung
+crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
 crs#:#crs_objective_result#:#Nach Abschlusstest
 crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
 crs#:#crs_objective_self_assessment#:#Einstiegstest
@@ -5853,6 +5924,7 @@ crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes mö
 crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
 crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_period#:#Anmeldungszeitraum
+crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
@@ -5915,6 +5987,10 @@ crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_structure#:#Kursstruktur
+crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
+crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in den Kurs "%s" erfolgt ist.
+crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
+crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
@@ -5979,6 +6055,8 @@ crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unblocked_member#:#Status in Kurs "%s"
 crs#:#crs_unblocked_member_body#:#ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
 crs#:#crs_unlimited#:#Unbegrenzt
+crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
+crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
@@ -6091,6 +6169,7 @@ crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
 crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
 crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
+crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
 crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu begrenzen.
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
@@ -6119,6 +6198,7 @@ crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Titel
 crs#:#user_fields#:#Benutzerdaten
+dateplaner#:#add_appointment#:#Termin hinzufügen
 dateplaner#:#add_data#:#zusätzliche Informationen
 dateplaner#:#app_#:#Termineingang
 dateplaner#:#app_date#:#Termin eintragen
@@ -6143,6 +6223,10 @@ dateplaner#:#cal_all_day#:#Ganztags
 dateplaner#:#cal_appointments#:#Termine
 dateplaner#:#cal_apps#:#Anzahl Termine
 dateplaner#:#cal_assigned_appointments#:#Termine dieses Kalenders
+dateplaner#:#cal_cache#:#Kalender-Cache
+dateplaner#:#cal_cache_disabled#:#Ausgeschaltet
+dateplaner#:#cal_cache_enabled#:#Eingeschaltet
+dateplaner#:#cal_cache_info#:#Wenn aktiviert, wird die Anzeige des Kalenders auf dem Persönlichen Schreibtisch und im Magazin nur alle x-Minuten aktualisiert.
 dateplaner#:#cal_cal_details#:#Kalenderdetails
 dateplaner#:#cal_cal_type#:#Kalenderart
 dateplaner#:#cal_calendar_color#:#Farbe
@@ -6151,6 +6235,7 @@ dateplaner#:#cal_category_selection#:#Kalenderauswahl
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
 dateplaner#:#cal_changed_events_header#:#Geänderte Termine
 dateplaner#:#cal_create#:#Erzeuge
+dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
 dateplaner#:#cal_daily#:#Täglich
@@ -6223,6 +6308,14 @@ dateplaner#:#cal_shared_calendars#:#Kalender Freigaben (Einladungen)
 dateplaner#:#cal_shared_header#:#Kalender Freigaben
 dateplaner#:#cal_shared_selected_usr#:#Der Kalender wurde für die ausgewählten Benutzer/Rollen freigegeben.
 dateplaner#:#cal_start#:#Start
+dateplaner#:#cal_subscription_header#:#Kalender-Adresse
+dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
+dateplaner#:#cal_subscription_url#:#Kalender URL:
+dateplaner#:#cal_sync_cache#:#Termin-Cache
+dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.
+dateplaner#:#cal_sync_disabled#:#Ausgeschaltet
+dateplaner#:#cal_sync_enabled#:#Eingeschaltet
+dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronistation
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
@@ -6371,6 +6464,7 @@ dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben s
 dateplaner#:#help_week#:#Kalender Wochenansicht
 dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
+dateplaner#:#ical_export#:#iCal-Export
 dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
 dateplaner#:#inbox#:#Eingang
 dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
@@ -6652,7 +6746,7 @@ forum#:#forum_add_quote#:#Zitieren
 forum#:#forum_anonymize#:#Anonym Schreiben
 forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS-Benutzername wird nicht angezeigt).
 forum#:#forums#:#Foren
-forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
+forum#:#forums_all_threads_marked_read#:#Alle Themen wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
@@ -6692,8 +6786,8 @@ forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde eingetragen, muss 
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_post_was_activated#:#Der Beitrag wurde aktiviert.
 forum#:#forums_posts#:#Alle Beiträge
-forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
-forum#:#forums_print_thread#:#Thread ausdrucken
+forum#:#forums_posts_not_available#:#Keine Beiträge verfügbar
+forum#:#forums_print_thread#:#Thema ausdrucken
 forum#:#forums_print_view#:#Druckansicht
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
@@ -6725,6 +6819,7 @@ forum#:#frm_moderators_search_query#:#Suchbegriff(e)
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
+forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
 forum#:#frm_statistics#:#Statistiken
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
@@ -6759,13 +6854,13 @@ gmaps#:#gmaps_api_key_desc#:#Um die Google Maps-Erweiterung nutzen zu können, m
 gmaps#:#gmaps_enable_gmaps#:#Google Maps aktivieren
 gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Kursen und Gruppen
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
+gmaps#:#gmaps_latitude#:#Breitengrad
+gmaps#:#gmaps_longitude#:#Längengrad
 gmaps#:#gmaps_lookup_address#:#Adresse suchen
 gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Öffentlichen Profil angezeigt. Dazu muss aber Ihr Öffentliches Profil aktiviert sein. Bei Kurs- und Gruppenkarten wird der Standort ebenfalls angezeigt.
 gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
 gmaps#:#gmaps_std_location#:#Standort der Installation
 gmaps#:#gmaps_std_location_desc#:#Klicken Sie auf die Karte, um den Standort festzulegen.
-gmaps#:#gmaps_latitude#:#Breitengrad
-gmaps#:#gmaps_longitude#:#Längengrad
 gmaps#:#gmaps_zoom_level#:#Vergrößerungsgrad
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
@@ -6797,7 +6892,33 @@ grp#:#grp_icon_settings#:#Gruppen-Icon
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#grp_join_request#:#Abschicken
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
+grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
+grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
+grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
+grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
+grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
+grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
+grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\n Wählen Sie dazu bitte folgenden Link:
+grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
+grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
+grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
+grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
+grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
+grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
+grp#:#grp_mail_status_sub#:#Status in Gruppe "%s"
+grp#:#grp_mail_sub_acc_bod#:#Sie sind in die Gruppe "%s" aufgenommen worden.
+grp#:#grp_mail_sub_acc_sub#:#Aufnahme in Gruppe "%s"
+grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
+grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
+grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
+grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
+grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
+grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_members#:#Mitglieder
@@ -6806,7 +6927,11 @@ grp#:#grp_min_one_admin#:#Dieser Gruppe muß mindestens ein Administrator zugeor
 grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
 grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
 grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
+grp#:#grp_new_status#:#Ihr neuer Status:
 grp#:#grp_notification#:#Benachrichtigung
+grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktivert sind.
+grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
+grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
 grp#:#grp_open#:#Offene Gruppe
 grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sichtbar. Eine direkte Anmeldung ist für alle möglich.
 grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
@@ -6826,10 +6951,12 @@ grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_reg_max_members_info#:#Sie können hier die maximale Anzahl von Gruppenmitgliedern festlegen. Wird die Zahl überschritten, sind keine Beitritte mehr möglich.
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Interessierte Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
+grp#:#grp_reg_period#:#Registrierungszeitraum
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat.
 grp#:#grp_reg_request#:#Antrag mit Bestätigung
 grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren übermitteln.
 grp#:#grp_reg_start#:#Start:
+grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
@@ -7062,6 +7189,8 @@ license#:#license_warning#:#Lizenzwarnung bis
 license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
 license#:#potential_accesses#:#Potentielle Zugriffe
 license#:#potential_accesses_explanation#:#Jeder Nutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
+license#:#remaining_licenses#:#Verfügbare Lizenen
+license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
 license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Nutzers verbraucht eine Lizenz.
 license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu deaktivieren.
@@ -7184,9 +7313,13 @@ mail#:#mail_received_x_new_mails#:#Sie haben %s neue Nachrichten erhalten.
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
+mail#:#mail_salutation_anonymous#:#Hallo
+mail#:#mail_salutation_f#:#Hallo
 mail#:#mail_salutation_female#:#Anrede, weiblich
 mail#:#mail_salutation_general#:#Anrede, allgemein
+mail#:#mail_salutation_m#:#Hallo
 mail#:#mail_salutation_male#:#Anrede, männlich
+mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#in Kontakten suchen
 mail#:#mail_search_system#:#im System suchen
@@ -7198,6 +7331,8 @@ mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
 mail#:#mail_send_with_system_address#:#Mit Adresse des Systems senden
 mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
+mail#:#mail_subject_prefix#:#Mail-Betreff
+mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird.
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gelöscht werden sollen?
@@ -7258,6 +7393,7 @@ mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
+mep#:#mep_content_snippet_in_use#:#Textelement '%s' wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_copy_to_mep#:#In Mediapool kopieren
 mep#:#mep_create_content_snippet#:#Inhaltsbaustein erzeugen
 mep#:#mep_create_folder#:#Ordner anlegen
@@ -7272,6 +7408,7 @@ mep#:#mep_folder_content#:#Verzeichnisinhalt
 mep#:#mep_format#:#Format
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
+mep#:#mep_page_created#:#Textelement erzeugt
 mep#:#mep_page_properties#:#Eigenschaften der Seite
 mep#:#mep_parent_folder#:#Übergeordneter Ordner
 mep#:#mep_thumbnail#:#Miniaturbild
@@ -7279,6 +7416,8 @@ mep#:#mep_title_and_description#:#Titel und Beschreibung
 mep#:#mep_unknown#:#Unbekannt
 mep#:#mobs_activate_pages#:#Aktiviere Inhaltsseitenverwaltung
 mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiten zu Medienpools hinzuzufügen. Diese Seiten können in Lernmodule, Glossaren etc. wiederverwendet aber dort nicht bearbeitet werden.
+mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
+mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 meta#:#md_adv_active#:#Aktiv
 meta#:#md_adv_add_value#:#Neuer Wert
 meta#:#md_adv_added_new_record#:#Ein neuer Datensatz wurde angelegt.
@@ -7891,6 +8030,8 @@ news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
 news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_block_information#:#Der Nachrichtenblock zeigt alle <b>Nachrichten</b> in chronologischer Reihenfolge an, die sich auf Ihre <b>Ausgewählten Angebote</b> auf dem persönlichen Schreibtisch beziehen.
 news#:#news_block_news_for_context#:#Nachrichten
+news#:#news_cache#:#Nachrichten-Cache (Minuten)
+news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Standardzugriff
 news#:#news_edit_news_settings#:#Einstellungen bearbeiten
 news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
@@ -7977,14 +8118,20 @@ notes#:#notes_show_comments#:#Kommentare anzeigen
 payment#:#advanced_search#:#Erweiterte Suche
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
+payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
+payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
+payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
 payment#:#duration#:#Dauer
 payment#:#edit_topic#:#Thema Bearbeiten
+payment#:#enable_ean#:#EAN aktivieren
+payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
 payment#:#excel_export#:#Excel Export
 payment#:#filter_by#:#nach
 payment#:#import_use_only_textfile#:#Hinweis: Bitte verwenden Sie eine reine Textdatei mit je einem Code pro Zeile.
 payment#:#info#:#Informationen zur Bezahlart
 payment#:#new_topic#:#Neues Thema
 payment#:#no_topics_yet#:#Es wurden noch keine Themen eingetragen
+payment#:#no_vendor_selected#:#Kein Verkäufer ausgewählt.
 payment#:#object_deleted#:#Objekt gelöscht
 payment#:#pay_abstract#:#Zusammenfassung
 payment#:#pay_add_to_shopping_cart#:#In den Warenkorb legen
@@ -8047,13 +8194,25 @@ payment#:#pay_enable_shop#:#Webshop aktivieren
 payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS-Webshop verfügbar und Objekte können von Benutzern gekauft werden.
 payment#:#pay_ending#:#hört auf mit
 payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
+payment#:#pay_epay_canceled#:#Die Zahlung wurde abgebrochen
+payment#:#pay_epay_success#:#Die Zahlung wurde durchgeführt. Bitte berücksichtigen Sie, dass es einige Minuten dauern kann, bis der Zahlungsvorgang vollständig durchgeführt wurde.
 payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
 payment#:#pay_filter#:#Filtermöglichkeiten
 payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
 payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
 payment#:#pay_header#:#Payment
+payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
+payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
+payment#:#pay_hide_coupons#:#Verberge Coupons
+payment#:#pay_hide_coupons_info#:#Verbirgt coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinacht dies die Handhabung für Ihre Kunden.
+payment#:#pay_hide_filtering#:#Verberge Filter
+payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
+payment#:#pay_hide_news#:#Verberge Nachrichten
+payment#:#pay_hide_news_info#:#Verbirgt Tab für Shop-News, falls Sie keine News verwenden.
+payment#:#pay_hint_epay#:#Trinkgeld für ePay
 payment#:#pay_hint_paypal#:#Hinweis zu PayPal
 payment#:#pay_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
+payment#:#pay_info_epay#:#Wenn Sie auf Bezahlen klicken, öffnet sich das ePay-Fenster. Sobald Sie die Zahlung abgeschlossen haben, kehren Sie zu ILIAS zurück.
 payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.
 payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
@@ -8070,6 +8229,8 @@ payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
 payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
 payment#:#pay_order_date_from#:#Zeitraum von
 payment#:#pay_order_date_til#:#Zeitraum bis
+payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
+payment#:#pay_order_paid_subject#:#Ihre Rechnung
 payment#:#pay_payed_bill#:#Rechnung bezahlt
 payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
 payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
@@ -8172,6 +8333,7 @@ payment#:#paya_delete_price#:#Preis löschen
 payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
 payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
 payment#:#paya_deleted_object#:#Das Payment wurde für dieses Objekt aufgelöst. Alle zugehörigen Daten wurden entfernt.
+payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
 payment#:#paya_details_updated#:#Die Änderungen wurden übernommen.
 payment#:#paya_disabled#:#Ausgeschaltet
 payment#:#paya_edit_details#:#Details bearbeiten
@@ -8227,6 +8389,7 @@ payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wir
 payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
 payment#:#paya_sure_delete_stat#:#Sind Sie sicher, dass dieser Datensatz gelöscht werden soll?
 payment#:#paya_sure_delete_vat#:#Sind Sie sicher, dass Sie diesen Steuersatz löschen möchten?
+payment#:#paya_sure_delete_vats#:#Sind Sie sicher, dass Sie die Angaben zur Mehrwertsteuer löschen möchten?
 payment#:#paya_transaction#:#Transaktion
 payment#:#paya_trustee_table#:#Verwalter
 payment#:#paya_trustees#:#Verwalter
@@ -8239,7 +8402,7 @@ payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
 payment#:#paya_vat_already_exists#:#Dieser Steuersatz existiert bereits
 payment#:#paya_vat_not_deleted#:#Der Steuersatz wurde nicht gelöscht
 payment#:#paya_vat_not_valid#:#Dieser Steuersatz ist ungültig
-payment#:#paya_vats_info#:#Wenn Sie einen Artikel ohne MwSt verkaufen möchten, legen Sie bitte einen Steuersatz mit 0 % an.
+payment#:#paya_vats_info#:#Wenn Sie einen Artikel ohne Mehrwertsteuer verkaufen möchten, legen Sie bitte einen Steuersatz mit 0 % an.
 payment#:#paya_vendor#:#Verkäufer
 payment#:#payment_add_vat#:#Steuersatz anlegen
 payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits gekauft, haben jedoch noch keinen Zugriff oder Ihre Lizenz ist bereits abgelaufen.
@@ -8304,12 +8467,50 @@ payment#:#pays_currency_subunit#:#Währung (1/100) (z.B. Cent)
 payment#:#pays_currency_unit#:#Währung (z.B. EUR)
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
+payment#:#pays_eco_agreement#:#Agreement Number
+payment#:#pays_eco_cur_handle_code#:#Currency Code
+payment#:#pays_eco_layout#:#Layout Rechnung
+payment#:#pays_eco_payment_terms#:#Payment Terms
+payment#:#pays_eco_product_number#:#Product Number
 payment#:#pays_edit_vendor#:#Benutzer bearbeiten
 payment#:#pays_email_vendor#:#E-Mail-Adresse des Verkäufers
+payment#:#pays_epay#:#ePay
+payment#:#pays_epay_auth_email#:#E-Mail-Benachrichtigung
+payment#:#pays_epay_auth_email_info#:#E-Mail, an die die Informationen über durchgeführte Transaktionen und Zahlungen gesendet wird.
+payment#:#pays_epay_auth_token#:#Authentifizierungs-Token
+payment#:#pays_epay_auth_token_info#:#Sie müssen dieses auch im ePay-Backend eintragen. Das Secret schützt Benutzer vor einem vorgetäuschten Abrechnungsvorgang.
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> ist ein Payment-Service der die Abrechnung von ILIAS mit VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners und AMEX ermöglicht. Um ePay mit ILIAS zu nutzen, benötigen Sie eine eigene Vereinbarung mit ePay, sowie eine Händler-ID.
+payment#:#pays_epay_instant_capture#:#Momentaufnahme
+payment#:#pays_epay_instant_capture_info#:#Wenn aktiviert, werden alle Beträge unverzüglich vom Kundenkonto gebucht. Bitte sichern Sie sich ab, dass dieses Vorgehen mit den gesetzlichen Regelungen in Ihrem Land konform geht.
+payment#:#pays_epay_merchant_number#:#Händler-ID
+payment#:#pays_epay_server_host#:#Server-Host
+payment#:#pays_epay_server_path#:#Server-Pfad
+payment#:#pays_epay_settings#:#ePay-Konfiguration
+payment#:#pays_epay_settings_not_valid#:#Die ePay-Einstellungen konnten nicht gespeichert werden, da sie ungültig sind.
+payment#:#pays_erp#:#ERP
+payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.
+payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
+payment#:#pays_erp_error#:#Error interacting with %s!
+payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
+payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
+payment#:#pays_erp_invoice_copies#:#Speichere Kopien der erzeugten Rechnungen
+payment#:#pays_erp_invoice_copies_info#:#Kopien werden gespeichert in:
+payment#:#pays_erp_invoice_deleted#:#Proberechnung gelöscht
+payment#:#pays_erp_invoice_delpreview#:#Proberechnung löschen
+payment#:#pays_erp_invoice_nowrite#:#In Verzeichnis kann nicht geschrieben/gespeichert werden.
+payment#:#pays_erp_invoice_preview#:#Proberechnung in neuem Fenster anzeigen
+payment#:#pays_erp_settings#:#ERP-Einstellungen
+payment#:#pays_erp_system#:#ERP-System
+payment#:#pays_erp_tst_billed#:#billed for
+payment#:#pays_erp_tst_existing#:#Existing Debtor
+payment#:#pays_erp_tst_new#:#New Debtor
+payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Kurses oder der Datei.
+payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
 payment#:#pays_general#:#Allgemein
 payment#:#pays_general_settings#:#Allgemeine Einstellungen
 payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_header_select_vendor#:#Verkäuferauswahl
+payment#:#pays_invoice#:#Rechnung
 payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#pays_no_valid_username_given#:#Der angegebene Benutzername ist nicht gültig.
 payment#:#pays_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
@@ -8330,6 +8531,7 @@ payment#:#pays_server_path#:#Pfad zu den Skripten (z.B. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
 payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.
 payment#:#pays_updated_bmf_settings#:#Ihre Einstellungen für BFM wurden aktualisiert.
+payment#:#pays_updated_epay_settings#:#Einstellungen für ePay wurden aktualisiert.
 payment#:#pays_updated_general_settings#:#Ihre allgemeinen Einstellungen wurden aktualisiert.
 payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
 payment#:#pays_updated_paypal_settings#:#Ihre Einstellungen für PayPal wurden aktualisiert.
@@ -8370,6 +8572,8 @@ pd#:#pd_enable_active_users#:#Aktiviere Block 'Aktive Benutzer'
 pd#:#pd_enable_block_moving#:#Aktiviere 'Verschieben der Blöcke'
 pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
 pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
+pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
+pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
 pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#Aktiviere 'Meine Angebote'
@@ -8570,10 +8774,18 @@ rbac#:#perm_local_role#:#Lokale Rolle
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
 rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
+rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
+rbac#:#rbac_delete_local_policies#:#Lokale Zugriffsregelungen überschreiben
+rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
 rbac#:#rbac_delete_role#:#Rolle löschen
+rbac#:#rbac_keep_local_policies#:#Lokale Zugriffsregelungen beibehalten
+rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt.
+rbac#:#rbac_local_policies#:#Lokale Zugriffsregelungen
 rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiederruflich aufgehoben.
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
+rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
 rbac#:#rcrs_delete#:#Externe Kurse löschen
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf externe Kurse
@@ -8584,7 +8796,29 @@ rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
 rbac#:#root_create_catr#:#Kategorienreferenz erzeugen
-common#:#sess_copy#:#Sitzung kopieren
+rbac#:#root_create_chat#:#Neuen Chat anlegen
+rbac#:#root_create_crs#:#Neuen Kurs anlegen
+rbac#:#root_create_crsr#:#Neue Kursreferenz anlegen
+rbac#:#root_create_dbk#:#Neues Digilib-Buch anlegen
+rbac#:#root_create_exc#:#Neue Übung anlegen
+rbac#:#root_create_feed#:#Neuen Webfeed anlegen
+rbac#:#root_create_file#:#Neue Datei hochladen
+rbac#:#root_create_frm#:#Neues Forum anlegen
+rbac#:#root_create_glo#:#Neues Glossar anlegen
+rbac#:#root_create_grp#:#Neue Gruppe anlegen
+rbac#:#root_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#root_create_icrs#:#Neues LearnLinc-Seminar anlegen
+rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#root_create_mep#:#Neuen Media-Pool anlegen
+rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#root_create_rcrs#:#Neuen Kurslink anlegen
+rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#root_create_svy#:#Neue Umfrage anlegen
+rbac#:#root_create_tst#:#Neuen Test anlegen
+rbac#:#root_create_webr#:#Neuen Weblink anlegen
+rbac#:#root_create_wiki#:#Neues Wiki anlegen
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
@@ -8618,6 +8852,7 @@ registration#:#reg_add_assignment#:#Neue Zuordnung
 registration#:#reg_added_assignment#:#Eine neue Zuordung wurde angelegt.
 registration#:#reg_approve#:#Neuanmeldung mit Überprüfung
 registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden.
+registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
 registration#:#reg_available_roles#:#Verfügbare Rollen:
 registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig.
 registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an.
@@ -8636,9 +8871,12 @@ registration#:#reg_enable_access_limitations#:#Befristeten Zugang aktivieren
 registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
 registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
+registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
 registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
+registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
+registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neuen Benutzers
 registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemeldet.
 registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
@@ -8673,6 +8911,8 @@ sahs#:#sahs_learning_objectives#:#Lernziele
 sahs#:#sahs_new_chapter#:#Neues Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
 sahs#:#sahs_new_sco#:#Neuer SCO
+sahs#:#sahs_oa_no_chapters#:#Diese Ansicht führt alle Lernziele und die ihnen zugewiesenen Fragen auf. Sie müssen zunächst Kapitel, SCOs, Seiten und Fragen erzeugen.
+sahs#:#sahs_oa_no_scos#:#Das Kapitel enthält noch keine SCOs.
 sahs#:#sahs_objective#:#Lernziel
 sahs#:#sahs_objective_alignment#:#Anordnung des Lernziels
 sahs#:#sahs_objectives#:#Lernziele
@@ -8694,8 +8934,11 @@ search#:#lucene_advanced_settings_table#:#Einstellungen zur erweiterten Suche
 search#:#lucene_advances_settings_table#:#Erweiterte Sucheinstellungen
 search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen
 search#:#lucene_and#:#UND
+search#:#lucene_cpu#:#Anzahl Threads
+search#:#lucene_create_ini#:#Konfigurationsdatei erstellen
 search#:#lucene_default_operator#:#Verknüpfung von Suchbegriffen
 search#:#lucene_default_operator_info#:#Bitte geben Sie das Standardverhalten für die Verknüpfung von Suchbegriffen an.
+search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
 search#:#lucene_err_ampersand#:#Anfragen mit dem Spezialzeichen && müssen folgende Form haben: term1 && term2.
 search#:#lucene_err_and_or_not#:#Anfragen mit AND/OR/NOT müssen folgende Form haben: term1 AND|OR|NOT|AND NOT term2.
 search#:#lucene_err_asterisk#:#Dem Wildcard-Zeichen (*) muss mindestens ein Buchstabe oder eine Zahl vorausgehen.
@@ -8710,21 +8953,31 @@ search#:#lucene_err_quotes#:#Bitte schließen Sie all Anführungszeichen (").
 search#:#lucene_err_quotes_not_empty#:#Anführungszeichen dürfen nicht leer sein.
 search#:#lucene_err_squigglet#:#Dem Tilde-Zeichen (~) müssen alphanumerische Zeichen vorausgehen und Zahlen folgen.
 search#:#lucene_general_settings#:#Allgemeine Einstellungen
+search#:#lucene_host#:#Host
+search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die IP-Adresse des Rechners ein, auf dem der Java-Server laufen soll.
+search#:#lucene_index_path#:#Verzeichnis für Indexdateien
+search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
 search#:#lucene_last_index_time#:#Letzte Indexerstellung
 search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
+search#:#lucene_level#:#Log-Level
+search#:#lucene_log#:#Pfad zur Logdatei
+search#:#lucene_log_info#:#Bitte tragen Sie hier den abslotuten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei nicht existiert, wird sie automatisch erzeugt.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
 search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
 search#:#lucene_num_frag_info#:#Bitte geben Sie die Maximalanzahl von Textabschnitten ein, die zur Hervorhebung der Suchtreffer ausgegeben werden sollen.
 search#:#lucene_num_fragments#:#Anzahl Textabschnitte
 search#:#lucene_or#:#ODER
+search#:#lucene_port#:#Port
 search#:#lucene_relevance#:#Relevanz der Suchergebnisse
+search#:#lucene_relevance_short#:#Relevanz
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
 search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.
 search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
+search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#search_active#:#Aktive Benutzer
 search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
 search#:#search_adv_md#:#Erweiterte Metadaten
@@ -8742,6 +8995,7 @@ search#:#search_change#:#Ändern
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
 search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
+search#:#search_crs_title#:#Kursname
 search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
 search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
@@ -8966,6 +9220,7 @@ style#:#sty_odd_col_class#:#Ungerade Spalten
 style#:#sty_odd_row_class#:#Ungerade Zeilen
 style#:#sty_ol#:#Nummerierte Liste
 style#:#sty_opacity#:#Deckkraft
+style#:#sty_opt_saved#:#Einstellungen gespeichert
 style#:#sty_overflow#:#Überlauf
 style#:#sty_padding#:#Innenabstand
 style#:#sty_page_char#:#Seite
@@ -9082,6 +9337,9 @@ style#:#sty_white_space#:#Leerzeile
 style#:#sty_width#:#Breite
 style#:#sty_width_height#:#Breite x Höhe
 style#:#sty_word_spacing#:#Wortabstand
+style#:#style_current_style#:#Derzeitiger Style
+style#:#style_delete_style#:#Style löschen
+style#:#style_edit_style#:#Style editieren
 survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Textblock hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
@@ -9465,6 +9723,8 @@ survey#:#show_questiontext#:#Fragentext anzeigen
 survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
 survey#:#skipped#:#übersprungen
 survey#:#specialusers#:#Spezielle Benutzer
+survey#:#spl_browsercolumns#:#Individuelle Fragenliste
+survey#:#spl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 survey#:#spl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
 survey#:#spl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus
 survey#:#spl_general_properties#:#Allgemeine Eigenschaften
@@ -9827,6 +10087,7 @@ user#:#user_activate_public_profile_info#:#Globale Aktivierung Ihres öffentlich
 user#:#user_activation#:#Aktivierung
 user#:#user_all#:#All
 user#:#user_any#:#Alle
+user#:#user_field#:#Feld
 user#:#user_global_role#:#Globale Rolle
 user#:#user_last_login_before#:#Letztes Login vor
 user#:#user_limited_access#:#Begrenzter Zugriff
@@ -9837,12 +10098,30 @@ user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffent
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_screen_reader_optimization_info#:#Automatischer Fokus and Ajax Optimierungen.
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
+user#:#user_visible_in_profile#:#Sichtbar im Profil
+user#:#usr_link_to_profile#:#Link zum Profil
 user#:#usr_public_profile_disabled#:#Öffentliches Profil deaktiviert
 user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
 user#:#usr_public_profile_global#:#Global sichtbar
 user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im Internet sichtbar.
 user#:#usr_public_profile_logged_in#:#Angemeldete Benutzer
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
+webr#:#webr_active#:#Aktiv
+webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
+webr#:#webr_deactivate#:#weblink deaktivieren
+webr#:#webr_edit_links#:#Weblinks bearbeiten
+webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
+webr#:#webr_edit_settings#:#Einstellungen bearbeiten
+webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
+webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
+webr#:#webr_link_target#:#Ziel
+webr#:#webr_link_title#:#Weblinkname
+webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
+webr#:#webr_list_title#:#Titel der Weblinksammlung
+webr#:#webr_new_link#:#Neuen Weblink anlegen
+webr#:#webr_sort_manual#:#Manuelle Sortierung
+webr#:#webr_sort_title#:#Automatische Sortierung nach Titel
+webr#:#webr_sorting#:#Sortierung der Weblinks
 wiki#:#wiki_activate_rating#:#Bewertung aktivieren
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_article#:#Artikel
@@ -9853,6 +10132,7 @@ wiki#:#wiki_discussion#:#Diskussion
 wiki#:#wiki_edit#:#Bearbeiten
 wiki#:#wiki_failed#:#Durchgefallen
 wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
+wiki#:#wiki_general_settings#:#Allgemeine Einstellungen
 wiki#:#wiki_grading#:#Bewertung
 wiki#:#wiki_history#:#Verlauf
 wiki#:#wiki_introduction#:#Einleitung
@@ -9890,289 +10170,8 @@ wiki#:#wiki_short_title_already_in_use#:#Dieser Titel wird bereits von einem Wik
 wiki#:#wiki_short_title_desc2#:#Dieser Titel wird in Links zu diesem Wiki genutzt. Ändern Sie diesen Titel später nicht mehr ab, da hierdurch die Lesezeichen/Bookmarks der Benutzer zu diesem Wiki nicht mehr funktionieren würden.
 wiki#:#wiki_start_page#:#Startseite
 wiki#:#wiki_start_page_title#:#Titel der Startseite
+wiki#:#wiki_style#:#Style
 wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
-content#:#cont_localfile#:#Lokale Datei
-survey#:#spl_browsercolumns#:#Individuelle Fragenliste
-survey#:#spl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
-search#:#search_crs_title#:#Kursname
-license#:#remaining_licenses#:#Verfügbare Lizenen
-license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
-user#:#user_field#:#Feld
-user#:#user_visible_in_profile#:#Sichtbar im Profil
-payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
-search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
-search#:#lucene_host#:#Host
-search#:#lucene_port#:#Port
-search#:#lucene_index_path#:#Verzeichnis für Indexdateien
-search#:#lucene_log#:#Pfad zur Logdatei
-search#:#lucene_level#:#Log-Level
-search#:#lucene_cpu#:#Anzahl Threads
-search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
-search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die IP-Adresse des Rechners ein, auf dem der Java-Server laufen soll.
-search#:#lucene_log_info#:#Bitte tragen Sie hier den abslotuten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei nicht existiert, wird sie automatisch erzeugt. 
-search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
-search#:#lucene_create_ini#:#Konfigurationsdatei erstellen
-search#:#lucene_relevance_short#:#Relevanz
-content#:#cont_sc_usession#:#Session-Timeout deaktivieren
-content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
-content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
-content#:#scplayer_expandtree#:#Baum ausklappen
-content#:#scplayer_collapsetree#:#Baum einklappen
-content#:#cont_debug#:#Debug-Menü anzeigen
-content#:#cont_debugpw#:#Zugangspasswort
-content#:#scplayer_debugger#:#Debugger zeigen
-webr#:#webr_new_link#:#Neuen Weblink anlegen
-webr#:#webr_link_target#:#Ziel
-webr#:#webr_link_title#:#Weblinkname
-webr#:#webr_active#:#Aktiv
-webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
-webr#:#webr_deactivate#:#weblink deaktivieren
-webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
-webr#:#webr_list_title#:#Titel der Weblinksammlung
-webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
-webr#:#webr_edit_links#:#Weblinks bearbeiten
-webr#:#webr_edit_settings#:#Einstellungen bearbeiten
-webr#:#webr_sorting#:#Sortierung der Weblinks
-webr#:#webr_sort_manual#:#Manuelle Sortierung
-webr#:#webr_sort_title#:#Automatische Sortierung nach Titel
-webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
-payment#:#pays_epay#:#ePay
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> ist ein Payment-Service der die Abrechnung von ILIAS mit VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners und AMEX ermöglicht. Um ePay mit ILIAS zu nutzen, benötigen Sie eine eigene Vereinbarung mit ePay, sowie eine Händler-ID.
-payment#:#pays_epay_settings#:#ePay-Konfiguration
-payment#:#pays_epay_server_host#:#Server-Host
-payment#:#pays_epay_server_path#:#Server-Pfad
-payment#:#pays_epay_merchant_number#:#Händler-ID
-payment#:#pays_epay_auth_token#:#Authentifizierungs-Token
-payment#:#pays_epay_auth_email#:#E-Mail-Benachrichtigung
-payment#:#pays_epay_instant_capture#:#Momentaufnahme
-payment#:#pay_hint_epay#:#Trinkgeld für ePay
-payment#:#pay_info_epay#:#Wenn Sie auf Bezahlen klicken, öffnet sich das ePay-Fenster. Sobald Sie die Zahlung abgeschlossen haben, kehren Sie zu ILIAS zurück.
-payment#:#pay_epay_success#:#Die Zahlung wurde durchgeführt. Bitte berücksichtigen Sie, dass es einige Minuten dauern kann, bis der Zahlungsvorgang vollständig durchgeführt wurde.
-payment#:#pay_epay_canceled#:#Die Zahlung wurde abgebrochen
-content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
-content#:#cont_file_created#:#Datei wurde angelegt.
-payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
-payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
-payment#:#pay_hide_filtering#:#Verberge Filter
-payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
-payment#:#pay_hide_coupons#:#Verberge Coupons
-payment#:#pay_hide_coupons_info#:#Verbirgt coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinacht dies die Handhabung für Ihre Kunden.
-payment#:#pay_hide_news#:#Verberge Nachrichten
-payment#:#pay_hide_news_info#:#Verbirgt Tab für Shop-News, falls Sie keine News verwenden.
-payment#:#pays_epay_auth_email_info#:#E-Mail, an die die Informationen über durchgeführte Transaktionen und Zahlungen gesendet wird.
-payment#:#pays_epay_instant_capture_info#:#Wenn aktiviert, werden alle Beträge unverzüglich vom Kundenkonto gebucht. Bitte sichern Sie sich ab, dass dieses Vorgehen mit den gesetzlichen Regelungen in Ihrem Land konform geht.
-payment#:#pays_updated_epay_settings#:#Einstellungen für ePay wurden aktualisiert.
-payment#:#paya_sure_delete_vats#:#Sind Sie sicher, dass Sie die Angaben zur Mehrwertsteuer löschen möchten?
-common#:#shop_actions#:#Aktionen
-chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
-cmps#:#cmps_duplicate_positions#:#Die folgenden Positionen wurden mehrfach zugeordnet:
-dateplaner#:#add_appointment#:#Termin hinzufügen
-common#:#pd_enable_contacts#:#Aktiviere Kontakte
-common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung
-administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
-administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
-administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
-administration#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
-administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
-administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
-common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
-common#:#last_refresh#:#Letzte Aktualisierung
-webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
-grp#:#grp_reg_subject#:#Nachricht
-crs#:#crs_reg_subject#:#Nachricht
-grp#:#grp_join_request#:#Abschicken
-crs#:#crs_join_request#:#Abschicken
-payment#:#pays_epay_auth_token_info#:#Sie müssen dieses auch im ePay-Backend eintragen. Das Secret schützt Benutzer vor einem vorgetäuschten Abrechnungsvorgang.
-payment#:#pay_order_paid_subject#:#Ihre Rechnung
-payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
-mep#:#mep_page_created#:#Textelement erzeugt
-mep#:#mep_content_snippet_in_use#:#Textelement '%s' wird verwendet und kann daher nicht gelöscht werden.
-sahs#:#sahs_oa_no_chapters#:#Diese Ansicht führt alle Lernziele und die ihnen zugewiesenen Fragen auf. Sie müssen zunächst Kapitel, SCOs, Seiten und Fragen erzeugen.
-sahs#:#sahs_oa_no_scos#:#Das Kapitel enthält noch keine SCOs.
-rbac#:#root_create_chat#:#Neuen Chat anlegen
-rbac#:#root_create_crs#:#Neuen Kurs anlegen
-rbac#:#root_create_dbk#:#Neues Digilib-Buch anlegen
-rbac#:#root_create_exc#:#Neue Übung anlegen
-rbac#:#root_create_file#:#Neue Datei hochladen
-rbac#:#root_create_frm#:#Neues Forum anlegen
-rbac#:#root_create_glo#:#Neues Glossar anlegen
-rbac#:#root_create_grp#:#Neue Gruppe anlegen
-rbac#:#root_create_htlm#:#Neues HTML-Lernmodul anlegen
-rbac#:#root_create_icrs#:#Neues LearnLinc-Seminar anlegen
-rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
-rbac#:#root_create_mep#:#Neuen Media-Pool anlegen
-rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
-rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
-rbac#:#root_create_svy#:#Neue Umfrage anlegen
-rbac#:#root_create_tst#:#Neuen Test anlegen
-rbac#:#root_create_webr#:#Neuen Weblink anlegen
-rbac#:#root_create_wiki#:#Neues Wiki anlegen
-rbac#:#root_create_rcrs#:#Neuen Kurslink anlegen
-rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
-rbac#:#root_create_feed#:#Neuen Webfeed anlegen
-rbac#:#root_create_crsr#:#Neue Kursreferenz anlegen
-common#:#status_no_permission#:#Kein Zugriff gewährt.
-mail#:#mail_salutation_f#:#Hallo
-mail#:#mail_salutation_m#:#Hallo
-mail#:#mail_salutation_n#:#Hallo
-crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin die Benachrichtigungsfunktion aktivert ist.
-crs#:#crs_new_status#:#Ihr Status:
-crs#:#crs_access#:#Zugang
-crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
-crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
-crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
-crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in den Kurs "%s" erfolgt ist.
-crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
-grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
-grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
-grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
-grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
-grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
-grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
-grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
-grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktivert sind.
-grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
-grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
-grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
-grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
-grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
-grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
-grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
-grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
-grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\n Wählen Sie dazu bitte folgenden Link:
-grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
-grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
-grp#:#grp_mail_sub_acc_sub#:#Aufnahme in Gruppe "%s"
-grp#:#grp_mail_sub_acc_bod#:#Sie sind in die Gruppe "%s" aufgenommen worden.
-grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
-grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
-grp#:#grp_mail_status_sub#:#Status in Gruppe "%s"
-grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
-grp#:#grp_new_status#:#Ihr neuer Status:
-grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
-grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
-common#:#spl_copy#:#Fragenpool für Umfrage kopieren
-common#:#qpl_copy#:#Fragenpool für Test kopieren
-common#:#title_required#:#Bitte geben Sie einen Titel an.
-wiki#:#wiki_style#:#Style
-wiki#:#wiki_general_settings#:#Allgemeine Einstellungen
-style#:#style_current_style#:#Derzeitiger Style
-style#:#style_edit_style#:#Style editieren
-style#:#style_delete_style#:#Style löschen
-registration#:#reg_mail_new_user#:#Anmeldung einer neuen Benutzerin / eines neuen Benutzers
-registration#:#reg_mail_body_reason#:#Sie erhalten diese Nachricht, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
-registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
-registration#:#reg_approve_needs_recipient#:#Für die Registrierungsart "Anmeldung mit Überprüfung" sollte mindestens ein Benutzer festgelegt werden, der bei Neuanmeldungen benachrichtigt wird.
-common#:#join_session#:#Anmelden
-common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
-common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
-common#:#socialbm_enable#:#Aktivieren
-common#:#socialbm_disable#:#Deaktivieren
-common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
-pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
-pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
-user#:#usr_link_to_profile#:#Link zum Profil
-content#:#cont_could_not_determine_resource_size#:#ILIAS konnte die Abmessungen nicht automatisch ermitteln.
-content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
-content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
-content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
-content#:#cont_file_deleted#:#Die Datei wurde umbenannt.
-content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
-chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smilies wirklich gelöscht werden?
-common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
-common#:#authoring_mode#:#Autorenmodus
-crs#:#crs_objective_random_warn#:#Für diesen Test ist eine zufällige Anordnung der Fragen festgelegt, deshalb kann er nicht nicht für Lernziele verwendet werden.
-common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
-common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
-crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
-payment#:#pays_erp#:#ERP
-payment#:#pays_erp_settings#:#ERP-Einstellungen
-payment#:#pays_erp_system#:#ERP-System
-payment#:#pays_eco_agreement#:#Agreement Number###29 09 2009 new variable
-payment#:#pays_eco_product_number#:#Product Number###29 09 2009 new variable
-payment#:#pays_eco_payment_terms#:#Payment Terms###29 09 2009 new variable
-payment#:#pays_eco_layout#:#Layout Rechnung
-style#:#sty_opt_saved#:#Einstellungen gespeichert
-common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
-payment#:#pays_erp_error#:#Error interacting with %s!###29 09 2009 new variable
-payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.###29 09 2009 new variable
-payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.###29 09 2009 new variable
-payment#:#pays_erp_connection_established#:#Connection established with %s successfully.###29 09 2009 new variable
-payment#:#pays_eco_cur_handle_code#:#Currency Code###29 09 2009 new variable
-payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.###29 09 2009 new variable
-payment#:#pays_erp_tst_existing#:#Existing Debtor###29 09 2009 new variable
-payment#:#pays_erp_tst_new#:#New Debtor###29 09 2009 new variable
-payment#:#pays_erp_tst_billed#:#billed for###29 09 2009 new variable
-payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchace the name of the course or file will be printed here.###29 09 2009 new variable
-payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.###29 09 2009 new variable
-administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
-administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden aysnchron geladen. Dies erhöht die Perfomanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Pop-up-Menüs kommen.
-payment#:#enable_ean#:#Enable EAN###02 10 2009 new variable
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.###02 10 2009 new variable
-payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.###02 10 2009 new variable
-mail#:#mail_subject_prefix#:#Mail-Betreff
-mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. 
-news#:#news_cache#:#Nachrichten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugängliche Objekte verweisen.
-payment#:#pays_erp_invoice_copies#:#Speichere Kopien der erzeugten Rechnungen
-payment#:#pays_erp_invoice_copies_info#:#Kopien werden gespeichert in:
-payment#:#pays_erp_invoice_preview#:#Proberechnung in neuem Fenster anzeigen
-payment#:#pays_erp_invoice_delpreview#:#Proberechnung löschen
-payment#:#pays_erp_invoice_deleted#:#Proberechnung gelöscht
-payment#:#pays_erp_invoice_nowrite#:#In Verzeichnis kann nicht geschrieben/gespeichert werden.
-grp#:#grp_reg_period#:#Registrierungszeitraum
-payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
-payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
-payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
-dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
-rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
-rbac#:#rbac_local_policies#:#Lokale Zugriffsregelungen
-rbac#:#rbac_keep_local_policies#:#Lokale Zugriffsregelungen beibehalten
-rbac#:#rbac_delete_local_policies#:#Lokale Zugriffsregelungen überschreiben
-rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
-rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
-rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
-rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt.
-common#:#admin_force_noti#:#Benachrichtigung aktiv
-common#:#user_toggle_noti#:#Mitglied darf Benachrichtigung nicht deaktivieren
-common#:#enable_admin_force#:#Benachrichtigung aktivieren
-common#:#disable_admin_force#:#Benachrichtigung deaktivieren
-common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
-common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
-common#:#moderators#:#Moderatoren
-common#:#tutors#:#Tutoren
-common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
-dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
-dateplaner#:#cal_subscription_header#:#Kalender-Adresse
-dateplaner#:#cal_subscription_url#:#Kalender URL:
-common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen
-common#:#no_owner#:#Kein Besitzer
-payment#:#pays_invoice#:#Rechnung
-content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
-mail#:#mail_salutation_anonymous#:#Hallo
-content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
-common#:#group#:#Gruppe
-dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronistation
-dateplaner#:#cal_sync_cache#:#Termin-Cache
-dateplaner#:#cal_sync_disabled#:#Ausgeschaltet
-dateplaner#:#cal_sync_enabled#:#Eingeschaltet
-dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.
-dateplaner#:#cal_cache#:#Kalender-Cache
-dateplaner#:#cal_cache_disabled#:#Ausgeschaltet
-dateplaner#:#cal_cache_enabled#:#Eingeschaltet
-dateplaner#:#cal_cache_info#:#Wenn aktiviert, wird die Anzeige des Kalenders auf dem Persönlichen Schreibtisch und im Magazin nur alle x-Minuten aktualisiert.
-payment#:#no_vendor_selected#:#Kein Verkäufer ausgewählt.
-dateplaner#:#ical_export#:#iCal-Export
-forum#:#frm_pseudonym#:#Pseudonym
-mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
-mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
-content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
-content#:#cont_show_info#:#Info anzeigen
