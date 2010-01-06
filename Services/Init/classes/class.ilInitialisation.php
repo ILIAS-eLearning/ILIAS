@@ -267,22 +267,31 @@ class ilInitialisation
 		}
 		$host = $_SERVER['HTTP_HOST'];
 
+		$rq_uri = $_SERVER['REQUEST_URI'];
+
+		// security fix: this failed, if the URI contained "?" and following "/"
+		// -> we remove everything after "?"
+		if (is_int($pos = strpos($rq_uri, "?")))
+		{
+			$rq_uri = substr($rq_uri, 0, $pos);
+		}
+
 		if(!defined('ILIAS_MODULE'))
 		{
-			$path = pathinfo($_SERVER['REQUEST_URI']);
+			$path = pathinfo($rq_uri);
 			if(!$path['extension'])
 			{
-				$uri = $_SERVER['REQUEST_URI'];
+				$uri = $rq_uri;
 			}
 			else
 			{
-				$uri = dirname($_SERVER['REQUEST_URI']);
+				$uri = dirname($rq_uri);
 			}
 		}
 		else
 		{
 			// if in module remove module name from HTTP_PATH
-			$path = dirname($_SERVER['REQUEST_URI']);
+			$path = dirname($rq_uri);
 
 			// dirname cuts the last directory from a directory path e.g content/classes return content
 
@@ -295,6 +304,7 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
+		
 		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
 	}
 
