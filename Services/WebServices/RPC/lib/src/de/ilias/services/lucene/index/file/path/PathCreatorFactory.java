@@ -44,6 +44,10 @@ public class PathCreatorFactory {
 		if(name.equalsIgnoreCase("HTLMObjectPathCreator")) {
 			return (PathCreator) new HTLMObjectPathCreator();
 		}
+		if(name.equalsIgnoreCase("ExerciseAssignmentPathCreator")) {
+			return (PathCreator) new ExerciseAssignmentPathCreator();
+		}
+		
 		throw new ObjectDefinitionException("Invalid path creator name given: " + name);
 	}
 }
