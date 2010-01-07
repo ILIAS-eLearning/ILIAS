@@ -396,6 +396,48 @@ class ilECSContentWriter
 			$message .= $lang->txt('desc').': '.$desc."\n";
 		}
 
+		// Participant info
+		$message .= ("\n".$lang->txt('ecs_published_for'));
+		
+		$export = new ilECSExport($this->content_obj->getId());
+		try
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
+			$reader = new ilECSEContentReader($export->getEContentId());
+			$reader->read();
+			
+			$found = false;
+			foreach($reader->getEContent() as $econ)
+			{
+				foreach($econ->getEligibleMembers() as $member)
+				{
+					$found = true;
+					
+					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+					$part = ilECSCommunityReader::_getInstance()->getParticipantByMID($member);
+					
+					$message .= ("\n\n".$part->getParticipantName()."\n");
+					$message .= ($part->getDescription());
+				}				
+			}
+			if($found)
+			{
+				$message .= "\n\n";
+			}
+			else
+			{
+				$message .= (' '.$lang->txt('ecs_not_published')."\n\n");
+			}
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read approvements.');
+		}
+		catch(ilECSReaderException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read approvements.');
+		}
+
 		include_once('classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->content_obj->getRefId(),'crs',true);
 		$message .= $lang->txt("perma_link").': '.$href."\n\n";
