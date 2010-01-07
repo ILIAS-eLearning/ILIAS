@@ -10154,3 +10154,5 @@ dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the persona
 payment#:#no_vendor_selected#:#No vendor selected. 
 dateplaner#:#ical_export#:#iCal Export
 forum#:#frm_pseudonym#:#Pseudonym
+ecs#:#ecs_not_published#:#No approvals selected.
+ecs#:#ecs_published_for#:#Published for:
