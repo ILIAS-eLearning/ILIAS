@@ -3678,12 +3678,11 @@ class ilObjUser extends ilObject
 			{
 				return $usr["login"];
 			}
-
 			// Search for login (no ext_account given)
 			$res = $ilDB->queryF("SELECT login FROM usr_data ".
-				"WHERE login = %s AND ext_account = %s AND auth_mode = %s",
-				array("text", "text", "text"),
-				array($a_account, "", "default"));
+				"WHERE login = %s AND (ext_account IS NULL OR ext_account = '') AND auth_mode = %s",
+				array("text", "text"),
+				array($a_account, "default"));
 			if($usr = $ilDB->fetchAssoc($res))
 			{
 				return $usr["login"];
