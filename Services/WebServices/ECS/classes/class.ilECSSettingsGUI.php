@@ -985,10 +985,9 @@ class ilECSSettingsGUI
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 		$exported = ilECSExport::_getExportedIDs();
-		
+
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_released.html','Services/WebServices/ECS');
-	 	
-	 	
+
 		if(count($exported))
 		{
 			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -996,7 +995,16 @@ class ilECSSettingsGUI
 			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportReleased"));
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("csv_export"));
 			$this->tpl->parseCurrentBlock();
-		}	 	
+		}
+		
+		if($this->settings->isEnabled())
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'readAll'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('ecs_read_remote_links'));
+			$this->tpl->parseCurrentBlock();
+		}
+		 	
 
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSReleasedContentTableGUI.php');
  		$table_gui = new ilECSReleasedContentTableGUI($this,'released');
