@@ -35,6 +35,8 @@ class ilAuthContainerECS extends Auth_Container
 {
 	protected $mid = null;
 	protected $abreviation = null;
+	
+	protected $log;
 
 	/**
 	 * Constructor
@@ -47,6 +49,8 @@ class ilAuthContainerECS extends Auth_Container
 	{
 	 	parent::__construct($a_params);
 		$this->initECSServices();
+		
+		$this->log = $GLOBALS['ilLog'];
 	}
 	
 	/**
