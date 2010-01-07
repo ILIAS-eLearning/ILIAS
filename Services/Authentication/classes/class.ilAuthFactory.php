@@ -80,6 +80,13 @@ class ilAuthFactory
 	const CONTEXT_CALENDAR_TOKEN = 7;
 	
 	
+	/**
+	 * @var int
+	 * Calendar authentication with auth token 
+	 */
+	const CONTEXT_ECS = 8;
+	
+	
 
 	/**
 	 * @var int
@@ -176,6 +183,10 @@ class ilAuthFactory
 			case self::CONTEXT_CRON:
 				include_once './cron/classes/class.ilAuthCron.php';
 				return new ilAuthCron($deco,$options);
+
+			case self::CONTEXT_ECS:
+				include_once './Services/WebServices/ECS/classes/class.ilAuthECS.php';
+				return new ilAuthECS($deco,$options);
 		}
 	}
 }
