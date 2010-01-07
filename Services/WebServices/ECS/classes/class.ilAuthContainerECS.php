@@ -124,7 +124,7 @@ class ilAuthContainerECS extends Auth_Container
 	 *
 	 * @param string username
 	 */
-	public function loginObserver($a_username)
+	public function loginObserver($a_username, $a_auth)
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
 		
@@ -139,9 +139,9 @@ class ilAuthContainerECS extends Auth_Container
 			$username = $this->updateUser($user,$usr_id);
 		}
 		
-		$this->setAuth($username);
+		$a_auth->setAuth($username);
 		$this->log->write(__METHOD__.': Login succesesful');
-		return;
+		return true;
 	}
 	
 	/** 
