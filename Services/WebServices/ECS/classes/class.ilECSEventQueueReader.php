@@ -99,13 +99,27 @@ class ilECSEventQueueReader
 			
 			$imported = ilECSImport::_getAllImportedLinks();
 			$exported = ilECSExport::_getAllEContentIds();
-
+			
 			// read update events
 			foreach($all_content as $content)
 			{
-				$event_queue->add(ilECSEventQueueReader::TYPE_ECONTENT,
-					$content->getEContentId(),
-					ilECSEventQueueReader::OPERATION_UPDATE);
+				// Ask if this is desired
+				if(!isset($imported[$content->getEContentId()]) and 0)
+				{
+					$event_queue->add(
+						ilECSEventQueueReader::TYPE_ECONTENT,
+						$content->getEContentId(),
+						ilECSEventQueueReader::OPERATION_CREATE
+					); 
+				}
+				else
+				{
+					$event_queue->add(
+						ilECSEventQueueReader::TYPE_ECONTENT,
+						$content->getEContentId(),
+						ilECSEventQueueReader::OPERATION_UPDATE
+					);
+				}
 				
 				if(isset($imported[$content->getEContentId()]))
 				{
@@ -341,7 +355,7 @@ class ilECSEventQueueReader
 	public function add($a_type,$a_id,$a_op)
 	{
 	 	global $ilDB;
-	 	
+
 	 	$next_id = $ilDB->nextId('ecs_events');
 	 	$query = "INSERT INTO ecs_events (event_id,type,id,op) ".
 	 		"VALUES (".
@@ -410,7 +424,7 @@ class ilECSEventQueueReader
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->events[$counter]['event_id'] = $row->event_id;
-	 		$this->events[$counter]['type'] = $row->event_type;
+	 		$this->events[$counter]['type'] = $row->type;
 	 		$this->events[$counter]['id'] = $row->id;
 	 		$this->events[$counter]['op'] = $row->op;
 	 		
