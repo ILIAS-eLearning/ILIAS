@@ -7,26 +7,6 @@
 * @version		$Id$
 */
 
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at yofur option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -924,9 +904,9 @@ common#:#extt_configure#:#konfigurer...
 common#:#extt_edit_permission#:#Ændre rettighedsindstillinger
 common#:#extt_ilinc#:#Netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Flere muligheder
-common#:#extt_ilinc_akclassvalues_active#:#Brug omkostningsafdeling
-common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
-common#:#extt_ilinc_akclassvalues_required#:#Cost center required
+common#:#extt_ilinc_akclassvalues_active#:Omkostningscentre
+common#:#extt_ilinc_akclassvalues_active_info#:#Med denne indstilling kan du bruge iLinc omkostningscentre i Learnlic seminarer og klasserum.
+common#:#extt_ilinc_akclassvalues_required#:#Omkostningscenter kræveet
 common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
 common#:#extt_ilinc_configure#:#Konfigurer netucate LearnLinc
 common#:#extt_ilinc_connection_data#:#Connection data
@@ -7951,8 +7931,8 @@ mcst#:#mcst_edit_settings#:#MediaCast indstillinger
 mcst#:#mcst_file_extension_settings#:#Filendelser
 common#:#chg_ilias_password#:#Ret ILIAS password
 common#:#chg_ilias_and_webfolder_password#:#Ret ILIAS og webfolder password
-common#:#disable_anonymous_fora#:#Deaktiver anonyme fora
-common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.###02 06 2008 new variable
+common#:#disable_anonymous_fora#:#Offentlige fora
+common#:#disable_anonymous_fora_desc#:#Forhindrer at der oprettes fora hvor bidragsyderne kan være anonyme. Det vil stadig være muligt at gøre anonyme fora ikke-anonyme.
 news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.###02 06 2008 new variable
 news#:#news_get_priv_feed_title#:#Privat Feed-URL
 news#:#news_enable_private_feed#:#Aktiver privat nyhedsfeed
@@ -9744,28 +9724,28 @@ user#:#usr_public_profile_logged_in#:#Brugere der er logget ind
 user#:#usr_public_profile_logged_in_info#:#Dine informationer er kun synlige overfor andre brugere der er logget på systemet.
 user#:#usr_public_profile_global#:#Globalt synlige
 user#:#usr_public_profile_global_info#:#Din profil er synlig på internet.
-survey#:#codes_deleted#:#Code(s) deleted###24 07 2009 new variable
-survey#:#codes_created#:#Code(s) created###24 07 2009 new variable
-survey#:#language_changed#:#Language changed###24 07 2009 new variable
+survey#:#codes_deleted#:#Kode(r) slettet
+survey#:#codes_created#:#Kode(r) oprettet
+survey#:#language_changed#:#Sprog ændret
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.###24 07 2009 new variable
 content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###24 07 2009 new variable
 content#:#cont_uploaded_file#:#Eksisterende fil
 content#:#cont_upload_dir#:#Upload mappe
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###24 07 2009 new variable
-common#:#notifications#:#Notifications###24 07 2009 new variable
-assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
-assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a user finishes a test###24 07 2009 new variable
+common#:#notifications#:#Adviseringer
+assessment#:#tst_finish_notification#:#Mail ved afslutning
+assessment#:#tst_finish_notification_no#:#Send ikke en mailadvisering når brugeren afslutter testen
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
-assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
+assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
 assessment#:#tst_user_finished_test#:#User finished test (%s)###24 07 2009 new variable
-common#:#license#:#License###24 07 2009 new variable
-common#:#licenses#:#Licenses###24 07 2009 new variable
-common#:#no_license_available#:#No license available!###24 07 2009 new variable
-license#:#license_counter#:#License counter###24 07 2009 new variable
-license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules###24 07 2009 new variable
+common#:#license#:#Licens
+common#:#licenses#:#Licenser
+common#:#no_license_available#:#Ingen tilgængelig licens!
+license#:#license_counter#:#Licenstæller
+license#:#license_counter_info#:#Gør det muligt at tælle de brugte licenser af købt SCORM og HTML læremoduler
 license#:#license_warning#:#License warning###24 07 2009 new variable
 license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
-license#:#arbitrary#:#arbitrary###24 07 2009 new variable
+license#:#arbitrary#:#arbitrær
 license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
 license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
 license#:#edit_license#:#Edit license###24 07 2009 new variable
@@ -9838,7 +9818,7 @@ assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 200
 chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
 search#:#lucene_advanced_settings_table#:#Avancerede søgeindstillinger
 dateplaner#:#cal_day_start#:#Starttidspunkt
-survey#:#questionblock_inserted#:#Question Block inserted###06 08 2009 new variable
+survey#:#questionblock_inserted#:#Blok indsat
 survey#:#questionblocks_inserted#:#Question Blocks inserted###06 08 2009 new variable
 survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable
 assessment#:#term_text#:#Term Text###12 08 2009 new variable
@@ -10155,20 +10135,20 @@ dateplaner#:#cal_subscription_header#:#Kalender adresse
 dateplaner#:#cal_subscription_url#:#Kalender URL:
 mail#:#mail_salutation_anonymous#:#Kære
 content#:#cont_select_par_or_section#:#Du skal vælge mindst en paragraf eller sektion.
-common#:#group#:#Group###15 12 2009 new variable
-mep#:#mobs_always_show_file_manager#:#Always Show File Manager###15 12 2009 new variable
+common#:#group#:#Gruppe
+mep#:#mobs_always_show_file_manager#:#Vis altid filhåndtering
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###15 12 2009 new variable
 content#:#cont_snippets_used#:#Used Content Snippets###15 12 2009 new variable
 content#:#cont_show_info#:#Vis info
-dateplaner#:#cal_sync_header#:#Synchronisation Settings###15 12 2009 new variable
+dateplaner#:#cal_sync_header#:#Synkronisering
 dateplaner#:#cal_sync_cache#:#Kalendar cache
-dateplaner#:#cal_sync_disabled#:#Deaktiveret
+dateplaner#:#cal_sync_disabled#:#Ingen cache
 dateplaner#:#cal_sync_enabled#:#Aktiveret
-dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.###15 12 2009 new variable
+dateplaner#:#cal_sync_cache_info#:#Nye og ændrede kalenderaftaler bliver beregnet hvert x.ne minut.
 dateplaner#:#cal_cache#:#Kalender-cache
-dateplaner#:#cal_cache_disabled#:#Deaktiveret
+dateplaner#:#cal_cache_disabled#:#ingen cache
 dateplaner#:#cal_cache_enabled#:#Aktiveret
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  ###15 12 2009 new variable
+dateplaner#:#cal_cache_info#:#Kalenderaftaler på skrivebordet og i oversigten bliver kun beregnet hvert x. minut.
 payment#:#no_vendor_selected#:#Ingen sælger valgt.
 dateplaner#:#ical_export#:#iCal eksport
 forum#:#frm_pseudonym#:#Pseudonym
