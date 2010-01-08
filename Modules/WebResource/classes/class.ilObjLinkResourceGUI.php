@@ -1080,7 +1080,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 
 
-		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this, 'linkChecker'));
 
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_webr.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_webr'));
@@ -1109,8 +1109,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 
 				// EDIT IMAGE
-				$this->ctrl->setParameter($this,'item_id',$invalid['page_id']);
-				$this->tpl->setVariable("ROW_EDIT_LINK",$this->ctrl->getLinkTarget($this,'editItem'));
+				$this->ctrl->setParameter($this,'link_id',$invalid['page_id']);
+				$this->tpl->setVariable("ROW_EDIT_LINK",$this->ctrl->getLinkTarget($this,'editLink'));
 				$this->tpl->setVariable("ROW_IMG",ilUtil::getImagePath('icon_pencil.gif'));
 				$this->tpl->setVariable("ROW_ALT_IMG",$this->lng->txt('edit'));
 				$this->tpl->parseCurrentBlock();
