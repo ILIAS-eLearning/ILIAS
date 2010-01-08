@@ -65,21 +65,21 @@ administration#:#language_error_read_local#:#Den lokale sprogfil eksisterer ikke
 administration#:#language_error_write_local#:#Kunne ikke skrive den lokale sprogfil
 administration#:#language_export_file#:#Eksporter sprogfil
 administration#:#language_file_imported#:#Sprogfilen %s blev importeret
-administration#:#language_file_scope#:#Sprogfils omfang
+administration#:#language_file_scope#:#Omfang
 administration#:#language_import_file#:#Importer sprogfil
 administration#:#language_load_local_changes#:#Indlæs lokal sprogfil til databasen
 administration#:#language_loaded_local#:#Den lokale sprogfil blev indlæst i databasen.
 administration#:#language_maintain#:#Vedligehold
-administration#:#language_maintain_local_changes#:#Vedligehold lokale ændringer
+administration#:#language_maintain_local_changes#:#Vedligehold
 administration#:#language_maintenance#:#Sprogvedligeholdelse
-administration#:#language_mode_existing#:#Eksisterende registreringer
+administration#:#language_mode_existing#:#Eksisterende ændringer
 administration#:#language_mode_existing_delete#:#Slet eksisterende registreringer
 administration#:#language_mode_existing_keepall#:#Behold alle eksisterende
 administration#:#language_mode_existing_keepnew#:#Behold alle lokale ændringer
 administration#:#language_mode_existing_replace#:#Erstat eksisterende indgange
-administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and reimport them if needed.###23 08 2007 new variable
-administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
-administration#:#language_process_maintenance#:#Proces vedligeholdelse
+administration#:#language_note_save_local#:#Du skal gemme dine ændringer til den lokale sprogfil regelmæssigt. Hvis du ikke har skriverettigheder til mappen med lokale ændringer kan du eksportere filen og importere den igen efter behov.
+administration#:#language_note_translation#:#Sideoversættelse er aktiveret for sprog separart. Brugeren har derudover brug for læseadgang til mappen med sprog.
+administration#:#language_process_maintenance#:#Udfør
 administration#:#language_save_local_changes#:#Gem alle ændringer i den lokale sprogfil
 administration#:#language_saved_local#:#Alle ændringer blev gemt i den lokale sprogfil
 administration#:#language_scope_commented#:#Med kommentarer fra sproghåndtering
@@ -366,7 +366,7 @@ common#:#attend#:#Vedhæft
 common#:#auth_active_roles#:#Globale roller aktiveret i oprettelse
 common#:#auth_allow_local#:#Tillad lokal autentificering
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_cas_allow_local_desc#:#Tillader CAS brugere at authentisere ved brug af deres lokale ILIAS brugernavn og lokale password.
 common#:#auth_cas_auth#:#Konfigurer CAS autentificering
 common#:#auth_cas_auth_desc#:#CAS kræver PHP 4.3.1 eller senere med CURL support (7.5 eller senere)
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
@@ -5076,7 +5076,7 @@ crs#:#event_further_informations#:#Flere informationer
 crs#:#event_general_infos#:#Generalt
 crs#:#event_general_properties#:#General Informations
 crs#:#event_lecturer#:#Navn
-crs#:#event_location#:#Lokalition
+crs#:#event_location#:#Sted/lokale
 crs#:#event_participation#:#Deltagelse
 crs#:#event_register#:#Register
 crs#:#event_registered#:#Du er blevet tilmeldt denne session.
@@ -6536,10 +6536,10 @@ payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount
 payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
 payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
 payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_generated#:#No codes generated.###16 08 2007 new variable
-payment#:#paya_coupons_import_codes#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###16 08 2007 new variable
-payment#:#paya_coupon_codes_import_successful#:#Import successful.###16 08 2007 new variable
+payment#:#paya_coupons_no_codes_generated#:#Ingen koder genereret.
+payment#:#paya_coupons_import_codes#:#Importkoder
+payment#:#paya_coupons_import_error_opening_file#:#Fejl ved åbning af importfil!
+payment#:#paya_coupon_codes_import_successful#:#Import færdig.
 payment#:#pays_bmf_settings#:#Indstillinger for BMF
 payment#:#pays_bmf_client_id#:#Klient Id
 payment#:#pays_bmf_bewirtschafter_nr#:#BewirtschafterNr###16 08 2007 new variable
@@ -6549,7 +6549,7 @@ payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren###16 08
 payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen###16 08 2007 new variable
 payment#:#pays_bmf_epayment_server#:#ePaymentServer###16 08 2007 new variable
 payment#:#pays_bmf_client_certificate#:#Path to ClientCertificate###16 08 2007 new variable
-payment#:#pays_bmf_ca_certificate#:#Path to CACertificate###16 08 2007 new variable
+payment#:#pays_bmf_ca_certificate#:#Sti til CACertifikat
 payment#:#pays_bmf_timeout#:#Timeout
 payment#:#pays_updated_bmf_settings#:#Dine BMF indstillinger blev opdateret
 payment#:#pays_bmf_settings_not_valid#:#Dine BMF indstillinger er ugyldige. Udfyld det tyske snask korrekt.
@@ -6559,7 +6559,7 @@ pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilk
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
 pwassist#:#pwassist_invalid_email#:#Venligst ret din email addresse.\nDen angivne email addresse blev ikke fundet i databasen
 pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.
-pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
+pwassist#:#pwassist_invalid_auth_mode#:#Brugeren valideres ikke direkte af ILIAS og det er derfor ikke muligt at yde passwordhjælp herfra.
 pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
 pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto:\n\t%1$s\n\nDenne besked er lavet automatisk af ILIAS serveren på %2$s\n\nDu (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.\n\nHvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst \n%1$s\ni din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.\n\nPå websiden skal du herefter vælge dit nye password til din konto.\n\nBemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre.
@@ -7705,7 +7705,7 @@ rbac#:#recf_write#:#Rediger genskabte objekter
 grp#:#grp_unsubscribe#:#Afbryd abonnement
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
 common#:#lang_refresh_confirm#:#Er du sikker på du vil opdatere alle sprog?
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.###27 11 2007 new variable
+common#:#lang_refresh_confirm_info#:#Udviddet vedligeholdelse af sprog er pt. aktiveret. Hvis du fortsætter hentes alle tekster fra ILIAS-filerne ind i databasen. Lokale ændringer (i databasen) vil blive overskrevet.
 assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
 common#:#lngf_write#:#Der kræves skriveadgang for udvidet sprogfils håndtering
 content#:#cont_last_access#:#Sidst tilgået
