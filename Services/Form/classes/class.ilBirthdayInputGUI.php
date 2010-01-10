@@ -21,7 +21,7 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 	{
 		if (is_array($a_values[$this->getPostVar()]["date"]))
 		{
-			if (checkdate($a_values[$this->getPostVar()]["date"]['m'], $a_values[$this->getPostVar()]["date"]['d'], $a_values[$this->getPostVar()]["date"]['y']))
+			if (@checkdate($a_values[$this->getPostVar()]["date"]['m'], $a_values[$this->getPostVar()]["date"]['d'], $a_values[$this->getPostVar()]["date"]['y']))
 			{
 				parent::setValueByArray($a_values);
 				return;
