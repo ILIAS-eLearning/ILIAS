@@ -53,7 +53,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 			if($this->isLinkSortingEnabled())
 			{
 				$this->setLimit(9999);
-				$this->addColumn($lng->txt('position','','10px'));	
+				$this->addColumn($lng->txt('position'),'','10px');	
 				$this->addColumn($lng->txt('title'),'','90%');
 				$this->addColumn('','','10%');
 				
