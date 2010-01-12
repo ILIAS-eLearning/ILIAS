@@ -16359,3 +16359,21 @@ $ilDB->manipulate('UPDATE tst_solutions SET value2_tmp = value2');
 $ilDB->dropTableColumn('tst_solutions', 'value2');
 $ilDB->renameTableColumn("tst_solutions", "value2_tmp", "value2");
 ?>
+<#2919>
+<?php
+$ilDB->modifyTableColumn("addressbook", "login", array(
+	"type" => "text",
+	"length" => 80,
+	"notnull" => false,
+	"default" => null
+));
+?>
+<#2920>
+<?php
+$ilDB->modifyTableColumn("addressbook", "email", array(
+	"type" => "text",
+	"length" => 80,
+	"notnull" => false,
+	"default" => null
+));
+?>
