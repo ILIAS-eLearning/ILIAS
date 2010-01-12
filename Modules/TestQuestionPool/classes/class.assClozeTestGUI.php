@@ -294,9 +294,8 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 		}
 		
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		if (!$this->getSelfAssessmentEditingMode()) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		$form->addCommandButton('createGaps', $this->lng->txt('create_gaps'));
+		$this->addQuestionFormCommandButtons($form);
 	
 		$errors = false;
 	

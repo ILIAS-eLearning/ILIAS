@@ -196,8 +196,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$points->setMinValue(0.0);
 		$form->addItem($points);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$this->addQuestionFormCommandButtons($form);
 		
 		$errors = false;
 	

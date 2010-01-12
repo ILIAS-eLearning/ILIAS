@@ -112,23 +112,6 @@ class assQuestionGUI
 	}
 
 	/**
-	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
-	*
-	* Sets the extra fields i.e. estimated working time of a question from a posted create/edit form
-	*
-	* @access private
-	*/
-	function outOtherQuestionData()
-	{
-		$est_working_time = $this->object->getEstimatedWorkingTime();
-		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
-		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
-		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -208,30 +191,7 @@ class assQuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-
 	/**
-	* Sets the other data i.e. estimated working time of a question from a posted create/edit form
-	*
-	* Sets the other data i.e. estimated working time of a question from a posted create/edit form
-	*
-	* @return boolean Returns true, if the question had to be autosaved
-	* @access private
-	*/
-	function writeOtherPostData($result = 0)
-	{
-		$this->object->setEstimatedWorkingTime(
-			$_POST["Estimated"]["h"],
-			$_POST["Estimated"]["m"],
-			$_POST["Estimated"]["s"]
-		);
-
-		$saved = false;
-		return $saved;
-	}
-
-	/**
-	* Creates a question gui representation
-	*
 	* Creates a question gui representation and returns the alias to the question gui
 	* note: please do not use $this inside this method to allow static calls
 	*
@@ -502,7 +462,7 @@ class assQuestionGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
-				$this->originalSyncForm();
+				$this->ctrl->redirect($this, "originalSyncForm");
 			}
 			elseif ($_GET["calling_test"])
 			{
@@ -774,6 +734,15 @@ class assQuestionGUI
 	}
 	
 	/**
+	* Add the command buttons of a question properties form
+	*/
+	function addQuestionFormCommandButtons($form)
+	{
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		if (!$this->getSelfAssessmentEditingMode() && !$_GET["calling_test"]) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+	}
+	
+	/**
 	* Add basic question form properties:
 	* assessment: title, author, description, question, working time
 	*
@@ -871,94 +840,6 @@ class assQuestionGUI
 			$form->addItem($ni);
 		}
 	}
-	
-	/**
-	* Fill assessment-only blocks
-	*/
-	function fillAssessmentBlocks($a_var, $a_solution_hints = false)
-	{
-		if ($this->getSelfAssessmentEditingMode())
-		{
-			$this->tpl->setVariable("STYLE_HIDDEN", "style=\"display:none;\"");
-			$this->tpl->setCurrentBlock("author_hidden");
-			$author = ilUtil::prepareFormOutput($this->object->getAuthor());
-			if (trim($author) == "") $author = "-";
-			$this->tpl->setVariable("VAL_AUTHOR", $author);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("nr_of_tries");
-			$this->tpl->setVariable("STYLE_HIDDEN_NR", "style=\"display:none;\"");
-			$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("qst_nr_of_tries"));
-			if (strlen($this->object->getNrOfTries()))
-			{
-				$this->tpl->setVariable("VALUE_NR_OF_TRIES", " value=\"" . $this->object->getNrOfTries() . "\"");
-			}
-			if ($this->defaultnroftries != null ) {
-				$this->tpl->setVariable("VALUE_NR_OF_TRIES", " value=\"" . $this->getDefaultNrOfTries() . "\"");
-			}
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("self_ass_hint");
-			$this->tpl->setVariable("TEXT_SELF_ASS_HINT", $this->lng->txt("qst_hint_self"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			// call to other question data i.e. estimated working time block
-			$this->tpl->setCurrentBlock("working_time");
-			$this->outOtherQuestionData();
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("author_comment");
-			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-			$this->tpl->setVariable("VALUE_".$a_var."_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-			$this->tpl->setVariable("VALUE_".$a_var."_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("save_edit");
-			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-			$this->tpl->parseCurrentBlock();
-			
-			if ($a_solution_hints)
-			{
-				$internallinks = array(
-					"lm" => $this->lng->txt("obj_lm"),
-					"st" => $this->lng->txt("obj_st"),
-					"pg" => $this->lng->txt("obj_pg"),
-					"glo" => $this->lng->txt("glossary_term")
-				);
-				foreach ($internallinks as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("internallink");
-					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-				if (count($this->object->suggested_solutions))
-				{
-					$this->tpl->setCurrentBlock("remove_solution");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("solution_hint");
-					$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-					$solution_array = $this->object->getSuggestedSolution(0);
-					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("solution_hint");
-					$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-	}
-
-	// scorm2004-end
 
 	/**
 	* Returns the answer specific feedback depending on the results of the question

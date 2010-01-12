@@ -157,8 +157,7 @@ class assNumericGUI extends assQuestionGUI
 		$upper_limit->setValue($this->object->getUpperLimit());
 		$form->addItem($upper_limit);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
 	
