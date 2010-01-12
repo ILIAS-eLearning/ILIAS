@@ -19,7 +19,7 @@ body {
 }
 
 .chatlist_header div {
-	height: 25px;
+	/*height: 25px;*/
 	line-height: 25px;
 	vertical-align: middle;
 	
@@ -31,7 +31,7 @@ body {
 	width: 100%;
 	margin: 4px 0 0 4px;
 	line-height: 25px;
-	height: 25px;
+	/*height: 25px;*/
 	background-color: #F1F1F1;
 	vertical-align: middle;
 	border: 1px solid #9eadba;
@@ -220,4 +220,13 @@ body {
 {
 	font-weight: normal;
 	color: #505050;
+}
+
+.floatingclear
+{
+	clear: both;
+	line-height: 1px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
 }
