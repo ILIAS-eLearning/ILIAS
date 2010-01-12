@@ -34,6 +34,8 @@ class ilAbstractSearch
 	 */
 	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
 						 'chat','icrs','icla','webr','mcst','sess','pg','st','wiki');
+						 
+	private $id_filter = array();
 
 
 	/**
@@ -83,6 +85,25 @@ class ilAbstractSearch
 		{
 			$this->object_types = $a_filter;
 		}
+	}
+	
+	/**
+	 * Set id filter
+	 * Filters search by given object id
+	 * @return 
+	 */
+	public function setIdFilter($a_id_filter)
+	{
+		$this->id_filter = $a_id_filter;
+	}
+	
+	/**
+	 * Get Id filter
+	 * @return 
+	 */
+	public function getIdFilter()
+	{
+		return (array) $this->id_filter;
 	}
 
 	/**
