@@ -424,6 +424,10 @@ function ilRoomTable()
 		div_title.appendChild(div_title_count_container);
 		div_title.appendChild(div_show_hide);
 		
+		var floatingclear = document.createElement('div');
+		floatingclear.setAttribute('class', 'floatingclear');
+		div_title.appendChild(floatingclear);
+		
 		span_roomcount.innerHTML = " (" + countRooms() + ")";
 		div_container.appendChild(div_title);
 		div_container.appendChild(div_body);
