@@ -78,7 +78,11 @@ class assErrorTextGUI extends assQuestionGUI
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			// adding estimated working time
-			$this->writeOtherPostData();
+			$this->object->setEstimatedWorkingTime(
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
+			);
 			$this->object->setTextSize($_POST["textsize"]);
 			$this->object->setErrorText($_POST["errortext"]);
 			$points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
@@ -164,8 +168,7 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 
 		$form->addCommandButton("analyze", $this->lng->txt('analyze_errortext'));
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$this->addQuestionFormCommandButtons($form);
 		
 		$errors = false;
 	

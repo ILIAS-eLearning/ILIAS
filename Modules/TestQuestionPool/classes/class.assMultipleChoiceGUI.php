@@ -210,8 +210,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		if (!$this->getSelfAssessmentEditingMode()) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$this->addQuestionFormCommandButtons($form);
 	
 		$errors = false;
 	

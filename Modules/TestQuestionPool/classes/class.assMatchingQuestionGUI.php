@@ -360,12 +360,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$pairs->setPairs($this->object->getMatchingPairs());
 		$form->addItem($pairs);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		}
+		$this->addQuestionFormCommandButtons($form);
 
 		$errors = false;
 	

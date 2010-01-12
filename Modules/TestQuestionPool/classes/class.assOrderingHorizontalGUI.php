@@ -79,7 +79,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 			$this->object->setQuestion($questiontext);
 			$this->object->setPoints($_POST["points"]);
 			// adding estimated working time
-			$this->writeOtherPostData();
+			$this->object->setEstimatedWorkingTime(
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
+			);
 			$this->object->setTextSize($_POST["textsize"]);
 			$this->object->setOrderText($_POST["ordertext"]);
 			return 0;
@@ -134,8 +138,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$points->setMinValue(0.0);
 		$form->addItem($points);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$this->addQuestionFormCommandButtons($form);
 		
 		$errors = false;
 	

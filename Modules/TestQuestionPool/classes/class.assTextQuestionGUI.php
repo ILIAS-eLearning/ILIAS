@@ -160,12 +160,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$form->addItem($textrating);
 		}
 		
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		}
+		$this->addQuestionFormCommandButtons($form);
 		$errors = false;
 	
 		if ($save)

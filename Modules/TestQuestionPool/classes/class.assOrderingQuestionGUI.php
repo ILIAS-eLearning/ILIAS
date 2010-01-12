@@ -296,11 +296,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$points->setMinValue(0.0);
 		$form->addItem($points);
 		
-		$form->addCommandButton("save", $this->lng->txt("save"));
-		
+		$this->addQuestionFormCommandButtons($form);
 		if (!$this->getSelfAssessmentEditingMode())
 		{
-			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 			if ($orderingtype == OQ_PICTURES)
 			{
 				$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
