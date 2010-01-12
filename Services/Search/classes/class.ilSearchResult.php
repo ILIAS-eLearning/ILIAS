@@ -411,6 +411,14 @@ class ilSearchResult
 					++$offset_counter;
 					continue;
 				}
+				
+				if(!$this->callListeners($ref_id, $entry))
+				{
+					continue;
+				}
+				
+				
+				
 				// RBAC check
 				$type = ilObject::_lookupType($ref_id, true);
 				if($this->ilAccess->checkAccessOfUser($this->getUserId(),
@@ -423,7 +431,8 @@ class ilSearchResult
 					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
 					{
 						// Call listeners
-						if($this->callListeners($ref_id,$entry))
+						#if($this->callListeners($ref_id,$entry))
+						if(1)
 						{
 							$this->addResult($ref_id,$entry['obj_id'],$type);
 							$this->search_cache->appendToChecked($ref_id,$entry['obj_id']);
