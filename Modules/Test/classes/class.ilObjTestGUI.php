@@ -1056,7 +1056,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$showfinal = new ilCheckboxInputGUI('', "showfinalstatement");
 		$showfinal->setValue(1);
 		$showfinal->setChecked($this->object->getShowFinalStatement());
-		$showfinal->setChecked($this->object->getShowInfo());
 		$showfinal->setOptionTitle($this->lng->txt("final_statement_show"));
 		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
 		$finalstatement->addSubItem($showfinal);
