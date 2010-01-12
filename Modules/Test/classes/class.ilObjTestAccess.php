@@ -152,7 +152,8 @@ class ilObjTestAccess extends ilObjectAccess
 		if ($points[0]["pass_scoring"] == 0)
 		{
 			$reached = $points[count($points)-1]["points"];
-			$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+//			$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+			$max = $points[count($points)-1]["maxpoints"];
 			if (!strlen($max))
 			{
 				include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -177,7 +178,8 @@ class ilObjTestAccess extends ilObjectAccess
 			{
 				if ($row["points"] > $reached) 
 				{
-					$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+//					$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+					$max = $row["maxpoints"];
 					if (!strlen($max))
 					{
 						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -655,10 +657,13 @@ function _getQuestionCount($test_id)
 				$max = 0;
 				if ($points[0]["pass_scoring"] == 0)
 				{
-					$reached = $points[count($points)-1]["points"];
-					$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
+					$reached = $points[count($points)-1]["points"];$time = time();
+					$max = $points[count($points)-1]["maxpoints"];
 					if (!strlen($max))
 					{
+						// this should not happen
+						global $ilLog;
+						$ilLog->write("Oooh, this should not happen. Missing maximum points for test pass: " . print_r($points[count($points)-1], true));
 						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 						include_once "./Modules/Test/classes/class.ilObjTest.php";
 						$test = new ilObjTest($a_obj_id, false);
@@ -681,9 +686,12 @@ function _getQuestionCount($test_id)
 					{
 						if ($row["points"] > $reached) 
 						{
-							$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+							$max = $points[count($points)-1]["maxpoints"];
 							if (!strlen($max))
 							{
+								// this should not happen
+								global $ilLog;
+								$ilLog->write("Oooh, this should not happen. Missing maximum points for test pass: " . print_r($points[count($points)-1], true));
 								include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 								include_once "./Modules/Test/classes/class.ilObjTest.php";
 								$test = new ilObjTest($a_obj_id, false);
