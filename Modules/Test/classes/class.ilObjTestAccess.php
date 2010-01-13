@@ -623,6 +623,7 @@ function _getQuestionCount($test_id)
 		global $ilDB;
 
 		$passed_users = array();
+		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
 		$userresult = $ilDB->queryF("SELECT tst_active.user_fi FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
 			array('integer'),
 			array($a_obj_id)
@@ -632,6 +633,8 @@ function _getQuestionCount($test_id)
 			while ($userrow = $ilDB->fetchAssoc($userresult))
 			{
 				$user_id = $userrow["user_fi"];
+				// Is it possible to replace this with "SELECT ... AND tst_active.user_fi IN(1,2,3...)
+				// Thus the number of queries would be reduced by thousands for a course with e.g 200 participants and 10 tests.  
 				$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
 					array('integer','integer'),
 					array($user_id, $a_obj_id)
@@ -641,6 +644,8 @@ function _getQuestionCount($test_id)
 				{
 					array_push($points, $row);
 				}
+				// $points is empty if the number of tries in tst_active is zero!
+				// Mostly seen for the ANONYMOUS_USER_ID, but also for others.
 				$reached = 0;
 				$max = 0;
 				if ($points[0]["pass_scoring"] == 0)
@@ -685,6 +690,7 @@ function _getQuestionCount($test_id)
 				}
 				include_once "./Modules/Test/classes/class.assMarkSchema.php";
 				$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+				// Is it possible to move this out of the foreach?
 				$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
 				array_push($passed_users, 
 					array(
