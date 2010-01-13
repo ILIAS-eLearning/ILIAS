@@ -71,11 +71,11 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setDescription($_POST["description"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$questiontext = $_POST["question"];
 			$this->object->setQuestiontext($questiontext);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
 			$this->object->setOrientation($_POST["orientation"]);
@@ -84,7 +84,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 
 			foreach ($_POST['answers']['answer'] as $key => $value) 
 			{
-				$this->object->getCategories()->addCategory(ilUtil::stripSlashes($value));
+				$this->object->getCategories()->addCategory($value);
 			}
 			return 0;
 		}
@@ -136,10 +136,12 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$question->setRows(10);
 		$question->setCols(80);
 		$question->setUseRte(TRUE);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$question->addPlugin("latex");
-		$question->removePlugin("ibrowser");
 		$question->addButton("latex");
 		$question->addButton("pastelatex");
+		$question->removePlugin("ibrowser");
 		$question->setRTESupport($this->object->getId(), "spl", "survey");
 		$form->addItem($question);
 		
@@ -178,6 +180,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 

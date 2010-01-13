@@ -91,11 +91,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-			$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setAuthor($_POST["author"]);
+			$this->object->setDescription($_POST["description"]);
+			$questiontext = $_POST["question"];
 			$this->object->setQuestiontext($questiontext);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
 			$this->object->setSubtype($_POST["type"]);
@@ -103,21 +102,21 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
 			$this->object->setNeutralColumnSeparator(($_POST["neutral_column_separator"]) ? 1 : 0);
 			// Set bipolar adjectives
-			$this->object->setBipolarAdjective(0, ilUtil::stripSlashes($_POST["bipolar1"]));
-			$this->object->setBipolarAdjective(1, ilUtil::stripSlashes($_POST["bipolar2"]));
+			$this->object->setBipolarAdjective(0, $_POST["bipolar1"]);
+			$this->object->setBipolarAdjective(1, $_POST["bipolar2"]);
 			// set columns
 			$this->object->flushColumns();
 			foreach ($_POST['columns']['answer'] as $key => $value)
 			{
-				if (strlen($value)) $this->object->addColumn(ilUtil::stripSlashes($value));
+				if (strlen($value)) $this->object->addColumn($value);
 			}
 			// Set neutral column
-			$this->object->setNeutralColumn(ilUtil::stripSlashes($_POST["columns_neutral"]));
+			$this->object->setNeutralColumn($_POST["columns_neutral"]);
 			// set rows
 			$this->object->flushRows();
 			foreach ($_POST['rows'] as $key => $value)
 			{
-				$this->object->addRow(ilUtil::stripSlashes($value));
+				$this->object->addRow($value);
 			}
 			return 0;
 		}
@@ -172,10 +171,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$question->setRows(10);
 		$question->setCols(80);
 		$question->setUseRte(TRUE);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$question->addPlugin("latex");
-		$question->removePlugin("ibrowser");
 		$question->addButton("latex");
 		$question->addButton("pastelatex");
+		$question->removePlugin("ibrowser");
 		$question->setRTESupport($this->object->getId(), "spl", "survey");
 		$form->addItem($question);
 		
@@ -300,6 +301,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
 
