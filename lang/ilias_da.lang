@@ -904,7 +904,7 @@ common#:#extt_configure#:#konfigurer...
 common#:#extt_edit_permission#:#Ændre rettighedsindstillinger
 common#:#extt_ilinc#:#Netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Flere muligheder
-common#:#extt_ilinc_akclassvalues_active#:Omkostningscentre
+common#:#extt_ilinc_akclassvalues_active#:#Omkostningscentre
 common#:#extt_ilinc_akclassvalues_active_info#:#Med denne indstilling kan du bruge iLinc omkostningscentre i Learnlic seminarer og klasserum.
 common#:#extt_ilinc_akclassvalues_required#:#Omkostningscenter kræveet
 common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
