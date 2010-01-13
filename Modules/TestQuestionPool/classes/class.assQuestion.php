@@ -824,6 +824,53 @@ class assQuestion
 	{
 		$this->calculateResultsFromSolution($active_id, $pass);
 	}
+	
+	function _updateTestResultCache($active_id)
+	{
+		global $ilDB;
+
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$pass = ilObjTest::_getResultPass($active_id);
+
+		$result = $ilDB->queryF("SELECT tst_pass_result.* FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($active_id, $pass)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$max = $row['maxpoints'];
+		$reached = $row['points'];
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+		$mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_result_cache WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_result_cache (active_fi, pass, max_points, reached_points, mark_short, mark_official, passed, failed, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+			array(
+				'integer',
+				'integer',
+				'float',
+				'float',
+				'text',
+				'text',
+				'integer',
+				'integer',
+				'integer'
+			),
+			array(
+				$active_id,
+				strlen($pass) ? $pass : 0,
+				strlen($max) ? $max : 0,
+				strlen($reached) ? $reached : 0,
+				strlen($mark["short_name"]) ? $mark["short_name"] : " ",
+				strlen($mark["official_name"]) ? $mark["official_name"] : " ",
+				($mark["passed"]) ? 1 : 0,
+				(!$mark["passed"]) ? 1 : 0,
+				time()
+			)
+		);
+	}
 
 	function _updateTestPassResults($active_id, $pass)
 	{
@@ -856,7 +903,7 @@ class assQuestion
 				),
 				array(
 					$active_id,
-					$pass,
+					strlen($pass) ? $pass : 0,
 					($row["reachedpoints"]) ? $row["reachedpoints"] : 0,
 					$data["points"],
 					$data["count"],
@@ -866,6 +913,7 @@ class assQuestion
 				)
 			);
 		}
+		assQuestion::_updateTestResultCache($active_id);
 		return array(
 			'active_fi' => $active_id,
 			'pass' => $pass,

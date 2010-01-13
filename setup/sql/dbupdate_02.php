@@ -16377,3 +16377,41 @@ $ilDB->modifyTableColumn("addressbook", "email", array(
 	"default" => null
 ));
 ?>
+<#2921>
+<?php
+if (!$ilDB->tableExists("tst_result_cache"))
+{
+	$ilDB->createTable("tst_result_cache",
+		array(
+			"active_fi" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"pass" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"max_points" => array(
+				"type" => "float", "notnull" => true, "default" => 0
+			),
+			"reached_points" => array(
+				"type" => "float", "notnull" => true, "default" => 0
+			),
+			"mark_short" => array(
+				"type" => "text", "length" => 256, "fixed" => false, "notnull" => true
+			),
+			"mark_official" => array(
+				"type" => "text", "length" => 256, "fixed" => false, "notnull" => true
+			),
+			"passed" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"failed" => array(
+				"type" => "integer", "length" => 4, "notnull" => true
+			),
+			"tstamp" => array(
+				"type" => "integer", "length" => 4, "notnull" => true, "default" => 0
+			)
+		)
+	);
+	$ilDB->addIndex('tst_result_cache',array('active_fi'),'i1');
+}
+?>
