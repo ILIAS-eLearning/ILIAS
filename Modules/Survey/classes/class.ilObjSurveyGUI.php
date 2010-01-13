@@ -239,9 +239,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$introduction = $_POST["introduction"];
 			$this->object->setIntroduction($introduction);
-			$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$outro = $_POST["outro"];
 			$this->object->setOutro($outro);
 
 			$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -302,11 +302,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$intro->setRows(10);
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$intro->addPlugin("latex");
-		$intro->addPlugin("pastelatex");
 		$intro->addButton("latex");
+		$intro->addPlugin("pastelatex");
 		$intro->setRTESupport($this->object->getId(), "svy", "survey");
-		$intro->setRteTagSet('full');
 		$form->addItem($intro);
 
 		// enable start date
@@ -395,11 +396,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
 		$finalstatement->setUseRte(TRUE);
+		$finalstatement->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$finalstatement->addPlugin("latex");
-		$finalstatement->addPlugin("pastelatex");
 		$finalstatement->addButton("latex");
+		$finalstatement->addPlugin("pastelatex");
 		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey");
-		$finalstatement->setRteTagSet('full');
 		$form->addItem($finalstatement);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));

@@ -226,7 +226,6 @@ class SurveyQuestionGUI
 				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 			}
 		}
-		$this->editQuestion();
 	}
 	
 	function cancel()
