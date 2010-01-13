@@ -75,6 +75,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
 		$this->addCommandButton('backFromSummary', $this->lng->txt('back'));
 		$this->addCommandButton('finishTest', $this->lng->txt('save_finish'));
+		$this->setLimit(999);
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
