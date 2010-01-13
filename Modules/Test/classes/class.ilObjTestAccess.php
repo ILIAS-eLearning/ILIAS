@@ -657,27 +657,14 @@ function _getQuestionCount($test_id)
 				$max = 0;
 				if ($points[0]["pass_scoring"] == 0)
 				{
-					$reached = $points[count($points)-1]["points"];$time = time();
+					$reached = $points[count($points)-1]["points"];
 					$max = $points[count($points)-1]["maxpoints"];
-					if (!strlen($max))
+					if (!$max)
 					{
-						// this should not happen
-						global $ilLog;
-						$ilLog->write("Oooh, this should not happen. Missing maximum points for test pass: " . print_r($points[count($points)-1], true));
-						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-						include_once "./Modules/Test/classes/class.ilObjTest.php";
-						$test = new ilObjTest($a_obj_id, false);
-						$test->loadFromDb();
-						$data = new ilTestEvaluationData($test);
-						$p = $data->getParticipants();
-						if (!is_null($p))
-						{
-							$user = $p[$points[count($points)-1]["active_fi"]];
-							if (!is_null($user))
-							{
-								$max = $user->getMaxpoints();
-							}
-						}
+						include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+						$res = assQuestion::_updateTestPassResults($points[count($points)-1]["active_fi"], $points[count($points)-1]["pass"]);
+						$max = $res['maxpoints'];
+						$reached = $res['points'];
 					}
 				}
 				else
@@ -686,28 +673,15 @@ function _getQuestionCount($test_id)
 					{
 						if ($row["points"] > $reached) 
 						{
-							$max = $points[count($points)-1]["maxpoints"];
-							if (!strlen($max))
-							{
-								// this should not happen
-								global $ilLog;
-								$ilLog->write("Oooh, this should not happen. Missing maximum points for test pass: " . print_r($points[count($points)-1], true));
-								include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-								include_once "./Modules/Test/classes/class.ilObjTest.php";
-								$test = new ilObjTest($a_obj_id, false);
-								$test->loadFromDb();
-								$data = new ilTestEvaluationData($test);
-								$p = $data->getParticipants();
-								if (!is_null($p))
-								{
-									$user = $p[$points[count($points)-1]["active_fi"]];
-									if (!is_null($user))
-									{
-										$max = $user->getMaxpoints();
-									}
-								}
-							}
 							$reached = $row["points"];
+							$max = $points[count($points)-1]["maxpoints"];
+							if (!$max)
+							{
+								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+								assQuestion::_updateTestPassResults($points[count($points)-1]["active_fi"], $points[count($points)-1]["pass"]);
+								$max = $res['maxpoints'];
+								$reached = $res['points'];
+							}
 						}
 					}
 				}

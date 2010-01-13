@@ -866,6 +866,16 @@ class assQuestion
 				)
 			);
 		}
+		return array(
+			'active_fi' => $active_id,
+			'pass' => $pass,
+			'points' => ($row["reachedpoints"]) ? $row["reachedpoints"] : 0,
+			'maxpoints' => $data["points"],
+			'questioncount' => $data["count"],
+			'answeredquestions' => $row["answeredquestions"],
+			'workingtime' => $time,
+			'tstamp' => time()
+		);
 	}
 	
 /**
