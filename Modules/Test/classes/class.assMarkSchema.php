@@ -389,6 +389,32 @@ class ASS_MarkSchema
 		return FALSE;
 	}
 	
+	/**
+	* Returns the matching mark for a given percentage
+	*
+	* @param int $test_id The database id of the test
+	* @param double $percentage A percentage value between 0 and 100
+	* @return mixed The mark object, if a matching mark was found, false otherwise
+	* @access public
+	* @see $mark_steps
+	*/
+	function _getMatchingMarkFromActiveId($active_id, $percentage)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_active, tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY minimum_level DESC",
+			array('integer'),
+			array($active_id)
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($percentage >= $row["minimum_level"])
+			{
+				return $row;
+			}
+		}
+		return FALSE;
+	}
+	
 /**
 * Check the marks for consistency
 *

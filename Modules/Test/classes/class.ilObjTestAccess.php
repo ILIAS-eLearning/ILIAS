@@ -152,23 +152,17 @@ class ilObjTestAccess extends ilObjectAccess
 		if ($points[0]["pass_scoring"] == 0)
 		{
 			$reached = $points[count($points)-1]["points"];
-//			$max = ilObjTestAccess::_getMaxPointsForTestPass($points[count($points)-1]["random_test"], $user_id, $points[count($points)-1]["test_id"], $points[count($points)-1]["pass"]);
 			$max = $points[count($points)-1]["maxpoints"];
-			if (!strlen($max))
+			if (!$max)
 			{
-				include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-				include_once "./Modules/Test/classes/class.ilObjTest.php";
-				$test = new ilObjTest($a_obj_id, false);
-				$test->loadFromDb();
-				$data = new ilTestEvaluationData($test);
-				$p = $data->getParticipants();
-				if (!is_null($p))
+				$active_id = $points[count($points)-1]["active_fi"];
+				$pass = $points[count($points)-1]["pass"];
+				if (strlen($active_id) && strlen($pass))
 				{
-					$user = $p[$points[count($points)-1]["active_fi"]];
-					if (!is_null($user))
-					{
-						$max = $user->getMaxpoints();
-					}
+					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+					$res = assQuestion::_updateTestPassResults($active_id, $pass);
+					$max = $res['maxpoints'];
+					$reached = $res['points'];
 				}
 			}
 		}
@@ -178,26 +172,20 @@ class ilObjTestAccess extends ilObjectAccess
 			{
 				if ($row["points"] > $reached) 
 				{
-//					$max = ilObjTestAccess::_getMaxPointsForTestPass($row["random_test"], $user_id, $row["test_id"], $row["pass"]);
+					$reached = $row["points"];
 					$max = $row["maxpoints"];
-					if (!strlen($max))
+					if (!$max)
 					{
-						include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-						include_once "./Modules/Test/classes/class.ilObjTest.php";
-						$test = new ilObjTest($a_obj_id, false);
-						$test->loadFromDb();
-						$data = new ilTestEvaluationData($test);
-						$p = $data->getParticipants();
-						if (!is_null($p))
+						$active_id = $row["active_fi"];
+						$pass = $row["pass"];
+						if (strlen($active_id) && strlen($pass))
 						{
-							$user = $p[$points[count($points)-1]["active_fi"]];
-							if (!is_null($user))
-							{
-								$max = $user->getMaxpoints();
-							}
+							include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+							assQuestion::_updateTestPassResults($active_id, $pass);
+							$max = $res['maxpoints'];
+							$reached = $res['points'];
 						}
 					}
-					$reached = $row["points"];
 				}
 			}
 		}
@@ -661,10 +649,15 @@ function _getQuestionCount($test_id)
 					$max = $points[count($points)-1]["maxpoints"];
 					if (!$max)
 					{
-						include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-						$res = assQuestion::_updateTestPassResults($points[count($points)-1]["active_fi"], $points[count($points)-1]["pass"]);
-						$max = $res['maxpoints'];
-						$reached = $res['points'];
+						$active_id = $points[count($points)-1]["active_fi"];
+						$pass = $points[count($points)-1]["pass"];
+						if (strlen($active_id) && strlen($pass))
+						{
+							include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+							$res = assQuestion::_updateTestPassResults($active_id, $pass);
+							$max = $res['maxpoints'];
+							$reached = $res['points'];
+						}
 					}
 				}
 				else
@@ -674,13 +667,18 @@ function _getQuestionCount($test_id)
 						if ($row["points"] > $reached) 
 						{
 							$reached = $row["points"];
-							$max = $points[count($points)-1]["maxpoints"];
+							$max = $row["maxpoints"];
 							if (!$max)
 							{
-								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-								assQuestion::_updateTestPassResults($points[count($points)-1]["active_fi"], $points[count($points)-1]["pass"]);
-								$max = $res['maxpoints'];
-								$reached = $res['points'];
+								$active_id = $row["active_fi"];
+								$pass = $row["pass"];
+								if (strlen($active_id) && strlen($pass))
+								{
+									include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+									assQuestion::_updateTestPassResults($active_id, $pass);
+									$max = $res['maxpoints'];
+									$reached = $res['points'];
+								}
 							}
 						}
 					}
