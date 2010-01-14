@@ -1089,7 +1089,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_from_until'));
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 
 		foreach($items as $item)
@@ -1236,7 +1236,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 		
 		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
@@ -1290,7 +1290,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_sug_end'));
 
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
 
 		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
 		$sorted_items = $this->__sortByStart($all_items);
@@ -1852,6 +1852,7 @@ class ilCourseContentGUI
 		}
 		else
 		{
+
 			$course_ref_id = $tree->checkForParentType($this->container_obj->getRefId(),'crs');
 			$this->course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id);
 		}
