@@ -282,7 +282,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth('80%');
 		$form->setTitle($this->lng->txt('login_information'));
 		#$form->setInfo($this->lng->txt('login_information_desc'));
 		
