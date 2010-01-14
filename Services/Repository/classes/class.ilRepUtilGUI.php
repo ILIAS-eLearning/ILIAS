@@ -36,6 +36,9 @@ class ilRepUtilGUI
 			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			return false;
 		}
+		
+		// Remove duplicate entries
+		$a_ids = array_unique((array) $a_ids);
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -195,3 +198,4 @@ class ilRepUtilGUI
 	
 
 }
+?>

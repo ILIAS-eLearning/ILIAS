@@ -27,6 +27,9 @@ class ilRepUtil
 		include_once './payment/classes/class.ilPaymentObject.php';
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
+		// Remove duplicate ids from array
+		$a_ids = array_unique((array) $a_ids);
+
 		// FOR ALL SELECTED OBJECTS
 		foreach ($a_ids as $id)
 		{
