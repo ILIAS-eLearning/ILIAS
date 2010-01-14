@@ -5662,7 +5662,7 @@ crs#:#crs_blocked_member#:#Status in Kurs "%s"
 crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
-crs#:#crs_cancel_subscription_body#:#Die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
+crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
 crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
