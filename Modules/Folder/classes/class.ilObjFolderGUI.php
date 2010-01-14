@@ -177,7 +177,14 @@ class ilObjFolderGUI extends ilContainerGUI
 				break;
 
 			default:
+
 				$this->prepareOutput();
+				// Dirty hack for course timings view
+				if($this->forwardToTimingsView())
+				{
+					break;
+				}
+
 				if (empty($cmd))
 				{
 					$cmd = "view";
@@ -584,6 +591,35 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->object->getRefId());
 		}
 	}
+	
+	protected function forwardToTimingsView()
+	{
+		global $tree;
+		
+		if(!$crs_ref = $tree->checkForParentType($this->ref_id, 'crs'))
+		{
+			return false;
+		}
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
+		if(!$this->ctrl->getCmd() and ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($crs_ref)) == ilContainer::VIEW_TIMING)
+		{
+			if(!isset($_SESSION['crs_timings'])) {
+				$_SESSION['crs_timings'] = true;
+			}
+			
+			if($_SESSION['crs_timings'] == true) {
+				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
+				$course_content_obj = new ilCourseContentGUI($this);
+				$this->ctrl->setCmdClass(get_class($course_content_obj));
+				$this->ctrl->setCmd('editUserTimings');
+				$this->ctrl->forwardCommand($course_content_obj);
+				return true;
+			}
+		}
+		$_SESSION['crs_timings'] = false;
+		return false;
+	}
+	
 
 } // END class.ilObjFolderGUI
 ?>
