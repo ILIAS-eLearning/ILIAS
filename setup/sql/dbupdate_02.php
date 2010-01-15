@@ -16377,6 +16377,7 @@ $ilDB->modifyTableColumn("addressbook", "email", array(
 	"default" => null
 ));
 ?>
+
 <#2921>
 <?php
 if (!$ilDB->tableExists("tst_result_cache"))
@@ -16414,4 +16415,44 @@ if (!$ilDB->tableExists("tst_result_cache"))
 	);
 	$ilDB->addIndex('tst_result_cache',array('active_fi'),'i1');
 }
+?>
+
+<#2922>
+<?php
+$ilDB->createTable('ut_lp_user_status',
+	array(
+		'obj_id'	=>	
+			array(
+				'type'		=> 'integer',
+				'length'	=> 4,
+				'default'	=> 0,
+				'notnull'	=> true
+			),
+		'usr_id'	=>
+			array(
+				'type'		=> 'integer',
+				'length'	=> 4,
+				'default'	=> 0,
+				'notnull'	=> true
+			),
+		'status'	=>
+			array(
+				'type'		=> 'integer',
+				'length'	=> 1,
+				'default'	=> 0,
+				'notnull'	=> true
+			),
+		'additional_info'	=>
+			array(
+				'type'		=> 'text',
+				'length'	=> 4000,
+				'notnull'	=> false
+			)
+		),
+	true
+	);
+
+$ilDB->addPrimaryKey('ut_lp_user_status', array('obj_id','usr_id'));
+$ilDB->addIndex('ut_lp_user_status',array('obj_id'),'i1');
+$ilDB->addIndex('ut_lp_user_status',array('usr_id'),'i2');
 ?>
