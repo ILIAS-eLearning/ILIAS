@@ -158,7 +158,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 		{
 			foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)
