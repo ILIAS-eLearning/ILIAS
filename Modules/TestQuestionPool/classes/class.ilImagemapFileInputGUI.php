@@ -108,7 +108,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 	{
 		global $lng;
 
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		// remove trailing '/'
 		while (substr($_FILES[$this->getPostVar()]["name"],-1) == '/')
 		{

@@ -63,7 +63,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{
