@@ -1203,7 +1203,7 @@ class ilUserImportParser extends ilSaxParser
 								$udd = new ilUserDefinedData($this->userObj->getId());
 								foreach($this->udf_data as $field => $value)
 								{
-									$udd->set($field,$value);
+									$udd->set("f_".$field,$value);
 								}
 								$udd->update();
 							}
@@ -1340,7 +1340,7 @@ class ilUserImportParser extends ilSaxParser
 								$udd = new ilUserDefinedData($updateUser->getId());
 								foreach($this->udf_data as $field => $value)
 								{
-									$udd->set($field,$value);
+									$udd->set("f_".$field,$value);
 								}
 								$udd->update();
 							}
