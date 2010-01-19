@@ -1307,13 +1307,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 		// edit permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+				array("perm","info","owner"), 'ilpermissiongui');
+			if ($ilCtrl->getNextClass() == "ilpermissiongui")
+			{
+				$tabs_gui->activateTab("perm_settings");
+			}
 		}
 
 		// show clipboard
