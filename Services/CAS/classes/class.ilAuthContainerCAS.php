@@ -168,7 +168,7 @@ class ilAuthContainerCAS extends Auth_Container
 		$this->server_version = CAS_VERSION_2_0;
 		$this->server_hostname = $ilSetting->get('cas_server');
 		$this->server_port = (int) $ilSetting->get('cas_port');
-		$this->server_uri = $ilSetting->get('cas_uri');
+		$this->server_uri = (string) $ilSetting->get('cas_uri');
 		
 		phpCAS::setDebug();
 		phpCAS::client(
