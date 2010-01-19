@@ -16461,3 +16461,9 @@ $ilDB->addIndex('ut_lp_user_status',array('usr_id'),'i2');
 <?php
 $ilDB->modifyTableColumn("file_data", "file_name", array("type" => "text",  "length" => 250, "notnull" => false, "default" => null, "fixed" => true));
 ?>
+
+<#2924>
+<?php
+$ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "length" => 250, "notnull" => false, "default" => null, "fixed" => true));
+?>
+
