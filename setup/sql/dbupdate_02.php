@@ -16467,3 +16467,8 @@ $ilDB->modifyTableColumn("file_data", "file_name", array("type" => "text",  "len
 $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "length" => 250, "notnull" => false, "default" => null, "fixed" => true));
 ?>
 
+<#2925>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
