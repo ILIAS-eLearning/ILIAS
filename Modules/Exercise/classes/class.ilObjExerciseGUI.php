@@ -767,7 +767,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($_GET["member_id"] != "")
 		{
 			$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
-			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($_GET["rcp_to"]));
+			$login = ilObjUser::_lookupLogin((int) $_GET["member_id"]);
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($login));
 		}
 		else if(count($_POST["member"]) > 0)
 		{
