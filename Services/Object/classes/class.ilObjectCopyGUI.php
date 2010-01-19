@@ -509,7 +509,7 @@ class ilObjectCopyGUI
 		if ($result == $this->getTarget())
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			ilUtil::redirect('repository.php?ref_id='.$ref_id);
+			ilUtil::redirect('repository.php?ref_id='.$this->getTarget());
 		} 
 		else 
 		{
