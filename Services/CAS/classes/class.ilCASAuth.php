@@ -60,7 +60,7 @@ class ilCASAuth extends Auth
 		phpCAS::setDebug();
 //echo "-".$_GET['ticket']."-"; exit;
 		phpCAS::client($this->server_version, $this->server_hostname,
-			$this->server_port, $this->server_uri);
+			$this->server_port, (string) $this->server_uri);
 	}
 	
 	/**
