@@ -16456,3 +16456,8 @@ $ilDB->addPrimaryKey('ut_lp_user_status', array('obj_id','usr_id'));
 $ilDB->addIndex('ut_lp_user_status',array('obj_id'),'i1');
 $ilDB->addIndex('ut_lp_user_status',array('usr_id'),'i2');
 ?>
+
+<#2923>
+<?php
+$ilDB->modifyTableColumn("file_data", "file_name", array("type" => "text",  "length" => 250, "notnull" => false, "default" => null, "fixed" => true));
+?>
