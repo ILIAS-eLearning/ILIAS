@@ -291,7 +291,7 @@ class ilObjExercise extends ilObject
 		// GET FILE ASSIGNED TO EXERCISE
 		$this->file_obj = new ilFileDataExercise($this->getId());
 		$this->files = $this->file_obj->getFiles();
-
+		$this->files = ilUtil::sortArray($this->files, "name", "asc");
 		return true;
 	}
 
