@@ -204,7 +204,7 @@ class ilCalendarAppointmentGUI
 		if (!$a_as_milestone)
 		{
 			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-			#$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
+			#$tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
 			$dur->setStartText($this->lng->txt('cal_start'));
@@ -767,7 +767,7 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			$this->app->setFullday(isset($_POST['event']['fullday']) ? true : false);
+			$this->app->setFullday(isset($_POST['event']['fulltime']) ? true : false);
 		}
 
 		if($this->app->isFullday())
