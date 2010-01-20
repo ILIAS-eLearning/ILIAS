@@ -521,10 +521,24 @@ class ilInitialisation
 		define('IL_COOKIE_PATH',$cookie_path);
 		define('IL_COOKIE_DOMAIN','');
 		define('IL_COOKIE_SECURE',false); // Default Value
-		define('IL_COOKIE_HTTPONLY',false); // Default Value
-		
-		session_set_cookie_params(IL_COOKIE_EXPIRE,IL_COOKIE_PATH,IL_COOKIE_DOMAIN,
-												IL_COOKIE_SECURE,IL_COOKIE_HTTPONLY);
+
+		// session_set_cookie_params() supports 5th parameter
+		// only for php version 5.2.0 and above
+		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
+		{
+			// PHP version >= 5.2.0
+			define('IL_COOKIE_HTTPONLY',false); // Default Value
+			session_set_cookie_params(
+					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			);
+		}
+		else
+		{
+			// PHP version < 5.2.0
+			session_set_cookie_params(
+					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE
+			);
+		}
 	}
 
 	/**
