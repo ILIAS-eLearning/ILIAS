@@ -1161,7 +1161,7 @@ class ilCtrl
 	 */
 	public function redirectByClass($a_class, $a_cmd = "")
 	{
-		$script = $this->getLinkTargetByClass($a_class, $a_cmd);
+		$script = $this->getLinkTargetByClass($a_class, $a_cmd, "", false, false);
 		ilUtil::redirect($script);
 	}
 	
