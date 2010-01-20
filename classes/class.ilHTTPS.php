@@ -164,8 +164,23 @@ class ilHTTPS
 		if(!$secure_disabled and !$this->enabled and $this->isDetected() and !session_id())
 		{
 			$ilLog->write(__CLASS__.': Enabled secure cookies');
-			session_set_cookie_params(IL_COOKIE_EXPIRE,IL_COOKIE_PATH,IL_COOKIE_DOMAIN,
-												true,IL_COOKIE_HTTPONLY);
+
+			// session_set_cookie_params() supports 5th parameter
+			// only for php version 5.2.0 and above
+			if( version_compare(PHP_VERSION, '5.2.0', '>=') )
+			{
+				// PHP version >= 5.2.0
+				session_set_cookie_params(
+						IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, true, IL_COOKIE_HTTPONLY
+				);
+			}
+			else
+			{
+				// PHP version < 5.2.0
+				session_set_cookie_params(
+						IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, true
+				);
+			}
 		}
 		return true;
 	}
