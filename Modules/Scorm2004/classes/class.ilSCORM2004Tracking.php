@@ -133,6 +133,12 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 */
 	}
 
+	/**
+	 * Get progress of selected scos
+	 * @param object $a_scorm_item_ids
+	 * @param object $a_obj_id
+	 * @return 
+	 */
 	function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id)
 	{
 		global $ilDB;
@@ -158,6 +164,11 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	}
 
 	
+	/**
+	 * Get overall scorm status
+	 * @param object $a_obj_id
+	 * @return 
+	 */
 	function _getProgressInfo($a_obj_id)
 	{
 		global $ilDB;
@@ -229,7 +240,6 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 				$info['failed'][$row["id"]][] = $row["user_id"];
 			}
 		}
-
 		return $info;
 	}
 

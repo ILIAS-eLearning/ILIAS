@@ -16476,3 +16476,13 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 <?php
 	$ilDB->addIndex('scorm_tracking',array('obj_id','sco_id','lvalue'),'i2');
 ?>
+
+<#2927>
+<?php
+	$ilDB->addIndex('cmi_gobjective',array('scope_id','objective_id'),'i2');
+?>
+
+<#2928>
+<?php
+	$ilDB->addIndex('cp_node',array('slm_id'),'i3');
+?>
