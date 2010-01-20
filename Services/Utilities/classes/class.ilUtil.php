@@ -5,7 +5,7 @@
  */
 
 /**
-* util class
+* Util class
 * various functions, usage as namespace
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
@@ -2072,11 +2072,15 @@ class ilUtil
 	* append URL parameter string ("par1=value1&par2=value2...")
 	* to given URL string
 	*/
-	function appendUrlParameterString($a_url, $a_par)
+	function appendUrlParameterString($a_url, $a_par, $xml_style = false)
 	{
+		$amp = $xml_style
+			? "&amp;"
+			: "&";
+		
 		$url = (is_int(strpos($a_url, "?")))
-		? $a_url."&".$a_par
-		: $a_url."?".$a_par;
+			? $a_url.$amp.$a_par
+			: $a_url."?".$a_par;
 
 		return $url;
 	}
@@ -3199,7 +3203,7 @@ class ilUtil
 		global $log, $PHP_SELF;
 //$log->write("redirect FROM:".$PHP_SELF." to ".$a_script);
 			//vd($a_script);
-//echo "-".$a_script."-";
+//echo "-".htmlentities($a_script)."-"; mk();
 		header("Location: ".$a_script);
 		exit();
 	}
