@@ -78,11 +78,17 @@ class ilObjSCORMTracking
 	function store($obj_id=0, $sahs_id=0, $extractData=1)
 	{
 		global $ilDB, $ilUser;
-
+		
 		if (empty($obj_id))
 		{
 			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
 		}
+		
+		// writing to scorm test log
+		$f = fopen("./Modules/ScormAicc/log/scorm.log", "a");
+		fwrite($f, "\nCALLING SCORM store()\n");
+		fwrite($f,'POST: '.print_r($_POST,true));
+		
 		
 		if (empty($sahs_id))
 			$sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
@@ -95,9 +101,8 @@ class ilObjSCORMTracking
 			$user_id = $ilUser->getId();
 		}
 
-		// writing to scorm test log
-		$f = fopen("./Modules/ScormAicc/log/scorm.log", "a");
-		fwrite($f, "\nCALLING SCORM store()\n");
+		
+
 		if ($obj_id <= 1)
 		{
 			fwrite($f, "Error: No obj_id given.\n");
@@ -187,7 +192,15 @@ class ilObjSCORMTracking
 	}
 
 
-	function _getInProgress($scorm_item_id,$a_obj_id)
+	/**
+	 * Redesign required
+	 * @todo avoid like search against clob field rvalue
+	 * @deprecated
+	 * @param object $scorm_item_id
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function _getInProgress($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 		
@@ -218,7 +231,15 @@ class ilObjSCORMTracking
 		return is_array($in_progress) ? $in_progress : array();
 	}
 
-	function _getCompleted($scorm_item_id,$a_obj_id)
+	/**
+	 * Redesign required
+	 * @todo avoid like search against clob field rvalue
+	 * @deprecated
+	 * @param object $scorm_item_id
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -252,6 +273,14 @@ class ilObjSCORMTracking
 		return $user_ids ? $user_ids : array();
 	}
 
+	/**
+	 * Redesign required
+	 * @todo avoid like search against clob field rvalue 
+	 * @deprecated
+	 * @param object $scorm_item_id
+	 * @param object $a_obj_id
+	 * @return 
+	 */
 	function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
@@ -289,12 +318,20 @@ class ilObjSCORMTracking
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
+	/**
+	 * Get users who have status completed or passed.
+	 * @param object $a_scorm_item_ids
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
 	{
 		global $ilDB;
 		
 		$in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer');
 
+		// Why does this query use a like search against "passed" and "failed"
+		/*
 		$res = $ilDB->queryF('
 			SELECT user_id, COUNT(user_id) completed FROM scorm_tracking
 			WHERE '.$in.'
@@ -305,16 +342,33 @@ class ilObjSCORMTracking
 			array('integer', 'text'),
 			array($a_obj_id, 'cmi.core.lesson_status')
 		);
+		*/
 		
+		// Avoid searches against field rvalue.
+		// This gives the possibility to reuse the obj_id,sco_id,lvalue index.
+		$query = "SELECT user_id,rvalue FROM scorm_tracking ".
+			"WHERE ".$in." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND lvalue = ".$ilDB->quote('cmi.core.lesson_status','text');
+		
+		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
 		{
-			$users[$row->user_id] = $row->completed;
+			if($row->rvalue == 'passed' or $row->rvalue == 'completed')
+			{
+				++$users[$row->user_id];
+			}
 		}
-
 		return $users ? $users : array();
 	}
 
-	function _getProgressInfo($sco_item_ids,$a_obj_id)
+	/**
+	 * Get info about 
+	 * @param object $sco_item_ids
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function _getProgressInfo($sco_item_ids,$a_obj_id)
 	{
 		global $ilDB;
 		
@@ -327,7 +381,7 @@ class ilObjSCORMTracking
 		AND lvalue = %s ',
 		array('integer','text'), 
 		array($a_obj_id,'cmi.core.lesson_status'));
-
+		
 		$info['completed'] = array();
 		$info['failed'] = array();
 		

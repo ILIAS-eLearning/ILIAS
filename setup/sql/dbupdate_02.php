@@ -16472,3 +16472,7 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 	$ilCtrlStructureReader->getStructure();
 ?>
 
+<#2926>
+<?php
+	$ilDB->addIndex('scorm_tracking',array('obj_id','sco_id','lvalue'),'i2');
+?>
