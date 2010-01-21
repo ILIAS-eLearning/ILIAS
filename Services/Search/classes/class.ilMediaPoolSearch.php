@@ -46,5 +46,29 @@ class ilMediaPoolSearch extends ilAbstractSearch
 		}
 		return $this->search_result;
 	}
+	
+	public function performKeywordSearch()
+	{
+		$this->setFields(array('keyword'));
+		
+		$and = $this->__createKeywordAndCondition();
+		$locate = $this->__createLocateString();
+		
+		
+		$query = "SELECT mep_id, child ".
+			$locate.
+			"FROM mep_item mi ".
+			"JOIN mep_tree ON mi.obj_id = child ".
+			"JOIN il_meta_keyword mk ON foreign_id = mk.obj_id ".
+			$and.
+			"AND obj_type = 'mob'";
+		
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->search_result->addEntry($row->mep_id,'mep',$this->__prepareFound($row),$row->child);
+		}
+		return $this->search_result;
+	}
 }
 ?>
