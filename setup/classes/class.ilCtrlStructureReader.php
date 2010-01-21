@@ -97,7 +97,7 @@ class ilCtrlStructureReader
 		// or not
 		include_once("./classes/class.ilCtrl.php");
 		$ctrl = new ilCtrl();
-		$ctrl->storeCommonStructures();
+//		$ctrl->storeCommonStructures();
 	}
 
 	/**
