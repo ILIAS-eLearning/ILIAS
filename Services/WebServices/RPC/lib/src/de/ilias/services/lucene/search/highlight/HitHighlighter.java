@@ -157,6 +157,11 @@ public class HitHighlighter {
 			// All content
 			for(int j = 0; j < fields.length; j++) {
 				
+				// Do not add metaData Field, since this information is stored redundant in lom* fields
+				if(fields[j].equals("metaData")) {
+					continue;
+				}
+				
 				if(fields[j].equals("title") || fields[j].equals("description")) {
 					continue;
 				}

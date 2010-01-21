@@ -221,7 +221,7 @@ public class ParameterDefinition {
 			logger.debug("Trying to read parameter from parent result set...");
 			
 			try {
-				logger.info(parentResult.getString(getValue()).trim());
+				logger.debug(parentResult.getString(getValue()).trim());
 				return DBFactory.getString(parentResult, getValue());
 			}
 			catch (SQLException e) {

@@ -74,6 +74,7 @@ public class ExtensionFileHandler {
 	                logger.info("Using getPDFDocument() for " + file.getName());
 	                return getPDFDocument(file);
 	            }
+	            // HTML
 	            if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("htm")) {
 	                logger.info("Using getHTMLDocument() for " + file.getName());
 	                return getHTMLDocument(file);
@@ -137,13 +138,13 @@ public class ExtensionFileHandler {
 	        }
         }
     	catch (FileHandlerException e) {
-        	logger.info("Parsing failed with message: " + e);
+        	logger.warn("Parsing failed with message: " + e);
         	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
     	}
     	
     	catch(Exception e) {
-        	logger.info("Parsing failed with message: " + e);
+        	logger.warn("Parsing failed with message: " + e);
         	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
         }
@@ -174,7 +175,7 @@ public class ExtensionFileHandler {
         	logger.info("Current file is: " + file.getAbsolutePath());
     	}
     	catch (Exception e) {
-        	logger.info("Parsing failed with message: " + e);
+        	logger.warn("Parsing failed with message: " + e);
         	logger.info("Current file is: " + file.getAbsolutePath());
     	}
         
