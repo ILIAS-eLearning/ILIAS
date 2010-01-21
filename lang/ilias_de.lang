@@ -5091,12 +5091,12 @@ content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
 content#:#cont_files#:#Dateien
-content#:#cont_first_open#:#Zuerst geöffnet
+content#:#cont_first_open#:#Erstes Register geöffnet
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
 content#:#cont_footer#:#Fußzeile
-content#:#cont_force_all_open#:#Force All Opened
+content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Diese Operation ist nicht möglich!
 content#:#cont_frame_botright#:#Rahmen Details (Glossar)
