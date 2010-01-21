@@ -16492,3 +16492,18 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 	$ilDB->addIndex('lm_data',array('import_id'),'im');
 ?>
 
+<#2930>
+<?php
+	$ilDB->addIndex('int_link',array('target_type', 'target_id', 'target_inst'),'ta');
+?>
+
+<#2931>
+<?php
+	$ilDB->addIndex('int_link',array('source_type', 'source_id'),'so');
+?>
+
+<#2932>
+<?php
+	$ilDB->addIndex('map_area',array('link_type', 'target'),'lt');
+?>
+
