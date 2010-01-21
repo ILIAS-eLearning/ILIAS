@@ -16526,3 +16526,8 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 <?php
 	$ilDB->addIndex('personal_clipboard',array('item_id', 'type'), 'it');
 ?>
+
+<#2937>
+<?php
+	$ilDB->addIndex('write_event',array('obj_id'),'i2');
+?>
