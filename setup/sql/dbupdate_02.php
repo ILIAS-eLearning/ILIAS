@@ -16486,3 +16486,9 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 <?php
 	$ilDB->addIndex('cp_node',array('slm_id'),'i3');
 ?>
+
+<#2929>
+<?php
+	$ilDB->addIndex('lm_data',array('import_id'),'im');
+?>
+
