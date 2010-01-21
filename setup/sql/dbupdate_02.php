@@ -16507,3 +16507,22 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 	$ilDB->addIndex('map_area',array('link_type', 'target'),'lt');
 ?>
 
+<#2933>
+<?php
+	$ilDB->addIndex('mob_usage',array('id'), 'mi');
+?>
+
+<#2934>
+<?php
+	$ilDB->addIndex('mep_item',array('foreign_id', 'type'), 'ft');
+?>
+
+<#2935>
+<?php
+	$ilDB->addIndex('il_news_item',array('mob_id'), 'mo');
+?>
+
+<#2936>
+<?php
+	$ilDB->addIndex('personal_clipboard',array('item_id', 'type'), 'it');
+?>
