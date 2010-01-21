@@ -4517,8 +4517,22 @@ class ilUtil
 		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
 		
-		setcookie($a_cookie_name,$a_cookie_value,$expire,
-					IL_COOKIE_PATH,IL_COOKIE_DOMAIN,IL_COOKIE_SECURE,IL_COOKIE_HTTPONLY);
+		// setcookie() supports 5th parameter
+		// only for php version 5.2.0 and above
+		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
+		{
+			// PHP version >= 5.2.0
+			setcookie( $a_cookie_name, $a_cookie_value, $expire,
+				IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
+			);
+		}
+		else
+		{
+			// PHP version < 5.2.0
+			setcookie( $a_cookie_name, $a_cookie_value, $expire,
+				IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE
+			);
+		}
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;
 	}
