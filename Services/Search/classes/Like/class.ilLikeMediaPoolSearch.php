@@ -76,5 +76,28 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 		}
 		return $and.") ";
 	}
+	
+	/**
+	 * Condition for mob keyword search
+	 * @return 
+	 */
+	public function __createKeywordAndCondition()
+	{
+		global $ilDB;
+
+		$concat = ' keyword ';
+
+		$and = "  WHERE  ";
+		$counter = 0;
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			if($counter++)
+			{
+				$and .= " OR ";
+			}
+			$and .= $ilDB->like($concat,'text','%'.$word.'%');
+		}
+		return $and;
+	}
 }
 ?>

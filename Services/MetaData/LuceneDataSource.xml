@@ -116,7 +116,7 @@
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
-			SELECT costs, cpr_and_or FROM il_meta_rights
+			SELECT costs, cpr_and_or, description FROM il_meta_rights
 			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?)
 		</Query>
 		<Param format="list" type="int" value="metaRbacId" />
@@ -126,6 +126,8 @@
 		<Field store="YES" index="ANALYZED" column="costs" type="text" name="metaData" />
 		<Field store="YES" index="ANALYZED" column="cpr_and_or" type="text" name="lomCopyright" />
 		<Field store="YES" index="ANALYZED" column="cpr_and_or" type="text" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="description" type="text" name="lomCopyright" />
+		<Field store="YES" index="ANALYZED" column="description" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>

@@ -543,6 +543,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$mep_search =& ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
 					$mep_search->setFilter($this->__getFilter());
 					$result->mergeEntries($mep_search->performSearch());
+					
+					// Mob keyword search
+					$mob_search = ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+					$mob_search->setFilter($this->__getFilter());
+					$result->mergeEntries($mob_search->performKeywordSearch());
+					
 					break;
 
 				case 'wiki':
