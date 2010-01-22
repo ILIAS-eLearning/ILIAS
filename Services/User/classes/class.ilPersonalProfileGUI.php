@@ -1933,6 +1933,8 @@ return;
 		$up->skipField("password");
 		$up->skipGroup("settings");
 		$up->skipGroup("preferences");
+		
+		// standard fields
 		$up->addStandardFieldsToForm($this->form, $ilUser);
 
 		// user defined fields
