@@ -10156,3 +10156,4 @@ dateplaner#:#ical_export#:#iCal Export
 forum#:#frm_pseudonym#:#Pseudonym
 ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_published_for#:#Published for:
+common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export

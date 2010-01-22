@@ -251,7 +251,7 @@ class ilScorm2004Export
 	function buildExportFileISO()
 	{
 		global $ilBench;
-
+		$result = "";
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
 		require_once("classes/class.ilXmlWriter.php");
@@ -275,7 +275,10 @@ class ilScorm2004Export
 
 		// zip the file
 		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
-		ilUtil::CreateIsoFromFolder($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".iso");
+		if(ilUtil::CreateIsoFromFolder($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".iso"))
+		{
+			$result = $this->export_dir."/".$this->subdir.".iso";
+		}
 		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
 		
 		ilUtil::delDir($this->export_dir."/".$this->subdir);
@@ -283,7 +286,7 @@ class ilScorm2004Export
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("ContentObjectExport", "buildExportFile");
 
-		return $this->export_dir."/".$this->subdir.".iso";
+		return $result;
 	}
 	
 	function buildExportFilePDF()

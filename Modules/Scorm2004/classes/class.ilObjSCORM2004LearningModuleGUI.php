@@ -2166,7 +2166,11 @@ function showTrackingItem()
 	function exportISO()
 	{
 		$export = new ilScorm2004Export($this->object,'ISO');
-		$export->buildExportFile();
+		if(!$export->buildExportFile())
+		{
+			if(!PATH_TO_MKISOFS)
+				$this->ilias->raiseError($this->lng->txt("no_mkisofs_configured"),$this->ilias->error_obj->MESSAGE);
+		}
 		$this->ctrl->redirect($this, "showExportList");
 	}
 	
