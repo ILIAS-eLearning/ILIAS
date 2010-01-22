@@ -234,24 +234,31 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}		
-		if (is_array($_POST["loginMessage"]))
+		}
+		
+		$this->initLoginForm();
+		if ($this->form->checkInput())
 		{
-			$this->loginSettings = new ilSetting("login_settings");
-			
-			foreach ($_POST["loginMessage"] as $key => $val)
-			{				
-				$this->loginSettings->set("login_message_".$key,
-					ilUtil::stripSlashes($val));
+			if (is_array($_POST))
+			{
+				$this->loginSettings = new ilSetting("login_settings");
+				
+				foreach ($_POST as $key => $val)
+				{				
+					if (substr($key, 0, 14) == "login_message_")
+					{
+						$this->loginSettings->set($key, $val);
+					}
+				}
 			}
+			
+			if($_POST['default_auth_mode'])
+			{
+				$ilSetting->set('default_auth_mode',(int) $_POST['default_auth_mode']);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"));
 		}
-		
-		if($_POST['default_auth_mode'])
-		{
-			$ilSetting->set('default_auth_mode',(int) $_POST['default_auth_mode']);
-		}
-		
-		ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"));
 		
 		$this->loginInfoObject();
 	}
@@ -276,19 +283,32 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setSubTabActive("login_information");
 		
 		$lng->loadLanguageModule("meta");
-
-		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this,'saveLoginInfo'));
-		$form->setTableWidth('80%');
-		$form->setTitle($this->lng->txt('login_information'));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->initLoginForm();
+		$this->tpl->setVariable('LOGIN_INFO',$this->form->getHTML());
+	}
+		
+	/**
+	 * Init login form
+	 */
+	function initLoginForm()
+	{
+		global $rbacsystem, $lng,$ilSetting;
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveLoginInfo'));
+		$this->form->setTableWidth('80%');
+		$this->form->setTitle($this->lng->txt('login_information'));
 		#$form->setInfo($this->lng->txt('login_information_desc'));
 		
-		$form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$this->form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
@@ -308,14 +328,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$options [AUTH_RADIUS] = $this->lng->txt('auth_radius');
 			}
 			$select->setOptions($options);
-			$form->addItem($select);
+			$this->form->addItem($select);
 		}
-		
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-					
+							
 		if (!is_object($this->loginSettings))
 		{
 			$this->loginSettings = new ilSetting("login_settings");
@@ -334,11 +349,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			}			
 			
 			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
-				'loginMessage['.$lang_key.']');
+				'login_message_'.$lang_key);
 			$textarea->setRows(10);
 			$textarea->setValue($login_settings["login_message_".$lang_key]);
 			$textarea->setUseRte(true);
-			$form->addItem($textarea);
+			$this->form->addItem($textarea);
 			
 			unset($login_settings["login_message_".$lang_key]);
 		}
@@ -348,7 +363,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
 			
 			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
-				'loginMessage['.$lang_key.']');
+				'login_message_'.$lang_key);
 			$textarea->setRows(10);
 			$textarea->setValue($message);
 			$textarea->setUseRte(true);
@@ -357,9 +372,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			{
 				$textarea->setAlert($lng->txt("not_installed"));
 			}
-			$form->addItem($textarea);
+			$this->form->addItem($textarea);
 		}
-		$this->tpl->setVariable('LOGIN_INFO',$form->getHTML());
 	}
 	
 	/**
