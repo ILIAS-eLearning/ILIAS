@@ -3317,6 +3317,8 @@ class ilUtil
 
 	function escapeShellArg($a_arg)
 	{
+		setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
+										// see also ilias bug 5630
 		return escapeshellarg($a_arg);
 	}
 
