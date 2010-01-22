@@ -740,7 +740,7 @@ abstract class ilPlugin
 		$structure_reader = new ilCtrlStructureReader();
 		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix(),
 			$this->getDirectory());
-		$ilCtrl->storeCommonStructures();
+//		$ilCtrl->storeCommonStructures();
 		
 		// set last update version to current version
 		if ($result === true)
