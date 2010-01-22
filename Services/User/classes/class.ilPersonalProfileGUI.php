@@ -2320,21 +2320,6 @@ return;
 				$this->form->addItem($cb);
 			}
 		}
-
-		// delicious account
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("user_profile") == "1")
-		{
-			// public setting
-			$cb = new ilCheckboxInputGUI($this->lng->txt("delicious"), "chk_delicious");
-			//$cb->setInfo($ilUser->getDelicious());
-			$cb->setOptionTitle($ilUser->getDelicious());
-			if ($ilUser->prefs["public_delicious"] == "y")
-			{
-				$cb->setChecked(true);
-			}
-			$this->form->addItem($cb);
-		}
 		
 		// additional defined user data fields 
 		$user_defined_data = $ilUser->getUserDefinedData();
