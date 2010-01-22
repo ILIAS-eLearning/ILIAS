@@ -52,34 +52,24 @@ The directory must include a .css file that corresponds to the style id, e.g.
 for style id "mystyle" a file "mystyle.css" with the style sheet information must be
 included.
 
-All images that are referred by the .css file must be present at their defined location. If you copy the default css from templates/default/delos.css.you have either to change the url in the css for each image or you copy all necessary images to the directory Customizing/global/skin/<skin_name>/images.
+If you want to customize a HTML template file, you have to put it into the
+following directory:
 
-At the time being, these are the required image files:
+a) The original is located in templates/default/:
+/global/skin/<skin_name>/Services/<ServiceName>/tpl.xxx.html
 
-	- 25black.png
-	- Back2Tab.gif
-	- BackTab.gif
-	- blbw.gif
-	- block_top.gif
-	- brbw.gif
-	- ButtonsBack.gif
-	- drop_back_active.gif
-	- drop_back.gif
-	- form_back.gif
-	- form_top_back.gif
-	- frame_back.gif
-	- head_back.gif
-	- HeaderIcon.png
-	- icon_seas_s.gif
-	- MainMenuBack.gif
-	- media_placeholder.png
-	- question_placeholder.png
-	- TableHeader.gif
-	- TableHeaderBlue.gif
-	- text_placeholder.png
-	- tl.gif
-	- tlbw.gif
-	- tr.gif
-	- trbw.gif
+b) The original is locatod in Modules/<ModuleName>/templates/default/:
+/global/skin/<skin_name>/Modules/<ModuleName>/tpl.xxx.html
 
-You find additional information about how to create your own skin in the Installatin and Maintenance documentation at http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
+c) The original is locatod in Services/<ServiceName>/templates/default/:
+/global/skin/<skin_name>/Services/<ServiceName>/tpl.xxx.html
+
+All images that are referred by the .css file must be present at their 
+defined location. If you copy the default css from 
+templates/default/delos.css. you have either to change the url in the css 
+for each image or you copy all necessary images to the directory 
+Customizing/global/skin/<skin_name>/images.
+
+You find additional information about how to create your own skin in the 
+Installatin and Maintenance documentation at
+http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu

@@ -325,8 +325,10 @@ class ilUserProfile
 		$current_group = "";
 		foreach ($fields as $f => $p)
 		{
+//var_dump($p);
 			// next group? -> diplay subheader
-			if ($p["group"] != $current_group)
+			if (($p["group"] != $current_group) &&
+				ilUserProfile::userSettingVisible($f))
 			{
 				// contact data
 				$sh = new ilFormSectionHeaderGUI();
