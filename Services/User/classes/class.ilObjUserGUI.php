@@ -1123,7 +1123,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST['time_limit_owner'] = $this->usrf_ref_id;
 			if (is_array($_POST['birthday']))
 			{
-				if (strlen($_POST['birthday']['date']))
+				//if (strlen($_POST['birthday']['date']))
+				if ( ((int) ($_POST['birthday']['date']['d'])) > 0)
 				{
 					$_POST['birthday'] = $_POST['birthday']['date'];
 				}
