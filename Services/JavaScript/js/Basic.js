@@ -4,18 +4,18 @@
 function ilAddOnLoad(func)
 {
 	if (!document.getElementById | !document.getElementsByTagName) return
-	
+
 	var oldonload=window.onload
 	if (typeof window.onload != 'function')
 	{
-		window.onload = func
+		window.onload = func;
 	}
 	else
 	{
 		window.onload = function()
 		{
 			oldonload();
-			func()
+			func();
 		}
 	}
 }

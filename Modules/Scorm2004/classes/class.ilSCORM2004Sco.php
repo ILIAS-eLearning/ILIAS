@@ -203,6 +203,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $a_target_dir.'/js/yahoo/animation-min.js');
 		copy('./Services/Accordion/js/accordion.js',$a_target_dir.'/js/accordion.js');
 		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
+		copy('./Services/JavaScript/js/Basic.js',$a_target_dir.'/js/Basic.js');
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$active_css = ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId());
@@ -301,11 +302,18 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/Basic.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script type="text/javascript" language="JavaScript1.2">
+					ilAddOnLoad(function () {init(0);});
+				</script>
+				<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
 				<title>'.$this->getTitle().'</title>
 			</head>
-			<body onLoad="init(0);" onunload="finish();">';
+			<body onunload="finish();">';
+			//<body onLoad="init(0);" onunload="finish();">';
+			// add init(0) per script, see above;
+			// otherwise accordion.js cannot add another function to the onload event.
 			
 		if($mode!='pdf')
 		$output .=	'<!-- BEGIN ilLMNavigation -->
