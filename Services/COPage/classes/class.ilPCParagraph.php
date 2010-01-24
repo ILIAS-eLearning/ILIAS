@@ -110,6 +110,7 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function setText($a_text, $a_auto_split = false)
 	{
+//var_dump($a_text);
 		if (!is_array($a_text))
 		{
 			$text = array(array("level" => 0, "text" => $a_text));
@@ -125,8 +126,14 @@ class ilPCParagraph extends ilPageContent
 		}
 
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
-
-		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
+		$check = "";
+		foreach ($text as $t)
+		{
+			$check.= "<Paragraph>".$t["text"]."</Paragraph>"; 
+		}
+		/*$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
+			DOMXML_LOAD_PARSING, $error);*/
+		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$check.'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
 			
 		//$this->text = $a_text;
@@ -196,7 +203,28 @@ class ilPCParagraph extends ilPageContent
 		}
 		else
 		{
-			return $error;
+			// We want the correct number of \n here to have the real lines numbers
+			$text = str_replace("<br>", "\n", $check);		// replace <br> with \n to get correct line
+			$text = str_replace("<br/>", "\n", $text);
+			$text = str_replace("<br />", "\n", $text);
+			$text = str_replace("</SimpleListItem>", "</SimpleListItem>\n", $text);
+			$text = str_replace("<SimpleBulletList>", "\n<SimpleBulletList>", $text);
+			$text = str_replace("<SimpleNumberedList>", "\n<SimpleNumberedList>", $text);
+			$text = str_replace("<Paragraph>\n", "<Paragraph>", $text);
+			$text = str_replace("</Paragraph>", "</Paragraph>\n", $text);
+			include_once("./Services/Dom/classes/class.ilDomDocument.php");
+			$doc = new ilDOMDocument();
+			$text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text.'</Paragraph>';
+//echo htmlentities($text);
+			$this->success = $doc->loadXML($text);
+			$error = $doc->errors;
+			$estr = "";
+			foreach ($error as $e)
+			{
+				$e = str_replace(" in Entity", "", $e);
+				$estr.= $e."<br />";
+			}
+			return $estr;
 		}
 	}
 
