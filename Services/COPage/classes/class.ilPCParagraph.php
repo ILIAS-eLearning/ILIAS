@@ -140,6 +140,9 @@ class ilPCParagraph extends ilPageContent
 		// remove all childs
 		if(empty($error))
 		{
+			$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
+				DOMXML_LOAD_PARSING, $error);
+			
 			// delete children of paragraph node
 			$children = $this->par_node->child_nodes();
 			for($i=0; $i<count($children); $i++)
