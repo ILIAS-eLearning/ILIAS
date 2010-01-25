@@ -104,6 +104,17 @@ class ilAppEventHandler
 				}
 			}
 		}
+
+		// get all event hook plugins and forward the event to them
+		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
+		$plugins = ilPluginAdmin::getActivePluginsForSlot("Services", "EventHandling", "evhk");
+		foreach ($plugins as $pl)
+		{
+			$plugin = ilPluginAdmin::getPluginObject("Services", "EventHandling",
+				"evhk", $pl);
+			$plugin->handleEvent($a_component, $a_event, $a_parameter);	
+		}
+		
 	}
 }
 ?>

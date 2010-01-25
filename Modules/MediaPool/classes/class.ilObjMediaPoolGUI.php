@@ -1382,11 +1382,37 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		//	$ilCtrl->getLinkTarget($this, "editMediaPoolPage"));
 		$ilTabs->addTarget("mep_page_properties", $ilCtrl->getLinkTarget($this, "editMediaPoolPage"),
 			"editMediaPoolPage", get_class($this));
+		$ilTabs->addTarget("cont_usage", $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
+			"showMediaPoolPageUsages", get_class($this));
 		$ilCtrl->setParameter($this, "mepitem_id", $this->object->tree->getParentId($_GET["mepitem_id"]));
 		$ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTarget($this, "listMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 	}
 
+	/**
+	 * List all usages of the contnet snippet
+	 */
+	function showMediaPoolPageUsages()
+	{
+		global $ilTabs, $ilCtrl, $lng, $tpl;
+	
+		$this->setMediaPoolPageTabs();
+		
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+		$mep_page_gui = new ilMediaPoolPageGUI($_GET["mepitem_id"], $_GET["old_nr"]);
+		$mep_page_gui->getTabs();
+		
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+		$page = new ilMediaPoolPage((int) $_GET["mepitem_id"]);
+
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageUsagesTableGUI.php");
+		$table = new ilMediaPoolPageUsagesTableGUI($this, "showMediaPoolPageUsages", $page);
+
+		$tpl->setContent($table->getHTML());
+		
+	}
+	
+	
 	////
 	//// OTHER Functions...
 	////

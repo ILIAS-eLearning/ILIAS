@@ -82,15 +82,19 @@ abstract class ilAuthBase
 	 */
 	protected function loginObserver($a_username,$a_auth)
 	{
-		global $ilLog;
-
+		global $ilLog, $ilAppEventHandler;
+		
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
 		{
+			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
+				array("user_name" => $a_username));
+			
 			$ilLog->write(__METHOD__.': logged in as '.$a_username.
 				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 				);
 		}
+		
 	}
 	
 	
