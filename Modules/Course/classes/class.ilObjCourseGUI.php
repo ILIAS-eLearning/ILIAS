@@ -3639,11 +3639,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			$members = $this->fetchPrintSubscriberData($members);
 			foreach($members as $member_data)
 			{
-				$tpl->setCurrentBlock("members_row");
+				$tpl->setCurrentBlock("subscribers_row");
 				$tpl->setVariable("SLOGIN",$member_data['login']);
 				$tpl->setVariable("SNAME",$member_data['name']);
 				$tpl->setVariable("STIME",$member_data["time"]);
-				$this->tpl->parseCurrentBlock();
+				$tpl->parseCurrentBlock();
 			}
 			
 			$tpl->setCurrentBlock("subscribers");
