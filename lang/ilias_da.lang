@@ -9769,16 +9769,16 @@ assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
 assessment#:#errortext#:#Error Text###24 07 2009 new variable
 assessment#:#errortext_info#:#Please enter the error text.###24 07 2009 new variable
 assessment#:#analyze_errortext#:#Analyze Error Text###24 07 2009 new variable
-assessment#:#text_wrong#:#Wrong Text###24 07 2009 new variable
-assessment#:#text_correct#:#Correct Text###24 07 2009 new variable
-assessment#:#errors#:#Errors###24 07 2009 new variable
-assessment#:#errors_section#:#Error Data###24 07 2009 new variable
+assessment#:#text_wrong#:#Forkert tekst
+assessment#:#text_correct#:#Korrekt tekst
+assessment#:#errors#:#Fejl
+assessment#:#errors_section#:#Fejldata
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###24 07 2009 new variable
-meta#:#md_general_settings#:#General Settings###24 07 2009 new variable
+meta#:#md_general_settings#:#Indstilligner
 meta#:#md_delimiter#:#Delimiter###24 07 2009 new variable
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###24 07 2009 new variable
 meta#:#md_separated_by#:#Separeret af '%s'
-content#:#cont_text_keyword#:#Keyword###24 07 2009 new variable
+content#:#cont_text_keyword#:#Søgeord
 search#:#search_hide_adv_search#:#Skjul avanceret søgning
 search#:#search_auto_complete_length#:#Antal elementer ved autofuldførelse
 assessment#:#points_wrong#:#Forkerte valg
