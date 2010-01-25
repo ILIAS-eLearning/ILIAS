@@ -81,6 +81,14 @@ abstract class ilEventHookPlugin extends ilPlugin
 		// nothing to do here
 	}
 
+	/**
+	 * Handle the event
+	 *
+	 * @param	string		component, e.g. "Services/User"
+	 * @param	event		event, e.g. "afterUpdate"
+	 * @param	array		array of event specific parameters
+	 */
+	abstract function handleEvent($a_component, $a_event, $a_parameter);
 
 }
 ?>

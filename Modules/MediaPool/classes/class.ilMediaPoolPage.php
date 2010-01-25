@@ -204,5 +204,70 @@ class ilMediaPoolPage extends ilPageObject
 		return ilPageObject::_exists("mep", $a_id);
 	}
 	
+	/**
+	* get all usages of current media object
+	*/
+	function getUsages()
+	{
+		return $this->lookupUsages($this->getId());
+	}
+	
+	/**
+	* Lookup usages of media object
+	*
+	* @todo: This should be all in one context -> mob id table
+	*/
+	function lookupUsages($a_id)
+	{
+		global $ilDB;
+
+		// get usages in pages
+		$q = "SELECT * FROM page_pc_usage WHERE pc_id = ".
+			$ilDB->quote($a_id, "integer").
+			" AND pc_type = ".$ilDB->quote("incl", "text");
+		$us_set = $ilDB->query($q);
+		$ret = array();
+		while($us_rec = $ilDB->fetchAssoc($us_set))
+		{
+			$ut = "";
+			if(is_int(strpos($us_rec["usage_type"], ":")))
+			{
+				$us_arr = explode(":", $us_rec["usage_type"]);
+				$ut = $us_arr[1];
+				$ct = $us_arr[0];
+			}
+
+			// check whether page exists
+			$skip = false;
+			if ($ut == "pg")
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				if (!ilPageObject::_exists($ct, $us_rec["usage_id"]))
+				{
+					$skip = true;
+				}
+			}
+				
+			if (!$skip)
+			{
+				$ret[] = array("type" => $us_rec["usage_type"],
+					"id" => $us_rec["usage_id"],
+					"hist_nr" => $us_rec["usage_hist_nr"]);
+			}
+		}
+
+		// get usages in media pools
+		$q = "SELECT DISTINCT mep_id FROM mep_tree JOIN mep_item ON (child = obj_id) WHERE mep_item.obj_id = ".
+			$ilDB->quote($a_id, "integer")." AND mep_item.type = ".$ilDB->quote("pg", "text");
+		$us_set = $ilDB->query($q);
+		while($us_rec = $ilDB->fetchAssoc($us_set))
+		{
+			$ret[] = array("type" => "mep",
+				"id" => $us_rec["mep_id"]);
+		}
+		
+		return $ret;
+	}
+	
 }
 ?>

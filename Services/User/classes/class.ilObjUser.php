@@ -473,7 +473,7 @@ class ilObjUser extends ilObject
 	*/
 	function update()
 	{
-		global $ilErr, $ilDB;
+		global $ilErr, $ilDB, $ilAppEventHandler;
 
         $this->syncActive();
 
@@ -568,6 +568,9 @@ class ilObjUser extends ilObject
         parent::updateOwner();
 
 		$this->read();
+		
+		$ilAppEventHandler->raise("Services/User", "afterUpdate",
+			array("user_obj" => $this));
 
 		return true;
 	}
