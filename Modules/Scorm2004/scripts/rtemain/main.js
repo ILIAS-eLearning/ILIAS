@@ -2398,7 +2398,6 @@ function load()
 function save()
 {
 	// optionally add parameters for save level 1 or level 2 data only
-	
 	function walk(collection, type) 
 	{
 		var schem = remoteMapping[type];
@@ -2448,9 +2447,7 @@ function save()
 			if (item.dirty!==2 && type=="node") {continue;}
 		}
 	}
-	
-	//alert("Before save");
-		
+			
 	if (save.timeout) 
 	{
 		window.clearTimeout(save.timeout);
@@ -2471,6 +2468,7 @@ function save()
 		? sendJSONRequest(this.config.cmi_url, result)
 		: {};
 	
+
 	// set successful updated elements to clean
 	var i = 0;
 	for (k in result) 
@@ -2483,14 +2481,13 @@ function save()
 		}
 	}
 	
-	//alert("Saved: "+i);
-	
 	if (typeof this.config.time === "number" && this.config.time>10) 
 	{
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
 //	setTimeout("updateNav(true)",1000);
+	isSaving = false;
 	return i;
 }
 
@@ -3425,6 +3422,7 @@ var treeView=true;
 //course wide variables
 var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
+var isSaving = true;
 
 var saveOnCommit = true;
 // Public interface

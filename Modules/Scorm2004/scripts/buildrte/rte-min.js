@@ -1,4 +1,4 @@
-// Build: 20091210160622 
+// Build: 2010126090911 
 
 function ADLAuxiliaryResource()
 {}
@@ -2381,7 +2381,7 @@ result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};var i=
 {act.dirty=0;}}
 if(typeof this.config.time==="number"&&this.config.time>10)
 {clearTimeout(save.timeout);save.timeout=window.setTimeout(save,this.config.time*1000);}
-return i;}
+isSaving=false;return i;}
 function getAPI(cp_node_id)
 {function getAPISet(k,dat,api)
 {if(dat!=undefined&&dat!==null)
@@ -2529,7 +2529,7 @@ return valid;}else{return false}}}
 function pausecomp(millis)
 {var date=new Date();var curDate=null;do{curDate=new Date();}
 while(curDate-date<millis);}
-var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var pubAPI=null;var statusArray=new Object();var saveOnCommit=true;window.scorm_init=init;
+var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var pubAPI=null;var statusArray=new Object();var isSaving=true;var saveOnCommit=true;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()
 {return String(error);}
@@ -2562,7 +2562,7 @@ break;case TERMINATED:return setReturn(143,'','false');}}
 function Terminate(param){setReturn(-1,'Terminate('+param+')');if(param!=='')
 {return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');saveOnCommit=false;var returnValue=Commit('');saveOnCommit=true;state=TERMINATED;onTerminate(cmiItem);return setReturn(error,'',returnValue);case TERMINATED:return setReturn(113,'','false');}}
+{case NOT_INITIALIZED:return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');saveOnCommit=true;var returnValue=Commit('');saveOnCommit=true;state=TERMINATED;onTerminate(cmiItem);return setReturn(error,'',returnValue);case TERMINATED:return setReturn(113,'','false');}}
 function GetValue(sPath)
 {setReturn(-1,'GetValue('+sPath+')');switch(state)
 {case NOT_INITIALIZED:sclogdump("Not initialized","error");return setReturn(122,'','');case RUNNING:if(typeof(sPath)!=='string')
