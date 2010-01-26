@@ -154,7 +154,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// resulting in code 111 (REQ_5.3)
 				Runtime.onTerminate(cmiItem, msec); // wrapup from LMS 
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
-				saveOnCommit = false;
+				saveOnCommit = true;
 				var returnValue = Commit(''); // wrap up 
 				saveOnCommit = true;
 				state = TERMINATED;
