@@ -295,7 +295,7 @@ common#:#as_of#:#as of###21 Apr 2005 new variable
 common#:#ascending_order#:#Stigende orden
 common#:#assessment_log_deleted#:#Test & Evaluerings logdata blev slettet i administration
 common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
+common#:#assessment_log_manual_scoring_activate#:#Brug manuel karaktergivning til
 common#:#assessment_log_manual_scoring#:#Manuel karaktergivning
 common#:#assessment_log_manual_scoring_desc#:#Hvis der gives manuelle karakterer i et spørgsmål bør alle spørgsmål af samme type vurderes af en censor. Vær opmærksom på denne indstilling, da efterfølgende manuelkaraktergivning af automatiske-scorede spørgsmål kan give juridiske problemer.
 common#:#assessment_log#:#Lav en Test&Evaluerings log for en afgrænset periode
@@ -2583,7 +2583,7 @@ common#:#tst_warning_test_not_complete#:#Testen er endnu ikke færdiggjort
 common#:#tst_write#:#Rediger Test
 common#:#txt_add_object_instruction1#:#Gå til placeringen hvor du vil tilføje
 common#:#txt_add_object_instruction2#:#.###21 Apr 2005 new variable
-common#:#txt_registered#:#Du har nu oprettet en konto på ILIAS. Klik på knappen nedenfor for at logge ind. 
+common#:#txt_registered#:#Din ILIAS-konto er nu oprettet. Klik på knappen nedenfor for at logge ind. 
 common#:#txt_registered_passw_gen#:#Du har nu oprettet en konto på ILIAS. I løbet af kort tid modtager du en email med det genererede password.
 common#:#txt_submitted#:#Du har succesfuldt sendt en ansøgning om en konto til ILIAS. Din forespørgsel vil set på af en system administrator, og vil blive aktiveret indenfor 48 timer, Du har ikke mulighed for at logge ind før din konto er aktiveret.
 common#:#typ#:#Objekt typedefinition
@@ -2594,9 +2594,9 @@ common#:#udf_delete_header#:#Slet felt
 common#:#udf_delete_sure#:#Er du sikker på du vil SLETTE dette felt og alle indtastede brugerdata?
 common#:#udf_duplicate_entries#:#Værdierne skal være unikke
 common#:#udf_field_deleted#:#Det brugerdefinerede felt blev slettet.
-common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
+common#:#udf_name_already_exists#:#Feltnavnet eksisterer i forvejen, så du skal vælge et andet.
 common#:#udf_no_entries#:#Indtast mindst en værdi.
-common#:#udf_no_name_given#:#Please enter a field name.
+common#:#udf_no_name_given#:#Indtast feltets navn
 common#:#udf_type_select#:#Rummemenu (begrænsede valgmuligheder)
 common#:#udf_type_text#:#Tekstfelt (valgfrie værdier)
 common#:#udf_update_select_field#:#Ret rullemenu
@@ -2711,13 +2711,13 @@ common#:#usrf_read_users#:#Rolletildeling for lokale administratorer
 common#:#usrf_visible#:#Brugerkonti er synlige
 common#:#usrf_write#:#Rediger brugerkonti
 common#:#usrimport_action_failed#:#Handling %1$s fejlede
-common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
-common#:#usrimport_cant_delete#:#Kan ikke udføre handlingen \"fjern\". Der er ikke en sådan bruger i databasen.
-common#:#usrimport_cant_insert#:#Kan ikke udføre <i>indsætning</i>, da brugeren allerede findes i databasen
-common#:#usrimport_cant_update#:#Kan ikke udføre <i>opdatering</i>handlingen. Der er ikke en sådan global rolle for\"%1$s\" handlingen.
-common#:#usrimport_conflict_handling_info#:#Når \\
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for \"%1$s\" action.###09 Mar 2005 new variable
+common#:#usrimport_action_ignored#:#Srang over %1$ handling(er)
+common#:#usrimport_action_replaced#:#Erstattede handling %1$s med %2$s.
+common#:#usrimport_cant_delete#:#Kunne ikke udføre "Delete", da brugeren ikke findes i databasen.
+common#:#usrimport_cant_insert#:#Kunne ikke udføre "Insert", da brugeren findes i forvejen.
+common#:#usrimport_cant_update#:#Kunne ikke udføre "Update", da brugeren ikke findes i forvejen.
+common#:#usrimport_conflict_handling_info#:#Når "ignorer ved konflikt" er valgt springer ILIAS blot over handlinger der ikke kan udføres, f.eks. hvis en bruger findes i databasen i forvejen i forbindelse med indsætning.\nNær "Opdater ved konflikt" er valgt vil ILIAS i stedet opdatere databasen med de nye informationer.
+common#:#usrimport_global_role_for_action_required#:#Mindst en global rolle skal angives for \"%1$s\" handlingen.
 common#:#usrimport_ignore_role#:#Ignorer rolle
 common#:#usrimport_login_is_not_unique#:#Login er ikke unikt
 common#:#usrimport_with_specified_role_not_permitted#:#Import med den specifikke rolle er ikke tiladt
@@ -2727,8 +2727,8 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Værdien %3$s af attribut 
 common#:#usrimport_xml_element_content_illegal#:#Indhold \"%2$s\" i elementet \"%1$s\" er ikke korrekt
 common#:#usrimport_xml_element_for_action_required#:#Element \"%1$s\" må specificeres for \"%2$s\" handlingen
 common#:#usrimport_xml_element_inapplicable#:#Element '%1$s' er uanvendelig til '%2$s' handling
-common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
-common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
+common#:#usrimport_no_insert_ext_account_exists#:#Kan ikke udføre "Insert". Ekstern konto eksisterer i forvejen.
+common#:#usrimport_no_update_ext_account_exists#:#Kan ikke udføre "Update". Ekstern konto eksisterer i forvejen.
 common#:#valid#:#Gyldig
 common#:#validate#:#Valider
 common#:#value#:#Værdi
@@ -9068,10 +9068,10 @@ cntr#:#cntr_disable_multi_commands#:#Stop fler-kommandoer
 cntr#:#cntr_add_new_item#:#Tilføj indhold
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene indstillinger
-search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
-search#:#lucene_and#:#AND###30 04 2009 new variable
-search#:#lucene_or#:#OR###30 04 2009 new variable
-search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.###30 04 2009 new variable
+search#:#lucene_default_operator#:#Standard operator
+search#:#lucene_and#:#OG
+search#:#lucene_or#:#ELLER
+search#:#lucene_default_operator_info#:#Vælg standardoperationen for boolske søgninger. Fabriksindstillingen er, at søge på konjunktionen af ord, dvs. alle ordene skal matche. Ved at vælge 'ELLER' skal kun et af ordene matche.
 search#:#lucene_num_fragments#:#Number of Text Fragments###30 04 2009 new variable
 search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.###30 04 2009 new variable
 search#:#lucene_size_fragments#:#Size of Text Fragments###30 04 2009 new variable
@@ -9159,7 +9159,7 @@ user#:#user_public_profile_info#:#Her vælger du hvilke af dine personlige data 
 user#:#user_activate_public_profile#:#Aktiver offentlig profil
 user#:#user_activate_public_profile_info#:#Global aktivering af offentlig profil. Dette gør dit for- og efternavn synligt for de andre brugere.
 search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
-search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
+search#:#lucene_advanced_settings#:#Avanceret søgning
 search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
 search#:#lucene_activate_field#:#Aktiver søgning
 common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
@@ -9218,14 +9218,14 @@ common#:#stat_selected#:#Valgt
 notes#:#notes_edit_note#:#Edit Note###30 04 2009 new variable
 notes#:#notes_edit_comment#:#Edit Comment###30 04 2009 new variable
 notes#:#notes_label#:#Label###30 04 2009 new variable
-search#:#lucene_last_index_time#:#Last Index Generation###30 04 2009 new variable
-search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
+search#:#lucene_last_index_time#:#Index sidst opdateret
+search#:#lucene_last_index_time_info#:#Ret kun denne indstilling hvis Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
 notes#:#notes_add_note#:#Tilføj note
 notes#:#notes_note_deleted#:#Noten er blevet slettet.
 notes#:#notes_notes_deleted#:#Noter slettet. 
 common#:#user_image#:#Brugerbillede
-ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###30 04 2009 new variable
+ps#:#ps_prevent_simultaneous_logins#:#Forhindrer flere samtidige logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
 common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###30 04 2009 new variable
 trac#:#trac_select_area#:#Vælg område
@@ -9233,7 +9233,7 @@ trac#:#trac_hide_selected#:#Skjul valgte elementer
 search#:#search_term_combination#:#Kombination
 search#:#search_select_search_area#:#Vælg søgeområde
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###15 05 2009 new variable
-assessment#:#file_uploads#:#File Uploads###15 05 2009 new variable
+assessment#:#file_uploads#:#Fil uploads
 search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
 search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.###15 05 2009 new variable
 search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.###15 05 2009 new variable
@@ -9247,11 +9247,11 @@ search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the fo
 search#:#lucene_err_quotes#:#Please close all quote (") marks.###15 05 2009 new variable
 search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.###15 05 2009 new variable
 search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###15 05 2009 new variable
-news#:#news_time_period#:#Time Period###15 05 2009 new variable
-common#:#collapsed#:#Collapsed###15 05 2009 new variable
+news#:#news_time_period#:#Tidsperiode
+common#:#collapsed#:#Sammenfoldet
 common#:#tree#:#Træ
 common#:#list#:#Liste
-search#:#search_title_description#:#Title / Description###15 05 2009 new variable
+search#:#search_title_description#:#Titel/beskrivelse
 assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
 content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
@@ -9288,13 +9288,13 @@ content#:#cont_nr_col_footer#:#Footer kolonner
 style#:#sty_type_table_caption#:#Tabeloverskrift
 style#:#sty_caption_side#:#Caption Side###15 05 2009 new variable
 style#:#sty_caption#:#Forklaringstekst
-style#:#sty_caption_class#:#Caption###15 05 2009 new variable
+style#:#sty_caption_class#:#Undertekst
 style#:#sty_confirm_template_deletion#:#Bekræft skabelon sletning
 style#:#sty_generate_template#:#Generer skabelon
 style#:#sty_template_layout#:#Skabelonlayout
 style#:#sty_table_template_colored_zebra#:#Farvet zebra
-style#:#sty_table_template_bw_zebra#:#Gray Zebra###15 05 2009 new variable
-style#:#sty_table_template_no_zebra#:#No Zebra###15 05 2009 new variable
+style#:#sty_table_template_bw_zebra#:#Grå zebra###15 05 2009 new variable
+style#:#sty_table_template_no_zebra#:#Ingen zebra###15 05 2009 new variable
 style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###15 05 2009 new variable
 style#:#sty_left_right_padding#:#Cell Padding Left/Right###15 05 2009 new variable
 style#:#sty_base_color#:#Grundfarve
@@ -9396,9 +9396,9 @@ mep#:#mep_all#:#Alle
 mep#:#mep_format#:#Format
 mep#:#mep_default_width#:#Standard bredde
 mep#:#mep_default_height#:#Standard højde
-mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
+mep#:#mep_default_width_height_info#:#Standard bredde og højde bruges som startindstillinger til nye medieobjekter.
 content#:#cont_layout#:#Layout
-content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 2009 new variable
+content#:#cont_lm_default_layout#:#Standardlayout for læremodul
 content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout pr. side
 content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
@@ -9415,7 +9415,7 @@ payment#:#payment_vat_title_info#:#Indsæt en label/titel for moms.
 payment#:#payment_vat_rate_info#:#Indtast momssatsen (uden %-tegn)
 payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
-payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
+payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Før der er valgt momssats for varen kan den ikke sælges fra shoppen.
 payment#:#payment_vat_administration#:#Administration
 payment#:#payment_vat_input_invalid#:#Du skal indtaste en gyldig værdi for momssatsen.
 payment#:#payment_no_price_selected#:#Ingen pris valg.
@@ -9614,7 +9614,7 @@ common#:#filter_users_with_disk_usage#:#Only users with disk space used###24 07 
 common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###24 07 2009 new variable
 common#:#filter_users_with_access#:#Kun brugere med adgang
 common#:#filter_users_without_access#:#Kun brugere uden adgang
-common#:#statistics#:#Statistics###24 07 2009 new variable
+common#:#statistics#:#Statistik
 ldap#:#ldap_global_role#:#Global rolle
 ldap#:#ldap_local_role#:#Lokal rolle
 ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###24 07 2009 new variable
