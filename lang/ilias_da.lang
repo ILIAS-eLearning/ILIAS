@@ -948,7 +948,7 @@ common#:#file_not_valid#:#Filen er ikke gyldig!
 common#:#file_notice#:#Bemærk at den maksimale størrelse er 
 common#:#file_allowed_suffixes#:#Tilladte filtyper:
 common#:#file_read#:#Download fil
-common#:#file_suffix_repl#:#File Upload Suffix Replacement
+common#:#file_suffix_repl#:#Erstatning af filendelser
 common#:#file_suffix_repl_info#:#Filer med disse endelser (separeret af komma) vil blive omdøbt til ".sec" når de uploades i webspace. Dette gøres som standard for endelser:
 common#:#file_valid#:#Filen er gyldig!
 common#:#file_version#:#Version er vist i Filen
@@ -7826,7 +7826,7 @@ payment#:#object_deleted#:#Varen slettet
 payment#:#user_deleted#:#Slettet bruger
 payment#:#statistics_filter_advice#:#Vælg de værdier du ønsker at filtrere på og tryk derefter 'Opdater' knappen.
 mail#:#advice_mail_body_secured#:#ILIAS har fjernet nogle elementer fra din besked af sikkerhedshensyn. Gennemgå den sikrede besked og send igen.
-payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
+payment#:#pay_crs_max_members_exceeded#:#Du kan ikke købe kurset, for det maksimale antal deltagere er allerede nået.
 common#:#webfolder#:#Webfolder
 common#:#mount_webfolder#:#Åben som webfolder
 common#:#obj_file_inline#:#Læremodul fil
@@ -8428,10 +8428,10 @@ payment#:#pay_edit_abstract#:#Ret varebeskrivelse
 payment#:#pay_thumbnail#:#Miniature
 mcst#:#mcst_news_item_visibility_info#:#Offentlige nyheder kan tilgås uden login uden for ILIAS gennem RSS. Undlad derfor at skrive fortrolige informationer.
 mcst#:#mcst_default_visibility#:#Standardadgang
-mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
+mcst#:#mcst_visibility_users#:#Påloggede brugere
 mcst#:#mcst_visibility_public#:#Offentlig
 ps#:#ps_account_security_mode#:#Konto sikkerhed
-ps#:#ps_account_security_mode_default#:#Standard ILIAS kontosikkerhed
+ps#:#ps_account_security_mode_default#:#ILIAS bestemmer 
 ps#:#ps_account_security_mode_customized#:#Tilpasset kontosikkerhed
 ps#:#ps_password_min_length#:#Mindste password længde
 ps#:#ps_password_max_length#:#Maksimal password længde
@@ -8439,11 +8439,11 @@ ps#:#ps_password_chars_and_numbers_enabled#:#Karakterer og tal
 ps#:#ps_password_special_chars_enabled#:#Specielle karakterer
 ps#:#ps_password_max_age#:#Maksimal password alder
 ps#:#ps_login_max_attempts#:#Maksimale login forsøg
-ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.###26 07 2008 new variable
-ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.###26 07 2008 new variable
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
-ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.###26 07 2008 new variable
-ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.###26 07 2008 new variable
+ps#:#ps_password_chars_and_numbers_enabled_info#:#Tvinger brugere til at anvende passwords med både bogstaver og tal.
+ps#:#ps_password_special_chars_enabled_info#:#Tvinger brugeren til at vælge passwords der indeholder specielle tegn.
+ps#:#ps_password_min_length_info#:#Det mindste antal karakterer et password må indeholde. Mindst 1 karakter, selvom værdien 0.
+ps#:#ps_password_max_length_info#:#Bestemmer den maksimale længede på passwords. 0 er ubegrænset.
+ps#:#ps_password_max_age_info#:#Sætter tidsfrister (i dage) på brugen af passwords, så brugeren er tvunget til at ændre med jævne mellemrum.
 ps#:#ps_login_max_attempts_info#:#Sætter det maksimale antal forkerte loginforsøg. Hvis 0 er der intet øvre loft.
 ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###26 07 2008 new variable
 ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.###26 07 2008 new variable
@@ -8531,7 +8531,7 @@ content#:#cont_selected_items_have_been_copied#:#Valgte elementer er kopieret ti
 content#:#cont_selected_items_have_been_cut#:#Valgte elementer er klippet til udklipsholder. Klik relevante pladsholdere for at indsætte dem i læremodulet.
 content#:#cont_choose_pages_or_chapters_only#:#Vælg enten sider eller kapitler.
 crs#:#crs_archive_language_selection#:#Valg af sprog
-common#:#zip_test_failed#:#Zip-testen fejlede. Du kan evt. kontakte din ILIAS administrator.
+common#:#zip_test_failed#:#Zip-testen fejlede. Du kan evt. kontakte systemadministrator.
 common#:#ext_link#:#Link
 pd#:#pd_enable_my_offers#:#Aktiver 'Valgte elementer'
 pd#:#pd_enable_my_offers_info#:#Visningen 'Valgte elementer' indeholder alle objekter som er placeret på brugerens skrivebord.
@@ -8558,7 +8558,7 @@ assessment#:#final_statement_show#:#Vis slutbesked
 assessment#:#final_statement_show_desc#:#Hvis valg bliver slutbeskeden vist umiddelbart efter testen før resultaterne vises.
 assessment#:#showinfo#:#Vis den komplette informationsside
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
-assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
+assessment#:#forcejs#:#Tving brug af JavaScript i testspørgsmål
 assessment#:#forcejs_short#:#Tving JavaScript
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.###15 09 2008 new variable
 crs#:#crs_contact_email_info#:#Indtast en eller flere kommaseparerede emailadresser.
@@ -8986,8 +8986,8 @@ export#:#export_create#:#Lav
 export#:#export_last_file#:#Sidste fil
 export#:#export_export_date#:#Eksportdato
 common#:#session_reminder_extended#:#Din session blev forlænget %s
-common#:#session_reminder_session_duration#:#(Session Duration: %s).###24 02 2009 new variable
-crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.###24 02 2009 new variable
+common#:#session_reminder_session_duration#:#(Session varighed: %s).
+crs#:#crs_user_already_assigned#:#Den valgte bruger er allerede tilmeldt dette kursus.
 assessment#:#showSuggestedSolution#:#Foreslået løsning
 assessment#:#deleteSuggestedSolution#:#Fjern løsningsforslag
 assessment#:#suggestedSolutionType#:#Løsningsforslag (type)
@@ -9120,7 +9120,7 @@ chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folde
 chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
 chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009 new variable
 chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
-chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
+chat#:#chat_user_already_in_addressbook#:#Brugeren er allerede i din adressebog
 chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
 chat#:#chat_available_smilies#:#Smiley oversigt :-)
 chat#:#chat_smiley_image#:#Ikon
