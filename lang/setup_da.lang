@@ -504,7 +504,7 @@ java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:
 log_path_comment_win#:#F.eks. 'C:/iliasdata/iliaslog.txt' (filen bliver oprettet)
 unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
-server_settings#:#Server Settings###21 09 2009 new variable
-time_zone#:#Time Zone###21 09 2009 new variable
-please_select#:#Please Selec###21 09 2009 new variable
-db_port#:#Database Port###07 10 2009 new variable
+server_settings#:#Serverindstillinger
+time_zone#:#Tidszone
+please_select#:#Vælg venligst
+db_port#:#Database port
