@@ -889,7 +889,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
 			if (is_array($_POST['birthday']))
 			{
-				if (strlen($_POST['birthday']['date']))
+				//if (strlen($_POST['birthday']['date']))
+				if ( ((int) ($_POST['birthday']['date']['d'])) > 0)
 				{
 					$_POST['birthday'] = $_POST['birthday']['date'];
 				}
