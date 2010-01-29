@@ -3813,6 +3813,8 @@ common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration
 common#:#shib_login_external_wayf#:#Use external WAYF service
 common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service
+common#:#shib_login_embedded_wayf#:#Design custom login area
+common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.
 common#:#shib_login_type#:#Organization selection
 common#:#shib_member_of#:#I'm a member of ...
 common#:#shib_phone_home#:#Attribute for home phone number

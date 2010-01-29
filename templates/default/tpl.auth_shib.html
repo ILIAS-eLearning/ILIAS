@@ -41,7 +41,7 @@
 		</tr>
 		
 		<tr>
-			<td class="option" rowspan="2">
+			<td class="option" rowspan="3">
 				{TXT_SHIB_LOGIN_TYPE} <span class="asterisk">*</span> 
 			</td>
 			<td class="option_value">
@@ -57,7 +57,12 @@
 				<input type="text" size="40" maxlength="50" name="shib[login_button]" value="{SHIB_LOGIN_BUTTON}" />
 			</td>
 		</tr>
-		
+		<tr>
+			<td class="option_value">
+				<input name="shib[hos_type]" type="radio" value="embedded_wayf" {CHK_SHIB_LOGIN_EMBEDDED_WAYF}> {TXT_SHIB_LOGIN_EMBEDDED_WAYF}
+				<p><span class="small"><i>{TXT_SHIB_LOGIN_EMBEDDED_WAYF_DESCRIPTION}</i></span><p/>
+			</td>
+		</tr>
 		<tr>
 			<td class="option">
 				{TXT_SHIB_LOGIN_INSTRUCTIONS} 

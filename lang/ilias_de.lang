@@ -4327,6 +4327,8 @@ common#:#shib_login#:#Eindeutiges Shibboleth Attribut
 common#:#shib_login_button#:#Pfad zum Shibboleth-Login-Button
 common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
 common#:#shib_login_internal_wayf#:#Den ILIAS-WAYF-Dienst benutzen
+common#:#shib_login_embedded_wayf#:#Anmeldebereich selber gestalten
+common#:#shib_login_embedded_wayf_description#:#Diese Einstellung erlaubt es beliebigen HTML Code im Textfeld für Anmeldeanweisungen anzugeben. Damit kann man beispielsweise einen eigenen JavaScript Embedded WAYF/Discovery Service verwenden oder den Anmeldebereich beliebig selber gestalten.
 common#:#shib_login_type#:#Auswahl der Organisation
 common#:#shib_member_of#:#Ich bin Mitglied von ...
 common#:#shib_phone_home#:#Attribut für private Telefonnummer
