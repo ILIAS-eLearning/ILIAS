@@ -161,14 +161,20 @@ class ilAuthShibbolethSettingsGUI
 		if (
 			!isset($settings["shib_hos_type"])
 			|| $settings["shib_hos_type"] == ''
-			|| $settings["shib_hos_type"] != 'external_wayf'
+			|| $settings["shib_hos_type"] == 'internal_wayf'
 			)
 		{
 			$this->tpl->setVariable("CHK_SHIB_LOGIN_INTERNAL_WAYF", 'checked="checked"');
 			$this->tpl->setVariable("CHK_SHIB_LOGIN_EXTERNAL_WAYF", '');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EMBEDDED_WAYF", '');
+		} elseif($settings["shib_hos_type"] == 'embedded_wayf'){
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_INTERNAL_WAYF", '');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EXTERNAL_WAYF", '');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EMBEDDED_WAYF", 'checked="checked"');
 		} else {
 			$this->tpl->setVariable("CHK_SHIB_LOGIN_INTERNAL_WAYF", '');
 			$this->tpl->setVariable("CHK_SHIB_LOGIN_EXTERNAL_WAYF", 'checked="checked"');
+			$this->tpl->setVariable("CHK_SHIB_LOGIN_EMBEDDED_WAYF", '');
 		}
 		
 		if (!isset($settings["shib_idp_list"]) || $settings["shib_idp_list"] == '')
@@ -201,6 +207,8 @@ class ilAuthShibbolethSettingsGUI
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_EXTERNAL_WAYF", $this->lng->txt("shib_login_external_wayf"));
 		$this->tpl->setVariable("TXT_SHIB_IDP_LIST", $this->lng->txt("shib_idp_list"));
 		$this->tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->lng->txt("shib_federation_name"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_EMBEDDED_WAYF", $this->lng->txt("shib_login_embedded_wayf"));
+		$this->tpl->setVariable("TXT_SHIB_LOGIN_EMBEDDED_WAYF_DESCRIPTION", $this->lng->txt("shib_login_embedded_wayf_description"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
 		$this->tpl->setVariable("TXT_SHIB_DATA_CONV", $this->lng->txt("shib_data_conv"));
 		$this->tpl->setVariable("TXT_SHIB_AUTH_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
