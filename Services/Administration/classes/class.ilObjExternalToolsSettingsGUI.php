@@ -740,7 +740,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		// API key
 		$text_prop = new ilTextInputGUI($lng->txt("gmaps_api_key"), "api_key");
-		$text_prop->setInfo($lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'">'.$api_url.'</a>');
+		$text_prop->setInfo($lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'" target="_blank">'.$api_url.'</a>');
 		$text_prop->setValue($api_key);
 		$text_prop->setRequired(false);
 		$text_prop->setMaxLength(200);
