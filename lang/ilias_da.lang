@@ -1972,14 +1972,14 @@ common#:#obj_st#:#Kapitel
 common#:#obj_stys#:#Layoutopsætning
 common#:#obj_stys_desc#:#Administrer layoutopsætning her
 common#:#obj_svy#:#Undersøgelse
-common#:#obj_tax#:#Taxonomy###21 Apr 2005 new variable
-common#:#obj_taxf#:#Taxonomier
+common#:#obj_tax#:#Taksonomi
+common#:#obj_taxf#:#Taksonomier
 common#:#obj_taxf_desc#:#Mappe til taksonomier
 common#:#obj_trac#:#Brugersporing
 common#:#obj_trac_desc#:#Sporing/Overvågning af brugere
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition###21 Apr 2005 new variable
-common#:#obj_type#:#Objekt Type
+common#:#obj_type#:#Objekt type
 common#:#obj_url#:#URL
 common#:#obj_uset#:#Brugerindstillinger
 common#:#obj_usr#:#bruger
@@ -2180,10 +2180,10 @@ common#:#refresh_languages#:#Opdater sprog
 common#:#refresh_list#:#Opdateringsliste
 common#:#refuse#:#Nægt
 common#:#reg_mail_body_salutation#:#Kære
-common#:#reg_mail_body_text1#:#Velkommen til ILIAS e-læring
+common#:#reg_mail_body_text1#:#Du er blevet oprettet som bruger.
 common#:#reg_mail_body_text2#:#For at få adgang til  ILIAs brug følgende data:
 common#:#reg_mail_body_text3#:#Yderligere personlig information: 
-common#:#reg_mail_subject#:#ILIAS eLæring - Din brugerkonto
+common#:#reg_mail_subject#:#Din ILIAS brugerkonto
 common#:#reg_passwd_via_mail#:#Dit password vil blive sendt til din email du har angivet herunder.
 common#:#register#:#Registrer
 common#:#register_info#:#Udfyld venligst formularen for at blive registreret (Felter der er markeret med en stjerne er påkrævede).
@@ -2896,8 +2896,8 @@ search#:#last_search_result#:#Seneste søgeresultat
 search#:#search_results#:#Søgeresultater
 search#:#search_users#:#Søg bruger
 search#:#until#:#Indtil
-search#:#search_active#:#Include active users###21 Apr 2005 new variable
-search#:#search_inactive#:#Include inactive users###21 Apr 2005 new variable
+search#:#search_active#:#Medtag aktive brugere
+search#:#search_inactive#:#Medtag inaktive brugere
 search#:#search_user#:#Brugere
 search#:#add_members_header#:#Tilføj medlemmer
 search#:#append_results#:#Append results
@@ -2936,9 +2936,9 @@ search#:#search_limit_reached#:#Your search produced more than %s hits. You can 
 search#:#search_lm_content#:#Lærings materialer (indhold)
 search#:#search_lm_meta#:#Lærings materialer (meta data)
 search#:#search_lucene#:#Lucene søgning
-search#:#search_lucene_host#:#Lucene-Server###20 Jul 2005 new variable
+search#:#search_lucene_host#:#Lucene server
 search#:#search_lucene_info#:#Hvis aktiveret er det muligt at søge i PDF, HTML filer og HTML-læremoduler.
-search#:#search_lucene_port#:#Lucene-Port###20 Jul 2005 new variable
+search#:#search_lucene_port#:#Lucene port
 search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
 search#:#search_meta#:#Meta data
 search#:#search_minimum_three#:#Din søgning skal være på mindst 3 bogstaver
@@ -2947,10 +2947,10 @@ search#:#search_move_to#:#Flyt til:
 search#:#search_my_search_results#:#Mine søgeresultater
 search#:#search_new_folder#:#Ny mappe
 search#:#search_no_category#:#Du har ikke valgt nogen søgekategorier
-search#:#search_no_connection_lucene#:#Cannot connect to Lucene server.###20 Jul 2005 new variable
+search#:#search_no_connection_lucene#:#Kan ikke få kontakt med Lucene server.
 search#:#search_no_match#:#Søgningen fandt ingen resultater.
 search#:#search_no_results_saved#:#Du har ingen gemte resultater.
-search#:#search_no_search_term#:#Du har ikke valgt nogen søge kritterier
+search#:#search_no_search_term#:#Du har ikke valgt søgekritterier
 search#:#search_no_selection#:#Du har ikke lavet nogen valg.
 search#:#search_object_renamed#:#Objekter omdøbt
 search#:#search_objects_deleted#:#Objekter slettet.
@@ -2975,9 +2975,9 @@ search#:#search_select_one_select#:#--Vælg en mappe--
 search#:#search_show_result#:#Vis
 search#:#search_tst_svy#:#Tests/undersøgelser
 search#:#search_type#:#Type
-search#:#search_page#:#Results:###29 05 2007 new variable
-search#:#search_page_next#:#Next###29 05 2007 new variable
-search#:#search_page_prev#:#Previou###29 05 2007 new variable
+search#:#search_page#:#Resultater
+search#:#search_page_next#:#Næste
+search#:#search_page_prev#:#Forrige
 assessment#:#search_results#:#Søreresultater
 assessment#:#0_unlimited#:#(0=uendelig)
 assessment#:#action#:#Aktion
@@ -3005,7 +3005,7 @@ assessment#:#applet_parameters#:#Applet parametere
 assessment#:#apply#:#Tilføj
 assessment#:#assClozeTest#:#Cloze spørgsmål
 assessment#:#assImagemapQuestion#:#Billedklik spørgsmål
-assessment#:#assJavaApplet#:#Java Applet spørgsmål
+assessment#:#assJavaApplet#:#Java applet spørgsmål
 assessment#:#assMatchingQuestion#:#Match spørgsmål
 assessment#:#assMultipleChoice#:#Multiple choice spørgsmål (flere svar)
 assessment#:#assNumeric#:#Numerisk spørgsmål
@@ -3033,11 +3033,11 @@ assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettighe
 assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
-common#:#certificate#:#Certificate###10 10 2006 new variable
-certificate#:#certificate_top#:#Top###13 10 2006 new variable
-certificate#:#certificate_right#:#Right###13 10 2006 new variable
-certificate#:#certificate_bottom#:#Bottom###13 10 2006 new variable
-certificate#:#certificate_left#:#Left###13 10 2006 new variable
+common#:#certificate#:#Certifikat
+certificate#:#certificate_top#:#Top
+certificate#:#certificate_right#:#Højre
+certificate#:#certificate_bottom#:#Bund
+certificate#:#certificate_left#:#Venstre
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
 certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
@@ -4063,9 +4063,9 @@ pd#:#pd_enable_notes#:#Aktiver noter
 mcst#:#mcst_add_new_item#:#Tilføj nyt Media Cast
 mcst#:#mcst_visibility_info#:#Offentlige objekter kan tilgås via RSS uden nogen form for autentificering.
 mcst#:#mcst_duration#:#Spilletid
-mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
+mcst#:#mcst_nr_items#:#Antal elementer
 mcst#:#mcst_last_submission#:#Sidste bidrag
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
+mcst#:#mcst_duration_info#:#Hvis du ikke indtaster en værdi forsøger automatisk opdagelse af spilletiden.
 mcst#:#mcst_media_cast#:#Media Cast
 mcst#:#mcst_entry#:#Media Cast indhold
 mcst#:#mcst_play_time#:#Spilletid
@@ -4103,7 +4103,7 @@ news#:#news_visibility_public#:#Offentlig
 news#:#news_news_item_visibility#:#Adgang
 news#:#news_news_items#:#Nyhed(er)
 news#:#news_subscribe#:#Abonner
-news#:#news_unsubscribe#:#Uabonner
+news#:#news_unsubscribe#:#Stop abonnement
 news#:#news_internal_news#:#Interne nyheder
 news#:#news_get_feed_url#:#Hent feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'
@@ -4148,7 +4148,7 @@ rep#:#rep_intro6#:#Efter disse skridt kan du tilføje læring og arbejdsresurser
 delic#:#delic_settings#:#del.icio.us indstillinger
 delic#:#delic_add_to_delicious#:#Føj til del.icio.us
 delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens###25 02 2007 new variable
+delic#:#delic_add_info_links#:#Vis del.icio.us links på informationssider
 delic#:#delic_user_profile#:#Aktiver del.icio.us kontoindstillinger i brugerprofil
 gmaps#:#gmaps_api_key#:#API nøgle
 gmaps#:#gmaps_public_profile_info#:#Vis placering i offentlig profil
@@ -4185,9 +4185,9 @@ content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Yderligere
 content#:#cont_Circle#:#Cirkel
-content#:#cont_Citation#:#Citation###21 Apr 2005 new variable
+content#:#cont_Citation#:#Citat
 content#:#cont_Code#:#Kode
-content#:#cont_bb_tip#:#Tip: Styles can be applied quickly to selected text.###14 06 2007 new variable
+content#:#cont_bb_tip#:#Tip: Formatering kan hurtigt påføres markeret tekst.
 content#:#cont_Example#:#Eksempel
 content#:#cont_e_g_example#:#e.g.###14 06 2007 new variable
 content#:#cont_Headline1#:#Overskrift 1
@@ -4208,15 +4208,15 @@ content#:#cont_add_area#:#Tilføj område
 content#:#cont_add_change_comment#:#Tilføj ændringskommentar
 content#:#cont_add_definition#:#tilføj Definition
 content#:#cont_add_fullscreen#:#Tilføj Fuldskærmd
-content#:#cont_added_comment#:#Comment has been added to history.###21 Apr 2005 new variable
+content#:#cont_added_comment#:#Kommentar tilføjet til historik.
 content#:#cont_added_term#:#Term added###21 Apr 2005 new variable
 content#:#cont_all_definitions#:#Alle Definitationer
 content#:#cont_all_pages#:#Alle sider
 content#:#cont_annex#:#Annex###21 Apr 2005 new variable
 content#:#cont_api_adapter#:#API Adapter Navn
 content#:#cont_api_func_prefix#:#API Funktioner Prefix
-content#:#cont_areas_deleted#:#Map areas deleted.###21 Apr 2005 new variable
-content#:#cont_assign_full#:#Assign Fullscreen
+content#:#cont_areas_deleted#:#Kortområder slettet.
+content#:#cont_assign_full#:#Tildel fuldskærm
 content#:#cont_assign_std#:#Tildel standard
 content#:#cont_assign_translation#:#Tildel Oversættelse
 content#:#cont_assignments_deleted#:#Opgaverne er blevet slettet
@@ -4681,7 +4681,7 @@ crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet afbrudt.
 crs#:#crs_cancel_subscription#:#Afmelding fra
 crs#:#crs_cancel_subscription_body#:#En bruger har afmeldt sig kurset.###23 Dec 2005 content changed
 crs#:#crs_change_status#:#Changes status of objective:###21 Apr 2005 new variable
-crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###21 Apr 2005 new variable
+crs#:#crs_chapter_already_assigned#:#Disse kapitler er allerede tildelt.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Konsultation
 crs#:#crs_contact_email#:#Email
@@ -4701,7 +4701,7 @@ crs#:#crs_delete_from_list_sure#:#Er du sikker på du fil afmelde følgende brug
 crs#:#crs_delete_from_waiting_list#:#Fjern fra venteliste
 crs#:#crs_delete_member#:#Afmeld deltager(e)
 crs#:#crs_delete_members_sure#:#Vil du slette de følgende deltagere fra dette kursus
-crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###21 Apr 2005 new variable
+crs#:#crs_delete_objectve_sure#:#Er du sikker på du vil slette de valgte læremål?
 crs#:#crs_delete_subscribers#:#Slet abonnent
 crs#:#crs_delete_subscribers_sure#:#Vil du slette de følgende brugere
 crs#:#crs_details#:#Kursusdetaljer
@@ -4712,22 +4712,22 @@ crs#:#crs_edit_content#:#Rediger indgange
 crs#:#crs_edit_start_objects#:#Rediger startobjekter
 crs#:#crs_edit_timings#:#Edit Timings
 crs#:#crs_end#:#Slut
-crs#:#crs_existing_files#:#Existing Files:
+crs#:#crs_existing_files#:#Eksisterende filer:
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file#:#File
 crs#:#crs_file_download#:#Filer der kan downloades
 crs#:#crs_file_name#:#Filnavn
-crs#:#crs_file_size_info#:#Filesize
+crs#:#crs_file_size_info#:#Filstørrelse
 crs#:#crs_filename#:#Filnavn
 crs#:#crs_free_places#:#Pladser til rådighed
-crs#:#crs_from#:#Fra:###19 Apr 2006 content changed
+crs#:#crs_from#:#Fra:
 crs#:#crs_further_settings#:#Flere indstillinger
-crs#:#crs_general_info#:#General Informations
+crs#:#crs_general_info#:#Information
 crs#:#crs_general_informations#:#General Informations
-crs#:#crs_grouping#:#Course grouping###21 Apr 2005 new variable
+crs#:#crs_grouping#:#Kursusgrupering
 crs#:#crs_grouping_assign#:#Ændrer tildeling
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###21 Apr 2005 new variable
-crs#:#crs_grouping_deleted#:#Deleted course grouping.###21 Apr 2005 new variable
+crs#:#crs_grouping_delete_sure#:#Er du sikker på du vil slette de følgende kursusgruperinger?
+crs#:#crs_grouping_deleted#:#Kursusgrupering slettet.
 crs#:#crs_grouping_modified_assignment#:#Redigeret Opgave.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###21 Apr 2005 new variable
 crs#:#crs_groupings#:#Course groupings###21 Apr 2005 new variable
@@ -4741,20 +4741,20 @@ crs#:#crs_grp_crs_assignment#:#Kursustildeling
 crs#:#crs_grp_deassigned_courses#:#Delete assignment###21 Apr 2005 new variable
 crs#:#crs_grp_enter_title#:#Angiv venligst en titel.
 crs#:#crs_grp_info_reg#:#Du kan kun tilmelde dig en af disse kurser:###21 Apr 2005 new variable
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###21 Apr 2005 new variable
+crs#:#crs_grp_matriculation_required#:#Kursusgrupering kræver et unikt matrikulationsnummer.<br />Hvis muligt skal du indtaste værdien i din personlige profil.
 crs#:#crs_grp_modified_grouping#:#Ændringerne blev gemt.
 crs#:#crs_grp_no_course_selected#:#Vælg venligst et kursus
 crs#:#crs_grp_no_courses_assigned#:#Ingen tildelte kurser.
-crs#:#crs_grp_table_assigned_courses#:#Assigned courses###21 Apr 2005 new variable
+crs#:#crs_grp_table_assigned_courses#:#Tildelte kurser
 crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
-crs#:#crs_header_delete_subscribers#:#Delete subscribers###23 Dec 2005 new variable
+crs#:#crs_header_delete_subscribers#:#Slet abonnenter
 crs#:#crs_header_edit_members#:#Rediger medlem
 crs#:#crs_header_members#:#Kursusdeltagere
 crs#:#crs_header_remove_from_waiting_list#:#Venteliste: sæt bruger af
 crs#:#crs_hide_link_lms#:#Skjul undervisningsmaterialer
-crs#:#crs_hide_link_objectives#:#Hide objectives###21 Apr 2005 new variable
-crs#:#crs_hide_link_or#:#Hide other resources###21 Apr 2005 new variable
+crs#:#crs_hide_link_objectives#:#Skjul mål
+crs#:#crs_hide_link_or#:#Skjul andre resurser
 crs#:#crs_hide_link_tst#:#Skjul tests
 crs#:#crs_html#:#HTML
 crs#:#crs_important_info#:#Vigtig information
@@ -4874,14 +4874,14 @@ crs#:#crs_objectives_nr_questions#:#Antal spørgsmål
 crs#:#crs_objectives_qst_deassigned#:#Spørgsmålstildelingen blev fjernet.
 crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###21 Apr 2005 new variable
 crs#:#crs_objectives_reseted#:#Reseted results.###21 Apr 2005 new variable
-crs#:#crs_offline#:#Offline###21 Apr 2005 new variable
+crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Egenskaber
 crs#:#crs_other_groupings#:#Gruppering af andre kurser
 crs#:#crs_other_resources#:#Andre resurser
 crs#:#crs_passed#:#Bestået
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_password_required#:#Tilmelding kræver et password.
-crs#:#crs_pdf#:#PDF###21 Apr 2005 new variable
+crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personer på venteliste
 crs#:#crs_print_list#:#Udskriv liste
 crs#:#crs_question_assignment#:#Question assignment###21 Apr 2005 new variable
@@ -5030,7 +5030,7 @@ crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Din placering på ventelisten
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#event#:#Session
-crs#:#event_add_new_event#:#Added new session
+crs#:#event_add_new_event#:#Lav ny session
 crs#:#event_assign_materials#:#Assign Materials
 crs#:#event_assign_materials_info#:#Tildelte kursusmaterialer vil blive anført direkte under sessionen
 crs#:#event_assign_materials_table#:#Tildeling af kursusmaterialer
@@ -5448,7 +5448,7 @@ grp#:#grp_enable_map#:#Aktiver gruppekort
 grp#:#grp_members_map#:#Kort over gruppemedlemmer
 grp#:#grp_map_location#:#Gruppekort placering
 grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
+ilinc#:#ilinc_member_administration#:#Ret deltagere
 ilinc#:#akclassvalue1#:#Cost center 1
 ilinc#:#akclassvalue2#:#Cost center 2
 ilinc#:#akclassvalues#:#Omkostningscentre
@@ -6223,7 +6223,7 @@ meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following fi
 meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
 meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following datasets?###16 08 2007 new variable
-meta#:#md_adv_active#:#Active###16 08 2007 new variable
+meta#:#md_adv_active#:#Aktiv
 payment#:#duration#:#Varighed
 payment#:#info#:#Informationer angående betalingsmetode
 payment#:#update#:#Opdater
@@ -6699,14 +6699,14 @@ survey#:#filter_all_question_types#:#Alle spørgsmåls typer
 survey#:#filter_all_questionpools#:#Alle spørgsmålsgrupper
 survey#:#filter_show_question_types#:#Vis spørgsmåls typer
 survey#:#filter_show_questionpools#:#Vis spørgsmålsgrupper
-survey#:#glossary_term#:#Glossary term###21 Apr 2005 new variable
+survey#:#glossary_term#:#Ordliste term
 survey#:#import_question#:#Importer spørgsmål
 survey#:#insert_after#:#Indsæt efter
 survey#:#insert_before#:#Indsæt før
 survey#:#last_update#:#Seneste opdatering
 survey#:#legend#:#Legend
 survey#:#maintenance#:#Vedligeholdelse
-survey#:#material#:#Material###21 Apr 2005 new variable
+survey#:#material#:#Materiale
 survey#:#material_file#:#Materiale fil
 survey#:#maxchars#:#Maksimalt antal karakterer
 survey#:#next_question_rows#:#spørgsmål %d - %d af %d >>
@@ -6754,16 +6754,16 @@ survey#:#add_phrase_introduction#:#Vælg venligst en sætning:
 survey#:#add_standard_numbers#:#Tilføj standart numre
 survey#:#already_completed_survey#:#Du har allerede afsluttet undersøgelsen! Det er ikke muligt at gentage den.
 survey#:#anonymization#:#Anonymisering
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###21 Apr 2005 new variable
-survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br 
+survey#:#anonymize_anonymous_introduction#:#Denne undersøgelse anonymiserer alle brugerdata. For at få adgang til at besvare skal du derfor anvende en 32-karakterer lang adganskode som du modtager af den der har lavet undersøgelsen.<br />Indtast i feltet nedenfor.
+survey#:#anonymize_key_introduction#:#Denne undersøgelse anonymiserer alle brugerdata. For at give dig adgang til at besvare anonymt sendes en 32-karakterer lang kode til din mail efter du har begyndt undersøgelsen (når du besvarer det første spørgsmål). Din adgangskode er<br/>
 survey#:#anonymize_personalized#:#Ingen anonymisering
 survey#:#anonymize_registered_user#:#Anonymiseret afstemningsadgang
-survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###21 Apr 2005 new variable
+survey#:#anonymize_resume_introduction#:#Indtast din adgangskode til undersøgelsen for at fortsætte besvarelsen. Den blev send til dig da du startede undersøgelsen.
 survey#:#anonymize_survey_description#:#Anonymisering fjerner alle personlige informationer fra undersøgelses evalueringen. En undersøgelses-kode er en fem-cifret kode som bruges til at besvare den anonymiseret undersøgelse. Der genereres automatisk en undersøgelses-kode til relevante eksisterende ILIAS-brugere.
 survey#:#anonymize_with_code#:#Anonymisering ved brug af undersøgelses-koder
 survey#:#anonymize_without_code#:#Anonymisering med fri adgang til undersøgelsen
-survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###21 Apr 2005 new variable
-survey#:#arithmetic_mean#:#Arithmetic mean###21 Apr 2005 new variable
+survey#:#anonymous_with_personalized_survey#:#Du skal være You must be a registered user to run a personalized survey!###21 Apr 2005 new variable
+survey#:#arithmetic_mean#:#Aritmetisk gennemsnit
 survey#:#ask_insert_questionblocks#:#Er du sikker på du vil tilføje den følgende spørgsmåls blok til undersøgelsen?
 survey#:#ask_insert_questions#:#Er du sikker på du vil tilføje de følgende spørgsmål til spørgeskemaet?
 survey#:#before#:#før
@@ -6952,7 +6952,7 @@ survey#:#metric_question_not_a_value#:#Værdien du har indtastet er ikke et tal!
 survey#:#metric_question_out_of_bounds#:#Værdien du har indtastet er ikke mellem minimun og maksimum!
 survey#:#metric_subtype_description_interval#:#Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.###15 11 2006 new variable
 survey#:#metric_subtype_description_rationonabsolute#:#In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is nonarbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.###15 11 2006 new variable
-survey#:#metric_subtype_description_ratioabsolute#:#The ratio absolute measurement uses natural numbers additional to the nonarbitrary zero point for example the number of children in a family or probability.###15 11 2006 new variable
+survey#:#metric_subtype_description_ratioabsolute#:#Kun naturlige tal inden for et interval, f.eks. antallet af børn i en familie eller en procentsats.
 survey#:#minimum#:#Minimum værdi
 survey#:#missing_upper_or_lower_limit#:#Indtast venligst en laveste og højeste grænse!
 survey#:#mode#:#Mest valgte værdi
@@ -7006,7 +7006,7 @@ survey#:#questions#:#Spørgsmål
 survey#:#questions_inserted#:#Spørgsmål indsat!
 survey#:#questions_removed#:#Spørgsmål og/eller spørgsmålsblok fjernet!
 survey#:#questiontype#:#Spørgsmåls type
-survey#:#ratio_absolute#:#Absolut interval
+survey#:#ratio_absolute#:#Heltal i interval
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###21 Apr 2005 new variable
 survey#:#ratio_scale_ge_zero#:#Den mindste værdi i ratio scale skal være 0 eller højere
 survey#:#remove_questions#:#Er du sikker på at du vil fjerne følgende spørgsmål og/eller spørgsmålsblokke fra denne test?
@@ -7049,7 +7049,7 @@ survey#:#survey_code_url_name#:#URL (brug højre museknap for at kopiere URL)
 survey#:#survey_code_used#:#Kode blev brugt
 survey#:#survey_codes_lang#:#Undersøgelsens sprog
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!###22 12 2006 new variable
-survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
+survey#:#survey_error_insert_incomplete_question#:#Du forsøgte at tilføje et ufærdigt spørgsmål som derfor ikke blev tilføjet.
 survey#:#survey_finish#:#afslut spørgeskema
 survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
 survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
@@ -7198,7 +7198,7 @@ trac#:#stats_pages_statisics#:#Sidestatistik
 trac#:#stats_sec#:#sec
 trac#:#stats_sel_lng#:#English
 trac#:#stats_session#:#Session
-trac#:#stats_session_average_length#:#Average Session Length
+trac#:#stats_session_average_length#:#Gennemsnitlig sessionslængde
 trac#:#stats_session_average_page_access#:#Average Access to Pages per Session
 trac#:#stats_session_evaluable#:#Evaluable Sessions
 trac#:#stats_session_evaluable_access#:#Evaluable Session Access
@@ -8587,7 +8587,7 @@ administration#:#language_former_file_description#:#To compare your local change
 administration#:#language_former_file_equal#:#Filen <b>%s</b> er identisk med den nuværende sprogfil.
 administration#:#language_former_file_missing#:#Filen <b>%s</b> mangler.
 administration#:#language_scope_conflicts#:#Local and update changes###19 09 2008 new variable
-content#:#cont_rollback#:#Tilbagerul
+content#:#cont_rollback#:#Fortryd
 content#:#cont_rollback_confirmation#:#Ønsker du at genskabe den tidligere version af siden?
 cntr#:#cntr_view_sessions#:#Sessions visning
 common#:#selected_languages_updated#:#De valgte installerede sprog er blevet opdateret
@@ -8940,7 +8940,7 @@ style#:#sty_type_page_nav#:#Fodnote
 style#:#sty_type_page_title#:#Page Title###24 02 2009 new variable
 style#:#sty_float#:#Float###24 02 2009 new variable
 style#:#sty_type_page_bnav#:#Bottom Navigation###24 02 2009 new variable
-style#:#sty_type_page_tnav#:#Top Navigation###24 02 2009 new variable
+style#:#sty_type_page_tnav#:#Top navigation
 style#:#sty_type_page_lnav#:#Left Navigation###24 02 2009 new variable
 style#:#sty_type_page_rnav#:#Right Navigation###24 02 2009 new variable
 style#:#sty_type_page_cont#:#Page Container###24 02 2009 new variable
@@ -8971,7 +8971,7 @@ common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
 common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.###24 02 2009 new variable
 common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s###24 02 2009 new variable
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session###24 02 2009 new variable
+common#:#session_reminder_alert#:#Du logges automatisk af om 5 minutter. Tryk på OK for at afbryde.
 common#:#session_reminder#:#Sessions påmindelse
 common#:#session_reminder_info#:#Hvis aktiveret sendes en påmindelse før sessionen udløber.
 ecs#:#ecs_no_owner#:#Please select one community name.###24 02 2009 new variable
