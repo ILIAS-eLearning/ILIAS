@@ -10098,7 +10098,7 @@ user#:#user_no_courses#:#Keinem Kurs zugeordnet
 user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffentlichen Profil erscheinen sollen.
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
-user#:#user_screen_reader_optimization_info#:#Automatischer Fokus and Ajax Optimierungen.
+user#:#user_screen_reader_optimization_info#:#Passt ILIAS an die Nutzung mit einem Screenreader / Bildschirmleseprogramm an.
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_visible_in_profile#:#Sichtbar im Profil
 user#:#usr_link_to_profile#:#Link zum Profil
