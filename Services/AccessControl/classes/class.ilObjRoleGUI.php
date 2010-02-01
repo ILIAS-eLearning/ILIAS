@@ -1808,6 +1808,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->lng->txt('role_add_user'),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start')
 		);
+		$tb->addSpacer();
+		$tb->addButton(
+			$this->lng->txt('role_mailto'),
+			$this->ctrl->getLinkTarget($this,'mailToRole')
+		);
 		$this->tpl->setVariable('BUTTONS_UA',$tb->getHTML());
 		
 		include_once './Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php';
@@ -2741,7 +2746,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this));
 		}
 	}
-	
+
 	function mailToRoleObject()
 	{
 		global $rbacreview;
