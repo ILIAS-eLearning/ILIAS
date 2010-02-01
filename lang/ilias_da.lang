@@ -3136,7 +3136,7 @@ assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete th
 assessment#:#delete_area#:#Slet område
 assessment#:#delete_image#:#Delete image
 assessment#:#delete_user_data#:#Slet testdata for valgte brugere
-assessment#:#description_maxchars#:#Hvis intet intastet er det maximale antal karakterer for dette svar uendeligt.###
+assessment#:#description_maxchars#:#Hvis intet indtastet er det maksimale antal karakterer for dette svar uendeligt.
 assessment#:#detail_ending_time_reached#:#Du er nået til sluttidspunktet for denne test. Testen er ikke tilgængelig efter %s
 assessment#:#detail_max_processing_time_reached#:#Du har brugt dem maksimalt tilladte tid på denne test!
 assessment#:#detail_starting_time_not_reached#:#Du har ikke nået start tidspunktet for denne test. Testen e r tilgængelig efter %s
@@ -6278,7 +6278,7 @@ payment#:#pay_bmf_subtotal_amount#:#Subtotal beløb
 payment#:#pay_bmf_validity#:#gyldig indtil
 payment#:#pay_bmf_vat_included#:#Inkl. moms
 payment#:#pay_bmf_your_order#:#Din ordre
-payment#:#pay_change_price#:#Change price/duration combination
+payment#:#pay_change_price#:#Vælg ny kombination
 payment#:#pay_click_to_buy#:#Betal
 payment#:#pay_confirm_order#:#Godkend venligst din ordre ved at indtaste dit personlige password.
 payment#:#pay_customer_no#:#Kundenummer.
@@ -9005,8 +9005,8 @@ assessment#:#matching_pairs#:#Matchende par
 assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
 assessment#:#matching_type#:#Match-spørgsmål undertype
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
-assessment#:#thumb_geometry#:#Miniature-geometri
-assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
+assessment#:#thumb_geometry#:#Miniature
+assessment#:#thumb_geometry_info#:#De små versioner af billedet vil bevare størrelsesforhold, men maksimalt have ovenstående højde/bredde.
 assessment#:#element_height#:#Minimumshøjde
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###24 02 2009 new variable
 assessment#:#assOrderingHorizontal#:#Sorteringsspørgsmål (horizontalt)
@@ -9147,8 +9147,8 @@ chat#:#chat_chatviewer#:#Chatviser
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
 chat#:#chat_user_hidden#:#skjult
 chat#:#chat_user_visible#:#synlig
-common#:#content_frame#:#Content Frame###30 04 2009 new variable
-common#:#side_frame#:#Side Frame###30 04 2009 new variable
+common#:#content_frame#:#Indholdsramme
+common#:#side_frame#:#Sideramme
 common#:#icon#:#Ikon
 common#:#info_message#:#Information
 common#:#failure_message#:#Fejlbesked
@@ -9766,9 +9766,9 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to rep
 assessment#:#tst_remove_mark#:#Remove this mark###24 07 2009 new variable
 assessment#:#tst_show_side_list#:#Show question list aside###24 07 2009 new variable
 assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
-assessment#:#errortext#:#Error Text###24 07 2009 new variable
-assessment#:#errortext_info#:#Please enter the error text.###24 07 2009 new variable
-assessment#:#analyze_errortext#:#Analyze Error Text###24 07 2009 new variable
+assessment#:#errortext#:#Fejlbehæftet tekst
+assessment#:#errortext_info#:#Indtast den fejlbehæftede tekst. For at markere de fejlagtige ord sættes en havelåge (#) foran ordet. Når du trykker på &quot;Analysér fejlbehæftet tekst&quot; bliver ordene udtrukket, så det korrekte svar kan tilknyttes.
+assessment#:#analyze_errortext#:#Analysér fejlbehæftet tekst
 assessment#:#text_wrong#:#Forkert tekst
 assessment#:#text_correct#:#Korrekt tekst
 assessment#:#errors#:#Fejl
