@@ -6730,7 +6730,7 @@ survey#:#remove_question#:#Fjern
 survey#:#reset_filter#:#Nulstil filter
 survey#:#search_groups#:#Grupper fundet
 survey#:#search_roles#:#Roller fundet
-survey#:#search_term#:#Søge krav
+survey#:#search_term#:#Søgekriterier
 survey#:#found_users#:#Brugere
 survey#:#select_target_position_for_move_question#:#Vælg venligst en destination for at flytte spørgsmålet/spørgsmålene og tryk på 1 af indsæt knapperne!
 survey#:#set_filter#:#Sæt filter
@@ -6903,8 +6903,8 @@ survey#:#insert_missing_question#:#Vælg venligst mindst et spørgsmål at inds�
 survey#:#insert_missing_questionblock#:#Vælg venligst mindst en spørgsmåls blok at indsætte i spørgeskemaet!
 survey#:#introduction#:#Introduktion
 survey#:#introduction_manage_phrases#:#Håndtere dine egne sætninger som er til rådighed for alle de ordinale (ordenstal = 1. 2. 3. osv.) spørgsmål som du laver
-survey#:#invitation#:#Invitation###21 Apr 2005 new variable
-survey#:#invitation_mode#:#Invitations mode
+survey#:#invitation#:#Hvem skal inviteres til undersøgelsen
+survey#:#invitation_mode#:#Invitationsform
 survey#:#invited_groups#:#Inviterede grupper
 survey#:#invited_users#:#Inviterede brugere
 survey#:#label_resume_survey#:#Indtast din 32-cifrede spørgeskemakode
@@ -6979,12 +6979,12 @@ survey#:#off#:#Deaktiveret
 survey#:#on#:#Aktiveret
 survey#:#question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
-survey#:#outro#:#Final statement
+survey#:#outro#:#Afsluttende bemærkninger
 survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet denne værdi
 survey#:#percentage_of_offered_answers#:#Procent af mulige svar
 survey#:#percentage_of_selections#:#Procent af brugere der har valgt dette svar
 survey#:#phrase_saved#:#The phrase was saved successfully!###21 Apr 2005 new variable
-survey#:#predefined_users#:#Prædefineret brugersæt
+survey#:#predefined_users#:#Udvalgte brugere
 survey#:#qpl_confirm_delete_phrases#:#Er du sikker på du vil slette den følgende sætning?
 survey#:#qpl_define_questionblock_select_missing#:#Vælg venligst mindst to spørgsmål hvis du ønsker at definere en spørgsmålsblok!
 survey#:#qpl_delete_phrase_select_none#:#Marker venligst en sætning for at slette den
@@ -7018,7 +7018,7 @@ survey#:#save_phrase#:#Gem som sætning
 survey#:#save_phrase_categories_not_checked#:#Marker mindst to svar for at kunne gemme svar i en ny sætning!
 survey#:#save_phrase_introduction#:#Hvis du ønsker at gemme svarene herunder, som standardsætning så indsæt en overskrift på sætningen.Du kan komme til en standardsætning når du ønsker at tilføje en sætning til et talspørgsmål.
 survey#:#search_field_all#:#Søg i alle felter
-survey#:#search_invitation#:#Søg efter brugere eller grupper at invitere
+survey#:#search_invitation#:#Søg
 survey#:#search_questions#:#Søg efter spørgsmål
 survey#:#search_type_all#:#Søg i alle spørgsmåls typer
 survey#:#select_option#:#--- Valgmuligheder ---
@@ -7054,7 +7054,7 @@ survey#:#survey_finish#:#afslut spørgeskema
 survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
 survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
 survey#:#survey_finished#:#Du har nu afsluttet spørgeskemaet. Tak for din deltagelse! <br/><br/>Med venlig hilsen<br/><br/><a href="www.ilias.dk" target="_blank">ILIAS</a>.
-survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###01 Mar 2006 new variable
+survey#:#survey_has_datasets_warning#:#Undersøgelsen indeholder allerede besvarelse. Du kan først ændre undersøgelsen når du har slettet disse besvarelser under vedligeholdelsesfanebladet.
 survey#:#survey_is_offline#:#Du kan ikke starte spørgeskemaet da det er offline.
 survey#:#survey_next#:#næste >>>
 survey#:#survey_offline_message#:#Kan ikke invitere brugere. Spørgeskemaet er offline!
@@ -7071,7 +7071,7 @@ survey#:#survey_skip_previous#:#<<< Undlad
 survey#:#survey_skip_start#:#Undlad og gå til startside
 survey#:#survey_start#:#gå til startside
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!###15 11 2006 new variable
-survey#:#svy_all_user_data_deleted#:#Alle brugerdata for dette spørgeskema er blevet slettet!
+survey#:#svy_all_user_data_deleted#:#Alle besvarelser for dette spørgeskema er blevet slettet!
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable
@@ -7103,7 +7103,7 @@ survey#:#text_question_not_filled_out#:#Udfyld venligst svarfeltet!
 survey#:#text_resume_survey#:#Du forsøger at genoptage en anonym undersøgelse. For at fortsætte denne undersøgelse med dine tidligere indtastninger, indtast venligst den 32 cifrede kode som du modtog da du tidligere startede undersøgelsen(Det var send
 survey#:#title_resume_survey#:#Genoptag spørgeskema- Indtast koden
 survey#:#unfold#:#Unfold###21 Apr 2005 new variable
-survey#:#unlimited_users#:#Uendelig
+survey#:#unlimited_users#:#Ubegrænset antal brugere
 survey#:#upper_limit#:#Øvre grænse
 survey#:#upper_limit_must_be_greater#:#Den øvre grænse skal være højere end den nedre grænse!
 survey#:#used#:#brugte
@@ -8242,31 +8242,31 @@ ecs#:#ecs_polling_info#:#Please define the polling time for creation and update 
 ecs#:#ecs_import_id#:#Import ID###23 07 2008 new variable
 ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created###23 07 2008 new variable
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.###23 07 2008 new variable
-ecs#:#ecs_participants#:#Participants###23 07 2008 new variable
-ecs#:#ecs_participants_infos#:#Further Informations###23 07 2008 new variable
-ecs#:#ecs_active_header#:#Export Allowed###23 07 2008 new variable
-ecs#:#ecs_enable_participant#:#Allow Export###23 07 2008 new variable
-ecs#:#ecs_dns#:#Domainname###23 07 2008 new variable
+ecs#:#ecs_participants#:#Deltagere
+ecs#:#ecs_participants_infos#:#Yderligere information
+ecs#:#ecs_active_header#:#Eksport tilladt
+ecs#:#ecs_enable_participant#:#Tillad eksport
+ecs#:#ecs_dns#:#Domænenavn
 ecs#:#ecs_email#:#email
 ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data###23 07 2008 new variable
 ecs#:#ecs_field_study_courses#:#Study Course(s)###23 07 2008 new variable
-ecs#:#ecs_field_lecturer#:#Lecturer(s)###23 07 2008 new variable
-ecs#:#ecs_field_courseType#:#Course Type###23 07 2008 new variable
+ecs#:#ecs_field_lecturer#:#Forelæser(e)
+ecs#:#ecs_field_courseType#:#Kursustype
 ecs#:#ecs_field_credits#:#Credits###23 07 2008 new variable
-ecs#:#ecs_field_start#:#Start###23 07 2008 new variable
+ecs#:#ecs_field_start#:#Start
 ecs#:#ecs_field_term#:#Term###23 07 2008 new variable
-ecs#:#ecs_field_day#:#Day###23 07 2008 new variable
+ecs#:#ecs_field_day#:#Dag
 ecs#:#ecs_field_time#:#Time###23 07 2008 new variable
-ecs#:#ecs_field_room#:#Room###23 07 2008 new variable
+ecs#:#ecs_field_room#:#Rum
 ecs#:#ecs_field_cycle#:#Cycle###23 07 2008 new variable
 ecs#:#ecs_ignore_field#:#Disable export/update of this field###23 07 2008 new variable
-common#:#obj_rcrs#:#Course-Link###23 07 2008 new variable
-common#:#objs_rcrs#:#Course-Links###23 07 2008 new variable
+common#:#obj_rcrs#:#Kursuslink
+common#:#objs_rcrs#:#Kursuslinks
 ecs#:#ecs_export#:#Course Releases###23 07 2008 new variable
 ecs#:#ecs_export_obj_settings#:#Course Release Settings###23 07 2008 new variable
 ecs#:#ecs_export_disabled#:#Do not release this Course###23 07 2008 new variable
 ecs#:#ecs_export_enabled#:#Release this Course###23 07 2008 new variable
-ecs#:#ecs_publish_as#:#Publish as:###23 07 2008 new variable
+ecs#:#ecs_publish_as#:#Publicer som:
 ecs#:#ecs_publish_for#:#Release for:###23 07 2008 new variable
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.###23 07 2008 new variable
 rcrs#:#rcrs_general_info#:#General Informations###23 07 2008 new variable
@@ -8280,13 +8280,13 @@ ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts###23 07 2008 new
 ecs#:#ecs_role#:#Role Assignment###23 07 2008 new variable
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.###23 07 2008 new variable
 rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
-ecs#:#ecs_field_begin#:#Begin###23 07 2008 new variable
-ecs#:#ecs_field_end#:#End###23 07 2008 new variable
+ecs#:#ecs_field_begin#:#Begynd
+ecs#:#ecs_field_end#:#Slut
 ecs#:#ecs_import#:#Import
 ecs#:#ecs_imported_content#:#Imported E-Content###23 07 2008 new variable
-ecs#:#ecs_imported_from#:#Imported From###23 07 2008 new variable
-ecs#:#ecs_meta_data#:#Meta Data###23 07 2008 new variable
-mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s###23 07 2008 new variable
+ecs#:#ecs_imported_from#:#Importeret fra
+ecs#:#ecs_meta_data#:#Metadata
+mail#:#mail_auto_generated_info#:#Denne mail er automatisk afstende af ILIAS systemet %s, %s
 ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:###23 07 2008 new variable
 ecs#:#ecs_new_econtent_subject#:#New E-Content created###23 07 2008 new variable
 ecs#:#ecs_notifications#:#Notifications###23 07 2008 new variable
@@ -8297,14 +8297,14 @@ ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma seperate
 ecs#:#ecs_new_user_subject#:#New ECS User Account###23 07 2008 new variable
 ecs#:#ecs_new_user_body#:#A new ECS user account has been created.###23 07 2008 new variable
 ecs#:#ecs_new_user_profile#:#Brugerprofil data:
-form#:#form_months#:#Months###23 07 2008 new variable
+form#:#form_months#:#Måneder
 ecs#:#ecs_account_duration#:#Activation Period Extension###23 07 2008 new variable
 ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.###23 07 2008 new variable
 common#:#udf_type_datetime#:#Dato og tid
-ecs#:#ecs_no_value#:#Not available###23 07 2008 new variable
+ecs#:#ecs_no_value#:#Ej tilgængeligt
 ecs#:#ecs_field_semester_hours#:#Semester Periods per Week###23 07 2008 new variable
-common#:#object_id#:#Object-Id###23 07 2008 new variable
-ecs#:#ecs_field_courseID#:#Course ID###23 07 2008 new variable
+common#:#object_id#:#Objekt-Id
+ecs#:#ecs_field_courseID#:#Kursusid
 common#:#organization#:#Provider###23 07 2008 new variable
 common#:#auth_ecs#:#ECS###23 07 2008 new variable
 ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new approved courses per e-mail.###23 07 2008 new variable
@@ -9591,7 +9591,7 @@ content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 ne
 content#:#cont_select#:#Vælg
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple-choice (med flere besvarelser)
 survey#:#SurveySingleChoiceQuestion#:#Multiple-choice (med enkelt besvarelse)
-survey#:#invitation_off#:#Ingen invitationer
+survey#:#invitation_off#:#Invitationer slået fra
 assessment#:#assErrorText#:#Fejlbesked
 assessment#:#textsize_errortext_info#:#Indtast tekst-størrelsen på fejlbeskeder i procenter, hvis du ønsker en anden størrelse end 100%
 common#:#disk_quota#:#Diskkvoter
@@ -9706,7 +9706,7 @@ survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the 
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard###24 07 2009 new variable
 survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###24 07 2009 new variable
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###24 07 2009 new variable
-survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
+survey#:#invitation_mode_desc#:#Når brugere inviteres til undersøgelsen oprettes et direkte link på deres personlige skrivebord.
 survey#:#msg_deleted_export_files#:#Eksport fil(er) slettet
 assessment#:#msg_deleted_export_files#:#Eksportfil(er) slettet.
 common#:#udf_type_wysiwyg#:#Fritekst (WYSIWYG)
