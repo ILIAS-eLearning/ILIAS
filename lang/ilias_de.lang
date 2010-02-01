@@ -5260,12 +5260,12 @@ content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_none#:#Keine
 content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
-content#:#cont_nr_col_footer#:#Fußzeile Spalten
-content#:#cont_nr_col_header#:#Kopfzeile Spalten
+content#:#cont_nr_col_footer#:#Fuß (Spalten)
+content#:#cont_nr_col_header#:#Kopf (Spalten)
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
-content#:#cont_nr_row_footer#:#Fußzeile Reihen
-content#:#cont_nr_row_header#:#Kopfzeile Zeilen
+content#:#cont_nr_row_footer#:#Fuß (Zeilen)
+content#:#cont_nr_row_header#:#Kopf (Zeilen)
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_Number#:#Nummer
 content#:#cont_number_of_tabs#:#Anzahl der Register
@@ -9138,8 +9138,8 @@ style#:#sty_caption_class#:#Legende
 style#:#sty_caption_side#:#Seitliche Beschriftung
 style#:#sty_characteristic_already_exists#:#Eine Style-Klasse dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_clear#:#Textumfluss beenden
-style#:#sty_col_foot_class#:#Fußzeile Spalte
-style#:#sty_col_head_class#:#Kopfzeile Spalte
+style#:#sty_col_foot_class#:#Fuß (Spalten)
+style#:#sty_col_head_class#:#Kopf (Spalten)
 style#:#sty_color#:#Farbe
 style#:#sty_color_already_exists#:#Eine Farbe dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_color_code#:#Farbcode
@@ -9231,8 +9231,8 @@ style#:#sty_positioning#:#Positionierung
 style#:#sty_preview#:#Vorschau
 style#:#sty_question_char#:#Fragen
 style#:#sty_right#:#Rechts
-style#:#sty_row_foot_class#:#Fußzeile Reihe
-style#:#sty_row_head_class#:#Kopfzeile Reihe
+style#:#sty_row_foot_class#:#Fuß (Zeilen)
+style#:#sty_row_head_class#:#Kopf (Zeilen)
 style#:#sty_save_active_styles#:#Aktive Stylesheets speichern
 style#:#sty_save_hide_status#:#Save Hide Status
 style#:#sty_save_standard_styles#:#Standard-Stylesheets speichern
