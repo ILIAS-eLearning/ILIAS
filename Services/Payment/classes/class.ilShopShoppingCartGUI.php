@@ -356,10 +356,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	{
 	  global $ilias, $ilUser;
     require_once './Services/Payment/classes/class.ilPurchase.php';
-    $buy = new ilPurchase( $ilUser->getId(), PAY_METHOD_EPAY );
     
     try
     {
+      $buy = new ilPurchase( $ilUser->getId(), PAY_METHOD_EPAY );      
       $buy->purchase($_REQUEST['tid'] );
 	  }
 	  catch (ilERPException $e)
