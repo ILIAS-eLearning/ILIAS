@@ -72,7 +72,7 @@ class ilMailBoxQuery
 		}	
 		
 		// item query
-		$query = 'SELECT mail.* cnt FROM mail '
+		$query = 'SELECT mail.* FROM mail '
 			   . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   . 'WHERE user_id = %s '
