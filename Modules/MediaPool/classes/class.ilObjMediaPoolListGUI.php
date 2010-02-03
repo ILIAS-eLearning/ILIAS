@@ -137,7 +137,7 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 
 		// separate method for this line
 		$cmd_link = "ilias.php?baseClass=ilMediaPoolPresentationGUI".
-			"&ref_id=".$this->ref_id.$cmd;
+			"&ref_id=".$this->ref_id.'&cmd='.$a_cmd;
 
 		return $cmd_link;
 	}

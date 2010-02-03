@@ -53,28 +53,29 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('subitem');
-			
-			/*
-			switch(ilObject::_lookupType($sub_item))
-			{
-				case 'mob':
-					$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_mob'));
-					break;
-				
-				case 'fold':
-					$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_fold'));
-					break;
-					
-			}
-			*/
-			
 			$this->tpl->setVariable('SEPERATOR',':');
 			
-			#$this->getItemListGUI()->setChildId($sub_item);
-			$this->tpl->setVariable('LINK',ilLink::_getLink($this->getRefId(),'mep',array()));
-			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			
 			include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
+			switch(ilMediaPoolItem::lookupType($sub_item))
+			{
+				case 'fold':
+					$this->tpl->setVariable('LINK',ilLink::_getLink($this->getRefId(),'mep',array(),'_'.$sub_item));
+					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
+					break;
+					
+				case 'mob':
+					$this->tpl->setVariable('LINK',
+						$this->getItemListGUI()->getCommandLink('allMedia').
+						'&force_filter='.$sub_item
+					);
+					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
+					break;
+				
+				default:
+
+			}
+			
+			
 			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_'.ilMediaPoolItem::lookupType($sub_item)));
 			$this->tpl->setVariable('TITLE',ilMediaPoolItem::lookupTitle($sub_item));
 			$this->tpl->parseCurrentBlock();

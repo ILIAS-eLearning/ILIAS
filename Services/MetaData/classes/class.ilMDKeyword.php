@@ -229,5 +229,71 @@ class ilMDKeyword extends ilMDBase
 		}
 		return $key_string ? $key_string : array();
 	}
+	
+	/**
+	 * Search for keywords
+	 * @param string $a_query
+	 * @param int $a_rbac_id [optional]
+	 * @return 
+	 */
+	public static function _searchKeywords($a_query,$a_type, $a_rbac_id = 0)
+	{
+		global $ilDB;
+		
+		
+		$qs = 'AND ';
+		$counter = 0;
+		foreach((array) explode(' ',$a_query) as $part)
+		{
+			if($counter++)
+			{
+				$qs .= 'OR ';
+			}
+			$qs .= ($ilDB->like('keyword','text',$part).' '); 
+		}
+
+		if($a_rbac_id)
+		{
+			$query = "SELECT * FROM il_meta_keyword ".
+				"WHERE rbac_id = ".$ilDB->quote($a_rbac_id,'integer').' '.
+				'AND obj_type = '.$ilDB->quote($a_type,'text').' '.
+				$qs;
+		}
+		else
+		{
+			$query = "SELECT * FROM il_meta_keyword ".
+				'WHERE obj_type = '.$ilDB->quote($a_type,'text').' '.
+				$qs;
+		}
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return (array) $obj_ids;
+	}
+	
+	/**
+	 * Lookup Keywords
+	 * @param object $a_rbac_id
+	 * @param object $a_obj_id
+	 * @param object $a_type
+	 * @return 
+	 */
+	public static function lookupKeywords($a_rbac_id, $a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM il_meta_keyword ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id,'integer').' '.
+			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer').' ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(strlen($row->keyword))
+				$kws[] = $row->keyword;
+		}
+		return (array) $kws;
+	}
 }
 ?>
