@@ -2021,7 +2021,7 @@ common#:#objs_mep#:#Mediebeholdere
 common#:#objs_mob#:#Medie objekter
 common#:#objs_note#:#Noter
 common#:#objs_pg#:#Sider
-common#:#objs_qpl#:#spørgsmål til Test
+common#:#objs_qpl#:#Spørgsmål til Test
 common#:#objs_role#:#Roller
 common#:#objs_rolt#:#Rolleskabeloner
 common#:#objs_sahs#:#SCORM/AICC Læremoduler
@@ -2181,8 +2181,8 @@ common#:#refresh_list#:#Opdateringsliste
 common#:#refuse#:#Nægt
 common#:#reg_mail_body_salutation#:#Kære
 common#:#reg_mail_body_text1#:#Du er blevet oprettet som bruger.
-common#:#reg_mail_body_text2#:#For at få adgang til  ILIAs brug følgende data:
-common#:#reg_mail_body_text3#:#Yderligere personlig information: 
+common#:#reg_mail_body_text2#:#Klik på linket for at logge dig på
+common#:#reg_mail_body_text3#:#Du er opretet med nedenstående informationer
 common#:#reg_mail_subject#:#Din ILIAS brugerkonto
 common#:#reg_passwd_via_mail#:#Dit password vil blive sendt til din email du har angivet herunder.
 common#:#register#:#Registrer
@@ -4649,8 +4649,8 @@ crs#:#crs_add_remove_from_desktop#:#Tilføj/Fjern fra skriveborg
 crs#:#crs_add_remove_from_desktop_info#:#Tillad kursister at tilføje kursusobjekter på deres 'Mit Skrivebord'
 crs#:#crs_add_starter#:#Vælg startmateriale
 crs#:#crs_add_subscribers#:#Tilføj abonent
-crs#:#crs_added_member#:#Kursusdeltagere
-crs#:#crs_added_member_body#:#Du er blevet indmeldt på dette kursus.
+crs#:#crs_added_member#:#Tilmelding til "%s"
+crs#:#crs_added_member_body#:#Du er nu registreret som tilmeldt på kurset "%s".
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilføjet.
 crs#:#crs_added_objective#:#Der er blevet lavet et nyt læremål.
 crs#:#crs_added_starters#:#Tildelt(e) startobjekt(er)
@@ -9628,10 +9628,10 @@ ldap#:#ldap_plugin_id#:#Plugin Id###24 07 2009 new variable
 ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.###24 07 2009 new variable
-ldap#:#ldap_role_selection#:#Role Selection###24 07 2009 new variable
+ldap#:#ldap_role_selection#:#Rollevalg
 ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###24 07 2009 new variable
-ldap#:#ldap_role_by_plugin#:#By Plugin###24 07 2009 new variable
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+ldap#:#ldap_role_by_plugin#:#Efter plugin
+common#:#reg_mail_subject_confirmation#:#ILIAS - bekræftelseslink
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###24 07 2009 new variable
 chat#:#chat_add_blocking#:#Bloker bruger
 chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###24 07 2009 new variable
