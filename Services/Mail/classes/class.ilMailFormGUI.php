@@ -782,7 +782,8 @@ class ilMailFormGUI
 
 		// MESSAGE
 		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
-		$inp->setValue(htmlspecialchars($mailData["m_message"], false));
+		//$inp->setValue(htmlspecialchars($mailData["m_message"], false));
+		$inp->setValue($mailData["m_message"]);
 		$inp->setRequired(false);
 		$inp->setCols(60);
 		$inp->setRows(10);
