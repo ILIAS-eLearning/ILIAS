@@ -370,7 +370,7 @@ class ilObjMediaPool extends ilObject
 	/**
 	* Get media objects
 	*/
-	function getMediaObjects($a_title_filter = "", $a_format_filter = "")
+	function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter)
 	{
 		global $ilDB;
 
@@ -378,7 +378,7 @@ class ilObjMediaPool extends ilObject
 			"FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) ".
 			" JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
 			
-		if ($a_format_filter != "")
+		if ($a_format_filter != "" or $a_caption_filter != '')
 		{
 			$query.= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
 		}
@@ -399,6 +399,10 @@ class ilObjMediaPool extends ilObject
 				: $a_format_filter;
 			$query.= " AND ".$ilDB->equals("media_item.format", $filter, "text", true);
 		}
+		if(trim($a_caption_filter))
+		{
+			$query .= 'AND '.$ilDB->like('media_item.caption', 'text', '%'.trim($a_caption_filter).'%');
+		}
 			
 		$query.=
 			" ORDER BY object_data.title";
@@ -410,6 +414,22 @@ class ilObjMediaPool extends ilObject
 			$rec["foreign_id"] = $rec["obj_id"];
 			$rec["obj_id"] = "";
 			$objs[] = $rec;
+		}
+		
+		// Keyword filter
+		if($a_keyword_filter)
+		{
+			include_once './Services/MetaData/classes/class.ilMDKeyword.php';
+			$res = ilMDKeyword::_searchKeywords($a_keyword_filter,'mob',0);
+			
+			foreach($objs as $obj)
+			{
+				if(in_array($obj['foreign_id'],$res))
+				{
+					$filtered[] = $obj;
+				}
+			}
+			return (array) $filtered;
 		}
 		return $objs;
 	}

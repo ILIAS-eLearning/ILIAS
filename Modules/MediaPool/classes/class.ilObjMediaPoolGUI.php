@@ -501,7 +501,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function allMedia()
 	{
-		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl;
+		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl,$ilUser;
 
 		$ilCtrl->setParameter($this, "mep_mode", "allMedia");
 		
@@ -510,13 +510,38 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		$ilTabs->setTabActive("mep_all_mobs");
+		
+		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
 			"mepitem_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
+			
+			
+		if(isset($_GET['force_filter']) and $_GET['force_filter'])
+		{
+			$_POST['title'] = ilMediaPoolItem::lookupTitle((int) $_GET['force_filter']);
+			
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tprop = new ilTablePropertiesStorage();
+			$tprop->storeProperty(
+				$mep_table_gui->getId(), 
+				$ilUser->getId(), 
+				'filter', 
+				1
+			);
+			$mep_table_gui->resetFilter();
+			$mep_table_gui->resetOffset();
+			$mep_table_gui->writeFilterToSession();
+
+			// Read again
+			$mep_table_gui = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
+			"mepitem_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
+		}
+
 		$tpl->setContent($mep_table_gui->getHTML());
 //		$this->tpl->show();
 	}
-
+	
 	/**
 	* Apply filter
 	*/
@@ -1477,15 +1502,28 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
+		
+		$targets = explode('_',$a_target);
+		if(count((array) $targets) > 1)
+		{
+			$ref_id = $targets[0];
+			$subitem_id = $targets[1];
+		}
+		else
+		{
+			$ref_id = $targets[0];
+		}
 
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		if ($ilAccess->checkAccess("read", "", $ref_id))
 		{
 			$_GET["cmd"] = "frameset";
 			$_GET["baseClass"] = "ilMediaPoolPresentationGUI";
-			$_GET["ref_id"] = $a_target;
+			$_GET["ref_id"] = $ref_id;
+			$_GET['mepitem_id'] = $subitem_id;
 			include("ilias.php");
 			exit;
-		} else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		} 
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
