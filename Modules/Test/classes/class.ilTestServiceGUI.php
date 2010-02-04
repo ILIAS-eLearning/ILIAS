@@ -246,7 +246,8 @@ class ilTestServiceGUI
 		}
 		if ($this->object->ects_output)
 		{
-			$ects_mark = $this->object->getECTSGrade($result_total_reached, $result_total_max);
+			$passed_array =& $this->object->getTotalPointsPassedArray();
+			$ects_mark = $this->object->getECTSGrade($passed_array, $result_total_reached, $result_total_max);
 			$markects = $this->lng->txt("mark_tst_ects");
 			$markects = str_replace("[markects]", $this->lng->txt("ects_grade_". strtolower($ects_mark)), $markects);
 		}

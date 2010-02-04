@@ -202,6 +202,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$counter = 1;
 		if (count($foundParticipants) > 0)
 		{
+			if ($this->object->ects_output)
+			{
+				$passed_array =& $this->object->getTotalPointsPassedArray();
+			}
 			foreach ($foundParticipants as $active_id => $userdata)
 			{
 				$remove = FALSE;
@@ -251,7 +255,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					}
 					if ($this->object->ects_output)
 					{
-						$ects_mark = $this->object->getECTSGrade($userdata->getReached(), $userdata->getMaxPoints());
+						$ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
 						$evaluationrow['ects_grade'] = $ects_mark;
 					}
 					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")";

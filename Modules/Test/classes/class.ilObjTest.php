@@ -4879,6 +4879,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
+		if ($this->ects_output)
+		{
+			$passed_array =& $this->getTotalPointsPassedArray();
+		}
 		foreach (array_keys($data->getParticipants()) as $active_id)
 		{
 			$percentage = $data->getParticipant($active_id)->getReachedPointsInPercent();
@@ -4891,8 +4895,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			if ($this->ects_output)
 			{
-				// TODO: This is a performance killer!!!!
-				$ects_mark = $this->getECTSGrade($data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
+				$ects_mark = $this->getECTSGrade($passed_array, $data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
 				$data->getParticipant($active_id)->setECTSMark($ects_mark);
 			}
 			$visitingTime =& $this->getVisitTimeOfParticipant($active_id);
@@ -6404,14 +6407,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the ECTS grade for a number of reached points
 	*
+	* @param array $passed_array An array with the points of all users who passed the test
 	* @param double $reached_points The points reached in the test
 	* @param double $max_points The maximum number of points for the test
 	* @return string The ECTS grade short description
 	* @access public
 	*/
-	function getECTSGrade($reached_points, $max_points)
+	function getECTSGrade($passed_array, $reached_points, $max_points)
 	{
-		$passed_array =& $this->getTotalPointsPassedArray();
 		return ilObjTest::_getECTSGrade($passed_array, $reached_points, $max_points, $this->ects_grades["A"], $this->ects_grades["B"], $this->ects_grades["C"], $this->ects_grades["D"], $this->ects_grades["E"], $this->ects_fx);
 	}
 
@@ -7540,6 +7543,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$results[] = $row;
 		if (count($participants))
 		{
+			if ($this->ects_output)
+			{
+				$passed_array =& $this->getTotalPointsPassedArray();
+			}
 			foreach ($participants as $active_id => $user_rec)
 			{
 				$row = array();
@@ -7568,7 +7575,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				if ($mark_obj)
 				{
 					$mark = $mark_obj->getOfficialName();
-					$ects_mark = $this->getECTSGrade($reached_points, $max_points);
+					$ects_mark = $this->getECTSGrade($passed_array, $reached_points, $max_points);
 				}
 				if ($this->getAnonymity())
 				{
