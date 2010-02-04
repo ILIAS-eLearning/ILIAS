@@ -77,6 +77,7 @@ class ilShopController
 		
 		$this->buildTabs();
 		$next_class = $this->ctrl->getNextClass();
+
 		$cmd = $this->ctrl->getCmd();	
 		
 		$obj = new ilGeneralSettings();
@@ -107,10 +108,10 @@ class ilShopController
 				break;
 				
 			case 'ilshopadvancedsearchgui':
-        if ((bool) $allSet['hide_advanced_search']) 
-        {
-          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-        }
+		        if ((bool) $allSet['hide_advanced_search']) 
+		        {
+		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		        }
 				include_once 'Services/Payment/classes/class.ilShopAdvancedSearchGUI.php';
 				$this->ctrl->forwardCommand(new ilShopAdvancedSearchGUI());
 				break;
@@ -131,10 +132,10 @@ class ilShopController
 				break;
 				
 			case 'ilshopnewsgui':
-        if ((bool) $allSet['hide_news']) 
-        {
-          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-        }
+		        if ((bool) $allSet['hide_news']) 
+		        {
+		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		        }
 				include_once 'Services/Payment/classes/class.ilShopNewsGUI.php';
 				$this->ctrl->forwardCommand(new ilShopNewsGUI());
 				break;	
@@ -151,7 +152,6 @@ class ilShopController
 				break;
 		}		
 		
-		
 		$this->tpl->show();		
 		
 		return true;
@@ -161,7 +161,7 @@ class ilShopController
 	{
 		global $ilTabs, $ilUser;
 
-		$shop_obj =& new ilPaymentShoppingCart($ilUser);
+		$shop_obj = new ilPaymentShoppingCart($ilUser);
 		
 		$obj = new ilGeneralSettings();
 		$allSet = $obj->getAll();
@@ -201,12 +201,12 @@ class ilShopController
 	
 	public function redirect()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		switch(strtolower(ilUtil::stripSlashes($_GET['redirect_class'])))
 		{
 			case 'ilshopshoppingcartgui':			
-				ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilshopshoppingcartgui'));
+				$ilCtrl->redirectByClass('ilshopshoppingcartgui','','',false, false);
 				break;
 			
 			default:

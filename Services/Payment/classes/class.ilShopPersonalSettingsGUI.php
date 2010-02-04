@@ -40,12 +40,12 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		// check access
 		if(!(bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
 		{
-			ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilshopgui'));
+			$ilCtrl->redirectByClass('ilshopgui','','',false, false);
 		}
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId())
