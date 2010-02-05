@@ -444,6 +444,24 @@ class ilLinkResourceItems
 		return $item ? $item : array();
 	}
 	
+	/**
+	 * Get all link ids
+	 * @param int $a_webr_id
+	 * @return 
+	 */
+	public static function getAllItemIds($a_webr_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT link_id FROM webr_items ".
+			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$link_ids[] = $row['link_id'];
+		}
+		return (array) $link_ids;
+	}
 		
 	function getAllItems()
 	{
@@ -617,10 +635,82 @@ class ilLinkResourceItems
 		}
 		return $item ? $item : array();
 	}
+	
+	/**
+	 * Validate required settings
+	 * @return 
+	 */
+	public function validate()
+	{
+		return $this->getTarget() and $this->getTitle();
+	}
 
+
+	/**
+	 * Write link XML
+	 * @param ilXmlWriter $writer
+	 * @return 
+	 */
+	public function toXML(ilXmlWriter $writer)
+	{
+		foreach(self::getAllItemIds($this->getLinkResourceId()) as $link_id)
+		{
+			$link = self::lookupItem($this->getLinkResourceId(), $link_id);
 			
-		
+			$writer->xmlStartTag(
+				'WebLink',
+				array(
+					'id'				=> $link['link_id'],
+					'active'			=> $link['active'] ? 1 : 0,
+					'valid'				=> $link['valid'] ? 1 : 0,
+					'disableValidation'	=> $link['disable_check'] ? 1 : 0,
+#					'action'			=> 'Delete'
+				)
+			);
+			$writer->xmlElement('Title',array(),$link['title']);
+			$writer->xmlElement('Description',array(),$link['description']);
+			$writer->xmlElement('Target',array(),$link['target']);
+			
+			// Dynamic parameters
+			include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+			foreach(ilParameterAppender::_getParams($link_id) as $param_id => $param)
+			{
+				$value = '';
+				switch($param['value'])
+				{
+					case LINKS_USER_ID:
+						$value = 'userId';
+						break;
+					
+					case LINKS_LOGIN:
+						$value = 'userName';
+						break;
+						
+					case LINKS_MATRICULATION:
+						$value = 'matriculation';
+						break;
+				}
+				
+				if(!$value)
+				{
+					// Fix for deprecated LINKS_SESSION
+					continue; 
+				}
 
+				$writer->xmlElement(
+					'DynamicParameter',
+					array(
+						'id'	=> $param_id,
+						'name'	=> $param['name'],
+						'type'	=> $value
+					)
+				);
+			}
+			
+			$writer->xmlEndTag('WebLink');
+		}
+		return true;
+	}
 }
 		
 ?>

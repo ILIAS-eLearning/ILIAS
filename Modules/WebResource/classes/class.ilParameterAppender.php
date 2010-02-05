@@ -33,7 +33,7 @@ define("LINKS_ERR_NO_NAME_VALUE",3);
 /**
 * Class ilParameterAppender
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 * 
 * @ingroup ModulesWebResource
