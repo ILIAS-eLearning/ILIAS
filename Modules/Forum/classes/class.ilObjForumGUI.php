@@ -507,7 +507,7 @@ class ilObjForumGUI extends ilObjectGUI
 							if(strlen($thread->getUserAlias()))
 							{
 								$result[$counter]['author'] = $thread->getUserAlias();
-								if($node->getUserId() != ANONYMOUS_USER_ID)
+								if($thread->getUserId() != ANONYMOUS_USER_ID)
 								{
 									$result[$counter]['author'] .= ' ('.$this->lng->txt('frm_pseudonym').')';
 								}						
