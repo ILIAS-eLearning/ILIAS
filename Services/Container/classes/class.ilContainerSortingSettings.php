@@ -205,18 +205,6 @@ class ilContainerSortingSettings
 	}
 	
 	/**
-	 * Delete setting
-	 * @return 
-	 */
-	public function delete()
-	{
-		global $ilDB;
-		
-		$query = 'DELETE FROM container_sorting_set WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer');
-		$ilDB->query($query);
-	}
-	
-	/**
 	 * read settings
 	 *
 	 * @access private
