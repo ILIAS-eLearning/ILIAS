@@ -337,12 +337,6 @@ class ilObjMailGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
-		
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("import",
-				$this->ctrl->getLinkTarget($this, "import"), "import", "", "");
-		}
 	}
 } // END class.ilObjMailGUI
 ?>
