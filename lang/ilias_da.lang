@@ -9819,13 +9819,13 @@ chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
 search#:#lucene_advanced_settings_table#:#Avancerede søgeindstillinger
 dateplaner#:#cal_day_start#:#Starttidspunkt
 survey#:#questionblock_inserted#:#Blok indsat
-survey#:#questionblocks_inserted#:#Question Blocks inserted###06 08 2009 new variable
+survey#:#questionblocks_inserted#:#Spørgsmålsblokke indsat
 survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable
 assessment#:#term_text#:#Term Text###12 08 2009 new variable
-assessment#:#term_image#:#Term Image###12 08 2009 new variable
+assessment#:#term_image#:#Term billede
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
-assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
-assessment#:#definitions#:#Definitions###12 08 2009 new variable
+assessment#:#definition_image#:#Definition billede
+assessment#:#definitions#:#Definitioner
 content#:#cont_enter_a_dir_name#:#Indtast mappenavn
 content#:#cont_enter_a_file#:#Vælg fil
 content#:#cont_rename_dir#:#Omdøb folder
