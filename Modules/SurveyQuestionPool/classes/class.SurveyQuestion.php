@@ -1063,7 +1063,7 @@ class SurveyQuestion
 		);
 		while ($row = $ilDB->fetchObject($result))
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_id = %s",
 				array('integer'),
 				array($row->constraint_fi)
 			);
