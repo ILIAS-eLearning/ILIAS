@@ -14,7 +14,7 @@
 *
 * @ingroup	ServicesUtilities
 */
-class ilUtil
+class ilUtilon re
 {
 	/**
 	* Builds an html image tag
@@ -3201,9 +3201,20 @@ class ilUtil
 	function redirect($a_script)
 	{
 		global $log, $PHP_SELF;
-//$log->write("redirect FROM:".$PHP_SELF." to ".$a_script);
-			//vd($a_script);
-//echo "-".htmlentities($a_script)."-"; mk();
+		
+//echo "<br>".$a_script;
+		if (!is_int(strpos($a_script, "//")))
+		{
+			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
+			{
+				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/")))
+				{
+					$a_script = "setup/".$a_script;
+				}
+				$a_script = ILIAS_HTTP_PATH."/".$a_script;
+			}
+		}
+//echo "<br>".$a_script; exit;
 		header("Location: ".$a_script);
 		exit();
 	}
