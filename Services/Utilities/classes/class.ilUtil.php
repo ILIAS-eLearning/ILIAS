@@ -14,7 +14,7 @@
 *
 * @ingroup	ServicesUtilities
 */
-class ilUtilon re
+class ilUtil
 {
 	/**
 	* Builds an html image tag
