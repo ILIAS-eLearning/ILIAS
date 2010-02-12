@@ -32,8 +32,6 @@ import org.apache.log4j.Logger;
 import org.apache.poi.POITextExtractor;
 import org.apache.poi.extractor.ExtractorFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
-import org.apache.xmlbeans.XmlException;
 
 /**
  * 
@@ -191,10 +189,11 @@ public class ExtensionFileHandler {
      */
     private String getTextDocument(File file) throws FileHandlerException {
         
-        FileHandler doch = (FileHandler) new PlainTextHandler();
+        FileInputStream fis = null;
+    	FileHandler doch = (FileHandler) new PlainTextHandler();
         
         try {
-            return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+            return doch.getContent(fis = new FileInputStream(file.getAbsolutePath()));
         }
         catch(FileNotFoundException e) {
             throw new FileHandlerException("Cannot find file: " + file.getAbsolutePath());
@@ -205,6 +204,14 @@ public class ExtensionFileHandler {
         catch (IOException e) {
             throw new FileHandlerException(e);
 		}
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
+        }
     }
 
     /**
@@ -216,11 +223,13 @@ public class ExtensionFileHandler {
 	private String getPDFDocument(File file) throws FileHandlerException {
         
     	FileHandler doch = (FileHandler) new PDFBoxPDFHandler();
+    	FileInputStream fis = null;
         logger.debug("Start PDFBoxPDFHandler...");
 
         try {
-            logger.debug(file.getAbsolutePath());
-        	return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+        
+        	logger.debug(file.getAbsolutePath());
+        	return doch.getContent(fis = new FileInputStream(file.getAbsolutePath()));
         }
         catch(IOException e) {
             throw new FileHandlerException("Caught unknown exception " + e.getMessage());
@@ -230,6 +239,14 @@ public class ExtensionFileHandler {
         }
         catch(Exception e) {
             throw new FileHandlerException("Caught unknown exception " + e.getMessage());
+        }
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
         }
 	}
 
@@ -241,16 +258,25 @@ public class ExtensionFileHandler {
 	 */
     private String getHTMLDocument(File file) throws FileHandlerException {
         
+    	FileInputStream fis = null;
         FileHandler doch = (FileHandler) new JTidyHTMLHandler();
         
         try {
-            return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+            return doch.getContent(fis = new FileInputStream(file.getAbsolutePath()));
         }
         catch(FileHandlerException e) {
             throw e;
         }
         catch(IOException e) {
             throw new FileHandlerException(e);
+        }
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
         }
     }
     
@@ -259,15 +285,24 @@ public class ExtensionFileHandler {
 	 * @return
 	 */
 	private String getOpenOfficeDocument(File file) throws FileHandlerException {
-		
+
+		FileInputStream fis = null;
 		FileHandler doch = (FileHandler) new OpenOfficeDefaultHandler();
 		
 		try {
-			return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+			return doch.getContent(fis = new FileInputStream(file.getAbsolutePath()));
 		}
 		catch(IOException e) {
 			throw new FileHandlerException(e);
 		}
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
+        }
 	}
 
     /**
@@ -277,14 +312,23 @@ public class ExtensionFileHandler {
 	 */
 	private String getFlatOpenOfficeDocument(File file) throws FileHandlerException {
 		
+		FileInputStream fis = null;
 		OpenOfficeDefaultHandler doch =  new OpenOfficeDefaultHandler();
 		
 		try {
-			return doch.extractContent(new FileInputStream(file.getAbsolutePath()));
+			return doch.extractContent(fis = new FileInputStream(file.getAbsolutePath()));
 		}
 		catch(IOException e) {
 			throw new FileHandlerException(e);
 		}
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
+        }
 	}
 	
     /**
@@ -294,15 +338,25 @@ public class ExtensionFileHandler {
 	 */
 	private String getRTFDocument(File file) throws FileHandlerException {
 		
+		FileInputStream fis = null;
 		FileHandler doch = (FileHandler) new RTFHandler();
 		
 		try {
-			return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+			return doch.getContent(fis = new FileInputStream(file.getAbsolutePath()));
 		}
 		catch(IOException e) {
 			throw new FileHandlerException(e);
 		}
+        finally {
+        	try {
+				if(fis != null)
+					fis.close();
+			} 
+        	catch (IOException e) {
+			}
+        }
 	}
+	
 
 	/*
     private Document getFlashDocument(File file)
