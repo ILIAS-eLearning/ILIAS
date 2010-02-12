@@ -271,7 +271,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
 
 		// check create permission before because the uploaded file will be copied
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
