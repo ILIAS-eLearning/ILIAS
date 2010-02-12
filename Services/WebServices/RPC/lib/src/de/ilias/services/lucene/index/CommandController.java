@@ -67,7 +67,7 @@ public class CommandController {
 	};
 	
 	private static final int MAX_ELEMENTS = 10000;
-	
+
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
 	private Vector<Integer> finished = new Vector<Integer>();
