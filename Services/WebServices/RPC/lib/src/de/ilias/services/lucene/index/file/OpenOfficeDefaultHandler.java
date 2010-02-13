@@ -43,6 +43,15 @@ public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements 
 		content.append(extractContent(contentStream));
 		logger.debug(content.toString());
 		
+		if(contentStream != null) {
+			try {
+				contentStream.close();
+			}
+			catch(IOException e) {
+				// Nothing
+			}
+		}
+		
 		return content.toString();
 	}
 

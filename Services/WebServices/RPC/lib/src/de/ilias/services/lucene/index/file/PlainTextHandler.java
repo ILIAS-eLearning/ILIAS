@@ -50,18 +50,25 @@ public class PlainTextHandler implements FileHandler {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
         is = transformStream(is);
-        
         try {
             String line = null;
 			while((line = br.readLine()) != null) {
 			    content.append(' ');
 				content.append(line);
 			}
-	        br.close();
 	        return content.toString();
 		} 
         catch (IOException e) {
         	throw new FileHandlerException("Cannot read plain text file: " + e);
+        }
+        finally {
+        	if(br != null) {
+				try {
+					br.close();
+				} 
+				catch (IOException e) {
+				}
+        	}
         }
 	}
 
