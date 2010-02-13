@@ -2222,8 +2222,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$epSet = ilEPaySettings::getInstance();
 		
-		$arr = ilUtil::stripSlashesArray( array ($_POST['server_host'], $_POST['server_path'], $_POST['merchant_number'],
-      $_POST['auth_token'], $_POST['auth_email']));    
+		$arr = ilUtil::stripSlashesArray( array (
+      'server_host' => $_POST['server_host'], 
+      'server_path' => $_POST['server_path'], 
+      'merchant_number' => $_POST['merchant_number'],
+      'auth_token' => $_POST['auth_token'], 
+      'auth_email' => $_POST['auth_email']
+    ));    
     $arr['instant_capture'] = isset($_POST['instant_capture']) ? 1 : 0;
 		
 		$epSet->setAll($arr);
