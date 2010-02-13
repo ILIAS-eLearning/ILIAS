@@ -73,6 +73,17 @@ public class JTidyHTMLHandler implements FileHandler {
 		if (body != null && !body.equals("")) {
 			builder.append(body);
 		}
+		
+		if(bout != null) {
+			try {
+				bout.close();
+			}
+			catch(IOException e) {
+				// Nothing
+			}
+		}
+		
+		
 		return builder.toString();
 
 	}

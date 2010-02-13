@@ -87,6 +87,8 @@ public class DirectoryDataSource extends FileDataSource {
 					logger.warn("Cannot parse file " + files.get(i).getAbsolutePath());
 				}
 			}
+			
+			
 			// Write content
 			for(Object field : getFields()) {
 				((FieldDefinition) field).writeDocument(content.toString());
