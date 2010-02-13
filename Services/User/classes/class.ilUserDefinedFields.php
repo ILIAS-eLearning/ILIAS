@@ -445,7 +445,7 @@ class ilUserDefinedFields
 
 	function toXML()
 	{
-		include_once 'classes/class.ilXmlWriter.php';
+		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$xml_writer = new ilXmlWriter();
 
 		$this->addToXML ($xml_writer);

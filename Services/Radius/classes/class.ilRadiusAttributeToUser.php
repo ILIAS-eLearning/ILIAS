@@ -46,7 +46,7 @@ class ilRadiusAttributeToUser
 	 	include_once('Services/Radius/classes/class.ilRadiusSettings.php');
 	 	$this->rad_settings = ilRadiusSettings::_getInstance();
 
-		include_once('classes/class.ilXmlWriter.php');
+		include_once('./Services/Xml/classes/class.ilXmlWriter.php');
 	 	$this->writer = new ilXmlWriter();
 	}
 	

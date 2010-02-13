@@ -50,7 +50,7 @@ class assClozeTestExport extends assQuestionExport
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
-		include_once("./classes/class.ilXmlWriter.php");
+		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();

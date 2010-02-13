@@ -31,7 +31,6 @@
 * 
 * @ingroup ServicesLDAP 
 */
-
 class ilLDAPAttributeToUser
 {
 	private $server_settings = null;
@@ -113,7 +112,7 @@ class ilLDAPAttributeToUser
 	 */
 	private function usersToXML()
 	{
-		include_once('classes/class.ilXmlWriter.php');
+		include_once('./Services/Xml/classes/class.ilXmlWriter.php');
 		$this->writer = new ilXmlWriter();
 		$this->writer->xmlStartTag('Users');
 		

@@ -995,7 +995,7 @@ class ilTestExport
 
 		$ilBench->start("TestExport", "buildExportFile");
 
-		include_once("./classes/class.ilXmlWriter.php");
+		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$this->xml = new ilXmlWriter;
 
 		// set dtd definition

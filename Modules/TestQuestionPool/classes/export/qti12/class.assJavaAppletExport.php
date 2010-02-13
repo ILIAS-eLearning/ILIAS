@@ -46,7 +46,7 @@ class assJavaAppletExport extends assQuestionExport
 	function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
 	{
 		global $ilias;
-		include_once("./classes/class.ilXmlWriter.php");
+		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();

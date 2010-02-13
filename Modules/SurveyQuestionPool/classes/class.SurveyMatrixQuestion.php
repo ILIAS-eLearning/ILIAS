@@ -854,7 +854,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*/
 	function toXML($a_include_header = TRUE, $obligatory_state = "")
 	{
-		include_once("./classes/class.ilXmlWriter.php");
+		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlHeader();
 		$this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);

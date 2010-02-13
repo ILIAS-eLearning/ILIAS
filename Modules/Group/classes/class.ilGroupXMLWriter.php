@@ -22,7 +22,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./classes/class.ilXmlWriter.php";
+include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 
 /**
