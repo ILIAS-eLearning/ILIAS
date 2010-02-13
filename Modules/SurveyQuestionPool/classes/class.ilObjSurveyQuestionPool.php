@@ -701,7 +701,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		$xml = "";
 
-		include_once("./classes/class.ilXmlWriter.php");
+		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();

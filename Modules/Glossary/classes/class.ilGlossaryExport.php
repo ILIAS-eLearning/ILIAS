@@ -182,7 +182,7 @@ class ilGlossaryExport
 
 		$ilBench->start("GlossaryExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		$this->xml = new ilXmlWriter;
 

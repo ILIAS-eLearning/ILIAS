@@ -590,7 +590,7 @@ class ilDBGenerator
 	{
 		global $ilLog;
 		
-		include_once './classes/class.ilXmlWriter.php';
+		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$w = new ilXmlWriter();
 		$w->xmlStartTag('Table',array('name' => $a_table));
 		

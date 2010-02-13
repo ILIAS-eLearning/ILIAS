@@ -175,7 +175,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -216,7 +216,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -254,7 +254,7 @@ class ilScorm2004Export
 		$result = "";
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -295,7 +295,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();

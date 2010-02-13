@@ -114,7 +114,7 @@ class ilContObjectExport
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		$this->xml = new ilXmlWriter;
 
@@ -199,7 +199,7 @@ class ilContObjectExport
 
 		$ilBench->start("ContentObjectExport", "buildPDFFile");
 
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		$this->xml = new ilXmlWriter;
 

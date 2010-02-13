@@ -22,6 +22,8 @@
     +-----------------------------------------------------------------------------+
 */
 
+include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+
 /**
 * XML writer class
 *
@@ -34,9 +36,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 */
-
-include_once "./classes/class.ilXmlWriter.php";
-
 class ilCourseXMLWriter extends ilXmlWriter
 {
 	private  $ilias;

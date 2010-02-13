@@ -62,7 +62,7 @@ class ilContObjectManifestBuilder
 	 */
 	function buildManifest($ver, $revision = null)
 	{
-		require_once("classes/class.ilXmlWriter.php");
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 
 		$this->version = $ver;

@@ -30,7 +30,7 @@
 * @ingroup ServicesAdvancedMetaData 
 */
 
-include_once('./classes/class.ilXmlWriter.php');
+include_once('./Services/Xml/classes/class.ilXmlWriter.php');
 
 class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
 {

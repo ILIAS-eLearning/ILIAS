@@ -1,7 +1,7 @@
 <?php
 
 require_once "./Modules/ILinc/classes/class.ilnetucateResponse.php";
-require_once "./classes/class.ilXmlWriter.php";
+require_once "./Services/Xml/classes/class.ilXmlWriter.php";
 
 /**
 * API to communicate with a the CMSAPI of centra

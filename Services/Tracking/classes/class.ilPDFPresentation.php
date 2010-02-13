@@ -37,8 +37,8 @@
    * @package ilias-tracking
    *
    */
-include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
-include_once 'classes/class.ilXmlWriter.php';
+include_once './Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
+include_once './Services/Xml/classes/class.ilXmlWriter.php';
 
 class ilPDFPresentation extends ilLearningProgressBaseGUI
 {
@@ -97,7 +97,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 	{
 		global $ilUser;
 
-		include_once './classes/class.ilXmlWriter.php';
+		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$this->xmlWriter = new ilXmlWriter();
 
 		include_once './Services/Tracking/classes/class.ilLPFilter.php';
@@ -141,7 +141,7 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 	{
 		global $ilObjDataCache;
 
-		include_once 'classes/class.ilXmlWriter.php';
+		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$this->writer = new ilXmlWriter();
 		$this->writer->xmlHeader();
 		$this->writer->xmlStartTag('LearningProgress');

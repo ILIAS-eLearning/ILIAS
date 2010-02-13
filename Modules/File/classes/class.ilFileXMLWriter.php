@@ -22,6 +22,8 @@
     +-----------------------------------------------------------------------------+
 */
 
+include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+
 /**
 * XML writer class
 *
@@ -36,10 +38,6 @@
 *
 * @ingroup ModulesFile
 */
-
-include_once "./classes/class.ilXmlWriter.php";
-
-
 class ilFileXMLWriter extends ilXmlWriter
 {
     static $CONTENT_ATTACH_NO = 0;

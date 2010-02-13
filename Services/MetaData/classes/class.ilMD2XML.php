@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'classes/class.ilXmlWriter.php';
+include_once './Services/Xml/classes/class.ilXmlWriter.php';
 include_once 'Services/MetaData/classes/class.ilMD.php';
 
 class ilMD2XML extends ilXmlWriter
