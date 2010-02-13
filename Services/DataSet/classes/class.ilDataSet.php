@@ -21,11 +21,19 @@
 * @version $Id$
 * @ingroup 
 */
-class ilDataSet
+abstract class ilDataSet
 {
 	/**
 	 * Constructor
-	 * 
+	 */
+	function __construct()
+	{
+	}
+	
+	/**
+	 * Init
+	 *
+	 * @param	string		(abstract) entity name 
 	 * @param	string		version string, always the ILIAS release
 	 * 						versions that defined the a structure
 	 * 						or made changes to it, never use another
@@ -34,13 +42,11 @@ class ilDataSet
 	 * 						values only, not 4.2.0 (ask for the 4.1.0
 	 * 						version in ILIAS 4.2.0)
 	 */
-	function __construct($a_version)
+	final public function init($a_entity, $a_version)
 	{
-		$this->version = false;
-		if (in_array($a_version, $this->getSupportedVersions()))
-		{
-			$this->version = $a_version;
-		}
+		$this->entity = $a_entity;
+		$this->version = $a_version;
+		$this->data = array();
 	}
 	
 	/**
@@ -48,15 +54,8 @@ class ilDataSet
 	 * 
 	 * @return	array		array of supported version
 	 */
-	abstract function getSupportedVersions();
-	
-	/**
-	 * Get (abstract) entity name
-	 *
-	 * @return	string		entity name
-	 */
-	abstract function getEntityName();
-	
+	abstract public function getSupportedVersions($a_entity);
+		
 	/**
 	 * Get (abstract) types for (abstract) field names.
 	 * Please note that the abstract fields/types only depend on
@@ -65,7 +64,7 @@ class ilDataSet
 	 * @return	array		types array, e.g.
 	 * array("field_1" => "text", "field_2" => "integer", ...) 
 	 */
-	abstract function getTypes();
+	abstract protected function getTypes();
 	
 	/**
 	 * Read data from DB. This should result in the
@@ -76,27 +75,24 @@ class ilDataSet
 	abstract function readData($a_where);
 	
 	/**
-	 * Get version
-	 *
+	 * Get data from query.This is a standard procedure,
+	 * all db field names are directly mapped to abstract fields.
+	 * 
 	 * @param
 	 * @return
 	 */
-	function getVersion()
+	function getDirectDataFromQuery($a_query)
 	{
-		return $this->version;
-	}
-	
-	/**
-	 * Get XML representation
-	 */
-	final function getXMLRepresentation()
-	{
-		if ($this->version === false)
+		global $ilDB;
+		
+		$set = $ilDB->query($a_query);
+		$this->data = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
 		{
-			return false;
+			$this->data[] = $rec;
 		}
 	}
-	
+			
 	/**
 	 * Get json representation
 	 */
@@ -108,7 +104,7 @@ class ilDataSet
 		}
 		
 		$arr["entity"] = $this->getJsonEntityName();
-		$arr["version"] = $this->getVersion();
+		$arr["version"] = $this->version;
 		$arr["install_id"] = IL_INST_ID;
 		$arr["install_url"] = ILIAS_HTTP_PATH;
 		$arr["types"] = $this->getJsonTypes();
@@ -125,6 +121,21 @@ class ilDataSet
 
 	/**
 	 * Get xml representation
+	 * 	<entity_set name="table_name" version="4.0.1" install_id="123" >
+	 * 	<types>
+	 *		<ftype name="field_1" type="text" />
+	 *		<ftype name="field_2" type="date" />
+	 *		<ftype name="field_3" type="integer" />
+	 *	</types>
+	 *	<set>
+	 *		<rec>
+	 *			<field name="field_1">content</field>
+	 *			<field name="field_2">my_date</field>
+	 *			<field name="field_3">my_number</field>
+	 *		</rec>
+	 *		...
+	 *	</set>
+	 *  </entity_set>
 	 */
 	final function getXmlRepresentation()
 	{
@@ -133,20 +144,42 @@ class ilDataSet
 			return false;
 		}
 		
-		$arr["entity"] = $this->getXmlEntityName();
-		$arr["version"] = $this->getVersion();
-		$arr["install_id"] = IL_INST_ID;
-		$arr["install_url"] = ILIAS_HTTP_PATH;
-		$arr["types"] = $this->getJsonTypes();
-		$arr["set"] = array();
+		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+		$writer = new ilXmlWriter();
+		$writer->xmlStartTag('entity_set',
+			array("name" => $this->getXmlEntityName(),
+			"version" => $this->version,
+			"install_id" => IL_INST_ID,
+			"install_url" => ILIAS_HTTP_PATH));
+			
+		$writer->xmlStartTag("types");
+		foreach ($this->getXmlTypes() as $f => $t)
+		{
+			$writer->xmlElement('ftype',
+				array("name" => $f, "type" => $t));
+		}
+		$writer->xmlEndTag("types");
+		
+		$writer->xmlStartTag("set");
 		foreach ($this->data as $d)
 		{
-			$arr["set"][] = $this->getJsonRecord($d);
+			$writer->xmlStartTag("rec");
+			foreach ($this->getXmlRecord($d) as $f => $c)
+			{
+				// alternatice: generic element
+				//$writer->xmlElement('field',
+				//	array("name" => $f), $c);
+				
+				// this changes schema/dtd
+				$writer->xmlElement($f,
+					array(), $c);
+			}
+			$writer->xmlEndTag("rec");
 		}
+		$writer->xmlEndTag("set");
+		$writer->xmlEndTag("entity_set");
 		
-		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
-
-		return ilJsonUtil::enocde($arr);
+		return $writer->xmlDumpMem(false);
 	}
 	
 	
@@ -200,7 +233,7 @@ class ilDataSet
 	 */
 	function getXMLEntityName()
 	{
-		return $this->getEntityName();
+		return $this->entity;
 	}
 	
 	/**
@@ -209,63 +242,8 @@ class ilDataSet
 	 */
 	function getJsonEntityName()
 	{
-		return $this->getEntityName();
+		return $this->entity;
 	}
 }
 
-/*
-
-DB
-
-table_name
-field_1(text) => content,
-field_2(date) => my_date,
-field_3(integer) => my_number
-
-Array
-
-$set = array(
-			"entity" => "table_name",
-			"version" => "4.0.1",
-			"install_id" => "1234",
-			"install_url" => "http://www.ilias.unibw-hamburg.de",
-			"types" => array(
-			"field_1" => "text",
-			"field_2" => "date",
-			"field_3" => "integer"
-			),
-			"set" => array(
-				array("field_1" => "content",
-					"field_2" => "my_date",
-					"field_3" => "my_number"),
-				...
-				)
-			);
-
-XML
-
-<entity_set name="table_name" version="4.0.1">
-	<types>
-		<ftype name="field_1" type="text" />
-		<ftype name="field_2" type="date" />
-		<ftype name="field_3" type="integer" />
-	</types>
-	<set>
-		<rec entity="table_name">
-			<field name="field_1">content</field>
-			<field name="field_2">my_date</field>
-			<field name="field_3">my_number</field>
-		</rec>
-		...
-	</set>
-</entity_set>
-
-JSON
-
-{ name: 'table_name',
-  types: {field_1: 'text', field_2: 'date', field_3: 'integer'},
-  set: {
-}
-
-*/
 ?>

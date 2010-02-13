@@ -28,7 +28,7 @@ class ilTable2GUI extends ilTableGUI
 	
 	protected $mi_sel_buttons = null;
 	protected $disable_filter_hiding = false;
-	protected $top_commands = false;
+	protected $top_commands = true;
 	
 	/**
 	* Constructor

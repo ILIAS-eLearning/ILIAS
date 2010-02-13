@@ -1250,6 +1250,37 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	}
 
 	////
+	//// Export handling
+	////
+	
+	/**
+	 * Show export list
+	 *
+	 * @param
+	 * @return
+	 */
+	function showExport()
+	{
+		global $tpl, $ilTabs;
+	
+		$this->checkPermission("write");
+		
+		$ilTabs->activateTab("export");
+		
+		// this is test code. much stuff will go to other classes
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
+		$ds = new ilMediaPoolDataSet();
+		$ds->init("mep_data", "4.1.0");
+		$ds->readData(array("id" => $this->object->getId()));
+		$xml = $ds->getXmlRepresentation();
+		$ds->init("mep_tree", "4.1.0");
+		$ds->readData(array("mep_id" => $this->object->getId()));
+		$xml2 = $ds->getXmlRepresentation();
+		$tpl->setContent(htmlentities($xml)."<br><br>".htmlentities($xml2));
+		
+	}
+	
+	////
 	//// CONTENT SNIPPETS Handling
 	////
 
@@ -1478,21 +1509,28 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$ilTabs->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
+			$ilTabs->addTarget("settings", $this->ctrl->getLinkTarget($this, "edit"),
 				"edit", array("", "ilobjmediapoolgui"));
 		}
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addTarget("clipboard", $this->ctrl->getLinkTarget($this, "openClipboard"),
+				"view", "ileditclipboardgui");
+		}
 
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addTarget("export", $this->ctrl->getLinkTarget($this, "showExport"),
+				"export");
+		}
+		
 		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			$ilTabs->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$ilTabs->addTarget("clipboard", $this->ctrl->getLinkTarget($this, "openClipboard"),
-				"view", "ileditclipboardgui");
-		}
 	}
 
 
