@@ -1399,7 +1399,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$active_id = $_GET["active_id"];
+		$active_id = $this->object->getTestSession()->getActiveId();
 		$counted_pass = ilObjTest::_getResultPass($active_id);
 		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
