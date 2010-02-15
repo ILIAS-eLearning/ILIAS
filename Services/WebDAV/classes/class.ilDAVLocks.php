@@ -552,7 +552,7 @@ class ilDAVLocks
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$references = ilObject::_getAllReferences($row['obj_id']);
-			$obj =& new ilObjNull($row['obj_id'], false);
+			$obj = new ilObjNull($row['obj_id'], false);
 			if (count($references) == 0)
 			{
 				$obj->delete();

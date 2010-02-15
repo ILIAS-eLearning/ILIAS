@@ -1187,6 +1187,8 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias, $ilCtrl;
 		
+		$fname = "";
+		
 		// if baseClass functionality is used (ilias.php):
 		// get template directory from ilCtrl
 		if (!empty($_GET["baseClass"]) && $a_in_module === true)

@@ -70,6 +70,9 @@ class ilAuthUtils
 	function _initAuth()
 	{
 		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
+		
+		$user_auth_mode = false;
+		
 //var_dump($_SESSION);
 		$ilBench->start('Auth','initAuth');
 
@@ -108,7 +111,7 @@ class ilAuthUtils
              $_SESSION['_authsession']['registered'] !== true))
         {
 			// no sesssion found
-			if ($_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']))
+			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']))
 			{
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 
@@ -252,7 +255,7 @@ class ilAuthUtils
 //var_dump($_SESSION);
 
 		// Determine the authentication method to use
-		if (WebDAV_Authentication == 'HTTP') {
+		if (defined("WebDAV_Authentication") && WebDAV_Authentication == 'HTTP') {
                         // Since WebDAV clients create the login form by 
                         // themselves, we can not provide buttons on the form for 
                         // choosing an authentication method. 
@@ -365,7 +368,7 @@ class ilAuthUtils
                 // Due to a bug in Pear Auth_HTTP, we can't use idle time 
                 // with WebDAV clients. If we used it, users could never log
                 // back into ILIAS once their session idled out. :(
-		if (WebDAV_Authentication != 'HTTP') {
+		if (!defined("WebDAV_Authentication") || WebDAV_Authentication != 'HTTP') {
 			$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		}
 		$ilAuth->setExpire(0);

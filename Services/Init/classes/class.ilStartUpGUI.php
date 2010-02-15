@@ -81,7 +81,7 @@ class ilStartUpGUI
 		// if authentication of soap user failed, but email address is
 		// known, show users and ask for password
 		$status = $ilAuth->getStatus();
-		if ($status == "")
+		if ($status == "" && isset($_GET["auth_stat"]))
 		{
 			$status = $_GET["auth_stat"];
 		}
@@ -92,7 +92,7 @@ class ilStartUpGUI
 		}
 
 		// login language selection is post type
-		if ($_POST["lang"] != "")
+		if (isset($_POST["lang"]) && $_POST["lang"] != "")
 		{
 			$_GET["lang"] = ilUtil::stripSlashes($_POST["lang"]);
 		}

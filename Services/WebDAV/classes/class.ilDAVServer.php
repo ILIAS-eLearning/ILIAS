@@ -119,8 +119,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Initialize the WebDAV server and create
 		// locking and property support objects
 		$this->HTTP_WebDAV_Server();
-		$this->locks =& new ilDAVLocks();
-		$this->properties =& new ilDAVProperties();
+		$this->locks = new ilDAVLocks();
+		$this->properties = new ilDAVProperties();
 		//$this->locks->createTable();
 		//$this->properties->createTable();
 

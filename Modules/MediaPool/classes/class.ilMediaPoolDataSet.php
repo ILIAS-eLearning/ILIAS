@@ -15,7 +15,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesMediaPool
  */
 class ilMediaPoolDataSet extends ilDataSet
-{
+{	
 	/**
 	 * Get supported versions
 	 *
@@ -26,6 +26,8 @@ class ilMediaPoolDataSet extends ilDataSet
 	{
 		switch ($a_entity)
 		{
+			case "mep":
+				return array("4.1.0");
 			case "mep_data":
 				return array("4.1.0");
 			case "mep_tree":
@@ -74,7 +76,7 @@ class ilMediaPoolDataSet extends ilDataSet
 			}
 		}				
 	}
-		
+
 	/**
 	 * Read data
 	 *
@@ -113,5 +115,24 @@ class ilMediaPoolDataSet extends ilDataSet
 			}
 		}			
 	}
+	
+	/**
+	 * Determine the dependent sets of data 
+	 */
+	protected function getDependencies($a_entity, $a_version, $a_rec, $a_where)
+	{
+		switch ($a_entity)
+		{
+			case "mep":
+				return array (
+					"mep_data" => array(
+						"where" => array("id" => $a_where["id"])),
+					"mep_tree" => array(
+						"where" => array("mep_id" => $a_where["id"]))
+				);
+		}
+		return false;
+	}
+	
 }
 ?>

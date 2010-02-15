@@ -19,6 +19,7 @@ class ilCtrl
 	var $return;			// return commmands
 	var $call_hist = array();	// calling history
 	var $debug = array();
+	var $calls = array();
 
 	/**
 	 * control class constructor
@@ -1412,15 +1413,18 @@ class ilCtrl
 			$class = ($node_id == "")
 				? strtolower($_GET["baseClass"])
 				: $this->getClassForCid($this->getCurrentCidOfNode($node_id));
-			if (is_array($this->save_parameter[$class]))
+			if (isset($this->save_parameter[$class]) && is_array($this->save_parameter[$class]))
 			{
 				foreach($this->save_parameter[$class] as $par)
 				{
-					$params[$par] = $_GET[$par];
+					if (isset($_GET[$par]))
+					{
+						$params[$par] = $_GET[$par];
+					}
 				}
 			}
 
-			if (is_array($this->parameter[$class]))
+			if (isset($this->parameter[$class]) && is_array($this->parameter[$class]))
 			{
 				foreach($this->parameter[$class] as $par => $value)
 				{
@@ -1543,7 +1547,7 @@ class ilCtrl
 		global $ilDB;
 		
 		$a_class = strtolower($a_class);
-		if ($this->info_read_class[$a_class])
+		if (isset($this->info_read_class[$a_class]))
 		{
 			return;
 		}
@@ -1561,7 +1565,7 @@ class ilCtrl
 			);
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
-			if (!is_array($this->calls[$a_class]) || !in_array($rec["child"], $this->calls[$a_class]))
+			if (!isset($this->calls[$a_class]) || !is_array($this->calls[$a_class]) || !in_array($rec["child"], $this->calls[$a_class]))
 			{
 				if ($rec["child"] != "")
 				{

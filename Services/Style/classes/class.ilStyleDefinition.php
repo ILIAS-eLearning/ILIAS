@@ -173,6 +173,16 @@ class ilStyleDefinition extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
+		if (!isset($a_attribs["sound_directory"]))
+		{
+			$a_attribs["sound_directory"] = "";
+		}
+		
+		if (!isset($a_attribs["browsers"]))
+		{
+			$a_attribs["browsers"] = "";
+		}
+		
 		switch($a_name)
 		{
 			case "template" :

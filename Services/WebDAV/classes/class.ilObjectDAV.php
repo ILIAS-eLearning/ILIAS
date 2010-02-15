@@ -407,7 +407,7 @@ else 		// this one fixes bug #5367
 
 		// create and insert Folder in tree
 		require_once 'Modules/File/classes/class.ilObjFile.php';
-		$newObj =& new ilObjFile(0);
+		$newObj = new ilObjFile(0);
 		$newObj->setType($this->getILIASFileType());
 		$newObj->setTitle($name);
 		$newObj->setFileName($name);
@@ -423,7 +423,7 @@ else 		// this one fixes bug #5367
 		//$newObj->createDirectory();
 		
 		require_once 'class.ilObjFileDAV.php';
-		$objDAV =& new ilObjFileDAV($newObj->getRefId(), $newObj);
+		$objDAV = new ilObjFileDAV($newObj->getRefId(), $newObj);
 		/*		
 		$fs = $objDAV->getContentOutputStream();
 		fwrite($fs,' ');
@@ -460,7 +460,7 @@ else 		// this one fixes bug #5367
 
 		// create and insert Folder in tree
 		require_once 'classes/class.ilObject.php';
-		$newObj =& new ilObject(0);
+		$newObj = new ilObject(0);
 		$newObj->setType('null');
 		$newObj->setTitle($name);
 		$newObj->create();
@@ -469,7 +469,7 @@ else 		// this one fixes bug #5367
 		$newObj->putInTree($this->getRefId());
 		
 		require_once 'class.ilObjNullDAV.php';
-		$objDAV =& new ilObjNullDAV($newObj->getRefId(), $newObj);
+		$objDAV = new ilObjNullDAV($newObj->getRefId(), $newObj);
 		
 		return $objDAV;
 	}
@@ -782,35 +782,35 @@ else 		// this one fixes bug #5367
 		{
 			case 'mountPoint' :
 				require_once 'class.ilObjMountPointDAV.php';
-				$newObj =& new ilObjMountPointDAV($refId,null);
+				$newObj = new ilObjMountPointDAV($refId,null);
 				break;
 			case 'root' :
 				require_once 'class.ilObjRootDAV.php';
-				$newObj =& new ilObjRootDAV($refId,null);
+				$newObj = new ilObjRootDAV($refId,null);
 				break;
 			case 'cat' :
 				require_once 'class.ilObjCategoryDAV.php';
-				$newObj =& new ilObjCategoryDAV($refId,null);
+				$newObj = new ilObjCategoryDAV($refId,null);
 				break;
 			case 'fold' :
 				require_once 'class.ilObjFolderDAV.php';
-				$newObj =& new ilObjFolderDAV($refId,null);
+				$newObj = new ilObjFolderDAV($refId,null);
 				break;
 			case 'crs' :
 				require_once 'class.ilObjCourseDAV.php';
-				$newObj =& new ilObjCourseDAV($refId,null);
+				$newObj = new ilObjCourseDAV($refId,null);
 				break;
 			case 'grp' :
 				require_once 'class.ilObjGroupDAV.php';
-				$newObj =& new ilObjGroupDAV($refId,null);
+				$newObj = new ilObjGroupDAV($refId,null);
 				break;
 			case 'file' :
 				require_once 'class.ilObjFileDAV.php';
-				$newObj =& new ilObjFileDAV($refId,null);
+				$newObj = new ilObjFileDAV($refId,null);
 				break;
 			case 'null' :
 				require_once 'class.ilObjNullDAV.php';
-				$newObj =& new ilObjNullDAV($refId,null);
+				$newObj = new ilObjNullDAV($refId,null);
 				break;
 			default :
 				break;

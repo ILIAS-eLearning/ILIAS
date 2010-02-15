@@ -125,7 +125,7 @@ class ilObjectFactory
 
 		// create instance
 		include_once($location."/class.".$class_name.".php");
-		$obj =& new $class_name(0, false);	// this avoids reading of data
+		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
 		$obj->setObjDataRecord($object_rec);
 		$obj->read();
@@ -199,7 +199,7 @@ class ilObjectFactory
 
 		// create instance
 		include_once($location."/class.".$class_name.".php");
-		$obj =& new $class_name(0, false);	// this avoids reading of data
+		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);
 		$obj->setObjDataRecord($object_rec);
