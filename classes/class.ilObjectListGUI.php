@@ -70,6 +70,7 @@ class ilObjectListGUI
 	protected $separate_commands = false;
 	protected $search_fragment_enabled = false;
 	protected $additional_information = false;
+	protected $static_link_enabled = false;
 	
 	/**
 	* constructor

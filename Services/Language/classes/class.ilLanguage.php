@@ -226,7 +226,11 @@ class ilLanguage
 		// remember the used topics
 		$this->used_topics[$a_topic] = $a_topic;
 
-		$translation = $this->text[$a_topic];
+		$translation = "";
+		if (isset($this->text[$a_topic]))
+		{
+			$translation = $this->text[$a_topic];
+		}
 
 		if ($translation == "")
 		{

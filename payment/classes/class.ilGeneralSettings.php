@@ -73,7 +73,11 @@ class ilGeneralSettings
 	
 	function get($a_type)
 	{
-		return $this->settings[$a_type];
+		if (isset($this->settings[$a_type]))
+		{
+			return $this->settings[$a_type];
+		}
+		return false;
 	}
 
 	function getAll()

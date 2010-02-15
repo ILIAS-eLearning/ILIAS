@@ -301,6 +301,7 @@ class ilRbacSystem
 			return $a_operations;
 		}
 		// Is owner
+		$new_ops = false;
 		foreach(explode(",",$a_operations) as $operation)
 		{
 			if($operation != 'cat_administrate_users' and $operation != 'edit_permission' and !preg_match('/^create/',$operation))

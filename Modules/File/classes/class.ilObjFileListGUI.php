@@ -92,7 +92,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 		{					
 			return '';
 		}
-		
+		$frame = "";
 		switch($a_cmd)
 		{
 			// BEGIN WebDAV: View inline objects in a blank window

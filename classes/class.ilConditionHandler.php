@@ -573,6 +573,7 @@ class ilConditionHandler
 			" AND target_type = ".$ilDB->quote($a_target_type,'text');
 
 		$res = $ilDB->query($query);
+		$conditions = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if($row->ref_handling == self::UNIQUE_CONDITIONS)
@@ -600,7 +601,7 @@ class ilConditionHandler
 
 		$ilBench->stop("ilConditionHandler", "getConditionsOfTarget");
 
-		return $conditions ? $conditions : array();
+		return $conditions;
 	}
 
 	function _getCondition($a_id)

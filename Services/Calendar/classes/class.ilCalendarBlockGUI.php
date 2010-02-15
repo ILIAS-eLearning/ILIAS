@@ -79,11 +79,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		include_once('Services/Calendar/classes/class.ilDate.php');
 		include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 		
-		$seed_str = ($_GET["seed"] == "")
-			? $_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]
-			: $_GET["seed"];
+		$seed_str = "";
+		if ((!isset($_GET["seed"]) || $_GET["seed"] == "") &&
+			isset($_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]))
+		{
+			$seed_str = $_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"];
+		}
+		else if (isset($_GET["seed"]))
+		{
+			$seed_str =  $_GET["seed"];
+		}
 			
-		if ($_GET["seed"] != "")
+		if (isset($_GET["seed"]) && $_GET["seed"] != "")
 		{
 			$_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]
 				= $_GET["seed"];
@@ -420,7 +427,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$lng->txt("settings"));
 		}
 
-		$ilCtrl->setParameterByClass("ilcolumngui", "seed", $_GET["seed"]);
+		$ilCtrl->setParameterByClass("ilcolumngui", "seed", isset($_GET["seed"]) ? $_GET["seed"] : "");
 		$ret = parent::getHTML();
 		$ilCtrl->setParameterByClass("ilcolumngui", "seed", "");
 		

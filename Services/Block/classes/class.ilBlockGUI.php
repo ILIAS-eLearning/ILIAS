@@ -47,6 +47,13 @@ abstract class ilBlockGUI
 	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
 	protected $enabledetailrow = true;
 	protected $header_links = array();
+	protected $footerinfo = false;
+	protected $footerinfo_icon = false;
+	protected $block_commands = array();
+	protected $max_count = false;
+	protected $close_command = false;
+	protected $image = false;
+	protected $property = false;
 
 	/**
 	* Constructor
@@ -846,7 +853,7 @@ abstract class ilBlockGUI
 		// (e.g. close icon afterwards), otherwise we first output the
 		// header commands, since we want to have the close icon top right
 		// and not floated after the title
-		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 		{
 			$this->fillHeaderTitleBlock();
 			$this->fillHeaderCommands();
