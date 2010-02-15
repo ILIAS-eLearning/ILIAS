@@ -56,6 +56,8 @@ class ilOnlineTracking
 	{
 		global $ilDB,$ilias;
 
+		$access_time = 0;
+		
 		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
 			$ilDB->quote($a_usr_id, "integer"));
 

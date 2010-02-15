@@ -100,7 +100,7 @@ class ilTemplate extends ilTemplateX
         if ($this->il_use_cache)
         {
         	// cache hit
-        	if (is_array(self::$il_cache[$this->il_cur_key]))
+        	if (isset(self::$il_cache[$this->il_cur_key]) && is_array(self::$il_cache[$this->il_cur_key]))
         	{
         		$cache_hit = true;
 //echo "cache hit";

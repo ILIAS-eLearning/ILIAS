@@ -19,6 +19,8 @@ require_once("Services/AccessControl/classes/class.ilAccessInfo.php");
 */
 class ilAccessHandler
 {
+	protected $stored_rbac_access = array();
+	
 	/**
 	* constructor
 	*/
@@ -130,7 +132,11 @@ class ilAccessHandler
 			$this->current_info = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]['info'];
 		}*/
 
-		return $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
+		if (isset($this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id]))
+		{
+			return $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
+		}
+		return false;
 	}
 
 	function storeCache()
@@ -248,7 +254,7 @@ class ilAccessHandler
 		// get object id if not provided
 		if ($a_obj_id == "")
 		{
-			if ($this->obj_id_cache[$a_ref_id] > 0)
+			if (isset($this->obj_id_cache[$a_ref_id]) && $this->obj_id_cache[$a_ref_id] > 0)
 			{
 				$a_obj_id = $this->obj_id_cache[$a_ref_id];
 			}
@@ -260,7 +266,7 @@ class ilAccessHandler
 		}
 		if ($a_type == "")
 		{
-			if ($this->obj_type_cache[$a_ref_id] != "")
+			if (isset($this->obj_type_cache[$a_ref_id]) && $this->obj_type_cache[$a_ref_id] != "")
 			{
 				$a_type = $this->obj_type_cache[$a_ref_id];
 			}

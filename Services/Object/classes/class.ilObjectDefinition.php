@@ -338,7 +338,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function isPlugin($a_obj_name)
 	{
-		return (bool) $this->obj_data[$a_obj_name]["plugin"];
+		return (bool) isset($this->obj_data[$a_obj_name]["plugin"]);
 	}
 
 	/**

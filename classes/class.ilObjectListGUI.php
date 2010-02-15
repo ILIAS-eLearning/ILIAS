@@ -66,6 +66,11 @@ class ilObjectListGUI
 	
 	protected $details_level = self::DETAILS_ALL;
 	
+	protected $reference_ref_id = false;
+	protected $separate_commands = false;
+	protected $search_fragment_enabled = false;
+	protected $additional_information = false;
+	
 	/**
 	* constructor
 	*
@@ -1201,7 +1206,13 @@ class ilObjectListGUI
 			$permission = $command["permission"];
 			$cmd = $command["cmd"];
 			$lang_var = $command["lang_var"];
-			$txt = $command["txt"];
+			$txt = "";
+			$info_object = null;
+			
+			if (isset($command["txt"]))
+			{
+				$txt = $command["txt"];
+			}
 
 			// BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
 			// Suppress commands that don't make sense for anonymous users
@@ -1233,6 +1244,10 @@ class ilObjectListGUI
 				$info_object = $ilAccess->getInfo();
 			}
 
+			if (!isset($command["default"]))
+			{
+				$command["default"] = "";
+			}
 			$ref_commands[] = array(
 				"permission" => $permission,
 				"cmd" => $cmd,
