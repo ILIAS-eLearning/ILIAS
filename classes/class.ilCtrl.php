@@ -313,7 +313,8 @@ class ilCtrl
 		}
 
 		// target class is child of current node id
-		if (is_array($this->calls[$this->getClassForCid($node_cid)]) &&
+		if (isset($this->calls[$this->getClassForCid($node_cid)]) &&
+			is_array($this->calls[$this->getClassForCid($node_cid)]) &&
 			in_array($a_class, $this->calls[$this->getClassForCid($node_cid)]))
 		{
 			return $a_par_node.":".$this->getCidForClass($class);

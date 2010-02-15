@@ -379,6 +379,10 @@ class ilDateTime
 				break;
 				
 			case IL_CAL_FKT_GETDATE:
+				if (!isset($a_date['seconds']))
+				{
+					$a_date['seconds'] = false;
+				}
 				// Format like getdate parameters
 				$this->timezone->switchTZ();
 				$this->unix = mktime(

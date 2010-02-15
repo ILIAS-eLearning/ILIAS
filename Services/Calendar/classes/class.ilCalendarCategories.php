@@ -678,7 +678,9 @@ class ilCalendarCategories
 		
 		foreach($this->categories as $cat_id)
 		{
-			if($this->categories_info[$cat_id]['obj_type'] == 'crs' and
+			if($this->categories_info[$cat_id]['obj_type'] == 'crs' &&
+				isset($this->categories_info[$cat_id]['obj_id']) &&
+				isset($course_sessions[$this->categories_info[$cat_id]['obj_id']]) &&
 				is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']]))
 			{
 				foreach($course_sessions[$this->categories_info[$cat_id]['obj_id']] as $sess_cat_id)

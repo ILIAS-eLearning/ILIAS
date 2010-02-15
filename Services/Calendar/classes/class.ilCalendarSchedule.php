@@ -131,6 +131,7 @@ class ilCalendarSchedule
 		$counter = 0;
 		
 		$tmp_date = new ilDateTime($unix_start,IL_CAL_UNIX,$this->timezone);
+		$tmp_schedule = array();
 	 	foreach($this->schedule as $schedule)
 	 	{
 	 		if($schedule['fullday'])
@@ -149,7 +150,7 @@ class ilCalendarSchedule
 	 			$tmp_schedule[] = $schedule;
 	 		}
 	 	}
-	 	return $tmp_schedule ? $tmp_schedule : array();
+	 	return $tmp_schedule;
 	}
 
 	
@@ -298,6 +299,7 @@ class ilCalendarSchedule
 			"ORDER BY starta";
 		$res = $this->db->query($query);
 		
+		$events = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
@@ -311,7 +313,7 @@ class ilCalendarSchedule
 			var_dump("<pre>",$event->getTitle(),"</pre>");
 		}
 		*/
-		return $events ? $events : array();
+		return $events;
 	}
 	
 	/**

@@ -111,6 +111,7 @@ class ilCalendarHidden
 	 */
 	public function filterHidden($categories,$category_info)
 	{
+		$hidden = array();
 		foreach($category_info as $cat_id => $info)
 		{
 			if($this->isHidden($cat_id))
@@ -118,7 +119,7 @@ class ilCalendarHidden
 				$hidden = array_merge((array) $hidden,(array) $info['subitem_ids'],array($cat_id));
 			}
 		}
-		return (array) array_diff((array) $categories, (array) $hidden);
+		return array_diff((array) $categories, $hidden);
 	}
 	
 	/**
