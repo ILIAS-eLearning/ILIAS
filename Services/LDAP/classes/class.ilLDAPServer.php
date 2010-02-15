@@ -114,11 +114,12 @@ class ilLDAPServer
 			"AND role_sync_active = 1 ";
 			
 		$res = $ilDB->query($query);
+		$server_ids = array();
 		while($row = $ilDB->fetchObject($res))
 		{
 			$server_ids[] = $row->server_id;
 		}
-		return $server_ids ? $server_ids : array();
+		return $server_ids;
 	}
 	
 	/**

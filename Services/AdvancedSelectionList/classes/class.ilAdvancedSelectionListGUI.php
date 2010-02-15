@@ -25,6 +25,9 @@ class ilAdvancedSelectionListGUI
 	const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
 	const ON_ITEM_CLICK_FORM_SELECT = "select";
 	
+	protected $css_row = "";
+	protected $access_key = false;
+	
 	/*
 	
 	The modes implement the following html for non-js fallback:
@@ -423,8 +426,13 @@ class ilAdvancedSelectionListGUI
 		else
 		{
 			foreach($items as $item)
-			{			
-				$sel_arr[$item["ref_id"]] = $item["title"];
+			{
+				if (isset($item["ref_id"]))
+				{
+					$sel_arr[$item["ref_id"]] = (isset($item["title"]))
+						? $item["title"]
+						: "";
+				}
 				$this->css_row = ($this->css_row != "tblrow1_mo")
 					? "tblrow1_mo"
 					: "tblrow2_mo";

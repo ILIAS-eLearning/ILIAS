@@ -1,30 +1,9 @@
 <?php
-/*
-+-----------------------------------------------------------------------------+
-| ILIAS open source                                                           |
-+-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-|                                                                             |
-| This program is free software; you can redistribute it and/or               |
-| modify it under the terms of the GNU General Public License                 |
-| as published by the Free Software Foundation; either version 2              |
-| of the License, or (at your option) any later version.                      |
-|                                                                             |
-| This program is distributed in the hope that it will be useful,             |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-| GNU General Public License for more details.                                |
-|                                                                             |
-| You should have received a copy of the GNU General Public License           |
-| along with this program; if not, write to the Free Software                 |
-| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/User/classes/class.ilObjUser.php';
 include_once "Services/Mail/classes/class.ilMail.php";
-
-
 
 /**
 * GUI class for personal desktop
@@ -114,7 +93,7 @@ class ilPersonalDesktopGUI
 		}
 
 		// read last active subsection
-		if($_GET['PDHistory'])
+		if (isset($_GET['PDHistory']) && $_GET['PDHistory'])
 		{
 			$next_class = $this->__loadNextClass();
 		}
@@ -227,7 +206,7 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
+				$new_gui = new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
 				$ret =& $this->ctrl->forwardCommand($new_gui);
 				
 				break;		
@@ -545,9 +524,13 @@ class ilPersonalDesktopGUI
 		
 		$script_name = basename($_SERVER["SCRIPT_NAME"]);
 		
-		$command = $_GET["cmd"] ? $_GET["cmd"] : "";
+		$command = "";
+		if (isset($_GET["cmd"]))
+		{
+			$command = $_GET["cmd"];
+		}
 		
-		if (ereg("whois",$command))
+		if (preg_match("/whois/", $command))
 		{
 			$who_is_online = true;
 		}
@@ -619,7 +602,7 @@ class ilPersonalDesktopGUI
 
 			// contacts
 			include_once "Services/Mail/classes/class.ilMail.php";
-			$mail =& new ilMail($_SESSION["AccountId"]);
+			$mail = new ilMail($_SESSION["AccountId"]);
 			
 			if (!$this->ilias->getSetting("disable_contacts") && ($this->ilias->getSetting("disable_contacts_require_mail") || $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
 			{

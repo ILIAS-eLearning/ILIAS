@@ -1230,7 +1230,6 @@ class ilObjUser extends ilObject
 	/**
 	* get all user preferences
 	* @access	private
-	* @return	integer		number of preferences
 	*/
 	function readPrefs()
 	{
@@ -1242,7 +1241,6 @@ class ilObjUser extends ilObject
 		}
 
 		$this->prefs = ilObjUser::_getPreferences($this->id);
-		return count($prefs);
 	}
 
 	/**

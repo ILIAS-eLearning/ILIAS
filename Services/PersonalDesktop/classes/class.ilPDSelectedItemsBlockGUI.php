@@ -901,6 +901,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$items = $ilUser->getDesktopItems();
 		$item_html = array();
+		$cur_obj_type = "";
 
 		if (count($items) > 0)
 		{
@@ -912,7 +913,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			}
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
-
+			
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -1022,7 +1023,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $objDefinition;
 		//echo "<br>+$a_type+";
-		if (!is_object($this->item_list_guis[$a_type]))
+		if (!isset($this->item_list_guis[$a_type]))
 		{
 			$class = $objDefinition->getClassName($a_type);
 			$location = $objDefinition->getLocation($a_type);

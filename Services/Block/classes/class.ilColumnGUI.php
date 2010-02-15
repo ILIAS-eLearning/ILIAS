@@ -29,6 +29,9 @@ class ilColumnGUI
 	
 	// all blocks that are repository objects
 	protected $rep_block_types = array("feed");
+	protected $block_property = array();
+	protected $admincommands = null;
+	protected $movementmode = null;
 	
 	//
 	// This two arrays may be replaced by some
@@ -146,7 +149,8 @@ class ilColumnGUI
 		//	$a_side = $_GET["col_side"];
 		//}
 
-		if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+		if (isset($_SESSION["col_".$this->getColType()."_movement"]) &&
+			$_SESSION["col_".$this->getColType()."_movement"] == "on")
 		{
 			$this->setMovementMode(true);
 		}
@@ -320,9 +324,15 @@ class ilColumnGUI
 			}
 		}
 
-		$cur_block_type = ($_GET["block_type"])
-			? $_GET["block_type"]
-			: $_POST["block_type"];
+		$cur_block_type = "";
+		if (isset($_GET["block_type"]) && $_GET["block_type"])
+		{
+			$cur_block_type = $_GET["block_type"];
+		}
+		else if (isset($_POST["block_type"]))
+		{
+			$cur_block_type = $_POST["block_type"];
+		}
 
 		if ($class = array_search($cur_block_type, self::$block_types))
 		{
@@ -487,7 +497,10 @@ class ilColumnGUI
 				$ilBench->start("Column", "instantiate-".$block["type"]);
 				$block_gui = new $gui_class();
 				$ilBench->stop("Column", "instantiate-".$block["type"]);
-				$block_gui->setProperties($this->block_property[$block["type"]]);
+				if (isset($this->block_property[$block["type"]]))
+				{
+					$block_gui->setProperties($this->block_property[$block["type"]]);
+				}
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
@@ -689,7 +702,7 @@ class ilColumnGUI
 			$this->tpl->setCurrentBlock("toggle_movement");
 			$this->tpl->setVariable("HREF_TOGGLE_MOVEMENT",
 				$ilCtrl->getLinkTarget($this, "toggleMovement"));
-			if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+			if ($_SESSION["col_".$this->getColType()."_movement"] == "on")
 			{
 				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
 					$lng->txt("stop_moving_blocks"));
@@ -719,13 +732,13 @@ class ilColumnGUI
 	{
 		global $ilCtrl;
 		
-		if ($_SESSION["col_".$this->getColType()."_".movement] == "on")
+		if ($_SESSION["col_".$this->getColType()."_movement"] == "on")
 		{
-			$_SESSION["col_".$this->getColType()."_".movement] = "off";
+			$_SESSION["col_".$this->getColType()."_movement"] = "off";
 		}
 		else
 		{
-			$_SESSION["col_".$this->getColType()."_".movement] = "on";
+			$_SESSION["col_".$this->getColType()."_movement"] = "on";
 		}
 		$ilCtrl->returnToParent($this);
 	}
@@ -1076,7 +1089,7 @@ class ilColumnGUI
 	protected function isGloballyActivated($a_type)
 	{
 		global $ilSetting;
-		if ($this->check_global_activation[$a_type])
+		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
 			if ($a_type == 'pdbookm')
 			{

@@ -93,7 +93,7 @@ class ilUtil
 	*/
 	function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
-		global $ilias, $styleDefinition, $ilCtrl;
+		global $ilias, $styleDefinition, $ilCtrl, $ilUser;
 
 		if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php")))
 		{
@@ -2695,7 +2695,7 @@ class ilUtil
 			"strike,strong,style,sub,sup,table,tbody,td,textarea,tfoot,th,thead,".
 			"title,tr,tt,u,ul,var";
 		$a_allow = strtolower ($a_allow);
-		$negatives = split (",",$negativestr);
+		$negatives = explode(",",$negativestr);
 		$outer_old_str = "";
 		while($outer_old_str != $a_str)
 		{
@@ -4470,7 +4470,8 @@ class ilUtil
 
 		//if (!$a_keep)
 		//{
-				session_unregister("infopanel");
+				//session_unregister("infopanel");	// deprecated
+				unset($_SESSION["infopanel"]);
 		//}
 	}
 

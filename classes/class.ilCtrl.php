@@ -849,10 +849,14 @@ class ilCtrl
 	 */
 	public function getCmd($a_default_cmd = "", $a_safe_commands = "")
 	{
-		$cmd = $_GET["cmd"];
+		$cmd = "";
+		if (isset($_GET["cmd"]))
+		{
+			$cmd = $_GET["cmd"];
+		}
 		if($cmd == "post")
 		{
-			if (is_array($_POST["cmd"]))
+			if (isset($_POST["cmd"]) && is_array($_POST["cmd"]))
 			{
 				reset($_POST["cmd"]);
 			}
@@ -1174,7 +1178,7 @@ class ilCtrl
 	 */
 	public function isAsynch()
 	{
-		if ($_GET["cmdMode"] == "asynch")
+		if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch")
 		{
 			return true;
 		}
