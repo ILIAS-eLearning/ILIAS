@@ -225,13 +225,7 @@ class ilDBMySQL extends ilDB
 	*/
 	private function setMaxAllowedPacket()
 	{
-		// GET MYSQL VERSION
-		$query = "SHOW VARIABLES LIKE 'version'";
-		$res = $this->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$version = $row->Value;
-		}
+		$version = $this->getDBVersion();
 
 		// CHANG VALUE IF MYSQL VERSION > 4.0
 		// Switched back to "SET GLOBAL ..."

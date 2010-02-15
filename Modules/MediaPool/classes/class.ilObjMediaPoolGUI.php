@@ -1270,13 +1270,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		// this is test code. much stuff will go to other classes
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
 		$ds = new ilMediaPoolDataSet();
-		$ds->init("mep_data", "4.1.0");
-		$ds->readData(array("id" => $this->object->getId()));
-		$xml = $ds->getXmlRepresentation();
-		$ds->init("mep_tree", "4.1.0");
-		$ds->readData(array("mep_id" => $this->object->getId()));
-		$xml2 = $ds->getXmlRepresentation();
-		$tpl->setContent(htmlentities($xml)."<br><br>".htmlentities($xml2));
+$ds->getXmlRepresentation("mep", "4.1.0", array("id" => $this->object->getId()));
+
+/* $ds->initXml("4.1.0");		// target release
+$ds->addDataSet("mep_data", array("id" => $this->object->getId()));
+$ds->addDataSet("mep_tree", array("mep_id" => $this->object->getId()));
+$xml = $ds->getXmlRepresentation(); */
+		
+		$tpl->setContent(htmlentities($xml));
 		
 	}
 	

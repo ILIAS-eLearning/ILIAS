@@ -34,6 +34,8 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 */
 class ilPluginAdmin
 {
+	var $got_data = false;
+	
 	/**
 	* Constructor
 	*/
@@ -53,7 +55,7 @@ class ilPluginAdmin
 	{
 		global $ilDB, $lng;
 		
-		if (!$this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])
+		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
 			include_once "./Services/Component/classes/class.ilPluginSlot.php";
 			$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
@@ -77,6 +79,7 @@ class ilPluginAdmin
 			$active = $rec["active"];
 			$needs_update = false;
 			$activation_possible = !$active;
+			$inactive_reason = "";
 			
 			// version checks
 			if (ilComponent::isVersionGreaterString($ilias_min_version, ILIAS_VERSION_NUMERIC))

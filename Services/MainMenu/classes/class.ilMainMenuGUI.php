@@ -230,7 +230,7 @@ class ilMainMenuGUI
 
 			include_once "Services/Mail/classes/class.ilMail.php";
 			
-			$mail =& new ilMail($_SESSION["AccountId"]);
+			$mail = new ilMail($_SESSION["AccountId"]);
 
 			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
 			{
@@ -240,7 +240,7 @@ class ilMainMenuGUI
 				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 				{
 					$mbox = new ilMailbox($_SESSION["AccountId"]);
-					$mail =& new ilMail($_SESSION['AccountId']);
+					$mail = new ilMail($_SESSION['AccountId']);
 					$folder_id = $mbox->getInboxFolder();
 				
 					//$link = "mail_frameset.php?target=".

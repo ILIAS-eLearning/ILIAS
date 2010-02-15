@@ -49,7 +49,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		
 		// studip mode: check against submitted md5 password for ilSoapUserAdministration::login()
 		// todo: check whether we should put this to another place
-		if (preg_match('/^[a-f0-9]{32,32}$/i', $_POST['password']))
+		if (isset($_POST['password']) && preg_match('/^[a-f0-9]{32,32}$/i', $_POST['password']))
 		{
 			if ($ilIliasIniFile->readVariable('server', 'studip'))
 			{

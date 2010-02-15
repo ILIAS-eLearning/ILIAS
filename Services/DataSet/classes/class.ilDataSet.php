@@ -42,10 +42,10 @@ abstract class ilDataSet
 	 * 						values only, not 4.2.0 (ask for the 4.1.0
 	 * 						version in ILIAS 4.2.0)
 	 */
-	final public function init($a_entity, $a_version)
+	final public function init($a_entity, $a_target_release)
 	{
 		$this->entity = $a_entity;
-		$this->version = $a_version;
+		$this->target_release = $a_target_release;
 		$this->data = array();
 	}
 	
@@ -116,29 +116,34 @@ abstract class ilDataSet
 		
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 
-		return ilJsonUtil::enocde($arr);
+		return ilJsonUtil::encode($arr);
 	}
 
 	/**
 	 * Get xml representation
-	 * 	<entity_set name="table_name" version="4.0.1" install_id="123" >
-	 * 	<types>
+	 * 	<data_set install_id="123" install_url="...">
+	 * 	<types entity="table_name" version="4.0.1">
 	 *		<ftype name="field_1" type="text" />
 	 *		<ftype name="field_2" type="date" />
 	 *		<ftype name="field_3" type="integer" />
 	 *	</types>
-	 *	<set>
+	 *  <types ...>
+	 *    ...
+	 *  </types>
+	 *	<set entity="table_name">
 	 *		<rec>
-	 *			<field name="field_1">content</field>
-	 *			<field name="field_2">my_date</field>
-	 *			<field name="field_3">my_number</field>
+	 *			<field_1>content</field_1>
+	 *			<field_2>my_date</field_2>
+	 *			<field_3>my_number</field_3>
 	 *		</rec>
 	 *		...
 	 *	</set>
-	 *  </entity_set>
+	 *  </data_set>
 	 */
-	final function getXmlRepresentation()
+	final function getXmlRepresentation($a_target_release, $a_entity,
+		$a_where)
 	{
+		$this->setEntitySequence();
 		if ($this->version === false)
 		{
 			return false;

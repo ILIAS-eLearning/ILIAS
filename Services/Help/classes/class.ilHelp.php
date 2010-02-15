@@ -45,7 +45,7 @@ class ilHelp
 	*/
 	function ilHelp()
 	{
-		if (strtolower($_GET["baseClass"]) != "ilhelpgui")
+		if (isset($_GET["baseClass"]) && strtolower($_GET["baseClass"]) != "ilhelpgui")
 		{
 			$_SESSION["il_help_targets"] = array();
 		}

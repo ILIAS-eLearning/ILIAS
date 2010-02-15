@@ -19,6 +19,7 @@
 class ilInitialisation
 {
 	private $return_before_auth = false;
+	var $script = "";
 
 	/**
 	* Remove unsafe characters from GET
@@ -395,6 +396,7 @@ class ilInitialisation
 		define ("SESSION_REMINDER_LEADTIME", 30);
 		define ("DEBUG",$ilClientIniFile->readVariable("system","DEBUG"));
 		define ("DEVMODE",$ilClientIniFile->readVariable("system","DEVMODE"));
+		define ("SHOWNOTICES",$ilClientIniFile->readVariable("system","SHOWNOTICES"));
 		define ("ROOT_FOLDER_ID",$ilClientIniFile->readVariable('system','ROOT_FOLDER_ID'));
 		define ("SYSTEM_FOLDER_ID",$ilClientIniFile->readVariable('system','SYSTEM_FOLDER_ID'));
 		define ("ROLE_FOLDER_ID",$ilClientIniFile->readVariable('system','ROLE_FOLDER_ID'));
@@ -623,7 +625,7 @@ class ilInitialisation
 	{
 		global $styleDefinition;
 
-		if ($_GET['skin']  && $_GET['style'])
+		if (isset($_GET['skin']) && isset($_GET['style']))
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 			if ($styleDefinition->styleExists($_GET['skin'], $_GET['style']) &&
@@ -633,7 +635,7 @@ class ilInitialisation
 				$_SESSION['style'] = $_GET['style'];
 			}
 		}
-		if ($_SESSION['skin'] && $_SESSION['style'])
+		if (isset($_SESSION['skin']) && isset($_SESSION['style']))
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 			if ($styleDefinition->styleExists($_SESSION['skin'], $_SESSION['style']) &&
@@ -890,7 +892,7 @@ class ilInitialisation
 			}
 		}
 
-		if ($_POST['change_lang_to'] != "")
+		if (isset($_POST['change_lang_to']) && $_POST['change_lang_to'] != "")
 		{
 			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
 		}
@@ -1001,8 +1003,7 @@ class ilInitialisation
 
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
-
-
+		
 		// CLIENT_ID determination
 		$this->determineClient();
 
@@ -1025,6 +1026,19 @@ class ilInitialisation
 			exit;
 			//ilUtil::redirect("./setup/setup.php");	// to do: this could fail in subdirectories
 													// this is also source of a bug (see mantis)
+		}
+
+		if (DEVMODE && SHOWNOTICES)
+		{
+			// remove notices from error reporting
+			if (version_compare(PHP_VERSION, '5.3.0', '>='))
+			{
+				error_reporting(E_ALL);
+			}
+			else
+			{
+				error_reporting(E_ALL);
+			}
 		}
 		
 		// allow login by submitting user data
@@ -1075,7 +1089,7 @@ class ilInitialisation
 		global $ilAuth;
 
 		// Do not accept external session ids
-		if ($_GET["PHPSESSID"] != "")
+		if (isset($_GET["PHPSESSID"]))
 		{
 			$_GET["PHPSESSID"] = "";
 			session_regenerate_id();
@@ -1102,7 +1116,7 @@ class ilInitialisation
 		$GLOBALS['ilObjDataCache'] =& $ilObjDataCache;
 
 		// workaround: load old post variables if error handler 'message' was called
-		if ($_SESSION["message"])
+		if (isset($_SESSION["message"]) && $_SESSION["message"])
 		{
 			$_POST = $_SESSION["post_vars"];
 		}
@@ -1144,7 +1158,7 @@ class ilInitialisation
 		$ilBench->stop("Core", "HeaderInclude_Authentication");
 
 		// workaround: force login
-		if ($_GET["cmd"] == "force_login" || $this->script == "login.php")
+		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login") || $this->script == "login.php")
 		{
 			$ilAuth->logout();
 			if(!isset($_GET['forceShoppingCartRedirect']))
@@ -1369,7 +1383,7 @@ class ilInitialisation
 			if( $security->getAccountSecurityMode() ==
 				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 			{
-				if($_POST['username'] && $ilUser->getId() == 0)
+				if(isset($_POST['username']) && $_POST['username'] && $ilUser->getId() == 0)
 				{
 					$username = ilUtil::stripSlashes( $_POST['username'] );
 					$usr_id = ilObjUser::_lookupId( $username );

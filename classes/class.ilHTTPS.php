@@ -83,7 +83,7 @@ class ilHTTPS
 	 */
 	public function isDetected () 
 	{
-   		if ($_SERVER["HTTPS"] == "on")
+   		if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
    		   return true;
 
 	    if ($this->automaticHTTPSDetectionEnabled)

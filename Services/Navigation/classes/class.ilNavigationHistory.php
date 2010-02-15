@@ -40,17 +40,15 @@ class ilNavigationHistory
 	*/
 	public function __construct()
 	{
-		if (is_string($_SESSION["il_nav_history"]))
+		$this->items = array();
+		$items = null;
+		if (isset($_SESSION["il_nav_history"]))
 		{
 			$items = unserialize($_SESSION["il_nav_history"]);
 		}
 		if (is_array($items))
 		{
 			$this->items = $items;
-		}
-		else
-		{
-			$this->items = array();
 		}
 	}
 

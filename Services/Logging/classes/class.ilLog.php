@@ -67,6 +67,8 @@ class ilLog
 	* @access	public
 	*/
 	var $MESSAGE;
+	
+	var $fp = false;
 
 	/**
 	* constructor
