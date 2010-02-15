@@ -14,6 +14,8 @@
 */
 class ilFeedback 
 {
+	protected $ref_id = false;
+	
 	function ilFeedback($a_id = 0)
 	{
 		if($a_id > 0){
@@ -329,6 +331,8 @@ class ilFeedback
 	{
 		global $ilDB;
 
+		$where = "";
+		
 		if ($this->ref_id)
 		{
 			 $where.=" ref_id = ".$ilDB->quote($this->ref_id, "integer");
@@ -359,6 +363,8 @@ class ilFeedback
 		}
 		$res = $ilDB->query($q);
 		$i = 0;
+		
+		$barometers = array();
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$barometers[$i] = new ilFeedback();
@@ -366,7 +372,7 @@ class ilFeedback
 			$i++;
 		}
 
-		return $barometers ? $barometers : array();
+		return $barometers;
 	}
 
 	/**

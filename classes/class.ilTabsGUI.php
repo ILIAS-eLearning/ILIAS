@@ -392,6 +392,8 @@ class ilTabsGUI
 
 		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
 
+		$i=0;
+		
         // do not display one tab only
         if ((count($targets) > 1) || ($this->back_title != "" && !$a_get_sub_tabs)
         	|| (count($this->non_tabbed_link) > 0 && !$a_get_sub_tabs))
@@ -430,7 +432,7 @@ class ilTabsGUI
 	
 				$tpl->setCurrentBlock($pre."tab");
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
-				$hash = ($ilUser->prefs["screen_reader_optimization"])
+				$hash = ($ilUser->getPref("screen_reader_optimization"))
 					? "#after_".$sr_pre."tabs"
 					: "";
 				

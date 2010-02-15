@@ -32,6 +32,7 @@ class ilColumnGUI
 	protected $block_property = array();
 	protected $admincommands = null;
 	protected $movementmode = null;
+	protected $enablemovement = false;
 	
 	//
 	// This two arrays may be replaced by some
