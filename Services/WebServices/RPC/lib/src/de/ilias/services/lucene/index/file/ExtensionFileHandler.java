@@ -146,15 +146,25 @@ public class ExtensionFileHandler {
         	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
         }
-        
-    	// Start with poi
+    	
+    	return tryPOIDocument(file);
+    }
+    
+    /**
+     * Try to extract POI content
+     * @param file
+     */
+    private String tryPOIDocument(File file) {
+    	
+    	FileInputStream fis = null;
+    	
     	try {
-    		
     		StringBuilder content = new StringBuilder();
-    		POITextExtractor extractor;
-    		extractor = ExtractorFactory.createExtractor(file);
-    		content.append(extractor.getText());
+    		POITextExtractor extractor = null;
     		
+    		extractor = ExtractorFactory.createExtractor(fis = new FileInputStream(file));
+    		content.append(extractor.getText());
+
     		if(content.length() > 0) {
     			logger.info("Parsed file: " + file.getName());
     		}
@@ -176,7 +186,17 @@ public class ExtensionFileHandler {
         	logger.warn("Parsing failed with message: " + e);
         	logger.info("Current file is: " + file.getAbsolutePath());
     	}
-        
+    	finally {
+    		try {
+    			if(fis != null) {
+    				fis.close();
+    			}
+    		}
+    		catch(IOException e) {
+    			// Nothing
+    		}
+    	}
+    	
         return "";
     }
     
