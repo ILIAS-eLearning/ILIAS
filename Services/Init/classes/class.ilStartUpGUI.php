@@ -46,7 +46,8 @@ class ilStartUpGUI
 				break;
 
 			default:
-				return $this->$cmd();
+				$r = $this->$cmd();
+				return $r;
 				break;
 		}
 	}
@@ -399,15 +400,20 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 			$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-			$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($_POST["username"], true));
+			if (isset($_POST["username"]))
+			{
+				$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($_POST["username"], true));
+			}
 			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
-		if((int)$_GET['forceShoppingCartRedirect'])
+		if (isset($_GET['forceShoppingCartRedirect']))
+		{
   			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
+		}
 
 		$this->ctrl->setTargetScript("login.php");
 		$tpl->setVariable("FORMACTION",
@@ -418,20 +424,20 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$tpl->setVariable("LANG_ID", $_GET["lang"]);
 
-		if($_GET['inactive'])
+		if (isset($_GET['inactive']) && $_GET['inactive'])
 		{
 			$this->showFailure($lng->txt("err_inactive"));
 		}
-		else if($_GET['expired'])
+		else if (isset($_GET['expired']) && $_GET['expired'])
 		{
 			$this->showFailure($lng->txt("err_session_expired"));
 		}
-		else if($_GET['login_to_purchase_object'])
+		else if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
 		{
 			$lng->loadLanguageModule('payment');
 			$this->showFailure($lng->txt("payment_login_to_buy_object"));
 		}
-		else if(isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
+		else if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
 		{
 			$lng->loadLanguageModule('registration');
 			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
@@ -444,7 +450,7 @@ class ilStartUpGUI
 		$status = $ilAuth->getStatus();
 		
 		
-		if ($status == "")
+		if ($status == "" && isset($_GET["auth_stat"]))
 		{
 			$status = $_GET["auth_stat"];
 		}
@@ -496,19 +502,19 @@ class ilStartUpGUI
 		}
 
 
-		if ($_GET['time_limit'])
+		if (isset($_GET['time_limit']) && $_GET['time_limit'])
 		{
 			$this->showFailure($lng->txt("time_limit_reached"));
 		}
 
 		// output wrong IP message
-		if($_GET['wrong_ip'])
+		if (isset($_GET['wrong_ip']) && $_GET['wrong_ip'])
 		{
 			$this->showFailure($lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")");
 		}
 		
 		// outout simultaneous login message
-		if($_GET['simultaneous_login'])
+		if (isset($_GET['simultaneous_login']) && $_GET['simultaneous_login'])
 		{
 			$this->showFailure($lng->txt("simultaneous_login_detected"));
 		}
@@ -520,7 +526,7 @@ class ilStartUpGUI
 			$this->ctrl->getLinkTarget($this, "showUserAgreement"));
 
 		// browser does not accept cookies
-		if ($_GET['cookies'] == 'nocookies')
+		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
 		{
 			$this->showFailure($lng->txt("err_no_cookies"));
 			$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));

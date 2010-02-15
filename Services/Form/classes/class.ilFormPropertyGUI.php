@@ -18,6 +18,7 @@ class ilFormPropertyGUI
 	protected $required = false;
 	protected $parentgui;
 	protected $parentform;
+	protected $hidden_title = "";
 	
 	/**
 	* Constructor

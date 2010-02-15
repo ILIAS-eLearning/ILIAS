@@ -15,6 +15,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $max_length = 40;
 	protected $validateauthpost = "";
 	protected $requiredonauth = false;
+	protected $preselection = false;
+	protected $maxlength = false;
 	
 	/**
 	* Constructor
