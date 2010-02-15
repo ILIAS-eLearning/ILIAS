@@ -39,6 +39,18 @@ class ilTemplate extends ilTemplateX
 	
 	protected static $il_cache = array();
 	protected $message = "";
+	
+	protected $title_desc = "";
+	protected $upper_icon = "";
+	protected $tree_flat_link = "";
+	protected $mount_webfolder = "";
+	protected $stop_floating = "";
+	protected $page_form_action = "";
+	protected $page_actions = array();
+	protected $creation_selector = false;
+	protected $permanent_link = false;
+	protected $adv_layout = false;
+	protected $content_style_sheet = "";
 
 	/**
 	* constructor
@@ -1513,7 +1525,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilUser;
 
-		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 		{
 			$this->touchBlock("sr_focus");
 		}

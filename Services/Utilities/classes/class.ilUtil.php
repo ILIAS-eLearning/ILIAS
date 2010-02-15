@@ -291,11 +291,11 @@ class ilUtil
 
 		if (is_file("./".$in_style))
 		{
-			return $base.$in_style.$vers;
+			return $in_style.$vers;
 		}
 		else
 		{
-			return $base."templates/default/delos_cont.css".$vers;
+			return "templates/default/delos_cont.css".$vers;
 		}
 	}
 
@@ -338,7 +338,7 @@ class ilUtil
 		{
 			$class = "";
 		}
-
+		$attributes = "";
 		if (is_array($attribs))
 		{
 			foreach ($attribs as $key => $val)
@@ -355,6 +355,7 @@ class ilUtil
 
 		foreach ($options as $key => $val)
 		{
+			$style = "";
 			if (is_array($val))
 			{
 				$style = $val["style"];
@@ -3203,7 +3204,7 @@ class ilUtil
 		global $log, $PHP_SELF;
 		
 //echo "<br>".$a_script;
-		if (!is_int(strpos($a_script, "//")))
+		if (!is_int(strpos($a_script, "://")))
 		{
 			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
 			{

@@ -27,6 +27,9 @@ class ilAdvancedSelectionListGUI
 	
 	protected $css_row = "";
 	protected $access_key = false;
+	protected $toggle = false;
+	protected $asynch_url = false;
+	protected $selected_value = "";
 	
 	/*
 	

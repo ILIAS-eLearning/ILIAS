@@ -132,6 +132,8 @@ class ilAccessKey
 	{
 		global $ilDB;
 		
+		$key = "";
+		
 		// get defaults
 		if ($lang_key != "0" && !$a_ignore_default)
 		{
