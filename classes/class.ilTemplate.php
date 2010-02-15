@@ -38,6 +38,7 @@ class ilTemplate extends ilTemplateX
 	private $addFooter; // creates an output of the ILIAS footer
 	
 	protected static $il_cache = array();
+	protected $message = "";
 
 	/**
 	* constructor
@@ -284,14 +285,20 @@ class ilTemplate extends ilTemplateX
 		
 		foreach ($ms as $m)
 		{
+			$txt = "";
 			if ($m == "question")
 			{
 				$m = "mess_question";
 			}
 
-			$txt = ($_SESSION[$m] != "")
-				? $_SESSION[$m]
-				: $this->message[$m];
+			if (isset($_SESSION[$m]) && $_SESSION[$m] != "")
+			{
+				$txt = $_SESSION[$m];
+			}
+			else if (isset($this->message[$m]))
+			{
+				$txt = $this->message[$m];
+			}
 
 			if ($m == "mess_question")
 			{
@@ -308,7 +315,7 @@ class ilTemplate extends ilTemplateX
 				$m = "mess_question";
 			}
 
-			if ($_SESSION[$m])
+			if (isset($_SESSION[$m]) && $_SESSION[$m])
 			{
 				session_unregister($m);
 			}
@@ -732,7 +739,7 @@ class ilTemplate extends ilTemplateX
 				$ftpl->setVariable("MEMORY_USAGE", $mem_usage);
 			}
 			
-			if (is_object($ilAuth))
+			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]))
 			{
 				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
 					ini_get("session.gc_maxlifetime")." (".
@@ -893,12 +900,26 @@ class ilTemplate extends ilTemplateX
 				}
 
 				$_SESSION["referer"] = preg_replace("/cmd=post/",substr($str,1),$_SERVER["REQUEST_URI"]);
-				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-			}
+				if (isset($_GET['ref_id']))
+				{
+					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				}
+				else
+				{
+					$_SESSION['referer_ref_id'] = 0;
+				}
+							}
 			else
 			{
 				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				if (isset($_GET['ref_id']))
+				{
+					$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				}
+				else
+				{
+					$_SESSION['referer_ref_id'] = 0;
+				}
 			}
 
 			unset($_SESSION["error_post_vars"]);
@@ -913,13 +934,13 @@ class ilTemplate extends ilTemplateX
 	*/
 	function blockExists($a_blockname)
 	{
-		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
-		return ($this->blockvariables["content"][$a_blockname] ? true : false) | ($this->blockvariables[$a_blockname] ? true : false);
+		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)		
+		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
 	}
 	
 	private function variableExists($a_variablename)
 	{
-		return ($this->blockvariables["content"][$a_variablename] ? true : false);
+		return (isset($this->blockvariables["content"][$a_variablename]) ? true : false);
 	}
 
 	/**

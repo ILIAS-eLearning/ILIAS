@@ -20,6 +20,7 @@ class ilCtrl
 	var $call_hist = array();	// calling history
 	var $debug = array();
 	var $calls = array();
+	var $rtoken = false;
 
 	/**
 	 * control class constructor

@@ -877,7 +877,7 @@ class ilInitialisation
 		//init language
 		$ilBench->start("Core", "HeaderInclude_initLanguage");
 
-		if (is_null($_SESSION['lang']))
+		if (!isset($_SESSION['lang']))
 		{
 			if ($_GET["lang"])
 			{

@@ -11,7 +11,8 @@
 */
 class ilBenchmark
 {
-
+	var $bench = array();
+	
 	/**
 	* constructor
 	*/
@@ -238,7 +239,11 @@ return;
 	*/
 	function getMeasuredTime($a_module, $a_bench)
 	{
-		return $this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1];
+		if (isset($this->bench[$a_module.":".$a_bench]))
+		{
+			return $this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1];
+		}
+		return false;
 	}
 	// END WebDAV: Get measured time.
 

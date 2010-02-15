@@ -42,6 +42,7 @@ class ilRadiusSettings
 	private $account_migration = false;
 	
 	private $servers = array();
+	var $active = false;
 	
 	/**
 	 * singleton constructor
@@ -325,14 +326,22 @@ class ilRadiusSettings
 	private function read()
 	{
 	 	$all_settings = $this->settings->getAll();
-	 	
-	 	$this->setActive($all_settings['radius_active']);
-	 	$this->setPort($all_settings['radius_port']);
-	 	$this->setSecret($all_settings['radius_shared_secret']);
-	 	$this->setName($all_settings['radius_name']);
-	 	$this->enableCreation($all_settings['radius_creation']);
-	 	$this->enableAccountMigration($all_settings['radius_migration']);
-	 	$this->setCharset($all_settings['radius_charset']);
+
+	 	$sets = array("radius_active" => "setActive",
+	 		"radius_port" => "setPort",
+		 	"radius_shared_secret" => "setSecret",
+		 	"radius_name" => "setName",
+		 	"radius_creation" => "enableCreation",
+		 	"radius_migration" => "enableAccountMigration",
+		 	"radius_charset" => "setCharset"
+		 	);
+		foreach ($sets as $s => $m)
+		{
+		 	if (isset($all_settings[$s]))
+		 	{
+		 		$this->$m($all_settings[$s]);
+		 	}
+		}
 	 	
 		reset($all_settings);
 		foreach($all_settings as $k => $v)
@@ -345,7 +354,11 @@ class ilRadiusSettings
 		
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 		$roles = ilObjRole::_getRolesByAuthMode('radius');
-		$this->default_role = $roles[0] ? $roles[0] : 0;
+		$this->default_role = 0;
+		if (isset($roles[0]) && $roles[0])
+		{
+			$this->default_role = $roles[0];
+		}
 	}
 }
 

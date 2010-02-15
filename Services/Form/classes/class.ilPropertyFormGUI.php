@@ -53,6 +53,9 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $check_input_called = false;
 	protected $disable_standard_message = false;
 	protected $top_anchor = "il_form_top";
+	protected $titleicon = false;
+	protected $description = "";
+	protected $tbl_width = false;
 	
 	/**
 	* Constructor
@@ -485,7 +488,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 		}
 		
-		if ($required_text || count($this->buttons) > 0 || $hidden_fields)
+		if ($this->required_text || count($this->buttons) > 0 || $hidden_fields)
 		{
 			$this->tpl->setCurrentBlock("commands");
 			$this->tpl->parseCurrentBlock();

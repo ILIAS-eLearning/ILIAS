@@ -398,7 +398,7 @@ class ilObjRole extends ilObject
 				$res = $ilDB->manipulate($query);
 
 				include_once './classes/class.ilRoleDesktopItem.php';
-				$role_desk_item_obj =& new ilRoleDesktopItem($this->getId());
+				$role_desk_item_obj = new ilRoleDesktopItem($this->getId());
 				$role_desk_item_obj->deleteAll();
 
 			}
@@ -502,11 +502,12 @@ class ilObjRole extends ilObject
 	 	$query = "SELECT * FROM role_data ".
 	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode,'text');
 	 	$res = $ilDB->query($query);
+	 	$roles = array();
 	 	while($row = $ilDB->fetchObject($res))
 	 	{
 	 		$roles[] = $row->role_id;
 	 	}
-	 	return $roles ? $roles : array();
+	 	return $roles;
 	}
 	
 	/**
