@@ -176,7 +176,7 @@ class ilLDAPRoleAssignmentRules
 			include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
 			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($row->rule_id);
 			
-			if($rule->matches($a_data))
+			if($rule->matches($a_usr_data))
 			{
 				$num_matches++;
 				$ilLog->write(__METHOD__.': Assigned to role: '.$a_usr_name.' => '.ilObject::_lookupTitle($rule->getRoleId()));
