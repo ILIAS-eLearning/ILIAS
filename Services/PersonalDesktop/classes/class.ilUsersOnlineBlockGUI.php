@@ -23,7 +23,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::ilBlockGUI();
 		
 		$this->setLimit(10);
 		$this->setImage(ilUtil::getImagePath("icon_grp_s.gif"));

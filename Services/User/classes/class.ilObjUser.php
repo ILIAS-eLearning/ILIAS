@@ -3822,7 +3822,7 @@ class ilObjUser extends ilObject
 		}
 
 		// END DiskQuota: Fetch all user preferences in a single query
-
+		$webspace_dir = "";
 		if(defined('ILIAS_MODULE'))
 		{
 			$webspace_dir = ('.'.$webspace_dir);

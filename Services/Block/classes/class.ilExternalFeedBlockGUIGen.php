@@ -51,7 +51,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 		
 		
 		include_once("Services/Block/classes/class.ilExternalFeedBlock.php");
-		if ($_GET["external_feed_block_id"] > 0)
+		if (isset($_GET["external_feed_block_id"]) && $_GET["external_feed_block_id"] > 0)
 		{
 			$this->external_feed_block = new ilExternalFeedBlock($_GET["external_feed_block_id"]);
 		}

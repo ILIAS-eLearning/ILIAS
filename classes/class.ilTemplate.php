@@ -751,7 +751,8 @@ class ilTemplate extends ilTemplateX
 				$ftpl->setVariable("MEMORY_USAGE", $mem_usage);
 			}
 			
-			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]))
+			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
+				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
 			{
 				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
 					ini_get("session.gc_maxlifetime")." (".
@@ -883,7 +884,7 @@ class ilTemplate extends ilTemplateX
 				$url_parts = @parse_url($protocol.$host.$path);
 			}
 
-			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
+			if (isset($url_parts["query"]) && preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
 				foreach ($_POST as $key => $val)
 				{
@@ -899,7 +900,7 @@ class ilTemplate extends ilTemplateX
 				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
 				
 			}
-			else if (preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
+			else if (isset($url_parts["query"]) && preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
 				foreach ($_POST as $key => $val)
 				{

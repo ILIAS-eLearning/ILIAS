@@ -17,6 +17,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {
 	static $block_type = "pdnews";
 	static $st_data;
+	protected $acc_results = false;
 	
 	/**
 	* Constructor

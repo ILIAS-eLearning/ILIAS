@@ -94,7 +94,8 @@ class ilPersonalProfileGUI
 	function userSettingVisible($setting)
 	{
 		$result = TRUE;
-		if ($this->settings["usr_settings_hide_".$setting] == 1)
+		if (isset($this->settings["usr_settings_hide_".$setting]) &&
+			$this->settings["usr_settings_hide_".$setting] == 1)
 		{
 			$result = FALSE;
 		}
@@ -677,7 +678,7 @@ return;
 				foreach($templates as $template)
 				{
 					// get styles information of template
-					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef = new ilStyleDefinition($template["id"]);
 					$styleDef->startParsing();
 					$styles = $styleDef->getStyles();
 
@@ -2717,7 +2718,7 @@ return;
 				foreach($templates as $template)
 				{
 					// get styles information of template
-					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef = new ilStyleDefinition($template["id"]);
 					$styleDef->startParsing();
 					$styles = $styleDef->getStyles();
 

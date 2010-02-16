@@ -54,6 +54,8 @@ abstract class ilBlockGUI
 	protected $close_command = false;
 	protected $image = false;
 	protected $property = false;
+	protected $nav_value = "";
+	protected $css_row = "";
 
 	/**
 	* Constructor
@@ -1004,17 +1006,24 @@ abstract class ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
+		$this->nav_value = (isset($_POST[$this->getNavParameter()]) && $_POST[$this->getNavParameter()] != "")
 			? $_POST[$this->getNavParameter()]
-			: $_GET[$this->getNavParameter()];
-		$this->nav_value = ($this->nav_value == "")
+			: (isset($_GET[$this->getNavParameter()]) ? $_GET[$this->getNavParameter()] : $this->nav_value);
+		$this->nav_value = ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()]))
 			? $_SESSION[$this->getNavParameter()]
 			: $this->nav_value;
 			
 		$_SESSION[$this->getNavParameter()] = $this->nav_value;
 			
 		$nav = explode(":", $this->nav_value);
-		$this->setOffset($nav[2]);
+		if (isset($nav[2]))
+		{
+			$this->setOffset($nav[2]);
+		}
+		else
+		{
+			$this->setOffset(0);
+		}
 		
 		// data
 		$this->tpl->addBlockFile("BLOCK_ROW", "block_row", $this->getRowTemplateName(),
