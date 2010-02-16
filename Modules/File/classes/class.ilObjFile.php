@@ -142,6 +142,18 @@ class ilObjFile extends ilObject
 	*/
 	function MDUpdateListener($a_element)
 	{
+		// Check file extension
+		// Removing the file extension is not allowed
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md = new ilMD($this->getId(),0, $this->getType());
+		if(!is_object($md_gen = $md->getGeneral()))
+		{
+			return false;
+		}
+		$title = $this->checkFileExtension($this->getFileName(), $md_gen->getTitle());
+		$md_gen->setTitle($title);
+		$md_gen->update();		
+
 		// handling for general section
 		parent::MDUpdateListener($a_element);
 		
@@ -956,6 +968,34 @@ class ilObjFile extends ilObject
 		}
 		$version_subdir = DIRECTORY_SEPARATOR.sprintf("%03d", $a_version);		
 		return $file_storage->getAbsolutePath().$version_subdir.DIRECTORY_SEPARATOR.$filename;
+	}
+	
+	/**
+	 * Check if the file extension does still exist after an update of the title
+	 * @return 
+	 */
+	public function checkFileExtension($new_filename,$new_title)
+	{
+		include_once './Modules/File/classes/class.ilObjFileAccess.php';
+		$fileExtension = ilObjFileAccess::_getFileExtension($new_filename);
+		$titleExtension = ilObjFileAccess::_getFileExtension($new_title);
+		if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
+		{
+			// remove old extension
+			$pi = pathinfo($this->getFileName());
+			$suffix = $pi["extension"];
+			if ($suffix != "")
+			{ 
+				if (substr($new_title,
+					strlen($new_title) - strlen($suffix) - 1)
+					== ".".$suffix)
+				{
+					$new_title = substr($new_title, 0, strlen($new_title) - strlen($suffix) - 1);
+				}
+			}
+			$new_title .= '.'.$fileExtension;
+		}
+		return $new_title;
 	}
 
 
