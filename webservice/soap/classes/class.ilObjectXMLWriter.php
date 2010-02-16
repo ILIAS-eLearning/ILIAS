@@ -32,6 +32,8 @@ class ilObjectXMLWriter extends ilXmlWriter
 	var $enable_operations = false;
 	var $objects = array();
 	var $user_id = 0;
+	
+	protected $check_permission = false;
 
 	/**
 	* constructor
@@ -48,6 +50,16 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();
+	}
+	
+	public function enablePermissionCheck($a_status)
+	{
+		$this->check_permission = $a_status;
+	}
+	
+	public function isPermissionCheckEnabled()
+	{
+		return $this->check_permission;
 	}
 
 	function setUserId($a_id)
@@ -83,15 +95,16 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		/*if(!count($objects = $this->__getObjects()))
-		{
-			return false;
-		}*/
-
+		global $ilAccess;
+		
 		$this->__buildHeader();
 
 		foreach($this->__getObjects() as $object)
 		{
+			if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccess('read','',$object->getRefId()))
+			{
+				continue;
+			}
 			$this->__appendObject($object);
 		}
 		$this->__buildFooter();

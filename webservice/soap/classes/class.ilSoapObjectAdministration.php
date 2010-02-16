@@ -195,6 +195,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
 		if($user_id)
 		{
 			$xml_writer->setUserId($user_id);
@@ -252,11 +253,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 
 		$res->filter(ROOT_FOLDER_ID,true);
-
+		
 		$objs = array();
 		foreach($res->getUniqueResults() as $entry)
 		{
-			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
+			$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
 		}
 		if(!count($objs))
 		{
@@ -266,6 +267,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
 		if($user_id)
 		{
 			$xml_writer->setUserId($user_id);
@@ -329,17 +331,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$res->setMaxHits(999999);
 		$res->filter(ROOT_FOLDER_ID,$combination == 'and' ? true : false);
 
-
-		// Limit to 30 objects
 		$counter = 0;
 		$objs = array();
 		foreach($res->getUniqueResults() as $entry)
 		{
-			/*if(++$counter == 30)
-			{
-				break;
-			}*/
-			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
+			$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
 		}
 		if(!count($objs))
 		{
@@ -349,6 +345,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
 
 		if($user_id)
 		{
@@ -407,14 +404,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}
 		}
 
-		/*if(!$objs)
-		{
-			return '';
-		}*/
-
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
 		$xml_writer->setObjects($objs);
 		$xml_writer->enableOperations(true);
 		if($user_id)
@@ -466,6 +459,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
        
         $xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
         $xml_writer->setObjects($nodes);
         $xml_writer->enableOperations(false);
        
