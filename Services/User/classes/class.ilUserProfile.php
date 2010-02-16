@@ -337,9 +337,13 @@ class ilUserProfile
 				$current_group = $p["group"];
 			}
 
-			$m = $p["method"];
+			$m = "";
+			if (isset($p["method"]))
+			{
+				$m = $p["method"];
+			}
 			
-			$lv = ($p["lang_var"] != "")
+			$lv = (isset($p["lang_var"]) && $p["lang_var"] != "")
 				? $p["lang_var"]
 				: $f;
 			

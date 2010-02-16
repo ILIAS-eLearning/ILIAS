@@ -243,7 +243,8 @@ class ilPersonalDesktopGUI
 				$this->$cmd();
 				break;
 		}
-		return true;
+		$ret = null;
+		return $ret;
 	}
 	
 	/**

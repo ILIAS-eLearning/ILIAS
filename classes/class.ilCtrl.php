@@ -1498,7 +1498,7 @@ class ilCtrl
 	{
 		global $ilDB;
 		
-		if ($this->info_read_cid[$a_cid])
+		if (isset($this->info_read_cid[$a_cid]))
 		{
 			return;
 		}
@@ -1515,7 +1515,7 @@ class ilCtrl
 				);
 			while ($rec2  = $ilDB->fetchAssoc($set))
 			{
-				if (!is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
+				if (!isset($this->calls[$rec["class"]]) || !is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
 				{
 					if ($rec2["child"] != "")
 					{

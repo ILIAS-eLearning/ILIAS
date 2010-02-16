@@ -262,13 +262,19 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 
 		$data = array();
 		
-		$bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
+		$sess_cur_bm_folder = "";
+		if (isset($_SESSION["ilCurBMFolder"]))
+		{
+			$sess_cur_bm_folder = $_SESSION["ilCurBMFolder"];
+		}
+		
+		$bm_items = ilBookmarkFolder::getObjects($sess_cur_bm_folder);
 
-		if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
+		if (!ilBookmarkFolder::isRootFolder($sess_cur_bm_folder)
 			&& !empty($_SESSION["ilCurBMFolder"]))
 		{			
 			$ilCtrl->setParameter($this, "curBMFolder",
-				ilBookmarkFolder::_getParentId($_SESSION["ilCurBMFolder"]));
+				ilBookmarkFolder::_getParentId($sess_cur_bm_folder));
 
 			$data[] = array(
 				"img" => ilUtil::getImagePath("icon_cat_s.gif"),
@@ -276,7 +282,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				"title" => "..",
 				"link" => $ilCtrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
 
-			$this->setTitle($this->getTitle().": ".ilBookmarkFolder::_lookupTitle($_SESSION["ilCurBMFolder"]));
+			$this->setTitle($this->getTitle().": ".ilBookmarkFolder::_lookupTitle($sess_cur_bm_folder));
 		}
 
 		foreach ($bm_items as $bm_item)

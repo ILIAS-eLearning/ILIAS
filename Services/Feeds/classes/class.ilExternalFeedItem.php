@@ -29,48 +29,51 @@ class ilExternalFeedItem
 			$this->secureString($a_item["title"]));
 		
 		// link
-		if ($a_item["link_"] != "")
+		if (isset($a_item["link_"]))
 		{
 			$this->setLink(
 				ilUtil::secureLink($this->secureString($a_item["link_"])));
 		}
 		else
 		{
-			$this->setLink(
-				ilUtil::secureLink($this->secureString($a_item["link"])));
+			if (isset($a_item["link"]))
+			{
+				$this->setLink(
+					ilUtil::secureLink($this->secureString($a_item["link"])));
+			}
 		}
 		
 		// summary
-		if ($a_item["atom_content"] != "")
+		if (isset($a_item["atom_content"]))
 		{
 			$this->setSummary(
 				$this->secureString($a_item["atom_content"]));
 		}
-		else if ($a_item["summary"] != "")
+		else if (isset($a_item["summary"]))
 		{
 			$this->setSummary(
 				$this->secureString($a_item["summary"]));
 		}
-		else
+		else if (isset($a_item["description"]))
 		{
 			$this->setSummary(
 				$this->secureString($a_item["description"]));
 		}
 		
 		// date
-		if ($a_item["pubdate"] != "")
+		if (isset($a_item["pubdate"]))
 		{
 			$this->setDate(
 				$this->secureString($a_item["pubdate"]));
 		}
-		else
+		else if (isset($a_item["updated"]))
 		{
 			$this->setDate(
 				$this->secureString($a_item["updated"]));
 		}
 
 		// Author
-		if ($a_item["dc"]["creator"] != "")
+		if (isset($a_item["dc"]["creator"]))
 		{
 			$this->setAuthor(
 				$this->secureString($a_item["dc"]["creator"]));
@@ -84,13 +87,14 @@ class ilExternalFeedItem
 	function secureString($a_str)
 	{
 		$a_str = ilUtil::secureString($a_str, true, "<b><i><em><strong><br><ol><li><ul><a><img>");
+		$old_str = "";
 		
 		// set target to blank for all links
 		while($old_str != $a_str)
 		{
 			$old_str = $a_str;
-			$a_str = eregi_replace("<a href=\"([^\"]*)\">",
-				"<a href=\"\\1\" target=\"_blank\">", $a_str);
+			$a_str = preg_replace("/<a href=\"([^\"]*)\">/i",
+				"/<a href=\"\\1\" target=\"_blank\">/", $a_str);
 		}
 		return $a_str;
 	}

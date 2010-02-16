@@ -515,7 +515,10 @@ class ilColumnGUI
 						"class.".$block_class.".php");
 					$app_block = new $block_class($block["id"]);
 					$block_gui->setBlock($app_block);
-					$block_gui->setRefId($block["ref_id"]);
+					if (isset($block["ref_id"]))
+					{
+						$block_gui->setRefId($block["ref_id"]);
+					}
 				}
 	
 				$ilCtrl->setParameter($this, "block_type", $block_gui->getBlockType());

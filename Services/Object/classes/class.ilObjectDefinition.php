@@ -270,7 +270,12 @@ class ilObjectDefinition extends ilSaxParser
 			return $this->root_trans_type;
 		}
 		
-		return $this->obj_data[$a_obj_name]["translate"];
+		if (isset($this->obj_data[$a_obj_name]))
+		{
+			return $this->obj_data[$a_obj_name]["translate"];
+		}
+		
+		return "";
 	}
 	
 

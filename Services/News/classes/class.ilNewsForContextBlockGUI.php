@@ -1182,8 +1182,14 @@ if (empty(self::$st_data))
 		
 		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
 		{
-			if ($_SESSION["il_feed_js"] != "n" &&
-				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
+			$sess_feed_js = "";
+			if (isset($_SESSION["il_feed_js"]))
+			{
+				$sess_feed_js = $_SESSION["il_feed_js"];
+			}
+			
+			if ($sess_feed_js != "n" &&
+				($ilUser->getPref("il_feed_js") != "n" || $sess_feed_js == "y"))
 			{
 				// do not get feed dynamically, if cache hit is given.
 //				if (!$this->feed->checkCacheHit())
