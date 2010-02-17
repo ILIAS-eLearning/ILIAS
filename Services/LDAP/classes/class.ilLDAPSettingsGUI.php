@@ -1022,10 +1022,13 @@ class ilLDAPSettingsGUI
 		$group_member->setInfo($this->lng->txt('ldap_group_member_info'));
 		$group_member->setSize(32);
 		$group_member->setMaxLength(255);
-			$group_member_isdn = new ilCheckboxInputGUI($this->lng->txt('ldap_memberisdn'), 'memberisdn');
-			$group_member_isdn->setValue(1);
-			$group_member->addSubItem($group_member_isdn);	
 		$this->form_gui->addItem($group_member);		
+
+
+		$group_member_isdn = new ilCheckboxInputGUI($this->lng->txt('ldap_memberisdn'), 'memberisdn');
+		#$group_member_isdn->setInfo($this->lng->txt('ldap_group_member_info'));
+		$this->form_gui->addItem($group_member_isdn);
+		#$group_member->addSubItem($group_member_isdn);	
 		
 		$group = new ilTextInputGUI($this->lng->txt('ldap_group_name'), 'group');
 		$group->setInfo($this->lng->txt('ldap_group_name_info'));
