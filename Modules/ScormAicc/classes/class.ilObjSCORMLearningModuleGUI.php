@@ -460,19 +460,29 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 		//$items = $this->object->getTrackingItems();
 		$items = $this->object->getTrackedItems();
-
-		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		
+		$item_array = array();
+		foreach($items as $item)
+		{
+			$tmp['title'] = $item->getTitle();
+			$tmp['id'] = $item->getId();
+			
+			$item_array[] = $tmp;
+		}
+		
+		$items = ilUtil::sortArray($item_array, $_GET["sort_by"], $_GET["sort_order"]);
 		$tbl->setMaxCount(count($items));
 		$items = array_slice($items, $_GET["offset"], $_GET["limit"]);
-
+		
+		
 		$tbl->render();
 		if (count($items) > 0)
 		{
 			foreach ($items as $item)
 			{
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_ITEM_TITLE", $item->getTitle());
-				$this->ctrl->setParameter($this, "obj_id", $item->getId());
+				$this->tpl->setVariable("TXT_ITEM_TITLE", $item['title']);
+				$this->ctrl->setParameter($this, "obj_id", $item['id']);
 				$this->tpl->setVariable("LINK_ITEM",
 					$this->ctrl->getLinkTarget($this, "showTrackingItemSco"));
 
@@ -1037,8 +1047,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		#$tbl->disable("footer");
 
 		$tr_data = $this->object->getTrackingDataAgg($_GET["user_id"]);
+		
 
-		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tr_data = ilUtil::sortArray($tr_data, $_GET["sort_by"], $_GET["sort_order"]);
 		$tbl->setMaxCount(count($tr_data));
 		$tr_data = array_slice($tr_data, $_GET["offset"], $_GET["limit"]);
 
@@ -1109,7 +1120,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
            $this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
            $this->lng->txt("cont_score")));
   
-       $header_params = $this->ctrl->getParameterArray($this, "showTrackingItem");
+       $header_params = $this->ctrl->getParameterArray($this, "showTrackingItemSco");
+		$header_params['obj_id'] = (int) $_GET['obj_id'];
   
        $cols = array("name", "status", "time", "score");
        $tbl->setHeaderVars($cols, $header_params);
@@ -1130,9 +1142,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
        #$tbl->disable("footer");
   
        $tr_data = $this->object->getTrackingDataAggSco($_GET["obj_id"]);
-  
+	   
+	   $tmp = array();
+		foreach($tr_data as $data)
+		{
+			$name = ilObjUser::_lookupName($data['user_id']);
+			$data['name'] = $name['lastname'].', '.$name['firstname'];
+			
+			$tmp[] = $data;
+		}
+		$tr_data = $tmp;
+		
        //$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
        $tbl->setMaxCount(count($tr_data));
+
+		$tr_data  = ilUtil::sortArray($tr_data ,$_GET["sort_by"],$_GET["sort_order"]);
+
        $tr_data = array_slice($tr_data, $_GET["offset"], $_GET["limit"]);
   
        $tbl->render();
