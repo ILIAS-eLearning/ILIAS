@@ -319,37 +319,37 @@ class ilGoogleMapGUI
 							$this->getMapId());
 						$this->tpl->setVariable("CNT", $cnt);
 
-						$this->tpl->setVariable("ULAT", $user->getLatitude());
-						$this->tpl->setVariable("ULONG", $user->getLongitude());
-						$info = $user->getFirstName()." ".$user->getLastName();
+						$this->tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
+						$this->tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
+						$info = htmlspecialchars($user->getFirstName()." ".$user->getLastName());
 						$delim = "<br \/>";
 						if ($user->getPref("public_institution") == "y")
 						{
-							$info.= $delim.$user->getInstitution();
+							$info.= $delim.htmlspecialchars($user->getInstitution());
 							$delim = ", ";
 						}
 						if ($user->getPref("public_department") == "y")
 						{
-							$info.= $delim.$user->getDepartment();
+							$info.= $delim.htmlspecialchars($user->getDepartment());
 						}
 						$delim = "<br \/>";
 						if ($user->getPref("public_street") == "y")
 						{
-							$info.= $delim.$user->getStreet();
+							$info.= $delim.htmlspecialchars($user->getStreet());
 						}
 						if ($user->getPref("public_zip") == "y")
 						{
-							$info.= $delim.$user->getZipcode();
+							$info.= $delim.htmlspecialchars($user->getZipcode());
 							$delim = " ";
 						}
 						if ($user->getPref("public_city") == "y")
 						{
-							$info.= $delim.$user->getCity();
+							$info.= $delim.htmlspecialchars($user->getCity());
 						}
 						$delim = "<br \/>";
 						if ($user->getPref("public_country") == "y")
 						{
-							$info.= $delim.$user->getCountry();
+							$info.= $delim.htmlspecialchars($user->getCountry());
 						}
 						$this->tpl->setVariable("USER_INFO",
 							$info);
