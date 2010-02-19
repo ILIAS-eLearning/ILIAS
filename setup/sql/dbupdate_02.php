@@ -16531,3 +16531,55 @@ $ilDB->modifyTableColumn("file_data", "file_type", array("type" => "text",  "len
 <?php
 	$ilDB->addIndex('write_event',array('obj_id'),'i2');
 ?>
+<#2938>
+<?php
+global $ilLog;
+
+include_once('Services/Migration/DBUpdate_2498/classes/class.ilUpdateUtilsMailMigration.php');
+include_once('Services/Migration/DBUpdate_2498/classes/class.ilFileSystemStorageMailMigration.php');
+include_once('Services/Migration/DBUpdate_2498/classes/class.ilFSStorageMailMailMigration.php');
+
+// Fetch all messages with attachment(s)
+$res = $ilDB->query("SELECT * FROM mail_attachment WHERE ".str_replace('LIKE', 'NOT LIKE', $ilDB->like('path', 'text', '%\_%\_%')));	
+$ilLog->write('DB Migration 2938: Fetched all mails with a deprecated path value ...');
+// iterate over result
+$counter = 0;
+while($record = $ilDB->fetchObject($res))
+{
+	$path_parts = explode('_', $record->path);				
+	if(count($path_parts) == 2)
+	{
+		$path_parts[0] = trim($path_parts[0]);
+		$path_parts[1] = trim($path_parts[1]);
+		
+		++$counter;
+		
+		// Create new storage folder (if it does not exist yet)
+		$oFSStorageMail = new ilFSStorageMailMailMigration($path_parts[1], $path_parts[0]);
+		if(file_exists($oFSStorageMail->getAbsolutePath()) && is_dir($oFSStorageMail->getAbsolutePath()))
+		{
+			$new_rel_path = $oFSStorageMail->getRelativePathExMailDirectory();
+			if(strlen($new_rel_path))
+			{				
+				// Modify existing attachment assigment
+				$ilDB->manipulateF(
+					"UPDATE mail_attachment SET path = %s WHERE mail_id = %s",
+			    	array('text', 'integer'),
+			    	array($new_rel_path, $record->mail_id)
+			    );
+			    $ilLog->write("DB Migration 2938: Updated database table 'mail_attachment' -> Set path to '".$new_rel_path."' for mail '".$record->mail_id."' ...");
+			}
+			else
+			{
+				$ilLog->write('DB Migration 2938: Migration not possible -> Could not determine relative path (mail \''.$record->mail_id.'\') ...');
+				continue;
+			}
+		}
+		else
+		{
+			$ilLog->write('DB Migration 2938: Migration not possible -> Target folder \''.$oFSStorageMail->getAbsolutePath().'\' does not exist or is not a directory (mail \''.$record->mail_id.'\') ...');
+			continue;
+		}		
+	}
+}
+?>
