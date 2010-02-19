@@ -1268,16 +1268,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->activateTab("export");
 		
 		// this is test code. much stuff will go to other classes
-		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
+/*		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
 		$ds = new ilMediaPoolDataSet();
-$ds->getXmlRepresentation("mep", "4.1.0", array("id" => $this->object->getId()));
+		$xml = $ds->getXmlRepresentation("mep", "4.1.0", array("id" => $this->object->getId()));*/
 
-/* $ds->initXml("4.1.0");		// target release
-$ds->addDataSet("mep_data", array("id" => $this->object->getId()));
-$ds->addDataSet("mep_tree", array("mep_id" => $this->object->getId()));
-$xml = $ds->getXmlRepresentation(); */
-		
-		$tpl->setContent(htmlentities($xml));
+		include_once("./Services/Export/classes/class.ilExport.php");
+		ilExport::_createRepositoryExportXmlFile("Modules/MediaPool", "mep",
+			$this->object->getId(), "4.1.0");
 		
 	}
 	
