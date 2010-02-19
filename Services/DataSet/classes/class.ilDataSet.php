@@ -64,7 +64,7 @@ abstract class ilDataSet
 	 * @return	array		types array, e.g.
 	 * array("field_1" => "text", "field_2" => "integer", ...) 
 	 */
-	abstract protected function getTypes();
+	abstract protected function getTypes($a_entity, $a_version);
 	
 	/**
 	 * Read data from DB. This should result in the
@@ -72,7 +72,7 @@ abstract class ilDataSet
 	 * 
 	 * @param	array	where clause array (flexible)
 	 */
-	abstract function readData($a_where);
+	abstract function readData($a_entity, $a_version, $a_where);
 	
 	/**
 	 * Get data from query.This is a standard procedure,
@@ -140,53 +140,113 @@ abstract class ilDataSet
 	 *	</set>
 	 *  </data_set>
 	 */
-	final function getXmlRepresentation($a_target_release, $a_entity,
+	final function getXmlRepresentation($a_entity, $a_target_release,
 		$a_where)
 	{
-		$this->setEntitySequence();
-		if ($this->version === false)
-		{
-			return false;
-		}
+		// step 1: check target release and supported versions
 		
+		// step 2: init writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$writer = new ilXmlWriter();
-		$writer->xmlStartTag('entity_set',
-			array("name" => $this->getXmlEntityName(),
-			"version" => $this->version,
-			"install_id" => IL_INST_ID,
+		$writer->xmlStartTag('data_set',
+			array("install_id" => IL_INST_ID,
 			"install_url" => ILIAS_HTTP_PATH));
 			
-		$writer->xmlStartTag("types");
-		foreach ($this->getXmlTypes() as $f => $t)
-		{
-			$writer->xmlElement('ftype',
-				array("name" => $f, "type" => $t));
-		}
-		$writer->xmlEndTag("types");
+		// add types
+		$this->addTypesXml($writer, $a_entity, $a_target_release);
 		
-		$writer->xmlStartTag("set");
-		foreach ($this->data as $d)
-		{
-			$writer->xmlStartTag("rec");
-			foreach ($this->getXmlRecord($d) as $f => $c)
-			{
-				// alternatice: generic element
-				//$writer->xmlElement('field',
-				//	array("name" => $f), $c);
-				
-				// this changes schema/dtd
-				$writer->xmlElement($f,
-					array(), $c);
-			}
-			$writer->xmlEndTag("rec");
-		}
-		$writer->xmlEndTag("set");
-		$writer->xmlEndTag("entity_set");
+		// add records
+		$this->addRecordsXml($writer, $a_entity, $a_target_release, $a_where);
+		
+		
+		$writer->xmlEndTag("data_set");
 		
 		return $writer->xmlDumpMem(false);
 	}
 	
+	/**
+	 * Add records xml
+	 *
+	 * @param
+	 * @return
+	 */
+	function addRecordsXml($a_writer, $a_entity, $a_target_release, $a_where)
+	{
+		$this->readData($a_entity, $a_target_release, $a_where);		
+		if (is_array($this->data))
+		{		
+			foreach ($this->data as $d)
+			{
+				$a_writer->xmlStartTag("rec",
+					array("entity" => $this->getXmlEntityName($a_entity, $a_target_release)));
+				$rec = $this->getXmlRecord($a_entity, $a_target_release, $d);
+				foreach ($rec as $f => $c)
+				{
+					// this changes schema/dtd
+					$a_writer->xmlElement($f,
+						array(), $c);
+				}
+				$a_writer->xmlEndTag("rec");
+
+				// foreach record records of dependent entities (no record)
+				$deps = $this->getDependencies($a_entity, $a_target_release, $rec, $a_where);
+				if (is_array($deps))
+				{
+					foreach ($deps as $dp => $w)
+					{
+						$this->addRecordsXml($a_writer, $dp, $a_target_release, $w["where"]);
+					}
+				}
+			}
+		}
+		else if ($this->data === false)
+		{
+			// false -> add records of dependent entities (no record)
+			$deps = $this->getDependencies($a_entity, $a_target_release, null, $a_where);
+			if (is_array($deps))
+			{
+				foreach ($deps as $dp => $w)
+				{
+					$this->addRecordsXml($a_writer, $dp, $a_target_release, $w["where"]);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Add types to xml writer
+	 *
+	 * @param
+	 */
+	private function addTypesXml($a_writer, $a_entity, $a_target_release)
+	{
+		$types = $this->getXmlTypes($a_entity, $a_target_release);
+		
+		// add types of current entity
+		if (is_array($types))
+		{
+			$a_writer->xmlStartTag("types",
+				array("entity" => $this->getXmlEntityName($a_entity, $a_target_release),
+					"version" => $a_target_release));
+			foreach ($this->getXmlTypes($a_entity, $a_target_release) as $f => $t)
+			{
+				$a_writer->xmlElement('ftype',
+					array("name" => $f, "type" => $t));
+			}
+			$a_writer->xmlEndTag("types");
+		}
+		
+		// add types of dependent entities
+		$deps = $this->getDependencies($a_entity, $a_target_release, null, null);
+		if (is_array($deps))
+		{
+			foreach ($deps as $dp => $w)
+			{
+				$this->addTypesXml($a_writer, $dp, $a_target_release);
+			}
+		}
+		
+	}
 	
 	/**
 	 * Get xml record for version
@@ -194,7 +254,7 @@ abstract class ilDataSet
 	 * @param	array	abstract data record
 	 * @return	array	xml record
 	 */
-	function getXmlRecord($a_set)
+	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
 		return $a_set;		
 	}
@@ -215,9 +275,9 @@ abstract class ilDataSet
 	 *
 	 * @return	array	types array for xml/version set in constructor
 	 */
-	function getXmlTypes()
+	function getXmlTypes($a_entity, $a_version)
 	{
-		return $this->getTypes();
+		return $this->getTypes($a_entity, $a_version);
 	}
 	
 	/**
@@ -225,9 +285,9 @@ abstract class ilDataSet
 	 *
 	 * @return	array	types array for json/version set in constructor
 	 */
-	function getJsonTypes()
+	function getJsonTypes($a_entity, $a_version)
 	{
-		return $this->getTypes();
+		return $this->getTypes($a_entity, $a_version);
 	}
 	
 	/**
@@ -236,18 +296,18 @@ abstract class ilDataSet
 	 * 
 	 * @return	string		
 	 */
-	function getXMLEntityName()
+	function getXMLEntityName($a_entity, $a_version)
 	{
-		return $this->entity;
+		return $a_entity;
 	}
 	
 	/**
 	 * Get entity name for json
 	 * (may be overwritten)
 	 */
-	function getJsonEntityName()
+	function getJsonEntityName($a_entity, $a_version)
 	{
-		return $this->entity;
+		return $a_entity;
 	}
 }
 

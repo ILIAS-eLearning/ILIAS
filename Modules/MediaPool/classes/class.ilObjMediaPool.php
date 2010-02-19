@@ -433,6 +433,28 @@ class ilObjMediaPool extends ilObject
 		}
 		return $objs;
 	}
+
+	/**
+	 * Get all media object ids
+	 */
+	function getAllMobIds($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT foreign_id as id FROM ".
+			" mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) ".
+			" JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ".
+			" WHERE mep_tree.mep_id = ".$ilDB->quote($a_id, "integer").
+			" AND mep_item.type = ".$ilDB->quote("mob", "text").
+			" AND object_data.type = ".$ilDB->quote("mob", "text");
+		$set = $ilDB->query($query);
+		$ids = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $rec["id"];
+		}
+		return $ids;
+	}
 	
 	/**
 	* Get used formats

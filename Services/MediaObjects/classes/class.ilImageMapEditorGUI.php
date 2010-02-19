@@ -65,7 +65,8 @@ class ilImageMapEditorGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "addArea");
+		$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "addArea",
+			"", false, false);
 		$this->handleMapParameters();
 
 		$this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
@@ -468,7 +469,7 @@ class ilImageMapEditorGUI
 		$params = array ('map_edit_mode' => $a_map_edit_mode,
 			'map_item' => $st_item->getId(),
 			'mode' => $mode,
-			'image_map_link' => $ilCtrl->getLinkTarget($this, "showImageMap"),
+			'image_map_link' => $ilCtrl->getLinkTarget($this, "showImageMap", "", false, false),
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"],
 			'pg_frame' => "",

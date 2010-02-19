@@ -41,12 +41,18 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	protected function getTypes()
+	protected function getTypes($a_entity, $a_version)
 	{
-		// mep_data
-		if ($this->entity == "mep_data")
+		// mep
+		if ($a_entity == "mep")
 		{
-			switch ($this->version)
+			return false;
+		}
+		
+		// mep_data
+		if ($a_entity == "mep_data")
+		{
+			switch ($a_version)
 			{
 				case "4.1.0":
 					return array(
@@ -57,9 +63,9 @@ class ilMediaPoolDataSet extends ilDataSet
 		}
 
 		// mep_tree
-		if ($this->entity == "mep_tree")
+		if ($a_entity == "mep_tree")
 		{
-			switch ($this->version)
+			switch ($a_version)
 			{
 				case "4.1.0":
 						return array(
@@ -83,14 +89,20 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function readData($a_where)
+	function readData($a_entity, $a_version, $a_where)
 	{
 		global $ilDB;
 		
-		// mep_data
-		if ($this->entity == "mep_data")
+		// mep (no data, only dependent records)
+		if ($a_entity == "mep")
 		{
-			switch ($this->version)
+			$this->data = false;
+		}
+		
+		// mep_data
+		if ($a_entity == "mep_data")
+		{
+			switch ($a_version)
 			{
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT * FROM mep_data WHERE ".
@@ -100,9 +112,9 @@ class ilMediaPoolDataSet extends ilDataSet
 		}	
 
 		// mep_tree
-		if ($this->entity == "mep_tree")
+		if ($a_entity == "mep_tree")
 		{
-			switch ($this->version)
+			switch ($a_version)
 			{
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT mep_id, child ".

@@ -261,4 +261,62 @@ class ilExport
 		fwrite($f, $index_content);
 		fclose($f);
 	}
+	
+	////
+	//// New functions coming with 4.1 export revision
+	////
+	
+	/**
+	 * Export a repository object
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _createRepositoryExportXmlFile($a_comp, $a_type, $a_id, $a_target_release, $a_config = "")
+	{
+		global $objDefinition, $tpl;
+		
+		$class = $objDefinition->getClassName($a_type);
+		
+		// get export class
+		$success = true;
+		$export_class_file = "./".$a_comp."/classes/class.il".$class."Export2.php";
+		if (!is_file($export_class_file))
+		{
+			$success = false;
+		}
+		if ($success)
+		{
+			$class = "il".$class."Export2";
+			include_once($export_class_file);
+			$export = new $class();
+			$sequence = $export->getXmlExportSequence($a_target_release, $a_id);
+			
+			// work through export sequence
+			foreach ($sequence as $s)
+			{
+				// dataset file
+				$dataset_file = "./".$s["component"]."/classes/class.il".$s["ds_class"].".php";
+				if (is_file($dataset_file))
+				{
+					include_once($dataset_file);
+					$ds_class = "il".$s["ds_class"];
+					$success = false;
+					$ds = new $ds_class();
+					$xml = $ds->getXmlRepresentation($s["entity"], $a_target_release, $s["where"]);
+					
+$tpl->setContent($tpl->main_content."<pre>".htmlentities(str_replace(">", ">\n", $xml))."</pre>");
+				}
+			}
+			
+		}
+		
+		
+	
+		return array(
+			"success" => $success,
+			"file" => $filename,
+			"directory" => $directory
+			);
+	}
 }
