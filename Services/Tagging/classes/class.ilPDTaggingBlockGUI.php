@@ -181,6 +181,8 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	{
 		global $lng, $ilCtrl, $ilUser, $objDefinition;
 		
+		$_GET["tag"] = str_replace("-->","", $_GET["tag"]);
+		
 		$tpl = new ilTemplate("tpl.resources_for_tag.html", true, true, "Services/Tagging");
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
