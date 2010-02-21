@@ -152,8 +152,8 @@ class ilPasswordAssistanceGUI
 		);
 		$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 		$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-		$tpl->setVariable("USERNAME", $username);
-		$tpl->setVariable("EMAIL", $email);
+		$tpl->setVariable("USERNAME", htmlentities($username));
+		$tpl->setVariable("EMAIL", htmlentities($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("BACK", $lng->txt("back"));
 		$tpl->setVariable("LINK_BACK",
@@ -216,7 +216,7 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 		$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 		$tpl->setVariable("USERNAME", $username);
-		$tpl->setVariable("EMAIL", $email);
+		$tpl->setVariable("EMAIL", htmlentities($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("BACK", $lng->txt("back"));
 		$tpl->setVariable("LINK_BACK",
