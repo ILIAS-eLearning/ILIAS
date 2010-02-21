@@ -236,7 +236,7 @@ class ilBookmarkExplorer extends ilExplorer
 		switch ($a_type) {
 			case 'bm':
 				// return stored Bookmark target;
-				return $this->bm_targets[$a_node_id];
+				return htmlentities($this->bm_targets[$a_node_id]);
 				break;
 			default:
 				$target = (strpos($this->target, "?") === false)
