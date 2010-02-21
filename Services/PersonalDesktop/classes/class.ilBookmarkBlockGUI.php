@@ -327,7 +327,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->tpl->setVariable("IMG_ALT", $a_set["alt"]);
 		$this->tpl->setVariable("BM_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("BM_LINK", $a_set["link"]);
-		$this->tpl->setVariable("BM_TARGET", $a_set["target"]);
+		$this->tpl->setVariable("BM_TARGET", ilUtil::prepareFormOutput($a_set["target"]));
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{
