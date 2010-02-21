@@ -1080,18 +1080,19 @@ class ilInitialisation
 		$https->checkPort();		
 		
 		if($this->returnBeforeAuth()) return;
-		
-		
-		
+				
 		// $ilAuth initialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
 
+//echo get_class($ilAuth);
+//var_dump($ilAuth);
+		
 		// Do not accept external session ids
-		if (isset($_GET["PHPSESSID"]))
+		if (!ilSession::_exists(session_id()))
 		{
-			$_GET["PHPSESSID"] = "";
+//			$_GET["PHPSESSID"] = "";
 			session_regenerate_id();
 		}
 

@@ -21,7 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "config.php"; 
+include_once "config.php";
+
+$_GET["client_id"] = str_replace("..", "", $_GET["client_id"]);
 
 $dir = getcwd();
 chdir("../../../../../");

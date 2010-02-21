@@ -93,7 +93,7 @@ class ilSession
 	{
 		global $ilDB;
 
-		$q = "SELECT data FROM usr_session WHERE session_id = ".
+		$q = "SELECT session_id FROM usr_session WHERE session_id = ".
 			$ilDB->quote($a_session_id, "text");
 		$set = $ilDB->query($q);
 		if ($ilDB->fetchAssoc($set))
