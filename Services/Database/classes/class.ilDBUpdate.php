@@ -154,6 +154,44 @@ class ilDBUpdate
 		
 		return true;
 	}
+	
+	/**
+	 * Set running status for a step
+	 *
+	 * @param	int		step number
+	 */
+	function setRunningStatus($a_nr)
+	{
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$set->set("db_update_running", $a_nr);
+		$this->db_update_running = $a_nr;
+	}
+	
+	/**
+	 * Get running status
+	 *
+	 * @return	int		current runnning db step
+	 */
+	function getRunningStatus()
+	{
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$this->db_update_running = (integer) $set->get("db_update_running");
+
+		return $this->db_update_running;
+	}
+	
+	/**
+	 * Clear running status
+	 */
+	function clearRunningStatus()
+	{
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$set->set("db_update_running", 0);
+		$this->db_update_running = 0;
+	}
 
 	function readFileVersion()
 	{
@@ -357,6 +395,8 @@ class ilDBUpdate
 
 		//search for desired $nr
 		reset($this->filecontent);
+		
+		$this->setRunningStatus($nr);
 
 		//init
 		$i = 0;
@@ -439,6 +479,7 @@ class ilDBUpdate
 	
 		//increase db_Version number
 		$this->setCurrentVersion($nr);
+		$this->clearRunningStatus();
 		//$this->currentVersion = $ilias->getSetting("db_version");
 		
 		return true;

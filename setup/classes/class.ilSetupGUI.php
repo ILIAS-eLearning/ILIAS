@@ -2111,8 +2111,16 @@ else
 					$si->setInfo($lng->txt("next_update_break_info"));
 					$this->form->addItem($si);
 				}
-								
-				ilUtil::sendFailure($this->lng->txt("database_needs_update"));
+				
+				if ($dbupdate->getRunningStatus() > 0)
+				{
+					ilUtil::sendFailure($this->lng->txt("db_update_interrupted")."<br /><br />".
+						$this->lng->txt("db_update_interrupted_avoid"));
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt("database_needs_update"));
+				}
 				$this->form->addCommandButton("updateDatabase", $lng->txt("database_update"));
 			}
 			else
