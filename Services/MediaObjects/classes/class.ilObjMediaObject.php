@@ -699,7 +699,7 @@ class ilObjMediaObject extends ilObject
 
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
-						$item->getLocation()."</Location>";
+						$this->handleAmps($item->getLocation())."</Location>";
 
 					// Format
 					$xml.= "<Format>".$item->getFormat()."</Format>";
