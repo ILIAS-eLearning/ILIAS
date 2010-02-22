@@ -506,3 +506,5 @@ server_settings#:#Server Settings###21 09 2009 new variable
 time_zone#:#Time Zone###21 09 2009 new variable
 please_select#:#Please Selec###21 09 2009 new variable
 db_port#:#Datenbank Port
+db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwartet unterbrochen. Dies kann zu einem <b>inkonsistenten</b> Zustand Ihres Systems führen. Es wird dringend empfohlen, das letzte Backup einzuspielen und auf diesem Stand das Updateskript erneut auszuführen.
+db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
