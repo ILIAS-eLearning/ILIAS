@@ -59,8 +59,7 @@ class ilObjGroup extends ilContainer
 	const GRP_MEMBER = 1;
 	const GRP_ADMIN = 2;
 	
-	
-	const ERR_MISSING_TITLE = 'grp_missing_title';
+	const ERR_MISSING_TITLE = 'msg_no_title';
 	const ERR_MISSING_GROUP_TYPE = 'grp_missing_grp_type';
 	const ERR_MISSING_PASSWORD = 'grp_missing_password';
 	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
