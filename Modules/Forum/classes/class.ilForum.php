@@ -2118,7 +2118,8 @@ class ilForum
 		{
 			if($edit == 0)
 			{
-				$text = ilUtil::insertLatexImages($text);
+				$text = ilUtil::insertLatexImages($text, "\<span class\=\"latex\">", "\<\/span>");
+				$text = ilUtil::insertLatexImages($text, "\[tex\]", "\[\/tex\]");
 			}
 			
 			// workaround for preventing template engine
