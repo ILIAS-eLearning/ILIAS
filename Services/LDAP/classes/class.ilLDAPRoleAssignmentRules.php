@@ -32,7 +32,7 @@
 class ilLDAPRoleAssignmentRules
 {
 	const ROLE_ACTION_ASSIGN	= 'Assign';
-	const ROLE_ACTION_DEASSIGN	= 'Deassign';
+	const ROLE_ACTION_DEASSIGN	= 'Detach';
 	
 	protected static $active_plugins = null;
 	protected static $default_role = null;
