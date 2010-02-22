@@ -54,6 +54,18 @@ class ilStr
 			return strpos($a_haystack, $a_needle, $a_offset);
 		}		
 	}
+
+	function strrPos($a_haystack, $a_needle, $a_offset = NULL)
+	{
+		if (function_exists("mb_strrpos"))
+		{
+			return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+		}
+		else
+		{
+			return strrpos($a_haystack, $a_needle, $a_offset);
+		}		
+	}
 	
 	function strLen($a_string)
 	{
