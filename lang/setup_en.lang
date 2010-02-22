@@ -499,3 +499,5 @@ server_settings#:#Server Settings
 time_zone#:#Time Zone
 please_select#:#Please Select
 db_port#:#Database Port
+db_update_interrupted#:#The database update script has been interrupted unexpectedly in a previous run. This can cause an <b>inconsistent</b> state of your system. We highly recommend to re-install your latest backup and to run the migration again.
+db_update_interrupted_avoid#:#To avoid this problem, please check your max_execution_time and memory_limit settings in your php.ini. Also take fewer steps in each run, to reduce the resources needed by the system.
