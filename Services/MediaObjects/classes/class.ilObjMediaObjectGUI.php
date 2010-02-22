@@ -1097,7 +1097,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					}
 				}
 			}
-	
+
+			ilUtil::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
+			
 			$this->object->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "edit");
