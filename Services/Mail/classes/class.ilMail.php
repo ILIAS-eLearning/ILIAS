@@ -2033,8 +2033,10 @@ class ilMail
 		
 		#var_dump("<pre>",$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments,"<pre>");
 		
-		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 4";
-		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
+		#$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 4";
+		#$a_m_subject = "[".$inst_name."] ".$a_m_subject;
+		
+		$a_m_subject = self::getSubjectPrefix().' '.$a_m_subject;
 		
 		$sender = $this->getMimeMailSender();
 
@@ -2453,7 +2455,7 @@ class ilMail
 		}
 		$lang->loadLanguageModule('mail');
 		return sprintf($lang->txt('mail_auto_generated_info'),
-			$ilSetting->get('inst_name','ILIAS 3'),
+			$ilSetting->get('inst_name','ILIAS 4'),
 			ILIAS_HTTP_PATH."\n\n");
 	}
 	
