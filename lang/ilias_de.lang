@@ -5992,7 +5992,7 @@ crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in den Kurs "%s" erfolgt ist.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen worden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
@@ -6005,7 +6005,7 @@ crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
 crs#:#crs_subscription_options_direct#:#Direkter Beitritt
 crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
 crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für den Kurs gestellt.
-crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.
+crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen wurden.
 crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
@@ -6919,7 +6919,7 @@ grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen,
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen worden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
