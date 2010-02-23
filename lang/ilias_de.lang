@@ -5835,7 +5835,7 @@ crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
 crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notification#:#Benachrichtigungen
-crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin die Benachrichtigungsfunktion aktivert ist.
+crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Kursverwalter/Kursverwalterin die Benachrichtigungsfunktion aktiviert ist.
 crs#:#crs_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
@@ -5992,7 +5992,7 @@ crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_member_body#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in den Kurs "%s" erfolgt ist.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscribe_wl_body#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
@@ -6902,7 +6902,7 @@ grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
 grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
 grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
-grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\n Wählen Sie dazu bitte folgenden Link:
+grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
 grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
 grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
@@ -6919,7 +6919,7 @@ grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen,
 grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\n Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_wl_bod#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen wurden.\nSie haben die Position %s auf der Warteliste.\n\nSie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
