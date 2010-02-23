@@ -3339,7 +3339,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		// Join/Leave
-		if($ilAccess->checkAccess('join','',$this->ref_id)
+		if($rbacsystem->checkAccess('join',$this->ref_id)
 			and !$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
@@ -4483,7 +4483,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					|| $cmd == 'subscribe')
 				{
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					if($ilAccess->checkAccess('join','',$this->object->getRefId()) &&
+					if($rbacsystem->checkAccess('join',$this->object->getRefId()) &&
 						!ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
 					{
 						include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
