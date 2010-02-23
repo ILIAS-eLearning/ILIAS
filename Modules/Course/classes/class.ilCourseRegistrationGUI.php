@@ -655,7 +655,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$waiting_list->addToList($ilUser->getId());
 			$info = sprintf($this->lng->txt('crs_added_to_list'),
-				$this->container->getTitle(),
 				$waiting_list->getPosition($ilUser->getId()));
 			ilUtil::sendSuccess($info,true);
 			

@@ -10012,13 +10012,13 @@ crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
-crs#:#crs_subscribe_wl#:#Your registration for course "%s".
+crs#:#crs_subscribe_wl#:#Your registration for course "%s"
 wiki#:#wiki_style#:#Style
 wiki#:#wiki_general_settings#:#General Settings
 style#:#style_current_style#:#Current Style
 style#:#style_edit_style#:#Edit Style
 style#:#style_delete_style#:#Delete Style
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a course administrator when your request has been approved or rejected.
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".
@@ -10041,8 +10041,8 @@ grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"
 grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".
-grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_sub#:#Your registration for group "%s"
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
 grp#:#grp_new_status#:#Your new status is:
