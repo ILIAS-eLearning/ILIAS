@@ -481,7 +481,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function listMedia()
 	{
-		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl;
+		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl, $ilToolbar, $lng;
 		
 		$ilCtrl->setParameter($this, "mep_mode", "listMedia");
 
@@ -490,6 +490,20 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		$ilTabs->setTabActive("objs_fold");
+		
+		$ilToolbar->addButton($lng->txt("mep_create_mob"),
+			$ilCtrl->getLinkTarget($this, "createMediaObject"));
+		
+		$mset = new ilSetting("mobs");
+		if ($mset->get("mep_activate_pages"))
+		{
+			$ilToolbar->addButton($lng->txt("mep_create_content_snippet"),
+				$ilCtrl->getLinkTarget($this, "createMediaPoolPage"));
+		}
+
+		$ilToolbar->addButton($lng->txt("mep_create_folder"),
+			$ilCtrl->getLinkTarget($this, "createFolderForm"));
+		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());

@@ -67,12 +67,18 @@ abstract class ilDataSet
 	abstract protected function getTypes($a_entity, $a_version);
 	
 	/**
+	 * Get xml namespace
+	 *
+	 */
+	abstract protected function getXmlNamespace($a_entity, $a_target_release);
+	
+	/**
 	 * Read data from DB. This should result in the
 	 * abstract field structure of the version set in the constructor.
 	 * 
-	 * @param	array	where clause array (flexible)
+	 * @param	array	one or multiple ids
 	 */
-	abstract function readData($a_entity, $a_version, $a_where);
+	abstract function readData($a_entity, $a_version, $a_ids);
 	
 	/**
 	 * Get data from query.This is a standard procedure,
@@ -141,22 +147,36 @@ abstract class ilDataSet
 	 *  </data_set>
 	 */
 	final function getXmlRepresentation($a_entity, $a_target_release,
-		$a_where)
+		$a_ids, $a_field = "")
 	{
 		// step 1: check target release and supported versions
 		
 		// step 2: init writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$writer = new ilXmlWriter();
-		$writer->xmlStartTag('data_set',
-			array("install_id" => IL_INST_ID,
-			"install_url" => ILIAS_HTTP_PATH));
-			
+		$writer->xmlHeader();
+		
+		// collect namespaces
+		$namespaces = $prefixes = array();
+		$this->getNamespaces($namespaces, $a_entity, $a_target_release);
+		$atts = array("install_id" => IL_INST_ID,
+			"install_url" => ILIAS_HTTP_PATH);
+		$cnt = 1;
+		foreach ($namespaces as $entity => $ns)
+		{
+			$prefix = "ns".$cnt;
+			$prefixes[$entity] = $prefix; 
+			$atts["xmlns:".$prefix] = $ns;
+			$cnt++;
+		}
+		
+		$writer->xmlStartTag('data_set', $atts);		
+		
 		// add types
 		$this->addTypesXml($writer, $a_entity, $a_target_release);
 		
 		// add records
-		$this->addRecordsXml($writer, $a_entity, $a_target_release, $a_where);
+		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "");
 		
 		
 		$writer->xmlEndTag("data_set");
@@ -170,9 +190,9 @@ abstract class ilDataSet
 	 * @param
 	 * @return
 	 */
-	function addRecordsXml($a_writer, $a_entity, $a_target_release, $a_where)
+	function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "")
 	{
-		$this->readData($a_entity, $a_target_release, $a_where);		
+		$this->readData($a_entity, $a_target_release, $a_ids, $a_field);
 		if (is_array($this->data))
 		{		
 			foreach ($this->data as $d)
@@ -183,18 +203,18 @@ abstract class ilDataSet
 				foreach ($rec as $f => $c)
 				{
 					// this changes schema/dtd
-					$a_writer->xmlElement($f,
+					$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
 						array(), $c);
 				}
 				$a_writer->xmlEndTag("rec");
 
 				// foreach record records of dependent entities (no record)
-				$deps = $this->getDependencies($a_entity, $a_target_release, $rec, $a_where);
+				$deps = $this->getDependencies($a_entity, $a_target_release, $rec, $a_ids);
 				if (is_array($deps))
 				{
-					foreach ($deps as $dp => $w)
+					foreach ($deps as $dp => $par)
 					{
-						$this->addRecordsXml($a_writer, $dp, $a_target_release, $w["where"]);
+						$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_target_release, $par["ids"], $par["field"]);
 					}
 				}
 			}
@@ -202,12 +222,12 @@ abstract class ilDataSet
 		else if ($this->data === false)
 		{
 			// false -> add records of dependent entities (no record)
-			$deps = $this->getDependencies($a_entity, $a_target_release, null, $a_where);
+			$deps = $this->getDependencies($a_entity, $a_target_release, null, $a_ids);
 			if (is_array($deps))
 			{
-				foreach ($deps as $dp => $w)
+				foreach ($deps as $dp => $par)
 				{
-					$this->addRecordsXml($a_writer, $dp, $a_target_release, $w["where"]);
+					$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_target_release, $par["ids"], $par["field"]);
 				}
 			}
 		}
@@ -246,6 +266,31 @@ abstract class ilDataSet
 			}
 		}
 		
+	}
+	
+	/**
+	 * Get xml namespaces
+	 *
+	 * @param		array		namespaces per entity
+	 * @param		string		entity
+	 * @param		string		target release
+	 */
+	function getNamespaces(&$namespaces, $a_entity, $a_target_release)
+	{
+		$ns = $this->getXmlNamespace($a_entity, $a_target_release);
+		if ($ns != "")
+		{
+			$namespaces[$a_entity] = $ns;
+		}		
+		// add types of dependent entities
+		$deps = $this->getDependencies($a_entity, $a_target_release, null, null);
+		if (is_array($deps))
+		{
+			foreach ($deps as $dp => $w)
+			{
+				$this->getNamespaces($namespaces, $dp, $a_target_release);
+			}
+		}
 	}
 	
 	/**

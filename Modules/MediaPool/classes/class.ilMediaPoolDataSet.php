@@ -36,6 +36,20 @@ class ilMediaPoolDataSet extends ilDataSet
 	}
 	
 	/**
+	 * Get xml namespace
+	 *
+	 * @param
+	 * @return
+	 */
+	function getXmlNamespace($a_entity, $a_target_release)
+	{
+		if ($a_entity != "mep")
+		{
+			return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
+		}
+	}
+	
+	/**
 	 * Get field types for entity
 	 *
 	 * @param
@@ -89,9 +103,14 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function readData($a_entity, $a_version, $a_where)
+	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
 		global $ilDB;
+
+		if (!is_array($a_ids))
+		{
+			$a_ids = array($a_ids);
+		}
 		
 		// mep (no data, only dependent records)
 		if ($a_entity == "mep")
@@ -106,7 +125,7 @@ class ilMediaPoolDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT * FROM mep_data WHERE ".
-						" id = ".$ilDB->quote($a_where["id"], "integer"));
+						$ilDB->in("id", $a_ids, false, "integer"));
 					break;
 			}
 		}	
@@ -121,7 +140,7 @@ class ilMediaPoolDataSet extends ilDataSet
 						" ,parent,lft,rgt,depth,type,title,foreign_id ".
 						" FROM mep_tree JOIN mep_item ON (child = obj_id) ".
 						" WHERE ".
-						" mep_id = ".$ilDB->quote($a_where["mep_id"], "integer").
+						$ilDB->in("mep_id", $a_ids, false, "integer").
 						" ORDER BY depth");
 					break;
 			}
@@ -131,16 +150,18 @@ class ilMediaPoolDataSet extends ilDataSet
 	/**
 	 * Determine the dependent sets of data 
 	 */
-	protected function getDependencies($a_entity, $a_version, $a_rec, $a_where)
+	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
 		switch ($a_entity)
 		{
 			case "mep":
 				return array (
-					"mep_data" => array(
-						"where" => array("id" => $a_where["id"])),
-					"mep_tree" => array(
-						"where" => array("mep_id" => $a_where["id"]))
+					"mep_data" => array("ids" => $a_ids)
+				);
+			
+			case "mep_data":
+				return array (
+					"mep_tree" => array("ids" => $a_rec["id"])
 				);
 		}
 		return false;

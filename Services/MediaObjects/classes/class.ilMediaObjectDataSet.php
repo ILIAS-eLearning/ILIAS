@@ -40,6 +40,17 @@ class ilMediaObjectDataSet extends ilDataSet
 	}
 	
 	/**
+	 * Get xml namespace
+	 *
+	 * @param
+	 * @return
+	 */
+	function getXmlNamespace($a_entity, $a_target_release)
+	{
+		return "http://www.ilias.de/xml/Services/MediaObject/".$a_entity;
+	}
+	
+	/**
 	 * Get field types for entity
 	 *
 	 * @param
@@ -128,20 +139,21 @@ class ilMediaObjectDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function readData($a_entity, $a_version, $a_where)
+	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
 		global $ilDB;
-		
+
+		if (!is_array($a_ids))
+		{
+			$a_ids = array($a_ids);
+		}
+
 		// mob
 		if ($a_entity == "mob")
 		{
 			$this->data = array();
-			if (!is_array($a_where["id"]))
-			{
-				$a_where["id"] = array($a_where["id"]);
-			}
 			
-			foreach ($a_where["id"] as $mob_id)
+			foreach ($a_ids as $mob_id)
 			{
 				if (ilObject::_lookupType($mob_id) == "mob")
 				{
@@ -161,7 +173,7 @@ class ilMediaObjectDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign,".
 						"caption, nr, purpose, location, location_type, format, param, text_representation".
 						" FROM media_item WHERE ".
-						" mob_id = ".$ilDB->quote($a_where["mob_id"], "integer"));
+						$ilDB->in("mob_id", $a_ids, false, "integer"));
 					break;
 			}
 		}	
@@ -177,7 +189,7 @@ class ilMediaObjectDataSet extends ilDataSet
 						" ,shape, coords, link_type, title, href, target, type, target_frame ".
 						" FROM map_area ".
 						" WHERE ".
-						" item_id = ".$ilDB->quote($a_where["mi_id"], "integer").
+						$ilDB->in("item_id", $a_ids, false, "integer").
 						" ORDER BY nr");
 					break;
 			}
@@ -192,7 +204,7 @@ class ilMediaObjectDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value ".
 						" FROM mob_parameter ".
 						" WHERE ".
-						" med_item_id = ".$ilDB->quote($a_where["mi_id"], "integer"));
+						$ilDB->in("med_item_id", $a_ids, false, "integer"));
 					break;
 			}
 		}			
@@ -202,22 +214,19 @@ class ilMediaObjectDataSet extends ilDataSet
 	/**
 	 * Determine the dependent sets of data 
 	 */
-	protected function getDependencies($a_entity, $a_version, $a_rec, $a_where)
+	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
 		switch ($a_entity)
 		{
 			case "mob":
 				return array (
-					"mob_media_item" => array(
-						"where" => array("mob_id" => $a_rec["id"]))
+					"mob_media_item" => array("ids" => $a_rec["id"])
 				);
 				
 			case "mob_media_item":
 				return array (
-					"mob_mi_map_area" => array(
-						"where" => array("mi_id" => $a_rec["id"])),
-					"mob_mi_parameter" => array(
-						"where" => array("mi_id" => $a_rec["id"]))
+					"mob_mi_map_area" => array("ids" => $a_rec["id"]),
+					"mob_mi_parameter" => array("ids" => $a_rec["id"])
 				);
 		}
 		return false;
