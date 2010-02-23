@@ -266,6 +266,21 @@ class ilExport
 	//// New functions coming with 4.1 export revision
 	////
 	
+	/***
+	 * 
+	 * - Walk through sequence
+	 * - Each step in sequence creates one xml file,
+	 *   e.g. Services/Mediapool/set_1.xml
+	 * - manifest.xml lists all files
+	 * 
+	 * <manifest>
+	 * <xmlfile path="Services/Mediapool/set_1.xml"/>
+	 * ...
+	 * </manifest
+	 *    
+	 * 
+	 */
+	
 	/**
 	 * Export a repository object
 	 *
@@ -303,7 +318,7 @@ class ilExport
 					$ds_class = "il".$s["ds_class"];
 					$success = false;
 					$ds = new $ds_class();
-					$xml = $ds->getXmlRepresentation($s["entity"], $a_target_release, $s["where"]);
+					$xml = $ds->getXmlRepresentation($s["entity"], $a_target_release, $s["ids"]);
 					
 $tpl->setContent($tpl->main_content."<pre>".htmlentities(str_replace(">", ">\n", $xml))."</pre>");
 				}

@@ -26,12 +26,12 @@ class ilMediaPoolExport2
 				"component" => "Services/MediaObjects",
 				"ds_class" => "MediaObjectDataSet",
 				"entity" => "mob",
-				"where" => array("id" => $mob_ids)),
+				"ids" => $mob_ids),
 			array(
 				"component" => "Modules/MediaPool",
 				"ds_class" => "MediaPoolDataSet",
 				"entity" => "mep",
-				"where" => array("id" => $a_id))
+				"ids" => $a_id)
 			);
 	}
 }
