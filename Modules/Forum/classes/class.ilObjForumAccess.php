@@ -274,20 +274,8 @@ class ilObjForumAccess extends ilObjectAccess
 	function prepareMessageForLists($text)
 	{
 		// remove quotings
-		$text_old = "";		
 		$text = strip_tags($text);
-		
-		while($text != $text_old)
-		{
-			$text_old = $text;
-			$e = ilStr::strPos($text, "[/quote]");		// first end tag
-			$s = ilStr::strrPos($text, "[quote", $e - ilStr::strLen($text));		// last begin tag before first end tag
-			if ($e > $s && is_int($s))
-			{
-				$text = ilStr::subStr($text, 0, $s).' '.ilStr::subStr($text, $e+8);
-			}
-		}
-		
+		$text = preg_replace('/\[(\/)?quote\]/', '', $text);
 		if(ilStr::strLen($text) > 40)
 		{
 			$text = ilStr::subStr($text, 0, 37).'...';

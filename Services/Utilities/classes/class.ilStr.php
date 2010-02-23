@@ -59,7 +59,15 @@ class ilStr
 	{
 		if (function_exists("mb_strrpos"))
 		{
-			return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+			// only for php version 5.2.0 and above
+			if( version_compare(PHP_VERSION, '5.2.0', '>=') )
+			{
+				return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+			}
+			else
+			{
+				return mb_strrpos($a_haystack, $a_needle, "UTF-8");
+			}
 		}
 		else
 		{
