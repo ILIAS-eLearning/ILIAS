@@ -25,6 +25,8 @@ define ("IL_NO_HEADER", "none");
 */
 class ilPageObject
 {
+	static $exists = array();
+	
 	var $id;
 	var $ilias;
 	var $dom;
@@ -250,16 +252,23 @@ class ilPageObject
 	{
 		global $ilDB;
 		
+		if (isset(self::$exists[$a_parent_type.":".$a_id]))
+		{
+			return self::$exists[$a_parent_type.":".$a_id];
+		}
+		
 		$query = "SELECT page_id FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
 			"AND parent_type= ".$ilDB->quote($a_parent_type, "text");
 
 		$set = $ilDB->query($query);
 		if ($row = $ilDB->fetchAssoc($set))
 		{
+			self::$exists[$a_parent_type.":".$a_id] = true;
 			return true;
 		}
 		else
 		{
+			self::$exists[$a_parent_type.":".$a_id] = false;
 			return false;
 		}
 	}
@@ -2030,7 +2039,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 				{
 					$mob_obj = new ilObjMediaObject($mob);
-					$usages = $mob_obj->getUsages();
+					$usages = $mob_obj->getUsages(false);
 					if (count($usages) == 0)	// delete, if no usage exists
 					{
 						$mob_obj->delete();

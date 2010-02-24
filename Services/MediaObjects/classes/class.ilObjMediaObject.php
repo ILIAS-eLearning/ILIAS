@@ -894,9 +894,9 @@ class ilObjMediaObject extends ilObject
 	/**
 	* get all usages of current media object
 	*/
-	function getUsages()
+	function getUsages($a_include_history = true)
 	{
-		return $this->lookupUsages($this->getId());
+		return $this->lookupUsages($this->getId(), $a_include_history);
 	}
 	
 	/**
@@ -904,13 +904,20 @@ class ilObjMediaObject extends ilObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id)
+	function lookupUsages($a_id, $a_include_history = true)
 	{
 		global $ilDB;
 
+		$hist_str = "";
+		if ($a_include_history)
+		{
+			$hist_str = ", usage_hist_nr";
+		}
+		
 		// get usages in pages
-		$q = "SELECT * FROM mob_usage WHERE id = ".
+		$q = "SELECT DISTINCT usage_type, usage_id".$hist_str." FROM mob_usage WHERE id = ".
 			$ilDB->quote($a_id, "integer");
+
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $ilDB->fetchAssoc($us_set))
