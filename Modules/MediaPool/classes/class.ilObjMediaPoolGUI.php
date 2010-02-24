@@ -1287,7 +1287,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$xml = $ds->getXmlRepresentation("mep", "4.1.0", array("id" => $this->object->getId()));*/
 
 		include_once("./Services/Export/classes/class.ilExport.php");
-		ilExport::_createRepositoryExportXmlFile("Modules/MediaPool", "mep",
+		ilExport::_createExportXmlFileFromObjectType("Modules/MediaPool", "mep",
 			$this->object->getId(), "4.1.0");
 		
 	}

@@ -169,17 +169,12 @@ class ilContObjectExport
 		*/
 
 		// dump xml document to file
-		$ilBench->start("ContentObjectExport", "buildExportFile_dumpToFile");
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_dumpToFile");
 
 		// zip the file
-		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
-//echo "-".$this->export_dir."/".$this->subdir."-";
 		ilUtil::zip($this->export_dir."/".$this->subdir,
 			$this->export_dir."/".$this->subdir.".zip");
-		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
 
 		// destroy writer object
 		$this->xml->_XmlWriter;

@@ -67,7 +67,8 @@ class ilMediaObjectDataSet extends ilDataSet
 					return array(
 						"id" => "integer",
 						"title" => "text",
-						"description" => "text"
+						"description" => "text",
+						"dir" => "directory"
 						);
 			}
 		}
@@ -231,6 +232,22 @@ class ilMediaObjectDataSet extends ilDataSet
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Get xml record
+	 *
+	 * @param
+	 * @return
+	 */
+	function getXmlRecord($a_entity, $a_version, $a_set)
+	{
+		if ($a_entity == "mob")
+		{
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			$dir = ilObjMediaObject::_getDirectory($a_set["id"]);
+			$a_set["dir"] = $dir;
+		}
+		return $a_set;
+	}
 }
 ?>

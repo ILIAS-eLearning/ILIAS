@@ -23,6 +23,8 @@
 */
 abstract class ilDataSet
 {
+	var $dircnt;
+	
 	/**
 	 * Constructor
 	 */
@@ -79,6 +81,18 @@ abstract class ilDataSet
 	 * @param	array	one or multiple ids
 	 */
 	abstract function readData($a_entity, $a_version, $a_ids);
+	
+	/**
+	 * Set export directories
+	 *
+	 * @param
+	 * @return
+	 */
+	function setExportDirectories($a_relative, $a_absolute)
+	{
+		$this->relative_export_dir = $a_relative;
+		$this->absolute_export_dir = $a_absolute;
+	}
 	
 	/**
 	 * Get data from query.This is a standard procedure,
@@ -148,8 +162,12 @@ abstract class ilDataSet
 	 */
 	final function getXmlRepresentation($a_entity, $a_target_release,
 		$a_ids, $a_field = "")
-	{
+	{	
+		$this->dircnt = 1;
+		
 		// step 1: check target release and supported versions
+		
+		
 		
 		// step 2: init writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
@@ -180,9 +198,12 @@ abstract class ilDataSet
 		
 		
 		$writer->xmlEndTag("data_set");
+global $tpl;		
+$tpl->setContent($tpl->main_content."<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>");
 		
 		return $writer->xmlDumpMem(false);
 	}
+	
 	
 	/**
 	 * Add records xml
@@ -192,6 +213,8 @@ abstract class ilDataSet
 	 */
 	function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "")
 	{
+		$types = $this->getXmlTypes($a_entity, $a_target_release);
+		
 		$this->readData($a_entity, $a_target_release, $a_ids, $a_field);
 		if (is_array($this->data))
 		{		
@@ -202,6 +225,20 @@ abstract class ilDataSet
 				$rec = $this->getXmlRecord($a_entity, $a_target_release, $d);
 				foreach ($rec as $f => $c)
 				{
+					switch ($types[$f])
+					{
+						case "directory":
+							if ($this->absolute_export_dir != "" && $this->relative_export_dir != "")
+							{
+								ilUtil::makeDir($this->absolute_export_dir."/dir_".$this->dircnt);
+								ilUtil::rCopy($c, $this->absolute_export_dir."/dir_".$this->dircnt);
+//echo "<br>copy-".$c."-".$this->absolute_export_dir."/dir_".$this->dircnt."-";
+								$c = $this->relative_export_dir."/dir_".$this->dircnt;
+								$this->dircnt++;
+							}
+							break;
+					}	
+					
 					// this changes schema/dtd
 					$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
 						array(), $c);
@@ -301,7 +338,7 @@ abstract class ilDataSet
 	 */
 	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
-		return $a_set;		
+		return $a_set;
 	}
 	
 	/**
