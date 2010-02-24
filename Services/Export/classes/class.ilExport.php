@@ -287,12 +287,18 @@ class ilExport
 	 * @param
 	 * @return
 	 */
-	static function _createRepositoryExportXmlFile($a_comp, $a_type, $a_id, $a_target_release, $a_config = "")
+	static function _createExportXmlFileFromObjectType($a_comp, $a_type, $a_id, $a_target_release, $a_config = "")
 	{
 		global $objDefinition, $tpl;
-		
+				
 		$class = $objDefinition->getClassName($a_type);
 		
+		// manifest writer
+		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+		$manifest_writer = new ilXmlWriter();
+		$manifest_writer->xmlHeader();
+		$manifest_writer->xmlStartTag('manifest', array());
+
 		// get export class
 		$success = true;
 		$export_class_file = "./".$a_comp."/classes/class.il".$class."Export2.php";
@@ -302,11 +308,16 @@ class ilExport
 		}
 		if ($success)
 		{
+			ilExport::_createExportDirectory($a_id, "xml", $a_type);
+			$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
+			$ts = time();
+			$export_run_dir = $export_dir."/".$ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+			
 			$class = "il".$class."Export2";
 			include_once($export_class_file);
 			$export = new $class();
 			$sequence = $export->getXmlExportSequence($a_target_release, $a_id);
-			
+			$cnt = array();
 			// work through export sequence
 			foreach ($sequence as $s)
 			{
@@ -314,19 +325,49 @@ class ilExport
 				$dataset_file = "./".$s["component"]."/classes/class.il".$s["ds_class"].".php";
 				if (is_file($dataset_file))
 				{
+					if (!isset($cnt[$s["component"]]))
+					{
+						$cnt[$s["component"]] = 1;
+					}
+					else
+					{
+						$cnt[$s["component"]]++;
+					}
+					
 					include_once($dataset_file);
 					$ds_class = "il".$s["ds_class"];
 					$success = false;
 					$ds = new $ds_class();
+					
+					$set_dir_relative = $s["component"]."/set_".$cnt[$s["component"]];
+					$set_dir_absolute = $export_run_dir."/".$set_dir_relative;
+					ilUtil::makeDirParents($set_dir_absolute);
+					$ds->setExportDirectories($set_dir_relative, $set_dir_absolute);
+
 					$xml = $ds->getXmlRepresentation($s["entity"], $a_target_release, $s["ids"]);
 					
-$tpl->setContent($tpl->main_content."<pre>".htmlentities(str_replace(">", ">\n", $xml))."</pre>");
+					$file = $set_dir_absolute."/dataset.xml"; 
+					if ($fp = @fopen($file,"w+"))
+					{
+						// set file permissions
+						chmod($file, 0770);
+						fwrite($fp, $xml);
+						fclose($fp);
+					}
+					
+					$manifest_writer->xmlElement("xmlfile",
+						array("path" => $set_dir_relative."/dataset.xml"));
 				}
 			}
 			
 		}
 		
-		
+		$manifest_writer->xmlEndTag('manifest');
+
+$tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDumpMem(true))."</pre>");
+	
+		$manifest_writer->xmlDumpFile($export_run_dir."/manifest.xml", false);
+//echo "-".$export_run_dir."-";
 	
 		return array(
 			"success" => $success,
