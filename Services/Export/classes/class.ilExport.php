@@ -282,15 +282,16 @@ class ilExport
 	 */
 	
 	/**
-	 * Export a repository object
+	 * Export an ILIAS object (the object type must be known by objDefinition)
 	 *
 	 * @param
 	 * @return
 	 */
-	static function _createExportXmlFileFromObjectType($a_comp, $a_type, $a_id, $a_target_release, $a_config = "")
+	static function _exportObject($a_type, $a_id, $a_target_release, $a_config = "")
 	{
 		global $objDefinition, $tpl;
 				
+		$comp = $objDefinition->getComponentForType($a_type);
 		$class = $objDefinition->getClassName($a_type);
 		
 		// manifest writer
@@ -301,7 +302,7 @@ class ilExport
 
 		// get export class
 		$success = true;
-		$export_class_file = "./".$a_comp."/classes/class.il".$class."Export2.php";
+		$export_class_file = "./".$comp."/classes/class.il".$class."Export2.php";
 		if (!is_file($export_class_file))
 		{
 			$success = false;
@@ -356,7 +357,7 @@ class ilExport
 					}
 					
 					$manifest_writer->xmlElement("xmlfile",
-						array("path" => $set_dir_relative."/dataset.xml"));
+						array("component" => $s["component"], "path" => $set_dir_relative."/dataset.xml"));
 				}
 			}
 			

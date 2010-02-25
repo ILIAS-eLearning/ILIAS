@@ -251,9 +251,10 @@ class ilPageObject
 	static function _exists($a_parent_type, $a_id)
 	{
 		global $ilDB;
-		
+//echo "<br>".$a_parent_type."-".$a_id;
 		if (isset(self::$exists[$a_parent_type.":".$a_id]))
 		{
+//echo "***HIT";
 			return self::$exists[$a_parent_type.":".$a_id];
 		}
 		
@@ -1583,6 +1584,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		$this->buildDom();
 		
+		$changed = false;
+		
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -1597,10 +1600,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg")
 				{
 					$res->nodeset[$i]->set_attribute("Target", "il__pg_".$a_from_to[$obj_id]);
+					$changed = true;
 				}
 				if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st")
 				{
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
+					$changed = true;
 				}
 			}
 		}
@@ -1697,6 +1702,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			// correct map area links
 			if ($correction_needed)
 			{
+				$changed = true;
 				$std_alias_item->deleteAllMapAreas();
 				foreach($areas as $area)
 				{
@@ -1731,6 +1737,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		unset($xpc);
 
+		return $changed;
 	}
 
 	/**
@@ -1902,13 +1909,16 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* update complete page content in db (dom xml content is used)
 	*/
-	function update($a_validate = true, $a_no_history = false)
+	function update($a_validate = true, $a_no_history = false, $skip_handle_usages = false)
 	{
 		global $lng, $ilDB, $ilUser, $ilLog, $ilCtrl;
+		
+//echo "<br>**".$this->getId()."**";
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom());
+
 		// add missing pc ids
 		if (!$this->checkPCIds())
 		{
@@ -2028,51 +2038,54 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 //			$this->ilias->db->query($query);
 			
-			// handle media object usage
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$mob_ids = ilObjMediaObject::_getMobsOfObject(
-				$this->getParentType().":pg", $this->getId());
-			$this->saveMobUsage($this->getXMLFromDom());
-			$this->saveMetaKeywords($this->getXMLFromDom());
-			foreach($mob_ids as $mob)	// check, whether media object can be deleted
+			if (!$skip_handle_usages)
 			{
-				if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+				// handle media object usage
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$mob_ids = ilObjMediaObject::_getMobsOfObject(
+					$this->getParentType().":pg", $this->getId());
+				$this->saveMobUsage($this->getXMLFromDom());
+				$this->saveMetaKeywords($this->getXMLFromDom());
+				foreach($mob_ids as $mob)	// check, whether media object can be deleted
 				{
-					$mob_obj = new ilObjMediaObject($mob);
-					$usages = $mob_obj->getUsages(false);
-					if (count($usages) == 0)	// delete, if no usage exists
+					if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 					{
-						$mob_obj->delete();
-					}
-				}
-			}
-			
-			// handle file usages
-			include_once("./Modules/File/classes/class.ilObjFile.php");
-			$file_ids = ilObjFile::_getFilesOfObject(
-				$this->getParentType().":pg", $this->getId());
-			$this->saveFileUsage();
-			foreach($file_ids as $file)	// check, whether file object can be deleted
-			{
-				if (ilObject::_exists($file))
-				{
-					$file_obj = new ilObjFile($file, false);
-					$usages = $file_obj->getUsages();
-					if (count($usages) == 0)	// delete, if no usage exists
-					{
-						if ($file_obj->getMode() == "filelist")		// non-repository object
+						$mob_obj = new ilObjMediaObject($mob);
+						$usages = $mob_obj->getUsages(false);
+						if (count($usages) == 0)	// delete, if no usage exists
 						{
-							$file_obj->delete();
+							$mob_obj->delete();
 						}
 					}
 				}
+				
+				// handle file usages
+				include_once("./Modules/File/classes/class.ilObjFile.php");
+				$file_ids = ilObjFile::_getFilesOfObject(
+					$this->getParentType().":pg", $this->getId());
+				$this->saveFileUsage();
+				foreach($file_ids as $file)	// check, whether file object can be deleted
+				{
+					if (ilObject::_exists($file))
+					{
+						$file_obj = new ilObjFile($file, false);
+						$usages = $file_obj->getUsages();
+						if (count($usages) == 0)	// delete, if no usage exists
+						{
+							if ($file_obj->getMode() == "filelist")		// non-repository object
+							{
+								$file_obj->delete();
+							}
+						}
+					}
+				}
+				
+				// save style usage
+				$this->saveStyleUsage($this->getXMLFromDom());
+				
+				// save content include usage
+				$this->saveContentIncludeUsage($this->getXMLFromDom());
 			}
-			
-			// save style usage
-			$this->saveStyleUsage($this->getXMLFromDom());
-			
-			// save content include usage
-			$this->saveContentIncludeUsage($this->getXMLFromDom());
 			
 			// save internal link information
 			$this->saveInternalLinks($this->getXMLFromDom());

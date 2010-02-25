@@ -592,12 +592,17 @@ class ilLMObject
 	*
 	* @return	int		id
 	*/
-	function _getAllObjectsForImportId($a_import_id)
+	function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
 	{
 		global $ilDB;
 		
+		$where = ($a_in_lm > 0)
+			? " AND lm_id = ".$ilDB->quote($a_in_lm, "integer")." "
+			: "";
+		
 		$q = "SELECT * FROM lm_data WHERE import_id = ".
 			$ilDB->quote($a_import_id, "text")." ".
+			$where.
 			" ORDER BY create_date DESC";
 		$obj_set = $ilDB->query($q);
 		
@@ -981,6 +986,7 @@ class ilLMObject
 	*/
 	static function updateInternalLinks($a_copied_nodes, $a_parent_type = "lm")
 	{
+		$all_fixes = array();
 		foreach($a_copied_nodes as $original_id => $copied_id)
 		{
 			$copied_type = ilLMObject::_lookupType($copied_id);
@@ -1016,20 +1022,22 @@ class ilLMObject
 						else
 						{
 							// now check, if a copy if the target is already in the same lm
-							$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
-							$found = false;
-
-							foreach($lm_data as $item)
-							{
-								if (!$found && ($item["lm_id"] == $copy_lm))
-								{
-									$fix[$target["id"]] = $item["obj_id"];
-								}
-							}
 							
-							if (!$found)
+							// only if target is not already in the same lm!
+							$trg_lm = ilLMObject::_lookupContObjID($target["id"]);
+							if ($trg_lm != $copy_lm)
 							{
-								// we now could look for copies next to the copy lm
+								$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
+								$found = false;
+	
+								foreach($lm_data as $item)
+								{
+									if (!$found && ($item["lm_id"] == $copy_lm))
+									{
+										$fix[$target["id"]] = $item["obj_id"];
+										$found = true;
+									}
+								}
 							}
 						}
 					}
@@ -1038,9 +1046,20 @@ class ilLMObject
 				// outgoing links to be fixed
 				if (count($fix) > 0)
 				{
-					$page = new ilPageObject(ilObject::_lookupType($copy_lm), $copied_id);
-					$page->moveIntLinks($fix);
-					$page->update();
+//echo "<br>--".$copied_id;
+//var_dump($fix);
+					$t = ilObject::_lookupType($copy_lm);
+					if (is_array($all_fixes[$t.":".$copied_id]))
+					{
+						$all_fixes[$t.":".$copied_id] += $fix;
+					}
+					else
+					{
+						$all_fixes[$t.":".$copied_id] = $fix;
+					}
+//					$page = new ilPageObject(ilObject::_lookupType($copy_lm), $copied_id);
+//					$page->moveIntLinks($fix);
+//					$page->update();
 				}
 			}
 			
@@ -1058,65 +1077,105 @@ class ilLMObject
 				$original_lm = ilLMObject::_lookupContObjID($original_id);
 				$original_type = ilObject::_lookupType($original_lm);
 				
-				
-				// This gets sources that link to A+B (so we have C here)
-				// (this also does already the trick when instance map areas are given in C)
-				$sources = ilInternalLink::_getSourcesOfTarget($copied_type,
-					$original_id, 0);
-				
-				// mobs linking to $original_id
-				$mobs = ilMapArea::_getMobsForTarget("int", "il__".$copied_type.
-					"_".$original_id);
-				
-				// pages using these mobs
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-				foreach($mobs as $mob)
+				if ($original_lm != $copy_lm)
 				{
-					$usages = ilObjMediaObject::lookupUsages($mob);
-					foreach($usages as $usage)
+				
+					// This gets sources that link to A+B (so we have C here)
+					// (this also does already the trick when instance map areas are given in C)
+	// int_link, where target_type, target_id, target_inst -> ok
+					$sources = ilInternalLink::_getSourcesOfTarget($copied_type,
+						$original_id, 0);
+					
+					// mobs linking to $original_id
+	// map_area, where link_type, target -> ok
+					$mobs = ilMapArea::_getMobsForTarget("int", "il__".$copied_type.
+						"_".$original_id);
+					
+					// pages using these mobs
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+					foreach($mobs as $mob)
 					{
-						if ($usage["type"] == "lm:pg" | $usage["type"] == "lm:st")
+	// mob_usage, where id -> ok
+	// mep_item, where foreign_id, type -> ok
+	// mep_tree, where child -> already existed
+	// il_news_item, where mob_id -> ok
+	// map_area, where link_type, target -> aready existed
+	// media_item, where id -> already existed
+	// personal_clipboard, where item_id, type -> ok
+						$usages = ilObjMediaObject::lookupUsages($mob);
+						foreach($usages as $usage)
 						{
-							$sources[] = $usage;
-						}
-					}
-				}
-				$fix = array();
-				foreach($sources as $source)
-				{
-					$stype = explode(":", $source["type"]);
-					$source_type = $stype[1];
-
-					if ($source_type == "pg" || $source_type == "st")
-					{
-						// check, if a copy if the source is already in the same lm
-						// now we look for the latest copy of C in LM2
-						$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$source_type."_".$source["id"]);
-						$found = false;
-						foreach($lm_data as $item)
-						{
-							if (!$found && ($item["lm_id"] == $copy_lm))
+							if ($usage["type"] == "lm:pg" | $usage["type"] == "lm:st")
 							{
-								$fix[$item["obj_id"]][$original_id] = $copied_id;
+								$sources[] = $usage;
 							}
 						}
-						
-						if (!$found)
+					}
+					$fix = array();
+					foreach($sources as $source)
+					{
+						$stype = explode(":", $source["type"]);
+						$source_type = $stype[1];
+	
+						if ($source_type == "pg" || $source_type == "st")
 						{
-							// we now could look for copies next to the copy lm
+							// first of all: source must be in original lm
+							$src_lm = ilLMObject::_lookupContObjID($source["id"]);
+							
+							if ($src_lm == $original_lm)
+							{
+								// check, if a copy if the source is already in the same lm
+								// now we look for the latest copy of C in LM2
+								$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$source_type."_".$source["id"],
+									$copy_lm);
+								$found = false;
+								foreach ($lm_data as $item)
+								{
+									if (!$found)
+									{
+										$fix[$item["obj_id"]][$original_id] = $copied_id;
+										$found = true;
+									}
+								}
+							}
+						}
+					}
+					// outgoing links to be fixed
+					if (count($fix) > 0)
+					{
+						foreach ($fix as $page_id => $fix_array)
+						{
+//echo "<br>++".$page_id;
+//var_dump($fix_array);
+	
+							$t = ilObject::_lookupType($copy_lm);
+							if (is_array($all_fixes[$t.":".$page_id]))
+							{
+								$all_fixes[$t.":".$page_id] += $fix_array;
+							}
+							else
+							{
+								$all_fixes[$t.":".$page_id] = $fix_array;
+							}
+	
+//							$page = new ilPageObject(ilObject::_lookupType($copy_lm), $page_id);
+//							$page->moveIntLinks($fix_array);
+//							$page->update();
 						}
 					}
 				}
-				// outgoing links to be fixed
-				if (count($fix) > 0)
-				{
-					foreach ($fix as $page_id => $fix_array)
-					{
-						$page = new ilPageObject(ilObject::_lookupType($copy_lm), $page_id);
-						$page->moveIntLinks($fix_array);
-						$page->update();
-					}
-				}
+			}
+		}
+		
+		foreach ($all_fixes as $pg => $fixes)
+		{
+//echo "<br>**".$pg;
+//echo var_dump($fixes);
+			$pg = explode(":", $pg);
+			$page = new ilPageObject($pg[0], $pg[1]);
+			if ($page->moveIntLinks($fixes))
+			{
+				$page->update(true, true, true);
 			}
 		}
 	}

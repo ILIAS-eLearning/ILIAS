@@ -736,6 +736,24 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
+	* Get component for object type
+	*/
+	static function getComponentForType($a_obj_type)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->queryF("SELECT component FROM il_object_def WHERE id = %s",
+			array("text"), array($a_obj_type));
+			
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["component"];
+		}
+		
+		return "";
+	}
+	
+	/**
 	* Get grouped repository object types
 	*/
 	static function getGroupedRepositoryObjectTypes($a_parent_obj_type)

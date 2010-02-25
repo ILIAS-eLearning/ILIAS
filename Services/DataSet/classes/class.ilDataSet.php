@@ -178,7 +178,7 @@ abstract class ilDataSet
 		$namespaces = $prefixes = array();
 		$this->getNamespaces($namespaces, $a_entity, $a_target_release);
 		$atts = array("install_id" => IL_INST_ID,
-			"install_url" => ILIAS_HTTP_PATH);
+			"install_url" => ILIAS_HTTP_PATH, "top_entity" => $a_entity);
 		$cnt = 1;
 		foreach ($namespaces as $entity => $ns)
 		{
