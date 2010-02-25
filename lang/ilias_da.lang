@@ -419,7 +419,7 @@ common#:#available#:#Tilgængelig
 common#:#available_languages#:#TIlgængelige sprog
 common#:#average_time#:#Gennemsnitstid
 common#:#back#:#Tilbage
-common#:#back_to_crs_content#:#Tilbage til kurusindhold
+common#:#back_to_crs_content#:#Tilbage til kursusindhold
 common#:#back_to_fold_content#:#Tilbage til folderindhold
 common#:#back_to_grp_content#:#Tilbage til gruppeindhold
 common#:#basedn#:#BaseDN
@@ -3007,11 +3007,11 @@ assessment#:#assClozeTest#:#Cloze spørgsmål
 assessment#:#assImagemapQuestion#:#Billedklik spørgsmål
 assessment#:#assJavaApplet#:#Java applet spørgsmål
 assessment#:#assMatchingQuestion#:#Match spørgsmål
-assessment#:#assMultipleChoice#:#Multiple choice spørgsmål (flere svar)
+assessment#:#assMultipleChoice#:#Multiple choice, flere svar
 assessment#:#assNumeric#:#Numerisk spørgsmål
 assessment#:#assOrderingQuestion#:#Sorteringsspørgsmål
 assessment#:#assQuestions#:#Spørgsmål
-assessment#:#assSingleChoice#:#Multiple choice spørgsmål (enkelt svar)
+assessment#:#assSingleChoice#:#Multiple choice, enkelt
 assessment#:#assTextQuestion#:#Fritekst spørgsmål
 assessment#:#assTextSubset#:#Tekst subset question
 assessment#:#ass_create_export_file#:#Opret eksportfil
@@ -3222,7 +3222,7 @@ assessment#:#externalscript_additional_parameters_hint#:#Enter the additional sc
 assessment#:#failed_official#:#Fejl
 assessment#:#failed_short#:#Fejl
 assessment#:#false#:#Falsk
-assessment#:#feedback_answers#:#Feedback for every answer of the question###29 11 2006 new variable
+assessment#:#feedback_answers#:#Feedback på hver enkelt besvarelse
 assessment#:#feedback_complete_solution#:#Korrekt besvaret
 assessment#:#feedback_incomplete_solution#:#Mindst et svar forkert
 assessment#:#fill_out_all_answer_fields#:#Udfyld venligst alle svarfelter før du tilføjer en ny!
@@ -3282,7 +3282,7 @@ assessment#:#log_user_data_removed#:#Alle brugerdata slettet
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#Bruger har ikke angivet nogen værdi
 assessment#:#maintenance#:#Vedligeholdelse
-assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
+assessment#:#manscoring#:#Manuelle karakterer
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.###29 11 2006 new variable
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
 assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.###29 11 2006 new variable
@@ -3491,7 +3491,7 @@ assessment#:#tst_allowed_users#:#Maksimalt antal simultane brugere på denne tes
 assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
 assessment#:#tst_already_submitted#:#Testen er allerede udført og indsendt.
 assessment#:#tst_already_taken#:#Test er allerede taget
-assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
+assessment#:#tst_anonymity#:#Anonymitet
 assessment#:#tst_anonymity_description#:#Hvis anonymitet er slået til bliver deltagernes navne skjult.
 assessment#:#tst_answer_sheet#:#Test Answer Sheet###17 Aug 2005 new variable
 assessment#:#tst_answered_questions#:#Besvarede spørgsmål
@@ -3642,11 +3642,11 @@ assessment#:#tst_random_nr_of_questions#:#Hvor mange spørgsmål?
 assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###21 Apr 2005 new variable
 assessment#:#tst_random_questionpools#:#Source questionpools###21 Apr 2005 new variable
 assessment#:#tst_random_select_questionpool#:#Vælg spørgsmålsgruppen du vil vælge spørgsmål fra.
-assessment#:#tst_random_selection#:#Brug tilfældig udvælgelse
+assessment#:#tst_random_selection#:#Tilfældig udvælgelse
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
 assessment#:#tst_random_test#:#Vilkårlig test
-assessment#:#tst_random_test_description#:#Hvis afkrydset vælges testspørgsmålene tilfældigt.
+assessment#:#tst_random_test_description#:#Hvis afkrydset sorteres testspørsgmålene i tilfældig rækkefølge.
 assessment#:#tst_reached_points#:#Opnåede point
 assessment#:#tst_remove_questions#:#Er du sikker på du vil fjerne de følgende spørgsmål fra denne test?
 assessment#:#tst_remove_questions_and_results#:#Denne test er allerede blevet taget af %s brugere. Hvis du fjerner spørgsmål fra denne test fjerner du også alle resultater fra disse brugere. Er du sikker på du vil fjerne følgende spørgsmål fra denne test?
@@ -4675,7 +4675,7 @@ crs#:#crs_auto_fill#:#Automatisk udfyldning
 crs#:#crs_availability_limitless_info#:#Vælg denne indstilling for at gøre kurset tilgængeligt for brugere. Adgangen afhænger af indstillingerne nedenfor.
 crs#:#crs_availability_until_info#:#Vælg denne indstilling før at gøre kurset tilgængeligt for brugere/kursuster i en begrænset periode.
 crs#:#crs_availability_unvisible_info#:#Vælg denne indstilling mens du forbereder kurset. Kun kursusadministratorer og tutorer kan se og redigere kurset.
-crs#:#crs_blocked#:#Adgæng nægtet
+crs#:#crs_blocked#:#Ingen adgang
 crs#:#crs_blocked_member#:#Kursusdeltagere status %s
 crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet afbrudt %s.
 crs#:#crs_cancel_subscription#:#Afmelding fra %s
@@ -5068,8 +5068,8 @@ crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#Ny session
 crs#:#event_table_update#:#Rediger session
 crs#:#event_tbl_participants#:#Liste over deltagere
-crs#:#event_tbl_participated#:#Participated
-crs#:#event_tbl_registered#:#Registered
+crs#:#event_tbl_participated#:#Deltog
+crs#:#event_tbl_registered#:#Tilmeldt
 crs#:#event_time#:#Time
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Information om underviseren
@@ -6958,9 +6958,9 @@ survey#:#missing_upper_or_lower_limit#:#Indtast venligst en laveste og højeste 
 survey#:#mode#:#Mest valgte værdi
 survey#:#mode_nr_of_selections#:#Antal valg
 survey#:#mode_text#:#Mest valgte værdi (Tekst)
-survey#:#multiple_choice_multiple_response#:#Multiple choice (flere svar)
-survey#:#multiple_choice_single_response#:#Multiple choice (enkelt svar)
-survey#:#multiple_choice_subtype_description#:#Vælg multiple choice (enkelt svar) hvis du vil have deltagerne til kun at vælge et svar og 'multiple choise (flere svar)' hvis de skal vælge et eller flere.
+survey#:#multiple_choice_multiple_response#:#Multiple choice med flere svar
+survey#:#multiple_choice_single_response#:#Multiple choice med et svar
+survey#:#multiple_choice_subtype_description#:#Vælg multiple choice med et svar hvis du vil have deltagerne til kun at vælge et svar og 'multiple choise (flere svar)' hvis de skal vælge et eller flere.
 survey#:#new_survey_codes#:#Ny(e) adgangskode(r) til undersøgelsen
 survey#:#no_available_constraints#:#Der er ikke defineret nogle begræsninger!
 survey#:#no_category_selected_for_deleting#:#Vælg mindst et svar, hvis du ønsker at slette!
@@ -8336,13 +8336,13 @@ assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation 
 mail#:#mail_external_sender_noreply#:#noreply afsender
 mail#:#info_mail_external_sender_noreply#:#Afsenderadresse der bruges til email fra systemet som brugeren ikke kan svare direkte på.
 chat#:#chat_cannot_connect_to_server#:#ILIAS kunne ikke få en forbindelse gennem socket med chatserveren.
-crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
+crs#:#sess_gen_attendance_list#:#Lav deltagerliste
 crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
 common#:#err_auth_mode_inactive#:#Din authentificeringsmetode er deaktiveret
 common#:#missing_precondition#:#Missing Precondition###23 07 2008 new variable
-crs#:#sess_gen_mark_title#:#Lav kolonne for noter
-crs#:#sess_gen_comment#:#Lav kolonne for kommentarer
-crs#:#sess_gen_signature#:#Generate Column for Signatures###23 07 2008 new variable
+crs#:#sess_gen_mark_title#:#Lav notekolonne
+crs#:#sess_gen_comment#:#Lav kommentarerkolonne
+crs#:#sess_gen_signature#:#Lav underskriftskolonne
 crs#:#sess_print_attendance_list#:#Udskriv deltagerliste
 crs#:#sess_signature#:#Signatur
 crs#:#sess_attendance_list#:#Deltagerliste
@@ -8557,7 +8557,7 @@ assessment#:#final_statement#:#Afsluttende bemærkninger
 assessment#:#final_statement_show#:#Vis slutbesked
 assessment#:#final_statement_show_desc#:#Hvis valg bliver slutbeskeden vist umiddelbart efter testen før resultaterne vises.
 assessment#:#showinfo#:#Vis den komplette informationsside
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
+assessment#:#showinfo_desc#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.
 assessment#:#forcejs#:#Tving brug af JavaScript i testspørgsmål
 assessment#:#forcejs_short#:#Tving JavaScript
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.###15 09 2008 new variable
@@ -10042,15 +10042,15 @@ common#:#qpl_copy#:#Kopier spørgsmål til test
 common#:#title_required#:#Indtastning af titel er krævet.
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
 registration#:#reg_mail_new_user#:#Ny brugeroprettelse
-registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.###22 09 2009 new variable
-registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.###22 09 2009 new variable
+registration#:#reg_mail_body_reason#:#Du modtager denne mail fordi advisering om nye oprettelser er aktiveret for din konto.
+registration#:#reg_mail_body_confirmation#:#For at godkende brugeroprettelsen skal du gå til ILIAS administrationen og aktivere kontoen.
 pd#:#pd_enable_global_profiles#:#Aktiver globale profiler
 pd#:#pd_enable_global_profiles_info#:#Hvis valgt kan brugere gøre deres profiler synlige på internet.
 user#:#usr_link_to_profile#:#Link til profil
 content#:#cont_could_not_determine_resource_size#:#ILIAS kunne ikke automatisk opdage resursens størrelse.
 registration#:#reg_approve_needs_recipient#:#Du bør som minimum vælge en bruger der adviseres om nye tilmeldinger når tilmeldingstypen "med godkendelse" er valgt.
 common#:#join_session#:#Tilmeld
-content#:#cont_dir_renamed#:#Mappen blev omdøbt-
+content#:#cont_dir_renamed#:#Mappen blev omdøbt.
 content#:#cont_file_renamed#:#Filen blev omdøbt.
 content#:#cont_dir_deleted#:#Mappen blev slettet.
 content#:#cont_file_deleted#:#Filen blev slettet.
