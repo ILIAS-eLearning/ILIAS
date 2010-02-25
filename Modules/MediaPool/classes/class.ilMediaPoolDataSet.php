@@ -167,5 +167,35 @@ class ilMediaPoolDataSet extends ilDataSet
 		return false;
 	}
 	
+	////
+	//// Needs abstraction (interface?) and version handling
+	////
+	
+	/**
+	 * Init import
+	 */
+	function initImport($a_entities, $a_mappings)
+	{
+		// check entity types and versions
+		// get mappings for other entities (here: mobs)
+	}
+	
+	/**
+	 * Import record
+	 *
+	 * @param
+	 * @return
+	 */
+	function importRecord($a_entity, $a_types, $a_record)
+	{
+		switch ($a_entity)
+		{
+			case "mep_data":
+				break;
+
+			case "mep_tree":
+				break;
+		}
+	}
 }
 ?>

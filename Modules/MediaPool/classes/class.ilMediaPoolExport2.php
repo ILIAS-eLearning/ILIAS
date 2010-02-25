@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Export/interfaces/interface.ilExport2Int.php");
+
 /**
  * Export2 class for media pools
  *
@@ -8,7 +10,7 @@
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
-class ilMediaPoolExport2
+class ilMediaPoolExport2 implements ilExport2Int
 {
 	/**
 	 * Get export sequence
