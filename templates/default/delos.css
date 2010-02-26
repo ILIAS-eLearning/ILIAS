@@ -466,44 +466,6 @@ span.il_ItemProperty
 }
 
 
-/* Top Title */
-div.ilTopTitle
-{
-	font-size: 120%;
-	color: #335599;
-	letter-spacing: 0.05em;
-	word-spacing: -0.1em;
-	white-space: nowrap;
-	padding-top: 12px
-}
-
-table.il_PDBlock
-{
-	color:#222222;
-	background-color:#bbbbbb;
-	width:100%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	margin-bottom:25px;
-	clear:both;
-}
-
-th.il_PDBlockHeader
-{
-	background-image: url(images/TableHeaderBlue.gif);
-	background-repeat:repeat-x;
-	font-weight: bold;
-	padding: 3px;
-	background-color: #E2EAF4;
-	text-align:left;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-}
-
 
 /* Accordions */
 .il_VAccordionContainer, .il_HAccordionContainer {
@@ -2062,6 +2024,17 @@ input.ilMainMenuSearchSubmit
 	display: inline-block;
 }
 
+/* Main Menu Top Title */
+div.ilTopTitle
+{
+	font-size: 120%;
+	color: #335599;
+	letter-spacing: 0.05em;
+	word-spacing: -0.1em;
+	white-space: nowrap;
+	padding-top: 12px
+}
+
 
 table.ilTabContentOuter
 {
@@ -2303,14 +2276,12 @@ table.il_Block
 	width:100%;
 	border-spacing:0px;
 	border-collapse:collapse;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #D6D6D6;
+	border: 1px solid #D6D6D6;
 	margin-bottom: 20px;
 	clear:both;
 }
 
-td.ilBlockHeader
+td.ilBlockHeader, td.ilBlockHeaderBig
 {
 	font-weight: bold;
 	padding: 3px;
@@ -2320,23 +2291,12 @@ td.ilBlockHeader
 	background-color: #F8F8F8;
 	background-image: url(images/block_top.gif);
 	background-repeat: repeat-x;
-	border-bottom-width:1px;
-	border-bottom-style:solid;
-	border-bottom-color:#E9E9E9;
+	border-bottom:1px solid #E9E9E9;
 }
 
 td.ilBlockHeaderBig
 {
-	font-weight: bold;
-	padding: 3px;
-	text-align:left;
-	color: #404040;
-	background-color: #F8F8F8;
-	background-image: url(images/block_top.gif);
-	background-repeat: repeat-x;
-	border-bottom-width:1px;
-	border-bottom-style:solid;
-	border-bottom-color:#E9E9E9;
+	font-size: 100%;
 }
 
 h3.ilBlockHeader
