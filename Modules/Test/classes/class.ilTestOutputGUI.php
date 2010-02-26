@@ -1147,9 +1147,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (!$_SESSION['tst_pass_finish'])
 		{
 			if (!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
-			$this->object->getTestSession()->increasePass();
-			$this->object->getTestSession()->setLastSequence(0);
-			$this->object->getTestSession()->saveToDb();
+			$this->object->getTestSession()->increaseTestPass();
 		}
 		$this->redirectBack();
 	}

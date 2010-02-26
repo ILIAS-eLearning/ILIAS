@@ -75,6 +75,13 @@ class ilTestSession
 	var $submitted;
 
 	/**
+	* The timestamp of the last session
+	*
+	* @var boolean
+	*/
+	var $tstamp;
+
+	/**
 	* The timestamp of the test submission
 	*
 	* @var string
@@ -99,9 +106,58 @@ class ilTestSession
 		$this->submitted = FALSE;
 		$this->submittedTimestamp = "";
 		$this->pass = 0;
+		$this->tstamp = 0;
 		if ($active_id > 0)
 		{
 			$this->loadFromDb($active_id);
+		}
+	}
+	
+	function increaseTestPass()
+	{
+		global $ilDB, $ilLog;
+		
+		$this->increasePass();
+		$this->setLastSequence(0);
+		$submitted = ($this->isSubmitted()) ? 1 : 0;
+		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
+		if (time() > $this->tstamp + 10)
+		{
+			$this->tstamp = time();
+			if ($this->active_id > 0)
+			{
+				$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET lastindex = %s, tries = %s, submitted = %s, submittimestamp = %s, tstamp = %s WHERE active_id = %s",
+					array('integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
+					array(
+						$this->getLastSequence(),
+						$this->getPass(),
+						$submitted,
+						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+						time(),
+						$this->getActiveId()
+					)
+				);
+			}
+			else
+			{
+				$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+				$next_id = $ilDB->nextId('tst_active');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+					array(
+						$next_id,
+						$this->getUserId(),
+						$anonymous_id,
+						$this->getTestId(),
+						$this->getLastSequence(),
+						$this->getPass(),
+						$submitted,
+						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+						time()
+					)
+				);
+				$this->active_id = $next_id;
+			}
 		}
 	}
 	
@@ -119,7 +175,7 @@ class ilTestSession
 					$this->getPass(),
 					$submitted,
 					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-					time(),
+					time()-10,
 					$this->getActiveId()
 				)
 			);
@@ -139,7 +195,7 @@ class ilTestSession
 					$this->getPass(),
 					$submitted,
 					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-					time()
+					time()-10
 				)
 			);
 			$this->active_id = $next_id;
@@ -191,6 +247,7 @@ class ilTestSession
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
+			$this->tstamp = $row["tstamp"];
 		}
 	}
 	
@@ -218,6 +275,7 @@ class ilTestSession
 			$this->pass = $row["tries"];
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
+			$this->tstamp = $row["tstamp"];
 		}
 	}
 	
