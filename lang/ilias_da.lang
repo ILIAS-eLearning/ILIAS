@@ -4034,16 +4034,16 @@ chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine chat
 chat#:#chat_server_ssl_settings#:#SSL indstillinger
-chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
+chat#:#chat_server_ssl_port#:#Server SSL port
 chat#:#chat_server_ssl_active#:#SSL aktiv
-chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
-chat#:#chat_notification_intro#:#This email was automatically sent to you by the ILIAS installation %s, %###10 05 2007 new variable
-form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.###02 04 2007 new variable
-form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.###02 04 2007 new variable
+chat#:#chat_add_ssl_port#:#Tilføj venligst server SSL porten.
+chat#:#chat_notification_intro#:#Denne email blev automatisk sendt fra ILIAS installation %s, %
+form#:#form_msg_file_size_exceeds#:#Den uploadede fil overstiger den maksimale filstørrelse.
+form#:#form_msg_file_partially_uploaded#:#Hele filen kunne ikke uploades.
 form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
-form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
+form#:#form_msg_file_missing_tmp_dir#:#Midlertidig mappe til filupload mangler.
 form#:#form_msg_file_cannot_write_to_disk#:#Kan ikke skrive til disken.
-form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
+form#:#form_msg_file_upload_stopped_ext#:#Filupload forhindret på grund af filendelsen/typen.
 form#:#form_msg_file_wrong_file_type#:#Forkert filtype.
 form#:#form_msg_file_virus_found#:#Virus fundet i uploaded fil
 form#:#form_days#:#Dage
@@ -9445,7 +9445,7 @@ common#:#on_waiting_list#:#Du er på ventelisten
 common#:#leave_waiting_list#:#Forlad ventelisten
 cntr#:#cntr_manage#:#Ret
 cntr#:#cntr_ordering#:#Sortering
-cntr#:#cntr_text_media_editor#:#Text/medie editor
+cntr#:#cntr_text_media_editor#:#CMS
 cntr#:#cntr_saved_sorting#:#Rækkefølgen blev gemt
 chat#:#chat_show_smilies#:#Vis smilies
 chat#:#chat_hide_smilies#:#Skjul smilies
@@ -9467,14 +9467,14 @@ crs#:#event_inc_admins#:#Vis administratorer
 crs#:#event_inc_tutors#:#Vis hjælpeinstruktører
 crs#:#event_inc_members#:#Vis medlemmer
 crs#:#event_materials#:#Sessionsmaterialer
-common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?###26 06 2009 new variable
-common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? ###26 06 2009 new variable
-crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
+common#:#crs_cancel_waiting_list#:#Vil du tages af ventelisten til dette kursut "%s"?
+common#:#grp_cancel_waiting_list#:#Vil du tages af ventelisten til gruppen "%s"?
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Det maksimale antal kursusdeltagere er overskredet. Du kan blive opskrevet på ventelisten. Du vil modtage en besked fra kursusadministratoren når dit ønske er blevet afvist eller godkendt.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 common#:#mem_add_to_wl#:#Put på venteliste
-common#:#event_assign_files#:#File Assignment###26 06 2009 new variable
+common#:#event_assign_files#:#Relevante filer
 assessment#:#qpl_browsercolumns#:#Customized question list###26 06 2009 new variable
 assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###26 06 2009 new variable
 chat#:#chat_export_status#:#Krævede eksportrettigheder
@@ -9727,15 +9727,15 @@ user#:#usr_public_profile_global_info#:#Din profil er synlig på internet.
 survey#:#codes_deleted#:#Kode(r) slettet
 survey#:#codes_created#:#Kode(r) oprettet
 survey#:#language_changed#:#Sprog ændret
-survey#:#use_browser_print_function#:#Please use the print function of your web browser.###24 07 2009 new variable
-content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###24 07 2009 new variable
+survey#:#use_browser_print_function#:#Du skal bruge print-funktionen i din web browser.
+content#:#cont_select_from_upload_dir#:#-- Vælg fra kataloget --
 content#:#cont_uploaded_file#:#Eksisterende fil
 content#:#cont_upload_dir#:#Upload mappe
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###24 07 2009 new variable
 common#:#notifications#:#Adviseringer
 assessment#:#tst_finish_notification#:#Mail ved afslutning
 assessment#:#tst_finish_notification_no#:#Send ikke en mailadvisering når brugeren afslutter testen
-assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
+assessment#:#tst_finish_notification_simple#:#Send navn og afslutningstidspunkt til testens ejer
 assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
 assessment#:#tst_user_finished_test#:#User finished test (%s)###24 07 2009 new variable
 common#:#license#:#Licens
@@ -9743,29 +9743,29 @@ common#:#licenses#:#Licenser
 common#:#no_license_available#:#Ingen tilgængelig licens!
 license#:#license_counter#:#Licenstæller
 license#:#license_counter_info#:#Gør det muligt at tælle de brugte licenser af købt SCORM og HTML læremoduler
-license#:#license_warning#:#License warning###24 07 2009 new variable
+license#:#license_warning#:#Licensadvarsel
 license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
 license#:#arbitrary#:#arbitrær
 license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
 license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
-license#:#edit_license#:#Edit license###24 07 2009 new variable
-license#:#existing_licenses#:#Existng licenses###24 07 2009 new variable
-license#:#license_updated#:#The license data was updated.###24 07 2009 new variable
-license#:#potential_accesses#:#Potential accesses###24 07 2009 new variable
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.###24 07 2009 new variable
-license#:#remaining_licenses#:#Available licenses###24 07 2009 new variable
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###24 07 2009 new variable
-license#:#used_licenses#:#Consumed licenses###24 07 2009 new variable
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###24 07 2009 new variable
+license#:#edit_license#:#Ret licens
+license#:#existing_licenses#:#Til rådighed
+license#:#license_updated#:#Licensdata opdateret.
+license#:#potential_accesses#:#Potentielle
+license#:#potential_accesses_explanation#:#Alle brugere der har læseadgang, men endnu ikke er tilgået materialet tæller som potentielle.
+license#:#remaining_licenses#:#Til rådighed
+license#:#remaining_licenses_explanation#:#Det tilrådeværende antal licenser beregnes som købte minus forbrugte.
+license#:#used_licenses#:#Forbrugte licenser
+license#:#used_licenses_explanation#:#Første gang brugeren tilgår materialet forbruges en licens.
 user#:#user_access_limited#:#Periodisk
 user#:#user_access_unlimited#:#Altid
 license#:#zero_licenses_explanation#:#Vælg 0 for at deaktivere licenser.
 common#:#birthday#:#Fødselsdag
-content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###24 07 2009 new variable
-content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.###24 07 2009 new variable
-assessment#:#tst_remove_mark#:#Remove this mark###24 07 2009 new variable
+content#:#cont_replace_mob_feature#:#Erstat medier i indhold
+content#:#cont_replace_mob_feature_info#:#Aktiverer en funktion der tillader at erstatte medieobjekter men beholde alle andre egenskaber ved mediet i indholdet.
+assessment#:#tst_remove_mark#:#Fjern krakter
 assessment#:#tst_show_side_list#:#Show question list aside###24 07 2009 new variable
-assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
+assessment#:#tst_hide_side_list#:#Skjul listen med spørgsmål
 assessment#:#errortext#:#Fejlbehæftet tekst
 assessment#:#errortext_info#:#Indtast den fejlbehæftede tekst. For at markere de fejlagtige ord sættes en havelåge (#) foran ordet. Når du trykker på &quot;Analysér fejlbehæftet tekst&quot; bliver ordene udtrukket, så det korrekte svar kan tilknyttes.
 assessment#:#analyze_errortext#:#Analysér fejlbehæftet tekst
@@ -9773,9 +9773,9 @@ assessment#:#text_wrong#:#Forkert tekst
 assessment#:#text_correct#:#Korrekt tekst
 assessment#:#errors#:#Fejl
 assessment#:#errors_section#:#Fejldata
-common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###24 07 2009 new variable
+common#:#advanced_editing_required_tags#:#Følgene HTML tags kræves: %s
 meta#:#md_general_settings#:#Indstilligner
-meta#:#md_delimiter#:#Delimiter###24 07 2009 new variable
+meta#:#md_delimiter#:#Adskildelse
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###24 07 2009 new variable
 meta#:#md_separated_by#:#Separeret af '%s'
 content#:#cont_text_keyword#:#Søgeord
@@ -9787,10 +9787,10 @@ content#:#import_sco_object#:#Importer SCO
 content#:#scorm_editable#:#Importer som redigerbar
 content#:#scorm_editable_comments#:#Virker kun med SCORM 1.2/2004 pakker
 common#:#preview_learner#:#Deltagervisning
-common#:#preview_learner_info#:#Hvis aktiveret har ar kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det.
+common#:#preview_learner_info#:#Hvis aktiveret har kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det.
 common#:#mem_view_activate#:#Aktiver deltagervisning
 common#:#mem_view_deactivate#:#Deaktiver deltagervisning
-mcst#:#mcst_automatic_detection#:#Automatic Detection###24 07 2009 new variable
+mcst#:#mcst_automatic_detection#:#Find automatisk
 crs#:#sess_limit#:#Begræns antallet af sessioner
 crs#:#sess_num_prev#:#Antal tidligere sessioner
 crs#:#sess_num_next#:#Antal fremtidige sessioner
@@ -9810,9 +9810,9 @@ common#:#auth_ldap_migration_info#:#Activate this option to give new users the p
 survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###06 08 2009 new variable
 assessment#:#delete_image_header#:#Slet billede
 assessment#:#delete_image_question#:#Er du sikker på du vil slette billedet?
-assessment#:#answer_image#:#Answer Image###06 08 2009 new variable
+assessment#:#answer_image#:#Billedbesvarelse
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
-assessment#:#msg_questions_moved#:#Question(s) moved###06 08 2009 new variable
+assessment#:#msg_questions_moved#:#Spørgsmål flyttet
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###06 08 2009 new variable
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 2009 new variable
 chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
@@ -9823,15 +9823,15 @@ survey#:#questionblocks_inserted#:#Spørgsmålsblokke indsat
 survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable
 assessment#:#term_text#:#Term Text###12 08 2009 new variable
 assessment#:#term_image#:#Term billede
-assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
-assessment#:#definition_image#:#Definition billede
+assessment#:#definition_text#:#Definitionstekst
+assessment#:#definition_image#:#Definitionsbillede
 assessment#:#definitions#:#Definitioner
 content#:#cont_enter_a_dir_name#:#Indtast mappenavn
 content#:#cont_enter_a_file#:#Vælg fil
 content#:#cont_rename_dir#:#Omdøb folder
 content#:#mep_folder_created#:#Mappe blev tilføjet
 assessment#:#available_terms#:#Available Terms###12 08 2009 new variable
-assessment#:#selection#:#Selection###12 08 2009 new variable
+assessment#:#selection#:#Valgte
 mcst#:#mcst_set_playtime#:#Afspilningstid sat.
 mcst#:#mcst_unable_to_determin_playtime#:#Kunne ikke opdate spillelængden. Du kan sætte den manuelt ved at trykke på ret.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.###12 08 2009 new variable
