@@ -164,8 +164,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
 		
 		$showdetails = ($this->getCurrentDetailLevel() > 2);
-		$tpl = new ilTemplate("tpl.bookmark_pd_tree.html", true, true,
-			"Services/PersonalDesktop");
 
 		$exp = new ilBookmarkExplorer($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
 			$_SESSION["AccountId"]);

@@ -1,4 +1,21 @@
-/* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- */
+/* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- 3120 */
+
+body {
+	color:#222222;
+	background-color: #FFFFFF;
+	margin:0px;
+	font-size:0.89em;
+}
+
+body, input, textarea {
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+
+body.std {
+	background-image: url(images/frame_back.gif);
+	background-repeat: repeat-x;
+	background-color: #f0f0f0;
+}
 
 div.ilFrame{
 	padding:5px;
@@ -35,10 +52,6 @@ div.ilFrameBR{
 	padding: 0px 10px 0px 10px;
 }
 
-.btnbar {
-	background-color:#ffffff;
-	color:#ffffff;
-}
 
 /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
  * All skins which want to support mounting of Webfolders using Internet Explorer
@@ -49,39 +62,43 @@ a {
 }
 /* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
 
-
-a.menu:link, a.menu:visited {
-	color:#a0c0ff;
+.fullwidth{
+	width: 100%
 }
 
-a.menu:hover {
-	color:#DDDDFF;
-}
-
-a.offline, a.offline:visited
-{
-	font-style: italic;
-}
-
-input {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-}
-
-input.marked {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	background: #FFFFCC;
-}
-
-
-input.fullwidth {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
+input.fullwidth, textarea.fullwidth {
 	width: 98%
 }
 
-input.fullwidth_marked {
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	width: 98%;
-	background: #FFFFCC
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
+input[type=text], input[type=file], input[type=password],
+textarea, select, div.input {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
+	padding:3px;
+	text-decoration:none;
+	font-size: 90%;
+}
+
+div.input {
+	background-color: #FFFFFF;
+	overflow: auto;
+}
+
+input[type=text].numeric
+{
+	text-align: right;
+}
+
+input[type=checkbox], input[type=radio]
+{
+	border-style: none;
+	background-color: transparent;
 }
 
 /* ---------------- alternating tablerowcolors ----------------- */
@@ -102,7 +119,6 @@ input.fullwidth_marked {
 .tblrow1_mo:hover, .tblrow2_mo:hover {
 	background-color:#D0D0FF;
 }
-
 
 .tblrow2light {
 	background-color:#F1F1F1;
@@ -181,14 +197,6 @@ table.ilPDSelectedItemBlock {
 	border-width:0px;
 }
 
-
-table.fullwidth_nowrap {
-	color:#222222;
-	background-color:#bbbbbb;
-	width:100%;
-	border-spacing:1px;
-	white-space: nowrap;
-}
 
 table.fullwidth_invisible {
 	color:#222222;
@@ -498,96 +506,27 @@ th.il_PDBlockHeader
 
 
 /* Accordions */
-div.il_VAccordionContainer
-{
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
+.il_VAccordionContainer, .il_HAccordionContainer {
+	border-bottom:1px solid #9EADBA;
 }
 
-div.il_VAccordionHead
-{
+.il_VAccordionHead, .il_HAccordionHead {
 	padding: 3px;
 	background-color: #E2EAF4;
 	text-align:left;
-	border-width:1px;
-	border-color:#9EADBA;
-	border-style:solid;
+	border:1px solid #9EADBA;
 	border-bottom-width:0px;
 	cursor: pointer;
 }
 
-div.il_VAccordionHead:hover
-{
-	background-color: #D2D8E2;
-}
-
-div.il_VAccordionContent
-{
+.il_VAccordionContent, .il_HAccordionContent {
 	padding: 3px;
-	border-width:1px;
-	border-color:#9EADBA;
-	border-style:solid;
+	border:1px solid #9EADBA;
 	border-bottom-width:0px;
 }
 
-div.il_HAccordionContainer
-{
-	border-left-width:1px;
-	border-left-color:#9EADBA;
-	border-left-style:solid;
-}
-
-div.il_HAccordionHead
-{
-	padding: 3px;
-	background-color: #E2EAF4;
-	text-align:left;
-	border-width:1px;
-	border-color:#9EADBA;
-	border-style:solid;
-	border-left-width:0px;
-	cursor: pointer;
-}
-
-div.il_HAccordionHead:hover
-{
+.il_HAccordionHead:hover, .il_VAccordionHead:hover {
 	background-color: #D2D8E2;
-}
-
-div.il_HAccordionContent
-{
-	padding: 3px;
-	border-width:1px;
-	border-color:#9EADBA;
-	border-style:solid;
-	border-left-width:0px;
-}
-
-
-/* Repository Header */
-table.ilc_RepHeader {
-	border-width: 0px;
-	border-spacing: 0px;
-	margin: 0px;
-	padding: 0px;
-	background-color:#EEEEEE;
-	width:100%;
-}
-
-td.il_RepHeader
-{
-	padding:0px;
-	border-style: solid;
-	border-color:#9EADBA;
-	border-width: 1px;
-	margin-bottom: 0px;
-}
-
-div.il_RepHeader
-{
-	color:#222222;
-	background-color: #F0F0F0;
 }
 
 /* SCORM styles */
@@ -630,40 +569,6 @@ td.il_no_style {
 	background-color:white;
 }
 
-/* locator */
-table.il_Locator
-{
-	background-color: #FFFFFF;
-}
-
-div.il_Locator {
-	padding-top: 2px;
-	padding-left: 8px;
-	vertical-align:top;
-	font-size: 80%;
-	font-weight: normal;
-}
-
-a.il_LocatorLink, a.il_LocatorLink:link, a.il_LocatorLink:visited, a.il_LocatorLink:hover
-{
-	color: #224499;
-	font-weight: normal;
-}
-
-a.il_LocatorLink:hover
-{
-	color: #000000;
-}
-
-h2.ilLocatorTitle
-{
-	position:absolute;
-	left:-2000px;
-	top:auto;
-	width:1px;
-	height:1px;
-	overflow:hidden;
-}
 
 /* Forms */
 form.il_Form, form.ilForm
@@ -755,67 +660,6 @@ div.ilFormInfo
 	font-size: 80%;
 }
 
-label, input[type=checkbox], input[type=radio], select
-{
-	cursor:pointer;
-}
-
-input[type=text], input[type=file], input[type=password]
-{
-	font-size: 90%;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
-	padding:3px;
-}
-
-div.input
-{
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
-	background-color: #FFFFFF;
-	padding:3px;
-	overflow: auto;
-}
-
-select
-{
-	font-size: 90%;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
-	padding:2px;
-}
-
-
-input[type=text].numeric
-{
-	text-align: right;
-	font-size: 90%;
-}
-
-input[type=checkbox], input[type=radio]
-{
-	border-style: none;
-	background-color: transparent;
-}
-
-textarea
-{
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
-	padding:3px;
-	text-decoration:none;
-	font-size: 90%;
-}
-
-textarea.fullwidth
-{
-	width: 98%;
-}
 
 
 /* InfoScreen */
@@ -871,7 +715,6 @@ body.il_Explorer {
 	background-image: url(images/frame_back.gif);
 	background-repeat: repeat-x;
 	background-color: #f0f0f0;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.9em;
 }
@@ -1357,27 +1200,6 @@ div.ilForumQuoteHead
 
 /* ------------------ buttons -------------- */
 
-/* not used anymore (no extra table for buttons)*/
-td.btn {
-	background-color:#E6ECF8;
-	color:#BBBBBB;
-	border-width:1px;
-	border-color:#B6B6B6;
-	border-style:solid;
-	padding:2px;
-}
-
-/* not used anymore (use submit style)*/
-a.btn:link, a.btn:visited {
-	text-decoration:none;
-	font-size: 90%;
-}
-
-/* not used anymore (use submit style)*/
-a.btn:hover {
-	color:#000000;
-}
-
 div.il_ButtonGroup
 {
 	margin: 3px 0px 10px 0px;
@@ -1405,16 +1227,6 @@ input.submit, a.submit, a.submit:hover
 	cursor:pointer;
 	display: inline-block;
 }
-
-/*input.submit {
-    padding:0px 5px 0px 5px;
-}
-input[type].submit{
-    padding:0px 5px 0px 5px;
-}
-*:first-child+html input[type]{
-    padding:0px 5px 0px 5px;
-}*/
 
 input.submit:hover, a.submit:hover
 {
@@ -2279,19 +2091,6 @@ div.ilFrameBL
 	background-color: #F9F9F9;
 }
 
-body {
-	color:#222222;
-	background-color: #FFFFFF;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	margin:0px;
-	font-size:0.89em;
-}
-
-body.std {
-	background-image: url(images/frame_back.gif);
-	background-repeat: repeat-x;
-	background-color: #f0f0f0;
-}
 
 /* Tabs */
 
@@ -2480,7 +2279,6 @@ li.subtabactive
 
 a.subtabactive, a.subtabactive:hover
 {
-	float: left;
 	display:block;
     padding: 3px 0px 3px 0px;
 	font-size: 80%;
@@ -2488,12 +2286,6 @@ a.subtabactive, a.subtabactive:hover
 	/* background-color: #FFFFFF; */
 	text-decoration: underline;
 }
-
-
-/*  Commented Backslash Hack
-	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
-	a.subtabinactive a.subtabactive {float:none;}
-/* End IE5-Mac hack */
 
 
 
@@ -2691,15 +2483,9 @@ td.submit {
 /* Toolbar */
 div.ilToolbar
 {
-	border-width: 0px;
-	border-style: solid;
-	border-color: #D6D6D6;
-	/* background-color: #F9F9F9; */
 	background-color: #F4F4F4;
-	padding: 3px;
-	padding-bottom: 5px;
+	padding: 3px 3px 5px 3px;
 	margin-bottom: 8px;
-	margin-top: 0px;
 	font-size: 90%;
 	white-space: nowrap;
 }
@@ -2707,8 +2493,7 @@ div.ilToolbar
 span.ilToolbarSeparator
 {
 	border-right: solid 1px #E0E0E0;
-	padding-right: 10px;
-	padding-bottom: 2px;
+	padding: 0px 10px 2px 0px;
 	margin-right: 10px;
 }
 
@@ -3077,7 +2862,6 @@ div.ilc_HeadlineThumb
 	font-weight: bold;
 	width:100%;
 	border-style:solid;
-	font-family: "Helvetica,Arial";
 	color:grey;
 	border-bottom-style: solid;
 	border-width:0px;
@@ -3118,3 +2902,11 @@ h3.ilProfileSectionHead {
 	font-size: 110%;
 	color: #202020;
 }
+
+/* revised 4.1 */
+
+/* locator */
+div.ilLocator {
+	padding: 2px 0px 0px 8px;
+}
+
