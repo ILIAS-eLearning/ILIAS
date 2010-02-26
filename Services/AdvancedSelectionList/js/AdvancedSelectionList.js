@@ -102,17 +102,40 @@ function ilInitAdvSelectionLists()
 }
 
 function absTop(el) {
-return (el.offsetParent)?
-el.offsetTop+absTop(el.offsetParent) : el.offsetTop;
+	if (el.offsetParent) {
+		parentStylePos = parentStylePosition(el.offsetParent);
+		if (parentStylePos == 'absolute' || parentStylePos == 'fixed') {
+			return el.offsetTop;
+		} else {
+			return el.offsetTop+absTop(el.offsetParent);
+		}
+	} else {
+		return el.offsetTop;
+	}
+}
+
+/* INTEROKTAT */
+function parentStylePosition(el) {
+	if( window.getComputedStyle ) {
+	    actualStyle = getComputedStyle(el,null).position;
+	} else if( el.currentStyle ) {
+	    actualStyle = el.currentStyle.position;
+	} else {
+	    actualStyle = el.style.position;
+	}
+	return actualStyle;
 }
 
 function absLeft(el) {
 	left = eval(el).offsetLeft;
 	op = eval(el).offsetParent;
-  	while (op != null) {
+	parentStylePos = parentStylePosition(op); // INTEROKTAT
+  	while (op != null && ((parentStylePos != 'absolute' && parentStylePos != 'fixed'))) {
   		left += op.offsetLeft;
   		op = op.offsetParent;
+		if(op!=null) parentStylePos = parentStylePosition(op); // INTEROKTAT
   	}
+	//alert("el=" + el + " left=" + left + " op=" + op + " parentStylePos=" + parentStylePos);
 	return left;
 }
 
