@@ -1233,7 +1233,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// force js
 		$forcejs = new ilCheckboxInputGUI($this->lng->txt("forcejs_short"), "forcejs");
 		$forcejs->setValue(1);
-		$forcejs->setChecked($this->object->getUsePreviousAnswers());
+		$forcejs->setChecked($this->object->getForceJS());
 		$forcejs->setOptionTitle($this->lng->txt("forcejs"));
 		$forcejs->setInfo($this->lng->txt("forcejs_desc"));
 		$form->addItem($forcejs);
