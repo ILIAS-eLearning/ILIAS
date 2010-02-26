@@ -441,7 +441,6 @@ class ilCertificate
 		{
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF(
 				$this->exchangeCertificateVariables($xslfo, $insert_tags));
-
 			if ($deliver)
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -449,7 +448,7 @@ class ilCertificate
 			}
 			else
 			{
-				return $result;
+				return $pdf_base64->scalar;
 			}
 		}
 		catch(XML_RPC2_FaultException $e)

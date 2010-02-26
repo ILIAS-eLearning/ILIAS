@@ -164,24 +164,15 @@ class ilCertificateGUI
 	*/
 	public function certificateDelete()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
-
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT", $this->lng->txt("confirmation"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("table_row");
-		$this->tpl->setVariable("CSS_ROW", "tblrow1");
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("certificate_confirm_deletion_text"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("operation_btn");
-		$this->tpl->setVariable("BTN_NAME", "certificateDeleteConfirm");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("yes"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("operation_btn");
-		$this->tpl->setVariable("BTN_NAME", "certificateEditor");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("no"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "certificateEditor"));
+		include_once("Services/Utilities/classes/class.ilSimpleConfirmationGUI.php");
+		$c_gui = new ilSimpleConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
+		$c_gui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
+		$c_gui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
+		$c_gui->setCancel($this->lng->txt("no"), "certificateEditor");
+		$this->tpl->setContent($c_gui->getHTML());
 	}
 	
 	/**
