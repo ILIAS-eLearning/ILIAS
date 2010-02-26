@@ -231,7 +231,6 @@ class assMultipleChoice extends assQuestion
 	/**
 	* Loads a assMultipleChoice object from a database
 	*
-	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
 	* @access public
 	*/
