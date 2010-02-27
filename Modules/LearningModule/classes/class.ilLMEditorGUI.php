@@ -228,7 +228,7 @@ class ilLMEditorGUI
 			else
 			{
 				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "properties"));
+					$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "chapters"));
 			}
 		}
 		else
@@ -245,7 +245,7 @@ class ilLMEditorGUI
 			else
 			{
 				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "properties"));
+					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters"));
 			}
 		}
 		$fs_gui->show();

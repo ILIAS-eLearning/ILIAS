@@ -301,6 +301,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		//$ti->setMaxLength();
+		//$ti->setSize();
+		//$ti->setInfo($lng->txt(""));
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
+		//$ta->setCols();
+		//$ta->setRows();
+		//$ta->setInfo($lng->txt(""));
+		$this->form->addItem($ta);
+		
 		// online
 		$online = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
 		$this->form->addItem($online);
@@ -373,6 +388,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function getPropertiesFormValues()
 	{
 		$values = array();
+		$values["title"] = $this->object->getTitle();
+		$values["description"] = $this->object->getDescription();
 		if ($this->object->getOnline())
 		{
 			$values["cobj_online"] = true;
@@ -411,6 +428,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
 		{
+			$this->object->setTitle($_POST['title']);
+			$this->object->setDescription($_POST['description']);
 			$this->object->setLayout($_POST["lm_layout"]);
 			$this->object->setPageHeader($_POST["lm_pg_header"]);
 			$this->object->setTOCMode($_POST["toc_mode"]);
@@ -421,6 +440,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
 			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->updateProperties();
+			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
 		}
@@ -2713,9 +2733,10 @@ return;
 	* get lm menu html
 	*/
 	function setilLMMenu($a_offline = false, $a_export_format = "",
-		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false)
+		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
+		$a_cur_page = 0)
 	{
-		global $ilCtrl,$ilUser, $ilAccess, $ilTabs;
+		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem;
 		
 		if ($a_as_subtabs)
 		{
@@ -2765,24 +2786,6 @@ return;
 		
 		$requires_purchase_to_access = ilPaymentObject::_requiresPurchaseToAccess((int)$_GET['ref_id']);
 
-		// info button
-		if ($a_export_format != "scorm" && !$a_offline)
-		{
-			if (!$a_offline)
-			{
-				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-				$link = $this->ctrl->getLinkTargetByClass(
-						array("illmpresentationgui", "ilinfoscreengui"), "showSummary");
-			}
-			else
-			{
-				$link = "./info.html";
-			}
-			
-			$tabs_gui->$addcmd(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
-					"", "", $buttonTarget, $active["info"]);
-		}
-
 		// content
 		if (!$a_offline && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -2820,7 +2823,7 @@ return;
 					"", "", $buttonTarget, $active["print"]);
 			}
 		}
-
+		
 		// download
 		if (!$requires_purchase_to_access && $ilUser->getId() == ANONYMOUS_USER_ID)
 		{
@@ -2838,6 +2841,37 @@ return;
 			$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList");
 			$tabs_gui->$addcmd("download", $link,
 				"", "", $buttonTarget, $active["download"]);
+		}
+
+		// info button
+		if ($a_export_format != "scorm" && !$a_offline)
+		{
+			if (!$a_offline)
+			{
+				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
+				$link = $this->ctrl->getLinkTargetByClass(
+						array("illmpresentationgui", "ilinfoscreengui"), "showSummary");
+			}
+			else
+			{
+				$link = "./info.html";
+			}
+			
+			$tabs_gui->$addcmd(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
+					"", "", $buttonTarget, $active["info"]);
+		}
+		
+		// edit learning module
+		if (!$a_offline && $a_cur_page > 0)
+		{
+			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+			{
+				//$page_id = $this->getCurrentPageId();
+				$page_id = $a_cur_page;
+				$tabs_gui->$addcmd("edit_page", ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"].
+					"&obj_id=".$page_id."&to_page=1",
+					"", "", $buttonTarget, $active["edit_page"]);
+			}
 		}
 		
 		if(!$requires_purchase_to_access)
@@ -3019,11 +3053,6 @@ return;
 		// back to upper context
 		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 
-		// info
-		$tabs_gui->addTarget("info_short",
-			$this->ctrl->getLinkTargetByClass("ilinfoscreengui",'showSummary'),
-			"", "ilinfoscreengui");
-
 		// chapters
 		$tabs_gui->addTarget("cont_chapters",
 			$this->ctrl->getLinkTarget($this, "chapters"),
@@ -3034,16 +3063,26 @@ return;
 			$this->ctrl->getLinkTarget($this, "pages"),
 			"pages", get_class($this));
 
+		// info
+		$tabs_gui->addTarget("info_short",
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui",'showSummary'),
+			"", "ilinfoscreengui");
+			
 		// properties
-		$tabs_gui->addTarget("properties",
+		$tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this,'properties'),
 			"properties", get_class($this));
 
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"", "ilmdeditorgui");
-
+		// learning progress
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui','illmstatisticsgui'));
+		}
+			
 		// links
 		$tabs_gui->addTarget("cont_links",
 			$this->ctrl->getLinkTarget($this,'listLinks'),
@@ -3051,11 +3090,6 @@ return;
 
 		if ($this->object->getType() == "lm")
 		{
-			// export
-			$tabs_gui->addTarget("export",
-				$this->ctrl->getLinkTarget($this, "exportList"),
-				array("exportList", "viewExportLog"), get_class($this));
-
 
 			if(@include_once('HTTP/Request.php'))
 			{
@@ -3072,20 +3106,22 @@ return;
 				$this->ctrl->getLinkTarget($this, "editBibItem"),
 				"editBibItem", get_class($this));
 		}
-		// learning progress
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
-		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui','illmstatisticsgui'));
-		}
-
+		
 		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 			, "history", get_class($this));
 
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			"", "ilmdeditorgui");
 
+		if ($this->object->getType() == "lm")
+		{
+			// export
+			$tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTarget($this, "exportList"),
+				array("exportList", "viewExportLog"), get_class($this));
+		}
+		
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
