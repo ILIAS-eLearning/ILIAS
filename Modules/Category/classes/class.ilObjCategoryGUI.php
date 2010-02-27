@@ -202,7 +202,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("edit_properties",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 		}
