@@ -312,7 +312,8 @@ class ilExport
 			ilExport::_createExportDirectory($a_id, "xml", $a_type);
 			$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
 			$ts = time();
-			$export_run_dir = $export_dir."/".$ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+			$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+			$export_run_dir = $export_dir."/".$sub_dir;
 			
 			$class = "il".$class."Export2";
 			include_once($export_class_file);
@@ -370,6 +371,10 @@ $tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDu
 		$manifest_writer->xmlDumpFile($export_run_dir."/manifest.xml", false);
 //echo "-".$export_run_dir."-";
 	
+		// zip the file
+		ilUtil::zip($export_run_dir, $export_dir."/".$sub_dir.".zip");
+		ilUtil::delDir($export_run_dir);
+		
 		return array(
 			"success" => $success,
 			"file" => $filename,
