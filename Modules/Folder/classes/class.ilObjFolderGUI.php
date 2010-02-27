@@ -418,7 +418,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $ilUser, $lng;
+		global $rbacsystem, $ilUser, $lng, $ilCtrl;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
@@ -443,8 +443,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "", ($ilCtrl->getCmd() == "edit"));
 		}
 
 		// learning progress
