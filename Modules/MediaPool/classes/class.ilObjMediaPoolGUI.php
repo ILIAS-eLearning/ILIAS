@@ -18,7 +18,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -271,6 +271,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->tpl->show();
+				break;
+				
+			case "ilexportgui":
+				$this->prepareOutput();
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml", $lng->txt("exp_create_xml_file"));
+				$ret = $this->ctrl->forwardCommand($exp_gui);
 				$this->tpl->show();
 				break;
 
@@ -1532,8 +1541,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$ilTabs->addTarget("export", $this->ctrl->getLinkTarget($this, "showExport"),
-				"export");
+			$ilTabs->addTarget("export", $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
+				"", "ilexportgui");
 		}
 		
 		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))

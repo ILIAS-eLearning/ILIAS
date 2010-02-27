@@ -10159,3 +10159,5 @@ forum#:#frm_pseudonym#:#Pseudonym
 ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_published_for#:#Published for:
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
+exp#:#exp_create_xml_file#:#Create Export Package (XML)
+exp#:#exp_export_files#:#Export Files

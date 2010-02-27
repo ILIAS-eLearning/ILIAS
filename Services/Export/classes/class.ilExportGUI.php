@@ -33,5 +33,123 @@
 */
 class ilExportGUI
 {
+	protected $formats = array();
 	
+	/**
+	 * Constuctor
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct($a_parent_gui)
+	{
+		global $lng;
+		
+		$this->parent_gui = $a_parent_gui;
+		$this->obj = $a_parent_gui->object;
+		$lng->loadLanguageModule("exp");
+	}
+	
+	/**
+	 * Add formats
+	 *
+	 * @param	array	formats
+	 */
+	function addFormat($a_key, $a_create_txt)
+	{
+		$this->formats[] = array("key" => $a_key, "txt" => $a_create_txt);
+	}
+	
+	/**
+	 * Get formats
+	 *
+	 * @return	array	formats
+	 */
+	function getFormats()
+	{
+		return $this->formats;
+	}
+	
+	/**
+	 * Execute command
+	 *
+	 * @param
+	 * @return
+	 */
+	function executeCommand()
+	{
+		global $ilCtrl;
+	
+		$cmd = $ilCtrl->getCmd("listExportFiles");
+		
+		switch ($cmd)
+		{
+			case "listExportFiles":
+				$this->$cmd();
+				break;
+				
+			default:
+				if (substr($cmd, 0, 7) == "create_")
+				{
+					$this->createExportFile();
+				}
+				break;
+		}
+	}
+	
+	/**
+	 * List export files
+	 *
+	 * @param
+	 * @return
+	 */
+	function listExportFiles()
+	{
+		global $tpl, $ilToolbar, $ilCtrl;
+
+		// creation buttons
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		if (count($this->getFormats()) > 1)
+		{
+			
+		}
+		else
+		{
+			$format = $this->getFormats();
+			$format = $format[0];
+			$ilToolbar->addFormButton($format["txt"], "create_".$format["key"]);
+		}
+	
+		include_once("./Services/Export/classes/class.ilExportTableGUI.php");
+		$table = new ilExportTableGUI($this, "listExportFiles", $this->obj);
+		
+		$tpl->setContent($table->getHTML());
+		
+	}
+	
+	/**
+	 * Create export file
+	 *
+	 * @param
+	 * @return
+	 */
+	function createExportFile()
+	{
+		global $ilCtrl;
+		
+		$format = substr($ilCtrl->getCmd(), 7);
+		foreach ($this->getFormats() as $f)
+		{
+			if ($f["key"] == $format)
+			{
+				if ($format == "xml")
+				{
+					include_once("./Services/Export/classes/class.ilExport.php");
+					ilExport::_exportObject($this->obj->getType(),
+						$this->obj->getId(), "4.1.0");
+				}
+			}
+		}
+		$ilCtrl->redirect($this, "listExportFiles");
+	}
 }

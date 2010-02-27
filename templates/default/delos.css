@@ -77,12 +77,15 @@ label, input[type=checkbox], input[type=radio], select
 
 input[type=text], input[type=file], input[type=password],
 textarea, select, div.input {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
+	border: 1px solid #E0E0E0;
 	padding:3px;
 	text-decoration:none;
 	font-size: 90%;
+}
+
+select {
+	padding: 1px;
+	font-size: 80%;
 }
 
 div.input {

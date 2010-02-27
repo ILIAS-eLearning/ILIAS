@@ -16583,3 +16583,7 @@ while($record = $ilDB->fetchObject($res))
 	}
 }
 ?>
+<#2939>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
