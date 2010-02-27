@@ -3,18 +3,18 @@
 *
 * @module		language file Polish
 * @modulegroup		language
-* @author		Wojciech Stasiak <wstasiak@am.gdynia.pl>
+* @author		Dariusz Poczekalewicz <d.poczekalewicz@aon.edu.pl>
 * @version		$Id$
-* @il_server		http://www.ilias.de/test40x
-* @il_version		4.0.2 2009-12-15
-* @created		2010-01-25 10:37:57
-* @created_by		Dariusz Poczekalewicz <d.poczekalewicz@aon.edu.pl>
+* @il_server		http://localhost:8888/ilias-trunk
+* @il_version		4.1.0 pre-alpha
+* @created		2010-02-27 10:08:24
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2010 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -147,7 +147,7 @@ administration#:#obj_mds_desc#:#Konfiguracja metadanych
 administration#:#options#:#Opcje
 administration#:#output_options#:#Opcje wyjścia
 administration#:#passwd_auto_generate#:#Przekazanie/Generowanie Hasła
-administration#:#path_to_mkisofs#:#Path to mkisofs
+administration#:#path_to_mkisofs#:#Ścieżka do mkisofs
 administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
 administration#:#purge_age_limit#:#Ograniczenie czasu
 administration#:#purge_age_limit_desc#:#Jeśli to pole zawiera wartość, to tylko obiekty usunięte przed wyznaczoną ilością dni będą wyczyszczone.
@@ -1648,7 +1648,7 @@ common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
 common#:#adm_visible#:#Ustawienia systemowe są widoczne
 common#:#adm_write#:#Edycja podstawowych ustawień systemu
-common#:#admin_force_noti#:#Notification active
+common#:#admin_force_noti#:#Powiadomienie włączone
 common#:#admin_panel#:#Panel administracyjny
 common#:#administrate#:#Administruj
 common#:#administrate_users#:#Administracja lokalnymi użytkownikami
@@ -2711,6 +2711,7 @@ common#:#glossaries#:#Słowniki
 common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
 common#:#go#:#Dalej
+common#:#group#:#Group
 common#:#group_access_denied#:#Dostęp zabroniony
 common#:#group_any_objects#:#Obiekty podrzędne niedostępne
 common#:#group_create_chat#:#Twórz czat
@@ -3055,7 +3056,7 @@ common#:#info#:#Informacja
 common#:#info_access_and_status_info#:#Informacje o statusie i dostępie
 common#:#info_access_permissions#:#Prawa dostępu
 common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?
-common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?
+common#:#info_activate_sure#:#Czy rzeczywiście chcesz aktywować użytkowników?
 common#:#info_assign_sure#:#Jesteś pewien, że chcesz przydzielić następujących użytkowników?
 common#:#info_assigned#:#przydzielony
 common#:#info_available_roles#:#Dostępne role
@@ -3430,11 +3431,11 @@ common#:#message_content#:#Treść wiadomości
 common#:#message_no_delivered_files#:#Nie dostarczyłeś plików!
 common#:#message_to#:#Wiadomość do:
 common#:#meta_data#:#Meta dane
-common#:#mgs_objects_linked_to_the_following_folders#:#Obiekt(y) został(y) połączone z następującym(i) obiektem(ami): %s
+common#:#mgs_objects_linked_to_the_following_folders#:#Obiekty zostały połączone z: %s
 common#:#migrate#:#Migracja
 common#:#min_time#:#Minimalny czas
 common#:#minute#:#Minuta
-common#:#minutes#:#Minuty
+common#:#minutes#:#minut
 common#:#missing#:#Brak
 common#:#missing_perm#:#Brak uprawnień
 common#:#missing_precondition#:#Missing Precondition
@@ -3661,7 +3662,7 @@ common#:#note_all_pub_notes#:#Wszystkie notatki
 common#:#note_my_pub_notes#:#Tylko moje notatki
 common#:#notes#:#Notatki
 common#:#notes_and_comments#:#Notatki i Komentarze
-common#:#notifications#:#Notifications
+common#:#notifications#:#Powiadomienia
 common#:#num_users#:#Liczba użytkowników
 common#:#number_of_accesses#:#Liczba logowań
 common#:#number_of_records#:#Liczba rekordów
@@ -3925,7 +3926,7 @@ common#:#password_must_chars_and_numbers#:#The password must contain characters 
 common#:#password_must_special_chars#:#The password must contain special characters.
 common#:#password_to_long#:#The password must have at most a size of %s characters.
 common#:#password_to_short#:#The password must have at least a size of %s characters.
-common#:#paste#:#Wklej
+common#:#paste#:#Wklej link
 common#:#paste_clipboard_items#:#Wklej pozycje ze schowka
 common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects
 common#:#pasteChapter#:#Wklej rozdział
@@ -4062,9 +4063,9 @@ common#:#refresh#:#Odśwież
 common#:#refresh_languages#:#Odśwież języki
 common#:#refresh_list#:#Lista odświeżona
 common#:#refuse#:#Odmowa
-common#:#reg_account_confirmation_successful#:#Your user account has been activated.
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
-common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email
+common#:#reg_account_confirmation_successful#:#Twoje konto w systemie LMS ILIAS zostało aktywowane.
+common#:#reg_mail_body_2_confirmation#:#Link będzie ważny przez %s, po tym czasie procedurę rejestracji będziesz musiał rozpocząć od nowa.
+common#:#reg_mail_body_3_confirmation#:#Jeżeli treść tego e-maila nic Ci nie mówi, oznacza to, iż ktoś inny celowo lub przypadkowo podał Twój adres e-mail. Prosimy o zignorowanie tej wiadomości.
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Witaj
@@ -4072,7 +4073,7 @@ common#:#reg_mail_body_text1#:#Witamy w systemie elektronicznego nauczania ILIAS
 common#:#reg_mail_body_text2#:#Dla dostępu do ILIAS-a użyj następujących danych:
 common#:#reg_mail_body_text3#:#Dalsze dane osobowe:
 common#:#reg_mail_subject#:#ILIAS eLearning - Twoje dane dostępowe
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
+common#:#reg_mail_subject_confirmation#:#ILIAS e-Learning - Link potwierdzający rejestrację konta
 common#:#reg_passwd_via_mail#:#Twoje hasło zostanie przesłane do Ciebie pocztą elektroniczną na adres podany poniżej.
 common#:#register#:#Rejestruj
 common#:#register_info#:#Wypełnij formularz rejestracji (Pola zaznaczone gwiazdką są niezbędne).
@@ -4259,7 +4260,7 @@ common#:#seconds#:#Sekundy
 common#:#sections#:#Sekcje
 common#:#select#:#Wybierz
 common#:#select_all#:#Wybierz wszystkie
-common#:#select_at_least_one_object#:#Please choose at least one object.
+common#:#select_at_least_one_object#:#Proszę wybierz przynajmniej jeden obiekt.
 common#:#select_file#:#Wybierz plik
 common#:#select_max_one_item#:#Wybierz tylko jedną pozycję.
 common#:#select_mode#:#Wybierz tryb
@@ -4641,7 +4642,7 @@ common#:#use_customized_instructions#:#Use customized instructions:
 common#:#use_default_instructions#:#Use default instructions.
 common#:#user#:#Użytkownik
 common#:#user_access#:#Dostęp przez użytkownika
-common#:#user_activated#:#User has been approved
+common#:#user_activated#:#Użytkownik został zatwierdzony
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_cant_receive_mail#:#użytkownik nie może używać systemu poczty elektronicznej
@@ -4970,7 +4971,7 @@ content#:#cont_dependencies#:#Zależności
 content#:#cont_derive_from_obj#:#Pochodzi od Obiektu
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_created#:#Directory has been created.
-content#:#cont_dir_deleted#:#Directory has been deleted.
+content#:#cont_dir_deleted#:#Katalog został usunięty.
 content#:#cont_dir_file#:#Katalog/Plik
 content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_html#:#HTML nieaktywny
@@ -5084,7 +5085,7 @@ content#:#cont_external#:#zewnętrzny
 content#:#cont_external_url#:#zewnętrzny url
 content#:#cont_file#:#Plik
 content#:#cont_file_created#:#Plik został utworzony.
-content#:#cont_file_deleted#:#File has been deleted.
+content#:#cont_file_deleted#:#Plik został usunięty.
 content#:#cont_file_from_repository#:#File From Repository
 content#:#cont_file_renamed#:#File has been renamed.
 content#:#cont_file_unzipped#:#File has been unzipped.
@@ -5206,7 +5207,7 @@ content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Właściwości modułu nauczania
-content#:#cont_LocalFile#:#Plik
+content#:#cont_localfile#:#Local File
 content#:#cont_location#:#Location
 content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Element danych
@@ -5431,10 +5432,12 @@ content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
+content#:#cont_show_info#:#Show Info
 content#:#cont_show_line_numbers#:#Pokaż numery wierszy
 content#:#cont_show_print_view#:#Pokaż podgląd wydruku
 content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_skip_chapter#:#Przeskocz ten rozdział
+content#:#cont_snippets_used#:#Used Content Snippets
 content#:#cont_source#:#Źródło
 content#:#cont_span#:#Span
 content#:#cont_Special#:#Special
@@ -5548,6 +5551,7 @@ content#:#dgl_pagebreak#:#Koniec strony
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Następujące zasoby są połączone z tym hasłem
 content#:#HTML export#:#Eksport HTML
+content#:#HTML_export#:#Eksport HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Edycja pozycji menu
 content#:#lm_menu_entry_target#:#Przeznaczenie
@@ -5565,6 +5569,7 @@ content#:#Pages#:#Strony
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#PDF export#:#Eksport PDF
+content#:#PDF_export#:#Eksport PDF
 content#:#pg#:#Strona
 content#:#public_section#:#Sekcja publiczna
 content#:#read offline#:#Czytaj Offline
@@ -5580,7 +5585,7 @@ content#:#scplayer_expandtree#:#Rozwiń Wszystko
 content#:#scplayer_hidetree#:#Ukryj Drzewo
 content#:#scplayer_phpmysqlcheck#:#Potrzebujesz wersji MYSQL 4.1 lub wyższej i włączonego JSON, aby używać środowiska czasu rzeczywistego JavaScript (RTE)
 content#:#scplayer_previous#:#Wróć
-content#:#scplayer_showtree#:#Pokarz Drzewo
+content#:#scplayer_showtree#:#Pokaż Drzewo
 content#:#scplayer_start#:#Start
 content#:#scplayer_suspendall#:#Wstrzymaj Wszystko
 content#:#select_a_file#:#Wybierz plik.
@@ -5660,7 +5665,7 @@ crs#:#crs_blocked_member_body#:#Twoje uczestnictwo w kursie "%s" zostało zablok
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#Wyrejestrowanie z kursu
 crs#:#crs_cancel_subscription_body#:#Użytkownik zrezygnował z subskrypcji kursu.
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
+crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników kursu, kliknij link:
 crs#:#crs_change_status#:#Zmiany statusu celu:
 crs#:#crs_chapter_already_assigned#:#Te rozdziały są już przydzielone.
 crs#:#crs_contact#:#Kontakt
@@ -5795,8 +5800,8 @@ crs#:#crs_new_status#:#Your new status is:
 crs#:#crs_new_subscription#:#Nowa subskrypcja kursu "%s"
 crs#:#crs_new_subscription_body#:#Zatwierdzono subskrypcję nowego użytkownika
 crs#:#crs_new_subscription_request#:#Prośba wstąpienia do kursu "%s"
-crs#:#crs_new_subscription_request_body#:#Użytkownik zażądał wstępu na kurs "%s".
-crs#:#crs_new_subscription_request_body2#:#Musisz się skontaktować z administratorem kursu aby zaakceptować lub odrzucić żądanie uczestnictwa.
+crs#:#crs_new_subscription_request_body#:#%s poprosił o członkostwo w kursie "%s".
+crs#:#crs_new_subscription_request_body2#:#Aby potwierdzić tę rejestrację przejdź do:
 crs#:#crs_news#:#Wiadomości kursu
 crs#:#crs_no_archive_selected#:#Nie wybrano archiwum
 crs#:#crs_no_archives_available#:#Brak dostępnych archiwów
@@ -6220,6 +6225,10 @@ dateplaner#:#cal_all_day#:#Cały Dzień
 dateplaner#:#cal_appointments#:#Terminy
 dateplaner#:#cal_apps#:#Ilość Terminów
 dateplaner#:#cal_assigned_appointments#:#Przydzielone Terminy
+dateplaner#:#cal_cache#:#Kalender-Cache
+dateplaner#:#cal_cache_disabled#:#Disabled
+dateplaner#:#cal_cache_enabled#:#Enabled
+dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.
 dateplaner#:#cal_cal_details#:#Szczegóły Kalendarza
 dateplaner#:#cal_cal_type#:#Typ Kalendarza
 dateplaner#:#cal_calendar_color#:#Kolor
@@ -6304,6 +6313,11 @@ dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_subscription_header#:#Calendar Address
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.
 dateplaner#:#cal_subscription_url#:#Calendar URL:
+dateplaner#:#cal_sync_cache#:#Calendar Cache
+dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.
+dateplaner#:#cal_sync_disabled#:#Disabled
+dateplaner#:#cal_sync_enabled#:#Enabled
+dateplaner#:#cal_sync_header#:#Synchronisation Settings
 dateplaner#:#cal_table_categories#:#Wybór Kalendarza
 dateplaner#:#cal_task_completion#:#Zakończenie zadania
 dateplaner#:#cal_third#:#Third
@@ -6452,6 +6466,7 @@ dateplaner#:#help_text_l#:#W tym miejscu można podać tekst opisujący termin.
 dateplaner#:#help_week#:#Terminarz - widok tygodnia
 dateplaner#:#help_week_l#:#W widoku tygodnia są wyświetlone wszystkie terminy wybranego tygodnia
 dateplaner#:#hour#:#godzina
+dateplaner#:#ical_export#:#iCal Export
 dateplaner#:#importDates#:#Import Terminów z Outlooka
 dateplaner#:#inbox#:#Strona główna terminarza
 dateplaner#:#insertImportDates#:#Te terminy zostały poprawnie zarejestrowane:
@@ -6625,7 +6640,8 @@ ecs#:#ecs_new_user_profile#:#User profile data:
 ecs#:#ecs_new_user_subject#:#New ECS User Account
 ecs#:#ecs_no_owner#:#Please select one community name.
 ecs#:#ecs_no_value#:#Not available
-ecs#:#ecs_notifications#:#Notifications
+ecs#:#ecs_not_published#:#No approvals selected.
+ecs#:#ecs_notifications#:#Powiadomienia
 ecs#:#ecs_participants#:#Participants
 ecs#:#ecs_participants_infos#:#Further Informations
 ecs#:#ecs_polling#:#Polling Time
@@ -6634,6 +6650,7 @@ ecs#:#ecs_port#:#Port
 ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
+ecs#:#ecs_published_for#:#Published for
 ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:
 ecs#:#ecs_read_remote_links#:#Update Remote-Courses
 ecs#:#ecs_released#:#Export
@@ -6699,7 +6716,7 @@ form#:#form_hours#:#Godziny
 form#:#form_image_file_input#:#Image File Input
 form#:#form_max_value#:#Maximum Value
 form#:#form_min_value#:#Minimalna wartość
-form#:#form_minutes#:#Minuty
+form#:#form_minutes#:#minuty
 form#:#form_months#:#Months
 form#:#form_msg_file_cannot_write_to_disk#:#Nie można zapisać na dysku.
 form#:#form_msg_file_missing_tmp_dir#:#Brakuje tymczasowego katalogu dla załadowania pliku.
@@ -6806,6 +6823,7 @@ forum#:#frm_moderators_search_query#:#Dla następujących terminów
 forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
+forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
 forum#:#frm_statistics#:#Statystyka
 forum#:#frm_statistics_disabled_for_participants#:#Statystyka jest wyłączona dla uczestników forum.
@@ -6855,6 +6873,7 @@ grp#:#crs_grouping_select_one#:#Wybierz dokładnie jeden limit uczestnictwa.
 grp#:#crs_grp_added_grouping#:#Limit na ilość uczestników został dodany.
 grp#:#crs_grp_assign_crs#:#Przydział grup
 grp#:#crs_grp_enter_title#:#Wypełnij wymagane pola.
+grp#:#crs_grp_info_reg#:#Możesz się zarejestrować tylko do jednej z tych grup:
 grp#:#crs_grp_no_courses_assigned#:#Nie przydzielono żadnej grupy
 grp#:#crs_grp_table_assigned_courses#:#Przydzielone grupy
 grp#:#grouping_change_assignment#:#Zmień przydział
@@ -6914,10 +6933,10 @@ grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_missing_title#:#Please enter a group title.
 grp#:#grp_new_status#:#Your new status is:
-grp#:#grp_notification#:#Notification
+grp#:#grp_notification#:#Powiadomienie
 grp#:#grp_notification_explanation_admin#:#Otrzymałeś tego maila ponieważ jesteś administratorem grupy i masz włączoną opcje powiadamiania.
-grp#:#grp_notify_off#:#Notification about new registrations disabled
-grp#:#grp_notify_on#:#Notification about new registrations enabled
+grp#:#grp_notify_off#:#Wyłączone powiadomienie na temat nowych rejestracji.
+grp#:#grp_notify_on#:#Włączone powiadomienie na temat nowych rejestracji.
 grp#:#grp_open#:#Open Group
 grp#:#grp_open_info#:#Non-members can see this group and join it directly..
 grp#:#grp_pass_request#:#Przystąp do Grupu Używając Hasła
@@ -6946,7 +6965,7 @@ grp#:#grp_reg_subject#:#Komunikat
 grp#:#grp_registration_unlimited#:#Nielimitowany okres rejestracji
 grp#:#grp_search_users#:#Wyszukaj Użytkownika
 grp#:#grp_select_one_file#:#Please select one file.
-grp#:#grp_selected_users#:#Selected Participants
+grp#:#grp_selected_users#:#Wybrani Członkowie
 grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_settings#:#Ustawienia Grupy
 grp#:#grp_typ#:#Typ Grupy
@@ -7402,6 +7421,8 @@ mep#:#mep_title_and_description#:#Tytuł i Opis
 mep#:#mep_unknown#:#Unknown
 mep#:#mobs_activate_pages#:#Activate Content Pages Management
 mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.
+mep#:#mobs_always_show_file_manager#:#Always Show File Manager
+mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 meta#:#md_adv_active#:#Active
 meta#:#md_adv_add_value#:#Add Value
 meta#:#md_adv_added_new_record#:#Added new Dataset
@@ -8005,7 +8026,7 @@ meta#:#meta_very_low#:#Bardzo niski
 meta#:#meta_yes#:#Tak
 meta#:#sco_propagate#:#Rozpowszechnij dla wszystkich SCO
 news#:#news_1_file_created#:#1 plik został dodany.
-news#:#news_1_file_updated#:#1 File has been updated.
+news#:#news_1_file_updated#:#1 plik został zaktualizowany.
 news#:#news_1_postings#:#1 Post został dodany.
 news#:#news_all_items#:#Wszystkie pozycje
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -8098,7 +8119,7 @@ notes#:#notes_my_comments#:#Moje Komentarze
 notes#:#notes_note_deleted#:#Notatka została usunięta.
 notes#:#notes_notes_deleted#:#Notatki zostały usunięte.
 notes#:#notes_public_comments#:#Publiczne Komentarze
-notes#:#notes_show_comments#:#Pokarz Komentarze
+notes#:#notes_show_comments#:#Pokaż Komentarze
 payment#:#advanced_search#:#Zaawansowane Wyszukiwanie
 payment#:#currency_cent#:#Grosze
 payment#:#currency_euro#:#PLN
@@ -8115,6 +8136,7 @@ payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one
 payment#:#info#:#Informacje o formie płatności
 payment#:#new_topic#:#New Topic
 payment#:#no_topics_yet#:#No topics created yet
+payment#:#no_vendor_selected#:#No vendor selected.
 payment#:#object_deleted#:#Object Deleted
 payment#:#pay_abstract#:#Abstract
 payment#:#pay_add_to_shopping_cart#:#Dodaj do koszyka
@@ -8556,7 +8578,7 @@ pd#:#pd_enable_block_moving#:#Włącz przesuwanie bloku
 pd#:#pd_enable_block_moving_info#:#Zezwala użytkownikom reorganizować zawartość bloków na pulpicie osobistym.
 pd#:#pd_enable_bookmarks#:#Włącz Zakładki
 pd#:#pd_enable_global_profiles#:#Włącz Profile Globalne
-pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
+pd#:#pd_enable_global_profiles_info#:#Jeśli opcja jest włączona, profile użytkowników mogą być widoczne w internecie.
 pd#:#pd_enable_my_memberships#:#Włącz 'Moje Członkostwo'
 pd#:#pd_enable_my_memberships_info#:#'Moje Członkostwo' zawiera wszystkie kursy i grupy, których użytkownik jest członkiem.
 pd#:#pd_enable_my_offers#:#Włącz 'Wybrane Elementy'
@@ -8670,18 +8692,18 @@ ps#:#show_privacy#:#Prywatność
 ps#:#show_security#:#Bezpieczeństwo
 pwassist#:#password_assistance#:#Pomoc dla haseł
 pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz. ILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się  na ten adres e-mail. Wybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuuj się z administratorem kursu lub %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej.\nILIAS wyślę wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło.\nW przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#W polach poniżej podaj nazwę użytkownika (login) i ustal nowe hasło.
 pwassist#:#pwassist_invalid_auth_mode#:#Użytkownik nie może być autoryzowany bezpośrednio przez ILIAS. Stąd, wysłanie hasła jest niemożliwe.
 pwassist#:#pwassist_invalid_email#:#Sprawdź swój adres e-mail.\nPodany adres e-mail nie został odnaleziony w bazie danych.
 pwassist#:#pwassist_invalid_username_or_email#:#Popraw tekst w polach wejściowych.\nWprowadzony login i adres poczty elektronicznej nie zgadzają się z danymi w bazie danych.
 pwassist#:#pwassist_login_not_match#:#Podaj inny login.\nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika dla której prosiłeś o hasło.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_body#:#Rejestracja nowego hasła dla konta uzytkownika:\n\t%1$s\n\nTen komunikat został wygenerowany automatycznie przez serwer ILIAS:\n\t%2$s\n\nTy (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: "%4$s".\n\nProszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:\n\n- Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS:\nUsuń ten e-mail.\n\n- Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS:\nSkontaktuj się z %5$s.\n\n- Jeśli poprosiłeś o pomoc w zmianie hasła postępuj zgodnie z:\n\n1. Otwórz przeglądarkę www.\n\n2. Wpisz poniższy adres w przeglądarce:\n\t%6$s\n\nUwaga: Adres jest pojedynczą linia. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.\n\n3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.\n\nZe względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie.
 pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s .\nSprawdź swoją skrzynkę pocztową.
 pwassist#:#pwassist_mail_subject#:#Pomoc do haseł ILIAS
 pwassist#:#pwassist_no_email_found#:#Nie możesz używać pomocy dla hasła, dopóki brak adresu poczty elektronicznej dla wprowadzonego konta użytkownika.
 pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.\nPomoc do haseł nie jest dozwolona dla tego użytkownika.
-pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone do użytkownika "%1$s".
+pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone użytkownikowi "%1$s".
 pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
 pwassist#:#pwassist_update_error#:#Skontaktuj się z administratorem systemu.\nHasło nie zostało przydzielone do konta z powodu błędu zapisu w bazie danych.
 pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
@@ -8838,10 +8860,10 @@ registration#:#reg_approve_info#:#Jeżeli wybrane to każda rejestracja użytkow
 registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
 registration#:#reg_available_roles#:#Dostepne role:
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
-registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.
+registration#:#reg_confirmation_hash_life_time_info#:#Wpisz  (w sekundach) ważność linku potwierdzającego aktywację konta.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.
+registration#:#reg_confirmation_link_successful#:#Wniosek o założenie konta został przyjęty. W ciągu kilku minut otrzymasz e-mail potwierdzający rejestrację. Proszę potwierdź swoja rejestracje klikając link w e-mailu.<br />W ciągu 20 sekund zostaniesz przełączony na <a href="%s" title="stronę logowania">stronę logowania</a>
 registration#:#reg_default#:#Domyślnie
 registration#:#reg_deleted_assignment#:#Usunięto przydziały.
 registration#:#reg_direct#:#Rejestracja bezpośrednia
@@ -8854,7 +8876,7 @@ registration#:#reg_enable_access_limitations#:#Włącz Ograniczenia dostępu
 registration#:#reg_fixed#:#Wybór z podanej listy
 registration#:#reg_info_pwd#:#Jeśli aktywne to hasła będą automatycznie wysłane pocztą elektroniczną do nowych użytkowników.
 registration#:#reg_mail_body_approve#:#Jesteś już zarejestrowany w ILIAS i otrzymaliśmy e-mail z danymi twojego konta. Teraz twoje konto zostało aktywowane przez administratora.
-registration#:#reg_mail_body_confirmation#:#To confirm this registration enter the ILIAS user administration and activate the account.
+registration#:#reg_mail_body_confirmation#:#Aby potwierdzić tę rejestrację aktywuj konto poprzez Zarządzanie kontami użytkowników ILIAS (menu Administracja).
 registration#:#reg_mail_body_profile#:#Dane profilu:
 registration#:#reg_mail_body_profile_changed#:#Twój profil został zmieniony!
 registration#:#reg_mail_body_pwd_generation#:#Twoje żądanie rejestracji zostanie sprawdzone przez adminisratora, i powinno być aktywowane w ciągu 48 godzin. Zostaniesz poinformowany o akceptacji pocztą elektroniczną.
@@ -8872,8 +8894,8 @@ registration#:#reg_select_one#:#Wybierz jedną pozycję.
 registration#:#reg_selectable_roles#:#Role wybieralne
 registration#:#reg_settings_header#:#Nowe ustawienia rejestracji
 registration#:#reg_type#:#Typ rejestracji
-registration#:#reg_type_confirmation#:#Registration with Email Confirmation
-registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.
+registration#:#reg_type_confirmation#:#Rejestracja z potwierdzeniem e-mail
+registration#:#reg_type_confirmation_info#:#Ten typ umożliwia auto-rejestrację użytkownika wraz z potwierdzeniem aktywacji konta przez e-mail. Uniemożliwia to rejestrację użytkowników bez ważnych (lub wadliwych) kont e-mail.
 registration#:#reg_unknown_recipients#:#Następujące loginy nie są poprawne:
 registration#:#registration_settings#:#Nowe rejestracje
 rep#:#rep_intro#:#Witamy w Dostępnych Zasobach!
@@ -9743,7 +9765,7 @@ survey#:#survey_online_warning#:#ankieta jest online. Nie możesz edytować pyta
 survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony
 survey#:#survey_question_editor#:#Edytuj pytania ankiety
 survey#:#survey_question_obligatory#:#(To pytanie jest obowiązkowe. Musisz na to pytanie odpowiedzieć)
-survey#:#survey_question_optional#:#(Optcjonalnie)
+survey#:#survey_question_optional#:#(Możesz pominąć pytanie)
 survey#:#survey_questions#:#Pytania
 survey#:#survey_selected_user_data_deleted#:#Dane ankiet wybranych użytkowników zostały usunięte.
 survey#:#survey_skip_finish#:#pomiń i zakończ ankietę >>>
@@ -10158,23 +10180,3 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wyszukiwarka Wiki
-content#:#cont_localfile#:#Local File###26 01 2010 new variable
-common#:#group#:#Group###26 01 2010 new variable
-mep#:#mobs_always_show_file_manager#:#Always Show File Manager###26 01 2010 new variable
-mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###26 01 2010 new variable
-content#:#cont_snippets_used#:#Used Content Snippets###26 01 2010 new variable
-content#:#cont_show_info#:#Show Info###26 01 2010 new variable
-dateplaner#:#cal_sync_header#:#Synchronisation Settings###26 01 2010 new variable
-dateplaner#:#cal_sync_cache#:#Calendar Cache###26 01 2010 new variable
-dateplaner#:#cal_sync_disabled#:#Disabled###26 01 2010 new variable
-dateplaner#:#cal_sync_enabled#:#Enabled###26 01 2010 new variable
-dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.###26 01 2010 new variable
-dateplaner#:#cal_cache#:#Kalender-Cache###26 01 2010 new variable
-dateplaner#:#cal_cache_disabled#:#Disabled###26 01 2010 new variable
-dateplaner#:#cal_cache_enabled#:#Enabled###26 01 2010 new variable
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  ###26 01 2010 new variable
-payment#:#no_vendor_selected#:#No vendor selected. ###26 01 2010 new variable
-dateplaner#:#ical_export#:#iCal Export###26 01 2010 new variable
-forum#:#frm_pseudonym#:#Pseudonym###26 01 2010 new variable
-ecs#:#ecs_not_published#:#No approvals selected.###26 01 2010 new variable
-ecs#:#ecs_published_for#:#Published for###26 01 2010 new variable
