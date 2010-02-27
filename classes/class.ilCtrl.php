@@ -143,6 +143,14 @@ class ilCtrl
 	}
 
 	/**
+	* get directory of current module
+	*/
+	function getModuleDir()
+	{
+		return $this->module_dir;
+	}
+	
+	/**
 	 * Forward flow of control to next gui class
 	 * this invokes the executeCommand() method of the
 	 * gui object that is passed via reference

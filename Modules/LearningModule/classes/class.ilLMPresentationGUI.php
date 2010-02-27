@@ -1048,7 +1048,7 @@ class ilLMPresentationGUI
 	function ilLMMenu()
 	{
 		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "content", false, true));
+			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId()));
 	}
 
 	/**
@@ -3922,7 +3922,7 @@ class ilLMPresentationGUI
 						$this->ctrl->setParameter($this, "obj_type", $a_type);
 					}
 					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
-					$link = str_replace("&", "&amp;", $link);
+//					$link = str_replace("&", "&amp;", $link);
 					
 					$this->ctrl->setParameter($this, "frame", "");
 					$this->ctrl->setParameter($this, "obj_id", "");

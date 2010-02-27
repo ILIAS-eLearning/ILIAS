@@ -76,7 +76,8 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_TYPE", $a_set["type"]);
 		$this->tpl->setVariable("VAL_FILE", $a_set["file"]);
 		$this->tpl->setVariable("VAL_SIZE", $a_set["size"]);
-		$this->tpl->setVariable("VAL_DATE", $a_set["timestamp"]);
+		$this->tpl->setVariable("VAL_DATE", 
+			ilDatePresentation::formatDate(new ilDateTime($a_set["timestamp"],IL_CAL_UNIX)));
 	}
 
 }
