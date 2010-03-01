@@ -120,7 +120,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$maxsize->setInfo($this->lng->txt("maxsize_info"));
 		$maxsize->setSize(10);
 		$maxsize->setMinValue(0);
-		$maxsize->setMaxValue($this->object->getMaxFilesizeAsString());
+		$maxsize->setMaxValue($this->object->getMaxFilesizeInBytes());
 		$maxsize->setRequired(FALSE);
 		$form->addItem($maxsize);
 		// allowedextensions
