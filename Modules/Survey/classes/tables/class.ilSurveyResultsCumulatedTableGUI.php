@@ -98,18 +98,18 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		if (strlen($data['counter']))
 		{
 			$this->tpl->setCurrentBlock('counter');
-			$this->tpl->setVariable("COUNTER", ilUtil::prepareFormOutput($data['counter']));
+			$this->tpl->setVariable("COUNTER", $data['counter']);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-		$this->tpl->setVariable("QUESTION", ilUtil::prepareFormOutput($data['question']));
-		$this->tpl->setVariable("QUESTION_TYPE", ilUtil::prepareFormOutput($data['question_type']));
-		$this->tpl->setVariable("USERS_ANSWERED", ilUtil::prepareFormOutput($data['users_answered']));
-		$this->tpl->setVariable("USERS_SKIPPED", ilUtil::prepareFormOutput($data['users_skipped']));
-		$this->tpl->setVariable("MODE", ilUtil::prepareFormOutput($data['mode']));
-		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", ilUtil::prepareFormOutput($data['mode_nr_of_selections']));
-		$this->tpl->setVariable("MEDIAN", ilUtil::prepareFormOutput($data['median']));
-		$this->tpl->setVariable("ARITHMETIC_MEAN", ilUtil::prepareFormOutput($data['arithmetic_mean']));
+		$this->tpl->setVariable("TITLE", $data['title']);
+		$this->tpl->setVariable("QUESTION", $data['question']);
+		$this->tpl->setVariable("QUESTION_TYPE", $data['question_type']);
+		$this->tpl->setVariable("USERS_ANSWERED", $data['users_answered']);
+		$this->tpl->setVariable("USERS_SKIPPED", $data['users_skipped']);
+		$this->tpl->setVariable("MODE", $data['mode']);
+		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $data['mode_nr_of_selections']);
+		$this->tpl->setVariable("MEDIAN", $data['median']);
+		$this->tpl->setVariable("ARITHMETIC_MEAN", $data['arithmetic_mean']);
 	}
 }
 ?>
