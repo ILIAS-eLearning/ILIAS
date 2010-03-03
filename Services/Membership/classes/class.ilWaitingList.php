@@ -87,7 +87,24 @@ abstract class ilWaitingList
 		$res = $ilDB->manipulate($query);
 
 		return true;
-	}	
+	}
+	
+	/**
+	 * Delete one user entry
+	 * @param object $a_usr_id
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function deleteUserEntry($a_usr_id, $a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM crs_waiting_list ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
+			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer');
+		$ilDB->query($query);
+		return true;
+	}
 	
 
 	/**

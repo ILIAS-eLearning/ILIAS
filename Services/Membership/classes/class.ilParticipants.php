@@ -692,7 +692,7 @@ class ilParticipants
 		$this->deleteSubscriber($a_usr_id);
 		
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
-		ilWaitingList::_deleteUser($a_usr_id);
+		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
 		if($this->type == 'crs') {
 		 	// Add event: used for ecs accounts
