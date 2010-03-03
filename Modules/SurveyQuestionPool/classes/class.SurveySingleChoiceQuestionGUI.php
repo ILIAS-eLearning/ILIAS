@@ -574,7 +574,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				if ($this->object->use_other_answer)
 				{
 					$i = $this->object->categories->getCategoryCount();
-					$template->setCurrentBlock("checkbox_col");
+					$template->setCurrentBlock("radio_col");
 					$template->setVariable("VALUE_SC", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
