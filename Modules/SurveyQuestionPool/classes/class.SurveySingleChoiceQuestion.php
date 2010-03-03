@@ -464,7 +464,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("question_not_checked");
-		if (in_array($this->categories->getCategoryCount(), $entered_value))
+		if ($this->categories->getCategoryCount() == $entered_value)
 		{
 			if (!strlen($post_data[$this->getId() . "_other"]))
 			{
@@ -534,7 +534,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
+		if ($this->use_other_answer && key($cumulated) == $this->categories->getCategoryCount())
+		{
+			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
+		}
+		else
+		{
+			$category = $this->categories->getCategory(key($cumulated));
+		}
+		$result_array["MODE"] =  $prefix . $category;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
@@ -656,6 +664,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			{
 				array_push($a_array, $answer["value"]+1);
 			}
+			if ($this->use_other_answer)
+			{
+				array_push($a_array, ($this->categories->getCategoryCount()+1) . " - " . (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer'));
+			}
 		}
 		else
 		{
@@ -682,7 +694,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$category = $this->categories->getCategory($row["value"]);
+			if ($row["value"] == $this->categories->getCategoryCount())
+			{
+				$category = (strlen($this->other_answer_label)) ? $this->other_answer_label . ' ' . $row['textanswer'] : $row['textanswer'];
+			}
+			else
+			{
+				$category = $this->categories->getCategory($row["value"]);
+			}
 			$answers[$row["active_fi"]] = $row["value"] + 1 . " - " . $category;
 		}
 		return $answers;
@@ -752,6 +771,19 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			}
 			$template->parseCurrentBlock();
 		}
+		if ($this->use_other_answer)
+		{
+			$i = $this->categories->getCategoryCount();
+			$template->setCurrentBlock("option_v");
+			$template->setVariable("OPTION_VALUE", $i);
+			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
+			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $category);
+			if ($i == $default)
+			{
+				$template->setVariable("OPTION_CHECKED", " selected=\"selected\"");
+			}
+			$template->parseCurrentBlock();
+		}
 		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("select_value"));
 		return $template->get();
 	}
@@ -765,7 +797,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*/
 	function getPreconditionValueOutput($value)
 	{
-		return ($value + 1) . " - " . $this->categories->getCategory($value);
+		if ($this->use_other_answer && $value == $this->categories->getCategoryCount())
+		{
+			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
+			return ($value + 1) . " - " . $category;
+		}
+		else
+		{
+			return ($value + 1) . " - " . $this->categories->getCategory($value);
+		}
 	}
 
 /**
