@@ -617,6 +617,30 @@ class ilObjMediaPool extends ilObject
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Create a new folder
+	 *
+	 * @param
+	 * @return
+	 */
+	function createFolder($a_title, $a_parent = 0)
+	{
+		// perform save
+		$mep_item = new ilMediaPoolItem();
+		$mep_item->setTitle($a_title);
+		$mep_item->setType("fold");
+		$mep_item->create();
+		if ($mep_item->getId() > 0)
+		{
+			$tree = $this->getTree();
+			$parent = $a_parent > 0
+				? $a_parent
+				: $tree->getRootId();
+			$this->insertInTree($mep_item->getId(), $parent);
+			return $mep_item->getId();
+		}
+		return false;
+	}
 }
 ?>

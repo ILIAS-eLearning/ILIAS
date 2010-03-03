@@ -249,5 +249,21 @@ class ilMediaObjectDataSet extends ilDataSet
 		}
 		return $a_set;
 	}
+	
+	/**
+	 * Import record
+	 *
+	 * @param
+	 * @return
+	 */
+	function importRecord($a_entity, $a_types, $a_rec)
+	{
+		switch ($a_entity)
+		{
+			case "mob":
+				break;
+		}
+	}
+	
 }
 ?>

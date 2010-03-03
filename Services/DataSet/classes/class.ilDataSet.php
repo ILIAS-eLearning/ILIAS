@@ -141,7 +141,7 @@ abstract class ilDataSet
 
 	/**
 	 * Get xml representation
-	 * 	<data_set install_id="123" install_url="...">
+	 * 	<dataset install_id="123" install_url="...">
 	 * 	<types entity="table_name" version="4.0.1">
 	 *		<ftype name="field_1" type="text" />
 	 *		<ftype name="field_2" type="date" />
@@ -158,7 +158,7 @@ abstract class ilDataSet
 	 *		</rec>
 	 *		...
 	 *	</set>
-	 *  </data_set>
+	 *  </dataset>
 	 */
 	final function getXmlRepresentation($a_entity, $a_target_release,
 		$a_ids, $a_field = "")
@@ -188,7 +188,7 @@ abstract class ilDataSet
 			$cnt++;
 		}
 		
-		$writer->xmlStartTag('data_set', $atts);		
+		$writer->xmlStartTag('dataset', $atts);		
 		
 		// add types
 		$this->addTypesXml($writer, $a_entity, $a_target_release);
@@ -197,10 +197,11 @@ abstract class ilDataSet
 		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "");
 		
 		
-		$writer->xmlEndTag("data_set");
-global $tpl;		
-$tpl->setContent($tpl->main_content."<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>");
-		
+		$writer->xmlEndTag("dataset");
+//if ($a_entity == "mep")
+//{
+//	echo "<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>"; exit;
+//}
 		return $writer->xmlDumpMem(false);
 	}
 	
@@ -390,6 +391,26 @@ $tpl->setContent($tpl->main_content."<pre>".htmlentities($writer->xmlDumpMem(tru
 	function getJsonEntityName($a_entity, $a_version)
 	{
 		return $a_entity;
+	}
+	
+	/**
+	 * Set import object
+	 *
+	 * @param	object	import object
+	 */
+	function setImport($a_val)
+	{
+		$this->import = $a_val;
+	}
+	
+	/**
+	 * Get import object
+	 *
+	 * @return	object	import object
+	 */
+	function getImport()
+	{
+		return $this->import;
 	}
 }
 

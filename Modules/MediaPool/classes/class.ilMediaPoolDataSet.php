@@ -28,8 +28,6 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			case "mep":
 				return array("4.1.0");
-			case "mep_data":
-				return array("4.1.0");
 			case "mep_tree":
 				return array("4.1.0");
 		}
@@ -43,10 +41,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function getXmlNamespace($a_entity, $a_target_release)
 	{
-		if ($a_entity != "mep")
-		{
-			return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
-		}
+		return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
 	}
 	
 	/**
@@ -60,22 +55,18 @@ class ilMediaPoolDataSet extends ilDataSet
 		// mep
 		if ($a_entity == "mep")
 		{
-			return false;
-		}
-		
-		// mep_data
-		if ($a_entity == "mep_data")
-		{
 			switch ($a_version)
 			{
 				case "4.1.0":
 					return array(
 						"id" => "integer",
+						"title" => "text",
+						"description" => "text",
 						"default_width" => "integer",
 						"default_height" => "integer");
 			}
 		}
-
+	
 		// mep_tree
 		if ($a_entity == "mep_tree")
 		{
@@ -86,8 +77,6 @@ class ilMediaPoolDataSet extends ilDataSet
 							"mep_id" => "integer",
 							"child" => "integer",
 							"parent" => "integer",
-							"lft" => "integer",
-							"rgt" => "integer",
 							"depth" => "integer",
 							"type" => "text",
 							"title" => "text",
@@ -111,20 +100,17 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			$a_ids = array($a_ids);
 		}
-		
-		// mep (no data, only dependent records)
-		if ($a_entity == "mep")
-		{
-			$this->data = false;
-		}
-		
+				
 		// mep_data
-		if ($a_entity == "mep_data")
+		if ($a_entity == "mep")
 		{
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT * FROM mep_data WHERE ".
+					$this->getDirectDataFromQuery("SELECT id, title, description, ".
+						" default_width, default_height".
+						" FROM mep_data JOIN object_data ON (mep_data.id = object_data.obj_id) ".
+						"WHERE ".
 						$ilDB->in("id", $a_ids, false, "integer"));
 					break;
 			}
@@ -137,7 +123,7 @@ class ilMediaPoolDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT mep_id, child ".
-						" ,parent,lft,rgt,depth,type,title,foreign_id ".
+						" ,parent,depth,type,title,foreign_id ".
 						" FROM mep_tree JOIN mep_item ON (child = obj_id) ".
 						" WHERE ".
 						$ilDB->in("mep_id", $a_ids, false, "integer").
@@ -156,13 +142,8 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			case "mep":
 				return array (
-					"mep_data" => array("ids" => $a_ids)
-				);
-			
-			case "mep_data":
-				return array (
 					"mep_tree" => array("ids" => $a_rec["id"])
-				);
+				);							
 		}
 		return false;
 	}
@@ -171,14 +152,6 @@ class ilMediaPoolDataSet extends ilDataSet
 	//// Needs abstraction (interface?) and version handling
 	////
 	
-	/**
-	 * Init import
-	 */
-	function initImport($a_entities, $a_mappings)
-	{
-		// check entity types and versions
-		// get mappings for other entities (here: mobs)
-	}
 	
 	/**
 	 * Import record
@@ -186,14 +159,34 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function importRecord($a_entity, $a_types, $a_record)
+	function importRecord($a_entity, $a_types, $a_rec)
 	{
 		switch ($a_entity)
 		{
-			case "mep_data":
+			case "mep":
+				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
+				$newObj = new ilObjMediaPool();
+				$newObj->setType("mep");
+				$newObj->setTitle($a_rec["title"]);
+				$newObj->setDescription($a_rec["description"]);
+				$newObj->setDefaultWidth($a_rec["default_width"]);
+				$newObj->setDefaultHeight($a_rec["default_height"]);
+				$newObj->create();
+				$this->current_obj = $newObj;
+				$this->import->addMapping("mep", $a_rec["id"], $newObj->getId());
 				break;
 
 			case "mep_tree":
+				switch ($a_rec["type"])
+				{
+					case "fold":
+						$parent = (int) $this->import->getMapping("mep_tree", $a_rec["parent"]);
+						$fold_id =
+							$this->current_obj->createFolder($a_rec["title"], $parent);
+						$this->import->addMapping("mep_tree", $a_rec["child"],
+							$fold_id);
+						break;
+				}
 				break;
 		}
 	}
