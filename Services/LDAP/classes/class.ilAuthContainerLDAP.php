@@ -257,8 +257,8 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	{
 		$a_username = isset($a_user_data[$this->server->getUserAttribute()]) ? 
 			$a_user_data[$this->server->getUserAttribute()] :
-			trim($a_username);
-		
+			trim($a_user_data);
+			
 		// Support for multiple user attributes
 		if(!is_array($a_username))
 		{
