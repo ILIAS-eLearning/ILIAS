@@ -234,12 +234,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$template->setCurrentBlock("question_data_text");
 		if ($show_questiontext)
 		{
-			$questiontext = $this->object->getQuestiontext();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		if (! $this->object->getObligatory($survey_id))
-		{
-			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$this->outQuestionText($template);
 		}
 		if ($question_title)
 		{

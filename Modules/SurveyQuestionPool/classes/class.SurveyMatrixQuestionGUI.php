@@ -910,12 +910,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		if ($show_questiontext)
 		{
-			$questiontext = $this->object->getQuestiontext();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		if (! $this->object->getObligatory())
-		{
-			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$this->outQuestionText($template);
 		}
 		$template->parseCurrentBlock();
 		return $template->get();
