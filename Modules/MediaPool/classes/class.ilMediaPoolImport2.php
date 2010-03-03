@@ -24,12 +24,12 @@ class ilMediaPoolImport2 extends ilImport
 		{
 			case "mob":
 				include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
-				$this->setDataset(new ilMediaObjectDataSet()); 
+				$this->setCurrentDataset(new ilMediaObjectDataSet()); 
 				break;
 				
 			case "mep":
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
-				$this->setDataset(new ilMediaPoolDataSet()); 
+				$this->setCurrentDataset(new ilMediaPoolDataSet()); 
 				break;
 		}	
 	}

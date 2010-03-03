@@ -13,6 +13,7 @@ class ilImport
 	protected $install_id = "";
 	protected $install_url = "";
 	protected $entities = "";
+	protected $mappings = array();
 	
 	/**
 	 * Begin new dataset
@@ -22,6 +23,13 @@ class ilImport
 		$this->install_id = "";
 		$this->install_url = "";
 		$this->entities = array();
+	}
+
+	/**
+	 * Begin new dataset
+	 */
+	final protected function endDataset()
+	{
 	}
 	
 	/**
@@ -65,6 +73,61 @@ class ilImport
 	}
 	
 	/**
+	 * Add mapping
+	 *
+	 * @param	string		entity
+	 * @param	string		old id
+	 * @param	string		new id
+	 */
+	function addMapping($a_entity, $a_old_id, $a_new_id)
+	{
+		$this->mappings[$a_entity][$a_old_id] = $a_new_id;
+	}
+	
+	/**
+	 * Get a mapping
+	 *
+	 * @param	string		entity
+	 * @param	string		old id
+	 * 
+	 * @return	string		new id, or false if no mapping given
+	 */
+	function getMapping($a_entity, $a_old_id)
+	{
+		if (isset($this->mappings[$a_entity][$a_old_id]))
+		{
+			return $this->mappings[$a_entity][$a_old_id];
+		}
+	
+		return false;	
+	}
+	
+	/**
+	 * Get mapping
+	 *
+	 * @return	array	mapping
+	 */
+	function getAllMappings()
+	{
+		return $this->mappings;
+	}
+	
+	/**
+	 * Get mappings for entity
+	 *
+	 * @param	string	entity
+	 * @return
+	 */
+	function getMappingsOfEntity($a_entity)
+	{
+		if (isset($this->mappings[$a_entity]))
+		{
+			return $this->mappings[$a_entity];
+		}
+		return array();
+	}
+	
+	/**
 	 * Set entity types
 	 *
 	 * @param	array	entity types
@@ -85,12 +148,31 @@ class ilImport
 	}
 	
 	/**
+	 * Set currrent dataset
+	 *
+	 * @param	object	currrent dataset
+	 */
+	function setCurrentDataset($a_val)
+	{
+		$this->current_dataset = $a_val;
+	}
+	
+	/**
+	 * Get currrent dataset
+	 *
+	 * @return	object	currrent dataset
+	 */
+	function getCurrentDataset()
+	{
+		return $this->current_dataset;
+	}
+	
+	/**
 	 * After entity types are parsed
 	 */
 	function afterEntityTypes()
 	{
-		$this->getCurrentDataset()->initImport($this->getEntities(),
-			$this->getMappings());
+		$this->getCurrentDataset()->setImport($this);
 	}
 
 	/**
@@ -109,7 +191,7 @@ class ilImport
 	 *
 	 * @param	string		absolute filename of temporary upload file
 	 */
-	final static function _importObject($a_tmp_file, $a_type)
+	final static function _importObject($a_new_obj, $a_tmp_file, $a_type)
 	{
 		global $objDefinition, $tpl;
 				
@@ -134,7 +216,9 @@ class ilImport
 			ilUtil::makeDir($tmpdir);
 			
 			// move import file into temporary directory
-			ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
+$a_filename = basename($a_tmp_file);
+copy($a_tmp_file, $tmpdir."/".$a_filename);
+//			ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
 			
 			// unzip file
 			ilUtil::unzip($tmpdir."/".$a_filename);
@@ -156,7 +240,9 @@ class ilImport
 			} 
 			
 			// delete temporary directory
-			unlink($tmpdir);
+			ilUtil::delDir($tmpdir);
+			
+			return $import;
 		}
 		
 	}

@@ -26,12 +26,23 @@ include_once("./classes/class.ilObjectGUI.php");
 */
 abstract class ilObject2GUI extends ilObjectGUI
 {
+	protected $creation_forms = array();
+	const CFORM_NEW = "new";
+	const CFORM_CLONE = "clone";
+	const CFORM_IMPORT = "import";
+	
 	/**
 	* Constructor.
 	*/
 	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		global $objDefinition, $tpl, $ilCtrl, $ilErr, $lng, $ilTabs;
+		
+		$this->creation_forms = array(
+			ilObject2GUI::CFORM_NEW,
+			ilObject2GUI::CFORM_CLONE,
+			ilObject2GUI::CFORM_IMPORT
+			);
 
 		$this->type = $this->getType();
 		
@@ -222,15 +233,46 @@ abstract class ilObject2GUI extends ilObjectGUI
 //	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
 
 	/**
-	* create new object form
+	 * Deactivate creation form
+	 *
+	 * @param
+	 * @return
+	 */
+	function deactivateCreationForm($a_type)
+	{
+		foreach ($this->creation_forms as $k => $v)
+		{
+			if ($v == $a_type)
+			{
+				unset($this->creation_forms[$k]);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Add creation form
+	 *
+	 * @param	object	form object
+	 */
+	function addCreationForm($a_header, $a_form)
+	{
+		$this->creation_forms[] = array("header" => $a_header,
+			"form" => $a_form);
+	}
+	
+	/**
+	* Create new object form
 	*
 	* @access	public
 	*/
 	function create()
 	{
-		global $rbacsystem, $tpl;
-
+		global $rbacsystem, $tpl, $ilCtrl;
+		
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$ilCtrl->setParameter($this, "new_type", $new_type);
+		$this->initCreationForms();
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
@@ -238,22 +280,97 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->initEditForm("create", $new_type);
-			$tpl->setContent($this->form->getHTML());
+			$tpl->setContent($this->getCreationFormsHTML());
+//			$this->ctrl->setParameter($this, "new_type", $new_type);
+//			$this->initEditForm("create", $new_type);
+//			$tpl->setContent($this->form->getHTML());
 			
-			if ($new_type != "mep")		// bad hack, should be removed (implemented!)
+//			if ($new_type != "mep")		// bad hack, should be removed (implemented!)
+//			{
+//				$clone_html = $this->fillCloneTemplate('', $new_type);
+//			}
+			
+//			$tpl->setContent($this->form->getHTML().$clone_html);
+		}
+	}
+	
+	/**
+	 * Init creation froms
+	 */
+	protected function initCreationForms()
+	{
+	}
+	
+	/**
+	 * Get HTML for creation forms
+	 */
+	function getCreationFormsHTML()
+	{
+		global $lng;
+		
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
+		$lng->loadLanguageModule($new_type);
+		if (count($this->creation_forms) == 1)
+		{
+			$cf = $this->creation_forms[0];
+			if (is_array($cf))
 			{
-				$clone_html = $this->fillCloneTemplate('', $new_type);
+				return $cf["form"]->getHTML();
+			}
+			else if ($cf == ilObject2GUI::CFORM_NEW)
+			{
+				$this->initEditForm("create", $new_type);
+				return $this->form->getHTML();
+			}
+			else if ($cf == ilObject2GUI::CFORM_CLONE)
+			{
+return "";
+				return $this->fillCloneTemplate('', $new_type);
+			}
+			else if($cf == ilObject2GUI::CFORM_IMPORT)
+			{
+				$this->initImportForm($new_type);
+				return $this->form->getHTML();
+			}	
+		}
+		else if (count($this->creation_forms) > 1)
+		{
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			$acc = new ilAccordionGUI();
+			$cnt = 1;
+			foreach ($this->creation_forms as $cf)
+			{
+				$ot = $lng->txt("option")." ".$cnt.": ";
+				if (is_array($cf))
+				{
+					$acc->addItem($ot.$cf["header"], $cf["form"]->getHTML());
+				}
+				else if ($cf == ilObject2GUI::CFORM_NEW)
+				{
+					$this->initEditForm("create", $new_type);
+					$acc->addItem($ot.$lng->txt($new_type."_create"), $this->form->getHTML());
+				}
+				else if ($cf == ilObject2GUI::CFORM_CLONE)
+				{
+//					$clone_html = $this->fillCloneTemplate('', $new_type);
+					$acc->addItem($ot.$lng->txt($new_type."_clone"), $clone_html);
+				}
+				else if($cf == ilObject2GUI::CFORM_IMPORT)
+				{
+					$this->initImportForm($new_type);
+					$acc->addItem($ot.$lng->txt($new_type."_import"), $this->form->getHTML());
+				}
+				$cnt++;
 			}
 			
-			$tpl->setContent($this->form->getHTML().$clone_html);
-		}
+			return $acc->getHTML();
+		}	
 	}
 	
 	
 	/**
-	* save object
+	* Save object
 	*
 	* @access	public
 	*/
@@ -421,4 +538,78 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->ctrl->redirect($this);
 	}
 
+	/**
+	* Init object import form
+	*
+	* @param        string        new type
+	*/
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+	
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$this->form->addItem($fi);
+	
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+	                
+		$this->form->setFormAction($ilCtrl->getFormAction($this));	 
+	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	function importFile()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			
+			include_once("./Services/Export/classes/class.ilImport.php");
+			
+// hack for development
+$import_file = "/opt/data/ilias_trunk/iliastrunk/mep_data/mep_2482/export/".
+	$_POST["exportfile"];
+			$imp = ilImport::_importObject($newObj, $import_file, $new_type);
+			$map = $imp->getMappingsOfEntity($new_type);
+			
+			// we should have only one mapping here
+			if (count($map) == 1)
+			{
+				$new_id = current($map);
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->afterSave($newObj);
+			}
+			return;
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
 }

@@ -295,6 +295,47 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 	}
 
+	/**
+	 * Init creation forms
+	 */
+	function initCreationForms()
+	{
+		$this->deactivateCreationForm(ilObject2GUI::CFORM_CLONE);
+		if (DEVMODE)
+		{
+			$this->initDevForm();
+			$this->addCreationForm("Quick Import", $this->form);
+		}
+	}
+	
+	/**
+	 * Init quick upload form (only for testing)
+	 */
+	public function initDevForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// select existing xml files
+		$options = array();
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$files = ilExport::_getExportFiles(2482, array("xml"), "mep");
+
+		foreach ($files as $f)
+		{
+			$options[$f["file"]] = $f["file"];
+		}
+		$si = new ilSelectInputGUI($lng->txt("file"), "exportfile");
+		$si->setOptions($options);
+		$this->form->addItem($si);
+		
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+	                
+		$this->form->setTitle("Quick Import (only development)");
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
 	
 	function createMediaObject()
 	{
@@ -1172,21 +1213,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$this->initFolderForm("create");
 		if ($this->form->checkInput())
 		{
-			// perform save
-			$mep_item = new ilMediaPoolItem();
-			$mep_item->setTitle($_POST["title"]);
-			$mep_item->setType("fold");
-			$mep_item->create();
-			if ($mep_item->getId() > 0)
+			if ($this->object->createFolder($_POST["title"], (int) $_GET["mepitem_id"]))
 			{
-				$tree = $this->object->getTree();
-				$parent = $_GET["mepitem_id"] > 0
-					? $_GET["mepitem_id"]
-					: $tree->getRootId();
-				$this->object->insertInTree($mep_item->getId(), $parent);
 				ilUtil::sendSuccess($lng->txt("mep_folder_created"), true);
 			}
-			
 			$ilCtrl->redirect($this, "listMedia");
 		}
 		

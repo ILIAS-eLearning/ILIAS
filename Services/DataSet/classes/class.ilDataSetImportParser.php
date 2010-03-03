@@ -10,7 +10,7 @@ include_once("./classes/class.ilSaxParser.php");
  * @version $Id$
  * @ingroup ServicesExport
  */
-class ilManifestParser extends ilSaxParser
+class ilDataSetImportParser extends ilSaxParser
 {
 	protected $import = null;				// import object
 	protected $entities = array();			// types array
@@ -64,12 +64,13 @@ class ilManifestParser extends ilSaxParser
 	 */
 	function handleBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
+
 		switch ($a_name)
 		{
 			case "dataset":
-				$import->setInstallId($a_attribs["install_id"]);
-				$import->setInstallUrl($a_attribs["install_url"]);
-				$import->initDataset($this->ds_component, $a_attribs["top_entity"]);
+				$this->import->setInstallId($a_attribs["install_id"]);
+				$this->import->setInstallUrl($a_attribs["install_url"]);
+				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
 				break;
 				
 			case "types":
@@ -85,8 +86,8 @@ class ilManifestParser extends ilSaxParser
 			case "rec":
 				if (!$this->entities_sent)
 				{
-					$import->setEntityTypes($this->entities);
-					$import->afterEntityTypes();
+					$this->import->setEntityTypes($this->entities);
+					$this->import->afterEntityTypes();
 				}
 				$this->current_entity = $a_attribs["entity"];
 				$this->in_record = true;
@@ -122,7 +123,7 @@ class ilManifestParser extends ilSaxParser
 				break;
 				
 			case "rec":
-				$import->importRecord($this->current_entity,
+				$this->import->importRecord($this->current_entity,
 					$this->entities[$this->current_entity]["types"],
 					$this->current_field_values);
 				$this->in_record = false;

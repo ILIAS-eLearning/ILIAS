@@ -10161,6 +10161,10 @@ ecs#:#ecs_published_for#:#Published for:
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 exp#:#exp_create_xml_file#:#Create Export Package (XML)
 exp#:#exp_export_files#:#Export Files
+common#:#option#:#Option
+mep#:#mep_create#:#Create a new media pool
+mep#:#mep_clone#:#Clone an existing media pool
+mep#:#mep_import#:#Import a media pool
 survey#:#use_other_answer#:#Use other answer
 survey#:#other_answer#:#Other answer
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
