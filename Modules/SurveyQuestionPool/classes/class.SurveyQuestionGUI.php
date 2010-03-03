@@ -641,5 +641,19 @@ class SurveyQuestionGUI
 	{
 		$this->outErrorMessages();
 	}
+	
+	protected function outQuestionText($template)
+	{
+		$questiontext = $this->object->getQuestiontext();
+		if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches))
+		{
+			$questiontext = $matches[1];
+		}
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($this->object->getObligatory($survey_id))
+		{
+			$template->setVariable("OBLIGATORY_TEXT", '*');
+		}
+	}
 }
 ?>
