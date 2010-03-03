@@ -674,8 +674,6 @@ class ilSurveyEvaluationGUI
 /**
 * Creates an image visualising the results of a question
 *
-* Creates an image visualising the results of a question
-*
 * @access public
 */
 	function outChart()

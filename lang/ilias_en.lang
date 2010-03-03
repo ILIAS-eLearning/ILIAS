@@ -10161,3 +10161,8 @@ ecs#:#ecs_published_for#:#Published for:
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 exp#:#exp_create_xml_file#:#Create Export Package (XML)
 exp#:#exp_export_files#:#Export Files
+survey#:#use_other_answer#:#Use other answer
+survey#:#other_answer#:#Other answer
+survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
+survey#:#other_answer_label#:#Label of other answer (optional)
+survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer

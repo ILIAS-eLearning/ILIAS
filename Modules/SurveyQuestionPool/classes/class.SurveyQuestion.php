@@ -141,6 +141,11 @@ class SurveyQuestion
 	*/
 	protected $cumulated;
 
+	/**
+	* data array containing the question data
+	*/
+	private $arrData;
+
 /**
 * SurveyQuestion constructor
 * The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
@@ -188,6 +193,7 @@ class SurveyQuestion
 		$this->orientation = 0;
 		$this->materials = array();
 		$this->material = array();
+		$this->arrData = array();
 		register_shutdown_function(array(&$this, '_SurveyQuestion'));
 	}
 
@@ -2187,6 +2193,39 @@ class SurveyQuestion
 			'arithmetic_mean' => $cumulated["ARITHMETIC_MEAN"]
 		);
 		return $result;
+	}
+
+	/**
+	* Object getter
+	*/
+	public function __get($value)
+	{
+		switch ($value)
+		{
+			default:
+				if (array_key_exists($value, $this->arrData))
+				{
+					return $this->arrData[$value];
+				}
+				else
+				{
+					return null;
+				}
+				break;
+		}
+	}
+
+	/**
+	* Object setter
+	*/
+	public function __set($key, $value)
+	{
+		switch ($key)
+		{
+			default:
+				$this->arrData[$key] = $value;
+				break;
+		}
 	}
 }
 ?>

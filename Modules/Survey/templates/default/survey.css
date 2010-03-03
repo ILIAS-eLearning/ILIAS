@@ -83,6 +83,15 @@ td.bipolar {
 	margin-bottom:1em;
 }
 
+.solutionbox {
+	color: black;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-style: inset;
+	border-width: 1px;
+}
+
 table.categorywizard tr {
 	vertical-align: top;
 }
