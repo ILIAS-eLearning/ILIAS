@@ -16587,3 +16587,19 @@ while($record = $ilDB->fetchObject($res))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2940>
+<?php
+if(!$ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+{
+  $ilDB->addTableColumn("svy_qst_mc", "use_other_answer", array("type" => "integer", "length" => 2, "notnull" => false));
+  $ilDB->addTableColumn("svy_qst_mc", "other_answer_label", array("type" => "text", "length" => 255, "notnull" => false, "default" => null));
+}
+?>
+<#2941>
+<?php
+if(!$ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+{
+  $ilDB->addTableColumn("svy_qst_sc", "use_other_answer", array("type" => "integer", "length" => 2, "notnull" => false));
+  $ilDB->addTableColumn("svy_qst_sc", "other_answer_label", array("type" => "text", "length" => 255, "notnull" => false, "default" => null));
+}
+?>

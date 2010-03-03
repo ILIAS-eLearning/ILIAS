@@ -173,6 +173,15 @@ table.freefield_bottom {
 	padding-top: 5em;
 }
 
+.solutionbox {
+	color: black;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-style: inset;
+	border-width: 1px;
+}
+
 .surveySheet {
 	/* page-break-after: always;*/
 }

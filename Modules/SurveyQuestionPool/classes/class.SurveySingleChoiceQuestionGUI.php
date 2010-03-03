@@ -79,6 +79,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			$this->object->setQuestiontext($questiontext);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
 			$this->object->setOrientation($_POST["orientation"]);
+			$this->object->use_other_answer = ($_POST['use_other_answer']) ? 1 : 0;
+			$this->object->other_answer_label = ($this->object->use_other_answer) ? $_POST['other_answer_label'] : null;
 
 	    $this->object->categories->flushCategories();
 
@@ -177,6 +179,20 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		}
 		$answers->setValues($this->object->getCategories());
 		$form->addItem($answers);
+
+		// neutral answer
+		$show_neutral_answer = new ilCheckboxInputGUI($this->lng->txt("other_answer"), "use_other_answer");
+		$show_neutral_answer->setOptionTitle($this->lng->txt("use_other_answer"));
+		$show_neutral_answer->setValue(1);
+		$show_neutral_answer->setChecked($this->object->use_other_answer);
+		$show_neutral_answer->setInfo($this->lng->txt("other_answer_desc"));
+
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilScaleInputGUI.php";
+		$neutral_answer_label = new ilScaleInputGUI($this->lng->txt('other_answer_label'), "other_answer_label");
+		$neutral_answer_label->setValue($this->object->other_answer_label);
+		$neutral_answer_label->setScale($this->object->getCategories()->getCategoryCount()+1);
+		$show_neutral_answer->addSubItem($neutral_answer_label);
+		$form->addItem($show_neutral_answer);
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
 
@@ -508,6 +524,32 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					}
 					$template->parseCurrentBlock();
 				}
+				if ($this->object->use_other_answer)
+				{
+					$template->setCurrentBlock("other_row");
+					if (strlen($this->object->other_answer_label))
+					{
+						$template->setVariable("OTHER_LABEL", $this->object->other_answer_label);
+					}
+					$i = $this->object->categories->getCategoryCount();
+					$template->setVariable("VALUE_SC", $i);
+					$template->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						foreach ($working_data as $value)
+						{
+							if (strlen($value["value"]))
+							{
+								if ($value["value"] == $i)
+								{
+									$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
+									$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+								}
+							}
+						}
+					}
+					$template->parseCurrentBlock();
+				}
 				break;
 			case 1:
 				// horizontal orientation
@@ -529,6 +571,27 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					}
 					$template->parseCurrentBlock();
 				}
+				if ($this->object->use_other_answer)
+				{
+					$i = $this->object->categories->getCategoryCount();
+					$template->setCurrentBlock("checkbox_col");
+					$template->setVariable("VALUE_SC", $i);
+					$template->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						foreach ($working_data as $value)
+						{
+							if (strlen($value["value"]))
+							{
+								if ($value["value"] == $i)
+								{
+									$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+								}
+							}
+						}
+					}
+					$template->parseCurrentBlock();
+				}
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
@@ -536,6 +599,31 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$template->setVariable("VALUE_SC", $i);
 					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
 					$template->setVariable("QUESTION_ID", $this->object->getId());
+					$template->parseCurrentBlock();
+				}
+				if ($this->object->use_other_answer)
+				{
+					$i = $this->object->categories->getCategoryCount();
+					$template->setCurrentBlock("text_other_col");
+					$template->setVariable("VALUE_SC", $i);
+					$template->setVariable("QUESTION_ID", $this->object->getId());
+					if (strlen($this->object->other_answer_label))
+					{
+						$template->setVariable("OTHER_LABEL", $this->object->other_answer_label);
+					}
+					if (is_array($working_data))
+					{
+						foreach ($working_data as $value)
+						{
+							if (strlen($value["value"]))
+							{
+								if ($value["value"] == $i)
+								{
+									$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
+								}
+							}
+						}
+					}
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -610,6 +698,16 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
 					$template->parseCurrentBlock();
 				}
+				if ($this->object->use_other_answer)
+				{
+					$template->setCurrentBlock("other_row");
+					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+					$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($this->object->other_answer_label));
+					$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+					$template->parseCurrentBlock();
+				}
 				break;
 			case 1:
 				// horizontal orientation
@@ -622,11 +720,26 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 					$template->parseCurrentBlock();
 				}
+				if ($this->object->use_other_answer)
+				{
+					$template->setCurrentBlock("radio_col");
+					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
+					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+					$template->parseCurrentBlock();
+				}
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("text_col");
 					$template->setVariable("TEXT_SC", $category);
+					$template->parseCurrentBlock();
+				}
+				if ($this->object->use_other_answer)
+				{
+					$template->setCurrentBlock("other_text_col");
+					$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($this->object->other_answer_label));
+					$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 					$template->parseCurrentBlock();
 				}
 				break;
