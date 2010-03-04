@@ -1912,6 +1912,7 @@ return $this->showServerInfoObject();
 		$ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
 		$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
 		$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
+		$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));
 		
 		$ilTabs->setSubTabActive($a_activate);
 		$ilTabs->setTabActive("general_settings");
@@ -2905,6 +2906,173 @@ return $this->showServerInfoObject();
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHtml());
 		}
+	}
+	
+	/**
+	 * 
+	 * Show proxy settings
+	 * 
+	 * @access	public
+	 * 
+	 */
+	public function showProxyObject()
+	{
+		global $tpl, $ilAccess, $ilSetting;
+		
+		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+		
+		require_once 'classes/class.ilProxySettings.php';
+		
+		$this->initProxyForm();
+		$this->form->setValuesByArray(array(
+			'proxy_status' => ilProxySettings::_getInstance()->isActive(),
+			'proxy_host' => ilProxySettings::_getInstance()->getHost(),
+			'proxy_port' => ilProxySettings::_getInstance()->getPort()
+		));
+		if(ilProxySettings::_getInstance()->isActive())
+		{
+			$this->printProxyStatus();
+		}
+		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * 
+	 * Print proxy settings
+	 * 
+	 * @access	private
+	 * 
+	 */
+	private function printProxyStatus()
+	{
+		try
+		{
+			ilProxySettings::_getInstance()->checkConnection();
+			$this->form->getItemByPostVar('proxy_availability')->setHTML(
+				'<img src="'.ilUtil::getImagePath('icon_ok.gif').'" /> '.
+				$this->lng->txt('proxy_connectable')
+			);	
+		}
+		catch(ilProxyException $e)
+		{
+			$this->form->getItemByPostVar('proxy_availability')->setHTML(
+				'<img src="'.ilUtil::getImagePath('icon_not_ok.gif').'" /> '.
+				$this->lng->txt('proxy_not_connectable')
+			);
+			ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+		}
+	}
+	
+	/**
+	 * 
+	 * Save proxy settings
+	 * 
+	 * @access	public
+	 * 
+	 */
+	public function saveProxyObject()
+	{
+		global $tpl, $ilAccess, $ilSetting, $lng;
+		
+		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+		
+		require_once 'classes/class.ilProxySettings.php';
+		
+		$this->initProxyForm();	
+		$isFormValid = $this->form->checkInput();
+		ilProxySettings::_getInstance()->isActive((int)$this->form->getInput('proxy_status'))
+							   		   ->setHost(trim($this->form->getInput('proxy_host')))
+							   			->setPort(trim($this->form->getInput('proxy_port')));
+		if($isFormValid)
+		{
+			if(ilProxySettings::_getInstance()->isActive())
+			{
+				if(!strlen(ilProxySettings::_getInstance()->getHost()))
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_host')->setAlert($lng->txt('msg_input_is_required'));
+				}
+				if(!strlen(ilProxySettings::_getInstance()->getPort()))
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_port')->setAlert($lng->txt('msg_input_is_required'));
+				}
+				if(!preg_match('/[0-9]{1,}/', ilProxySettings::_getInstance()->getPort()) ||
+				   ilProxySettings::_getInstance()->getPort() < 0 || 
+				   ilProxySettings::_getInstance()->getPort() > 65535)
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_port')->setAlert($lng->txt('proxy_port_numeric'));
+				}
+			}
+			
+			if($isFormValid)
+			{
+				ilProxySettings::_getInstance()->save();
+				ilUtil::sendSuccess($lng->txt('saved_successfully'));
+				if(ilProxySettings::_getInstance()->isActive())
+				{		
+					$this->printProxyStatus();
+				}
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+			}		
+		}
+		
+		$this->form->setValuesByPost();		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * 
+	 * Initialize proxy settings form
+	 * 
+	 * @access	public
+	 * 
+	 */
+	private function initProxyForm()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->setGeneralSettingsSubTabs('proxy');
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this, 'saveProxy'));
+		
+		// Proxy status
+		$proxs = new ilCheckboxInputGUI($lng->txt('proxy_status'), 'proxy_status');
+		$proxs->setInfo($lng->txt('proxy_status_info'));
+		$proxs->setValue(1);
+		$this->form->addItem($proxs);
+		
+		// Proxy availability
+		$proxa = new ilCustomInputGUI('', 'proxy_availability');
+		$proxs->addSubItem($proxa);
+	
+		// Proxy
+		$prox = new ilTextInputGUI($lng->txt('proxy_host'), 'proxy_host');
+		$prox->setInfo($lng->txt('proxy_host_info'));
+		$proxs->addSubItem($prox);
+
+		// Proxy Port
+		$proxp = new ilTextInputGUI($lng->txt('proxy_port'), 'proxy_port');
+		$proxp->setInfo($lng->txt('proxy_port_info'));
+		$proxp->setSize(10);
+		$proxp->setMaxLength(10);
+		$proxs->addSubItem($proxp);
+	
+		// save and cancel commands
+		$this->form->addCommandButton('saveProxy', $lng->txt('save'));
 	}
 }
 ?>

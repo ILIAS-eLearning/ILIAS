@@ -23,6 +23,7 @@
 
 include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
 
 /**
 * This class represents a selection list property in a property form.
@@ -31,7 +32,7 @@ include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
+class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
 	protected $options = array();
 	protected $value;

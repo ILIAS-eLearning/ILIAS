@@ -16635,3 +16635,27 @@ if($ilDB->tableColumnExists('svy_qst_sc','other_answer_label'))
 <?php
 	$ilDB->addIndex('svy_category',array('other'),'i2');
 ?>
+<#2947>
+<?php
+
+	$feed_set = new ilSetting('feed');
+	$pxy_host = $feed_set->get('proxy');
+	$pxy_port = $feed_set->get('proxy_port');
+	
+	$setting = new ilSetting();	
+	if(strlen($pxy_host) && strlen($pxy_port))
+	{		
+		$setting->set('proxy_host', $pxy_host);
+		$setting->set('proxy_port', $pxy_port);
+		$setting->set('proxy_status', 1);
+	}
+	else
+	{		
+		$setting->set('proxy_host', '');
+		$setting->set('proxy_port', '');
+		$setting->set('proxy_status', 0);
+	}
+	
+	$feed_set->delete('proxy');
+	$feed_set->delete('proxy_port');
+?>
