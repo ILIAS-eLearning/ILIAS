@@ -16603,3 +16603,31 @@ if(!$ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
   $ilDB->addTableColumn("svy_qst_sc", "other_answer_label", array("type" => "text", "length" => 255, "notnull" => false, "default" => null));
 }
 ?>
+<#2942>
+<?php
+if(!$ilDB->tableColumnExists('svy_category','scale'))
+{
+  $ilDB->addTableColumn("svy_category", "scale", array("type" => "integer", "length" => 4, "notnull" => false, "default" => null));
+}
+?>
+<#2943>
+<?php
+if(!$ilDB->tableColumnExists('svy_category','other'))
+{
+  $ilDB->addTableColumn("svy_category", "other", array("type" => "integer", "length" => 2, "notnull" => true, "default" => 0));
+}
+?>
+<#2944>
+<?php
+if($ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+{
+	$ilDB->dropTableColumn('svy_qst_mc', 'use_other_answer');
+}
+?>
+<#2945>
+<?php
+if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+{
+	$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
+}
+?>
