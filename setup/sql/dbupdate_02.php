@@ -16631,3 +16631,7 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 	$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
 }
 ?>
+<#2946>
+<?php
+	$ilDB->addIndex('svy_category',array('other'),'i2');
+?>
