@@ -10184,3 +10184,14 @@ survey#:#other_answer#:#Andere Antwort
 survey#:#other_answer_desc#:#Wenn Sie diese Option wählen, wird als letzte Antwortoption ein Textfeld für eine freie Antwort angeboten.
 survey#:#other_answer_label#:#Bezeichnung der anderen Antwort (optional)
 survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
+common#:#proxy#:#Proxy
+common#:#proxy_connectable#:#Verbindung hergestellt.
+common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
+common#:#proxy_status#:#Proxy
+common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
+common#:#proxy_host#:#Host
+common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
+common#:#proxy_port#:#Port
+common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
+common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
+common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler

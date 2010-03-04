@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+
 /**
 * This class represents a checkbox property in a property form.
 *
@@ -28,7 +30,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
+class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
 	protected $value = "1";
 	protected $checked;
@@ -168,7 +170,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 	/**
 	* Render item
 	*/
-	function render()
+	function render($a_mode = '')
 	{
 		$tpl = new ilTemplate("tpl.prop_checkbox.html", true, true, "Services/Form");
 		
@@ -190,6 +192,15 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("DISABLED",
 				'disabled="disabled"');
 		}
+		
+		if ($a_mode == "toolbar")
+		{
+			// block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
+			// -moz-inline-stack for FF2
+			// zoom 1; *display:inline for IE6 & 7
+			$tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
+		}
+		
 		return $tpl->get();
 	}
 
@@ -237,5 +248,13 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 			$this->setChecked(true);
 		}
 	}
-
+	
+	/**
+	 * Get HTML for toolbar
+	 */
+	function getToolbarHTML()
+	{
+		$html = $this->render('toolbar');
+		return $html;
+	}
 }

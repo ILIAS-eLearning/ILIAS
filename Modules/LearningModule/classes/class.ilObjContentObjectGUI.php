@@ -5,6 +5,7 @@ include_once "classes/class.ilObjectGUI.php";
 include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
 include_once ("./Modules/LearningModule/classes/class.ilLMPageObjectGUI.php");
 include_once ("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php");
+require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandling.php';
 
 /**
 * Class ilObjContentObjectGUI
@@ -17,7 +18,7 @@ include_once ("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php")
 *
 * @ingroup ModulesIliasLearningModule
 */
-class ilObjContentObjectGUI extends ilObjectGUI
+class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHandling
 {
 	var $ctrl;
 
@@ -3266,91 +3267,72 @@ return;
 
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
-
+	
+	/**
+	 * 
+	 * @see		ilLinkCheckerGUIRowHandling::formatInvalidLinkArray()
+	 * @param	array Unformatted array
+	 * @return	array Formatted array
+	 * @access	public
+	 * 
+	 */
+	public function formatInvalidLinkArray(Array $row)
+	{
+		$row['title'] =  ilLMPageObject::_getPresentationTitle($row['page_id'], $this->object->getPageHeader());
+	
+		require_once 'Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setSelectionHeaderClass('small');	
+		$actions->setItemLinkClass('xsmall');		
+		$actions->setListTitle($this->lng->txt('actions'));		
+		$actions->setId($row['page_id']);
+		$this->ctrl->setParameterByClass('ilLMPageObjectGUI', 'obj_id', $row['page_id']);
+		$actions->addItem(
+			$this->lng->txt('edit'),
+			'',
+			$this->ctrl->getLinkTargetByClass('ilLMPageObjectGUI', 'edit')
+		);
+		$this->ctrl->clearParametersByClass('ilLMPageObjectGUI');
+		$row['action_html'] = $actions->getHTML();		
+		
+		return $row;
+	}
 
 	function linkChecker()
 	{
-		global $ilias,$ilUser;
+		global $ilias, $ilUser, $tpl;
 
 		$this->__initLinkChecker();
 
-		$invalid_links = $this->link_checker_obj->getInvalidLinksFromDB();
-
-
-		$this->setTabs();
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.link_check.html", "Modules/LearningModule");
-
-		if($last_access = $this->link_checker_obj->getLastCheckTimestamp())
+		$this->setTabs();	
+		
+		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
+		
+		$toolbar = new ilToolbarGUI();
+		
+		if((bool)$ilias->getSetting('cron_web_resource_check'))
 		{
-			$this->tpl->setCurrentBlock("LAST_MODIFIED");
-			$this->tpl->setVariable("AS_OF",$this->lng->txt('last_change').": ");
-			$this->tpl->setVariable("LAST_CHECK",date('Y-m-d H:i:s',$last_access));
-			$this->tpl->parseCurrentBlock();
+			include_once 'classes/class.ilLinkCheckNotify.php';
+			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+			
+			$chb = new ilCheckboxInputGUI($this->lng->txt('link_check_message_a'), 'link_check_message');
+			$chb->setValue(1);
+			$chb->setChecked((bool)ilLinkCheckNotify::_getNotifyStatus($ilUser->getId(),$this->object->getId()));
+			$chb->setOptionTitle($this->lng->txt('link_check_message_b'));
+			
+			$toolbar->addInputItem($chb);
+			$toolbar->addFormButton($this->lng->txt('save'), 'saveLinkCheck');
+			$toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'saveLinkCheck'));
 		}
-
-
-		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
-
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_lm.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('learning_module'));
-		$this->tpl->setVariable("TITLE",$this->object->getTitle().' ('.$this->lng->txt('link_check').')');
-		$this->tpl->setVariable("PAGE_TITLE",$this->lng->txt('cont_pg_title'));
-		$this->tpl->setVariable("URL",$this->lng->txt('url'));
-		$this->tpl->setVariable("OPTIONS",$this->lng->txt('edit'));
-
-		if(!count($invalid_links))
-		{
-			$this->tpl->setCurrentBlock("no_invalid");
-			$this->tpl->setVariable("TXT_NO_INVALID",$this->lng->txt('no_invalid_links'));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$counter = 0;
-			foreach($invalid_links as $invalid)
-			{
-				$this->tpl->setCurrentBlock("invalid_row");
-				$this->tpl->setVariable("ROW_COLOR",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-				$this->tpl->setVariable("ROW_PAGE_TITLE",
-										ilLMPageObject::_getPresentationTitle($invalid['page_id'],$this->object->getPageHeader()));
-				$this->tpl->setVariable("ROW_URL",$invalid['url']);
-
-
-				// EDIT IMAGE
-				$this->ctrl->setParameterByClass('ilLMPageObjectGUI','obj_id',$invalid['page_id']);
-				$this->tpl->setVariable("ROW_EDIT_LINK",$this->ctrl->getLinkTargetByClass('ilLMPageObjectGUI','edit'));
-
-				$this->tpl->setVariable("ROW_IMG",ilUtil::getImagePath('edit.gif'));
-				$this->tpl->setVariable("ROW_ALT_IMG",$this->lng->txt('edit'));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		if((bool) $ilias->getSetting('cron_link_check'))
-		{
-			include_once './classes/class.ilLinkCheckNotify.php';
-
-			// Show message block
-			$this->tpl->setCurrentBlock("MESSAGE_BLOCK");
-			$this->tpl->setVariable("INFO_MESSAGE",$this->lng->txt('link_check_message_a'));
-			$this->tpl->setVariable("CHECK_MESSAGE",ilUtil::formCheckbox(
-										ilLinkCheckNotify::_getNotifyStatus($ilUser->getId(),$this->object->getId()),
-										'link_check_message',
-										1));
-			$this->tpl->setVariable("INFO_MESSAGE_LONG",$this->lng->txt('link_check_message_b'));
-			$this->tpl->parseCurrentBlock();
-
-			// Show save button
-			$this->tpl->setCurrentBlock("CRON_ENABLED");
-			$this->tpl->setVariable("DOWNRIGHT_IMG",ilUtil::getImagePath('arrow_downright.gif'));
-			$this->tpl->setVariable("BTN_SUBMIT_LINK_CHECK",$this->lng->txt('save'));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("BTN_REFRESH",$this->lng->txt('refresh'));
-
-		return true;
-
+		
+		$tgui = new ilLinkCheckerTableGUI($this, 'linkChecker');
+		$tgui->setLinkChecker($this->link_checker_obj)
+			 ->setRowHandler($this)
+			 ->setRefreshButton($this->lng->txt('refresh'), 'refreshLinkCheck');
+		
+		return $tpl->setContent($tgui->prepareHTML()->getHTML().$toolbar->getHTML());
 	}
+	
 	function saveLinkCheck()
 	{
 		global $ilDB,$ilUser;

@@ -1,6 +1,7 @@
 <?php
-
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once 'classes/class.ilProxySettings.php';
 
 define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 define("MAGPIE_CACHE_ON", true);
@@ -26,13 +27,16 @@ class ilExternalFeed
 	* Constructor
 	*/
 	function ilExternalFeed()
-	{
+	{		
 		// IF YOU ADD THINGS HERE, THEY MAY ALSO BE ADDED TO
 		// SOME OF THE STATIC METHODS
 		$this->_createCacheDirectory();
-		$feed_set = new ilSetting("feed");
-		define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
-		define('IL_FEED_PROXY_PORT', $feed_set->get("proxy_port"));
+
+		if(ilProxySettings::_getInstance()->isActive())
+		{
+			define('IL_FEED_PROXY_HOST', ilProxySettings::_getInstance()->getHost());
+			define('IL_FEED_PROXY_PORT', ilProxySettings::_getInstance()->getPort());
+		}
 	}
 
 	/**
@@ -95,11 +99,14 @@ class ilExternalFeed
 	static function _checkUrl($a_url)
 	{
 		if (!defined('IL_FEED_PROXY_HOST'))
-		{
+		{			
 			ilExternalFeed::_createCacheDirectory();
-			$feed_set = new ilSetting("feed");
-			define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
-			define('IL_FEED_PROXY_PORT', $feed_set->get("proxy_port"));
+
+			if(ilProxySettings::_getInstance()->isActive())
+			{
+				define('IL_FEED_PROXY_HOST', ilProxySettings::_getInstance()->getHost());
+				define('IL_FEED_PROXY_PORT', ilProxySettings::_getInstance()->getPort());
+			}
 		}
 		
 		$feed = @fetch_rss($a_url);
@@ -218,9 +225,11 @@ class ilExternalFeed
 	{
 		if (!defined('IL_FEED_PROXY_HOST'))
 		{
-			$feed_set = new ilSetting("feed");
-			define('IL_FEED_PROXY_HOST', $feed_set->get("proxy"));
-			define('IL_FEED_PROXY_PORT', $feed_set->get("proxy_port"));
+			if(ilProxySettings::_getInstance()->isActive())
+			{
+				define('IL_FEED_PROXY_HOST', ilProxySettings::_getInstance()->getHost());
+				define('IL_FEED_PROXY_PORT', ilProxySettings::_getInstance()->getPort());
+			}
 		}
 
 		$res = @fopen($a_url, "r");

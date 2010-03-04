@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+
 /**
 * This class represents a file property in a property form.
 *
@@ -8,7 +10,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
+class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
 	private $filename;
 	private $filename_post;

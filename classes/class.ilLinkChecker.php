@@ -428,6 +428,8 @@ class ilLinkChecker
 
 	function __validateLinks($a_links)
 	{
+		global $ilSetting;
+		
 		if(!@include_once('HTTP/Request.php'))
 		{
 			$this->__appendLogMessage('LinkChecker: Pear HTTP_Request is not installed. Aborting');
@@ -447,7 +449,20 @@ class ilLinkChecker
 			{
 				continue;
 			}
-			$req =& new HTTP_Request($link['complete']);
+			
+			require_once 'classes/class.ilProxySettings.php';
+			
+			if(ilProxySettings::_getInstance()->isActive())
+			{
+				$options = array('proxy_host' => ilProxySettings::_getInstance()->getHost(), 
+								 'proxy_port' => ilProxySettings::_getInstance()->getPort());
+			}
+			else
+			{
+				$options = array();
+			}
+				
+			$req = new HTTP_Request($link['complete'], $options);
 			$req->sendRequest();
 
 			switch($req->getResponseCode())
