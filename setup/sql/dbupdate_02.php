@@ -16619,16 +16619,16 @@ if(!$ilDB->tableColumnExists('svy_category','other'))
 ?>
 <#2944>
 <?php
-if($ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+if($ilDB->tableColumnExists('svy_qst_mc','other_answer_label'))
 {
-	$ilDB->dropTableColumn('svy_qst_mc', 'use_other_answer');
+	$ilDB->dropTableColumn('svy_qst_mc', 'other_answer_label');
 }
 ?>
 <#2945>
 <?php
-if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+if($ilDB->tableColumnExists('svy_qst_sc','other_answer_label'))
 {
-	$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
+	$ilDB->dropTableColumn('svy_qst_sc', 'other_answer_label');
 }
 ?>
 <#2946>
