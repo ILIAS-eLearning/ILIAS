@@ -129,6 +129,7 @@ class ilYuiUtil
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
 	}
 	
 	/**

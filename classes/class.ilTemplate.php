@@ -209,6 +209,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillCssFiles();
 			$this->fillContentStyle();
 			$this->fillBodyClass();
+			$this->fillOnLoadCode();
 
 			// these fill just plain placeholder variables in tpl.main.html
 			$this->setCurrentBlock("DEFAULT");
@@ -430,6 +431,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillNewContentStyle();
 			$this->fillContentLanguage();
 			$this->fillWindowTitle();
+			$this->fillOnLoadCode();
 
 			// these fill blocks in tpl.adm_content.html
 			$this->fillHeader();
@@ -1670,6 +1672,14 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
+	* Add on load code
+	*/
+	function addOnLoadCode($a_code)
+	{
+		$this->on_load_code[] = $a_code;
+	}
+	
+	/**
 	* Add a css file that should be included in the header.
 	*/
 	function addCss($a_css_file, $media = "screen")
@@ -1840,5 +1850,25 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}
+	
+	/**
+	* Fill add on load code
+	*/
+	function fillOnLoadCode()
+	{
+		if (is_array($this->on_load_code))
+		{
+			$this->setCurrentBlock("on_load_code");
+			foreach ($this->on_load_code as $code)
+			{
+				$this->setCurrentBlock("on_load_code_inner");
+				$this->setVariable("OLCODE", $code);
+				$this->parseCurrentBlock();
+			}
+			$this->setCurrentBlock("on_load_code");
+			$this->parseCurrentBlock();
+		}
+	}
+	
 }
 ?>
