@@ -48,5 +48,13 @@
 </head>
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> {BODY_ATTRIBUTES}>
 {CONTENT}
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+ilAddOnLoad(function() {
+<!-- BEGIN on_load_code_inner -->{OLCODE}
+<!-- END on_load_code_inner -->
+});
+</script>
+<!-- END on_load_code -->
 </body>
 </html>

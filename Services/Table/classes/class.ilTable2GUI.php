@@ -29,6 +29,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $mi_sel_buttons = null;
 	protected $disable_filter_hiding = false;
 	protected $top_commands = true;
+	protected $selectable_columns = array();
 	
 	/**
 	* Constructor
@@ -55,12 +56,91 @@ class ilTable2GUI extends ilTableGUI
 		}
 		$this->setIsDataTable(true);
 		$this->setEnableNumInfo(true);
+		$this->determineSelectedColumns();
 	}
 	
+	/**
+	 * Get selectable columns
+	 *
+	 * @return		array	key: column id, val: true/false -> default on/off
+	 */
+	function getSelectableColumns()
+	{
+		return array();
+	}
+
+	/**
+	 * Determine selected columns
+	 *
+	 * @param
+	 * @return
+	 */
+	function determineSelectedColumns()
+	{
+		global $ilUser;
+
+		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+		$tab_prop = new ilTablePropertiesStorage();
+		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfields");
+		$stored = false;
+		if ($old_sel != "")
+		{
+			$sel_fields =
+				@unserialize($old_sel);
+			$stored = true;
+		}
+		if(!is_array($sel_fields))
+		{
+			$stored = false;
+			$sel_fields = array();
+		}
+		
+		$this->selected_columns = array();
+		foreach ($this->getSelectableColumns() as $k => $c)
+		{
+			$this->selected_column[$k] = false;
+
+			if ($_POST["tblfsh".$this->getId()])
+			{
+				if (is_array($_POST["tblfs".$this->getId()]) && in_array($k, $_POST["tblfs".$this->getId()]))
+				{
+					$this->selected_column[$k] = true;
+				}
+			}
+			else if ($stored)	// take stored values
+			{
+				$this->selected_column[$k] = $sel_fields[$k]; 
+			}
+			else	// take default values
+			{
+				if ($c["default"])
+				{
+					$this->selected_column[$k] = true;
+				}
+			}
+		}
+		
+		if ($old_sel != serialize($this->selected_column))
+		{
+			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfields",
+				serialize($this->selected_column));
+		}
+	}
 	
 	/**
-	* Execute command.
-	*/
+	 * Is given column selected?
+	 *
+	 * @param	string	column name
+	 * @return	boolean
+	 */
+	function isColumnSelected($a_col)
+	{
+		return $this->selected_column[$a_col];
+	}
+	
+	/**
+	 * Execute command.
+	 */
 	function &executeCommand()
 	{
 		global $ilCtrl;
@@ -773,12 +853,12 @@ class ilTable2GUI extends ilTableGUI
 	}
 	
 	/**
-	* Add a column to the header.
-	*
-	* @param	string		Text
-	* @param	string		Sort field name (corresponds to data array field)
-	* @param	string		Width string
-	*/
+	 * Add a column to the header.
+	 *
+	 * @param	string		Text
+	 * @param	string		Sort field name (corresponds to data array field)
+	 * @param	string		Width string
+	 */
 	final public function addColumn($a_text, $a_sort_field = "", $a_width = "",
 		$a_is_checkbox_action_column = false, $a_class = "")
 	{
@@ -791,6 +871,7 @@ class ilTable2GUI extends ilTableGUI
 			);
 		$this->column_count = count($this->column);
 	}
+	
 	
 	final public function getNavParameter()
 	{
@@ -1410,7 +1491,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function fillFooter()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 
 		$footer = false;
 		
@@ -1482,6 +1563,28 @@ class ilTable2GUI extends ilTableGUI
 			$linkbar = true;
 			$footer = true;
 		}
+		
+		// column selector
+		if (count($this->getSelectableColumns()) > 0)
+		{
+			$items = array();
+			foreach ($this->getSelectableColumns() as $k => $c)
+			{
+				$items[$k] = array("txt" => $c["txt"],
+					"selected" => $this->isColumnSelected($k));
+			}
+			include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
+			$cb_over = new ilCheckboxListOverlayGUI("tbl_".$this->getId());
+			$cb_over->setLinkTitle($lng->txt("columns"));
+			$cb_over->setItems($items);
+			//$cb_over->setUrl("./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
+			//		$this->getId()."&cmd=saveSelectedFields&user_id=".$ilUser->getId());
+			$cb_over->setFormCmd($this->getParentCmd());
+			$cb_over->setFieldVar("tblfs".$this->getId());
+			$cb_over->setHiddenVar("tblfsh".$this->getId());
+			$column_selector = $cb_over->getHTML();
+			$footer = true;
+		}
 
 		if ($footer)
 		{
@@ -1494,7 +1597,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			// top navigation, if number info or linkbar given
-			if ($numinfo != "" || $linkbar != "")
+			if ($numinfo != "" || $linkbar != "" || $column_selector != "")
 			{
 				if ($numinfo != "" && $this->getEnableNumInfo())
 				{
@@ -1509,6 +1612,9 @@ class ilTable2GUI extends ilTableGUI
 					$this->tpl->setVariable("LINKBAR", $linkbar);
 					$this->tpl->parseCurrentBlock();
 				}
+				
+				$this->tpl->setVariable("COLUMN_SELECTOR", $column_selector);
+				
 				$this->tpl->setCurrentBlock("top_navigation");
 				$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
 				if ($this->getDisplayAsBlock())

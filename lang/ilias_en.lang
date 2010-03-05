@@ -2722,7 +2722,7 @@ common#:#languages_updated#:#All installed languages have been updated
 common#:#last_access#:#Last Access
 common#:#last_change#:#Last Change
 common#:#last_edited_on#:#Last edited on
-common#:#last_login#:#Last login
+common#:#last_login#:#Last Login
 common#:#last_update#:#Last Update
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last Name
@@ -7263,7 +7263,7 @@ trac#:#info_all_objects#:#The following user tracking refers to all objects of t
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
 trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
-trac#:#last_login#:#Last login
+trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
 trac#:#obj_types#:#Object Types
@@ -10170,6 +10170,7 @@ survey#:#other_answer#:#Other answer
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
 survey#:#other_answer_label#:#Label of other answer (optional)
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
+common#:#columns#:#Columns
 common#:#proxy#:#Proxy
 common#:#proxy_connectable#:#Connection established.
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.

@@ -34,7 +34,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("email"), "email", "17%");
 		$this->addColumn($this->lng->txt("access_until"), "access_until", "17%");
 		$this->addColumn($this->lng->txt("last_login"), "last_login", "17%");
-		
+				
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -59,11 +59,31 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addMultiCommand("restrictAccess", $lng->txt("accessRestrict"));
 		$this->addMultiCommand("freeAccess", $lng->txt("accessFree"));
 		$this->addMultiCommand("exportUsers", $lng->txt("export"));
-		$this->addCommandButton("importUserForm", $lng->txt("import_users"));
-		$this->addCommandButton("addUser", $lng->txt("usr_add"));
+		//$this->addCommandButton("importUserForm", $lng->txt("import_users"));
+		//$this->addCommandButton("addUser", $lng->txt("usr_add"));
 		
 		$this->getItems();
 	}
+	
+	/**
+	 * Get selectable columns
+	 *
+	 * @param
+	 * @return
+	 */
+/*	function getSelectableColumns()
+	{
+		global $lng;
+		
+		return array(
+			"email" => array(
+						"txt" => $lng->txt("email"),
+						"default" => true),
+			"last_login" => array(
+						"txt" => $lng->txt("last_login"),
+						"default" => false)
+		);
+	}*/
 	
 	/**
 	* Get user items
