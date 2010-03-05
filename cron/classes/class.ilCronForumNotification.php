@@ -82,7 +82,7 @@ class ilCronForumNotification
 
 	public function sendNotifications()
 	{
-		global $ilDB, $ilLog, $ilSettingm, $lng;
+		global $ilDB, $ilLog, $ilSetting, $lng;
 		
 		$lng->loadLanguageModule('forum');
 
