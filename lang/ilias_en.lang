@@ -8373,7 +8373,7 @@ meta#:#md_adv_fields_show#:#Show Field Names
 rcrs#:#rcrs_local_informations#:#Further Information
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_read_remote_links#:#Update Remote-Courses
-ecs#:#ecs_remote_imported#:#Information about remote courses have been refreshed.
+ecs#:#ecs_remote_imported#:#Information about remote courses has been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
