@@ -2093,7 +2093,7 @@ common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Solved
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
-common#:#exc_time_over_short#:#Time is over.
+common#:#exc_time_over_short#:#Time is up.
 common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
@@ -2101,7 +2101,7 @@ common#:#exc_visible#:#Exercise is visible
 common#:#exc_write#:#Edit exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!
+common#:#exercise_time_over#:#The time allocated for completing this exercise is over. Files cannot be submitted anymore!
 common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#explorer_frame#:#Explorer Tree
@@ -7510,7 +7510,7 @@ chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_active#:#SSL active
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
-exercise#:#exc_crs_add_members#:#Add students of this course
+exercise#:#exc_crs_add_members#:#Add students from this course
 common#:#mail_settings#:#Mail Settings
 common#:#my_courses#:#My Courses
 mail#:#mail_list_members#:#List members
