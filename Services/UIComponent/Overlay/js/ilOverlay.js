@@ -17,6 +17,7 @@ ilOverlayFunc.prototype =
 					function(event) {ilOverlay.toggle(event, id); return false;});
 		}
 		ov.render();
+		this.fixPosition(id);
 	},
 	
 	toggle: function (e, id)
@@ -43,7 +44,7 @@ ilOverlayFunc.prototype =
 		var el_reg = YAHOO.util.Region.getRegion(el);
 		var cl_reg = YAHOO.util.Dom.getClientRegion();
 		
-//		el.style.overflow = '';
+		el.style.overflow = '';
 		
 		// make it smaller, if window height is not sufficient
 		if (cl_reg.height < el_reg.height + 20)
@@ -71,7 +72,7 @@ ilOverlayFunc.prototype =
 			YAHOO.util.Dom.setX(el, el_reg.x - (el_reg.right - cl_reg.right));
 		}
 		
-//		el.style.overflow = 'auto';
+		el.style.overflow = 'auto';
 	},
 	
 	hideAllOverlays: function (e) {

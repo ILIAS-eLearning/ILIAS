@@ -16659,3 +16659,13 @@ if($ilDB->tableColumnExists('svy_qst_sc','other_answer_label'))
 	$feed_set->delete('proxy');
 	$feed_set->delete('proxy_port');
 ?>
+<#2948>
+<?php
+		
+
+				// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+				//
+				//         USE dbupdate_03.php INSTEAD
+
+
+?>

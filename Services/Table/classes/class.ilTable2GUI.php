@@ -79,9 +79,14 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $ilUser;
 
+		if (!is_object($ilUser))
+		{
+			return array();
+		}
 		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 		$tab_prop = new ilTablePropertiesStorage();
 		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfields");
+
 		$stored = false;
 		if ($old_sel != "")
 		{
@@ -94,14 +99,16 @@ class ilTable2GUI extends ilTableGUI
 			$stored = false;
 			$sel_fields = array();
 		}
-		
+
 		$this->selected_columns = array();
+		$set = false;
 		foreach ($this->getSelectableColumns() as $k => $c)
 		{
 			$this->selected_column[$k] = false;
 
 			if ($_POST["tblfsh".$this->getId()])
 			{
+				$set = true;
 				if (is_array($_POST["tblfs".$this->getId()]) && in_array($k, $_POST["tblfs".$this->getId()]))
 				{
 					$this->selected_column[$k] = true;
@@ -120,7 +127,7 @@ class ilTable2GUI extends ilTableGUI
 			}
 		}
 		
-		if ($old_sel != serialize($this->selected_column))
+		if ($old_sel != serialize($this->selected_column) && $set)
 		{
 			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfields",
 				serialize($this->selected_column));
@@ -136,6 +143,25 @@ class ilTable2GUI extends ilTableGUI
 	function isColumnSelected($a_col)
 	{
 		return $this->selected_column[$a_col];
+	}
+	
+	/**
+	 * Get selected columns
+	 *
+	 * @param
+	 * @return
+	 */
+	function getSelectedColumns()
+	{
+		$scol = array();
+		foreach ($this->selected_column as $k => $v)
+		{
+			if ($v)
+			{
+				$scol[$k] = $k;
+			}
+		}
+		return $scol;
 	}
 	
 	/**
@@ -1729,9 +1755,9 @@ class ilTable2GUI extends ilTableGUI
 				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".
 					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("select_page").'</label> '.
 					ilUtil::formSelect($this->nav_value,
-					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "ilEditSelect",
+					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "small",
 					array("id" => "tab_page_sel_".$a_num)).
-					' <input class="ilEditSubmit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
+					' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
 					$lng->txt("ok").'" /> ';
 			}
 

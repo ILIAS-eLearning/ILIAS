@@ -66,7 +66,7 @@ class ilDBUpdate
 		//
 		// NOTE: IF YOU SET THIS TO THE NEWEST FILE, CHANGE ALSO getFileForStep()
 		//
-		$this->LAST_UPDATE_FILE = $this->PATH."setup/sql/dbupdate_02.php";
+		$this->LAST_UPDATE_FILE = $this->PATH."setup/sql/dbupdate_03.php";
    
 		$this->readDBUpdateFile();
 		$this->readLastUpdateFile();
@@ -81,7 +81,11 @@ class ilDBUpdate
 		//
 		// NOTE: IF YOU ADD A NEW FILE HERE, CHANGE ALSO THE CONSTRUCTOR
 		//
-		if ((int)$a_version > 864)		// last number in previous file
+		if ((int)$a_version > 2948)		// last number in previous file
+		{
+			return "dbupdate_03.php";
+		}
+		else if ((int)$a_version > 864)		// last number in previous file
 		{
 			return "dbupdate_02.php";
 		}

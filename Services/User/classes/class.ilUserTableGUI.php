@@ -28,12 +28,14 @@ class ilUserTableGUI extends ilTable2GUI
 //		$this->setTitle($this->lng->txt("users"));
 		
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("login"), "login", "17%");
-		$this->addColumn($this->lng->txt("firstname"), "firstname", "17%");
-		$this->addColumn($this->lng->txt("lastname"), "lastname", "17%");
-		$this->addColumn($this->lng->txt("email"), "email", "17%");
-		$this->addColumn($this->lng->txt("access_until"), "access_until", "17%");
-		$this->addColumn($this->lng->txt("last_login"), "last_login", "17%");
+		$this->addColumn($this->lng->txt("login"), "login");
+		$this->addColumn($this->lng->txt("firstname"), "firstname");
+		$this->addColumn($this->lng->txt("lastname"), "lastname");
+		
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			$this->addColumn($this->lng->txt($c), $c);
+		}
 				
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -71,19 +73,46 @@ class ilUserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-/*	function getSelectableColumns()
+	function getSelectableColumns()
 	{
 		global $lng;
 		
-		return array(
-			"email" => array(
-						"txt" => $lng->txt("email"),
-						"default" => true),
-			"last_login" => array(
-						"txt" => $lng->txt("last_login"),
-						"default" => false)
-		);
-	}*/
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipGroup("preferences");
+		$up->skipGroup("settings");
+		$ufs = $up->getStandardFields();
+
+		// default fields
+		$cols = array();
+		$cols["email"] = array(
+			"txt" => $lng->txt("email"),
+			"default" => true);
+		$cols["access_until"] = array(
+			"txt" => $lng->txt("access_until"),
+			"default" => true);
+		$cols["last_login"] = array(
+			"txt" => $lng->txt("last_login"),
+			"default" => true);
+		
+		// other user profile fields
+		foreach ($ufs as $f => $fd)
+		{
+			if (!isset($cols[$f]) && !$fd["lists_hide"])
+			{
+				$cols[$f] = array(
+					"txt" => $lng->txt($f),
+					"default" => false);
+			}
+		}
+		
+		// fields that are always shown
+		unset($cols["firstname"]);
+		unset($cols["lastname"]);
+		unset($cols["username"]);
+		
+		return $cols;
+	}
 	
 	/**
 	* Get user items
@@ -95,6 +124,11 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
+		
+		$additional_fields = $this->getSelectedColumns();
+		unset($additional_fields["email"]);
+		unset($additional_fields["last_login"]);
+		unset($additional_fields["access_until"]);
 
 		$usr_data = ilUserQuery::getUserListData(
 			ilUtil::stripSlashes($this->getOrderField()),
@@ -107,7 +141,8 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->filter["limited_access"],
 			$this->filter["no_courses"],
 			$this->filter["course_group"],
-			$this->filter["global_role"]
+			$this->filter["global_role"],
+			$additional_fields
 			);
 			
 		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
@@ -124,7 +159,8 @@ class ilUserTableGUI extends ilTable2GUI
 				$this->filter["limited_access"],
 				$this->filter["no_courses"],
 				$this->filter["course_group"],
-				$this->filter["global_role"]
+				$this->filter["global_role"],
+				$additional_fields
 				);
 		}
 
@@ -249,6 +285,47 @@ class ilUserTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if ($c == "access_until")
+			{
+				$this->tpl->setCurrentBlock("access_until");
+				$this->tpl->setVariable("VAL_ACCESS_UNTIL", $user["access_until"]);
+				$this->tpl->setVariable("CLASS_ACCESS_UNTIL", $user["access_class"]);						
+			}
+			else if ($c == "last_login")
+			{
+				$this->tpl->setCurrentBlock("last_login");
+				$this->tpl->setVariable("VAL_LAST_LOGIN",
+					ilDatePresentation::formatDate(new ilDateTime($user['last_login'],IL_CAL_DATETIME)));
+			}
+			else if ($c == "email")
+			{
+				$this->tpl->setCurrentBlock("email");
+				$this->tpl->setVariable("VAL_EMAIL", $user["email"]);
+			}
+			else	// all other fields
+			{
+				$this->tpl->setCurrentBlock("user_field");
+				$val = (trim($user[$c]) == "")
+					? " "
+					: $user[$c];
+					
+				if ($user[$c] != "")
+				{
+					switch ($c)
+					{
+						case "gender":
+							$val = $lng->txt("gender_".$user[$c]);
+							break;
+					}
+				}
+				$this->tpl->setVariable("VAL_UF", $val);
+			}
+			
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		if ($user["usr_id"] != 6)
 		{
 			$this->tpl->setCurrentBlock("checkb");
@@ -258,12 +335,7 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("VAL_LOGIN", $user["login"]);
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
-		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
-		$this->tpl->setVariable("VAL_EMAIL", $user["email"]);
-		$this->tpl->setVariable("VAL_LAST_LOGIN",
-			ilDatePresentation::formatDate(new ilDateTime($user['last_login'],IL_CAL_DATETIME)));
-		$this->tpl->setVariable("VAL_ACCESS_UNTIL", $user["access_until"]);
-		$this->tpl->setVariable("CLASS_ACCESS_UNTIL", $user["access_class"]);
+		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);		
 		$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
 		$this->tpl->setVariable("HREF_LOGIN",
 			$ilCtrl->getLinkTargetByClass("ilobjusergui", "view"));
