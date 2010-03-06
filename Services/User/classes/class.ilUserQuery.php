@@ -17,12 +17,17 @@ class ilUserQuery
 	static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
-		$a_course_group_filter = 0, $a_role_filter = 0)
+		$a_course_group_filter = 0, $a_role_filter = 0, $a_additional_fields = "")
 	{
 		global $ilDB, $rbacreview;
 		
 		$fields = array("usr_id", "login", "firstname", "lastname", "email",
 			"time_limit_until", "time_limit_unlimited", "last_login", "active");
+		
+		if (is_array($a_additional_fields))
+		{
+			$fields = array_merge($fields, $a_additional_fields);
+		}
 		
 		// count query
 		$count_query = "SELECT count(usr_id) cnt".

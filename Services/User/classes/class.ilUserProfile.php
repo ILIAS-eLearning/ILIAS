@@ -91,6 +91,7 @@ class ilUserProfile
 						"required_hide" => true,
 						"registration_hide" => true,
 						"course_export_hide" => true,
+						"lists_hide" => true,
 						"lang_var" => "personal_picture",
 						"group" => "personal_data"),
 		"roles" => array(
@@ -100,12 +101,14 @@ class ilUserProfile
 						"registration_hide" => true,
 						"export_hide" => true,
 						"course_export_hide" => true,
+						"lists_hide" => true,
 						"group" => "personal_data"),
 		"password" => array(
 						"input" => "password",
 						"required_hide" => true,
 						"registration_hide" => true,
 						"course_export_hide" => true,
+						"lists_hide" => true,
 						"group" => "personal_data"),
 		"institution" => array(
 						"input" => "text",
@@ -178,6 +181,7 @@ class ilUserProfile
 						"rows" => 3,
 						"cols" => 45,
 						"method" => "getHobby",
+						"lists_hide" => true,
 						"group" => "contact_data"),
 		"referral_comment" => array(
 						"input" => "textarea",
@@ -185,6 +189,7 @@ class ilUserProfile
 						"cols" => 45,
 						"method" => "getComment",
 						"course_export_hide" => true,
+						"lists_hide" => true,
 						"group" => "contact_data"),
 		"instant_messengers" => array(
 						"input" => "messenger",
@@ -193,6 +198,7 @@ class ilUserProfile
 						"size" => 40,
 						"registration_hide" => true,
 						"course_export_hide" => true,
+						"lists_hide" => true,
 						"group" => "instant_messengers"),
 		"matriculation" => array(
 						"input" => "text",
