@@ -83,3 +83,14 @@ function ilTableJSHandler(sUrl)
 	return false;
 }
 
+function ilTablePageSelection(el, cmd)
+{
+	var input = document.createElement("input");
+	input.setAttribute("type", "hidden");
+	input.setAttribute("name", cmd);
+	input.setAttribute("value", "1");
+	el.parentNode.appendChild(input);
+	el.form.submit();
+	return false;
+}
+

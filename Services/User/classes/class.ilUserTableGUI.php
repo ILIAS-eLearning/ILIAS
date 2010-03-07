@@ -29,8 +29,6 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("login"), "login");
-		$this->addColumn($this->lng->txt("firstname"), "firstname");
-		$this->addColumn($this->lng->txt("lastname"), "lastname");
 		
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -85,6 +83,12 @@ class ilUserTableGUI extends ilTable2GUI
 
 		// default fields
 		$cols = array();
+		$cols["firstname"] = array(
+			"txt" => $lng->txt("firstname"),
+			"default" => true);
+		$cols["lastname"] = array(
+			"txt" => $lng->txt("lastname"),
+			"default" => true);
 		$cols["email"] = array(
 			"txt" => $lng->txt("email"),
 			"default" => true);
@@ -107,8 +111,6 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		// fields that are always shown
-		unset($cols["firstname"]);
-		unset($cols["lastname"]);
 		unset($cols["username"]);
 		
 		return $cols;
@@ -120,12 +122,15 @@ class ilUserTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		global $lng;
-		
+//if ($GLOBALS["kk"]++ == 1) nj();
+
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
 		$additional_fields = $this->getSelectedColumns();
+		unset($additional_fields["firstname"]);
+		unset($additional_fields["lastname"]);
 		unset($additional_fields["email"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
@@ -299,10 +304,10 @@ class ilUserTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("VAL_LAST_LOGIN",
 					ilDatePresentation::formatDate(new ilDateTime($user['last_login'],IL_CAL_DATETIME)));
 			}
-			else if ($c == "email")
+			else if (in_array($c, array("email", "firstname", "lastname")))
 			{
-				$this->tpl->setCurrentBlock("email");
-				$this->tpl->setVariable("VAL_EMAIL", $user["email"]);
+				$this->tpl->setCurrentBlock($c);
+				$this->tpl->setVariable("VAL_".strtoupper($c), $user[$c]);
 			}
 			else	// all other fields
 			{
@@ -334,8 +339,6 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("VAL_LOGIN", $user["login"]);
-		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
-		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);		
 		$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
 		$this->tpl->setVariable("HREF_LOGIN",
 			$ilCtrl->getLinkTargetByClass("ilobjusergui", "view"));

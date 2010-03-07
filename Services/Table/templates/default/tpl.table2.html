@@ -16,7 +16,9 @@
 <!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="subtitle" style="clear:left; margin: 0px 0px 10px 0px;">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
 <!-- BEGIN filter_activation -->
+<div class="ilTableFilterActivator">
 <a class="ilTableFilterActivator" id = "atfil_{FILA_ID}" style="display:none;" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+</div>
 <!-- BEGIN filter_hidden -->
 <script type="text/javascript">
 ilTableHideFilter['atfil_{FI_ID}'] = true;
@@ -49,17 +51,21 @@ ilTableHideFilter['tfil_{FI_ID}'] = true;
 </div>
 <!-- END filter_section -->
 <!-- BEGIN top_navigation -->
-  <div class="ilTableNav yui-skin-sam">
-	<div style="text-align:right;">
-		<!-- BEGIN top_numinfo -->
-		<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
-		<!-- END top_numinfo -->
-		<!-- BEGIN top_linkbar -->
-		{LINKBAR}
-		<!-- END top_linkbar -->
-		&nbsp;&nbsp;&nbsp;{COLUMN_SELECTOR}
-	</div>
-  </div>
+<div class="ilTableNav yui-skin-sam">
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" datatable="0"><tr>
+	<td style="text-align:left; white-space:nowrap;" >
+	{COLUMN_SELECTOR}
+	</td>
+	<td style="text-align:right; white-space:nowrap;" >
+	<!-- BEGIN top_numinfo -->
+	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+	<!-- END top_numinfo -->
+	<!-- BEGIN top_linkbar -->
+	{LINKBAR}
+	<!-- END top_linkbar -->
+	</td>
+	</tr></table>
+</div>
 <!-- END top_navigation -->
 <!-- BEGIN outer_start_2 --><div class="ilTableOuter"><!-- END outer_start_2 -->
 <!-- BEGIN tbl_top_action_row -->

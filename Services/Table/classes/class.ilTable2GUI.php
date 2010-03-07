@@ -1032,18 +1032,18 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $ilUser;
 		
-//echo "<br>";
+//echo "<br>".$this->getNavParameter();
 
+//var_dump($_POST);
+		
 		if ($_POST[$this->getNavParameter()."1"] != "")
 		{
 			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
 			{
-//echo "1";
 				$this->nav_value = $_POST[$this->getNavParameter()."1"];
 			}
 			else if ($_POST[$this->getNavParameter()."2"] != $_POST[$this->getNavParameter()])
 			{
-//echo "2";
 				$this->nav_value = $_POST[$this->getNavParameter()."2"];
 			}
 		}
@@ -1680,27 +1680,7 @@ class ilTable2GUI extends ilTableGUI
 		// if more entries then entries per page -> show link bar
 		if ($this->max_count > $this->getLimit() || $this->custom_prev_next)
 		{
-			// previous link
-			if ($this->custom_prev_next && $this->custom_prev != "")
-			{
-				$LinkBar .= "<a href=\"".$this->custom_prev.$hash."\">".$layout_prev."&nbsp;</a>";
-			}
-			else if ($this->getOffset() >= 1 && !$this->custom_prev_next)
-			{
-				$prevoffset = $this->getOffset() - $this->getLimit();
-				$LinkBar .= "<a href=\"".$link.$prevoffset.$hash."\">".$layout_prev."&nbsp;</a>";
-			}
-			else
-			{
-				$LinkBar .= '<span class="ilTableFootLight">'.$layout_prev."&nbsp;</span>";
-			}
-			
-			// current value
-			if ($a_num == "1")
-			{
-				$LinkBar .= '<input type="hidden" name="'.$this->getNavParameter().
-					'" value="'.$this->getOrderField().":".$this->getOrderDirection().":".$this->getOffset().'" />';
-			}
+			$sep = "<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>";
 
 			// calculate number of pages
 			$pages = intval($this->max_count / $this->getLimit());
@@ -1708,7 +1688,7 @@ class ilTable2GUI extends ilTableGUI
 			// add a page if a rest remains
 			if (($this->max_count % $this->getLimit()))
 				$pages++;
-
+			
 			// links to other pages
 			$offset_arr = array();
 			for ($i = 1 ;$i <= $pages ; $i++)
@@ -1717,50 +1697,76 @@ class ilTable2GUI extends ilTableGUI
 
 				$nav_value = $this->getOrderField().":".$this->getOrderDirection().":".$newoffset;
 				$offset_arr[$nav_value] = $i;
-				if ($newoffset == $this->getOffset())
-				{
-				//	$LinkBar .= "[".$i."] ";
-				}
-				else
-				{
-				//	$LinkBar .= '<a '.$layout_link.' href="'.
-				//		$link.$newoffset.'">['.$i.']</a> ';
-				}
+			}
+						
+			if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next)
+			{				
+				if ($LinkBar != "")
+					$LinkBar .= $sep;
+				$LinkBar .= "".
+					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("page").'</label> '.
+					ilUtil::formSelect($this->nav_value,
+					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "small",
+					array("id" => "tab_page_sel_".$a_num,
+						"onchange" => "ilTablePageSelection(this, 'cmd[".$this->parent_cmd."]')"));
+					//' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
+					//$lng->txt("ok").'" />';
 			}
 			
+			$sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+			
+			// previous link
+			if ($this->custom_prev_next && $this->custom_prev != "")
+			{
+				if ($LinkBar != "")
+					$LinkBar .= $sep;
+				$LinkBar .= "<a href=\"".$this->custom_prev.$hash."\">".$layout_prev."</a>";
+			}
+			else if ($this->getOffset() >= 1 && !$this->custom_prev_next)
+			{
+				if ($LinkBar != "")
+					$LinkBar .= $sep;
+				$prevoffset = $this->getOffset() - $this->getLimit();
+				$LinkBar .= "<a href=\"".$link.$prevoffset.$hash."\">".$layout_prev."</a>";
+			}
+			else
+			{
+				if ($LinkBar != "")
+					$LinkBar .= $sep;
+				$LinkBar .= '<span class="ilTableFootLight">'.$layout_prev."</span>";
+			}
+			
+			// current value
+			if ($a_num == "1")
+			{
+				$LinkBar .= '<input type="hidden" name="'.$this->getNavParameter().
+					'" value="'.$this->getOrderField().":".$this->getOrderDirection().":".$this->getOffset().'" />';
+			}
+			
+			$sep = "<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>";
+
 			// show next link (if not last page)
 			if ($this->custom_prev_next && $this->custom_next != "")
 			{
 				if ($LinkBar != "")
-					$LinkBar .= "<span> | </span>";
-				$LinkBar .= "<a href=\"".$this->custom_next.$hash."\">&nbsp;".$layout_next."</a>";
+					$LinkBar .= $sep;
+				$LinkBar .= "<a href=\"".$this->custom_next.$hash."\">".$layout_next."</a>";
 			}
 			else if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) &&
 				!$this->custom_prev_next)
 			{
 				if ($LinkBar != "")
-					$LinkBar .= "<span> | </span>"; 
+					$LinkBar .= $sep; 
 				$newoffset = $this->getOffset() + $this->getLimit();
-				$LinkBar .= "<a href=\"".$link.$newoffset.$hash."\">&nbsp;".$layout_next."</a>";
+				$LinkBar .= "<a href=\"".$link.$newoffset.$hash."\">".$layout_next."</a>";
 			}
 			else
 			{
 				if ($LinkBar != "")
-					$LinkBar .= "<span > | </span>"; 
-				$LinkBar .= '<span class="ilTableFootLight">&nbsp;'.$layout_next."</span>";
+					$LinkBar .= $sep; 
+				$LinkBar .= '<span class="ilTableFootLight">'.$layout_next."</span>";
 			}
 			
-			if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next)
-			{				
-				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".
-					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("select_page").'</label> '.
-					ilUtil::formSelect($this->nav_value,
-					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "small",
-					array("id" => "tab_page_sel_".$a_num)).
-					' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-					$lng->txt("ok").'" /> ';
-			}
-
 			return $LinkBar;
 		}
 		else
