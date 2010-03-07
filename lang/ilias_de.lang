@@ -4475,7 +4475,7 @@ common#:#tags_edit_permission#:#Rechteeinstellungen ändern
 common#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
 common#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
 common#:#tags_write#:#Tagging-Einstellungen bearbeiten
-common#:#take_over_structure#:#Ordnerstruktur des Archives übernehmen
+common#:#take_over_structure#:#Ordnerstruktur des Archivs übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
 common#:#target#:#Ziel
 common#:#tax#:#Taxonomie
