@@ -222,7 +222,7 @@ class ilObjForumGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt('frm_title_required'));
 		}
 		
-		$this->showForumProperties();		
+		$this->editObject();		
 	
 		return true;
 	}
@@ -916,7 +916,7 @@ class ilObjForumGUI extends ilObjectGUI
 						'moveThreads',
 						'performMoveThreads',
 						'confirmMoveThreads',
-						'ancelMoveThreads',
+						'cancelMoveThreads',
 						'performThreadsAction',
 						'searchForums',
 						'createThread',
