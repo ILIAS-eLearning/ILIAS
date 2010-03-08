@@ -55,7 +55,7 @@ class ilStr
 		}		
 	}
 
-	function strrPos($a_haystack, $a_needle, $a_offset = NULL)
+	/*function strrPos($a_haystack, $a_needle, $a_offset = NULL)
 	{
 		if (function_exists("mb_strrpos"))
 		{
@@ -66,6 +66,7 @@ class ilStr
 			}
 			else
 			{
+				@todo: We need an implementation for php versions < 5.2.0
 				return mb_strrpos($a_haystack, $a_needle, "UTF-8");
 			}
 		}
@@ -73,7 +74,7 @@ class ilStr
 		{
 			return strrpos($a_haystack, $a_needle, $a_offset);
 		}		
-	}
+	}*/
 	
 	function strLen($a_string)
 	{
