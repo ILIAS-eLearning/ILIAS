@@ -2007,10 +2007,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				if(isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts'])
 				{
+					$tmp_data['access_ut'] = $progress[$usr_id]['ts'];
 					$tmp_data['access_time'] = ilDatePresentation::formatDate(new ilDateTime($progress[$usr_id]['ts'],IL_CAL_UNIX));
 				}
 				else
 				{
+					$tmp_data['access_ut'] = 0;
 					$tmp_data['access_time'] = $this->lng->txt('no_date');
 				}
 			}
