@@ -27,6 +27,8 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
+* @ilCtrl_Calls ilCourseArchivesGUI: ilObjectCopyGUI
+* 
 * @extends ilObjectGUI
 */
 
@@ -63,12 +65,24 @@ class ilCourseArchivesGUI
 
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
-		if (!$cmd = $this->ctrl->getCmd())
+		switch($this->ctrl->getNextClass($this))
 		{
-			$cmd = "view";
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('crs');
+				$this->ctrl->forwardCommand($cp);
+				break;
+				
+			default:
+				$cmd = $this->ctrl->getCmd();
+				if (!$cmd = $this->ctrl->getCmd())
+				{
+					$cmd = "view";
+				}
+				$this->$cmd();
+				break;
 		}
-		$this->$cmd();
 	}
 
 	function view()
@@ -451,7 +465,16 @@ class ilCourseArchivesGUI
 			ilUtil::sendFailure($this->lng->txt('zip_test_failed'));
 			return true;
 		}
-
+		/*
+		$this->tpl->setCurrentBlock("btn_cell");
+		$link = $this->ctrl->getLinkTargetByClass(
+			'ilobjectcopygui',
+			'initSourceSelection'
+		);
+		$this->tpl->setVariable('BTN_LINK',$link);
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("clone_existing_course"));
+		$this->tpl->parseCurrentBlock();
+		*/
 		// create xml archive button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "selectXMLArchiveItems"));

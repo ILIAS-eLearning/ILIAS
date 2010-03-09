@@ -453,6 +453,17 @@ class ilContainer extends ilObject
 		}
 		$wizard_options->read();
 		$wizard_options->storeTree($clone_source);
+		
+		// Special handling for course in existing courses
+		if($new_type == 'crs' and ilObject::_lookupType(ilObject::_lookupObjId($ref_id)) == 'crs')
+		{
+			$ilLog->write(__METHOD__.': Copy course in course...');
+			$ilLog->write(__METHOD__.': Added mapping, source ID: '.$clone_source.', target ID: '.$ref_id);
+			$wizard_options->read();
+			$wizard_options->dropFirstNode();
+			$wizard_options->appendMapping($clone_source,$ref_id);
+		}
+		
 		#print_r($options);
 		// Duplicate session to avoid logout problems with backgrounded SOAP calls
 		$new_session_id = duplicate_session($session_id);

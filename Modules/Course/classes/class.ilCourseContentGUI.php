@@ -30,7 +30,7 @@
 * @extends ilObjectGUI
 *
 * @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI
-* @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI
+* @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
 *
 */
 class ilCourseContentGUI

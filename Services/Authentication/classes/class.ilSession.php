@@ -80,6 +80,14 @@ class ilSession
 
 		}
 		
+		// finally delete deprecated sessions
+		if(rand(1, 2) == 2)
+		{
+			ilSession::_destroyExpiredSessions();
+		}
+		
+		
+		
 		return true;
 	}
 
