@@ -28,7 +28,7 @@ include_once 'Services/Search/classes/class.ilAdvancedSearch.php';
 *
 * class for searching meta 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id
 * 
 * @package ilias-search

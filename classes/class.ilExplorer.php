@@ -8,7 +8,7 @@ define("IL_FM_NEGATIVE", 2);
 * Class ilExplorer
 * class for explorer view in admin frame
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */

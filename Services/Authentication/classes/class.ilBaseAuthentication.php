@@ -5,7 +5,7 @@
 /**
 * base authentication class
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * @see /webservice/soap/class.ilSoapAuthentication.php or /cron/classes/class.ilCronAuthentication.php
 *

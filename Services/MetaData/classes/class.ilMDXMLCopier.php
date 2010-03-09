@@ -27,7 +27,7 @@
 * It is possible to overwrite single elements. See handling of identifier tag
 *
 * @package ilias-core
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 

@@ -3,7 +3,7 @@
 /**
 * Class ilPaymentPrices
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilPaymentPrices.php 22133 2009-10-16 08:09:11Z nkrzywon $
 *
 * @package ilias-core

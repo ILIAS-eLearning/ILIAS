@@ -27,7 +27,7 @@
 * It caches all function calls using the obj_id as key
 * TODO: substitute all ilStatus calls with this functions
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *

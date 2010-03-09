@@ -25,7 +25,7 @@
 * header include for all ilias files. This script will be always included first for every page
 * in ILIAS. Inits RBAC-Classes & recent user, log-,language- & tree-object
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *

@@ -29,7 +29,7 @@ include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
 * E.g. VEVENT
 * 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesCalendar 

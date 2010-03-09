@@ -27,7 +27,7 @@
 * Reads and stores user specific filter settings. E.g root node, object types and hide list.
 * 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *

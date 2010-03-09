@@ -6,7 +6,7 @@ require_once "./classes/class.ilObjectGUI.php";
 /**
 * Class ilObjSystemFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$
 *
 * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI

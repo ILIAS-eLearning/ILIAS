@@ -24,7 +24,7 @@
 include_once('Services/Migration/DBUpdate_904/classes/class.ilFileSystemStorage.php');
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

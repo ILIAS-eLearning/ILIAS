@@ -30,7 +30,7 @@ define("IL_MAIL_BOTH", 2);
 * this class handles user mails 
 * 
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

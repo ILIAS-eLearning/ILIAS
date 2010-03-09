@@ -5,7 +5,7 @@
 * class for checking external links in page objects. All user who want to get messages about invalid links of a page_object 
 * are stored here 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 class ilLinkCheckNotify

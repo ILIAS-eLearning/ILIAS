@@ -25,7 +25,7 @@
 /**
 * This class transforms ContentObject XML to an XSL-FO file that can be transformed - using the java rpc services - to pdf
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @package ilias

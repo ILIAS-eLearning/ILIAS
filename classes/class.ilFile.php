@@ -6,7 +6,7 @@
 * Base class for all file (directory) operations
 * This class is abstract and needs to be extended
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

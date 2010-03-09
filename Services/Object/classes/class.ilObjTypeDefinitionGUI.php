@@ -7,7 +7,7 @@
 * 
 * handles operation assignment to objects (ONLY FOR TESTING PURPOSES!)
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.14 2005/11/21 17:12:08 shofmann Exp $
 *
 * @extends ilObjectGUI

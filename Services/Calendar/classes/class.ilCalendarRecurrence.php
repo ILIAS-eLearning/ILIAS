@@ -26,7 +26,7 @@ include_once('./Services/Calendar/classes/class.ilDate.php');
 /** 
 * Model of calendar entry recurrcences
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

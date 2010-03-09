@@ -27,7 +27,7 @@
 * Default string delimiter is '"'
 * Multiple "-'s will be substituted with ""
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesUtilities 

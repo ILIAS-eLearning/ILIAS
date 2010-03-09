@@ -6,7 +6,7 @@ require_once("classes/class.ilFileData.php");
 /**
 * This class handles all operations on files for the exercise object
 *
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @ingroup	ModulesExercise

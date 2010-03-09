@@ -25,7 +25,7 @@
 /**
 * Utility class to form select boxed for fixed meta data attributes
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */

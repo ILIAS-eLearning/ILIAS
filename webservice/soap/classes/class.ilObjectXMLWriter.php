@@ -13,7 +13,7 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 * The author is responsible for well-formedness and validity
 * of the xml document.
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 class ilObjectXMLWriter extends ilXmlWriter

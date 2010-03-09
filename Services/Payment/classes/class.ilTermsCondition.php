@@ -4,7 +4,7 @@
 /**
 * base script for terms and conditions
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilTermsCondition.php 5974 2004-11-24 17:03:42Z smeyer $
 *
 * @package ilias-core

@@ -4,7 +4,7 @@
 /**
 * class ilObjectDataCache
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * This class caches some properties of the object_data table. Like title description owner obj_id

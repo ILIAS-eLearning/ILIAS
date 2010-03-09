@@ -26,7 +26,7 @@ include_once('Auth/Container.php');
 /** 
 * Custom PEAR Auth Container for ECS auth checks
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesWebServicesECS 

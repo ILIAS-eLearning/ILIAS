@@ -25,7 +25,7 @@
 * Class for storing search result. Allows paging of result sets
 * 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

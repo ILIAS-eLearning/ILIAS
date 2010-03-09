@@ -24,7 +24,7 @@
 /** 
 * Abstract base class for all ical items (Component, Parameter and Value) 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

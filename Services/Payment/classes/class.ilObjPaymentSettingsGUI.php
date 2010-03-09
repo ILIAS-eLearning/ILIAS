@@ -4,7 +4,7 @@
 /**
 * Class ilObjPaymentSettingsGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @author Jens Conze <jc@databay.de> 
 * @author Jesper G�dvad <jesper@ilias.dk>
 * @version $Id$

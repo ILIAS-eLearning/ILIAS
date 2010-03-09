@@ -26,7 +26,7 @@
 *
 * class for searching htlms indexed by lucene rpc server 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @package ilias-search

@@ -26,7 +26,7 @@ include_once("./classes/class.ilObjectGUI.php");
 /**
 * Meta Data Settings.
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI

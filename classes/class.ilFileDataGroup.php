@@ -5,7 +5,7 @@
 /**
 * This class handles all operations of export files for the group object
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

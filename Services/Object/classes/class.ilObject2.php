@@ -7,7 +7,7 @@ include_once("./classes/class.ilObject.php");
 * Class ilObject2
 * This is an intermediate progress of ilObject class. Please do not ust it yet.
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */

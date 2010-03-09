@@ -25,7 +25,7 @@
 /**
 * Adapter class for communication between ilias and ilRPCServer
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @package ilias

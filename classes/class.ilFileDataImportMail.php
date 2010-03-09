@@ -5,7 +5,7 @@
 /**
 * This class handles all operations on files for the exercise object
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$Id: class.ilFileDataImportMail.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
 * 
 */

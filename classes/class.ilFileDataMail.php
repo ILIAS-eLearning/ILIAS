@@ -5,7 +5,7 @@
 /**
 * This class handles all operations on files (attachments) in directory ilias_data/mail
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

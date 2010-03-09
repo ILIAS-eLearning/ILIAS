@@ -27,7 +27,7 @@ include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
 * This class represents a ical parameter
 * E.g  VALUE=DATETIME
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesCalendar 

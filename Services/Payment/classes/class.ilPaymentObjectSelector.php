@@ -4,7 +4,7 @@
 /*
 * Repository Explorer
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilPaymentObjectSelector.php 20462 2009-07-07 15:33:41Z mjansen $
 *
 * @package core

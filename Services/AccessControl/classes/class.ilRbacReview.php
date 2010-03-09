@@ -30,7 +30,7 @@
 *  For example, from the UA relation the administrator should have the facility to view all user assigned to a given role.
 *  
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * 
 * @version $Id$

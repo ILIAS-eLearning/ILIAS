@@ -26,7 +26,7 @@ include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
 * Represents a ical property.
 * E.g DTSTART;VALUE=DATE;TZID=Europe/Berlin:20080214
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

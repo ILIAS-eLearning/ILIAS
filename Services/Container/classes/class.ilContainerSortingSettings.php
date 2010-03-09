@@ -26,7 +26,7 @@ include_once './Services/Container/classes/class.ilContainer.php';
 /** 
 * @defgroup ServicesContainer Services/Container 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

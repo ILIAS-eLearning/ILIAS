@@ -6,7 +6,7 @@
 * Normally used in Cron jobs, but should be extensible for use in learning modules. In this case set second parameter of 
 * contructor = false, and use setPageObjectId() 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 class ilLinkChecker

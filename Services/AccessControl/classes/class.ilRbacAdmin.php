@@ -30,7 +30,7 @@
 *  This class contains methods to 'create' and 'delete' instances of the (UR) relation e.g.: assignUser(), deassignUser()
 *  Required methods for the PR relation are grantPermission(), revokePermission()
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @ingroup ServicesAccessControl

@@ -6,7 +6,7 @@
 * Error Handling & global info handling
 * uses PEAR error class
 *
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 * @extends PEAR

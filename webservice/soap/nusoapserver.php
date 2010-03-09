@@ -25,7 +25,7 @@
 /**
 * soap server
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: server.php 14977 2007-10-12 11:58:35Z rkuester $
 *
 * @package ilias

@@ -7,7 +7,7 @@ require_once "classes/class.ilObjectGUI.php";
 /**
 * Class ilObjExerciseGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * $Id$
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI, ilRepositorySearchGUI

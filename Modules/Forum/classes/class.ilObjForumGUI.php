@@ -33,7 +33,7 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
 /**
 * Class ilObjForumGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI

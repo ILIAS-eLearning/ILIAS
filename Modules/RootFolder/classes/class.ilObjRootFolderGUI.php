@@ -25,7 +25,7 @@
 /**
 * Class ilObjRootFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI

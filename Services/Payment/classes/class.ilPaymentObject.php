@@ -4,7 +4,7 @@
 /**
 * Class ilPaymentObject
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilPaymentObject.php 22181 2009-10-23 15:51:44Z jgoedvad $
 *
 * @package ilias-core

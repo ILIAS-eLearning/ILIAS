@@ -25,7 +25,7 @@
 /**
 * Class ilObjObjectFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$
 * 
 * @ilCtrl_Calls ilObjObjectFolderGUI: ilPermissionGUI

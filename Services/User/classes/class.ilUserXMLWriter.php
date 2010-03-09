@@ -14,7 +14,7 @@ include_once './Services/User/classes/class.ilObjUserFolder.php';
 * The author is responsible for well-formedness and validity
 * of the xml document.
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilObjectXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
 */
 class ilUserXMLWriter extends ilXmlWriter

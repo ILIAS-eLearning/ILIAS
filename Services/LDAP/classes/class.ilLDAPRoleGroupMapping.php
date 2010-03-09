@@ -25,7 +25,7 @@ include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

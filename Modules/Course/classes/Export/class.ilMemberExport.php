@@ -33,7 +33,7 @@ define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER",'"');
 
 /** 
 * Class for generation of member export files
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

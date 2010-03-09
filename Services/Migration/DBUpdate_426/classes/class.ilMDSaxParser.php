@@ -26,7 +26,7 @@
 * Abstract meta data sax parser
 * This class should be inherited by all classes that want to parse meta data. E.g ContObjParser, CourseXMLParser ...
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * Inserts Meta data from XML into ILIAS db

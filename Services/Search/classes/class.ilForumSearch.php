@@ -26,7 +26,7 @@
 *
 * Abstract class for lm content. Should be inherited by ilFulltextLMContentSearch
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @package ilias-search

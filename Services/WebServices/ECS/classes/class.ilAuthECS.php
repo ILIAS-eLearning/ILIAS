@@ -24,7 +24,7 @@
 /** 
 * Authentication class for ECS users (access to remote courses)
 *  
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

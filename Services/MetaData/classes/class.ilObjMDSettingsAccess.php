@@ -26,7 +26,7 @@ include_once("classes/class.ilObjectAccess.php");
 /**
 * Class ilObjMDSettingsAccess
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @ingroup ServicesMetaData

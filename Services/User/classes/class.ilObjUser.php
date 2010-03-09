@@ -15,7 +15,7 @@ require_once 'Services/User/exceptions/class.ilUserException.php';
 * User application class
 *
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @version	$Id$
 *

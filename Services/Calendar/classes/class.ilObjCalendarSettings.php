@@ -24,7 +24,7 @@
 /** 
 * @defgroup ServicesCalendar Services/Calendar
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

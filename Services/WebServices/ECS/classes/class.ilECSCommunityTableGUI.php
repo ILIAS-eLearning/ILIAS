@@ -26,7 +26,7 @@ include_once('Services/WebServices/ECS/classes/class.ilECSParticipantSettings.ph
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

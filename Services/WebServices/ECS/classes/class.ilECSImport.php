@@ -25,7 +25,7 @@
 * Storage of ECS imported objects.
 * This class stores the econent id and informations whether an object is imported or not. 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 
