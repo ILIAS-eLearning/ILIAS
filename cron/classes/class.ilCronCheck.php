@@ -129,10 +129,11 @@ class ilCronCheck
 			$disk_quota =& new ilCronDiskQuotaCheck();
 			$disk_quota->sendReminderMails();
 		}
+		
+		// Start Shopping Cart Check
+		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+		ilPaymentShoppingCart::__deleteExpiredSessionsPSC();
+		
 	}
 }
-
-
-
-
 ?>

@@ -151,7 +151,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 			case "continue":
 			case 'list':
 
-				include_once 'payment/classes/class.ilPaymentObject.php';
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 				if (ilPaymentObject::_isBuyable($this->ref_id) && 
 					!ilPaymentObject::_hasAccess($this->ref_id))
 				{
@@ -209,7 +209,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				"value" => $lng->txt("lm"));
 		}
 
-		include_once("payment/classes/class.ilPaymentObject.php");
+		include_once("Services/Payment/classes/class.ilPaymentObject.php");
 
 		if (ilPaymentObject::_isBuyable($this->ref_id))
 		{

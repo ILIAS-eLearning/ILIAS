@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
@@ -113,8 +93,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 	
 	public function initSettingsForm($a_mode = 'edit')
 	{		
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		
+	
 		$this->settings_form = new ilPropertyFormGUI();
 		$this->settings_form->setTitle($this->lng->txt('payment_news_settings'));
 		$this->settings_form->setTitleIcon(ilUtil::getImagePath('icon_news.gif'));
@@ -368,7 +347,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			$ilTabs->setSubTabActive('news');	
 		}
 		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+//		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setTitle($this->lng->txt('shopnews_settings'));
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath('icon_news.gif'));
@@ -486,11 +465,11 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			$ilToolbar->addButton($this->lng->txt('payment_news_add_news'), $this->ctrl->getLinkTarget($this, 'addNewsForm'));
 		}		
 
-		$news_tpl = new ilTemplate('tpl.shop_news.html', true, true, 'Services/Payment');
+		$news_tpl = new ilTemplate('tpl.main_view.html', true, true, 'Services/Payment');
 
 		if((int)strlen($confirmation_gui))
 		{
-			$news_tpl->setVariable('CONFIRMATION_GUI', $confirmation_gui);
+			$news_tpl->setVariable('CONFIRMATION', $confirmation_gui);
 		}
 
 		$tbl = new ilTable2GUI($this);
@@ -556,7 +535,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		}
 
 		$tbl->setData($result);
-		$news_tpl->setVariable('NEWS_TABLE', $tbl->getHTML());
+		$news_tpl->setVariable('TABLE', $tbl->getHTML());
 		$tpl->setContent($news_tpl->get());			
 	}
 	
@@ -569,11 +548,11 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		include_once 'Services/Payment/classes/class.ilShopNewsItemList.php';
 		include_once 'Services/Table/classes/class.ilTable2GUI.php';
 		
-		$news_tpl = new ilTemplate('tpl.shop_news.html', true, true, 'Services/Payment');
+		$news_tpl = new ilTemplate('tpl.main_view.html', true, true, 'Services/Payment');
 
 		if((int)strlen($confirmation_gui))
 		{
-			$news_tpl->setVariable('CONFIRMATION_GUI', $confirmation_gui);
+			$news_tpl->setVariable('CONFIRMATION', $confirmation_gui);
 		}
 		
 		$tbl = new ilTable2GUI($this);
@@ -640,7 +619,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			$tbl->setNoEntriesText($this->lng->txt('payment_news_no_news_items'));
 		}
 		$tbl->setData($result);
-		$news_tpl->setVariable('NEWS_TABLE', $tbl->getHTML());
+		$news_tpl->setVariable('TABLE', $tbl->getHTML());
 		$tpl->setContent($news_tpl->get());			
 	}
 

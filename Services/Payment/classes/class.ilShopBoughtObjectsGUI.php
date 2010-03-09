@@ -1,27 +1,8 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
+include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 
 /**
 * Class ilShopBoughtObjectsGUI
@@ -48,10 +29,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 	public function executeCommand()
 	{
 		global $ilUser;
-		
-		if(ANONYMOUS_USER_ID == $ilUser->getId())
+
+		if(ANONYMOUS_USER_ID == $ilUser->getId() && !isset($_SESSION['download_links']));
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+	//		$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 
 		$cmd = $this->ctrl->getCmd();
@@ -92,12 +73,12 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$ilTabs->setSubTabActive('paya_bill_history');
 		
 		$this->initBookingsObject();
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_personal_statistic.html','payment');
-
-		if(!count($bookings = $this->bookings_obj->getDistinctTransactions($this->user_obj->getId())))
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+		$bookings = $this->bookings_obj->getDistinctTransactions($this->user_obj->getId());
+		
+		if(!count($bookings))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_not_buyed_any_object'));
-
 			return true;
 		}
 		
@@ -107,7 +88,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		{
 						
 			$f_result[$counter][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "createBill")."&transaction=".$booking['transaction']."\">".$booking['transaction'].".pdf</a>";
-			$f_result[$counter][] = date("Y-m-d", $booking['order_date']);
+			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));	
 	
 			++$counter;
 		}
@@ -121,7 +102,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tbl = new ilTableGUI(array(), false);
 		$tpl = $tbl->getTemplateObject();
 
-		// SET FORMAACTION
+		// SET FORMACTION
 		$tpl->setCurrentBlock("tbl_form_header");
 
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -149,7 +130,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$tbl->render();
 
-		$this->tpl->setVariable("STATISTIC_TABLE",$tbl->tpl->get());
+		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
 
 		return true;
 	}
@@ -167,15 +148,15 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		include_once './classes/class.ilTemplate.php';
 		include_once './Services/Utilities/classes/class.ilUtil.php';
-		include_once './payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 
 		$user_id = $this->user_obj->getId();
 
 		$bookings = ilPaymentBookings::__readBillByTransaction($user_id,$transaction);
-		if($bookings[$i]['street'] == NULL) 	$bookings[$i]['street'] = $customer->getStreet();
-		if($bookings[$i]['zipcode'] == NULL)	$bookings[$i]['zipcode'] = $customer->getZipcode();
-		if($bookings[$i]['city'] == NULL)		$bookings[$i]['city'] = $customer->getCity();
-		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = $customer->getCountry();
+		if($bookings[$i]['street'] == NULL) 	$bookings[$i]['street'] = nl2br(utf8_decode($customer->getStreet()));
+		if($bookings[$i]['zipcode'] == NULL)	$bookings[$i]['zipcode'] = nl2br(utf8_decode($customer->getZipcode()));
+		if($bookings[$i]['city'] == NULL)		$bookings[$i]['city'] = nl2br(utf8_decode($customer->getCity()));
+		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
 		
 		$genSet = new ilGeneralSettings();
 
@@ -204,7 +185,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('CUSTOMER_COUNTRY', $bookings[$i]['country']);
 
 		$tpl->setVariable('BILL_NO', $transaction);
-		$tpl->setVariable('DATE', date('d.m.Y'));
+		$tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($bookings[$i]['order_date'], IL_CAL_UNIX)));
 
 		$tpl->setVariable('TXT_BILL', utf8_decode($this->lng->txt('pays_bill')));
 		$tpl->setVariable('TXT_BILL_NO', utf8_decode($this->lng->txt('pay_bill_no')));
@@ -216,8 +197,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('TXT_PRICE', utf8_decode($this->lng->txt('price_a')));
 
 		for ($i = 0; $i < count($bookings[$i]); $i++)
-	{
-			$tmp_pobject =& new ilPaymentObject($this->user_obj, $booking[$i]['pobject_id']);
+		{
+			$tmp_pobject = new ilPaymentObject($this->user_obj, $booking[$i]['pobject_id']);
 			
 			$assigned_coupons = '';					
 			if (!empty($_SESSION['coupons']['bill']))
@@ -244,12 +225,28 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		if( $bookings[$i]['duration'] == 0)
 		{
 						$tpl->setVariable('LOOP_DURATION', utf8_decode($this->lng->txt('unlimited_duration')));
-		} 	else
+		} 	
+		else
 			$tpl->setVariable('LOOP_DURATION', $bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
+// old one			
 			$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate']);
 			$tpl->setVariable('LOOP_VAT_UNIT', $bookings[$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
 			$tpl->setVariable('LOOP_PRICE', $bookings[$i]['price']);
 			$tpl->parseCurrentBlock('loop');
+			
+// TODO: CURRENCY not finished yet
+/*****
+		$currency_symbol = $bookings[$i]['currency_unit'];
+			
+		$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate'].' %');
+#		$tpl->setVariable('LOOP_VAT_UNIT', number_format( $bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);			
+#		$tpl->setVariable('LOOP_PRICE',number_format( $bookings[$i]['price'], 2, ',', '.').' '.$currency);			 	
+				
+		$tpl->setVariable('LOOP_VAT_UNIT',utf8_decode( ilPaymentCurrency::_formatPriceToString($bookings[$i]['vat_unit'], $currency_symbol)));			
+		$tpl->setVariable('LOOP_PRICE', utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings[$i]['price'], $currency_symbol)));					
+		$tpl->parseCurrentBlock('loop');
+		
+/*****	
 			$bookings['total'] += (float)$bookings[$i]['price'];
 			$bookings['total_vat']+= (float)$bookings[$i]['vat_unit'];
 			unset($tmp_pobject);
@@ -271,7 +268,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 					
 					foreach ($bookings[$i] as $item)
 					{
-						$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);						
+						$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);						
 						
 						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 						{						
@@ -288,11 +285,13 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 					$tpl->setCurrentBlock('cloop');
 					$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code']));
 					$tpl->setVariable('BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
+// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
 					$tpl->parseCurrentBlock();
 				}
 				
 				$tpl->setVariable('TXT_SUBTOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_subtotal_amount')));
 				$tpl->setVariable('SUBTOTAL_AMOUNT', number_format($sub_total_amount, 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
+// TODO: CURRENCY $tpl->setVariable('SUBTOTAL_AMOUNT', ilPaymentCurrency::_formatPriceToString($sub_total_amount, $currency_symbol));
 			}
 		}
 		
@@ -305,9 +304,11 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$tpl->setVariable('TXT_TOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_total_amount')));
 		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
+// TODO: CURRENCY $tpl->setVariable('TOTAL_AMOUNT',utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings['total'], $currency_symbol) ));
 		if ($bookings['total_vat'] > 0)
 		{
 			$tpl->setVariable('TOTAL_VAT', $bookings['total_vat']. ' ' . $genSet->get('currency_unit'));
+// TODO: CURRENCY $tpl->setVariable('TOTAL_VAT',ilPaymentCurrency::_formatPriceToString($bookings['total_vat'],$currency_symbol)); 			
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
 		}
 
@@ -353,7 +354,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$this->initBookingsObject();
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_personal_statistic.html','payment');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 
 		if(!count($bookings = $this->bookings_obj->getBookingsOfCustomer($this->user_obj->getId())))
 		{
@@ -366,27 +367,15 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				
 		foreach($bookings as $booking)
 		{
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($booking['ref_id']);
-			$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
-			$tmp_purchaser =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($booking['ref_id']);
+			$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
+			$tmp_purchaser = ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 			
 			$transaction = $booking['transaction'];
-			switch ($booking['b_pay_method'])
-			{
-				case PAY_METHOD_BILL :
-					$transaction .= " (" . $this->lng->txt("pays_bill") . ")";
-					break;
-				case PAY_METHOD_BMF :
-					$transaction .= " (" . $this->lng->txt("pays_bmf") . ")";
-					break;
-				case PAY_METHOD_PAYPAL :
-					$transaction .= " (" . $this->lng->txt("pays_paypal") . ")";
-					break;
-				case PAY_METHOD_EPAY :
-					$transaction .= " (" . $this->lng->txt("pays_epay") . ")";
-					break;
-          
-			}
+			
+			include_once './Services/Payment/classes/class.ilPayMethods.php';
+			$str_paymethod = ilPayMethods::getStringByPaymethod($booking['b_pay_method']);	
+			$transaction .= " (" . $str_paymethod . ")";
 			$f_result[$counter][] = $transaction;
 
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
@@ -411,8 +400,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			*/
 			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
-			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
-			
+			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX)); 
+
 			if($booking['duration'] != 0)
 			{
 				$f_result[$counter][] = $booking['duration'].' '.$this->lng->txt('paya_months');
@@ -422,15 +411,20 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			{
 					$f_result[$counter][] = $this->lng->txt("unlimited_duration");
 			}
-			$f_result[$counter][] = $booking['price'];
-			$f_result[$counter][] = ($booking['discount'] != '' ? $booking['discount'] : '&nbsp;');
+			$f_result[$counter][] = $booking['price'].' '.$booking['currency_unit'];
+			$f_result[$counter][] = ($booking['discount'] != '' ? ($booking['discount'].' '.$booking['currency_unit']) : '&nbsp;');
+// TODO CURRENCY
+/*
+ 			$f_result[$counter][] = ilPaymentCurrency::_formatPriceToString($booking['price'], $booking['currency_unit']);
+			$f_result[$counter][] = ($booking['discount'] != '' ?  ilPaymentCurrency::_formatPriceToString($booking['discount']) : '&nbsp;');
 
+ */
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
 				$this->lng->txt('no');
 
 			$payed_access .= '/';
-			$payed_access .= $booking['access'] ?
+			$payed_access .= $booking['access_granted'] ?
 				$this->lng->txt('yes') : 
 				$this->lng->txt('no');
 
@@ -452,7 +446,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tbl = new ilTableGUI(array(), false);
 		$tpl = $tbl->getTemplateObject();
 
-		// SET FORMAACTION
+		// SET FORMACTION
 		$tpl->setCurrentBlock("tbl_form_header");
 
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -494,16 +488,16 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$tbl->render();
 
-		$this->tpl->setVariable("STATISTIC_TABLE",$tbl->tpl->get());
+		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
 
 		return true;
 	}
 
 	private function initBookingsObject()
 	{
-		include_once './payment/classes/class.ilPaymentBookings.php';
+		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 
-		$this->bookings_obj =& new ilPaymentBookings();
+		$this->bookings_obj = new ilPaymentBookings();
 		
 		return true;
 	}

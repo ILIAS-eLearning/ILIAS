@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
 
@@ -45,20 +25,20 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	{
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		$this->ilErr =& $ilErr;
-		$this->ilias =& $ilias;
+		$this->ilErr = $ilErr;
+		$this->ilias = $ilias;
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('payment');
 
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 
 		$this->ref_id = $a_ref_id;
 
-		$this->object =& ilObjectFactory::getInstanceByRefId($this->ref_id);
+		$this->object = ilObjectFactory::getInstanceByRefId($this->ref_id);
 		
 		global $ilTabs;
 				
@@ -234,8 +214,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 							$this->addStandardRow($tpl_sub_items, $item['html'], $item['item_ref_id'], $item['item_obj_id'], '', $rel_header);
 						}
 					}
-					
-					
 				}
 			}
 		}
@@ -389,7 +367,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("shopping_cart");
 			
 			
-			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART", 'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
+			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART",'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
 #			$this->tpl->setVariable("TXT_BUY", $this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock("shopping_cart");
@@ -404,18 +382,14 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
 			$this->tpl->setVariable("TITLE",$this->object->getTitle());
-
 			// payment infos
 			$this->tpl->setVariable("TXT_INFO",$this->lng->txt('info'));
-			switch($this->pobject->getPayMethod())
+/*
+ *  	paymethod is not relevant here
+		 
+		  switch($this->pobject->getPayMethod())
 			{
-/*				case $this->pobject->PAY_METHOD_BILL:
-					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_bill'));
-					$this->tpl->setVariable("INPUT_CMD",'getBill');
-					$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_get_bill'));
-					break;
-*/
-					case $this->pobject->PAY_METHOD_BILL:
+				case $this->pobject->PAY_METHOD_BILL:
 					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
 					if (is_array($buyedObject))
 					{
@@ -483,7 +457,22 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					}
 					break;
 			}
-
+*/
+					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+					if (is_array($buyedObject))
+					{
+						if (is_array($prices) && count($prices) > 1)
+						{
+							$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+							$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+						}
+					}
+					else
+					{
+						$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					}
+/*****************/
 			$this->tpl->setVariable("ROWSPAN",count($prices));
 			$this->tpl->setVariable("TXT_PRICES",$this->lng->txt('prices'));
 #		}
@@ -525,12 +514,13 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					if($price['unlimited_duration'] == '1')
 					{
 						
-						$this->tpl->setVariable($placeholderDuration, ''. $this->lng->txt('unlimited_duration'));
+						$this->tpl->setVariable($placeholderDuration, ''. $this->lng->txt('unlimited_duration'). ': ');
 					}
 					else
-					$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months'));
+					$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months'). ': ');
 					
-					$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_getPriceString($price['price_id']));
+					$tmp_price = ilPaymentPrices::_getPriceString($price['price_id']);
+					$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString($tmp_price));
 					
 					$this->tpl->parseCurrentBlock();
 					$counter++;
@@ -584,7 +574,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		global $ilUser, $ilTabs;
 		
 		$ilTabs->setTabActive('buy');		
-	
+		
 		if(!isset($_POST['price_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_select_price'));
@@ -595,18 +585,10 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		else
 		{			
 			$this->__initPaymentObject();
-			
-			if(ANONYMOUS_USER_ID == $ilUser->getId())
-			{
-				$_SESSION['price_id'] = (int)$_POST['price_id'];
-				$_SESSION['pobject_id'] = $this->pobject->getPobjectId();
-				ilUtil::redirect('login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
-				exit();
-			}
-			
+
 			$this->__initShoppingCartObject();
 			
-
+			$this->sc_obj->setSessionId(session_id());
 			$this->sc_obj->setPriceId((int) $_POST['price_id']);
 			$this->sc_obj->setPobjectId($this->pobject->getPobjectId());
 			$this->sc_obj->add();
@@ -626,18 +608,18 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	// PRIVATE
 	function __initShoppingCartObject()
 	{
-		include_once './payment/classes/class.ilPaymentShoppingCart.php';
+		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 
-		$this->sc_obj =& new ilPaymentShoppingCart($this->ilias->account);
+		$this->sc_obj = new ilPaymentShoppingCart($this->ilias->account);
 
 		return true;
 	}
 
 	function __initPaymentObject()
 	{
-		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 
-		$this->pobject =& new ilPaymentObject($this->ilias->account,ilPaymentObject::_lookupPobjectId($this->ref_id));
+		$this->pobject = new ilPaymentObject($this->ilias->account,ilPaymentObject::_lookupPobjectId($this->ref_id));
 
 		
 		
@@ -645,9 +627,9 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	}
 	function __initPricesObject()
 	{
-		include_once './payment/classes/class.ilPaymentPrices.php';
+		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		
-		$this->price_obj =& new ilPaymentPrices($this->pobject->getPobjectId());
+		$this->price_obj = new ilPaymentPrices($this->pobject->getPobjectId());
 
 		return true;
 	}

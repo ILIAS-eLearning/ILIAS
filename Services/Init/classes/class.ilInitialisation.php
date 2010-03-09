@@ -773,7 +773,14 @@ class ilInitialisation
 		$_POST["username"] = "anonymous";
 		$_POST["password"] = "anonymous";
 		ilAuthUtils::_initAuth();
+		
+		$oldSid = session_id();
+		
 		$ilAuth->start();
+		
+		$newSid = session_id();
+		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
+		ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
 
 		if (ANONYMOUS_USER_ID == "")
 		{
@@ -1151,7 +1158,14 @@ class ilInitialisation
 			
 		if (!defined("IL_PHPUNIT_TEST"))
 		{
+			$oldSid = session_id();
+			
 			$ilAuth->start();
+			
+			$newSid = session_id();
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
+			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
+			
 		}
 
 //var_dump($_SESSION);

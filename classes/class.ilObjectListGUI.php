@@ -4,7 +4,7 @@
 define ("IL_LIST_AS_TRIGGER", "trigger");
 define ("IL_LIST_FULL", "full");
 
-include_once 'payment/classes/class.ilGeneralSettings.php';
+include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
 
 /**
 * Class ilObjectListGUI
@@ -1575,7 +1575,7 @@ class ilObjectListGUI
 	*/
 	function insertPayment()
 	{
-		include_once 'payment/classes/class.ilPaymentObject.php';		
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';		
 
 		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled') &&
 		   $this->payment_enabled &&
@@ -2074,7 +2074,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setUseImages(false);
 		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$id_ref, "ilContainerListItemOuterHighlight");
 		
-		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 

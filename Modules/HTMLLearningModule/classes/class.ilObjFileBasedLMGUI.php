@@ -92,7 +92,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			
 		if(!$this->getCreationMode())
 		{
-			include_once 'payment/classes/class.ilPaymentObject.php';				
+			include_once 'Services/Payment/classes/class.ilPaymentObject.php';				
 			if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
 			   !ilPaymentObject::_hasAccess($_GET['ref_id']))
 			{

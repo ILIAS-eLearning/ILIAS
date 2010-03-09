@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
 
@@ -292,7 +272,13 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		 		
 			$this->tpl->setVariable('RESULTS', $search_result_presentation->showResults());
 			
-			$order_fields = array(
+	
+			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
+			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
+			if($objects)
+			{		
+				$this->tpl->setCurrentBlock('objects_sort_block');
+						$order_fields = array(
 				'title' => $this->lng->txt('title'),
 				'author' => $this->lng->txt('author'),
 				'price' => $this->lng->txt('price_a')
@@ -309,16 +295,16 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-			
-			$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
-			$this->tpl->setVariable('CMD_SORT', 'setSorting');
-			$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));
-			$this->tpl->setVariable('SORT_BY_TEXT', $this->lng->txt('sort_by'));			
-			$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
-			$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
-			$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");		
-			
-			if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
+				
+				$this->tpl->setVariable('SORT_BY_TEXT', $this->lng->txt('sort_by'));			
+				$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
+				$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
+				$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");
+				
+				$this->tpl->parseCurrentBlock();
+			}		
+
+			if($topics)
 			{
 				$this->tpl->setCurrentBlock('topics_sort_block');
 				
@@ -364,6 +350,17 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 				
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			if($objects || $topics)
+			{
+				$this->tpl->setCurrentBlock('sort_button');
+				
+				$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
+				$this->tpl->setVariable('CMD_SORT', 'setSorting');
+				$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));	
+				$this->tpl->parseCurrentBlock();
+			}			
+			
 			
 			$this->tpl->setCurrentBlock('sorting');
 			$this->tpl->parseCurrentBlock();

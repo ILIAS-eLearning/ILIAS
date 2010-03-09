@@ -71,7 +71,7 @@ class ilLMPresentationGUI
 		}
 		$this->lm =& $this->lm_gui->object;
 
-		include_once 'payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		$this->needs_to_be_purchased = ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId());
 
 		// check, if learning module is online
@@ -113,7 +113,7 @@ class ilLMPresentationGUI
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng;		
 		
-		include_once 'payment/classes/class.ilPaymentObject.php';	
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';	
 		if($ilAccess->checkAccess('visible', '', $_GET['ref_id']) && 
 		   $this->needs_to_be_purchased)
 		{

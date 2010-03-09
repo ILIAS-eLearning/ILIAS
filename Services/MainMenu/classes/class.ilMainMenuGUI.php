@@ -173,20 +173,21 @@ class ilMainMenuGUI
 		
 		
 		// webshop
-		include_once 'payment/classes/class.ilGeneralSettings.php';
+		include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
 		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
 		{
 			$this->tpl->setCurrentBlock('shopbutton');
 			$this->tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=clearFilter'));
 			$this->tpl->setVariable('TARGET_SHOP', $this->target);			
 			
-			include_once 'payment/classes/class.ilPaymentShoppingCart.php';
+			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
 			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
 			$items = $objShoppingCart->getEntries();
 			
-			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop').(count($items) > 0 ? ' ('.count($items).')' : ''));			
-			
-			if($this->active == 'shop')
+			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop'));
+/*			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop').(count($items) > 0 ? ' ('.count($items).')' : ''));
+
+			if($this->active == 'shop' || $this->active == 'shoppingcart')
 			{
 				$this->tpl->setVariable('MM_CLASS', 'MMActive');
 				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
@@ -196,6 +197,44 @@ class ilMainMenuGUI
 				$this->tpl->setVariable('MM_CLASS', 'MMInactive');
 			}
 			$this->tpl->parseCurrentBlock();
+*/		
+		
+			// shoppingcart
+			if(count($items) > 0 )
+			{
+			
+				$this->tpl->setVariable('SCRIPT_SHOPPINGCART', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui'));
+				$this->tpl->setVariable('TARGET_SHOPPINGCART', $this->target);			
+				$this->tpl->setVariable('TXT_SHOPPINGCART', '('.count($items).')');		
+				if($this->active == 'shop')
+				{
+					$this->tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMActive');
+				}
+				else
+				{
+					$this->tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMInactive');
+				}
+			}			
+
+			if($this->active == 'shop')
+			{
+				$this->tpl->setVariable('MM_CLASS', 'MMActive');
+				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
+				if(count($items) > 0 )
+				{
+					$this->tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
+				}
+			}
+			else
+			{
+				$this->tpl->setVariable('MM_CLASS', 'MMInactive');
+				if(count($items) > 0 )
+				{
+					$this->tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+				
 		}
 
 		// help button

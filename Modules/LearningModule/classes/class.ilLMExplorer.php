@@ -90,7 +90,7 @@ class ilLMExplorer extends ilExplorer
 		}
 
 		// check public access
-		include_once 'payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		if (($ilUser->getId() == ANONYMOUS_USER_ID || 
 			ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm_obj->getRefId())) &&
 		    !ilLMObject::_isPagePublic($a_obj_id, true))
