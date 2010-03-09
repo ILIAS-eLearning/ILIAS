@@ -78,7 +78,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 
 	 	if($this->privacy->enabledCourseAccessTimes())
 	 	{
-		 	$this->addColumn($this->lng->txt('last_access'),'access_time','16em');
+		 	$this->addColumn($this->lng->txt('last_access'),'access_ut','16em');
 	 	}
 		$this->addColumn($this->lng->txt('crs_member_passed'),'passed');
 		if($this->type == 'admin')
