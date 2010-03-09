@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
 
@@ -98,7 +78,7 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 	
 	public function showTopicsSortingTable()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_personal_settings_topics_list.html', 'Services/Payment');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
 		
 		include_once 'Services/Payment/classes/class.ilShopPersonalSettingsTopicsTableGUI.php';
 		$table_gui = new ilShopPersonalSettingsTopicsTableGUI($this, 'showTopicsSortingTable');
@@ -110,7 +90,7 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 		$table_gui->parseRecords(ilShopTopics::_getInstance()->getTopics());
 		$table_gui->addCommandButton('saveSorting', $this->lng->txt('pay_save_sorting'));		
 		
-		$this->tpl->setVariable('TOPICS_TABLE', $table_gui->getHTML());
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());
 	}
 }
 ?>

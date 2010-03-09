@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopTopics.php';
 
@@ -98,7 +78,7 @@ class ilShopTopicsGUI
 	
 	public function showTopicForm()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content', 'tpl.shop_topics_form.html', 'Services/Payment');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content', 'tpl.main_view.html', 'Services/Payment');
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -126,7 +106,7 @@ class ilShopTopicsGUI
 		$form->addCommandButton('saveTopic', $this->lng->txt('save'));
 		$form->addCommandButton('showTopicsList', $this->lng->txt('cancel'));
 		
-		$this->tpl->setVariable('TOPICS_FORM', $form->getHTML());		
+		$this->tpl->setVariable('FORM', $form->getHTML());		
 		
 		return true;
 	}
@@ -192,7 +172,7 @@ class ilShopTopicsGUI
 	
 	public function showTopicsList()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content', 'tpl.shop_topics_list.html', 'Services/Payment');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content', 'tpl.main_view.html', 'Services/Payment');
 	
 		if($this->ask_for_deletion)
 		{		
@@ -209,7 +189,7 @@ class ilShopTopicsGUI
 				$c_gui->addItem('topic_id[]', $topic_id, ilShopTopic::_lookupTitle($topic_id));
 			}
 				
-			$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
+			$this->tpl->setVariable('CONFIRMATION', $c_gui->getHTML());
 			
 			return true;			 
 		}
@@ -224,7 +204,7 @@ class ilShopTopicsGUI
 		$table_gui->addCommandButton('showTopicForm', $this->lng->txt('add'));
 		$table_gui->addCommandButton('saveSorting', $this->lng->txt('pay_save_sorting'));		
 		
-		$this->tpl->setVariable('TOPICS_TABLE', $table_gui->getHTML());
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());
 		
 		return true;
 	}

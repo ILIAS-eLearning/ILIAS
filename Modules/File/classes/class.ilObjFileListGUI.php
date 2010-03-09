@@ -86,7 +86,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		include_once 'payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		if(ilPaymentObject::_isBuyable($this->ref_id) && 
 		   !ilPaymentObject::_hasAccess($this->ref_id))
 		{					

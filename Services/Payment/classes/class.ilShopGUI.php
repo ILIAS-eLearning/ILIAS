@@ -1,27 +1,8 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
+include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 /**
 * Class ilShopGUI
@@ -43,6 +24,8 @@ class ilShopGUI extends ilShopBaseGUI
 	private $string = '';
 	private $type = '';
 	private $topic_id = 0;	
+	
+	private $form = null;
 	
 	public function __construct()
 	{
@@ -313,6 +296,8 @@ class ilShopGUI extends ilShopBaseGUI
 	public function showShopContent($oResult)
 	{
 		global $ilUser, $rbacreview, $ilToolbar;
+
+//		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
@@ -324,88 +309,97 @@ class ilShopGUI extends ilShopBaseGUI
 		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
 		
 		$show_filter = true;
-		if ($show_filter) {
-      // filter form
-      $this->tpl->setVariable('FILTER_TEXT', $this->lng->txt('filter'));
-      $this->tpl->setVariable('TEXT_FILTER_BY', $this->lng->txt('filter_by'));		
-      $filter_fields = array(
-        'title' => $this->lng->txt('title'),
-        'author' => $this->lng->txt('author'),
-        'metadata' => $this->lng->txt('meta_data')
-      );		
-      foreach($filter_fields as $key => $value)
-      {
-        $this->tpl->setCurrentBlock('filterrow');
-        $this->tpl->setVariable('VALUE_FILTER_TYPE', $key);
-        $this->tpl->setVariable('NAME_FILTER_TYPE', $value);
-        if (strcmp(trim($this->getType()), $key) == 0)
-        {
-          $this->tpl->setVariable('VALUE_FILTER_SELECTED', ' selected="selected"');
-        }
-        $this->tpl->parseCurrentBlock();
-      }		
-      $this->tpl->setVariable('VALUE_FILTER_TEXT', ilUtil::prepareFormOutput($this->getString(), true));		
-      $this->tpl->setVariable('FILTER_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
-      $this->tpl->setVariable('CMD_SUBMIT_FILTER', 'setFilter');
-      $this->tpl->setVariable('CMD_RESET_FILTER', 'resetFilter');			
-      $this->tpl->setVariable('VALUE_SUBMIT_FILTER', $this->lng->txt('set_filter'));
-      $this->tpl->setVariable('VALUE_RESET_FILTER', $this->lng->txt('reset_filter'));
-    
-      ilShopTopics::_getInstance()->setIdFilter(false);
-      ilShopTopics::_getInstance()->read();
-      $options = array();
-      if(count(ilShopTopics::_getInstance()->getTopics()))
-      {
-        $options[''] = $this->lng->txt('please_select');
-        foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-        {
-          $options[$oTopic->getId()] = $oTopic->getTitle();
-        }
-        $this->tpl->setCurrentBlock('filter_topics');
-        $this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
-        $this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
-        $this->tpl->parseCurrentBlock();
-      }
-      else
-      {
-        $options[''] = $this->lng->txt('no_topics_yet');
-      }
+		if ($show_filter) 
+		{
+	      	// filter form
+			$this->tpl->setVariable('FILTER_TEXT', $this->lng->txt('filter'));
+			$this->tpl->setVariable('TEXT_FILTER_BY', $this->lng->txt('filter_by'));		
+			$filter_fields = array(
+				'title' => $this->lng->txt('title'),
+				'author' => $this->lng->txt('author'),
+				'metadata' => $this->lng->txt('meta_data')
+      		);		
+	      foreach($filter_fields as $key => $value)
+	      {
+	        $this->tpl->setCurrentBlock('filterrow');
+	        $this->tpl->setVariable('VALUE_FILTER_TYPE', $key);
+	        $this->tpl->setVariable('NAME_FILTER_TYPE', $value);
+	        if (strcmp(trim($this->getType()), $key) == 0)
+	        {
+	          $this->tpl->setVariable('VALUE_FILTER_SELECTED', ' selected="selected"');
+	        }
+	        $this->tpl->parseCurrentBlock();
+	      }		
+	      $this->tpl->setVariable('VALUE_FILTER_TEXT', ilUtil::prepareFormOutput($this->getString(), true));		
+	      $this->tpl->setVariable('FILTER_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
+	      $this->tpl->setVariable('CMD_SUBMIT_FILTER', 'setFilter');
+	      $this->tpl->setVariable('CMD_RESET_FILTER', 'resetFilter');			
+	      $this->tpl->setVariable('VALUE_SUBMIT_FILTER', $this->lng->txt('set_filter'));
+	      $this->tpl->setVariable('VALUE_RESET_FILTER', $this->lng->txt('reset_filter'));
+	    
+	      ilShopTopics::_getInstance()->setIdFilter(false);
+	      ilShopTopics::_getInstance()->read();
+	      $options = array();
+	      if(count(ilShopTopics::_getInstance()->getTopics()))
+	      {
+	        $options[''] = $this->lng->txt('please_select');
+	        foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
+	        {
+	          $options[$oTopic->getId()] = $oTopic->getTitle();
+	        }
+	        $this->tpl->setCurrentBlock('filter_topics');
+	        $this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
+	        $this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
+	        $this->tpl->parseCurrentBlock();
+	      }
+	      else
+	      {
+	        $options[''] = $this->lng->txt('no_topics_yet');
+	      }
 
 		} // show_filter
 		
 		if(count($oResult->getResults()))
 		{
-
-			// sorting form
-			$order_fields = array(
-				'title' => $this->lng->txt('title'),
-				'author' => $this->lng->txt('author'),
-				'price' => $this->lng->txt('price_a')
-			);
-			
-			foreach($order_fields as $key => $value)
-			{
-			
-				$this->tpl->setCurrentBlock('order_field');
-				$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
-				$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
+			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
+			if($objects)
+			{		
+				$this->tpl->setCurrentBlock('objects_sort_block');	
+					
+				// sorting form
+				$order_fields = array(
+					'title' => $this->lng->txt('title'),
+					'author' => $this->lng->txt('author'),
+					'price' => $this->lng->txt('price_a')
+				);
 				
-				if (strcmp(trim($this->getSortField()), $key) == 0)
+				foreach($order_fields as $key => $value)
 				{
-					$this->tpl->setVariable('ORDER_FIELD_SELECTED', ' selected="selected"');
+				
+					$this->tpl->setCurrentBlock('order_field');
+					$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
+					$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
+					
+					if (strcmp(trim($this->getSortField()), $key) == 0)
+					{
+						$this->tpl->setVariable('ORDER_FIELD_SELECTED', ' selected="selected"');
+					}
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->parseCurrentBlock();
+	
+				$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
+				$this->tpl->setVariable('CMD_SORT', 'setSorting');
+				$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));
+	
+				$this->tpl->setVariable('SORT_BY_TEXT', $this->lng->txt('sort_by'));			
+				$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
+				$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
+				$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");		
+				$this->tpl->parseCurrentBlock();	
 			}
-
-			$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
-			$this->tpl->setVariable('CMD_SORT', 'setSorting');
-			$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));
-			$this->tpl->setVariable('SORT_BY_TEXT', $this->lng->txt('sort_by'));			
-			$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
-			$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
-			$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");		
-
-			if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
+			
+			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
+			if($topics)
 			{		
 				$this->tpl->setCurrentBlock('topics_sort_block');
 				
@@ -451,7 +445,14 @@ class ilShopGUI extends ilShopBaseGUI
 				
 				$this->tpl->parseCurrentBlock();
 			}
-			
+			if($objects || $topics)
+			{	
+				$this->tpl->setCurrentBlock('sort_button');
+				$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
+				$this->tpl->setVariable('CMD_SORT', 'setSorting');
+				$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));
+				$this->tpl->parseCurrentBlock();
+			}			
 			$this->tpl->setCurrentBlock('sorting');
 			$this->tpl->parseCurrentBlock();
 		}	

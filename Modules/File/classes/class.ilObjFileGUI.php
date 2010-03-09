@@ -57,7 +57,7 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory,$ilCtrl;	
+		global $ilAccess, $ilNavigationHistory,$ilCtrl, $ilUser;	
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -69,12 +69,20 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		
+	
 		if(!$this->getCreationMode())
 		{
-			include_once 'payment/classes/class.ilPaymentObject.php';				
-			if(ilPaymentObject::_isBuyable($this->object->getRefId()) && 
-			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+			include_once 'Services/Payment/classes/class.ilPaymentObject.php';		
+			if(ANONYMOUS_USER_ID == $ilUser->getId()  && isset($_GET['transaction']))
+			{	
+				$transaction = $_GET['transaction'];
+				include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+				$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
+			}
+			
+			if( ilPaymentObject::_isBuyable($this->object->getRefId() ) && 
+			   !ilPaymentObject::_hasAccess($this->object->getRefId(), $transaction) &&
+			   !$valid_transaction)
 			{
 				$this->setLocator();
 				$this->tpl->getStandardTemplate();			
@@ -92,6 +100,7 @@ class ilObjFileGUI extends ilObjectGUI
 //var_dump($_POST);
 //var_dump($_SESSION);
 //echo "-$cmd-";
+
 		switch ($next_class)
 		{
 			case "ilinfoscreengui":
@@ -635,8 +644,17 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function sendFileObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser, $ilCtrl;
 		
+		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
+		{
+			$this->object->sendFile($_GET["hist_id"]);
+		}
+		else
+		{
+			//user_id exists
+			$ilCtrl->redirectByClass('ilrepositorygui'); 
+		}
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			// BEGIN ChangeEvent: Record read event.

@@ -24,7 +24,7 @@ class ilRepUtil
 		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $log, $ilUser, $tree, $lng,
 			$ilSetting;
 		
-		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
 		// Remove duplicate ids from array

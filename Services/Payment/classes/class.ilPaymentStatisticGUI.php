@@ -1,0 +1,1218 @@
+<?php
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+* Class ilPaymentStatisticGUI
+*
+* @author Stefan Meyer
+* @version $Id: class.ilPaymentStatisticGUI.php 22253 2009-10-30 07:58:39Z nkrzywon $
+*
+* @package core
+*
+*/
+include_once './Services/Payment/classes/class.ilPaymentObject.php';
+include_once './Services/Payment/classes/class.ilPayMethods.php';
+include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+
+class ilPaymentStatisticGUI extends ilShopBaseGUI
+{
+	private $pobject = null;
+
+	public function ilPaymentStatisticGUI($user_obj)
+	{
+		parent::__construct();		
+		
+		$this->ctrl->saveParameter($this, 'baseClass');
+
+		$this->user_obj = $user_obj;
+		$this->pobject = new ilPaymentObject($this->user_obj);
+	}
+	
+	protected function prepareOutput()
+	{
+		global $ilTabs;
+		
+		$this->setSection(6);
+		
+		parent::prepareOutput();
+
+		$ilTabs->setTabActive('paya_header');
+		$ilTabs->setSubTabActive('bookings');
+	}
+	
+	public function executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		
+		switch ($this->ctrl->getNextClass($this))
+		{
+			default:
+				if(!$cmd = $this->ctrl->getCmd())
+				{
+					$cmd = 'showStatistics';
+				}
+				$this->prepareOutput();
+				$this->$cmd();
+				break;
+		}
+	}
+
+	function resetFilter()
+	{
+		unset($_SESSION["pay_statistics"]);
+		unset($_POST["transaction_type"]);
+		unset($_POST["transaction_value"]);
+		unset($_POST["from"]["day"]);
+		unset($_POST["from"]["month"]);
+		unset($_POST["from"]["year"]);
+		unset($_POST["til"]["day"]);
+		unset($_POST["til"]["month"]);
+		unset($_POST["til"]["year"]);
+		unset($_POST["payed"]);
+		unset($_POST["access"]);
+		unset($_POST["customer"]);
+		unset($_POST["pay_method"]);
+		unset($_POST["updateView"]);
+		$this->showStatistics();
+	}
+
+	function showStatistics()
+	{
+		global $rbacsystem, $ilToolbar, $ilObjDataCache;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+	/*	if(!$rbacsystem->checkAccess('read', $this->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
+		}
+	*/	
+	
+		
+		$ilToolbar->addButton($this->lng->txt('paya_add_customer'), $this->ctrl->getLinkTarget($this, 'showObjectSelector'));
+		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
+		{
+			$this->resetFilter();
+		}
+		else
+		if ($_POST['updateView'] == 1)
+		{
+			$_SESSION['pay_statistics']['show_filter']= $_POST['show_filter'];
+			$_SESSION['pay_statistics']['updateView'] = true;
+			$_SESSION['pay_statistics']['until_check'] = $_POST['until_check'];
+			$_SESSION['pay_statistics']['from_check'] = $_POST['from_check'];
+			$_SESSION['pay_statistics']['transaction_type'] = isset($_POST['transaction_type']) ? $_POST['transaction_type'] : '' ;
+			$_SESSION['pay_statistics']['transaction_value'] = isset($_POST['transaction_value']) ?  $_POST['transaction_value'] : '';
+			
+			if($_SESSION['pay_statistics']['from_check'] == '1')
+			{
+				$_SESSION['pay_statistics']['from']['date']['d'] = $_POST['from']['date']['d'];
+				$_SESSION['pay_statistics']['from']['date']['m'] = $_POST['from']['date']['m'];
+				$_SESSION['pay_statistics']['from']['date']['y'] = $_POST['from']['date']['y'];
+			} 
+			else 
+			{
+				$_SESSION['pay_statistics']['from']['date']['d'] = '';
+				$_SESSION['pay_statistics']['from']['date']['m'] = '';
+				$_SESSION['pay_statistics']['from']['date']['y'] = '';
+			}
+			
+			if($_SESSION['pay_statistics']['until_check']== '1')
+			{
+				$_SESSION['pay_statistics']['til']['date']['d'] = $_POST['til']['date']['d'];
+				$_SESSION['pay_statistics']['til']['date']['m'] = $_POST['til']['date']['m'];
+				$_SESSION['pay_statistics']['til']['date']['y'] = $_POST['til']['date']['y'];
+			} 
+			else 
+			{
+				$_SESSION['pay_statistics']['til']['date']['d'] = '';
+				$_SESSION['pay_statistics']['til']['date']['m'] = '';
+				$_SESSION['pay_statistics']['til']['date']['y'] = '';
+			}
+
+			$_SESSION['pay_statistics']['payed'] = $_POST['payed'];
+			$_SESSION['pay_statistics']['access'] = $_POST['access'];
+			$_SESSION['pay_statistics']['pay_method'] = $_POST['pay_method'];
+			$_SESSION['pay_statistics']['customer'] = isset ($_POST['customer']) ? $_POST['customer'] : '';
+			$_SESSION['pay_statistics']['vendor'] = isset ($_POST['vendor']) ? $_POST['vendor']: '';
+		}
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$filter_form = new ilPropertyFormGUI();
+		$filter_form->setFormAction($this->ctrl->getFormAction($this));
+		$filter_form->setTitle($this->lng->txt('pay_filter'));
+		$filter_form->setId('formular');
+		$filter_form->setTableWidth('100 %');
+
+			
+		$o_hide_check = new ilCheckBoxInputGUI($this->lng->txt('show_filter'),'show_filter');
+		$o_hide_check->setValue(1);		
+		$o_hide_check->setChecked($_SESSION['pay_statistics']['show_filter'] ? 1 : 0);		
+
+		$o_hidden = new ilHiddenInputGUI('updateView');
+		$o_hidden->setValue(1);
+		$o_hidden->setPostVar('updateView');
+		$o_hide_check->addSubItem($o_hidden);
+			
+		$o_transaction_type = new ilSelectInputGUI(); 
+		$trans_option = array($this->lng->txt('pay_starting'),$this->lng->txt('pay_ending'));
+		$trans_value = array('0','1'); 
+		$o_transaction_type->setTitle($this->lng->txt('paya_transaction'));
+		$o_transaction_type->setOptions($trans_option);
+		$o_transaction_type->setValue($_SESSION['pay_statistics']['transaction_type']);		
+		$o_transaction_type->setPostVar('transaction_type');
+		$o_hide_check->addSubItem($o_transaction_type);
+		
+		$o_transaction_val = new ilTextInputGUI();
+		$o_transaction_val->setValue($_SESSION['pay_statistics']['transaction_value']);		
+		$o_transaction_val->setPostVar('transaction_value');
+		$o_hide_check->addSubItem($o_transaction_val);
+
+		$o_customer = new ilTextInputGUI();
+		$o_customer->setTitle($this->lng->txt('paya_customer'));
+		$o_customer->setValue($_SESSION['pay_statistics']['customer']);		
+		$o_customer->setPostVar('customer');
+		$o_hide_check->addSubItem($o_customer);
+		
+		$o_vendor = new ilTextInputGUI();
+		$o_vendor->setTitle($this->lng->txt('paya_vendor'));
+		$o_vendor->setValue($_SESSION['pay_statistics']['vendor']);				
+		$o_vendor->setPostVar('vendor');
+		$o_hide_check->addSubItem($o_vendor);
+		
+		$o_from_check = new ilCheckBoxInputGUI($this->lng->txt('pay_order_date_from'),'from_check');
+		$o_from_check->setValue(1);		
+		$o_from_check->setChecked($_SESSION['pay_statistics']['from_check'] ? 1 : 0);		
+		
+		$o_date_from = new ilDateTimeInputGUI();
+		$o_date_from->setPostVar('from');			
+		$_POST['from'] = $_SESSION['pay_statistics']['from'];
+		
+		if($_SESSION['pay_statistics']['from_check'] == '1') 
+		{
+			$o_date_from->checkInput();	
+		}
+
+		$o_from_check->addSubItem($o_date_from);
+		$o_hide_check->addSubItem($o_from_check);
+		
+		$o_until_check = new ilCheckBoxInputGUI($this->lng->txt('pay_order_date_til'), 'until_check');
+		$o_until_check->setValue(1);	
+		$o_until_check->setChecked($_SESSION['pay_statistics']['until_check'] ? 1 : 0);				
+
+		$o_date_until = new ilDateTimeInputGUI();
+		$o_date_until->setPostVar('til');
+		$_POST['til'] = $_SESSION['pay_statistics']['til'];
+		
+		if($_SESSION['pay_statistics']['until_check'] == '1') 
+		{
+			$o_date_until->checkInput();	
+		}
+		
+		$o_until_check->addSubItem($o_date_until);
+		$o_hide_check->addSubItem($o_until_check);	
+		
+				
+		// title filter
+		$this->__initBookingObject();		
+		$title_options['all']=$this->lng->txt('pay_all');
+		$unique_titles = $this->booking_obj->getUniqueTitles();
+		
+		if(is_array($unique_titles) && count($unique_titles))
+		{			
+			foreach($unique_titles as $ref_id)
+			{
+				$title_options[$ref_id] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
+			}
+		}
+			
+		$o_object_title = new ilSelectInputGUI();
+		$o_object_title->setTitle($this->lng->txt('title'));
+		$o_object_title->setOptions($title_options);
+		$o_object_title->setValue($_SESSION["pay_statistics"]["filter_title_id"]);
+		$o_object_title->setPostVar('filter_title_id');
+		$o_hide_check->addSubItem($o_object_title);
+		
+		$o_payed = new ilSelectInputGUI();
+		$payed_option = array('all'=>$this->lng->txt('pay_all'),'1'=>$this->lng->txt('yes'),'0'=>$this->lng->txt('no'));
+
+		$o_payed->setTitle($this->lng->txt('paya_payed'));
+		$o_payed->setOptions($payed_option);
+		$o_payed->setValue($_SESSION['pay_statistics']['payed']);
+		$o_payed->setPostVar('payed');		
+
+		$o_hide_check->addSubItem($o_payed);
+
+		$o_access = new ilSelectInputGUI();
+		$access_option = array('all'=>$this->lng->txt('pay_all'),'1'=>$this->lng->txt('yes'),'0'=>$this->lng->txt('no'));
+
+		$o_access->setTitle($this->lng->txt('paya_access'));
+		$o_access->setOptions($access_option);
+		$o_access->setValue($_SESSION['pay_statistics']['access']);
+		$o_access->setPostVar('access');
+		$o_hide_check->addSubItem($o_access);		
+
+		$o_paymethod = new ilSelectInputGUI();
+		$o_paymethod->setTitle($this->lng->txt('payment_system'));
+		$o_paymethod->setOptions(ilPayMethods::getPayMethodsOptions('all'));
+		$o_paymethod->setValue($_SESSION['pay_statistics']['pay_method']);
+		$o_paymethod->setPostVar('pay_method');
+		$o_hide_check->addSubItem($o_paymethod);				
+		
+		$filter_form->addCommandButton('showStatistics', $this->lng->txt('pay_update_view'));
+		$filter_form->addCommandButton('resetFilter', $this->lng->txt('pay_reset_filter'));
+		
+		$filter_form->addItem($o_hide_check);		
+	
+		$this->tpl->setVariable('FORM', $filter_form->getHTML());
+	
+		
+// STATISTICS TABLE 
+		$this->__initBookingObject();
+
+		if(!count($bookings = $this->booking_obj->getBookings()))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_bookings'));
+
+			return true;
+		}
+#		$this->__showButton('excelExport',$this->lng->txt('excel_export'));
+
+		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
+			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
+			"\" border=\"0\" vspace=\"0\"/>";
+			
+		include_once 'Services/User/classes/class.ilObjUser.php';
+		$object_title_cache = array();
+		$user_title_cache = array();
+		
+		$counter = 0;
+		foreach($bookings as $booking)
+		{
+			if(array_key_exists($booking['ref_id'], $object_title_cache))
+			{
+				$tmp_obj = $object_title_cache[$booking['ref_id']];
+			}
+			else
+			{
+				$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($booking['ref_id']));				
+				$object_title_cache[$booking['ref_id']] = $tmp_obj;
+			}
+			if(array_key_exists($booking['b_vendor_id'], $user_title_cache))
+			{
+				$tmp_vendor = $user_title_cache[$booking['b_vendor_id']];
+			}
+			else
+			{
+				$tmp_vendor = ilObjUser::_lookupLogin($booking['b_vendor_id']);
+				$user_title_cache[$booking['b_vendor_id']] = $tmp_vendor;
+			}
+			if(array_key_exists($booking['customer_id'], $user_title_cache))
+			{
+				$tmp_purchaser = $user_title_cache[$booking['customer_id']];
+			}
+			else
+			{
+				$tmp_purchaser = ilObjUser::_lookupLogin($booking['customer_id']);
+				$user_title_cache[$booking['customer_id']] = $tmp_purchaser;
+			}
+
+			$transaction = $booking['transaction_extern'];
+			$str_paymethod = ilPayMethods::getStringByPaymethod($booking['b_pay_method']);
+			$transaction .= " (" . $str_paymethod . ")";
+			
+			$f_result[$counter][] = $transaction;
+			$f_result[$counter][] = ($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted'));
+			$f_result[$counter][] = ($tmp_vendor != '' ?  '['.$tmp_vendor.']' : $this->lng->txt('user_deleted'));
+			$f_result[$counter][] = ($tmp_purchaser != '' ?  '['.$tmp_purchaser.']' : $this->lng->txt('user_deleted'));
+			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
+			
+			if($booking['duration'] == 0)
+			{
+				$booking['duration'] = $this->lng->txt('unlimited_duration');
+			}
+
+			$f_result[$counter][] = $booking['duration'];
+			$f_result[$counter][] = ilFormat::_getLocalMoneyFormat($booking['price']).' '.$booking['currency_unit'];
+			$f_result[$counter][] = $booking['discount'].' '.$booking['currency_unit'];
+
+			$payed_access = $booking['payed'] ? 
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$payed_access .= '/';
+			$payed_access .= $booking['access_granted'] ?
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$f_result[$counter][] = $payed_access;
+
+			$this->ctrl->setParameter($this,"booking_id",$booking['booking_id']);
+			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editStatistic")."\">".$this->lng->txt("edit")."</a></div>";
+
+			$f_result[$counter][] = $link_change;
+
+			unset($tmp_obj);
+			unset($tmp_vendor);
+			unset($tmp_purchaser);
+
+			++$counter;
+		}
+		return $this->__showStatisticTable($f_result);
+	}
+
+	function excelExport()
+	{
+		include_once './Services/Payment/classes/class.ilPaymentExcelWriterAdapter.php';
+
+		$pewa = new ilPaymentExcelWriterAdapter('payment_vendors.xls');
+
+		// add/fill worksheet
+		$this->addStatisticWorksheet($pewa);
+
+		// HEADER SENT
+		
+		$workbook = $pewa->getWorkbook();
+		@$workbook->close();
+	}
+
+	function addStatisticWorksheet($pewa)
+	{
+		include_once './Services/Payment/classes/class.ilPaymentVendors.php';
+
+		$this->__initBookingObject();		
+
+		$workbook = $pewa->getWorkbook();
+		$worksheet = $workbook->addWorksheet($this->lng->txt('bookings'));		
+
+		$worksheet->mergeCells(0,0,0,8);
+		$worksheet->setColumn(0,0,16);
+		$worksheet->setColumn(0,1,32);
+		$worksheet->setColumn(0,2,32);
+		$worksheet->setColumn(0,3,16);
+		$worksheet->setColumn(0,4,16);
+		$worksheet->setColumn(0,5,16);
+		$worksheet->setColumn(0,6,24);
+		$worksheet->setColumn(0,7,8);
+		$worksheet->setColumn(0,8,12);
+		$worksheet->setColumn(0,9,16);
+
+		$title = $this->lng->txt('bookings');
+		$title .= ' '.$this->lng->txt('as_of');
+		$title .= strftime('%Y-%m-%d %R',time());
+
+		$worksheet->writeString(0,0,$title,$pewa->getFormatTitle());
+
+		$worksheet->writeString(1,0,$this->lng->txt('payment_system'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,1,$this->lng->txt('paya_transaction'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,2,$this->lng->txt('title'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,3,$this->lng->txt('paya_vendor'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,4,$this->lng->txt('pays_cost_center'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,5,$this->lng->txt('paya_customer'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,6,$this->lng->txt('paya_order_date'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,7,$this->lng->txt('duration'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,8,$this->lng->txt('price_a'),$pewa->getFormatHeader());
+		$worksheet->writeString(1,9,$this->lng->txt('paya_payed_access'),$pewa->getFormatHeader());
+
+		if(!count($bookings = $this->booking_obj->getBookings()))
+		{
+			return false;
+		}		
+
+		include_once 'Services/User/classes/class.ilObjUser.php';
+		$object_title_cache = array();
+		$user_title_cache = array();
+
+		$counter = 2;
+		foreach($bookings as $booking)
+		{
+			if(array_key_exists($booking['ref_id'], $object_title_cache))
+			{
+				$tmp_obj = $object_title_cache[$booking['ref_id']];
+			}
+			else
+			{
+				$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($booking['ref_id']));				
+				$object_title_cache[$booking['ref_id']] = $tmp_obj;
+			}
+			if(array_key_exists($booking['b_vendor_id'], $user_title_cache))
+			{
+				$tmp_vendor = $user_title_cache[$booking['b_vendor_id']];
+			}
+			else
+			{
+				$tmp_vendor = ilObjUser::_lookupLogin($booking['b_vendor_id']);
+				$user_title_cache[$booking['b_vendor_id']] = $tmp_vendor;
+			}
+			if(array_key_exists($booking['customer_id'], $user_title_cache))
+			{
+				$tmp_purchaser = $user_title_cache[$booking['customer_id']];
+			}
+			else
+			{
+				$tmp_purchaser = ilObjUser::_lookupLogin($booking['customer_id']);
+				$user_title_cache[$booking['customer_id']] = $tmp_purchaser;
+			}
+			
+			$pay_method = ilPayMethods::getStringByPaymethod($booking['b_pay_method']);	
+
+			$worksheet->writeString($counter,0,$pay_method);
+			$worksheet->writeString($counter,1,$booking['transaction_extern']);
+			$worksheet->writeString($counter,2,($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted')));
+			$worksheet->writeString($counter,3,($tmp_vendor != '' ? $tmp_vendor : $this->lng->txt('user_deleted')));
+			$worksheet->writeString($counter,4,ilPaymentVendors::_getCostCenter($booking['b_vendor_id']));
+			$worksheet->writeString($counter,5,($tmp_purchaser != '' ? $tmp_purchaser : $this->lng->txt('user_deleted')));
+			$worksheet->writeString($counter,6,strftime('%Y-%m-%d %R',$booking['order_date']));
+			$worksheet->writeString($counter,7,$booking['duration']);
+			$worksheet->writeString($counter,8,$booking['price']);
+			
+			$payed_access = $booking['payed'] ? 
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$payed_access .= '/';
+			$payed_access .= $booking['access_granted'] ?
+				$this->lng->txt('yes') : 
+				$this->lng->txt('no');
+
+			$worksheet->writeString($counter,9,$payed_access);
+
+			unset($tmp_obj);
+			unset($tmp_vendor);
+			unset($tmp_purchaser);
+
+			++$counter;
+		}
+	}		
+
+	function editStatistic($a_show_confirm_delete = false)
+	{
+		global $ilToolbar;
+		
+		if(!isset($_GET['booking_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showStatistics'));
+		
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');	
+		
+		$this->ctrl->setParameter($this,'booking_id',(int) $_GET['booking_id']);
+
+		// confirm delete
+		if($a_show_confirm_delete)
+		{
+			$oConfirmationGUI = new ilConfirmationGUI();
+			
+			// set confirm/cancel commands
+			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this,"performDelete"));
+			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_stat"));
+			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "editStatistic");
+			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");			
+		
+			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
+			return true;
+		}
+		
+		$this->__initBookingObject();
+		$bookings = $this->booking_obj->getBookings();
+		$booking = $bookings[(int) $_GET['booking_id']];
+
+		// get customer_obj
+		$tmp_user = ilObjectFactory::getInstanceByObjId($booking['customer_id'], false);
+		$oForm = new ilPropertyFormGUI();
+		$oForm->setFormAction($this->ctrl->getFormAction($this));
+		$oForm->setId('stat_form');
+		$oForm->setTableWidth('50 %');		
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_usr.gif'));
+		if(is_object($tmp_user))
+		{
+			$frm_user = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+		}
+		else
+		{
+			$frm_user = $this->lng->txt('user_deleted');
+		}
+		$oForm->setTitle($frm_user);
+
+		$pObj = new ilPaymentObject($this->user_obj, $booking['pobject_id']);
+		$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($pObj->getRefId()));				
+
+		// object_title
+		$oTitleGUI = new ilNonEditableValueGUI($this->lng->txt('title'));
+		$oTitleGUI->setValue($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted'));
+		$oForm->addItem($oTitleGUI);
+				
+		// transaction
+		$oTransactionGUI = new ilNonEditableValueGUI($this->lng->txt('paya_transaction'));
+		$oTransactionGUI->setValue($booking['transaction']);
+		$oForm->addItem($oTransactionGUI);
+		
+		//vendor
+		$oVendorGUI = new ilNonEditableValueGUI($this->lng->txt('paya_vendor'));
+		$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id'], false);
+		if(is_object($tmp_vendor))
+		{
+			$frm_vendor = $tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']';
+		}
+		else
+		{
+			$frm_vendor =  $this->lng->txt('user_deleted');
+		}		
+		$oVendorGUI->setValue($frm_vendor);
+		$oForm->addItem($oVendorGUI);
+
+		// paymethod
+		$oPaymethodGUI = new ilNonEditableValueGUI($this->lng->txt('paya_pay_method'));
+		$oPaymethodGUI->setValue(ilPayMethods::getStringByPaymethod($booking['b_pay_method']));
+		$oForm->addItem($oPaymethodGUI);	
+
+		// order_date
+		$oOrderdateGUI = new ilNonEditableValueGUI($this->lng->txt('paya_order_date'));
+		$oOrderdateGUI->setValue(ilDatePresentation::formatDate(new ilDateTime($booking["order_date"],IL_CAL_UNIX)));
+		$oForm->addItem($oOrderdateGUI);	
+		
+		// duration
+		$oDurationGUI = new ilNonEditableValueGUI($this->lng->txt('duration'));
+		if($booking['duration'] != 0)
+		{
+			$frm_duration = $booking['duration'].' '.$this->lng->txt('paya_months');
+		}
+		else
+		{				
+			$frm_duration = $this->lng->txt("unlimited_duration");
+		}		
+		$oDurationGUI->setValue($frm_duration);
+		$oForm->addItem($oDurationGUI);		
+		
+		// price
+		$oPriceGUI = new ilNonEditableValueGUI($this->lng->txt('price_a'));
+		$oPriceGUI->setValue($booking['price'].' '.$booking['currency_unit'] );
+		$oForm->addItem($oPriceGUI);
+
+		// payed
+		$oPayedGUI = new ilSelectInputGUI();
+		$payed_option = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
+
+		$oPayedGUI->setTitle($this->lng->txt('paya_payed'));
+		$oPayedGUI->setOptions($payed_option);
+		$oPayedGUI->setValue($booking['payed']);
+		$oPayedGUI->setPostVar('payed');		
+		$oForm->addItem($oPayedGUI);
+		
+		// access
+		$oAccessGUI = new ilSelectInputGUI();
+		$access_option = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
+
+		$oAccessGUI->setTitle($this->lng->txt('paya_access'));
+		$oAccessGUI->setOptions($payed_option);
+		$oAccessGUI->setValue($booking['access_granted']);
+		$oAccessGUI->setPostVar('access');		
+		$oForm->addItem($oAccessGUI);
+		
+		$oForm->addCommandButton('updateStatistic',$this->lng->txt('save'));
+		$oForm->addCommandButton('deleteStatistic',$this->lng->txt('delete'));
+		
+		$this->tpl->setVariable('FORM',$oForm->getHTML());
+		
+		
+	
+/*	//Same output as in ilobjpaymentsettingsgui->statistics  
+  	// show CUSTOMER_DATA if isset -> setting: save_user_address
+  	if(ilPayMethods::isCustomerAddressEnabled($booking['b_pay_method']))
+		{
+			$oForm2 = new ilPropertyFormGUI();
+			$oForm2->setId('cust_form');
+			$oForm2->setTableWidth('50 %');		
+			$oForm2->setTitle($frm_user);		
+			
+			// email
+			$oEmailGUI = new ilNonEditableValueGUI($this->lng->txt('email'));
+			$email = (!isset($tmp_user)) ? $this->lng->txt('user_deleted') : $tmp_user->getEmail();
+			$oEmailGUI->setValue($email);
+			$oForm2->addItem($oEmailGUI);	
+
+			// street
+			$oStreetGUI = new ilNonEditableValueGUI($this->lng->txt('street'));
+			$oStreetGUI->setValue($booking['street']);
+			$oForm2->addItem($oStreetGUI);
+				
+			// pobox
+			$oPoBoxGUI = new ilNonEditableValueGUI($this->lng->txt('pay_bmf_po_box'));
+			$oPoBoxGUI->setValue($booking['po_box']);
+			$oForm2->addItem($oPoBoxGUI);	
+				
+			// zipcode
+			$oPoBoxGUI = new ilNonEditableValueGUI($this->lng->txt('zipcode'));
+			$oPoBoxGUI->setValue($booking['zipcode']);
+			$oForm2->addItem($oPoBoxGUI);
+					
+			// city
+			$oCityGUI = new ilNonEditableValueGUI($this->lng->txt('city'));
+			$oCityGUI->setValue($booking['city']);
+			$oForm2->addItem($oCityGUI);	
+			
+			// country
+			$oCountryGUI = new ilNonEditableValueGUI($this->lng->txt('country'));
+			$oCountryGUI->setValue($booking['country']);
+			$oForm2->addItem($oCountryGUI);	
+		}
+		
+		$this->tpl->setVariable('FORM_2',$oForm2->getHTML());
+*/
+		return true;
+	}
+
+	function updateStatistic()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+		$this->__initBookingObject();
+
+		$this->booking_obj->setBookingId((int) $_GET['booking_id']);
+		$this->booking_obj->setAccess((int) $_POST['access']);
+		$this->booking_obj->setPayed((int) $_POST['payed']);
+		
+		if($this->booking_obj->update())
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_updated_booking'));
+
+			$this->showStatistics();
+			return true;
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_error_update_booking'));
+			$this->showStatistics();
+			
+			return true;
+		}
+	}
+
+	function deleteStatistic()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+		ilUtil::sendInfo($this->lng->txt('paya_sure_delete_stat'));
+
+		$this->editStatistic(true);
+
+		return true;
+	}
+
+	function performDelete()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+
+		$this->__initBookingObject();
+		$this->booking_obj->setBookingId((int) $_GET['booking_id']);
+		if(!$this->booking_obj->delete())
+		{
+			die('Error deleting booking');
+		}
+		ilUtil::sendInfo($this->lng->txt('pay_deleted_booking'));
+
+		$this->showStatistics();
+
+		return true;
+	}
+
+	function showObjectSelector()
+	{
+		global $tree, $ilToolbar;
+
+		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",'Services/Payment');
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showStatistics'));
+
+		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
+
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
+		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
+		
+		$exp->setOutput(0);
+
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+
+		return true;
+	}
+
+	function searchUser()
+	{
+		global $ilToolbar;
+		
+		if(!isset($_GET['sell_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showObjectSelector'));
+		
+		$this->lng->loadLanguageModule('search');
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		
+		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setFormAction($this->ctrl->getFormAction($this),'performSearch');
+		$form_gui->setTitle($this->lng->txt('crs_search_members'));
+		$form_gui->setId('search_form');
+	
+		$oTitle = new ilTextInputGUI($this->lng->txt('search_search_term'), 'search_str');
+		$oTitle->setMaxLength(255);
+		$oTitle->setSize(40);
+		$oTitle->setValue($_POST['search_str']);
+		$form_gui->addItem($oTitle);		
+		
+		// buttons
+		$form_gui->addCommandButton('performSearch', $this->lng->txt('search'));
+		$form_gui->addCommandButton('showStatistics', $this->lng->txt('cancel'));	
+		
+		$this->tpl->setVariable('FORM',$form_gui->getHTML());	
+				return true;
+	}
+
+	function performSearch()
+	{
+		global $ilToolbar;
+		// SAVE it to allow sort in tables
+		$_SESSION["pays_search_str_user_sp"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["pays_search_str_user_sp"];
+
+
+		if(!trim($_POST["search_str"]))
+		{
+			ilUtil::sendInfo($this->lng->txt("search_no_search_term"));
+			$this->showStatistics();
+
+			return false;
+		}
+		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]))))
+		{
+			ilUtil::sendInfo($this->lng->txt("search_no_match"));
+			$this->searchUser();
+
+			return false;
+		}
+
+		if(!isset($_GET['sell_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.main_view.html",'Services/Payment');
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+	
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'searchUser'));	
+				
+		$counter = 0;
+		$f_result = array();
+		foreach($result as $user)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"],false))
+			{
+				continue;
+			}
+			$f_result[$counter][] = ilUtil::formRadiobutton(0,"user_id",$user["id"]);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+			
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showSearchUserTable($f_result);
+	}
+
+	function addCustomer()
+	{
+		global $ilToolbar,$ilCtrl; 
+
+		
+		isset($_POST['sell_id']) ? $sell_id = $_POST['sell_id'] : $sell_id = $_GET['sell_id'];
+		isset($_POST['user_id']) ? $user_id = $_POST['user_id'] : $user_id = $_GET['user_id'];
+/*		
+		if ($_POST["sell_id"] != "") $_GET["sell_id"] = $_POST["sell_id"];
+		if ($_GET["user_id"] != "") $_POST["user_id"] = $_GET["user_id"];
+
+		if(!isset($_GET['sell_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showObjectSelector();
+
+			return true;
+		}
+
+		if(!isset($_POST['user_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_user_id_given'));
+			$this->searchUser();
+
+			return true;
+		}
+*/
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.main_view.html",'Services/Payment');
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'searchUser'));	
+		$ilCtrl->setParameter($this, "sell_id", $sell_id);
+		$ilCtrl->setParameter($this, "user_id", $user_id);
+
+		$pObjectId = ilPaymentObject::_lookupPobjectId($sell_id);
+		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
+
+		// get obj
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($sell_id);
+		// get customer_obj
+		$tmp_user = ilObjectFactory::getInstanceByObjId($user_id);
+		// get vendor_obj
+		$tmp_vendor = ilObjectFactory::getInstanceByObjId($obj->getVendorId());
+
+		$oForm = new ilPropertyFormGUI();
+		$oForm->setFormAction($ilCtrl->getFormAction($this, 'saveCustomer'));
+	
+		$oForm->setTitle($this->lng->txt($tmp_user->getFullname().' ['.$tmp_user->getLogin().']'));
+		
+		//transaction
+		$oTransaction = new ilTextInputGUI();
+		$oTransaction->setTitle($this->lng->txt('paya_transaction'));
+		$oTransaction->setValue(ilUtil::prepareFormOutput($_POST['transaction'], true));
+		$oTransaction->setPostVar('transaction');
+		$oForm->addItem($oTransaction);
+		
+		//object
+		$oObject = new ilNonEditableValueGUI($this->lng->txt('title'));
+		$oObject->setValue($tmp_obj->getTitle());
+		$oForm->addItem($oObject);
+		
+		//vendor
+		$oVendor = new ilNonEditableValueGUI($this->lng->txt('paya_vendor'));
+		$oVendor->setValue($tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
+		$oForm->addItem($oVendor);
+		
+		// pay methods
+		$oPayMethods = new ilSelectInputGUI($this->lng->txt('paya_pay_method'), 'pay_method');
+		$payOptions = ilPayMethods::getPayMethodsOptions(false);
+	
+		$oPayMethods->setOptions($payOptions);
+		$oPayMethods->setValue($_POST['pay_method']);
+		$oPayMethods->setPostVar('pay_method');
+		$oForm->addItem($oPayMethods);	
+		
+		//duration
+		$duration_opions = array();	
+		$prices_obj = new ilPaymentPrices($pObjectId);
+		if (is_array($prices = $prices_obj->getPrices()))
+		{
+			foreach($prices as $price)
+			{
+				$duration_options[$price['price_id']] = 
+				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '. ilPaymentCurrency::_getUnit($price['currency']);
+			}
+		}
+		
+		$oDuration = new ilSelectInputGUI($this->lng->txt('duration'), 'duration');
+		$oDuration->setOptions($duration_options);
+		$oDuration->setValue($_POST['duration']);
+		$oForm->addItem($oDuration);	
+
+		//payed		
+		$o_payed = new ilSelectInputGUI();
+		$payed_option = array('1'=>$this->lng->txt('yes'),'0'=>$this->lng->txt('no'));
+
+		$o_payed->setTitle($this->lng->txt('paya_payed'));
+		$o_payed->setOptions($payed_option);
+		$o_payed->setValue($_POST['payed']);
+		$o_payed->setPostVar('payed');		
+		$oForm->addItem($o_payed);	
+
+		$o_access = new ilSelectInputGUI();
+		$access_option = array('1'=>$this->lng->txt('yes'),'0'=>$this->lng->txt('no'));
+
+		$o_access->setTitle($this->lng->txt('paya_access'));
+		$o_access->setOptions($access_option);
+		$o_access->setValue($_POST['access']);
+		$o_access->setPostVar('access');
+		$oForm->addItem($o_access);	
+
+		$oForm->addCommandButton('saveCustomer',$this->lng->txt('save'));
+		$oForm->addCommandButton('showStatistics', $this->lng->txt('cancel'));	
+		
+		$this->tpl->setVariable('FORM', $oForm->getHTML());
+	}
+
+	function saveCustomer()
+	{
+		global $ilias,$ilObjDataCache, $ilUser;
+
+
+		if(!isset($_GET['sell_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_object_id_given'));
+			$this->showObjectSelector();
+
+			return true;
+		}
+
+		if(!isset($_GET['user_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_error_no_user_id_given'));
+			$this->searchUser();
+
+			return true;
+		}
+
+		if ($_POST["pay_method"] == "" ||
+			$_POST["duration"] == "")
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_error_mandatory_fields'));
+			$this->addCustomer();
+
+			return true;
+		}
+
+		$pObjectId = ilPaymentObject::_lookupPobjectId($_GET["sell_id"]);
+		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
+
+		$this->__initBookingObject();
+
+		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
+		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+		$this->booking_obj->setTransaction($transaction);
+		$this->booking_obj->setTransactionExtern($_POST["transaction"]);
+		$this->booking_obj->setPobjectId($pObjectId);
+		$this->booking_obj->setCustomerId($_GET["user_id"]);
+		$this->booking_obj->setVendorId($obj->getVendorId());
+		$this->booking_obj->setPayMethod((int) $_POST["pay_method"]);
+		$this->booking_obj->setOrderDate(time());
+		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
+		// TODO:$currency = ilPaymentCurrency::_getUnit($price['currency']);
+
+		$this->booking_obj->setDuration($price["duration"]);
+		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
+// TODO: $this->booking_obj->setPrice($price['price'].' '. $currency);		
+		$this->booking_obj->setAccess((int) $_POST['access']);
+		$this->booking_obj->setPayed((int) $_POST['payed']);
+		$this->booking_obj->setVoucher('');
+			
+			$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+
+			include_once 'Services/Payment/classes/class.ilShopVatsList.php';
+			$oVAT = new ilShopVats((int)$obj->getVatId());
+			$obj_vat_rate = $oVAT->getRate();
+			$obj_vat_unit = $obj->getVat($this->booking_obj->getPrice());
+		
+			$this->booking_obj->setObjectTitle($obj_title);
+			$this->booking_obj->setVatRate($obj_vat_rate);
+			$this->booking_obj->setVatUnit($obj_vat_unit);
+			
+			include_once './Services/Payment/classes/class.ilPayMethods.php';
+	/*		$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
+			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
+			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
+			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
+			 
+			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
+				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+				*/
+			if(ilPayMethods::_EnabledSaveUserAddress((int) $_POST["pay_method"]) == 1)
+			{
+				global $ilObjUser;
+				$user_id[] = $_GET["user_id"];
+			
+				$cust_obj = ilObjUser::_readUsersProfileData($user_id);
+			
+				$this->booking_obj->setStreet($cust_obj[$_GET["user_id"]]['street'],'');
+				
+				$this->booking_obj->setZipcode($cust_obj[$_GET["user_id"]]['zipcode']);
+				$this->booking_obj->setCity($cust_obj[$_GET["user_id"]]['city']);
+				$this->booking_obj->setCountry($cust_obj[$_GET["user_id"]]['country']);
+			}			
+		
+		if($this->booking_obj->add())
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
+			$this->showStatistics();
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_error_adding_customer'));
+			$this->addCustomer();
+		}
+
+		return true;
+	}
+
+	// PRIVATE
+	function __showStatisticTable($a_result_set)
+	{		
+		$tbl = $this->initTableGUI();
+		$tpl = $tbl->getTemplateObject();
+
+		// SET FORMAACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("bookings"),"icon_pays.gif",$this->lng->txt("bookings"));
+		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
+								   $this->lng->txt("title"),
+								   $this->lng->txt("paya_vendor"),
+								   $this->lng->txt("paya_customer"),
+								   $this->lng->txt("paya_order_date"),
+								   $this->lng->txt("duration"),
+								   $this->lng->txt("price_a"),
+								   $this->lng->txt("paya_coupons_coupons"),
+								   $this->lng->txt("paya_payed_access"),
+								   ''));
+		$header_params = $this->ctrl->getParameterArray($this,'');
+		$tbl->setHeaderVars(array("transaction",
+								  "title",
+								  "vendor",
+								  "customer",
+								  "order_date",
+								  "duration",
+								  "price",
+								  "discount",
+								  "payed_access",
+								  "options"),$header_params);
+
+		$offset = $_GET["offset"];
+		$order = $_GET["sort_by"];
+		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
+
+		$tbl->setOrderColumn($order,'order_date');
+		$tbl->setOrderDirection($direction);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($a_result_set));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->setData($a_result_set);
+
+		$tpl->setVariable("COLUMN_COUNTS",10);
+		$tpl->setCurrentBlock("plain_buttons");
+		$tpl->setVariable("PBTN_NAME","excelExport");
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("excel_export"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->render();
+
+		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+
+	function __initBookingObject()
+	{
+		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+
+		$this->booking_obj = new ilPaymentBookings($this->user_obj->getId());
+	}
+
+	function __search($a_search_string)
+	{
+		include_once("./classes/class.ilSearch.php");
+
+		$this->lng->loadLanguageModule("content");
+
+		$search = new ilSearch($this->user_obj->getId());
+		$search->setPerformUpdate(false);
+		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
+		$search->setCombination("and");
+		$search->setSearchFor(array(0 => 'usr'));
+		$search->setSearchType('new');
+
+		if($search->validate($message))
+		{
+			$search->performSearch();
+		}
+		else
+		{
+			ilUtil::sendInfo($message,true);
+			$this->ctrl->redirect($this,"searchUser");
+		}
+		return $search->getResultByType('usr');
+	}
+	function __showSearchUserTable($a_result_set)
+	{
+		$tbl = $this->initTableGUI();
+		$tpl = $tbl->getTemplateObject();
+
+
+		// SET FORMACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","addCustomer");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","showStatistics");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tbl->setTitle($this->lng->txt("users"),"icon_usr.gif",$this->lng->txt("crs_header_edit_members"));
+		$tbl->setHeaderNames(array("",
+								   $this->lng->txt("login"),
+								   $this->lng->txt("firstname"),
+								   $this->lng->txt("lastname")));
+		$this->ctrl->setParameter($this, "cmd", "addCustomer");
+		$header_params = $this->ctrl->getParameterArray($this,'');
+		$tbl->setHeaderVars(array("user_id",
+								  "login",
+								  "firstname",
+								  "lastname"), $header_params);
+
+		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
+
+		$this->setTableGUIBasicData($tbl,$a_result_set);
+		$tbl->render();
+		
+		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+}
+?>

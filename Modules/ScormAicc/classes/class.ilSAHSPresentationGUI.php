@@ -74,7 +74,7 @@ class ilSAHSPresentationGUI
 				"ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=".$_GET["ref_id"], "lm");
 		}
 
-		include_once 'payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
 		   !ilPaymentObject::_hasAccess($_GET['ref_id']))
 		{

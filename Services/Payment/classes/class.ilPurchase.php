@@ -1,36 +1,17 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilPurchase
-* @author Jesper Gødvad <jesper@ilias.dk>
-*
+* @author Jesper Gï¿½dvad <jesper@ilias.dk>
+* @version $Id: class.ilPurchase.php 
+* 
 */
 
 require_once './include/inc.header.php';
-require_once './payment/classes/class.ilPaymentObject.php';
-require_once './payment/classes/class.ilPaymentBookings.php';
-require_once './payment/classes/class.ilPaymentShoppingCart.php';
+require_once './Services/Payment/classes/class.ilPaymentObject.php';
+require_once './Services/Payment/classes/class.ilPaymentBookings.php';
+require_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once './Services/Payment/classes/class.ilERP.php';
 
@@ -89,7 +70,7 @@ class ilPurchase
     foreach ($this->sc as $i)
     {
       $pod = ilPaymentObject::_getObjectData($i['pobject_id']);
-      $bo =& new ilPaymentBookings( $this->ilUser->getId());
+      $bo = new ilPaymentBookings( $this->ilUser->getId());
       
       $ilias_tid = $this->ilUser->getId() . "_" . $tid;
       
@@ -100,21 +81,27 @@ class ilPurchase
       $bo->setVendorId( $pod['vendor_id'] );
       $bo->setPayMethod($this->paytype);
       $bo->setOrderDate(time());
-      $bo->setDuration($i['dauer']); // duration
-      $bo->setPrice(  $i['betrag'] ); // amount
+     // $bo->setDuration($i['dauer']); // duration
+     // $bo->setPrice(  $i['betrag'] ); // amount
       //$bo->setPrice( ilPaymentPrices::_getPriceString( $i['price_id'] ));
+		$bo->setDuration($i['duration']);  
+		$bo->setPrice($sc[$i]['price_string']);			
+      
       $bo->setDiscount(0);
       $bo->setVoucher('');
       $bo->setVatRate( $i['vat_rate'] );
       $bo->setVatUnit( $i['vat_unit'] );
             
       $bo->setTransactionExtern($tid);
-      $product_name = $i['buchungstext'];
-      $duration = $i['dauer'];
-      $amount = $i['betrag'];      
-      
-      include_once './payment/classes/class.ilPayMethods.php';
-      $save_adr = (int) ilPaymethods::_enabled('save_user_adr_epay') ? 1 : 0;
+     // $product_name = $i['buchungstext'];
+      //$duration = $i['dauer'];
+      //$amount = $i['betrag'];      
+       	$product_name = $i['object_title'];
+		$duration = $i['duration'];
+		$amount = $i['price']; // -> ? $i['price_string']    
+		
+      include_once './Services/Payment/classes/class.ilPayMethods.php';
+      $save_adr = (int) ilPaymethods::_EnabledSaveUserAddress($this->paytype) ? 1 : 0;
       //if($save_adr == 1)
       //{
         $bo->setStreet($this->ilUser->getStreet(), '');

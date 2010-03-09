@@ -3,7 +3,7 @@
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 include_once("classes/class.ilTabsGUI.php");
-include_once("payment/classes/class.ilPaymentObject.php");
+include_once("Services/Payment/classes/class.ilPaymentObject.php");
 
 
 /**

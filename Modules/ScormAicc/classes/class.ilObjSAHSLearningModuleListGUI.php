@@ -125,7 +125,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				include_once 'payment/classes/class.ilPaymentObject.php';
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
 				if(ilPaymentObject::_isBuyable($this->ref_id) && 

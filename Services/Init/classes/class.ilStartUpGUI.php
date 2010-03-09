@@ -104,7 +104,7 @@ class ilStartUpGUI
 			if (empty($_GET['cookies']))
 			{
 				$additional_params = '';                
-            	if((int)$_GET['forceShoppingCartRedirect'] && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
+            	if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
             	{
                 	$additional_params .= '&login_to_purchase_object=1&forceShoppingCartRedirect=1';
             	}
@@ -1079,6 +1079,7 @@ class ilStartUpGUI
 		//
 		// && $ilAuth->status == -101 is important for soap auth (public section on + user mapping, alex)
 		// $ilAuth->status -1 is given, if session ends (if public section -> jump to public section)
+
 		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1"
 			&& ($ilAuth->getStatus() != -101 && $_GET["soap_pw"] == ""))
 		{
@@ -1087,6 +1088,9 @@ class ilStartUpGUI
 
 			$_POST["username"] = "anonymous";
 			$_POST["password"] = "anonymous";
+			
+			$oldSid = session_id();
+			
 			$ilAuth->start();
 			if (ANONYMOUS_USER_ID == "")
 			{
@@ -1096,10 +1100,15 @@ class ilStartUpGUI
 			{
 				die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 			}
+			
+			$newSid = session_id();
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
+			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
 
 			// get user id
 			$ilInit->initUserAccount();
 			$this->processStartingPage();
+	
 			exit;
 		}
 		else
@@ -1120,7 +1129,7 @@ class ilStartUpGUI
 		global $ilBench, $ilCtrl, $ilAccess, $lng, $ilUser;
 //echo "here";
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
-		{
+		{ 
 //echo "A";
 			// if anonymous and a target given...
 			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && $_GET["target"] != "")
@@ -1151,22 +1160,29 @@ class ilStartUpGUI
 		}
 		else
 		{
-			if((int)$_GET['forceShoppingCartRedirect'] && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
+  /*			if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
             {
-                include_once 'payment/classes/class.ilPaymentShoppingCart.php';
+             include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
                 $oCart = new ilPaymentShoppingCart($ilUser);
                 $oCart->setPriceId((int)$_SESSION['price_id']);
                 $oCart->setPobjectId((int)$_SESSION['pobject_id']);
                 $oCart->add();
-                
+        
                 unset($_SESSION['price_id']);
                 unset($_SESSION['pobject_id']);
-                
+    			
+				      
                 $lng->loadLanguageModule('payment');
                 ilUtil::sendInfo($lng->txt('pay_added_to_shopping_cart'), true);
                 ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
             }
-			
+	 */ /**/
+                $usr_id = $ilUser->getId();
+                
+				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+				ilPaymentShoppingCart::_assignObjectsToUserId($usr_id);
+				/**/    
+						
 			if	(!$this->_checkGoto($_GET["target"]))
 			{
 				// message if target given but not accessible

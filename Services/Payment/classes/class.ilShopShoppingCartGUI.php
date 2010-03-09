@@ -1,33 +1,17 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './payment/classes/class.ilPurchasePaypal.php';
-include_once './payment/classes/class.ilPaymentShoppingCart.php';
-include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
-include_once './payment/classes/class.ilPaypalSettings.php';
-include_once './payment/classes/class.ilEPaySettings.php';
-include_once './payment/classes/class.ilPaymentCoupons.php';
-include_once 'Services/Payment/classes/class.ilShopVatsList.php';
+include_once './Services/Payment/classes/class.ilPurchasePaypal.php';
+
+include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
+include_once './Services/Payment/classes/class.ilPaypalSettings.php';
+include_once './Services/Payment/classes/class.ilEPaySettings.php';
+include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
+include_once './Services/Payment/classes/class.ilShopVatsList.php';
+include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+include_once './Services/Payment/classes/class.ilPayMethods.php';
+
+include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 
 /**
 * Class ilShopShoppingCartGUI
@@ -49,13 +33,18 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	
 	private $totalVat = 0;
 	private $epSet;
+	
+// TODO: CURRENCY	
+private $default_currency = 1;
+
+private $session_id;
 
 	public function __construct($user_obj)
-	{		
+	{	
 		parent::__construct();
 
 		$this->user_obj = $user_obj;
-		
+		$this->session_id = session_id();
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 
 		$ppSet = ilPaypalSettings::getInstance();
@@ -65,6 +54,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$this->epayConfig = $this->epSet->getAll();
 
 		$this->checkCouponsOfShoppingCart();		
+		
+#TODO: CURRENCY		$this->default_currency = ilPaymentCurrency::_getDefaultCurrency();
+
 	}
 	
 	/**
@@ -74,11 +66,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	{
 		global $ilUser;
 
-		if(ANONYMOUS_USER_ID == $ilUser->getId())
+/*		if(ANONYMOUS_USER_ID == $ilUser->getId())
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
-		
+*/	
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -104,7 +96,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$ilTabs->setTabActive('paya_shopping_cart');
 	}
 	public function unlockBillObjectsInShoppingCart()
-	{		
+	{						
 		$this->addBookings(PAY_METHOD_BILL, 'bill');
 		$_SESSION['coupons']['bill'] = '';
 		
@@ -118,7 +110,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	public function unlockBMFObjectsInShoppingCart()
 	{		
 		$this->addBookings(PAY_METHOD_BMF, 'bmf');
-		
+				
 		$_SESSION['coupons']['bmf'] = '';
 		$_SESSION['bmf']['payment_type'] = '';
 		$_SESSION['bmf']['debit_entry'] = array();
@@ -133,12 +125,17 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	
 	public function unlockPAYPALObjectsInShoppingCart()
 	{		
+		global $ilUser;
 		$this->addBookings(PAY_METHOD_PAYPAL, 'paypal');
-		
+	
 		$_SESSION['coupons']['paypal'] = array();
-		
+
 		ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);
-		
+		if(ANONYMOUS_USER_ID == $ilUser->getId())
+		{
+			$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');	
+		}
+		else
 		$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');	
 		
 		return true;
@@ -150,9 +147,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	{
 		global $ilias,$ilUser,$ilObjDataCache;
 		
-		include_once './payment/classes/class.ilPaymentBookings.php';
-		include_once './payment/classes/class.ilPaymentObject.php';
-		include_once './payment/classes/class.ilPaymentPrices.php';	
+		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+		include_once './Services/Payment/classes/class.ilPaymentObject.php';
+		include_once './Services/Payment/classes/class.ilPaymentPrices.php';	
 		
 		$booking_obj = new ilPaymentBookings();		
 		$sc_obj = new ilPaymentShoppingCart($this->user_obj);			
@@ -189,7 +186,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		foreach($items as $entry)
 		{
 
-			$pobject =& new ilPaymentObject($this->user_obj, $entry['pobject_id']);
+			$pobject = new ilPaymentObject($this->user_obj, $entry['pobject_id']);
 
 			$price = ilPaymentPrices::_getPrice($entry['price_id']);
 			
@@ -199,39 +196,39 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			}
 			
 			$booking_obj->setPobjectId($entry['pobject_id']);
+			
 			$booking_obj->setCustomerId($this->user_obj->getId());
 			$booking_obj->setVendorId($pobject->getVendorId());
 			$booking_obj->setPayMethod($pobject->getPayMethod());
 			$booking_obj->setOrderDate(time());
 			$booking_obj->setDuration($price['duration']);
 			$booking_obj->setPrice(ilPaymentPrices::_getPriceString($entry['price_id']));
-			$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
+			//$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
+			$booking_obj->setDiscount($bonus > 0 ? ((-1) * $bonus) : 0);
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
-
+			
 			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
 			$oVAT = new ilShopVats((int)$pobject->getVatId());
 			$obj_vat_rate = $oVAT->getRate();
+			
+			if($bonus > 0)
+			{
+				$tmp_price = $booking_obj->getPrice()-$bonus;
+				$obj_vat_unit = $pobject->getVat($tmp_price);
+			}else 
 			$obj_vat_unit = $pobject->getVat($booking_obj->getPrice());
 		
 			$booking_obj->setObjectTitle($obj_title);
 			$booking_obj->setVatRate($obj_vat_rate);
 			$booking_obj->setVatUnit($obj_vat_unit);
 			
-			include_once './payment/classes/class.ilPayMethods.php';
-			$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
-			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
-			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
-			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
-			 
-			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
-				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
+			if(ilPaymethods::_EnabledSaveUserAddress($booking_obj->getPayMethod()))
 			{
-				$booking_obj->setStreet($ilUser->getStreet());
-				
+				$booking_obj->setStreet($ilUser->getStreet(), $ilUser->getHouseNumber);
 				$booking_obj->setZipcode($ilUser->getZipcode());
 				$booking_obj->setCity($ilUser->getCity());
 				$booking_obj->setCountry($ilUser->getCountry());
@@ -275,33 +272,20 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	
 	public function checkCouponsOfShoppingCart()
 	{
-		include_once './payment/classes/class.ilPayMethods.php';
-		
-		if (ilPayMethods::_enabled('pm_bill')) $pay_methods[] = PAY_METHOD_BILL;
-		if (ilPayMethods::_enabled('pm_bmf')) $pay_methods[] = PAY_METHOD_BMF;
-		if (ilPayMethods::_enabled('pm_paypal')) $pay_methods[] = PAY_METHOD_PAYPAL;		
-		if (ilPayMethods::_enabled('pm_epay')) $pay_methods[] = PAY_METHOD_EPAY;
+		$objPM = new ilPayMethods();
+		$get_paymethods = $objPM->readAll();
 
+		foreach($get_paymethods as $pm)
+		{
+			$pay_methods[$pm['pm_id']]['pm_title'] = $pm['pm_title'];
+			$pay_methods[$pm['pm_id']]['pm_id'] = $pm['pm_id'];
+		}
+		
 		if (is_array($pay_methods))
 		{			
-			for ($p = 0; $p < count($pay_methods); $p++)
-			{	
-				if ($pay_methods[$p] == PAY_METHOD_BILL)
-				{
-					$coupon_session_id = 'bill';
-				}			
-				else if ($pay_methods[$p] == PAY_METHOD_BMF)
-				{
-					$coupon_session_id = 'bmf';
-				}
-				else if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
-				{
-					$coupon_session_id = 'paypal';
-				}
-				else if ($pay_methods[$p] == PAY_METHOD_EPAY)
-				{
-          $coupon_session_id = 'epay';
-        }
+			foreach($pay_methods as $pay_method)
+			{
+				$coupon_session_id = $pay_method['pm_title'];
 
 				if (!is_array($_SESSION['coupons'][$coupon_session_id]))
 				{
@@ -318,11 +302,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$assignedItems = 0;			
 							$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);							
 						
-							if (count($items = $this->psc_obj->getEntries($pay_methods[$p])))
+							if (count($items = $this->psc_obj->getEntries($pay_method['pm_id'])))
 							{
 								foreach($items as $item)
 								{
-									$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);
+									$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);
 									
 									if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 									{
@@ -359,7 +343,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     
     try
     {
-      $buy = new ilPurchase( $ilUser->getId(), PAY_METHOD_EPAY );      
+    	$pm_id = ilPayMethods::_getIdByTitle('epay');  
+      $buy = new ilPurchase( $ilUser->getId(), $pm_id );    
       $buy->purchase($_REQUEST['tid'] );
 	  }
 	  catch (ilERPException $e)
@@ -375,6 +360,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	public function finishPaypal()
 	{
+		global $ilUser;
 		$this->initPaypalObject();
 
 		if (!($fp = $this->paypal_obj->openSocket()))
@@ -388,7 +374,13 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$res = $this->paypal_obj->checkData($fp);
 			if ($res == SUCCESS)
 			{
-				ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);				
+				ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);		
+
+				if($ilUser->getId() == ANONYMOUS_USER_ID)
+				{
+					$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
+				}
+				else
 				$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');	
 			}
 			else
@@ -430,30 +422,53 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
   private function _getPayMethods( $limitToEnabled = false )
   {
-		if (ilPayMethods::_enabled('pm_bill')) $pay_methods[] = PAY_METHOD_BILL;
-		if (ilPayMethods::_enabled('pm_bmf')) $pay_methods[] = PAY_METHOD_BMF;
-		if (ilPayMethods::_enabled('pm_paypal')) $pay_methods[] = PAY_METHOD_PAYPAL;		
-		if (ilPayMethods::_enabled('pm_epay')) $pay_methods[] = PAY_METHOD_EPAY;
+		$objPM = new ilPayMethods();
+		$get_paymethods = $objPM->readAll();
+		
+		if(!$limitToEnabled)
+		{	
+			foreach($get_paymethods as $pm)
+			{
+				$pay_methods[$pm['pm_id']]['pm_title'] = $pm['pm_title'];
+				$pay_methods[$pm['pm_id']]['pm_id'] = $pm['pm_id'];
+				$pay_methods[$pm['pm_id']]['pm_enabled'] = $pm['pm_enabled'];
+				$pay_methods[$pm['pm_id']]['save_usr_adr'] = $pm['save_usr_adr'];
+			}
+		}
+  		else
+  		{
+ 			foreach($get_paymethods as $pm)
+			{
+	  			if($pm['pm_enabled'] == 1)
+	  			{
+	  				$pay_methods[$pm['pm_id']]['pm_title'] = $pm['pm_title'];
+					$pay_methods[$pm['pm_id']]['pm_id'] = $pm['pm_id'];
+					$pay_methods[$pm['pm_id']]['pm_enabled'] = $pm['pm_enabled'];
+					$pay_methods[$pm['pm_id']]['save_usr_adr'] = $pm['save_usr_adr'];
+	  			}
+			}
+  		}
 		return $pay_methods;
   }
 
-
-
-
   private function _getPayString( $v )
   {
+// TODO: use payment_paymethods -> pm_title instead
+/*  	
     if ($v == PAY_METHOD_BILL) $str = 'bill';
     if ($v == PAY_METHOD_BMF) $str ='bmf';
     if ($v == PAY_METHOD_PAYPAL) $str = 'paypal';
     if ($v == PAY_METHOD_EPAY) $str = 'epay';
     return $str;
+    */
   }
-  private function _getTemplateFilename( $v )
+  private function _getTemplateFilename( $a_pm_title )
   {
-    $base = "./payment/templates/default/tpl.pay_shopping_cart_";
+  // use payment_paymethods -> pm_title  	
+    $base = "./Services/Payment/templates/default/tpl.pay_shopping_cart_";
     $suffix = ".html";
-    $str = $this->_getPayString($v);
-    return $base . $str . $suffix;
+    
+     return $base . $a_pm_title . $suffix;
   }
 
   public function cartNotEmpty()
@@ -462,65 +477,81 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
     if (is_array($pay_methods))
       for ($p = 0; $p < count($pay_methods); $p++)
 	{
-	  if (count($items = $this->psc_obj->getEntries($pay_methods[$p])))
+	  	if (count($items = $this->psc_obj->getEntries($pay_methods['pm_id'])))
 	    {
 	      foreach ($items as $item)
-		{
-		  
-		  return true;
-		}
+			{
+				return true;
+			}
 	    }
 	}
     return false;
   }
-	      
 
 	public function showItems()
 	{
 		global $ilObjDataCache, $ilUser;
 
-		include_once './payment/classes/class.ilPaymentPrices.php';
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html','payment');
+		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
+//TODO: CURRENCY include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+		
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html','Services/Payment');
 		$this->initShoppingCartObject();
 
-		include_once './payment/classes/class.ilGeneralSettings.php';
-		//include_once './payment/classes/class.ilPayMethods.php';
-
+		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		
 		$genSet = new ilGeneralSettings();
 		$pay_methods = $this->_getPayMethods( true );
 		$num_items = 0;
 		$desc = array();
-		if (is_array($pay_methods))
-		{			
-			for ($p = 0; $p < count($pay_methods); $p++)
+		$only_file_objects = true;
+		
+#		if (is_array($pay_methods))
+#		{			
+#			for ($p = 0; $p < count($pay_methods); $p++)
+			foreach($pay_methods as $pay_method)
 			{		
 				$this->totalVat = 0;
-				$tpl = new ilTemplate(  $this->_getTemplateFilename( $pay_methods[$p] ), true,true);
-				$coupon_session_id = $this->_getPayString( $pay_methods[$p] );
+				$tpl = new ilTemplate(  $this->_getTemplateFilename( $pay_method['pm_title'] ), true,'Services/Payment');
+				$coupon_session_id = $pay_method['pm_title'];
 
-				if (count($items = $this->psc_obj->getEntries($pay_methods[$p])))
+				if (count($items = $this->psc_obj->getEntries( $pay_method['pm_id'])))
 				{
 					$counter = 0;
 					$paypal_counter = 0;
 					$total_price = 0;
-
+// TODO: CURRENCY 
+/*  
+ 					$total_price_in_default_currency = 0;
+					$total_vat_in_default_currency = 0;	
+ */
 					foreach ($items as $item)
 					{
-						$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+						$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 			
 						$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
 						$obj_type = $ilObjDataCache->lookupType($obj_id);
 						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 						$desc[] = "[" . $obj_type . "] " . $obj_title;
 						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
-						
+// TODO: CURRENCY 
+/*  
+ 						$is_default_currency = ((int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] ? true : false);
+						(int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] 
+							?  $currency_id = $this->default_currency['currency_id'] : $currency_id = $price_arr['currency'];   	
+							
+						$item_conversion_rate = ilPaymentCurrency::_getConversionRate($currency_id);
+
+
+ */						
+/* BEGIN IF: ONLY RB */	 # checks object_type: needed for purchasing file_objects without login
+		#				if($obj_type != 'file')	$only_file_objects = false;
+/***/						
 						$direct_paypal_info_output = true;
 						
 						$assigned_coupons = '';					
 						if (!empty($_SESSION['coupons'][$coupon_session_id]))
 						{			
-							//$price = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];
 							$price = $price_arr['price'];						
 							$item['math_price'] = (float) $price;
 														
@@ -539,14 +570,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								}
 							}
 						}
-						else
-						{
-							//$price = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];	
-						}
 
 						$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
 						$f_result[$counter][] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>";
-						if ($assigned_coupons != '') $f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
+						if ($assigned_coupons != '')
+						{
+							$f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
+						}
+						
 						if($price_arr['duration'] == 0)
 						{
 							$f_result[$counter][] = $this->lng->txt('unlimited_duration');
@@ -559,12 +590,52 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						
 						$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
 						$f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+//TODO CURRENCY 
+/*
+						
+						$current_vat = $tmp_pobject->getVat($float_price);
+		
+						$current_vat_in_default_currency = $current_vat * $item_conversion_rate;
+						$current_price_in_default_currency = $float_price * $item_conversion_rate;
+				
+						$item_current_vat = ilPaymentPrices::_formatPriceToString($current_vat, $price_arr['currency']); 
+						if(!$is_default_currency)
+							$item_current_vat .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_vat_in_default_currency,$this->default_currency['symbol']).' )';
+						
+						$f_result[$counter][] = $item_current_vat; 
+						
+ 
+						
+						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
+					
+		$total_price_in_default_currency += $current_price_in_default_currency;
+		$total_vat_in_default_currency += $current_vat_in_default_currency;	
+						
+		$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['price'] = $current_price_in_default_currency; 
+		$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['vat'] = $current_vat_in_default_currency;
+
+		$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_vat'] = $total_vat_in_default_currency;
+		$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_price'] = $total_price_in_default_currency; 
+
+		
+//						$f_result[$counter][] = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
+
+						$item_current_price = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
+						if(!$is_default_currency)
+							$item_current_price .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_price_in_default_currency,$this->default_currency['symbol']).' )';
+						
+							
+						$f_result[$counter][] = $item_current_price;
+						
+
+*/						
+// old one						
 						$f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
 						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
 						
-						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
-
-						if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
+						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']).' '.$genSet->get('currency_unit');;
+/*******/
+						if ($pay_method['pm_title'] == 'paypal')
 						{
 							if ($direct_paypal_info_output == true) // Paypal information in hidden fields
 							{				
@@ -572,87 +643,127 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
 								$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
 								$tpl->setVariable('LOOP_ITEMS_AMOUNT', $float_price);
+// TODO : CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT',ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']));								
 								$tpl->parseCurrentBlock('loop_items');														
 							}
 
-#							$buttonParams["item_name_".($counter+1)] = $obj_title;
-#							$buttonParams["amount_".($counter+1)] = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];
 						}
 						
 						++$counter;
 						unset($tmp_pobject);					
-					}
+					} // foreach
 					
-					$this->showItemsTable($tpl, $f_result, $pay_methods[$p]);
+					$this->showItemsTable($tpl, $f_result, $pay_method);
 
 					if (!(bool)$genSet->get('hide_coupons')) 
-					  {
-					    $tpl->setVariable('COUPON_TABLE', $this->showCouponInput($pay_methods[$p]));
-					  }			
+					{
+					    $tpl->setVariable('COUPON_TABLE', $this->showCouponInput($pay_method['pm_title']));
+					}			
 					$tpl->setCurrentBlock('buy_link');
 					
-					switch($pay_methods[$p])
+					switch($pay_method['pm_title'])
 					{
-						case PAY_METHOD_BILL:
-							if ($this->totalAmount[PAY_METHOD_BILL] == 0)
+						case 'bill':
+							if ($this->totalAmount[$pay_method['pm_id']] == 0)
 							{
 								$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
 							}
 							else
 							{
-								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
+								# Anonymous user has to login
+								if(ANONYMOUS_USER_ID == $ilUser->getId())
+							
+								{ 
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+								}
+								else
+								{
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
+								}									
 							}	
 							break;
 
-						case PAY_METHOD_BMF:					
+						case 'bmf':				
 							#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');							
-							if ($this->totalAmount[PAY_METHOD_BMF] == 0)
+							if ($this->totalAmount[$pay_method['pm_id']] == 0)
 							{
 								$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
 							}
 							else
 							{
-								
-								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBMFGUI', ''));
+								# Anonymous user has to login
+								if(ANONYMOUS_USER_ID == $ilUser->getId())
+								{ 
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+								}
+								else
+								{								
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBMFGUI', ''));
+								}
 							}	
 							break;
 		
-   					case PAY_METHOD_EPAY:
-   					// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
-						  $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
-							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
-							$tpl->setVariable('AMOUNT', $total_price * 100);
-							$tpl->setVariable('CURRENCY', "208");
-							$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
-							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
-              $tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
-							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
-							$tpl->setVariable('ADDFEE', 1);
-							$tpl->setVariable('LANGUAGE', 1);
-							$tpl->setVariable('GROUP', "");
-							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
-
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
-							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
-							$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));							
-							
-						        break;
-						case PAY_METHOD_PAYPAL:							
-							if ($this->totalAmount[PAY_METHOD_PAYPAL] == 0)
+   						case 'epay':
+								# Anonymous user has to login
+							if(ANONYMOUS_USER_ID == $ilUser->getId())
+							{ 
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+							}
+							else
+							{								
+   						
+	   					// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
+							  $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
+								$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
+								$tpl->setVariable('AMOUNT', $total_price * 100);
+								$tpl->setVariable('CURRENCY', "208");
+								$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
+								$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
+	             				$tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
+								$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
+								$tpl->setVariable('ADDFEE', 1);
+								$tpl->setVariable('LANGUAGE', 1);
+								$tpl->setVariable('GROUP', "");
+								$tpl->setVariable('CARDTYPE', "");
+								$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
+	
+								$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
+								$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
+								$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));							
+								}
+								break;
+								
+						case 'paypal':								
+							if ($this->totalAmount[$pay_method['pm_id']] == 0)
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTarget($this, 'unlockPAYPALObjectsInShoppingCart'));
 							}
 							else
 							{
-								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);								
+/* BEGIN IF: ONLY TRUNK */		# Anonymous user has to login 				
+								if(ANONYMOUS_USER_ID == $ilUser->getId())
+								
+/* BEGIN IF: ONLY RB */			#check first if there are only file-objects in shoppingcart  								
+							#	if(ANONYMOUS_USER_ID == $ilUser->getId() && $only_file_objects == false)
+/***/								
+								{ 
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+								}
+								else
+								{
+									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+									$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);
+								}								
 							}	
 							
 							$tpl->setVariable('POPUP_BLOCKER', $this->lng->txt('popup_blocker'));
@@ -661,6 +772,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('CANCEL_RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelPaypal'));
 							$tpl->setVariable('CUSTOM', $ilUser->getId());
 							$tpl->setVariable('CURRENCY', $genSet->get('currency_unit'));
+// TODO CURRENCY $tpl->setVariable('CURRENCY', $currency);							
 							$tpl->setVariable('PAGE_STYLE', $this->paypalConfig['page_style']);
 							
 							if (!empty($_SESSION['coupons'][$coupon_session_id]))
@@ -671,7 +783,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								{
 									foreach ($coupon_discount_items as $item)
 									{
-										$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);
+										$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);
 			
 										$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());										
 										$obj_title = $ilObjDataCache->lookupTitle($obj_id);
@@ -680,6 +792,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 										$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
 										$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
 										$tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2));
+// TODO CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2).' '.$currency);										
 										$tpl->parseCurrentBlock('loop_items');
 										
 										unset($tmp_pobject);
@@ -704,12 +817,15 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							break;
 					}
 
-					if ($pay_methods[$p] == PAY_METHOD_PAYPAL) {
+					if ($pay_method['pm_title'] == 'paypal')
+					{
 					  $tpl->setVariable('PAYPAL_HINT', $this->lng->txt('pay_hint_paypal'));
 					  $tpl->setVariable('PAYPAL_INFO', $this->lng->txt('pay_info_paypal'));								
-					} else if ($pay_methods[$p] == PAY_METHOD_EPAY) {
+					} 
+					else if ($pay_method['pm_title'] == 'epay') 
+					{
 					  $tpl->setVariable('EPAY_HINT', $this->lng->txt('pay_hint_epay'));
-                                          $tpl->setVariable('EPAY_INFO', $this->lng->txt('pay_info_epay'));
+                      $tpl->setVariable('EPAY_INFO', $this->lng->txt('pay_info_epay'));
 					}
 
 					$tpl->parseCurrentBlock('buy_link');						
@@ -719,36 +835,27 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					$tpl->parseCurrentBlock('loop');					
 
-					if ($pay_methods[$p] == PAY_METHOD_BILL)
-						$this->tpl->setVariable('BILL', $tpl->get());
-						
-					else if ($pay_methods[$p] == PAY_METHOD_BMF)
-						$this->tpl->setVariable('BMF', $tpl->get());
-						
-					else if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
-						$this->tpl->setVariable('PAYPAL', $tpl->get());
-
-					else if ($pay_methods[$p] == PAY_METHOD_EPAY)
-						$this->tpl->setVariable('EPAY', $tpl->get());
+					$this->tpl->setVariable(''.strtoupper($pay_method['pm_title']).'', $tpl->get());
 					
 					$num_items += $counter;
 				}
 			}
-		}
+	#}
 		
 		if ($num_items == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
-
 			return false;
 		}
 		else
 		{
+			//$_SESSION['currency_conversion']=null;
 			return true;
 		}
-
+//$_SESSION['currency_conversion']=null;
 	}
 	
+	/*  not used ?!   */
 	public function setCoupon()
 	{
 		if ($_POST['coupon_code'] != '')
@@ -772,11 +879,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			
 			$assignedItems = 0;			
 			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
-			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : PAY_METHOD_BMF)))
+			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : 'bmf')))
 			{
 				foreach($items as $item)
 				{
-					$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 					
 					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 					{
@@ -793,21 +900,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				return true;
 			}			
 			
-			switch ($_POST['payment_type'])
-			{
-				case PAY_METHOD_BILL:
-					$coupon_session_id = 'bill';
-					break;
-				case PAY_METHOD_PAYPAL:			 		
-			 		$coupon_session_id = 'paypal';			 		
-			 		break;
-			 	case PAY_METHOD_BMF:
-			 		$coupon_session_id = 'bmf';
-			 		break;			 
-        case PAY_METHOD_EPAY;
-          $coupon_session_id = 'epay';
-          break;
-			}
+			$coupon_session_id = $_POST['payment_type'];
 			
 			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
 			{
@@ -851,13 +944,17 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		return true;		
 	}
-	
+/*
+	* 
+	* @param	string		$payment_type		pm_title
+	* 
+	*/	
 	private function showCouponInput($payment_type = '')
 	{
-		include_once './payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 		$genSet = new ilGeneralSettings();
 		
-		$tpl = new ilTemplate('tpl.pay_shopping_cart_coupons.html', true, true, 'payment');
+		$tpl = new ilTemplate('tpl.pay_shopping_cart_coupons.html', true, true, 'Services/Payment');
 		
 		$tpl->setVariable('COUPON_FORMACTION', $this->ctrl->getFormAction($this));
 		$tpl->setVariable('TITLE', $this->lng->txt('paya_coupons_coupons'));
@@ -869,24 +966,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		$tpl->setVariable('PAYMENT_TYPE', $payment_type);
 		
-		switch ($payment_type)
-		{
-			case PAY_METHIOD_BILL:
-				$coupon_session = 'bill';
-		 		break;
-		 	case PAY_METHOD_PAYPAL:
-		 		$coupon_session = 'paypal';
-		 		break;
-		 	case PAY_METHOD_BMF:
-		 		$coupon_session = 'bmf';
-		 		break;
-      case PAY_METHOD_EPAY:
-        $coupon_session = 'epay';
-        break;
-		 	default:
-		 		$coupon_session = 'bmf';
-		 		break;
-		}
+		$coupon_session = $payment_type;
 
 		if (!empty($_SESSION['coupons'][$coupon_session]))
 		{
@@ -912,10 +992,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		return $tpl->get();
 	}
-	
+/*
+	* 
+	* @param	array		$a_pay_method		
+	* 
+	*/	
 	private function showItemsTable(&$a_tpl, $a_result_set, $a_pay_method = 0)
 	{
-		include_once './payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 
 		$genSet = new ilGeneralSettings();
 		
@@ -924,7 +1008,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$tbl = new ilTableGUI(array(), false);
 		$tpl = $tbl->getTemplateObject();
 
-		// SET FORMAACTION
+		// SET FORMACTION
 		$tpl->setCurrentBlock('tbl_form_header');
 
 		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
@@ -946,24 +1030,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$tpl->parseCurrentBlock();
 
 		$title = $this->lng->txt('paya_shopping_cart');
-		switch($a_pay_method)
-		{
+		
+		$coupon_session = $a_pay_method['pm_title'];
+		$title .= " (" . $this->lng->txt('payment_system') . ": " . ilPayMethods::getStringByPaymethod($a_pay_method['pm_title']) . ")";
 
-			case PAY_METHOD_BILL:
-				$coupon_session = 'bill';
-				$title .= " (" . $this->lng->txt('payment_system') . ": " . $this->lng->txt('pays_bill') . ")";
-				break;
-				
-			case PAY_METHOD_BMF:
-				$coupon_session = 'bmf';
-				$title .= " (" . $this->lng->txt('payment_system') . ": " . $this->lng->txt('pays_bmf') . ")";
-				break;
-
-			case PAY_METHOD_PAYPAL:
-				$coupon_session = 'paypal';
-				$title .= " (" . $this->lng->txt('payment_system') . ": " . $this->lng->txt('pays_paypal') . ")";
-				break;
-		}
 		$tbl->setTitle($title,'icon_pays_cart.gif',$this->lng->txt('paya_shopping_cart'));
 		$tbl->setHeaderNames(array($this->lng->txt(''),
 								   $this->lng->txt('title'),
@@ -973,19 +1043,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								   $this->lng->txt('price_a')));
 
 		$tbl->setHeaderVars(array("",
-								  "table".$a_pay_method."_title",
-								  "table".$a_pay_method."_duration",
-		  							"table".$a_pay_method."_vat_rate",
-									"table".$a_pay_method."_vat_unit",
-								  "table".$a_pay_method."_price"),
+								  "table". $a_pay_method['pm_title']."_title",
+								  "table". $a_pay_method['pm_title']."_duration",
+								  "table". $a_pay_method['pm_title']."_vat_rate",
+								  "table". $a_pay_method['pm_title']."_vat_unit",
+								  "table". $a_pay_method['pm_title']."_price"),
 							$this->ctrl->getParameterArray($this, ''));
-
-		$offset = $_GET["table".$a_pay_method."_offset"];
-		$order = $_GET["table".$a_pay_method."_sort_by"];
-		$direction = $_GET["table".$a_pay_method."_sort_order"] ? $_GET['table'.$a_pay_method.'_sort_order'] : 'desc';
-
-		$tbl->setPrefix("table".$a_pay_method."_");
-		$tbl->setOrderColumn($order,'table'.$a_pay_method.'_title');
+								   
+		$offset = $_GET["table". $a_pay_method['pm_title']."_offset"];
+		$order = $_GET["table". $a_pay_method['pm_title']."_sort_by"];
+		$direction = $_GET["table". $a_pay_method['pm_title']."_sort_order"] ? $_GET['table'. $a_pay_method['pm_title'].'_sort_order'] : 'desc';
+							
+		$tbl->setPrefix("table". $a_pay_method['pm_title']."_");
+		$tbl->setOrderColumn($order,'table'. $a_pay_method['pm_title'].'_title');
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
 		$tbl->setLimit($_GET['limit']);
@@ -993,9 +1063,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$tbl->setFooter('tblfooter',$this->lng->txt('previous'),$this->lng->txt('next'));
 		$tbl->setData($a_result_set);
 
-
 		// show total amount of costs
-		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
+		$sc_obj = new ilPaymentShoppingCart($this->user_obj);
 
 		$totalAmount =  $sc_obj->getTotalAmount();
 
@@ -1003,14 +1072,16 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
 		if (!empty($_SESSION['coupons'][$coupon_session]))
 		{
-			if (count($items = $sc_obj->getEntries($a_pay_method)))
+			if (count($items = $sc_obj->getEntries($a_pay_method['pm_id'])))
 			{
 				$amount .= "<tr>\n";
 				$amount .= "<td>\n";
 				$amount .= "<b>" . $this->lng->txt('pay_bmf_subtotal_amount') . ":";				
 				$amount .= "</td>\n";
 				$amount .= "<td>\n";
-				$amount .= number_format($totalAmount[$a_pay_method], 2, ',', '.') . " " . $genSet->get('currency_unit') . "</b>";				
+				$amount .= number_format($totalAmount[$a_pay_method['pm_id']], 2, ',', '.') . " " . $genSet->get('currency_unit') . "</b>";
+//TODO: CURRENCY //$amount .=  ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] );
+								
 				$amount .= "</td>\n";				
 				$amount .= "</tr>\n";
 				
@@ -1024,7 +1095,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					foreach ($items as $item)
 					{
-						$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);						
+						$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);						
 						
 						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 						{			
@@ -1038,7 +1109,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					}					
 					
 					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);					
-					$totalAmount[$a_pay_method] += $current_coupon_bonus * (-1);
+					#$totalAmount[$a_pay_method] += $current_coupon_bonus * (-1);
+					$totalAmount[$current_coupon_bonus] += $current_coupon_bonus * (-1);
 					
 					$amount .= "<tr>\n";
 					$amount .= "<td>\n";					
@@ -1046,14 +1118,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					$amount .= "</td>\n";
 					$amount .= "<td>\n";
 					$amount .= number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit');
+//$amount .= ilPaymentPrices::_formatPriceToString($current_coupon_bonus * (-1));
 					$amount .= "</td>\n";
 					$amount .= "</tr>\n";
 				}
 				
-				
-				if ($totalAmount[$a_pay_method] < 0)
+				if ($totalAmount[$a_pay_method['pm_id']] < 0)
 				{
-					$totalAmount[$a_pay_method] = 0;
+					$totalAmount[$a_pay_method['pm_id']] = 0;
 					$this->totalVat = 0;
 				}
 			}				
@@ -1061,15 +1133,23 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		$amount .= "<tr>\n";
 		$amount .= "<td>\n";					
-		$amount .= "<b>" . $this->lng->txt('pay_bmf_total_amount') . ":";
+		$amount .= "<b>" . $this->lng->txt('pay_bmf_total_amount') . ":";	
 		$amount .= "</td>\n";
 		$amount .= "<td>\n";
-		$amount .= number_format($totalAmount[$a_pay_method], 2, ',', '.') . " " . $genSet->get('currency_unit');
+	//	$amount .= number_format($totalAmount[$a_pay_method], 2, ',', '.') . " " . $genSet->get('currency_unit');
+// TODO CURRENCY 		
+$amount .= ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus);
+#.' '.$item['currency'];
 		$amount .= "</td>\n";
 		$amount .= "</tr>\n";
+		$this->totalAmount[$a_pay_method['pm_id']] = $totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus;
 		
-		$this->totalAmount[$a_pay_method] = $totalAmount[$a_pay_method];
-
+// TODO CURRENCY 	 
+/*
+$currency_conversion_totalvat=(float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
+if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_totalvat;
+ 
+ */	
 		if ($this->totalVat > 0)
 		{
 			$amount .= "<tr>\n";
@@ -1077,7 +1157,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$amount .=  $this->lng->txt('pay_bmf_vat_included') . ":";
 			$amount .= "</td>\n";
 			$amount .= "<td>\n";
-			$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
+			#$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
+			$amount .= ilPaymentPrices::_formatPriceToString($this->totalVat,(int)$this->default_currency['currency_id']);			
+			
 			$amount .= "</td>\n";
 			$amount .= "</tr>\n";
 		}
@@ -1122,13 +1204,13 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	private function initShoppingCartObject()
 	{
-		$this->psc_obj =& new ilPaymentShoppingCart($this->user_obj);
+		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 		$this->psc_obj->clearCouponItemsSession();
 	}
 
 	private function initPaypalObject()
 	{
-		$this->paypal_obj =& new ilPurchasePaypal($this->user_obj);
+		$this->paypal_obj = new ilPurchasePaypal($this->user_obj);
 	}
 
     /**

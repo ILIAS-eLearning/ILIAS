@@ -8510,7 +8510,7 @@ payment#:#sort_topics_manually#:#Manually
 payment#:#pay_enable_shop#:#Enable Webshop
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
 payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
-payment#:#payment_login_to_buy_object#:#Please login for putting the object into the shopping cart.
+payment#:#payment_login_to_buy_object#:#Please login for purchasing the object.
 dateplaner#:#cal_share_search_role_header#:#Role Selection
 common#:#assigned_members#:#Assigned Members
 payment#:#pay_abstract#:#Abstract
@@ -10182,3 +10182,6 @@ common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+payment#:#currency#:#Currency
+payment#:#coupon_type#:#Coupon-Type
+payment#:#search_in_title#:#Search in title

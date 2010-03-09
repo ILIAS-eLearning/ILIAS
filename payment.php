@@ -15,8 +15,8 @@ define('ILIAS_MODULE','payment');
 require_once "include/inc.header.php";
 
 switch ($_GET["view"])
-{
-	case "payment_admin"	:	require_once "./payment/classes/class.ilPaymentAdminGUI.php";
+{/* not in use
+	case "payment_admin"	:	require_once "./Services/Payment/classes/class.ilPaymentAdminGUI.php";
 
 								$ilCtrl->setTargetScript("payment.php");
 								$ilCtrl->setParameterByClass("ilpaymentadmingui", "view", "payment_admin");
@@ -25,7 +25,7 @@ switch ($_GET["view"])
 								$pa =& new ilPaymentAdminGUI($ilias->account);
 								$ilCtrl->forwardCommand($pa);
 								break;
-	case "start_purchase"	:	require_once "./payment/classes/class.ilPaymentPurchaseGUI.php";
+	case "start_purchase"	:	require_once "./Services/Payment/classes/class.ilPaymentPurchaseGUI.php";
 
 								$ilCtrl->setTargetScript("payment.php");
 								$ilCtrl->setParameterByClass("ilpaymentpurchasegui", "view", "start_purchase");
@@ -34,7 +34,8 @@ switch ($_GET["view"])
 								$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
 								$ilCtrl->forwardCommand($pa);
 								break;
-	case "start_bmf"		:	require_once "./payment/classes/class.ilPurchaseBMFGUI.php";
+								*/
+	case "start_bmf"		:	require_once "./Services/Payment/classes/class.ilPurchaseBMFGUI.php";
 
 								$ilCtrl->setTargetScript("payment.php");
 								$ilCtrl->setParameterByClass("ilpurchasebmfgui", "view", "start_bmf");
@@ -43,12 +44,12 @@ switch ($_GET["view"])
 								$pa =& new ilPurchaseBMFGUI($ilias->account);
 								$ilCtrl->forwardCommand($pa);
 								break;
-	case "conditions"		:	require_once "./payment/classes/class.ilTermsCondition.php";
+	case "conditions"		:	require_once "./Services/Payment/classes/class.ilTermsCondition.php";
 
 								$pa =& new ilTermsCondition($ilias->account);
 								$pa->show();
 								break;
-	default					:	require_once "./payment/classes/class.ilPaymentGUI.php";
+	default					:	require_once "./Services/Payment/classes/class.ilPaymentGUI.php";
 
 								$ilCtrl->setTargetScript("payment.php");
 								$ilCtrl->setParameterByClass("ilpaymentgui", "view", "payment");

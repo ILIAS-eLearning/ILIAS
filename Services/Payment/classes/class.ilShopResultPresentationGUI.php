@@ -1,28 +1,8 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'payment/classes/class.ilPaymentPrices.php';
-include_once 'payment/classes/class.ilPaymentObject.php';
+include_once 'Services/Payment/classes/class.ilPaymentPrices.php';
+include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 include_once 'Services/Payment/classes/class.ilFileDataShop.php';
 
 /**
@@ -50,16 +30,16 @@ class ilShopResultPresentationGUI
 	{
 		global $tpl,$lng,$ilCtrl,$ilUser;
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		
-		$this->result =& $result;
+		$this->result = $result;
 
 		$this->type_ordering = array(
 			"cat", "crs", "grp", "chat", "frm", "wiki", "lres",
 			"glo", "webr", "file",'mcst', "exc",
 			"tst", "svy", "sess","mep", "qpl", "spl");
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
@@ -147,7 +127,7 @@ class ilShopResultPresentationGUI
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
 							ilPaymentPrices::_formatPriceToString($lowest_price['price']);
-	
+// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);	
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
 					$md_obj = new ilMD($item['obj_id'], 0, $item['type']);
@@ -303,7 +283,7 @@ class ilShopResultPresentationGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	function addStandardRow(&$a_tpl, $a_html,$a_ref_id)
+	function addStandardRow($a_tpl, $a_html,$a_ref_id)
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"
@@ -326,9 +306,9 @@ class ilShopResultPresentationGUI
 	* @access	private
 	* @return	object		block template
 	*/
-	function &newBlockTemplate()
+	function newBlockTemplate()
 	{
-		$tpl =& new ilTemplate ("tpl.container_list_block.html",true, true,
+		$tpl = new ilTemplate ("tpl.container_list_block.html",true, true,
 			"Services/Container");
 		$this->cur_row_type = "row_type_1";
 

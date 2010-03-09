@@ -10195,3 +10195,6 @@ common#:#proxy_port#:#Port
 common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
 common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
 common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+payment#:#currency#:#Währung
+payment#:#coupon_type#:#Gutschein-Typ
+payment#:#search_in_title#:#Suche in Titel

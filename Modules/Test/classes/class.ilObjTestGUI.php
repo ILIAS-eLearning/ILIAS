@@ -89,7 +89,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if(!$this->getCreationMode())
 		{
-			include_once 'payment/classes/class.ilPaymentObject.php';				
+			include_once 'Services/Payment/classes/class.ilPaymentObject.php';				
 			if(ilPaymentObject::_isBuyable($this->object->getRefId()) && 
 			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
 			{

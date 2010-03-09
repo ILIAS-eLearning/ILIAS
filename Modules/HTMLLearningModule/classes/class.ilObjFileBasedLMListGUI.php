@@ -112,7 +112,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				include_once 'payment/classes/class.ilPaymentObject.php';
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 
 				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
