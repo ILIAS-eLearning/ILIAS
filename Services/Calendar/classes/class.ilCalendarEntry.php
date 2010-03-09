@@ -11,7 +11,7 @@ define('IL_CAL_TRANSLATION_SYSTEM',1);
 /** 
 * Model for a calendar entry. 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

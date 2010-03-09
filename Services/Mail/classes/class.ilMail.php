@@ -120,7 +120,7 @@
 *   - The domain must be specified and it must not have the value "ilias"
 * 
 *  
-* @author	Stefan Meyer <smeyer@databay.de>
+* @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

@@ -4,7 +4,7 @@
 /**
 * Class ilPaymentExcelWriterAdapter
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @author Jens Conze <jc@databay.de> 
 * @version $Id: class.ilPaymentExcelWriterAdapter.php 21503 2009-09-07 07:33:14Z hschottm $
 * 

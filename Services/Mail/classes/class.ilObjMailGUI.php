@@ -27,7 +27,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * Class ilObjMailGUI
 * for admin panel
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * $Id$
 * 
 * @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI

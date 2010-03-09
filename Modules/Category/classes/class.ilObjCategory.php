@@ -31,7 +31,7 @@ require_once "./Services/Container/classes/class.ilContainer.php";
 /**
 * Class ilObjCategory
 * 
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
 *
 * @ingroup ModulesCategory

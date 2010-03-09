@@ -29,7 +29,7 @@ define('IL_CDF_TYPE_SELECT',2);
 
 
 /** 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

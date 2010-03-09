@@ -6,7 +6,7 @@
 * Class ilObjectGUI
 * Basic methods of all Output classes
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */

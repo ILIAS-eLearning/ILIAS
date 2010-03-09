@@ -27,7 +27,7 @@
 * Factory for ListGUI's
 * create instances of these classes by type and disables commands like link, delete ...
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @extends ilObjectGUI

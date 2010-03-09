@@ -25,7 +25,7 @@
 /**
 * Utility class for meta data handling
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */

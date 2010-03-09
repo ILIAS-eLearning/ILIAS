@@ -6,7 +6,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 /**
 * Class ilUserSearch
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesSearch

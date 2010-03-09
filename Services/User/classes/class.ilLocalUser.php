@@ -4,7 +4,7 @@
 /*
 * Helper class for local user accounts (in categories)
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */

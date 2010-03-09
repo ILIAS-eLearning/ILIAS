@@ -5,7 +5,7 @@
 /**
 * Class ilObjectGUIAdapter
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * $Id$
 * 
 * @extends ilObjectGUI

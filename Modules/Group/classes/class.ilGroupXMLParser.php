@@ -30,7 +30,7 @@ include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 /**
  * Group Import Parser
  *
- * @author Stefan Meyer <smeyer@databay.de>
+ * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id: class.ilGroupXMLParser.php 15678 2008-01-06 20:40:55Z akill $
  *
  * @extends ilSaxParser

@@ -25,7 +25,7 @@ include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

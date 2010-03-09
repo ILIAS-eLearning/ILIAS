@@ -11,7 +11,7 @@ define('UDF_DUPLICATE_VALUES',2);
 /**
 * Additional user data fields definition
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 * @ingroup ServicesUser

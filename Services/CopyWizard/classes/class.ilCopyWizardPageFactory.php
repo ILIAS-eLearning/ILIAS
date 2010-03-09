@@ -24,7 +24,7 @@
 include_once('Services/CopyWizard/classes/class.ilCopyWizardPage.php');
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

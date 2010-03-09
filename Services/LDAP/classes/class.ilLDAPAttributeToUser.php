@@ -25,7 +25,7 @@
 * 
 * Update/create ILIAS user account by given LDAP attributes according to user attribute mapping settings. 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

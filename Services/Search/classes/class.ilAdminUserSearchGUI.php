@@ -26,7 +26,7 @@
 *
 * GUI class for user, group, role search
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 * 

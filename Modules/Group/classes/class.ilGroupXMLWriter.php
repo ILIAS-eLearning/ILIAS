@@ -30,7 +30,7 @@ include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 *
 * Class for writing xml export versions of courses
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilGroupXMLWriter.php 16108 2008-02-28 17:36:41Z rkuester $
 */
 class ilGroupXMLWriter extends ilXmlWriter

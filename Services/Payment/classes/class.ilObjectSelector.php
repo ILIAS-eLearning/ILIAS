@@ -4,7 +4,7 @@
 /*
 * Repository Explorer
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilObjectSelector.php 4880 2004-09-06 10:55:33Z smeyer $
 *
 * @package core

@@ -26,7 +26,7 @@
    * soap server
    * Base class for all SOAP registered methods. E.g ilSoapUserAdministration
    *
-   * @author Stefan Meyer <smeyer@databay.de>
+   * @author Stefan Meyer <meyer@leifos.com>
    * @version $Id$
    *
    * @package ilias

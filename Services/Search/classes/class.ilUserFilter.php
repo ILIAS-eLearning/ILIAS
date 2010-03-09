@@ -26,7 +26,7 @@
 * Reads and stores user specific filter settings.
 * 
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *

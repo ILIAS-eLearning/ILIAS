@@ -8,7 +8,7 @@ define('IL_INTERNAL_LINK_SCRIPT','goto.php');
 * Class for creating internal links on e.g repostory items.
 * This class uses goto.php to create permanent links
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */

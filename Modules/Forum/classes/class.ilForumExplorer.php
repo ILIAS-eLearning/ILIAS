@@ -29,7 +29,7 @@ require_once("./Modules/Forum/classes/class.ilForumProperties.php");
 * Class ilForumExplorer 
 * class for explorer view of forum posts
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ModulesForum

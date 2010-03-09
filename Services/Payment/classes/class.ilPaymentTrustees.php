@@ -5,7 +5,7 @@
 /**
 * Class ilPaymentTrustees
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilPaymentTrustees.php 22133 2009-10-16 08:09:11Z nkrzywon $
 *
 * @extends ilObject

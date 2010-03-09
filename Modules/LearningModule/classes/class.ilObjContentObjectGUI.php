@@ -11,7 +11,7 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
 * Class ilObjContentObjectGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 *
 * $Id$

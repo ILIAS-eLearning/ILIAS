@@ -27,7 +27,7 @@ include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 * Class for single dates.
 * ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
 *  
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesCalendar 

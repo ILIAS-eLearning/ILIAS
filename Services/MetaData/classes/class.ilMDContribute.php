@@ -25,7 +25,7 @@
 /**
 * Meta Data class (element contribute)
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */

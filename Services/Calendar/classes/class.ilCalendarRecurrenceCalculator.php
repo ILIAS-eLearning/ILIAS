@@ -28,7 +28,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 /** 
 * Calculates an <code>ilDateList</code> for a given calendar entry and recurrence rule.
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

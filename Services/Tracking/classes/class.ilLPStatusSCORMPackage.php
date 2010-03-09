@@ -22,7 +22,7 @@
 */
 
 /**
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @author Stefan Meyer <alex.killing@gmx.de>
 *
 * @version $Id$

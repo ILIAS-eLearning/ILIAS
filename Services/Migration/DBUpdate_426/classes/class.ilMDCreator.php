@@ -29,7 +29,7 @@
 * If you need special element values, inherit from this class. E.g class.ilMDCourseCreator extends class.ilMDCreator
 *
 * @package ilias-core
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 

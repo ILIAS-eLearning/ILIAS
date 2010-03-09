@@ -25,7 +25,7 @@
 * Base class for ILIAS Exception handling. Any Exception class should inherit from it
 * 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

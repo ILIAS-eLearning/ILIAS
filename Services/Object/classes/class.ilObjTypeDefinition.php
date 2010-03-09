@@ -27,7 +27,7 @@
 * 
 * CLASS IS DEPRECATED
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * $Id$
 * 
 * @extends ilObject

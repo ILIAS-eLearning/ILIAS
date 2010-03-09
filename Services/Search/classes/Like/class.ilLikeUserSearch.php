@@ -26,7 +26,7 @@
 *
 * Performs Mysql Like search in table usr_data
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @package ilias-search

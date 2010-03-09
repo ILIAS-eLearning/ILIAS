@@ -28,7 +28,7 @@
 * Supporting system functions are required for session management and in making access control decisions.
 * This class depends on the session since we offer the possiblility to add or delete active roles during one session.
 * 
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
 * 
 * @ingroup ServicesAccessControl

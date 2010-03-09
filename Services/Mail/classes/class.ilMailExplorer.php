@@ -26,7 +26,7 @@
 * Class Mail Explorer 
 * class for explorer view for mailboxes
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 */

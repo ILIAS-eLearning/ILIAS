@@ -26,7 +26,7 @@
 * Mail Box class
 * Base class for creating and handling mail boxes
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 */

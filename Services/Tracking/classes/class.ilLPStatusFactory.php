@@ -26,7 +26,7 @@
 * Creates status class instances for learning progress modes of an object.
 * E.g obj_id of course returns an instance of ilLPStatusManual, ilLPStatusObjectives ...
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *

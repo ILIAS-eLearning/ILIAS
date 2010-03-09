@@ -25,7 +25,7 @@
 /**
 * Class ilObjChatServerGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id:class.ilObjChatServerGUI.php 12853 2006-12-15 13:36:31 +0000 (Fr, 15 Dez 2006) smeyer $
 *
 * @ilCtrl_Calls ilObjChatServerGUI: ilPermissionGUI

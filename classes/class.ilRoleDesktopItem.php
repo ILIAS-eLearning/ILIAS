@@ -5,7 +5,7 @@
 /**
 * Class ilObjRoleGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * $Id$
 *
 *

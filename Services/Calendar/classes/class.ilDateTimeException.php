@@ -23,7 +23,7 @@
 
 /** 
 * Class for DateTime exceptions
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ingroup ServicesCalendar 

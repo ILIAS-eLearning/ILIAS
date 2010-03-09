@@ -26,7 +26,7 @@
 *
 * Abstract class for mediacast definitions. Should be inherited by ilFulltextMediaCastSearch
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilMediaCastSearch.php 7785 2005-06-06 13:38:15Z smeyer $
 * 
 * @package ilias-search

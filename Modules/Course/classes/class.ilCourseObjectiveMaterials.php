@@ -25,7 +25,7 @@
 /**
 * class ilCourseObjectiveMaterials
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id:class.ilCourseObjectiveMaterials.php 13383 2007-03-02 10:54:46 +0000 (Fr, 02 Mrz 2007) smeyer $
 * 
 */

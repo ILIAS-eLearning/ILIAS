@@ -26,7 +26,7 @@
 * Offers methods like mergeResults. To merge result sets of different queries.
 * 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version Id$
 * 
 * @package ilias-search

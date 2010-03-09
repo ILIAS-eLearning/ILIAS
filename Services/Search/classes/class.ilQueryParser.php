@@ -26,7 +26,7 @@
 *
 * Class for parsing search queries. An instance of this object is required for every Search class (MetaSearch ...)
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @package ilias-search

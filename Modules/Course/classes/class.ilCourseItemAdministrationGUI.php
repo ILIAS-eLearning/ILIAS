@@ -24,7 +24,7 @@
 /**
 * Class ilCourseItemAdministrationGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
 *
 * @ilCtrl_Calls ilCourseItemAdministrationGUI: ilConditionHandlerInterface

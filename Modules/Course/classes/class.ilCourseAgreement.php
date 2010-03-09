@@ -26,7 +26,7 @@ include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

@@ -7,7 +7,7 @@ include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 /**
 * @defgroup ServicesPrivacySecurity Services/PrivacySecurity
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 *

@@ -31,7 +31,7 @@ include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

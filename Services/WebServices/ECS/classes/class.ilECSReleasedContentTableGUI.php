@@ -26,7 +26,7 @@ include_once('classes/class.ilFormat.php');
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * 

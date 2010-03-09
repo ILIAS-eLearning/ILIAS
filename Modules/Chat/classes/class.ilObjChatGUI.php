@@ -5,7 +5,7 @@
 /**
 * Class ilObjChatGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$
 * 
 * @ilCtrl_Calls ilObjChatGUI: ilPermissionGUI, ilPublicUserProfileGUI

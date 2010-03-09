@@ -26,7 +26,7 @@ require_once "./classes/class.ilObject.php";
 /**
 * Class ilObjRole
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
 * 
 * @ingroup	ServicesAccessControl
