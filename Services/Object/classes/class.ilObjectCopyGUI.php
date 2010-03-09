@@ -79,6 +79,12 @@ class ilObjectCopyGUI
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'new_type', $this->getType());
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), 'create');
 		}
+		elseif($_REQUEST['selectMode'] == self::SOURCE_SELECTION)
+		{
+			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
+			$this->setTarget((int) $_GET['ref_id']);
+			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
+		}
 		else
 		{
 			$this->setMode(self::TARGET_SELECTION);
@@ -110,6 +116,21 @@ class ilObjectCopyGUI
 	}
 	
 	/**
+	 * Init source selection
+	 * @return 
+	 */
+	protected function initSourceSelection()
+	{
+		global $ilCtrl;
+
+		$this->setMode(self::SOURCE_SELECTION);
+		$this->setTarget((int) $_GET['ref_id']);
+		
+		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
+		$this->showSourceSelectionTree();	
+	}
+	
+	/**
 	 * Show target selection
 	 * @return 
 	 */
@@ -134,6 +155,12 @@ class ilObjectCopyGUI
 		// Filter to container
 		foreach(array('cat','root','crs','grp','fold') as $container)
 		{
+			/*
+			if($this->getType() == 'crs' and $container == 'crs')
+			{
+				continue;
+			}
+			*/
 			$sub = $objDefinition->getSubObjects($container);
 			if(!isset($sub[$this->getType()]))
 			{
@@ -175,6 +202,62 @@ class ilObjectCopyGUI
 	}
 	
 	/**
+	 * Show target selection
+	 * @return 
+	 */
+	public function showSourceSelectionTree()
+	{
+		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
+	
+		$this->tpl = $tpl;
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');
+		
+		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
+		
+		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		$exp = new ilPasteIntoMultipleItemsExplorer(
+			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
+			'repository.php?cmd=goto', 'paste_copy_repexpand');
+
+		$ilCtrl->setParameter($this, 'selectMode', self::SOURCE_SELECTION);
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));
+		$exp->setTargetGet('ref_id');
+		$exp->setPostVar('source');
+		$exp->setCheckedItems(array((int) $_POST['source']));
+		
+		// Filter to container
+		foreach(array('cat','root','grp','fold') as $container)
+		{
+			$exp->removeFormItemForType($container);
+		}
+		
+		
+		if($_GET['paste_copy_repexpand'] == '')
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['paste_copy_repexpand'];
+		}
+		
+		$this->tpl->setVariable('FORM_TARGET', '_self');
+		$this->tpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this, 'copySelection'));
+
+		$exp->setExpand($expanded);
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable('OBJECT_TREE', $output);
+		
+		$this->tpl->setVariable('CMD_SUBMIT', 'saveSource');
+		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('btn_next'));
+		
+		$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
+	}
+
+	/**
 	 * Save target selection
 	 * @return 
 	 */
@@ -202,7 +285,6 @@ class ilObjectCopyGUI
 			$this->copySingleObject();
 		}
 	}
-
 
 	/**
 	 * set copy mode

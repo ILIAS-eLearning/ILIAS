@@ -10198,3 +10198,5 @@ common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
 payment#:#currency#:#Währung
 payment#:#coupon_type#:#Gutschein-Typ
 payment#:#search_in_title#:#Suche in Titel
+content#:#cont_LocalFile#:#Local File###26 01 2010 new variable
+common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.

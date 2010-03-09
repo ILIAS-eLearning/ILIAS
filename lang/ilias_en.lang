@@ -10185,3 +10185,4 @@ common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
 payment#:#currency#:#Currency
 payment#:#coupon_type#:#Coupon-Type
 payment#:#search_in_title#:#Search in title
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".
