@@ -2240,7 +2240,7 @@ class ilObjForumGUI extends ilObjectGUI
 			if($this->reloadTree())
 			{
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-				$tpl->setVariable('JAVASCRIPT',	$this->ctrl->getLinkTarget($this, 'showExplorer'));
+				$tpl->setVariable('JAVASCRIPT',	$this->ctrl->getLinkTarget($this, 'showExplorer', '', false, false));
 			}
 			
 			$new_order = 'date';
