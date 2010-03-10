@@ -1277,8 +1277,8 @@ class ilInitialisation
 				require_once('Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 				$security_settings = ilSecuritySettings::_getInstance();
 				if( $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
-					'0000-00-00 00:00:00' == (string)$ilUser->getLastLogin() &&
-					'0000-00-00 00:00:00' == (string)$ilUser->getApproveDate() )
+					null == $ilUser->getLastLogin() &&
+					null == $ilUser->getApproveDate() )
 				{
 					$ilUser->resetLastPasswordChange();
 				}
