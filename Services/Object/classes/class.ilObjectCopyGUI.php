@@ -571,11 +571,19 @@ class ilObjectCopyGUI
 		
 		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser,$ilCtrl;
 		
-	 	if(!$rbacsystem->checkAccess('create', $this->getTarget(),$this->getType()))
-	 	{
-	 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-			$ilCtrl->returnToParent($this);
-	 	}
+		// Workaround for course in course copy
+
+		$target_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getTarget()));
+		$source_type = ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()));
+		
+		if($target_type != $source_type or $target_type != 'crs')
+		{
+		 	if(!$rbacsystem->checkAccess('create', $this->getTarget(),$this->getType()))
+		 	{
+		 		ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+				$ilCtrl->returnToParent($this);
+		 	}
+		}
 		if(!$this->getSource())
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
