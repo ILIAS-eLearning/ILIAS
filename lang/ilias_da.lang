@@ -9747,7 +9747,7 @@ license#:#license_warning#:#Licensadvarsel
 license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
 license#:#arbitrary#:#arbitrær
 license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
+license#:#course_licenses_rare#:#Advarsel: Der er kun %s tilgængelige licenser til kursusobjektet. Se i fanebladet 'licenser' hvis du vil vide hvilke licenser der skal forlænges.
 license#:#edit_license#:#Ret licens
 license#:#existing_licenses#:#Til rådighed
 license#:#license_updated#:#Licensdata opdateret.
@@ -9950,7 +9950,7 @@ common#:#pd_enable_contacts#:#Aktiver kontakter
 common#:#pd_enable_contacts_requires_mail#:#Kræver mail-rettigheder
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
 administration#:#reuse_of_loginnames_contained_in_history#:#Ingen genbrug af brugernavne
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
+administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Hvis aktiveret er det <u>ikke</u> tilladt at genbruge et brugernavn der tidligere har været anvendt, også selvom brugeren er slettet.
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
 administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
@@ -10055,7 +10055,7 @@ content#:#cont_file_renamed#:#Filen blev omdøbt.
 content#:#cont_dir_deleted#:#Mappen blev slettet.
 content#:#cont_file_deleted#:#Filen blev slettet.
 content#:#cont_file_unzipped#:#Filen blev udpakket.
-common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?###22 09 2009 new variable
+common#:#socialbm_sure_delete_entry#:#Vil du slette den/de valgte social bookmarking services?
 common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#125 and &#123;LINK&#125 to insert the page title or url in the link.###22 09 2009 new variable
 common#:#socialbm_enable#:#Aktiver
 common#:#socialbm_disable#:#Deaktiver
