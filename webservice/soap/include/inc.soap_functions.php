@@ -891,6 +891,15 @@ class ilSoapFunctions {
 
 		return $sua->getSCORMCompletionStatus($sid, $usr_id, $a_ref_id);
 	}
+	
+	public static function  getUserIdBySid($sid)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
+
+		$sua = new ilSoapUserAdministration();
+
+		return $sua->getUserIdBySid($sid);
+	}
 
 }
 
