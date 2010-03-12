@@ -1186,6 +1186,15 @@ $this->server->register('getSCORMCompletionStatus',
 								SERVICE_USE,
 								'ILIAS getClientInfoXML(): returns XML following installation_info dtd, contains the client the data of given client id');
 								
+		$this->server->register ('getUserIdBySid',
+								array('sid' => 'xsd:string'),
+								array('usr_id' => 'xsd:int'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getUserIdBySid',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getUserIdBySid(): returns an ILIAS usr_id for the given sid');
+								
 		return true;
 
 	}
