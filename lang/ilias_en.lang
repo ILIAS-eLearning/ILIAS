@@ -10165,10 +10165,7 @@ common#:#option#:#Option
 mep#:#mep_create#:#Create a new media pool
 mep#:#mep_clone#:#Clone an existing media pool
 mep#:#mep_import#:#Import a media pool
-survey#:#use_other_answer#:#Use other answer
-survey#:#other_answer#:#Other answer
-survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
-survey#:#other_answer_label#:#Label of other answer (optional)
+survey#:#use_other_answer#:#Open answer
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
 common#:#columns#:#Columns
 common#:#proxy#:#Proxy

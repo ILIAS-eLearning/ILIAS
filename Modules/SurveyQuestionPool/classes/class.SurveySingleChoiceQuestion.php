@@ -181,11 +181,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			$this->setComplete($data["complete"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setOrientation($data["orientation"]);
-			$this->use_other_answer = $data['use_other_answer'];
-			$this->other_answer_label = $data['other_answer_label'];
 
 			$this->categories->flushCategories();
-			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -193,7 +191,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			{
 				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					$this->categories->addCategory($data["title"]);
+					$this->categories->addCategory($data["title"], $data["other"], $data["neutral"]);
 				}
 			}
 		}
@@ -234,13 +232,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				array('integer'),
 				array($this->getId())
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation, use_other_answer, other_answer_label) VALUES (%s, %s, %s, %s)",
-				array('integer', 'text', 'integer', 'text'),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation) VALUES (%s, %s)",
+				array('integer', 'text'),
 				array(
 					$this->getId(), 
-					$this->getOrientation(),
-					$this->use_other_answer,
-					$this->other_answer_label
+					$this->getOrientation()
 				)
 			);
 
@@ -260,11 +256,12 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
-			$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
+			$cat = $this->categories->getCategory($i);
+			$category_id = $this->saveCategoryToDb($cat->title, $cat->neutral);
 			$next_id = $ilDB->nextId('svy_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','float','integer','integer'),
-				array($next_id, $category_id, $this->getId(), ($i + 1), $i, time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, other, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','integer','integer', 'integer'),
+				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, time())
 			);
 		}
 		$this->saveCompletionStatus();
@@ -464,12 +461,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
 		if (strlen($entered_value) == 0) return $this->lng->txt("question_not_checked");
-		if ($this->categories->getCategoryCount() == $entered_value)
+
+		if (!strlen($post_data[$this->getId() . "_" . $entered_value . "_other"]))
 		{
-			if (!strlen($post_data[$this->getId() . "_other"]))
-			{
-				return $this->lng->txt("question_mr_no_other_answer");
-			}
+			return $this->lng->txt("question_mr_no_other_answer");
 		}
 
 		return "";
@@ -485,10 +480,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		global $ilDB;
 		// single response
 		$category = rand(0, $this->categories->getCategoryCount()-1);
+		$cat = $this->categories->getCategory($category);
 		$next_id = $ilDB->nextId('svy_answer');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $category, NULL, time())
+			array($next_id, $this->getId(), $active_id, $category, ($cat->other) ? "Random Data" : null, time())
 		);
 	}
 
@@ -501,7 +497,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$next_id = $ilDB->nextId('svy_answer');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($entered_value == $this->categories->getCategoryCount()) ? $post_data[$this->getId() . "_other"] : null, time())
+			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
 		);
 	}
 	
@@ -534,15 +530,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		if ($this->use_other_answer && key($cumulated) == $this->categories->getCategoryCount())
-		{
-			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
-		}
-		else
-		{
-			$category = $this->categories->getCategory(key($cumulated));
-		}
-		$result_array["MODE"] =  $prefix . $category;
+		$category = $this->categories->getCategory(key($cumulated));
+		$result_array["MODE"] =  $prefix . $category->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
@@ -552,17 +541,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			{
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
-			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
-		}
-		if ($this->use_other_answer)
-		{
-			$key = $this->categories->getCategoryCount();
-			$percentage = 0;
-			if ($numrows > 0)
+			$cat = $this->categories->getCategory($key);
+			if ($cat->other)
 			{
-				$percentage = (float)((int)$cumulated[$key]/$numrows);
+				$result_array["variables"][$key] = array("title" => (strlen($cat->title)) ? $cat->title : $this->lng->txt('other_answer'), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 			}
-			$result_array["variables"][$key] = array("title" => (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer'), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+			else
+			{
+				$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+			}
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
@@ -664,10 +651,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			{
 				array_push($a_array, $answer["value"]+1);
 			}
-			if ($this->use_other_answer)
-			{
-				array_push($a_array, ($this->categories->getCategoryCount()+1) . " - " . (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer'));
-			}
 		}
 		else
 		{
@@ -694,15 +677,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			if ($row["value"] == $this->categories->getCategoryCount())
-			{
-				$category = (strlen($this->other_answer_label)) ? $this->other_answer_label . ' ' . $row['textanswer'] : $row['textanswer'];
-			}
-			else
-			{
-				$category = $this->categories->getCategory($row["value"]);
-			}
-			$answers[$row["active_fi"]] = $row["value"] + 1 . " - " . $category;
+			$category = $this->categories->getCategory($row["value"]);
+			$title = $row["value"] + 1 . " - " . $category->title;
+			if ($category->other) $title .= ": " . $row["textanswer"];
+			$answers[$row["active_fi"]] = $title;
 		}
 		return $answers;
 	}
@@ -764,20 +742,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		{
 			$template->setCurrentBlock("option_v");
 			$template->setVariable("OPTION_VALUE", $i);
-			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $this->categories->getCategory($i));
-			if ($i == $default)
-			{
-				$template->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-			}
-			$template->parseCurrentBlock();
-		}
-		if ($this->use_other_answer)
-		{
-			$i = $this->categories->getCategoryCount();
-			$template->setCurrentBlock("option_v");
-			$template->setVariable("OPTION_VALUE", $i);
-			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
-			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $category);
+			$category = $this->categories->getCategory($i);
+			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $category->title);
 			if ($i == $default)
 			{
 				$template->setVariable("OPTION_CHECKED", " selected=\"selected\"");
@@ -797,17 +763,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*/
 	function getPreconditionValueOutput($value)
 	{
-		if ($this->use_other_answer && $value == $this->categories->getCategoryCount())
-		{
-			$category = (strlen($this->other_answer_label)) ? $this->other_answer_label : $this->lng->txt('other_answer');
-			return ($value + 1) . " - " . $category;
-		}
-		else
-		{
-			return ($value + 1) . " - " . $this->categories->getCategory($value);
-		}
+		$category = $this->categories->getCategory($i);
+		return ($value + 1) . " - " . ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
 	}
-
+	
 /**
 * Creates an image visualising the results of the question
 *

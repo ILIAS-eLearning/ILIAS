@@ -7,34 +7,38 @@
 <p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
 <!-- BEGIN tableoutput -->
 <table class="nobackground">
+<!-- BEGIN outer_row -->
 <!-- BEGIN row -->
-<tr>
+<tr{ROWCLASS}>
 <td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
 <td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{TEXT_SC}</label></td>
 </tr>
 <!-- END row -->
 <!-- BEGIN other_row -->
 <tr>
-<td class="nobackground" width="1%"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
-<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label><input type="text" name="{QUESTION_ID}_other" {OTHER_VALUE}/></td>
+<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label> <input type="text" name="{QUESTION_ID}_{VALUE_SC}_other" {OTHER_VALUE}/></td>
 </tr>
 <!-- END other_row -->
+<!-- END outer_row -->
 <!-- BEGIN sc_col -->
 <tr>
 <!-- BEGIN radio_col -->
-<td class="nobackground" align="center"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
+<td class="nobackground{COLCLASS}" align="center"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
 <td width="20">&nbsp;</td>
 <!-- END radio_col -->
 </tr>
 <tr>
+<!-- BEGIN text_outer_col -->
 <!-- BEGIN text_col -->
-<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_SC}">{TEXT_SC}</label></td>
+<td class="nobackground{COLCLASS}" align="center"><label for="{QUESTION_ID}_{VALUE_SC}">{TEXT_SC}</label></td>
 <td width="20">&nbsp;</td>
 <!-- END text_col -->
 <!-- BEGIN text_other_col -->
-<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label> <input type="text" name="{QUESTION_ID}_other" {OTHER_VALUE}/></td>
+<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label> <input type="text" name="{QUESTION_ID}_{VALUE_SC}_other" {OTHER_VALUE}/></td>
 <td width="20">&nbsp;</td>
 <!-- END text_other_col -->
+<!-- END text_outer_col -->
 </tr>
 <!-- END sc_col -->
 </table>

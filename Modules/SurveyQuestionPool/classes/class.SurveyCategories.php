@@ -22,6 +22,7 @@
 */
 
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
+include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
 
 /**
 * Class SurveyCategories
@@ -77,17 +78,17 @@ class SurveyCategories
 * @access public
 * @see $categories
 */
-	function addCategoryAtPosition($categoryname, $position) 
+	function addCategoryAtPosition($categoryname, $position, $other = 0, $neutral = 0) 
 	{
 		if (array_key_exists($position, $this->categories))
 		{
 			$head = array_slice($this->categories, 0, $position);
 			$tail = array_slice($this->categories, $position);
-			$this->categories = array_merge($head, array($categoryname), $tail);
+			$this->categories = array_merge($head, array(new ilSurveyCategory($categoryname, $other, $neutral)), $tail);
 		}
 		else
 		{
-			array_push($this->categories, $categoryname);
+			array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral));
 		}
 	}
 	
@@ -120,9 +121,9 @@ class SurveyCategories
 * @access public
 * @see $categories
 */
-	function addCategory($categoryname) 
+	function addCategory($categoryname, $other = 0, $neutral = 0) 
 	{
-		array_push($this->categories, $categoryname);
+		array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral));
 	}
 	
 /**
@@ -183,8 +184,14 @@ class SurveyCategories
 */
 	function removeCategoryWithName($name)
 	{
-		$index = array_search($name, $this->categories);
-		$this->removeCategory($index);
+		foreach ($this->categories as $index => $category)
+		{
+			if (strcmp($category->title, $name) == 0)
+			{
+				$this->removeCategory($index);
+				return;
+			}
+		}
 	}
 	
 /**
@@ -220,7 +227,14 @@ class SurveyCategories
 */
 	function getCategoryIndex($name)
 	{
-		return array_search($name, $this->categories);
+		foreach ($this->categories as $index => $category)
+		{
+			if (strcmp($category->title, $name) == 0)
+			{
+				return $index;
+			}
+		}
+		return null;
 	}
 	
 	function getScale($index)
