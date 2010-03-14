@@ -261,3 +261,42 @@ if(!$ilDB->tableExists('payment_currencies'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#2964>
+<?php
+	$ilDB->dropIndex('svy_category', 'i2');
+?>
+<#2965>
+<?php
+if($ilDB->tableColumnExists('svy_category','scale'))
+{
+	$ilDB->dropTableColumn('svy_category', 'scale');
+}
+?>
+<#2966>
+<?php
+if($ilDB->tableColumnExists('svy_category','other'))
+{
+	$ilDB->dropTableColumn('svy_category', 'other');
+}
+?>
+<#2967>
+<?php
+if(!$ilDB->tableColumnExists('svy_variable','other'))
+{
+  $ilDB->addTableColumn("svy_variable", "other", array("type" => "integer", "length" => 2, "notnull" => true, "default" => 0));
+}
+?>
+<#2968>
+<?php
+if($ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+{
+	$ilDB->dropTableColumn('svy_qst_mc', 'use_other_answer');
+}
+?>
+<#2969>
+<?php
+if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+{
+	$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
+}
+?>

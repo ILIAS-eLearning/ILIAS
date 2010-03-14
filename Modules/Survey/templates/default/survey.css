@@ -105,4 +105,13 @@ table.categorywizard th {
 .neutral_category_title {
 	font-style: italic;
 }
+
+tr.neutral td {
+	padding-top: 2em!important;
+}
+
+td.neutral {
+	margin-left: 2em;
+}
+
 }

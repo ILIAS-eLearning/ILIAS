@@ -10179,10 +10179,7 @@ wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_published_for#:#Freigegeben für:
-survey#:#use_other_answer#:#Andere Antwort zulassen
-survey#:#other_answer#:#Andere Antwort
-survey#:#other_answer_desc#:#Wenn Sie diese Option wählen, wird als letzte Antwortoption ein Textfeld für eine freie Antwort angeboten.
-survey#:#other_answer_label#:#Bezeichnung der anderen Antwort (optional)
+survey#:#use_other_answer#:#Freitext
 survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
 common#:#proxy#:#Proxy
 common#:#proxy_connectable#:#Verbindung hergestellt.

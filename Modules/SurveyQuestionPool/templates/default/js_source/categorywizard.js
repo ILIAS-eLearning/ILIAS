@@ -36,6 +36,23 @@ function reindexRows(rootel, postvar)
 			}
 		}
 
+		neutral = YAHOO.util.Dom.get('answers_neutral_scale');
+		if (neutral)
+		{
+			neutral.value = rows.length + 1;
+		}
+
+		// change id and name of checkboxes
+		textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'checkbox') ? true : false; }, 'input', rows[i]);
+		for (j = 0; j < textinputs.length; j++)
+		{
+			if (textinputs[j].id.indexOf('[other]') >= 0)
+			{
+				textinputs[j].id = postvar + '[other][' + i + ']';
+				textinputs[j].name = postvar + '[other][' + i + ']';
+			} 
+		}
+
 		addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < addbuttons.length; j++)
 		{
