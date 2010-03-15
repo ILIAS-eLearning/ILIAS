@@ -4292,8 +4292,7 @@ common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s Sekunden.
-common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
+common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Sekunden ein. Empfohlen sind 300 Sekunden (=5 min.).<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#set_edit_mode#:#Bearbeitungsmodus setzen
 common#:#set_offline#:#Offline setzen
