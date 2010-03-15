@@ -716,6 +716,7 @@ class ilMailFormGUI
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
 		$inp->setDataSourceDelimiter($dsDelimiter);
+		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
 		// CC
@@ -726,6 +727,7 @@ class ilMailFormGUI
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
 		$inp->setDataSourceDelimiter($dsDelimiter);
+		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
 		// BCC
@@ -736,6 +738,7 @@ class ilMailFormGUI
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
 		$inp->setDataSourceDelimiter($dsDelimiter);
+		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
 		// SUBJECT

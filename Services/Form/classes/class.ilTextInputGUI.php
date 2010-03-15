@@ -384,7 +384,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->setVariable("SIZE", $this->getSize());
-		$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if($this->getMaxLength() != null)
+			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 		if (strlen($this->getSuffix())) $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
 		
 		if ($this->getDisabled())
