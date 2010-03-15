@@ -254,7 +254,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_3_10.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_object_4_0.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS objects");
 		$this->xmlHeader();
 		$this->xmlStartTag("Objects");
