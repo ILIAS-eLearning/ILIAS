@@ -172,7 +172,7 @@ class ilInternalLinkGUI
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
 		if (ilPageEditorGUI::_doJSEditing())
 		{
-			$str = htmlspecialchars($str);
+			$str = htmlspecialchars($str, ENT_QUOTES);
 		}
 		return($str);
 	}
@@ -355,6 +355,10 @@ class ilInternalLinkGUI
 								}
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								if ($this->isEnabledJavaScript())
+								{
+									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
+								}
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("LINK_CHAPTER",
 									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
@@ -406,6 +410,10 @@ class ilInternalLinkGUI
 							default:
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								if ($this->isEnabledJavaScript())
+								{
+									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
+								}
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("LINK_CHAPTER",
 									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
@@ -476,6 +484,10 @@ class ilInternalLinkGUI
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("ROWCLASS", $css_row);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+								if ($this->isEnabledJavaScript())
+								{
+									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
+								}
 								$tpl->setVariable("LINK_CHAPTER",
 									$this->prepareJavascriptOutput("[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
 								$tpl->parseCurrentBlock();
@@ -532,8 +544,13 @@ class ilInternalLinkGUI
 							$tpl->setCurrentBlock($chapterRowBlock);
 							$tpl->setVariable("ROWCLASS", $css_row);
 							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
+							if ($this->isEnabledJavaScript())
+							{
+								$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $term["term"])));
+							}
+							
 							$tpl->setVariable("LINK_CHAPTER",
-											  $this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]"." "."[/iln]"));
+								$this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]"." "."[/iln]"));
 							$tpl->parseCurrentBlock();
 							$tpl->setCurrentBlock("row");
 							$tpl->parseCurrentBlock();
@@ -598,6 +615,10 @@ class ilInternalLinkGUI
 								$this->outputThumbnail($tpl, $obj["id"]);
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+								if ($this->isEnabledJavaScript())
+								{
+									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $obj["title"])));
+								}
 								$tpl->setVariable("ROWCLASS", "tblrow1");
 								if (!empty($target_str))
 								{
@@ -718,6 +739,10 @@ class ilInternalLinkGUI
 										$tpl->setCurrentBlock($chapterRowBlock);
 										$tpl->setVariable("ROWCLASS", $css_row);
 										$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+										if ($this->isEnabledJavaScript())
+										{
+											$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $obj["title"])));
+										}
 										if ($target_str != "")
 										{
 											$tpl->setVariable("LINK_CHAPTER",
