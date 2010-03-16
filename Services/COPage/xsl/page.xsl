@@ -1767,7 +1767,9 @@
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_flist']/@value"/></xsl:with-param></xsl:call-template>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<div class="ilc_flist_cont_FileListContainer">
-		<div class="ilc_flist_head_FileListHeading"><xsl:value-of select="./Title"/></div>
+		<xsl:if test = "./Title and ./Title != ''">
+			<div class="ilc_flist_head_FileListHeading"><xsl:value-of select="./Title"/><xsl:comment>Comment to have separate embed ending tag</xsl:comment></div>
+		</xsl:if>
 		<ul class="ilc_flist_FileList">
 		<xsl:apply-templates select="FileItem"/>
 		</ul>
