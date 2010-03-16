@@ -2446,7 +2446,7 @@ common#:#exc_new#:#Neue Übung
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
-common#:#exc_read#:#Übung lesen
+common#:#exc_read#:#An Übung teilnehmen
 common#:#exc_resubmitted_advice#:#Dieses Zeichen erscheint, wenn eine neue Übungsdatei abgegeben wird, nachdem für den Benutzer das Häkchen "Gelöst" gewählt wurde.
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Änderungen speichern
