@@ -300,3 +300,81 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 	$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
 }
 ?>
+<#2970>
+<?php
+	// mail rcp_to
+	$ilDB->addTableColumn("mail", "rcp_to_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail SET rcp_to_tmp = rcp_to');
+	$ilDB->dropTableColumn('mail', 'rcp_to');
+	$ilDB->renameTableColumn("mail", "rcp_to_tmp", "rcp_to");
+?>
+<#2971>
+<?php
+	// mail rcp_cc
+	$ilDB->addTableColumn("mail", "rcp_cc_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail SET rcp_cc_tmp = rcp_cc');
+	$ilDB->dropTableColumn('mail', 'rcp_cc');
+	$ilDB->renameTableColumn("mail", "rcp_cc_tmp", "rcp_cc");
+?>
+<#2972>
+<?php
+	// mail rcp_bcc
+	$ilDB->addTableColumn("mail", "rcp_bcc_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail SET rcp_bcc_tmp = rcp_bcc');
+	$ilDB->dropTableColumn('mail', 'rcp_bcc');
+	$ilDB->renameTableColumn("mail", "rcp_bcc_tmp", "rcp_bcc");
+?>
+<#2973>
+<?php
+	// mail_saved rcp_to
+	$ilDB->addTableColumn("mail_saved", "rcp_to_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail_saved SET rcp_to_tmp = rcp_to');
+	$ilDB->dropTableColumn('mail_saved', 'rcp_to');
+	$ilDB->renameTableColumn("mail_saved", "rcp_to_tmp", "rcp_to");
+?>
+<#2974>
+<?php
+	// mail_saved rcp_cc
+	$ilDB->addTableColumn("mail_saved", "rcp_cc_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail_saved SET rcp_cc_tmp = rcp_cc');
+	$ilDB->dropTableColumn('mail_saved', 'rcp_cc');
+	$ilDB->renameTableColumn("mail_saved", "rcp_cc_tmp", "rcp_cc");
+?>
+<#2975>
+<?php
+	// mail_saved rcp_bcc
+	$ilDB->addTableColumn("mail_saved", "rcp_bcc_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail_saved SET rcp_bcc_tmp = rcp_bcc');
+	$ilDB->dropTableColumn('mail_saved', 'rcp_bcc');
+	$ilDB->renameTableColumn("mail_saved", "rcp_bcc_tmp", "rcp_bcc");
+?>

@@ -8764,11 +8764,17 @@ ALTER TABLE `mail_options` MODIFY `signature` VARCHAR( 4000 ) NULL DEFAULT NULL;
 ?>
 
 <#1857> 
-ALTER TABLE `mail` MODIFY `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<?php
+// ALTER TABLE `mail` MODIFY `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#1858>
-ALTER TABLE `mail` MODIFY `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<?php
+// ALTER TABLE `mail` MODIFY `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#1859>
-ALTER TABLE `mail` MODIFY `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<?php
+// ALTER TABLE `mail` MODIFY `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#1860>
 <?php
 $ilDB->manipulate("ALTER TABLE `mail` CHANGE `m_message` `m_message` LONGTEXT NULL default NULL");
@@ -12246,14 +12252,17 @@ ALTER TABLE `mail_attachment` CHANGE `path` `path` VARCHAR( 4000 ) NOT NULL;
 ?>
 
 <#2415>
-ALTER TABLE `mail_saved` CHANGE `rcp_to` `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
-
+<?php
+// ALTER TABLE `mail_saved` CHANGE `rcp_to` `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#2416>
-ALTER TABLE `mail_saved` CHANGE `rcp_cc` `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
-
+<?php
+// ALTER TABLE `mail_saved` CHANGE `rcp_cc` `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#2417>
-ALTER TABLE `mail_saved` CHANGE `rcp_bcc` `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
-
+<?php
+// ALTER TABLE `mail_saved` CHANGE `rcp_bcc` `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+?>
 <#2418>
 <?php
 $ilDB->manipulate("ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` LONGTEXT NULL default NULL");
