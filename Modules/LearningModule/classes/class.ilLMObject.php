@@ -112,12 +112,15 @@ class ilLMObject
 //echo "-".$a_lm_id."-".$a_lm_obj_id."-".$a_type."-";
 		$md = new ilMD($a_lm_id, $a_lm_obj_id, $a_type);
 		$md_gen = $md->getGeneral();
-		foreach($md_gen->getIdentifierIds() as $id)
+		if (is_object($md_gen))
 		{
-			$md_id = $md_gen->getIdentifier($id);
-			if ($md_id->getCatalog() == "ILIAS_NID")
+			foreach($md_gen->getIdentifierIds() as $id)
 			{
-				return $md_id->getEntry();
+				$md_id = $md_gen->getIdentifier($id);
+				if ($md_id->getCatalog() == "ILIAS_NID")
+				{
+					return $md_id->getEntry();
+				}
 			}
 		}
 		

@@ -71,38 +71,43 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* Get tabs
-	*
-	* @access public
-	*
-	*/
+	 * Get tabs
+	 *
+	 * @access public
+	 *
+	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem, $ilAccess, $lng;
+		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("cmps_modules",
-				$this->ctrl->getLinkTarget($this, "listModules"),
-				array("listModules", "view", "showPluginSlot"));
-
-			$this->tabs_gui->addTarget("cmps_services",
-				$this->ctrl->getLinkTarget($this, "listServices"),
-				array("listServices"));
+			$this->tabs_gui->addTab("plugins",
+				$lng->txt("cmps_plugins"),
+				$this->ctrl->getLinkTarget($this, "listPlugins"));
+				
+			$this->tabs_gui->addTab("modules",
+				$lng->txt("cmps_modules"),
+				$this->ctrl->getLinkTarget($this, "listModules"));
+				
+			$this->tabs_gui->addTab("services",
+				$lng->txt("cmps_services"),
+				$this->ctrl->getLinkTarget($this, "listServices"));
 		}
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
-				array(),'ilpermissiongui');
+			$this->tabs_gui->addTab("perm_settings",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
 		}
 		
 		if ($_GET["ctype"] == "Services")
 		{
-			$this->tabs_gui->activateTab("cmps_services");
+			$this->tabs_gui->activateTab("services");
 		}
 	}
-
+	
 	/**
 	* List Modules
 	*/
@@ -110,7 +115,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilSetting;
 		
-		$this->tabs_gui->setTabActive('cmps_modules');
+		$this->tabs_gui->activateTab('modules');
 
 		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
 		
@@ -135,7 +140,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $ilSetting;
 		
-		$this->tabs_gui->setTabActive('cmps_services');
+		$this->tabs_gui->activateTab('services');
 
 		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
 		
@@ -150,6 +155,22 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		
 		$tpl->setVariable("TABLE", $comp_table->getHTML());
 		$this->tpl->setContent($tpl->get());
+	}
+	
+	/**
+	 * List plugins
+	 *
+	 * @param
+	 * @return
+	 */
+	function listPlugins()
+	{
+		global $tpl, $ilTabs;
+		
+		$ilTabs->activateTab("plugins");
+		include_once("./Services/Component/classes/class.ilPluginsOverviewTableGUI.php");
+		$table = new ilPluginsOverviewTableGUI($this, "listPlugins");
+		$tpl->setContent($table->getHTML());
 	}
 
 	/**
