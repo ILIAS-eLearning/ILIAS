@@ -53,7 +53,7 @@ class ilPaymentShoppingCart
 	{
 		$this->pobject_id = $a_pobject_id;
 	}
-	public public function getPobjectId()
+	public function getPobjectId()
 	{
 		return $this->pobject_id;
 	}
