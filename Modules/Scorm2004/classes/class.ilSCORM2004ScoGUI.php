@@ -423,6 +423,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_PREVIEW);
+			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
 			$output .= $page_obj->showPage("export");
 		}
 		$output .=	'<!-- BEGIN ilLMNavigation2 -->
