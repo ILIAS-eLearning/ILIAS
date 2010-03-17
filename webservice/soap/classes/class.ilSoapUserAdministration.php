@@ -1197,7 +1197,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
 		
 		global $ilDB, $rbacsystem;
 
