@@ -604,6 +604,8 @@ class ilObjFileGUI extends ilObjectGUI
 	 */
 	protected function initPropertiesForm($a_mode)
 	{
+		global $lng;
+		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$this->form = new ilPropertyFormGUI();
@@ -612,14 +614,14 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 			
-		#$title = new ilTextInputGUI($this->lng->txt('title'),'title');
-		#$title->setValue($this->object->getTitle());
-		#$this->form->addItem($title);
-		
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValue($this->object->getTitle());
+		$title->setInfo($lng->txt("if_no_title_then_filename"));
+		$this->form->addItem($title);
 		
 		$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
 		$file->setRequired(false);
-		$file->enableFileNameSelection('title');
+//		$file->enableFileNameSelection('title');
 		$this->form->addItem($file);
 		
 			$group = new ilRadioGroupInputGUI('','replace');
