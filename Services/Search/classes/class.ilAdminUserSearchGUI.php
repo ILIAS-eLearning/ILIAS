@@ -962,8 +962,8 @@ class ilAdminUserSearchGUI
 
 		$tbl->setColumnWidth(array("","80%","19%"));
 
-
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"role");
+		$tbl->disable("auto_sort");
 		$tbl->render();
 		
 		$this->tpl->setVariable("RES_TABLE",$tbl->tpl->get());
