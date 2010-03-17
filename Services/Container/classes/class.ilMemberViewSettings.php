@@ -46,7 +46,7 @@ class ilMemberViewSettings
 	
 	/**
 	 * Get instance
-	 * @return 
+	 * @return object ilMemberViewSettings
 	 */
 	public static function getInstance()
 	{
