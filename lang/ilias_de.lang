@@ -2866,7 +2866,7 @@ common#:#hist_dbk_pg_update#:#Seite geändert.
 common#:#hist_dbk_st_cut_page#:#Seite "%1" [%2] aus dem Kapitel ausgeschnitten.
 common#:#hist_dbk_st_paste_page#:#Seite "%1" [%2] in das Kapitel eingefügt.
 common#:#hist_file_create#:#Neue Datei angelegt mit Namen "%1".
-common#:#hist_file_replace#:#Datei ersetzt, neuer Dateiname lautet "%1", die neue Version lautet %2.
+common#:#hist_file_replace#:#Datei wurde ersetzt. Neuer Dateiname ist "%1". Neue Versionsnummer: %2.
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
