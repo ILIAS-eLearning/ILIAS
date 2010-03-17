@@ -1195,7 +1195,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl = new ilTemplate('tpl.sess_attendance_list_print.html',true,true,'Modules/Session');
 
 		$tpl->setVariable("ATTENDANCE_LIST",$this->lng->txt('sess_attendance_list'));
-		$tpl->setVariable("EVENT_NAME",$this->object->getTitle());
+		$tpl->setVariable("EVENT_NAME",$this->object->getTitle() ? ': '.$this->object->getTitle() : '');
 		ilDatePresentation::setUseRelativeDates(false);
 		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
 		ilDatePresentation::setUseRelativeDates(true);
@@ -1293,8 +1293,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$tpl = new ilTemplate('tpl.sess_members_print.html',true,true,'Modules/Session');
 
-		$tpl->setVariable("EVENT",$this->lng->txt('event'));
-		$tpl->setVariable("EVENT_NAME",$this->object->getTitle());
+		#$tpl->setVariable("EVENT",$this->lng->txt('event'));
+		$tpl->setVariable("EVENT_NAME",$this->object->getTitle() ? ': '.$this->object->getTitle() : $this->object->getTitle());
 		ilDatePresentation::setUseRelativeDates(false);
 		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
 		ilDatePresentation::setUseRelativeDates(true);
