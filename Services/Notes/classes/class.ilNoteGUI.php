@@ -965,8 +965,8 @@ class ilNoteGUI
 							if ($a_obj_type == "sco" || $a_obj_type == "seqc" || $a_obj_type == "chap" || $a_obj_type == "pg")
 							{
 								$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
-								include_once("./Modules/Scorm2004/classes/class.ilScorm2004Node.php");
-								$sub_title = ilScorm2004Node::_lookupTitle($a_obj_id);
+								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+								$sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
 								$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.gif");
 							}
 						}
