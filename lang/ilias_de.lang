@@ -4292,7 +4292,8 @@ common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Sekunden ein. Empfohlen sind 300 Sekunden (=5 min.).<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
+common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Sekunden ein. Empfohlen sind 300 Sekunden (=5 min.).<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.
+common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#set_edit_mode#:#Bearbeitungsmodus setzen
 common#:#set_offline#:#Offline setzen
@@ -8984,10 +8985,10 @@ search#:#search_added_new_folder#:#Ein neuer Ordner wurde angelegt.
 search#:#search_adv_md#:#Erweiterte Metadaten
 search#:#search_advanced#:#Erweiterte Suche
 search#:#search_all_results#:#Alle Resultate
-search#:#search_all_words#:#Alle Begriffe
+search#:#search_all_words#:#Alle Begriffe <small>(<i>UND</i>)</small>
 search#:#search_and#:#und
 search#:#search_any#:#-- Beliebig --
-search#:#search_any_word#:#Einen der Begriffe
+search#:#search_any_word#:#Einen der Begriffe <small>(<i>ODER</i>)</small>
 search#:#search_area#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus innerhalb dessen die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
