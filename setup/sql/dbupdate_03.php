@@ -378,3 +378,14 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 	$ilDB->dropTableColumn('mail_saved', 'rcp_bcc');
 	$ilDB->renameTableColumn("mail_saved", "rcp_bcc_tmp", "rcp_bcc");
 ?>
+<#2976>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#2977>
+<?php
+	$ilDB->addTableColumn("content_object", "public_scorm_file", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 50));
+?>

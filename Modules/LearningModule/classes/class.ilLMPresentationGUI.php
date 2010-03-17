@@ -3719,7 +3719,7 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", "Modules/LearningModule");
 
 		$export_files = array();
-		$types = array("xml", "html");
+		$types = array("xml", "html", "scorm");
 		foreach($types as $type)
 		{
 			if ($this->lm->getPublicExportFile($type) != "")
