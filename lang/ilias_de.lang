@@ -7471,7 +7471,7 @@ meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Verfügbare Metadatensätze
-meta#:#md_separated_by#:#Getrennt mit
+meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
 meta#:#md_used#:#Verwendung (Anzahl)
 meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
