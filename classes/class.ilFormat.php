@@ -407,7 +407,10 @@ class ilFormat
 		{
 			$txt = substr($txt, 0, strlen($txt) - 2);
 		}
-
+		if ($a_float == 0 and $txt == "")
+		{
+			$txt = "0";
+		}
 		return $txt;
 	}
 

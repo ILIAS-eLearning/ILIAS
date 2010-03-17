@@ -1509,6 +1509,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "disk_quota");
 			$disk_quota->setSize(10);
 			$disk_quota->setMaxLength(11);
+			$disk_quota->setInfo($this->lng->txt("enter_in_mb_desc"));
 			$this->form_gui->addItem($disk_quota);
 
 			if ($a_mode == "edit")
