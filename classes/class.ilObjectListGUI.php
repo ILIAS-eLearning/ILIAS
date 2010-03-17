@@ -1694,7 +1694,9 @@ class ilObjectListGUI
 			{
 				continue;
 			}
-			if(ilConditionHandler::_checkCondition($condition['id']))
+			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+			if(ilConditionHandler::_checkCondition($condition['id']) and 
+				!ilMemberViewSettings::getInstance()->isActive())
 			{
 				continue;
 			}
