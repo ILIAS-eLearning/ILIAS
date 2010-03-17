@@ -291,6 +291,11 @@ class ilPCListGUI extends ilPageContentGUI
 			$values["number_style"] = $this->content_obj->getStyleClass();
 			$values["bullet_style"] = "";
 		}
+		else
+		{
+			$values["bullet_style"] = $this->content_obj->getStyleClass();
+			$values["number_style"] = "";			
+		}
 		$this->form->setValuesByArray($values);
 	}
 	
