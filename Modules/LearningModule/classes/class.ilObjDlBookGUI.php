@@ -30,6 +30,7 @@
 *
 * @ilCtrl_Calls ilObjDlBookGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilMDEditorGUI
 * @ilCtrl_Calls ilObjDlBookGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjDlBookGUI: ilExportGUI
 *
 * @ingroup ModulesIliasLearningModule
 */

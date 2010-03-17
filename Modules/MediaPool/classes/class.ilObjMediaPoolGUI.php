@@ -278,7 +278,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->prepareOutput();
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
-				$exp_gui->addFormat("xml", $lng->txt("exp_create_xml_file"));
+				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				$this->tpl->show();
 				break;

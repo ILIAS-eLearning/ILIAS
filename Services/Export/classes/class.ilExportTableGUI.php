@@ -13,6 +13,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilExportTableGUI extends ilTable2GUI
 {
+	protected $custom_columns = array();
 	
 	/**
 	* Constructor
@@ -42,15 +43,48 @@ class ilExportTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		//$this->setEnableTitle(true);
 
-		$this->addMultiCommand("delete", $lng->txt("delete"));
+		$this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
 		$this->addMultiCommand("download", $lng->txt("download"));
 	}
 
 	/**
-	 * Get export files
+	 * Add custom column
 	 *
 	 * @param
 	 * @return
+	 */
+	function addCustomColumn($a_txt, $a_obj, $a_func)
+	{
+		$this->addColumn($a_txt);
+		$this->custom_columns[] = array("txt" => $a_txt,
+										"obj" => $a_obj,
+										"func" => $a_func);
+	}
+	
+	/**
+	 * Add custom multi command
+	 *
+	 * @param
+	 * @return
+	 */
+	function addCustomMultiCommand($a_txt, $a_cmd)
+	{
+		$this->addMultiCommand($a_cmd, $a_txt);
+	}
+
+	/**
+	 * Get custom columns
+	 *
+	 * @param
+	 * @return
+	 */
+	function getCustomColumns()
+	{
+		return $this->custom_columns;
+	}
+	
+	/**
+	 * Get export files
 	 */
 	function getExportFiles()
 	{
@@ -67,17 +101,27 @@ class ilExportTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	* Fill table row
-	*/
+	 * Fill table row
+	 */
 	protected function fillRow($a_set)
 	{
 		global $lng;
 
+		foreach ($this->getCustomColumns() as $c)
+		{
+			$this->tpl->setCurrentBlock("custom");
+			$this->tpl->setVariable("VAL_CUSTOM",
+									$c["obj"]->$c["func"]($a_set["type"], $a_set["file"])." ");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("VAL_ID", $a_set["type"].":".$a_set["file"]);
 		$this->tpl->setVariable("VAL_TYPE", $a_set["type"]);
 		$this->tpl->setVariable("VAL_FILE", $a_set["file"]);
 		$this->tpl->setVariable("VAL_SIZE", $a_set["size"]);
 		$this->tpl->setVariable("VAL_DATE", 
 			ilDatePresentation::formatDate(new ilDateTime($a_set["timestamp"],IL_CAL_UNIX)));
+		
 	}
 
 }

@@ -4629,7 +4629,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
 content#:#cont_print_view#:#Print View
-content#:#cont_public_access#:#Public access
+content#:#cont_public_access#:#Public Access
 content#:#cont_public_notes#:#Public Notes
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Publisher
@@ -10159,7 +10159,6 @@ forum#:#frm_pseudonym#:#Pseudonym
 ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_published_for#:#Published for:
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
-exp#:#exp_create_xml_file#:#Create Export Package (XML)
 exp#:#exp_export_files#:#Export Files
 common#:#option#:#Option
 mep#:#mep_create#:#Create a new media pool
@@ -10183,3 +10182,9 @@ payment#:#currency#:#Currency
 payment#:#coupon_type#:#Coupon-Type
 payment#:#search_in_title#:#Search in title
 common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".
+exp#:#exp_create_file#:#Create Export File
+exp#:#exp_xml#:#XML
+exp#:#exp_html#:#HTML
+exp#:#exp_scorm#:#SCORM
+exp#:#exp_really_delete#:#Do you really want to delete these export files?
+exp#:#exp_select_max_one_item#:#Please select only one item.

@@ -832,6 +832,7 @@ class ilObjContentObject extends ilObject
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
 		$this->setPublicExportFile("html", $lm_rec["public_html_file"]);
+		$this->setPublicExportFile("scorm", $lm_rec["public_scorm_file"]);
 		$this->setLayoutPerPage($lm_rec["layout_per_page"]);
 	}
 
@@ -866,6 +867,7 @@ class ilObjContentObject extends ilObject
 			" public_access_mode = ".$ilDB->quote($this->getPublicAccessMode(), "text").",".
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
 			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
+			" public_scorm_file = ".$ilDB->quote($this->getPublicExportFile("scorm"), "text").",".
 			" header_page = ".$ilDB->quote($this->getHeaderPage(), "integer").",".
 			" footer_page = ".$ilDB->quote($this->getFooterPage(), "integer").",".
 			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text").", ".
@@ -1541,7 +1543,7 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->public_export_file[$a_type];
 	}
-
+	
 	/**
 	* get offline files
 	*/
