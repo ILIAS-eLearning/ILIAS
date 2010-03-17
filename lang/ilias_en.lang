@@ -6679,10 +6679,10 @@ search#:#search_active#:#Include active users
 search#:#search_added_new_folder#:#Added new folder.
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_results#:#All results
-search#:#search_all_words#:#All words
+search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_and#:#and
 search#:#search_any#:#-- Any --
-search#:#search_any_word#:#Any word
+search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
 search#:#search_area#:#Search Area
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_below#:#Beneath:
