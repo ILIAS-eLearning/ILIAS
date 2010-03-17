@@ -166,7 +166,7 @@ class ilUserDefinedData
 
 	/**
 	*	add user defined field data to xml (using usr dtd)
-	*	@param*XmlWriter $xml_writer
+	*	@param ilXmlWriter $xml_writer
 	*/
 	function addToXML($xml_writer)
 	{
@@ -176,11 +176,16 @@ class ilUserDefinedData
 		foreach($udf_obj->getDefinitions() as $definition)
 		{
 			if ($definition["export"] != FALSE)
+			{
 				$xml_writer->xmlElement('UserDefinedField',
 									array('Id' => $definition['il_id'],
 										  'Name' => $definition['field_name']),
-									$this->user_data["$definition[field_id]"]);
+									(string) $this->user_data['f_'.(int) $definition['field_id']]);
+			}
+			
 		}
+		
+		var_dump($xml_writer->xmlDumpMem(true));
 	}
 
 	// Private
