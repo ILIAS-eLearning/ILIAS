@@ -1000,14 +1000,11 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$this->object->Forum->setForumId($this->object->getId());
 		
-		$tbl = new ilTable2GUI($this, 'showStatistics');
+		require_once 'Modules/Forum/classes/class.ilForumStatisticsTableGUI.php';		
+		
+		$tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
 		$tbl->setId('il_frm_statistic_table_'.(int)$_GET['ref_id']);
-		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.gif', $this->lng->txt('obj_'.$this->object->getType()));
-		$tbl->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
-		$tbl->addColumn($this->lng->txt('frm_statistics_ranking'), 'ranking', '25%');
-		$tbl->addColumn($this->lng->txt('login'), 'login', '25%');
-		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '25%');
-		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '25%');
+		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.gif', $this->lng->txt('obj_'.$this->object->getType()));		
 		
 		$data = $this->object->Forum->getUserStatistic($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));		
 		$result = array();
@@ -1021,9 +1018,6 @@ class ilObjForumGUI extends ilObjectGUI
 			
 			++$counter;
 		}
-		
-    	$tbl->enable('hits');
-    	$tbl->enable('sort');
 		$tbl->setData($result);
 				
 		$this->tpl->setContent($tbl->getHTML());
