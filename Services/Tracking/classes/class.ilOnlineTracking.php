@@ -34,6 +34,11 @@ class ilOnlineTracking
 
 		
 
+	/**
+	 * Add access time
+	 * @param int $a_user_id
+	 * @return 
+	 */
 	function _addUser($a_user_id)
 	{
 		global $ilDB;
@@ -41,10 +46,11 @@ class ilOnlineTracking
 		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
 			$ilDB->quote($a_user_id, "integer"));
 		
-		if ($ilDB->fetchAssoc($res))
+		if($res->numRows())
 		{
 			return false;
 		}
+
 		$ilDB->manipulate(sprintf("INSERT INTO ut_online (usr_id, access_time) VALUES (%s,%s)",
 			$ilDB->quote($a_user_id, "integer"),
 			$ilDB->quote(time(), "integer")));
@@ -52,25 +58,30 @@ class ilOnlineTracking
 		return true;
 	}
 
+	/**
+	 * Update access time
+	 * @param int $a_usr_id
+	 * @return 
+	 */
 	function _updateAccess($a_usr_id)
 	{
 		global $ilDB,$ilias;
-
-		$access_time = 0;
 		
-		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
-			$ilDB->quote($a_usr_id, "integer"));
+		$access_time = 0;
 
-		if (!$ilDB->fetchAssoc($res))
+		$query = "SELECT * FROM ut_online WHERE usr_id = ".
+			$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->query($query);
+		
+		if(!$res->numRows())
 		{
 			return false;
 		}
-		while ($row = $ilDB->fetchObject($res))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$access_time = $row->access_time;
 			$online_time = $row->online_time;
 		}
-		
 		$time_span = (int) $ilias->getSetting("tracking_time_span",300);
 
 		if(($diff = time() - $access_time) <= $time_span)
