@@ -4,15 +4,15 @@
 include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 
 /**
-* BlockGUI class for block NewsForContext
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilNewsForContextBlockGUI.php 12920 2007-01-03 19:13:46Z akill $
-*
-* @ilCtrl_IsCalledBy ilPDNewsBlockGUI: ilColumnGUI
-*
-* @ingroup ServicesNews
-*/
+ * BlockGUI class for block NewsForContext
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id: class.ilNewsForContextBlockGUI.php 12920 2007-01-03 19:13:46Z akill $
+ *
+ * @ilCtrl_IsCalledBy ilPDNewsBlockGUI: ilColumnGUI
+ *
+ * @ingroup ServicesNews
+ */
 class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 {
 	static $block_type = "pdnews";
@@ -20,8 +20,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	protected $acc_results = false;
 	
 	/**
-	* Constructor
-	*/
+	 * Constructor
+	 */
 	function ilPDNewsBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess, $ilCtrl;
@@ -485,6 +485,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		ilBlockSetting::_write($this->getBlockType(), "news_pd_period",
 			$_POST["news_pd_period"],
 			$ilUser->getId(), $this->block_id);
+		
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$cache = new ilNewsCache();
+		$cache->deleteEntry($ilUser->getId().":0");
 			
 		$ilCtrl->returnToParent($this);
 	}

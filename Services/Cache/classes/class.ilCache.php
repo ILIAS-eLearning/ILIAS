@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Cache class. The cache class stores key/value pairs. Since the primary
@@ -280,6 +280,25 @@ class ilCache
 			"component = ".$ilDB->quote($this->getComponent(), "text").
 			" AND name = ".$ilDB->quote($this->getName(), "text");
 		$ilDB->manipulate($q);
+	}
+
+	/**
+	 * Delete entry
+	 *
+	 * @param	string		key
+	 */
+	function deleteEntry($a_id)
+	{
+		global $ilDB;
+
+		$table = $this->getUseLongContent()
+			? "cache_clob"
+			: "cache_text";
+		
+		$ilDB->manipulate("DELETE FROM ".$table." WHERE "
+			." entry_id = ".$ilDB->quote($a_id, "text")
+			." AND component = ".$ilDB->quote($this->getComponent(), "text").
+			" AND name = ".$ilDB->quote($this->getName(), "text"));
 	}
 
 }
