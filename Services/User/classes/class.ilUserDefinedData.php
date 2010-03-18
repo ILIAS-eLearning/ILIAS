@@ -184,8 +184,6 @@ class ilUserDefinedData
 			}
 			
 		}
-		
-		var_dump($xml_writer->xmlDumpMem(true));
 	}
 
 	// Private
