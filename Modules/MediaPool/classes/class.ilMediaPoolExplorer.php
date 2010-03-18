@@ -36,7 +36,7 @@ class ilMediaPoolExplorer extends ilExplorer
 		$this->tree =& $a_media_pool->getTree();
 		$this->root_id = $this->tree->readRootId();
 		$this->media_pool =& $a_media_pool;
-		$this->order_column = "";
+		$this->order_column = "title";
 		$this->setSessionExpandVariable("mepexpand");
 		$this->checkPermissions(false);
 		$this->setPostSort(false);
