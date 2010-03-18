@@ -1544,9 +1544,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tpl->setCurrentBlock("tbl_action_row");
 			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 			$tpl->parseCurrentBlock();
+			
+			$tbl->setFormName('cmd');
+			$tbl->enable('select_all');
 		}
 
-		$tbl->setTitle($this->lng->txt("users"),"icon_usr_b.gif",$this->lng->txt("users"));
+		$tbl->setTitle($this->lng->txt("users"),"icon_usr.gif",$this->lng->txt("users"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -1563,7 +1566,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 								  "cmd" => "listUsers",
 								  "cmdClass" => "ilobjcategorygui",
 								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","20%","20%","20%","20%","20%"));
+		$tbl->setColumnWidth(array("1px","20%","20%","20%","20%","20%"));
+		$tbl->setSelectAllCheckbox('user_ids');
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,$a_from,true);
 		$tbl->render();
