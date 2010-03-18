@@ -36,6 +36,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	* @access	public
 	*/
 	var $rolf_ref_id;
+	
+	protected $obj_ref_id = 0;
+	protected $container_type = '';
 
 
 	var $ctrl;
@@ -63,6 +66,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		// Add ref_id of object that contains this role folder
 		$this->obj_ref_id = $tree->getParentId($this->rolf_ref_id);
+		$this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
@@ -137,7 +141,14 @@ class ilObjRoleGUI extends ilObjectGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "perm";
+					if($this->showDefaultPermissionSettings())
+					{
+						$cmd = "perm";
+					}
+					else
+					{
+						$cmd = 'userassignment';
+					}
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -168,6 +179,26 @@ class ilObjRoleGUI extends ilObjectGUI
 	function getAdminTabs(&$tabs_gui)
 	{
 		$this->getTabs($tabs_gui);
+	}
+	
+	/**
+	 * Get type of role container
+	 * @return 
+	 */
+	protected function getContainerType()
+	{
+		return $this->container_type;
+	}
+	
+	/**
+	 * check if default permissions are shown or not
+	 * @return 
+	 */
+	protected function showDefaultPermissionSettings()
+	{
+		global $objDefinition;
+		
+		return $objDefinition->isContainer($this->getContainerType());
 	}
 
 
@@ -1779,6 +1810,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		$this->tabs_gui->setTabActive('user_assignment');
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rbac_ua.html','Services/AccessControl');
 		
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -2699,7 +2732,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
 
-		if($this->checkAccess('write','edit_permission'))
+		if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
 		{
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
 				? true
