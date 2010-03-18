@@ -9,7 +9,6 @@ include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 
-
 /**
 * User Interface class for media pool objects
 *
