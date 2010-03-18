@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
 
@@ -218,6 +199,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 
 		$operation_info = $rbacreview->getOperationAssignment();
+
 		foreach($operation_info as $info)
 		{
 			if($objDefinition->getDevMode($info['type']))
@@ -235,16 +217,35 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 			$rbac_objects[$info['typ_id']] = array("obj_id"	=> $info['typ_id'],
 											    "type"		=> $info['type']);
+			
+			$txt = $objDefinition->isPlugin($info['type'])
+				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				: $this->lng->txt($info['type']."_".$info['operation']);
+			if (substr($info['operation'], 0, 7) == "create_" &&
+				$objDefinition->isPlugin(substr($info['operation'], 7)))
+			{
+				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+			}
+
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],
 									  							"title"		=> $info['operation'],
-																"name"		=> $this->lng->txt($info['type']."_".$info['operation']));		
+																"name"		=> $txt);		
 		}
 		
 
 		foreach ($rbac_objects as $key => $obj_data)
 		{
-			$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+			if ($objDefinition->isPlugin($obj_data["type"]))
+			{
+				$rbac_objects[$key]["name"] = ilPlugin::lookupTxt("rep_robj", $obj_data["type"],
+						"obj_".$obj_data["type"]);
+			}
+			else
+			{
+				$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+			}
+
 			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
 
