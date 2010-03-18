@@ -21,18 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** @defgroup ServicesInfoScreen Services/InfoScreen
+/** @defgroup ServicesPermanentLink Services/PermanentLink
  */
 
 /**
-* Class ilInfoScreenGUI
+* Class for permanent links
 *
-* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
 *
-* @ingroup ServicesInfoScreen
+* @ingroup ServicesPermanentLink
 */
 class ilPermanentLinkGUI
 {
@@ -149,6 +148,26 @@ class ilPermanentLinkGUI
 	}
 
 	/**
+	 * Set title
+	 *
+	 * @param	string	title
+	 */
+	function setTitle($a_val)
+	{
+		$this->title = $a_val;
+	}
+	
+	/**
+	 * Get title
+	 *
+	 * @return	string	title
+	 */
+	function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
 	* Get HTML for link
 	*/
 	function getHTML()
@@ -171,8 +190,15 @@ class ilPermanentLinkGUI
 		
 		// fetch default title for bookmark
 
-		$obj_id = $ilObjDataCache->lookupObjId($this->getId());
-		$title = $ilObjDataCache->lookupTitle($obj_id);
+		if ($this->getTitle() != "")
+		{
+			$title = $this->getTitle();
+		}
+		else
+		{
+			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+			$title = $ilObjDataCache->lookupTitle($obj_id);
+		}
 		if (!$title)
 			$bookmark->setTitle("untitled");
 

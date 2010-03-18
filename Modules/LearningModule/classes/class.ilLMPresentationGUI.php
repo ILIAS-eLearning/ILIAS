@@ -1120,12 +1120,27 @@ class ilLMPresentationGUI
 				$tpl_menu->parseCurrentBlock();
 			}
 
-			$tpl_menu->setCurrentBlock("perma_link");
 			$page_id = $this->getCurrentPageId();
-			$tpl_menu->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-				"/goto.php?target=pg_".$page_id."_".$this->lm->getRefId()."&client_id=".CLIENT_ID);
-			$tpl_menu->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-			$tpl_menu->setVariable("PERMA_TARGET", "_top");
+			
+			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+			$plinkgui = new ilPermanentLinkGUI("pg",
+				$page_id."_".$this->lm->getRefId(),
+				"",
+				"_top");
+			
+
+			$title = $this->lm->getTitle();
+			$pg_title = ilLMPageObject::_getPresentationTitle($page_id,
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+			if ($pg_title != "")
+			{
+				$title.= ": ".$pg_title;
+			}
+			
+			$plinkgui->setTitle($title);
+				
+			$tpl_menu->setCurrentBlock("perma_link");
+			$tpl_menu->setVariable("PERMA_LINK", $plinkgui->getHTML());
 			$tpl_menu->parseCurrentBlock();
 
 		}
