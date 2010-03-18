@@ -160,7 +160,7 @@ class ilPermissionGUI
 				$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id",
 					$role_folder_id);
 				$this->tpl->setVariable("LINK_ROLE_RULESET",
-					$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm"));
+					$this->ctrl->getLinkTargetByClass("ilobjrolegui", ""));
 				
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
