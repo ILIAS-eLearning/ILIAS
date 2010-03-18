@@ -247,7 +247,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$header_params = $this->ctrl->getParameterArray($this, "learningProgress");
 		$tbl->setHeaderVars($data["cols"],$header_params);
-		$tbl->setColumnWidth(array("20%","20$%","20%","20%"));
+		$tbl->setColumnWidth(array("20%","20%","20%","20%"));
 		
 
 		// control
