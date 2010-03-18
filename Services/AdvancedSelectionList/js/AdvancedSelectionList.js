@@ -199,7 +199,7 @@ function ilAdvSelListOn(id, force, opt)
 }
 
 var doCloseContextMenuCounter = -1;
-function doCloseContextMenu() 
+function doCloseAdvContextMenu() 
 {
 	if (doCloseContextMenuCounter>-1) 
 	{
@@ -215,9 +215,9 @@ function doCloseContextMenu()
 			doCloseContextMenuCounter=-1;
 		}
 	}
-	setTimeout("doCloseContextMenu()",400);
+	setTimeout("doCloseAdvContextMenu()",400);
 }
-setTimeout("doCloseContextMenu()",200);
+setTimeout("doCloseAdvContextMenu()",200);
 
 function ilGetOption(opt, name)
 {
@@ -401,7 +401,8 @@ function ilAdvSelListOff(id)
 function ilHideAdvSelList(id)
 {
 	toggle_el = il_adv_t_el;
-	if (toggle_el != null)
+
+	if (toggle_el != null && toggle_el != '')
 	{
 		t_class_name = il_adv_toggle[toggle_el];
 		toggle_obj = document.getElementById(toggle_el);
@@ -412,8 +413,11 @@ function ilHideAdvSelList(id)
 	}
 
 	obj = document.getElementById('ilAdvSelListTable_' + id);
-	obj.style.display='none';
-	openedMenu = "";
+	if (typeof obj != "undefined" && obj)
+	{
+		obj.style.display='none';
+		openedMenu = "";
+	}
 }
 
 function ilAdvSelItemOn(obj)

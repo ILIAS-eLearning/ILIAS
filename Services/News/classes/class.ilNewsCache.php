@@ -45,7 +45,6 @@ class ilNewsCache extends ilCache
 	}
 	
 	
-	
 	/**
 	 * Read an entry
 	 */
