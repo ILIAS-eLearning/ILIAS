@@ -102,7 +102,21 @@ class ilObjectCopyGUI
 	 */
 	protected function initTargetSelection()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $tree;
+		
+		// empty session on init
+		$_SESSION['paste_copy_repexpand'] = array();
+		
+		// copy opened nodes from repository explorer		
+		$_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+		
+		// open current position
+		$path = $tree->getPathId((int)$_GET['source_id']);
+		foreach((array)$path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+				$_SESSION['paste_copy_repexpand'][] = $node_id;
+		}
 
 		$this->setMode(self::TARGET_SELECTION);
 		$this->setSource((int) $_GET['source_id']);
