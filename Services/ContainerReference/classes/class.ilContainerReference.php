@@ -91,6 +91,16 @@ class ilContainerReference extends ilObject
 	 	}
 	 	return false;
 	 }
+	 
+	 /**
+	  * Overwitten from base class
+	  * @param int $a_obj_id
+	  * @return 
+	  */
+	 public static function _lookupTitle($a_obj_id)
+	 {
+	 	return ilContainerReference::_lookupTargetTitle($a_obj_id);
+	 }
 	
 	/**
 	 * Lookup target title 
