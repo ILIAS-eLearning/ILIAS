@@ -251,5 +251,22 @@ class ilObjectFactory
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $object_rec["type"];
 	}
+	
+	/**
+	 * Get class by type
+	 * 
+	 * @return 
+	 */
+	public static function getClassByType($a_obj_type)
+	{
+		global $objDefinition;
+
+		$location = $objDefinition->getLocation($a_obj_type);
+		$class_name = "ilObj".$objDefinition->getClassName($a_obj_type);
+
+		// create instance
+		include_once($location."/class.".$class_name.".php");
+		return $class_name;
+	}
 }
 ?>

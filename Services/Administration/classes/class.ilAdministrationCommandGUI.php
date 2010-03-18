@@ -95,8 +95,13 @@ class ilAdministrationCommandGUI
 		{
 			$obj_id = ilObject :: _lookupObjId($delete);
 			$type = ilObject :: _lookupType($obj_id);
-
-			$confirm->addItem('id[]', $delete, ilObject :: _lookupTitle($obj_id), ilUtil :: getTypeIconPath($type, $obj_id));
+			
+			$confirm->addItem(
+				'id[]',
+				$delete,
+				call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id),
+				ilUtil :: getTypeIconPath($type, $obj_id)
+			);
 		}
 
 		$msg = $this->lng->txt("info_delete_sure");

@@ -61,8 +61,8 @@ class ilRepUtilGUI
 		foreach ($a_ids as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
-			$title = ilObject::_lookupTitle($obj_id);
 			$type = ilObject::_lookupType($obj_id);
+			$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'),$obj_id);
 			$alt = ($objDefinition->isPlugin($type))
 				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
