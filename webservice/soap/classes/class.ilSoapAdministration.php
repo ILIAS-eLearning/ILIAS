@@ -121,7 +121,7 @@ class ilSoapAdministration
 		
 		if(!$ilUser->hasAcceptedUserAgreement())
 		{
-			$this->__setMessage('User aggrement no accepted.');
+			$this->__setMessage('User agreement no accepted.');
 			$this->__setMessageCode('Server');
 			return false;
 		}

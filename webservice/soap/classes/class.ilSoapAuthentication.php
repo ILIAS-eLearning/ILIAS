@@ -129,7 +129,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		
 		if(!ilObjUser::_hasAcceptedAgreement($login))
 		{
-			$this->__setMessage('User aggrement no accepted.');
+			$this->__setMessage('User agreement no accepted.');
 			return false;
 		}
 		return true;
