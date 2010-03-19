@@ -2777,6 +2777,8 @@ class ilObjUser extends ilObject
 	*/
 	function _getAllUserLogins(&$ilias)
 	{
+		global $ilDB;
+		
 		$res = $ilDB->query("SELECT login FROM usr_data");
 		while($row = $ilDB->fetchObject($res))
 		{
