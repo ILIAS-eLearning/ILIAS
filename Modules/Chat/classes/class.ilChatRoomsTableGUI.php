@@ -1,7 +1,10 @@
 <?php 
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
 include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+include_once("./Services/UIComponentAdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 class ilChatRoomsTableGUI extends ilTable2GUI {
 	

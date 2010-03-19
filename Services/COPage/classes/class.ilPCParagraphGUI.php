@@ -320,7 +320,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 	function insertStyleSelectionList($a_tpl, $a_s_char)
 	{
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setFormSelectMode("par_characteristic", "", false,
 			"", "", "",

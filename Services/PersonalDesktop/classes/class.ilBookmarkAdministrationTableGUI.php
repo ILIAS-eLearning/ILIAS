@@ -55,7 +55,7 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl, $ilUser;
 		
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId("act_".$a_data['obj_id']);

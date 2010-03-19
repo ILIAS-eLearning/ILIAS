@@ -3044,7 +3044,7 @@ return;
 	{
 		$row['title'] =  ilLMPageObject::_getPresentationTitle($row['page_id'], $this->object->getPageHeader());
 	
-		require_once 'Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setSelectionHeaderClass('small');	
 		$actions->setItemLinkClass('xsmall');		

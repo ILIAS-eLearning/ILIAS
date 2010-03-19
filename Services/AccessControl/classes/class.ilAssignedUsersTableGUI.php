@@ -114,7 +114,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("ID", $user["usr_id"]);	
 		}
 		
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setSelectionHeaderClass("small");
 		$actions->setItemLinkClass("small");

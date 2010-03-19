@@ -411,10 +411,10 @@ class ilAdvancedSelectionListGUI
 			return "";
 		}
 
-		$GLOBALS["tpl"]->addJavascript("./Services/AdvancedSelectionList/js/AdvancedSelectionList.js");
+		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
 
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
-			"Services/AdvancedSelectionList", "DEFAULT", false, true);
+			"Services/UIComponent/AdvancedSelectionList", "DEFAULT", false, true);
 			
 		reset($items);
 
