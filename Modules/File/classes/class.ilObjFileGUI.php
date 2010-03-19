@@ -688,7 +688,7 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilAccess;
 
-		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
