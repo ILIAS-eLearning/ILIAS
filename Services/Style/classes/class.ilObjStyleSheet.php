@@ -1638,6 +1638,17 @@ class ilObjStyleSheet extends ilObject
 	
 	
 	/**
+	 * Handle xml strin
+	 *
+	 * @param
+	 * @return
+	 */
+	function handleXmlString($a_str)
+	{
+		return str_replace("&", "&amp;", $a_str);
+	}
+	
+	/**
 	* get xml representation of style object
 	*/
 	function getXML()
@@ -1645,8 +1656,8 @@ class ilObjStyleSheet extends ilObject
 		$xml.= "<StyleSheet>\n";
 		
 		// title and description
-		$xml.= "<Title>".$this->getTitle()."</Title>";
-		$xml.= "<Description>".$this->getDescription()."</Description>\n";
+		$xml.= "<Title>".$this->handleXmlString($this->getTitle())."</Title>";
+		$xml.= "<Description>".$this->handleXmlString($this->getDescription())."</Description>\n";
 		
 		// style classes
 		foreach($this->chars as $char)
@@ -1694,7 +1705,7 @@ class ilObjStyleSheet extends ilObject
 		
 		
 		$xml.= "</StyleSheet>";
-//echo "<pre>".htmlentities($xml)."</pre>";
+//echo "<pre>".htmlentities($xml)."</pre>"; exit;
 		return $xml;
 	}
 	
