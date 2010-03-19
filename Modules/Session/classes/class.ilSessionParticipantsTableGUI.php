@@ -59,6 +59,23 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj,'members');
 		
+		$this->setFormName('participants');
+		
+		switch($a_type)
+		{
+			case self::TYPE_ADMIN:
+				$this->setPrefix('admins');
+				break;
+			case self::TYPE_TUTOR:
+				$this->setPrefix('tutors');
+				break;
+			case self::TYPE_MEMBER:
+				$this->setPrefix('member');
+				break;
+		}
+		
+		
+		
 		if($a_show_content)
 		{
 			$this->enable('sort');

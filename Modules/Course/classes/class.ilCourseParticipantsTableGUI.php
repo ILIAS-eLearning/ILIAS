@@ -36,7 +36,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
-        protected $show_edit_link = true;
+	protected $show_edit_link = true;
 	
 	/**
 	 * Constructor
@@ -49,14 +49,14 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl;
 	 	
-	 	$this->show_learning_progress = $a_show_learning_progress;
-	 	$this->show_timings = $a_show_timings;
-                $this->show_edit_link = $a_show_edit_link;
+		$this->show_learning_progress = $a_show_learning_progress;
+		$this->show_timings = $a_show_timings;
+		$this->show_edit_link = $a_show_edit_link;
 	 	
-	 	$this->lng = $lng;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
-	 	$this->ctrl = $ilCtrl;
+		$this->ctrl = $ilCtrl;
 	 	
 	 	$this->type = $a_type; 
 	 	
