@@ -1786,7 +1786,7 @@ class ilTemplate extends ilTemplateX
 				$this->setVariable("ADD_COM_WIDTH", 'width="1"');
 			}
 			
-			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$selection = new ilAdvancedSelectionListGUI();
 			$selection->setFormSelectMode("new_type", "", false,
 				"", "", "",

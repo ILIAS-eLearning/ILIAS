@@ -99,7 +99,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	public function fillRow($a_set)
 	{
 		global $ilCtrl;
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId("act_".$a_set['MEMBERS_ID']);

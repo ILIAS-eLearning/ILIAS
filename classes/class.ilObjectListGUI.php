@@ -1611,7 +1611,7 @@ class ilObjectListGUI
 	
 	protected function insertPaymentCommand()
 	{
-		include_once 'Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setListTitle($this->lng->txt("shop_actions"));
 		$this->current_selection_list->setId("act_".$this->ref_id);
@@ -2063,7 +2063,7 @@ class ilObjectListGUI
 		$id_ref = ($this->reference_ref_id > 0)
 			? $this->reference_ref_id
 			: $this->ref_id;
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);

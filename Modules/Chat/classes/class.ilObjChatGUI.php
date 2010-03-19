@@ -229,7 +229,7 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		$table->addMultiCommand('unblockUsers', $lng->txt('chat_blocked_unlocked'));
 		
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		foreach($blocked_users as $usrId)
 		{
@@ -770,7 +770,7 @@ class ilObjChatGUI extends ilObjectGUI
 			return true;
 		}
 		
-		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		// prepare data
 		$tablelines = array();

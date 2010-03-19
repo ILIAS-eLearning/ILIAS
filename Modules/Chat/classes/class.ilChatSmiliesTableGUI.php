@@ -1,7 +1,9 @@
 <?php 
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 class ilChatSmiliesTableGUI extends ilTable2GUI {
 	public function __construct($a_ref, $title) {

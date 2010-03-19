@@ -3,7 +3,7 @@
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 include_once './Services/Container/classes/class.ilContainerSorting.php';
 include_once './Services/Container/classes/class.ilContainer.php';
 include_once './Services/Container/classes/class.ilContainerSorting.php';
