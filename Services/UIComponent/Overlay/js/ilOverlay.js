@@ -4,10 +4,12 @@ ilOverlayFunc.prototype =
 {
 	overlays: {},
 	props: {},
+	widthFixed: {},
 	
-	add: function (id, ov, tr_id, tr_ev)
+	add: function (id, cfg, tr_id, tr_ev)
 	{
-		ilOverlayFunc.prototype.overlays[id] = ov;
+		ilOverlayFunc.prototype.overlays[id] =
+			new YAHOO.widget.Overlay(id, cfg);
 		ilOverlayFunc.prototype.props[id] = {trigger: tr_id, trigger_event: tr_ev};
 		
 		if (tr_id != "")
@@ -16,7 +18,7 @@ ilOverlayFunc.prototype =
 			YAHOO.util.Event.addListener(trigger, "click",
 					function(event) {ilOverlay.toggle(event, id); return false;});
 		}
-		ov.render();
+		ilOverlayFunc.prototype.overlays[id].render();
 		this.fixPosition(id);
 	},
 	
@@ -55,7 +57,11 @@ ilOverlayFunc.prototype =
 				newHeight = 150;
 			}
 			el.style.height = newHeight + "px";
-			el.style.width = el_reg.width + 20 + "px";
+			if (!this.widthFixed[id])
+			{
+				el.style.width = el_reg.width + 20 + "px";
+				this.widthFixed[id] = true;
+			}
 			el_reg = YAHOO.util.Region.getRegion(el);
 		}
 		
