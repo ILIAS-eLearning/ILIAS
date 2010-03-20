@@ -123,8 +123,8 @@ class ilOverlayGUI
 		ilYuiUtil::initOverlay();
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 		$tpl->addOnLoadCode(
-			'ilOverlay.add("'.$this->overlay_el_id.'", new YAHOO.widget.Overlay("'.$this->overlay_el_id.'",'.
-			'{'.$cfg_str.'} ), "'.$this->trigger_el_id.'","'.$this->trigger_event.'"); '); 
+			'ilOverlay.add("'.$this->overlay_el_id.'", '.
+			'{'.$cfg_str.'} , "'.$this->trigger_el_id.'","'.$this->trigger_event.'"); '); 
 	}
 	
 }

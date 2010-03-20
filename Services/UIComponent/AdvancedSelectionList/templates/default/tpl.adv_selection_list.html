@@ -23,12 +23,12 @@
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
 <span style="display:none; white-space:nowrap;" id="ilAdvSelListAnchorElement_{ID}">
-<a onclick="this.blur(); ilAdvSelListToggle('{ID}', {TOGGLE_OPTIONS}); return false;" {ACCKEY} xonmouseout="ilAdvSelListOff('{ID}');" class="{CLASS_SEL_TOP}" href="#" target="_top">
+<a onclick="this.blur(); ilAdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); return false;" {ACCKEY} class="{CLASS_SEL_TOP}" href="#" target="_top">
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" style="position:relative; top:-1px; vertical-align:middle;"/><!-- END top_img --> <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span>
 </a>
 </span>
 <div class="il_adv_sel" style="overflow:auto; background-color:white; clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}"
-	onmouseover="ilAdvSelListOn('{ID}', false);" onmouseout="ilAdvSelListOff('{ID}');">
+	onmouseover="ilAdvancedSelectionList.listOn('{ID}', false);" onmouseout="ilAdvancedSelectionList.listOff('{ID}');">
 <!-- BEGIN cmd_table -->
 <table class="il_adv_sel">
 <!-- BEGIN asynch_request -->
@@ -37,7 +37,7 @@
 </tr>
 <!-- END asynch_request -->
 <!-- BEGIN item -->
-<tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><a {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->>{TXT_ITEM}</span></a></td></tr>
+<tr class="il_adv_sel" onmouseover="ilAdvancedSelectionList.itemOn(this);" onmouseout="ilAdvancedSelectionList.itemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><a {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->>{TXT_ITEM}</span></a></td></tr>
 <!-- END item -->
 </table>
 <!-- END cmd_table -->
@@ -47,10 +47,10 @@
 <!-- END hidden_input -->
 </div>
 <script type="text/javascript">
-	il_adv_sel_lists.push('{ID}');
-	ilShowAdvSelListAnchor('ilAdvSelListAnchorElement_{ID}');
+	ilAdvancedSelectionList.add('{ID}');
+	ilAdvancedSelectionList.showAnchor('ilAdvSelListAnchorElement_{ID}');
 	<!-- BEGIN init_hidden_input -->
-	ilAdvSelSetHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
+	ilAdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
 	<!-- END init_hidden_input -->
 </script>
 <!-- END js_section -->
