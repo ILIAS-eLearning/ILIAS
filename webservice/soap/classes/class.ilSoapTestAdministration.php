@@ -102,7 +102,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				array($active_id, $question_id, $pass)
 			);
 		}
-		$queries = array();
+		$totalrows = 0;
 		for($i = 0; $i < count($solution); $i += 3)
 		{
 			$next_id = $ilDB->nextId('tst_solutions');
@@ -116,10 +116,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				"pass" => array("integer", $pass),
 				"tstamp" => array("integer", time())
 			));
-			$ilDB->query($query);
-			array_push($queries, $query);
+			$totalrows += $affectedRows;
 		}
-		if (count($queries) == 0)
+		if ($totalrows == 0)
 		{
 			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true));
 		}
@@ -189,7 +188,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				array($active_id, $question_id, $pass)
 			);
 		}
-		$queries = array();
 		$totalrows = 0;
 		for($i = 0; $i < count($solutions); $i += 3)
 		{

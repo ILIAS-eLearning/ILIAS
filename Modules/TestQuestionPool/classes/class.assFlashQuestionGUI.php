@@ -125,13 +125,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 			$this->object->setTitle($_POST["title"]);
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$arr = ilObjAdvancedEditing::_getUsedHTMLTags("assessment");
-			array_push($arr, 'input');
-			array_push($arr, 'select');
-			array_push($arr, 'option');
-			array_push($arr, 'button');
-			$question->setRteTags($arr);
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
 			$this->object->setEstimatedWorkingTime(

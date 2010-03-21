@@ -77,7 +77,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		{
 			$this->addSelectionButton('export_format', $data, 'exportData', $this->lng->txt("export"));
 		}
-		$this->addCommandButton('printEvaluation', $this->lng->txt('print'));
+		$this->addCommandButton('printEvaluation', $this->lng->txt('print'), 'javascript:window.print();');
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 

@@ -3326,10 +3326,7 @@ class ilObjSurvey extends ilObject
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
 		$forbidden = " AND " . $ilDB->in('svy_question.obj_fi', array_keys($spls), false, 'integer');
-		if ($completeonly)
-		{
-			$forbidden .= " AND svy_question.complete = " . $ilDB->quote("1", 'text');
-		}
+		$forbidden .= " AND svy_question.complete = " . $ilDB->quote("1", 'text');
 		$existing = "";
 		$existing_questions =& $this->getExistingQuestions();
 		if (count($existing_questions))

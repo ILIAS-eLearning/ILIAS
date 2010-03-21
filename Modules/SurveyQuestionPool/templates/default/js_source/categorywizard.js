@@ -4,6 +4,30 @@ function cleanElements(rootel)
 	for (i = 0; i < textinputs.length; i++) textinputs[i].value = '';
 }
 
+function removeAllListeners(rootel)
+{
+	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rootel);
+	for (i = 0; i < addbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(addbuttons[i]);
+	}
+	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rootel);
+	for (i = 0; i < removebuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(removebuttons[i]);
+	}
+	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rootel);
+	for (i = 0; i < upbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(upbuttons[i]);
+	}
+	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rootel);
+	for (i = 0; i < downbuttons.length; i++)
+	{
+		YAHOO.util.Event.purgeElement(downbuttons[i]);
+	}
+}
+
 function reindexRows(rootel, postvar)
 {
 	rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
@@ -90,36 +114,12 @@ function reindexRows(rootel, postvar)
 	}
 }
 
-function removeListeners(rootel)
-{
-	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rootel);
-	for (i = 0; i < addbuttons.length; i++)
-	{
-		YAHOO.util.Event.purgeElement(addbuttons[i]);
-	}
-	var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rootel);
-	for (i = 0; i < removebuttons.length; i++)
-	{
-		YAHOO.util.Event.purgeElement(removebuttons[i]);
-	}
-	var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rootel);
-	for (i = 0; i < upbuttons.length; i++)
-	{
-		YAHOO.util.Event.purgeElement(upbuttons[i]);
-	}
-	var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rootel);
-	for (i = 0; i < downbuttons.length; i++)
-	{
-		YAHOO.util.Event.purgeElement(downbuttons[i]);
-	}
-}
-
 function addRow(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
 	
-	removeListeners(tbody);
+	removeAllListeners(tbody);
 	rowclone = row.cloneNode(true);
 	cleanElements(rowclone);
 	
@@ -155,7 +155,7 @@ function removeRow(e, obj)
 	else
 	{
 		tbody.removeChild(row);
-		removeListeners(tbody);
+		removeAllListeners(tbody);
 		reindexRows(tbody, tbody.parentNode.parentNode.id);
 	}
 }
@@ -173,7 +173,7 @@ function moveRowUp(e, obj)
 
 	if (foundindex > 0)
 	{
-		removeListeners(tbody);
+		removeAllListeners(tbody);
 		temp = rows[foundindex-1];
 		rows[foundindex-1] = row;
 		rows[foundindex] = temp;
@@ -203,7 +203,7 @@ function moveRowDown(e, obj)
 
 	if (foundindex < rows.length-1)
 	{
-		removeListeners(tbody);
+		removeAllListeners(tbody);
 		temp = rows[foundindex+1];
 		rows[foundindex+1] = row;
 		rows[foundindex] = temp;

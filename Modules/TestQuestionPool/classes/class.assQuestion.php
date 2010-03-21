@@ -757,7 +757,7 @@ class assQuestion
 	*/
 	function getMaximumPoints()
 	{
-		return 0;
+		return $this->points;
 	}
 	
 		/**
