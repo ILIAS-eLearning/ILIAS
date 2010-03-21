@@ -87,45 +87,79 @@ class ilOverlayGUI
 	/**
 	 * Makes an existing HTML element an overlay 
 	 */
+	function getOnLoadCode()
+	{
+		// yui cfg string
+		$yuicfg["visible"] = $this->visible ? true : false;
+		
+		if ($this->width != "")
+		{
+			$yuicfg["width"] = $this->width;
+		}
+		
+		if ($this->height != "")
+		{
+			$yuicfg["height"] = $this->height;
+		}
+		
+		$yuicfg["fixedcenter"] = $this->fixed_center ? true : false;
+		if ($this->anchor_el_id != "")
+		{
+			$yuicfg["context"] = array($this->anchor_el_id, $this->anchor_ov_corner,
+					$this->anchor_anch_corner, array("beforeShow", "windowResize"));
+		}
+
+		// general cfg string
+		$cfg["yuicfg"] = $yuicfg;
+		$cfg["trigger"] = $this->trigger_el_id;
+		$cfg["trigger_event"] = $this->trigger_event;
+		$cfg["anchor_id"] = $this->trigger_anchor_el_id;
+		
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+//var_dump(ilJsonUtil::encode($cfg));
+		return 'ilOverlay.add("'.$this->overlay_el_id.'", '.
+			ilJsonUtil::encode($cfg).'); ';
+	}
+	
+	/**
+	 * Makes an existing HTML element an overlay
+	 */
 	function add()
 	{
 		global $tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		
-		$cfg_str = $lim = "";
-		
-		$cfg_str.= $lim.'visible:'.($this->visible ? 'true' : 'false');
-		$lim = ",";
-		
-		if ($this->width != "")
-		{
-			$cfg_str.= $lim.'width:"'.$this->width.'"';
-			$lim = ",";
-		}
-		if ($this->height != "")
-		{
-			$cfg_str.= $lim.'height:"'.$this->height.'"';
-			$lim = ",";
-		}
-		if ($this->fixed_center)
-		{
-			$cfg_str.= $lim.'fixedcenter:true';
-			$lim = ",";
-		}
-		if ($this->anchor_el_id != "")
-		{
-			$cfg_str.= $lim.'context: ["'.$this->anchor_el_id.'","'.
-				$this->anchor_ov_corner.'","'.$this->anchor_anch_corner.'"'.
-				', ["beforeShow", "windowResize"]]';
-			$lim = ",";
-		}
-
 		ilYuiUtil::initOverlay();
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
-		$tpl->addOnLoadCode(
-			'ilOverlay.add("'.$this->overlay_el_id.'", '.
-			'{'.$cfg_str.'} , "'.$this->trigger_el_id.'","'.$this->trigger_event.'"); '); 
+		$tpl->addOnLoadCode($this->getOnLoadCode()); 
 	}
+	
+	/**
+	 * Get trigger onload code
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id)
+	{
+		return 'ilOverlay.addTrigger("'.$a_tr_id.'","'.$a_tr_event.'","'.$this->overlay_el_id.'","'.
+			$a_anchor_el_id.'"); ';	
+	}
+	
+	/**
+	 * Add trigger
+	 */
+	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id)
+	{
+		global $tpl;
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		
+		ilYuiUtil::initOverlay();
+		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
+		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id)); 
+	}
+	
+	
 	
 }
 ?>
