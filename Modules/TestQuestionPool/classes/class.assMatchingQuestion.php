@@ -952,7 +952,7 @@ class assMatchingQuestion extends assQuestion
 		if (count($check_matching) != count($matching_values))
 		{
 			$result = false;
-			ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), TRUE);
+			ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), true);
 		}
 		return $result;
 	}
@@ -967,7 +967,6 @@ class assMatchingQuestion extends assQuestion
 	{
 		global $ilDB;
 		global $ilUser;
-
 		$saveWorkingDataResult = $this->checkSaveData();
 		$entered_values = 0;
 		if ($saveWorkingDataResult)
