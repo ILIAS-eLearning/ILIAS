@@ -123,6 +123,10 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 				}
 			}
 		}
+		if (array_key_exists('neutral', $a_value))
+		{
+			$this->setNeutralCategory($a_value['neutral']);
+		}
 	}
 
 	/**
@@ -229,7 +233,15 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 					}
 				}
 			}
-			// check scales
+			// check neutral column
+			if (array_key_exists('neutral', $foundvalues))
+			{
+				if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired))
+				{
+					$this->setAlert($lng->txt("msg_input_is_required"));
+					return false;
+				}
+			}
 			/*
 			if (is_array($foundvalues['scale']))
 			{

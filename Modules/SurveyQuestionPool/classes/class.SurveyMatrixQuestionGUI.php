@@ -111,7 +111,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				if (strlen($value)) $this->object->addColumn($value);
 			}
 			// Set neutral column
-			$this->object->setNeutralColumn($_POST["columns_neutral"]);
+			$this->object->setNeutralColumn($_POST["columns"]["neutral"]);
 			// set rows
 			$this->object->flushRows();
 			foreach ($_POST['rows'] as $key => $value)
