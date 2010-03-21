@@ -23,12 +23,13 @@
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
 <span style="display:none; white-space:nowrap;" id="ilAdvSelListAnchorElement_{ID}">
-<a onclick="this.blur(); ilAdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); return false;" {ACCKEY} class="{CLASS_SEL_TOP}" href="#" target="_top">
+					<!-- ilAdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); -->
+<a onclick="this.blur();  return false;" {ACCKEY} class="{CLASS_SEL_TOP}" href="#" target="_top">
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" style="position:relative; top:-1px; vertical-align:middle;"/><!-- END top_img --> <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span>
 </a>
 </span>
-<div class="il_adv_sel" style="overflow:auto; background-color:white; clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}"
-	onmouseover="ilAdvancedSelectionList.listOn('{ID}', false);" onmouseout="ilAdvancedSelectionList.listOff('{ID}');">
+<!-- onmouseover="ilAdvancedSelectionList.listOn('{ID}', false);" onmouseout="ilAdvancedSelectionList.listOff('{ID}');" -->
+<div class="il_adv_sel" style="overflow:auto; background-color:white; clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
 <!-- BEGIN cmd_table -->
 <table class="il_adv_sel">
 <!-- BEGIN asynch_request -->
@@ -47,8 +48,7 @@
 <!-- END hidden_input -->
 </div>
 <script type="text/javascript">
-	ilAdvancedSelectionList.add('{ID}');
-	ilAdvancedSelectionList.showAnchor('ilAdvSelListAnchorElement_{ID}');
+	ilAdvancedSelectionList.add('{ID}', {CFG});
 	<!-- BEGIN init_hidden_input -->
 	ilAdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
 	<!-- END init_hidden_input -->

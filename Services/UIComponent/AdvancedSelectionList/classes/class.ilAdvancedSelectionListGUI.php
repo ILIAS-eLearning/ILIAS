@@ -411,6 +411,9 @@ class ilAdvancedSelectionListGUI
 			return "";
 		}
 
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initOverlay();
+		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
 
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
@@ -490,7 +493,7 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="ilAdvSelListFormSelect(\''.$this->getId().'\''.
+						'onclick="ilAdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$item["title"]."');\"");
 				}
@@ -571,22 +574,23 @@ class ilAdvancedSelectionListGUI
 			$tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
 		}
 		
-		$asynch_str = $this->getAsynch()
-			? "true"
-			: "false";
+		$cfg["anchor_id"] = "ilAdvSelListAnchorElement_".$this->getId();
+		$cfg["asynch"] = $this->getAsynch()
+			? true
+			: false;
+		$cfg["asynch_url"] = $this->getAsynchUrl();
 		$toggle = $this->getAdditionalToggleElement();
 		if (is_array($toggle))
 		{
-			$tpl->setVariable("TOGGLE_OPTIONS", "{toggle_el: '".$toggle["el"]."', toggle_class_on: '".
-				$toggle["class_on"]."', asynch: ".$asynch_str.", asynch_url: '".$this->getAsynchUrl()."'}");
+			$cfg["toggle_el"] = $toggle["el"];
+			$cfg["toggle_class_on"] = $toggle["class_on"];
 		}
-		else
-		{
-			$tpl->setVariable("TOGGLE_OPTIONS", "{asynch: ".$asynch_str.", asynch_url: '".$this->getAsynchUrl()."'}");
-		}
-
+//echo "<br>".htmlentities($this->getAsynchUrl());
+		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
+		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
+//echo htmlentities(ilJsonUtil::encode($cfg));
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
 		$tpl->parseCurrentBlock();
 		

@@ -497,7 +497,7 @@ abstract class ilContainerContentGUI
 			$asynch = true;
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", $a_item_data['ref_id']);
 			$asynch_url = $ilCtrl->getLinkTarget($this->container_gui,
-					"getAsynchItemList");
+					"getAsynchItemList", "", true, false);
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
 		}
 		
