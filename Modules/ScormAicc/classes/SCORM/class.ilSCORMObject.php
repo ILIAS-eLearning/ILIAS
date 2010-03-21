@@ -115,11 +115,12 @@ class ilSCORMObject
 	{
 		global $ilDB;
 		
-		$set = $ilDB->queryF('
+		$set = $ilDB->queryF("
 			SELECT sit.obj_id id 
 			FROM scorm_object sob, sc_item sit
 			WHERE sob.slm_id = %s
-			AND sob.obj_id = sit.obj_id',
+			AND sob.obj_id = sit.obj_id
+			AND sit.identifierref <> ''",
 			array('integer'),
 			array($a_slm_id)
 		);
