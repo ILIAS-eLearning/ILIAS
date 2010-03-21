@@ -1551,12 +1551,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	/**
 	* Creates a form for random selection of questions
-	*
-	* Creates a form for random selection of questions
-	*
-	* @access	public
 	*/
-	function randomselectObject()
+	public function randomselectObject()
 	{
 		global $ilUser;
 		$this->getQuestionsSubTabs();
@@ -1773,7 +1769,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->setId("randomSelectionForm");
 
 		// question selection
-		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
+		$selection_mode = ($save) ? $_POST['chbQuestionSelectionMode'] : $ilUser->getPref("tst_question_selection_mode_equal");
 		$question_selection = new ilCheckboxInputGUI($this->lng->txt("tst_question_selection"), "chbQuestionSelectionMode");
 		$question_selection->setValue(1);
 		$question_selection->setChecked($selection_mode);
