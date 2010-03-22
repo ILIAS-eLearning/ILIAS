@@ -341,6 +341,7 @@ class ilUserImportParser extends ilSaxParser
 
 		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
+		$this->acc_mail->useLangVariablesAsFallback(true);
 
 		parent::ilSaxParser($a_xml_file);
 	}
