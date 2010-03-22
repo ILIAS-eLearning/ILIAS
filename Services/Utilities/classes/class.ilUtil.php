@@ -3835,7 +3835,7 @@ class ilUtil
 	*/
 	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
-		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias;
+		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias,$tree;
 
 		if(!is_array($a_obj_type))
 		{
@@ -3873,11 +3873,17 @@ class ilUtil
 			$counter = 0;
 			while($row = $ilDB->fetchObject($res))
 			{
+				// Filter recovery folder
+				if($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id))
+				{
+					continue;
+				}
 
 				if($counter++ >= $limit)
 				{
 					break;
 				}
+
 				$ref_ids[] = $row->ref_id;
 			}
 			return $ref_ids ? $ref_ids : array();
@@ -3915,6 +3921,13 @@ class ilUtil
 			{
 				break;
 			}
+			
+			// Filter objects in recovery folder
+			if($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id))
+			{
+				continue;
+			}
+			
 			// Check deleted, hierarchical access ...
 			if($ilAccess->checkAccessOfUser($a_usr_id,$a_operation,'',$row->ref_id,$row->type,$row->obj_id))
 			{
