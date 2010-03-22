@@ -7093,7 +7093,7 @@ ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_filter_info#:#Filter, der dem Suchfilter folgendermassen hinzugefügt wird: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)
 ldap#:#ldap_group_member#:#Attributname der Gruppenmitglieder
 ldap#:#ldap_group_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
-ldap#:#ldap_group_member_optional#:#Optinale Gruppenmitgliedschaft
+ldap#:#ldap_group_member_optional#:#Optionale Gruppenmitgliedschaft
 ldap#:#ldap_group_member_short#:#Attribut:
 ldap#:#ldap_group_membership#:#Gruppenmitgliedschaft
 ldap#:#ldap_group_name#:#Gruppenname
