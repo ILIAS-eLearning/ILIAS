@@ -1254,7 +1254,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		$this->checkPermission("cat_administrate_users");
 
-		foreach($_SESSION['delete_users'] as $user_id)
+		foreach($_POST['user_ids'] as $user_id)
 		{
 			if(!in_array($user_id,ilLocalUser::_getAllUserIds($this->object->getRefId())))
 			{
@@ -1282,11 +1282,25 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 			return true;
 		}
-		$_SESSION['delete_users'] = $_POST['user_ids'];
-
-		ilUtil::sendQuestion($this->lng->txt('sure_delete_selected_users'));
-		$this->listUsersObject(true);
-		return true;
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt('sure_delete_selected_users'));
+		$confirm->setConfirm($this->lng->txt('delete'), 'performDeleteUsers');
+		$confirm->setCancel($this->lng->txt('cancel'), 'listUsers');
+		
+		foreach($_POST['user_ids'] as $user)
+		{
+			$name = ilObjUser::_lookupName($user);
+			
+			$confirm->addItem(
+				'user_ids[]',
+				$user,
+				$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']'
+			);
+		}		
+		$this->tpl->setContent($confirm->getHTML());
 	}
 
 	function assignRolesObject()
