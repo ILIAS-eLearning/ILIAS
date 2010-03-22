@@ -486,7 +486,15 @@ class ilMainMenuGUI
 		$this->tpl->setVariable('TXT_MM_HEADER',$lng->txt('mem_view_long'));
 		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
 		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.gif'));
-		$this->tpl->setVAriable('HREF_CLOSE_MM','repository.php?cmd=frameset&mv=0&ref_id='.(int) $_GET['ref_id']);
+
+		include_once './classes/class.ilLink.php';
+		
+		$this->tpl->setVariable(
+			'HREF_CLOSE_MM',
+			ilLink::_getLink(
+				(int) $_GET['ref_id'],
+				ilObject::_lookupType(ilObject::_lookupObjId((int) $_GET['ref_id'])),
+				array('mv' => 0)));
 		
 		return $this->tpl->get();
 	}
