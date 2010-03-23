@@ -5,6 +5,7 @@
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
+		<xi:include href="../../Modules/LearningModule/LucenePageEditorDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT * FROM crs_settings
