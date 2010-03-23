@@ -235,14 +235,32 @@ class ilObjFile extends ilObject
 	*/
 	function replaceFile($a_upload_file, $a_filename)
 	{
-		//$this->clearDataDirectory();		// ! This has to be changed, if multiple versions should be supported
 		$this->getUploadFile($a_upload_file, $a_filename);
 		
 		require_once("classes/class.ilHistory.php");
-		ilHistory::_createEntry($this->getId(), "replace",
-			$a_filename.",".$this->getVersion());
+		ilHistory::_createEntry(
+			$this->getId(),
+			"replace",
+			$a_filename.",".$this->getVersion()
+		);
 		$this->setFilename($a_filename);
 		$this->addNewsNotification("file_updated");
+	}
+	
+	
+	public function addFileVersion($a_upload_file,$a_filename)
+	{
+		$this->getUploadFile($a_upload_file, $a_filename);
+		
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry(
+			$this->getId(),
+			"new_version",
+			$a_filename.",".$this->getVersion()
+		);
+		$this->setFilename($a_filename);
+		$this->addNewsNotification("file_updated");
+				
 	}
 
 
