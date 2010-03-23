@@ -309,7 +309,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->form->addCommandButton("performSearch", $lng->txt("search"));
 	                
 		$this->form->setTitle($lng->txt("search"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
 	 
 	}
 	

@@ -280,7 +280,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'performAdvMDSearch'));
 		$this->form->setTitle($this->lng->txt('adv_md_search_title'));
 		$this->form->addCommandButton('performAdvMDSearch',$this->lng->txt('search'));
 		#$this->form->setSubformMode('right');
