@@ -498,15 +498,17 @@ class ilObjFileGUI extends ilObjectGUI
 				case 1:
 					$this->object->deleteVersions();
 					$this->object->clearDataDirectory();
-				case 0:
 					$this->object->replaceFile($data['tmp_name'],$data['name']);
-					$this->object->setFileName($data['name']);
-					//$this->object->setFileType($data["type"]);
-					include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-					$this->object->setFileType(ilMimeTypeUtil::getMimeType(
-						"", $data["name"], $data["type"]));
-					$this->object->setFileSize($data['size']);
+					break;
+				case 0:
+					$this->object->addFileVersion($data['tmp_name'],$data['name']);
+					break;
 			}
+			$this->object->setFileName($data['name']);
+			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+			$this->object->setFileType(ilMimeTypeUtil::getMimeType(
+				"", $data["name"], $data["type"]));
+			$this->object->setFileSize($data['size']);
 		}
 		$this->object->setDescription($this->form->getInput('description'));
 		$this->update = $this->object->update();

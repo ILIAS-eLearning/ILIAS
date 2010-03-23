@@ -2426,6 +2426,7 @@ common#:#hist_file_create#:#File created, file name is "%1".
 common#:#file_created#:#File has been added.
 common#:#file_updated#:#File has been updated.
 common#:#hist_file_replace#:#File replaced. New file name is "%1", new version is %2.
+common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. 
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
