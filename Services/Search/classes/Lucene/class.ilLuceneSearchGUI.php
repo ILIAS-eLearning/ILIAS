@@ -381,28 +381,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		$path->setHTML($tpl->get());
 		$this->form->addItem($path);
-		
-		
-		/*
-		$path = new ilRadioGroupInputGUI($this->lng->txt('search_area'),'root');
-		$path->setValue($this->search_cache->enabledSearchArea() ?
-			$this->search_cache->getRoot() : 
-			ROOT_FOLDER_ID);
-		$path->setRequired(true);
-		
-			// In repository
-			$repos = new ilRadioOption($this->lng->txt('search_in_magazin'),1);
-			$path->addOption($repos);
-			
-			// Sub area
-			$path_link = $this->buildSearchAreaPath($this->search_cache->getRoot());
-			$path_link .= (' <a href="'.$this->ctrl->getLinkTarget($this,'chooseRoot').'">['.$this->lng->txt('change').']</a>');
-			
-			$sub_area = new ilRadioOption($path_link,$this->search_cache->getRoot());
-			$path->addOption($sub_area);
-			
-		$this->form->addItem($path);
-		*/
 		return true;
 	}
 	
