@@ -135,7 +135,6 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	{
 		$app_info = $this->getAppointmentInfo(); 
 		
-		$props = parent::getProperties();
 		/*
 		$props[] = array(
 			'alert'		=> false,
