@@ -363,7 +363,11 @@ public class FieldDefinition {
 			if(trans != null) 
 				value = trans.transform(value);
 		}
-		return value;
+		
+		// Delete html tags
+		trans = TransformerFactory.factory("TagSanitizer");
+		
+		return trans.transform(value);
 	}
 
 
