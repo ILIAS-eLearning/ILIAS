@@ -65,6 +65,10 @@ public class TransformerFactory {
 			map.put(name, new FilnameExtractor());
 			return map.get(name);
 		}
+		if(name.equalsIgnoreCase("TagSanitizer")) {
+			map.put(name, new TagSanitizer());
+			return map.get(name);
+		}
 		logger.error("Cannot find transformer with name: " + name);
 		return null;
 	}
