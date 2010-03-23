@@ -2882,12 +2882,12 @@ common#:#applications#:#Ansøgninger
 common#:#wizard_title_info#:#Indtast titlen på det objekt du ønsker at kopiere.
 common#:#wizard_search_list#:#Din søgning matchede nedenstående. Vælg en af resultaterne.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
-common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
-common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
-common#:#filesize#:#File Size###09 07 2007 new variable
-common#:#filetype#:#File Type###09 07 2007 new variable
-common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
-common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
+common#:#ext_acccount_required#:#Indtast navnet på den eksterne konto.
+common#:#err_check_input#:#Rettelserne kunne ikke gemmes. Kontroller det indtastede og prøv igen.
+common#:#filesize#:#Filstørrelse
+common#:#filetype#:#Filtype
+common#:#passwd_list#:#Passwordliste
+common#:#default_auth_mode#:#Standard autentificeringsmetode
 common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
 common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
 search#:#search_user_extended#:#Udvidet brugersøgning
@@ -7916,7 +7916,7 @@ mcst#:#mcst_download_videoportable#:#Download transportabel video
 mcst#:#mcst_download_audioportable#:#Download transportabel lyd
 mcst#:#mcst_clear_purpose_title#:#Slet
 mcst#:#mcst_downloadable#:#Download links
-mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.###02 06 2008 new variable
+mcst#:#mcst_downloadable_info#:#Giver brugerne mulighed for at downloade fra et link.
 mcst#:#mcst_media_cast_not_online#:#Mediacast er ikke online
 mcst#:#mcst_media_cast_not_online_text#:#Mediac ast er ikke online eller er blevet deaktiveret
 mcst#:#mcst_global_settings#:#Globale indstilligner
@@ -9961,7 +9961,7 @@ mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be 
 sahs#:#sahs_oa_no_chapters#:#This screen will list all learning objectives and their assigned questions. You need to create chapters, SCOs, pages and questions first.###16 09 2009 new variable
 sahs#:#sahs_oa_no_scos#:#Kapitlet indeholder ingen SCO'er endnu.
 common#:#last_refresh#:#Sidste indlæsning
-webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###16 09 2009 new variable
+webr#:#webr_container_info#:#Indtast en titel og en valgfri beskrivelse af hvordan linket skal viset i oversigten.
 grp#:#grp_reg_subject#:#Anmodningsbesked
 crs#:#crs_reg_subject#:#Anmodningsbesked
 grp#:#grp_join_request#:#Send
