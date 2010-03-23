@@ -6906,7 +6906,7 @@ grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die G
 grp#:#grp_mail_notification_reg_req_bod2#:#Um die Benutzerin / den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
 grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
 grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
-grp#:#grp_mail_notification_unsub_bod#:#eine Teilnehmerin / ein Teilnehmer hat die Mitgliedschaft in der Gruppe "%s" beendet.
+grp#:#grp_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Gruppe "%s" beendet.
 grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
