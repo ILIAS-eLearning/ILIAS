@@ -833,37 +833,34 @@ class ilECSSettingsGUI
 		
 		$rcourses = ilUtil::_getObjectsByOperations('rcrs','visible',$ilUser->getId(),-1);
 		
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_imported.html','Services/WebServices/ECS');
+
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$tb = new ilToolbarGUI();
+		
 		if(count($rcourses))
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportImported"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("csv_export"));
-			$this->tpl->parseCurrentBlock();
-		}	 	
-		
-		
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_imported.html','Services/WebServices/ECS');
-		$this->tpl->addBlockfile('BUTTONS','buttons','tpl.buttons.html');
-
+			$tb->addButton(
+				$this->lng->txt('csv_export'),
+				$this->ctrl->getLinkTarget($this,'exportImported')
+			);
+		}
 		if($this->settings->isEnabled())
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'readAll'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('ecs_read_remote_links'));
-			$this->tpl->parseCurrentBlock();
+			$tb->addButton(
+				$this->lng->txt('ecs_read_remote_links'),
+				$this->ctrl->getLinkTarget($this,'readAll')
+			);		
 		}
-	 	
-	 	
+		$this->tpl->setVariable('ACTION_BUTTONS',$tb->getHTML());
+		
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSImportedContentTableGUI.php');
 
- 		$this->tpl->setCurrentBlock('table_community');
  		$table_gui = new ilECSImportedContentTableGUI($this,'imported');
 				
  		$table_gui->setTitle($this->lng->txt('ecs_imported_content'));
  		$table_gui->parse($rcourses);
-		$this->tpl->setVariable('TABLE_IMP',$table_gui->getHTML());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('TBL_IMPORTED',$table_gui->getHTML());
 
 		return true;
 	}
@@ -980,7 +977,7 @@ class ilECSSettingsGUI
 	protected function released()
 	{
 		global $ilUser;
-
+		
 		$this->tabs_gui->setSubTabActive('ecs_released');
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
@@ -988,24 +985,25 @@ class ilECSSettingsGUI
 
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_released.html','Services/WebServices/ECS');
 
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$tb = new ilToolbarGUI();
+		
 		if(count($exported))
 		{
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportReleased"));
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("csv_export"));
-			$this->tpl->parseCurrentBlock();
+			$tb->addButton(
+				$this->lng->txt('csv_export'),
+				$this->ctrl->getLinkTarget($this,'exportReleased')
+			);
 		}
-		
 		if($this->settings->isEnabled())
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'readAll'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('ecs_read_remote_links'));
-			$this->tpl->parseCurrentBlock();
+			$tb->addButton(
+				$this->lng->txt('ecs_read_remote_links'),
+				$this->ctrl->getLinkTarget($this,'readAll')
+			);		
 		}
-		 	
-
+		$this->tpl->setVariable('ACTION_BUTTONS',$tb->getHTML());
+		
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSReleasedContentTableGUI.php');
  		$table_gui = new ilECSReleasedContentTableGUI($this,'released');
 				
