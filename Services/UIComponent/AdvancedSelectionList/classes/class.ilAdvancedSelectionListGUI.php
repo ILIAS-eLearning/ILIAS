@@ -471,7 +471,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
 					$tpl->parseCurrentBlock();
 				}
-	
+
 				$tpl->setCurrentBlock("item");
 				if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
@@ -485,7 +485,7 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="ilAdvSelListFormSubmit(\''.$this->getId().'\''.
+						'onclick="ilAdvancedSelectionList.submitForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
 				}
