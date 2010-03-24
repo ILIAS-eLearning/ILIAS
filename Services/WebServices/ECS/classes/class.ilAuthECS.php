@@ -55,6 +55,7 @@ class ilAuthECS extends Auth
     public function __construct($container, $a_options = array())
     {
     	$_POST['username'] = 'dummy';
+		$_POST['password'] = 'dummy';
 		parent::__construct($container,$a_options,'',false);
 		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 		$this->initAuth();
