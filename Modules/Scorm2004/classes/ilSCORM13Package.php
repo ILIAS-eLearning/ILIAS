@@ -353,7 +353,7 @@ class ilSCORM13Package
 					$chap=& new ilSCORM2004Chapter($this->slm);
 					$chap->setTitle($node->title);
 					$chap->setSLMId($this->slm->getId());
-					$chap->create(true);
+					$chap->create();
 					ilSCORM2004Node::putInTree($chap, "", "");
 					$parent_id=$chap->getId();
 				}
@@ -445,7 +445,7 @@ class ilSCORM13Package
 					$result = $qtiParser->startParsing ();
 //					$newObj->saveToDb ();
 					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
-//var_dump($qtis);
+
 				}
 			}
 		}
