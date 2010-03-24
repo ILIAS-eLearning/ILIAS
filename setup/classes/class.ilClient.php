@@ -210,7 +210,10 @@ class ilClient
 		{
 			$a_db->loadModule('Manager');
 		}
-		$tables = $a_db->listTables();
+		if(!$tables = $a_db->listTables())
+		{
+			return false;
+		}
 		
 		// check existence of some basic tables from ilias3 to determine if ilias3 is already installed in given database
 		if (in_array("object_data",$tables) and in_array("object_reference",$tables) and in_array("usr_data",$tables) and in_array("rbac_ua",$tables))
