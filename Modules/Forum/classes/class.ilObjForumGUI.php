@@ -924,12 +924,7 @@ class ilObjForumGUI extends ilObjectGUI
 						'showUser'
 						);
 		$tabs_gui->addTarget('forums_threads', ilRepositoryExplorer::buildLinkTarget($this->ref_id, 'frm'),	$active, '');
-		#}
-		
-		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
-		{
-			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this), '', $force_active);			
-		}
+		#}		
 		
 		// info tab
 		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
@@ -950,6 +945,11 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$force_active = ($_GET['cmd'] == 'edit') ? true	: false;
 			$tabs_gui->addTarget('edit_properties', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
+		}
+		
+		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
+		{
+			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this), '', $force_active);			
 		}
 
 		if ($this->ilias->getSetting('enable_fora_statistics', true) &&
