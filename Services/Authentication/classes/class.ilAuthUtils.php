@@ -104,9 +104,10 @@ class ilAuthUtils
 			$default_auth_mode = AUTH_LOCAL;
 		}*/
 //var_dump($_SESSION);
+
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.	
-        if (empty($_SESSION) ||
+		if (empty($_SESSION) ||
             (!isset($_SESSION['_authsession']['registered']) ||
              $_SESSION['_authsession']['registered'] !== true))
         {
@@ -167,35 +168,6 @@ class ilAuthUtils
 		{
 			
 			define('AUTH_CURRENT',AUTH_SOAP);
-			
-			/*
-			include_once("Services/SOAPAuth/classes/class.ilSOAPAuth.php");
-			
-			if (!is_object($GLOBALS['ilSOAPAuth']))
-			{
-				$auth_params = array(
-					"server_hostname" => $ilSetting->get("soap_auth_server"),
-					"server_port" => $ilSetting->get("soap_auth_port"),
-					"server_uri" => $ilSetting->get("soap_auth_uri"),
-					"https" => $ilSetting->get("soap_auth_use_https"),
-					"namespace" => $ilSetting->get("soap_auth_namespace"),
-					// BEGIN WebDAV: Share session between browser and WebDAV client.
-					'sessionName' => "_authhttp".md5($realm),
-					// END WebDAV: Share session between browser and WebDAV client.
-					"use_dotnet" => $ilSetting->get("soap_auth_use_dotnet")
-					);
-				// this starts already the session, AccountId is '' _authsession is null
-				// (assuming that ilSOAPAuth constructor calls Auth constructor
-				$ilSOAPAuth = new ilSOAPAuth($auth_params);
-				$GLOBALS['ilSOAPAuth'] =& $ilSOAPAuth;
-			}
-			else
-			{
-				$ilSOAPAuth =& $GLOBALS['ilSOAPAuth'];
-			}
-
-			define ("AUTH_CURRENT", AUTH_SOAP);
-			*/
 		}
 		// if Shibboleth is active and the user is authenticated
 		// we set auth_mode to Shibboleth
@@ -205,49 +177,6 @@ class ilAuthUtils
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
 		}
 		// check CAS authentication
-		/*
-		else if ($ilSetting->get("cas_active") && $_POST['username'] == '')
-		{
-			include_once("Services/CAS/classes/class.ilCASAuth.php");
-			
-			if (!is_object($GLOBALS['ilCASAuth']))
-			{
-				$auth_params = array(
-					"server_version" => CAS_VERSION_2_0,
-					"server_hostname" => $ilSetting->get("cas_server"),
-					"server_port" => $ilSetting->get("cas_port"),
-					"server_uri" => $ilSetting->get("cas_uri"),
-					// BEGIN PATCH WebDAV: Share session between browser and WebDAV client.
-					'sessionName' => "_authhttp".md5($realm)
-					// END PATCH WebDAV: Share session between browser and WebDAV client.
-					);
-//echo "II";
-//var_dump($_SESSION);
-				$ilCASAuth = new ilCASAuth($auth_params);
-//var_dump($_SESSION);
-				$GLOBALS['ilCASAuth'] =& $ilCASAuth;
-			}
-			else
-			{
-				$ilCASAuth =& $GLOBALS['ilCASAuth'];
-			}
-			
-			if ($_GET["forceCASLogin"] == "1")
-			{
-				$ilCASAuth->forceCASAuth();
-			}
-
-			if ($ilCASAuth->checkCASAuth())
-			{
-				define ("AUTH_CURRENT", AUTH_CAS);
-			}
-			else
-			{
-				define ("AUTH_CURRENT", $user_auth_mode);
-				//session_unset();
-			}
-		}
-		*/
 		else
 		{
 			define ("AUTH_CURRENT", $user_auth_mode);
@@ -269,7 +198,6 @@ class ilAuthUtils
 		{
 			$authmode = AUTH_CURRENT;
 		}
-		
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
@@ -310,7 +238,6 @@ class ilAuthUtils
 				break;
 
 			case AUTH_ECS:
-
 				include_once './Services/WebServices/ECS/classes/class.ilAuthContainerECS.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerECS());
 				break;
@@ -386,6 +313,7 @@ class ilAuthUtils
 		
 		if(isset($_GET['ecs_hash']))
 		{
+			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_ECS);
 			return AUTH_ECS;
 		}
 		if(isset($_POST['auth_mode']))
