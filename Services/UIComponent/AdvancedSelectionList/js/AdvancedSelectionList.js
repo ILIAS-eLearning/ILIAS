@@ -9,7 +9,7 @@ ilAdvancedSelectionListFunc.prototype =
 	{
 		this.lists[id] = cfg;
 		this.showAnchor(cfg.anchor_id);
-//console.log(cfg);
+
 		ilOverlay.add('ilAdvSelListTable_' + id,
 			{yuicfg: {visible: false, context: [cfg.anchor_id, 'tl', 'bl', ["beforeShow", "windowResize"]]},
 			trigger: cfg.anchor_id, trigger_event: "click", anchor_id: cfg.anchor_id,

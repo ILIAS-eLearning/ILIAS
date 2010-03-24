@@ -127,6 +127,26 @@ class ilCheckboxListOverlayGUI
 	}
 	
 	/**
+	* Set Selection Header Class.
+	*
+	* @param	string	$a_selectionheaderclass	Selection Header Class
+	*/
+	function setSelectionHeaderClass($a_selectionheaderclass)
+	{
+		$this->selectionheaderclass = $a_selectionheaderclass;
+	}
+
+	/**
+	* Get Selection Header Class.
+	*
+	* @return	string	Selection Header Class
+	*/
+	function getSelectionHeaderClass()
+	{
+		return $this->selectionheaderclass;
+	}
+
+	/**
 	 * Set form command
 	 *
 	 * @param	string	form command
@@ -224,6 +244,7 @@ class ilCheckboxListOverlayGUI
 		// do not repeat title (accessibility) -> empty alt
 		$tpl->setVariable("TXT_SEL_TOP", $this->getLinkTitle());
 		$tpl->setVariable("ALT_SEL_TOP", "");
+		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
 		$tpl->parseCurrentBlock();
 		
 		reset($items);

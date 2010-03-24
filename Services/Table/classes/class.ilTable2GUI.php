@@ -50,13 +50,50 @@ class ilTable2GUI extends ilTableGUI
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
-		if (is_object($ilUser))
-		{
-			$this->setLimit($ilUser->getPref("hits_per_page"));
-		}
+		$this->determineLimit();
 		$this->setIsDataTable(true);
 		$this->setEnableNumInfo(true);
 		$this->determineSelectedColumns();
+	}
+	
+	/**
+	 * Determine the limit
+	 *
+	 * @param
+	 * @return
+	 */
+	function determineLimit()
+	{
+		global $ilUser;
+
+		if (is_object($ilUser))
+		{
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tab_prop = new ilTablePropertiesStorage();
+
+			$limit = 0;
+			if (isset($_GET[$this->prefix."_trows"]))
+			{
+				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "rows",
+					$_GET[$this->prefix."_trows"]);
+				$limit = $_GET[$this->prefix."_trows"];
+			}
+			
+			if ($limit == 0)
+			{
+				$rows = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "rows");
+				if ($rows > 0)
+				{
+					$limit = $rows;
+				}
+				else
+				{
+					$limit = $ilUser->getPref("hits_per_page");
+				}
+			}
+			
+			$this->setLimit($limit);
+		}		
 	}
 	
 	/**
@@ -1399,10 +1436,6 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
-			if (!$this->getDisableFilterHiding())
-			{
-				$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
-			}
 			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
 			$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
@@ -1410,11 +1443,6 @@ class ilTable2GUI extends ilTableGUI
 
 			$this->tpl->setCurrentBlock("filter_section");
 			$this->tpl->setVariable("FIL_ID", $this->getId());
-			if ($this->getId() != "")
-			{
-				$this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
-					$this->getId()."&cmd=hideFilter&user_id=".$ilUser->getId());
-			}
 			$this->tpl->parseCurrentBlock();
 			
 			// filter hidden?
@@ -1428,17 +1456,7 @@ class ilTable2GUI extends ilTableGUI
 					$this->tpl->setVariable("FI_ID", $this->getId());
 					$this->tpl->parseCurrentBlock();
 				}
-			}
-			
-			$this->tpl->setCurrentBlock("filter_activation");
-			$this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
-			$this->tpl->setVariable("FILA_ID", $this->getId());
-			if ($this->getId() != "")
-			{
-				$this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
-					$this->getId()."&cmd=showFilter&user_id=".$ilUser->getId());
-			}
-			$this->tpl->parseCurrentBlock();
+			}			
 		}
 	}
 	
@@ -1608,6 +1626,7 @@ class ilTable2GUI extends ilTableGUI
 			$cb_over->setFormCmd($this->getParentCmd());
 			$cb_over->setFieldVar("tblfs".$this->getId());
 			$cb_over->setHiddenVar("tblfsh".$this->getId());
+			$cb_over->setSelectionHeaderClass("ilTableMenuItem");
 			$column_selector = $cb_over->getHTML();
 			$footer = true;
 		}
@@ -1623,8 +1642,35 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			// top navigation, if number info or linkbar given
-			if ($numinfo != "" || $linkbar != "" || $column_selector != "")
+			if ($numinfo != "" || $linkbar != "" || $column_selector != "" ||
+				count($this->filter) > 0)
 			{
+				if (count($this->filter))
+				{
+					$this->tpl->setCurrentBlock("filter_activation");
+					$this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
+					$this->tpl->setVariable("FILA_ID", $this->getId());
+					if ($this->getId() != "")
+					{
+						$this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
+							$this->getId()."&cmd=showFilter&user_id=".$ilUser->getId());
+					}
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("filter_deactivation");
+					if (!$this->getDisableFilterHiding())
+					{
+						$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide_filter"));
+						if ($this->getId() != "")
+						{
+							$this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
+								$this->getId()."&cmd=hideFilter&user_id=".$ilUser->getId());
+							$this->tpl->setVariable("FILD_ID", $this->getId());
+						}
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				if ($numinfo != "" && $this->getEnableNumInfo())
 				{
 					$this->tpl->setCurrentBlock("top_numinfo");
@@ -1639,7 +1685,30 @@ class ilTable2GUI extends ilTableGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				
+				// column selector
 				$this->tpl->setVariable("COLUMN_SELECTOR", $column_selector);
+				
+				// row selector
+				if (is_object($ilUser))
+				{
+					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+					$alist = new ilAdvancedSelectionListGUI();
+					$hpp = ($ilUser->getPref("hits_per_page") != 9999)
+						? $ilUser->getPref("hits_per_page")
+						: $lng->txt("unlimited");
+	
+					$options = array(0 => $lng->txt("default")." (".$hpp.")",5 => 5, 10 => 10, 15 => 15, 20 => 20,
+									 30 => 30, 40 => 40, 50 => 50,
+									 100 => 100, 200 => 200, 400 => 400, 800 => 800);
+					foreach ($options as $k => $v)
+					{
+						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_trows", $k);
+						$alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_trows", "");
+					}
+					$alist->setListTitle($lng->txt("rows"));
+					$this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
+				}
 				
 				$this->tpl->setCurrentBlock("top_navigation");
 				$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());

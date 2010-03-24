@@ -27,6 +27,17 @@ function ilInitTableFilters()
 			filactvtrs[i].style.display = '';
 		}
 	}
+
+	// hide filter deactivators
+	fildctvtrs = YAHOO.util.Dom.getElementsByClassName('ilTableFilterDeactivator');
+	for (var i = 0; i < fildctvtrs.length; i++)
+	{
+		if (ilTableHideFilter[fildctvtrs[i].id] == 1)
+		{
+			fildctvtrs[i].style.display = 'none';
+		}
+	}
+
 }
 
 function ilShowTableFilter(id, sUrl)
@@ -35,6 +46,8 @@ function ilShowTableFilter(id, sUrl)
 	obj.style.display = '';
 	var obj2 = document.getElementById("a" + id);
 	obj2.style.display = 'none';
+	var obj3 = document.getElementById("d" + id);
+	obj3.style.display = '';
 	if (sUrl != "")
 	{
 		ilTableJSHandler(sUrl);
@@ -48,6 +61,8 @@ function ilHideTableFilter(id, sUrl)
 	obj.style.display = 'none';
 	var obj2 = document.getElementById("a" + id);
 	obj2.style.display = '';
+	var obj3 = document.getElementById("d" + id);
+	obj3.style.display = 'none';
 	if (sUrl != "")
 	{
 		ilTableJSHandler(sUrl);

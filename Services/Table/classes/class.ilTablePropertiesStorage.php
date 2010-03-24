@@ -15,6 +15,7 @@ class ilTablePropertiesStorage
 		"filter" => array("storage" => "db"),
 		"direction" => array("storage" => "db"),
 		"order" => array("storage" => "db"),
+		"rows" => array("storage" => "db"),
 		"offset" => array("storage" => "session"),
 		"selfields" => array("storage" => "db")
 		);
@@ -67,8 +68,19 @@ class ilTablePropertiesStorage
 		$a_value)
 	{
 		global $ilDB;
+
+		if ($a_table_id == "")
+		{
+			return;
+		}
 		
-		switch ($this->properties[$a_property]["storage"])
+		$storage = $this->properties[$a_property]["storage"];
+		if ($a_user_id == ANONYMOUS_USER_ID)
+		{
+			$storage = "session";
+		}
+		
+		switch ($storage)
 		{
 			case "session":
 				$_SESSION["table"][$a_table_id][$a_user_id][$a_property]
@@ -93,7 +105,18 @@ class ilTablePropertiesStorage
 	{
 		global $ilDB;
 		
-		switch ($this->properties[$a_property]["storage"])
+		if ($a_table_id == "")
+		{
+			return;
+		}
+
+		$storage = $this->properties[$a_property]["storage"];
+		if ($a_user_id == ANONYMOUS_USER_ID)
+		{
+			$storage = "session";
+		}
+		
+		switch ($storage)
 		{
 			case "session":
 				return $_SESSION["table"][$a_table_id][$a_user_id][$a_property];
