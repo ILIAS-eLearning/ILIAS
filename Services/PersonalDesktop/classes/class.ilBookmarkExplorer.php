@@ -202,6 +202,11 @@ class ilBookmarkExplorer extends ilExplorer
 	*/
 	function setExpand($a_node_id)
 	{
+		if ($a_node_id == "")
+		{
+			$a_node_id = $this->root_id;
+		}
+
 		// IF ISN'T SET CREATE SESSION VARIABLE
 		if(!is_array($_SESSION["mexpand"]))
 		{

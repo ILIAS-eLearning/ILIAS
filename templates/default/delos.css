@@ -2624,15 +2624,10 @@ div.ilTableFilterActivator {
 	margin: 0px 0px 5px 3px;
 }
 	
-a.ilTableFilterActivator {
-	font-size: 80%;
-	text-decoration: none;
+.ilTableMenuItem {
+	margin: 0px 10px 0px 0px;
 }
 
-a.ilTableFilterDeactivator {
-	text-decoration: none;
-	margin: 0px 0px 0px 3px;
-}
 
 div.ilTableFilter {
 	padding: 0px 0px 5px 0px;
