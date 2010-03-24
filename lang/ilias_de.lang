@@ -1,35 +1,17 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
 * ILIAS language file (All entries)
 *
 * @module		language file German
 * @modulegroup		language
-* @author		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author		Matthias Kunkel <mkunkel@uni-koeln.de>
 * @version		$Id$
 * @il_server		http://localhost:8888/ilias-trunk
-* @il_version		4.0.2 2009-12-15
-* @created		2010-01-06 15:18:43
+* @il_version		4.1.0 pre-alpha
+* @created		2010-03-24 16:42:32
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
 
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -38,6 +20,7 @@
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
++survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temperatur der Celsius-Skala.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -55,7 +38,7 @@ acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
 administration#:#adm_item_cmd_asynch#:#Asynchrones Laden der Aktionsmenüs im Magazin
-administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden aysnchron geladen. Dies erhöht die Perfomanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Pop-up-Menüs kommen.
+administration#:#adm_item_cmd_asynch_info#:#Aktionsmenüs, z. B. im Magazin, werden asynchron geladen. Dies erhöht die Performanz allgemein. In Einzelfällen kann es zu kurzen Verzögerungen beim Anzeigen des Popup-Menüs kommen.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
@@ -69,7 +52,7 @@ administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierung
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_kind_determination#:#Art der Bestimmung
-administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgebenen Reihenfolge überprüft werden sollen.
+administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
 administration#:#check_tree#:#Überprüfe Baumstruktur
 administration#:#check_tree_desc#:#Überprüft die gesamte Baumstruktur auf Konsistenz. Je nach Umfang des Baumes kann das etwas dauern!
 administration#:#clean#:#Räume auf
@@ -94,14 +77,14 @@ administration#:#language_clear_local_changes#:#Lokale Änderungen in der Datenb
 administration#:#language_cleared_local#:#Die lokalen Änderungen wurden in der Datenbank gelöscht.
 administration#:#language_compare#:#Vergleiche mit:
 administration#:#language_default_entries#:# (Standardeinträge)
-administration#:#language_delete_local_changes#:#Lokale Ändrungen in der Datenbank löschen
+administration#:#language_delete_local_changes#:#Lokale Änderungen in der Datenbank löschen
 administration#:#language_error_clear_local#:#Die lokalen Änderungen konnten in der Datenbank nicht gelöscht werden!
 administration#:#language_error_read_local#:#Die lokale Sprachdatei existiert nicht oder kann nicht gelesen werden!
 administration#:#language_error_write_local#:#Die lokale Sprachdatei kann nicht geschrieben werden!
 administration#:#language_export_file#:#Sprachdatei exportieren
 administration#:#language_file_imported#:#Die Sprachdatei %s wurde importiert.
 administration#:#language_file_scope#:#Umfang der Sprachdatei
-administration#:#language_former_file_description#:#Um Ihre lokalen Änderungen mit den Änderungen des letzten Updates zu vergleichen, kopieren Sie bitte die Original-Sprachdatei der vorher installierten ILILAS-Version in das Verzeichnis für die lokalen Sprachdateien. Die aktuelle Original-Sprachdatei wird automatisch kopiert, wenn Sie Ihre lokale Sprachdatei im Untermenü "Wartung" speichern.
+administration#:#language_former_file_description#:#Um Ihre lokalen Änderungen mit den Änderungen des letzten Updates zu vergleichen, kopieren Sie bitte die Original-Sprachdatei der vorher installierten ILIAS-Version in das Verzeichnis für die lokalen Sprachdateien. Die aktuelle Original-Sprachdatei wird automatisch kopiert, wenn Sie Ihre lokale Sprachdatei im Untermenü "Wartung" speichern.
 administration#:#language_former_file_equal#:#Die Datei <b>%s</b> stimmt mit der aktuellen Original-Sprachdatei überein.
 administration#:#language_former_file_missing#:#Die Datei <b>%s</b> existiert nicht.
 administration#:#language_import_file#:#Sprachdatei importieren
@@ -135,7 +118,7 @@ administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
 administration#:#language_translation_mode#:#Übersetzungsmodus
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
-administration#:#loginname_change_blocking_time#:#Sperrzeit für Benutzernamenänderung
+administration#:#loginname_change_blocking_time#:#Sperrzeit für Änderung des Benutzernamens
 administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein(in Sekunden), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen oder das Feld leer lassen, können ein Benutzer jederzeit seinen Benutzernamen ändern.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
 administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
@@ -154,7 +137,7 @@ administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, we
 administration#:#purge_count_limit#:#Begrenze Anzahl
 administration#:#purge_count_limit_desc#:#Wenn dieses Feld einen Wert enthält, wird höchstens die angegebene Anzahl Objekte aus dem System entfernt.
 administration#:#purge_missing#:#Entferne fehlende Objekte
-administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
+administration#:#purge_missing_desc#:#Entferne alle fehlenden und nicht zugeordneten Objekte aus dem System
 administration#:#purge_trash#:#Eliminiere gelöschte Objekte
 administration#:#purge_trash_desc#:#Entferne alle Objekte im Papierkorb aus dem System
 administration#:#purge_type_limit#:#Begrenze Typ
@@ -168,13 +151,13 @@ administration#:#removing_invalid_refs#:#Entfernt ungültige Referenzen...
 administration#:#removing_invalid_rolfs#:#Entfernt ungültige Rollenordner...
 administration#:#repair_options#:#Reparaturoptionen
 administration#:#restore_missing#:#Stelle verlorene Objekte wieder her...
-administration#:#restore_missing_desc#:#Stelle verlorene und nichtzugeordnete Objekte wieder her und lege sie in den Rettungsordner.
+administration#:#restore_missing_desc#:#Stelle verlorene und nicht zugeordnete Objekte wieder her und lege sie in den Rettungsordner.
 administration#:#restore_trash#:#Stelle gelöschte Objekte wieder her
 administration#:#restore_trash_desc#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
 administration#:#restoring#:#Wiederhergestellt...
 administration#:#restoring_missing_objs#:#Stelle verlorene Objekte wieder her
 administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
-administration#:#restoring_unbound_objs#:#Stellt nichtzugeordnete Objekte und Teilobjekte wieder her...
+administration#:#restoring_unbound_objs#:#Stellt nicht zugeordnete Objekte und Teilobjekte wieder her...
 administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
 administration#:#scan#:#Untersuche
 administration#:#scan_completed#:#Untersuchung beendet
@@ -187,10 +170,10 @@ administration#:#searching_invalid_childs#:#Sucht nach ungültigen Einträgen in
 administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
 administration#:#searching_invalid_rolfs#:#Sucht nach ungültigen Rollenordnern...
 administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
-administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
+administration#:#searching_unbound_objs#:#Sucht nach nicht zugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
-administration#:#stop_scan#:#Stop!
+administration#:#stop_scan#:#Stopp!
 administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
@@ -373,7 +356,7 @@ assessment#:#edit_test_questions#:#Fragen bearbeiten
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
 assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
-assessment#:#empty_terms_exist#:#Sie haben nocht nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
+assessment#:#empty_terms_exist#:#Sie haben noch nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
@@ -766,7 +749,7 @@ assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehme
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
 assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer und Teilnehmerinnen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit für Teilnehmer und Teilnehmerinnen
-assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Anworten abgeschickt.
+assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anonymity#:#Anonymität
 assessment#:#tst_anonymity_description#:#Wenn Anonymität aktiviert ist, werden die Namen der Testteilnehmer für die Testautoren unkenntlich gemacht.
@@ -930,7 +913,7 @@ assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_random_selection#:#Zufällige Auswahl von Fragen
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
-assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählen Fragenpools. Der Wert wurde korrigiert.
+assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählten Fragenpools. Der Wert wurde korrigiert.
 assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben. ILIAS erzeugt für jeden Testdurchlauf eine neue zufällige Auswahl.
 assessment#:#tst_reached_points#:#Erreichte Punkte
@@ -966,7 +949,7 @@ assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null 
 assessment#:#tst_score_cut_test#:#Negative Punkte für die Gesamtsumme aller Fragenergebnisse bei Null abschneiden
 assessment#:#tst_score_cutting#:#Negative Punkte abschneiden
 assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
-assessment#:#tst_score_mcmr_questions#:#Multiple choice Fragen
+assessment#:#tst_score_mcmr_questions#:#Multiple Choice Fragen
 assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple Choice Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vergabe von 0 Punkten, wenn keine Antwort ausgewählt wurde
@@ -979,7 +962,7 @@ assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, i
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
 assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Kopieren aus
-assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
+assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
@@ -1471,8 +1454,8 @@ chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlagwörte
 chat#:#chat_smilies_activate#:#aktiviere Smilies
 chat#:#chat_smilies_deactivate#:#deaktiviere Smilies
 chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smilies genutzt werden, bis dieses Problem behoben wurde.
-chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiliey-Daten existiert nicht. Versuche es anzulegen.
-chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können keine neuen Smilies hinzugefügt werden.
+chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiley-Daten existiert nicht. Versuche es anzulegen.
+chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können daher keine neuen Smilies hinzugefügt werden.
 chat#:#chat_smilies_initialized#:#Die Smilies wurden erstellt und können nun benutzt werden
 chat#:#chat_smilies_status#:#Chat-Smilies
 chat#:#chat_sound_status_activate#:#Sounds aktivieren
@@ -1582,7 +1565,7 @@ cntr#:#cntr_ordering#:#Sortierung
 cntr#:#cntr_page_actions#:#Seitenaktionen
 cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
-cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Click auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die untenstehende Inhalte für die Seitendarstellung genutzt.
+cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_text_media_editor#:#Text/Media-Editor
 cntr#:#cntr_view_by_type#:#Ansicht nach Typen
@@ -1756,7 +1739,7 @@ common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
-common#:#assessment_settings#:#Test&Assessment-Adminstration
+common#:#assessment_settings#:#Test&Assessment-Administration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
 common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
@@ -1764,7 +1747,7 @@ common#:#assf_allowed_questiontypes#:#Verfügbare Fragentypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragentypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragentypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragentypen entfernen.
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assf_read#:#Zugriff auf die Test&Assessment-Adminstration
+common#:#assf_read#:#Zugriff auf die Test&Assessment-Administration
 common#:#assf_visible#:#Test&Assessment-Administration ist sichtbar
 common#:#assf_write#:#Bearbeiten der Test&Assessment-Administration
 common#:#assign#:#Als Mitglied aufnehmen
@@ -1820,7 +1803,7 @@ common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
 common#:#auth_radius_enable#:#RADIUS-Unterstützung aktivieren
-common#:#auth_radius_not_configured#:#RADIUS ist nocht nicht eingerichtet
+common#:#auth_radius_not_configured#:#RADIUS ist noch nicht eingerichtet
 common#:#auth_radius_port#:#Port
 common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
@@ -2057,7 +2040,7 @@ common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks nach ungültigen externen Links überprüft.
 common#:#checked#:#Ausgewählt
 common#:#checked_files#:#Importierbare Dateien
-common#:#chg_ilias_and_webfolder_password#:#ILIAS and Webordner Passwort ändern
+common#:#chg_ilias_and_webfolder_password#:#ILIAS und Webordner Passwort ändern
 common#:#chg_ilias_password#:#ILIAS Passwort ändern
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -2353,7 +2336,7 @@ common#:#enable#:#Aktivieren
 common#:#enable_admin_force#:#Benachrichtigung aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
-common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
+common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
 common#:#enable_disk_quota#:#Aktiviere Disk Quota
 common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird im Benutzerformular im Disk Quota Bericht aufgeführt.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota-Erinnerungsnachrichten
@@ -2512,7 +2495,7 @@ common#:#extt_title_configure#:#Software von Drittanbietern einrichten
 common#:#extt_visible#:#Software von Drittanbietern ist sichtbar
 common#:#extt_write#:#Software von Drittanbietern konfigurieren
 common#:#failure_message#:#Fehlermeldung
-common#:#faq_exercise#:#FAQ/übungskapitel
+common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#fax#:#Fax
 common#:#feed#:#Webfeed
 common#:#feed_delete#:#Webfeed löschen
@@ -2693,7 +2676,7 @@ common#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben
 common#:#glo_mode#:#Modus
-common#:#glo_mode_desc#:#Ein virtuelles Glossar funktiontiert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich von der Position dieses Glossars darunter befinden (ganzer Teilbaum).
+common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich von der Position dieses Glossars darunter befinden (ganzer Teilbaum).
 common#:#glo_mode_level#:#virtuell (nur diese Ebene)
 common#:#glo_mode_normal#:#Normal
 common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
@@ -2866,8 +2849,8 @@ common#:#hist_dbk_pg_update#:#Seite geändert.
 common#:#hist_dbk_st_cut_page#:#Seite "%1" [%2] aus dem Kapitel ausgeschnitten.
 common#:#hist_dbk_st_paste_page#:#Seite "%1" [%2] in das Kapitel eingefügt.
 common#:#hist_file_create#:#Neue Datei angelegt mit Namen "%1".
-common#:#hist_file_replace#:#Datei wurde ersetzt. Neuer Dateiname ist "%1". Neue Versionsnummer: %2
 common#:#hist_file_new_version#:#Neue Dateiversion angelegt mit Namen "%1". Neue Versionsnummer: %2
+common#:#hist_file_replace#:#Datei wurde ersetzt. Neuer Dateiname ist "%1". Neue Versionsnummer: %2
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
@@ -2975,7 +2958,7 @@ common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem 
 common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc-Seminar ausgetragen wollen?
 common#:#ilinc_docent#:#Dozent
 common#:#ilinc_err_administrator_required#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrattionsrechten zugewiesen sein
+common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
 common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc-Seminar !
 common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
@@ -3346,7 +3329,7 @@ common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Mail
-common#:#mail_maxsize_attach#:#Max. Attachment-Größe
+common#:#mail_maxsize_attach#:#Max. Größe des Mail-Anhangs
 common#:#mail_maxsize_box#:#Max. Mailbox-Größe
 common#:#mail_maxsize_mail#:#Max. Mail-Größe
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Anhänge
@@ -3369,7 +3352,7 @@ common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
 common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
-common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Addressen vollständig.
+common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
 common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -3493,6 +3476,7 @@ common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Wählen Sie nun den gewünschten Ort, an den die ausgewählten Objekte kopiert werden sollen. Klicken Sie abschließend auf den Kopieren-Button.
+common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
 common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
@@ -3567,7 +3551,7 @@ common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_link#:#können nicht verknüpft werden
 common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
-common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
+common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
@@ -3912,7 +3896,7 @@ common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
 common#:#passwd_generation#:#Passwortgenerierung
-common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Paswwörter festzulegen.
+common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Passwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_list#:#Passwortliste
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
@@ -3939,7 +3923,7 @@ common#:#path_to_convert#:#CONVERT-Befehlszeile
 common#:#path_to_htmldoc#:#HTMLdoc-Befehlszeile
 common#:#path_to_java#:#JAVA-Befehlszeile
 common#:#path_to_unzip#:#UNZIP-Befehlszeile
-common#:#path_to_zip#:#ZIP-Befelhszeile
+common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
 common#:#pay_methods#:#Bezahlarten
 common#:#payment_buyable#:#Kaufbar
@@ -4019,6 +4003,17 @@ common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
 common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
+common#:#proxy#:#Proxy
+common#:#proxy_connectable#:#Verbindung hergestellt.
+common#:#proxy_host#:#Host
+common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
+common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
+common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+common#:#proxy_port#:#Port
+common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
+common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
+common#:#proxy_status#:#Proxy
+common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 common#:#ps_edit_permission#:#Rechteeinstellungen ändern
 common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
@@ -4075,9 +4070,9 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebende E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
-common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
@@ -4090,9 +4085,9 @@ common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
-common#:#repeat_scan#:#Repeating virus scan...
-common#:#repeat_scan_failed#:#Repeat scan failed.
-common#:#repeat_scan_succeded#:#Repeat scan succeded.
+common#:#repeat_scan#:#Wiederhole Virenscan...
+common#:#repeat_scan_failed#:#Wiederholter Scan fehlgeschlagen.
+common#:#repeat_scan_succeded#:#Wiederholter Scan erfolgreich.
 common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
@@ -4235,7 +4230,7 @@ common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
 common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
 common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
 common#:#search#:#Suche
-common#:#search_active#:#Active Benutzer
+common#:#search_active#:#Aktive Benutzer
 common#:#search_engine#:#Suchmaschinen
 common#:#search_for#:#Suchen
 common#:#search_in#:#Suchen in
@@ -4246,7 +4241,7 @@ common#:#search_note#:#Falls &quot;Suchen in&quot; leer gelassen wird, werden al
 common#:#search_recipient#:#Empfänger suchen
 common#:#search_result#:#Suchergebnis
 common#:#search_results#:#Suchergebnisse
-common#:#search_to_short#:#Der eingebene Suchbegriff ist zu kurz.
+common#:#search_to_short#:#Der eingegebene Suchbegriff ist zu kurz.
 common#:#search_user#:#Benutzer suchen
 common#:#seas_edit_permission#:#Rechteeinstellungen ändern
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
@@ -4305,43 +4300,43 @@ common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#shib#:#Shibboleth
-common#:#shib_active#:#Shibboleth-Unterstützung aktivieren
+common#:#shib_active#:#Shibboleth-Authentifizierung aktivieren
 common#:#shib_city#:#Attribut für Stadt
-common#:#shib_configure#:#Shibboleh Authentifizierung konfigurieren
+common#:#shib_configure#:#Shibboleth-Authentifizierung konfigurieren
 common#:#shib_country#:#Attribut für Land
 common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
 common#:#shib_data_conv_warning#:#Das angegebene Daten-Manipulations-API kann nicht gelesen werden.
 common#:#shib_department#:#Attribut für Departement
 common#:#shib_edit_permission#:#Zugriffsberechtigungen ändern
 common#:#shib_email#:#Attribut für Emailadresse
-common#:#shib_federation_name#:#Name der Shibboleth Föderation
+common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein)
-common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br>Bei Fragen dazu, wenden Sie sich bitte an den
+common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
-common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity Providern an, von den der Benützer auf der ILIAS Anmeldeseite auswählen kann.<br>Auf jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br>Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS Installation Teil von mehrere Föderationen ist.
+common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
 common#:#shib_invalid_home_organization#:#Bitten wählen Sie eine gültige Organisation
 common#:#shib_language#:#Attribut für Sprache
 common#:#shib_lastname#:#Attribut für Nachnamen
 common#:#shib_login#:#Eindeutiges Shibboleth Attribut
 common#:#shib_login_button#:#Pfad zum Shibboleth-Login-Button
-common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
-common#:#shib_login_internal_wayf#:#Den ILIAS-WAYF-Dienst benutzen
 common#:#shib_login_embedded_wayf#:#Anmeldebereich selber gestalten
 common#:#shib_login_embedded_wayf_description#:#Diese Einstellung erlaubt es beliebigen HTML Code im Textfeld für Anmeldeanweisungen anzugeben. Damit kann man beispielsweise einen eigenen JavaScript Embedded WAYF/Discovery Service verwenden oder den Anmeldebereich beliebig selber gestalten.
+common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
+common#:#shib_login_internal_wayf#:#Den ILIAS-WAYF-Dienst benutzen
 common#:#shib_login_type#:#Auswahl der Organisation
 common#:#shib_member_of#:#Ich bin Mitglied von ...
 common#:#shib_phone_home#:#Attribut für private Telefonnummer
 common#:#shib_phone_mobile#:#Attribut für Mobiltelephonnummer
-common#:#shib_phone_office#:#Attribut für Geschätstelefonnummer
+common#:#shib_phone_office#:#Attribut für Geschäftstelefonnummer
 common#:#shib_read#:#Leserechte für Shibboleth-Einstellungen
 common#:#shib_select_home_organization#:#Zum Anmelden über %s wählen Sie bitte aus dem Aufklappmenü die Organisation, der Sie angehören:
 common#:#shib_settings_saved#:#Die Einstellungen für Shibboleth wurden gespeichert
 common#:#shib_street#:#Attribut für Strasse
 common#:#shib_title#:#Attribut für Titel
 common#:#shib_update#:#Dieses Feld bei jeder Anmeldung aktualisieren
-common#:#shib_user_default_role#:#Generelle Rolle für Shibbolethbenützer
+common#:#shib_user_default_role#:#Generelle Rolle für Shibboleth-Benutzer
 common#:#shib_visible#:#Einstellungen für Shibboleth sind sichtbar
 common#:#shib_write#:#Einstellungen für Shibboleth editieren
 common#:#shib_zipcode#:#Attribut für Postleitzahl
@@ -4487,7 +4482,7 @@ common#:#tax_edit_permission#:#Rechteeinstellungen ändern
 common#:#tax_new#:#Neue Taxonomie
 common#:#tax_read#:#Lesezugriff auf Taxonomien
 common#:#tax_visible#:#Taxonomien sind sichtbar
-common#:#tax_write#:#schreibzugriff auf Taxonomien
+common#:#tax_write#:#Schreibzugriff auf Taxonomien
 common#:#taxf_edit_permission#:#Rechteeinstellungen ändern
 common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
 common#:#taxf_visible#:#Taxonomienordner ist sichtbar
@@ -4510,11 +4505,11 @@ common#:#time_limit_from#:#Von (Zeitlimit)
 common#:#time_limit_message#:#Nachricht (Zeitlimit)
 common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
 common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
-common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
+common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt. Die von Ihnen eingegebenen Zeiten überschreiten diesen Zeitraum.
 common#:#time_limit_owner#:#Eigentümer (Zeitlimit)
 common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
-common#:#time_limit_unlimited#:#Unlimited (Zeitlimit)
-common#:#time_limit_until#:#Until (Zeitlimit)
+common#:#time_limit_unlimited#:#Unlimitiert (Zeitlimit)
+common#:#time_limit_until#:#Bis (Zeitlimit)
 common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
 common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
@@ -4771,7 +4766,7 @@ common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine W
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
 common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
-common#:#webfolder_instructions_text#:#<p>So öffnen Sie <b>[WEBFOLDER_TITLE]</b> als Webordner:</p>[IF_WINDOWS]<h3>Anleitung für Windows Vista</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Klicken Sie auf 'Netzlaufwerk zuordnen' in der Symbolleiste.<br/>Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Verbindung mit einer Website herstellen'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine benutzerdefinierte Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Klicken Sie auf Fertigstellen.</li><li>Sie können den Webordner nun über das Startmenü 'Computer' öffnen.</li></ol><h3>Anleitung für Windows XP</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Wählen Sie das Menü 'Extras > Netzlaufwerk verbinden...'.<br/>Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Onlinespeicherplatz anfordern oder mit einem Netzwerkserver verbinden'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine andere Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Klicken Sie auf 'Fertig stellen'.</li><li>Der Webordner wird geöffnet. Sie können den Webordner später über das Startmenü 'Netzwerkumgebung' direkt öffnen.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Anleitung für Mac OS X</h3><ol><li>Aktivieren Sie den Finder.</li><li>Wählen Sie das Menü 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies öffnet das Dialogfenster 'Mit Server verbinden'.</li><li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Anleitung für Linux mit Konqueror</h3><ol><li>Starten Sie den Konqueror Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Linux mit Nautilus</h3><ol><li>Starten Sie den Nautilus Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_LINUX]<p>Falls Ihr Computer den Webordner nicht öffnen kann, nehmen Sie bitte mit <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a> Kontakt auf.</p>
+common#:#webfolder_instructions_text#:#<p>So öffnen Sie <b>[WEBFOLDER_TITLE]</b> als Webordner:</p>[IF_WINDOWS]<h3>Anleitung für Windows Vista</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Klicken Sie auf 'Netzlaufwerk zuordnen' in der Symbolleiste.<br/>Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Verbindung mit einer Website herstellen'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine benutzerdefinierte Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Klicken Sie auf Fertigstellen.</li><li>Sie können den Webordner nun über das Startmenü 'Computer' öffnen.</li></ol><h3>Anleitung für Windows XP</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Wählen Sie das Menü 'Extras > Netzlaufwerk verbinden...'.<br/>Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Onlinespeicherplatz anfordern oder mit einem Netzwerkserver verbinden'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine andere Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Klicken Sie auf 'Fertig stellen'.</li><li>Der Webordner wird geöffnet. Sie können den Webordner später über das Startmenü 'Netzwerkumgebung' direkt öffnen.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Anleitung für Mac OS X</h3><ol><li>Aktivieren Sie den Finder.</li><li>Wählen Sie das Menü 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies öffnet das Dialogfenster 'Mit Server verbinden'.</li><li>Geben Sie folgende Adresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Anleitung für Linux mit Konqueror</h3><ol><li>Starten Sie den Konqueror Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Linux mit Nautilus</h3><ol><li>Starten Sie den Nautilus Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_LINUX]<p>Falls Ihr Computer den Webordner nicht öffnen kann, nehmen Sie bitte mit <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a> Kontakt auf.</p>
 common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#webr#:#Weblink
@@ -4854,7 +4849,7 @@ content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues Element hinzuzufügen.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
-content#:#cont_add_polygon#:#Polygon# hinzufügen
+content#:#cont_add_polygon#:#Polygon hinzufügen
 content#:#cont_add_rectangle#:#Viereck hinzufügen
 content#:#cont_add_tab#:#Register hinzufügen
 content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
@@ -5210,7 +5205,7 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
-content#:#cont_localfile#:#Lokale Datei
+content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_location#:#Position
 content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
@@ -5359,10 +5354,10 @@ content#:#cont_resize_explanation2#:#Diese Funktion skaliert lokale Bilddateien 
 content#:#cont_resize_image#:#Bilder skalieren
 content#:#cont_resize_img#:#Bildgrösse anpassen
 content#:#cont_resource#:#Ressource
-content#:#cont_resource_size#:#Resource Size
+content#:#cont_resource_size#:#Größe der Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
-content#:#cont_Ressources#:#Resourcen
+content#:#cont_Ressources#:#Ressourcen
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -5767,7 +5762,7 @@ crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
 crs#:#crs_list_users#:#Benutzer auflisten
 crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
 crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
-crs#:#crs_lm_deassign#:#Zuornung entfernen
+crs#:#crs_lm_deassign#:#Zuordnung entfernen
 crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
 crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
@@ -5853,7 +5848,7 @@ crs#:#crs_objective_assign_question#:#Frage zuordnen
 crs#:#crs_objective_assigned_materials#:#Zugeordnete Materialien
 crs#:#crs_objective_assigned_qst#:#Zugeordnete Fragen
 crs#:#crs_objective_deassign_question#:#Zuordnung entfernen
-crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
+crs#:#crs_objective_delete_lm_assignment#:#Zuordnung entfernen
 crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
 crs#:#crs_objective_final_test#:#Abschlusstest
 crs#:#crs_objective_insert_percent#:#Bitte geben sie nur Prozentzahlen zwischen 0 und 100 ein.
@@ -5907,7 +5902,7 @@ crs#:#crs_objectives_max_points#:#Maximale Punktzahl
 crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
 crs#:#crs_objectives_nr_questions#:#Anzahl Fragen
 crs#:#crs_objectives_qst_deassigned#:#Die ausgewählten Fragen wurden entfernt.
-crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiederruflich gelöscht.
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiderruflich gelöscht.
 crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optionen
@@ -6184,7 +6179,7 @@ crs#:#timing_accept_table#:#Lernplanung: Bemerkungen
 crs#:#timing_accepted#:#Akzeptiert
 crs#:#timing_not_accepted#:#Nicht akzeptiert
 crs#:#timing_remark#:#Bemerkung
-crs#:#timing_tutor_visible#:#Bemerkung ist sichbar für den Tutor
+crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Tutor
 crs#:#timing_user_accept#:#Empfohlenen Lernplan akzeptieren
 crs#:#timing_user_accepted#:#Lernplan akzeptiert
 crs#:#timings#:#Zeitvorgaben
@@ -6318,11 +6313,11 @@ dateplaner#:#cal_sync_cache#:#Termin-Cache
 dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.
 dateplaner#:#cal_sync_disabled#:#Ausgeschaltet
 dateplaner#:#cal_sync_enabled#:#Eingeschaltet
-dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronistation
+dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronisation
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
-dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Dartellung der Zeit.
+dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit.
 dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
@@ -6450,7 +6445,7 @@ dateplaner#:#help_properties_del#:#Löscht das Schlagwort
 dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlagwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
 dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Kalender von Outlook erstellt wurde, um diese zu importieren.
-dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
+dateplaner#:#help_properties_new#:#Schlüsselwort hinzufügen max. 20 Zeichen
 dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlagwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
 dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
@@ -6525,7 +6520,7 @@ dateplaner#:#rotation#:#Turnus
 dateplaner#:#rotation_dates#:#Turnus Termine
 dateplaner#:#Sa_long#:#Samstag
 dateplaner#:#Sa_short#:#Sa
-dateplaner#:#semester_name#:#Semester Name
+dateplaner#:#semester_name#:#Semestername
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
 dateplaner#:#short_03#:#Mär
@@ -6570,7 +6565,7 @@ delic#:#delic_user_profile#:#Einstellungen für del.icio.us-Account im Persönli
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
-ecs#:#ecs_account_duration_info#:#Die Aktivierungszeit neuer ECS-Nutzer ist auf die Session-Dauer begrenzt. Erst mit der Aufnahme in einen Kurs wird das Ende der AKtivierungszeit verlängert.
+ecs#:#ecs_account_duration_info#:#Die Aktivierungszeit neuer ECS-Nutzer ist auf die Session-Dauer begrenzt. Erst mit der Aufnahme in einen Kurs wird das Ende der Aktivierungszeit verlängert.
 ecs#:#ecs_active#:#ECS Funktionalitäten aktivieren
 ecs#:#ecs_active_header#:#Export/Import erlaubt
 ecs#:#ecs_approval_rcp#:#Benachrichtigungen über Kursfreigaben
@@ -6596,7 +6591,7 @@ ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch
 ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
-ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überpfüfen Sie Ihre Eingabe.
+ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überprüfen Sie Ihre Eingabe.
 ecs#:#ecs_err_invalid_type#:#Bitte wählen Sie eine Art der Zuordnung aus.
 ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attributwerte.
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
@@ -6639,8 +6634,9 @@ ecs#:#ecs_new_econtent_subject#:#Neuer externer Kurs
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
 ecs#:#ecs_new_user_subject#:#Neue ECS-Nutzer
-ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlich möchten.
+ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlichen möchten.
 ecs#:#ecs_no_value#:#Nicht angegeben
+ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_notifications#:#Benachrichtigungen
 ecs#:#ecs_participants#:#Teilnehmer
 ecs#:#ecs_participants_infos#:#Weitere Informationen
@@ -6650,6 +6646,7 @@ ecs#:#ecs_port#:#Port
 ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
+ecs#:#ecs_published_for#:#Freigegeben für:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer externer Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Externe Kurse aktualisieren
 ecs#:#ecs_released#:#Export
@@ -6696,7 +6693,7 @@ feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
 feed#:#feed_no_js_click_here#:#Wird der Newsfeed nicht angezeigt, klicken Sie bitte hier.
 feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
-feed#:#feed_nr_pd_feeds_info#:#Betimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
+feed#:#feed_nr_pd_feeds_info#:#Bestimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
 feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
 feed#:#feed_proxy#:#Proxy Host
 feed#:#feed_proxy_info#:#Proxy Host für Netzverbindungen.
@@ -6932,9 +6929,9 @@ grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
 grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
 grp#:#grp_new_status#:#Ihr neuer Status:
 grp#:#grp_notification#:#Benachrichtigung
-grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktivert sind.
-grp#:#grp_notify_off#:#Benachritigungen über Neuanmeldungen deaktiviert
-grp#:#grp_notify_on#:#Benachritigungen über Neuanmeldungen aktiviert
+grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Nachricht, da für Sie als Gruppenverwalter/Gruppenverwalterin Benachrichtigungen aktiviert sind.
+grp#:#grp_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
+grp#:#grp_notify_on#:#Benachrichtigungen über Neuanmeldungen aktiviert
 grp#:#grp_open#:#Offene Gruppe
 grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sichtbar. Eine direkte Anmeldung ist für alle möglich.
 grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
@@ -6948,7 +6945,7 @@ grp#:#grp_reg_disabled#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Teilnehmer in die Gruppe aufnehmen.
 grp#:#grp_reg_end#:#Ende:
 grp#:#grp_reg_limit_num#:#Begrenzung der Teilnehmeranzahl
-grp#:#grp_reg_limit_num_info#:#Zeiliche Begrenzung der Anmeldung
+grp#:#grp_reg_limit_num_info#:#Zeitliche Begrenzung der Anmeldung
 grp#:#grp_reg_limit_time#:#Zeitlich begrenzte Anmeldung
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_reg_max_members_info#:#Sie können hier die maximale Anzahl von Gruppenmitgliedern festlegen. Wird die Zahl überschritten, sind keine Beitritte mehr möglich.
@@ -7192,11 +7189,11 @@ license#:#license_warning#:#Lizenzwarnung bis
 license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
 license#:#potential_accesses#:#Potentielle Zugriffe
 license#:#potential_accesses_explanation#:#Jeder Nutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
-license#:#remaining_licenses#:#Verfügbare Lizenen
+license#:#remaining_licenses#:#Verfügbare Lizenzen
 license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen errechnet sich aus der Anzahl gekaufter minus der Anzahl benutzter Lizenzen.
 license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Nutzers verbraucht eine Lizenz.
-license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu deaktivieren.
+license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
@@ -7229,7 +7226,7 @@ mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre E-Mail-Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_cronjob_notification_info#:#Hier können Sie eine regelmäßige Benachrichtung über neue Mails aktivieren.
+mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.
 mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder von mindestens einem gewählten Kurs können nicht aufgelistet werden.
 mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
@@ -7240,7 +7237,7 @@ mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Nachrichten im Papierkorb gelöscht werden sollen?
 mail#:#mail_enter_login_or_email_addr#:#Bitte geben Sie einen Benutzernamen oder eine E-Mail-Adresse ein.
 mail#:#mail_enter_valid_email_addr#:#Bitte geben Sie eine gültige E-Mail-Adresse ein.
-mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernnamen ein.
+mail#:#mail_enter_valid_login#:#Bitte geben Sie einen gültigen Benutzernamen ein.
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_entry_exists#:#Es existiert bereits ein Eintrag mit dem gegebenen Benutzernamen.
@@ -7333,7 +7330,7 @@ mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
 mail#:#mail_send_with_system_address#:#Mit Adresse des Systems senden
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Anwender/-innen zu ändern, haben Sie <a href="%s">hier</a>.
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird.
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
@@ -7375,7 +7372,7 @@ mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
 mcst#:#mcst_media_cast_not_online_text#:#Der Mediacast ist nicht online oder wurde deaktiviert
 mcst#:#mcst_mimetype#:#Mime-Type
-mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype aus, um das richtige Plugin zu definieren. <br>Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
+mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
 mcst#:#mcst_mimetypes#:#Mime-Types
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von Mimetypes
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
@@ -7558,7 +7555,7 @@ meta#:#meta_c_GA#:#Gabun
 meta#:#meta_c_GB#:#Vereinigtes Königreich
 meta#:#meta_c_GD#:#Grenada
 meta#:#meta_c_GE#:#Georgien
-meta#:#meta_c_GF#:#Französich Guyana
+meta#:#meta_c_GF#:#Französisch Guyana
 meta#:#meta_c_GH#:#Ghana
 meta#:#meta_c_GI#:#Gibraltar
 meta#:#meta_c_GL#:#Grönland
@@ -7572,7 +7569,7 @@ meta#:#meta_c_GT#:#Guatemala
 meta#:#meta_c_GU#:#Guam
 meta#:#meta_c_GW#:#Guinea-Bissau
 meta#:#meta_c_GY#:#Guyana
-meta#:#meta_c_HM#:#Heard und Nc Donald Inseln
+meta#:#meta_c_HM#:#Heard und McDonald Inseln
 meta#:#meta_c_HN#:#Honduras
 meta#:#meta_c_HR#:#Kroatien
 meta#:#meta_c_HT#:#Haiti
@@ -7611,7 +7608,7 @@ meta#:#meta_c_LT#:#Litauen
 meta#:#meta_c_LU#:#Luxemburg
 meta#:#meta_c_LV#:#Lettland
 meta#:#meta_c_LY#:#Libyen
-meta#:#meta_c_MA#:#Morokko
+meta#:#meta_c_MA#:#Marokko
 meta#:#meta_c_MC#:#Monaco
 meta#:#meta_c_MD#:#Moldawien
 meta#:#meta_c_MG#:#Madagaskar
@@ -7647,7 +7644,7 @@ meta#:#meta_c_NZ#:#Neuseeland
 meta#:#meta_c_OM#:#Oman
 meta#:#meta_c_PA#:#Panama
 meta#:#meta_c_PE#:#Peru
-meta#:#meta_c_PF#:#Französich Polynesien
+meta#:#meta_c_PF#:#Französisch Polynesien
 meta#:#meta_c_PG#:#Papua-Neuguinea
 meta#:#meta_c_PH#:#Philippinen
 meta#:#meta_c_PK#:#Pakistan
@@ -7673,7 +7670,7 @@ meta#:#meta_c_SH#:#St. Helena
 meta#:#meta_c_SI#:#Slowenien
 meta#:#meta_c_SJ#:#Svalbard und Jan Mayen Inseln
 meta#:#meta_c_SK#:#Slowakei
-meta#:#meta_c_SL#:#Siera Leone
+meta#:#meta_c_SL#:#Sierra Leone
 meta#:#meta_c_SM#:#San Marino
 meta#:#meta_c_SN#:#Senegal
 meta#:#meta_c_SO#:#Somalia
@@ -7684,7 +7681,7 @@ meta#:#meta_c_SY#:#Syrien
 meta#:#meta_c_SZ#:#Swaziland
 meta#:#meta_c_TC#:#Turks und Caicos Inseln
 meta#:#meta_c_TD#:#Tschad
-meta#:#meta_c_TF#:#Französiche Südliche Territorien
+meta#:#meta_c_TF#:#Französische Südliche Territorien
 meta#:#meta_c_TG#:#Togo
 meta#:#meta_c_TH#:#Thailand
 meta#:#meta_c_TJ#:#Tadschikistan
@@ -7693,7 +7690,7 @@ meta#:#meta_c_TM#:#Turkmenistan
 meta#:#meta_c_TN#:#Tunesien
 meta#:#meta_c_TO#:#Tonga
 meta#:#meta_c_TP#:#Ost-Timor
-meta#:#meta_c_TR#:#Turkei
+meta#:#meta_c_TR#:#Türkei
 meta#:#meta_c_TT#:#Trinidad und Tobago
 meta#:#meta_c_TV#:#Tuvalu
 meta#:#meta_c_TW#:#Taiwan
@@ -8004,7 +8001,7 @@ meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_technicalimplementer#:#Technische Umsetzung
-meta#:#meta_technicalvalidator#:#Technische Überpfüfung
+meta#:#meta_technicalvalidator#:#Technische Überprüfung
 meta#:#meta_terminator#:#Schlussredakteur
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Training
@@ -8074,7 +8071,7 @@ news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
 news#:#news_nr_of_items#:#Anzahl der maximalen Nachrichten pro Objekt
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unerobjekte anzeigen.
+news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
 news#:#news_pd_period#:#Zeitraum News auf Persönlichem Schreibtisch
 news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_period_1_month#:#Letzter Monat
@@ -8119,6 +8116,8 @@ notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
 notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_show_comments#:#Kommentare anzeigen
 payment#:#advanced_search#:#Erweiterte Suche
+payment#:#coupon_type#:#Gutschein-Typ
+payment#:#currency#:#Währung
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
 payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
@@ -8207,7 +8206,7 @@ payment#:#pay_header#:#Payment
 payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
 payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
 payment#:#pay_hide_coupons#:#Verberge Coupons
-payment#:#pay_hide_coupons_info#:#Verbirgt coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinacht dies die Handhabung für Ihre Kunden.
+payment#:#pay_hide_coupons_info#:#Verbirgt Coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinfacht dies die Handhabung für Ihre Kunden.
 payment#:#pay_hide_filtering#:#Verberge Filter
 payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
 payment#:#pay_hide_news#:#Verberge Nachrichten
@@ -8314,7 +8313,7 @@ payment#:#paya_coupons_no_codes_selected#:#Kein Code ausgewählt
 payment#:#paya_coupons_no_object_assigned#:#Es wurde kein passendes Objekt zum Gutschein im Warenkorb gefunden.
 payment#:#paya_coupons_not_available#:#Es wurden bisher keine Gutscheine angelegt.
 payment#:#paya_coupons_not_found#:#Es wurden keine Gutscheine gefunden.
-payment#:#paya_coupons_not_valid#:#Der Gutscheind ist nicht gültig.
+payment#:#paya_coupons_not_valid#:#Der Gutschein ist nicht gültig.
 payment#:#paya_coupons_number_of_codes#:#Anzahl der Codes
 payment#:#paya_coupons_objects#:#Objekte
 payment#:#paya_coupons_percentaged#:#prozentual
@@ -8471,10 +8470,10 @@ payment#:#pays_currency_unit#:#Währung (z.B. EUR)
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
 payment#:#pays_eco_agreement#:#Agreement Number
-payment#:#pays_eco_cur_handle_code#:#Currency Code
+payment#:#pays_eco_cur_handle_code#:#Währungscode
 payment#:#pays_eco_layout#:#Layout Rechnung
 payment#:#pays_eco_payment_terms#:#Payment Terms
-payment#:#pays_eco_product_number#:#Product Number
+payment#:#pays_eco_product_number#:#Produktnummer
 payment#:#pays_edit_vendor#:#Benutzer bearbeiten
 payment#:#pays_email_vendor#:#E-Mail-Adresse des Verkäufers
 payment#:#pays_epay#:#ePay
@@ -8491,11 +8490,11 @@ payment#:#pays_epay_server_path#:#Server-Pfad
 payment#:#pays_epay_settings#:#ePay-Konfiguration
 payment#:#pays_epay_settings_not_valid#:#Die ePay-Einstellungen konnten nicht gespeichert werden, da sie ungültig sind.
 payment#:#pays_erp#:#ERP
-payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not vaild.
-payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
-payment#:#pays_erp_error#:#Error interacting with %s!
-payment#:#pays_erp_info#:#Enterprice, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
-payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
+payment#:#pays_erp_bad_settings#:#Bitte ändern Sie die Einstellungen für %s, da sie nicht mehr gültig sind.
+payment#:#pays_erp_connection_established#:#Verbindung mit %s erfolgreich hergestellt..
+payment#:#pays_erp_error#:#Fehler bei der Interaktion mit %s!
+payment#:#pays_erp_info#:#ERP-System-Setup. Integriert ILIAS mit einem Kassensystem.
+payment#:#pays_erp_invoice_attached#:#Ihre Rechnung ist an diese Nachricht angehängt..
 payment#:#pays_erp_invoice_copies#:#Speichere Kopien der erzeugten Rechnungen
 payment#:#pays_erp_invoice_copies_info#:#Kopien werden gespeichert in:
 payment#:#pays_erp_invoice_deleted#:#Proberechnung gelöscht
@@ -8504,11 +8503,11 @@ payment#:#pays_erp_invoice_nowrite#:#In Verzeichnis kann nicht geschrieben/gespe
 payment#:#pays_erp_invoice_preview#:#Proberechnung in neuem Fenster anzeigen
 payment#:#pays_erp_settings#:#ERP-Einstellungen
 payment#:#pays_erp_system#:#ERP-System
-payment#:#pays_erp_tst_billed#:#billed for
+payment#:#pays_erp_tst_billed#:#gebucht für
 payment#:#pays_erp_tst_existing#:#Existing Debtor
 payment#:#pays_erp_tst_new#:#New Debtor
 payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Kurses oder der Datei.
-payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
+payment#:#pays_erp_updated_settings#:#ERP-Einstellungen aktualisiert und %s aktiviert.
 payment#:#pays_general#:#Allgemein
 payment#:#pays_general_settings#:#Allgemeine Einstellungen
 payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
@@ -8545,6 +8544,7 @@ payment#:#price_a#:#Preis
 payment#:#price_from#:#ab
 payment#:#prices#:#Preise
 payment#:#reset_filter#:#Filter zurücksetzen
+payment#:#search_in_title#:#Suche in Titel
 payment#:#select_one_topic#:#Sie müssen mindestens ein Thema auswählen
 payment#:#set_filter#:#Filter setzen
 payment#:#shop_info#:#Shop Information
@@ -8584,7 +8584,7 @@ pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte
 pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
-pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um ein Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fälllen erscheinen die betroffenen Objekte automatisch an diesem Ort.
+pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
 pd#:#pd_my_offers#:#Meine Angebote
 pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:
@@ -8784,7 +8784,7 @@ rbac#:#rbac_delete_role#:#Rolle löschen
 rbac#:#rbac_keep_local_policies#:#Lokale Zugriffsregelungen beibehalten
 rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt.
 rbac#:#rbac_local_policies#:#Lokale Zugriffsregelungen
-rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiederruflich aufgehoben.
+rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiderruflich aufgehoben.
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
@@ -8846,7 +8846,7 @@ registration#:#reg_access_limitation_missing_mode#:#Bitte für alle Rollen die A
 registration#:#reg_access_limitation_mode#:#Art der Zugangsbefristung
 registration#:#reg_access_limitation_mode_absolute#:#Befristeter Zugang mit festem Ablaufdatum
 registration#:#reg_access_limitation_mode_relative#:#Befristete Zugriffsdauer ab Anmeldedatum
-registration#:#reg_access_limitation_mode_unlimited#:#Ohne Zugangbefristung
+registration#:#reg_access_limitation_mode_unlimited#:#Ohne Zugangsbefristung
 registration#:#reg_access_limitation_none#:#unbefristeter Zugang
 registration#:#reg_access_limitation_out_of_date#:#Für eine oder mehrere Rollen ist die Zugangsfrist bereits abgelaufen!
 registration#:#reg_access_limitations#:#Zugangsbefristung
@@ -8862,7 +8862,7 @@ registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeits
 registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
 registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
 registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.<br />Sie werden in 20 Sekunden zur <a href="%s" title="Loginseite">Loginseite</a> weitergeleitet.
-registration#:#reg_default#:#Default
+registration#:#reg_default#:#Standard
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
@@ -8885,7 +8885,7 @@ registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder au
 registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_notification#:#Benachrichtigungen
 registration#:#reg_notification_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die bei Neuanmeldungen per E-Mail benachrichtigt werden sollen.
-registration#:#reg_role_access_limitations#:#Zugangfristen für Rollen festlegen
+registration#:#reg_role_access_limitations#:#Zugangsfristen für Rollen festlegen
 registration#:#reg_role_assignment#:#Rollenzuordnung
 registration#:#reg_role_info#:#Rollen
 registration#:#reg_select_one#:#Bitte treffen Sie eine Auswahl.
@@ -8928,7 +8928,7 @@ sahs#:#sahs_sco_objective#:#Ziele
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Benutzer hinzufügen
-search#:#adv_md_search_title#:#Suche in den erweiterterten Metadaten
+search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
@@ -8964,7 +8964,7 @@ search#:#lucene_last_index_time#:#Letzte Indexerstellung
 search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
 search#:#lucene_level#:#Log-Level
 search#:#lucene_log#:#Pfad zur Logdatei
-search#:#lucene_log_info#:#Bitte tragen Sie hier den abslotuten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei nicht existiert, wird sie automatisch erzeugt.
+search#:#lucene_log_info#:#Bitte tragen Sie hier den absoluten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei noch nicht existiert, wird sie automatisch erzeugt.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
 search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
@@ -9059,7 +9059,7 @@ search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse ge
 search#:#search_search_results#:#Suchergebnisse
 search#:#search_search_term#:#Suchbegriff
 search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
-search#:#search_select_folder#:#Bitte wählen Sie genau einen Ordner aus, Suchergebnisse können nicht umbanannt werden.
+search#:#search_select_folder#:#Bitte wählen Sie genau einen Ordner aus. Suchergebnisse können nicht umbenannt werden.
 search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
 search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
 search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
@@ -9068,7 +9068,7 @@ search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_select_search_area#:#Suchbereich ändern
 search#:#search_show_result#:#Anzeigen
 search#:#search_term_combination#:#Kombination
-search#:#search_title_description#:#Title / Description
+search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen
 search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
@@ -9079,11 +9079,11 @@ search#:#until#:#bis
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
 shib#:#shib_assignment_type#:#Art der Zuordnung
-shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth Benutzerprofil.
+shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth-Benutzerprofil.
 shib#:#shib_attribute#:#Benutzerattribut
 shib#:#shib_attribute_name#:#Attributname
 shib#:#shib_attribute_value#:#Attributwert
-shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuodnungen bei jeder Anmeldung:
+shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuordnungen bei jeder Anmeldung:
 shib#:#shib_choose_role#:#Rolle übernehmen
 shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
 shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.
@@ -9145,7 +9145,7 @@ style#:#sty_color#:#Farbe
 style#:#sty_color_already_exists#:#Eine Farbe dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_color_code#:#Farbcode
 style#:#sty_color_flavors#:#Farbrichtungen
-style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
+style#:#sty_color_info#:#Vordefinierte Farbschemata erleichtern die Wiederverwendung von Farben für verschiedene Anwendungszwecke. Verweisen Sie auf eine vordefinierte Farbe, in dem Sie deren Name mit einem vorangestellten "!" für alle Farbabstufungen nutzen. Um eine Abstufung zu nutzen, geben Sie den Wert für die Abstufung in Klammern nach dem Farbnamen an, z. B.  !MeineFarbe(20).
 style#:#sty_color_name#:#Farbname
 style#:#sty_colors#:#Farben
 style#:#sty_commands#:#Aktionen
@@ -9213,8 +9213,8 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits einen Styleklasse mit diesem Namen im Style Sheet.
-style#:#sty_msg_characteristic_must_only_include#:#Der Styleklassentitle darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits eine Styleklasse mit diesem Namen im Stylesheet.
+style#:#sty_msg_characteristic_must_only_include#:#Der Styleklassentitel darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -9304,7 +9304,7 @@ style#:#sty_type_page_rnavlink#:#Link Navigation rechts
 style#:#sty_type_page_title#:#Seitentitel
 style#:#sty_type_page_tnav#:#Navigation oben
 style#:#sty_type_qanswer#:#Antwort
-style#:#sty_type_qfeedr#:#Feebback, richtig
+style#:#sty_type_qfeedr#:#Feedback, richtig
 style#:#sty_type_qfeedw#:#Feedback, falsch
 style#:#sty_type_qinput#:#Texteingabe
 style#:#sty_type_qlinput#:#Lange Texteingabe
@@ -9364,7 +9364,7 @@ survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonym
 survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
-survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
+survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, um an einer anonymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
 survey#:#anonymize_with_code#:#Zugriff über einen Zugangsschlüssel
 survey#:#anonymize_without_code#:#Freier Zugriff
 survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS-System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
@@ -9455,7 +9455,7 @@ survey#:#define_questionblock#:#Fragenblock definieren
 survey#:#delete_user_data#:#Umfrageergebnisse der ausgewählten Teilnehmerinnen und Teilnehmer löschen
 survey#:#description_maxchars#:#Wenn Sie nichts eintragen, ist die maximale Anzahl der einzugebenden Zeichen unbegrenzt.
 survey#:#disinvite#:#Ausladen
-survey#:#display_all_available#:#Anzeige aller verfübaren
+survey#:#display_all_available#:#Anzeige aller verfügbaren
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard-Haltung (einverstanden-unentschlossen-nicht einverstanden)
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
@@ -9468,7 +9468,7 @@ survey#:#dp_standard_attitude_good5#:#Standard-Haltung (sehr gut-gut-angemessen-
 survey#:#dp_standard_attitude_must5#:#Standard-Haltung (muss-sollte-unentschlossen-sollte nicht-darf nicht)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard-Haltung (sollte-sollte nicht)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard-Haltung (sollte-unentschlossen-sollte nicht)
-survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-absolut unsicher)
+survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweise (absolut sicher-eher positiv-unentschlossen-eher negativ-absolut unsicher)
 survey#:#dp_standard_behaviour_yes_no#:#Standard-Verhaltensweise (ja-nein)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard-Verhaltensweise (ja-unentschlossen-nein)
 survey#:#dp_standard_beliefs_always_never#:#Standard-Vorstellungen (immer-nie)
@@ -9568,7 +9568,7 @@ survey#:#matrix_bipolar_adjectives#:#Pol und Gegenpol
 survey#:#matrix_bipolar_adjectives_description#:#Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben
 survey#:#matrix_column_delete_select_none#:#Bitte wählen Sie mindestens eine Spalte zum Löschen aus!
 survey#:#matrix_column_separators#:#Spaltentrenner
-survey#:#matrix_column_separators_description#:#Wählen Sie das Kontrollkächsten aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Lnien) zwischen den Spalten anzeigen wollen
+survey#:#matrix_column_separators_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Lnien) zwischen den Spalten anzeigen wollen
 survey#:#matrix_column_settings#:#Spalteneigenschaften
 survey#:#matrix_columns#:#Matrixspalten
 survey#:#matrix_columns_rows#:#Spalten/Zeilen bearbeiten
@@ -9603,7 +9603,7 @@ survey#:#menubacktosurvey#:#Zurück zur Umfrage
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 5 Zeichen bestehenden - Zugangsschlüssel:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragentyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
-survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
+survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
 survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
 survey#:#metric_subtype_description_ratioabsolute#:#Ein quantitatives Merkmal heißt absolutskaliert, wenn nur eine einzige sinnvolle Skala zu dessen Messung verwendet werden kann. Dies ist gleichbedeutend mit der Tatsache, dass nur eine sinnvolle Einheit für das Merkmal in Frage kommt, wie z.B. die Anzahl der Kinder einer Familie. Auch Merkmale, deren Ausprägungen in Prozent gemessen werden, sind absolutskaliert (z.B. Wahrscheinlichkeiten).
 survey#:#metric_subtype_description_rationonabsolute#:#Ein quantitatives Merkmal heißt verhältnisskaliert, wenn die zur Messung verwendeten Skalen einen gemeinsamen natürlichen Nullpunkt aufweisen. Verhältnissen (Quotienten) von Merkmalsausprägungen eines verhältnisskalierten Merkmals kann eine sinnvolle Bedeutung zugewiesen werden. Der natürliche Nullpunkt garantiert nämlich, dass Verhältnisse von einander entsprechenden Ausprägungen, die auf unterschiedlichen Skalen (d.h. in anderen Maßeinheiten) gemessen wurden, immer gleich sind. Die meisten physikalischen Mengenangaben (Geschwindigkeit in m/s oder km/h sind verhältnisskaliert).
@@ -9626,7 +9626,7 @@ survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Antwo
 survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Vorbedingungen zu bearbeiten!
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
-survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
+survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfügbar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
@@ -9671,6 +9671,7 @@ survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
 survey#:#question_icon#:#Fragensymbol
+survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
 survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
@@ -9690,7 +9691,7 @@ survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#ratio_scale_ge_zero#:#Der Minimalwert muss größer oder gleich Null sein
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
@@ -9810,7 +9811,7 @@ survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fe
 survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Zugangsschlüssel ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Zugangsschlüssel auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
-survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Zugangsschlüssel eingeben
+survey#:#title_resume_survey#:#Fortsetzen der Umfrage - Bitte den Zugangsschlüssel eingeben
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
@@ -9821,6 +9822,7 @@ survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Ben
 survey#:#use_browser_print_function#:#Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers
 survey#:#use_google_chart_api#:#Google Chart API verwenden
 survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn Sie die <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a> für die Darstellung der Diagramme in den detaillierten kumulierten Ergebnissen der Umfragestatistik aktivieren wollen. Bitte beachten Sie, dass für die Verwendung der Google Chart API eine permanente Internetverbindung notwendig ist.
+survey#:#use_other_answer#:#Freitext
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
 survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
@@ -9852,7 +9854,7 @@ trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefun
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
 trac#:#info_dwell_time#:#Achtung: Die Gesamtverweildauer für ein Objekt ist vom gegebenen Zeitraum unabhängig!
 trac#:#info_found_objects#:#Die Zugriffsstatistik bezieht sich auf die nachfolgenden Objekte des Typs '%s', die gemäß Ihren Suchbegriffen gefunden wurden.
-trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb dieser Zeispanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet.
+trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb dieser Zeitspanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet.
 trac#:#last_login#:#Letztes Login
 trac#:#meta_typical_learning_time#:#Typische Lernzeit
 trac#:#newUT_settings#:#Lernmodul Statistik
@@ -9997,7 +9999,7 @@ trac#:#trac_info_edited#:#Wenn Sie der Meinung sind, dass Sie alle Inhalte bearb
 trac#:#trac_last_access#:#Letzter Zugriff
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
-trac#:#trac_lm_statistics#:#Zugriffstatistiken
+trac#:#trac_lm_statistics#:#Zugriffsstatistiken
 trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
 trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
 trac#:#trac_lp_determination_info_sco#:#Auswahl der Materialien, anhand derer der Gesamtstatus der SCORM-Lernmodule ermittelt wird.
@@ -10088,7 +10090,7 @@ user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_activate_public_profile#:#Öffentliches Profil aktivieren
 user#:#user_activate_public_profile_info#:#Globale Aktivierung Ihres öffentlichen Profiles. Vor- und Nachname werden sichtbar.
 user#:#user_activation#:#Aktivierung
-user#:#user_all#:#All
+user#:#user_all#:#Alle
 user#:#user_any#:#Alle
 user#:#user_field#:#Feld
 user#:#user_global_role#:#Globale Rolle
@@ -10111,7 +10113,7 @@ user#:#usr_public_profile_logged_in#:#Angemeldete Benutzer
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 webr#:#webr_active#:#Aktiv
 webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
-webr#:#webr_deactivate#:#weblink deaktivieren
+webr#:#webr_deactivate#:#Weblink deaktivieren
 webr#:#webr_edit_links#:#Weblinks bearbeiten
 webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
 webr#:#webr_edit_settings#:#Einstellungen bearbeiten
@@ -10178,23 +10180,3 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
-ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
-ecs#:#ecs_published_for#:#Freigegeben für:
-survey#:#use_other_answer#:#Freitext
-survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
-common#:#proxy#:#Proxy
-common#:#proxy_connectable#:#Verbindung hergestellt.
-common#:#proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
-common#:#proxy_status#:#Proxy
-common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
-common#:#proxy_host#:#Host
-common#:#proxy_host_info#:#Tragen Sie hier einen Host ein.
-common#:#proxy_port#:#Port
-common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
-common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
-common#:#proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
-payment#:#currency#:#Währung
-payment#:#coupon_type#:#Gutschein-Typ
-payment#:#search_in_title#:#Suche in Titel
-content#:#cont_LocalFile#:#Local File###26 01 2010 new variable
-common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
