@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Services/Table/classes/class.ilTable2GUI.php');
+
 /** 
 * 
 * @author Stefan Meyer <meyer@leifos.com>
@@ -30,8 +32,6 @@
 * @ilCtrl_Calls 
 * @ingroup ServicesLDAP 
 */
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-
 class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 {
 	protected $lng;

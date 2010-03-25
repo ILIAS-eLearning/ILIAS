@@ -10180,3 +10180,19 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
+auth#:#auth_account_migration_name#:#Migration
+auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
+auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
+auth#:#auth_openid#:#OpenId
+auth#:#auth_openid_configure#:#OpenId Unterstützung konfigurieren
+auth#:#auth_openid_enable#:#OpenId Unterstützung aktivieren
+auth#:#auth_openid_sync#:#Benutzer-Synchronisierung
+auth#:#auth_openid_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Anwender angelegt, wenn sich diese erfolgreich gegen OpenId authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.
+auth#:#auth_openid_role_select#:#Role:
+auth#:#auth_openid_migration#:#Account-Migration:
+auth#:#auth_openid_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf OpenId Authentifizierung umzustellen.
+common#:#auth_openid#:#OpenId
+common#:#login_to_ilias_via_openid#:#Bei ILIAS mittels OpenId anmelden
+auth#:#auth_openid_settings#:#OpenId-Einstellungen
+auth#:#auth_openid_provider#:#Anbieterauswahl
+auth#:#auth_openid_login#:#Ihre OpenID-URL

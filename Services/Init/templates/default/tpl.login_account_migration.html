@@ -1,37 +1,24 @@
-<div align="center">
-<img src="./templates/default/images/ilias_logo_big.png" border="0" style="margin: 20px;"/>
-<form method="post" action="{FORMACTION}" name="formlogin">
-	{MESSAGE}
-	<table class="std" width="400">
-		<tr class="tblheader">
-			<th class="std">{TXT_ACCOUNT_MIGRATION}</th>
-		</tr>
-		<tr class="std">
-			<td class="std">
-				<div style="padding-left: 10px;">
-					<input type="radio" name="account_migration" value="1" id="acc_migrate" onClick="ilToggleVisibleElements()"/><label for="acc_migrate">{INFO_MIGRATE}</label>
-					<div style="padding-left: 30px;">
-						<table class="fullwidth_invisible">
-							<tr>
-								<td>{TXT_USER}</td>
-								<td><input type="text" name="mig_username" value="{MIG_USER}" onClick="ilCheckMigration()" id="acc_user_name"/></td>
-							</tr>
-							<tr>
-								<td>{TXT_PASS}</td>
-								<td><input type="password" name="mig_password" value="{MIG_USER}" onClick="ilCheckMigration()" id="acc_user_pass" /></td>
-							</tr>
-						</table>
-					</div>
-					<input type="radio" name="account_migration" value="2" id="acc_new" onClick="ilToggleVisibleElements()"/><label for="acc_new">{INFO_ADD}</label>
-				</div>
-			</td>
-		</tr>
-		<tr class="tblfooter">
-			<td class="submit" align="right">
-				<input class="submit" type="submit" name="cmd[migrateAccount]" value="{TXT_SUBMIT}"/>
-				<input class="submit" type="submit" name="cmd[showLogin]" value="{TXT_CANCEL}"/>
-			</td>
-		</tr>
-	</table>	
-</form>
+<div class="ilFrame" style="margin-top:5px; width:800px; margin-left:auto; margin-right:auto;"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+<img src="./templates/default/images/HeaderIcon.png" border="0" style="margin: 20px;"/>
+<div class="ilFrameBL"><div class="ilFrameBR" style="min-height: 450px;">
+<div style="padding:35px 10px;">
+<!-- BEGIN warning -->
+<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+<div class="ilFailureMessage">
+<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+{TXT_MSG_LOGIN_FAILED}</div>
+<!-- END warning -->
+<!-- BEGIN success -->
+<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+<div class="ilSuccessMessage">
+<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+{TXT_MSG_LOGIN_SUCCESS}</div>
+<!-- END success -->
+<div align="center" style="padding-top: 25px">
+
+{MIG_FORM}
+
+</div></div>
 </div>
+</div></div></div></div>
+

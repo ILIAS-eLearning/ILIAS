@@ -321,13 +321,12 @@ class ilStartUpGUI
 			
 			$tpl->setCurrentBlock('auth_selection');
 			$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
-			$tpl->parseCurrentBlock();
 		}		
 		// login via ILIAS (this also includes radius and ldap)
                 // If local authentication is enabled for shibboleth users, we
                 // display the login form for ILIAS here.
 		if (($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH ||
-                   $ilSetting->get("shib_auth_allow_local")) &&
+			$ilSetting->get("shib_auth_allow_local")) &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
 			$loginSettings = new ilSetting("login_settings");
@@ -356,20 +355,6 @@ class ilStartUpGUI
 			$det = ilAuthModeDetermination::_getInstance();
 			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
 			{
-				/*foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
-				{
-					$tpl->setCurrentBlock('auth_mode_row');
-					$tpl->setVariable('VAL_AUTH_MODE',$key);
-					$tpl->setVariable('AUTH_CHECKED',isset($option['checked']) ? 'checked=checked' : '');
-					$tpl->setVariable('TXT_AUTH_MODE',$option['txt']);
-					$tpl->parseCurrentBlock();
-				}
-				
-				$tpl->setCurrentBlock('auth_selection');
-				$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
-				$tpl->parseCurrentBlock();*/
-				
-				// 
 				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
 				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
 				{
@@ -407,6 +392,9 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 			$tpl->parseCurrentBlock();
 		}
+		
+		// Show openid login screen
+		$this->showOpenIdLogin();
 
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
@@ -487,7 +475,7 @@ class ilStartUpGUI
 				case AUTH_MODE_INACTIVE:
 					$this->showFailure($lng->txt("err_auth_mode_inactive"));
 					break;
-							
+					
 					
 				case AUTH_WRONG_LOGIN:
 				default:
@@ -573,26 +561,49 @@ class ilStartUpGUI
 	 	global $tpl,$lng;
 	 	
 		$lng->loadLanguageModule('auth');
-	 	$tpl->addBlockFile("CONTENT", "content", "tpl.login_account_migration.html",
+	 	$tpl->addBlockFile("CONTENT", 
+			"content", 
+			"tpl.login_account_migration.html",
 			"Services/Init");
-	 	$tpl->addJavaScript('./Services/Authentication/js/account_migration.js');
 	 	
-	 	if(strlen($a_message))
-	 	{
-	 		ilUtil::sendInfo($a_message);
-	 	}
-		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'migrateAccount'));
-		$tpl->setVariable('TXT_ACCOUNT_MIGRATION',$lng->txt('auth_account_migration'));
-		$tpl->setVariable('INFO_MIGRATE',$lng->txt('auth_info_migrate'));
-		$tpl->setVariable('INFO_ADD',$lng->txt('auth_info_add'));
+	 	include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+	 	$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,'migrateAccount'));
 		
-		$tpl->setVariable('MIG_USER',$_POST['username']);
-		$tpl->setVariable('TXT_USER',$lng->txt('login'));
-		$tpl->setVariable('TXT_PASS',$lng->txt('password'));
+		$form->setTitle($lng->txt('auth_account_migration'));
+		$form->addCommandButton('migrateAccount', $lng->txt('save'));
+		$form->addCommandButton('showLogin', $lng->txt('cancel'));
 		
-		$tpl->setVariable('TXT_SUBMIT',$lng->txt('save'));
-		$tpl->setVariable('TXT_CANCEL',$lng->txt('cancel'));
+		$rad = new ilRadioGroupInputGUI($lng->txt('auth_account_migration_name'),'account_migration');
+		$rad->setValue(1);
 		
+		$keep = new ilRadioOption($lng->txt('auth_account_migration_keep'),1,$lng->txt('auth_info_migrate'));
+		$user = new ilTextInputGUI($lng->txt('login'),'mig_username');
+		$user->setValue(ilUtil::prepareFormOutput($_POST['mig_username']));
+		$user->setSize(32);
+		$user->setMaxLength(128);
+		$keep->addSubItem($user);
+		
+		$pass = new ilPasswordInputGUI($lng->txt('password'),'mig_password');
+		$pass->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
+		$pass->setRetype(false);
+		$pass->setSize(12);
+		$pass->setMaxLength(128);
+		$keep->addSubItem($pass);
+		$rad->addOption($keep);
+		
+		$new = new ilRadioOption($lng->txt('auth_account_migration_new'),2,$lng->txt('auth_info_add'));
+		$rad->addOption($new);
+		
+		$form->addItem($rad);
+	 	
+		$tpl->setVariable('MIG_FORM',$form->getHTML());
+		
+		if(strlen($a_message))
+		{
+			$this->showFailure($a_message);
+		}
+
 		$tpl->show('DEFAULT');		
 	}
 	
@@ -684,6 +695,23 @@ class ilStartUpGUI
 					$container = new ilAuthContainerRadius();
 					$container->forceCreation(true);
 					$ilAuth = ilAuthFactory::factory($container);
+					$ilAuth->start();
+					break;
+					
+				case 'openid':
+					$_POST['username'] = $_SESSION['tmp_external_account'];
+					$_POST['password'] = $_SESSION['tmp_pass'];
+					$_POST['oid_username'] = $_SESSION['tmp_oid_username'];
+					$_SESSION['force_creation'] = true;
+					
+					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+					include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
+					
+					$container = new ilAuthContainerOpenId();
+					$container->forceCreation(true);
+					ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
+					$ilAuth = ilAuthFactory::factory($container);
+					$ilAuth->callProvider($_POST['username'], null, null);
 					$ilAuth->start();
 					break;
 			}
@@ -1340,6 +1368,39 @@ class ilStartUpGUI
 		{
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$oException->getMessage());
 		}				
+	}
+	
+	/**
+	 * Show openid login if enabled
+	 * @return 
+	 */
+	protected function showOpenIdLogin()
+	{
+		global $lng,$tpl;
+		
+		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
+		if(!ilOpenIdSettings::getInstance()->isActive())
+		{
+			return;
+		}
+		
+		$lng->loadLanguageModule('auth');
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,'login'));
+		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
+		
+		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
+		$openid->setSize(30);
+		$openid->setMaxLength(255);
+		$openid->setRequired(true);
+		$openid->setCssClass('ilOpenIDBox');
+		$form->addItem($openid);
+		
+		$form->addCommandButton("showLogin", $lng->txt("log_in"));
+		
+		$tpl->setVariable('OID_LOGIN_FORM',$form->getHTML());
 	}
 }
 ?>

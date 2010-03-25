@@ -62,7 +62,6 @@ class ilAuthFactory
 	
 	/**
 	 * @var int
-	 * Maybe not required. Cron based authentication 
 	 */
 	const CONTEXT_CAS	= 5;
 	
@@ -86,6 +85,11 @@ class ilAuthFactory
 	 */
 	const CONTEXT_ECS = 8;
 	
+	/**
+	 * @var int
+	 * OpenId authentication 
+	 */
+	const CONTEXT_OPENID = 9;
 	
 
 	/**
@@ -187,6 +191,10 @@ class ilAuthFactory
 			case self::CONTEXT_ECS:
 				include_once './Services/WebServices/ECS/classes/class.ilAuthECS.php';
 				return new ilAuthECS($deco,$options);
+			
+			case self::CONTEXT_OPENID:
+				include_once './Services/OpenId/classes/class.ilAuthOpenId.php';
+				return new ilAuthOpenId($deco,$options);
 		}
 	}
 }

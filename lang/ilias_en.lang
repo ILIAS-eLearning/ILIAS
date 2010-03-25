@@ -10190,3 +10190,24 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
 exp#:#exp_select_max_one_item#:#Please select only one item.
 common#:#hide_filter#:#Hide Filter
+ecs#:#ecs_published_for#:#Published for:
+auth#:#auth_account_migration_name#:#Migration
+auth#:#auth_account_migration_keep#:#Migrate Existing User Account
+auth#:#auth_account_migration_new#:#Create New User Account
+auth#:#auth_openid#:#OpenId
+auth#:#auth_openid_configure#:#Configure OpenId-Authentication
+auth#:#auth_openid_enable#:#Enable OpenId Support
+auth#:#auth_openid_sync#:#User Synchronization
+auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.
+auth#:#auth_openid_role_select#:#Role:
+auth#:#auth_openid_migration#:#Account Migration:
+auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
+common#:#auth_openid#:#OpenId
+common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID
+content#:#cont_glo_create#:#Create Glossary
+content#:#cont_glo_assign#:#Assign Glossary
+content#:#cont_glo_detach#:#Detach Glossary
+content#:#glo_usages#:#Glossary is used in...
+auth#:#auth_openid_settings#:#OpenId Settings
+auth#:#auth_openid_provider#:#Provider Selection
+auth#:#auth_openid_login#:#Your OpenID URL

@@ -33,6 +33,7 @@ define ("AUTH_SOAP",7);
 define ("AUTH_HTTP",8);
 // END WebDAV: Add support for HTTP authentication
 define ("AUTH_ECS",9);
+define('AUTH_OPENID',10);
 
 
 define ("AUTH_INACTIVE",18);
@@ -42,6 +43,7 @@ define('AUTH_MULTIPLE',20);
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NO_ILIAS_USER',-300);
+define('AUTH_OPENID_NO_ILIAS_USER',-400);
 
 define('AUTH_MODE_INACTIVE',-1000);
 
@@ -107,12 +109,13 @@ class ilAuthUtils
 
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.	
-		if (empty($_SESSION) ||
+		
+        if (empty($_SESSION) ||
             (!isset($_SESSION['_authsession']['registered']) ||
              $_SESSION['_authsession']['registered'] !== true))
         {
 			// no sesssion found
-			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']))
+			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
 			{
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 
@@ -176,7 +179,6 @@ class ilAuthUtils
 		{
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
 		}
-		// check CAS authentication
 		else
 		{
 			define ("AUTH_CURRENT", $user_auth_mode);
@@ -242,6 +244,12 @@ class ilAuthUtils
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerECS());
 				break;
 				
+			case AUTH_OPENID:
+				
+				include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerOpenId());
+				break;
+
 			case AUTH_INACTIVE:
 				require_once('./Services/Authentication/classes/class.ilAuthInactive.php');
 				$ilAuth = new ilAuthInactive(AUTH_MODE_INACTIVE);
@@ -255,41 +263,6 @@ class ilAuthUtils
 				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
 				break;
-			
-				/*			
-				// build option string for PEAR::Auth
-				$auth_params = array();
-				$auth_params['dsn'] = $ilDB->getDSN();
-				$auth_params['table'] = $ilClientIniFile->readVariable("auth", "table");
-				$auth_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
-				$auth_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");
-				$auth_params['sessionName'] = "_authhttp".md5($realm);
-                                
-				// We use MySQL as storage container
-				// this starts already the session, AccountId is '' _authsession is null
-                                //
-				if (WebDAV_Authentication == 'HTTP')
-				{
-					// Use HTTP authentication as the frontend for WebDAV clients:
-					require_once("Auth/HTTP.php");
-					require_once 'class.ilAuthContainerMDB2.php';
-					$auth_params['sessionSharing'] = false;
-					$authContainer = new ilAuthContainerMDB2($auth_params);
-					$authContainer->setObserversEnabled(true);
-					$ilAuth = new Auth_HTTP($authContainer, $auth_params,"",false);
-					$ilAuth->setRealm($realm);
-				}
-				else
-				{
-					// Use a login form as the frontend for web browsers:
-					require_once 'class.ilAuthContainerMDB2.php';
-					$authContainer = new ilAuthContainerMDB2($auth_params);
-					$authContainer->setObserversEnabled(true);
-					$ilAuth = new Auth($authContainer, $auth_params,"",false);
-				}
-				break;
-				*/
-			
 		}
 		
                 // Due to a bug in Pear Auth_HTTP, we can't use idle time 
@@ -319,6 +292,12 @@ class ilAuthUtils
 		if(isset($_POST['auth_mode']))
 		{
 			return (int) $_POST['auth_mode'];
+		}
+		if(isset($_POST['oid_username']) or $_GET['oid_check_status'])
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' set context to open id');
+			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
+			return AUTH_OPENID;
 		}
 
 		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
@@ -396,6 +375,9 @@ class ilAuthUtils
 				
 			case 'ecs':
 				return AUTH_ECS;
+				
+			case 'openid':
+				return AUTH_OPENID;
 
 			default:
 				return $ilSetting->get("auth_mode");
@@ -440,6 +422,9 @@ class ilAuthUtils
 			case AUTH_ECS:
 				return 'ecs';
 				
+			case AUTH_OPENID:
+				return 'open_id';
+				
 			default:
 				return "default";
 				break;	
@@ -466,11 +451,17 @@ class ilAuthUtils
 		if ($ilSetting->get("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		
 		if(ilECSSettings::_getInstance()->isEnabled())
 		{
 			$modes['ecs'] = AUTH_ECS;
 		}
+
+		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
+		if(ilOpenIdSettings::getInstance()->isActive())
+		{
+			$modes['openid'] = AUTH_OPENID;
+		}
+
 		return $modes;
 	}
 	
@@ -483,7 +474,9 @@ class ilAuthUtils
 			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
 			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
 			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
-			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS));
+			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS),
+			AUTH_OPENID => ilAuthUtils::_getAuthModeName(AUTH_OPENID)
+		);
 	}
 	
 	/**
@@ -605,6 +598,11 @@ class ilAuthUtils
 		{
 			return true;
 		}
+		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
+		if(ilOpenIdSettings::getInstance()->isActive())
+		{
+			return true;
+		}
 		return false;
 	}
 	
@@ -623,6 +621,7 @@ class ilAuthUtils
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
 			case AUTH_ECS:
+			case AUTH_OPENID:
 				return false;
 			default:
 				return true;

@@ -550,6 +550,7 @@ class ilUserImportParser extends ilSaxParser
 						case "script":
 						case "cas":
 						case "soap":
+						case "openid":
 							$this->auth_mode_set = true;
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
@@ -673,6 +674,7 @@ class ilUserImportParser extends ilSaxParser
 						case "script":
 						case "cas":
 						case "soap":
+						case "openid":
 							$this->userObj->setAuthMode($a_attribs["type"]);
 							break;
 						default:
