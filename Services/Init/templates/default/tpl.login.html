@@ -101,44 +101,12 @@
 <!-- END shibboleth_login -->
 <!-- BEGIN ilias_login -->
 {LOGIN_FORM}
-<!-- <table class="std" width="400" datatable="0">
-  <tr class="tblheader">
-	<td class="std" colspan="2">{TXT_ILIAS_LOGIN}</td>
-  </tr>
-		  <!-- BEGIN auth_selection -->
-		  <tr>
-			<td class="option">{TXT_AUTH_MODE}</td>
-			<td class="option_value">
-				<!-- BEGIN  auth_mode_row -->
-					<input type="radio" id="{VAL_AUTH_MODE}" name="auth_mode" value="{VAL_AUTH_MODE}" {AUTH_CHECKED} /> <label for="{VAL_AUTH_MODE}">{TXT_AUTH_MODE}</label><br />
-				<!-- END auth_mode_row -->
-			</td>
-		  </tr>
-		  <!-- END auth_selection -->
-  <tr>
-	<td class="option">{TXT_USERNAME}</td>
-	<td class="option_value"><input type="text" name="username" value="{USERNAME}"/></td>
-  </tr>
-  <tr>
-	<td class="option">{TXT_PASSWORD}</td>
-	<td class="option_value"><input type="password" name="password" value="{PASSWORD}"/></td>
-  </tr>
-  <tr class="tblfooter">
-	<td class="submit" colspan="2" align="center"><input class="submit" type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
-  </tr>
-</table> -->
 <!-- END ilias_login -->
 </form>
-<!-- BEGIN shibboleth_custom_login -->
-	<table class="std" width="400">
-		<tr class="std">
-			<td class="std">
-{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
-			</td>
-		</tr>
-	</table>
-	<br />
-<!-- END shibboleth_custom_login -->
+<!-- BEGIN openid_login -->
+<br />
+{OID_LOGIN_FORM}
+<!-- END openid_login -->
 <p style="padding-top: 20px;">
 <!-- BEGIN new_registration -->
 <a class="il_ContainerItemCommand" href="{CMD_REGISTER}">{REGISTER}</a>

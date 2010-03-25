@@ -1090,7 +1090,10 @@ class ilInitialisation
 		$https->checkPort();		
 		
 		if($this->returnBeforeAuth()) return;
-				
+		
+		$ilCtrl = new ilCtrl2();
+		$GLOBALS['ilCtrl'] =& $ilCtrl;
+
 		// $ilAuth initialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
@@ -1201,8 +1204,6 @@ class ilInitialisation
 
 		// $ilCtrl initialisation
 		//$ilCtrl = new ilCtrl();
-		$ilCtrl = new ilCtrl2();
-		$GLOBALS['ilCtrl'] =& $ilCtrl;
 
 		// determin current script and up-path to main directory
 		// (sets $this->script and $this->updir)

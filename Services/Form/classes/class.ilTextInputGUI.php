@@ -21,6 +21,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $validationFailureMessage = '';
 	protected $suffix;
 	protected $style_css;
+	protected $css_class;
 
 	// added for YUI autocomplete feature
 	protected $yui_dataSource;
@@ -146,6 +147,17 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	{
 		return $this->style_css;
 	}
+	
+	public function setCssClass($a_class)
+	{
+		$this->css_class = $a_class;
+	}
+	
+	public function getCssClass()
+	{
+		return $this->css_class;
+	}
+	
 	
 	/**
 	* Set value by array
@@ -363,6 +375,12 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		{
 			$tpl->setCurrentBlock("stylecss");
 			$tpl->setVariable("CSS_STYLE", ilUtil::prepareFormOutput($this->getInlineStyle()));
+			$tpl->parseCurrentBlock();
+		}
+		if(strlen($this->getCssClass()))
+		{
+			$tpl->setCurrentBlock("classcss");
+			$tpl->setVariable('CLASS_CSS', ilUtil::prepareFormOutput($this->getCssClass()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getSubmitFormOnEnter())

@@ -2037,6 +2037,12 @@ div.ilTopTitle
 	white-space: nowrap;
 	padding-top: 12px
 }
+input.ilOpenIDBox
+{
+	background-image:url('images/openid.png');
+  	background-repeat:no-repeat;
+  	padding-left:20px;
+}
 
 
 table.ilTabContentOuter
