@@ -20,6 +20,7 @@ class ilOpenIdSettings
 	private $account_migration = false;
 	private $default_role = 0;
 	private $creation = false;
+	private $forced_selection = false;
 	
 	private $consumer = null;
 
@@ -62,6 +63,25 @@ class ilOpenIdSettings
 	public function setActive($a_status)
 	{
 		$this->active = $a_status;
+	}
+	
+	/**
+	 * is provider selection forced
+	 * @return 
+	 */
+	public function forcedProviderSelection()
+	{
+		return $this->forced_selection;
+	}
+	
+	/**
+	 * Set force selection status
+	 * @param bool $a_status
+	 * @return 
+	 */
+	public function forceProviderSelection($a_status)
+	{
+		$this->forced_selection = $a_status;
 	}
 	
 	/**
@@ -131,6 +151,7 @@ class ilOpenIdSettings
 		$this->enableCreation($this->storage->get('creation',false));
 		$this->setDefaultRole($this->storage->get('default_role',0));
 		$this->enableAccountMigration($this->storage->get('account_migration',false));
+		$this->forceProviderSelection($this->storage->get('forced_selection',false));
 	}
 	
 	/**
@@ -143,6 +164,7 @@ class ilOpenIdSettings
 		$this->storage->set('creation',(int) $this->isCreationEnabled());
 		$this->storage->set('default_role',(int) $this->getDefaultRole());
 		$this->storage->set('account_migration',(int) $this->isAccountMigrationEnabled());
+		$this->storage->set('forced_selection',(int) $this->forcedProviderSelection());
 	}
 	
 	/**

@@ -10158,7 +10158,6 @@ payment#:#no_vendor_selected#:#No vendor selected.
 dateplaner#:#ical_export#:#iCal Export
 forum#:#frm_pseudonym#:#Pseudonym
 ecs#:#ecs_not_published#:#No approvals selected.
-ecs#:#ecs_published_for#:#Published for:
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 exp#:#exp_export_files#:#Export Files
 common#:#option#:#Option
@@ -10210,4 +10209,12 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#glo_usages#:#Glossary is used in...
 auth#:#auth_openid_settings#:#OpenId Settings
 auth#:#auth_openid_provider#:#Provider Selection
-auth#:#auth_openid_login#:#Your OpenID URL
+auth#:#auth_openid_login#:#Your OpenID
+auth#:#auth_openid_provider_tbl#:#OpenID Provider
+auth#:#auth_openid_provider_add#:#Add Provider
+auth#:#auth_openid_provider_edit#:#Edit Provider
+auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
+auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
+auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
+auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
+auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider

@@ -83,7 +83,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*
 	* @param	string	$a_value	regexp
 	*/
-	function setValidationRegexp($a_value)
+	public function setValidationRegexp($a_value)
 	{
 		$this->validationRegexp = $a_value;
 	}
