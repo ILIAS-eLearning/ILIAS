@@ -2894,9 +2894,9 @@ return;
 			{
 				$ilUser->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
 				
-				if(!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (int)$_POST['session_reminder_lead_time']))
+				if(!preg_match('/^([0]|([1-9][0-9]*))([\.][0-9][0-9]*)?$/', $_POST['session_reminder_lead_time']))
 					$_POST['session_reminder_lead_time'] = 0;
-				$ilUser->setPref('session_reminder_lead_time', (int)$_POST['session_reminder_lead_time']);
+				$ilUser->setPref('session_reminder_lead_time', $_POST['session_reminder_lead_time']);
 			}
 
 			$ilUser->update();

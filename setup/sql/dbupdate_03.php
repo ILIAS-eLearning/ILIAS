@@ -389,3 +389,16 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 		"notnull" => false,
 		"length" => 50));
 ?>
+<#2978>
+<?php
+	$query = 'UPDATE usr_pref SET value = ROUND(value / 60) WHERE keyword = %s AND value IS NOT NULL';
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$query .= " AND LENGTH(TRIM(TRANSLATE (value, ' +-.0123456789',' '))) IS NULL";
+		$ilDB->manipulateF($query, array('text'), array('session_reminder_lead_time'));
+	}
+	else
+	{
+		$ilDB->manipulateF($query, array('text'), array('session_reminder_lead_time'));
+	}
+?>

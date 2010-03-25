@@ -676,7 +676,7 @@ class ilTemplate extends ilTemplateX
 			   $ilUser->getId() != ANONYMOUS_USER_ID &&
 			   (int)$ilUser->getPref('session_reminder_enabled'))
 			{
-				$leadTime = $ilUser->getPref('session_reminder_lead_time');
+				$leadTime = (float)$ilUser->getPref('session_reminder_lead_time') * 60;
 				$expiresTime = $ilAuth->sessionValidThru();
 				$currentTime = time();
 				$expiresInXSeconds = $expiresTime - $currentTime;				
@@ -693,7 +693,7 @@ class ilTemplate extends ilTemplateX
 					'&client_id='.CLIENT_ID.
 					'&session_id='.session_id().
 					'&lead_time='.$leadTime.
-					'&timezone='.$ilUser->getTimeZone().
+					'&timezone='.urlencode($ilUser->getTimeZone()).
 					'&countDownTime='.($expiresInXSeconds - $leadTime));
 				$tplSR->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 				
