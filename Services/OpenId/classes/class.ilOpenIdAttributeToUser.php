@@ -26,7 +26,7 @@ class ilOpenIdAttributeToUser
 		
 	 	$this->settings = ilOpenIdSettings::getInstance();
 
-		include_once('classes/class.ilXmlWriter.php');
+		include_once('./Services/Xml/classes/class.ilXmlWriter.php');
 	 	$this->writer = new ilXmlWriter();
 	
 	}
