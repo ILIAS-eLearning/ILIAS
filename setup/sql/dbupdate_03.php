@@ -406,3 +406,54 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#2980>
+<?php
+
+if(!$ilDB->tableExists('openid_provider'))
+{
+	$fields = array(
+		'provider_id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+		),
+		'enabled' 		=> array(
+			'type' 			=> 'integer',
+			'length' 		=> 1,
+		),
+		'name' 			=> array(
+			'type' 			=> 'text',
+			'length' 		=> 128,
+			'fixed'			=> false,
+			'notnull'		=> false
+		),
+		'url'			=> array(
+			'type'			=> 'text',
+			'length'		=> 512,
+			'fixed'			=> false,
+			'notnull'		=> false
+		),
+		'image'			=> array(
+			'type'			=> 'integer',
+			'length'		=> 2
+		)
+	);
+	$ilDB->createTable('openid_provider',$fields);
+	$ilDB->addPrimaryKey('openid_provider',array('provider_id'));
+	$ilDB->createSequence('openid_provider');
+	
+}
+?>
+
+<#2981>
+<?php
+$query = "INSERT INTO openid_provider (provider_id,enabled,name,url,image) ".
+	"VALUES ( ".
+	$ilDB->quote($ilDB->nextId('openid_provider'),'integer').','.
+	$ilDB->quote(1,'integer').','.
+	$ilDB->quote('MyOpenID','text').','.
+	$ilDB->quote('http://%s.myopenid.com').','.
+	$ilDB->quote(1,'integer').
+	")";
+$res = $ilDB->query($query);
+?>
