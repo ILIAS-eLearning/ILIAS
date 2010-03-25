@@ -60,7 +60,7 @@ if(is_object($oRow))
 		{
 			include_once 'Services/Calendar/classes/class.ilDate.php';
 			$date = new ilDateTime(time(),IL_CAL_UNIX);
-			$currentTimeTxt = $date->get(IL_CAL_FKT_DATE,'H:i:s', $_GET['timezone']);
+			$currentTimeTxt = $date->get(IL_CAL_FKT_DATE,'H:i:s', urldecode($_GET['timezone']));
 			
 			$ilDB->manipulateF('
 				UPDATE usr_session SET last_remind_ts = %s WHERE session_id = %s',
