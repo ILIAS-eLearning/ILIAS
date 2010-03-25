@@ -2607,8 +2607,8 @@ common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_attachments#:#Forumanhänge
-common#:#forum_direct_notification#:#Dir. Benachrichtigung
-common#:#forum_general_notification#:#Gen. Benachrichtigung
+common#:#forum_direct_notification#:#Direkte Benachrichtigung
+common#:#forum_general_notification#:#Generelle Benachrichtigung
 common#:#forum_import#:#Forum Import
 common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
@@ -6748,7 +6748,7 @@ forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS-Benutz
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Themen wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
-forum#:#forums_attachments_add#:#Dateianhang hinzufügen
+forum#:#forums_attachments_add#:#Datei anhängen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
 forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_censor_comment#:#Bemerkung des Zensors
@@ -6839,10 +6839,10 @@ forum#:#new_post#:#Neue Nachricht
 forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
 forum#:#post_activation_desc#:#Wenn diese Option eingeschaltet ist, muss der Moderator neue Beiträge freischalten.
-forum#:#post_censored_comment_by_moderator#:#Beitrag Zensiert, Bemerkung des Moderators
+forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert, Bemerkung des Moderators
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
-forum#:#sticky#:#sticky
+forum#:#sticky#:#'Top-Thema'
 forum#:#sure_move_threads#:#Sollen die gewählten Themen wirklich verschoben werden?
 forum#:#thread#:#Thema
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
