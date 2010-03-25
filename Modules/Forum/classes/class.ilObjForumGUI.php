@@ -682,29 +682,6 @@ class ilObjForumGUI extends ilObjectGUI
 	}
 	
 	/**
-	* @access private
-	*/
-	private function initForumImportForm($object_type)
-	{
-		$this->import_form_gui = new ilPropertyFormGUI();
-		
-		$this->import_form_gui->setTitle($this->lng->txt('forum_import').' (ILIAS 2)');
-		$this->import_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
-		
-		// form action
-		$this->ctrl->setParameter($this, 'new_type', $object_type);
-		$this->import_form_gui->setFormAction($this->ctrl->getFormAction($this, 'performImport'));		
-		
-		// file
-		$in_file = new ilFileInputGUI($this->lng->txt('forum_import_file'), 'importFile');
-		$in_file->setRequired(true);
-		$this->import_form_gui->addItem($in_file);
-		
-		$this->import_form_gui->addCommandButton('performImport', $this->lng->txt('import'));
-		$this->import_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
-	}
-	
-	/**
 	* creation form
 	*/
 	function createObject($subbmitted_form = '')
@@ -728,15 +705,6 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->setForumCreateDefaultValues();		
 		$this->tpl->setVariable('CREATE_FORM', $this->create_form_gui->getHTML());
 
-		// show ilias 2 forum import for administrators only
-		include_once 'Services/MainMenu/classes/class.ilMainMenuGUI.php';
-		if(ilMainMenuGUI::_checkAdministrationPermission())
-		{
-			if($this->import_form_gui === null)
-				$this->initForumImportForm($new_type);
-			$this->tpl->setVariable('IMPORT_FORM', $this->import_form_gui->getHTML());			
-		}
-		
 		$this->fillCloneTemplate('DUPLICATE','frm');
 		return true;
 	}
@@ -751,82 +719,7 @@ class ilObjForumGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
 
 		ilUtil::redirect('repository.php?cmd=frameset&ref_id='.$_GET['ref_id']);
-
 	}
-
-	function performImportObject()
-	{
-		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];
-		$this->initForumImportForm($new_type);
-		if($this->import_form_gui->checkInput())
-		{
-			$file = $this->import_form_gui->getInput('importFile');
-			
-			$error = false;			
-			
-			$this->__initFileObject();
-
-			if(!$this->file_obj->storeUploadedFile($file))	// STEP 1 save file in ...import/mail
-			{
-				$this->import_form_gui->getItemByPostVar('importFile')
-					 ->setAlert($this->lng->txt('import_file_not_valid'));
-				$error = true; 
-				$this->file_obj->unlinkLast();
-			}
-			else if(!$this->file_obj->unzip()) // STEP 2 unzip uploaded file
-			{
-				$this->import_form_gui->getItemByPostVar('importFile')
-					 ->setAlert($this->lng->txt('cannot_unzip_file'));
-				
-				$error = true;
-				$this->file_obj->unlinkLast();
-			}
-			else if(!$this->file_obj->findXMLFile())// STEP 3 getXMLFile
-			{
-				$this->import_form_gui->getItemByPostVar('importFile')
-					 ->setAlert($this->lng->txt('cannot_find_xml'));
-				
-				$error = true;
-				$this->file_obj->unlinkLast();
-			}
-			else if(!$this->__initParserObject($this->file_obj->getXMLFile()) ||
-			        !$this->parser_obj->startParsing()) // STEP 5 start parsing
-			{
-				$this->import_form_gui->getItemByPostVar('importFile')
-					 ->setAlert($this->lng->txt('import_parse_error'));
-				
-				$error = true;
-				$this->message = $this->lng->txt("import_parse_error").":<br/>";
-			}
-			
-			// FINALLY CHECK ERROR
-			if(!$error)
-			{
-				ilUtil::sendSuccess($this->lng->txt('import_forum_finished'), true);
-				$ref_id = $this->parser_obj->getRefId();
-				if($ref_id > 0)
-				{
-					$this->ctrl->setParameter($this, 'ref_id', $ref_id);
-					ilUtil::redirect($this->getReturnLocation('save',
-						$this->ctrl->getLinkTarget($this, 'showThreads')));
-				}
-				else
-				{
-					ilUtil::redirect('repository.php?cmd=frameset&ref_id='.$_GET['ref_id']);
-				}
-			}
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-				$this->createObject('import');
-			}
-		}
-		else
-		{
-			return $this->createObject('import');
-		}	
-	}
-
 
 	/**
 	* save object
@@ -1021,24 +914,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$tbl->setData($result);
 				
 		$this->tpl->setContent($tbl->getHTML());
-	}
-
-	private function __initFileObject()
-	{
-		include_once './Modules/Forum/classes/class.ilFileDataImportForum.php';
-
-		$this->file_obj =& new ilFileDataImportForum();
-
-		return true;
-	}
-
-	private function __initParserObject($a_xml_file)
-	{
-		include_once './Modules/Forum/classes/class.ilForumImportParser.php';
-
-		$this->parser_obj =& new ilForumImportParser($a_xml_file, $this->ref_id);
-
-		return true;
 	}
 	
 	/**
