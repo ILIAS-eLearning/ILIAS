@@ -2343,8 +2343,8 @@ common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota-Erinnerungsnachricht
 common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
 common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
 common#:#enable_ext_lang_maint#:#Aktiviere «Erweiterte Sprachenverwaltung»
-common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
-common#:#enable_fora_statistics_desc#:#Wenn diese deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
+common#:#enable_fora_statistics#:#Forenstatistik aktivieren
+common#:#enable_fora_statistics_desc#:#Wenn diese deaktiviert ist, kann niemand auf die Forenstatistik zugreifen.
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
@@ -5023,15 +5023,15 @@ content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
 content#:#cont_ed_moveafter#:#Verschieben nach
 content#:#cont_ed_movebefore#:#Verschieben vor
-content#:#cont_ed_new_col_after#:#Neue Spalte anf.
-content#:#cont_ed_new_col_before#:#Neue Spalte vor.
-content#:#cont_ed_new_item_after#:#Neuen Eintrag anf.
-content#:#cont_ed_new_item_before#:#Neuen Eintrag vor.
-content#:#cont_ed_new_row_after#:#Neue Zeile anf.
-content#:#cont_ed_new_row_before#:#Neue Zeile vor.
+content#:#cont_ed_new_col_after#:#Neue Spalte rechts
+content#:#cont_ed_new_col_before#:#Neue Spalte links
+content#:#cont_ed_new_item_after#:#Neuen Eintrag unterhalb
+content#:#cont_ed_new_item_before#:#Neuen Eintrag oberhalb
+content#:#cont_ed_new_row_after#:#Neue Zeile unterhalb
+content#:#cont_ed_new_row_before#:#Neue Zeile oberhalb
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Einfügen
-content#:#cont_ed_paste_clip#:#Aus Ablage einf.
+content#:#cont_ed_paste_clip#:#Aus Ablage einfügen
 content#:#cont_ed_pglprop#:#Seitenlayouteigenschaften
 content#:#cont_ed_plachmedia#:#Platzhalter Bild/Medien
 content#:#cont_ed_plachprop#:#Platzhaltereigenschaften
@@ -6821,11 +6821,11 @@ forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie di
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
-forum#:#frm_statistics#:#Statistiken
-forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
-forum#:#frm_statistics_enabled#:#Statistiken anzeigen
-forum#:#frm_statistics_enabled_desc#:#Statistiken für alle Forenteilnehmer anzeigen
-forum#:#frm_statistics_ranking#:#Anzahl Postings
+forum#:#frm_statistics#:#Statistik
+forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normale Forennutzer nicht sichtbar.
+forum#:#frm_statistics_enabled#:#Statistik anzeigen
+forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeigen
+forum#:#frm_statistics_ranking#:#Anzahl der Beiträge
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
