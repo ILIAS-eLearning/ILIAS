@@ -10195,4 +10195,12 @@ common#:#auth_openid#:#OpenId
 common#:#login_to_ilias_via_openid#:#Bei ILIAS mittels OpenId anmelden
 auth#:#auth_openid_settings#:#OpenId-Einstellungen
 auth#:#auth_openid_provider#:#Anbieterauswahl
-auth#:#auth_openid_login#:#Ihre OpenID-URL
+auth#:#auth_openid_login#:#Ihre OpenID
+auth#:#auth_openid_provider_tbl#:#OpenID Anbieter
+auth#:#auth_openid_provider_add#:#Neuen Anbieter anlegen
+auth#:#auth_openid_provider_edit#:#Anbieter bearbeiten
+auth#:#auth_openid_url_info#:#Bitte geben Sie hier eine OpenID-Url ein. Der Benutzername muss durch den Platzhalter "%s" ersetzt werden. Zum Beispiel: <b>http://%s.myopenid.com</b>
+auth#:#auth_openid_deleted_provider#:#Die ausgewählten Anbieter wurden gelöscht.
+auth#:#auth_openid_uncontrolled_selection#:#Freie Anbieterauswahl
+auth#:#auth_openid_uncontrolled_selection_info#:#Wenn aktiviert, können beliebige OpenID-Anbieter zur Authentifizierung genutzt werden. Ansonsten werden nur Anbieter aus einer vorgegebenen Liste zugelassen.
+auth#:#auth_openid_login_info_a#:#Bitte geben Sie Ihren OpenID Benutzernamen ein und wählen Sie den zugehörigen Anbieter aus.

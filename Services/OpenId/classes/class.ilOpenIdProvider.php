@@ -11,10 +11,10 @@
 class ilOpenIdProvider
 {
 	private $provider_id = 0;
-	private $tooltip = '';
-	private $url = '';
-	private $enabled = false;
-	private $image = null;
+	private $name = '';
+	private $url = 'http://';
+	private $enabled = true;
+	private $image = 0;
 
 	/**
 	 * Constructor
@@ -67,22 +67,22 @@ class ilOpenIdProvider
 	}
 	
 	/**
-	 * Set tooltip
-	 * @param string $a_tooltip
+	 * Set name
+	 * @param string $a_name
 	 * @return 
 	 */
-	public function setTooltip($a_tooltip)
+	public function setName($a_name)
 	{
-		$this->tooltip = $a_tooltip;
+		$this->name = $a_name;
 	}
 	
 	/**
-	 * Get tooltip
+	 * Get name
 	 * @return 
 	 */
-	public function getTooltip()
+	public function getName()
 	{
-		return $this->tooltip;
+		return $this->name;
 	}
 	
 	/**
@@ -128,11 +128,11 @@ class ilOpenIdProvider
 		
 		$this->setId($ilDB->nextId('openid_provider'));
 		$query = "INSERT INTO openid_provider ".
-			"(provider_id, enabled, tooltip, url) ".
+			"(provider_id, enabled, name, url) ".
 			"VALUES ( ".
 			$ilDB->quote($this->getId(),'integer').', '.
 			$ilDB->quote($this->isEnabled(),'integer').', '.
-			$ilDB->quote($this->getTooltip(),'text').', '.
+			$ilDB->quote($this->getName(),'text').', '.
 			$ilDB->quote($this->getURL(),'text').
 			')';
 		$ilDB->query($query);
@@ -149,8 +149,9 @@ class ilOpenIdProvider
 		
 		$query = 'UPDATE openid_provider SET '.
 			"enabled = ".$ilDB->quote($this->isEnabled(),'integer').', '.
-			"name = ".$ilDB->quote($this->getTooltip(),'text').', '.
-			"url = ".$ilDB->quote($this->getURL(),'text');
+			"name = ".$ilDB->quote($this->getName(),'text').', '.
+			"url = ".$ilDB->quote($this->getURL(),'text')." ".
+			"WHERE provider_id = ".$ilDB->quote($this->getId(),'integer');
 		$ilDB->query($query);
 		return true;
 	}
@@ -169,7 +170,7 @@ class ilOpenIdProvider
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$this->setTooltip($row['tooltip']);
+			$this->setName($row['name']);
 			$this->enable($row['enabled']);
 			$this->setURL($row['url']);
 			return true;

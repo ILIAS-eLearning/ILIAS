@@ -1392,11 +1392,18 @@ class ilStartUpGUI
 		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
 		
 		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
-		$openid->setSize(30);
+		$openid->setSize(18);
 		$openid->setMaxLength(255);
 		$openid->setRequired(true);
 		$openid->setCssClass('ilOpenIDBox');
+		$openid->setInfo($lng->txt('auth_openid_login_info_a'));
 		$form->addItem($openid);
+		
+		include_once './Services/OpenId/classes/class.ilOpenIdProviders.php';
+		$pro = new ilSelectInputGUI($lng->txt('auth_openid_provider'),'oid_provider');
+		$pro->setOptions(ilOpenIdProviders::getInstance()->getProviderSelection());
+		$form->addItem($pro);
+		
 		
 		$form->addCommandButton("showLogin", $lng->txt("log_in"));
 		
