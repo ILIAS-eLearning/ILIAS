@@ -402,3 +402,7 @@ if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
 		$ilDB->manipulateF($query, array('text'), array('session_reminder_lead_time'));
 	}
 ?>
+<#2979>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
