@@ -748,7 +748,7 @@ $res = $ilDB->query($query);
 ?>
 <#2997>
 <?php
-	$setting = new ilSetting();
+/*	$setting = new ilSetting();
 	$st_step = (int) $setting->get('patch_stex_db');
 	if ($st_step <= 15)
 	{
@@ -812,7 +812,7 @@ $res = $ilDB->query($query);
 //	"<br>to: ".$new;
 				}
 				
-	}
+	}*/
 ?>
 <#2998>
 <?php
@@ -929,4 +929,77 @@ $res = $ilDB->query($query);
 			}
 		}
 	}
+?>
+<#3004>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 15)
+	{
+			include_once("./Services/Migration/DBUpdate_3004/classes/class.ilDBUpdate3004.php");
+		
+			$new_ex_path = CLIENT_DATA_DIR."/ilExercise";
+			
+			$old_ex_path = CLIENT_DATA_DIR."/exercise";
+			
+			$old_ex_files = array();
+			
+			if (is_dir($old_ex_path))
+			{
+				$dh_old_ex_path = opendir($old_ex_path);
+				
+				// old exercise files into an assoc array to
+				// avoid reading of all files each time
+				
+				while($file = readdir($dh_old_ex_path))
+				{
+					if(is_dir($old_ex_path."/".$file))
+					{
+						continue;
+					}
+					list($obj_id,$rest) = split('_',$file,2);
+					$old_ex_files[$obj_id][] = array("full" => $file,
+						"rest" => $rest);
+				}
+			}
+
+//var_dump($old_ex_files);
+			
+			$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+			while ($rec  = $ilDB->fetchAssoc($set))
+			{
+				// move exercise files to assignment directories
+				if (is_array($old_ex_files[$rec["exc_id"]]))
+				{
+					foreach ($old_ex_files[$rec["exc_id"]] as $file)
+					{
+						$old = $old_ex_path."/".$file["full"];
+						$new = $new_ex_path."/".ilDBUpdate3004::createPathFromId($rec["exc_id"], "exc").
+							"/ass_".$rec["id"]."/".$file["rest"];
+							
+						if (is_file($old))
+						{
+							ilUtil::makeDirParents(dirname($new));
+							rename($old, $new);
+//echo "<br><br>move: ".$old.
+//	"<br>to: ".$new;
+						}
+					}
+				}
+
+				// move submitted files to assignment directories
+				if (is_dir($old_ex_path."/".$rec["exc_id"]))
+				{
+					$old = $old_ex_path."/".$rec["exc_id"];
+					$new = $new_ex_path."/".ilDBUpdate3004::createPathFromId($rec["exc_id"], "exc").
+						"/subm_".$rec["id"];
+					ilUtil::makeDirParents(dirname($new));
+					rename($old, $new);
+//echo "<br><br>move: ".$old.
+//	"<br>to: ".$new;
+				}
+				
+			}
+	}
+
 ?>
