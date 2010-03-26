@@ -663,6 +663,11 @@ class ilObjForumGUI extends ilObjectGUI
 			$statistics_gui->setDisabled(true);
 		$this->create_form_gui->addItem($statistics_gui);
 		
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
+		$cb_prop->setValue('1');
+		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
+		$this->create_form_gui->addItem($cb_prop);
+		
 		$this->create_form_gui->addCommandButton('save', $this->lng->txt('save'));
 		$this->create_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
@@ -677,7 +682,8 @@ class ilObjForumGUI extends ilObjectGUI
 			'desc' => '',
 			'sort' => 1,
 			'anonymized' => false,
-			'statistics_enabled' => false
+			'statistics_enabled' => false,
+			'post_activation' => false
 		));
 	}
 	
@@ -762,7 +768,9 @@ class ilObjForumGUI extends ilObjectGUI
 			else
 			{
 				$this->objProperties->setStatisticsStatus(0);				
-			}		
+			}	
+
+			$this->objProperties->setPostActivation((int) $_POST['post_activation']);
 			$this->objProperties->insert();		
 				
 			$forumObj->createSettings();
@@ -3276,7 +3284,6 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
 		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
-		$this->create_topic_form_gui->setTableWidth('60%');
 		
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
@@ -3385,7 +3392,7 @@ class ilObjForumGUI extends ilObjectGUI
 			'message' => '',
 			'userfile' => '',
 			'notify' => 0,
-			'notify_posts' => 0	
+			'notify_posts' => 0
 		));
 	}	
 	
