@@ -10179,3 +10179,127 @@ dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the persona
 payment#:#no_vendor_selected#:#No vendor selected. ###15 12 2009 new variable
 dateplaner#:#ical_export#:#iCal Export###15 12 2009 new variable
 forum#:#frm_pseudonym#:#Pseudony###15 12 2009 new variable
+common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. ###26 03 2010 new variable
+common#:#shib_login_embedded_wayf#:#Design custom login area###26 03 2010 new variable
+common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.###26 03 2010 new variable
+ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable
+common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
+exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
+common#:#option#:#Option###26 03 2010 new variable
+mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
+mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
+mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
+survey#:#use_other_answer#:#Open answer###26 03 2010 new variable
+survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer###26 03 2010 new variable
+common#:#columns#:#Columns###26 03 2010 new variable
+common#:#proxy#:#Proxy###26 03 2010 new variable
+common#:#proxy_connectable#:#Connection established.###26 03 2010 new variable
+common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###26 03 2010 new variable
+common#:#proxy_status#:#Proxy###26 03 2010 new variable
+common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###26 03 2010 new variable
+common#:#proxy_host#:#Host###26 03 2010 new variable
+common#:#proxy_host_info#:#Please enter a host.###26 03 2010 new variable
+common#:#proxy_port#:#Port###26 03 2010 new variable
+common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###26 03 2010 new variable
+common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###26 03 2010 new variable
+common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error###26 03 2010 new variable
+payment#:#currency#:#Currency###26 03 2010 new variable
+payment#:#coupon_type#:#Coupon-Type###26 03 2010 new variable
+payment#:#search_in_title#:#Search in title###26 03 2010 new variable
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".###26 03 2010 new variable
+exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
+exp#:#exp_xml#:#XML###26 03 2010 new variable
+exp#:#exp_html#:#HTML###26 03 2010 new variable
+exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
+exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
+exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
+common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
+exc#:#exc_assignments#:#Assignments###26 03 2010 new variable
+exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
+exc#:#exc_deadline#:#Deadline###26 03 2010 new variable
+exc#:#exc_new_assignment#:#New Assignment###26 03 2010 new variable
+exc#:#exc_start_time#:#Start Time###26 03 2010 new variable
+exc#:#exc_mandatory#:#Mandatory###26 03 2010 new variable
+exc#:#exc_pass_mode#:#Pass Mode###26 03 2010 new variable
+exc#:#exc_pass_all#:#All Mandatory Assignments###26 03 2010 new variable
+exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.###26 03 2010 new variable
+exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments###26 03 2010 new variable
+exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.###26 03 2010 new variable
+exc#:#exc_min_nr#:#Number of Assignments###26 03 2010 new variable
+exc#:#exc_save_order#:#Save Order###26 03 2010 new variable
+exc#:#exc_order_by_deadline#:#Order by Deadline###26 03 2010 new variable
+exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?###26 03 2010 new variable
+exc#:#exc_assignments_deleted#:#The assignments have been deleted.###26 03 2010 new variable
+exc#:#exc_presentation_order#:#Presentation Order###26 03 2010 new variable
+exc#:#exc_saved_order#:#Saved presentation order.###26 03 2010 new variable
+exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.###26 03 2010 new variable
+exc#:#exc_show_submissions#:#Publish Submissions after Deadline###26 03 2010 new variable
+exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.###26 03 2010 new variable
+exc#:#exc_edit_assignment#:#Edit Assignment###26 03 2010 new variable
+exc#:#exc_edit_assignments#:#Edit Assignments###26 03 2010 new variable
+exc#:#exc_submissions_and_grades#:#Submissions & Grades###26 03 2010 new variable
+exc#:#exc_assignment_view#:#Assignment View###26 03 2010 new variable
+exc#:#exc_participant_view#:#Participant View###26 03 2010 new variable
+exc#:#exc_grades_overview#:#Grades View###26 03 2010 new variable
+exc#:#exc_select_ass#:#Select Assignment###26 03 2010 new variable
+exc#:#exc_add_participant#:#Add Participant###26 03 2010 new variable
+exc#:#exc_assignment#:#Assignment###26 03 2010 new variable
+exc#:#exc_manage#:#Manage###26 03 2010 new variable
+exc#:#exc_ended_on#:#Ended On###26 03 2010 new variable
+exc#:#exc_starting_on#:#Starting On###26 03 2010 new variable
+exc#:#exc_hand_in#:#Hand In###26 03 2010 new variable
+exc#:#exc_edit_submission#:#Edit Submission###26 03 2010 new variable
+exc#:#exc_send_assignment#:#Send Assignment by Mail###26 03 2010 new variable
+exc#:#exc_select_part#:#Select Participant###26 03 2010 new variable
+exc#:#exc_participant#:#Participant###26 03 2010 new variable
+exc#:#exc_grades#:#Grades Overview###26 03 2010 new variable
+exc#:#exc_overview#:#Overview###26 03 2010 new variable
+exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.###26 03 2010 new variable
+exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.###26 03 2010 new variable
+exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.###26 03 2010 new variable
+exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.###26 03 2010 new variable
+exc#:#exc_total_exc#:#Total Exercise###26 03 2010 new variable
+exc#:#exc_public_submission#:#Public Submissions###26 03 2010 new variable
+exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.###26 03 2010 new variable
+exc#:#exc_list_submission#:#List All Submissions###26 03 2010 new variable
+exc#:#exc_export_excel#:#Export (Excel)###26 03 2010 new variable
+exc#:#exc_add_feedback_file#:#Add Feedback File###26 03 2010 new variable
+exc#:#exc_fb_files#:#Feedback Files###26 03 2010 new variable
+exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".###26 03 2010 new variable
+exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.###26 03 2010 new variable
+exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:###26 03 2010 new variable
+exc#:#exc_msg_saved_grades#:#Grades have been saved.###26 03 2010 new variable
+exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!###26 03 2010 new variable
+exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.###26 03 2010 new variable
+exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.###26 03 2010 new variable
+exc#:#exc_no_participants#:#There are currently no participants.###26 03 2010 new variable
+ecs#:#ecs_published_for#:#Published for:###26 03 2010 new variable
+auth#:#auth_account_migration_name#:#Migration###26 03 2010 new variable
+auth#:#auth_account_migration_keep#:#Migrate Existing User Account###26 03 2010 new variable
+auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new variable
+auth#:#auth_openid#:#OpenId###26 03 2010 new variable
+auth#:#auth_openid_configure#:#Configure OpenId-Authentication###26 03 2010 new variable
+auth#:#auth_openid_enable#:#Enable OpenId Support###26 03 2010 new variable
+auth#:#auth_openid_sync#:#User Synchronization###26 03 2010 new variable
+auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###26 03 2010 new variable
+auth#:#auth_openid_role_select#:#Role:###26 03 2010 new variable
+auth#:#auth_openid_migration#:#Account Migration:###26 03 2010 new variable
+auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.###26 03 2010 new variable
+common#:#auth_openid#:#OpenId###26 03 2010 new variable
+common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID###26 03 2010 new variable
+content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
+content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
+content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
+content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
+auth#:#auth_openid_settings#:#OpenId Settings###26 03 2010 new variable
+auth#:#auth_openid_provider#:#Provider Selection###26 03 2010 new variable
+auth#:#auth_openid_login#:#Your OpenID###26 03 2010 new variable
+auth#:#auth_openid_provider_tbl#:#OpenID Provider###26 03 2010 new variable
+auth#:#auth_openid_provider_add#:#Add Provider###26 03 2010 new variable
+auth#:#auth_openid_provider_edit#:#Edit Provider###26 03 2010 new variable
+auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com###26 03 2010 new variable
+auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider###26 03 2010 new variable
+auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26 03 2010 new variable
+auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
+auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
+common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable

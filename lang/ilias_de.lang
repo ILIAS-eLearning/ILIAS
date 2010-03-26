@@ -20,7 +20,6 @@
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-+survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temperatur der Celsius-Skala.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -10263,3 +10262,23 @@ auth#:#auth_openid_deleted_provider#:#Die ausgewählten Anbieter wurden gelösch
 auth#:#auth_openid_uncontrolled_selection#:#Freie Anbieterauswahl
 auth#:#auth_openid_uncontrolled_selection_info#:#Wenn aktiviert, können beliebige OpenID-Anbieter zur Authentifizierung genutzt werden. Ansonsten werden nur Anbieter aus einer vorgegebenen Liste zugelassen.
 auth#:#auth_openid_login_info_a#:#Bitte geben Sie Ihren OpenID-Benutzernamen ein und wählen Sie den zugehörigen Anbieter aus.
+content#:#cont_localfile#:#Local File###26 03 2010 new variable
+common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
+exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
+common#:#option#:#Option###26 03 2010 new variable
+mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
+mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
+mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
+common#:#columns#:#Columns###26 03 2010 new variable
+exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
+exp#:#exp_xml#:#XML###26 03 2010 new variable
+exp#:#exp_html#:#HTML###26 03 2010 new variable
+exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
+exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
+exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
+common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
+content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
+content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
+content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
+content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
+common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable

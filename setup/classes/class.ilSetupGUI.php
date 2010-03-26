@@ -391,6 +391,7 @@ echo "<br>+".$client_id;
 			case "displayContactData":
 			case "displayNIC":
 			case "saveRegistration":
+			case "applyHotfix":
 				$this->$cmd();
 				break;
 
@@ -1970,8 +1971,8 @@ else
 			$this->lng->setDbHandler($ilDB);
 			$dbupdate = new ilDBUpdate($ilDB);
 			$db_status = $dbupdate->getDBVersionStatus();
-
-			$this->initClientDbForm(false, $dbupdate, $db_status);
+			$hotfix_available = $dbupdate->hotfixAvailable();
+			$this->initClientDbForm(false, $dbupdate, $db_status, $hotfix_available);
 			$this->getClientDbFormValues($dbupdate);
 			$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
 
@@ -1998,7 +1999,7 @@ else
 	/**
 	* Init client db form.
 	*/
-	public function initClientDbForm($a_install = true, $dbupdate = null, $db_status = false)
+	public function initClientDbForm($a_install = true, $dbupdate = null, $db_status = false, $hotfix_available = false)
 	{
 		global $lng, $ilCtrl;
 	
@@ -2123,8 +2124,35 @@ else
 				}
 				$this->form->addCommandButton("updateDatabase", $lng->txt("database_update"));
 			}
+			else if ($hotfix_available)
+			{
+				// hotfix current version
+				$ne = new ilNonEditableValueGUI($lng->txt("applied_hotfixes"), "curhf");
+				$ne->setValue($dbupdate->getHotfixCurrentVersion());
+				$this->form->addItem($ne);
+				
+				// hotfix file version
+				$ne = new ilNonEditableValueGUI($lng->txt("available_hotfixes"), "filehf");
+				$ne->setValue($dbupdate->getHotfixFileVersion());
+				$this->form->addItem($ne);
+
+				$this->form->addCommandButton("applyHotfix", $lng->txt("apply_hotfixes"));
+				ilUtil::sendInfo($this->lng->txt("database_needs_update"));
+			}
 			else
 			{
+				if ($dbupdate->getHotfixFileVersion() > 0)
+				{
+					// hotfix current version
+					$ne = new ilNonEditableValueGUI($lng->txt("applied_hotfixes"), "curhf");
+					$ne->setValue($dbupdate->getHotfixCurrentVersion());
+					$this->form->addItem($ne);
+					
+					// hotfix file version
+					$ne = new ilNonEditableValueGUI($lng->txt("available_hotfixes"), "filehf");
+					$ne->setValue($dbupdate->getHotfixFileVersion());
+					$this->form->addItem($ne);					
+				}
 				ilUtil::sendSuccess($this->lng->txt("database_is_uptodate"));
 			}
 		}
@@ -2258,6 +2286,64 @@ else
 		ilUtil::redirect("setup.php?cmd=displayDatabase");
 	}
 	
+	////
+	//// Apply hotfixes
+	////
+	
+	/**
+	 * Apply hotfixes
+	 */
+	function applyHotfix()
+	{
+		global $ilCtrlStructureReader;
+		
+		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
+		
+		include_once "./Services/Database/classes/class.ilDBUpdate.php";
+		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
+		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
+		include_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
+		include_once "./Services/Tree/classes/class.ilTree.php";
+		include_once "./classes/class.ilSaxParser.php";
+		include_once "./Services/Object/classes/class.ilObjectDefinition.php";
+
+		// referencing db handler in language class
+		$ilDB = $this->setup->getClient()->db;
+		$this->lng->setDbHandler($ilDB);
+
+		// run dbupdate
+		$dbupdate = new ilDBUpdate($ilDB);
+		$dbupdate->applyHotfix();
+	
+		if ($dbupdate->updateMsg == "no_changes")
+		{
+			$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
+		}
+		else
+		{
+			$sep = "";
+			foreach ($dbupdate->updateMsg as $row)
+			{
+				if ($row["msg"] == "update_applied")
+				{
+					$a_message.= $sep.$row["nr"];
+					$sep = ", ";
+				}
+				else
+				{
+					$e_message.= "<br/>".$this->lng->txt($row["msg"]).": ".$row["nr"];
+				}
+			}
+			if ($a_message != "")
+			{
+				$a_message = $this->lng->txt("update_applied").": ".$a_message;
+			}
+		}
+		
+		ilUtil::sendInfo($a_message.$e_message, true);
+		ilUtil::redirect("setup.php?cmd=displayDatabase");
+	}
+
 	////
 	//// LANGUAGES
 	////
