@@ -2634,19 +2634,19 @@ common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
-common#:#frm_add_post#:#Forumbeitrag anlegen
+common#:#frm_add_post#:#Forenbeitrag anlegen
 common#:#frm_add_thread#:#Forumthema anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_article#:#Beitrag
 common#:#frm_copy#:#Forum kopieren
 common#:#frm_create#:#Neues Forum anlegen
 common#:#frm_delete#:#Forum löschen
-common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
+common#:#frm_delete_post#:#Forenbeiträge löschen und zensieren
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_edit_permission#:#Rechteeinstellungen ändern
-common#:#frm_edit_post#:#Forumbeiträge anlegen
+common#:#frm_edit_post#:#Forenbeiträge anlegen
 common#:#frm_latest_postings#:#Letzte Beiträge
-common#:#frm_moderate_frm#:#Forumbeiträge löschen, Zensur
+common#:#frm_moderate_frm#:#Forenbeiträge löschen und zensieren
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
 common#:#frm_statistics_ranking#:#Rangliste
