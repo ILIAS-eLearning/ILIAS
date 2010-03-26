@@ -942,6 +942,13 @@ class ilSetup extends PEAR
 			$arr["update"] = true;
 			return $arr;
 		}
+		else if ($dbupdate->hotfixAvailable())
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("hotfix_available");
+			$arr["update"] = true;
+			return $arr;
+		}
 
 		// check control information
 		

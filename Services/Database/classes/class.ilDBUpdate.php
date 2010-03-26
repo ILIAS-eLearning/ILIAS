@@ -393,14 +393,17 @@ class ilDBUpdate
 	 * @return bool
 	 * @access private
 	 */
-	function applyUpdateNr($nr)
+	function applyUpdateNr($nr, $hotfix = false)
 	{
 		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
 
 		//search for desired $nr
 		reset($this->filecontent);
 		
-		$this->setRunningStatus($nr);
+		if (!$hotfix)
+		{
+			$this->setRunningStatus($nr);
+		}
 
 		//init
 		$i = 0;
@@ -486,8 +489,19 @@ class ilDBUpdate
 		}
 	
 		//increase db_Version number
-		$this->setCurrentVersion($nr);
-		$this->clearRunningStatus();
+		if (!$hotfix)
+		{
+			$this->setCurrentVersion($nr);
+		}
+		else
+		{
+			$this->setHotfixCurrentVersion($nr);
+		}
+		
+		if (!$hotfix)
+		{
+			$this->clearRunningStatus();
+		}
 		//$this->currentVersion = $ilias->getSetting("db_version");
 		
 		return true;
@@ -541,6 +555,155 @@ class ilDBUpdate
 		}	
 		return $msg;
 	}
+	
+	////
+	//// Hotfix handling
+	////
+	
+
+	/**
+	 * Get current hotfix version
+	 */
+	function getHotfixCurrentVersion()
+	{
+		$this->readHotfixInfo();
+		return $this->hotfix_current_version;
+	}
+
+	/**
+	 * Set current hotfix version
+	 */
+	function setHotfixCurrentVersion($a_version)
+	{
+		$this->readHotfixInfo();
+		$this->hotfix_setting->set("db_hotfixes_".
+			$this->hotfix_version[0]."_".$this->hotfix_version[1], $a_version);
+		$this->hotfix_current_version = $a_version;
+		return true;
+	}
+
+	/**
+	 * Get current hotfix version
+	 */
+	function getHotfixFileVersion()
+	{
+		$this->readHotfixInfo();
+		return $this->hotfix_file_version;
+	}
+
+	/**
+	 * Set current hotfix version
+	 */
+	function readHotfixFileVersion($a_file_content)
+	{
+		//go through filecontent and search for last occurence of <#x>
+		reset($a_file_content);
+		$regs = array();
+		foreach ($a_file_content as $row)
+		{
+			if (ereg("^<#([0-9]+)>", $row, $regs))
+			{
+				$version = $regs[1];
+			}
+		}
+
+		return (integer) $version;
+	}
+
+	/**
+	 * Get status of hotfix file
+	 */
+	function readHotfixInfo($a_force = false)
+	{
+		if ($this->hotfix_info_read && !$a_force)
+		{
+			return;
+		}
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$GLOBALS["ilDB"] = $this->db;
+		$this->hotfix_setting = new ilSetting();
+		$ilias_version = ILIAS_VERSION_NUMERIC;
+		$version_array = explode(".", $ilias_version);
+		$this->hotfix_version[0] = $version_array[0];
+		$this->hotfix_version[1] = $version_array[1];
+		$hotfix_file = $this->PATH."setup/sql/".$this->hotfix_version[0]."_".$this->hotfix_version[1]."_hotfixes.php";
+		if (is_file($hotfix_file))
+		{
+			$this->hotfix_content = @file($hotfix_file);
+			$this->hotfix_current_version = (int) $this->hotfix_setting->get("db_hotfixes_".
+				$this->hotfix_version[0]."_".$this->hotfix_version[1]);
+			$this->hotfix_file_version = $this->readHotfixFileVersion($this->hotfix_content);
+		}
+		$this->hotfix_info_read = true;
+	}
+	
+	/**
+	 * Get status of hotfix file
+	 */
+	function hotfixAvailable()
+	{
+		$this->readHotfixInfo();
+		if ($this->hotfix_file_version > $this->hotfix_current_version)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Apply hotfix
+	 */
+	function applyHotfix()
+	{
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
+		
+		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
+
+		$ilMySQLAbstraction = new ilMySQLAbstraction();
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+		
+		$this->readHotfixInfo(true);
+		
+		$f = $this->getHotfixFileVersion();
+		$c = $this->getHotfixCurrentVersion();
+		
+		if ($c < $f)
+		{
+			$msg = array();
+			for ($i=($c+1); $i<=$f; $i++)
+			{
+//				$this->initStep($i);	// nothings happens here
+				
+				$this->filecontent = $this->hotfix_content;
+				
+				if ($this->applyUpdateNr($i, true) == false)
+				{
+					$msg[] = array(
+						"msg" => "update_error: ".$this->error,
+						"nr" => $i
+					);
+					$this->updateMsg = $msg;
+					return false;
+				}
+				else
+				{
+					$msg[] = array(
+						"msg" => "hotfix_applied",
+						"nr" => $i
+					);
+				}
+			}
+
+			$this->updateMsg = $msg;
+		}
+		else
+		{
+			$this->updateMsg = "no_changes";
+		}
+
+		return $this->loadXMLInfo();
+	}
+
 
 } // END class.DBUdate
 ?>

@@ -1818,6 +1818,10 @@ return $this->showServerInfoObject();
 		{
 			ilUtil::sendFailure($this->lng->txt("db_need_update"));
 		}
+		else if ($dbupdate->hotfixAvailable())
+		{
+			ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
+		}
 		$this->form->addItem($ne);
 		
 		// ilias version
