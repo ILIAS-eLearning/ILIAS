@@ -3,143 +3,118 @@
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 
 /**
-* Exercise member table
+* Exercise participant table
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @ingroup ModulesExercise
 */
-class ilExerciseMemberTableGUI extends ilTable2GUI
+class ilExParticipantTableGUI extends ilTable2GUI
 {
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_part_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->exc = $a_exc;
 		$this->exc_id = $this->exc->getId();
-		$this->setId("exc_mem_".$a_ass_id);
 		
-		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		$this->storage = new ilFSStorageExercise($this->exc_id, $a_ass_id);
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
-		$this->ass_id = $a_ass_id;
+		$this->part_id = $a_part_id;
+		
+		$this->setId("exc_part_".$this->exc_id."_".$this->part_id);
+		
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		
+		if ($this->part_id > 0)
+		{
+			$name = ilObjUser::_lookupName($this->part_id);
+			$this->user = new ilObjUser($this->part_id);
+		}
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData(ilExAssignment::getMemberListData($this->exc_id, $this->ass_id));
-		$this->setTitle($lng->txt("exc_assignment").": ".
-			ilExAssignment::lookupTitle($a_ass_id));
+		
+		//$this->setData(ilExAssignment::getMemberListData($this->exc_id, $this->ass_id));
+		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
+		$this->setData($data);
+		
+//var_dump($data);
+
+		if ($this->part_id > 0)
+		{
+			$this->setTitle($lng->txt("exc_participant").": ".
+				$name["lastname"].", ".$name["firstname"]." [".$name["login"]."]");
+		}
+		else
+		{
+			$this->setTitle($lng->txt("exc_participant"));
+		}
+		
 		$this->setTopCommands(true);
 		//$this->setLimit(9999);
 		
-		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("image"), "", "1");
-		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("login"), "login");
-		$this->sent_col = ilExAssignment::lookupAnyExerciseSent($this->exc->getId(), $this->ass_id);
-		if ($this->sent_col)
-		{
-			$this->addColumn($this->lng->txt("exc_exercise_sent"), "sent_time");
-		}
+//		$this->addColumn("", "", "1", true);
+		$this->addColumn($this->lng->txt("exc_assignment"), "order_val");
 		$this->addColumn($this->lng->txt("exc_submission"), "submission");
 		$this->addColumn($this->lng->txt("exc_grading"), "solved_time");
+//		$this->addColumn($this->lng->txt("mail"), "feedback_time");
 		$this->addColumn($this->lng->txt("feedback"), "feedback_time");
 		
-		$this->setDefaultOrderField("name");
+		$this->setDefaultOrderField("order_val");
 		$this->setDefaultOrderDirection("asc");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");
+		$this->setRowTemplate("tpl.exc_participant_row.html", "Modules/Exercise");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
-		$this->setSelectAllCheckbox("member");
+//		$this->setSelectAllCheckbox("assid");
 
-		$this->addMultiCommand("saveStatus", $lng->txt("exc_save_changes"));
-		$this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
-		$this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
-		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));
-		
-		//if(count($this->exc->members_obj->getAllDeliveredFiles()))
-		if (count(ilExAssignment::getAllDeliveredFiles($this->exc_id, $this->ass_id)))
+		if ($this->part_id > 0)
 		{
-			$this->addCommandButton("downloadAll", $lng->txt("download_all_returned_files"));
+			$this->addCommandButton("saveStatusParticipant", $lng->txt("exc_save_changes"));
 		}
 	}
 	
 	/**
+	 * Check whether field is numeric
+	 */
+	function numericOrdering($a_f)
+	{
+		if (in_array($a_f, array("order_val")))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
 	* Fill table row
 	*/
-	protected function fillRow($member)
+	protected function fillRow($d)
 	{
 		global $lng, $ilCtrl;
 
-		include_once "./classes/class.ilObjectFactory.php";		
-		$member_id = $member["usr_id"];
-
-		if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
-		{
-			continue;
-		}
-
-		// mail sent
-		if ($this->sent_col)
-		{
-			if (ilExAssignment::lookupStatusSentOfUser($this->ass_id, $member_id))
-			{
-				$this->tpl->setCurrentBlock("mail_sent");
-				if (($st = ilExAssignment::lookupSentTimeOfUser($this->ass_id,
-					$member_id)) > 0)
-				{
-					$this->tpl->setVariable("TXT_MAIL_SENT",
-						sprintf($lng->txt("exc_sent_at"),
-						ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_MAIL_SENT",
-						$lng->txt("sent"));
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("mail_sent");
-				$this->tpl->setVariable("TXT_MAIL_SENT",
-					"&nbsp;");
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		// checkbox
+		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);
+		
 		$this->tpl->setVariable("VAL_CHKBOX",
-			ilUtil::formCheckbox(0,"member[$member_id]",1));
+			ilUtil::formCheckbox(0, "assid[".$d["id"]."]",1));
 		$this->tpl->setVariable("VAL_ID",
-			$member_id);
-			
-		// name and login
-		$this->tpl->setVariable("TXT_NAME",
-			$member["name"]);
-		$this->tpl->setVariable("TXT_LOGIN",
-			"[".$member["login"]."]");
-			
-		// image
-		$this->tpl->setVariable("USR_IMAGE",
-			$mem_obj->getPersonalPicturePath("xxsmall"));
-		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
-
+			$d["id"]);
+		
 		// submission:
 		// see if files have been resubmmited after solved
 		$last_sub =
-			ilExAssignment::getLastSubmission($this->ass_id, $member_id);
+			ilExAssignment::getLastSubmission($d["id"], $this->part_id);
 		if ($last_sub)
 		{
 			$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
@@ -148,7 +123,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$last_sub = "---";
 		}
-		if (ilExAssignment::lookupUpdatedSubmission($this->ass_id, $member_id) == 1) 
+		if (ilExAssignment::lookupUpdatedSubmission($d["id"], $this->part_id) == 1) 
 		{
 			$last_sub = "<b>".$last_sub."</b>";
 		}
@@ -159,9 +134,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		// nr of submitted files
 		$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 			$lng->txt("exc_files_returned"));
-		//$sub_cnt = count($this->exc->getDeliveredFiles($member_id, $this->ass_id));
-		$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));
-		$new = ilExAssignment::lookupNewFiles($this->ass_id, $member_id);
+		$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $d["id"], $this->part_id));
+		$new = ilExAssignment::lookupNewFiles($d["id"], $this->part_id);
 		if (count($new) > 0)
 		{
 			$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
@@ -170,7 +144,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$sub_cnt);
 		
 		// download command
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->part_id);
 		if ($sub_cnt > 0)
 		{
 			$this->tpl->setCurrentBlock("download_link");
@@ -203,27 +178,27 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		// note
 		$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));
 		$this->tpl->setVariable("NAME_NOTE",
-			"notice[$member_id]");
+			"notice[".$d["id"]."]");
 		$this->tpl->setVariable("VAL_NOTE",
-			ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($this->ass_id, $member_id)));
+			ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($d["id"], $this->part_id)));
 			
 		// comment for learner
 		$this->tpl->setVariable("TXT_LCOMMENT", $lng->txt("exc_comment_for_learner"));
 		$this->tpl->setVariable("NAME_LCOMMENT",
-			"lcomment[$member_id]");
-		$lpcomment = ilExAssignment::lookupCommentForUser($this->ass_id, $member_id);
+			"lcomment[".$d["id"]."]");
+		$lpcomment = ilExAssignment::lookupCommentForUser($d["id"], $this->part_id);
 		$this->tpl->setVariable("VAL_LCOMMENT",
 			ilUtil::prepareFormOutput($lpcomment));
 
 		// solved
 		//$this->tpl->setVariable("CHKBOX_SOLVED",
 		//	ilUtil::formCheckbox($this->exc->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
-		$status = ilExAssignment::lookupStatusOfUser($this->ass_id, $member_id);
+		$status = ilExAssignment::lookupStatusOfUser($d["id"], $this->part_id);
 		$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
 		$this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
 		$this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
 		$this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-		if (($sd = ilExAssignment::lookupStatusTimeOfUser($this->ass_id, $member_id)) > 0)
+		if (($sd = ilExAssignment::lookupStatusTimeOfUser($d["id"], $this->part_id)) > 0)
 		{
 			$this->tpl->setCurrentBlock("status_date");
 			$this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
@@ -243,14 +218,14 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		// mark
 		$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
 		$this->tpl->setVariable("NAME_MARK",
-			"mark[$member_id]");
-		$mark = ilExAssignment::lookupMarkOfUser($this->ass_id, $member_id);
+			"mark[".$d["id"]."]");
+		$mark = ilExAssignment::lookupMarkOfUser($d["id"], $this->part_id);
 		$this->tpl->setVariable("VAL_MARK",
 			ilUtil::prepareFormOutput($mark));
-			
+
 		// feedback
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-		if (($ft = ilExAssignment::lookupFeedbackTimeOfUser($this->ass_id, $member_id)) > 0)
+		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->part_id);
+		if (($ft = ilExAssignment::lookupFeedbackTimeOfUser($d["id"], $this->part_id)) > 0)
 		{
 			$this->tpl->setCurrentBlock("feedback_date");
 			$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
@@ -258,18 +233,17 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// feedback mail
-		$ilCtrl->setParameter($this, "rcp_to", $mem_obj->getLogin());
+		$ilCtrl->setParameter($this, "rcp_to", $this->user->getLogin());
 		$this->tpl->setVariable("LINK_FEEDBACK",
 			$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
+			//"ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem_obj->getLogin());
 		$this->tpl->setVariable("TXT_FEEDBACK",
 			$lng->txt("exc_send_mail"));
 		$ilCtrl->setParameter($this->parent_obj, "rcp_to", "");
-
-		// file feedback
-		$cnt_files = $this->storage->countFeedbackFiles($member_id);
-		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedback");
+		
+		$storage = new ilFSStorageExercise($this->exc_id, $d["id"]);
+		$cnt_files = $storage->countFeedbackFiles($this->part_id);
+		$ilCtrl->setParameter($this->parent_obj, "fsmode", "feedbackpart");
 		$this->tpl->setVariable("LINK_FILE_FEEDBACK",
 			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
 		if ($cnt_files == 0)
@@ -283,7 +257,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$lng->txt("exc_fb_files")." (".$cnt_files.")");
 		}
 
-		$this->tpl->parseCurrentBlock();
+
+		$ilCtrl->setParameter($this->parent_obj, "ass_id", $_GET["ass_id"]);
 	}
 
 }

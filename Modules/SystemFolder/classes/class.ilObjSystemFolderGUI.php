@@ -1771,8 +1771,8 @@ return $this->showServerInfoObject();
 	*/
 	function showServerInfoObject()
 	{
-		global $tpl, $ilCtrl;
-		
+		global $tpl, $ilCtrl, $ilToolbar;
+				
 		$this->initServerInfoForm();
 		
 		$btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");

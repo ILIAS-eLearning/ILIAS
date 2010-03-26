@@ -66,6 +66,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
+
 		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
 		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
 

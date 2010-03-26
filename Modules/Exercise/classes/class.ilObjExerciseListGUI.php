@@ -91,10 +91,10 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		global $lng, $ilUser;
 
 		$props = array();
-		$props[] = array(
+/*		$props[] = array(
 			"property" => $this->lng->txt("exc_time_to_send"),
 			"value" => ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id)
-		);
+		);*/
 
 		return $props;
 	}

@@ -442,6 +442,19 @@ class ilYuiUtil
 	}
 	
 	/**
+	* Init YUI Event
+	*/
+	static function initTooltip()
+	{
+		global $tpl;
+		
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/container.css");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
+	}
+
+	/**
 	* Get local path of a YUI js file
 	*/
 	function getLocalPath($a_name = "")

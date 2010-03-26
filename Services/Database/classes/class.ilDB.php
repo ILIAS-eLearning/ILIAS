@@ -1433,6 +1433,9 @@ abstract class ilDB extends PEAR
 		{
 			$st = $this->db->prepare("INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
 				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
+			
+			$this->handleError($st, "insert / prepare/execute(".$a_table.")");
+			
 			$r = $st->execute($field_values);
 			
 			

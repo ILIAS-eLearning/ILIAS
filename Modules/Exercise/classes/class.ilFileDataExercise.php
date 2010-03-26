@@ -36,6 +36,7 @@ class ilFileDataExercise extends ilFileData
 	*/
 	function ilFileDataExercise($a_obj_id = 0)
 	{
+die ("ilFileDataExercise is deprecated.");
 		define('EXERCISE_PATH','exercise');
 		parent::ilFileData();
 		$this->exercise_path = parent::getPath()."/".EXERCISE_PATH;
@@ -199,74 +200,6 @@ class ilFileDataExercise extends ilFileData
 		return false;
 	}
 
-	/**
-	* store delivered file in filesystem
-	* @param array HTTP_POST_FILES
-	* @param numeric database id of the user who delivered the file
-	* @access	public
-	* @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
-	*/
-	function deliverFile($a_http_post_file, $user_id, $is_unziped = false)
-	{
-		// TODO:
-		// CHECK UPLOAD LIMIT
-		//
-		$result = false;
-		if(isset($a_http_post_file) && $a_http_post_file['size'])
-		{
-			$filename = $a_http_post_file['name'];
-			// replace whitespaces with underscores
-			$filename = preg_replace("/\s/", "_", $filename);
-			// remove all special characters
-			$filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
-
-			if(!is_dir($savepath = $this->getExercisePath()."/".$this->obj_id))
-			{
-				ilUtil::makeDir($savepath);
-			}
-			$savepath .= '/' .$user_id;
-			if(!is_dir($savepath))
-			{
-				ilUtil::makeDir($savepath);
-			}
-
-			// CHECK IF FILE PATH EXISTS
-			if (!is_dir($savepath))
-			{
-				require_once "./Services/Utilities/classes/class.ilUtil.php";
-				#ilUtil::makeDirParents($savepath);
-				ilUtil::makeDir($savepath);
-			}
-			$now = getdate();
-			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"],
-							  $now["minutes"], $now["seconds"]);
-
-			if (!$is_unziped)
-			{
-				//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
-				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
-				$savepath . "/" . $prefix . "_" . $filename);
-			}
-			else
-			{
-
-				rename($a_http_post_file['tmp_name'],
-				$savepath . "/" . $prefix . "_" . $filename);
-			}
-			
-			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-
-			if (is_file($savepath . "/" . $prefix . "_" . $filename))
-			{
-				$result = array(
-					"filename" => $prefix . "_" . $filename,
-					"fullname" => $savepath . "/" . $prefix . "_" . $filename,
-					"mimetype" =>	ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
-				);
-			}
-		}
-		return $result;
-	}
 
 	/**
 	* Download all submitted files of all members.

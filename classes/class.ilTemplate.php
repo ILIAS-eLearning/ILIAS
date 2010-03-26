@@ -1850,7 +1850,7 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}
-	
+
 	/**
 	* Fill add on load code
 	*/
@@ -1869,6 +1869,6 @@ class ilTemplate extends ilTemplateX
 			$this->parseCurrentBlock();
 		}
 	}
-	
+
 }
 ?>

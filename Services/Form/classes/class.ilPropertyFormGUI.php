@@ -461,7 +461,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		}
 
 		// required
-		if ($this->required_text)
+		if ($this->required_text && $this->getMode() == "std")
 		{
 			$this->tpl->setCurrentBlock("required_text");
 			$this->tpl->setVariable("TXT_REQUIRED", $lng->txt("required_field"));

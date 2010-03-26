@@ -1322,7 +1322,7 @@ class ilUtil
 	* @param	truncate at first blank after $a_len characters
 	* @return	string 	shortended string
 	*/
-	public static function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false)
+	public static function shortenText($a_str, $a_len, $a_dots = false, $a_next_blank = false)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if (ilStr::strLen($a_str) > $a_len)
@@ -1592,10 +1592,26 @@ class ilUtil
 	* @param	string	$a_file		full path/filename
 	* @param	boolean	$overwrite	pass true to overwrite existing files
 	*/
-	function unzip($a_file, $overwrite = false)
+	function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
 		//global $ilias;
 
+		if (!is_file ($a_file))
+		{
+			return;
+		}
+		
+		// if flat, move file to temp directory first
+		if ($a_flat)
+		{
+			$tmpdir = ilUtil::ilTempnam();
+			ilUtil::makeDir($tmpdir);
+			copy($a_file, $tmpdir.DIRECTORY_SEPARATOR.basename($a_file));
+			$orig_file = $a_file;
+			$a_file = $tmpdir.DIRECTORY_SEPARATOR.basename($a_file);
+			$origpathinfo = pathinfo($orig_file);
+		}
+		
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
@@ -1649,6 +1665,25 @@ class ilUtil
 		exec($unzipcmd);
 
 		chdir($cdir);
+		
+		// if flat, get all files and move them to original directory
+		if ($a_flat)
+		{
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+			$filearray = array();
+			ilFileUtils::recursive_dirscan($tmpdir, $filearray);
+			if (is_array($filearray["file"]))
+			{
+				foreach ($filearray["file"] as $k => $f)
+				{
+					if (substr($f, 0, 1) != "." && $f != basename($orig_file))
+					{
+						copy($filearray["path"][$k].$f, $origpathinfo["dirname"].DIRECTORY_SEPARATOR.$f);
+					}
+				}
+			}
+			ilUtil::delDir($tmpdir);
+		}
 	}
 
 	/**
@@ -2139,6 +2174,7 @@ class ilUtil
 		$dirs = array($a_dir);
 		$a_dir = dirname($a_dir);
 		$last_dirname = '';
+
 		while($last_dirname != $a_dir)
 		{
 			array_unshift($dirs, $a_dir);

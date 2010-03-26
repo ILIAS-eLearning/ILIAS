@@ -23,6 +23,8 @@ class ilInfoScreenGUI
 	var $top_buttons = array();
 	var $top_formbuttons = array();
 	var $hiddenelements = array();
+	var $table_class = "il_InfoScreen";
+	
 	/**
 	* a form action parameter. if set a form is generated
 	*/
@@ -106,6 +108,26 @@ class ilInfoScreenGUI
 		return true;
 	}
 
+	/**
+	 * Set table class
+	 *
+	 * @param	string	table class
+	 */
+	function setTableClass($a_val)
+	{
+		$this->table_class = $a_val;
+	}
+	
+	/**
+	 * Get table class
+	 *
+	 * @return	string	table class
+	 */
+	function getTableClass()
+	{
+		return $this->table_class;
+	}
+	
 	/**
 	* enable notes
 	*/
@@ -842,6 +864,8 @@ class ilInfoScreenGUI
 			}
 		}
 
+		$tpl->setVariable("TCLASS", $this->getTableClass());
+		
 		return $tpl->get();
 	}
 

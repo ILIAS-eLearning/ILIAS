@@ -45,24 +45,22 @@ class ilExerciseSearch extends ilAbstractSearch
 		parent::ilAbstractSearch($query_parser);
 	}
 
-	function &performSearch()
+	function performSearch()
 	{
-		// Search in glossary term
-		
-		$this->setFields(array('instruction'));
+		$this->setFields(array('instruction','title'));
 
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT obj_id  ".
+		$query = "SELECT exc_id, id  ".
 			$locate.
-			"FROM exc_data ".
+			"FROM exc_assignment ".
 			$where;
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->obj_id,'exc',$this->__prepareFound($row));
+			$this->search_result->addEntry($row->exc_id,'exc',$this->__prepareFound($row),$row->id);
 		}
 		return $this->search_result;
 	}

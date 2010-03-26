@@ -10180,6 +10180,65 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
+exc#:#exc_assignments#:#Übungseinheiten
+exc#:#exc_add_assignment#:#Übungseinheit hinzufügen
+exc#:#exc_deadline#:#Abgabetermin
+exc#:#exc_new_assignment#:#Neue Übungseinheit
+exc#:#exc_start_time#:#Startzeit
+exc#:#exc_mandatory#:#Obligatorisch
+exc#:#exc_pass_mode#:#Anforderung
+exc#:#exc_pass_all#:#Alle obligatorischen Übungseinheiten
+exc#:#exc_pass_all_info#:#Lerner müssen alle obligatorischen Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
+exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen um die Übung zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl obligatorischer Übungseinheiten.
+exc#:#exc_min_nr#:#Anzahl Übungseinheiten
+exc#:#exc_save_order#:#Reihenfolge speichern
+exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
+exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
+exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
+exc#:#exc_presentation_order#:#Reihenfolge
+exc#:#exc_saved_order#:#Reihenfolge gespeichert
+exc#:#exc_mandatory_info#:#Obligatorische Übungseinheiten müssen bestanden werden, um die ganze Übung zu bestehen.
+exc#:#exc_show_submissions#:#Alle abgegebenen Lösungen nach Abgabetermin veröffentlichen
+exc#:#exc_show_submissions_info#:#Die abgegebenen Lösungen aller Lerner können nach dem Abgabetermin von allen Lernern eingesehen werden.
+exc#:#exc_edit_assignment#:#Übungseinheit bearbeiten
+exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
+exc#:#exc_submissions_and_grades#:#Abgaben und Noten
+exc#:#exc_assignment_view#:#Je Übungseinheit
+exc#:#exc_participant_view#:#Je Teilnehmer
+exc#:#exc_grades_overview#:#Notenübersicht
+exc#:#exc_select_ass#:#Übungseinheit auswählen
+exc#:#exc_add_participant#:#Teilnehmer hinzufügen
+exc#:#exc_assignment#:#Übungseinheit
+exc#:#exc_manage#:#Editieren
+exc#:#exc_ended_on#:#Beendet am
+exc#:#exc_starting_on#:#Startet am
+exc#:#exc_hand_in#:#Lösung einreichen
+exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
+exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
+exc#:#exc_select_part#:#Teilnehmer auswählen
+exc#:#exc_participant#:#Teilnehmer
+exc#:#exc_grades#:#Notenübersicht
+exc#:#exc_overview#:#Übersicht
+exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle obligatorischen Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
+exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
+exc#:#exc_total_exc#:#Gesamte Übung
+exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
+exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
+exc#:#exc_list_submission#:#Alle Lösungsabgaben
+exc#:#exc_export_excel#:#Export (Excel)
+exc#:#exc_add_feedback_file#:#Feedback-Datei
+exc#:#exc_fb_files#:#Feedback-Dateien
+exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde einen neue Feedback-Datei zur Übungen "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ein Dozent hat eine neue Feedback-Datei für Sie hochgeladen.
+exc#:#exc_mail_permanent_link#:#Der folgende Link leitet weiter zur Übung:
+exc#:#exc_msg_saved_grades#:#Noten wurden gespeichert.
+exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus der Übung entfernen? Alle Lösungsabgaben der Teilnehmer werden gelöscht.
+exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
+exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
+exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
 auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen

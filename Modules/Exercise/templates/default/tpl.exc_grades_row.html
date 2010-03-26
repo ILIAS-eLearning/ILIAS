@@ -1,0 +1,27 @@
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+		<input type="hidden" name="id[{VAL_ID}]" value = "1" />
+		<a href="{LINK_NAME}">{TXT_NAME}</a>
+	</td>
+	<!-- BEGIN grade -->
+	<td class="std small" valign="top">
+		<div class="small" style="white-space: nowrap;">
+		<img border="0" src="{IMG_STATUS}" title="{ALT_STATUS}" alt="{ALT_STATUS}" style="vertical-align:middle;"/>
+		<!-- <select name="status[{VAL_ID}]" >
+			<option value="notgraded" {SEL_NOTGRADED}>{TXT_NOTGRADED}</option>
+			<option value="passed" {SEL_PASSED}>{TXT_PASSED}</option>
+			<option value="failed" {SEL_FAILED}>{TXT_FAILED}</option>
+		</select> -->
+		<div>
+		<div style="margin-top:5px; style="white-space: nowrap;"">
+		<!-- BEGIN mark_input -->
+		{TXT_MARK}: <input type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="4" maxlength="32" />
+		<!-- END mark_input -->
+		{VAL_ONLY_MARK}
+		</div>
+	</td>
+	<!-- END grade -->
+	<td class="std small" valign="top">
+	<textarea wrap="virtual" rows="2" cols="20" name="lcomment[{ID_COMMENT}]">{VAL_COMMENT}</textarea>
+	</td>
+</tr>

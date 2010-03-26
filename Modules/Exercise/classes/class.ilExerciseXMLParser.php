@@ -62,6 +62,9 @@ class ilExerciseXMLParser extends ilSaxParser
 	*/
 	function ilExerciseXMLParser(& $exercise, $a_xml_data, $obj_id = -1)
 	{
+// @todo: needs to be revised for multiple assignments per exercise
+die ("Needs revision for ILIAS 4.1");
+
 		parent::ilSaxParser();
 		$this->exercise = $exercise;
 		$this->setXMLContent($a_xml_data);

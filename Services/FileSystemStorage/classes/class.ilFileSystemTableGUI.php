@@ -55,7 +55,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.directory_row.html");
 		$this->setEnableTitle(true);
 
-		$this->addMultiCommand("deleteFile", $lng->txt("delete"));
+		$this->addMultiCommand("confirmDeleteFile", $lng->txt("delete"));
 		$this->addMultiCommand("unzipFile", $lng->txt("unzip"));
 		$this->addMultiCommand("downloadFile", $lng->txt("download"));
 		$this->addMultiCommand("renameFileForm", $lng->txt("rename"));

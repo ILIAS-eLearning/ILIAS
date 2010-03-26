@@ -28,9 +28,30 @@ class ilFileSystemGUI
 		$this->label_enable = false;
 		$this->ctrl->saveParameter($this, "cdir");
 		$lng->loadLanguageModule("content");
+		$this->setAllowDirectories(true);
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
 
+	/**
+	 * Set allow directories
+	 *
+	 * @param	boolean		allow directories
+	 */
+	function setAllowDirectories($a_val)
+	{
+		$this->allow_directories = $a_val;
+	}
+	
+	/**
+	 * Get allow directories
+	 *
+	 * @return	boolean		allow directories
+	 */
+	function getAllowDirectories()
+	{
+		return $this->allow_directories;
+	}
+	
 	/**
 	* Set table id
 	*
@@ -49,6 +70,54 @@ class ilFileSystemGUI
 	function getTableId()
 	{
 		return $this->table_id;
+	}
+	
+	/**
+	 * Set title
+	 *
+	 * @param	string	title
+	 */
+	function setTitle($a_val)
+	{
+		$this->title = $a_val;
+	}
+	
+	/**
+	 * Get title
+	 *
+	 * @return	string	title
+	 */
+	function getTitle()
+	{
+		return $this->title;
+	}
+	
+	/**
+	 * Set performed command
+	 *
+	 * @param	string	command
+	 * @param	array	parameter array
+	 */
+	protected function setPerformedCommand($command, $pars = "")
+	{
+		if (!is_array($pars))
+		{
+			$pars = array();
+		}
+		$_SESSION["fsys"]["lastcomm"] = array_merge(
+			array("cmd" => $command), $pars);
+	}
+	
+	/**
+	 * Get performed command
+	 *
+	 * @return	array	command array
+	 */
+	public function getLastPerformedCommand()
+	{
+		$ret = $_SESSION["fsys"]["lastcomm"];
+		$_SESSION["fsys"]["lastcomm"] = "none";
+		return $ret;
 	}
 	
 	/**
@@ -201,13 +270,17 @@ class ilFileSystemGUI
 		// toolbar for adding files/directories
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($this->lng->txt("cont_new_dir"), "new_dir");
-		$ti->setMaxLength(80);
-		$ti->setSize(10);
-		$ilToolbar->addInputItem($ti, true);
-		$ilToolbar->addFormButton($lng->txt("create"), "createDirectory");
 		
-		$ilToolbar->addSeparator();
+		if ($this->getAllowDirectories())
+		{
+			$ti = new ilTextInputGUI($this->lng->txt("cont_new_dir"), "new_dir");
+			$ti->setMaxLength(80);
+			$ti->setSize(10);
+			$ilToolbar->addInputItem($ti, true);
+			$ilToolbar->addFormButton($lng->txt("create"), "createDirectory");
+			
+			$ilToolbar->addSeparator();
+		}
 		
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($this->lng->txt("cont_new_file"), "new_file");
@@ -239,6 +312,10 @@ class ilFileSystemGUI
 		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
 			$this->label_enable, $this->file_labels, $this->label_header, $this->commands);
 		$fs_table->setId($this->getTableId());
+		if ($this->getTitle() != "")
+		{
+			$fs_table->setTitle($this->getTitle());
+		}
 		if ($_GET["resetoffset"] == 1)
 		{
 			$fs_table->resetOffset();
@@ -509,10 +586,14 @@ return;
 		if (@is_dir($dir.$new_name))
 		{
 			ilUtil::sendSuccess($lng->txt("cont_dir_renamed"), true);
+			$this->setPerformedCommand("rename_dir", array("old_name" => $_GET["old_name"],
+				"new_name" => $new_name));
 		}
 		else
 		{
 			ilUtil::sendSuccess($lng->txt("cont_file_renamed"), true);
+			$this->setPerformedCommand("rename_file", array("old_name" => $_GET["old_name"],
+				"new_name" => $new_name));
 		}
 		$this->ctrl->redirect($this, "listFiles");
 	}
@@ -547,6 +628,7 @@ return;
 			if (is_dir($cur_dir."/".$new_dir))
 			{
 				ilUtil::sendSuccess($lng->txt("cont_dir_created"), true);
+				$this->setPerformedCommand("create_dir", array("name" => $new_dir));
 			}
 		}
 		else
@@ -580,6 +662,9 @@ return;
 			if (is_file($cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"])))
 			{
 				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
+				$this->setPerformedCommand("create_file",
+					array("name" => ilUtil::stripSlashes($_FILES["new_file"]["name"])));
+
 			}
 		}
 		elseif ($_POST["uploaded_file"])
@@ -594,6 +679,8 @@ return;
 			if (is_file($cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"])))
 			{
 				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
+				$this->setPerformedCommand("create_file",
+					array("name" => ilUtil::stripSlashes($_POST["uploaded_file"])));
 			}
 		}
 		else if (trim($_FILES["new_file"]["name"]) == "")
@@ -608,10 +695,39 @@ return;
 		$this->ctrl->redirect($this, "listFiles");
 	}
 
-
 	/**
-	* delete object file
+	* Confirm file deletion
 	*/
+	function confirmDeleteFile()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		if (!is_array($_POST["file"]) || count($_POST["file"]) == 0)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listFile");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("info_delete_sure"));
+			$cgui->setCancel($lng->txt("cancel"), "listFiles");
+			$cgui->setConfirm($lng->txt("delete"), "deleteFile");
+			
+			foreach ($_POST["file"] as $i)
+			{
+				$cgui->addItem("file[]", $i, $i);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	 * delete object file
+	 */
 	function deleteFile()
 	{
 		global $lng;
@@ -651,10 +767,14 @@ return;
 		if ($is_dir)
 		{
 			ilUtil::sendSuccess($lng->txt("cont_dir_deleted"), true);
+			$this->setPerformedCommand("delete_dir",
+				array("name" => ilUtil::stripSlashes($post_file)));
 		}
 		else
 		{
 			ilUtil::sendSuccess($lng->txt("cont_file_deleted"), true);
+			$this->setPerformedCommand("delete_file",
+				array("name" => ilUtil::stripSlashes($post_file)));
 		}
 		$this->ctrl->redirect($this, "listFiles");
 	}
@@ -684,7 +804,14 @@ return;
 
 		if (@is_file($file))
 		{
-			ilUtil::unzip($file, true);
+			if ($this->getAllowDirectories())
+			{
+				ilUtil::unzip($file, true);
+			}
+			else
+			{
+				ilUtil::unzip($file, true, true);
+			}
 		}
 
 		ilUtil::renameExecutables($this->main_dir);

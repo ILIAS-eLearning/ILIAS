@@ -388,7 +388,7 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 	font-size: 80%;
 	text-decoration: none;
 	border-bottom: 1px dotted #2020C0;
-	margin: 0px 0px 0px 3px;
+	margin: 0px 3px 0px 0px;
 	white-space: nowrap;
 	font-weight: normal;
 }
@@ -477,11 +477,13 @@ span.il_ItemProperty
 
 .il_VAccordionHead, .il_HAccordionHead {
 	padding: 3px;
-	background-color: #E2EAF4;
+	background-color: #F8F8F8;
 	text-align:left;
 	border:1px solid #9EADBA;
 	border-bottom-width:0px;
 	cursor: pointer;
+	background-image: url(images/block_top.gif);
+	background-repeat: repeat-x;
 }
 
 .il_VAccordionContent, .il_HAccordionContent {
