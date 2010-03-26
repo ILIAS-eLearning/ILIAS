@@ -255,10 +255,10 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	protected function extractUserName($a_user_data)
 	{
-		$a_username = isset($a_user_data[$this->server->getUserAttribute()]) ? 
-			$a_user_data[$this->server->getUserAttribute()] :
+		$a_username = isset($a_user_data[strtolower($this->server->getUserAttribute())]) ? 
+			$a_user_data[strtolower($this->server->getUserAttribute())] :
 			trim($a_user_data);
-			
+
 		// Support for multiple user attributes
 		if(!is_array($a_username))
 		{
@@ -305,3 +305,5 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	}
 }
 ?>
+
+
