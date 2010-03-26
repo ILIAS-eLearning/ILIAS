@@ -909,7 +909,7 @@ $res = $ilDB->query($query);
 <?php
 	$setting = new ilSetting();
 	$st_step = (int) $setting->get('patch_stex_db');
-	if ($st_step <= 21)
+	if ($st_step <= 23)
 	{
 		$ilDB->modifyTableColumn("exc_assignment",
 			"mandatory",
