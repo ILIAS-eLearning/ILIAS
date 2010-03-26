@@ -59,6 +59,8 @@ class ilExerciseXMLWriter extends ilXmlWriter
 	*/
 	function ilExerciseXMLWriter()
 	{
+// @todo: needs to be revised for multiple assignments per exercise
+die ("Needs revision for ILIAS 4.1");
 		parent::ilXmlWriter();
 		$this->attachFileContents = ilExerciseXMLWriter::$CONTENT_ATTACH_NO;
 	}

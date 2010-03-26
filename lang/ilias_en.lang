@@ -2049,7 +2049,7 @@ common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
-common#:#exc_deassign_members#:#Delete member(s)
+common#:#exc_deassign_members#:#Remove Participant(s)
 common#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
 common#:#exc_download_all#:#Download All
@@ -10189,6 +10189,65 @@ exp#:#exp_scorm#:#SCORM
 exp#:#exp_really_delete#:#Do you really want to delete these export files?
 exp#:#exp_select_max_one_item#:#Please select only one item.
 common#:#hide_filter#:#Hide Filter
+exc#:#exc_assignments#:#Assignments
+exc#:#exc_add_assignment#:#Add Assignment
+exc#:#exc_deadline#:#Deadline
+exc#:#exc_new_assignment#:#New Assignment
+exc#:#exc_start_time#:#Start Time
+exc#:#exc_mandatory#:#Mandatory
+exc#:#exc_pass_mode#:#Pass Mode
+exc#:#exc_pass_all#:#All Mandatory Assignments
+exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.
+exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments
+exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.
+exc#:#exc_min_nr#:#Number of Assignments
+exc#:#exc_save_order#:#Save Order
+exc#:#exc_order_by_deadline#:#Order by Deadline
+exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?
+exc#:#exc_assignments_deleted#:#The assignments have been deleted.
+exc#:#exc_presentation_order#:#Presentation Order
+exc#:#exc_saved_order#:#Saved presentation order.
+exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.
+exc#:#exc_show_submissions#:#Publish Submissions after Deadline
+exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.
+exc#:#exc_edit_assignment#:#Edit Assignment
+exc#:#exc_edit_assignments#:#Edit Assignments
+exc#:#exc_submissions_and_grades#:#Submissions & Grades
+exc#:#exc_assignment_view#:#Assignment View
+exc#:#exc_participant_view#:#Participant View
+exc#:#exc_grades_overview#:#Grades View
+exc#:#exc_select_ass#:#Select Assignment
+exc#:#exc_add_participant#:#Add Participant
+exc#:#exc_assignment#:#Assignment
+exc#:#exc_manage#:#Manage
+exc#:#exc_ended_on#:#Ended On
+exc#:#exc_starting_on#:#Starting On
+exc#:#exc_hand_in#:#Hand In
+exc#:#exc_edit_submission#:#Edit Submission
+exc#:#exc_send_assignment#:#Send Assignment by Mail
+exc#:#exc_select_part#:#Select Participant
+exc#:#exc_participant#:#Participant
+exc#:#exc_grades#:#Grades Overview
+exc#:#exc_overview#:#Overview
+exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
+exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
+exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
+exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
+exc#:#exc_total_exc#:#Total Exercise
+exc#:#exc_public_submission#:#Public Submissions
+exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
+exc#:#exc_list_submission#:#List All Submissions
+exc#:#exc_export_excel#:#Export (Excel)
+exc#:#exc_add_feedback_file#:#Add Feedback File
+exc#:#exc_fb_files#:#Feedback Files
+exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
+exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
+exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:
+exc#:#exc_msg_saved_grades#:#Grades have been saved.
+exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!
+exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.
+exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
+exc#:#exc_no_participants#:#There are currently no participants.
 ecs#:#ecs_published_for#:#Published for:
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account

@@ -44,7 +44,7 @@ abstract class ilFileSystemStorage
 	private $storage_type;
 	private $path_conversion = false;
 
-	private $path;
+	protected $path;
 	
 	/**
 	 * Constructor
@@ -60,7 +60,7 @@ abstract class ilFileSystemStorage
 	 	$this->storage_type = $a_storage_type;
 	 	$this->path_conversion = $a_path_conversion;
 	 	$this->container_id = $a_container_id;
-	 	
+
 	 	// Get path info
 	 	$this->init();
 	}
@@ -157,7 +157,7 @@ abstract class ilFileSystemStorage
 	 *
 	 * @access private
 	 */
-	private function init()
+	protected function init()
 	{
 		switch($this->storage_type)
 		{
@@ -297,6 +297,15 @@ abstract class ilFileSystemStorage
 	{
 		return $this->storage_type;
 	}
+	
+	/**
+	 * Get path
+	 */
+	function getPath()
+	{
+		return $this->path;
+	}
+	
 }
 
 ?>

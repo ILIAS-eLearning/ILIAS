@@ -923,14 +923,15 @@ class ilTable2GUI extends ilTableGUI
 	 * @param	string		Width string
 	 */
 	final public function addColumn($a_text, $a_sort_field = "", $a_width = "",
-		$a_is_checkbox_action_column = false, $a_class = "")
+		$a_is_checkbox_action_column = false, $a_class = "", $a_tooltip = "")
 	{
 		$this->column[] = array(
 			"text" => $a_text,
 			"sort_field" => $a_sort_field,
 			"width" => $a_width,
 			"is_checkbox_action_column" => $a_is_checkbox_action_column,
-			"class" => $a_class
+			"class" => $a_class,
+			"tooltip" => $a_tooltip
 			);
 		$this->column_count = count($this->column);
 	}
@@ -983,8 +984,17 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		$ccnt = 0;
 		foreach ($this->column as $column)
 		{
+			$ccnt++;
+			
+			//tooltip
+			if ($column["tooltip"] != "")
+			{
+				include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+				ilTooltipGUI::addTooltip("thc_".$this->getId()."_".$ccnt, $column["tooltip"]);
+			}
 			if (!$this->enabled["sort"] || $column["sort_field"] == "" || $column["is_checkbox_action_column"])
 			{
 				$this->tpl->setCurrentBlock("tbl_header_no_link");
@@ -1002,6 +1012,7 @@ class ilTable2GUI extends ilTableGUI
 					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
 						ilUtil::img(ilUtil::getImagePath("spacer.gif"), $lng->txt("action")));
 				}
+				$this->tpl->setVariable("HEAD_CELL_NL_ID", "thc_".$this->getId()."_".$ccnt);
 				
 				if ($column["class"] != "")
 				{
@@ -1021,6 +1032,7 @@ class ilTable2GUI extends ilTableGUI
 
 			$this->tpl->setCurrentBlock("tbl_header_cell");
 			$this->tpl->setVariable("TBL_HEADER_CELL", $column["text"]);
+			$this->tpl->setVariable("HEAD_CELL_ID", "thc_".$this->getId()."_".$ccnt);
 			
 			// only set width if a value is given for that column
 			if ($column["width"] != "")

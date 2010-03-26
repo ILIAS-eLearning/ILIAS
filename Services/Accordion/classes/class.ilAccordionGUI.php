@@ -24,6 +24,26 @@ class ilAccordionGUI
 	}
 	
 	/**
+	* Set id
+	*
+	* @param	string	 id
+	*/
+	function setId($a_val)
+	{
+		$this->id = $a_val;
+	}
+	
+	/**
+	* Get id
+	*
+	* @return	string	id
+	*/
+	function getId()
+	{
+		return $this->id;
+	}
+	
+	/**
 	* Set Orientation.
 	*
 	* @param	string	$a_orientation	Orientation
@@ -48,23 +68,43 @@ class ilAccordionGUI
 	}
 
 	/**
-	* Set Container CSS Class.
-	*
-	* @param	string	$a_containerclass	Container CSS Class
-	*/
+	 * Set Container CSS Class.
+	 *
+	 * @param	string	$a_containerclass	Container CSS Class
+	 */
 	function setContainerClass($a_containerclass)
 	{
 		$this->containerclass = $a_containerclass;
 	}
 
 	/**
-	* Get Container CSS Class.
-	*
-	* @return	string	Container CSS Class
-	*/
+	 * Get Container CSS Class.
+	 *
+	 * @return	string	Container CSS Class
+	 */
 	function getContainerClass()
 	{
 		return $this->containerclass;
+	}
+
+	/**
+	 * Set inner Container CSS Class.
+	 *
+	 * @param	string	$a_containerclass	Container CSS Class
+	 */
+	function setInnerContainerClass($a_containerclass)
+	{
+		$this->icontainerclass = $a_containerclass;
+	}
+
+	/**
+	 * Get inner Container CSS Class.
+	 *
+	 * @return	string	Container CSS Class
+	 */
+	function getInnerContainerClass()
+	{
+		return $this->icontainerclass;
 	}
 
 	/**
@@ -148,6 +188,26 @@ class ilAccordionGUI
 	}
 
 	/**
+	 * Set behaviour "ForceAllOpen" | "FirstOpen" | "OneOpenSession"
+	 *
+	 * @param	string	behaviour
+	 */
+	function setBehaviour($a_val)
+	{
+		$this->behaviour = $a_val;
+	}
+	
+	/**
+	 * Get behaviour
+	 *
+	 * @return	
+	 */
+	function getBehaviour()
+	{
+		return $this->behaviour;
+	}
+	
+	/**
 	* Add javascript files that are necessary to run accordion
 	*/
 	static function addJavaScript()
@@ -158,6 +218,7 @@ class ilAccordionGUI
 		ilYuiUtil::initEvent();
 		ilYuiUtil::initDom();
 		ilYuiUtil::initAnimation();
+		ilYuiUtil::initConnection();
 		$tpl->addJavaScript("./Services/Accordion/js/accordion.js", true, 3);
 	}
 	
@@ -193,6 +254,8 @@ class ilAccordionGUI
 	*/
 	function getHTML()
 	{
+		global $ilUser;
+		
 		self::$accordion_cnt++;
 		
 		$or_short = ($this->getOrientation() == ilAccordionGUI::HORIZONTAL)
@@ -227,6 +290,10 @@ class ilAccordionGUI
 			$tpl->setVariable("CONTENT_CLASS", $this->getContentClass()
 				? $this->getContentClass() : "il_".$or_short."AccordionContent");
 			$tpl->setVariable("OR_SHORT", $or_short);
+			
+			$tpl->setVariable("INNER_CONTAINER_CLASS", $this->getInnerContainerClass()
+				? $this->getInnerContainerClass() : "il_".$or_short."AccordionInnerContainer");
+
 
 			if ($height > 0)
 			{
@@ -243,6 +310,20 @@ class ilAccordionGUI
 		$tpl->setVariable("CONTAINER_CLASS", $this->getContainerClass()
 			? $this->getContainerClass() : "il_".$or_short."AccordionContainer");
 		$tpl->setVariable("ORIENTATION", $this->getOrientation());
+		if ($this->getBehaviour() == "OneOpenSession" && $this->getId() != "")
+		{
+			include_once("./Services/Accordion/classes/class.ilAccordionPropertiesStorage.php");
+			$stor = new  ilAccordionPropertiesStorage();
+			$ctab = $stor->getProperty($this->getId(), $ilUser->getId(),
+				"opened");
+			$tpl->setVariable("BEHAVIOUR", $ctab);
+			$tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab".
+				"&accordion_id=".$this->getId()."&user_id=".$ilUser->getId());
+		}
+		else if ($this->getBehaviour != "")
+		{
+			$tpl->setVariable("BEHAVIOUR", $this->getBehaviour());
+		}
 		$tpl->setVariable("OR2_SHORT", $or_short);
 		if ($width > 0)
 		{

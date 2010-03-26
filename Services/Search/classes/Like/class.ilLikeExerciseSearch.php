@@ -51,7 +51,10 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 	{
 		global $ilDB;
 		
-		$concat = 'instruction ';
+		$concat = $ilDB->concat(
+			array(
+				array('title','text'),
+				array('instruction','text')));
 
 		$and = "  WHERE ( ";
 		$counter = 0;
@@ -61,9 +64,7 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 			{
 				$and .= " OR ";
 			}
-			#$and .= $concat;
-			$and .= $ilDB->like('instruction','clob','%'.$word.'%',false);
-			#$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like($concat,'clob','%'.$word.'%',false);
 		}
 		return $and.") ";
 	}

@@ -7,7 +7,7 @@ include_once 'Services/Exceptions/classes/class.ilException.php';
 *
 * Class to report exception
 *
-* @author Roland KŸstermann <roland@kuestermann.com>
+* @author Roland KÃ¼stermann <roland@kuestermann.com>
 * @version $Id: class.ilExerciseException.php 12992 2007-01-25 10:04:26Z rkuester $
 * @ingroup ModulesExercise
 */

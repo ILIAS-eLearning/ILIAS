@@ -5,7 +5,37 @@
 // Complete rewrite using YUI instead of prototype by Alex Killing for
 // ILIAS open source
 
+
 ilAccordionData = Array();
+
+// Success Handler
+var ilAccSuccessHandler = function(o)
+{
+	// parse headers function
+	function parseHeaders()
+	{
+	}
+}
+
+// Success Handler
+var ilAccFailureHandler = function(o)
+{
+	//alert('FailureHandler');
+}
+
+function ilAccordionJSHandler(sUrl)
+{
+	var ilAccCallback =
+	{
+		success: ilAccSuccessHandler,
+		failure: ilAccFailureHandler
+	};
+
+	var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, ilAccCallback);
+	
+	return false;
+}
+
 
 function ilGetNextSibling(n)
 {
@@ -109,6 +139,10 @@ accordion.prototype =
 				t.showAccordion.style.display = 'none';
 				t.showAccordion = null;
 				t.animating = false;
+				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")
+				{
+					ilAccordionJSHandler(t.options.save_url + "&tab_nr=0");
+				}
 			}, this);
 		myAnim.animate();
 	},
@@ -118,6 +152,7 @@ accordion.prototype =
 	//
 	_handleAccordion : function() {
 
+		// fade in the new accordion (currentAccordion)
 		if (this.options.direction == 'vertical')
 		{
 			this.currentAccordion.style.position = 'relative';
@@ -149,13 +184,30 @@ accordion.prototype =
 					t.showAccordion.style.display = 'none';
 				}
 				t.currentAccordion.style.height = 'auto';
+				
+				// set the currently shown accordion
 				t.showAccordion = t.currentAccordion;
+				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")
+				{
+					var tab_nr = 1;
+					var cel = t.showAccordion.parentNode;
+					while(cel = cel.previousSibling)
+					{
+						if (cel.nodeName.toUpperCase() == 'DIV')
+						{
+							tab_nr++;
+						}
+					}
+					ilAccordionJSHandler(t.options.save_url + "&tab_nr=" + tab_nr);
+				}
+				
 				t.animating = false;
 			}, this);
 		myAnim.onStart.subscribe(function(a, b, t) {
 				t.currentAccordion.style.display = 'block';
 			}, this);
 		
+		// fade out the currently shown accordion (showAccordion)
 		if (this.showAccordion)
 		{
 			if (this.options.direction == 'vertical')
@@ -187,12 +239,13 @@ function ilInitAccordions()
 	{
 		ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
 			ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
-			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7]);
+			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
+			ilAccordionData[i][8]);
 	}
 }
 
 
-function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior)
+function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior, save_url)
 {
 	if (behavior != "ForceAllOpen")
 	{
@@ -207,14 +260,26 @@ function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, w
 				width : width,
 				height : height
 			},
-			direction : direction
+			direction : direction,
+			save_url : save_url
 		});
+
 	}
 	if (behavior == "FirstOpen")
 	{
 		var a_el = YAHOO.util.Dom.getElementsByClassName(toggle_class, 'div', id);
 
 		a1 = a_el[0];
+		if (a1)
+		{
+			acc.clickHandler(null, a1);
+		}
+	}
+	else if (!isNaN(behavior))	// open nth tab, if behaviour is a number
+	{
+		var a_el = YAHOO.util.Dom.getElementsByClassName(toggle_class, 'div', id);
+
+		a1 = a_el[Number(behavior) - 1];
 		if (a1)
 		{
 			acc.clickHandler(null, a1);

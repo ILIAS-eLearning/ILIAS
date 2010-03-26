@@ -457,3 +457,476 @@ $query = "INSERT INTO openid_provider (provider_id,enabled,name,url,image) ".
 	")";
 $res = $ilDB->query($query);
 ?>
+<#2982>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 0)
+	{
+		$ilDB->createTable("exc_assignment",
+			array(
+				"id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"exc_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"time_stamp" => array(
+					"type" => "integer", "length" => 4, "notnull" => false
+				),
+				"instruction" => array(
+					"type" => "clob"
+				)
+			)
+		);
+
+		$ilDB->addPrimaryKey("exc_assignment", array("id"));
+		
+		$ilDB->createSequence("exc_assignment");
+	}
+?>
+<#2983>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 1)
+	{
+		$ilDB->createTable("exc_mem_ass_status",
+			array(
+				"ass_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"usr_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"notice" => array(
+					"type" => "text", "length" => 4000, "notnull" => false
+				),
+				"returned" => array(
+					"type" => "integer", "length" => 1, "notnull" => true, "default" => 0
+				),
+				"solved" => array(
+					"type" => "integer", "length" => 1, "notnull" => false
+				),
+				"status_time" => array(
+					"type" => "timestamp", "notnull" => false
+				),
+				"sent" => array(
+					"type" => "integer", "length" => 1, "notnull" => false
+				),
+				"sent_time" => array(
+					"type" => "timestamp", "notnull" => false
+				),
+				"feedback_time" => array(
+					"type" => "timestamp", "notnull" => false
+				),
+				"feedback" => array(
+					"type" => "integer", "length" => 1, "notnull" => true, "default" => 0
+				),
+				"status" => array(
+					"type" => "text", "length" => 9, "fixed" => true, "default" => "notgraded", "notnull" => false
+				)
+			)
+		);
+			
+		$ilDB->addPrimaryKey("exc_mem_ass_status", array("ass_id", "usr_id"));
+	}
+?>
+<#2984>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 2)
+	{
+		$ilDB->addTableColumn("exc_returned",
+			"ass_id",
+			array("type" => "integer", "length" => 4, "notnull" => false));
+	}
+?>
+<#2985>
+<?php
+	/*$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 3)
+	{
+		$ilDB->createTable("exc_mem_tut_status",
+			array (
+				"ass_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"mem_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"tut_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"download_time" => array(
+					"type" => "timestamp"
+				)
+			)
+		);
+	}*/
+?>
+<#2986>
+<?php
+	/*$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 4)
+	{
+		$ilDB->addPrimaryKey("exc_mem_tut_status", array("ass_id", "mem_id", "tut_id"));
+	}*/
+?>
+<#2987>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 5)
+	{
+		$set = $ilDB->query("SELECT * FROM exc_data");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			// Create exc_assignment records for all existing exercises
+			// -> instruction and time_stamp fields in exc_data are obsolete
+			$next_id = $ilDB->nextId("exc_assignment");
+			$ilDB->insert("exc_assignment", array(
+				"id" => array("integer", $next_id),
+				"exc_id" => array("integer", $rec["obj_id"]),
+				"time_stamp" => array("integer", $rec["time_stamp"]),
+				"instruction" => array("clob", $rec["instruction"])
+				));
+		}
+	}
+?>
+<#2988>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 6)
+	{
+		$ilDB->addIndex("exc_members", array("obj_id"), "ob");
+	}
+?>
+<#2989>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 7)
+	{
+		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->query("SELECT * FROM exc_members ".
+				" WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer")
+				);
+			while ($rec2  = $ilDB->fetchAssoc($set2))
+			{
+				$ilDB->manipulate("INSERT INTO exc_mem_ass_status ".
+					"(ass_id, usr_id, notice, returned, solved, status_time, sent, sent_time,".
+					"feedback_time, feedback, status) VALUES (".
+					$ilDB->quote($rec["id"], "integer").",".
+					$ilDB->quote($rec2["usr_id"], "integer").",".
+					$ilDB->quote($rec2["notice"], "text").",".
+					$ilDB->quote($rec2["returned"], "integer").",".
+					$ilDB->quote($rec2["solved"], "integer").",".
+					$ilDB->quote($rec2["status_time"], "timestamp").",".
+					$ilDB->quote($rec2["sent"], "integer").",".
+					$ilDB->quote($rec2["sent_time"], "timestamp").",".
+					$ilDB->quote($rec2["feedback_time"], "timestamp").",".
+					$ilDB->quote($rec2["feedback"], "integer").",".
+					$ilDB->quote($rec2["status"], "text").
+					")");
+			}
+		}
+	}
+?>
+<#2990>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 8)
+	{
+		$ilDB->addIndex("exc_usr_tutor", array("obj_id"), "ob");
+	}
+?>
+<#2991>
+<?php
+	/*$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 9)
+	{
+		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->query("SELECT * FROM exc_usr_tutor ".
+				" WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer")
+				);
+			while ($rec2  = $ilDB->fetchAssoc($set2))
+			{
+				$ilDB->manipulate("INSERT INTO exc_mem_tut_status ".
+					"(ass_id, mem_id, tut_id, download_time) VALUES (".
+					$ilDB->quote($rec["id"], "integer").",".
+					$ilDB->quote($rec2["usr_id"], "integer").",".
+					$ilDB->quote($rec2["tutor_id"], "integer").",".
+					$ilDB->quote($rec2["download_time"], "timestamp").
+					")");
+			}
+		}
+	}*/
+?>
+<#2992>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 10)
+	{
+		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("UPDATE exc_returned SET ".
+				" ass_id = ".$ilDB->quote($rec["id"], "integer").
+				" WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer")
+				);
+		}
+	}
+?>
+<#2993>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 11)
+	{
+		$ilDB->addTableColumn("exc_assignment",
+			"title",
+			array("type" => "text", "length" => 200, "notnull" => false));
+
+		$ilDB->addTableColumn("exc_assignment",
+			"start_time",
+			array("type" => "integer", "length" => 4, "notnull" => false));
+
+		$ilDB->addTableColumn("exc_assignment",
+			"mandatory",
+			array("type" => "integer", "length" => 1, "notnull" => false, "default" => 0));
+	}
+?>
+<#2994>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 12)
+	{
+		$ilDB->addTableColumn("exc_data",
+			"pass_mode",
+			array("type" => "text", "length" => 8, "fixed" => false,
+				"notnull" => true, "default" => "all"));
+
+		$ilDB->addTableColumn("exc_data",
+			"pass_nr",
+			array("type" => "integer", "length" => 4, "notnull" => false));
+	}
+?>
+<#2995>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 13)
+	{
+		$ilDB->addTableColumn("exc_assignment",
+			"order_nr",
+			array("type" => "integer", "length" => 4, "notnull" => true, "default" => 0));
+	}
+?>
+<#2996>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 14)
+	{
+		$ilDB->addTableColumn("exc_data",
+			"show_submissions",
+			array("type" => "integer", "length" => 1, "notnull" => true, "default" => 0));
+	}
+?>
+<#2997>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 15)
+	{
+			$new_ex_path = CLIENT_DATA_DIR."/ilExercise";
+			
+			$old_ex_path = CLIENT_DATA_DIR."/exercise";
+			
+			$old_ex_files = array();
+			
+			if (is_dir($old_ex_path))
+			{
+				$dh_old_ex_path = opendir($old_ex_path);
+				
+				// old exercise files into an assoc array to
+				// avoid reading of all files each time
+				
+				while($file = readdir($dh_old_ex_path))
+				{
+					if(is_dir($old_ex_path."/".$file))
+					{
+						continue;
+					}
+					list($obj_id,$rest) = split('_',$file,2);
+					$old_ex_files[$obj_id][] = array("full" => $file,
+						"rest" => $rest);
+				}
+			}
+//var_dump($old_ex_files);
+			
+			$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+			while ($rec  = $ilDB->fetchAssoc($set))
+			{
+				// move exercise files to assignment directories
+				if (is_array($old_ex_files[$rec["exc_id"]]))
+				{
+					foreach ($old_ex_files[$rec["exc_id"]] as $file)
+					{
+						$old = $old_ex_path."/".$file["full"];
+						$new = $new_ex_path."/".$this->createPathFromId($rec["exc_id"], "exc").
+							"/ass_".$rec["id"]."/".$file["rest"];
+							
+						if (is_file($old))
+						{
+							ilUtil::makeDirParents(dirname($new));
+							rename($old, $new);
+//echo "<br><br>move: ".$old.
+//	"<br>to: ".$new;
+						}
+					}
+				}
+
+				// move submitted files to assignment directories
+				if (is_dir($old_ex_path."/".$rec["exc_id"]))
+				{
+					$old = $old_ex_path."/".$rec["exc_id"];
+					$new = $new_ex_path."/".$this->createPathFromId($rec["exc_id"], "exc").
+						"/subm_".$rec["id"];
+					ilUtil::makeDirParents(dirname($new));
+					rename($old, $new);
+//echo "<br><br>move: ".$old.
+//	"<br>to: ".$new;
+				}
+				
+	}
+?>
+<#2998>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 16)
+	{
+		$ilDB->addTableColumn("exc_usr_tutor",
+			"ass_id",
+			array("type" => "integer", "length" => 4, "notnull" => false));
+	}
+?>
+<#2999>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 17)
+	{
+		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("UPDATE exc_usr_tutor SET ".
+				" ass_id = ".$ilDB->quote($rec["id"], "integer").
+				" WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer")
+				);
+		}
+	}
+?>
+<#3000>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 18)
+	{
+		$ilCtrlStructureReader->getStructure();
+	}
+?>
+<#3001>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 19)
+	{
+		$ilDB->addTableColumn("exc_mem_ass_status",
+			"mark",
+			array("type" => "text", "length" => 32, "notnull" => false));
+		$ilDB->addTableColumn("exc_mem_ass_status",
+			"u_comment",
+			array("type" => "text", "length" => 1000, "notnull" => false));
+
+		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$set2 = $ilDB->query("SELECT * FROM ut_lp_marks WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer"));
+			while ($rec2 = $ilDB->fetchAssoc($set2))
+			{
+				$set3 = $ilDB->query("SELECT ass_id FROM exc_mem_ass_status WHERE ".
+					"ass_id = ".$ilDB->quote($rec["id"], "integer").
+					" AND usr_id = ".$ilDB->quote($rec2["usr_id"], "integer"));
+				if ($rec3 = $ilDB->fetchAssoc($set3))
+				{
+					$ilDB->manipulate("UPDATE exc_mem_ass_status SET ".
+						" mark = ".$ilDB->quote($rec2["mark"], "text").",".
+						" u_comment = ".$ilDB->quote($rec2["u_comment"], "text").
+						" WHERE ass_id = ".$ilDB->quote($rec["id"], "integer").
+						" AND usr_id = ".$ilDB->quote($rec2["usr_id"], "integer")
+						);
+				}
+				else
+				{
+					$ilDB->manipulate("INSERT INTO exc_mem_ass_status (ass_id, usr_id, mark, u_comment) VALUES (".
+						$ilDB->quote($rec["id"], "integer").", ".
+						$ilDB->quote($rec2["usr_id"], "integer").", ".
+						$ilDB->quote($rec2["mark"], "text").", ".
+						$ilDB->quote($rec2["u_comment"], "text").")"
+						);
+				}
+			}
+		}
+	}
+?>
+<#3002>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 20)
+	{
+		$ilDB->dropPrimaryKey("exc_usr_tutor");
+		$ilDB->addPrimaryKey("exc_usr_tutor",
+			array("ass_id", "usr_id", "tutor_id"));
+	}
+?>
+<#3003>
+<?php
+	$setting = new ilSetting();
+	$st_step = (int) $setting->get('patch_stex_db');
+	if ($st_step <= 21)
+	{
+		$ilDB->modifyTableColumn("exc_assignment",
+			"mandatory",
+			array("type" => "integer", "length" => 1, "notnull" => false, "default" => 1));
+		$ilDB->manipulate("UPDATE exc_assignment SET ".
+			" mandatory = ".$ilDB->quote(1, "integer"));
+		
+		$set = $ilDB->query("SELECT e.id, e.exc_id, o.title, e.title t2 FROM exc_assignment e JOIN object_data o".
+							" ON (e.exc_id = o.obj_id)");
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["t2"] == "")
+			{
+				$ilDB->manipulate("UPDATE exc_assignment SET ".
+					" title = ".$ilDB->quote($rec["title"], "text")." ".
+					"WHERE id = ".$ilDB->quote($rec["id"], "text"));
+			}
+		}
+	}
+?>

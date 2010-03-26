@@ -17,15 +17,21 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_ass_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->exercise = $a_exc;
+		$this->ass_id = $a_ass_id;		// assignment id
+		$this->exc_id = $a_exc->getId();
+		
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$this->ass = new ilExAssignment($this->ass_id);
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setData($this->getDeliveredFiles());
-		$this->setTitle($this->lng->txt("already_delivered_files"));
+		$this->setTitle($this->lng->txt("already_delivered_files")." - ".
+			$this->ass->getTitle());
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
@@ -38,9 +44,9 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-		if (mktime() < $this->exercise->getTimestamp())
+		if (mktime() < $this->ass->getDeadline())
 		{
-			$this->addMultiCommand("deleteDelivered", $lng->txt("delete"));
+			$this->addMultiCommand("confirmDeleteDelivered", $lng->txt("delete"));
 		}
 		$this->addMultiCommand("download", $lng->txt("download"));
 	}
@@ -55,7 +61,8 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 		
-		$files = $this->exercise->getDeliveredFiles($ilUser->getId());
+		$files = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id,
+			$ilUser->getId());
 		return $files;
 	}
 	
