@@ -622,7 +622,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_form_gui = new ilPropertyFormGUI();
 		
 		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
-		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
+		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
 		
 		// form action
 		$this->ctrl->setParameter($this, 'new_type', $object_type);
@@ -3283,7 +3283,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
 		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
-		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
+		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
+		$this->create_topic_form_gui->setTableWidth('100%');	
 		
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
