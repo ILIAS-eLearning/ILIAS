@@ -473,35 +473,46 @@ class ilSCORM13Package
 			{
 				include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$OriginId = $ttnode[OriginId];
-				$media_object = new ilObjMediaObject();
+
 				$medianodes = $doc->xpath("//MediaObject[MetaData/General/Identifier/@Entry='".$OriginId ."']");
 				$medianode = $medianodes[0];
-				$media_object->setTitle ($medianode->MetaData->General->Title);
-				$media_object->setDescription ($medianode->MetaData->General->Description);
-				$media_object->create();
-				// determine and create mob directory, move uploaded file to directory
-				$media_object->createDirectory();
-				$mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
-				foreach ( $medianode->MediaItem as $xMediaItem ) 
+				if($medianode)
+				{
+					$media_object = new ilObjMediaObject ( );
+					
+					$media_object->setTitle ($medianode->MetaData->General->Title);
+					$media_object->setDescription ($medianode->MetaData->General->Description);
+					$media_object->create ();
+
+					// determine and create mob directory, move uploaded file to directory
+					$media_object->createDirectory ();
+					$mob_dir = ilObjMediaObject::_getDirectory ( $media_object->getId () );
+					foreach ( $medianode->MediaItem as $xMediaItem ) 
 					{
-						$media_item =& new ilMediaItem();
-						$media_object->addMediaItem($media_item);
-					$media_item->setPurpose($xMediaItem[Purpose]);
-					$media_item->setFormat($xMediaItem->Format );
-					$media_item->setLocation($xMediaItem->Location);
-					$media_item->setLocationType($xMediaItem->Location[Type]);
-					$media_item->setWidth ( $xMediaItem->Layout[Width]);
-					$media_item->setHeight ( $xMediaItem->Layout[Height]);
-					$media_item->setHAlign($xMediaItem->Layout[HorizontalAlign]);
-					if($media_item->getLocationType()=="LocalFile")
+	
+						$media_item = & new ilMediaItem ( );
+						$media_object->addMediaItem ( $media_item );
+						$media_item->setPurpose($xMediaItem[Purpose]);
+						$media_item->setFormat($xMediaItem->Format );
+						$media_item->setLocation($xMediaItem->Location);
+						$media_item->setLocationType($xMediaItem->Location[Type]);
+						$media_item->setWidth ( $xMediaItem->Layout[Width]);
+						$media_item->setHeight ( $xMediaItem->Layout[Height]);
+						$media_item->setHAlign($xMediaItem->Layout[HorizontalAlign]);
+						if($media_item->getLocationType()=="LocalFile")
 						{
-						$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
-						copy($tmp_name,  $mob_dir."/".$xMediaItem->Location);
+							$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
+							copy($tmp_name,  $mob_dir."/".$xMediaItem->Location);
+						}
 					}
-				} 
-				ilUtil::renameExecutables($mob_dir);
-				$media_object->update();
-				$ttnode[OriginId]="il__mob_".$media_object->getId();
+					
+					// alex: fixed media import: these lines have been
+					// behind the next curly bracket which makes it fail
+					// when no medianode is given. (id=0 -> fatal error)
+					ilUtil::renameExecutables ( $mob_dir );
+					$media_object->update ();
+					$ttnode [OriginId] = "il__mob_" . $media_object->getId ();
+				}
 			}
 			$pagex = new ilSCORM2004Page($page->getId());
 			$tnode = $page_xml->xpath('PageContent');
