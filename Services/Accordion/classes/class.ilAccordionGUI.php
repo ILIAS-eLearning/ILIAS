@@ -14,6 +14,9 @@ class ilAccordionGUI
 	protected static $accordion_cnt = 0;
 	const VERTICAL = "vertical";
 	const HORIZONTAL = "horizontal";
+	const FORCE_ALL_OPEN = "ForceAllOpen";
+	const FIRST_OPEN = "FirstOpen";
+	const ONE_OPEN_SESSION = "OneOpenSession";
 	
 	/**
 	* Constructor
@@ -320,7 +323,7 @@ class ilAccordionGUI
 			$tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab".
 				"&accordion_id=".$this->getId()."&user_id=".$ilUser->getId());
 		}
-		else if ($this->getBehaviour != "")
+		else if ($this->getBehaviour() != "")
 		{
 			$tpl->setVariable("BEHAVIOUR", $this->getBehaviour());
 		}
