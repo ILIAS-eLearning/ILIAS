@@ -1779,21 +1779,7 @@ class ilTable2GUI extends ilTableGUI
 				$nav_value = $this->getOrderField().":".$this->getOrderDirection().":".$newoffset;
 				$offset_arr[$nav_value] = $i;
 			}
-						
-			if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next)
-			{				
-				if ($LinkBar != "")
-					$LinkBar .= $sep;
-				$LinkBar .= "".
-					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("page").'</label> '.
-					ilUtil::formSelect($this->nav_value,
-					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "small",
-					array("id" => "tab_page_sel_".$a_num,
-						"onchange" => "ilTablePageSelection(this, 'cmd[".$this->parent_cmd."]')"));
-					//' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-					//$lng->txt("ok").'" />';
-			}
-			
+									
 			$sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 			
 			// previous link
@@ -1848,6 +1834,22 @@ class ilTable2GUI extends ilTableGUI
 				$LinkBar .= '<span class="ilTableFootLight">'.$layout_next."</span>";
 			}
 			
+			$sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+			
+			if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next)
+			{				
+				if ($LinkBar != "")
+					$LinkBar .= $sep;
+				$LinkBar .= "".
+					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("page").'</label> '.
+					ilUtil::formSelect($this->nav_value,
+					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "small",
+					array("id" => "tab_page_sel_".$a_num,
+						"onchange" => "ilTablePageSelection(this, 'cmd[".$this->parent_cmd."]')"));
+					//' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
+					//$lng->txt("ok").'" />';
+			}
+
 			return $LinkBar;
 		}
 		else
