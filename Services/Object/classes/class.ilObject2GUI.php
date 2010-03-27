@@ -4,7 +4,7 @@
 include_once("./classes/class.ilObjectGUI.php");
 
 /**
-* New implementation of ilObjectGUI. (alpha)
+* New implementation of ilObjectGUI. (beta)
 *
 * Differences to the ilObject implementation:
 * - no $this->ilias anymore
@@ -338,28 +338,36 @@ return "";
 		{
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
+			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			$cnt = 1;
 			foreach ($this->creation_forms as $cf)
 			{
+				$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+				$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+				
 				$ot = $lng->txt("option")." ".$cnt.": ";
 				if (is_array($cf))
 				{
-					$acc->addItem($ot.$cf["header"], $cf["form"]->getHTML());
+					$htpl->setVariable("TITLE", $ot.$cf["header"]);
+					$acc->addItem($htpl->get(), $cf["form"]->getHTML());
 				}
 				else if ($cf == ilObject2GUI::CFORM_NEW)
 				{
 					$this->initEditForm("create", $new_type);
-					$acc->addItem($ot.$lng->txt($new_type."_create"), $this->form->getHTML());
+					$htpl->setVariable("TITLE", $ot.$lng->txt($new_type."_create"));
+					$acc->addItem($htpl->get(), $this->form->getHTML());
 				}
 				else if ($cf == ilObject2GUI::CFORM_CLONE)
 				{
 //					$clone_html = $this->fillCloneTemplate('', $new_type);
-					$acc->addItem($ot.$lng->txt($new_type."_clone"), $clone_html);
+					$htpl->setVariable("TITLE", $ot.$lng->txt($new_type."_clone"));
+					$acc->addItem($htpl->get(), $clone_html);
 				}
 				else if($cf == ilObject2GUI::CFORM_IMPORT)
 				{
 					$this->initImportForm($new_type);
-					$acc->addItem($ot.$lng->txt($new_type."_import"), $this->form->getHTML());
+					$htpl->setVariable("TITLE", $ot.$lng->txt($new_type."_import"));
+					$acc->addItem($htpl->get(), $this->form->getHTML());
 				}
 				$cnt++;
 			}
