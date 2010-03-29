@@ -1260,3 +1260,7 @@ $res = $ilDB->query($query);
 		);
 	}
  ?>
+<#30>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

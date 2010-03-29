@@ -27,11 +27,13 @@ include_once 'Services/Table/classes/class.ilTable2GUI.php';
 include_once 'Services/Search/classes/class.ilQueryParser.php';
 include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
+
 /**
 * Class ilForumModeratorsGUI
 *
 * @author Nadia Krzywon <nkrzywon@databay.de>
 *
+* @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
 * @ingroup ModulesForum
 */
 class ilForumModeratorsGUI
@@ -59,12 +61,29 @@ class ilForumModeratorsGUI
 		
 		$this->oForumModerators = new ilForumModerators((int)$_GET['ref_id']);		
 	}
-	
+
 	public function executeCommand()
-	{	
-		$cmd = $this->ctrl->getCmd();		
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+			
+		#vd($next_class);
+	#	vd($cmd);
+		
 		switch ($next_class)
 		{
+			case 'ilrepositorysearchgui':
+
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,
+					'addModerator');
+				// Set tabs
+				$this->ctrl->setReturn($this,'showModerators');
+				$ret = $this->ctrl->forwardCommand($rep_search);				
+
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -78,15 +97,17 @@ class ilForumModeratorsGUI
 	
 	public function addModerator()
 	{
-		if(!((int)$_POST['usr_id']))
+		if(!$_POST['user'])
 		{
 			ilUtil::sendInfo($this->lng->txt('frm_moderators_select_one'));
 			return $this->showModeratorsSearchResult($_SESSION['frm']['moderators']['search_result']);
 		}
 		
 		unset($_SESSION['frm']['moderators']['search_result']);
-		
-		$this->oForumModerators->addModeratorRole((int)$_POST['usr_id']);
+		foreach($_POST['user'] as $user_id)
+		{
+			$this->oForumModerators->addModeratorRole((int)$user_id);
+		}
 		
 		ilUtil::sendInfo($this->lng->txt('frm_moderator_role_added_successfully'));		
 		return $this->showModerators();
@@ -94,7 +115,9 @@ class ilForumModeratorsGUI
 	
 	public function showModeratorsSearchResult($users = array())
 	{
-		$tbl = new ilTable2GUI($this);
+
+
+/*		$tbl = new ilTable2GUI($this);
 		$tbl->setId('frm_show_mods_search_tbl_'.$_GET['ref_id']);
 		$tbl->setTitle($this->lng->txt('users'));
 		$tbl->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum'); 
@@ -123,8 +146,7 @@ class ilForumModeratorsGUI
 		$tbl->addCommandButton('addModerator', $this->lng->txt('add'));		
 		$tbl->setFormAction($this->ctrl->getFormAction($this, 'addModeratorRole'));
 		
-		$this->tpl->setVariable('ADM_CONTENT', $tbl->getHTML());
-		return $this->tpl->show();
+		$this->tpl->setContent($tbl->getHTML());*/
 	}
 	
 	public function searchModerators()
@@ -178,25 +200,6 @@ class ilForumModeratorsGUI
 		return $oQueryParser;
 	}
 	
-	public function searchModeratorsForm()
-	{		
-		$oForm = new ilPropertyFormGUI();
-		$oForm->setFormAction($this->ctrl->getFormAction($this, 'searchModerators'));
-		$oForm->setTitle($this->lng->txt('frm_moderators_search'));
-		$oForm->setTitleIcon('');
-		
-		$oTextField = new ilTextInputGUI($this->lng->txt('frm_moderators_search_query'), 'search_query');		
-		$oTextField->setValue(ilUtil::prepareFormOutput($_POST['search_query'], true));
-		$oForm->addItem($oTextField);
-		
-		$oForm->addCommandButton('searchModerators', $this->lng->txt('frm_moderators_do_search'));
-		$oForm->addCommandButton('showModerators', $this->lng->txt('cancel'));
-		
-		$this->tpl->setVariable('ADM_CONTENT', $oForm->getHTML());
-		
-		return $this->tpl->show();
-	}
-	
 	public function detachModeratorRole()
 	{
 		if(!is_array($_POST['usr_id']))
@@ -215,9 +218,13 @@ class ilForumModeratorsGUI
 	}
 	
 	public function showModerators()
-	{		
+	{
+		global $ilToolbar;
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forum_moderators.html',	'Modules/Forum');
-				
+			// search button
+		$ilToolbar->addButton($this->lng->txt("search_users"),
+		$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+			
 		$tbl = new ilTable2GUI($this);
 		$tbl->setId('frm_show_mods_tbl_'.$_GET['ref_id']);
 		$tbl->setFormAction($this->ctrl->getFormAction($this, 'detachModeratorRole'));
@@ -225,9 +232,11 @@ class ilForumModeratorsGUI
 		$tbl->setRowTemplate('tpl.forum_moderators_table_row.html', 'Modules/Forum'); 
 
 		$tbl->addColumn('', 'check', '1%');
-	 	$tbl->addColumn($this->lng->txt('fullname'), 'fullname', '99%');
+		$tbl->addColumn($this->lng->txt('login'),'login', '30%');
+		$tbl->addColumn($this->lng->txt('firstname'),'firstname', '30%');
+		$tbl->addColumn($this->lng->txt('lastname'),'lastname', '30%');
 		
-		$tbl->setDefaultOrderField('fullname');
+		$tbl->setDefaultOrderField('login');
 
 		$entries = $this->oForumModerators->getCurrentModerators();
 		$result = array();
@@ -241,10 +250,12 @@ class ilForumModeratorsGUI
 			{
 				$oUser = ilObjectFactory::getInstanceByObjId($usr_id, false);
 				if(is_object($oUser))
-				{
+				{ 
 					$result[$counter]['check'] = ilUtil::formCheckbox(0, 'usr_id[]', $oUser->getId());
-					$result[$counter]['fullname'] = $oUser->getFullname();	
-					
+					$result[$counter]['login'] = $oUser->getLogin();
+					$result[$counter]['firstname'] = $oUser->getFirstname();
+					$result[$counter]['lastname'] = $oUser->getLastname();
+								
 					++$counter;
 				}
 			}
@@ -260,12 +271,7 @@ class ilForumModeratorsGUI
 		}
 
 		$tbl->setData($result);
-
-		$tbl->addCommandButton('searchModeratorsForm', $this->lng->txt('add'));		
-		
-		$this->tpl->setVariable('TXT_FORUM_MODERATORS', $tbl->getHTML());		
-		
-		return $this->tpl->show();		
+		$this->tpl->setVariable('TXT_FORUM_MODERATORS', $tbl->getHTML());
 	}
 }
 ?>
