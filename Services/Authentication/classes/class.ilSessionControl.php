@@ -14,7 +14,7 @@ class ilSessionControl
 	 * this controls the debuggin into a
 	 * separate logfile (./session.log)
 	 */
-	const INTERNAL_DEBUG = true;
+	const INTERNAL_DEBUG = false;
 
 	/**
 	 * default value for settings that have not
