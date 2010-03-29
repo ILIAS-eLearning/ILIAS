@@ -5619,8 +5619,8 @@ mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
 mail#:#mail_sure_delete_folder#:#Mappen og dens indhold vil blive slettet permant
 mail#:#mail_to#:#Til
 mail#:#mail_user_addr_n_valid#:#Følgende brugere har ingen gyldig email adresse
-mail#:#mail_empty_trash#:#Tøm skrald
-mail#:#mail_empty_trash_confirmation#:#Er du sikker på du vil slette alle beskeder i din skraldespand?
+mail#:#mail_empty_trash#:#Tøm skraldespanden
+mail#:#mail_empty_trash_confirmation#:#Er du sikker på du vil tømme skraldespanden og dermed slette beskederne for evigt?
 mail#:#mail_cronjob_notification_info#:#Du kan aktivere periodiske adviseringer omkring nye beskeder her.
 mail#:#mail_received_x_new_mails#:#Du har modtaget %s nye beskeder.
 mail#:#search_bc_recipient#:#Søg BCC modtager
@@ -10152,19 +10152,19 @@ dateplaner#:#cal_cache_info#:#Kalenderaftaler på skrivebordet og i oversigten b
 payment#:#no_vendor_selected#:#Ingen sælger valgt.
 dateplaner#:#ical_export#:#iCal eksport
 forum#:#frm_pseudonym#:#Synonym
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. ###26 03 2010 new variable
+common#:#hist_file_new_version#:#Ny version af filen "%1". Ny version er %2.
 common#:#shib_login_embedded_wayf#:#Design custom login area###26 03 2010 new variable
 common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.###26 03 2010 new variable
 ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
-exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
+exp#:#exp_export_files#:#Eksportfiler
 common#:#option#:#Option###26 03 2010 new variable
 mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
 mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
 mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
 survey#:#use_other_answer#:#Open answer###26 03 2010 new variable
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer###26 03 2010 new variable
-common#:#columns#:#Columns###26 03 2010 new variable
+common#:#columns#:#Kolonner
 common#:#proxy#:#Proxy###26 03 2010 new variable
 common#:#proxy_connectable#:#Connection established.###26 03 2010 new variable
 common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###26 03 2010 new variable
@@ -10176,23 +10176,23 @@ common#:#proxy_port#:#Port###26 03 2010 new variable
 common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###26 03 2010 new variable
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###26 03 2010 new variable
 common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error###26 03 2010 new variable
-payment#:#currency#:#Currency###26 03 2010 new variable
-payment#:#coupon_type#:#Coupon-Type###26 03 2010 new variable
-payment#:#search_in_title#:#Search in title###26 03 2010 new variable
+payment#:#currency#:#Møntfod
+payment#:#coupon_type#:#Kupon-type
+payment#:#search_in_title#:#Søg i titler
 common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".###26 03 2010 new variable
 exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
-exp#:#exp_xml#:#XML###26 03 2010 new variable
-exp#:#exp_html#:#HTML###26 03 2010 new variable
-exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
+exp#:#exp_xml#:#XML
+exp#:#exp_html#:#HTML
+exp#:#exp_scorm#:#SCORM
 exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
 exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
 common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
 exc#:#exc_assignments#:#Assignments###26 03 2010 new variable
 exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
-exc#:#exc_deadline#:#Deadline###26 03 2010 new variable
+exc#:#exc_deadline#:#Deadline
 exc#:#exc_new_assignment#:#New Assignment###26 03 2010 new variable
-exc#:#exc_start_time#:#Start Time###26 03 2010 new variable
-exc#:#exc_mandatory#:#Mandatory###26 03 2010 new variable
+exc#:#exc_start_time#:#Starttid
+exc#:#exc_mandatory#:#Obligatorisk
 exc#:#exc_pass_mode#:#Pass Mode###26 03 2010 new variable
 exc#:#exc_pass_all#:#All Mandatory Assignments###26 03 2010 new variable
 exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.###26 03 2010 new variable
@@ -10210,9 +10210,9 @@ exc#:#exc_show_submissions#:#Publish Submissions after Deadline###26 03 2010 new
 exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.###26 03 2010 new variable
 exc#:#exc_edit_assignment#:#Edit Assignment###26 03 2010 new variable
 exc#:#exc_edit_assignments#:#Edit Assignments###26 03 2010 new variable
-exc#:#exc_submissions_and_grades#:#Submissions & Grades###26 03 2010 new variable
+exc#:#exc_submissions_and_grades#:#Afleveringer og karakterer
 exc#:#exc_assignment_view#:#Assignment View###26 03 2010 new variable
-exc#:#exc_participant_view#:#Participant View###26 03 2010 new variable
+exc#:#exc_participant_view#:#Deltagervisning
 exc#:#exc_grades_overview#:#Grades View###26 03 2010 new variable
 exc#:#exc_select_ass#:#Select Assignment###26 03 2010 new variable
 exc#:#exc_add_participant#:#Add Participant###26 03 2010 new variable
@@ -10247,26 +10247,26 @@ exc#:#exc_msg_participants_removed#:#The participants have been removed from the
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.###26 03 2010 new variable
 exc#:#exc_no_participants#:#There are currently no participants.###26 03 2010 new variable
 ecs#:#ecs_published_for#:#Published for:###26 03 2010 new variable
-auth#:#auth_account_migration_name#:#Migration###26 03 2010 new variable
-auth#:#auth_account_migration_keep#:#Migrate Existing User Account###26 03 2010 new variable
-auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new variable
-auth#:#auth_openid#:#OpenId###26 03 2010 new variable
+auth#:#auth_account_migration_name#:#Migrering
+auth#:#auth_account_migration_keep#:#Migrer eksisterende brugerkonto
+auth#:#auth_account_migration_new#:#Lav ny brugerkonto
+auth#:#auth_openid#:#OpenId
 auth#:#auth_openid_configure#:#Configure OpenId-Authentication###26 03 2010 new variable
-auth#:#auth_openid_enable#:#Enable OpenId Support###26 03 2010 new variable
-auth#:#auth_openid_sync#:#User Synchronization###26 03 2010 new variable
+auth#:#auth_openid_enable#:#Aktiver understøttelse af OpenId
+auth#:#auth_openid_sync#:#Bruger synkronisering
 auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###26 03 2010 new variable
-auth#:#auth_openid_role_select#:#Role:###26 03 2010 new variable
+auth#:#auth_openid_role_select#:#Rolle:
 auth#:#auth_openid_migration#:#Account Migration:###26 03 2010 new variable
 auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.###26 03 2010 new variable
-common#:#auth_openid#:#OpenId###26 03 2010 new variable
-common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID###26 03 2010 new variable
+common#:#auth_openid#:#OpenId
+common#:#login_to_ilias_via_openid#:#Login på ILIAS med OpenID
 content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
 content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
 content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
 content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
 auth#:#auth_openid_settings#:#OpenId Settings###26 03 2010 new variable
 auth#:#auth_openid_provider#:#Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_login#:#Your OpenID###26 03 2010 new variable
+auth#:#auth_openid_login#:#Dit OpenID
 auth#:#auth_openid_provider_tbl#:#OpenID Provider###26 03 2010 new variable
 auth#:#auth_openid_provider_add#:#Add Provider###26 03 2010 new variable
 auth#:#auth_openid_provider_edit#:#Edit Provider###26 03 2010 new variable
@@ -10275,4 +10275,4 @@ auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider###26 03 2
 auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26 03 2010 new variable
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
 auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
+common#:#db_need_hotfix#:#Hotfix findes. Gå til setup-programmet.
