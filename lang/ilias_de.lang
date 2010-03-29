@@ -1202,7 +1202,7 @@ certificate#:#certificate_custom#:#Eigenes Format...
 certificate#:#certificate_delete#:#Zertifikat löschen
 certificate#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
 certificate#:#certificate_enabled_scorm#:#Aktiviert
-certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer und Teilnehmerinnen des SCORM Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
+certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer und Teilnehmerinnen des SCORM-Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
 certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
 certificate#:#certificate_export#:#Zertifikat exportieren
@@ -1237,8 +1237,8 @@ certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhän
 certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_salutation#:#Anrede
-certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM Lernmoduls in Prozent
-certificate#:#certificate_ph_scormtitle#:#Titel des SCORM Lernmoduls
+certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM-Lernmoduls in Prozent
+certificate#:#certificate_ph_scormtitle#:#Titel des SCORM-Lernmoduls
 certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_testtitle#:#Titel des Tests
 certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
@@ -2608,7 +2608,7 @@ common#:#forum#:#Forum
 common#:#forum_attachments#:#Forumanhänge
 common#:#forum_direct_notification#:#Direkte Benachrichtigung
 common#:#forum_general_notification#:#Generelle Benachrichtigung
-common#:#forum_import#:#Forum Import
+common#:#forum_import#:#Forum importieren
 common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
@@ -2767,7 +2767,7 @@ common#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#grp_create_mcst#:#Neuen Mediacast anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
+common#:#grp_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
@@ -3003,12 +3003,12 @@ common#:#im_yahoo_icon#:#Yahoo-Logo
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#Importieren
-common#:#import_alm#:#Import AICC-Modul
+common#:#import_alm#:#AICC-Modul importieren
 common#:#import_cat_localrol#:#Für jede neue Kategorie eine neue lokale Rolle anlegen
 common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Checkbox aktiviert ist.
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
-common#:#import_failure_log#:#Import Fehler Log
+common#:#import_failure_log#:#Import-Fehler-Log
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
@@ -3016,17 +3016,17 @@ common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
 common#:#import_grp#:#Gruppe importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
-common#:#import_hlm#:#Import HACP-Modul
-common#:#import_lm#:#Import Lernmodul
+common#:#import_hlm#:#HACP-Modul importieren
+common#:#import_lm#:#Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Test importieren
 common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
 common#:#import_root_user#:#Root User importieren
-common#:#import_sahs#:#Import SCORM/AICC-Lernmodul
+common#:#import_sahs#:#SCORM/AICC-Lernmodul importieren
 common#:#import_spl#:#Fragenpool für Umfrage importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
-common#:#import_warning_log#:#Import Warnungen Log
+common#:#import_warning_log#:#Import-Warnungen-Log
 common#:#important#:#Wichtig
 common#:#imported#:#importiert
 common#:#in#:#in
@@ -3242,24 +3242,24 @@ common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul ILIAS
-common#:#lm_a#:#ein ILIAS Lernmodul
-common#:#lm_add#:#ILIAS Lernmodul anlegen
-common#:#lm_added#:#ILIAS Lernmodul angelegt
-common#:#lm_copy#:#ILIAS Lernmodul kopieren
-common#:#lm_create#:#Neues ILIAS Lernmodul anlegen
-common#:#lm_delete#:#ILIAS Lernmodul löschen
+common#:#lm_a#:#ein ILIAS-Lernmodul
+common#:#lm_add#:#ILIAS-Lernmodul anlegen
+common#:#lm_added#:#ILIAS-Lernmodul angelegt
+common#:#lm_copy#:#ILIAS-Lernmodul kopieren
+common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
+common#:#lm_delete#:#ILIAS-Lernmodul löschen
 common#:#lm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
-common#:#lm_join#:#ILIAS Lernmodul abonnieren
-common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben
-common#:#lm_new#:#Neues ILIAS Lernmodul
-common#:#lm_read#:#ILIAS Lernmodul lesen
+common#:#lm_join#:#ILIAS-Lernmodul abonnieren
+common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
+common#:#lm_new#:#Neues ILIAS-Lernmodul
+common#:#lm_read#:#ILIAS-Lernmodul lesen
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar
-common#:#lm_write#:#ILIAS Lernmodul bearbeiten
+common#:#lm_visible#:#ILIAS-Lernmodul ist sichtbar
+common#:#lm_write#:#ILIAS-Lernmodul bearbeiten
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
@@ -3609,7 +3609,7 @@ common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
-common#:#no_import_file_found#:#Keine Import Datei gefunden
+common#:#no_import_file_found#:#Keine Importdatei gefunden
 common#:#no_invalid_links#:#Es wurden keine ungültigen Weblinks gefunden.
 common#:#no_items#:#Keine Einträge
 common#:#no_license_available#:#Keine Lizenz verfügbar!
@@ -3813,7 +3813,7 @@ common#:#objf_edit_permission#:#Rechteeinstellungen ändern
 common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
 common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
-common#:#objs_alm#:#AICC Lernmodule
+common#:#objs_alm#:#AICC-Lernmodule
 common#:#objs_cat#:#Kategorien
 common#:#objs_catr#:#Kategorie-Referenzen
 common#:#objs_chat#:#Chats
@@ -3829,7 +3829,7 @@ common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
 common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
-common#:#objs_hlm#:#HACP Lernmodule
+common#:#objs_hlm#:#HACP-Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
 common#:#objs_icla#:#LearnLinc-Seminarräume
 common#:#objs_icrs#:#LearnLinc-Seminare
@@ -3848,7 +3848,7 @@ common#:#objs_qst#:#Fragen
 common#:#objs_rcrs#:#Externe Kurse
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
-common#:#objs_sahs#:#SCORM/AICC Lernmodule
+common#:#objs_sahs#:#SCORM/AICC-Lernmodule
 common#:#objs_sess#:#Sitzungen
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
@@ -4191,20 +4191,20 @@ common#:#rows#:#Zeilen
 common#:#rte_editor_disabled#:#Rich-Text-Editor deaktiviert
 common#:#rte_editor_enabled#:#Rich-Text-Editor aktiviert
 common#:#sahs#:#Lernmodul SCORM/AICC
-common#:#sahs_added#:#SCORM/AICC Lernmodul angelegt
+common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
-common#:#sahs_create#:#Neues SCORM/AICC Lernmodul anlegen
-common#:#sahs_delete#:#SCORM/AICC Lernmodul löschen
+common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
+common#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen
 common#:#sahs_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
-common#:#sahs_join#:#SCORM/AICC Lernmodul abonnieren
-common#:#sahs_leave#:#SCORM/AICC Lernmodulabonnement aufheben
-common#:#sahs_read#:#SCORM/AICC Lernmodul lesen
-common#:#sahs_visible#:#SCORM/AICC Lernmodul ist sichtbar
-common#:#sahs_write#:#SCORM/AICC Lernmodul bearbeiten
+common#:#sahs_join#:#SCORM/AICC-Lernmodul abonnieren
+common#:#sahs_leave#:#SCORM/AICC-Lernmodulabonnement aufheben
+common#:#sahs_read#:#SCORM/AICC-Lernmodul lesen
+common#:#sahs_visible#:#SCORM/AICC-Lernmodul ist sichtbar
+common#:#sahs_write#:#SCORM/AICC-Lernmodul bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -5590,7 +5590,7 @@ content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#seq_abandon#:#Die Anfrage wurde durchgeführt.
 content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
 content#:#seq_blocked#:#Zugriff verweigert.
-content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM Lernmoduls.
+content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM-Lernmoduls.
 content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
 content#:#seq_deadlock#:#Fehler: Der Sequencer befindet sich in einem Deadlock.
 content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.
@@ -10262,18 +10262,18 @@ auth#:#auth_openid_deleted_provider#:#Die ausgewählten Anbieter wurden gelösch
 auth#:#auth_openid_uncontrolled_selection#:#Freie Anbieterauswahl
 auth#:#auth_openid_uncontrolled_selection_info#:#Wenn aktiviert, können beliebige OpenID-Anbieter zur Authentifizierung genutzt werden. Ansonsten werden nur Anbieter aus einer vorgegebenen Liste zugelassen.
 auth#:#auth_openid_login_info_a#:#Bitte geben Sie Ihren OpenID-Benutzernamen ein und wählen Sie den zugehörigen Anbieter aus.
-content#:#cont_localfile#:#Local File###26 03 2010 new variable
+content#:#cont_localfile#:#Lokale Datei
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
 exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
 common#:#option#:#Option###26 03 2010 new variable
 mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
 mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
-mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
-common#:#columns#:#Columns###26 03 2010 new variable
-exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
-exp#:#exp_xml#:#XML###26 03 2010 new variable
-exp#:#exp_html#:#HTML###26 03 2010 new variable
-exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
+mep#:#mep_import#:#Medienpool importieren
+common#:#columns#:#Spalten
+exp#:#exp_create_file#:#Exportdatei erzeugen
+exp#:#exp_xml#:#XML
+exp#:#exp_html#:#HTML
+exp#:#exp_scorm#:#SCORM
 exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
 exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
 common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
@@ -10282,16 +10282,16 @@ content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
 content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
 content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
 common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
-common#:#session_config#:#Session Einstellungen
+common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_enabled#:#Änderungen durch den Client zugelassen
 common#:#session_config_maintenance_disabled#:#Änderungen durch den Client nicht zugelassen
 common#:#session_max_count#:#Maximale Anzahl aktiver Sessions
-common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
+common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
 common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_max_idle#:#Maximale Leerlaufzeit einer Session (in Minuten)
 common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
 common#:#session_max_idle_after_first_request#:#Minimale Leerlaufzeit einer Session nach der ersten Anfrage (in Minuten)
-common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
-common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern die online sind ist erreicht. Bitte versuchen sie es später wieder.
-forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da sie als Moderator eingetragen sind und die Berechtigung besitzen diesen Beitrag zu aktivieren.
+common#:#session_max_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
+common#:#reached_session_limit#:#Die maximale Anzahl von Benutzern, die online sind, ist erreicht. Bitte versuchen sie es später noch einmal.
+forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
