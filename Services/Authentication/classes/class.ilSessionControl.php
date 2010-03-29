@@ -189,6 +189,8 @@ class ilSessionControl
 	{
 		$_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
 		self::debug(__METHOD__." --> reset sessions type to (".$_SESSION['SessionType'].")");
+
+		self::removeSessionCookie();
 	}
 
 	/**
