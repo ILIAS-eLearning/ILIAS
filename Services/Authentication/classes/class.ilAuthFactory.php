@@ -94,6 +94,12 @@ class ilAuthFactory
 
 	/**
 	 * @var int
+	 * Apache based authentication
+	 */
+	const CONTEXT_APACHE	= 10;
+
+	/**
+	 * @var int
 	 */
 	private static $context = self::CONTEXT_WEB;
 	
@@ -195,6 +201,10 @@ class ilAuthFactory
 			case self::CONTEXT_OPENID:
 				include_once './Services/OpenId/classes/class.ilAuthOpenId.php';
 				return new ilAuthOpenId($deco,$options);
+
+                        case self::CONTEXT_APACHE:
+				include_once './Services/AuthApache/classes/class.ilAuthApache.php';
+				return new ilAuthApache($deco,$options);
 		}
 	}
 }

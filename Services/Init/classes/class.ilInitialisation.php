@@ -819,7 +819,7 @@ class ilInitialisation
 			}
 			else	// target is not accessible -> login
 			{
-				$this->goToLogin();
+				$this->goToLogin($_GET['auth_stat']);
 			}
 		}
 
@@ -1380,7 +1380,7 @@ class ilInitialisation
 					if ($context == "web")
 					{
 						// normal access by webinterface
-						$this->goToLogin($ilAuth->getStatus());
+						$this->goToLogin(($_GET['auth_stat'] && !$ilAuth->getStatus()) ? $_GET['auth_stat'] : $ilAuth->getStatus());
 						exit;
 					} 
 					else 

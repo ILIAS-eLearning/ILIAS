@@ -2178,8 +2178,14 @@ return;
 				$ilUser->setDescription($ilUser->getEmail());
 	
 				$ilUser->update();
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				$ilCtrl->redirect($this, "showPersonalData");
+				
+                                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                                if ($redirect = $_SESSION['profile_complete_redirect']) {
+					unset($_SESSION['profile_complete_redirect']);
+					ilUtil::redirect($redirect);
+				}
+				else
+                                    $ilCtrl->redirect($this, "showPersonalData");
 			}
 		}
 		

@@ -190,10 +190,13 @@ class ilAuthModeDetermination
 		$rad_active = $rad_settings->isActive();
 		
 		$soap_active = $ilSetting->get('soap_auth_active',false);
-		
-		
+
+       		// apache settings
+		$apache_settings = new ilSetting('apache_auth');
+		$apache_active = $apache_settings->get('apache_enable_auth');
+
 		// Check if active
-		for($i = 0; $i < 4; $i++)
+		for($i = 0; $i < 5; $i++)
 		{
 			if($auth_mode = $this->settings->get((string) $i,0))
 			{
@@ -223,10 +226,17 @@ class ilAuthModeDetermination
 							$this->position[] = $auth_mode;
 						} 
 						break;
+
+					case AUTH_APACHE:
+						if($apache_active)
+						{
+							$this->position[] = $auth_mode;
+						}
+						break;
 				}
 			}
 		}
-		
+
 		// Append missing active auth modes
 		if(!in_array(AUTH_LOCAL,$this->position))
 		{
@@ -252,6 +262,13 @@ class ilAuthModeDetermination
 			if(!in_array(AUTH_SOAP,$this->position))
 			{
 				$this->position[] = AUTH_SOAP;
+			}
+		}
+                if($apache_active)
+		{
+			if(!in_array(AUTH_APACHE,$this->position))
+			{
+				$this->position[] = AUTH_APACHE;
 			}
 		}
 	}

@@ -85,6 +85,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_RADIUS", $this->lng->txt("auth_radius"));
 		$this->tpl->setVariable("TXT_SCRIPT", $this->lng->txt("auth_script"));
 
+                $this->tpl->setVariable("TXT_APACHE", $this->lng->txt("auth_apache"));
+
 		$auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
 		$auth_modes = ilAuthUtils::_getAllAuthModes();
 
@@ -127,7 +129,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("AUTH_SHIB_ACTIVE", $this->ilias->getSetting('shib_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_SCRIPT_ACTIVE", $this->ilias->getSetting('script_active') ? $icon_ok : $icon_not_ok);
 		$this->tpl->setVariable("AUTH_CAS_ACTIVE", $this->ilias->getSetting('cas_active') ? $icon_ok : $icon_not_ok);
-		
+		$this->tpl->setVariable("AUTH_APACHE_ACTIVE", $this->ilias->getSetting('apache_active') ? $icon_ok : $icon_not_ok);
+
 		// alter style and disable buttons depending on current selection
 		switch ($this->ilias->getSetting('auth_mode'))
 		{
@@ -153,6 +156,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				
 			case AUTH_SCRIPT: // script
 				$this->tpl->setVariable("CHK_SCRIPT", $checked);
+				break;
+
+                        case AUTH_APACHE: // apache
+				$this->tpl->setVariable("CHK_APACHE", $checked);
 				break;
 		}
 		
@@ -185,7 +192,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				// even not default, because it can easily be set to
 				// a non-working auth mode
 				if ($auth_name == "default" || $auth_name == "cas"
-					|| $auth_name == "shibboleth" || $auth_name == 'ldap')
+					|| $auth_name == "shibboleth" || $auth_name == 'ldap' || $auth_name == 'apache')
 				{
 					continue;
 				}
@@ -946,6 +953,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				return $this->lng->txt("auth_script");
 				break;
 
+                        case AUTH_APACHE:
+				return $this->lng->txt("auth_apache");
+				break;
+
 			default:
 				return $this->lng->txt("unknown");
 				break;
@@ -1025,6 +1036,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 					break;
 				case AUTH_SOAP:
 					$text = $this->lng->txt('auth_soap');
+					break;
+				case AUTH_APACHE:
+					$text = $this->lng->txt('auth_apache');
 					break;
 			}
 			
@@ -1203,7 +1217,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				'',
 				''
 			);
-			
+
+                        $tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
+								"", "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -1240,5 +1256,153 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				break;				
 		}
 	}
+
+
+	public function apacheAuthSettingsObject($form = false)
+	{
+		global $ilDB, $tpl;
+
+		$this->tabs_gui->setTabActive("apache_auth_settings");
+		//$this->setSubTabs("authSettings");
+		//$this->tabs_gui->setSubTabActive("apache_auth_settings");
+		if (!$form)
+		{
+			$form = $this->getApacheAuthSettingsForm();
+
+			$settings = new ilSetting('apache_auth');
+			$form->setValuesByArray($settings->getAll());
+		}
+		$tpl->setVariable('ADM_CONTENT', $form->getHtml());
+	}
+
+	public function saveApacheSettingsObject()
+	{
+		global $ilCtrl;
+		$form = $this->getApacheAuthSettingsForm();
+		$form->setValuesByPost();
+		/*$items = $form->getItems();
+		foreach($items as $item)
+			$item->validate();*/
+		if ($form->checkInput())
+		{
+			$settings = new ilSetting('apache_auth');
+			$fields = array
+			(
+				'apache_auth_indicator_name', 'apache_auth_indicator_value',
+				'apache_enable_auth', 'apache_enable_local', 'apache_local_autocreate',
+				'apache_enable_ldap', 'apache_auth_username_config_type',
+				'apache_auth_username_direct_mapping_fieldname',
+				'apache_default_role', 'apache_auth_target_override_login_page',
+				'apache_auth_enable_override_login_page',
+				'apache_auth_authenticate_on_login_page'
+//				'apache_auth_username_by_function_functionname',
+			);
+
+			foreach($fields as $field)
+				$settings->set($field, $form->getInput($field));
+
+			if ($form->getInput('apache_enable_auth'))
+				$this->ilias->setSetting('apache_active', true);
+			else {
+				$this->ilias->setSetting('apache_active', false);
+				global $ilSetting;
+				if ($ilSetting->get("auth_mode") == AUTH_APACHE) {
+					$ilSetting->set("auth_mode", AUTH_LOCAL);
+				}
+			}
+
+
+
+			ilUtil::sendSuccess($this->lng->txt('apache_settings_changed_success'), true);
+			$this->ctrl->redirect($this, 'apacheAuthSettings');
+		}
+		else
+		{
+			$this->apacheAuthSettingsObject($form);
+		}
+	}
+
+	public function getApacheAuthSettingsForm()
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('apache_settings'));
+
+		$chb_enabled = new ilCheckboxInputGUI($this->lng->txt('apache_enable_auth'), 'apache_enable_auth');
+		$form->addItem($chb_enabled);
+
+		$chb_local_create_account = new ilCheckboxInputGUI($this->lng->txt('apache_autocreate'), 'apache_local_autocreate');
+		$chb_enabled->addSubitem($chb_local_create_account);
+
+		global $rbacreview;
+		$roles = $rbacreview->getGlobalRolesArray();
+		$select = new ilSelectInputGUI($this->lng->txt('apache_default_role'), 'apache_default_role');
+		$roleOptions = array();
+		foreach($roles as $role) {
+			$roleOptions[$role['obj_id']] = ilObject::_lookupTitle($role['obj_id']);
+		}
+		$select->setOptions($roleOptions);
+		$select->setValue(4);
+
+		$chb_local_create_account->addSubitem($select);
+
+		$chb_local = new ilCheckboxInputGUI($this->lng->txt('apache_enable_local'), 'apache_enable_local');
+		$form->addItem($chb_local);
+/*
+		$chb_ldap = new ilCheckboxInputGUI($this->lng->txt('apache_enable_ldap'), 'apache_enable_ldap');
+		$chb_ldap->setInfo($this->lng->txt('apache_ldap_hint_ldap_must_be_configured'));
+		$form->addItem($chb_ldap);
+*/
+		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_indicator_name'), 'apache_auth_indicator_name');
+		$txt->setRequired(true);
+		$form->addItem($txt);
+
+		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_indicator_value'), 'apache_auth_indicator_value');
+		$txt->setRequired(true);
+		$form->addItem($txt);
+
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt('apache_auth_enable_override_login'), 'apache_auth_enable_override_login_page');
+		$form->addItem($chb);
+
+		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_target_override_login'), 'apache_auth_target_override_login_page');
+		$txt->setRequired(true);
+		$chb->addSubItem($txt);
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt('apache_auth_authenticate_on_login_page'), 'apache_auth_authenticate_on_login_page');
+		$form->addItem($chb);
+
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('apache_auth_username_config'));
+		$form->addItem($sec);
+
+		$rag = new ilRadioGroupInputGUI($this->lng->txt('apache_auth_username_config_type'), 'apache_auth_username_config_type');
+		$form->addItem($rag);
+
+		$rao = new ilRadioOption($this->lng->txt('apache_auth_username_direct_mapping'), 1);
+		$rag->addOption($rao);
+
+		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_username_direct_mapping_fieldname'), 'apache_auth_username_direct_mapping_fieldname');
+		//$txt->setRequired(true);
+		$rao->addSubItem($txt);
+
+		$rao = new ilRadioOption($this->lng->txt('apache_auth_username_extended_mapping'), 2);
+		$rao->setDisabled(true);
+		$rag->addOption($rao);
+/*
+		$rao = new ilRadioOption($this->lng->txt('apache_auth_username_by_function'), 3);
+		$rag->addOption($rao);
+*/
+/*		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_username_by_function_functionname'), 'apache_auth_username_by_function_functionname');
+		$rao->addSubItem($txt);*/
+
+		$form->addCommandButton('saveApacheSettings',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+
+		return $form;
+	}
+
 } // END class.ilObjAuthSettingsGUI
 ?>
