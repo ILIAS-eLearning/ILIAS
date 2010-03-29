@@ -20,7 +20,7 @@ class ilSessionControl
 	 * default value for settings that have not
 	 * been defined in setup or administration yet
 	 */
-	const DEFAULT_MAX_COUNT						= 500;
+	const DEFAULT_MAX_COUNT						= 0;
 	const DEFAULT_MIN_IDLE						= 15;
 	const DEFAULT_MAX_IDLE						= 30;
 	const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST	= 1;
