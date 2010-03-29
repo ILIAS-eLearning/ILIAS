@@ -93,6 +93,15 @@ class ilAuthContainerMultiple extends Auth_Container
 	{
 		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
 		{
+                    if ($_REQUEST['force_mode_apache']) {
+                                    $this->log('Container Apache: Trying new container',AUTH_LOG_DEBUG);
+                                    include_once './Services/Database/classes/class.ilAuthContainerApache.php';
+                                    $this->current_container = new ilAuthContainerApache();
+
+                                    $auth = new ilAuthApache($this->current_container);
+                    }
+                    else
+                    {
 			switch($auth_mode)
 			{
 				case AUTH_LDAP:
@@ -121,7 +130,8 @@ class ilAuthContainerMultiple extends Auth_Container
 					
 					
 			}
-			$this->current_container->_auth_obj = $this->_auth_obj;
+                    }
+            $this->current_container->_auth_obj = $this->_auth_obj;
 			
             $result = $this->current_container->fetchData($user, $pass);
 

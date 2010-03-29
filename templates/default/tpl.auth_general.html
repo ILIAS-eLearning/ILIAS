@@ -74,6 +74,22 @@ function handleScript(form)
 		form.btn_script.style.color = "#2255a0";
 	}
 }
+
+function handleAPACHE(form)
+{
+/*	if (form.script.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = false;
+		form.btn_script.style.color = "#2255a0";
+	} */
+}
+
 //-->
 </script>
 <form action="{FORMACTION}" name="AuthOptions" method="post">
@@ -127,6 +143,13 @@ function handleScript(form)
 	</td>
 	<td class="option_value" nowrap="nowrap">{AUTH_RADIUS_ACTIVE}</td>
 	<td class="option_value">{NUM_RADIUS}</td>
+</tr>
+<tr>
+    	<td class="option"><label for="apache">{TXT_APACHE}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="11" id="apache" {CHK_APACHE}onClick="handleAPACHE(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_APACHE_ACTIVE}</td>
+	<td class="option_value">{NUM_APACHE}</td>
 </tr>
 <tr>
 	<td class="submit" colspan="4" align="left">

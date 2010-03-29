@@ -35,6 +35,7 @@ define ("AUTH_HTTP",8);
 define ("AUTH_ECS",9);
 define('AUTH_OPENID',10);
 
+define ("AUTH_APACHE",11);
 
 define ("AUTH_INACTIVE",18);
 
@@ -44,6 +45,12 @@ define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NO_ILIAS_USER',-300);
 define('AUTH_OPENID_NO_ILIAS_USER',-400);
+
+// apache auhtentication failed...
+// maybe no (valid) certificate or
+// username could not be extracted
+define('AUTH_APACHE_FAILED', -500);
+
 
 define('AUTH_MODE_INACTIVE',-1000);
 
@@ -73,7 +80,7 @@ class ilAuthUtils
 	function _initAuth()
 	{
 		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
-		
+
 		$user_auth_mode = false;
 		
 //var_dump($_SESSION);
@@ -133,8 +140,11 @@ class ilAuthUtils
 					$user_auth_mode = AUTH_LOCAL;
 				}
 			}
+                        else if ($_POST['auth_mode'] == AUTH_APACHE) {
+				$user_auth_mode = AUTH_APACHE;
+			}
         }
-		
+	
 		// to do: other solution?
 		if (!$ilSetting->get("soap_auth_active") && $user_auth_mode == AUTH_SOAP)
 		{
@@ -146,7 +156,13 @@ class ilAuthUtils
 			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CAS);
 			$user_auth_mode = AUTH_CAS;
 		}
-		
+
+		if($ilSetting->get("apache_active") && $user_auth_mode == AUTH_APACHE)
+		{
+			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
+			$user_auth_mode = AUTH_APACHE;
+		}
+
 		// BEGIN WebDAV: Share session between browser and WebDAV client.
 		// The realm is needed to support a common session between Auth_HTTP and Auth.
 		// It also helps us to distinguish between parallel sessions run on different clients.
@@ -201,6 +217,12 @@ class ilAuthUtils
 		{
 			$authmode = AUTH_CURRENT;
 		}
+//var_dump($authmode);
+                // if no auth mode selected, use DEFAULT auth mode
+		if ($authmode == null)
+			$authmode = AUTH_DEFAULT;
+//var_dump($authmode);
+
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
@@ -255,7 +277,13 @@ class ilAuthUtils
 				require_once('./Services/Authentication/classes/class.ilAuthInactive.php');
 				$ilAuth = new ilAuthInactive(AUTH_MODE_INACTIVE);
 				break;
-				
+
+			case AUTH_APACHE:
+				include_once './Services/AuthApache/classes/class.ilAuthContainerApache.php';
+				ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerApache());
+				break;
+
 			case AUTH_LOCAL:
 			default:
 				
@@ -382,6 +410,9 @@ class ilAuthUtils
 			case 'openid':
 				return AUTH_OPENID;
 
+                        case 'apache':
+                                return AUTH_APACHE;
+
 			default:
 				return $ilSetting->get("auth_mode");
 				break;	
@@ -424,7 +455,10 @@ class ilAuthUtils
 				
 			case AUTH_ECS:
 				return 'ecs';
-				
+
+			case AUTH_APACHE:
+				return 'apache';
+
 			case AUTH_OPENID:
 				return 'open_id';
 				
@@ -452,7 +486,8 @@ class ilAuthUtils
 		if ($ilSetting->get("script_active")) $modes['script'] = AUTH_SCRIPT;
 		if ($ilSetting->get("cas_active")) $modes['cas'] = AUTH_CAS;
 		if ($ilSetting->get("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
-		
+		if ($ilSetting->get("apache_active")) $modes['apache'] = AUTH_APACHE;
+                
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
 		if(ilECSSettings::_getInstance()->isEnabled())
 		{
@@ -478,7 +513,8 @@ class ilAuthUtils
 			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
 			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
 			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS),
-			AUTH_OPENID => ilAuthUtils::_getAuthModeName(AUTH_OPENID)
+			AUTH_OPENID => ilAuthUtils::_getAuthModeName(AUTH_OPENID),
+                        AUTH_APACHE => ilAuthUtils::_getAuthModeName(AUTH_APACHE),
 		);
 	}
 	
@@ -522,7 +558,16 @@ class ilAuthUtils
 			return true;
 		}
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-		return count(ilLDAPServer::_getActiveServerList()) ? true : false;
+		
+                if (count(ilLDAPServer::_getActiveServerList()))
+			return true;
+
+		global $ilSetting;
+
+		if ($ilSetting->get('apache_active')) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static function _getMultipleAuthModeOptions($lng)
@@ -546,7 +591,13 @@ class ilAuthUtils
 		{
 			$options[AUTH_RADIUS]['txt'] = $rad_settings->getName();
 		}
-		
+
+                if ($ilSetting->get('apache_active')) {
+			global $lng;
+			$apache_settings = new ilSetting('apache_auth');
+			$options[AUTH_APACHE]['txt'] = $apache_settings->get('name', $lng->txt('apache_auth'));
+		}
+
 		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)
 		{
 			$default = AUTH_LDAP;

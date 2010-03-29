@@ -441,7 +441,6 @@ class ilStartUpGUI
 		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();
 		
-		
 		if ($status == "" && isset($_GET["auth_stat"]))
 		{
 			$status = $_GET["auth_stat"];
@@ -479,8 +478,11 @@ class ilStartUpGUI
 				case AUTH_MODE_INACTIVE:
 					$this->showFailure($lng->txt("err_auth_mode_inactive"));
 					break;
-					
-					
+
+				case AUTH_APACHE_FAILED:
+					$this->showFailure($lng->txt("err_auth_apache_failed"));
+					break;
+				
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";
@@ -678,6 +680,17 @@ class ilStartUpGUI
 	 	{
 			switch($_SESSION['tmp_auth_mode'])
 			{
+                                case 'apache':
+					$_POST['username'] = $_SESSION['tmp_external_account'];
+					$_POST['password'] = $_SESSION['tmp_pass'];
+
+					include_once('Services/Database/classes/class.ilAuthContainerApache.php');
+					$container = new ilAuthContainerApache();
+					$container->forceCreation(true);
+					$ilAuth = ilAuthFactory::factory($container);
+					$ilAuth->start();
+					break;
+
 				case 'ldap':
 					$_POST['username'] = $_SESSION['tmp_external_account'];
 					$_POST['password'] = $_SESSION['tmp_pass'];
