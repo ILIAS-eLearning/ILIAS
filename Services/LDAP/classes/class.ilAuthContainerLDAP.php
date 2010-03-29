@@ -305,5 +305,3 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	}
 }
 ?>
-
-
