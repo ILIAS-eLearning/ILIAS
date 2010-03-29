@@ -62,6 +62,8 @@ abstract class ilAuthBase
 	 */
 	protected final function initAuth()
 	{
+		ilSessionControl::initSession();
+		
 		$GLOBALS['ilLog']->write(__METHOD__.': Init callbacks');
 		$this->setLoginCallback(array($this,'loginObserver'));
 		$this->setFailedLoginCallback(array($this,'failedLoginObserver'));
@@ -82,6 +84,8 @@ abstract class ilAuthBase
 	 */
 	protected function loginObserver($a_username,$a_auth)
 	{
+		ilSessionControl::handleLoginEvent($a_username, $a_auth);
+
 		global $ilLog, $ilAppEventHandler;
 		
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
@@ -135,6 +139,8 @@ abstract class ilAuthBase
 	 */
 	protected function logoutObserver($a_username,$a_auth)
 	{
+		ilSessionControl::handleLogoutEvent();
+
 		$GLOBALS['ilLog']->write(__METHOD__.': Logout observer called');
 		$this->getContainer()->logoutObserver($a_username,$a_auth);
 	}

@@ -827,6 +827,8 @@ class ilSetup extends PEAR
 		
 		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)
 		{
+			$status["sess"]["status"] = false;
+			$status["sess"]["comment"] = $status["db"]["comment"];
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
@@ -836,6 +838,7 @@ class ilSetup extends PEAR
 		}
 		else
 		{
+			$status["sess"] = $this->checkClientSessionSettings($client);
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["nic"] = $this->checkClientNIC($client);
@@ -963,6 +966,47 @@ class ilSetup extends PEAR
 		}
 
 		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
+		return $arr;
+	}
+
+	/**
+	* check client session config status
+	* @param    object    client
+	* @return    boolean
+	*/
+	function checkClientSessionSettings(&$client, $a_as_bool = false)
+	{
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');
+
+		global $ilDB;
+		$db = $ilDB;
+
+		$fields = ilSessionControl::getSettingFields();
+
+		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
+		$res = $db->query($query);
+
+		$rows = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if( $row['value'] != '' )
+					$rows[] = $row;
+			else	break;
+		}
+
+		if (count($rows) != count($fields))
+		{
+			if($a_as_bool) return false;
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("session_management_not_configured");
+		}
+		else
+		{
+			if($a_as_bool) return true;
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("session_management_configured");
+		}
+
 		return $arr;
 	}
 
@@ -1793,6 +1837,131 @@ class ilSetup extends PEAR
 		exec($unzipcmd);
 
 		chdir($cdir);
+	}
+
+	/**
+	 * saves session settings to db
+	 *
+	 * @param array $session_settings
+	 */
+	function setSessionSettings($session_settings)
+	{
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');
+
+		$db = $this->client->getDB();
+
+		$setting_fields = ilSessionControl::getSettingFields();
+
+		$i = 0;
+		foreach($setting_fields as $field)
+		{
+			if( isset($session_settings[$field]) )
+			{
+				$query = "SELECT keyword FROM settings WHERE module = %s AND keyword = %s";
+				$res = $db->queryF($query,
+						array('text', 'text'), array('common', $field));
+
+				$row = array();
+				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) break;
+
+				if( count($row) > 0 )
+				{
+					$db->update(
+						'settings',
+						array(
+							'value' => array('text', $session_settings[$field])
+						),
+						array(
+							'module' => array('text', 'common'),
+							'keyword' => array('text', $field)
+						)
+					);
+				}
+				else
+				{
+					$db->insert(
+						'settings',
+						array(
+							'module' => array('text', 'common'),
+							'keyword' => array('text', $field),
+							'value' => array('text', $session_settings[$field])
+						)
+					);
+				}
+
+				$i++;
+			}
+		}
+
+		if($i < 4) $message = $this->lng->txt("session_settings_not_saved");
+		else $message = $this->lng->txt("settings_saved");
+
+		ilUtil::sendInfo($message);
+	}
+
+	/**
+	 * reads session settings from db
+	 *
+	 * @return array session_settings
+	 */
+	function getSessionSettings()
+	{
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');
+
+		$db = $this->client->getDB();
+
+		$setting_fields = ilSessionControl::getSettingFields();
+
+		$query = "SELECT * FROM settings WHERE module = %s " .
+				"AND ".$db->in('keyword', $setting_fields, false, 'text');
+
+		$res = $db->queryF($query, array('text'), array('common'));
+
+		$session_settings = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$session_settings[$row['keyword']] = $row['value'];
+		}
+
+		foreach( $setting_fields as $field )
+		{
+			if( !isset($session_settings[$field]) )
+			{
+				$value = 1;
+
+				switch($field)
+				{
+					case 'session_max_count':
+
+						$value = ilSessionControl::DEFAULT_MAX_COUNT;
+						break;
+
+					case 'session_min_idle':
+
+						$value = ilSessionControl::DEFAULT_MIN_IDLE;
+						break;
+
+					case 'session_max_idle':
+
+						$value = ilSessionControl::DEFAULT_MAX_IDLE;
+						break;
+
+					case 'session_max_idle_after_first_request':
+
+						$value = ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST;
+						break;
+
+					case 'session_allow_client_maintenance':
+
+						$value = ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE;
+						break;
+				}
+
+				$session_settings[$field] = $value;
+			}
+		}
+
+		return $session_settings;
 	}
 
 } // END class.ilSetup

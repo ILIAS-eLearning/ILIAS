@@ -33,6 +33,13 @@ $this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=db");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("database")));
 $this->tpl->parseCurrentBlock();
 
+// sessions
+$this->tpl->setCurrentBlock("tab");
+$this->tpl->setVariable("TAB_TYPE", $tab == "sess" ? "tabactive" : "tabinactive");
+$this->tpl->setVariable("TAB_LINK","setup.php?".$client_id."&cmd=sess");
+$this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("session_management")));
+$this->tpl->parseCurrentBlock();
+
 // languages
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "lang" ? "tabactive" : "tabinactive");

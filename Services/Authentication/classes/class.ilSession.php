@@ -36,9 +36,11 @@ class ilSession
 	*/
 	static function _writeData($a_session_id, $a_data)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 
-		$expires = time() + ini_get("session.gc_maxlifetime");
+		//$expires = time() + ini_get("session.gc_maxlifetime");
+		$expires = time() + (int)($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+
 		if (ilSession::_exists($a_session_id))
 		{
 			/*$q = "UPDATE usr_session SET ".
@@ -54,7 +56,8 @@ class ilSession
 				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
 				"expires" => array("integer", $expires),
 				"data" => array("clob", $a_data),
-				"ctime" => array("integer", time())
+				"ctime" => array("integer", time()),
+				"type" => array("integer", (int) $_SESSION["SessionType"])
 				), array(
 				"session_id" => array("text", $a_session_id)
 				));
@@ -75,7 +78,9 @@ class ilSession
 				"expires" => array("integer", $expires),
 				"data" => array("clob", $a_data),
 				"ctime" => array("integer", time()),
-				"user_id" => array("integer", (int) $_SESSION["AccountId"])
+				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+				"type" => array("integer", (int) $_SESSION["SessionType"]),
+				"createtime" => array("integer", time())
 				));
 
 		}

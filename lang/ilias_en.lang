@@ -10278,3 +10278,15 @@ wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#session_config#:#Session Settings
+common#:#session_config_maintenance_enabled#:#Maintenance by client allowed
+common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
+common#:#session_max_count#:#Max active sessions
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.
+common#:#session_min_idle#:#Min session idle (in minutes)
+common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+common#:#session_max_idle#:#Max session idle (in minutes)
+common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
+common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
+common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
