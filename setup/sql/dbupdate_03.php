@@ -1233,24 +1233,30 @@ $res = $ilDB->query($query);
 ?>
 <#3029>
 <?php
-	$ilDB->addTableColumn(
-		'usr_session',
-		'type',
-		array(
-			"type" => "integer",
-			"notnull" => false,
-		 	"length" => 4,
-		 	"default" => null
-		)
-	);
-	$ilDB->addTableColumn(
-		'usr_session',
-		'createtime',
-		array(
-			"type" => "integer",
-			"notnull" => false,
-		 	"length" => 4,
-		 	"default" => null
-		)
-	);
+	if(!$ilDB->tableColumnExists('usr_session', 'type'))
+	{
+		$ilDB->addTableColumn(
+			'usr_session',
+			'type',
+			array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 4,
+				"default" => null
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('usr_session', 'createtime'))
+	{
+		$ilDB->addTableColumn(
+			'usr_session',
+			'createtime',
+			array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 4,
+				"default" => null
+			)
+		);
+	}
  ?>
