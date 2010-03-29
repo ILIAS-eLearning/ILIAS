@@ -306,6 +306,17 @@ echo "<br>+".$client_id;
 				$this->displayDatabase();
 				break;
 	
+			case "sess":
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "sess" and $this->setup->error === true)
+				{
+					$this->jumpToFirstUnfinishedSetupStep();
+				}
+				else
+				{
+					$this->displaySessions();
+				}
+				break;
+
 			case "lang":
 				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "lang" and $this->setup->error === true)
 				{
@@ -1828,6 +1839,7 @@ else
 		
 		$steps["ini"]["text"]       = $this->lng->txt("setup_process_step_ini");
 		$steps["db"]["text"]        = $this->lng->txt("setup_process_step_db");
+		$steps["sess"]["text"]      = $this->lng->txt("setup_process_step_sess");
 		$steps["lang"]["text"]      = $this->lng->txt("setup_process_step_lang");
 		$steps["contact"]["text"]   = $this->lng->txt("setup_process_step_contact");
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
@@ -1978,7 +1990,7 @@ else
 
 			if ($db_status)
 			{
-				$this->setButtonNext("lang");
+				$this->setButtonNext("sess");
 			}
 		}
 		else	// database is not installed
@@ -2289,16 +2301,16 @@ else
 	////
 	//// Apply hotfixes
 	////
-	
+
 	/**
 	 * Apply hotfixes
 	 */
 	function applyHotfix()
 	{
 		global $ilCtrlStructureReader;
-		
+
 		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
-		
+
 		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
@@ -2314,7 +2326,7 @@ else
 		// run dbupdate
 		$dbupdate = new ilDBUpdate($ilDB);
 		$dbupdate->applyHotfix();
-	
+
 		if ($dbupdate->updateMsg == "no_changes")
 		{
 			$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
@@ -2339,9 +2351,126 @@ else
 				$a_message = $this->lng->txt("update_applied").": ".$a_message;
 			}
 		}
-		
+
 		ilUtil::sendInfo($a_message.$e_message, true);
 		ilUtil::redirect("setup.php?cmd=displayDatabase");
+	}
+
+	////
+	//// SESSION
+	////
+
+    /**
+	 * display sessions form and process form input
+	 */
+	function displaySessions()
+	{
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');
+
+		$this->checkDisplayMode("setup_sessions");
+
+		if (!$this->setup->getClient()->db_installed)
+		{
+			// program should never come to this place
+			$message = "No database found! Please install database first.";
+			ilUtil::sendInfo($message);
+		}
+
+		$setting_fields = ilSessionControl::getSettingFields();
+
+		$valid = true;
+		$settings = array();
+
+		foreach( $setting_fields as $field )
+		{
+			if( $field == 'session_allow_client_maintenance' )
+			{
+				if( isset($_POST[$field]) )		$_POST[$field] = '1';
+				else							$_POST[$field] = '0';
+			}
+
+			if( isset($_POST[$field]) && $_POST[$field] != '' )
+			{
+				$settings[$field] = $_POST[$field];
+			}
+			else
+			{
+				$valid = false;
+				break;
+			}
+
+		}
+
+		if($valid) $this->setup->setSessionSettings($settings);
+
+		$settings = $this->setup->getSessionSettings();
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		// controls the ability t maintenance the following
+		// settings in client administration
+		$chkb = new ilCheckboxInputGUI($this->lng->txt('sess_allow_client_maintenance'), "session_allow_client_maintenance");
+		$chkb->setInfo($this->lng->txt('sess_allow_client_maintenance_info'));
+		$chkb->setChecked($settings['session_allow_client_maintenance'] ? true : false);
+		$form->addItem($chkb);
+
+		// this is the max count of active sessions
+		// that are getting started simlutanously
+		$ti = new ilTextInputGUI($this->lng->txt('sess_max_session_count'), "session_max_count");
+		$ti->setInfo($this->lng->txt('sess_max_session_count_info'));
+		$ti->setMaxLength(5);
+		$ti->setSize(5);
+		$ti->setValue($settings['session_max_count']);
+		$form->addItem($ti);
+
+		// after this (min) idle time the session can be deleted,
+		// if there are further requests for new sessions,
+		// but max session count is reached yet
+		$ti = new ilTextInputGUI($this->lng->txt('sess_min_session_idle'), "session_min_idle");
+		$ti->setInfo($this->lng->txt('sess_min_session_idle_info'));
+		$ti->setMaxLength(5);
+		$ti->setSize(5);
+		$ti->setValue($settings['session_min_idle']);
+		$form->addItem($ti);
+
+		// after this (max) idle timeout the session expires
+		// and become invalid, so it is not considered anymore
+		// when calculating current count of active sessions
+		$ti = new ilTextInputGUI($this->lng->txt('sess_max_session_idle'), "session_max_idle");
+		$ti->setInfo($this->lng->txt('sess_max_session_idle_info'));
+		$ti->setMaxLength(5);
+		$ti->setSize(5);
+		$ti->setValue($settings['session_max_idle']);
+		$form->addItem($ti);
+
+		// this is the max duration that can elapse between the first and the secnd
+		// request to the system before the session is immidietly deleted
+		$ti = new ilTextInputGUI($this->lng->txt('sess_max_session_idle_after_first_request'), "session_max_idle_after_first_request");
+		$ti->setInfo($this->lng->txt('sess_max_session_idle_after_first_request_info'));
+		$ti->setMaxLength(5);
+		$ti->setSize(5);
+		$ti->setValue($settings['session_max_idle_after_first_request']);
+		$form->addItem($ti);
+
+		// save and cancel commands
+		$form->addCommandButton("sess", $this->lng->txt('save'));
+
+		$form->setTitle($this->lng->txt("sess_sessions"));
+		$form->setFormAction('setup.php?client_id='.$this->client_id.'&cmd=sess');
+
+		$this->tpl->setVariable("TXT_SETUP_TITLE",ucfirst(trim($this->lng->txt('sess_sessions'))));
+		$this->tpl->setVariable("TXT_INFO", '');
+		$this->tpl->setVariable("SETUP_CONTENT", $form->getHTML());
+
+		$this->setButtonPrev("db");
+
+		if($this->setup->checkClientSessionSettings($this->client,true))
+		{
+			$this->setButtonNext("lang");
+		}
+
+		$this->checkPanelMode();
 	}
 
 	////
@@ -2382,7 +2511,7 @@ else
 			$this->setup->getClient()->status["lang"]["comment"] = $this->lng->txt("lang_none_installed");
 		}
 
-		$this->setButtonPrev("db");
+		$this->setButtonPrev("sess");
 		
 		if ($lang_count > 0)
 		{

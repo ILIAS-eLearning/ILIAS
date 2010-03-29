@@ -433,6 +433,10 @@ class ilStartUpGUI
 			else
 				$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
 		}
+		elseif(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
+		{
+			$this->showFailure($lng->txt("reached_session_limit"));
+		}
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();

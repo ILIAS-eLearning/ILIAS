@@ -506,3 +506,20 @@ available_hotfixes#:#Available Hotfixes
 apply_hotfixes#:#Apply Hotfixes
 hotfix_available#:#Hotfix Available
 hotfix_applied#:#Hotfix Applied
+session_management#:#Session Management
+step_sess#:#Session Management
+session_management_not_configured#:#not configured
+session_management_configured#:#configured
+setup_sessions#:#Session Management
+setup_process_step_sess#:#Session Management
+sess_sessions#:#Settings
+sess_max_session_count#:#Max session count
+sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.
+sess_min_session_idle#:#Min session idle (in minutes)
+sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+sess_max_session_idle#:#Max session idle (in minutes)
+sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
+sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)
+sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+sess_allow_client_maintenance#:#Allow maintenance by client
+sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not.

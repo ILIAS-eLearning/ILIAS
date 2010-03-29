@@ -54,6 +54,7 @@ define('AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL', -101);
 define('AUTH_CAS_NO_ILIAS_USER', -90);
 
 include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+require_once('Services/Authentication/classes/class.ilSessionControl.php');
 
 
 /**
@@ -272,11 +273,13 @@ class ilAuthUtils
 			$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		}
 		$ilAuth->setExpire(0);
-		
+
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
-		
+
+		ilSessionControl::checkExpiredSession();
+
 		$ilBench->stop('Auth','initAuth');
 	}
 	

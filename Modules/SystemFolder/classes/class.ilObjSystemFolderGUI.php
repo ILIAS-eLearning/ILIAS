@@ -439,6 +439,9 @@ return $this->showServerInfoObject();
 			//session_reminder
 			$settings['session_reminder_enabled'] = (int)$_POST['session_reminder_enabled'];
 
+			// session control
+
+
 			// contact
 			$settings["admin_firstname"] = $_POST["admin_firstname"];
 			$settings["admin_lastname"] = $_POST["admin_lastname"];
@@ -2069,7 +2072,119 @@ return $this->showServerInfoObject();
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
-		
+
+		// session control
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');
+		if( $ilSetting->get('session_allow_client_maintenance') )
+        {
+			// just shows the status wether the session
+			//setting maintenance is allowed by setup
+			$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
+			$ti->setValue(sprintf($this->lng->txt('session_config_maintenance_enabled'), CLIENT_ID));
+
+				// this is the max count of active sessions
+				// that are getting started simlutanously
+				$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_count'), 'session_max_count');
+				$sub_ti->setMaxLength(5);
+				$sub_ti->setSize(5);
+				$sub_ti->setInfo($this->lng->txt('session_max_count_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_count", ilSessionControl::DEFAULT_MAX_COUNT
+				));
+			$ti->addSubItem($sub_ti);
+
+				// after this (min) idle time the session can be deleted,
+				// if there are further requests for new sessions,
+				// but max session count is reached yet
+				$sub_ti = new ilTextInputGUI($this->lng->txt('session_min_idle'), 'session_min_idle');
+				$sub_ti->setMaxLength(5);
+				$sub_ti->setSize(5);
+				$sub_ti->setInfo($this->lng->txt('session_min_idle_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_min_idle", ilSessionControl::DEFAULT_MIN_IDLE
+				));
+			$ti->addSubItem($sub_ti);
+
+				// after this (max) idle timeout the session expires
+				// and become invalid, so it is not considered anymore
+				// when calculating current count of active sessions
+				$sub_ti = new ilTextInputGUI($this->lng->txt('session_max_idle'), 'session_max_idle');
+				$sub_ti->setMaxLength(5);
+				$sub_ti->setSize(5);
+				$sub_ti->setInfo($this->lng->txt('session_max_idle_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_idle", ilSessionControl::DEFAULT_MAX_IDLE
+				));
+			$ti->addSubItem($sub_ti);
+
+				// this is the max duration that can elapse between the first and the secnd
+				// request to the system before the session is immidietly deleted
+				$sub_ti = new ilTextInputGUI(
+					$this->lng->txt('session_max_idle_after_first_request'),
+					'session_max_idle_after_first_request'
+				);
+				$sub_ti->setMaxLength(5);
+				$sub_ti->setSize(5);
+				$sub_ti->setInfo($this->lng->txt('session_max_idle_after_first_request_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_idle_after_first_request",
+					ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST
+				));
+			$ti->addSubItem($sub_ti);
+
+			$this->form->addItem($ti);
+		}
+		else
+		{
+			// just shows the status wether the session
+			//setting maintenance is allowed by setup
+			$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
+			$ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
+
+				// this is the max count of active sessions
+				// that are getting started simlutanously
+				$sub_ti = new ilNonEditableValueGUI($this->lng->txt('session_max_count'), "session_max_count");
+				$sub_ti->setInfo($this->lng->txt('session_max_count_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_count", ilSessionControl::DEFAULT_MAX_COUNT
+				));
+			$ti->addSubItem($sub_ti);
+
+				// after this (min) idle time the session can be deleted,
+				// if there are further requests for new sessions,
+				// but max session count is reached yet
+				$sub_ti = new ilNonEditableValueGUI($this->lng->txt('session_min_idle'), "session_min_idle");
+				$sub_ti->setInfo($this->lng->txt('session_min_idle_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_min_idle", ilSessionControl::DEFAULT_MIN_IDLE
+				));
+			$ti->addSubItem($sub_ti);
+
+				// after this (max) idle timeout the session expires
+				// and become invalid, so it is not considered anymore
+				// when calculating current count of active sessions
+				$sub_ti = new ilNonEditableValueGUI($this->lng->txt('session_max_idle'), "session_max_idle");
+				$sub_ti->setInfo($this->lng->txt('session_max_idle_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_idle", ilSessionControl::DEFAULT_MAX_IDLE
+				));
+			$ti->addSubItem($sub_ti);
+
+				// this is the max duration that can elapse between the first and the secnd
+				// request to the system before the session is immidietly deleted
+				$sub_ti = new ilNonEditableValueGUI(
+					$this->lng->txt('session_max_idle_after_first_request'),
+					"session_max_idle_after_first_request");
+				$sub_ti->setInfo($this->lng->txt('session_max_idle_after_first_request_info'));
+				$sub_ti->setValue($ilSetting->get(
+					"session_max_idle_after_first_request",
+					ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST
+				));
+			$ti->addSubItem($sub_ti);
+
+			$this->form->addItem($ti);
+		}
+
 		// password assistance
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");
 		if ($ilSetting->get("password_assistance"))
@@ -2135,6 +2250,10 @@ return $this->showServerInfoObject();
 			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
 			$ilSetting->set("enable_trash", $_POST["enable_trash"]);
 			$ilSetting->set("session_reminder_enabled", $_POST["session_reminder_enabled"]);
+			$ilSetting->set("session_max_count", (int)$_POST["session_max_count"]);
+			$ilSetting->set("session_min_idle", (int)$_POST["session_min_idle"]);
+			$ilSetting->set("session_max_idle", (int)$_POST["session_max_idle"]);
+			$ilSetting->set("session_max_idle_after_first_request", (int)$_POST["session_max_idle_after_first_request"]);
 			$ilSetting->set("password_assistance", $_POST["password_assistance"]);
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
 			$ilSetting->set("locale", $_POST["locale"]);

@@ -1231,3 +1231,26 @@ $res = $ilDB->query($query);
 		$ilDB->modifyTableColumn('mail_saved','rcp_bcc', array("type" => "clob", "default" => null, "notnull" => false));
 	}
 ?>
+<#3029>
+<?php
+	$ilDB->addTableColumn(
+		'usr_session',
+		'type',
+		array(
+			"type" => "integer",
+			"notnull" => false,
+		 	"length" => 4,
+		 	"default" => null
+		)
+	);
+	$ilDB->addTableColumn(
+		'usr_session',
+		'createtime',
+		array(
+			"type" => "integer",
+			"notnull" => false,
+		 	"length" => 4,
+		 	"default" => null
+		)
+	);
+ ?>
