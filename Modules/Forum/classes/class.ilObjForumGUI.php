@@ -850,7 +850,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this), '', $force_active);			
+			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
 		}
 
 		if ($this->ilias->getSetting('enable_fora_statistics', true) &&
