@@ -1003,3 +1003,231 @@ $res = $ilDB->query($query);
 	}
 
 ?>
+<#3005>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail rcp_to
+		if (!$ilDB->tableColumnExists('mail', 'rcp_to_tmp'))
+		{
+			$ilDB->addTableColumn("mail", "rcp_to_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3006>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail SET rcp_to_tmp = rcp_to');
+	}
+?>
+<#3007>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('mail', 'rcp_to'))
+			$ilDB->dropTableColumn('mail', 'rcp_to');
+
+		$ilDB->renameTableColumn("mail", "rcp_to_tmp", "rcp_to");
+	}
+?>
+<#3008>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail rcp_cc
+		if (!$ilDB->tableColumnExists('mail', 'rcp_cc_tmp'))
+		{
+			$ilDB->addTableColumn("mail", "rcp_cc_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3009>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail SET rcp_cc_tmp = rcp_cc');
+	}
+?>
+<#3010>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('mail', 'rcp_cc'))
+			$ilDB->dropTableColumn('mail', 'rcp_cc');
+
+		$ilDB->renameTableColumn("mail", "rcp_cc_tmp", "rcp_cc");
+	}
+?>
+<#3011>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail rcp_bcc
+		if (!$ilDB->tableColumnExists('mail', 'rcp_bcc_tmp'))
+		{
+			$ilDB->addTableColumn("mail", "rcp_bcc_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3012>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail SET rcp_bcc_tmp = rcp_bcc');
+	}
+?>
+<#3013>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if($ilDB->tableColumnExists('mail', 'rcp_bcc'))
+			$ilDB->dropTableColumn('mail', 'rcp_bcc');
+
+		$ilDB->renameTableColumn("mail", "rcp_bcc_tmp", "rcp_bcc");
+	}
+?>
+<#3014>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail_saved rcp_to
+		if (!$ilDB->tableColumnExists('mail_saved', 'rcp_to_tmp'))
+		{
+			$ilDB->addTableColumn("mail_saved", "rcp_to_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3015>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail_saved SET rcp_to_tmp = rcp_to');
+	}
+?>
+<#3016>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('mail_saved', 'rcp_to'))
+			$ilDB->dropTableColumn('mail_saved', 'rcp_to');
+
+		$ilDB->renameTableColumn("mail_saved", "rcp_to_tmp", "rcp_to");
+	}
+?>
+<#3017>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail_saved rcp_cc
+		if (!$ilDB->tableColumnExists('mail_saved', 'rcp_cc_tmp'))
+		{
+			$ilDB->addTableColumn("mail_saved", "rcp_cc_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3018>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail_saved SET rcp_cc_tmp = rcp_cc');
+	}
+?>
+<#3019>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('mail_saved', 'rcp_cc'))
+			$ilDB->dropTableColumn('mail_saved', 'rcp_cc');
+
+		$ilDB->renameTableColumn("mail_saved", "rcp_cc_tmp", "rcp_cc");
+	}
+?>
+<#3020>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// mail_saved rcp_bcc
+		if (!$ilDB->tableColumnExists('mail_saved', 'rcp_bcc_tmp'))
+		{
+			$ilDB->addTableColumn("mail_saved", "rcp_bcc_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3021>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE mail_saved SET rcp_bcc_tmp = rcp_bcc');
+	}
+?>
+<#3022>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('mail_saved', 'rcp_bcc'))
+			$ilDB->dropTableColumn('mail_saved', 'rcp_bcc');
+
+		$ilDB->renameTableColumn("mail_saved", "rcp_bcc_tmp", "rcp_bcc");
+	}
+?>
+<#3023>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		 $ilDB->modifyTableColumn('mail','rcp_to', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
+<#3024>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		 $ilDB->modifyTableColumn('mail','rcp_cc', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
+<#3025>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		 $ilDB->modifyTableColumn('mail','rcp_bcc', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
+<#3026>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		 $ilDB->modifyTableColumn('mail_saved','rcp_to', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
+<#3027>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		 $ilDB->modifyTableColumn('mail_saved','rcp_cc', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
+<#3028>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$ilDB->modifyTableColumn('mail_saved','rcp_bcc', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
