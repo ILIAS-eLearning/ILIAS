@@ -136,7 +136,6 @@ class ilObjForumGUI extends ilObjectGUI
 				require_once 'Modules/Forum/classes/class.ilForumModeratorsGUI.php';
 				$fm_gui = new ilForumModeratorsGUI($this);
 				$ret = $this->ctrl->forwardCommand($fm_gui);
-				exit();
 				break;
 				
 			case 'ilinfoscreengui':
