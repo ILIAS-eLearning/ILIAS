@@ -2075,7 +2075,7 @@ return $this->showServerInfoObject();
 
 		// session control
 		require_once('Services/Authentication/classes/class.ilSessionControl.php');
-		if( $ilSetting->get('session_allow_client_maintenance') )
+		if( $ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
         {
 			// just shows the status wether the session
 			//setting maintenance is allowed by setup
