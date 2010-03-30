@@ -4234,21 +4234,24 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilNavigationHistory->addItem($_GET['ref_id'],
 				'repository.php?cmd=frameset&ref_id='.$_GET['ref_id'], 'crs');
 		}
-		
+	
 		if(!$this->getCreationMode())
-		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			if(ilPaymentObject::_isBuyable($this->object->getRefId()) &&
-			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+		{	
+			if(IS_PAYMENT_ENABLED)
 			{
-				$ilTabs->setTabActive('info_short');
-				
-				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';	
-				$this->ctrl->setReturn($this, '');
-				$pp_gui = new ilShopPurchaseGUI($this->object->getRefId());
-				$this->ctrl->forwardCommand($pp_gui);	
-				return true;
-			}		
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+				if(ilPaymentObject::_isBuyable($this->object->getRefId()) &&
+				   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+				{
+					$ilTabs->setTabActive('info_short');
+
+					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					$this->ctrl->setReturn($this, '');
+					$pp_gui = new ilShopPurchaseGUI($this->object->getRefId());
+					$this->ctrl->forwardCommand($pp_gui);
+					return true;
+				}
+			}
 		}
 
 		switch($next_class)

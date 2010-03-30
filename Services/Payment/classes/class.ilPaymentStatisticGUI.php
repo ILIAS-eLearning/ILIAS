@@ -23,11 +23,12 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	public function ilPaymentStatisticGUI($user_obj)
 	{
 		parent::__construct();		
-		
+
 		$this->ctrl->saveParameter($this, 'baseClass');
 
 		$this->user_obj = $user_obj;
 		$this->pobject = new ilPaymentObject($this->user_obj);
+
 	}
 	
 	protected function prepareOutput()
@@ -75,6 +76,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		unset($_POST["customer"]);
 		unset($_POST["pay_method"]);
 		unset($_POST["updateView"]);
+		unset($_POST["filter_title_id"]);
+
 		$this->showStatistics();
 	}
 
@@ -104,7 +107,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$_SESSION['pay_statistics']['from_check'] = $_POST['from_check'];
 			$_SESSION['pay_statistics']['transaction_type'] = isset($_POST['transaction_type']) ? $_POST['transaction_type'] : '' ;
 			$_SESSION['pay_statistics']['transaction_value'] = isset($_POST['transaction_value']) ?  $_POST['transaction_value'] : '';
-			
+			$_SESSION['pay_statistics']['filter_title_id'] = (int)$_POST['filter_title_id'];
+		
 			if($_SESSION['pay_statistics']['from_check'] == '1')
 			{
 				$_SESSION['pay_statistics']['from']['date']['d'] = $_POST['from']['date']['d'];
@@ -141,7 +145,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
+		// FILTER FORM
 		$filter_form = new ilPropertyFormGUI();
 		$filter_form->setFormAction($this->ctrl->getFormAction($this));
 		$filter_form->setTitle($this->lng->txt('pay_filter'));

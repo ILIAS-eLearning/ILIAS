@@ -1,14 +1,15 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
+include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 
 /**
 * Class ilShopBoughtObjectsGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @author Nadia Ahmad <nkrzywon@databay.de>
+* @version $Id:$
 * 
 * @ingroup ServicesPayment
 *  
@@ -38,11 +39,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
-/* nkrzywon			
  			 case 'showBillHistory':
 				$this->$cmd();
 				break;
-*/				
+
 			default:
 				$this->prepareOutput();
 				if(!$cmd = $this->ctrl->getCmd())
@@ -54,7 +54,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		}
 	}
 	
-/* nkrzywon	
+/* nkrzywon	*/
   
  	protected function buildSubTabs()
 	{
@@ -74,6 +74,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		
 		$this->initBookingsObject();
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+
 		$bookings = $this->bookings_obj->getDistinctTransactions($this->user_obj->getId());
 		
 		if(!count($bookings))
@@ -111,8 +112,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tbl->setTitle($this->lng->txt("paya_bill_history"),"icon_pays_access.gif",$this->lng->txt("paya_bill_history"));
 		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),$this->lng->txt("paya_order_date")));
 	
-
+		$this->ctrl->setParameter($this,'cmd','showBillHistory');
 		$header_params = $this->ctrl->getParameterArray($this,'');
+
 		$tbl->setHeaderVars(array("transaction","order_date"), $header_params);
 
 		$offset = $_GET["offset"];
@@ -126,7 +128,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tbl->setMaxCount(count($a_result_set));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
-
 
 		$tbl->render();
 
@@ -150,6 +151,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		include_once './Services/Utilities/classes/class.ilUtil.php';
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 
+		$genSet = new ilGeneralSettings();
+		$currency = $genSet->get('currency_unit');
+
 		$user_id = $this->user_obj->getId();
 
 		$bookings = ilPaymentBookings::__readBillByTransaction($user_id,$transaction);
@@ -158,8 +162,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		if($bookings[$i]['city'] == NULL)		$bookings[$i]['city'] = nl2br(utf8_decode($customer->getCity()));
 		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
 		
-		$genSet = new ilGeneralSettings();
-
 		$i = 0;
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill.html','Services/Payment');		
 		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
@@ -174,7 +176,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('CUSTOMER_LASTNAME', $customer->getLastName()); //$customer['nachname']);
 		if($bookings['po_box']== '')
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $bookings[$i]['street']);
+			$tpl->setVariable('CUSTOMER_STREET',utf8_decode( $bookings[$i]['street']));
 		}
 		else
 		{
@@ -199,116 +201,79 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		for ($i = 0; $i < count($bookings[$i]); $i++)
 		{
 			$tmp_pobject = new ilPaymentObject($this->user_obj, $booking[$i]['pobject_id']);
-			
-			$assigned_coupons = '';					
-			if (!empty($_SESSION['coupons']['bill']))
-			{											
-				foreach ($_SESSION['coupons']['bill'] as $key => $coupon)
-				{
-					$this->coupon_obj->setId($coupon['pc_pk']);
-					$this->coupon_obj->setCurrentCoupon($coupon);
 
-					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-					{
-						$assigned_coupons .= '<br />' . $this->lng->txt('paya_coupons_coupon') . ': ' . $coupon['pcc_code'];
-					}
-				}
-		}
-		$obj_id = $ilObjDataCache->lookupObjId($bookings[$i]['ref_id']);	
-		$obj_type = $ilObjDataCache->lookupType($obj_id);
+			$obj_id = $ilObjDataCache->lookupObjId($bookings[$i]['ref_id']);
+			$obj_type = $ilObjDataCache->lookupType($obj_id);
 			
 			$tpl->setCurrentBlock('loop');
 			$tpl->setVariable('LOOP_OBJ_TYPE', utf8_decode($this->lng->txt($obj_type)));
 			$tpl->setVariable('LOOP_TITLE', utf8_decode($bookings[$i]['object_title']) . $assigned_coupons);
 			$tpl->setVariable('LOOP_TXT_ENTITLED_RETRIEVE', utf8_decode($this->lng->txt('pay_entitled_retrieve')));
 			
-		if( $bookings[$i]['duration'] == 0)
-		{
-						$tpl->setVariable('LOOP_DURATION', utf8_decode($this->lng->txt('unlimited_duration')));
-		} 	
-		else
-			$tpl->setVariable('LOOP_DURATION', $bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
-// old one			
-			$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate']);
-			$tpl->setVariable('LOOP_VAT_UNIT', $bookings[$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
-			$tpl->setVariable('LOOP_PRICE', $bookings[$i]['price']);
+			if( $bookings[$i]['duration'] == 0)
+			{
+				$tpl->setVariable('LOOP_DURATION', utf8_decode($this->lng->txt('unlimited_duration')));
+			}
+			else
+			{
+				$tpl->setVariable('LOOP_DURATION', $bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
+			}
+
+			// old one
+			$tpl->setVariable('LOOP_VAT_RATE',number_format($bookings[$i]['vat_rate'], 2, ',', '.').' %');
+			$tpl->setVariable('LOOP_VAT_UNIT', number_format($bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);
+			$tpl->setVariable('LOOP_PRICE',number_format($bookings[$i]['price'], 2, ',', '.').' '.$currency);
 			$tpl->parseCurrentBlock('loop');
 			
-// TODO: CURRENCY not finished yet
-/*****
-		$currency_symbol = $bookings[$i]['currency_unit'];
-			
-		$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate'].' %');
-#		$tpl->setVariable('LOOP_VAT_UNIT', number_format( $bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);			
-#		$tpl->setVariable('LOOP_PRICE',number_format( $bookings[$i]['price'], 2, ',', '.').' '.$currency);			 	
-				
-		$tpl->setVariable('LOOP_VAT_UNIT',utf8_decode( ilPaymentCurrency::_formatPriceToString($bookings[$i]['vat_unit'], $currency_symbol)));			
-		$tpl->setVariable('LOOP_PRICE', utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings[$i]['price'], $currency_symbol)));					
-		$tpl->parseCurrentBlock('loop');
-		
-/*****	
+			// TODO: CURRENCY not finished yet
+			/*****
+					$currency_symbol = $bookings[$i]['currency_unit'];
+
+					$tpl->setVariable('LOOP_VAT_RATE', $bookings[$i]['vat_rate'].' %');
+			#		$tpl->setVariable('LOOP_VAT_UNIT', number_format( $bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);
+			#		$tpl->setVariable('LOOP_PRICE',number_format( $bookings[$i]['price'], 2, ',', '.').' '.$currency);
+
+					$tpl->setVariable('LOOP_VAT_UNIT',utf8_decode( ilPaymentCurrency::_formatPriceToString($bookings[$i]['vat_unit'], $currency_symbol)));
+					$tpl->setVariable('LOOP_PRICE', utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings[$i]['price'], $currency_symbol)));
+					$tpl->parseCurrentBlock('loop');
+
+			/*****	*/
+
 			$bookings['total'] += (float)$bookings[$i]['price'];
 			$bookings['total_vat']+= (float)$bookings[$i]['vat_unit'];
+			$bookings['total_discount'] +=(float) $bookings[$i]['discount'];
 			unset($tmp_pobject);
+
+			$sub_total_amount = $bookings['total'];
 		}
-		
-		if (!empty($_SESSION['coupons']['bill']))
+
+		if($bookings['total_discount'] < 0)
 		{
-			if (count($items = $bookings))
-			{
-				$sub_total_amount = $bookings['total'];							
-
-				foreach ($_SESSION['coupons']['bill'] as $coupon)
-				{
-					$this->coupon_obj->setId($coupon['pc_pk']);
-					$this->coupon_obj->setCurrentCoupon($coupon);					
-					
-					$total_object_price = 0.0;
-					$current_coupon_bonus = 0.0;
-					
-					foreach ($bookings[$i] as $item)
-					{
-						$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);						
-						
-						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-						{						
-							$total_object_price += $item['betrag'];																					
-						}			
-						
-						unset($tmp_pobject);
-					}					
-					
-					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);	
-
-					$bookings['total'] += $current_coupon_bonus * (-1);
-					
-					$tpl->setCurrentBlock('cloop');
-					$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code']));
-					$tpl->setVariable('BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
-// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
-					$tpl->parseCurrentBlock();
-				}
-				
-				$tpl->setVariable('TXT_SUBTOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_subtotal_amount')));
-				$tpl->setVariable('SUBTOTAL_AMOUNT', number_format($sub_total_amount, 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
-// TODO: CURRENCY $tpl->setVariable('SUBTOTAL_AMOUNT', ilPaymentCurrency::_formatPriceToString($sub_total_amount, $currency_symbol));
-			}
+			$tpl->setCurrentBlock('cloop');
+			$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code']));
+			$tpl->setVariable('BONUS', number_format($bookings['total_discount'], 2, ',', '.') . ' ' . $currency);
+			// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
+			$tpl->parseCurrentBlock();
 		}
-		
+
+		$bookings['total'] += $bookings['total_discount'];
+		$tpl->setVariable('TXT_SUBTOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_subtotal_amount')));
+		$tpl->setVariable('SUBTOTAL_AMOUNT', number_format($sub_total_amount, 2, ',', '.') . ' ' . $currency);
+		// TODO: CURRENCY $tpl->setVariable('SUBTOTAL_AMOUNT', ilPaymentCurrency::_formatPriceToString($sub_total_amount, $currency_symbol));
+
 		if ($bookings['total'] < 0)
 		{			
-			$bookings['total'] = 0.0;
-			$bookings['total_vat'] = 0.0;
+			$bookings['total'] = 0.00;
+		//	$bookings['total_vat'] = 0.0;
 		}
 
-
 		$tpl->setVariable('TXT_TOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_total_amount')));
-		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
-// TODO: CURRENCY $tpl->setVariable('TOTAL_AMOUNT',utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings['total'], $currency_symbol) ));
+		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $currency);
+		// TODO: CURRENCY $tpl->setVariable('TOTAL_AMOUNT',utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings['total'], $currency_symbol) ));
 		if ($bookings['total_vat'] > 0)
 		{
-			$tpl->setVariable('TOTAL_VAT', $bookings['total_vat']. ' ' . $genSet->get('currency_unit'));
-// TODO: CURRENCY $tpl->setVariable('TOTAL_VAT',ilPaymentCurrency::_formatPriceToString($bookings['total_vat'],$currency_symbol)); 			
+			$tpl->setVariable('TOTAL_VAT',number_format( $bookings['total_vat'], 2, ',', '.') . ' ' .$currency);
+			// TODO: CURRENCY $tpl->setVariable('TOTAL_VAT',ilPaymentCurrency::_formatPriceToString($bookings['total_vat'],$currency_symbol));
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
 		}
 
@@ -337,7 +302,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		@unlink($genSet->get('pdf_path') . '/' . $transaction . '.html');
 		@unlink($genSet->get('pdf_path') . '/' . $transaction . '.pdf');
 	}
-*/
+/**/
 		
 	protected function prepareOutput()
 	{

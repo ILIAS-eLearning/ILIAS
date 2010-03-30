@@ -309,5 +309,15 @@ class ilGeneralSettings
 		}
 		$this->settings = $data;
 	}
+
+	public static function _isPaymentEnabled()
+	{
+		global $ilDB;
+
+		$res = $ilDB->query('SELECT shop_enabled FROM payment_settings');
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['shop_enabled'];
+	}
 }
 ?>

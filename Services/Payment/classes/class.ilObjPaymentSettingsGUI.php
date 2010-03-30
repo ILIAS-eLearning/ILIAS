@@ -1627,12 +1627,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$filter_form->addCommandButton('resetFilter', $this->lng->txt('pay_reset_filter'));
 		
 		$filter_form->addItem($o_hide_check);		
-		if(!$_SESSION['pay_statistics']['updateView'])
+/*		if(!$_SESSION['pay_statistics']['updateView'])
 		{
 			ilUtil::sendInfo($this->lng->txt('statistics_filter_advice'));
 			//return true;
 		}	
-
+*/
 		$this->tpl->setVariable('FORM', $filter_form->getHTML());
 		//else 	$filter_form->checkInput();
 		

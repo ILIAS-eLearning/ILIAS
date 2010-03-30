@@ -71,8 +71,12 @@ class ilLMPresentationGUI
 		}
 		$this->lm =& $this->lm_gui->object;
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		$this->needs_to_be_purchased = ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId());
+		if(IS_PAYMENT_ENABLED)
+		{
+			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+			$this->needs_to_be_purchased = ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId());
+		}
+		else $this->needs_to_be_purchased = false;
 
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -112,29 +116,31 @@ class ilLMPresentationGUI
 	function &executeCommand()
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng;		
-		
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';	
-		if($ilAccess->checkAccess('visible', '', $_GET['ref_id']) && 
-		   $this->needs_to_be_purchased)
+
+		if(IS_PAYMENT_ENABLED)
 		{
-			if(!((int)$_GET['obj_id'] && 
-			   ($this->lm->getPublicAccessMode() == 'selected' && ilLMObject::_isPagePublic($_GET['obj_id'])) &&
-			   ($this->ctrl->getCmd() == 'layout' || $this->ctrl->getCmd() == '')))
-			   
+			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+			if($ilAccess->checkAccess('visible', '', $_GET['ref_id']) &&
+			   $this->needs_to_be_purchased)
 			{
-				unset($_GET['obj_id']);
-				
-				$this->tpl->getStandardTemplate();
-				$this->ilLocator();
-		
-				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-				$ret = $this->ctrl->forwardCommand($pp);
-				$this->tpl->show();
-				return true;
+				if(!((int)$_GET['obj_id'] &&
+				   ($this->lm->getPublicAccessMode() == 'selected' && ilLMObject::_isPagePublic($_GET['obj_id'])) &&
+				   ($this->ctrl->getCmd() == 'layout' || $this->ctrl->getCmd() == '')))
+
+				{
+					unset($_GET['obj_id']);
+
+					$this->tpl->getStandardTemplate();
+					$this->ilLocator();
+
+					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$ret = $this->ctrl->forwardCommand($pp);
+					$this->tpl->show();
+					return true;
+				}
 			}
 		}
-		
 		// check read permission, payment and parent conditions
 		// todo: replace all this by ilAccess call
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&

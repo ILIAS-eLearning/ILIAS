@@ -92,16 +92,19 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			
 		if(!$this->getCreationMode())
 		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';				
-			if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
-			   !ilPaymentObject::_hasAccess($_GET['ref_id']))
+			if(IS_PAYMENT_ENABLED)
 			{
-				$this->tpl->getStandardTemplate();				
-				
-				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);				
-				$ret = $this->ctrl->forwardCommand($pp);
-				return true;
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+				if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
+				   !ilPaymentObject::_hasAccess($_GET['ref_id']))
+				{
+					$this->tpl->getStandardTemplate();
+
+					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$ret = $this->ctrl->forwardCommand($pp);
+					return true;
+				}
 			}
 		}
 
