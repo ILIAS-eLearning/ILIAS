@@ -1264,3 +1264,50 @@ $res = $ilDB->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3031>
+<?php
+	// new permission
+	$new_ops_id = $ilDB->nextId('rbac_operations');
+
+	$res = $ilDB->manipulatef('
+		INSERT INTO rbac_operations (ops_id, operation, description, class)
+	 	VALUES(%s, %s, %s, %s)',
+	array('integer','text', 'text', 'text'),
+	array($new_ops_id, 'mail_to_global_roles','User may send mails to global roles','object'));
+
+	$res = $ilDB->queryF('SELECT obj_id FROM object_data WHERE type = %s AND title = %s',
+	array('text', 'text'), array('typ', 'mail'));
+	$row = $ilDB->fetchAssoc($res);
+
+	$typ_id = $row['obj_id'];
+
+	$query = $ilDB->manipulateF('INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)',
+	array('integer','integer'), array($typ_id, $new_ops_id));
+?>
+<#3032>
+<?php
+
+	$rbacreview = new ilRbacReview();
+	$rbacadmin = new ilRbacAdmin();
+
+	$obj_ids = ilObject::_getObjectsByType('mail');
+	foreach($obj_ids as $obj_id)
+	{
+		$ref_ids = ilObject::_getAllReferences($obj_id['obj_id']);
+	}
+
+	$global_roles = $rbacreview->getGlobalRoles();
+
+	foreach($global_roles as $role)
+	{
+		foreach($ref_ids as $ref_id)
+		{
+			$operations = $rbacreview->getRoleOperationsOnObject($role, $ref_id);
+			if(!is_array($operations)) $operations = array();
+			$mtgr_permission = ilRbacReview::_getOperationIdsByName(array('mail_to_global_roles'));
+			if(!is_array($mtgr_permission)) $mtgr_permission = array();
+			$permissions = array_unique(array_merge($operations, $mtgr_permission));
+			$rbacadmin->grantPermission($role, $permissions, $ref_id);
+		}
+	}
+?>
