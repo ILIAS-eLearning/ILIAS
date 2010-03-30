@@ -572,6 +572,10 @@ class ilInitialisation
 		define ("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
 
 		$this->buildHTTPPath();
+
+		// payment setting
+		require_once('Services/Payment/classes/class.ilGeneralSettings.php');
+		define('IS_PAYMENT_ENABLED', ilGeneralSettings::_isPaymentEnabled());
 	}
 
 

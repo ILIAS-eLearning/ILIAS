@@ -1145,9 +1145,9 @@ class ilStartUpGUI
 			{
 				die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 			}
-			
+
 			$newSid = session_id();
-			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
 
 			// get user id
@@ -1205,28 +1205,12 @@ class ilStartUpGUI
 		}
 		else
 		{
-  /*			if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
-            {
-             include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-                $oCart = new ilPaymentShoppingCart($ilUser);
-                $oCart->setPriceId((int)$_SESSION['price_id']);
-                $oCart->setPobjectId((int)$_SESSION['pobject_id']);
-                $oCart->add();
-        
-                unset($_SESSION['price_id']);
-                unset($_SESSION['pobject_id']);
-    			
-				      
-                $lng->loadLanguageModule('payment');
-                ilUtil::sendInfo($lng->txt('pay_added_to_shopping_cart'), true);
-                ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
-            }
-	 */ /**/
+			if(IS_PAYMENT_ENABLED)
+			{
                 $usr_id = $ilUser->getId();
-                
 				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 				ilPaymentShoppingCart::_assignObjectsToUserId($usr_id);
-				/**/    
+			}
 						
 			if	(!$this->_checkGoto($_GET["target"]))
 			{

@@ -894,11 +894,11 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$this->__showButtons();
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');		
-								
+
 		$objects = $this->pobject->_getObjectsData($this->user_obj->getId());
-		
+
 		$this->coupon_obj->getCouponById(ilUtil::stripSlashes($_GET['coupon_id']));
-				
+	
 		$counter_assigned = 0;
 		$counter_unassigned = 0;
 		$f_result_assigned = array();
@@ -907,13 +907,13 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		{					
 			if ($this->coupon_obj->isObjectAssignedToCoupon($data['ref_id']))
 			{
-				$p_counter = $counter_assigned;
-				$p_result = $f_result_assigned;
+				$p_counter =& $counter_assigned;
+				$p_result =& $f_result_assigned;
 			}
 			else
 			{
-				$p_counter = $counter_unassigned;
-				$p_result = $f_result_unassigned;
+				$p_counter =& $counter_unassigned;
+				$p_result =& $f_result_unassigned;
 			}
 			
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id']);
@@ -936,16 +936,16 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			}
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
 			$p_result[$p_counter][] = ilPaymethods::getStringByPaymethod($data['pay_method']);
-						
+				
 			++$p_counter;				
 							
 			unset($tmp_obj);			
 		}
 		
 		$this->ctrl->setParameter($this, "cmd", "showObjects");
-		
+	
 		if (count($f_result_assigned) > 0)
-		{		
+		{	
 			$tbl = $this->initTableGUI();
 			$tpl = $tbl->getTemplateObject();
 			$tbl->setPrefix('assigned');
@@ -978,10 +978,10 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			$tpl->setCurrentBlock("tbl_action_button");
 			$tpl->setVariable("BTN_NAME","unassignObjects");
 			$tpl->setVariable("BTN_VALUE",$this->lng->txt("remove"));
-			$tpl->parseCurrentBlock();						
+			$tpl->parseCurrentBlock();
 			$tbl->setColumnWidth(array("10%","20%","20%","20%"));			
 			$tbl->render();
-			
+
 			$this->tpl->setVariable('TABLE', $tbl->tpl->get());
 		}
 		
@@ -1017,10 +1017,9 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			$tpl->setCurrentBlock("tbl_action_button");
 			$tpl->setVariable("BTN_NAME","assignObjects");
 			$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
-			$tpl->parseCurrentBlock();						
+			$tpl->parseCurrentBlock();
 			$tbl->setColumnWidth(array("10%","20%","20%","20%"));			
-			$tbl->render();		
-	
+			$tbl->render();
 			$this->tpl->setVariable('TABLE_2', $tbl->tpl->get());
 		}
 		

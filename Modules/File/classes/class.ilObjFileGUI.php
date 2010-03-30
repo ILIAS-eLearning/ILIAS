@@ -72,25 +72,28 @@ class ilObjFileGUI extends ilObjectGUI
 	
 		if(!$this->getCreationMode())
 		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';		
-			if(ANONYMOUS_USER_ID == $ilUser->getId()  && isset($_GET['transaction']))
-			{	
-				$transaction = $_GET['transaction'];
-				include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-				$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
-			}
-			
-			if( ilPaymentObject::_isBuyable($this->object->getRefId() ) && 
-			   !ilPaymentObject::_hasAccess($this->object->getRefId(), $transaction) &&
-			   !$valid_transaction)
+			if(IS_PAYMENT_ENABLED)
 			{
-				$this->setLocator();
-				$this->tpl->getStandardTemplate();			
+				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+				if(ANONYMOUS_USER_ID == $ilUser->getId()  && isset($_GET['transaction']))
+				{
+					$transaction = $_GET['transaction'];
+					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
+				}
 
-				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);				
-				$ret = $this->ctrl->forwardCommand($pp);
-				return true;
+				if( ilPaymentObject::_isBuyable($this->object->getRefId() ) &&
+				   !ilPaymentObject::_hasAccess($this->object->getRefId(), $transaction) &&
+				   !$valid_transaction)
+				{
+					$this->setLocator();
+					$this->tpl->getStandardTemplate();
+
+					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$ret = $this->ctrl->forwardCommand($pp);
+					return true;
+				}
 			}
 		}
 		
