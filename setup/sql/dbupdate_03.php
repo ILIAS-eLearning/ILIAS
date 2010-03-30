@@ -1286,28 +1286,85 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#3032>
 <?php
-
-	$rbacreview = new ilRbacReview();
-	$rbacadmin = new ilRbacAdmin();
-
-	$obj_ids = ilObject::_getObjectsByType('mail');
-	foreach($obj_ids as $obj_id)
+	$query = 'SELECT ref_id FROM object_data '
+		   . 'INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id '
+		   . 'WHERE type = '.$ilDB->quote('mail', 'text');
+	$res = $ilDB->query($query);
+	$ref_ids = array();
+	while($row = $ilDB->fetchAssoc($res))
 	{
-		$ref_ids = ilObject::_getAllReferences($obj_id['obj_id']);
+		$ref_ids[] = $row['ref_id'];
 	}
 
-	$global_roles = $rbacreview->getGlobalRoles();
+	$query = 'SELECT rol_id FROM rbac_fa '
+		   . 'WHERE assign = '.$ilDB->quote('y', 'text').' '
+		   . 'AND parent = '.$ilDB->quote(ROLE_FOLDER_ID, 'integer');
+	$res = $ilDB->query($query);
+	$global_roles = array();
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$global_roles[] = $row['rol_id'];
+	}
+
+	$query = 'SELECT ops_id FROM rbac_operations '
+	       . 'WHERE operation = '.$ilDB->quote('mail_to_global_roles', 'text');
+	$res = $ilDB->query($query);
+	$data = $ilDB->fetchAssoc($res);
+	$mtgr_permission = array();
+	if((int)$data['ops_id'])
+		$mtgr_permission[] = $data['ops_id'];
 
 	foreach($global_roles as $role)
 	{
+		if($role == SYSTEM_ROLE_ID)
+		{
+			continue;
+		}
+
 		foreach($ref_ids as $ref_id)
 		{
-			$operations = $rbacreview->getRoleOperationsOnObject($role, $ref_id);
+			$query = 'SELECT ops_id FROM rbac_pa '
+			       . 'WHERE rol_id = '.$ilDB->quote($role, 'integer').' '
+				   . 'AND ref_id = '.$ilDB->quote($ref_id, 'integer');
+			$res = $ilDB->query($query);
+			$operations = array();
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$operations = unserialize($row['ops_id']);
+			}
 			if(!is_array($operations)) $operations = array();
-			$mtgr_permission = ilRbacReview::_getOperationIdsByName(array('mail_to_global_roles'));
-			if(!is_array($mtgr_permission)) $mtgr_permission = array();
+
 			$permissions = array_unique(array_merge($operations, $mtgr_permission));
-			$rbacadmin->grantPermission($role, $permissions, $ref_id);
+
+			// convert all values to integer
+			foreach($permissions as $key => $operation)
+			{
+				$permissions[$key] = (int)$operation;
+			}
+
+			// Serialization des ops_id Arrays
+			$ops_ids = serialize($permissions);
+
+			$query = 'DELETE FROM rbac_pa '
+			       . 'WHERE rol_id = %s '
+			       . 'AND ref_id = %s';
+			$res = $ilDB->queryF(
+				$query, array('integer', 'integer'),
+				array($role, $ref_id)
+			);
+			
+			if(!count($permissions))
+			{
+				continue;
+			}
+
+			$ilDB->insert('rbac_pa',
+				array(
+					'rol_id' => array('integer', $role),
+					'ops_id' => array('text', $ops_ids),
+					'ref_id' => array('integer', $ref_id)
+				)
+			);
 		}
 	}
 ?>
