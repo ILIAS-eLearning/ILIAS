@@ -30,6 +30,8 @@ HTTP_Request		1.4.4
 	Net_URL			>= 1.0.12
 	Net_Socket		>= 1.0.7		 
 
+ Mail:				1.2.0
+
 Patches:
 
 PEAR only the files PEAR.php and PEAR/FixPHP5PEARWarnings.php are hold in this package. Check includes 
