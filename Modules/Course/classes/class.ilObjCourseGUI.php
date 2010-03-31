@@ -4138,7 +4138,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function mailMembersObject()
 	{
-		global $rbacreview, $ilErr, $ilAccess, $ilObjDataCache;			
+		global $rbacreview, $ilErr, $ilAccess, $ilObjDataCache, $ilias;
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 
@@ -4195,11 +4195,20 @@ class ilObjCourseGUI extends ilContainerGUI
 					break;
 			}
 		}
+		
 		ksort($sorted_role_ids,SORT_NUMERIC);
 		foreach ((array) $sorted_role_ids as $role_id)
 		{
 			$this->tpl->setCurrentBlock("mailbox_row");
 			$role_addr = $rbacreview->getRoleMailboxAddress($role_id);
+
+			// check if role title is unique. if not force use pear mail for roles
+			$ids_for_role_title = ilObject::_getIdsForTitle(ilObject::_lookupTitle($role_id), 'role');
+			if(count($ids_for_role_title) >= 2)
+			{
+				$ilias->setSetting('pear_mail_enable',true);
+			}
+			
 			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
 					htmlspecialchars($role_addr)
 			));

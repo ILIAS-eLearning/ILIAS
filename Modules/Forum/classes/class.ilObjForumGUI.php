@@ -2682,7 +2682,7 @@ class ilObjForumGUI extends ilObjectGUI
 						}
 
 						$tpl->setVariable('POST_UPDATE', $lng->txt('edited_at').': '.
-							$node->getChangeDate().' - '.strtolower($lng->txt('by')).' '.$edited_author);
+							$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')).' '.$edited_author);
 
 					} // if ($node->getUpdateUserId() > 0)					
 
