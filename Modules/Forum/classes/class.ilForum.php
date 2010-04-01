@@ -2630,7 +2630,7 @@ class ilForum
 								$this->ilias->ini->readVariable('client', 'name'),
 								ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
 
-		$message .= $this->lng->txt('forums_post_activation_mail')."\n\n";;
+		$message .= $this->lng->txt('forums_post_activation_mail')."\n\n";
 		
 		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
 		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
