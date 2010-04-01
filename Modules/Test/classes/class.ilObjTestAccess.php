@@ -150,8 +150,11 @@ class ilObjTestAccess extends ilObjectAccess
 				array($user_id, $a_obj_id)
 			);
 			$row = $ilDB->fetchAssoc($result);
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			assQuestion::_updateTestResultCache($row['active_id']);
+			if ($row['active_id'] > 0)
+			{
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				assQuestion::_updateTestResultCache($row['active_id']);
+			}
 		}
 		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
 			array('integer','integer'),
