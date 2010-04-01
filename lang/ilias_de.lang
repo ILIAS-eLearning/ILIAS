@@ -3,13 +3,13 @@
 /**
 * ILIAS language file (All entries)
 *
-* @module		language file German
+* @module			language file German
 * @modulegroup		language
-* @author		Matthias Kunkel <mkunkel@uni-koeln.de>
-* @version		$Id$
+* @author			Matthias Kunkel <mkunkel@uni-koeln.de>
+* @version			$Id$
 * @il_server		http://localhost:8888/ilias-trunk
 * @il_version		4.1.0 pre-alpha
-* @created		2010-03-24 16:42:32
+* @created			2010-03-24 16:42:32
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
@@ -1934,7 +1934,7 @@ common#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
 common#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#cat_create_mcst#:#Neuen Mediacast anlegen
-common#:#cat_create_mep#:#Neuen Media-Pool anlegen
+common#:#cat_create_mep#:#Neuen Medienpool anlegen
 common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
@@ -2093,7 +2093,7 @@ common#:#cont_object#:#Objekt
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
-common#:#container_no_items#:#No items found
+common#:#container_no_items#:#Keine Objekte gefunden
 common#:#content#:#Inhalt
 common#:#content_frame#:#Rahmen Inhalt
 common#:#content_styles#:#Content-Styles
@@ -2165,7 +2165,7 @@ common#:#crs_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#crs_create_mcst#:#Neuen Mediacast anlegen
-common#:#crs_create_mep#:#Neuen Media-Pool anlegen
+common#:#crs_create_mep#:#Neuen Medienpool anlegen
 common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
@@ -2579,7 +2579,7 @@ common#:#fold_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
 common#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#fold_create_mcst#:#Neuen Mediacast anlegen
-common#:#fold_create_mep#:#Neuen Media-Pool anlegen
+common#:#fold_create_mep#:#Neuen Medienpool anlegen
 common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#fold_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
@@ -2765,7 +2765,7 @@ common#:#grp_create_htlm#:#Neues HTML-Lernmodul anlegen
 common#:#grp_create_icrs#:#Neues LearnLinc-Seminar anlegen
 common#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
 common#:#grp_create_mcst#:#Neuen Mediacast anlegen
-common#:#grp_create_mep#:#Neuen Media-Pool anlegen
+common#:#grp_create_mep#:#Neuen Medienpool anlegen
 common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
 common#:#grp_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
@@ -3398,17 +3398,17 @@ common#:#member_status#:#Status der Mitgliedschaft
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
 common#:#membership_leave#:#Abmelden
-common#:#mep#:#Media-Pool
-common#:#mep_add#:#Media-Pool hinzufügen
-common#:#mep_added#:#Media-Pool hinzugefügt
-common#:#mep_delete#:#Media-Pool gelöscht
-common#:#mep_edit#:#Eigenschaften des Media-Pools bearbeiten
+common#:#mep#:#Medienpool
+common#:#mep_add#:#Medienpool hinzufügen
+common#:#mep_added#:#Medienpool hinzugefügt
+common#:#mep_delete#:#Medienpool gelöscht
+common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
 common#:#mep_edit_permission#:#Rechteeinstellungen ändern
-common#:#mep_new#:#Neuer Media-Pool
+common#:#mep_new#:#Neuer Medienpool
 common#:#mep_not_insert_already_exist#:#Die folgenden Objekte wurden nicht hinzugefügt, da sie bereits im Medienpool enthalten sind.
-common#:#mep_read#:#Inhalt des Media-Pools lesen
-common#:#mep_visible#:#Media-Pool ist sichtbar
-common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
+common#:#mep_read#:#Inhalt des Medienpools lesen
+common#:#mep_visible#:#Medienpool ist sichtbar
+common#:#mep_write#:#Inhalt des Medienpools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
@@ -3727,7 +3727,7 @@ common#:#obj_mail_desc#:#Globale Mailkonfiguration
 common#:#obj_mcst#:#MediaCast
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacasts
-common#:#obj_mep#:#Media-Pool
+common#:#obj_mep#:#Medienpool
 common#:#obj_mob#:#Medienobjekt
 common#:#obj_mobs#:#Medienobjekte und -pools
 common#:#obj_mobs_desc#:#Einstellungen für Medienobjekte und -pools
@@ -3839,7 +3839,7 @@ common#:#objs_lo#:#Lernobjekte
 common#:#objs_lres#:#Lernmaterialien
 common#:#objs_mail#:#Mail
 common#:#objs_mcst#:#Mediacasts
-common#:#objs_mep#:#Media-Pools
+common#:#objs_mep#:#Medienpools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
@@ -5217,12 +5217,12 @@ content#:#cont_Media#:#Medien (Standard)
 content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
 content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
 content#:#cont_media_source#:#Medienquelle
-content#:#cont_mep_structure#:#Struktur Media-Pool
+content#:#cont_mep_structure#:#Struktur Medienpool
 content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_mob_def_prop#:#Standardeinstellungen
 content#:#cont_mob_files#:#Objektdateien
-content#:#cont_mob_from_media_pool#:#Aus Media-Pool auswählen
+content#:#cont_mob_from_media_pool#:#Aus Medienpool auswählen
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Objekteigenschaften
 content#:#cont_mob_usages#:#Nutzung
@@ -5396,10 +5396,10 @@ content#:#cont_score#:#Punkte
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select#:#Auswählen
 content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
-content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
+content#:#cont_select_item#:#Bitte wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
-content#:#cont_select_media_pool#:#Media-Pool auswählen
+content#:#cont_select_media_pool#:#Medienpool auswählen
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
 content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
@@ -7382,7 +7382,7 @@ mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen Mediacast
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
-mcst#:#mcst_standard_title#:#Standard Media File
+mcst#:#mcst_standard_title#:#Standard-Mediendatei
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video Format
@@ -7393,7 +7393,7 @@ mcst#:#mcst_visibility_users#:#Öffentlich
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_content_snippet_in_use#:#Textelement '%s' wird verwendet und kann daher nicht gelöscht werden.
-mep#:#mep_copy_to_mep#:#In Mediapool kopieren
+mep#:#mep_copy_to_mep#:#In Medienpool kopieren
 mep#:#mep_create_content_snippet#:#Inhaltsbaustein erzeugen
 mep#:#mep_create_folder#:#Ordner anlegen
 mep#:#mep_create_mob#:#Medienobjekt anlegen
@@ -7868,7 +7868,7 @@ meta#:#meta_l_mt#:#Maltesisch
 meta#:#meta_l_my#:#Burmesisch
 meta#:#meta_l_na#:#Nauruisch
 meta#:#meta_l_ne#:#Nepalesisch
-meta#:#meta_l_nl#:#Holländisch
+meta#:#meta_l_nl#:#Niederländisch
 meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#Okzitanisch
 meta#:#meta_l_om#:#Oromo
@@ -8812,7 +8812,7 @@ rbac#:#root_create_htlm#:#Neues HTML-Lernmodul anlegen
 rbac#:#root_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
-rbac#:#root_create_mep#:#Neuen Media-Pool anlegen
+rbac#:#root_create_mep#:#Neuen Medienpool anlegen
 rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
 rbac#:#root_create_rcrs#:#Neuen Kurslink anlegen
 rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
@@ -10264,24 +10264,24 @@ auth#:#auth_openid_uncontrolled_selection_info#:#Wenn aktiviert, können beliebi
 auth#:#auth_openid_login_info_a#:#Bitte geben Sie Ihren OpenID-Benutzernamen ein und wählen Sie den zugehörigen Anbieter aus.
 content#:#cont_localfile#:#Lokale Datei
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
-exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
-common#:#option#:#Option###26 03 2010 new variable
-mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
-mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
+exp#:#exp_export_files#:#Exportdateien
+common#:#option#:#Option
+mep#:#mep_create#:#Neuen Medienpool anlegen
+mep#:#mep_clone#:#Bestehenden Medienpool kopieren
 mep#:#mep_import#:#Medienpool importieren
 common#:#columns#:#Spalten
 exp#:#exp_create_file#:#Exportdatei erzeugen
 exp#:#exp_xml#:#XML
 exp#:#exp_html#:#HTML
 exp#:#exp_scorm#:#SCORM
-exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
-exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
-common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
-content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
-content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
+exp#:#exp_really_delete#:#Möchten Sie diese Exportdateien wirklich löschen?
+exp#:#exp_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
+common#:#hide_filter#:#Filter ausblenden
+content#:#cont_glo_create#:#Neues Glossar anlegen
+content#:#cont_glo_assign#:#Glossar zuweisen
 content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
-content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
+content#:#glo_usages#:#Glossar wird verwendet in...
+common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das Setup!
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_enabled#:#Änderungen durch den Client zugelassen
 common#:#session_config_maintenance_disabled#:#Änderungen durch den Client nicht zugelassen
