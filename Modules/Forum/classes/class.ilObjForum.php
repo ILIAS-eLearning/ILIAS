@@ -533,67 +533,34 @@ class ilObjForum extends ilObject
 		$this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
 		
 		$topData = $this->Forum->getOneTopic();
-		
+
 		$nextId = $ilDB->nextId('frm_data');
-		
-		$statement = $ilDB->manipulateF('
-			INSERT INTO frm_data 
-			(	top_pk,
-				top_frm_fk,
-				top_name,
-				top_description,
-				top_num_posts,
-				top_num_threads,
-				top_last_post,
-				top_mods,
-				top_date,
-				visits,
-				top_update,
-				update_user,
-				top_usr_id
-			)
-			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )', 
-				array(	'integer',
-						'integer', 
-						'text', 
-						'text', 
-						'integer', 
-						'integer',
-						'text', 
-						'integer', 
-						'timestamp',
-						'integer', 
-						'timestamp',
-						'integer', 
-						'integer'
-				),
-				array(	$nextId,
-						$new_obj->getId(),
-						$topData['top_name'],
-						$topData['top_description'],
-						'0',
-						'0',
-						NULL,
-						ilObjForum::_lookupModeratorRole($new_obj->getRefId()),
-						date('Y-m-d H:i:s', time()),
-						'0',
-						date('Y-m-d H:i:s', time()),
-						'0',
-						$ilUser->getId())
-		);
-		
+
+		$statement = $ilDB->insert('frm_data', array(
+			'top_pk'		=> array('integer', $nextId),
+			'top_frm_fk'	=> array('integer', $new_obj->getId()),
+			'top_name'		=> array('text', $topData['top_name']),
+			'top_description' => array('text', $topData['top_description']),
+			'top_num_posts' => array('integer', $topData['top_num_posts']),
+			'top_num_threads' => array('integer', $topData['top_num_threads']),
+			'top_last_post' => array('text', $topData['top_last_post']),
+			'top_mods'		=> array('integer', $topData['top_mods']),
+			'top_date'		=> array('timestamp', $topData['top_date']),
+			'visits'		=> array('integer', $topData['visits']),
+			'top_update'	=> array('timestamp', $topData['top_update']),
+			'update_user'	=> array('integer', $topData['update_user']),
+			'top_usr_id'	=> array('integer', $topData['top_usr_id'])
+		));
 		
 		// read options
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$options = $cwo->getOptions($this->getRefId());
 
+		$options['threads'] = $this->Forum->_getThreads($this->getId());
+
 		// Generate starting threads
-		if(!is_array($options['threads']))
-		{
-			return $new_obj;
-		}
-		
 		include_once('Modules/Forum/classes/class.ilFileDataForum.php');
 		
 		$new_frm = $new_obj->Forum;
@@ -601,14 +568,13 @@ class ilObjForum extends ilObject
 				
 		$new_frm->setForumId($new_obj->getId());
 		$new_frm->setForumRefId($new_obj->getRefId());
+	
 		$new_topic = $new_frm->getOneTopic();
-		foreach($options['threads'] as $thread_id)
+		foreach($options['threads'] as $thread_id=>$thread_subject)
 		{
 			$this->Forum->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($thread_id));			
 			
 			$old_thread = $this->Forum->getOneThread();
-			
-			
 			
 			$old_post_id = $this->Forum->getFirstPostByThread($old_thread['thr_pk']);
 			$old_post = $this->Forum->getOnePost($old_post_id);
