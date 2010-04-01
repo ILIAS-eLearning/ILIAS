@@ -135,64 +135,91 @@ class ilObjTestAccess extends ilObjectAccess
 	* @param int $a_obj_id The object id
 	* @return boolean TRUE if the user passed the test, FALSE otherwise
 	*/
-	function _isPassed($user_id, $a_obj_id)
+	public static function _isPassed($user_id, $a_obj_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
+		
+		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
 			array('integer','integer'),
 			array($user_id, $a_obj_id)
 		);
-		$points = array();
-		while ($row = $ilDB->fetchAssoc($result))
+		if (!$result->numRows())
 		{
-			array_push($points, $row);
+			$result = $ilDB->queryF("SELECT tst_active.active_id FROM tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
+				array('integer','integer'),
+				array($user_id, $a_obj_id)
+			);
+			$row = $ilDB->fetchAssoc($result);
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			assQuestion::_updateTestResultCache($row['active_id']);
 		}
-		$reached = 0;
-		$max = 0;
-		if ($points[0]["pass_scoring"] == 0)
+		$result = $ilDB->queryF("SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
+			array('integer','integer'),
+			array($user_id, $a_obj_id)
+		);
+		if (!$result->numRows())
 		{
-			$reached = $points[count($points)-1]["points"];
-			$max = $points[count($points)-1]["maxpoints"];
-			if (!$max)
+			$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
+				array('integer','integer'),
+				array($user_id, $a_obj_id)
+			);
+			$points = array();
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$active_id = $points[count($points)-1]["active_fi"];
-				$pass = $points[count($points)-1]["pass"];
-				if (strlen($active_id) && strlen($pass))
+				array_push($points, $row);
+			}
+			$reached = 0;
+			$max = 0;
+			if ($points[0]["pass_scoring"] == 0)
+			{
+				$reached = $points[count($points)-1]["points"];
+				$max = $points[count($points)-1]["maxpoints"];
+				if (!$max)
 				{
-					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-					$res = assQuestion::_updateTestPassResults($active_id, $pass);
-					$max = $res['maxpoints'];
-					$reached = $res['points'];
+					$active_id = $points[count($points)-1]["active_fi"];
+					$pass = $points[count($points)-1]["pass"];
+					if (strlen($active_id) && strlen($pass))
+					{
+						include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+						$res = assQuestion::_updateTestPassResults($active_id, $pass);
+						$max = $res['maxpoints'];
+						$reached = $res['points'];
+					}
 				}
 			}
-		}
-		else
-		{
-			foreach ($points as $row)
+			else
 			{
-				if ($row["points"] > $reached) 
+				foreach ($points as $row)
 				{
-					$reached = $row["points"];
-					$max = $row["maxpoints"];
-					if (!$max)
+					if ($row["points"] > $reached) 
 					{
-						$active_id = $row["active_fi"];
-						$pass = $row["pass"];
-						if (strlen($active_id) && strlen($pass))
+						$reached = $row["points"];
+						$max = $row["maxpoints"];
+						if (!$max)
 						{
-							include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-							assQuestion::_updateTestPassResults($active_id, $pass);
-							$max = $res['maxpoints'];
-							$reached = $res['points'];
+							$active_id = $row["active_fi"];
+							$pass = $row["pass"];
+							if (strlen($active_id) && strlen($pass))
+							{
+								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+								assQuestion::_updateTestPassResults($active_id, $pass);
+								$max = $res['maxpoints'];
+								$reached = $res['points'];
+							}
 						}
 					}
 				}
 			}
+			include_once "./Modules/Test/classes/class.assMarkSchema.php";
+			$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+			$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
+			return ($mark["passed"]) ? TRUE : FALSE;
 		}
-		include_once "./Modules/Test/classes/class.assMarkSchema.php";
-		$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
-		$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
-		return ($mark["passed"]) ? TRUE : FALSE;
+		else
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return ($row['passed']) ? true : false;
+		}
 	}
 
 	/**
@@ -624,86 +651,40 @@ function _getQuestionCount($test_id)
 
 		$passed_users = array();
 		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
-		$userresult = $ilDB->queryF("SELECT tst_active.user_fi FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
+		$userresult = $ilDB->queryF("SELECT DISTINCT(tst_active.active_id) FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
 			array('integer'),
 			array($a_obj_id)
 		);
-		if ($userresult->numRows())
+		$all_participants = array();
+		while ($row = $ilDB->fetchAssoc($userresult))
 		{
-			while ($userrow = $ilDB->fetchAssoc($userresult))
+			array_push($all_participants, $row['active_id']);
+		}
+		
+		$result = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM tst_result_cache, tst_active WHERE tst_active.active_id = tst_result_cache.active_fi AND " . $ilDB->in('active_fi', $all_participants, false, 'integer'));
+		$found_all = ($result->numRows() == count($all_participants)) ? true : false;
+		if (!$found_all)
+		{
+			// if the result cache entries do not exist, create them
+			$found_participants = array();
+			while ($data = $ilDB->fetchAssoc($result))
 			{
-				$user_id = $userrow["user_fi"];
-				// Is it possible to replace this with "SELECT ... AND tst_active.user_fi IN(1,2,3...)
-				// Thus the number of queries would be reduced by thousands for a course with e.g 200 participants and 10 tests.  
-				$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
-					array('integer','integer'),
-					array($user_id, $a_obj_id)
-				);
-				$points = array();
-				while ($row = $ilDB->fetchAssoc($result))
-				{
-					array_push($points, $row);
-				}
-				// $points is empty if the number of tries in tst_active is zero!
-				// Mostly seen for the ANONYMOUS_USER_ID, but also for others.
-				$reached = 0;
-				$max = 0;
-				if ($points[0]["pass_scoring"] == 0)
-				{
-					$reached = $points[count($points)-1]["points"];
-					$max = $points[count($points)-1]["maxpoints"];
-					if (!$max)
-					{
-						$active_id = $points[count($points)-1]["active_fi"];
-						$pass = $points[count($points)-1]["pass"];
-						if (strlen($active_id) && strlen($pass))
-						{
-							include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-							$res = assQuestion::_updateTestPassResults($active_id, $pass);
-							$max = $res['maxpoints'];
-							$reached = $res['points'];
-						}
-					}
-				}
-				else
-				{
-					foreach ($points as $row)
-					{
-						if ($row["points"] > $reached) 
-						{
-							$reached = $row["points"];
-							$max = $row["maxpoints"];
-							if (!$max)
-							{
-								$active_id = $row["active_fi"];
-								$pass = $row["pass"];
-								if (strlen($active_id) && strlen($pass))
-								{
-									include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-									assQuestion::_updateTestPassResults($active_id, $pass);
-									$max = $res['maxpoints'];
-									$reached = $res['points'];
-								}
-							}
-						}
-					}
-				}
-				include_once "./Modules/Test/classes/class.assMarkSchema.php";
-				$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
-				// Is it possible to move this out of the foreach?
-				$mark = ASS_MarkSchema::_getMatchingMarkFromObjId($a_obj_id, $percentage);
-				array_push($passed_users, 
-					array(
-						"user_id" => $user_id,
-						"max_points" => $max,
-						"reached_points" => $reached,
-						"mark_short" => $mark["short_name"],
-						"mark_official" => $mark["official_name"],
-						"passed" => ($mark["passed"]) ? TRUE : FALSE,
-						"failed" => (!$mark["passed"]) ? TRUE : FALSE
-					)
-				);
+				array_push($found_participants, $data['active_fi']);
 			}
+			foreach ($all_participants as $active_id)
+			{
+				if (!in_array($active_id, $found_participants))
+				{
+					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+					assQuestion::_updateTestResultCache($active_id);
+				}
+			}
+			$result = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM tst_result_cache, tst_active WHERE tst_active.active_id = tst_result_cache.active_fi AND " . $ilDB->in('active_fi', $all_participants, false, 'integer'));
+		}
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			$data['user_id'] = $data['user_fi'];
+			array_push($passed_users, $data);
 		}
 		return $passed_users;
 	}
