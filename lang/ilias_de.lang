@@ -10300,3 +10300,4 @@ common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist 
 common#:#mail_no_valid_group_role#:#Diese Rolle existiert nicht.
 payment#:#paya_bill_history#:#Rechnungs-Historie
 assessment#:#tst_search_users#:#Feste Teilnehmer hinzufügen
+survey#:#svy_search_users#:#NutzerInnen suchen
