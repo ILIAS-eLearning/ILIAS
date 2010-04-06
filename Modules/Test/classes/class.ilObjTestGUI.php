@@ -33,6 +33,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -183,6 +184,21 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 				
+			case 'ilrepositorysearchgui':
+				$this->prepareOutput();
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,
+					'addParticipantsObject',
+					array(
+						)
+					);
+
+				// Set tabs
+				$this->ctrl->setReturn($this,'participants');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				$this->tabs_gui->setTabActive('participants');
+				break;
 
 			default:
 				$this->prepareOutput();
@@ -1262,6 +1278,19 @@ class ilObjTestGUI extends ilObjectGUI
 		$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
 		$form->addItem($restrictions);
 
+		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
+		$fixedparticipants->setValue(1);
+		$fixedparticipants->setChecked($this->object->getFixedParticipants());
+		$fixedparticipants->setOptionTitle($this->lng->txt("tst_allow_fixed_participants"));
+		$fixedparticipants->setInfo($this->lng->txt("participants_invitation_description"));
+		$invited_users = $this->object->getInvitedUsers();
+		if ($total && (count($invited_users) == 0))
+		{
+			$fixedparticipants->setDisabled(true);
+		}
+		$form->addItem($fixedparticipants);
+
+
 		// simultaneous users
 		$simul = new ilTextInputGUI($this->lng->txt("tst_allowed_users"), "allowedUsers");
 		$simul->setSize(3);
@@ -1437,6 +1466,28 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setUsePreviousAnswers(0);
 			}
 
+			$invited_users = $this->object->getInvitedUsers();
+			if (!($total && (count($invited_users) == 0)))
+			{
+				$fixed_participants = 0;
+				if (array_key_exists("fixedparticipants", $_POST))
+				{
+					if ($_POST["fixedparticipants"])
+					{
+						$fixed_participants = 1;
+					}
+				}
+				$this->object->setFixedParticipants($fixed_participants);
+				if (!$fixed_participants)
+				{
+					$invited_users = $this->object->getInvitedUsers();
+					foreach ($invited_users as $user_object)
+					{
+						$this->object->disinviteUser($user_object["usr_id"]);
+					}
+				}
+			}
+
 			$this->object->saveToDb(true);
 
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -1451,6 +1502,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->removeRandomTestData();
 				}
 			}
+
 			$this->ctrl->redirect($this, 'properties');
 		}
 	}
@@ -2864,305 +2916,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
  /**
-	* Cancels the change of the fixed participants status when fixed participants already exist
-	*/
-	public function cancelFixedParticipantsStatusChangeObject()
-	{
-		$this->ctrl->redirect($this, "inviteParticipants");
-	}
-	
- /**
-	* Confirms the change of the fixed participants status when fixed participants already exist
-	*/
-	public function confirmFixedParticipantsStatusChangeObject()
-	{
-		$fixed_participants = 0;
-		$invited_users = $this->object->getInvitedUsers();
-		foreach ($invited_users as $user_object)
-		{
-			$this->object->disinviteUser($user_object["usr_id"]);
-		}
-		$this->object->setFixedParticipants($fixed_participants);
-		$this->object->saveToDb();
-		$this->ctrl->redirect($this, "inviteParticipants");
-	}
-	
- /**
-	* Shows a confirmation dialog to remove fixed participants from the text
-	*/
-	public function confirmFixedParticipantsStatusChange()
-	{
-		ilUtil::sendQuestion($this->lng->txt("tst_fixed_participants_disable_description"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'confirmFixedParticipantsStatusChange'));
-
-		// cancel/confirm button
-		$buttons = array( "confirmFixedParticipantsStatusChange"  => $this->lng->txt("proceed"),
-			"cancelFixedParticipantsStatusChange"  => $this->lng->txt("cancel"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-	
- /**
-	* Saves the status change of the fixed participants status
-	*/
-	public function saveFixedParticipantsStatusObject()
-	{
-		$fixed_participants = 0;
-		if (array_key_exists("chb_fixed_participants", $_POST))
-		{
-			if ($_POST["chb_fixed_participants"])
-			{
-				$fixed_participants = 1;
-			}
-		}
-		$invited_users = $this->object->getInvitedUsers();
-		if ($this->object->getFixedParticipants() && !$fixed_participants && count($invited_users))
-		{
-			$this->confirmFixedParticipantsStatusChange();
-		}
-		else
-		{
-			$this->object->setFixedParticipants($fixed_participants);
-			$this->object->saveToDb();
-			$this->ctrl->redirect($this, "inviteParticipants");
-		}
-	}
-	
- /**
-	* Creates the output for user/group invitation to a test
-	*/
-	public function inviteParticipantsObject()
-	{
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-
-		$total = $this->object->evalTotalPersons();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_fixed_users.html", "Modules/Test");
-		$search_for = array();
-		$search_term = strlen($_POST["search_term"]) ? $_POST["search_term"] : $_GET["search_term"];
-		$concatenation = strlen($_POST["concatenation"]) ? $_POST["concatenation"] : $_GET["concatenation"];
-		if (is_array($_POST['search_for']))
-		{
-			$search_for = $_POST['search_for'];
-		}
-		else
-		{
-			if ($_GET['search_for_usr']) array_push($search_for, 'usr');
-			if ($_GET['search_for_grp']) array_push($search_for, 'grp');
-			if ($_GET['search_for_role']) array_push($search_for, 'role');
-		}
-		$this->ctrl->setParameter($this, 'concatenation', $concatenation);
-		$this->ctrl->setParameter($this, 'search_term', $search_term);
-		foreach ($search_for as $type)
-		{
-			$this->ctrl->setParameter($this, 'search_for_' . $type, $type);
-		}
-
-		if ($_POST["cmd"]["cancel"])
-		{
-			$this->backToRepositoryObject();
-		}
-
-		if (count($search_for))
-		{
-			$this->tpl->setCurrentBlock("search_results_title");
-			$this->tpl->setVariable("TEXT_SEARCH_RESULTS", $this->lng->txt("search_results"));
-			$this->tpl->parseCurrentBlock();
-			if (in_array("usr", $search_for) or in_array("grp", $search_for) or in_array("role", $search_for))
-			{
-				include_once './classes/class.ilSearch.php';
-				$search =& new ilSearch($ilUser->id);
-				$search->setSearchString($search_term);
-				$search->setCombination($concatenation);
-				$search->setSearchFor($search_for);
-				$search->setSearchType("new");
-				if($search->validate($message))
-				{
-					$search->performSearch();
-				}
-				if ($message)
-				{
-					ilUtil::sendInfo($message);
-				}
-				
-				if(!$search->getNumberOfResults() && $search->getSearchFor())
-				{
-					ilUtil::sendInfo($this->lng->txt("search_no_match"));
-				}
-				$buttons = array("add");
-
-				$invited_users =& $this->object->getInvitedUsers();
-			
-				if ($searchresult = $search->getResultByType("usr"))
-				{
-					$users = array();
-					foreach ($searchresult as $result_array)
-					{
-						if (!array_key_exists($result_array["id"], $invited_users))
-						{
-							array_push($users, $result_array["id"]);
-						}
-					}
-					
-					$users = $this->object->getUserData($users);
-					
-					if (count ($users))
-					{
-						include_once "./Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php";
-						$table_gui = new ilTestInviteUsersTableGUI($this, 'inviteParticipants');
-						$table_gui->setData($users);
-						$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
-					}
-				}
-
-				$searchresult = array();
-				
-				if ($searchresult = $search->getResultByType("grp"))
-				{
-					$groups = array();
-					
-					foreach ($searchresult as $result_array)
-					{							
-						array_push($groups, $result_array["id"]);
-					}
-					$groups = $this->object->getGroupData ($groups);
-					
-					if (count ($groups))
-					{
-						include_once "./Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php";
-						$table_gui = new ilTestInviteGroupsTableGUI($this, 'inviteParticipants');
-						$table_gui->setData($groups);
-						$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
-					}
-				}
-				
-				$searchresult = array();
-				
-				if ($searchresult = $search->getResultByType("role"))
-				{
-					$roles = array();
-					
-					foreach ($searchresult as $result_array)
-					{							
-						array_push($roles, $result_array["id"]);
-					}
-					
-					$roles = $this->object->getRoleData($roles);
-							
-					if (count ($roles))
-					{
-						include_once "./Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php";
-						$table_gui = new ilTestInviteRolesTableGUI($this, 'inviteParticipants');
-						$table_gui->setData($roles);
-						$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
-					}
-				}
-				
-			}
-			
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
-		}
-		
-		if ($_POST["cmd"]["save"])
-		{
-			$this->object->saveToDb();
-		}
-		$invited_users = $this->object->getInvitedUsers();
-
-		$buttons = array("save","remove");
-		
-		if ($this->object->getFixedParticipants())
-		{
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
-			{
-				$this->tpl->setCurrentBlock("invitation");
-				$this->tpl->setVariable("FORM_ACTION_INVITATION", $this->ctrl->getFormAction($this));
-				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
-				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
-				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
-				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
-				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
-				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
-				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
-				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
-				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-				$this->tpl->setVariable("VALUE_SEARCH_TERM", $search_term);
-				if (is_array($search_for))
-				{
-					if (in_array("usr", $search_for))
-					{
-						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
-					}
-					if (in_array("grp", $search_for))
-					{
-						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
-					}
-					if (in_array("role", $search_for))
-					{
-						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
-					}
-				}
-				else
-				{
-					$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
-				}
-				if (strcmp($concatenation, "and") == 0)
-				{
-					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
-				}
-				else
-				{
-					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
-				}
-				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
-				$this->tpl->setVariable("SEARCH_INTRODUCTION", $this->lng->txt("participants_invitation_search_introduction"));
-				$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
-				$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
-				$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
-				$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_ALLOW_FIXED_PARTICIPANTS", $this->lng->txt("tst_allow_fixed_participants"));
-		$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TEXT_FIXED_PARTICIPANTS", $this->lng->txt("participants_invitation"));
-		$this->tpl->setVariable("TEXT_FIXED_PARTICIPANTS_DESCRIPTION", $this->lng->txt("participants_invitation_description"));
-		if ($this->object->getFixedParticipants())
-		{
-			$this->tpl->setVariable("CHECKED_FIXED_PARTICIPANTS", " checked=\"checked\"");
-		}
-		if ($total && (count($invited_users) == 0))
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_fixed_participants_data_exists"));
-			$this->tpl->setVariable("DISABLED_FIXED_PARTICIPANTS", " disabled=\"disabled\"");
-		}
-
-		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		}
-		$this->tpl->parseCurrentBlock();
-	}
-	
- /**
 	* Evaluates the actions on the participants page
 	*
 	* @access	public
@@ -3189,7 +2942,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function participantsObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilToolbar;
+		
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
@@ -3199,6 +2953,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($this->object->getFixedParticipants())
 		{
+			// search button
+			$ilToolbar->addButton($this->lng->txt("tst_search_users"),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+
+
 			$participants =& $this->object->getInvitedUsers();
 			$rows = array();
 			foreach ($participants as $data)
@@ -3482,13 +3241,11 @@ class ilObjTestGUI extends ilObjectGUI
 	function addParticipantsObject()
 	{
 		$countusers = 0;
-		$countgroups = 0;
-		$countroles = 0;
 		// add users 
-		if (is_array($_POST["user_select"]))
+		if (is_array($_POST["user"]))
 		{
 			$i = 0;
-			foreach ($_POST["user_select"] as $user_id)
+			foreach ($_POST["user"] as $user_id)
 			{
 				$client_ip = $_POST["client_ip"][$i];
 				$this->object->inviteUser($user_id, $client_ip);
@@ -3496,38 +3253,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$i++;
 			}
 		}
-		// add groups members
-		if (is_array($_POST["group_select"]))
-		{
-			foreach ($_POST["group_select"] as $group_id)
-			{
-				$this->object->inviteGroup($group_id);
-				$countgroups++;
-			}
-		}
-		// add role members
-		if (is_array($_POST["role_select"]))
-		{
-			foreach ($_POST["role_select"] as $role_id)
-			{
-				$this->object->inviteRole($role_id);
-				$countroles++;
-			}
-		}
 		$message = "";
 		if ($countusers)
 		{
 			$message = $this->lng->txt("tst_invited_selected_users");
-		}
-		if ($countgroups)
-		{
-			if (strlen($message)) $message .= "<br />";
-			$message = $this->lng->txt("tst_invited_selected_groups");
-		}
-		if ($countroles)
-		{
-			if (strlen($message)) $message .= "<br />";
-			$message = $this->lng->txt("tst_invited_selected_roles");
 		}
 		if (strlen($message))
 		{
@@ -3538,17 +3267,10 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
 		}
 		
-		$this->ctrl->redirect($this, "inviteParticipants");
-	}
-	
-	function searchParticipantsObject()
-	{
-		$this->inviteParticipantsObject();
+		$this->ctrl->redirect($this, "participants");
 	}
 	
 	/**
-	* Displays the settings page for test defaults
-	*
 	* Displays the settings page for test defaults
 	*
 	* @access public
@@ -4187,7 +3909,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		switch ($this->ctrl->getCmd())
 		{
-			case "start":
 			case "resume":
 			case "previous":
 			case "next":
