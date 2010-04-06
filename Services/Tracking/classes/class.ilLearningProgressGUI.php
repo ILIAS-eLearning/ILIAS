@@ -11,6 +11,7 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 * @version $Id$
 *
 * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI,  ilLMStatisticsGUI
+* @ilCtrl_Calls ilLearningProgressGUI: ilTrackingGUI
 *
 */
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
@@ -72,6 +73,14 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->forwardCommand($los_gui);
 				break;
 				
+// New tracking table
+			case "iltrackinggui":
+				include_once("./Services/Tracking/classes/class.ilTrackingGUI.php");
+				$track_gui = new ilTrackingGUI();
+				// hack, should be controlled through calling class
+				$track_gui->setObjectId(ilObject::_lookupObjId($_GET["ref_id"]));
+				$this->ctrl->forwardCommand($track_gui);
+				break;
 
 			default:
 				die("No mode given");
