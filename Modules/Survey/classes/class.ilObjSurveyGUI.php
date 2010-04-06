@@ -32,6 +32,7 @@
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilRepositorySearchGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurvey
@@ -111,6 +112,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($eval_gui);
 				break;
 
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,
+					'inviteUserGroupObject',
+					array(
+						)
+					);
+
+				// Set tabs
+				$this->ctrl->setReturn($this, 'invite');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				$this->tabs_gui->setTabActive('invitation');
+				break;
+
 			case "ilsurveyexecutiongui":
 				include_once("./Modules/Survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
@@ -136,6 +152,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
+
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
 		{
@@ -1661,14 +1678,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Searches users for the invitation tab
-	*/
-	public function searchInvitationObject()
-	{
-		$this->inviteObject();
-	}
-
-	/**
 	* Disinvite users or groups from a survey
 	*/
 	public function disinviteUserGroupObject()
@@ -1692,28 +1701,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$invited = 0;
 		// add users to invitation
-		if (is_array($_POST["user_select"]))
+		if (is_array($_POST["user"]))
 		{
-			foreach ($_POST["user_select"] as $user_id)
+			foreach ($_POST["user"] as $user_id)
 			{
 				$this->object->inviteUser($user_id);
 				$invited++;
-			}
-		}
-		// add groups to invitation
-		if (is_array($_POST["group_select"]))
-		{
-			foreach ($_POST["group_select"] as $group_id)
-			{
-				$invited += $this->object->inviteGroup($group_id);
-			}
-		}
-		// add roles to invitation
-		if (is_array($_POST["role_select"]))
-		{
-			foreach ($_POST["role_select"] as $role_id)
-			{
-				$invited += $this->object->inviteRole($role_id);
 			}
 		}
 		if ($invited == 0)
@@ -1760,6 +1753,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		global $rbacsystem;
+		global $ilToolbar;
 
 		if ((!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
@@ -1813,154 +1807,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($this->object->getInvitation() && $this->object->getInvitationMode() == 1)
 		{
-			$searchform = new ilPropertyFormGUI();
-			$searchform->setFormAction($this->ctrl->getFormAction($this));
-			$searchform->setTableWidth("500");
-			$searchform->setId("search");
+			// search button
+			$ilToolbar->addButton($this->lng->txt("svy_search_users"),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 
-			// search form
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt("search_invitation"));
-			$searchform->addItem($header);
-
-			$param_search_term = (strlen($_POST['search_term'])) ? $_POST['search_term'] : $_GET['search_term'];
-			$param_concatenation = (strlen($_POST['concatenation'])) ? $_POST['concatenation'] : $_GET['concatenation'];
-			if (is_array($_POST['search_for']))
-			{
-				$param_search_for = $_POST['search_for'];
-			}
-			else
-			{
-				$param_search_for = array();
-				foreach ($_GET as $key => $value)
-				{
-					if (preg_match("/search_for_(\d+)/is", $key, $matches))
-					{
-						array_push($param_search_for, $value);
-					}
-				}
-			}
-		
-			// search term
-			$search_term = new ilTextInputGUI($this->lng->txt('search_term'), "search_term");
-			if (strlen($param_search_term)) $search_term->setValue($param_search_term);
-			$searchform->addItem($search_term);
-		
-			// concatenation
-			$concatenation = new ilRadioGroupInputGUI($this->lng->txt('concatenation'), "concatenation");
-			$concatenation->addOption(new ilRadioOption($this->lng->txt("or"), 'or', ''));
-			$concatenation->addOption(new ilRadioOption($this->lng->txt("and"), 'and', ''));
-			$concatenation->setValue((strlen($param_concatenation)) ? $param_concatenation : 'or');
-			$searchform->addItem($concatenation);
-		
-			// search for
-			$search_for = new ilCheckboxGroupInputGUI($this->lng->txt('search_for'), "search_for");
-			$search_for->addOption(new ilCheckboxOption($this->lng->txt("objs_usr"), 'usr', ''));
-			$search_for->addOption(new ilCheckboxOption($this->lng->txt("objs_grp"), 'grp', ''));
-			$search_for->addOption(new ilCheckboxOption($this->lng->txt("objs_role"), 'role', ''));
-			$search_for->setValue((is_array($param_search_for)) ? $param_search_for : array('usr'));
-			$searchform->addItem($search_for);
-		
-			$searchform->addCommandButton("searchInvitation", $this->lng->txt("search"));
 			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-
-			$this->tpl->setVariable("SEARCH_TABLE", $searchform->getHTML());
 
 			$invited_users = $this->object->getUserData($this->object->getInvitedUsers());
 			include_once "./Modules/Survey/classes/tables/class.ilSurveyInvitedUsersTableGUI.php";
 			$table_gui = new ilSurveyInvitedUsersTableGUI($this, 'invite');
 			$table_gui->setData($invited_users);
 			$this->tpl->setVariable('TBL_INVITED_USERS', $table_gui->getHTML());	
-			
-		}
-
-		$concat = ($param_concatenation) ? $param_concatenation : "or";
-		$searchfor = ($param_search_for) ? $param_search_for : array("usr");
-		if (strcmp($this->ctrl->getCmd(), "searchInvitation") == 0 || strlen($_GET['searchInvitation']))
-		{
-			$this->ctrl->setParameter($this, 'search_term', $param_search_term);
-			$this->ctrl->setParameter($this, 'concatenation', $param_concatenation);
-			$c = 0;
-			foreach ($searchfor as $param)
-			{
-				$this->ctrl->setParameter($this, 'search_for_' . $c, $param);
-				$c++;
-			}
-			$this->ctrl->setParameter($this, 'searchInvitation', 1);
-			
-			if (is_array($param_search_for))
-			{
-				if (in_array("usr", $searchfor) or in_array("grp", $searchfor) or in_array("role", $searchfor))
-				{
-					include_once "./classes/class.ilSearch.php";
-					$search =& new ilSearch($ilUser->id);
-					$search->setSearchString($param_search_term);
-					$search->setCombination($concat);
-					$search->setSearchFor($searchfor);
-					$search->setSearchType("new");
-					if($search->validate($message))
-					{
-						$search->performSearch();
-					}
-					if ($message)
-					{
-						ilUtil::sendInfo($message);
-					}
-					if(!$search->getNumberOfResults() && $search->getSearchFor())
-					{
-						ilUtil::sendFailure($this->lng->txt("search_no_match"));
-					}
-
-					if ($searchresult = $search->getResultByType("usr"))
-					{
-						$found = array();
-						foreach ($searchresult as $res)
-						{
-							array_push($found, $res['id']);
-						}
-						$users = $this->object->getUserData($found);
-						include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteUsersTableGUI.php";
-						$table_gui = new ilSurveyInviteUsersTableGUI($this, 'invite');
-						$table_gui->setData($users);
-						$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
-					}
-					$searchresult = array();
-					if ($searchresult = $search->getResultByType("grp"))
-					{
-						$found = array();
-						foreach ($searchresult as $res)
-						{
-							array_push($found, $res['id']);
-						}
-						$groups = $this->object->getGroupData($found);
-						include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteGroupsTableGUI.php";
-						$table_gui = new ilSurveyInviteGroupsTableGUI($this, 'invite');
-						$table_gui->setData($groups);
-						$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
-					}
-					$searchresult = array();
-					if ($searchresult = $search->getResultByType("role"))
-					{
-						$found = array();
-						foreach ($searchresult as $res)
-						{
-							array_push($found, $res['id']);
-						}
-						$roles = $this->object->getRoleData($found);
-						if (count($roles))
-						{
-							include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteRolesTableGUI.php";
-							$table_gui = new ilSurveyInviteRolesTableGUI($this, 'invite');
-							$table_gui->setData($roles);
-							$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
-						}
-					}
-				}
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("no_user_or_group_selected"));
-			}
 		}
 	}
 
@@ -3322,28 +3179,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilUser;
 		
-		switch ($this->ctrl->getCmd())
+		if (strcmp($this->ctrl->getNextClass(), 'ilrepositorysearchgui') != 0)
 		{
-			case "browseForQuestions":
-			case "browseForQuestionblocks":
-			case "insertQuestions":
-			case "filterQuestions":
-			case "resetFilterQuestions":
-			case "changeDatatype":
+			switch ($this->ctrl->getCmd())
+			{
+				case "browseForQuestions":
+				case "browseForQuestionblocks":
+				case "insertQuestions":
+				case "filterQuestions":
+				case "resetFilterQuestions":
+				case "changeDatatype":
 
-			case "start":
-			case "resume":
-			case "next":
-			case "previous":
-			case "redirectQuestion":
-				return;
-				break;
-			case "evaluation":
-			case "checkEvaluationAccess":
-			case "evaluationdetails":
-			case "evaluationuser":
-				$this->setEvalSubtabs();
-				break;
+				case "start":
+				case "resume":
+				case "next":
+				case "previous":
+				case "redirectQuestion":
+					return;
+					break;
+				case "evaluation":
+				case "checkEvaluationAccess":
+				case "evaluationdetails":
+				case "evaluationuser":
+					$this->setEvalSubtabs();
+					break;
+			}
 		}
 		
 		// questions
@@ -3405,10 +3265,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			// invite
 			$tabs_gui->addTarget("invitation",
-				 $this->ctrl->getLinkTarget($this, "invite"),
+				 $this->ctrl->getLinkTarget($this, 'invite'),
 				 array("invite", "saveInvitationStatus",
-				 "searchInvitation", "inviteUserGroup",
-				 "disinviteUserGroup"),
+				 "inviteUserGroup", "disinviteUserGroup"),
 				 "");
 		}
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
