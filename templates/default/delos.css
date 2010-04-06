@@ -2881,6 +2881,20 @@ h3.ilProfileSectionHead {
 
 /* revised 4.1 */
 
+/* Tooltip */
+.yui-tt {
+	color: #333333;
+	padding: 4px 8px 2px 8px;
+	font-size: 90%;
+	border: solid #FFDD77 2px;
+	line-height: 100%;
+	background-color: #FFFF99;
+	-moz-border-radius: 5px;
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 2px 2px 2px #888;
+}
+
 /* locator */
 div.ilLocator {
 	padding: 2px 0px 0px 8px;
