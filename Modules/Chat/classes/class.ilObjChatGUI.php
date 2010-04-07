@@ -1742,7 +1742,7 @@ class ilObjChatGUI extends ilObjectGUI
 				 array("showSummary", "infoScreen"),
 				 "", "", $force_active);
 		}
-
+		// settings tab
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$force_active = ($_GET["cmd"] == "edit")
@@ -1752,11 +1752,8 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
 				"", $force_active);
 		}
-		if($rbacsystem->checkAccess('moderate',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("chat_recordings",
-								 $this->ctrl->getLinkTarget($this, "recordings"), "recordings", get_class($this));
-		}
+
+		// blocked users
 		if($rbacsystem->checkAccess('moderate',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("chat_blocked_users",
@@ -1764,6 +1761,14 @@ class ilObjChatGUI extends ilObjectGUI
 				array("blockedUsers", "unBlockUsers", "blockUser"), get_class($this));
 		}
 
+		// recordings
+		if($rbacsystem->checkAccess('moderate',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("chat_recordings",
+								 $this->ctrl->getLinkTarget($this, "recordings"), "recordings", get_class($this));
+		}
+
+		// permissions
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
