@@ -4,7 +4,7 @@
 
 
 include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once("./Services/UIComponentAdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 class ilChatRoomsTableGUI extends ilTable2GUI {
 	
