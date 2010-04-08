@@ -32,9 +32,9 @@ class ilUserAutoComplete
 		}
 		
 		$set = $ilDB->query("SELECT login, firstname, lastname FROM usr_data WHERE ".
-			$ilDB->like("login", "text", "%".$a_str."%")." OR ".
-			$ilDB->like("firstname", "text", "%".$a_str."%")." OR ".
-			$ilDB->like("lastname", "text", "%".$a_str."%").
+			$ilDB->like("login", "text", $a_str."%")." OR ".
+			$ilDB->like("firstname", "text", $a_str."%")." OR ".
+			$ilDB->like("lastname", "text", $a_str."%").
 			" ORDER BY login");
 		$max = 20;
 		$cnt = 0;
