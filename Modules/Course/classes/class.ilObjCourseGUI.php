@@ -2016,7 +2016,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$tmp_data['access_time'] = $this->lng->txt('no_date');
 				}
 			}
-			$members[] = $tmp_data;
+			$members[$usr_id] = $tmp_data;
 		}
 		return $members ? $members : array();
 	}
@@ -2189,7 +2189,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_administrators'),'icon_usr.gif',$this->lng->txt('crs_administrators'));
-			$table_gui->setData($this->readMemberData($part->getAdmins()));
+			$table_gui->parse($this->readMemberData($part->getAdmins()));
+			#$table_gui->setData($this->readMemberData($part->getAdmins()));
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
 		if(count($part->getTutors()))
@@ -2240,9 +2241,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilUtil::getImagePath('edit_remove.png'));
 				$this->ctrl->clearParameters($this);
 			}
-				
 			$table_gui->setTitle($this->lng->txt('crs_members'),'icon_usr.gif',$this->lng->txt('crs_members'));
-			$table_gui->setData($this->readMemberData($part->getMembers()));
+			$table_gui->parse($this->readMemberData($part->getMembers()));
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
 			
 		}

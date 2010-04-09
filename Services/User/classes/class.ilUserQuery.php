@@ -17,12 +17,18 @@ class ilUserQuery
 	static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
-		$a_course_group_filter = 0, $a_role_filter = 0, $a_additional_fields = "")
+		$a_course_group_filter = 0, $a_role_filter = 0,$a_additional_fields = '',
+		$a_user_filter = null)
 	{
 		global $ilDB, $rbacreview;
 		
 		$fields = array("usr_id", "login", "firstname", "lastname", "email",
 			"time_limit_until", "time_limit_unlimited", "last_login", "active");
+
+		if (is_array($a_additional_fields))
+		{
+			$fields = array_merge($fields, $a_additional_fields);
+		}
 		
 		if (is_array($a_additional_fields))
 		{
@@ -39,8 +45,16 @@ class ilUserQuery
 			
 		// filter
 		$query.= " WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+
+		// User filter
+		if($a_user_filter and is_array(($a_user_filter)))
+		{
+			$query .= ' AND '.$ilDB->in('usr_id',$a_user_filter,false,'integer');
+		}
+
 		$count_query.= " WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 		$where = " AND";
+		
 		
 		if ($a_string_filter != "")		// email, name, login
 		{

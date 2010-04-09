@@ -114,6 +114,36 @@ class ilExportFieldsInfo
 	}
 	
 	/**
+	 * Get selectable fields
+	 * @return 
+	 */
+	public function getSelectableFieldsInfo()
+	{
+		global $lng;
+		
+		$fields = array();
+		foreach($this->getExportableFields() as $field)
+		{
+			switch($field)
+			{
+				case 'lastname':
+				case 'firstname':
+					break;
+	
+				case 'username':
+					$fields['login']['txt'] = $lng->txt('login');
+					$fields['login']['default'] = 1;
+					break;
+				default:
+					$fields[$field]['txt'] = $lng->txt($field);
+					$fields[$field]['default'] = 0;
+					break;
+			}
+		}
+		return $fields;
+	}
+	
+	/**
 	 * Get exportable fields as info string 
 	 *
 	 * @access public
@@ -137,6 +167,27 @@ class ilExportFieldsInfo
 	 */
 	private function read()
 	{
+		include_once './Services/User/classes/class.ilUserProfile.php';
+		
+		$profile = new ilUserProfile();
+		$profile->skipGroup('settings');
+		
+		foreach($profile->getStandardFields() as $key => $data)
+		{
+			if(!$data['course_export_hide'])
+			{
+				if(isset($data['course_export_fix_value']) and $data['course_export_fix_value'])
+				{
+					$this->possible_fields[$key] = $data['course_export_fix_value'];
+				}
+				else
+				{
+					$this->possible_fields[$key] = 0;
+				}
+			}
+		}
+		
+		/*		
 		$this->possible_fields = array(
 			'login'		=> 1,
 			'gender' => 1,
@@ -155,7 +206,7 @@ class ilExportFieldsInfo
 			'fax' => 0,
 			'email' => 0,
 			'matriculation' => 0);
-
+		*/
 		$settings_all = $this->settings->getAll();
 		foreach($settings_all as $key => $value)
 		{

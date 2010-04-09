@@ -215,7 +215,10 @@ class ilMemberExport
 						break;
 						
 					// These fields are always enabled
-					case 'login':
+					case 'username':
+						$this->csv->addColumn($this->user_profile_data[$usr_id]['login']);
+						break;
+						
 					case 'firstname':
 					case 'lastname':
 						$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
