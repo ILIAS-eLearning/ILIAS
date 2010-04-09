@@ -46,6 +46,19 @@ require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
 $nav_hist = new ilNavigationHistoryGUI();
 $nav_hist->handleNavigationRequest();
 
+if(strpos($_GET['target'], 'purchasetypedemo') !== false)
+{
+	$_GET['purchasetype'] = 'demo';
+	$_GET['cmd'] = 'showDemoVersion';
+	$_GET['target'] = str_replace('purchasetypedemo', '', $_GET['target']);
+}
+else if(strpos($_GET['target'], 'purchasetypebuy') !== false)
+{
+	$_GET['purchasetype'] = 'buy';
+	$_GET['cmd'] = 'showDetails';
+	$_GET['target'] = str_replace('purchasetypebuy', '', $_GET['target']);
+}
+
 $r_pos = strpos($_GET["target"], "_");
 $rest = substr($_GET["target"], $r_pos+1);
 
