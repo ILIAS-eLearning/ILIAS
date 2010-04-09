@@ -1645,10 +1645,24 @@ class ilObjectListGUI
 							break;	
 					}					
 				}
-				//$this->insertCommand($command['link'].'&purchasetype=demo', $this->lng->txt('payment_demo'), $command['frame']);
-				//$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);
-				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $command['link'].'&purchasetype=demo', $a_img, $this->lng->txt('payment_demo'), $command['frame']);
-				$this->current_selection_list->addItem($this->lng->txt('buy'), "", $command['link'].'&purchasetype=buy', $a_img, $this->lng->txt('buy'), $command['frame']);				
+
+				$type = $this->type;
+				if(strpos($command['link'], '_'.$type.'_') !== false)
+				{
+					$demo_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypedemo_', $command['link']);
+					$buy_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypebuy_', $command['link']);
+				}
+				else
+				{
+					$demo_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=demo';
+					$buy_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=buy';
+				}
+
+				#$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $command['link'].'&purchasetype=demo', $a_img, $this->lng->txt('payment_demo'), $command['frame']);
+				#$this->current_selection_list->addItem($this->lng->txt('buy'), "", $command['link'].'&purchasetype=buy', $a_img, $this->lng->txt('buy'), $command['frame']);
+				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $demo_link, $a_img, $this->lng->txt('payment_demo'), $command['frame']);
+				$this->current_selection_list->addItem($this->lng->txt('buy'), "", $buy_link, $a_img, $this->lng->txt('buy'), $command['frame']);
+
 			}
 		}
 		
