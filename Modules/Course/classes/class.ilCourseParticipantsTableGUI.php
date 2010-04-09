@@ -63,13 +63,21 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	 	
+		// required before constructor for columns 
+		$this->setId('crs_'.$a_type.'_'.$a_parent_obj->object->getId());
+
 		parent::__construct($a_parent_obj,'members');
 
 		$this->setFormName('participants');
 
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
-	 	$this->addColumn($this->lng->txt('login'),'login','10%');
+		
+		foreach($this->getSelectedColumns() as $col)
+		{
+			$this->addColumn($this->lng->txt($col),$col);
+		}
+		
 
 		if($this->show_learning_progress)
 		{
@@ -121,7 +129,32 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->disable('footer');
 			$this->disable('numinfo');
 			$this->disable('select_all');
-		}		
+		}
+		
+		$this->getItems();
+		$this->setTopCommands(true);
+		$this->setEnableHeader(true);
+		$this->setEnableTitle(true);
+		$this->initFilter();
+		
+	}
+	
+	public function getItems()
+	{
+		
+	}
+	
+	/**
+	 * Get selectable columns
+	 * @return 
+	 */
+	public function getSelectableColumns()
+	{
+		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
+		$ef = ilExportFieldsInfo::_getInstance();
+		$fields = $ef->getSelectableFieldsInfo();
+		
+		return $fields;		
 	}
 	
 	/**
@@ -144,6 +177,32 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('PARENT_ACCESS',$info[0]['text']);
 		}
 		
+		
+		foreach($this->getSelectedColumns() as $field)
+		{
+			switch($field)
+			{
+				case 'gender':
+					$a_set['gender'] = $a_set['gender'] ? $this->lng->txt('gender_'.$a_set['gender']) : '';					
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;
+					
+				case 'birthday':
+					$a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],IL_CAL_DATE)) : $this->lng->txt('no_date');				
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;
+										
+				default:
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->parseCurrentBlock();
+					break;
+			}
+		}
 		
 		if($this->privacy->enabledCourseAccessTimes())
 		{
@@ -226,6 +285,60 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		
 		
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
+	}
+	
+	/**
+	 * Parse data
+	 * @return 
+	 */
+	public function parse($a_user_data)
+	{
+		include_once './Services/User/classes/class.ilUserQuery.php';
+		
+		$additional_fields = $this->getSelectedColumns();
+		unset($additional_fields["firstname"]);
+		unset($additional_fields["lastname"]);
+		unset($additional_fields["last_login"]);
+		unset($additional_fields["access_until"]);
+		
+		switch($this->type)
+		{
+			case 'admin':
+				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getAdmins();
+				break;				
+			case 'tutor':
+				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getTutors();
+				break;
+			case 'member':
+				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
+				break;
+		}
+
+		$usr_data = ilUserQuery::getUserListData(
+			'login',
+			'ASC',
+			0,
+			999999,
+			'',
+			'',
+			null,
+			false,
+			false,
+			0,
+			0,
+			$additional_fields,
+			$part
+		);
+
+		foreach($usr_data['set'] as $user)
+		{
+			// TODO: accepted
+			foreach($additional_fields as $field)
+			{
+				$a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
+			}
+		}
+		return $this->setData($a_user_data);
 	}
 	
 }
