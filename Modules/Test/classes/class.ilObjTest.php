@@ -9350,16 +9350,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$html = str_replace("&nbsp;", "&#160;", $html);
 			$html = str_replace("&otimes;", "X", $html);
 		}
-		// remove the following two lines if the new HTML2PDF RPC function works
 		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
-
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		include_once "./Services/Transformation/classes/class.ilHTML2PDF.php";
-		$html2pdf = new ilHTML2PDF();
-		$html2pdf->setHTMLString($html);
-		$result = $html2pdf->send();
-		$filename = (strlen($title)) ? $title : $this->getTitle();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf");
 	}
 	
 	/**
