@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * class ilcourseobjective
@@ -30,7 +10,6 @@
 * 
 * @extends Object
 */
-
 class ilCourseObjective
 {
 	var $db = null;
@@ -185,6 +164,10 @@ class ilCourseObjective
 			")";
 		$res = $ilDB->manipulate($query);
 		
+		// adding new objective makes learning progress dirty
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
+		
 		return $this->objective_id = $next_id;
 	}
 
@@ -250,6 +233,10 @@ class ilCourseObjective
 			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ".
 			"AND objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+
+		// deleting objective makes learning progress dirty
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
 
 		return true;
 	}
@@ -447,6 +434,10 @@ class ilCourseObjective
 		
 		$query = "DELETE FROM crs_objectives WHERE crs_id = ".$ilDB->quote($course_id ,'integer');
 		$res = $ilDB->manipulate($query);
+
+		// deleting objectives makes learning progress dirty
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
 
 		return true;
 	}

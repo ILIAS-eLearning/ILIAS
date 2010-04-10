@@ -1376,3 +1376,24 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3035>
+<?php
+	$ilDB->addTableColumn("ut_lp_marks", "status", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+	$ilDB->addTableColumn("ut_lp_marks", "status_changed", array(
+		"type" => "timestamp",
+		"notnull" => false));
+	$ilDB->addTableColumn("ut_lp_marks", "status_dirty", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+	$ilDB->addTableColumn("ut_lp_marks", "percentage", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+?>

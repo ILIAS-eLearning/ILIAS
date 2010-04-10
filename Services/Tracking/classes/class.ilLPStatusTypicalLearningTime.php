@@ -1,37 +1,17 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-/**
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @package ilias-tracking
-*
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ * @version $Id$
+ *
+ * @ingroup	ServicesTracking
+ *
+ */
 class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
 
@@ -95,5 +75,42 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
 		return $status_info;
 	}
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB;
+		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		switch ($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'lm':
+				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+				{
+					$status = LP_STATUS_IN_PROGRESS_NUM;
+					
+					// completed?
+					$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+					$tlt = $status_info['tlt'];
+
+					include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+					$re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
+					if ($re[0]['spent_seconds'] >= $tlt)
+					{
+						$status = LP_STATUS_COMPLETED_NUM;
+					}
+				}
+				break;			
+		}
+		return $status;		
+	}		
+
 }	
 ?>

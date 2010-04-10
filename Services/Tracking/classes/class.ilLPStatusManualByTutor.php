@@ -194,5 +194,42 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		$ilBench->stop('LearningProgress','9163_LPStatusManualByTutor_completed');
 		return $usr_ids ? $usr_ids : array();
 	}
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB;
+		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		switch ($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case "crs":
+			case "grp":
+				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+				{
+					$status = LP_STATUS_IN_PROGRESS_NUM;
+					
+					// completed?
+					$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
+						"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+						"AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
+						"AND completed = '1' ");
+					if ($rec = $ilDB->fetchAssoc($set))
+					{
+						$status = LP_STATUS_COMPLETED_NUM;
+					}
+				}
+				break;			
+		}
+		return $status;		
+	}
+
 }
 ?>

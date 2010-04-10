@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
 * Class ilChangeEvent tracks change events on repository objects.
@@ -125,8 +106,7 @@ class ilChangeEvent
 		global $ilDB;
 		
 		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
-		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();
-		
+		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();		
 		
 		$query = sprintf('SELECT * FROM read_event '.
 			'WHERE obj_id = %s '.
@@ -541,6 +521,24 @@ class ilChangeEvent
 	 		$users[] = $row->usr;
 	 	}
 	 	return $users ? $users : array();
+	 }
+	 
+	 /**
+	  * Has accessed
+	  */
+	 static function hasAccessed($a_obj_id, $a_usr_id)
+	 {
+		global $ilDB;
+	 
+		$set = $ilDB->query("SELECT usr_id FROM read_event WHERE ".
+			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+			"usr_id = ".$ilDB->quote($a_usr_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
 	 }
 
 	/**

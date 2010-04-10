@@ -42,7 +42,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$l = $c;
-			if (in_array($l, array("last_access", "first_access", "read_count", "spent_seconds")))
+			if (in_array($l, array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage")))
 			{
 				$l = "trac_".$l;
 			}
@@ -104,6 +104,15 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			"default" => true);
 		$cols["spent_seconds"] = array(
 			"txt" => $lng->txt("trac_spent_seconds"),
+			"default" => true);
+		$cols["percentage"] = array(
+			"txt" => $lng->txt("trac_percentage"),
+			"default" => true);
+		$cols["status"] = array(
+			"txt" => $lng->txt("trac_status"),
+			"default" => true);
+		$cols["mark"] = array(
+			"txt" => $lng->txt("trac_mark"),
 			"default" => true);
 
 		$cols["email"] = array(
@@ -197,7 +206,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if (in_array($c, array("email", "firstname", "lastname")))
+			if (in_array($c, array("firstname", "lastname")))
 			{
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), $data[$c]);
@@ -213,8 +222,21 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				{
 					switch ($c)
 					{
+						case "first_access":
+							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_DATETIME));
+							break;
+
+						case "last_access":
+							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_UNIX));
+							break;
+
 						case "gender":
 							$val = $lng->txt("gender_".$data[$c]);
+							break;
+
+						case "spent_seconds":
+							include_once("./classes/class.ilFormat.php");
+							$val = ilFormat::_secondsToString($data[$c]);
 							break;
 					}
 				}
