@@ -18,29 +18,49 @@ class ilTrQuery
 		$a_filter = array(), $a_additional_fields = "")
 	{
 		global $ilDB, $rbacreview;
+
+		include_once("./Services/Tracking/classes/class.ilTracking2.php");
+		ilTracking2::checkStatusForObject($a_obj_id);
+		
+// @todo: move this to a parent class later
+		if (ilObject::_lookupType($a_obj_id) == "crs")
+		{
+			$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+			$a_users = $member_obj->getParticipants();
+		}
 		
 		$fields = array("usr_data.usr_id", "login");
-		
+	
 		if (is_array($a_additional_fields))
 		{
 			$fields = array_merge($fields, $a_additional_fields);
 		}
 		
+		if (is_array($a_users))
+		{
+			$left = "LEFT";
+			$join_and = "AND ".$ilDB->in("usr_data.usr_id", $a_users, false, "integer");
+		}
+		
 		// count query
 		$count_query = "SELECT count(usr_data.usr_id) cnt".
-			" FROM read_event JOIN usr_data ON (read_event.usr_id = usr_data.usr_id)";
+			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id $join_and".
+			" AND read_event.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
+			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")";
 			
 		// basic query
 		$query = "SELECT ".implode($fields, ",").
-			" FROM read_event JOIN usr_data ON (read_event.usr_id = usr_data.usr_id)";
-			
+			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id $join_and".
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
+			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")";
+
 		// filter
-		$query.= " WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
-		$count_query.= " WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
-		$query.= " AND usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
-		$count_query.= " AND usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$count_query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 		$where = " AND";
-		
+//var_dump($query);		
 		if ($a_filter["string"] != "")		// email, name, login
 		{
 			$add = $where." (".$ilDB->like("usr_data.login", "text", $a_filter["string"]."%")." ".
@@ -83,5 +103,7 @@ class ilTrQuery
 			$result[] = $rec;
 		}
 		return array("cnt" => $cnt, "set" => $result);
-	}	
+	}
+	
+
 }

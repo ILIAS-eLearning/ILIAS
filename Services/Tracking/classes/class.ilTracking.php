@@ -30,7 +30,7 @@ class ilTracking {
 	function ilTracking()
 	{
 		global $ilias,$tpl,$lng,$ilDB;
-
+die ("class ilTracking is deprecated");
 		$this->ilias	=& $ilias;
 		$this->tpl		=& $tpl;
 		$this->lng		=& $lng;
@@ -82,7 +82,6 @@ class ilTracking {
 	function _trackAccess($a_obj_id, $a_obj_type,$a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
 	{
 		global $ilUser, $ilDB;
-
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if(!ilObjUserTracking::_enabledTracking() and !ilObjUserTracking::_enabledLearningProgress())

@@ -1677,7 +1677,7 @@ class ilLMPresentationGUI
 		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 		
 		
-		// page title (not for header or footer page)
+		// page title and tracking (not for header or footer page)
 		if ($page_id == 0 || ($page_id != $this->lm->getHeaderPage() &&
 			$page_id != $this->lm->getFooterPage()))
 		{
@@ -1685,6 +1685,12 @@ class ilLMPresentationGUI
 				ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation")));
+
+			// track user access to page
+			include_once "Services/Tracking/classes/class.ilTracking.php";
+			ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
+				$page_id, "pg", "read");
+
 		}
 
 		// ADDED FOR CITATION
@@ -1713,12 +1719,6 @@ class ilLMPresentationGUI
 		
 		$ilBench->stop("ContentPresentation", "ilPage_preparePage");
 
-		// track user access to page
-		$ilBench->start("ContentPresentation", "ilPage_trackUserAccess");
-		include_once "Services/Tracking/classes/class.ilTracking.php";
-		ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
-			$page_id, "pg", "read");
-		$ilBench->stop("ContentPresentation", "ilPage_trackUserAccess");
 
 		$ilBench->start("ContentPresentation", "ilPage_getPageContent");
 		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());

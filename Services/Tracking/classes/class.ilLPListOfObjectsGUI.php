@@ -112,6 +112,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
 		$marks->setCompleted((bool) $_POST['completed']);
 		$marks->update();
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($this->item_id, $_REQUEST['user_id']);
+		
 		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'));
 		$this->details();
 	}
@@ -475,7 +479,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			case LP_MODE_REPOSITORY:
 				$this->__initDetails($this->getRefId());
 				$this->details();
-				
 				$ilBench->stop('LearningProgress','1100_LPListOfObjects_show');
 				return true;
 		}

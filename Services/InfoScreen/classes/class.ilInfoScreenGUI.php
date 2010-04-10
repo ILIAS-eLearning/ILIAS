@@ -989,6 +989,9 @@ class ilInfoScreenGUI
 		$lp_marks->setCompleted((bool) $_POST['lp_edit']);
 		$lp_marks->update();
 
+		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_updateStatus($this->gui_object->object->getId(),$ilUser->getId());
+
 		$this->lng->loadLanguageModule('trac');
 		ilUtil::sendSuccess($this->lng->txt('trac_updated_status'));
 

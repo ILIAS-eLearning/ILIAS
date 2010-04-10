@@ -1,35 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-
-/**
-* class ilcourseobjective
-*
-* @author Stefan Meyer <meyer@leifos.com> 
-* @version $Id$
-* 
-* @extends Object
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 define('IL_OBJECTIVE_STATUS_EMPTY','empty');
 define('IL_OBJECTIVE_STATUS_PRETEST','pretest');
@@ -38,7 +9,13 @@ define('IL_OBJECTIVE_STATUS_NONE','none');
 define('IL_OBJECTIVE_STATUS_FINISHED','finished');
 define('IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST','pretest_non_suggest');
 
-
+/**
+* class ilcourseobjective
+*
+* @author Stefan Meyer <meyer@leifos.com> 
+* @version $Id$
+* 
+*/
 class ilCourseObjectiveResult
 {
 	var $db = null;
@@ -189,6 +166,9 @@ class ilCourseObjectiveResult
 			$res = $ilDB->manipulate($query);
 		}
 
+		include_once("./Services/Tracking/classes/class.ilTracking2.php");
+		ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
+		
 		return true;
 	}
 
@@ -472,6 +452,7 @@ class ilCourseObjectiveResult
 			$ilDB->in('t1.objective_id',$objective_ids,false,'integer')." ".
 			"GROUP BY t1.crs_id";
 		$res = $ilDB->query($query);
+		$crs_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "SELECT COUNT(cs.objective_id) num_passed FROM crs_objective_status cs ".
@@ -487,6 +468,7 @@ class ilCourseObjectiveResult
 					$passed[] = $row->crs_id;
 				}
 			}
+			$crs_ids[$row->crs_id] = $row->crs_id;
 		}
 		if(count($passed))
 		{
@@ -496,6 +478,13 @@ class ilCourseObjectiveResult
 				$members = ilCourseParticipants::_getInstanceByObjId($crs_id);
 				$members->updatePassed($a_user_id,true);
 			}
+		}
+		
+		// update tracking status
+		foreach ($crs_ids as $cid)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($cid, $a_user_id);
 		}
 	}
 		
