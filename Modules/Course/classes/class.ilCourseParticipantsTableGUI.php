@@ -38,6 +38,11 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	protected $show_timings = false;
 	protected $show_edit_link = true;
 	
+	protected static $export_allowed = false;
+	protected static $confirmation_required = true;
+	protected static $accepted_ids = null;
+	
+	
 	/**
 	 * Constructor
 	 *
@@ -65,8 +70,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 	
 		// required before constructor for columns 
 		$this->setId('crs_'.$a_type.'_'.$a_parent_obj->object->getId());
-
 		parent::__construct($a_parent_obj,'members');
+		
+		$this->initAcceptedAgreements();
 
 		$this->setFormName('participants');
 
@@ -198,7 +204,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 										
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->setVariable('VAL_CUST',$a_set[$field] ? $a_set[$field] : '');
 					$this->tpl->parseCurrentBlock();
 					break;
 			}
@@ -332,7 +338,12 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 
 		foreach($usr_data['set'] as $user)
 		{
-			// TODO: accepted
+			// Check acceptance
+			if(!$this->checkAcceptance($user['usr_id']))
+			{
+				continue;
+			}
+			// DONE: accepted
 			foreach($additional_fields as $field)
 			{
 				$a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
@@ -341,5 +352,35 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		return $this->setData($a_user_data);
 	}
 	
+	public function checkAcceptance($a_usr_id)
+	{
+		if(!self::$confirmation_required)
+		{
+			return true;
+		}
+		if(!self::$export_allowed)
+		{
+			return false;
+		}
+		return in_array($a_usr_id,self::$accepted_ids);
+	}
+	
+	/**
+	 * Init acceptance
+	 * @return 
+	 */
+	public function initAcceptedAgreements()
+	{
+		if(self::$accepted_ids !== NULL)
+		{
+			return true;
+		}
+		
+		self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
+		self::$confirmation_required = ilPrivacySettings::_getInstance()->confirmationRequired();
+		
+		include_once './Modules/Course/classes/class.ilCourseAgreement.php';
+		self::$accepted_ids = ilCourseAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
+	}
 }
 ?>

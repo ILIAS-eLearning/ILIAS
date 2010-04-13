@@ -150,6 +150,29 @@ class ilCourseAgreement
 		return $row->accepted == 1 ? true : false;
 	}
 	
+	/**
+	 * Lookup users who have accepted the agreement
+	 * @param int $a_obj_id
+	 * @return 
+	 */
+	public static function lookupAcceptedAgreements($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT usr_id FROM member_agreement ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer').' '.
+			"AND accepted = 1 ";
+			
+		$res = $ilDB->query($query);			
+		$user_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$user_ids[] = $row['usr_id'];
+		}
+		return $user_ids;
+	}
+	
+	
 	
 	/**
 	 * Delete all entries by user
