@@ -284,7 +284,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		
 		
-		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
+		#$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
 	}
 	
 	/**
