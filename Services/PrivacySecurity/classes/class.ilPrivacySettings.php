@@ -65,10 +65,11 @@ class ilPrivacySettings
 	/**
 	 * Get instance of ilPrivacySettings
 	 *
+	 * @return object ilPrivacySettings
 	 * @access public
 	 *
 	 */
-	public function _getInstance()
+	public static function _getInstance()
 	{
 		if(is_object(self::$instance))
 		{
@@ -86,6 +87,16 @@ class ilPrivacySettings
 	{
 		return $this->export_course;
 	}
+	
+	
+	public function checkExportAccess($a_ref_id)
+	{
+		global $ilUser,$ilAccess,$rbacsystem;
+		return $this->enabledExport() and 
+			!$this->confirmationRequired() or 
+			($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+	}
+	
 	public function enableExport($a_status)
 	{
 		$this->export_course = (bool) $a_status;
