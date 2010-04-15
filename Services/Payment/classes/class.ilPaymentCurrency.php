@@ -81,7 +81,7 @@ class ilPaymentCurrency
 		
 		$this->db->manipulateF('INSERT INTO payment_currencies
 		(currency_id, unit, iso_code, symbol, conversion_rate) 
-		VALUES (%s,%s,%s,%s,%s)',
+		VALUES (%s, %s, %s, %s, %s)',
 		array('integer', 'text','text','text','float'),
 		array($nextId, $this->getUnit(), $this->getIsoCode(), $this->getSymbol(), $this->getConversionRate()));
 		return true;

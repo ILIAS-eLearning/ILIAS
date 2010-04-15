@@ -331,7 +331,26 @@ class ilPaymentTrustees
 
 		return $vendors ? $vendors : array();
 	}
-	
+
+	public static function _getVendorsforStatisticsByTrusteeId($a_trustee_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryf('
+			SELECT vendor_id FROM payment_trustees 
+			WHERE trustee_id = %s
+			AND perm_stat = %s ',
+			array('integer', 'integer'),
+			array($a_trustee_id, '1'));
+
+		while($row = $ilDB->fetchObject($res))
+		{
+			$vendors[] = $row->vendor_id;
+		}
+
+		return $vendors ? $vendors : array();
+	}
+
 	public static function _getVendorsForCouponsByTrusteeId($a_usr_id)
 	{
 		global $ilDB;

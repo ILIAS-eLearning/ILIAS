@@ -91,5 +91,125 @@
  			} 			
  		}
  	}
+
+	public static function _createRandomUserAccount($keyarray)
+	{
+		global $ilDB, $ilUser, $ilSetting, $rbacadmin;
+
+		if($_SESSION['create_user_account'] != NULL)
+		{
+			return true;
+		}
+		else
+		{
+			$userLogin = array();
+			$res = $ilDB->query('SELECT sequence FROM object_data_seq');
+			$row = $ilDB->fetchAssoc($res);
+
+			$temp_user_id = (int)$row['sequence'] + 1;
+
+			$userLogin['login'] = 'shop_user_'.$temp_user_id;
+
+			$userLogin['passwd'] = ilUtil::generatePasswords(1);
+
+			require_once 'Services/User/classes/class.ilObjUser.php';
+			include_once("Services/Mail/classes/class.ilAccountMail.php");
+
+			$obj_user = new ilObjUser();
+			$obj_user->setId($temp_user_id);
+
+			$obj_user->setLogin($userLogin['login']);
+			$obj_user->setPasswd((string)$userLogin['passwd'][0], IL_PASSWD_PLAIN);
+
+			$_SESSION['tmp_user_account']['login'] = $userLogin['login'];
+			$_SESSION['tmp_user_account']['passwd'] = $userLogin['passwd'];
+
+			$obj_user->setFirstname($keyarray['first_name']);
+			$obj_user->setLastname($keyarray['last_name']);
+			$obj_user->setEmail($keyarray['payer_email']);
+		#	$obj_user->setEmail('nkrzywon@databay.de');
+
+			$obj_user->setGender('f');
+			$obj_user->setLanguage( $ilSetting->get("language"));
+			$obj_user->setActive(true);
+			$obj_user->setTimeLimitUnlimited(true);
+
+			$obj_user->setTitle($obj_user->getFullname());
+			$obj_user->setDescription($obj_user->getEmail());
+			$obj_user->setTimeLimitOwner(7);
+			$obj_user->setTimeLimitUnlimited(1);
+			$obj_user->setTimeLimitMessage(0);
+			$obj_user->setApproveDate(date("Y-m-d H:i:s"));
+
+			// Set default prefs
+			$obj_user->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
+			$obj_user->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
+			$obj_user->writePrefs();
+
+			// at the first login the user must complete profile
+			$obj_user->setProfileIncomplete(true);
+			$obj_user->create();
+			$obj_user->saveAsNew();
+
+			$user_role = ilObject::_exists(4, false);
+
+			if(!$user_role)
+			{
+				include_once("./Services/AccessControl/classes/class.ilObjRole.php");
+				$reg_allowed = ilObjRole::_lookupRegisterAllowed();
+				$user_role = $reg_allowed[0]['id'];
+
+			}
+			else $user_role = 4;
+
+			$rbacadmin->assignUser((int)$user_role, $obj_user->getId(), true);
+
+			include_once "Services/Mail/classes/class.ilMimeMail.php";
+			global $ilias, $lng;
+
+			$settings = $ilias->getAllSettings();
+						$mmail = new ilMimeMail();
+						$mmail->autoCheck(false);
+						$mmail->From($settings["admin_email"]);
+						$mmail->To($obj_user->getEmail());
+
+			// mail subject
+			$subject = $lng->txt("reg_mail_subject");
+
+			// mail body
+			$body = $lng->txt("reg_mail_body_salutation")." ".$obj_user->getFullname().",\n\n".
+				$lng->txt("reg_mail_body_text1")."\n\n".
+				$lng->txt("reg_mail_body_text2")."\n".
+				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n";
+			$body .= $lng->txt("login").": ".$obj_user->getLogin()."\n";
+
+
+			$body.= $lng->txt("passwd").": ".$userLogin['passwd'][0]."\n";
+
+			$body.= "\n";
+
+			$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
+			$body .= $obj_user->getProfileAsString($lng);
+			$mmail->Subject($subject);
+			$mmail->Body($body);
+			$mmail->Send();
+
+			$_SESSION['create_user_account'] = $obj_user->getId();
+			return $obj_user;
+		}
+
+	}
+	public static function _assignTransactionToCustomerId($a_old_user_id, $a_new_user_id, $a_transaction_extern)
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('
+			UPDATE payment_statistic
+			SET	customer_id = %s
+			WHERE customer_id = %s
+			AND transaction_extern = %s',
+			array('integer', 'integer', 'text'),
+			array($a_new_user_id, $a_old_user_id, $a_transaction_extern));
+	}
  }
 ?>

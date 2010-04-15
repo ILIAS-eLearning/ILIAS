@@ -63,16 +63,22 @@ class ilPaymentAdminGUI
 		
 		$is_vendor = ilPaymentVendors::_isVendor($this->user_obj->getId());
 		$has_stat_perm = ilPaymentTrustees::_hasStatisticPermission($this->user_obj->getId());
-		
+		$has_obj_perm =ilPaymentTrustees::_hasObjectPermission($this->user_obj->getId());
+		$has_coup_perm = ilPaymentTrustees::_hasCouponsPermission($this->user_obj->getId());
+
 		if($is_vendor || $has_stat_perm)
 		{
 			$ilCtrl->redirectByClass('ilpaymentstatisticgui');
 		}
-		else if(ilPaymentTrustees::_hasObjectPermission($this->user_obj->getId()))
+		else if($has_obj_perm)
 		{
 			$ilCtrl->redirectByClass('ilpaymentobjectgui');
 		}
-		
+		else if($has_coup_perm)
+		{
+			$ilCtrl->redirectByClass('ilpaymentcoupongui');
+		}
+
 		ilUtil::sendInfo($lng->txt("no_permission"));
 
 		return false;

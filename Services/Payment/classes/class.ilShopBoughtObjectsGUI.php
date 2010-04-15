@@ -3,6 +3,7 @@
 
 include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 
 /**
 * Class ilShopBoughtObjectsGUI
@@ -88,8 +89,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		foreach($bookings as $booking)
 		{
 						
-			$f_result[$counter][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "createBill")."&transaction=".$booking['transaction']."\">".$booking['transaction'].".pdf</a>";
-			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));	
+			$f_result[$counter]['transaction'] = "<a href=\"".$this->ctrl->getLinkTarget($this, "createBill")."&transaction=".$booking['transaction']."\">".$booking['transaction'].".pdf</a>";
+
+			$f_result[$counter]['order_date'] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
 	
 			++$counter;
 		}
@@ -98,41 +100,18 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 	
 	private function showBillHistoryTable($a_result_set)
 	{
-		include_once('Services/Table/classes/class.ilTableGUI.php');
-
-		$tbl = new ilTableGUI(array(), false);
-		$tpl = $tbl->getTemplateObject();
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("paya_bill_history"),"icon_pays_access.gif",$this->lng->txt("paya_bill_history"));
-		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),$this->lng->txt("paya_order_date")));
-	
 		$this->ctrl->setParameter($this,'cmd','showBillHistory');
-		$header_params = $this->ctrl->getParameterArray($this,'');
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setId('tbl_bill_history');
+		$tbl->setTitle($this->lng->txt("paya_bill_history"));
+		$tbl->setRowTemplate("tpl.shop_statistics_row.html", "Services/Payment");
 
-		$tbl->setHeaderVars(array("transaction","order_date"), $header_params);
+		$tbl->addColumn($this->lng->txt('paya_transaction'), 'transaction', '10%');
+		$tbl->addColumn($this->lng->txt('paya_order_date'), 'order_date', '10%');
 
-		$offset = $_GET["offset"];
-		$order = $_GET["sort_by"];
-		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
-
-		$tbl->setOrderColumn($order,'order_date');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setMaxCount(count($a_result_set));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
 
-		$tbl->render();
-
-		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
-
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 		return true;
 	}
 	
@@ -341,11 +320,11 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
 			$str_paymethod = ilPayMethods::getStringByPaymethod($booking['b_pay_method']);	
 			$transaction .= " (" . $str_paymethod . ")";
-			$f_result[$counter][] = $transaction;
+			$f_result[$counter]['transaction'] = $transaction;
 
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
 			$obj_target = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$booking['ref_id'],$tmp_obj->getId());
-			$f_result[$counter][] = "<a href=\"".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
+			$f_result[$counter]['object_title'] = "<a href=\"".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
 			
 			/*
 			if ($tmp_obj->getType() == "crs")
@@ -363,21 +342,21 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				$f_result[$counter][] = $tmp_obj->getTitle();
 			}
 			*/
-			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
-			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
-			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX)); 
+			$f_result[$counter]['vendor'] = '['.$tmp_vendor->getLogin().']';
+			$f_result[$counter]['customer'] = '['.$tmp_purchaser->getLogin().']';
+			$f_result[$counter]['order_date'] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
 
 			if($booking['duration'] != 0)
 			{
-				$f_result[$counter][] = $booking['duration'].' '.$this->lng->txt('paya_months');
+				$f_result[$counter]['duration'] = $booking['duration'].' '.$this->lng->txt('paya_months');
 			
 			}
 			else
 			{
-					$f_result[$counter][] = $this->lng->txt("unlimited_duration");
+					$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
 			}
-			$f_result[$counter][] = $booking['price'].' '.$booking['currency_unit'];
-			$f_result[$counter][] = ($booking['discount'] != '' ? ($booking['discount'].' '.$booking['currency_unit']) : '&nbsp;');
+			$f_result[$counter]['price'] = $booking['price'].' '.$booking['currency_unit'];
+			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? ($booking['discount'].' '.$booking['currency_unit']) : '&nbsp;');
 // TODO CURRENCY
 /*
  			$f_result[$counter][] = ilPaymentCurrency::_formatPriceToString($booking['price'], $booking['currency_unit']);
@@ -393,7 +372,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				$this->lng->txt('yes') : 
 				$this->lng->txt('no');
 
-			$f_result[$counter][] = $payed_access;
+			$f_result[$counter]['payed_access'] = $payed_access;
 
 			unset($tmp_obj);
 			unset($tmp_vendor);
@@ -406,54 +385,24 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 	private function showStatisticTable($a_result_set)
 	{
-		include_once('Services/Table/classes/class.ilTableGUI.php');
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setTitle($this->lng->txt("paya_buyed_objects"));
+		$tbl->setId('tbl_bought_objects');
+		$tbl->setRowTemplate("tpl.shop_statistics_row.html", "Services/Payment");
+		
+		$tbl->addColumn($this->lng->txt('paya_transaction'), 'transaction', '10%');
+		$tbl->addColumn($this->lng->txt('title'), 'object_title', '10%');
+		$tbl->addColumn($this->lng->txt('paya_vendor'), 'vendor', '10%');
+		$tbl->addColumn($this->lng->txt('paya_customer'), 'customer', '10%');
+		$tbl->addColumn($this->lng->txt('paya_order_date'), 'order_date', '10%');
+		$tbl->addColumn($this->lng->txt('duration'), 'duration', '10%');
+		$tbl->addColumn($this->lng->txt('price_a'), 'price', '5%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_coupon'), 'discount', '5%');
+		$tbl->addColumn($this->lng->txt('paya_payed_access'), 'payed_access', '5%');
 
-		$tbl = new ilTableGUI(array(), false);
-		$tpl = $tbl->getTemplateObject();
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("paya_buyed_objects"),"icon_pays_access.gif",$this->lng->txt("bookings"));
-		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
-								   $this->lng->txt("title"),
-								   $this->lng->txt("paya_vendor"),
-								   $this->lng->txt("paya_customer"),
-								   $this->lng->txt("paya_order_date"),
-								   $this->lng->txt("duration"),
-								   $this->lng->txt("price_a"),
-								   $this->lng->txt("paya_coupons_coupon"),
-								   $this->lng->txt("paya_payed_access")));
-		$header_params = $this->ctrl->getParameterArray($this,'');
-		$tbl->setHeaderVars(array("transaction",
-								  "title",
-								  "vendor",
-								  "customer",
-								  "order_date",
-								  "duration",
-								  "price",
-								  "discount",
-								  "payed_access"), $header_params);
-
-		$offset = $_GET["offset"];
-		$order = $_GET["sort_by"];
-		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
-
-		$tbl->setOrderColumn($order,'order_date');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setMaxCount(count($a_result_set));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($a_result_set);
 
-
-		$tbl->render();
-
-		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
 		return true;
 	}
