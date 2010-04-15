@@ -68,8 +68,8 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		// read the post from PayPal system and add 'cmd'
 		$req = 'cmd=_notify-synch';
 
-		$tx_token = $_REQUEST['tx'];		
-
+		$tx_token = $_REQUEST['tx'];
+		
 		$auth_token = $this->paypalConfig["auth_token"];
 
 		$req .= "&tx=$tx_token&at=$auth_token";
@@ -125,6 +125,14 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 
 			if ($this->__checkTransactionId($keyarray["txn_id"]))
 			{
+				if($_SESSION['tmp_transaction']['result'] == 'success'
+				&& $_SESSION['tmp_transaction']['tx_id'] == $keyarray["txn_id"])
+				{
+					// this is for catching the problem, if the user doubleklicks on the paypal
+					// site to return to the ilias shop and his purchasings already exists in db
+					return SUCCESS;
+				}
+				else
 #echo "Prev. processed trans. id";
 				return ERROR_PREV_TRANS_ID;
 			}
@@ -142,6 +150,35 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 #echo "Wrong items";
 				return ERROR_WRONG_ITEMS;
 			}
+
+			if($_SESSION['is_crs_object'] && ($ilUser->getId() == ANONYMOUS_USER_ID))
+			{
+				include_once './Services/Payment/classes/class.ilShopUtils.php';
+				// anonymous user needs an account to use crs
+				$ilUser = ilShopUtils::_createRandomUserAccount($keyarray);
+				$user_id = $ilUser->getId();
+
+				$_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
+				$_SESSION['tmp_transaction']['usr_id'] = $user_id;
+			
+				include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
+				foreach ($_SESSION['crs_obj_ids'] as $obj_id)
+				{
+					$members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
+					$members_obj->add($user_id,IL_CRS_MEMBER);
+				}
+			}
+			if(($_SESSION['is_lm_object'] || $_SESSION['is_file_object'] ) && ($ilUser->getId() == ANONYMOUS_USER_ID))
+			{
+				include_once './Services/Payment/classes/class.ilShopUtils.php';
+				// anonymous user needs an account to use lm
+				$ilUser = ilShopUtils::_createRandomUserAccount($keyarray);
+				$user_id = $ilUser->getId();
+
+				$_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
+				$_SESSION['tmp_transaction']['usr_id'] = $user_id;
+			}
+	
 // old one  TODO: if possible use ilPurchaseBaseGUI 
 			$bookings = $this->__saveTransaction($keyarray);
 			
@@ -158,6 +195,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 */				
 			
 			$_SESSION["coupons"]["paypal"] = array();
+			$_SESSION['tmp_transaction']['result'] = 'success';
 
 			return SUCCESS;
 		}
@@ -205,8 +243,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$sc = $this->psc_obj->getShoppingCart($this->pay_method);		
 		$this->psc_obj->clearCouponItemsSession();
 
-		if (is_array($sc) &&
-			count($sc) > 0)
+		if (is_array($sc) && count($sc) > 0)
 		{
 			for ($i = 0; $i < count($sc); $i++)
 			{
@@ -219,7 +256,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				{											
 					$sc[$i]["math_price"] = (float) $sc[$i]["price"];
 								
-					$tmp_pobject =& new ilPaymentObject($this->user_obj, $sc[$i]['pobject_id']);		
+					$tmp_pobject = new ilPaymentObject($this->user_obj, $sc[$i]['pobject_id']);		
 													
 					foreach ($_SESSION["coupons"]["paypal"] as $key => $coupon)
 					{					
@@ -323,13 +360,12 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
   'payment_gross' => string '' (length=0)
   '' => string '' (length=0)
  * 
- */		
-		
+ */
+	
 		$sc = $this->psc_obj->getShoppingCart($this->pay_method);
 		$this->psc_obj->clearCouponItemsSession();		
 
-		if (is_array($sc) &&
-			count($sc) > 0)
+		if (is_array($sc) && count($sc) > 0)
 		{
 			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 			$book_obj =& new ilPaymentBookings($this->usr_obj);
@@ -353,20 +389,20 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 							$_SESSION["coupons"]["paypal"][$key]["items"][] = $sc[$i];
 						}								
 					}
-					
 					unset($tmp_pobject);
 				}
 			}
 			
 			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["paypal"]);			
 
+			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
+			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+
 			for ($i = 0; $i < count($sc); $i++)
 			{
 				$pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
-				$pobject =& new ilPaymentObject($this->user_obj,$sc[$i]['pobject_id']);
+				$pobject = new ilPaymentObject($this->user_obj,$sc[$i]['pobject_id']);
 
-				$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
-				
 				$price = $sc[$i]["price"];
 				$bonus = 0.0;
 				
@@ -374,10 +410,8 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				{
 					$bonus = $coupon_discount_items[$sc[$i]["pobject_id"]]["math_price"] - $coupon_discount_items[$sc[$i]["pobject_id"]]["discount_price"];	
 				}				
-				$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
-				$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-		
-				$book_obj->setTransaction($inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4));
+			
+				$book_obj->setTransaction($transaction);
 				$book_obj->setPobjectId($sc[$i]["pobject_id"]);
 				$book_obj->setCustomerId($ilUser->getId());
 				$book_obj->setVendorId($pobjectData["vendor_id"]);
@@ -398,7 +432,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				
 				$book_obj->setEmailExtern($keyarray['payer_email']);
 				$book_obj->setNameExtern($keyarray['address_name']);
-	
+				$_SESSION['transaction']=$book_obj->getTransaction();
 				include_once './Services/Payment/classes/class.ilPayMethods.php';
 				//$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0;
 				$save_user_adr = (int) ilPayMethods::_EnabledSaveUserAddress($this->pay_method) ? 1 : 0;	
@@ -443,6 +477,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($pobjectData["ref_id"],$obj_type);
 			$obj_target = ilRepositoryExplorer::buildFrameTarget($obj_type,$pobjectData["ref_id"],$obj_id);
 			$message_link = "" . ILIAS_HTTP_PATH."/".$obj_link."&transaction=".$book_obj->getTransaction();
+			if($obj_type == 'file')
 			$download_links[] = $message_link;
 			 	
 				$bookings["list"][] = array(
@@ -552,7 +587,14 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			$tpl->setVariable("LOOP_OBJ_TYPE", utf8_decode($this->lng->txt($bookings["list"][$i]["type"])));
 			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
-			$tpl->setVariable("LOOP_DURATION", $bookings["list"][$i]["duration"] . " " . utf8_decode($this->lng->txt("paya_months")));
+
+			if( $bookings['list'][$i]['duration'] == 0)
+			{
+				$tpl->setVariable('LOOP_DURATION', utf8_decode($this->lng->txt('unlimited_duration')));
+			}
+			else
+				$tpl->setVariable('LOOP_DURATION', $bookings['list'][$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
+
 			$tpl->setVariable("LOOP_VAT_RATE", ilShopUtils::_formatVAT($bookings["list"][$i]["vat_rate"]));
 			$tpl->setVariable('LOOP_VAT_UNIT', ilShopUtils::_formatFloat($bookings['list'][$i]['vat_unit']).' '.$genSet->get('currency_unit'));			
 			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"].' '.$bookings["list"][$i]['currency_unit']);

@@ -10301,3 +10301,6 @@ trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_spent_seconds#:#Time Spent
 trac#:#trac_percentage#:#Percentage
+payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
+payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
+payment#:#please_use_account#:#For further purchases please login with use your account.

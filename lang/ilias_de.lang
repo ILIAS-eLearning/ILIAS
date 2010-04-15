@@ -10301,3 +10301,6 @@ common#:#mail_no_valid_group_role#:#Diese Rolle existiert nicht.
 payment#:#paya_bill_history#:#Rechnungs-Historie
 assessment#:#tst_search_users#:#Feste Teilnehmer hinzufügen
 survey#:#svy_search_users#:#NutzerInnen suchen
+payment#:#have_existing_account#:#Besitzen Sie bereits ein Benutzerkonto? Dann geben Sie bitte nun ihren Benutzernamen und ihr Passwort ein.
+payment#:#have_no_existing_account#:#Falls Sie noch kein Benutzerkonto besitzen, wurde soeben ein Account erstellt(Benutzername: %s  Passwort: %s ).
+payment#:#please_use_account#:#Bitte melden Sie sich bei zukünftigen Käufen mit ihren Benutzerdaten an.

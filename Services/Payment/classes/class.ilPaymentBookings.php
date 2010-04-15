@@ -500,35 +500,7 @@ class ilPaymentBookings
 
 		while($row = $this->db->fetchAssoc($res))
 		{ 
-/*			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
-			$booking[$row->booking_id]['transaction'] = $row->transaction;
-			$booking[$row->booking_id]['pobject_id'] = $row->pobject_id;
-			$booking[$row->booking_id]['customer_id'] = $row->customer_id;
-			$booking[$row->booking_id]['order_date'] = $row->order_date;
-			$booking[$row->booking_id]['duration'] = $row->duration;
-			$booking[$row->booking_id]['price'] = $row->price;
-			$booking[$row->booking_id]['discount'] = $row->discount;
-			$booking[$row->booking_id]['payed'] = $row->payed;
-			$booking[$row->booking_id]['access'] = $row->access_granted;
-			$booking[$row->booking_id]['ref_id'] = $row->ref_id;
-			$booking[$row->booking_id]['status'] = $row->status;
-			$booking[$row->booking_id]['pay_method'] = $row->pay_method;
-			$booking[$row->booking_id]['vendor_id'] = $row->vendor_id;
-			$booking[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
-			$booking[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
-			$booking[$row->booking_id]['voucher'] = $row->voucher;
-			$booking[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
-			$booking[$row->booking_id]['street'] = $row->street;
-			$booking[$row->booking_id]['po_box'] = $row->po_box;
-			$booking[$row->booking_id]['zipcode'] = $row->zipcode;
-			$booking[$row->booking_id]['city'] = $row->city;
-			$booking[$row->booking_id]['country'] = $row->country;
-			$booking[$row->booking_id]['vat_rate'] = $row->vat_rate;
-			$booking[$row->booking_id]['vat_unit'] = $row->vat_unit;			
-			$booking[$row->booking_id]['object_title'] = $row->object_title;		
-			$booking[$row->booking_id]['email_extern'] = $row->email_extern;	
-			$booking[$row->booking_id]['name_extern'] = $row->name_extern;				
-*/		$booking[$row['booking_id']] = $row;
+			$booking[$row['booking_id']] = $row;
 		}
 
 		return $booking ? $booking : array();
@@ -550,37 +522,7 @@ class ilPaymentBookings
 		
 		while($row = $this->db->fetchObject($res))
 		{
-/*			$booking['booking_id'] = $row->booking_id;
-			$booking['transaction'] = $row->transaction;
-			$booking['pobject_id'] = $row->pobject_id;
-			$booking['customer_id'] = $row->customer_id;
-			$booking['order_date'] = $row->order_date;
-			$booking['duration'] = $row->duration;
-			$booking['vat_rate'] = $row->vat_rate;
-			$booking['vat_unit'] = $row->vat_unit;			
-			$booking['object_title'] = $row->object_title;	
-			
-			$booking['price'] = $row->price;
-			$booking['discount'] = $row->discount;			
-			$booking['payed'] = $row->payed;
-			$booking['access'] = $row->access_granted;
-			$booking['ref_id'] = $row->ref_id;
-			$booking['status'] = $row->status;
-			$booking['pay_method'] = $row->pay_method;
-			$booking['vendor_id'] = $row->vendor_id;
-			$booking['b_vendor_id'] = $row->b_vendor_id;
-			$booking['b_pay_method'] = $row->b_pay_method;
-			$booking['voucher'] = $row->voucher;
-			$booking['transaction_extern'] = $row->transaction_extern;
-			$booking['street'] = $row->street;
-			$booking['po_box'] = $row->po_box;
-			$booking['zipcode'] = $row->zipcode;
-			$booking['city'] = $row->city;
-			$booking['country'] = $row->country;			
-			
-			$booking['email_extern'] = $row->email_extern;
-			$booking['name_extern'] = $row->name_extern;
-*/		$booking = $row;
+		$booking = $row;
 		}
 		return $booking ? $booking : array();
 	}
@@ -649,7 +591,7 @@ class ilPaymentBookings
 			return false;
 		}
 		else				
-		if(isset($a_transaction))
+		if($a_transaction)
 		{
 			$res = $ilDB->queryf('
 				SELECT * FROM payment_statistic
@@ -835,7 +777,7 @@ class ilPaymentBookings
 		$data_types = array();
 		
 		$query = 'SELECT * FROM payment_statistic ps, payment_objects po';
-		if ($_SESSION['pay_statistics']['customer'] or $_SESSION['pay_statistics']['vendor'])
+		if ($_SESSION['pay_statistics']['customer'] || $_SESSION['pay_statistics']['vendor'])
 		{
 			$query .= ', usr_data ud';
 		}
@@ -964,7 +906,8 @@ class ilPaymentBookings
 		while($row = $this->db->fetchAssoc($res))
 		{
 			$this->bookings[$row['booking_id']] = $row;
-		}/**/		
+		}/**/
+		return true;
 	}
 
 	public function __getVendorIds()
@@ -973,7 +916,10 @@ class ilPaymentBookings
 		{
 			$vendors[] = $this->user_id;
 		}
-		if($vend = ilPaymentTrustees::_getVendorsForObjects($this->user_id))
+
+// TODO: check this	->	# why objects??
+//if($vend = ilPaymentTrustees::_getVendorsForObjects($this->user_id))
+		if($vend = ilPaymentTrustees::_getVendorsForStatisticsByTrusteeId($this->user_id))
 		{
 			foreach($vend as $v)
 			{
@@ -1006,7 +952,7 @@ class ilPaymentBookings
 		return $bookings;
 	}	
 		
-	public function getDistinctTransactions($a_usr_id)
+	public function getDistinctTransactions($a_user_id)
 	{
 		global $ilDB;
 		
@@ -1017,7 +963,8 @@ class ilPaymentBookings
 
 		$res = $ilDB->queryF($query, array('integer'), array($a_user_id));
 		while($row = $ilDB->fetchAssoc($res))
-		{	$booking[$row['booking_id']] = $row;
+		{
+			$booking[$row['booking_id']] = $row;
 		}
 		return $booking ? $booking : array();
 	}

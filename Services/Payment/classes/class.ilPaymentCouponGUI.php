@@ -3,16 +3,17 @@
 
 include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 
 class ilPaymentCouponGUI extends ilShopBaseGUI
 {
-	var $ctrl;
+	public $ctrl;
 
-	var $lng;	
+	public $lng;
 	
-	var $user_obj = null;
-	var $coupon_obj = null;
-	var $pobject = null;	
+	public $user_obj = null;
+	public $coupon_obj = null;
+	public $pobject = null;
 
 	public function ilPaymentCouponGUI($user_obj)
 	{
@@ -53,7 +54,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		}
 	}
 	
-	function resetFilter()
+	public function resetFilter()
 	{
 		unset($_SESSION["pay_coupons"]);
 		unset($_POST["title_type"]);
@@ -68,7 +69,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function showCoupons()
+	public function showCoupons()
 	{
 		global $ilToolbar;
 		
@@ -218,9 +219,9 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$counter = 0;
 		foreach ($coupons as $coupon)
 		{
-			$f_result[$counter][] = $coupon['pc_title'];
-			$f_result[$counter][] = $coupon['number_of_codes'];
-			$f_result[$counter][] = $coupon['usage_of_codes'];
+			$f_result[$counter]['pc_title'] = $coupon['pc_title'];
+			$f_result[$counter]['number_of_codes'] = $coupon['number_of_codes'];
+			$f_result[$counter]['usage_of_codes'] = $coupon['usage_of_codes'];
 			
 			if (!empty($coupon['objects']))
 			{
@@ -240,17 +241,15 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 				$objects = "";
 			}
 			
-			$f_result[$counter][] = $objects;			
+			$f_result[$counter]['objects'] = $objects;
 	
-		//	$f_result[$counter][] = ($coupon['pc_from'] != '0000-00-00' && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
-		//	$f_result[$counter][] = ($coupon['pc_till'] != '0000-00-00' && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
-			$f_result[$counter][] = ($coupon['pc_from'] != NULL && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
-			$f_result[$counter][] = ($coupon['pc_till'] != NULL && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
-			$f_result[$counter][] = 
+			$f_result[$counter]['pc_from'] = ($coupon['pc_from'] != NULL && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
+			$f_result[$counter]['pc_till'] = ($coupon['pc_till'] != NULL && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
+			$f_result[$counter]['pc_last_changed'] =
 				($coupon['pc_last_changed'] != '0000-00-00 00:00:00' ? ilFormat::formatDate($coupon['pc_last_changed']) : '') .
 				($coupon['pc_last_change_usr_id'] != '0' ? "[" . ilObjUser::_lookupLogin($coupon['pc_last_change_usr_id']) . "]" : '');
 			$this->ctrl->setParameter($this, 'coupon_id',  $coupon['pc_pk']);
-			$f_result[$counter][] = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "addCoupon")."\">".$this->lng->txt("edit")."</a></div>";
+			$f_result[$counter]['options'] = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "addCoupon")."\">".$this->lng->txt("edit")."</a></div>";
 					
 			++$counter;
 		}
@@ -258,52 +257,29 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return $this->__showCouponsTable($f_result);
 	}
 	
-	function __showCouponsTable($f_result)
+	private function __showCouponsTable($f_result)
 	{
-		$tbl = $this->initTableGUI();
-		$tpl = $tbl->getTemplateObject();
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setTitle($this->lng->txt("paya_coupons_coupons"));
+		$tbl->setId('tbl_show_coupons');
+		$tbl->setRowTemplate("tpl.shop_coupons_row.html", "Services/Payment");
 
-		$tpl->setCurrentBlock("tbl_form_header");
+		$tbl->addColumn($this->lng->txt('paya_coupons_title'), 'pc_title', '10%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_number_of_codes'), 'number_of_codes', '10%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_usage_of_codes'), 'usage_of_codes', '10%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_objects'), 'objects', '10%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_from'), 'pc_from', '10%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_till'), 'pc_till', '10%');
+		$tbl->addColumn($this->lng->txt('last_change'), 'last_changed', '10%');
+		$tbl->addColumn('', 'options','10%');
 
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();	
-
-		$tbl->setTitle($this->lng->txt("paya_coupons_coupons"), "icon_pays.gif", $this->lng->txt("paya_coupons_coupons"));
-		$tbl->setHeaderNames(array($this->lng->txt("paya_coupons_title"),
-								   $this->lng->txt("paya_coupons_number_of_codes"),
-								   $this->lng->txt("paya_coupons_usage_of_codes"),
-								   $this->lng->txt("paya_coupons_objects"),
-								   $this->lng->txt("paya_coupons_from"),
-								   $this->lng->txt("paya_coupons_till"),
-								   $this->lng->txt("last_change"), ''));
-		$header_params = $this->ctrl->getParameterArray($this, '');
-		$tbl->setHeaderVars(array('pc_title',
-								  'number_of_codes',
-								  'usage_of_codes',
-								  'objects',
-								  'pc_from',
-								  'pc_till',								  
-								  'last_changed'), 
-								  $header_params
-							);
-		$offset = $_GET['offset'];
-		$order = $_GET['sort_by'];
-		$direction = $_GET['sort_order'] ? $_GET['sort_order'] : 'desc';
-		$tbl->setOrderColumn($order,'pc_title');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET['limit']);
-		$tbl->setMaxCount(count($f_result));
-		$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
 		$tbl->setData($f_result);
-		$tbl->render();
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());	
 
-		$this->tpl->setVariable('TABLE', $tbl->tpl->get());
-		
-		return true;	
+		return true;
 	}
 
-	function saveCouponForm()
+	public function saveCouponForm()
 	{
 		$this->error = '';
 
@@ -365,7 +341,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function addCoupon()
+	public function addCoupon()
 	{		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');	
 		
@@ -471,14 +447,14 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$this->tpl->setVariable('FORM',$oForm->getHTML());
 	}
 	
-	function deleteAllCodes()
+	public function deleteAllCodes()
 	{		
 		$this->showCodes("all");
 		
 		return true;
 	}
 	
-	function performDeleteAllCodes()
+	public function performDeleteAllCodes()
 	{
 		$this->coupon_obj->deleteAllCodesByCouponId($_GET['coupon_id']);	
 		
@@ -487,7 +463,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function deleteCodes()
+	public function deleteCodes()
 	{
 		$_SESSION['paya_delete_codes'] = $_POST['codes'];
 		
@@ -505,7 +481,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function performDeleteCodes()
+	public function performDeleteCodes()
 	{
 		if (is_array($_SESSION['paya_delete_codes']))
 		{			
@@ -522,7 +498,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function cancelDelete()
+	public function cancelDelete()
 	{
 		unset($_SESSION['paya_delete_codes']);
 		
@@ -531,14 +507,13 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function showCodes($a_show_delete = "")
+	public function showCodes($a_show_delete = "")
 	{		
 		$this->coupon_obj->setId($_GET['coupon_id']);
 		
 		if (!count($codes = $this->coupon_obj->getCodesByCouponId($_GET['coupon_id'])))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_coupons_codes_not_available'));			
-			
 			$this->generateCodes();			
 			
 			return true;
@@ -561,7 +536,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 				case 'selected': $del_cmd = 'performDeleteCodes';
 							$del_info = $this->lng->txt('paya_coupons_sure_delete_selected_codes');
 						break;
-				
 			}
 			
 			$oConfirmationGUI = new ilConfirmationGUI() ;
@@ -581,7 +555,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			
 			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
 			return true;
-			
 		}	
 
 		$_SESSION['paya_delete_codes'] = $_SESSION['paya_delete_codes'] ? $_SESSION['paya_delete_codes'] : array();
@@ -589,73 +562,37 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$counter = 0;
 		foreach ($codes as $code)
 		{
-			$f_result[$counter][]	= ilUtil::formCheckbox(in_array($code['pcc_pk'], $_SESSION['paya_delete_codes']) ? 1 : 0,
+			$f_result[$counter]['coupon_id']	= ilUtil::formCheckbox(in_array($code['pcc_pk'], $_SESSION['paya_delete_codes']) ? 1 : 0,
 										"codes[]", $code['pcc_pk']);
-			$f_result[$counter][] = $code['pcc_code'];
-			$f_result[$counter][] = $code['pcc_used']." ".strtolower($this->lng->txt('of'))." ".$this->coupon_obj->getUses();
+			$f_result[$counter]['coupon_code'] = $code['pcc_code'];
+			$f_result[$counter]['usage_of_codes'] = $code['pcc_used']." ".strtolower($this->lng->txt('of'))." ".$this->coupon_obj->getUses();
 						
 			++$counter;
 		}
-						
-		$tbl = $this->initTableGUI();
-		$tpl = $tbl->getTemplateObject();
-		
-		$tpl->setCurrentBlock("tbl_form_header");		
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-		$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_codes"), "icon_pays.gif", $this->lng->txt("paya_coupons_codes"));
-		$tbl->setHeaderNames(array('', $this->lng->txt("paya_coupons_code"), $this->lng->txt('paya_coupons_usage_of_codes')));		
-		$this->ctrl->setParameter($this, "cmd", "showCodes");
-		$header_params = $this->ctrl->getParameterArray($this, '');
-		$tbl->setHeaderVars(array('', 'pcc_code', 'paya_coupons_usage_of_codes'), $header_params);
-		$offset = $_GET['offset'];
-		$order = $_GET['sort_by'];
-		$direction = $_GET['sort_order'] ? $_GET['sort_order'] : 'desc';
-		$tbl->setOrderColumn($order,'pcc_code');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET['limit']);
-		$tbl->setMaxCount(count($f_result));
-		$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
-		$tbl->setData($f_result);
-		$tpl->setVariable('COLUMN_COUNTS', 3);
-		
-		$tbl->enable('select_all');
-		$tbl->setFormName('cmd');
-		$tbl->setSelectAllCheckbox('codes');
-		
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		
-		$tpl->setCurrentBlock("tbl_action_button");
-		$tpl->setVariable("BTN_NAME","deleteCodes");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();		
-				
-		$tpl->setCurrentBlock('plain_button');
-		$tpl->setVariable('PBTN_NAME', 'generateCodes');
-		$tpl->setVariable('PBTN_VALUE', $this->lng->txt('paya_coupons_generate_codes'));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock('plain_button');
-		$tpl->setVariable('PBTN_NAME', 'deleteAllCodes');
-		$tpl->setVariable('PBTN_VALUE', $this->lng->txt('delete_all'));
-		$tpl->parseCurrentBlock();		
-		
-		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","exportCodes");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("export"));
-		$tpl->parseCurrentBlock();
-				
-		$tbl->setColumnWidth(array("10%","90%"));		
-		$tbl->render();		
 
-		//$this->tpl->setVariable('CODES_TABLE', $tbl->tpl->get());
-		$this->tpl->setVariable('TABLE', $tbl->tpl->get());		
-		
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setTitle($this->lng->txt("paya_coupons_coupons"));
+		$tbl->setId('tbl_show_codes');
+		$tbl->setRowTemplate("tpl.shop_coupons_row.html", "Services/Payment");
+
+		$tbl->addColumn('', 'coupon_id', '1%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_code'), 'coupon_code', '30%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_usage_of_codes'), 'usage_of_codes', '60%');
+
+		$tbl->setSelectAllCheckbox('coupon_id');
+
+		$tbl->addCommandButton('generateCodes',$this->lng->txt('paya_coupons_generate_codes'));
+		$tbl->addCommandButton('exportCodes',$this->lng->txt('export'));
+
+		$tbl->addMultiCommand("deleteCodes", $this->lng->txt("delete"));
+
+		$tbl->setData($f_result);
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
+
 		return true;
 	}
 	
-	function exportCodes()
+	public function exportCodes()
 	{
 		$codes = $this->coupon_obj->getCodesByCouponId($_GET["coupon_id"]);
 		
@@ -683,7 +620,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function saveCodeForm()
+	public function saveCodeForm()
 	{
 		if (isset($_POST["generate_length"])) $_SESSION["pay_coupons"]["code_length"] = $_POST["generate_length"];
 		else $_POST["generate_length"] = $_SESSION["pay_coupons"]["code_length"];
@@ -764,7 +701,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		}
 	}
 	
-	function __makeCode($a_code = "", $a_length = 32)
+	private function __makeCode($a_code = "", $a_length = 32)
 	{
 		if ($a_code == "") $a_code = md5(uniqid(rand()));
 	
@@ -776,7 +713,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return $a_code;
 	}
 	
-	function generateCodes($view = "choice")
+	public function generateCodes($view = "choice")
 	{		
 		$this->coupon_obj->setId($_GET['coupon_id']);
 		
@@ -846,12 +783,12 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function assignObjects()
+	public function assignObjects()
 	{
-		if (is_array($_POST['objects']))
+		if (is_array($_POST['object_id']))
 		{
 			$this->coupon_obj->setId($_GET["coupon_id"]);		
-			foreach($_POST['objects'] as $id)
+			foreach($_POST['object_id'] as $id)
 			{							
 				if ($id)
 				{					
@@ -865,12 +802,12 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function unassignObjects()
+	public function unassignObjects()
 	{
-		if (is_array($_POST['objects']))
+		if (is_array($_POST['object_id']))
 		{			
 			$this->coupon_obj->setId($_GET["coupon_id"]);				
-			foreach($_POST['objects'] as $id)
+			foreach($_POST['object_id'] as $id)
 			{							
 				if ($id)
 				{
@@ -884,7 +821,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function showObjects()
+	public function showObjects()
 	{
 		$this->coupon_obj->setId($_GET['coupon_id']);
 		
@@ -918,24 +855,24 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id']);
 			
-			$p_result[$p_counter][]	= ilUtil::formCheckbox(0, 'objects[]', $data['ref_id']);			
-			$p_result[$p_counter][] = $tmp_obj->getTitle();
+			$p_result[$p_counter]['object_id']	= ilUtil::formCheckbox(0, 'object_id[]', $data['ref_id']);
+			$p_result[$p_counter]['title'] = $tmp_obj->getTitle();
 			switch($data['status'])
 			{
 				case $this->pobject->STATUS_BUYABLE:
-					$p_result[$p_counter][] = $this->lng->txt('paya_buyable');
+					$p_result[$p_counter]['status'] = $this->lng->txt('paya_buyable');
 					break;
 
 				case $this->pobject->STATUS_NOT_BUYABLE:
-					$p_result[$p_counter][] = $this->lng->txt('paya_not_buyable');
+					$p_result[$p_counter]['status'] = $this->lng->txt('paya_not_buyable');
 					break;
 					
 				case $this->pobject->STATUS_EXPIRES:
-					$p_result[$p_counter][] = $this->lng->txt('paya_expires');
+					$p_result[$p_counter]['status'] = $this->lng->txt('paya_expires');
 					break;
 			}
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
-			$p_result[$p_counter][] = ilPaymethods::getStringByPaymethod($data['pay_method']);
+			$p_result[$p_counter]['pay_method'] = ilPaymethods::getStringByPaymethod($data['pay_method']);
 				
 			++$p_counter;				
 							
@@ -946,87 +883,54 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	
 		if (count($f_result_assigned) > 0)
 		{	
-			$tbl = $this->initTableGUI();
-			$tpl = $tbl->getTemplateObject();
+			$tbl = new ilShopTableGUI($this);
+			$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_assigned_objects"));
+			$tbl->setId('tbl_show_assigned');
 			$tbl->setPrefix('assigned');
-			
-			$tpl->setCurrentBlock("tbl_form_header");		
-			$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$tpl->parseCurrentBlock();	
-			$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_assigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_assigned_objects"));
-			$tbl->setHeaderNames(array("", 
-									   $this->lng->txt("title"),
-								   	   $this->lng->txt("status"),
-								   	   $this->lng->txt("paya_pay_method")));
-			$header_params = $this->ctrl->getParameterArray($this,'');
-			$tbl->setHeaderVars(array("", 
-									  "title",
-								  	  "status",
-								  	  "pay_method"),$header_params);		
-			$offset = $_GET['assignedoffset'];
-			$order = $_GET['assignedsort_by'];
-			$direction = $_GET['assignedsort_order'] ? $_GET['assignedsort_order'] : 'desc';		
-			$tbl->setOrderColumn($order,'title');
-			$tbl->setOrderDirection($direction);
-			$tbl->setOffset($offset);
-			$tbl->setLimit($_GET['limit']);
-			$tbl->setMaxCount(count($f_result_assigned));
-			$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
-			$tbl->setData($f_result_assigned);								  
-			$tpl->setVariable('COLUMN_COUNTS', 4);		
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));		
-			$tpl->setCurrentBlock("tbl_action_button");
-			$tpl->setVariable("BTN_NAME","unassignObjects");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("remove"));
-			$tpl->parseCurrentBlock();
-			$tbl->setColumnWidth(array("10%","20%","20%","20%"));			
-			$tbl->render();
+			$tbl->setRowTemplate("tpl.shop_objects_row.html", "Services/Payment");
 
-			$this->tpl->setVariable('TABLE', $tbl->tpl->get());
+			$tbl->addColumn('', 'object_id', '1%');
+			$tbl->addColumn($this->lng->txt('title'),'title', '10%');
+			$tbl->addColumn($this->lng->txt('status'), 'status', '30%');
+			$tbl->addColumn($this->lng->txt('paya_pay_method'), 'paya_pay_method', '60%');
+
+			$tbl->setSelectAllCheckbox('object_id');
+
+			$tbl->addMultiCommand('unassignObjects',$this->lng->txt('remove'));
+
+
+			$tbl->setData($f_result_assigned);
+	
+			$this->tpl->setVariable('TABLE', $tbl->getHTML());
 		}
 		
 		if (count($f_result_unassigned) > 0)
 		{		
-			$tbl = $this->initTableGUI();
-			$tpl = $tbl->getTemplateObject();
-			$tpl->setCurrentBlock("tbl_form_header");		
-			$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$tpl->parseCurrentBlock();	
-			$tbl->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_unassigned_objects"),"icon_pays.gif",$this->lng->txt("paya_coupons_unassigned_objects"));
-			$tbl->setHeaderNames(array("", 
-									   $this->lng->txt("title"),
-								   	   $this->lng->txt("status"),
-								   	   $this->lng->txt("paya_pay_method")));
-			$header_params = $this->ctrl->getParameterArray($this,'');
-			$tbl->setHeaderVars(array("", 
-									  "title_ua",
-								  	  "status_ua",
-								  	  "pay_method_ua"),$header_params);		
-			$offset = $_GET['offset'];
-			$order = $_GET['sort_by'];
-			$direction = $_GET['sort_order'] ? $_GET['sort_order'] : 'desc';		
-			$tbl->setOrderColumn($order,'title_ua');
-			$tbl->setOrderDirection($direction);
-			$tbl->setOffset($offset);
-			$tbl->setLimit($_GET['limit']);
-			$tbl->setMaxCount(count($f_result_unassigned));
-			$tbl->setFooter('tblfooter', $this->lng->txt('previous'), $this->lng->txt('next'));
-			$tbl->setData($f_result_unassigned);								  
-			$tpl->setVariable('COLUMN_COUNTS', 4);		
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));		
-			$tpl->setCurrentBlock("tbl_action_button");
-			$tpl->setVariable("BTN_NAME","assignObjects");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
-			$tpl->parseCurrentBlock();
-			$tbl->setColumnWidth(array("10%","20%","20%","20%"));			
-			$tbl->render();
-			$this->tpl->setVariable('TABLE_2', $tbl->tpl->get());
+			$tbl_2 = new ilShopTableGUI($this);
+			$tbl_2->setTitle($this->lng->txt("paya_coupons_coupon")." ".$this->coupon_obj->getTitle().": ".$this->lng->txt("paya_coupons_unassigned_objects"));
+			$tbl_2->setId('tbl_show_unassigned');
+			$tbl_2->setPrefix('unassigned');
+			$tbl_2->setRowTemplate("tpl.shop_objects_row.html", "Services/Payment");
+
+			$tbl_2->addColumn('', 'object_id', '1%');
+			$tbl_2->addColumn($this->lng->txt('title'),'title', '10%');
+			$tbl_2->addColumn($this->lng->txt('status'), 'status', '30%');
+			$tbl_2->addColumn($this->lng->txt('paya_pay_method'), 'pay_method', '60%');
+
+			$tbl_2->setSelectAllCheckbox('object_id');
+
+			$tbl_2->addMultiCommand('assignObjects',$this->lng->txt('add'));
+
+
+			$tbl_2->setData($f_result_unassigned);
+			
+			$this->tpl->setVariable('TABLE_2', $tbl_2->getHTML());
 		}
 		
 		return true;
 	}
 	
-	function importCodes()
+	public function importCodes()
 	{	
 		include_once('./Services/Utilities/classes/class.ilCSVReader.php');
 		
@@ -1068,7 +972,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function showCodeImport()
+	public function showCodeImport()
 	{
 		$this->ctrl->setParameter($this, 'coupon_id', $_GET['coupon_id']);
 		$this->__showButtons();
@@ -1093,7 +997,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function __showButtons()
+	private function __showButtons()
 	{		
 		global $ilToolbar;
 
@@ -1104,7 +1008,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function __initPaymentObject($a_pobject_id = 0)
+	private function __initPaymentObject($a_pobject_id = 0)
 	{
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 
@@ -1113,7 +1017,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		return true;
 	}
 	
-	function __initCouponObject()
+	private function __initCouponObject()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentCoupons.php';	
 

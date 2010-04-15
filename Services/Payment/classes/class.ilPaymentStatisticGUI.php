@@ -13,7 +13,8 @@
 include_once './Services/Payment/classes/class.ilPaymentObject.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 
 
 class ilPaymentStatisticGUI extends ilShopBaseGUI
@@ -329,20 +330,20 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$str_paymethod = ilPayMethods::getStringByPaymethod($booking['b_pay_method']);
 			$transaction .= " (" . $str_paymethod . ")";
 			
-			$f_result[$counter][] = $transaction;
-			$f_result[$counter][] = ($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted'));
-			$f_result[$counter][] = ($tmp_vendor != '' ?  '['.$tmp_vendor.']' : $this->lng->txt('user_deleted'));
-			$f_result[$counter][] = ($tmp_purchaser != '' ?  '['.$tmp_purchaser.']' : $this->lng->txt('user_deleted'));
-			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
+			$f_result[$counter]['transaction'] = $transaction;
+			$f_result[$counter]['object_title'] = ($tmp_obj != '' ?  $tmp_obj : $this->lng->txt('object_deleted'));
+			$f_result[$counter]['vendor'] = ($tmp_vendor != '' ?  '['.$tmp_vendor.']' : $this->lng->txt('user_deleted'));
+			$f_result[$counter]['customer'] = ($tmp_purchaser != '' ?  '['.$tmp_purchaser.']' : $this->lng->txt('user_deleted'));
+			$f_result[$counter]['order_date'] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
 			
 			if($booking['duration'] == 0)
 			{
 				$booking['duration'] = $this->lng->txt('unlimited_duration');
 			}
 
-			$f_result[$counter][] = $booking['duration'];
-			$f_result[$counter][] = ilFormat::_getLocalMoneyFormat($booking['price']).' '.$booking['currency_unit'];
-			$f_result[$counter][] = $booking['discount'].' '.$booking['currency_unit'];
+			$f_result[$counter]['duration'] = $booking['duration'];
+			$f_result[$counter]['price'] = ilFormat::_getLocalMoneyFormat($booking['price']).' '.$booking['currency_unit'];
+			$f_result[$counter]['discount'] = $booking['discount'].' '.$booking['currency_unit'];
 
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
@@ -353,12 +354,12 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 				$this->lng->txt('yes') : 
 				$this->lng->txt('no');
 
-			$f_result[$counter][] = $payed_access;
+			$f_result[$counter]['payed_access'] = $payed_access;
 
 			$this->ctrl->setParameter($this,"booking_id",$booking['booking_id']);
 			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editStatistic")."\">".$this->lng->txt("edit")."</a></div>";
 
-			$f_result[$counter][] = $link_change;
+			$f_result[$counter]['edit'] = $link_change;
 
 			unset($tmp_obj);
 			unset($tmp_vendor);
@@ -849,10 +850,11 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			{
 				continue;
 			}
-			$f_result[$counter][] = ilUtil::formRadiobutton(0,"user_id",$user["id"]);
-			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = $tmp_obj->getLastname();
+	//		$f_result[$counter]['user_id'] = ilUtil::formRadiobutton(0,"user_id",$user["id"]);
+			$f_result[$counter]['user_id'] = $user["id"];
+			$f_result[$counter]['login'] = $tmp_obj->getLogin();
+			$f_result[$counter]['firstname'] = $tmp_obj->getFirstname();
+			$f_result[$counter]['lastname'] = $tmp_obj->getLastname();
 			
 			unset($tmp_obj);
 			++$counter;
@@ -864,7 +866,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	{
 		global $ilToolbar,$ilCtrl; 
 
-		
+
 		isset($_POST['sell_id']) ? $sell_id = $_POST['sell_id'] : $sell_id = $_GET['sell_id'];
 		isset($_POST['user_id']) ? $user_id = $_POST['user_id'] : $user_id = $_GET['user_id'];
 /*		
@@ -1082,59 +1084,24 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	// PRIVATE
 	function __showStatisticTable($a_result_set)
 	{		
-		$tbl = $this->initTableGUI();
-		$tpl = $tbl->getTemplateObject();
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setTitle($this->lng->txt("bookings"));
+		$tbl->setId('tbl_bookings');
+		$tbl->setRowTemplate("tpl.shop_statistics_row.html", "Services/Payment");
 
-		// SET FORMAACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("bookings"),"icon_pays.gif",$this->lng->txt("bookings"));
-		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
-								   $this->lng->txt("title"),
-								   $this->lng->txt("paya_vendor"),
-								   $this->lng->txt("paya_customer"),
-								   $this->lng->txt("paya_order_date"),
-								   $this->lng->txt("duration"),
-								   $this->lng->txt("price_a"),
-								   $this->lng->txt("paya_coupons_coupons"),
-								   $this->lng->txt("paya_payed_access"),
-								   ''));
-		$header_params = $this->ctrl->getParameterArray($this,'');
-		$tbl->setHeaderVars(array("transaction",
-								  "title",
-								  "vendor",
-								  "customer",
-								  "order_date",
-								  "duration",
-								  "price",
-								  "discount",
-								  "payed_access",
-								  "options"),$header_params);
-
-		$offset = $_GET["offset"];
-		$order = $_GET["sort_by"];
-		$direction = $_GET["sort_order"] ? $_GET['sort_order'] : 'desc';
-
-		$tbl->setOrderColumn($order,'order_date');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setMaxCount(count($a_result_set));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->addColumn($this->lng->txt('paya_transaction'), 'transaction', '10%');
+		$tbl->addColumn($this->lng->txt('title'), 'object_title', '10%');
+		$tbl->addColumn($this->lng->txt('paya_vendor'), 'vendor', '10%');
+		$tbl->addColumn($this->lng->txt('paya_customer'), 'customer', '10%');
+		$tbl->addColumn($this->lng->txt('paya_order_date'), 'order_date', '10%');
+		$tbl->addColumn($this->lng->txt('duration'), 'duration', '10%');
+		$tbl->addColumn($this->lng->txt('price_a'), 'price', '5%');
+		$tbl->addColumn($this->lng->txt('paya_coupons_coupon'), 'discount', '5%');
+		$tbl->addColumn($this->lng->txt('paya_payed_access'), 'payed_access', '5%');
+		$tbl->addColumn($this->lng->txt('edit'), 'edit', '5%');
 		$tbl->setData($a_result_set);
 
-		$tpl->setVariable("COLUMN_COUNTS",10);
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->setVariable("PBTN_NAME","excelExport");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("excel_export"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->render();
-
-		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
 		return true;
 	}
@@ -1172,50 +1139,21 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	}
 	function __showSearchUserTable($a_result_set)
 	{
-		$tbl = $this->initTableGUI();
-		$tpl = $tbl->getTemplateObject();
-
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
 		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","addCustomer");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("add"));
-		$tpl->parseCurrentBlock();
+		$tbl = new ilShopTableGUI($this);
+		$tbl->setTitle($this->lng->txt("users"));
+		$tbl->setId('tbl_users_search');
+		$tbl->setRowTemplate("tpl.shop_users_row.html", "Services/Payment");
+		$tbl->addColumn('', 'user_id', '1%', true);
+		$tbl->addColumn($this->lng->txt('login'), 'login', '10%');
+		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '10%');
+		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '10%');
 
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","showStatistics");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
-		$tpl->parseCurrentBlock();
+		$tbl->addMultiCommand('addCustomer', $this->lng->txt('add'));
+		$tbl->setData($a_result_set);
 
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("users"),"icon_usr.gif",$this->lng->txt("crs_header_edit_members"));
-		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("login"),
-								   $this->lng->txt("firstname"),
-								   $this->lng->txt("lastname")));
-		$this->ctrl->setParameter($this, "cmd", "addCustomer");
-		$header_params = $this->ctrl->getParameterArray($this,'');
-		$tbl->setHeaderVars(array("user_id",
-								  "login",
-								  "firstname",
-								  "lastname"), $header_params);
-
-		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
-
-		$this->setTableGUIBasicData($tbl,$a_result_set);
-		$tbl->render();
-		
-		$this->tpl->setVariable("TABLE",$tbl->tpl->get());
-
+		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 		return true;
 	}
 }
