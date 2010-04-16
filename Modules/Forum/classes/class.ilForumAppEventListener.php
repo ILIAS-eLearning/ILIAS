@@ -50,7 +50,17 @@ class ilForumAppEventListener
 						break;
 				}
 				break;
-		}
+
+			case "Services/Tree":
+				switch ($a_event)
+				{
+					case "moveTree":
+						include_once './Modules/Forum/classes/class.ilForumNotification.php';
+						ilForumNotification::_clearForcedForumNotifications($a_parameter);
+						break;
+				}
+				break;
+			}
 	}
 }
 ?>

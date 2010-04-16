@@ -473,6 +473,10 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 					ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER,
 					$ilUser->getId()
 				);
+
+				include_once './Modules/Forum/classes/class.ilForumNotification.php';
+				ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $ilUser->getId());
+
 				ilUtil::sendSuccess($this->lng->txt("grp_registration_completed"),true);
 				$this->ctrl->returnToParent($this);
 				break;

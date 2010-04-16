@@ -60,6 +60,27 @@ class ilForumProperties
 	private $post_activation_enabled = 0; //false; 
 
 	/**
+	 * Activation of (CRS/GRP) forum notification by mod/admin
+	 * @access	private
+	 */
+	private $admin_force_noti = false;
+	/**
+	 * Activation of allowing members to deactivate (CRS/GRP)forum notification
+	 * @access	private
+	 */
+	private $user_toggle_noti = false;
+
+	/**
+	 *
+	 * Allow ratings in forum threads
+	 *
+	 * @access	private
+	 * @type	boolean
+	 * @var		boolean
+	 */
+	private $thread_ratings_allowed = false;
+
+	/**
 	 * DB Object
 	 * @access	private
 	 */
@@ -107,6 +128,8 @@ class ilForumProperties
 				$this->anonymized = $row->anonymized ;// == 1 ? true : false;
 				$this->statistics_enabled = $row->statistics_enabled ;// == 1 ? true : false;
 				$this->post_activation_enabled = $row->post_activation ;// == 1 ? true : false;
+				$this->admin_force_noti = $row->admin_force_noti == 1 ? true : false;
+				$this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
 				
 				return true;
 			}
@@ -126,11 +149,13 @@ class ilForumProperties
 					default_view,
 					anonymized,
 					statistics_enabled,
-					post_activation
+					post_activation,
+					admin_force_noti,
+					user_toggle_noti
 				)
-				VALUES( %s, %s, %s, %s, %s)',
-			array('integer', 'integer', 'integer', 'integer', 'integer'),
-			array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
+				VALUES( %s, %s, %s, %s, %s, %s, %s)',
+			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+			array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti));
 			
 			return true;
 		}
@@ -146,10 +171,12 @@ class ilForumProperties
 				SET default_view = %s, 
 					anonymized = %s, 
 					statistics_enabled = %s, 
-					post_activation  = %s 
+					post_activation  = %s,
+					admin_force_noti = %s,
+					user_toggle_noti = %s
 				WHERE obj_id = %s', 
-				array ('integer', 'integer', 'integer', 'integer', 'integer'),
-				array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->obj_id));
+				array ('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+				array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti, $this->obj_id));
 			
 			return true;
 		}		
@@ -165,11 +192,13 @@ class ilForumProperties
 					default_view,
 					anonymized,
 					statistics_enabled,
-					post_activation
+					post_activation,
+					admin_force_noti,
+					user_toggle_noti
 				)
-				VALUES( %s, %s, %s, %s, %s)',
-				array ('integer', 'integer', 'integer', 'integer', 'integer'),
-				array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
+				VALUES( %s, %s, %s, %s, %s, %s, %s)',
+				array ('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+				array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti));
 			
 			return true;
 		}
@@ -232,6 +261,67 @@ class ilForumProperties
 	public function getObjId()
 	{
 		return $this->obj_id;
-	}	
+	}
+
+	public function setAdminForceNoti($a_admin_force)
+	{
+		$this->admin_force_noti = $a_admin_force;
+	}
+
+	public function isAdminForceNoti()
+	{
+		return $this->admin_force_noti;
+	}
+
+	public function setUserToggleNoti($a_user_toggle)
+	{
+		$this->user_toggle_noti = $a_user_toggle;
+	}
+
+	public function isUserToggleNoti()
+	{
+		return $this->user_toggle_noti;
+	}
+
+	static function _isAdminForceNoti($a_obj_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s",
+		     	 	array('integer'),
+		     	 	array($a_obj_id));
+		while($record = $ilDB->fetchAssoc($res))
+		{
+			return $record['admin_force_noti'];
+		}
+
+		return 0;
+	}
+
+	static function _isUserToggleNoti($a_obj_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s",
+		     	 	array('integer'),
+		     	 	array($a_obj_id));
+		while($record = $ilDB->fetchAssoc($res))
+		{
+			return $record['user_toggle_noti'];
+		}
+		return 0;
+	}
+
+	public function isThreadRatingAllowed($a_allow_rating = null)
+	{
+		if(null === $a_allow_rating)
+		{
+			return $this->thread_ratings_allowed;
+		}
+
+		$this->thread_ratings_allowed = $a_allow_rating;
+
+		return $this;
+	}
 }
 ?>

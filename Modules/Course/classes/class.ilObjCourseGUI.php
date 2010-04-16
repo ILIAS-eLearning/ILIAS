@@ -2699,6 +2699,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			}
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+
+			include_once './Modules/Forum/classes/class.ilForumNotification.php';
+			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
+
 			++$added_users;
 		}
 		if($added_users)
@@ -2748,6 +2752,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
 			$waiting_list->removeFromList($user_id);
 
+			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
+			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
 			++$added_users;
 		}
 
@@ -2858,6 +2864,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach($_POST["subscribers"] as $usr_id)
 			{
 				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
+
+				include_once('./Modules/Forum/classes/class.ilForumNotification.php');
+				ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $usr_id);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"));
@@ -3067,6 +3076,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
 		$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_UNSUBSCRIBE,$ilUser->getId());
 		
+		include_once './Modules/Forum/classes/class.ilForumNotification.php';
+		ilForumNotification::checkForumsExistsDelete($this->ref_id, $ilUser->getId());
+
 		ilUtil::sendSuccess($this->lng->txt('crs_unsubscribed_from_crs'),true);
 
 		ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
@@ -3167,10 +3179,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
+			include_once './Modules/Forum/classes/class.ilForumNotification.php';
+
 			// SEND NOTIFICATION
 			foreach($_POST["participants"] as $usr_id)
 			{
 				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_MEMBER,$usr_id);
+				ilForumNotification::checkForumsExistsDelete($this->object->getRefId(), $usr_id);
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt("crs_members_deleted"));

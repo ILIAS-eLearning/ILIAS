@@ -641,11 +641,13 @@ class ilForum
 
 		if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
 		{
+			$GLOBALS["frm_notifications_sent"] = array();
 			$this->__sendMessage($parent_pos, $pos_data);
 
 			$pos_data["top_name"] = $forum_obj->getTitle();			
 			$this->sendForumNotifications($pos_data);
 			$this->sendThreadNotifications($pos_data);
+			unset($GLOBALS["frm_notifications_sent"]);
 		}
 		
 		// Send notification to moderators if they have to enable a post
@@ -1329,7 +1331,6 @@ class ilForum
 	
 	public function getUserStatistic($is_moderator = false)
 	{
-
 		global $ilDB, $ilUser;
 		
 		$statistic = array();
@@ -1378,7 +1379,6 @@ class ilForum
 		}	  
 			  
 		return is_array($statistic) ? $statistic : array(); 			
-			
 	}
 	
 	
@@ -2503,6 +2503,12 @@ class ilForum
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			if(is_array($GLOBALS["frm_notifications_sent"]) &
+			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
+			{
+				continue;
+			}
+
 			// do rbac check before sending notification
 			$send_mail = false;			
 			foreach((array)$frm_references as $ref_id)
@@ -2533,7 +2539,7 @@ class ilForum
 	
 	function sendForumNotifications($post_data)
 	{
-		global $ilDB, $ilAccess, $lng;
+		global $ilDB, $ilAccess, $lng, $ilUser;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2579,7 +2585,6 @@ class ilForum
 			array('integer', 'integer'),
 			array($post_data['pos_top_fk'], $_SESSION['AccountId']));
 		
-		
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($obj_id);
 		
@@ -2590,6 +2595,12 @@ class ilForum
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{			
+			if(is_array($GLOBALS["frm_notifications_sent"]) &
+			   in_array($row['user_id'], $GLOBALS["frm_notifications_sent"]))
+			{
+				continue;
+			}
+
 			// do rbac check before sending notification
 			$send_mail = false;			
 			foreach((array)$frm_references as $ref_id)
