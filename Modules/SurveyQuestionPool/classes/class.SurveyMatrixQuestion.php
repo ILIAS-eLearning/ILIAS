@@ -1123,12 +1123,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							foreach ($value as $val)
 							{
-								array_push($data, array("value" => $val, "row" => $matches[1]));
+								array_push($data, array("value" => $val, "rowvalue" => $matches[1]));
 							}
 						}
 						else
 						{
-							array_push($data, array("value" => $value, "row" => $matches[1]));
+							array_push($data, array("value" => $value, "rowvalue" => $matches[1]));
 						}
 					}
 					break;
@@ -1139,12 +1139,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							foreach ($value as $val)
 							{
-								array_push($data, array("value" => $val, "row" => $matches[1]));
+								array_push($data, array("value" => $val, "rowvalue" => $matches[1]));
 							}
 						}
 						else
 						{
-							array_push($data, array("value" => $value, "row" => $matches[1]));
+							array_push($data, array("value" => $value, "rowvalue" => $matches[1]));
 						}
 					}
 					break;
