@@ -1202,6 +1202,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
 			$this->object->members_obj->deleteSubscriber($usr_id);
+
+			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
+			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $usr_id);
 		}
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_assigned"));
 		$this->membersObject();
@@ -1282,6 +1285,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				$user_id
 			);
 			$waiting_list->removeFromList($user_id);
+
+			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
+			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
 
 			++$added_users;
 		}
@@ -1404,12 +1410,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// Send notification
 		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+		include_once './Modules/Forum/classes/class.ilForumNotification.php';
 		foreach($_POST['participants'] as $part)
 		{
 			$this->object->members_obj->sendNotification(
 				ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
 				$part
 			);
+			ilForumNotification::checkForumsExistsDelete($this->object->getRefId(), $part);
 		}
 		
 		
@@ -1862,6 +1870,9 @@ class ilObjGroupGUI extends ilContainerGUI
 			$ilUser->getId()
 		);
 		
+		include_once './Modules/Forum/classes/class.ilForumNotification.php';
+		ilForumNotification::checkForumsExistsDelete($this->object->getRefId(), $ilUser->getId());
+
 		ilUtil::sendSuccess($this->lng->txt('grp_msg_membership_annulled'),true);
 		ilUtil::redirect('repository.php?ref_id='.$tree->getParentId($this->object->getRefId()));
 	}
@@ -1956,6 +1967,9 @@ class ilObjGroupGUI extends ilContainerGUI
 				ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
 				$new_member
 			);
+
+			include_once './Modules/Forum/classes/class.ilForumNotification.php';
+			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $new_member);
 		}
 		
 		unset($_SESSION["saved_post"]);

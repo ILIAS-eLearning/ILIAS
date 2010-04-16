@@ -680,6 +680,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$this->participants->add($ilUser->getId(),IL_CRS_MEMBER);
 				$this->participants->sendNotification($this->participants->NOTIFY_ADMINS,$ilUser->getId());
 				$this->participants->sendNotification($this->participants->NOTIFY_REGISTERED,$ilUser->getId());
+
+				include_once './Modules/Forum/classes/class.ilForumNotification.php';
+				ilForumNotification::checkForumsExistsInsert($this->container->getRefId(). $ilUser->getId());
+
 				ilUtil::sendSuccess($this->lng->txt("crs_subscription_successful"),true);
 				$this->ctrl->returnToParent($this);
 				break;
