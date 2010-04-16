@@ -1354,10 +1354,10 @@ class ilObjTest extends ilObject
 						);
 					}
 
-					// set all finished tests with nr of passes >= allowed passes not finished
+					// set all finished tests with nr of passes < allowed passes not finished
 					$aresult = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries < %s AND submitted = %s",
 						array('integer', 'integer', 'integer'),
-						array($this->getTestId(), $this->getNrOfTries(), 1)
+						array($this->getTestId(), $this->getNrOfTries()-1, 1)
 					);
 					while ($row = $ilDB->fetchAssoc($aresult))
 					{
@@ -3984,7 +3984,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function isTestFinishedToViewResults($active_id, $currentpass)
 	{
 		$num = $this->getPassFinishDate($active_id, $currentpass);
-		return (($currentpass > 0) && ($num == 0)) ? true : false;
+		return ((($currentpass > 0) && ($num == 0)) || $this->isTestFinished($active_id)) ? true : false;
 	}
 
 /**
@@ -7488,6 +7488,20 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array(1, date('Y-m-d H:i:s'), time(), $this->getTestId(), $user_id)
 		);
 		$this->testSession = NULL;
+	}
+
+	/**
+	 * returns if the active for user_id has been submitted
+	 */
+	function isTestFinished($active_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT submitted FROM tst_active WHERE active_id=%s AND submitted=%s",
+			array('integer', 'integer'),
+			array($active_id, 1)
+		);
+		return $result->numRows() == 1;
 	}
 
 	/**

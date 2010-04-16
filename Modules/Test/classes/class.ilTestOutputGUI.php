@@ -1384,7 +1384,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_submit_answers_confirm.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
-		if ($this->object->isActiveTestSubmitted()) 
+		if ($this->object->isTestFinished($this->object->getTestSession()->getActiveId()))
 		{
 			$this->tpl->setCurrentBlock("not_submit_allowed");
 			$this->tpl->setVariable("TEXT_ALREADY_SUBMITTED", $this->lng->txt("tst_already_submitted"));
