@@ -453,7 +453,7 @@ class ilSessionControl
 	{
 		global $ilLog;
 
-		if(DEBUG) $ilLog->log($a_debug_log_message, 'message');
+		if(DEVMODE) $ilLog->write($a_debug_log_message, 'message');
 
 		if(self::INTERNAL_DEBUG) error_log($a_debug_log_message."\n", 3, 'session.log');
 	}
