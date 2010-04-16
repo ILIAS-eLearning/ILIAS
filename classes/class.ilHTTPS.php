@@ -72,7 +72,8 @@ class ilHTTPS
 		// BEGIN WebDAV Use SSL for WebDAV.
 		$this->protected_scripts[] = 'webdav.php';
 		// END WebDAV Use SSL for WebDAV.
-
+		$this->protected_scripts[] = 'shib_login.php';
+		
 		return true;
 	}
 
