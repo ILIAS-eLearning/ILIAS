@@ -848,6 +848,8 @@ function showTrackingItem()
 	
 	/**
 	* Confirmed tracking deletion
+	*
+	* @todo alex, 14 Apr.: This does not confirm to our guidelines, please move DB access to application class
 	*/
 	function confirmedDeleteTracking()
 	{
@@ -882,6 +884,10 @@ function showTrackingItem()
 				array('integer','integer'),
 				array($user,$sco));
  			}
+			
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
+
 	 	}
     
 	 	$this->ctrl->redirect($this, "showTrackingItems");

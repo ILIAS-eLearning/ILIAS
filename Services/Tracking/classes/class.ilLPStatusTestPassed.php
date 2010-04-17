@@ -110,6 +110,67 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
 		return $status_info;
 	}
+	
+	/**
+	 * Determine status.
+	 *
+	 * Behaviour of "old" 4.0 learning progress:
+	 *
+	 * Setting "Multiple Pass Scoring": Score the last pass
+	 * - Test not started: No entry
+	 * - First question opened: Icon/Text: Failed, Score 0%
+	 * - First question answered (correct, points enough for passing): Icon/Text: Completed, Score 66%
+	 * - No change after successfully finishing the pass. (100%)
+	 * - 2nd Pass, first question opened: Still Completed/Completed
+	 * - First question answered (incorrect, success possible): Icon/Text Failed, Score 33%
+	 * - Second question answered (correct): Icon/Text completed
+	 * - 3rd pass, like 2nd, but two times wrong answer: Icon/Text: Failed
+	 *
+	 * Setting "Multiple Pass Scoring": Score the best pass
+	 * - Test not started: No entry
+	 * - First question opened: Icon/Text: Failed, Score 0%
+	 * - First question answered (correct, points enough for passing): Icon/Text: Completed, Score 66%
+	 * - No change after successfully finishing the pass. (100%)
+	 * - 2nd Pass, first question opened: Still Completed/Completed
+	 * - First question answered (incorrect, success possible): Still Completed/Completed
+	 *
+	 * Due to this behaviour in 4.0 we do not have a "in progress" status. During the test
+	 * the status is "failed" unless the score is enough to pass the test, which makes the
+	 * learning progress status "completed".
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB, $ilLog;
 		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+
+		$res = $ilDB->query("SELECT tries FROM tst_active".
+			" WHERE user_fi = ".$ilDB->quote($a_user_id, "integer").
+			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+		
+		if ($rec = $ilDB->fetchAssoc($res))
+		{
+			include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+			if (ilObjTestAccess::_isPassed($a_user_id, $a_obj_id))
+			{
+				$status = LP_STATUS_COMPLETED_NUM;
+			}
+			else
+			{
+				$status = LP_STATUS_FAILED_NUM;
+			}
+			
+		}
+		
+		return $status;		
+	}
+
 }	
 ?>

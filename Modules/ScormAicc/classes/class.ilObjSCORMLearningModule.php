@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
@@ -820,7 +800,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$obj_id = $ilDB->quote($this->getID());
 
 		$fields = fgetcsv($fhandle, 4096, ';');
-
+		$users = array();
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
 			$data = array_combine($fields, $csv_rows);
 			  //check the format
@@ -830,6 +810,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			  if ($this->get_user_id($data["Login"])>0) {
 					
 				$user_id = $ilDB->quote($this->get_user_id($data["Login"]));
+				$users[] = $user_id;
 				$import = $data["Status"];
 				if ($import == "") {$import = 1;}
 					//iterate over all SCO's
@@ -918,6 +899,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
 				}
 		}
+		
+		foreach ($users as $user_id)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+		}
 		return 0;
 	}
 	
@@ -928,13 +915,14 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$fhandle = fopen($a_file, "r");
 		
 		$fields = fgetcsv($fhandle, 4096, ';');
-		
+		$users = array();
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) 
 		{
 			$data = array_combine($fields, $csv_rows);
 	   		$il_sco_id = $this->lookupSCOId($data['Scoid']);
 	   		//look for required data for an import
 	   		$user_id = $data['Userid'];
+			$users[] = $user_id;
 	   		if ($user_id == "" || $user_id == null) {
 	   			//look for Email
 	   			$user_id = $this->getUserIdEmail($data['Email']);
@@ -980,6 +968,14 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	   		}
 	   }
 	   fclose($fhandle);
+	   
+   		// update learning progress
+		foreach ($users as $user_id)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);
+		}
+
 	   return 0;
 	}
 	

@@ -472,7 +472,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		// Clear table offset
 		$this->ctrl->saveParameter($this,'offset',0);
-
 		// Show only detail of current repository item if called from repository
 		switch($this->getMode())
 		{

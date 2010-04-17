@@ -138,6 +138,11 @@ class ilLPObjSettings
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		$this->__read();
+		
+		// refresh learning progress
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_refreshStatus($this->getObjId());
+		
 		return true;
 	}
 
@@ -258,7 +263,7 @@ class ilLPObjSettings
 				include_once './Services/Tracking/classes/class.ilLPCollections.php';
 				include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 				$subtype = ilObjSAHSLearningModule::_lookupSubType($this->getObjId());
-				
+
 				if ($subtype != "scorm2004")
 				{
 					if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))

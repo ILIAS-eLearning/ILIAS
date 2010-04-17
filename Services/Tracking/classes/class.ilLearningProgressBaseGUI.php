@@ -320,33 +320,78 @@ class ilLearningProgressBaseGUI
 	{
 		global $lng;
 		
+		$tpl->setVariable($tpl_prefix."STATUS_IMG",
+			ilLearningProgressBaseGUI::_getImagePathForStatus($a_status));
+		$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
+		
+		return true;
+	}
+	
+	/**
+	 * Get image path for status
+	 */
+	function _getImagePathForStatus($a_status)
+	{
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+
 		switch($a_status)
 		{
+			case LP_STATUS_IN_PROGRESS_NUM:
 			case LP_STATUS_IN_PROGRESS:
 			case LP_STATUS_REGISTERED:
-				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/incomplete.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
+				return ilUtil::getImagePath('scorm/incomplete.gif');
 				break;
 
+			case LP_STATUS_COMPLETED_NUM:
 			case LP_STATUS_COMPLETED:
 			case LP_STATUS_PARTICIPATED:
-				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/complete.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
+				return ilUtil::getImagePath('scorm/complete.gif');
 				break;
 			
 			case LP_STATUS_NOT_ATTEMPTED:
 			case LP_STATUS_NOT_PARTICIPATED:
 			case LP_STATUS_NOT_REGISTERED:
-				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/not_attempted.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
+				return ilUtil::getImagePath('scorm/not_attempted.gif');
 				break;
 
+			case LP_STATUS_FAILED_NUM:
 			case LP_STATUS_FAILED:
-				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/failed.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
+				return ilUtil::getImagePath('scorm/failed.gif');
 				break;
-		}
-		return true;
+			
+			default:
+				return ilUtil::getImagePath('scorm/not_attempted.gif');
+				break;
+		}		
+	}
+
+	/**
+	 * Get status alt text
+	 */
+	function _getStatusText($a_status)
+	{
+		global $lng;
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+//echo "#".$a_status."#";
+		switch($a_status)
+		{
+			case LP_STATUS_IN_PROGRESS_NUM:
+				return $lng->txt(LP_STATUS_IN_PROGRESS);
+				
+			case LP_STATUS_COMPLETED_NUM:
+				return $lng->txt(LP_STATUS_COMPLETED);
+
+			case LP_STATUS_FAILED_NUM:
+				return $lng->txt(LP_STATUS_FAILED);
+
+			default:
+				if ($a_status === LP_STATUS_NOT_ATTEMPTED_NUM)
+				{
+					return $lng->txt(LP_STATUS_NOT_ATTEMPTED);
+				}
+				return $lng->txt($a_status);
+		}		
 	}
 
 

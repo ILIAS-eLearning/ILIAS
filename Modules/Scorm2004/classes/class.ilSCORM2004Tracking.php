@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilSCORM2004Tracking
@@ -203,6 +184,67 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 		return $info;
 	}
+
+	/**
+	 * Get overall scorm status
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	function _getProgressInfoOfUser($a_obj_id, $a_user_id)
+	{
+		global $ilDB, $ilLog;
+
+		$res = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective
+			WHERE objective_id = %s
+			AND scope_id = %s AND user_id = %s', 
+			array('text', 'integer', 'integer'), 
+			array('-course_overall_status-', $a_obj_id, $a_user_id)
+		);
+		
+		$status = "not_attempted";
+		if ($row = $ilDB->fetchAssoc($res))
+		{
+			if (self::_isInProgress($row["status"], $row["status"]))
+			{
+				$status = "in_progress";
+			}
+			if (self::_isCompleted($row["status"], $row["status"]))
+			{
+				$status = "completed";
+			}
+			if (self::_isFailed($row["status"], $row["status"]))
+			{
+				$status = "failed";
+			}
+		}
+		return $status;
+	}
+
+	/**
+	 * Get all tracked users
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	function _getTrackedUsers($a_obj_id)
+	{
+		global $ilDB, $ilLog;
+
+		$res = $ilDB->queryF('
+			SELECT DISTINCT user_id FROM cmi_gobjective
+			WHERE objective_id = %s
+			AND scope_id = %s', 
+			array('text', 'integer'), 
+			array('-course_overall_status-', $a_obj_id)
+		);
+		
+		$users = array();
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			$users[] = $row["user_id"];
+		}
+		return $users;
+	}
 	
 	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id)
 	{
@@ -242,10 +284,67 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		}
 		return $info;
 	}
+	
+	public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$status = "not_attempted";
+		
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
+
+			$res = $ilDB->queryF(
+				'SELECT cp_node.cp_node_id id,
+						cmi_node.completion_status completion, 
+						cmi_node.success_status success
+				 FROM cp_node, cmi_node 
+				 WHERE '.$in.'
+				 AND cp_node.cp_node_id = cmi_node.cp_node_id
+				 AND cp_node.slm_id = %s
+				AND cmi_node.user_id = %s',
+				array('integer', 'integer'),
+				array($a_obj_id, $a_user_id)
+			);
+	
+			
+			$cnt = 0;
+			$completed = true;
+			$failed = false;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["success"] == "failed")
+				{
+					$failed = true;
+				}
+				if ($rec["completion"] != "completed" && $row["success"] != "passed")
+				{
+					$completed = false;
+				}
+				$cnt++;
+			}
+			if ($cnt > 0)
+			{
+				$status = "in_progress";
+			}
+			if ($completed && $cnt == count($a_scos))
+			{
+				$status = "completed";
+			}
+			if ($failed)
+			{
+				$status = "failed";
+			}
+
+		}
+		return $status;
+	}
+
 
 	/**
-	* 
-	*/
+	 * 
+	 */
 	static function _isCompleted($a_status, $a_satisfied)
 	{
 		if ($a_status == "completed")

@@ -19,16 +19,45 @@ class ilTrQuery
 	{
 		global $ilDB, $rbacreview;
 
-		include_once("./Services/Tracking/classes/class.ilTracking2.php");
-		ilTracking2::checkStatusForObject($a_obj_id);
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		ilLPStatus::checkStatusForObject($a_obj_id);
 		
-// @todo: move this to a parent class later
+// @todo: move this to a parent or type related class later
 		if (ilObject::_lookupType($a_obj_id) == "crs")
 		{
 			$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 			$a_users = $member_obj->getParticipants();
 		}
-		
+		if (ilObject::_lookupType($a_obj_id) == "exc")
+		{
+			include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
+			include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
+			$exc = new ilObjExercise($a_obj_id, false);
+			$members = new ilExerciseMembers($exc);
+			$a_users = $members->getMembers();
+		}
+		if (ilObject::_lookupType($a_obj_id) == "sahs")
+		{
+			$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
+			switch ($subtype)
+			{
+				case 'scorm2004':
+					include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+					$a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+					break;
+				
+				default:
+					include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+					$a_users = ilObjSCORMTracking::_getTrackedUsers($a_obj_id);
+					break;
+			}
+		}
+		if (ilObject::_lookupType($a_obj_id) == "tst")
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusTestFinished.php");
+			$a_users = ilLPStatusTestFinished::getParticipants($a_obj_id);
+		}
+
 		$fields = array("usr_data.usr_id", "login");
 	
 		if (is_array($a_additional_fields))
@@ -44,23 +73,24 @@ class ilTrQuery
 		
 		// count query
 		$count_query = "SELECT count(usr_data.usr_id) cnt".
-			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id $join_and".
+			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
 			" AND read_event.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")";
 			
 		// basic query
 		$query = "SELECT ".implode($fields, ",").
-			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id $join_and".
+			" FROM usr_data $left JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
 			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")";
 
 		// filter
-		$query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
-		$count_query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." ".$join_and;
+		$count_query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer").
+			" ".$join_and;
 		$where = " AND";
-//var_dump($query);		
+//var_dump($query);	
 		if ($a_filter["string"] != "")		// email, name, login
 		{
 			$add = $where." (".$ilDB->like("usr_data.login", "text", $a_filter["string"]."%")." ".

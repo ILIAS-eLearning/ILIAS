@@ -267,21 +267,49 @@ class ilLPStatusWrapper
 	static function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false)
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
-		$trac_obj = new $class($a_obj_id);
-		$trac_obj->_updateStatus($a_obj_id, $a_usr_id, $a_obj, $a_percentage);
+
+		if (strtolower($class) != "illpstatus")
+		{
+			$trac_obj = new $class($a_obj_id);
+			$trac_obj->_updateStatus($a_obj_id, $a_usr_id, $a_obj, $a_percentage);
+		}
 	}
 	
 	/**
-	 * des
+	 * Set dirty
 	 *
-	 * @param
-	 * @return
+	 * @param	integer		object id
 	 */
 	function _setDirty($a_obj_id)
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		$trac_obj = new $class($a_obj_id);
 		$trac_obj->_setDirty($a_obj_id);
+	}
+
+	/**
+	 * Set dirty
+	 *
+	 * @param	integer		object id
+	 */
+	function _refreshStatus($a_obj_id)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		$trac_obj = new $class($a_obj_id);
+		$trac_obj->refreshStatus($a_obj_id);
+	}
+
+	/**
+	 * Determine status
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _determineStatus($a_obj_id, $a_usr_id)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		$trac_obj = new $class($a_obj_id);
+		return $trac_obj->determineStatus($a_obj_id, $a_usr_id);
 	}
 	
 }	

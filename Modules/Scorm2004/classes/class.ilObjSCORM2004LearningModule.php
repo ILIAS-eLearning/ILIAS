@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
 
@@ -393,6 +373,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				'AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = %s)', 
 				array('integer', 'integer'),
 				array($user, $this->getId()));
+			
+			// update learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user);
 		}
 	}
 	
@@ -686,6 +670,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$fhandle = fopen($a_file, "r");
 
 		$obj_id = $this->getID();
+		$users = array();
 
 		$fields = fgetcsv($fhandle, 4096, ';');
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
@@ -729,10 +714,20 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 						}
 						
 					}
+					$users[] = $user_id;
+					
 			  	} else {
 					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
 				}
 		}
+		
+		// update learning progress
+		foreach ($users as $user_id)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);
+		}
+
 		return 0;
 	}
 	

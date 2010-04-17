@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/YUI/classes/class.ilYuiUtil.php");
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
@@ -733,6 +714,10 @@ class ilSCORM13Player
 				}	
 		    }
 		}
+	
+		// update learning progress
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		ilLPStatusWrapper::_updateStatus($package, $user);
 	}	
 	
 	public function specialPage() {
@@ -1025,7 +1010,11 @@ class ilSCORM13Player
 				$values = array($cp_node_id, $userId);			
 				$ilDB->manipulateF($q, $types, $values);
 			}
-		} 
+		}
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		ilLPStatusWrapper::_updateStatus($packageId, $userId);
+
 	}
 	
 	private function setCMIData($userId, $packageId, $data) 
@@ -1233,6 +1222,11 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
+		
+		// update learning progress status
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($packageId, $userId);
+
 		return $result;
 	}
 	

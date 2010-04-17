@@ -1,37 +1,17 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *
-* @package ilias-tracking
+* @ingroup	ServicesTracking
 *
 */
-
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
 class ilLPStatusTestFinished extends ilLPStatus
 {
 
@@ -50,8 +30,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			"WHERE tries = 0 ".
-			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
+			" WHERE tries = ".$ilDB->quote(0, "integer").
+			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), "integer");
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -69,8 +49,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
 		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			"WHERE tries > 0 ".
-			"AND test_fi = '".ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)."'";
+			" WHERE tries > ".$ilDB->quote(0, "integer").
+			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id));
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -79,5 +59,64 @@ class ilLPStatusTestFinished extends ilLPStatus
 		}
 		return $user_ids ? $user_ids : array();
 	}
+
+	/**
+	 * Get participants
+	 *
+	 * @param
+	 * @return
+	 */
+	function getParticipants($a_obj_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active".
+			" WHERE test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+		$user_ids = array();
+
+		while($rec = $ilDB->fetchAssoc($res))
+		{
+			$user_ids[] = $rec["user_fi"];
+		}
+		return $user_ids;
+	}
+
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB, $ilLog;
+		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+
+		$res = $ilDB->query("SELECT tries FROM tst_active".
+			" WHERE user_fi = ".$ilDB->quote($a_user_id, "integer").
+			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+		
+		if ($rec = $ilDB->fetchAssoc($res))
+		{
+			if ($rec["tries"] == 0)
+			{
+				$status = LP_STATUS_IN_PROGRESS_NUM;
+			}
+			else if ($rec["tries"] > 0)
+			{
+				$status = LP_STATUS_COMPLETED_NUM;
+			}
+
+		}
+
+		return $status;		
+	}
+
 }	
 ?>

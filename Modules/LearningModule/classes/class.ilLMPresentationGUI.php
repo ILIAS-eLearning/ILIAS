@@ -1690,6 +1690,10 @@ class ilLMPresentationGUI
 			include_once "Services/Tracking/classes/class.ilTracking.php";
 			ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
 				$page_id, "pg", "read");
+			
+			// update learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());
 
 		}
 

@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -29,7 +10,6 @@
 * @version $Id: class.ilEventParticipants.php 15697 2008-01-08 20:04:33Z hschottm $
 * 
 */
-
 class ilEventParticipants
 {
 	var $ilErr;
@@ -110,6 +90,11 @@ class ilEventParticipants
 			$ilDB->quote($this->getComment() ,'text')." ".
 			")";
 		$res = $ilDB->manipulate($query);
+		
+		// refresh learning progress status after updating participant
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($this->getEventId(), $this->getUserId());
+
 		return true;
 	}
 
@@ -165,6 +150,11 @@ class ilEventParticipants
 				")";
 			$res = $ilDB->manipulate($query);
 		}
+		
+		// refresh learning progress status after updating participant
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
+
 		return true;
 	}
 
@@ -196,6 +186,21 @@ class ilEventParticipants
 			$user_ids[] = $row->usr_id;
 		}
 		return $user_ids ? $user_ids : array();
+	}
+	
+	public static function _hasParticipated($a_usr_id,$a_event_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT participated FROM event_participants ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc($res))
+		{
+			return (bool) $rec["participated"];
+		}
+		return false;
 	}
 
 	public static function _isRegistered($a_usr_id,$a_event_id)
@@ -240,6 +245,11 @@ class ilEventParticipants
 				")";
 			$res = $ilDB->manipulate($query);
 		}
+		
+		// refresh learning progress status after updating participant
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
+		
 		return true;
 	}
 	function register($a_usr_id)
@@ -274,6 +284,11 @@ class ilEventParticipants
 				")";
 			$res = $ilDB->manipulate($query);
 		}
+		
+		// refresh learning progress status after updating participant
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
+		
 		return true;
 	}
 	function unregister($a_usr_id)

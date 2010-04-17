@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjSCORMTracking
@@ -175,6 +156,10 @@ class ilObjSCORMTracking
 			}
 		}
 		fclose($f);
+		
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+
 	}
 
 	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
@@ -189,6 +174,12 @@ class ilObjSCORMTracking
 			'rvalue'		=> array('clob', $a_rval),
 			'c_timestamp'	=> array('timestamp', ilUtil::now())
 		));
+		
+		if ($a_lval == "cmi.core.lesson_status")
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($a_obj_id, $ilUser->getId());
+		}
 	}
 
 
@@ -271,6 +262,80 @@ class ilObjSCORMTracking
 			$user_ids[] = $row->user_id;
 		}
 		return $user_ids ? $user_ids : array();
+	}
+
+	public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+
+		$status = "not_attempted";
+		
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('sco_id', $a_scos, false, 'integer');
+			
+			$res = $ilDB->queryF('SELECT sco_id, rvalue FROM scorm_tracking 
+			WHERE '.$in.'
+			AND obj_id = %s
+			AND lvalue = %s
+			AND user_id = %s',
+			array('integer','text', 'integer'),
+			array($a_obj_id,'cmi.core.lesson_status', $a_user_id));
+			
+			$cnt = 0;
+			$completed = true;
+			$failed = false;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["rvalue"] == "failed")
+				{
+					$failed = true;
+				}
+				if ($rec["rvalue"] != "completed" && $rec["rvalue"] != "passed")
+				{
+					$completed = false;
+				}
+				$cnt++;
+			}
+			if ($cnt > 0)
+			{
+				$status = "in_progress";
+			}
+			if ($completed && $cnt == count($a_scos))
+			{
+				$status = "completed";
+			}
+			if ($failed)
+			{
+				$status = "failed";
+			}
+
+		}
+		return $status;
+	}
+
+	/**
+	 * Get all tracked users
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	function _getTrackedUsers($a_obj_id)
+	{
+		global $ilDB, $ilLog;
+
+		$res = $ilDB->queryF('SELECT DISTINCT user_id FROM scorm_tracking 
+			WHERE obj_id = %s
+			AND lvalue = %s',
+			array('integer','text'),
+			array($a_obj_id,'cmi.core.lesson_status'));
+		
+		$users = array();
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			$users[] = $row["user_id"];
+		}
+		return $users;
 	}
 
 	/**

@@ -116,6 +116,47 @@ class ilLPStatusEvent extends ilLPStatus
 		#var_dump("<pre>",$a_obj_id,$time_info,$status_info,"</pre>");
 		return $status_info;
 	}
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB;
+		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		switch ($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'sess':
+				include_once './Modules/Session/classes/class.ilEventParticipants.php';
+				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				
+				$time_info = ilSessionAppointment::_lookupAppointment($a_obj_id);
+				$registration = ilObjSession::_lookupRegistrationEnabled($a_obj_id);
+				
+				// If registration is disabled in_progress is not available
+				// If event has occured in_progress is impossible
+				if ($registration && $time_info['start'] >= time())
+				{
+					// is user registered -> in progress
+					if (ilEventParticipants::_isRegistered($a_user_id, $a_obj_id))
+					{
+						$status = LP_STATUS_IN_PROGRESS_NUM;
+					}
+				}
+				if (ilEventParticipants::_hasParticipated($a_user_id, $a_obj_id))
+				{
+					$status = LP_STATUS_COMPLETED_NUM;
+				}
+				break;
+		}
+		return $status;		
+	}
 
 }	
 ?>
