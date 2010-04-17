@@ -177,5 +177,57 @@ class ilLPStatusSCORM extends ilLPStatus
 //var_dump($status_info["completed"]);
 		return $status_info;
 	}
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB, $ilLog;
+		
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		
+		// Which sco's determine the status
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		$scos = ilLPCollectionCache::_getItems($a_obj_id);
+		$completed = true;
+		$failed = false;		
+		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);		
+		switch($subtype)
+		{
+			case 'hacp':
+			case 'aicc':
+			case 'scorm':
+				include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+				$scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+				break;
+			
+			case 'scorm2004':
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+				$scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_user_id);
+				break;
+		}
+		
+		switch ($scorm_status)
+		{
+			case "in_progress":
+				$status = LP_STATUS_IN_PROGRESS_NUM;
+				break;
+			case "completed":
+				$status = LP_STATUS_COMPLETED_NUM;
+				break;
+			case "failed":
+				$status = LP_STATUS_FAILED_NUM;
+				break;
+		}
+
+		return $status;		
+	}
+
 }	
 ?>

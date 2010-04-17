@@ -52,8 +52,8 @@ class ilLearningProgress
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id);
 		
-		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+		require_once 'Services/Tracking/classes/class.ilLPStatus.php';
+		ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
 		
 		return true;
 	}

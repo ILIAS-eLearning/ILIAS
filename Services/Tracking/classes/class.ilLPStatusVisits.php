@@ -105,8 +105,35 @@ class ilLPStatusVisits extends ilLPStatus
 				break;			
 		}
 		return $status;		
-	}		
+	}
 		
+	/**
+	 * Determine percentage
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		percentage
+	 */
+	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+		$reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
+
+		$re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
+		$rc = (int) $re[0]["read_count"];
+
+		if ($reqv > 0)
+		{
+			$per = min(100, 100 / $reqv * $rc);
+		}
+		else
+		{
+			$per = 100;
+		}
+
+		return $per;
+	}
 
 }	
 ?>

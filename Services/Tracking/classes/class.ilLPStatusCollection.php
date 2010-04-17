@@ -280,5 +280,57 @@ class ilLPStatusCollection extends ilLPStatus
 		return $tlt;
 	}
 
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB;
+
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		switch ($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case "crs":
+				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+				{
+					$status = LP_STATUS_IN_PROGRESS_NUM;
+					
+					$completed = true;
+					$failed = false;
+					include_once("./Services/Tracking/classes/class.ilLPCollectionCache.php");
+					foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
+					{
+						$item_id = $ilObjDataCache->lookupObjId($item_id);
+						if (ilLPStatusWrapper::_determineStatus($item_id, $a_user_id)
+							!= LP_STATUS_COMPLETED_NUM)
+						{
+							$completed = false;
+						}
+						if (ilLPStatusWrapper::_determineStatus($item_id, $a_user_id)
+							== LP_STATUS_FAILED_NUM)
+						{
+							$failed = true;
+						}
+					}
+					if ($failed)
+					{
+						$status = LP_STATUS_FAILED_NUM;
+					}
+					else if ($completed)
+					{
+						$status = LP_STATUS_COMPLETED_NUM;
+					}
+				}
+				break;			
+		}
+
+		return $status;
+	}
+
 }	
 ?>

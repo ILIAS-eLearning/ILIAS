@@ -478,6 +478,25 @@ class ilObjTestAccess extends ilObjectAccess
 		return $ilDB->fetchAssoc($result);
 	}
 	
+	/**
+	 * Lookup object id for test id
+	 *
+	 * @param		int		test id
+	 * @return		int		object id
+	 */
+	function _lookupObjIdForTestId($a_test_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($a_test_id)
+		);
+
+		$row = $ilDB->fetchAssoc($result);
+		return $row["obj_fi"];
+	}
+	
 /**
 * Calculates the number of questions in a test
 *
@@ -637,6 +656,25 @@ function _getQuestionCount($test_id)
 		}
 		return $name;
 	}
+
+	/**
+	 * Get user id for active id
+	 *
+	 * @param	int		active ID of the participant
+	 * @return	int		user id
+	 */
+	function _getParticipantId($active_id)
+	{
+		global $lng, $ilDB;
+
+		$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
+			array("integer"),
+			array($active_id)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		return $row["user_fi"];
+	}
+
 
 /**
 * Returns an array containing the users who passed the test

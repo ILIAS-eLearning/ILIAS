@@ -164,9 +164,9 @@ class ilCourseObjective
 			")";
 		$res = $ilDB->manipulate($query);
 		
-		// adding new objective makes learning progress dirty
+		// refresh learning progress status after adding new objective
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
+		ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
 		
 		return $this->objective_id = $next_id;
 	}
@@ -234,9 +234,9 @@ class ilCourseObjective
 			"AND objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		// deleting objective makes learning progress dirty
+		// refresh learning progress status after deleting objective
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
+		ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
 
 		return true;
 	}
@@ -435,9 +435,9 @@ class ilCourseObjective
 		$query = "DELETE FROM crs_objectives WHERE crs_id = ".$ilDB->quote($course_id ,'integer');
 		$res = $ilDB->manipulate($query);
 
-		// deleting objectives makes learning progress dirty
+		// refresh learning progress status after deleting objectives
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_setDirty($this->course_obj->getId());
+		ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
 
 		return true;
 	}

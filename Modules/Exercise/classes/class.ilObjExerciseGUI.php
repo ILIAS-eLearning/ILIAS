@@ -2203,9 +2203,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function showOverviewObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilUser;
 		
 		$this->checkPermission("read");
+		
+		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'exc');
 		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");

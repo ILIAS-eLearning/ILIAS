@@ -76,5 +76,37 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 
 		return $status_info;
 	}
+	
+	/**
+	 * Determine status
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		status
+	 */
+	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilObjDataCache, $ilDB, $ilLog;
+		
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+		$scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_user_id);
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		switch ($scorm_status)
+		{
+			case "in_progress":
+				$status = LP_STATUS_IN_PROGRESS_NUM;
+				break;
+			case "completed":
+				$status = LP_STATUS_COMPLETED_NUM;
+				break;
+			case "failed":
+				$status = LP_STATUS_FAILED_NUM;
+				break;
+		}
+
+		return $status;		
+	}
+
 }	
 ?>

@@ -32,7 +32,11 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		
 		$this->setId($a_table_id);
 		$this->obj_id = $a_obj_id;
+		$this->type = ilObject::_lookupType($a_obj_id);
 		
+		include_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
+		$this->status_class = ilLPStatusFactory::_getClassById($a_obj_id);
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
 		
@@ -45,6 +49,10 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			if (in_array($l, array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage")))
 			{
 				$l = "trac_".$l;
+			}
+			if ($l == "u_comment")
+			{
+				$l = "trac_comment";
 			}
 			$this->addColumn($this->lng->txt($l), $c);
 		}
@@ -114,6 +122,9 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$cols["mark"] = array(
 			"txt" => $lng->txt("trac_mark"),
 			"default" => true);
+		$cols["u_comment"] = array(
+			"txt" => $lng->txt("trac_comment"),
+			"default" => false);
 
 		$cols["email"] = array(
 			"txt" => $lng->txt("email"),
@@ -217,7 +228,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				$val = (trim($data[$c]) == "")
 					? " "
 					: $data[$c];
-					
+	
 				if ($data[$c] != "")
 				{
 					switch ($c)
@@ -233,13 +244,35 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 						case "gender":
 							$val = $lng->txt("gender_".$data[$c]);
 							break;
+						
+						case "status":
+							include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+							$path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
+							$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
+							$val = ilUtil::img($path, $text);
+							break;
+						
 
 						case "spent_seconds":
 							include_once("./classes/class.ilFormat.php");
 							$val = ilFormat::_secondsToString($data[$c]);
 							break;
+						
+						case "percentage":
+							$val = $data[$c]."%";
+							break;
+
 					}
 				}
+				if ($c == "mark" && in_array($this->type, array("lm", "dbk")))
+				{
+					$val = "-";
+				}
+				if ($c == "percentage" && strtolower($this->status_class) == "illpstatusmanual")
+				{
+					$val = "-";
+				}
+				
 				$this->tpl->setVariable("VAL_UF", $val);
 			}
 			
