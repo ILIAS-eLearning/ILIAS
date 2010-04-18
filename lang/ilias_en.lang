@@ -2047,7 +2047,7 @@ common#:#chat_write#:#Edit chat
 common#:#chat#:#Chat
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
-common#:#check_languages#:#Check Languages
+common#:#check_languages#:#Check All Languages
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_link#:#Weblink check
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
@@ -4078,7 +4078,7 @@ common#:#recipient#:#Recipient
 common#:#reference_deleted#:#Destination not available
 common#:#reference_of#:#Reference of:
 common#:#referral_comment#:#How did you hear about ILIAS?
-common#:#refresh_languages#:#Refresh Languages
+common#:#refresh_languages#:#Refresh All Languages
 common#:#refresh_list#:#Refresh List
 common#:#refresh#:#Refresh
 common#:#refuse#:#Refuse
