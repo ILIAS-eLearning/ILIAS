@@ -2207,8 +2207,8 @@ common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
 common#:#current_password#:#Derzeitiges Passwort
 common#:#custom_icon_size_big#:#Symbolgröße anpassen (gross)
-common#:#custom_icon_size_standard#:#Grösse des angepassten Icons (standard)
-common#:#custom_icon_size_tiny#:#Grösse des angepassten Icons (klein)
+common#:#custom_icon_size_standard#:#Größe des angepassten Icons (standard)
+common#:#custom_icon_size_tiny#:#Größe des angepassten Icons (klein)
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#täglich
@@ -4854,7 +4854,7 @@ content#:#cont_add_tab#:#Register hinzufügen
 content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_Additional#:#Zusatz
-content#:#cont_adjust_size#:#Grösse anpassen
+content#:#cont_adjust_size#:#Größe anpassen
 content#:#cont_align#:#Ausrichtung
 content#:#cont_all_closed#:#Alle geschlossen
 content#:#cont_all_definitions#:#Alle Definitionen
@@ -4945,7 +4945,7 @@ content#:#cont_current_page#:#Aktuelle Seite
 content#:#cont_current_style#:#Style
 content#:#cont_current_version#:#Aktuelle Version
 content#:#cont_custom#:#Angepasst
-content#:#cont_custom_size#:#Angepasste Grösse
+content#:#cont_custom_size#:#Angepasste Größe
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
@@ -5351,7 +5351,7 @@ content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_resize_explanation#:#Wenn diese Option aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
 content#:#cont_resize_explanation2#:#Diese Funktion skaliert lokale Bilddateien auf die angegebene Größe.
 content#:#cont_resize_image#:#Bilder skalieren
-content#:#cont_resize_img#:#Bildgrösse anpassen
+content#:#cont_resize_img#:#Bildgröße anpassen
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Größe der Ressource
 content#:#cont_resource_type#:#Typ
@@ -6717,7 +6717,7 @@ form#:#form_msg_file_cannot_write_to_disk#:#Kein Schreibzugriff auf Festplatte
 form#:#form_msg_file_missing_tmp_dir#:#Kein temporäres Verzeichnis für das Hochladen von Dateien vorhanden
 form#:#form_msg_file_no_upload#:#Diese Eingabe wird benötigt. Bitte wählen Sie eine Datei für den Upload aus!
 form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig hochgeladen werden.
-form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigrösse.
+form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigröße.
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
 form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
