@@ -2029,7 +2029,7 @@ common#:#chat_write#:#Chat bearbeiten
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
-common#:#check_languages#:#Sprachen überprüfen
+common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externen Link überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
@@ -4055,7 +4055,7 @@ common#:#reference_deleted#:#Ziel nicht vorhanden
 common#:#reference_of#:#Referenz von:
 common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh#:#Aktualisieren
-common#:#refresh_languages#:#Sprachen aktualisieren
+common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
