@@ -5380,7 +5380,7 @@ content#:#cont_resize_explanation#:#If this option is activated uploaded image f
 content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.
 content#:#cont_resize_image#:#Resize images
 content#:#cont_resize_img#:#Resize Image File
-content#:#cont_resource_size#:#Resource Size
+content#:#cont_resource_size#:#Original Resource Size
 content#:#cont_resource_type#:#type
 content#:#cont_resource#:#Resource
 content#:#cont_resources#:#Resources
