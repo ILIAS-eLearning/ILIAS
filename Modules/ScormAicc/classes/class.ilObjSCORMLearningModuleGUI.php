@@ -597,7 +597,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
 		$items = $this->object->getTrackedUsers($_SESSION["scorm_search_string"]);
-
 		$tbl->setMaxCount(count($items));
 		
 		$items  = ilUtil::sortArray($items ,$_GET["sort_by"],$_GET["sort_order"]);

@@ -92,17 +92,18 @@ class ilLPStatus
 	 * New status handling (st: status, nr: accesses, p: percentage, t: time spent, m: mark)
 	 *
 	 * Learning progress:
-	 * - lm: ilLPStatusManual (st nr, p, t, m ok), ilLPStatusVisits (st, nr, p, t, m ok),
-	 *       ilLPStatusTypicalLearningTime (st, nr, p, t, m ok)
-	 * - dbk: ilLPStatusManual (st, nr, p, t, m ok)
-	 * - htlm: ilLPStatusManual (st, nr, p, t, m ok) (but mark handling different than lm/dbk)
-	 * - crs: ilLPStatusManualByTutor (status ok), ilLPStatusObjectives (status ok), ilLPStatusCollection
+	 * - lm: ilLPStatusManual (st, nr, t, ok, p-, m-), ilLPStatusVisits (st, nr, p, t, ok, m-),
+	 *       ilLPStatusTypicalLearningTime (st, nr, p, t, ok, m-)
+	 * - dbk: ilLPStatusManual (st, nr, t ok, p-, m-)
+	 * - htlm: ilLPStatusManual (st, nr, t, m ok, p-) (but mark handling different than lm/dbk)
+	 * - crs: ilLPStatusManualByTutor (st ok), ilLPStatusObjectives (st ok), ilLPStatusCollection
 	 * - grp: ilLPStatusManualByTutor, ilLPStatusCollection
 	 * - fold: ilLPStatusCollection
-	 * - session: ilLPStatusEvent (status ok)
-	 * - exercise: ilLPStatusExerciseReturned (status ok)
-	 * - scorm: ilLPStatusSCORM (status ok), ilLPStatusSCORMPackage (status ok)
-	 * - tst: ilLPStatusTestFinished (), ilLPStatusTestPassed (status ok)
+	 * - session: ilLPStatusEvent (st ok, nr and t only for infoscreen, comment and mark are not saved in learning progress table!)
+	 * - exercise: ilLPStatusExerciseReturned (st, nr, m ok, t-, p-)
+	 * - scorm: ilLPStatusSCORM (st, nr, p, t, m ok), ilLPStatusSCORMPackage (st, nr, t, m ok, p-)
+	 * - tst: ilLPStatusTestFinished (st, nr, t, p ok, mark not synced),
+	 *        ilLPStatusTestPassed (st, nr, t ok, p-, mark not synced)
 	 *
 	 * Added determine Status to:
 	 * - ilLPStatusManual
@@ -120,6 +121,13 @@ class ilLPStatus
 	 * Updating the status:
 	 * - ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id) added to:
 	 * -- ilLearningProgress->_tracProgress()
+	 * -- ilTestSession->saveToDb()
+	 *
+	 * - ilChangeEvent::_recordReadEvent() added to:
+	 * -- ilObjSessionGUI->infoScreen()
+	 *
+	 * - ilLearningProgress->_tracProgress() added to:
+	 * --
 	 *
 	 * - ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id); added to:
 	 * -- ilInfoScreenGUI->saveProgress()
@@ -166,6 +174,10 @@ class ilLPStatus
 	 * -- ilSCORMItem->delete()
 	 * -- ilLPStatusWrapper->update()
 	 *
+	 * - external time/access values for read events
+	 *   ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
+	 * -- ilObjSCORMTracking->_syncReadEvent in ilObjSCORMTracking->store() (add to refresh)
+	 * -- ilSCORM2004Tracking->_syncReadEvent in ilSCORM13Player->setCMIData()
 	 */
 
 	/**

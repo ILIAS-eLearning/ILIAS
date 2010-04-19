@@ -126,5 +126,6 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		return $status;		
 	}
 
+
 }	
 ?>

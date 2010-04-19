@@ -172,5 +172,38 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $status;		
 	}
 
+	/**
+	 * Determine percentage
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		percentage
+	 */
+	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM ".
+					 "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)".
+					 " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) ".
+					 " WHERE tst_tests.obj_fi = ".$ilDB->quote($a_obj_id, "integer").
+					 " AND tst_active.user_fi = ".$ilDB->quote($a_user_id, "integer"));
+		$per = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{	
+			if ($rec["max_points"] > 0)
+			{
+				$per = min(100, 100 / $rec["max_points"] * $rec["reached_points"]);
+			}
+			else
+			{
+				$per = 100;
+			}
+		}
+		return (int) $per;
+	}
+
+
 }	
 ?>

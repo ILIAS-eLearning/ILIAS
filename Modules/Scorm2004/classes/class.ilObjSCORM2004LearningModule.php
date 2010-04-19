@@ -484,6 +484,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
 		}
+
 		return $val_rec["rvalue"];
 	}
 	
