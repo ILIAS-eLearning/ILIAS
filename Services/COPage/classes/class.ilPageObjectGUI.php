@@ -1037,6 +1037,8 @@ class ilPageObjectGUI
 
 		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
 		
+		$this->initSelfAssessmentRendering();
+		
 		// init template
 		//if($this->outputToTemplate())
 		//{
@@ -1715,6 +1717,8 @@ class ilPageObjectGUI
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
 		$ilBench->stop("ContentPresentation", "ilPageObjectGUI_showPage");
+		
+		$output = $this->selfAssessmentRendering($output);
 		
 		// output
 		if ($ilCtrl->isAsynch())
@@ -2531,6 +2535,62 @@ class ilPageObjectGUI
 		}
 		return $html;
 	}
+
+	/**
+	 * Get question js
+	 */
+	function getQuestionJsOfPage($a_no_interaction = false)
+	{
+		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+		$q_ids = $this->getPageObject()->getQuestionIds();
+		$js = array();
+		if (count($q_ids) > 0)
+		{
+			foreach ($q_ids as $q_id)
+			{
+				$q_exporter = new ilQuestionExporter($a_no_interaction);
+				$js[$q_id] = $q_exporter->exportQuestion($q_id);
+			}
+		}
+		return $js;
+	}
+	
+	/**
+	 * Init question handling
+	 */
+	function initSelfAssessmentRendering()
+	{
+		global $tpl;
+		
+		if ($this->getEnabledSelfAssessment())
+		{ 
+			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit") ? true : false);
+			$this->setQuestionHTML($qhtml);
+			//include JQuery Libraries before Prototpye
+			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
+			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+		}
+	}
+
+	/**
+	 * Self assessment question rendering
+	 *
+	 * @param
+	 * @return
+	 */
+	function selfAssessmentRendering($a_output)
+	{
+		if ($this->getEnabledSelfAssessment())
+		{
+			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;
+		}
+
+		return $a_output;
+	}
+
 
 }
 ?>

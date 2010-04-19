@@ -1625,6 +1625,7 @@ class ilLMPresentationGUI
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
 		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
+		$page_object_gui->setEnabledSelfAssessment(true);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->lm->getStyleSheetId(), "lm"));
