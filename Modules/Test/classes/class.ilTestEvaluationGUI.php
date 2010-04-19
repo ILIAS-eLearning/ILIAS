@@ -1152,6 +1152,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass);
 			}
+			else if ($this->object->getShowSolutionDetails())
+			{
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, true);
+			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 			$template->setVariable("PASS_RESULTS_OVERVIEW", sprintf($this->lng->txt("tst_results_overview_pass"), $pass + 1));
