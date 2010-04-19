@@ -3864,12 +3864,6 @@ class ilObjTestGUI extends ilObjectGUI
 			);
 		}
 
-		// aggregated results subtab
-		$ilTabs->addSubTabTarget("participants_invitation",
-			$this->ctrl->getLinkTarget($this, "inviteParticipants"),
-			array("inviteParticipants", "searchParticipants"),
-			"", "");
-	
 		// defaults subtab
 		$ilTabs->addSubTabTarget(
 			"defaults",
