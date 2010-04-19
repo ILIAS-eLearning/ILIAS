@@ -87,6 +87,7 @@ class assMultipleChoice extends assQuestion
 		$this->output_type = $output_type;
 		$this->thumb_size = 150;
 		$this->answers = array();
+		$this->shuffle = 1;
 	}
 
 	/**
@@ -257,7 +258,8 @@ class assMultipleChoice extends assQuestion
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-			$this->setShuffle($data["shuffle"]);
+			$shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
+			$this->setShuffle($shuffle);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setThumbSize($data['thumb_size']);
 		}
