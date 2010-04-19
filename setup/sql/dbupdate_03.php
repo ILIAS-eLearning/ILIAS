@@ -1397,3 +1397,7 @@ $ilCtrlStructureReader->getStructure();
 		"length" => 1,
 		"default" => 0));
 ?>
+<#3036>
+<?php
+  $ilDB->addIndex('mail_obj_data',array('user_id','m_type'),'i1');
+?>
