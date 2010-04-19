@@ -141,24 +141,42 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 				$html[$q_id] = $q_gui->getPreview(TRUE);
 			}
 		}
+
 		return $html;
-	
 	}
 	
 
-	function getQuestionJsOfPage($a_no_interaction = false)
+	// moved to parent
+	//function getQuestionJsOfPage($a_no_interaction = false)
+
+	/**
+	 * Init question handling
+	 *
+	 * @param
+	 * @return
+	 */
+	function initSelfAssessmentRendering()
 	{
-		$q_ids = $this->getPageObject()->getQuestionIds();
-		$js = array();
-		if (count($q_ids) > 0)
+		if ($this->scorm_rendering_mode == "preview")
 		{
-			foreach ($q_ids as $q_id)
-			{
-				$q_exporter = new ilQuestionExporter($a_no_interaction);
-				$js[$q_id] = $q_exporter->exportQuestion($q_id);
-			}
+			parent::initSelfAssessmentRendering();
 		}
-		return $js;
+	}
+	
+	/**
+	 * Self assessment question rendering
+	 *
+	 * @param
+	 * @return
+	 */
+	function selfAssessmentRendering($a_output)
+	{
+		if ($this->scorm_rendering_mode == "preview")
+		{
+			$a_output = parent::selfAssessmentRendering($a_output);
+		}
+
+		return $a_output;
 	}
 	
 	/**
@@ -168,24 +186,11 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	{
 		global $tpl, $ilCtrl;
 		
-		if ($a_mode == "preview") { 
-			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit") ? true : false);
-			$this->setQuestionHTML($qhtml);
-			//include JQuery Libraries before Prototpye
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
-		}
-				
+		$this->scorm_rendering_mode = $a_mode;
+						
 		$this->setTemplateOutput(false);
 		
-		
 		$output = parent::showPage();
-		
-		if ($a_mode == "preview") { 
-			$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
-		}
 		
 		return $output;
 	}
