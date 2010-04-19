@@ -1330,7 +1330,15 @@ class ilMail
 					}
 					else
 					{
+						// Fixed mantis bug #5875
+						if($id = ilObjUser::_lookupId($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host))
+						{
+							$ids[] = $id;
+						}
+						else
+						{
 						//$log->write('class.ilMail->getUserIds() external recipient:'.$tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
+						}
 					}
 				}
 			}
@@ -2254,6 +2262,12 @@ class ilMail
 				{
 					if ($a_only_email)
 					{
+						// Fixed mantis bug #5875
+						if(ilObjUser::_lookupId($to->mailbox.'@'.$to->host))
+						{
+							continue;
+						}
+
 						// Addresses which aren't on the ilias host, and
 						// which have a mailbox which does not start with '#',
 						// are external e-mail addresses
@@ -2275,8 +2289,15 @@ class ilMail
 			{
 				if ($a_only_email)
 				{
+					$to = $this->__substituteRecipients($to,"resubstitute");
 					if (strpos($to,'@'))
 					{
+						// Fixed mantis bug #5875
+						if(ilObjUser::_lookupId($to))
+						{
+							continue;
+						}
+
 						++$counter;
 					}
 				}
@@ -2309,6 +2330,12 @@ class ilMail
 				{
 					if(substr($to->mailbox,0,1) != '#' && $to->host != 'ilias')
 					{
+						// Fixed mantis bug #5875
+						if(ilObjUser::_lookupId($to->mailbox.'@'.$to->host))
+						{
+							continue;
+						}
+
 						$rcp[] = $to->mailbox.'@'.$to->host;
 					}
 				}
@@ -2319,8 +2346,15 @@ class ilMail
 		{
 			foreach ($this->explodeRecipients($a_rcp) as $to)
 			{
+				$to = $this->__substituteRecipients($to,"resubstitute");
 				if(strpos($to,'@'))
 				{
+					// Fixed mantis bug #5875
+					if(ilObjUser::_lookupId($to))
+					{
+						continue;
+					}
+
 					$rcp[] = $to;
 				}
 			}
