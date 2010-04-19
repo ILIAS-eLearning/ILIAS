@@ -4185,7 +4185,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getScoreCutting() == 1)
 		{
-			if ($total_reached_points < 0)
+			if ($total_reached_points < 0) // && !$this->isSingleChoiceTest()
 			{
 				$total_reached_points = 0;
 			}
