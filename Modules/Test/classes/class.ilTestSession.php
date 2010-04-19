@@ -207,7 +207,12 @@ class ilTestSession
 			ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
 				$this->getUserId());
 
-		}		
+		}
+		
+		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
+		ilLearningProgress::_tracProgress($this->getUserId(),
+										  ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
+										  'tst');
 	}
 	
 	function loadTestSession($test_id, $user_id = "", $anonymous_id = "")

@@ -101,7 +101,8 @@ class ilChangeEvent
 	 * @param $catchupWriteEvents boolean If true, this function catches up with
 	 * 	write events.
 	 */
-	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true)
+	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true, $a_ext_rc = false,
+							  $a_ext_time = false)
 	{
 		global $ilDB;
 		
@@ -115,17 +116,41 @@ class ilChangeEvent
 			$ilDB->quote($usr_id,'integer'));
 		$res = $ilDB->query($query);
 
+		// read counter
+		if ($a_ext_rc !== false)
+		{
+			$read_count = 'read_count = '.$ilDB->quote($a_ext_rc, "integer").", ";
+			$read_count_init = max(1, (int) $a_ext_rc);
+		}
+		else
+		{
+			$read_count = 'read_count = read_count + 1, ';
+			$read_count_init = 1;
+		}
+		
 		if($res->numRows())
 		{
 			$row = $ilDB->fetchObject($res);
+			
+			if ($a_ext_time !== false)
+			{
+				$time = (int) $a_ext_time;
+			}
+			else
+			{
+				$time = $ilDB->quote((time() - $row->last_access) <= $validTimeSpan
+							 ? $row->spent_seconds + time() - $row->last_access
+							 : $row->spent_seconds,'integer');
+			}
+			
 			// Update
 			$query = sprintf('UPDATE read_event SET '.
-				'read_count = read_count + 1, '.
+				$read_count.
 				'spent_seconds = %s, '.
 				'last_access = %s '.
 				'WHERE obj_id = %s '.
 				'AND usr_id = %s ',
-				$ilDB->quote((time() - $row->last_access) <= $validTimeSpan ? $row->spent_seconds + time() - $row->last_access : $row->spent_seconds,'integer'),
+				$time,
 				$ilDB->quote(time(),'integer'),
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'));
@@ -133,13 +158,22 @@ class ilChangeEvent
 		}			
 		else
 		{
+			if ($a_ext_time !== false)
+			{
+				$time = (int) $a_ext_time;
+			}
+			else
+			{
+				$time = 0;
+			}
+
 			$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
 				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().') ',
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
 				$ilDB->quote(time(),'integer'),
-				$ilDB->quote(1,'integer'),
-				$ilDB->quote(0,'integer'));
+				$ilDB->quote($read_count_init,'integer'),
+				$ilDB->quote($time,'integer'));
 				
 			$aff = $ilDB->manipulate($query);
 		}

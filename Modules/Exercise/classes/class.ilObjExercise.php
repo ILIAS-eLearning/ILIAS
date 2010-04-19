@@ -637,7 +637,7 @@ class ilObjExercise extends ilObject
 	function determinStatusOfUser($a_user_id = 0)
 	{
 		global $ilUser;
-//echo "-".$a_user_id."-";
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
@@ -652,19 +652,15 @@ class ilObjExercise extends ilObject
 		$cnt_notgraded = 0;
 		$passed_at_least_one = false;
 		
-//echo "1";
 		foreach ($ass as $a)
 		{
 			$stat = ilExAssignment::lookupStatusOfUser($a["id"], $a_user_id);
-//echo "2";
 			if ($a["mandatory"] && ($stat == "failed" || $stat == "notgraded"))
 			{
-//echo "3";
 				$passed_all_mandatory = false;
 			}
 			if ($a["mandatory"] && ($stat == "failed"))
 			{
-//echo "4";
 				$failed_a_mandatory = true;
 			}
 			if ($stat == "passed")

@@ -157,9 +157,63 @@ class ilObjSCORMTracking
 		}
 		fclose($f);
 		
+		// update status
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+		
+		// update time and numbers of attempts in change event
+		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id);
+	}
+	
+	/**
+	 * Synch read event table
+	 *
+	 * @param
+	 * @return
+	 */
+	function _syncReadEvent($a_obj_id, $a_user_id)
+	{
+		global $ilDB, $ilLog;
 
+		// get attempts
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND lvalue = %s
+		AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($a_user_id,0,'package_attempts',$a_obj_id));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+		$attempts = $val_rec["rvalue"];
+
+		// get learning time
+		$sco_set = $ilDB->queryF('
+		SELECT sco_id, rvalue FROM scorm_tracking 
+		WHERE obj_id = %s
+		AND user_id = %s
+		AND lvalue = %s
+		AND sco_id <> %s',
+		array('integer','integer','text','integer'),
+		array($a_obj_id,$a_user_id, 'cmi.core.total_time',0));
+
+		$time = 0;
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))		
+		{
+			$tarr = explode(":", $sco_rec["rvalue"]);
+			$sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
+				(int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
+			$time += $sec;
+		}
+		
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
 	}
 
 	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
@@ -313,6 +367,34 @@ class ilObjSCORMTracking
 
 		}
 		return $status;
+	}
+
+	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('sco_id', $a_scos, false, 'integer');
+			
+			$res = $ilDB->queryF('SELECT sco_id, rvalue FROM scorm_tracking 
+			WHERE '.$in.'
+			AND obj_id = %s
+			AND lvalue = %s
+			AND user_id = %s',
+			array('integer','text', 'integer'),
+			array($a_obj_id,'cmi.core.lesson_status', $a_user_id));
+			
+			$cnt = 0;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["rvalue"] == "completed" || $rec["rvalue"] == "passed")
+				{
+					$cnt++;
+				}
+			}
+		}
+		return $cnt;
 	}
 
 	/**

@@ -341,6 +341,111 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return $status;
 	}
 
+	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
+
+			$res = $ilDB->queryF(
+				'SELECT cp_node.cp_node_id id,
+						cmi_node.completion_status completion, 
+						cmi_node.success_status success
+				 FROM cp_node, cmi_node 
+				 WHERE '.$in.'
+				 AND cp_node.cp_node_id = cmi_node.cp_node_id
+				 AND cp_node.slm_id = %s
+				AND cmi_node.user_id = %s',
+				array('integer', 'integer'),
+				array($a_obj_id, $a_user_id)
+			);
+	
+			
+			$cnt = 0;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["completion"] == "completed" || $row["success"] == "passed")
+				{
+					$cnt++;
+				}
+			}
+
+		}
+		return $cnt;
+	}
+
+	/**
+	 * Synch read event table
+	 *
+	 * @param
+	 * @return
+	 */
+	function _syncReadEvent($a_obj_id, $a_user_id)
+	{
+		global $ilDB, $ilLog;
+
+		// get attempts
+		$val_set = $ilDB->queryF('
+		SELECT * FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($a_user_id, 0,'package_attempts',$a_obj_id));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+
+		$attempts = $val_rec["rvalue"];
+
+		// time
+		$scos = array();
+		$val_set = $ilDB->queryF(
+			'SELECT cp_node_id FROM cp_node 
+			WHERE nodename = %s
+			AND cp_node.slm_id = %s',
+			array('text', 'integer'),
+			array('item', $a_obj_id)
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set))
+		{
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		$time = 0;
+		foreach ($scos as $sco) 
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+			$data_set = $ilDB->queryF('
+				SELECT c_timestamp last_access, session_time, success_status, completion_status,
+					   c_raw, cp_node_id
+				FROM cmi_node 
+				WHERE cp_node_id = %s
+				AND user_id = %s',
+				array('integer','integer'),
+				array($sco, $a_user_id)
+			);
+			
+			while($data_rec = $ilDB->fetchAssoc($data_set))
+	   		{	
+	   			$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["session_time"]) / 100;
+//$ilLog->write("-".$sco."-".$data_rec["session_time"]."-".$sec."-");
+	   		}
+			$time += (int) $sec;
+			$sec = 0;
+//$ilLog->write("++".$time);
+		}
+
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
+	}
+
 
 	/**
 	 * 

@@ -268,7 +268,14 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				{
 					$val = "-";
 				}
-				if ($c == "percentage" && strtolower($this->status_class) == "illpstatusmanual")
+				if ($c == "spent_seconds" && in_array($this->type, array("exc")))
+				{
+					$val = "-";
+				}
+				if ($c == "percentage" &&
+					(in_array(strtolower($this->status_class),
+							  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
+					$this->type == "exc"))
 				{
 					$val = "-";
 				}

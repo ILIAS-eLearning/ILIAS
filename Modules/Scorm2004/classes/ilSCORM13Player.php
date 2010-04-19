@@ -1035,7 +1035,7 @@ class ilSCORM13Player
 
 			if (!is_array($data->$table)) continue;			
 				
-$ilLog->write("SCORM: setCMIData, table -".$table."-");
+//$ilLog->write("SCORM: setCMIData, table -".$table."-");
 			
 			// build up numerical index for schema fields
 			$i = 0;
@@ -1227,6 +1227,10 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($packageId, $userId);
 
+		// sync access number and time in read event table
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId);
+		
 		return $result;
 	}
 	

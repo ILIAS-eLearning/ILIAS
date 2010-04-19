@@ -229,5 +229,45 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $status;		
 	}
 
+	/**
+	 * Determine percentage
+	 *
+	 * @param	integer		object id
+	 * @param	integer		user id
+	 * @param	object		object (optional depends on object type)
+	 * @return	integer		percentage
+	 */
+	function determinePercentage($a_obj_id, $a_user_id, $a_obj = null)
+	{
+		// Which sco's determine the status
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		$scos = ilLPCollectionCache::_getItems($a_obj_id);
+		$reqscos = count($scos);
+
+		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+		
+		if ($subtype != "scorm2004")
+		{
+			include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+			$compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_user_id);
+		}
+		else
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+			$compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id);			
+		}
+
+		if ($reqscos > 0)
+		{
+			$per = min(100, 100 / $reqscos * $compl);
+		}
+		else
+		{
+			$per = 100;
+		}
+
+		return $per;
+	}
+
 }	
 ?>
