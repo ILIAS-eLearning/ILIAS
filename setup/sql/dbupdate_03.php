@@ -1399,5 +1399,18 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#3036>
 <?php
-  $ilDB->addIndex('mail_obj_data',array('user_id','m_type'),'i1');
+	$ilDB->addIndex('mail_obj_data',array('user_id','m_type'),'i1');
+?>
+<#3037>
+<?php
+$ilDB->addTableColumn('read_event', 'childs_read_count', array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 4,
+	"default" => 0));
+$ilDB->addTableColumn('read_event', 'childs_spent_seconds', array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 4,
+	"default" => 0));
 ?>

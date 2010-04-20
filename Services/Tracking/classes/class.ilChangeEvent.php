@@ -182,6 +182,13 @@ class ilChangeEvent
 		{
 			ilChangeEvent::_catchupWriteEvents($obj_id, $usr_id);
 		}
+		
+		// @todo:
+		// - use ref id instead of obj id in _recordReadEvent as parameter
+		//   (table read_event sill holds object ids)
+		// - calculate diff of spent_seconds and read_count
+		// - use ref id to get parents of types grp, crs, fold
+		// - add diffs to childs_spent_seconds and childs_read_count
 	}
 	
 	/**
