@@ -40,7 +40,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		include_once 'Modules/LearningModule/classes/class.ilLMObject.php';
 		foreach($this->getSubItemIds(true) as $sub_item)
@@ -65,7 +65,11 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('SEPERATOR',':');
 			
 			$this->getItemListGUI()->setChildId($sub_item);
-			$this->tpl->setVariable('LINK',$this->getItemListGUI()->getCommandLink('page'));
+			
+			$link = $this->getItemListGUI()->getCommandLink('page');
+			include_once './Services/Search/classes/class.ilUserSearchCache.php';
+			$link .= ('&srcstring='.urlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
+			$this->tpl->setVariable('LINK',$link);
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
 			$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));			
 			$this->tpl->parseCurrentBlock();
