@@ -818,6 +818,10 @@ class ilLMPresentationGUI
 			// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
 			
 			$this->tpl->fillTabs();
+			if ($this->fill_on_load_code)
+			{
+				$this->tpl->fillOnLoadCode();
+			}
 			$content =  $this->tpl->get();
 			$content = str_replace("&#123;", "{", $content);
 			$content = str_replace("&#125;", "}", $content);
@@ -1554,9 +1558,25 @@ class ilLMPresentationGUI
 		// page id is e.g. > 0 when footer or header page is processed
 		if ($a_page_id == 0)
 		{
-			$ilBench->start("ContentPresentation", "ilPage_getCurrentPageId");
 			$page_id = $this->getCurrentPageId();
-			$ilBench->stop("ContentPresentation", "ilPage_getCurrentPageId");
+			
+			// highlighting?
+			if ($_GET["srcstring"] != "" && !$this->offlineMode())
+			{
+				include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
+				include_once("./Services/Search/classes/class.ilQueryParser.php");
+				$p = new ilQueryParser($_GET["srcstring"]);
+				$p->parse();
+				$words = $p->getQuotedWords();
+				if (is_array($words))
+				{
+					foreach ($words as $w)
+					{
+						ilTextHighlighterGUI::highlight("ilLMPageContent", $w, $this->tpl);
+					}
+				}
+				$this->fill_on_load_code = true;
+			}
 		}
 		else
 		{
@@ -2513,7 +2533,7 @@ class ilLMPresentationGUI
 						unset($attributes["template_location"]);
 						$attributes["src"] =
 							$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"],
-								"", "keep");
+								"", "keep", "", $_GET["srcstring"]);
 						$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 						$a_content .= $this->buildTag("", "frame", $attributes);
 						$this->frames[$attributes["name"]] = $attributes["name"];
@@ -2532,7 +2552,7 @@ class ilLMPresentationGUI
 					unset($attributes["template_location"]);
 					$attributes["src"] =
 						$this->getLink($this->lm->getRefId(), "layout", $_GET["obj_id"], $attributes["name"],
-							"", "keep");
+							"", "keep", "", $_GET["srcstring"]);
 					$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 					if ($attributes["name"] == "toc")
 					{
@@ -3861,7 +3881,7 @@ class ilLMPresentationGUI
 	* handles links for learning module presentation
 	*/
 	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "",
-		$a_back_link = "append", $a_anchor = "")
+		$a_back_link = "append", $a_anchor = "", $a_srcstring = "")
 	{
 		global $ilCtrl;
 		
@@ -3912,6 +3932,10 @@ class ilLMPresentationGUI
 			if ($a_anchor !=  "")
 			{
 				$this->ctrl->setParameter($this, "anchor", rawurlencode($a_anchor));
+			}
+			if ($a_srcstring != "")
+			{
+				$this->ctrl->setParameter($this, "srcstring", rawurlencode($a_srcstring));
 			}
 			switch ($a_cmd)
 			{

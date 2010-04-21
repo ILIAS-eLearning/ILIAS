@@ -35,7 +35,7 @@
 	{HEADER}</h1>
 <!-- END lm_head -->
 <div class="ilLMMenu">{MENU}<div style="clear:both;"></div></div>
-<table class="ilc_page_frame_PageFrame" cellpadding="0" cellspacing="0"><tr><td>
+<table id="ilLMPageContent" class="ilc_page_frame_PageFrame" cellpadding="0" cellspacing="0"><tr><td>
 {MESSAGE}
 {INLINE_JS}
 <!-- BEGIN ilLMNavigation -->
@@ -87,5 +87,13 @@
 </td></tr></table>
 </div>
 </div></div>
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+ilAddOnLoad(function() {
+<!-- BEGIN on_load_code_inner -->{OLCODE}
+<!-- END on_load_code_inner -->
+});
+</script>
+<!-- END on_load_code -->
 </body>
 </html>

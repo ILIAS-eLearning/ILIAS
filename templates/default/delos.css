@@ -774,7 +774,7 @@ li.il_ExplorerInline
 	padding:0;
 }
 
-a.il_HighlightedNode
+a.il_HighlightedNode, .ilHighlighted
 {
 	border-width: 1px;
 	border-style: solid;
