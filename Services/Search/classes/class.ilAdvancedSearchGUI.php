@@ -157,7 +157,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
 		{
 			unset($_SESSION['adv_max_page']);
-			$this->search_cache->delete();
+			$this->search_cache->deleteCachedEntries();
 		}
 		
 		if(isset($_POST['query']))
@@ -1109,6 +1109,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		if($_GET['page_number'])
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+		}
+		if($_POST['cmd']['performSearch'])
+		{
+			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));
+			$this->search_cache->save();
 		}
 	}
 	
