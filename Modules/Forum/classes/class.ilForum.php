@@ -1447,8 +1447,16 @@ class ilForum
    	*/
 	function getUser($a_user_id)
 	{
-		$userObj = new ilObjUser($a_user_id);
-
+		global $lng;
+		
+		$userObj = ilObjectFactory::getInstanceByObjId($a_user_id, false);		
+		if(!ilObject::_exists($a_user_id) || !$userObj)
+		{
+			$userObj = new ilObjUser();
+			$userObj->setLogin($lng->txt("unknown"));
+			
+		}
+		
 		return $userObj;
 	}
 
