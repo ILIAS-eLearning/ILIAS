@@ -334,9 +334,25 @@ class ilTestSequence
 		return array_keys($this->questions);
 	}
 	
+	function getOrderedSequenceQuestions()
+	{
+		return $this->questions;
+	}
+	
 	function getUserSequence()
 	{
 		return $this->getCorrectedSequence(TRUE);
+	}
+
+	function getUserSequenceQuestions()
+	{
+		$seq = $this->getCorrectedSequence(TRUE);
+		$found = array();
+		foreach ($seq as $sequence)
+		{
+			array_push($found, $this->getQuestionForSequence($sequence));
+		}
+		return $found;
 	}
 
 	protected function getCorrectedSequence($with_hidden_questions = FALSE)

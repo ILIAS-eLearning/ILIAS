@@ -886,7 +886,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if ($this->object->getNrOfTries() == 1)
 		{
-			$statement = $this->getFinalStatement($result_array["test"]);
+			$statement = $this->getFinalStatement($active_id);
 			$template->setVariable("USER_MARK", $statement["mark"]);
 			if (strlen($statement["markects"]))
 			{
@@ -962,9 +962,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
-		$result_pass = $this->object->_getResultPass($active_id);
-		$result_array =& $this->object->getTestResult($active_id, $result_pass);
-		$statement = $this->getFinalStatement($result_array["test"]);
+		$statement = $this->getFinalStatement($active_id);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user_data = $this->getResultsUserdata($active_id);
 		$template->setVariable("USER_DATA", $user_data);
@@ -1034,7 +1032,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if ($this->object->getNrOfTries() == 1)
 		{
-			$statement = $this->getFinalStatement($result_array["test"]);
+			$statement = $this->getFinalStatement($active_id);
 			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
 			if (strlen($statement["markects"]))
 			{
@@ -1069,7 +1067,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outUserResultsOverview()
 	{
-		global $ilUser, $ilias;
+		global $ilUser, $ilias, $ilLog;
 
 		if (!$this->object->canShowTestResults($ilUser->getId())) $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		include_once("./classes/class.ilTemplate.php");
@@ -1086,6 +1084,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$executable = $this->object->isExecutable($ilUser->getId());
 			if (!$executable["executable"]) $hide_details = FALSE;
 		}
+		$begin = microtime(true);
 		if (($this->object->getNrOfTries() == 1) && (!$hide_details))
 		{
 			$pass = 0;
@@ -1128,9 +1127,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$templatehead->setVariable("PRINT_TEXT", $this->lng->txt("print"));
 		$templatehead->setVariable("PRINT_URL", "javascript:window.print();");
 
-		$result_pass = $this->object->_getResultPass($active_id);
-		$result_array =& $this->object->getTestResult($active_id, $result_pass);
-		$statement = $this->getFinalStatement($result_array["test"]);
+		$statement = $this->getFinalStatement($active_id);
 		$user_data = $this->getResultsUserdata($active_id, TRUE);
 
 		// output of the details of a selected pass
@@ -1154,7 +1151,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			else if ($this->object->getShowSolutionDetails())
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, true);
+				// if this is not commented out, all questions with checkmarks/crosses will be shown
+				// $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, true);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
