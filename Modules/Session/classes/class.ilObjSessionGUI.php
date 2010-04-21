@@ -796,7 +796,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$items = $this->event_items->getItems();
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		#$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'materials'));
 		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.gif'));
