@@ -43,7 +43,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		$lng->loadLanguageModule('content');
 		foreach($this->getSubItemIds(true) as $sub_item)
@@ -60,7 +60,11 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 			
 			$title = ilWikiPage::lookupTitle($sub_item);
 			
-			$this->tpl->setVariable('LINK',ilObjWikiGUI::getGotoLink($this->getRefId(),$title));
+			include_once './Services/Search/classes/class.ilUserSearchCache.php';
+			$link = '&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getQuery();
+			$link = ilObjWikiGUI::getGotoLink($this->getRefId(),$title).$link;
+			
+			$this->tpl->setVariable('LINK',$link);
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
 			$this->tpl->setVariable('TITLE',$title);			
 			$this->tpl->parseCurrentBlock();
