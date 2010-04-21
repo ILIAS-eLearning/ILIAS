@@ -272,7 +272,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
 		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
-		$xml2FO->setXSLParams(array ('target_dir' => $a_target_dir));
+		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
 		$xml2FO->transform();
 		$fo_string = $xml2FO->getFOString();
 		//die(htmlentities($fo_string));
@@ -432,7 +432,8 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
-		
+		$terms = $this->getGlossaryTermIds();
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
 		{
 			//echo(print_r($page));
@@ -440,6 +441,11 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_OFFLINE);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
+			if (count($terms) > 1)
+			{
+				$page_obj->setGlossaryOverviewInfo(
+					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this);
+			}
 			$output .= '<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;"><tbody><tr><td><div class="ilc_page_Page">'.$page_obj->showPage("export")."</div></td></tr></table>";
 			if($mode=='pdf') $output .='<!-- PAGE BREAK -->';
 			// collect media objects
@@ -475,7 +481,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		}
 		
 		if($mode!='pdf')
-		$output.= ilSCORM2004PageGUI::getGlossaryHTML();
+		$output.= ilSCORM2004PageGUI::getGlossaryHTML($this);
 		
 		if($mode!='pdf') 
 		$output .=	'<!-- BEGIN ilLMNavigation2 -->
@@ -753,6 +759,34 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		ksort ($file);
 		reset ($file);
 		return $file;
+	}
+	
+	/**
+	 * Get glossary term ids in sco
+	 *
+	 * @param
+	 * @return
+	 */
+	function getGlossaryTermIds()
+	{
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		$childs = $this->tree->getChilds($this->getId());
+		$ids = array();
+		foreach ($childs as $c)
+		{
+			$links = ilInternalLink::_getTargetsOfSource("sahs".":pg",
+				$c["child"]);
+			foreach ($links as $l)
+			{
+				if ($l["type"] == "git" && (int) $l["inst"] == 0 && !isset($ids[$l["id"]]))
+				{
+					$ids[$l["id"]] = ilGlossaryTerm::_lookGlossaryTerm($l["id"]);
+				}
+			}
+			
+		}
+		asort($ids);
+		return $ids;
 	}
 }
 ?>

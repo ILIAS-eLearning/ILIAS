@@ -18,6 +18,16 @@
 	<StyleParameter Name="font-weight" Value="normal"/>
 	<StyleParameter Name="color" Value="blue"/>
 </Style>
+<Style Tag="a" Type="link" Class="GlossaryLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="link" Class="FileLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
 
 <!-- List Item -->
 <Style Tag="li" Type="list_item" Class="StandardListItem">
@@ -216,6 +226,24 @@
 	<StyleParameter Name="border-width" Value="1px"/>
 	<StyleParameter Name="border-style" Value="solid"/>
 	<StyleParameter Name="background-color" Value="#FFCCCC"/>
+</Style>
+
+<!-- Glossary -->
+<Style Tag="div" Type="glo_overlay" Class="GlossaryOverlay">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+</Style>
+<Style Tag="h1" Type="glo_ovtitle" Class="GlossaryOvTitle">
+	<StyleParameter Name="font-size" Value="120%"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
 </Style>
 
 

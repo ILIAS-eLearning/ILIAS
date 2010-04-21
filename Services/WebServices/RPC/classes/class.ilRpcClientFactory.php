@@ -49,7 +49,7 @@ class ilRpcClientFactory
 				'prefix'	=> $a_package.'.',
 				'encoding'	=> 'utf-8',
 				'backend'	=> 'Php',
-				'debug'		=> false
+				'debug'		=> true
 			)
 		);
 		return $client;

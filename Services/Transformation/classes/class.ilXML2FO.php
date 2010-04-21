@@ -39,7 +39,7 @@ class ilXML2FO
 
 	var $xslt_handler = null;
 	var $xslt_args = null;
-
+	var $xslt_params = null;
 	function ilXML2FO()
 	{
 
@@ -63,11 +63,16 @@ class ilXML2FO
 	}
 	function getFOString()
 	{
-		#return file_get_contents('./Services/Transformation/fo.xml');
 		return $this->fo_string;
 	}
-	
-
+	function setXSLTParams($params)
+	{
+		$this->xslt_params = $params;
+	}
+	function getXSLTParams()
+	{
+		return $this->xslt_params;
+	}
 	function transform()
 	{
 		global $ilLog;
@@ -79,7 +84,7 @@ class ilXML2FO
 										"arg:/_xsl",
 										null,
 										$this->xslt_args,
-										null);
+										$this->xslt_params);
 
 
 		if(strlen($error_msg = xslt_error($this->xslt_handler)))

@@ -57,11 +57,12 @@ class ilObjSAHSLearningModule extends ilObject
 	/**
 	* create file based lm
 	*/
-	function create()
+	function create($upload=false)
 	{
 		global $ilDB;
 
 		parent::create();
+		if(!$upload)
 		$this->createMetaData();
 
 		$this->createDataDirectory();

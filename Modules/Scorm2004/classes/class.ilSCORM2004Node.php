@@ -141,13 +141,23 @@ class ilSCORM2004Node
 	}
 
 	/**
-	* Set Scorm Learning Module Object
-	*
-	* @param	int		Scorm LM Object
-	*/
+	 * Set Scorm Learning Module Object
+	 *
+	 * @param	int		Scorm LM Object
+	 */
 	function setSLMObject($a_slm_obj)
 	{
 		$this->slm_object = $a_slm_obj;
+	}
+	
+	/**
+	 * Get scorm learning module object
+	 *
+	 * @return	int		Scorm LM Object
+	 */
+	function getSLMObject()
+	{
+		return $this->slm_object;
 	}
 
 	/**

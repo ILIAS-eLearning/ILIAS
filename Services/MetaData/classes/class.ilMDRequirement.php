@@ -236,7 +236,7 @@ class ilMDRequirement extends ilMDBase
 														'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
 														'MaximumVersion' => $this->getOperatingSystemMaximumVersion()));
 		}
-		else
+		if(strlen($this->getBrowserName()))
 		{
 			$writer->xmlElement('Browser',array('Name' => $this->getBrowserName()
 												? $this->getBrowserName()

@@ -84,6 +84,27 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	}
 	
 	/**
+	 * Set glossary overview id
+	 *
+	 * @param	string	glossary overview id
+	 */
+	function setGlossaryOverviewInfo($a_ov_id, $a_sco)
+	{
+		$this->glossary_ov_id = $a_ov_id;
+		$this->sco = $a_sco;
+	}
+	
+	/**
+	 * Get glossary overview id
+	 *
+	 * @return	string	glossary overview id
+	 */
+	function getGlossaryOverviewId()
+	{
+		return $this->glossary_ov_id;
+	}
+	
+	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -278,9 +299,34 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 			$tpl = self::$export_glo_tpl;
 		}
 		$glossary = false;
+
+		$overlays = array();
+
+		// overlay for sco glossary
+		if ($this->getGlossaryOverviewId() != "")
+		{
+			$ovov = $overlays[$this->getGlossaryOverviewId()] = new ilOverlayGUI($this->getGlossaryOverviewId());
+			$ovov->setFixedCenter(true);
+			$ovov->setAutoHide(false);
+			$ovov->setCloseElementId("glo_ov_close");
+			if ($this->getGlossaryOverviewId() != "")
+			{
+				if ($this->scorm_mode != "export" ||
+					$this->getOutputMode() == IL_PAGE_PREVIEW)
+				{
+					$overlays[$this->getGlossaryOverviewId()]->add();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("add_script");
+					$tpl->setVariable("ADD_SCRIPT", "ilAddOnLoad(function () {".$overlays[$this->getGlossaryOverviewId()]->getOnLoadCode()."});");
+					$tpl->parseCurrentBlock();
+				}
+			}
+		}
+
 		if (is_array($this->glossary_links))
 		{
-			$overlays = array();
 			foreach ($this->glossary_links as $k => $e)
 			{
 				
@@ -290,12 +336,15 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 					$link_id = $karr[0]."_".$this->getPageObject()->getId()."_".$karr[4];
 					//$ov_id = "ov".$karr[0]."_".$karr[4];
 					$ov_id = "ov".$karr[0];
+					$cl_id = "ov".$karr[0]."cl";
+					$glov_id = "ov".$karr[0]."ov";
+					$term_id_arr = explode("_", $karr[0]);
+					$term_id = $term_id_arr[count($term_id_arr) - 1];
 					
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 					$id_arr = explode("_", $karr[0]); 
 					$term_gui =& new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
-					$html = $term_gui->getOverlayHTML();
-					
+					$html = $term_gui->getOverlayHTML($cl_id, $glov_id);
 					$tpl->setCurrentBlock("entry");
 					$tpl->setVariable("CONTENT", $html);
 					$tpl->setVariable("OVERLAY_ID", $ov_id);
@@ -306,7 +355,9 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 					{
 						$overlays[$ov_id] = new ilOverlayGUI($ov_id);
 						$overlays[$ov_id]->setAnchor($link_id);
-						$overlays[$ov_id]->setTrigger($link_id);
+						$overlays[$ov_id]->setTrigger($link_id, "onclick", $link_id);
+						$overlays[$ov_id]->setAutoHide(false);
+						$overlays[$ov_id]->setCloseElementId($cl_id);
 						if ($this->scorm_mode != "export" ||
 							$this->getOutputMode() == IL_PAGE_PREVIEW)
 						{
@@ -331,6 +382,26 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						}
 					}
 					
+					if ($this->getGlossaryOverviewId() != "")
+					{
+						if ($this->scorm_mode != "export" ||
+							$this->getOutputMode() == IL_PAGE_PREVIEW)
+						{
+							$overlays[$this->getGlossaryOverviewId()]->addTrigger
+								($glov_id, "click", null);
+							$overlays[$ov_id]->addTrigger("glo_ov_t".$term_id, "click", null, true);
+						}
+						else
+						{
+							$tpl->setVariable("SCRIPT2",
+								"ilAddOnLoad(function () {".
+								$overlays[$this->getGlossaryOverviewId()]->getTriggerOnLoadCode($glov_id, "click", null, true)."});");
+							$tpl->setVariable("SCRIPT3",
+								"ilAddOnLoad(function () {".
+								$overlays[$ov_id]->getTriggerOnLoadCode("glo_ov_t".$term_id, "click", null, true)."});");
+						}
+					}
+					
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -338,9 +409,14 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		
 		if ($glossary && $this->scorm_mode != "export")
 		{
-			return $a_output.$tpl->get();
+			$ret = $a_output.$tpl->get();
+			if ($this->getGlossaryOverviewId() != "")
+			{
+				$ret.= ilSCORM2004ScoGUI::getGloOverviewOv($this->sco);
+			}
+			return $ret;
 		}
-		
+
 		return $a_output;
 	}
 	
@@ -355,9 +431,13 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	/**
 	 * Get glossary html (only in export mode)
 	 */
-	static function getGlossaryHTML()
+	static function getGlossaryHTML($a_sco)
 	{
-		return self::$export_glo_tpl->get();
+		$ret = self::$export_glo_tpl->get();
+		
+		$ret.= ilSCORM2004ScoGUI::getGloOverviewOv($a_sco);
+		
+		return $ret;
 	}
 	
 }

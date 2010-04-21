@@ -192,6 +192,30 @@ a.ilc_link_ExtLink:visited
 	color: blue;
 }
 
+a.ilc_link_FileLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.ilc_link_FileLink:hover
+{
+	color:#000000;
+}
+
+a.ilc_link_GlossaryLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.ilc_link_GlossaryLink:hover
+{
+	color:#000000;
+}
+
 /* Tables */
 table.ilc_table_StandardTable
 {
@@ -521,6 +545,24 @@ ul.ilc_flist_FileList
 	list-style-type: none;
 	padding: 0px;
 	margin: 0px;
+}
+
+/* Glossaries */
+div.ilc_glo_overlay_GlossaryOverlay
+{
+	background-color: #FFFFFF;
+	border-color: #A0A0A0;
+	border-style: solid;
+	border-width: 2px;
+	padding: 5px 10px 5px 10px;
+}
+
+div.ilc_glo_ovtitle_GlossaryOvTitle
+{
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-weight: normal;
+	font-size: 120%;
 }
 
 /* SCOs */

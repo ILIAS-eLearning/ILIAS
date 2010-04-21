@@ -1433,7 +1433,23 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		file_put_contents($a_target_dir.'/indexMD.xml',$output);
-		//die(htmlentities($metadata_xml).'<br/>'. htmlentities($output));		
+		if($this->getAssignedGlossary()!=0)
+		{
+			ilUtil::makeDir($a_target_dir."/glossary");
+			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
+			$glo_xml_writer = new ilXmlWriter();
+			
+			$glo_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
+			// set xml header
+			$glo_xml_writer->xmlHeader();
+			$glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+			//$glos->exportHTML($a_target_dir."/glossary", &$expLog);
+			$glos_export = new ilGlossaryExport($glos,"xml");
+			$glos->exportXML($glo_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", &$expLog);
+			$glo_xml_writer->xmlDumpFile($a_target_dir."/glossary/glossary.xml");
+			$glo_xml_writer->_XmlWriter;
+		}
 		
 		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
@@ -1544,6 +1560,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
 		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
 		$xml2FO->transform();
 		$fo_string = $xml2FO->getFOString();
 		//die(htmlentities($fo_string));
@@ -1620,7 +1637,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		foreach($tree->getFilteredSubTree($tree->getRootId(),Array('page')) as $obj)
 		{
 			if($obj['type']=='') continue;
-			$md2xml = new ilMD2XML($obj['obj_id'], 0, $obj['type']);
+			
+			//$md2xml = new ilMD2XML($obj['obj_id'], 0, $obj['type']);
+			$md2xml = new ilMD2XML($this->getId(), $obj['obj_id'], $obj['type']);
 			$md2xml->setExportMode(true);
 			$md2xml->startExport();
 			$a_xml_writer->appendXML($md2xml->getXML());
@@ -1647,7 +1666,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			$node->exportScorm($a_inst, $sco_folder, $ver, &$expLog);
 		}
 	}
 
@@ -1668,7 +1687,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML($a_inst, $sco_folder, $expLog);
+			$node->exportHTML($a_inst, $sco_folder, &$expLog);
+			if($this->getAssignedGlossary()!=0)
+			{
+				include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+				$glos = new ilObjGlossary($this->getAssignedGlossary(),false);
+				//$glos->exportHTML($sco_folder."/glossary", &$expLog);
+			}
 		}
 	}
 	/* get public export file

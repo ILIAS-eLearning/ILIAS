@@ -424,13 +424,18 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
-		
+		$terms = $this->node_object->getGlossaryTermIds();
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_PREVIEW);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
+			if (count($terms) > 1)
+			{
+				$page_obj->setGlossaryOverviewInfo(
+					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this->node_object);
+			}
 			$output .= $page_obj->showPage("export");
 		}
 		$output .=	'<!-- BEGIN ilLMNavigation2 -->
@@ -451,7 +456,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					<!-- END ilLMNavigation2 -->';
 
 		// append glossary entries on the sco level
-		$output.= ilSCORM2004PageGUI::getGlossaryHTML();
+		$output.= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
 		
 		//insert questions
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -967,6 +972,45 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	function cancel()
 	{
 		$this->ctrl->redirect($this, "showOrganization");
+	}
+	
+	/**
+	 * Get sco glossary overlay id
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getGlossaryOverviewId()
+	{
+		return "sco_glo_ov";
+	}
+	
+	/**
+	 * des
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getGloOverviewOv($a_sco)
+	{
+		global $lng;
+		
+		$tpl = new ilTemplate("tpl.sco_glossary_overview.html", true, true, "Modules/Scorm2004");
+		
+		$terms = $a_sco->getGlossaryTermIds();
+		foreach ($terms as $k => $t)
+		{
+			$tpl->setCurrentBlock("link");
+			$tpl->setVariable("TXT_LINK", $t);
+			$tpl->setVariable("ID_LINK", "glo_ov_t".$k);
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("DIV_ID", ilSCORM2004ScoGUI::getGlossaryOverviewId());
+		$tpl->setVariable("TXT_SCO_GLOSSARY", $lng->txt("cont_sco_glossary"));
+		$tpl->setVariable("TXT_CLOSE", $lng->txt("close"));
+
+		return $tpl->get();	
 	}
 	
 }

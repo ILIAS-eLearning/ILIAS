@@ -455,11 +455,13 @@ class ilObjMediaObject extends ilObject
 	/**
 	* update media object in db
 	*/
-	function update()
+	function update($a_upload=false)
+	{
+		parent::update();
+		if(!$a_upload)
 	{
 		$this->updateMetaData();
-		parent::update();
-
+		}
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
 		// iterate all items

@@ -24,10 +24,18 @@ ilOverlayFunc.prototype =
 			function(e) {ilOverlay.mouseOver(e, id);});
 		YAHOO.util.Event.addListener(id, "mouseout",
 			function(e) {ilOverlay.mouseOut(e, id);});
+
+		// close element
+		if (this.getCfg(id, 'close_el') != '')
+		{
+			YAHOO.util.Event.addListener(this.getCfg(id, 'close_el'), "click",
+				function(e) {ilOverlay.hide(e, id);});
+		}
 		
 		if (cfg.trigger)
 		{
-			this.addTrigger(cfg.trigger, cfg.trigger_event, id, cfg.anchor_id);
+			this.addTrigger(cfg.trigger, cfg.trigger_event, id, cfg.anchor_id,
+							cfg.fixed_center);
 			//YAHOO.util.Event.addListener(trigger, "click",
 			//	function(event) {ilOverlay.toggle(event, id); return false;});
 		}
@@ -35,12 +43,16 @@ ilOverlayFunc.prototype =
 		this.fixPosition(id);
 	},
 	
-	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id)
+	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center)
 	{
-		ilOverlayFunc.prototype.trigger[tr_id] = {trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id};
-		var trigger = document.getElementById(tr_id);
-		YAHOO.util.Event.addListener(trigger, "click",
-			function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
+		if (typeof(ilOverlayFunc.prototype.trigger[tr_id]) == "undefined")
+		{
+			ilOverlayFunc.prototype.trigger[tr_id] =
+				{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center};
+			var trigger = document.getElementById(tr_id);
+			YAHOO.util.Event.addListener(trigger, "click",
+				function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
+		}
 	},
 	
 	getCfg: function (id, name)
@@ -61,20 +73,20 @@ ilOverlayFunc.prototype =
 	{
 		var ov_id = ilOverlayFunc.prototype.trigger[tr_id].overlay_id;
 		var anchor_id = ilOverlayFunc.prototype.trigger[tr_id].anchor_id;
-		this.toggle(e, ov_id, anchor_id)
+		var center = ilOverlayFunc.prototype.trigger[tr_id].center;
+		this.toggle(e, ov_id, anchor_id, center)
 	},
 	
 	// toggle overlay	
 	toggle: function (e, id, anchor_id)
 	{
-//console.log("Toggle: " + id + ", Anchor: " + anchor_id);
 		if (ilOverlayFunc.prototype.overlays[id].cfg.getProperty('visible'))
 		{
 			this.hide(e, id);
 		}
 		else
 		{
-			this.show(e, id, anchor_id);
+			this.show(e, id, anchor_id, center);
 		}
 	},
 
@@ -101,22 +113,35 @@ ilOverlayFunc.prototype =
 	},
 	
 	// show the overlay
-	show: function(e, id, anchor_id)
+	show: function(e, id, anchor_id, center)
 	{
 		// hide all other overlays (currently the standard procedure)
-		ilOverlay.hideAllOverlays(e);
+		ilOverlay.hideAllOverlays(e, true);
 		
 		// display the overlay at the anchor position
 		var el = document.getElementById(id);
 		el.style.display = '';
-		this.overlays[id].cfg.setProperty("context", [anchor_id, "tl", "bl"]);
+//console.log(anchor_id);
+		if (anchor_id != null && anchor_id != '')
+		{
+			this.overlays[id].cfg.setProperty("context", [anchor_id, "tl", "bl"]);
+			this.overlays[id].cfg.setProperty("fixedcenter", false);
+		}
+		else if (center)
+		{
+//console.log("Setting fixedcenter for id : " + id);
+			this.overlays[id].cfg.setProperty("fixedcenter", true);
+		}
 		this.overlays[id].show();
 		this.fixPosition(id);
 
 		// invoke close process (if only the anchor is clicked,
 		// the overlay will be hidden after some time, mouseover on the overlay will prevent this)
-		this.closeCnt[id] = this.waitAfterClicked;
-		this.closeProcess(id);
+		if (this.getCfg(id, 'auto_hide'))
+		{
+			this.closeCnt[id] = this.waitAfterClicked;
+			this.closeProcess(id);
+		}
 
 		// should an additional element be toggled (style class)
 		var toggle_el = this.getCfg(id, 'toggle_el');
@@ -185,12 +210,12 @@ ilOverlayFunc.prototype =
 	},
 	
 	// hide all overlays
-	hideAllOverlays: function (e) {
+	hideAllOverlays: function (e, force) {
 		for (var k in ilOverlayFunc.prototype.overlays)
 		{
 			var el = document.getElementById(k);
 			var el_reg = YAHOO.util.Region.getRegion(el);
-			if (!el_reg.contains(new YAHOO.util.Point(e.pageX , e.pageY)))
+			if (!el_reg.contains(new YAHOO.util.Point(e.pageX , e.pageY)) || force)
 			{
 				ilOverlayFunc.prototype.hide(null, k);
 			}
@@ -205,8 +230,11 @@ ilOverlayFunc.prototype =
 
 	mouseOut: function (e, id)
 	{
-		this.closeCnt[id] = this.waitMouseOut;
-		this.closeProcess(id);
+		if (this.getCfg(id, 'auto_hide'))
+		{
+			this.closeCnt[id] = this.waitMouseOut;
+			this.closeProcess(id);
+		}
 	},
 	
 	closeProcess: function (id)
@@ -298,4 +326,4 @@ ilOverlayFunc.prototype =
 };
 var ilOverlay = new ilOverlayFunc();
 YAHOO.util.Event.addListener(document, "click",
-	function(e) {ilOverlay.hideAllOverlays(e)});
+	function(e) {ilOverlay.hideAllOverlays(e, false)});

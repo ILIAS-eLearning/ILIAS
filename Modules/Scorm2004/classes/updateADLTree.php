@@ -49,6 +49,8 @@
 	
 	$ini=new ilIniFile("../../../ilias.ini.php");
 	$ini->read();
+
+
 	
 	//define constants
     define("ILIAS_WEB_DIR",$ini->readVariable("clients","path"));
