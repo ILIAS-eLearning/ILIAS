@@ -214,7 +214,8 @@ class ilObjAdvancedEditing extends ilObject
 				"p",
 				"strong",				
 				"u",
-				"ul"			
+				"ul",
+				"span"			
 				);
 			}
 			else
