@@ -699,7 +699,7 @@ class ilConditionHandler
 			$ilBench->stop("ilConditionHandler", "checkCondition");
 
 			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-			if(!$check and ilMemberViewSettings::getInstance()->isActive())
+			if(!$check and !ilMemberViewSettings::getInstance()->isActive())
 			{
 				return false;
 			}
