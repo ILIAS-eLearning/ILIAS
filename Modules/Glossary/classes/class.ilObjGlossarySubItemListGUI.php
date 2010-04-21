@@ -42,7 +42,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		$lng->loadLanguageModule('content');
 		foreach($this->getSubItemIds(true) as $sub_item)
@@ -58,8 +58,19 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('SEPERATOR',':');
 			
 			#$this->getItemListGUI()->setChildId($sub_item);
-			$this->tpl->setVariable('LINK',ilLink::_getLink($this->getRefId(),'git',
-				array('target' => 'git_'.$sub_item.'_'.$this->getRefId())));
+			
+			include_once './Services/Search/classes/class.ilUserSearchCache.php';
+			$src_string = urlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery());
+			
+			$this->tpl->setVariable('LINK',ilLink::_getLink(
+				$this->getRefId(),
+				'git',
+				array(
+					'target' 	=> 'git_'.$sub_item.'_'.$this->getRefId(),
+					'srcstring' => $src_string
+				)
+			));
+			
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
 			$this->tpl->setVariable('TITLE',ilGlossaryTerm::_lookGlossaryTerm($sub_item));			
 			$this->tpl->parseCurrentBlock();

@@ -369,7 +369,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
 		{
 			unset($_SESSION['max_page']);
-			$this->search_cache->delete();
+			$this->search_cache->deleteCachedEntries();
 		}
 
 		if($this->getType() == SEARCH_DETAILS and !$this->getDetails())
@@ -720,10 +720,17 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
+		$this->search_cache->switchSearchType(ilUserSearchCache::DEFAULT_SEARCH);
 		if($_GET['page_number'])
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
 		}
+		if(isset($_POST['cmd']['performSearch']))
+		{
+			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
+			$this->search_cache->save();
+		}
+		
 	}
 	
 }
