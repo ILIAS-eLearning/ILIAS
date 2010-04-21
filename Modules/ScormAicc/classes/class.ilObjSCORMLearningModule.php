@@ -1205,5 +1205,17 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $this->getStatusForUser($a_user,$this->getAllScoIds,true);
 	}
 	
+	//to be called from IlObjUser
+	public static function _removeTrackingDataForUser($user_id) {
+		global $ilDB;
+		//gobjective
+		$ilDB->manipulateF(
+			'DELETE FROM scorm_tracking WHERE user_id = %s',
+			array('integer'),
+			array($user_id)
+		);
+	}
+	
+	
 } // END class.ilObjSCORMLearningModule
 ?>
