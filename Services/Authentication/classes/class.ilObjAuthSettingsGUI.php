@@ -1218,8 +1218,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				''
 			);
 
-                        $tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
-								"", "", "");
+			$tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
+					"", "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

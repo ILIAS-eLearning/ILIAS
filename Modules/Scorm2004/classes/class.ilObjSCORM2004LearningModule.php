@@ -1519,8 +1519,36 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
+			$node->exportHTML4PDF($a_inst, $sco_folder, &$expLog);
 		}
+	}
+	
+	function exportPDF($a_inst, $a_target_dir, &$expLog)
+	{
+		global $ilBench;
+		$a_xml_writer = new ilXmlWriter;
+		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+		$tree = new ilTree($this->getId());
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
+		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
+			$sco_folder = $a_target_dir."/".$sco['obj_id'];
+			ilUtil::makeDir($sco_folder);
+			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
+			$node->exportPDFPrepareXmlNFiles($a_inst, $sco_folder, &$expLog, $a_xml_writer);
+		}
+		$a_xml_writer->xmlEndTag("ContentObject");
+		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
+		$xml2FO = new ilXML2FO();
+		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+		$xml2FO->transform();
+		$fo_string = $xml2FO->getFOString();
+		//die(htmlentities($fo_string));
+		$a_xml_writer->_XmlWriter;
+		return $fo_string;
 	}
 	
 	function exportHTML($a_inst, $a_target_dir, &$expLog)

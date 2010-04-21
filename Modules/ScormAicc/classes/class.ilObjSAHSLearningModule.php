@@ -552,6 +552,29 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		return true;
 	}
+	
+	/**
+	 * Get SCORM modules that assign a certain glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getScormModulesForGlossary($a_glo_id)
+	{
+		global $ilDB;
+	
+		$set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE ".
+			" glossary = ".$ilDB->quote($a_glo_id, "integer"));
+		$sms = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			if (ilObject::_hasUntrashedReference($rec["id"]))
+			{
+				$sms[] = $rec["id"];
+			}
+		}
+		return $sms;
+	}
 
 	/**
 	* get online

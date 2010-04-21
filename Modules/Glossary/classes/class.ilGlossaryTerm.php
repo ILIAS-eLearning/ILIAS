@@ -405,6 +405,78 @@ class ilGlossaryTerm
 		$a_xml_writer->xmlEndTag("GlossaryItem");
 	}
 
+	/**
+	 * Get number of usages
+	 *
+	 * @param	int		term id
+	 * @return	int		number of usages
+	 */
+	static function getNumberOfUsages($a_term_id)
+	{
+		return count(ilGlossaryTerm::getUsages($a_term_id));
+	}
+
+	/**
+	 * Get number of usages
+	 *
+	 * @param	int		term id
+	 * @return	int		number of usages
+	 */
+	static function getUsages($a_term_id)
+	{
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		return (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
+	}	
+	
+	/**
+	 * Copy a term to a glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	function _copyTerm($a_term_id, $a_glossary_id)
+	{ 
+		$old_term = new ilGlossaryTerm($a_term_id);
+
+		// copy the term
+		$new_term = new ilGlossaryTerm();
+		$new_term->setTerm($old_term->getTerm());
+		$new_term->setLanguage($old_term->getLanguage());
+		$new_term->setGlossaryId($a_glossary_id);
+		$new_term->create();
+
+		// copy the definitions
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+		$def_list = ilGlossaryDefinition::getDefinitionList($a_term_id);
+		foreach ($def_list as $def)
+		{
+			$old_def = new ilGlossaryDefinition($def["id"]);
+			
+			$new_def = new ilGlossaryDefinition();
+			$new_def->setShortText($old_def->getShortText());
+			$new_def->setNr($old_def->getNr());
+			$new_def->setTermId($new_term->getId());
+			$new_def->create();
+			
+			// copy meta data
+			include_once("Services/MetaData/classes/class.ilMD.php");
+			$md = new ilMD($old_term->getGlossaryId(),
+				$old_def->getPageObject()->getId(),
+				$old_def->getPageObject()->getParentType());
+			$new_md = $md->cloneMD($a_glossary_id,
+				$new_def->getPageObject()->getId(),
+				$old_def->getPageObject()->getParentType());
+			
+			// page content
+			$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->getXMLContent());
+			$new_def->getPageObject()->buildDom();
+			$new_def->getPageObject()->update();
+			
+		}
+		
+		return $new_term->getId();
+	}
+	
 } // END class ilGlossaryTerm
 
 ?>

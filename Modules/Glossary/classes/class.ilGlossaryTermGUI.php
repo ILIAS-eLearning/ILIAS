@@ -175,14 +175,18 @@ class ilGlossaryTermGUI
 
 
 	/**
-	* edit term
-	*/
+	 * Edit term
+	 */
 	function editTerm()
 	{
+		global $ilTabs;
+
 		//$this->displayLocator();
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
+		$ilTabs->activateTab("properties");
+		
 		//$this->displayLocator();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
@@ -216,18 +220,40 @@ class ilGlossaryTermGUI
 	}
 
 	/**
-	* output glossary term definitions
-	*
-	* used in ilLMPresentationGUI->ilGlossary()
-	*/
-	function output($a_offline = false)
+	 * Get overlay html
+	 *
+	 * @param
+	 * @return
+	 */
+	function getOverlayHTML()
 	{
+		$tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
+		$this->output(true, $tpl);
+		return $tpl->get(); 
+	}
+	
+	/**
+	 * output glossary term definitions
+	 *
+	 * used in ilLMPresentationGUI->ilGlossary()
+	 */
+	function output($a_offline = false, $a_tpl = "")
+	{
+		if ($a_tpl != "")
+		{
+			$tpl = $a_tpl;
+		}
+		else
+		{
+			$tpl = $this->tpl;
+		}
+		
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
-		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
+		$tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
 		for($j=0; $j<count($defs); $j++)
 		{
@@ -262,15 +288,15 @@ class ilGlossaryTermGUI
 
 			if (count($defs) > 1)
 			{
-				$this->tpl->setCurrentBlock("definition_header");
-						$this->tpl->setVariable("TXT_DEFINITION",
+				$tpl->setCurrentBlock("definition_header");
+						$tpl->setVariable("TXT_DEFINITION",
 				$this->lng->txt("cont_definition")." ".($j+1));
-				$this->tpl->parseCurrentBlock();
+				$tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setCurrentBlock("definition");
-			$this->tpl->setVariable("PAGE_CONTENT", $output);
-			$this->tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("definition");
+			$tpl->setVariable("PAGE_CONTENT", $output);
+			$tpl->parseCurrentBlock();
 		}
 	}
 
@@ -305,9 +331,12 @@ class ilGlossaryTermGUI
 	*/
 	function listDefinitions()
 	{
+		global $ilTabs;
+		
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
+		$ilTabs->activateTab("definitions");
 
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
@@ -583,22 +612,28 @@ class ilGlossaryTermGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $lng;
+		
 //echo ":".$_GET["term_id"].":";
 		if ($_GET["term_id"] != "")
 		{
-			$tabs_gui->addTarget("properties",
-				$this->ctrl->getLinkTarget($this, "editTerm"), array("editTerm"),
-				get_class($this));
-				
-			$tabs_gui->addTarget("cont_definitions",
-				$this->ctrl->getLinkTarget($this, "listDefinitions"),
-				"listDefinitions",
-				get_class($this));		
+			$tabs_gui->addTab("properties",
+				$lng->txt("properties"),
+				$this->ctrl->getLinkTarget($this, "editTerm"));
+
+			$tabs_gui->addTab("definitions",
+				$lng->txt("cont_definitions"),
+				$this->ctrl->getLinkTarget($this, "listDefinitions"));
+
+			$tabs_gui->addTab("usage",
+				$lng->txt("cont_usage")." (".ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]).")",
+				$this->ctrl->getLinkTarget($this, "listUsages"));
 		}
 
 		// back to glossary
 		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
 			$this->ctrl->getLinkTargetByClass("ilobjglossarygui", "listTerms"));
+						
 	}
 
 	/**
@@ -651,6 +686,26 @@ class ilGlossaryTermGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
+	/**
+	 * List usage
+	 */
+	function listUsages()
+	{
+		global $ilTabs, $tpl;
+
+		//$this->displayLocator();
+		$this->getTemplate();
+		$this->displayLocator();
+		$this->setTabs();
+		$ilTabs->activateTab("usage");
+		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		
+		include_once("./Modules/Glossary/classes/class.ilTermUsagesTableGUI.php");
+		$tab = new ilTermUsagesTableGUI($this, "listUsages", $_GET["term_id"]);
+		
+		$tpl->setContent($tab->getHTML());
+	}
 }
 
 ?>

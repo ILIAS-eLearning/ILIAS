@@ -39,7 +39,6 @@ class ilPageContentGUI
 	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
-
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
@@ -85,6 +84,26 @@ class ilPageContentGUI
 		return $this->styleid;
 	}
 
+	/**
+	 * Set enable internal links
+	 *
+	 * @param	boolean	enable internal links
+	 */
+	function setEnableInternalLinks($a_val)
+	{
+		$this->enable_internal_links = $a_val;
+	}
+	
+	/**
+	 * Get enable internal links
+	 *
+	 * @return	boolean	enable internal links
+	 */
+	function getEnableInternalLinks()
+	{
+		return $this->enable_internal_links;
+	}
+	
 	/**
 	* Get style object
 	*/
@@ -197,9 +216,10 @@ class ilPageContentGUI
 		$btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
 
 		// not nice, should be set by context per method
-		if ($this->pg_obj->getParentType() == "gdf" ||
-			$this->pg_obj->getParentType() == "lm" ||
-			$this->pg_obj->getParentType() == "dbk")
+		//if ($this->pg_obj->getParentType() == "gdf" ||
+		//	$this->pg_obj->getParentType() == "lm" ||
+		//	$this->pg_obj->getParentType() == "dbk")
+		if ($this->getEnableInternalLinks())
 		{
 			$btpl->setCurrentBlock("bb_ilink_button");
 			$btpl->setVariable("BB_LINK_ILINK",

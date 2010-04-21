@@ -482,7 +482,7 @@ class ilStartUpGUI
 				case AUTH_APACHE_FAILED:
 					$this->showFailure($lng->txt("err_auth_apache_failed"));
 					break;
-				
+					
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";

@@ -2172,8 +2172,8 @@ a.backtab, a.backtab:hover
 li.back2tab
 {
 	float:left;
-	margin:0;
-	padding:0;
+	margin: 0px 2px 0px 0px;
+	padding: 2px 0px;
 }
 
 a.back2tab, a.back2tab:hover
@@ -2181,7 +2181,7 @@ a.back2tab, a.back2tab:hover
 	float: left;
 	display:block;
 	background:url("images/Back2Tab.gif") no-repeat left top;
-    padding: 3px 8px 3px 16px;
+    padding: 3px 8px 3px 12px;
 	font-size: 80%;
 }
 

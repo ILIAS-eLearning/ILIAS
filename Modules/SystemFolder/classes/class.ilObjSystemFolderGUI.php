@@ -594,13 +594,16 @@ return $this->showServerInfoObject();
 		//$this->displayBasicSettings();
 	}
 	
-	function createWikiTablesObject()
+	function createScormEditorTablesObject()
 	{
-		include_once("./Modules/Wiki/classes/class.ilWikiDBCreator.php");
-		ilWikiDBCreator::createTables();
+		include_once("./Modules/Scorm2004/classes/class.ilScormEditorDBCreator.php");
+		$db_creator = new ilScormEditorDBCreator();
+		$db_creator->createTables();
+		
+		ilUtil::sendSuccess("Tables are updated.", true);
 		$this->viewObject();
 	}
-
+	
 	/**
 	* displays ILIAS basic settings form
 	*
@@ -1777,6 +1780,10 @@ return $this->showServerInfoObject();
 		global $tpl, $ilCtrl, $ilToolbar;
 				
 		$this->initServerInfoForm();
+		
+		$ilToolbar->addButton("Update ISN Tables",
+			$ilCtrl->getLinkTarget($this, "createScormEditorTables"));
+		
 		
 		$btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
 		$btpl->setVariable("FORM", $this->form->getHTML());

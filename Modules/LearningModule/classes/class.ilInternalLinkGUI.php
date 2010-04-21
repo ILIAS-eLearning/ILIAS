@@ -25,10 +25,13 @@ class ilInternalLinkGUI
 	var $set_link_script;
 	var $ctrl;
 	var $tree;
-
+	var $ltypes = array();
+	
 	function ilInternalLinkGUI($a_default_type, $a_default_obj)
 	{
 		global $lng, $ilias, $ilCtrl, $tree;
+
+		$this->initLinkTypes();
 		
 		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
 			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
@@ -85,6 +88,33 @@ class ilInternalLinkGUI
 			: " target=\"".$link_target."\" ";*/
 	}
 
+	/**
+	 * Initialize link types
+	 */
+	function initLinkTypes()
+	{
+		global $lng;
+		
+		$this->ltypes = array(
+			"StructureObject" => $lng->txt("cont_lk_chapter"),
+			"StructureObject_New" => $lng->txt("cont_lk_chapter_new"),
+			"PageObject" => $lng->txt("cont_lk_page"),
+			"PageObject_FAQ" => $lng->txt("cont_lk_page_faq"),
+			"PageObject_New" => $lng->txt("cont_lk_page_new"),
+			"GlossaryItem" => $lng->txt("cont_lk_term"),
+			"GlossaryItem_New" => $lng->txt("cont_lk_term_new"),
+			"Media" => $lng->txt("cont_lk_media_inline"),
+			"Media_Media" => $lng->txt("cont_lk_media_media"),
+			"Media_FAQ" => $lng->txt("cont_lk_media_faq"),
+			"Media_New" => $lng->txt("cont_lk_media_new"),
+			"File" => $lng->txt("cont_lk_file"),
+			"RepositoryItem" => $lng->txt("cont_repository_item")
+			);		
+	}
+	
+	/**
+	 * Determine current link type
+	 */
 	function determineLinkType()
 	{
 		// determine link type and target
@@ -98,6 +128,9 @@ class ilInternalLinkGUI
 		$this->link_target = $ltype_arr[1];
 	}
 
+	/**
+	 * Set mode
+	 */
 	function setMode($a_mode = "text")
 	{
 		$this->mode = $a_mode;
@@ -164,7 +197,9 @@ class ilInternalLinkGUI
 		}
 	}
 
-	
+	/**
+	 * Prepare output for JS enabled editing
+	 */
 	function prepareJavascriptOutput($str)
 	{
 		global $ilUser;
@@ -179,7 +214,7 @@ class ilInternalLinkGUI
 	
 	
 	/**
-	* show link help list
+	* Show link help list
 	*/
 	function showLinkHelp()
 	{
@@ -229,24 +264,11 @@ class ilInternalLinkGUI
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
-		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),
-			"StructureObject_New" => $this->lng->txt("cont_lk_chapter_new"),
-			"PageObject" => $this->lng->txt("cont_lk_page"),
-			"PageObject_FAQ" => $this->lng->txt("cont_lk_page_faq"),
-			"PageObject_New" => $this->lng->txt("cont_lk_page_new"),
-			"GlossaryItem" => $this->lng->txt("cont_lk_term"),
-			"GlossaryItem_New" => $this->lng->txt("cont_lk_term_new"),
-			"Media" => $this->lng->txt("cont_lk_media_inline"),
-			"Media_Media" => $this->lng->txt("cont_lk_media_media"),
-			"Media_FAQ" => $this->lng->txt("cont_lk_media_faq"),
-			"Media_New" => $this->lng->txt("cont_lk_media_new"),
-			"RepositoryItem" => $this->lng->txt("cont_repository_item")
-			);
 
 		// filter link types
 		foreach($this->filter_link_types as $link_type)
 		{
-			unset($ltypes[$link_type]);
+			unset($this->ltypes[$link_type]);
 		}
 
 		$ltype = ($this->link_target != "")
@@ -256,7 +278,7 @@ class ilInternalLinkGUI
 //echo "<br><br>".$ltype;
 
 		$select_ltype = ilUtil::formSelect ($ltype,
-			"ltype", $ltypes, false, true);
+			"ltype", $this->ltypes, false, true);
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
@@ -282,6 +304,7 @@ class ilInternalLinkGUI
 		$obj_id = ilObject::_lookupObjId($_SESSION["il_link_cont_obj"]);
 		$type = ilObject::_lookupType($obj_id);
 		
+		// switch link type
 		switch($this->link_type)
 		{
 			// page link
@@ -771,6 +794,11 @@ class ilInternalLinkGUI
 				$tpl->setVariable("LINK_HELP_CONTENT", $this->selectRepositoryItem());
 				break;
 
+			// file download link
+			case "File":
+				$tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
+				break;
+				
 		}
 
 		
@@ -778,10 +806,80 @@ class ilInternalLinkGUI
 		exit;
 	}
 	
+	/**
+	 * Get HTML for file link
+	 * @return	string		file link html
+	 */
+	function getFileLinkHTML()
+	{
+		global $ilCtrl, $lng;
+
+		if (!is_object($this->uploaded_file))
+		{
+			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
+			$tpl->setCurrentBlock("form");
+			$tpl->setVariable("FORM_ACTION",
+				$ilCtrl->getFormAction($this));
+			$tpl->setVariable("TXT_SELECT_FILE", $lng->txt("cont_select_file"));
+			$tpl->setVariable("TXT_SAVE_LINK", $lng->txt("cont_create_link"));
+			$tpl->setVariable("CMD_SAVE_LINK", "saveFileLink");
+			include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+			$fi = new ilFileInputGUI("", "link_file");
+			$fi->setSize(15);
+			$tpl->setVariable("INPUT", $fi->getToolbarHTML());
+			$tpl->parseCurrentBlock();
+			return $tpl->get();
+		}
+		else
+		{
+			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
+			$tpl->setCurrentBlock("link_js");
+			$tpl->setVariable("LINK_FILE",
+				$this->prepareJavascriptOutput("[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]")
+				);
+			$tpl->setVariable("LINK_FILE_SCR",
+				"[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]");
+			$tpl->setVariable("TXT_FILE",
+				$this->uploaded_file->getTitle());
+			$tpl->parseCurrentBlock();
+			return $tpl->get();
+		}		
+	}
 	
 	/**
-	* output thumbnail
-	*/
+	 * Save file link
+	 */
+	function saveFileLink()
+	{
+		$mtpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
+		$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		if ($_FILES["link_file"]["name"] != "")
+		{
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$fileObj = new ilObjFile();
+			$fileObj->setType("file");
+			$fileObj->setTitle($_FILES["link_file"]["name"]);
+			$fileObj->setDescription("");
+			$fileObj->setFileName($_FILES["link_file"]["name"]);
+			$fileObj->setFileType($_FILES["link_file"]["type"]);
+			$fileObj->setFileSize($_FILES["link_file"]["size"]);
+			$fileObj->setMode("filelist");
+			$fileObj->create();
+			// upload file to filesystem
+			$fileObj->createDirectory();
+			$fileObj->raiseUploadError(false);
+			$fileObj->getUploadFile($_FILES["link_file"]["tmp_name"],
+				$_FILES["link_file"]["name"]);
+			$this->uploaded_file = $fileObj;
+
+		}
+		$this->showLinkHelp();
+	}
+	
+	/**
+	 * output thumbnail
+	 */
 	function outputThumbnail(&$tpl, $a_id, $a_mode = "")
 	{
 		// output thumbnail

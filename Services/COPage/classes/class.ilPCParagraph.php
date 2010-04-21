@@ -110,6 +110,7 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function setText($a_text, $a_auto_split = false)
 	{
+
 //var_dump($a_text);
 		if (!is_array($a_text))
 		{
@@ -472,7 +473,7 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst|obj)$ws=$ws([\"0-9])*)$ws".
+			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst|obj|dfile)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -537,6 +538,12 @@ echo htmlentities($a_text);*/
 					$a_text = eregi_replace("\[".$found[1]."\]",
 						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 				}
+			}
+			// direct download file (no repository object)
+			else if (isset($attribs["dfile"]))
+			{
+				$a_text = eregi_replace("\[".$found[1]."\]",
+					"<IntLink Target=\"il_".$inst_str."_dfile_".$attribs[dfile]."\" Type=\"File\">", $a_text);
 			}
 			// repository items (id is ref_id (will be used internally but will
 			// be replaced by object id for export purposes)
@@ -622,7 +629,7 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
 		}
 		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
-
+//echo htmlentities($a_text);
 		return $a_text;
 	}
 	
@@ -944,6 +951,7 @@ echo htmlentities($a_text);*/
 					}
 					break;
 
+				// Repository Item (using ref id)
 				case "RepositoryItem":
 					if ($inst_str == "")
 					{
@@ -957,6 +965,11 @@ echo htmlentities($a_text);*/
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."$target_type=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
+				// Download File (not in repository, Object ID)
+				case "File":
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."dfile=\"".$target_id."\"".$tframestr."]",$a_text);
+					break;
+					
 				default:
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln]",$a_text);
 					break;

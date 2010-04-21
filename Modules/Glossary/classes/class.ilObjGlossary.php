@@ -946,7 +946,27 @@ class ilObjGlossary extends ilObject
 		return $glo_exp->buildExportFile();
 	}
 
-
+	/**
+	 * Get deletion dependencies
+	 *
+	 */
+	static function getDeletionDependencies($a_obj_id)
+	{
+		global $lng;
+		
+		$dep = array();
+		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
+		$sms = ilObjSAHSLearningModule::getScormModulesForGlossary($a_obj_id);
+		foreach ($sms as $sm)
+		{
+			$lng->loadLanguageModule("content");
+			$dep[$sm] = $lng->txt("glo_used_in_scorm");
+		}
+//echo "-".$a_obj_id."-";
+//var_dump($dep);
+		return $dep;	
+	}
+	
 } // END class.ilObjGlossary
 
 ?>

@@ -85,7 +85,8 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
 				$page_gui =& new ilSCORM2004PageGUI($this->slm_object->getType(),
 					$this->node_object->getId(), 0,
-					$this->getParentGUI()->object->getId());
+					$this->getParentGUI()->object->getId(),
+					$this->slm_object->getAssignedGlossary());
 				$page_gui->setEditPreview(true);
 				$page_gui->setPresentationTitle($this->node_object->getTitle());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");

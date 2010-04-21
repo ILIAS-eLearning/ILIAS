@@ -66,11 +66,10 @@ class ilTermDefinitionEditorGUI
 
 	function &executeCommand()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl, $lng;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -104,6 +103,21 @@ class ilTermDefinitionEditorGUI
 		{
 
 			case "ilpageobjectgui":
+				
+				// output number of usages
+				if ($ilCtrl->getCmd() == "edit" &&
+					$ilCtrl->getCmdClass() == "ilpageobjectgui")
+				{
+					$nr = ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]);
+					if ($nr > 0)
+					{
+						$link = "[<a href='".
+							$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
+							"'>".$lng->txt("glo_list_usages")."</a>]";
+						ilUtil::sendInfo(sprintf($lng->txt("glo_term_is_used_n_times"),
+							$nr)." ".$link);
+					}
+				}
 			
 				// not so nice, to do: revise locator handling
 				if ($this->ctrl->getCmdClass() == "ilpageobjectgui"

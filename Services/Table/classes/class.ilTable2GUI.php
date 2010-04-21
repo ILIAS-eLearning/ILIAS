@@ -30,6 +30,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $disable_filter_hiding = false;
 	protected $top_commands = true;
 	protected $selectable_columns = array();
+	protected $selectable_columns = array();
 	
 	/**
 	* Constructor
@@ -169,6 +170,7 @@ class ilTable2GUI extends ilTableGUI
 			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfields",
 				serialize($this->selected_column));
 		}
+		$this->determineSelectedColumns();
 	}
 	
 	/**

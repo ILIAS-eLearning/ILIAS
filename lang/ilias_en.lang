@@ -10304,3 +10304,18 @@ trac#:#trac_percentage#:#Percentage
 payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
 payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
 payment#:#please_use_account#:#For further purchases please login with use your account.
+content#:#cont_lk_file#:#File/Document
+content#:#cont_select_file#:#Select File
+content#:#cont_create_link#:#Create Link
+rep#:#rep_dependencies#:#Dependencies
+rep#:#rep_object_to_delete#:#To Delete
+rep#:#rep_dependent_object#:#Ressource with dependence
+rep#:#rep_dependency#:#Dependency
+content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.
+content#:#glo_presentation_view#:#Presentation View
+content#:#glo_add_new_term#:#Add New Term
+content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.
+content#:#glo_list_usages#:#List Usages
+exp#:#exp_create_xml_file#:#Create Export Package (XML)
+survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
+survey#:#other_answer_label#:#Label of other answer (optional)

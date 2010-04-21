@@ -1121,6 +1121,9 @@
 			<xsl:variable name="link_target">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
 			</xsl:variable>
+			<xsl:variable name="on_click">
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@OnClick"/>
+			</xsl:variable>
 			<xsl:if test="$mode != 'print'">
 				<a class="ilc_link_IntLink">
 					<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
@@ -1130,6 +1133,10 @@
 					<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
 						<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
 					</xsl:if>
+					<xsl:if test="$on_click != ''">
+						<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
+					</xsl:if>
+					<xsl:attribute name="id"><xsl:value-of select="$target"/>_<xsl:value-of select="$pg_id"/>_<xsl:number count="IntLink" level="any"/></xsl:attribute>
 					<xsl:apply-templates/>
 				</a>
 			</xsl:if>
