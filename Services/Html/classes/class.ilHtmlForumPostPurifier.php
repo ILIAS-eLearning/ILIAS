@@ -48,8 +48,13 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
 		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');		
-		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements(ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type)));
-	
+		
+		// Bugfix #5945: Necessary because TinyMCE does not use the "u" 
+		// html element but <span style="text-decoration: underline">E</span>
+		$tags = ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type);		
+		if(in_array('u', $tags) && !in_array('span', $tags)) $tags[] = 'span';
+		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
+
 		return $config;
 	}	
 }

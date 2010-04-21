@@ -153,7 +153,7 @@ class ilTinyMCE extends ilRTE
 			$tpl->setCurrentBlock("tinymce");
 			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
 			include_once "./classes/class.ilObject.php";
-			$tpl->setVariable("OBJ_ID", $obj_id);
+			$tpl->setVariable("OBJ_ID", $obj_id);                   
 			$tpl->setVariable("OBJ_TYPE", $obj_type);
 			$tpl->setVariable("CLIENT_ID", CLIENT_ID);
 			$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
@@ -1083,6 +1083,12 @@ class ilTinyMCE extends ilRTE
 				case "u":
 					array_push($valid_elements, "u[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup"
 						."|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title]");
+					
+					// Bugfix #5945: Necessary because TinyMCE does not use the "u" 
+					// html element but <span style="text-decoration: underline">E</span>
+					array_push($valid_elements, "span[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown"
+						."|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover"
+						."|onmouseup|style|title]");
 					break;
 				case "ul":
 					array_push($valid_elements, "ul[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown"
