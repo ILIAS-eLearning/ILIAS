@@ -4117,81 +4117,65 @@ function loadQuestions($active_id = "", $pass = NULL)
 	*/
 	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
-		//		global $ilBench;
-		$total_max_points = 0;
-		$total_reached_points = 0;
-
-		$key = 1;
-		$result_array = array();
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$workedthrough = 0;
-
+		global $ilDB;
+		
+		$results = $this->getResultsForActiveId($active_id);
 		if (is_null($pass))
 		{
-			$pass = $this->_getResultPass($active_id);
+			$pass = $results['pass'];
 		}
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
 		$sequence = array();
 		if ($ordered_sequence)
 		{
-			$sequence = $testSequence->getOrderedSequence();
+			$sequence = $testSequence->getOrderedSequenceQuestions();
 		}
 		else
 		{
-			$sequence = $testSequence->getUserSequence();
+			$sequence = $testSequence->getUserSequenceQuestions();
 		}
-		foreach ($sequence as $sequenceindex)
+		$arrResults = array();
+		$solutionresult = $ilDB->queryF("SELECT tst_test_result.question_fi, tst_test_result.points reached, tst_solutions.solution_id workedthru FROM tst_test_result LEFT JOIN tst_solutions ON tst_solutions.active_fi = tst_test_result.active_fi AND tst_solutions.question_fi = tst_test_result.question_fi WHERE tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
+			array('integer', 'integer'),
+			array($active_id, $pass)
+		);
+		while ($row = $ilDB->fetchAssoc($solutionresult))
 		{
-			$value = $testSequence->getQuestionForSequence($sequenceindex);
-			$max_points = assQuestion::_getMaximumPoints($value);
-			$total_max_points += $max_points;
-			$reached_points = assQuestion::_getReachedPoints($active_id, $value, $pass);
-			if (assQuestion::_isWorkedThrough($active_id, $value, $pass))
-			{
-				$workedthrough = 1;
-			}
-			else
-			{
-				$workedthrough = 0;
-			}
-			$total_reached_points += $reached_points;
-			if ($max_points > 0)
-			{
-				$percentvalue = $reached_points / $max_points;
-			}
-			else
-			{
-				$percentvalue = 0;
-			}
-			if ($percentvalue < 0) $percentvalue = 0.0;
-			$info =& assQuestion::_getQuestionInfo($value);
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$row = array(
-				"nr" => "$key",
-				"title" => ilUtil::prepareFormOutput($this->getQuestionTitle($info["title"])),
-				"max" => $max_points,
-				"reached" => $reached_points,
-				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-				"solution" => assQuestion::_getSuggestedSolutionOutput($value),
-				"type" => $info["type_tag"],
-				"qid" => $value,
-				"original_id" => $info["original_id"],
-				"workedthrough" => $workedthrough
-			);
-			array_push($result_array, $row);
-			$key++;
+			$arrResults[$row['question_fi']] = $row;
 		}
 
+		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
+		$found = array();
+		$key = 1;
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$percentvalue = ($row['points']) ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0;
+			if ($percentvalue < 0) $percentvalue = 0.0;
+			$data = array(
+				"nr" => "$key",
+				"title" => ilUtil::prepareFormOutput($row['title']),
+				"max" => $row['points'],
+				"reached" => $arrResults[$row['question_id']]['reached'],
+				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
+				"solution" => ($has_sug_sol) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
+				"type" => $row["type_tag"],
+				"qid" => $row['question_id'],
+				"original_id" => $row["original_id"],
+				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0
+			);
+			array_push($found, $data);
+			$key++;
+		}
 		if ($this->getScoreCutting() == 1)
 		{
-			if ($total_reached_points < 0) // && !$this->isSingleChoiceTest()
+			if ($results['reached_points'] < 0)
 			{
-				$total_reached_points = 0;
+				$results['reached_points'] = 0;
 			}
 		}
-		$result_array["test"]["total_max_points"] = $total_max_points;
-		$result_array["test"]["total_reached_points"] = $total_reached_points;
+		$found["test"]["total_max_points"] = $results['max_points'];
+		$found["test"]["total_reached_points"] = $results['reached_points'];
 		if ((!$total_reached_points) or (!$total_max_points))
 		{
 			$percentage = 0.0;
@@ -4201,21 +4185,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
 			if ($percentage < 0) $percentage = 0.0;
 		}
-		$mark_obj = $this->mark_schema->getMatchingMark($percentage);
-		$passed = "";
-		if ($mark_obj)
-		{
-			if ($mark_obj->getPassed())
-			{
-				$passed = 1;
-			}
-			else
-			{
-				$passed = 0;
-			}
-		}
-		$result_array["test"]["passed"] = $passed;
-		return $result_array;
+		$found["test"]["passed"] = $results['passed'];
+		return $found;
 	}
 
 /**
@@ -9712,6 +9683,27 @@ function loadQuestions($active_id = "", $pass = NULL)
 			if (strlen($found)) $fields = unserialize($found);
 			if (is_array($fields)) return $fields; else return array();
 	}
+	
+	protected function getPassed($active_id)
+	{
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT passed FROM tst_result_cache WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row['passed'];
+		}
+		else
+		{
+			$counted_pass = ilObjTest::_getResultPass($active_id);
+ 			$result_array =& $this->getTestResult($active_id, $counted_pass);
+			return $result_array["test"]["passed"];
+		}
+	}
 
 	/**
 	* Checks whether the certificate button could be shown on the info page or not
@@ -9722,9 +9714,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		if ($this->canShowTestResults($user_id))
 		{
-			$counted_pass = ilObjTest::_getResultPass($active_id);
-			$result_array =& $this->getTestResult($active_id, $counted_pass);
-
 			include_once "./Services/Certificate/classes/class.ilCertificate.php";
 			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
 			$cert = new ilCertificate(new ilTestCertificateAdapter($this));
@@ -9738,7 +9727,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 						$showcert = TRUE;
 						break;
 					case 1:
-						if ($result_array["test"]["passed"] == 1)
+						if ($this->getPassed($active_id))
 						{
 							$showcert = TRUE;
 						}
@@ -9983,6 +9972,89 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array('normal') // type
 		);
 		@unlink($file);
+	}
+
+	function createRandomSolutions($number)
+	{
+		global $ilDB;
+		
+		// 1. get a user
+		$query = "SELECT usr_id FROM usr_data";
+		$result = $ilDB->query($query);
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			$activequery = sprintf("SELECT user_fi FROM tst_active WHERE test_fi = %s AND user_fi = %s",
+				$ilDB->quote($this->getTestId()),
+				$ilDB->quote($data['usr_id'])
+			);
+			$activeresult = $ilDB->query($activequery);
+			if ($activeresult->numRows() == 0)
+			{
+				$user_id = $data['usr_id'];
+				if ($user_id != 13)
+				{
+					include_once "./Modules/Test/classes/class.ilTestSession.php";
+					$testSession = FALSE;
+					$testSession = new ilTestSession();
+					$testSession->setTestId($this->getTestId());
+					$testSession->setUserId($user_id);
+					$testSession->saveToDb();
+					$passes = ($this->getNrOfTries()) ? $this->getNrOfTries() : 10;
+					$nr_of_passes = rand(1, $passes);
+					$active_id = $testSession->getActiveId();
+					for ($pass = 0; $pass < $nr_of_passes; $pass++)
+					{
+						include_once "./Modules/Test/classes/class.ilTestSequence.php";
+						$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+						if (!$testSequence->hasSequence())
+						{
+							$testSequence->createNewSequence($this->getQuestionCount(), $shuffle);
+							$testSequence->saveToDb();
+						}
+						for ($seq = 1; $seq <= count($this->questions); $seq++)
+						{
+							$question_id = $testSequence->getQuestionForSequence($seq);
+							$objQuestion = ilObjTest::_instanciateQuestion($question_id);
+							$objQuestion->createRandomSolution($testSession->getActiveId(), $pass);
+						}
+						if ($pass < $nr_of_passes - 1)
+						{
+							$testSession->increasePass();
+							$testSession->setLastSequence(0);
+							$testSession->saveToDb();
+						}
+						else
+						{
+							$this->setActiveTestSubmitted($user_id);
+						}
+					}
+					$number--;
+					if ($number == 0) return;
+				}
+			}
+		}
+	}
+	
+	public function getResultsForActiveId($active_id)
+	{
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT * FROM tst_result_cache WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if (!$result->numRows())
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			assQuestion::_updateTestResultCache($active_id);
+			$result = $ilDB->queryF("SELECT * FROM tst_result_cache WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
+			);
+		}
+		$row = $ilDB->fetchAssoc($result);
+		return $row;
+		
 	}
 } // END class.ilObjTest
 

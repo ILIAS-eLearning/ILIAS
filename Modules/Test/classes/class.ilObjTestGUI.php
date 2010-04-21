@@ -3431,6 +3431,11 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
+		if ($_GET['createRandomSolutions'])
+		{
+			$this->object->createRandomSolutions($_GET['createRandomSolutions']);
+		}
+
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);

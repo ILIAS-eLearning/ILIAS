@@ -1120,6 +1120,12 @@ class assSingleChoice extends assQuestion
 		}
 	}
 
+	function createRandomSolution($active_id, $pass)
+	{
+		$value = rand(0, count($this->answers)-1);
+		$_POST["multiple_choice_result"] = (strlen($value)) ? (string)$value : '0';
+		$this->saveWorkingData($active_id, $pass);
+	}
 }
 
 ?>
