@@ -907,5 +907,82 @@ class ilSCORM13Package
 		libxml_use_internal_errors(false);
 		return $return;
 	}
+	
+	//to be called from IlObjUser
+	public static function _removeTrackingDataForUser($user_id) {
+		global $ilDB;
+		
+		//get all cmi_nodes to delete
+		$res = $ilDB->queryF('
+			SELECT cmi_node.cmi_node_id 
+			FROM cmi_node, cp_node 
+			WHERE cmi_node.cp_node_id = cp_node.cp_node_id AND cmi_node.user_id = %s',
+			array('integer'),
+			array($user_id)
+		);		
+		
+		$cmi_nodes = array();
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$cmi_node_values[] = $data['cmi_node_id'];
+		}		
+		
+		//get all cmi_interaction_nodes to delete
+		$res = $ilDB->queryF('
+			SELECT cmi_interaction.cmi_interaction_id 
+			FROM cmi_interaction, cmi_node, cp_node 
+			WHERE (cmi_node.user_id = %s
+			AND cmi_node.cp_node_id = cp_node.cp_node_id
+			AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id)',
+			array('integer'),
+			array($user_id)
+		);	
+		
+		$cmi_inodes = array();
+
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$cmi_inode_values[] = $data['cmi_interaction_id'];
+		}
+		
+		//delete data in dependent tables
+		
+		//response
+		$query = 'DELETE FROM cmi_correct_response WHERE '
+			   . $ilDB->in('cmi_correct_response.cmi_interaction_id', $cmi_inode_values, false, 'integer');
+		$ilDB->manipulate($query);
+			
+		//objective interaction
+		$query = 'DELETE FROM cmi_objective WHERE '
+			   . $ilDB->in('cmi_objective.cmi_interaction_id', $cmi_inode_values, false, 'integer');
+		$ilDB->manipulate($query);	
+			
+		//objective
+		$query = 'DELETE FROM cmi_objective WHERE '
+			   . $ilDB->in('cmi_objective.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
+				
+		//interaction
+		$query = 'DELETE FROM cmi_interaction WHERE '
+		 	   . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
+			
+		//comment
+		$query = 'DELETE FROM cmi_comment WHERE '
+			   . $ilDB->in('cmi_comment.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
+					
+		//node
+		$query = 'DELETE FROM cmi_node WHERE '
+			   . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
+		$ilDB->manipulate($query);	
+		
+		//gobjective
+		$ilDB->manipulateF(
+			'DELETE FROM cmi_gobjective WHERE user_id = %s',
+			array('integer'),
+			array($user_id)
+		);
+	}
 }
 ?>
