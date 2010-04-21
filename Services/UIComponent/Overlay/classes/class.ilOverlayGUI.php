@@ -14,6 +14,8 @@ class ilOverlayGUI
 	protected $anchor_el_id = "";
 	protected $anchor_ov_corner = "";
 	protected $anchor_anch_corner = "";
+	protected $auto_hide = true;
+	protected $close_el = null;
 	
 	/**
 	 * Constructor
@@ -59,7 +61,7 @@ class ilOverlayGUI
 	 */
 	function setFixedCenter($a_fixed_center = true)
 	{
-		$this->fixed_center = $a_fixed_center;	
+		$this->fixed_center = $a_fixed_center;
 	}
 
 	/**
@@ -78,10 +80,51 @@ class ilOverlayGUI
 	 * @param	string		element id
 	 * @param	string		event ("onclicke" or "onmouseover")
 	 */
-	function setTrigger($a_el_id, $a_event = "onclick")
+	function setTrigger($a_el_id, $a_event = "onclick", $a_trigger_anchor_el_id = null)
 	{
 		$this->trigger_el_id = $a_el_id;
 		$this->trigger_event = $a_event;
+		$this->trigger_anchor_el_id = $a_trigger_anchor_el_id;
+	}
+	
+	/**
+	 * Set auto hiding
+	 *
+	 * @param	boolean	auto hide
+	 */
+	function setAutoHide($a_val)
+	{
+		$this->auto_hide = $a_val;
+	}
+	
+	/**
+	 * Get auto_hide
+	 *
+	 * @return	boolean	auto hide
+	 */
+	function getAutoHide()
+	{
+		return $this->auto_hide;
+	}
+	
+	/**
+	 * Set close element id
+	 *
+	 * @param	string	close element id
+	 */
+	function setCloseElementId($a_val)
+	{
+		$this->close_el = $a_val;
+	}
+	
+	/**
+	 * Get close element id
+	 *
+	 * @return	string	clos element id
+	 */
+	function getCloseElementId()
+	{
+		return $this->close_el;
 	}
 	
 	/**
@@ -101,20 +144,20 @@ class ilOverlayGUI
 		{
 			$yuicfg["height"] = $this->height;
 		}
-		
 		$yuicfg["fixedcenter"] = $this->fixed_center ? true : false;
 		if ($this->anchor_el_id != "")
 		{
 			$yuicfg["context"] = array($this->anchor_el_id, $this->anchor_ov_corner,
 					$this->anchor_anch_corner, array("beforeShow", "windowResize"));
 		}
-
 		// general cfg string
 		$cfg["yuicfg"] = $yuicfg;
 		$cfg["trigger"] = $this->trigger_el_id;
 		$cfg["trigger_event"] = $this->trigger_event;
 		$cfg["anchor_id"] = $this->trigger_anchor_el_id;
-		
+		$cfg["auto_hide"] = $this->auto_hide;
+		$cfg["close_el"] = $this->close_el;
+
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 //var_dump(ilJsonUtil::encode($cfg));
 		return 'ilOverlay.add("'.$this->overlay_el_id.'", '.
@@ -140,23 +183,24 @@ class ilOverlayGUI
 	 * @param
 	 * @return
 	 */
-	function getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id)
+	function getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false)
 	{
+		$center = ($a_center) ? "true" : "false";
 		return 'ilOverlay.addTrigger("'.$a_tr_id.'","'.$a_tr_event.'","'.$this->overlay_el_id.'","'.
-			$a_anchor_el_id.'"); ';	
+			$a_anchor_el_id.'", '.$center.'); ';	
 	}
 	
 	/**
 	 * Add trigger
 	 */
-	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id)
+	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false)
 	{
 		global $tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		
+//echo "-".$a_tr_id."-".$a_tr_event."-".$a_anchor_el_id."-";
 		ilYuiUtil::initOverlay();
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
-		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id)); 
+		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center)); 
 	}
 	
 	

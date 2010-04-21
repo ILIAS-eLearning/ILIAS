@@ -251,6 +251,7 @@ class ilObjStyleSheet extends ilObject
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
+		"glo" => array("glo_overlay", "glo_ovtitle"),
 		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt")
 		);
 
@@ -281,6 +282,8 @@ class ilObjStyleSheet extends ilObject
 		"table_caption" => "caption",
 		"media_cont" => "table",
 		"media_caption" => "div",
+		"glo_overlay" => "div",
+		"glo_ovtitle" => "h1",
 		"sco_title" => "div",
 		"sco_keyw" => "div",
 		"sco_desc" => "div",
@@ -346,6 +349,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "link", "class" => "IntLink"),
 			array("type" => "link", "class" => "ExtLink"),
 			array("type" => "link", "class" => "FootnoteLink"),
+			array("type" => "link", "class" => "FileLink"),
+			array("type" => "link", "class" => "GlossaryLink"),
 			array("type" => "media_cont", "class" => "MediaContainer"),
 			array("type" => "table", "class" => "StandardTable"),
 			array("type" => "media_caption", "class" => "MediaCaption"),
@@ -361,6 +366,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "page_rnavimage", "class" => "RightNavigationImage"),
 			array("type" => "page_fn", "class" => "Footnote"),
 			array("type" => "page_title", "class" => "PageTitle"),
+			array("type" => "glo_overlay", "class" => "GlossaryOverlay"),
+			array("type" => "glo_ovtitle", "class" => "GlossaryOvTitle"),
 			array("type" => "sco_title", "class" => "Title"),
 			array("type" => "sco_desc", "class" => "Description"),
 			array("type" => "sco_desct", "class" => "DescriptionTop"),

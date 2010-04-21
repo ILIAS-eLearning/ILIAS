@@ -10319,3 +10319,7 @@ content#:#glo_list_usages#:#List Usages
 exp#:#exp_create_xml_file#:#Create Export Package (XML)
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
 survey#:#other_answer_label#:#Label of other answer (optional)
+style#:#sty_glo_char#:#Glossary
+style#:#sty_type_glo_overlay#:#Glossary Overlay
+style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)
+content#:#cont_sco_glossary#:#Unit Glossary

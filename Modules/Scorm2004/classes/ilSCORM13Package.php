@@ -186,6 +186,15 @@ class ilSCORM13Package
 		}
 	  	$this->dbImport($this->manifest);
 
+		$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+  		$l = $doc->xpath ("/ContentObject/MetaData" );
+		if($l[0])
+	  	{
+	  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+	  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$packageId,$packageId,ilObject::_lookupType($packageId));
+			$mdxml->startParsing();
+			$mdxml->getMDObject()->update();
+	  	}
   	
 	  	//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
@@ -295,8 +304,43 @@ class ilSCORM13Package
 	  		return false;
 	  	}
 		$this->dbImportLM(simplexml_import_dom($this->imsmanifest->documentElement),$this->slm);
+		if(is_dir($packageFolder."/glossary"))
+		{
+			$this->importGlossary($slm,$packageFolder."/glossary");
+		}
 	  	//die($slm->title);
 		return $slm->title;
+	}
+	
+	function importGlossary($slm, $packageFolder)
+	{
+		global $ilias;
+		// create and insert object in objecttree
+		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+		$newObj = new ilObjGlossary();
+		$newObj->setType('glo');
+		$newObj->setTitle('');
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		$xml_file = $packageFolder."/glossary.xml";
+
+		// check whether xml file exists within zip file
+		if (!is_file($xml_file))
+		{
+			return;
+		}
+
+		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $xml_file, $packageFolder);
+		$contParser->startParsing();
+		$newObj->update();
+		//ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
+		$slm->setAssignedGlossary($newObj->getId());
+		$slm->update();
 	}
 	
 	function dbImportLM($node, $parent_id)
@@ -322,7 +366,6 @@ class ilSCORM13Package
 					$mdxml->startParsing();
 					$mdxml->getMDObject()->update();
 			  	}
-			  	
 				break;
 			case "organization":
 				$this->slm->title=$node->title;
@@ -334,16 +377,25 @@ class ilSCORM13Package
 					$chap=& new ilSCORM2004Chapter($this->slm);
 					$chap->setTitle($node->title);
 					$chap->setSLMId($this->slm->getId());
-					$chap->create();
+					$chap->create(true);
 					ilSCORM2004Node::putInTree($chap, "", "");
 					$parent_id=$chap->getId();
+					$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+			  		$l = $doc->xpath ( "/ContentObject/StructureObject/MetaData[General/Identifier/@Entry='".$a['identifier']."']" );
+					if($l[0])
+				  	{
+				  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+				  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$this->slm->getId(),$chap->getId(),$chap->getType());
+						$mdxml->startParsing();
+						$mdxml->getMDObject()->update();
+				  	}
 				}
 				if(preg_match("/il_\d+_sco_(\d+)/",$a['identifier'], $match))
 				{
 					$sco = new ilSCORM2004Sco($this->slm);
 					$sco->setTitle($node->title);
 					$sco->setSLMId($this->slm->getId());
-					$sco->create();
+					$sco->create(true);
 					ilSCORM2004Node::putInTree($sco, $parent_id, "");
 					$newPack = new ilSCORM13Package();
 					$newPack->il_importSco($this->slm->getId(),$sco->getId(),$this->packageFolder."/".$match[1]);
@@ -442,14 +494,15 @@ class ilSCORM13Package
 			$mdxml->getMDObject()->update();
 	  	}
 		$l = $doc->xpath("/ContentObject/PageObject");
-		foreach ( $l as $page_xml ) {
-	  		$tnode = $page_xml->xpath('MetaData/General/Title');
-	  		$page = new ilSCORM2004PageNode($slm);
-			$page->setTitle($tnode[0]);
-			$page->setSLMId($slm->getId());
-			$page->create();
-			ilSCORM2004Node::putInTree($page, $sco->getId(), $target);
-			$pmd = $doc->xpath ("MetaData");
+		foreach ( $l as $page_xml ) 
+		{
+			$tnode = $page_xml->xpath ( 'MetaData/General/Title' );
+			$page = new ilSCORM2004PageNode ( $slm );
+			$page->setTitle ( $tnode [0] );
+			$page->setSLMId ( $slm->getId () );
+			$page->create (true);
+			ilSCORM2004Node::putInTree ( $page, $sco->getId (), $target );
+			$pmd = $page_xml->xpath ("MetaData");
 			if($pmd[0])
 		  	{
 		  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
@@ -467,11 +520,17 @@ class ilSCORM13Package
 				if($medianode)
 				{
 					$media_object = new ilObjMediaObject ( );
-					
 					$media_object->setTitle ($medianode->MetaData->General->Title);
 					$media_object->setDescription ($medianode->MetaData->General->Description);
-					$media_object->create ();
-
+					$media_object->create (false);
+					$mmd = $medianode->xpath ("MetaData");
+					if($mmd[0])
+				  	{
+				  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+				  		$mdxml =& new ilMDXMLCopier($mmd[0]->asXML(),0,$media_object->getId(),$media_object->getType());
+						$mdxml->startParsing();
+						$mdxml->getMDObject()->update();
+				  	}
 					// determine and create mob directory, move uploaded file to directory
 					$media_object->createDirectory ();
 					$mob_dir = ilObjMediaObject::_getDirectory ( $media_object->getId () );
@@ -497,7 +556,7 @@ class ilSCORM13Package
 					// behind the next curly bracket which makes it fail
 					// when no medianode is given. (id=0 -> fatal error)
 					ilUtil::renameExecutables ( $mob_dir );
-					$media_object->update ();
+					$media_object->update(true);
 					$ttnode [OriginId] = "il__mob_" . $media_object->getId ();
 				}
 			}

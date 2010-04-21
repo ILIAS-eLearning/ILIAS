@@ -589,7 +589,7 @@ return;
 		$newObj->setTitle($name);
 		$newObj->setSubType($_POST["sub_type"]);
 		$newObj->setDescription("");
-		$newObj->create();
+		$newObj->create(true);
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
@@ -621,12 +621,12 @@ return;
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);
-			$md = new ilMD($newObj->getId(),0, $newObj->getType());
+			/*$md = new ilMD($newObj->getId(),0, $newObj->getType());
 			if(is_object($md_gen = $md->getGeneral()))
 			{
 				$md_gen->setTitle($title);
 				$md_gen->update();
-			}
+			}*/
 		}
 		
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);

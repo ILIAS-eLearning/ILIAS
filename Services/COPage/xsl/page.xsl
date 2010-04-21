@@ -1136,6 +1136,15 @@
 					<xsl:if test="$on_click != ''">
 						<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
 					</xsl:if>
+					<xsl:if test="@Type = 'File'">
+						<xsl:attribute name="class">ilc_link_FileLink</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@Type = 'GlossaryItem'">
+						<xsl:attribute name="class">ilc_link_GlossaryLink</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$on_click != ''">
+						<xsl:attribute name="on_click"><xsl:value-of select="$on_click"/></xsl:attribute>
+					</xsl:if>
 					<xsl:attribute name="id"><xsl:value-of select="$target"/>_<xsl:value-of select="$pg_id"/>_<xsl:number count="IntLink" level="any"/></xsl:attribute>
 					<xsl:apply-templates/>
 				</a>

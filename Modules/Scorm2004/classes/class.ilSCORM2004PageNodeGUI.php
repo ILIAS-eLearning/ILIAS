@@ -92,6 +92,16 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->slm_object->getStyleSheetId(), "sahs"));
+				$sco = new ilSCORM2004Sco(
+							$this->node_object->getSLMObject(),
+							$this->node_object->tree->getParentId(
+							$this->node_object->getId()));
+				if (count($sco->getGlossaryTermIds()) > 1)
+				{
+					include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
+					$page_gui->setGlossaryOverviewInfo(
+						ilSCORM2004ScoGUI::getGlossaryOverviewId(), $sco);
+				}
 
 				//$page_gui->activateMetaDataEditor($this->content_object->getID(),
 				//	$this->obj->getId(), $this->obj->getType(),

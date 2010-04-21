@@ -336,7 +336,7 @@ class ilMDSaxParser extends ilSaxParser
 			case 'Rights':
 				$par =& $this->__getParent();
 				$this->md_rig =& $par->addRights();
-				$this->md_rig->setCosts($a_attribs['Costs']);
+				$this->md_rig->setCosts($a_attribs['Cost']);
 				$this->md_rig->setCopyrightAndOtherRestrictions($a_attribs['CopyrightAndOtherRestrictions']);
 				$this->md_rig->save();
 				$this->__pushParent($this->md_rig);
