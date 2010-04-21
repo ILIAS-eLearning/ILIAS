@@ -58,6 +58,7 @@ class ilRepUtilGUI
 		$cgui->setCancel($lng->txt("cancel"), "cancelDelete");
 		$cgui->setConfirm($lng->txt("confirm"), "confirmedDelete");
 
+		$deps = array();
 		foreach ($a_ids as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjId($ref_id);
@@ -69,9 +70,19 @@ class ilRepUtilGUI
 			$cgui->addItem("id[]", $ref_id, $title,
 				ilObject::_getIcon($obj_id, "small", $type),
 				$alt);
+
+			ilObject::collectDeletionDependencies($deps, $ref_id, $obj_id, $type);
+		}
+		$deps_html = "";
+
+		if (is_array($deps) && count($deps) > 0)
+		{
+			include_once("./Services/Repository/classes/class.ilRepDependenciesTableGUI.php");
+			$tab = new ilRepDependenciesTableGUI($deps);
+			$deps_html = "<br/><br/>".$tab->getHTML();
 		}
 		
-		$tpl->setContent($cgui->getHTML());
+		$tpl->setContent($cgui->getHTML().$deps_html);
 		return true;
 	}
 	

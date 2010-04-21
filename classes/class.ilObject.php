@@ -1869,5 +1869,62 @@ class ilObject
 		}
 	}
 
+	/**
+	 * Collect deletion dependencies. E.g. 
+	 *
+	 * @param
+	 * @return
+	 */
+	static final function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
+	{
+		global $objDefinition, $tree;
+
+		if ($a_depth == 0)
+		{
+			$deps["dep"] = array();
+		}
+		
+		$deps["del_ids"][$a_obj_id] = $a_obj_id;
+		
+		if (!$objDefinition->isPlugin($type))
+		{
+			$class_name = "ilObj".$objDefinition->getClassName($a_type);
+			$location = $objDefinition->getLocation($a_type);
+			include_once($location."/class.".$class_name.".php");
+			$odeps = call_user_func(array($class_name, "getDeletionDependencies"), $a_obj_id);
+			if (is_array($odeps))
+			{
+				foreach ($odeps as $id => $message)
+				{
+					$deps["dep"][$id][$a_obj_id][] = $message;
+				}
+			}
+			
+			// get deletion dependency of childs
+			foreach ($tree->getChilds($a_ref_id) as $c)
+			{
+				ilObject::collectDeletionDependencies($deps, $c["child"], $c["obj_id"], $c["type"], $a_depth + 1);
+			}
+		}
+		
+		// delete all dependencies to objects that will be deleted, too
+		if ($a_depth == 0)
+		{
+			foreach ($deps["del_ids"] as $obj_id)
+			{
+				unset($deps["dep"][$obj_id]);
+			}
+			$deps = $deps["dep"];
+		}		
+	}
+	
+	/**
+	 * Get deletion dependencies
+	 *
+	 */
+	static function getDeletionDependencies($a_obj_id)
+	{
+		return false;	
+	}
 } // END class.ilObject
 ?>

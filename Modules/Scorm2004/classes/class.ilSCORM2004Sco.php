@@ -182,6 +182,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	{
 		
 		ilUtil::makeDir($a_target_dir.'/css');
+		ilUtil::makeDir($a_target_dir.'/css/yahoo');
 		ilUtil::makeDir($a_target_dir.'/objects');
 		ilUtil::makeDir($a_target_dir.'/images');
 		ilUtil::makeDir($a_target_dir.'/js');
@@ -200,10 +201,13 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'), $a_target_dir.'/js/yahoo/yahoo-min.js');
 		copy(ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'), $a_target_dir.'/js/yahoo/yahoo-dom-event.js');
+		copy(ilYuiUtil::getLocalPath('container/container_core-min.js'), $a_target_dir.'/js/yahoo/container_core-min.js');
 		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $a_target_dir.'/js/yahoo/animation-min.js');
+		copy(ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'), $a_target_dir.'/css/yahoo/container.css');
 		copy('./Services/Accordion/js/accordion.js',$a_target_dir.'/js/accordion.js');
 		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
 		copy('./Services/JavaScript/js/Basic.js',$a_target_dir.'/js/Basic.js');
+		copy('./Services/UIComponent/Overlay/js/ilOverlay.js',$a_target_dir.'/js/ilOverlay.js');
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$active_css = ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId());
@@ -253,7 +257,64 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		ilUtil::makeDir($a_target_dir.'/css');
 		ilUtil::makeDir($a_target_dir.'/objects');
 		ilUtil::makeDir($a_target_dir.'/images');
-		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'pdf');
+		$this->exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, 'pdf');
+	}
+	
+	function exportPDF($a_inst, $a_target_dir, &$expLog)
+	{
+		global $tpl, $lng, $ilCtrl;
+		$a_xml_writer = new ilXmlWriter;
+		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog,$a_xml_writer);
+		$a_xml_writer->xmlEndTag("ContentObject");
+		//die(htmlentities($a_xml_writer->xmlDumpMem()));
+		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
+		$xml2FO = new ilXML2FO();
+		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+		$xml2FO->setXSLParams(array ('target_dir' => $a_target_dir));
+		$xml2FO->transform();
+		$fo_string = $xml2FO->getFOString();
+		//die(htmlentities($fo_string));
+		$a_xml_writer->_XmlWriter;
+		return $fo_string;
+	}
+	
+	function exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, &$a_xml_writer)
+	{
+		
+		$this->exportHTML4PDF($a_inst, $a_target_dir, &$expLog);
+		global $tpl, $lng, $ilCtrl;
+		$this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
+		$this->exportFileItems($a_target_dir,$expLog);
+		
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
+		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
+		
+		$tree = new ilTree($this->slm_id);
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
+		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
+		{
+			$page_obj = new ilSCORM2004Page($page["obj_id"]);
+		$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+		if (count($q_ids) > 0)
+		{
+			include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+			foreach ($q_ids as $q_id)
+			{
+				$q_obj =& assQuestion::_instanciateQuestion($q_id);
+				$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
+				fwrite($qti_file, $q_obj->toXML());
+				fclose($qti_file);					
+					$x = file_get_contents($a_target_dir."/qti_".$q_id.".xml");
+					$x = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $x);
+					$a_xml_writer->appendXML($x);
+			}
+		}
+			unset($page_obj);
+		}
 	}
 	
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode)
@@ -294,6 +355,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				<link rel="stylesheet" type="text/css" href="./css/system.css" />
 				<link rel="stylesheet" type="text/css" href="./css/style.css" />
 				<link rel="stylesheet" type="text/css" href="./css/accordion.css" />
+				<link rel="stylesheet" type="text/css" href="./css/yahoo/container.css" />
 				<script src="./js/scorm.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/jquery.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/jquery-ui-min.js" type="text/javascript" language="JavaScript1.2"></script>
@@ -301,8 +363,10 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				<script src="./js/pure.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/yahoo/container_core-min.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/Basic.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/ilOverlay.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script type="text/javascript" language="JavaScript1.2">
 					ilAddOnLoad(function () {init(0);});
@@ -310,7 +374,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
 				<title>'.$this->getTitle().'</title>
 			</head>
-			<body onunload="finish();">';
+			<body class="yui-skin-sam" onunload="finish();">';
 			//<body onLoad="init(0);" onunload="finish();">';
 			// add init(0) per script, see above;
 			// otherwise accordion.js cannot add another function to the onload event.
@@ -365,6 +429,10 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		ilQuestionExporter::indicateNewSco();
 
 		if($mode=='pdf') $output .='<!-- PAGE BREAK -->';
+
+		// init export (this initialises glossary template)
+		ilSCORM2004PageGUI::initExport();
+		
 		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
 		{
 			//echo(print_r($page));
@@ -405,6 +473,9 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				}
 			}
 		}
+		
+		if($mode!='pdf')
+		$output.= ilSCORM2004PageGUI::getGlossaryHTML();
 		
 		if($mode!='pdf') 
 		$output .=	'<!-- BEGIN ilLMNavigation2 -->

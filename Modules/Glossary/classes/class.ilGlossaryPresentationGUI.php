@@ -1245,6 +1245,9 @@ class ilGlossaryPresentationGUI
 		
 		// show standard meta data section
 		$info->addMetaDataSections($this->glossary->getId(),0, $this->glossary->getType());
+		
+		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
+		ilObjGlossaryGUI::addUsagesToInfo($info, $this->glossary->getId());
 
 		if ($this->offlineMode())
 		{

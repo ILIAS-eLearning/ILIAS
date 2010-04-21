@@ -449,12 +449,19 @@ class ilSCORM13Package
 			$page->setSLMId($slm->getId());
 			$page->create();
 			ilSCORM2004Node::putInTree($page, $sco->getId(), $target);
+			$pmd = $doc->xpath ("MetaData");
+			if($pmd[0])
+		  	{
+		  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+		  		$mdxml =& new ilMDXMLCopier($pmd[0]->asXML(),$slm->getId(),$page->getId(),$page->getType());
+				$mdxml->startParsing();
+				$mdxml->getMDObject()->update();
+		  	}
 			$tnode = $page_xml->xpath("//MediaObject/MediaAlias");
 			foreach($tnode as $ttnode)
 			{
 				include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$OriginId = $ttnode[OriginId];
-
 				$medianodes = $doc->xpath("//MediaObject[MetaData/General/Identifier/@Entry='".$OriginId ."']");
 				$medianode = $medianodes[0];
 				if($medianode)
@@ -469,8 +476,7 @@ class ilSCORM13Package
 					$media_object->createDirectory ();
 					$mob_dir = ilObjMediaObject::_getDirectory ( $media_object->getId () );
 					foreach ( $medianode->MediaItem as $xMediaItem ) 
-					{
-	
+					{	
 						$media_item = & new ilMediaItem ( );
 						$media_object->addMediaItem ( $media_item );
 						$media_item->setPurpose($xMediaItem[Purpose]);
@@ -501,10 +507,6 @@ class ilSCORM13Package
 			foreach($tnode as $ttnode)
 				$t .= $ttnode->asXML();
 			$t .="</PageObject>";
-			
-			// alex: this is necessary due to the changes above
-			//foreach ($qtis as $old=>$q)
-			//	$t = str_replace($old,'il__qst_'.$q['test'], $t);
 			foreach ($qtis as $old=>$q)
 				$t = str_replace($old,'il__qst_'.$q['pool'], $t);
 			$pagex->setXMLContent($t);

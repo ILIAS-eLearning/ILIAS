@@ -1147,7 +1147,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get all internal links that are used within the page
 	*/
-	function getInternalLinks()
+	function getInternalLinks($a_cnt_multiple = false)
 	{
 		// get all internal links of the page
 		$xpc = xpath_new_context($this->dom);
@@ -1155,13 +1155,19 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$res =& xpath_eval($xpc, $path);
 
 		$links = array();
+		$cnt_multiple = 1;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
+			$add = "";
+			if ($a_cnt_multiple)
+			{
+				$add = ":".$cnt_multiple;
+			}
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
 			$targetframe = $res->nodeset[$i]->get_attribute("TargetFrame");
 			$anchor = $res->nodeset[$i]->get_attribute("Anchor");
-			$links[$target.":".$type.":".$targetframe.":".$anchor] =
+			$links[$target.":".$type.":".$targetframe.":".$anchor.$add] =
 				array("Target" => $target, "Type" => $type,
 					"TargetFrame" => $targetframe, "Anchor" => $anchor);
 					
@@ -1182,6 +1188,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				
 			}
 //echo "<br>-:".$target.":".$type.":".$targetframe.":-";
+			$cnt_multiple++;
 		}
 		unset($xpc);
 
@@ -1934,6 +1941,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
 		if(empty($errors))
 		{
+			$this->performAutomaticModifications();
+			
 			$content = $this->getXMLFromDom();
 
 			// this needs to be locked
@@ -2558,6 +2567,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 				case "RepositoryItem":
 					$t_type = "obj";
+					break;
+
+				case "File":
+					$t_type = "file";
 					break;
 			}
 
@@ -4205,5 +4218,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return false;
 	}
 
+	/**
+	 * Perform automatic modifications (may be overwritten by sub classes)
+	 */
+	function performAutomaticModifications()
+	{
+	}
 }
 ?>

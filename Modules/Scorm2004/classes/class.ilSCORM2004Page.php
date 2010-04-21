@@ -13,6 +13,8 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 */
 class ilSCORM2004Page extends ilPageObject
 {
+	protected $glossary_id = 0;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -45,6 +47,26 @@ class ilSCORM2004Page extends ilPageObject
 		return $this->scormlmid;
 	}
 
+	/**
+	 * Set glossary id
+	 *
+	 * @param	int	glossary id
+	 */
+	function setGlossaryId($a_val)
+	{
+		$this->glossary_id = $a_val;
+	}
+	
+	/**
+	 * Get glossary id
+	 *
+	 * @return	int	glossary id
+	 */
+	function getGlossaryId()
+	{
+		return $this->glossary_id;
+	}
+	
 	/**
 	* Create new scorm 2004
 	*/
@@ -123,13 +145,13 @@ class ilSCORM2004Page extends ilPageObject
 		return true;
 	}
 
-/**
-	* save internal links of page. this method overwrites the 
-	* ilpageobject method and adds information on all questions
-	* to the db
-	*
-	* @param	string		xml page code
-	*/
+	/**
+	 * save internal links of page. this method overwrites the 
+	 * ilpageobject method and adds information on all questions
+	 * to the db
+	 *
+	 * @param	string		xml page code
+	 */
 	function saveInternalLinks($a_xml)
 	{
 		global $ilDB;
@@ -322,5 +344,40 @@ class ilSCORM2004Page extends ilPageObject
 	{
 		return $this->files_contained;
 	}
+	
+	/**
+	 * Perform automatic modifications (may be overwritten by sub classes)
+	 */
+	function performAutomaticModifications()
+	{
+		if ($this->getGlossaryId() > 0)
+		{
+			// we fix glossary links here
+			$this->buildDom();
+			$xpc = xpath_new_context($this->dom);
+			$path = "//IntLink[@Type='GlossaryItem']";
+			$res =& xpath_eval($xpc, $path);
+			for ($i=0; $i < count($res->nodeset); $i++)
+			{
+				$target = $res->nodeset[$i]->get_attribute("Target");
+//echo "<br>".$target;
+				$tarr = explode("_", $target);
+				$term_id = $tarr[count($tarr) - 1];
+				if (is_int(strpos($target, "__")) && $term_id > 0)
+				{
+					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+//echo "<br>-".ilGlossaryTerm::_lookGlossaryID($term_id)."-".$this->getGlossaryId()."-";
+					if (ilGlossaryTerm::_lookGlossaryID($term_id) != $this->getGlossaryId())
+					{
+						// copy the glossary term from glossary a to b
+						$new_id = ilGlossaryTerm::_copyTerm($term_id, $this->getGlossaryId());
+						$res->nodeset[$i]->set_attribute("Target", "il__git_".$new_id);
+					}
+				}
+			}
+		}
+//exit;
+	}
+	
 }
 ?>

@@ -101,27 +101,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 				
 			case "ilinfoscreengui":
-				$this->getTemplate();
-				$this->setTabs();
-				$this->setLocator();
-				$this->lng->loadLanguageModule("meta");
-				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		
-				$info = new ilInfoScreenGUI($this);
-				$info->enablePrivateNotes();
-				$info->enableNews();
-				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-				{
-					$info->enableNewsEditing();
-					$news_set = new ilSetting("news");
-					$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-					if ($enable_internal_rss)
-					{
-						$info->setBlockProperty("news", "settings", true);
-					}
-				}
-				$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
-				$this->ctrl->forwardCommand($info);
+				$this->showInfoScreen();
 				break;
 				
 			case 'ilpermissiongui':
@@ -397,7 +377,82 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
+	/**
+	 * Show info screen
+	 *
+	 * @param
+	 * @return
+	 */
+	function showInfoScreen()
+	{
+		global $ilAccess;
+		
+		$this->getTemplate();
+		$this->setTabs();
+		$this->setLocator();
+		$this->lng->loadLanguageModule("meta");
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+		$info->enableNews();
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$info->enableNewsEditing();
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+			}
+		}
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		ilObjGlossaryGUI::addUsagesToInfo($info, $this->object->getId());
+		
+		$this->ctrl->forwardCommand($info);
+	}
+	
+	/**
+	 * Add usages to info
+	 *
+	 * @param
+	 * @return
+	 */
+	function addUsagesToInfo($info, $glo_id)
+	{
+		global $lng, $ilAccess;
+	
+		$info->addSection($lng->txt("glo_usages"));
+		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
+		$sms = ilObjSAHSLearningModule::getScormModulesForGlossary($glo_id);
+		foreach ($sms as $sm)
+		{
+			$link = false;
+			$refs = ilObject::_getAllReferences($sm);
+			foreach ($refs as $ref)
+			{
+				if ($link === false)
+				{
+					if ($ilAccess->checkAccess("write", "", $ref))
+					{
+						include_once("./classes/class.ilLink.php");
+						$link = ilLink::_getLink($ref,'sahs');
+					}
+				}
+			}
+			
+			$entry = ilObject::_lookupTitle($sm);
+			if ($link !== false)
+			{
+				$entry = "<a href='".$link."' target='_top'>".$entry."</a>";
+			}
+			
+			$info->addProperty($lng->txt("obj_sahs"), $entry);
+		}
+	}
+	
+	
 	function viewObject()
 	{
 		global $rbacsystem;
@@ -533,12 +588,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.glossary_short_list.html",
 			"Modules/Glossary");
 		
-		$this->tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+//		$this->tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
+//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CMD_REFR", "quickList");
 		$this->tpl->setVariable("TXT_REFR", $this->lng->txt("refresh"));
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_terms"));
 		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -558,7 +614,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("cont_terms"));
+		//$tbl->setTitle($this->lng->txt("cont_terms"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("cont_term")));
@@ -568,6 +624,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$header_params["cmd"] = "quickList";
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("100%"));
+		$tbl->disable("title");
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -645,34 +702,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function listTerms()
 	{
-		global $ilUser;
+		global $ilUser, $ilToolbar, $lng, $ilCtrl, $tpl;
 
-		//$this->getTemplate();
-		//$this->setTabs();
-		//$this->setLocator();
+		// term
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($lng->txt("cont_new_term"), "new_term");
+		$ti->setMaxLength(80);
+		$ti->setSize(20);
+		$ilToolbar->addInputItem($ti, true);
+		
+		// language
 		$this->lng->loadLanguageModule("meta");
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-
-		// view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			"ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"".
-			ilFrameTargetInfo::_getFrame("MainContent")."\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
-
-		// glossary term list template
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
-		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this, "addTerm"));
-		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-		$this->tpl->setVariable("TXT_ADD2", $this->lng->txt("add"));
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMDLanguageItem::_getLanguages();
-
 		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 		{
 			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
@@ -681,9 +722,26 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$s_lang = $ilUser->getLanguage();
 		}
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("language"), "term_language");
+		$si->setOptions($lang);
+		$si->setValue($s_lang);
+		$ilToolbar->addInputItem($si, true);
+		
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		$ilToolbar->addFormButton($lng->txt("glo_add_new_term"), "addTerm");
+		//$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
+		//$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 
-		$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
+		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
+		$tab = new ilTermListTableGUI($this, "listTerms");
+		$tpl->setContent($tab->getHTML());
+return;
+		
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
+		// glossary term list template
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
+
 
 
 		// load template for table
@@ -946,11 +1004,26 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function confirmDefinitionDeletion()
 	{
+		global $ilCtrl, $lng;
+		
 		//$this->getTemplate();
 		//$this->displayLocator();
 		//$this->setTabs();
 
 		$term = new ilGlossaryTerm($_GET["term_id"]);
+		
+		$add = "";
+		$nr = ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]);
+		if ($nr > 0)
+		{
+			$ilCtrl->setParameterByClass("ilglossarytermgui",
+				"term_id", $_GET["term_id"]);
+			$link = "[<a href='".
+				$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
+				"'>".$lng->txt("glo_list_usages")."</a>]";
+			$add = "<br/>".sprintf($lng->txt("glo_term_is_used_n_times"), $nr)." ".$link;
+		}
+		
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -969,7 +1042,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//	$this->lng->txt("cont_term").": ".$term->getTerm());
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure").$add);
 
 		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
 
@@ -1385,6 +1458,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function confirmTermDeletion()
 	{
+		global $ilCtrl, $lng;
+		
 		//$this->prepareOutput();
 		if (!isset($_POST["id"]))
 		{
@@ -1412,9 +1487,23 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$term = new ilGlossaryTerm($id);
 
+			$add = "";
+			$nr = ilGlossaryTerm::getNumberOfUsages($id);
+			if ($nr > 0)
+			{
+				$ilCtrl->setParameterByClass("ilglossarytermgui",
+					"term_id", $id);
+				$link = "[<a href='".
+					$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages").
+					"'>".$lng->txt("glo_list_usages")."</a>]";
+				$add = "<div class='small'>".
+					sprintf($lng->txt("glo_term_is_used_n_times"), $nr)." ".$link."</div>";
+			}
+			
+			
 			// output title
 			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->setVariable("TEXT_CONTENT", $term->getTerm());
+			$this->tpl->setVariable("TEXT_CONTENT", $term->getTerm().$add);
 			$this->tpl->parseCurrentBlock();
 
 			// output table row
@@ -1636,9 +1725,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilInfoScreenGUI", "", $force_active);
 
-
 		// properties
-		$tabs_gui->addTarget("properties",
+		$tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
 
@@ -1664,6 +1752,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 
 		}
+		
+		$tabs_gui->addNonTabbedLink("presentation_view",
+			$this->lng->txt("glo_presentation_view"),
+			"ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->object->getRefID(),
+			"_top"
+		);
+		
 	}
 	
 	/**

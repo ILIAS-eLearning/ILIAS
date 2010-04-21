@@ -119,7 +119,25 @@ class ilPageEditorGUI
 		$this->page_back_title = $a_title;
 	}
 
-
+	/**
+	 * Set enable internal links
+	 *
+	 * @param	boolean	enable internal links
+	 */
+	function setEnableInternalLinks($a_val)
+	{
+		$this->enable_internal_links = $a_val;
+	}
+	
+	/**
+	 * Get enable internal links
+	 *
+	 * @return	boolean	enable internal links
+	 */
+	function getEnableInternalLinks()
+	{
+		return $this->enable_internal_links;
+	}
 
 	/**
 	* execute command
@@ -127,7 +145,7 @@ class ilPageEditorGUI
 	function &executeCommand()
 	{
 		global $ilCtrl;
-		
+
 		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
@@ -360,6 +378,10 @@ class ilPageEditorGUI
 				$link_gui = new ilInternalLinkGUI(
 					$this->int_link_def_type, $this->int_link_def_id);
 				$link_gui->setMode("normal");
+				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
+				{
+					$link_gui->filterLinkType($filter);
+				}
 				$link_gui->setSetLinkTargetScript(
 					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
@@ -381,6 +403,7 @@ class ilPageEditorGUI
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
 				$par_gui->setStyleId($this->page_gui->getStyleId());
+				$par_gui->setEnableInternalLinks($this->getEnableInternalLinks());
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 

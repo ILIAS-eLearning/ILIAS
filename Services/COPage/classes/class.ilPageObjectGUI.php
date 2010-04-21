@@ -52,7 +52,7 @@ class ilPageObjectGUI
 	var $question_html;
 	var $activation = false;
 	var $activated = true;
-	var $enabledinternallinks = true;
+	var $enabledinternallinks = false;
 	var $editpreview = false;
 	var $use_meta_data = false;
 	var $enabledtabs = true;
@@ -63,7 +63,8 @@ class ilPageObjectGUI
 	var $layoutmode = false;
 	var $enabledcontentincludes = false;
 	var $compare_mode = false;
-
+	var $page_config = null;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -92,7 +93,10 @@ class ilPageObjectGUI
 		$this->setEnabledRepositoryObjects(false);
 		$this->setEnabledSelfAssessment(false);
 		$this->setEnabledPageFocus(true);
-		$this->setLayoutMode(false);		
+		$this->setLayoutMode(false);
+		
+		include_once("./Services/COPage/classes/class.ilPageConfig.php");
+		$this->setPageConfig(new ilPageConfig());
 		
 		if ($a_id > 0)
 		{
@@ -114,6 +118,26 @@ class ilPageObjectGUI
 		$this->setEnabledWikiLinks(false);
 		
 		$this->setTemplateOutput(false);
+	}
+	
+	/**
+	 * Set page config object
+	 *
+	 * @param	object	config object
+	 */
+	function setPageConfig($a_val)
+	{
+		$this->page_config = $a_val;
+	}
+	
+	/**
+	 * Get page config object
+	 *
+	 * @return	object	config object
+	 */
+	function getPageConfig()
+	{
+		return $this->page_config;
 	}
 	
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
@@ -994,6 +1018,7 @@ class ilPageObjectGUI
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
+				$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
 				$page_editor->setIntLinkReturn($this->int_link_return);
@@ -2002,9 +2027,9 @@ class ilPageObjectGUI
 	}
 	
 	/**
-	* Finalizing output processing. Maybe overwritten in derived
-	* classes, e.g. in wiki module.
-	*/
+	 * Finalizing output processing. Maybe overwritten in derived
+	 * classes, e.g. in wiki module.
+	 */
 	function postOutputProcessing($a_output)
 	{
 		return $a_output;

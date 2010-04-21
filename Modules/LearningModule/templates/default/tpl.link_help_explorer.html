@@ -11,14 +11,18 @@
 	<!-- END ContentStyle -->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
-<body>
-<style>
-body { margin:0px; }
-</style>
-<div class="il_ExplorerHeader">
+<body class="il_Explorer">
+<div class="ilExplorerFrame">
+<table class="ilExplorer" cellspacing="0" cellpadding="0" border="0"><tr><td class="ilExpH">
+<div class="ilExpH">
+
+<h1 class="ilExplorerHead">
 {TXT_EXPLORER_HEADER}
+</h1>
 </div>
+</td></tr><tr><td class="ilExpBody">
 <div class="il_Explorer">
+
 <!-- BEGIN sel_clipboard -->
 <table cellpadding="3" cellspacing="0" border="0" style="margin-top:5px;"><tr><td>
 <a href="{LINK_CLIPBOARD}">{TXT_PERS_CLIPBOARD}</a>
@@ -26,13 +30,13 @@ body { margin:0px; }
 <hr size="1" />
 <!-- END sel_clipboard -->
 {EXPLORER}
-</div>
 <br/>
 <div align="center">
 	<form action="{ACTION}" method="post">
-	<input class="submit" type="submit" name="cmd[{BTN_REFRESH}]" value="{TXT_REFRESH}" />
 	<input class="submit" type="submit" name="cmd[{BTN_RESET}]" value="{TXT_RESET}" />
 	</form>
+</div>
+</div></td></tr></table>
 </div>
 </body>
 </html>

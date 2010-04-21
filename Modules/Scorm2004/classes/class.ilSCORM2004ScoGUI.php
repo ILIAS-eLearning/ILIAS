@@ -296,11 +296,6 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilCtrl->getLinkTarget($this,'sahs_questions'),
 			 "sahs_questions", get_class($this));
 
-		// preview
-		$ilTabs->addTarget("cont_preview",
-		$ilCtrl->getLinkTarget($this,'sco_preview'),
-			 "sco_preview", get_class($this));
-
 		// resources 
 		$ilTabs->addTarget("cont_files",
 		$ilCtrl->getLinkTarget($this,'sco_resources'),
@@ -320,6 +315,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilTabs->addTarget("import",
 		$ilCtrl->getLinkTarget($this, "import"), "import",
 		get_class($this));
+		
+		// preview
+		$ilTabs->addNonTabbedLink("preview",
+			$lng->txt("cont_preview"),
+			$ilCtrl->getLinkTarget($this,'sco_preview'), "_blank");
 		
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco_b.gif"));
 		$tpl->setTitle(
@@ -343,7 +343,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	{
 		global $tpl, $ilCtrl, $lng;
 		
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setBodyClass("");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
@@ -355,8 +359,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
 
-		$this->setTabs();
-		$this->setLocator();
+//		$this->setTabs();
+//		$this->setLocator();
 		
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -418,6 +422,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		}
 		$output .='</td></tr></table>';
 		
+		// init export (this initialises glossary template)
+		ilSCORM2004PageGUI::initExport();
+		
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
@@ -443,6 +450,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					</div>
 					<!-- END ilLMNavigation2 -->';
 
+		// append glossary entries on the sco level
+		$output.= ilSCORM2004PageGUI::getGlossaryHTML();
+		
 		//insert questions
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
@@ -453,8 +463,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
-		$tpl->setContent($output);
-		
+//		$tpl->setContent($output);
+		$tpl->setVariable("CONTENT", $output);
 	}
 	
 	//callback function for question export
