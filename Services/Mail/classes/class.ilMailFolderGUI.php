@@ -289,7 +289,8 @@ class ilMailFolderGUI
 			
 			$this->tpl->setCurrentBlock('show_folder');
 			$this->tpl->setVariable('TXT_FOLDERS', $this->lng->txt('mail_change_to_folder'));
-			$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('submit'));
+			//$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('submit'));
+			$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('change'));
 			$this->tpl->setVariable('ACTION_FLAT', $this->ctrl->getFormAction($this, 'showFolder'));
 			$this->tpl->parseCurrentBlock();			
 		}

@@ -143,7 +143,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng;
+		global $ilCtrl, $ilAccess, $lng, $tpl;
 		
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
 		$this->setSideBlock();
@@ -217,6 +217,25 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 		
 		$wtpl->setVariable("PAGE", parent::preview());
+		
+		//highlighting
+		if ($_GET["srcstring"] != "")
+		{
+			include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
+			include_once("./Services/Search/classes/class.ilQueryParser.php");
+			$p = new ilQueryParser($_GET["srcstring"]);
+			$p->parse();
+			$words = $p->getQuotedWords();
+			if (is_array($words))
+			{
+				foreach ($words as $w)
+				{
+					ilTextHighlighterGUI::highlight("ilCOPageContent", $w, $tpl);
+				}
+			}
+			$this->fill_on_load_code = true;
+		}
+		
 		return $wtpl->get();
 	}
 	
