@@ -33,107 +33,208 @@
 
 class ilCronCheck
 {
-	function ilCronCheck()
+	private $possible_tasks = array();
+	private $default_tasks = array();
+	
+	public function ilCronCheck()
 	{
 		global $ilLog;
 
-		$this->log =& $ilLog;
-	}
+		$this->log = $ilLog;
 
-	function start()
+		$this->initTasks();
+	}
+	
+	public function start()
+	{
+		if( $_SERVER['argc'] > 4 ) for($i = 4; $i < $_SERVER['argc']; $i++)
+		{
+				$arg = $_SERVER['argv'][$i];
+				
+				if( !isset($this->possible_tasks[$arg]) )
+					throw new ilException('cron-task "'.$arg.'" is not defined');
+				
+				$task = $this->possible_tasks[$arg];
+				
+				$this->runTask($task);
+		}
+		else foreach($this->default_tasks as $task)
+		{
+			$task = $this->possible_tasks[$task];
+			
+			$this->runTask($task);
+		}
+	}
+	
+	private function runTask($task)
+	{
+		/**
+		 * prepare task information
+		 */
+
+		$classlocation = $task['location'].'/classes';
+		if( isset($task['sub_location']) && strlen($task['sub_location']) )
+		{
+			$classlocation .= '/'.$task['sub_location'];
+		}
+		$classfile .= $classlocation.'/class.'.$task['classname'].'.php';
+
+		$classname = $task['classname'];
+		$method = $task['method'];
+
+		$condition = $task['condition'];
+
+		/**
+		 * check if task is runable
+		 */
+
+		if( !file_exists($classfile) )
+			throw new ilException('class file "'.$classfile.'" does not exist');
+		
+		require_once($classfile);
+		
+		if( !class_exists($classname) )
+			throw new ilException('class "'.$classname.'" does not exist');
+		
+		if( !method_exists($classname, $method) )
+			throw new ilException('method "'.$classname.'::'.$method.'()" does not exist');
+
+		/**
+		 * run task
+		 */
+
+		if($condition)
+		{
+			$task = new $classname;
+			$task->$method();
+		}
+	}
+	
+	private function initTasks()
 	{
 		global $ilias;
 
-		include_once('Services/LDAP/classes/class.ilLDAPCronSynchronization.php');
-		$ldap_sync = new ilLDAPCronSynchronization();
-		$ldap_sync->start();
+		require_once('Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php');
 
-		// Check user accounts if enabled in settings
-		if($ilias->getSetting('cron_user_check'))
-		{
-			include_once './cron/classes/class.ilCronCheckUserAccounts.php';
+		$this->default_tasks = array(
+				'ilLDAPCronSynchronization::start',
+				'ilCronCheckUserAccounts::check',
+				'ilLuceneIndexer::index',
+				'ilCronLinkCheck::check',
+				'ilCronWebResourceCheck::check',
+				'ilCronForumNotification::sendNotifications',
+				'ilCronMailNotification::sendNotifications',
+				'ilCronValidator::check',
+				'ilCronDiskQuotaCheck::updateDiskUsageStatistics',
+				'ilCronDiskQuotaCheck::sendReminderMails',
+				// This entry refers to a task that is not completely implemented
+				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
+				'ilCronDeleteInactiveUserAccounts::run'
+		);
 
-			$check_ua =& new ilCronCheckUserAccounts();
-			$check_ua->check();
-		}
+		$this->possible_tasks = array(
 
-		// Start lucene indexer
-		if($ilias->getSetting("cron_lucene_index"))
-		{
-			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
+				'ilLDAPCronSynchronization::start' => array(
+					'classname'		=> 'ilLDAPCronSynchronization',
+					'method'		=> 'start',
+					'location'		=> 'Services/LDAP',
+					'condition'		=> true
+				),
+				
+				// Check user accounts if enabled in settings
+				'ilCronCheckUserAccounts::check' => array(
+					'classname'		=> 'ilCronCheckUserAccounts',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> $ilias->getSetting('cron_user_check')
+				),
+				
+				// Start lucene indexer
+				'ilLuceneIndexer::index' => array(
+					'classname'		=> 'ilLuceneIndexer',
+					'method'		=> 'index',
+					'location'		=> 'Services/Search',
+					'sub_location'	=> 'Lucene',
+					'condition'		=> $ilias->getSetting("cron_lucene_index")
+				),
+				
+				// Start Link check
+				'ilCronLinkCheck::check' => array(
+					'classname'		=> 'ilCronLinkCheck',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> $ilias->getSetting("cron_link_check")
+				),
+				
+				// Start web resource check
+				'ilCronWebResourceCheck::check' => array(
+					'classname'		=> 'ilCronWebResourceCheck',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> $ilias->getSetting("cron_web_resource_check")
+				),
+				
+				// Start sending forum notifications
+				'ilCronForumNotification::sendNotifications' => array(
+					'classname'		=> 'ilCronForumNotification',
+					'method'		=> 'sendNotifications',
+					'location'		=> 'cron',
+					'condition'		=> ($ilias->getSetting('forum_notification') == 2)
+				),
+				
+				// Start sending mail notifications
+				'ilCronMailNotification::sendNotifications' => array(
+					'classname'		=> 'ilCronMailNotification',
+					'method'		=> 'sendNotifications',
+					'location'		=> 'cron',
+					'condition'		=> ($ilias->getSetting('mail_notification') == 1)
+				),
+				
+				// Start System Check
+				'ilCronValidator::check' => array(
+					'classname'		=> 'ilCronValidator',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
+				),
+				
+				// Start Disk Quota Usage Statistics
+				'ilCronDiskQuotaCheck::updateDiskUsageStatistics' => array(
+					'classname'		=> 'ilCronDiskQuotaCheck',
+					'method'		=> 'updateDiskUsageStatistics',
+					'location'		=> 'cron',
+					'condition'		=> ilDiskQuotaActivationChecker::_isActive()
+				),
+				
+				// Send Disk Quota Reminder Mails
+				'ilCronDiskQuotaCheck::sendReminderMails' => array(
+					'classname'		=> 'ilCronDiskQuotaCheck',
+					'method'		=> 'sendReminderMails',
+					'location'		=> 'cron',
+					'condition'		=> ilDiskQuotaActivationChecker::_isReminderMailActive()
+				),
+				
+				/**
+				 * This task entry refers to a method that does not exist!
+				 * When the method will be implemented it has to be non static!
+				 */
+				#// Start Shopping Cart Check
+				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC' => array(
+				#	'classname'		=> 'ilPaymentShoppingCart',
+				#	'method'		=> '__deleteExpiredSessionsPSC',
+				#	'location'		=> 'Services/Payment',
+				#	'condition'		=> true
+				#),
 
-			$lucene_ind =& new ilLuceneIndexer();
-			$lucene_ind->index();
-		}
-
-		// Start Link check
-		if($ilias->getSetting('cron_link_check'))
-		{
-			include_once './cron/classes/class.ilCronLinkCheck.php';
-
-			$check_lnk =& new ilCronLinkCheck();
-			$check_lnk->check();
-
-		}
-
-		// Start web resource check
-		if($ilias->getSetting('cron_web_resource_check'))
-		{
-			include_once './cron/classes/class.ilCronWebResourceCheck.php';
-
-			$check_lnk =& new ilCronWebResourceCheck();
-			$check_lnk->check();
-		}
-
-		// Start sending forum notifications
-		if($ilias->getSetting('forum_notification') == 2)
-		{
-			include_once './cron/classes/class.ilCronForumNotification.php';
-
-			$frm_not =& new ilCronForumNotification();
-			$frm_not->sendNotifications();
-
-		}
-
-		// Start sending mail notifications
-		if($ilias->getSetting('mail_notification') == 1)
-		{
-			include_once './cron/classes/class.ilCronMailNotification.php';
-
-			$mail_not =& new ilCronMailNotification();
-			$mail_not->sendNotifications();
-		}
-		
-		// Start System Check
-		if($ilias->getSetting('systemcheck_cron') == 1)
-		{
-			include_once './cron/classes/class.ilCronValidator.php';
-			
-			$validator =& new ilCronValidator();
-			$validator->check();
-		}
-
-		// Start Disk Quota
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-		if (ilDiskQuotaActivationChecker::_isActive())
-		{
-			include_once './cron/classes/class.ilCronDiskQuotaCheck.php';
-
-			$disk_quota =& new ilCronDiskQuotaCheck();
-			$disk_quota->updateDiskUsageStatistics();
-		}
-		if (ilDiskQuotaActivationChecker::_isReminderMailActive())
-		{
-			include_once './cron/classes/class.ilCronDiskQuotaCheck.php';
-
-			$disk_quota =& new ilCronDiskQuotaCheck();
-			$disk_quota->sendReminderMails();
-		}
-		
-		// Start Shopping Cart Check
-		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-		ilPaymentShoppingCart::__deleteExpiredSessionsPSC();
-		
+				// Delete Inactive User Accounts
+				'ilCronDeleteInactiveUserAccounts::run' => array(
+					'classname'		=> 'ilCronDeleteInactiveUserAccounts',
+					'method'		=> 'run',
+					'location'		=> 'Services/User',
+					'condition'		=> $ilias->getSetting('cron_inactive_user_delete', 0)
+				)
+		);
 	}
+	
 }
 ?>

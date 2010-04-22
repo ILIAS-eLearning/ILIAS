@@ -1341,6 +1341,12 @@ class ilObjUser extends ilObject
 		// Delete clipboard entries
 		$this->clipboardDeleteAll();
 
+		// Trigger deleteUser Event
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise(
+			'Services/User', 'deleteUser', array('usr_id' => $this->getId())
+		);
+
 		// delete object data
 		parent::delete();
 		return true;
@@ -4864,6 +4870,58 @@ class ilObjUser extends ilObject
 	function getBirthday()
 	{
 		return $this->birthday;
+	}
+
+	/**
+	* STATIC METHOD
+	* get ids of all users that have been inactive for at least the given period
+	* @static
+	* @param	integer $period (in days)
+	* @return	array of user ids
+	* @access	public
+	*/
+	public static function _getUserIdsByInactivityPeriod($period)
+	{
+		if( !(int)$period ) throw new ilException('no valid period given');
+
+		global $ilDB;
+
+		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
+
+		$query = "SELECT usr_id FROM usr_data WHERE last_login < %s";
+
+		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+
+		$ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->usr_id;
+		}
+
+		return $ids;
+	}
+
+	/**
+	* STATIC METHOD
+	* updates the last_login field of user with given id to given or current date
+	* @static
+	* @param	integer $a_usr_id
+	* @param	string $last_login (optional)
+	* @return	$last_login or false
+	* @access	public
+	*/
+	public static function _updateLastLogin($a_usr_id, $a_last_login = null)
+	{
+		if($a_last_login !== null) $last_login = $a_last_login;
+		else $last_login = date('Y-m-d H:i:s');
+
+		global $ilDB;
+
+		$query = "UPDATE usr_data SET usr_data.last_login = %s WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
+
+		if($affected) return $last_login;
+		else return false;
 	}
 } // END class ilObjUser
 ?>

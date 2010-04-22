@@ -35,6 +35,22 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 {
 	protected $options;
 	protected $value;
+
+	/**
+	 * Width for this field
+	 *
+	 * @access private
+	 * @var integer width
+	 */
+	private $width = 160;
+
+	/**
+	 * Height for this field
+	 * 
+	 * @access private
+	 * @var integer height
+	 */
+	private $height = 100;
 	
 	/**
 	* Constructor
@@ -47,6 +63,50 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("multi_select");
 		$this->setValue(array());
+	}
+
+	/**
+	 * Sets the width of this field
+	 * 
+	 * @access public
+	 * @param integer $a_width
+	 */
+	public function setWidth($a_width)
+	{
+		$this->width = (int)$a_width;
+	}
+
+	/**
+	 * Returns the width currently set for this field
+	 * 
+	 * @access public
+	 * @return integer width
+	 */
+	public function getWidth()
+	{
+		return $this->width;
+	}
+
+	/**
+	 * Sets the height of this field
+	 * 
+	 * @access public
+	 * @param integer $a_height
+	 */
+	public function setHeight($a_height)
+	{
+		$this->height = (int)$a_height;
+	}
+
+	/**
+	 * Returns the height currently set for this field
+	 * 
+	 * @access public
+	 * @return integer height
+	 */
+	public function getHeight()
+	{
+		return $this->height;
 	}
 
 	/**
@@ -158,7 +218,11 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->parseCurrentBlock();
 		}
+		
 		$tpl->setVariable("ID", $this->getFieldId());
+
+		$tpl->setVariable("WIDTH", $this->getWidth());
+		$tpl->setVariable("HEIGHT", $this->getHeight());
 		
 		return $tpl->get();
 	}

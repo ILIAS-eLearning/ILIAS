@@ -10,7 +10,7 @@ $_COOKIE["ilClientId"] = $_SERVER['argv'][3];
 $_POST['username'] = $_SERVER['argv'][1];
 $_POST['password'] = $_SERVER['argv'][2];
 
-if($_SERVER['argc'] != 4)
+if($_SERVER['argc'] < 4)
 {
 	die("Usage: cron.php username password client\n");
 }
