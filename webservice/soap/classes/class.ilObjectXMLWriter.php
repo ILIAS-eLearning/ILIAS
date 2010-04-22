@@ -101,9 +101,12 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		foreach($this->__getObjects() as $object)
 		{
-			if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccess('read','',$object->getRefId()))
+			if(method_exists($object, 'getRefId'))
 			{
-				continue;
+				if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccess('read','',$object->getRefId()))
+				{
+					continue;
+				}
 			}
 			$this->__appendObject($object);
 		}
