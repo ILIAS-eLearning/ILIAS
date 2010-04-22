@@ -30,7 +30,6 @@ class ilTable2GUI extends ilTableGUI
 	protected $disable_filter_hiding = false;
 	protected $top_commands = true;
 	protected $selectable_columns = array();
-	protected $selectable_columns = array();
 	
 	/**
 	* Constructor
