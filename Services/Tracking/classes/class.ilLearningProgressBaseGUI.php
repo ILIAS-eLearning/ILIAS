@@ -550,10 +550,10 @@ class ilLearningProgressBaseGUI
 			return array();
 		}
 
+		// comment by mjansen: Requesting database in gui classes?
+
 		// use database to sort user array
-		$where = "WHERE ".$a_id_name." IN ('";
-		$where .= implode("','",$a_ids);
-		$where .= "') ";
+		$where = "WHERE ".$ilDB->in($a_id_name, $a_ids, false, 'integer')." ";
 
 		$query = "SELECT ".$a_id_name." FROM ".$a_table." ".
 			$where.
