@@ -1781,10 +1781,6 @@ return $this->showServerInfoObject();
 				
 		$this->initServerInfoForm();
 		
-		$ilToolbar->addButton("Update ISN Tables",
-			$ilCtrl->getLinkTarget($this, "createScormEditorTables"));
-		
-		
 		$btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
 		$btpl->setVariable("FORM", $this->form->getHTML());
 		$btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));

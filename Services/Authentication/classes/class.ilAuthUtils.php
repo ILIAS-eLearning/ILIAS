@@ -200,7 +200,7 @@ class ilAuthUtils
 			$authmode = AUTH_CURRENT;
 		}
 //var_dump($authmode);
-                // if no auth mode selected, use DEFAULT auth mode
+        // if no auth mode selected, use DEFAULT auth mode
 		if ($authmode == null)
 			$authmode = AUTH_DEFAULT;
 //var_dump($authmode);
