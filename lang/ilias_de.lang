@@ -421,9 +421,9 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
 assessment#:#filter#:#Filter
-assessment#:#filter_all_question_types#:#Alle Fragentypen
+assessment#:#filter_all_question_types#:#Alle Fragetypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
-assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
+assessment#:#filter_show_question_types#:#Zeige folgende Fragetypen
 assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#filter_users#:#Teilnehmer filtern
 assessment#:#final_statement#:#Abschließende Bemerkung
@@ -490,9 +490,9 @@ assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
 assessment#:#manscoring_hint#:#Sie haben mindestens eine Frage hinzugefügt, die eine manuelle Bewertung erfordert. Um eine aussagekräftige Ausgabe der Testergebnisse zu garantieren, wird Ihnen dringend empfohlen, den Zugang zu den Testergebnissen bis zu einer abgeschlossenen Bewertung zu unterbinden, indem Sie ein Datum und eine Uhrzeit für den Zugang festlegen.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
-assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragentyp aktiviert. Sie haben keine Berechtigung, diese Funktion zu verwenden!
+assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie haben keine Berechtigung, diese Funktion zu verwenden!
 assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
-assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragentypen, die manuell bewertet werden können.
+assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
@@ -640,7 +640,7 @@ assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert
 assessment#:#question_short#:#F
 assessment#:#question_summary#:#Fragenübersicht
 assessment#:#question_title#:#Fragentitel
-assessment#:#question_type#:#Fragentyp
+assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questions_from#:#Fragen aus
 assessment#:#radio_set#:#Ausgewählt
@@ -902,7 +902,7 @@ assessment#:#tst_question_selection#:#Fragenauswahl
 assessment#:#tst_question_selection_description#:#Wenn Sie nur Fragenpools verwenden, deren Fragen die gleiche maximale Punktezahl aufweisen, hat dieser Test die gleiche maximale Punktezahl für alle Teilnehmerinnen, was die Testergebnisse besser miteinander vergleichbar macht. Diese Vorgehensweise wird empfohlen.
 assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher maximaler Punktezahl verwenden
 assessment#:#tst_question_title#:#Titel
-assessment#:#tst_question_type#:#Fragentyp
+assessment#:#tst_question_type#:#Fragetyp
 assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
@@ -1729,7 +1729,7 @@ common#:#assessment_log_log_entries#:#Protokolleinträge
 common#:#assessment_log_logging#:#Protokollierung
 common#:#assessment_log_manual_scoring#:#Manuelle Bewertung
 common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
-common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragentyp aktiviert ist, können alle Fragen dieses Fragentyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
+common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragetyp aktiviert ist, können alle Fragen dieses Fragetyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
 common#:#assessment_log_no_data#:#Es sind keine Protokolldaten vorhanden
 common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
 common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScript!)
@@ -1742,8 +1742,8 @@ common#:#assessment_settings#:#Test&Assessment-Administration
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
 common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
-common#:#assf_allowed_questiontypes#:#Verfügbare Fragentypen
-common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragentypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragentypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragentypen entfernen.
+common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
+common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
 common#:#assf_read#:#Zugriff auf die Test&Assessment-Administration
@@ -5334,7 +5334,7 @@ content#:#cont_qtries#:#Anzahl der Versuche für Fragen
 content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufügen
 content#:#cont_question_placehl#:#Fragen-Platzhalter
 content#:#cont_question_pool#:#Fragenpool
-content#:#cont_question_type#:#Fragentyp
+content#:#cont_question_type#:#Fragetyp
 content#:#cont_Reading#:#Lektüre
 content#:#cont_Rect#:#Rechteck
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -9513,9 +9513,9 @@ survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle b
 survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Antworten verschieben!
 survey#:#fill_out_all_required_fields_save_phrase#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie eine Phrase speichern!
 survey#:#filter#:#Filter
-survey#:#filter_all_question_types#:#Alle Fragentypen
+survey#:#filter_all_question_types#:#Alle Fragetypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
-survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
+survey#:#filter_show_question_types#:#Zeige folgende Fragetypen
 survey#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 survey#:#form_data_modified_press_save#:#Die Formulardaten wurden verändert. Bitte speichern Sie, um die Änderungen zu behalten.
 survey#:#found_questions#:#Gefundene Fragen
@@ -9600,7 +9600,7 @@ survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 5 Zeichen bestehenden - Zugangsschlüssel:<br /><br /><strong>%s</strong><br /><br />Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
-survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragentyp nicht erlaubt!
+survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
 survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
@@ -9675,7 +9675,7 @@ survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebot
 survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
-survey#:#question_type#:#Fragentyp
+survey#:#question_type#:#Fragetyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Vorbedingungen
 survey#:#questionblock_icon#:#Fragenblock-Symbol
@@ -9685,7 +9685,7 @@ survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
-survey#:#questiontype#:#Fragentyp
+survey#:#questiontype#:#Fragetyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#ratio_scale_ge_zero#:#Der Minimalwert muss größer oder gleich Null sein
@@ -9708,7 +9708,7 @@ survey#:#search_invitation#:#NutzerInnen oder Gruppen durchsuchen
 survey#:#search_questions#:#Fragen suchen
 survey#:#search_roles#:#Gefundene Rollen
 survey#:#search_term#:#Suchbegriff(e)
-survey#:#search_type_all#:#In allen Fragentypen suchen
+survey#:#search_type_all#:#In allen Fragetypen suchen
 survey#:#search_users#:#Benutzer suchen
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
