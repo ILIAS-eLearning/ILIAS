@@ -4916,7 +4916,7 @@ content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Po
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_Code#:#Code
-content#:#cont_colspan#:#Colspan
+content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_confirm_delete#:#wirklich löschen ?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
@@ -5364,12 +5364,12 @@ content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
 content#:#cont_roman#:#Römisch I, II, ...
 content#:#cont_roman_s#:#Römisch i, ii, ...
-content#:#cont_rowspan#:#Abstand Reihe
+content#:#cont_rowspan#:#Verbund Reihe
 content#:#cont_rvalue#:#Wert
 content#:#cont_save_all_titles#:#Titel abspeichern
 content#:#cont_save_positions#:#Reihenfolge Speichern
 content#:#cont_save_positions_and_classes#:#Positionen und Styles speichern
-content#:#cont_save_spans#:#Abstände speichern
+content#:#cont_save_spans#:#Zellenverbünde speichern
 content#:#cont_save_widths#:#Breiten speichern
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
@@ -5436,7 +5436,7 @@ content#:#cont_size#:#Größe
 content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
 content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
 content#:#cont_source#:#Quelle
-content#:#cont_span#:#Abstand
+content#:#cont_span#:#Zellen verbinden
 content#:#cont_Special#:#Spezial
 content#:#cont_spreadsheet_table#:#Kalkulationstabelle
 content#:#cont_src#:#Programmiersprache
