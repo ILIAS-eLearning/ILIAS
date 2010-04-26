@@ -1101,47 +1101,47 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("BASE_REF_ID", $this->object->getRefId());
 		$this->tpl->setVariable("BASE_ROOM_ID", $this->object->chat_room->getRoomId());
-		$this->tpl->setVariable("ONLINE_USERS_TITLE", $this->lng->txt('chat_online_users'));
-		$this->tpl->setVariable("ACTIVE_USERS_TITLE", $this->lng->txt('chat_active_users'));
-		$this->tpl->setVariable("ROOM_LIST_TITLE", $this->lng->txt('chat_rooms'));
-		$this->tpl->setVariable("CHATSERVER_ADDRESS",$this->object->server_comm->getServerFrameSource());		
+		$this->tpl->setVariable("ONLINE_USERS_TITLE", addslashes($this->lng->txt('chat_online_users')));
+		$this->tpl->setVariable("ACTIVE_USERS_TITLE", addslashes($this->lng->txt('chat_active_users')));
+		$this->tpl->setVariable("ROOM_LIST_TITLE", addslashes($this->lng->txt('chat_rooms')));
+		$this->tpl->setVariable("CHATSERVER_ADDRESS",$this->object->server_comm->getServerFrameSource());
 
-		$this->tpl->setVariable("CHAT_HIDE", $this->lng->txt('hide'));
-		$this->tpl->setVariable("CHAT_SHOW", $this->lng->txt('show'));
-		$this->tpl->setVariable("CHAT_OPEN", $this->lng->txt('chat_open'));
-		$this->tpl->setVariable("CHAT_RECORDING_RUNNING", $this->lng->txt('chat_recording_running'));
-		$this->tpl->setVariable("CHAT_RECORDING_ALREADY_RUNNING", $this->lng->txt('chat_recording_already_running'));
-		$this->tpl->setVariable("CHAT_RECORDING_STOPPED", $this->lng->txt('chat_recording_stopped'));
+		$this->tpl->setVariable("CHAT_HIDE", addslashes($this->lng->txt('hide')));
+		$this->tpl->setVariable("CHAT_SHOW", addslashes($this->lng->txt('show')));
+		$this->tpl->setVariable("CHAT_OPEN", addslashes($this->lng->txt('chat_open')));
+		$this->tpl->setVariable("CHAT_RECORDING_RUNNING", addslashes($this->lng->txt('chat_recording_running')));
+		$this->tpl->setVariable("CHAT_RECORDING_ALREADY_RUNNING", addslashes($this->lng->txt('chat_recording_already_running')));
+		$this->tpl->setVariable("CHAT_RECORDING_STOPPED", addslashes($this->lng->txt('chat_recording_stopped')));
 
-		$this->tpl->setVariable("CHAT_EMPTY_MESSAGE", $this->lng->txt('chat_empty'));
+		$this->tpl->setVariable("CHAT_EMPTY_MESSAGE", addslashes($this->lng->txt('chat_empty')));
 
-		$this->tpl->setVariable("CHAT_CONFIRM_USER_INVITE", $this->lng->txt('chat_confirm_user_invite'));
-		$this->tpl->setVariable("CHAT_CONFIRM_KICK_USER", $this->lng->txt('chat_confirm_kick_user'));
-		$this->tpl->setVariable("CHAT_NO_TITLE_GIVEN", $this->lng->txt('chat_no_title_given'));
-		$this->tpl->setVariable("CHAT_ADDRESS", $this->lng->txt('chat_address'));
-		$this->tpl->setVariable("CHAT_WHISPER", $this->lng->txt('chat_whisper'));
-		$this->tpl->setVariable("CHAT_KICK", $this->lng->txt('chat_kick'));
-		$this->tpl->setVariable("CHAT_UNKICK", $this->lng->txt('chat_unkick'));
-		$this->tpl->setVariable("CHAT_INVITE", $this->lng->txt('chat_invite'));
-		$this->tpl->setVariable("CHAT_DISINVITE", $this->lng->txt('chat_disinvite'));
-		$this->tpl->setVariable("CHAT_PROFILE", $this->lng->txt('chat_profile'));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt('cancel'));
+		$this->tpl->setVariable("CHAT_CONFIRM_USER_INVITE", addslashes($this->lng->txt('chat_confirm_user_invite')));
+		$this->tpl->setVariable("CHAT_CONFIRM_KICK_USER", addslashes($this->lng->txt('chat_confirm_kick_user')));
+		$this->tpl->setVariable("CHAT_NO_TITLE_GIVEN", addslashes($this->lng->txt('chat_no_title_given')));
+		$this->tpl->setVariable("CHAT_ADDRESS", addslashes($this->lng->txt('chat_address')));
+		$this->tpl->setVariable("CHAT_WHISPER", addslashes($this->lng->txt('chat_whisper')));
+		$this->tpl->setVariable("CHAT_KICK", addslashes($this->lng->txt('chat_kick')));
+		$this->tpl->setVariable("CHAT_UNKICK", addslashes($this->lng->txt('chat_unkick')));
+		$this->tpl->setVariable("CHAT_INVITE", addslashes($this->lng->txt('chat_invite')));
+		$this->tpl->setVariable("CHAT_DISINVITE", addslashes($this->lng->txt('chat_disinvite')));
+		$this->tpl->setVariable("CHAT_PROFILE", addslashes($this->lng->txt('chat_profile')));
+		$this->tpl->setVariable("CANCEL", addslashes($this->lng->txt('cancel')));
 		
-		$this->tpl->setVariable("ADD_TO_BOOKMARK", $this->lng->txt('chat_add_to_bookmark'));
-		$this->tpl->setVariable("ADD_TO_ADDRESSBOOK", $this->lng->txt('chat_add_to_addressbook'));
-		$this->tpl->setVariable("EMPTY_ROOM", $this->lng->txt('chat_empty'));
-		$this->tpl->setVariable("DELETE", $this->lng->txt('delete'));
-		$this->tpl->setVariable("CONFIRM_DELETE_PRIVATE_ROOM", $this->lng->txt('chat_confirm_delete_private_room'));
-		$this->tpl->setVariable("CHAT_CONFIRM_USER_INVITE", $this->lng->txt('chat_confirm_user_invite'));
-		$this->tpl->setVariable("INVITE", $this->lng->txt('chat_invite'));
-		$this->tpl->setVariable("DISINVITE", $this->lng->txt('chat_disinvite'));
-		$this->tpl->setVariable("CHAT_USER_HIDDEN", $this->lng->txt('chat_user_hidden'));
-		$this->tpl->setVariable("CHAT_USER_VISIBLE", $this->lng->txt('chat_user_visible'));
+		$this->tpl->setVariable("ADD_TO_BOOKMARK", addslashes($this->lng->txt('chat_add_to_bookmark')));
+		$this->tpl->setVariable("ADD_TO_ADDRESSBOOK", addslashes($this->lng->txt('chat_add_to_addressbook')));
+		$this->tpl->setVariable("EMPTY_ROOM", addslashes($this->lng->txt('chat_empty')));
+		$this->tpl->setVariable("DELETE", addslashes($this->lng->txt('delete')));
+		$this->tpl->setVariable("CONFIRM_DELETE_PRIVATE_ROOM", addslashes($this->lng->txt('chat_confirm_delete_private_room')));
+		$this->tpl->setVariable("CHAT_CONFIRM_USER_INVITE", addslashes($this->lng->txt('chat_confirm_user_invite')));
+		$this->tpl->setVariable("INVITE", addslashes($this->lng->txt('chat_invite')));
+		$this->tpl->setVariable("DISINVITE", addslashes($this->lng->txt('chat_disinvite')));
+		$this->tpl->setVariable("CHAT_USER_HIDDEN", addslashes($this->lng->txt('chat_user_hidden')));
+		$this->tpl->setVariable("CHAT_USER_VISIBLE", addslashes($this->lng->txt('chat_user_visible')));
 
-		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt('refresh'));
-		$this->tpl->setVariable("TXT_HIDE_TEXTFORMAT", $this->lng->txt('chat_hide_textformat'));
-		$this->tpl->setVariable("TXT_SHOW_TEXTFORMAT", $this->lng->txt('chat_show_textformat'));
-		$this->tpl->setVariable("TXT_TEXTFORMAT", $this->lng->txt('chat_textformat'));
+		$this->tpl->setVariable("TXT_REFRESH", addslashes($this->lng->txt('refresh')));
+		$this->tpl->setVariable("TXT_HIDE_TEXTFORMAT", addslashes($this->lng->txt('chat_hide_textformat')));
+		$this->tpl->setVariable("TXT_SHOW_TEXTFORMAT", addslashes($this->lng->txt('chat_show_textformat')));
+		$this->tpl->setVariable("TXT_TEXTFORMAT", addslashes($this->lng->txt('chat_textformat')));
 		
 		$this->tpl->parseCurrentBlock();		
 		
