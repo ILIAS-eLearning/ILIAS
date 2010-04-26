@@ -78,7 +78,7 @@ ilOverlayFunc.prototype =
 	},
 	
 	// toggle overlay	
-	toggle: function (e, id, anchor_id)
+	toggle: function (e, id, anchor_id, center)
 	{
 		if (ilOverlayFunc.prototype.overlays[id].cfg.getProperty('visible'))
 		{
