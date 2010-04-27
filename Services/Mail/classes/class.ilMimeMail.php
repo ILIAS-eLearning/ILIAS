@@ -360,13 +360,17 @@ class ilMimeMail
 	function Send()
 	{
 		#global $ilLog;
+		global $ilSetting;
 
 		$this->BuildMail();
 	
 		$this->strTo = implode( ", ", $this->sendto );
 	
 		// envoie du mail
-		$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );
+		if(!(int)$ilSetting->get('prevent_smtp_globally'))
+		{
+			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );
+		}
 		#$ilLog->write($this->strTo.' '. $this->xheaders['Subject'].' '. $this->fullBody.' '. $this->headers);
 	}
 
