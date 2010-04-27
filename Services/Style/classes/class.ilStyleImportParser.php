@@ -89,6 +89,21 @@ class ilStyleImportParser extends ilSaxParser
 				$this->current_tag = $a_attribs["Tag"];
 				$this->current_class = $a_attribs["Class"];
 				$this->current_type = $a_attribs["Type"];
+				if ($this->current_class == "Headline1" && $this->current_tag == "div")
+				{
+					$this->current_tag = "h1";
+					$this->current_type = "heading1";
+				}
+				if ($this->current_class == "Headline2" && $this->current_tag == "div")
+				{
+					$this->current_tag = "h2";
+					$this->current_type = "heading2";
+				}
+				if ($this->current_class == "Headline3" && $this->current_tag == "div")
+				{
+					$this->current_tag = "h3";
+					$this->current_type = "heading3";
+				}				
 				$this->current_tags = array();
 				$this->chars[] = array("type" => $this->current_type,
 					"class" => $this->current_class);
