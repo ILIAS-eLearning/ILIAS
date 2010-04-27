@@ -3009,7 +3009,7 @@ common#:#import_cat_table#:#Beachten Sie die folgende Tabelle nur, wenn die Chec
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
 common#:#import_failure_log#:#Import-Fehler-Log
-common#:#import_file#:#Importdatei
+common#:#import_file#:#Datei importieren
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
@@ -4975,7 +4975,7 @@ content#:#cont_disable_html#:#HTML inaktiv
 content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medien inaktiv
 content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
-content#:#cont_download_title#:#Link-Bezeichner
+content#:#cont_download_title#:#Titel Download-Datei
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien herunterzuladen
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
@@ -5054,7 +5054,7 @@ content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_shape_circle#:#Umriss (Kreis) bearbeiten
 content#:#cont_edit_shape_polygon#:#Umriss (Polygon) bearbeiten
 content#:#cont_edit_shape_rectangle#:#Umriss (Viereck) bearbeiten
-content#:#cont_edit_src#:# Programmcode bearbeiten
+content#:#cont_edit_src#:#Programmcode bearbeiten
 content#:#cont_edit_style#:#Style Editieren
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_tabs#:#Eigenschaften
