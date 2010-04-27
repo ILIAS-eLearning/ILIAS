@@ -137,8 +137,6 @@ class ilLDAPRoleGroupMappingSettings
 		return $this->mappings ? $this->mappings : array();
 	}
 	
-	public 
-	
 	public function loadFromPost($a_mappings)
 	{
 		global $rbacreview;
