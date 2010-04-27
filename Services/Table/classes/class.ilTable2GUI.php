@@ -169,7 +169,8 @@ class ilTable2GUI extends ilTableGUI
 			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfields",
 				serialize($this->selected_column));
 		}
-		//$this->determineSelectedColumns();
+
+//		$this->determineSelectedColumns();
 	}
 	
 	/**

@@ -162,7 +162,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -173,10 +173,17 @@ class ilGlossaryPresentationGUI
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				$this->ctrl->getLinkTarget($this, "listTerms"), "glo");
+			
+			// desc
+			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
+			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
+			$ai->setLetters(array("a", "b", "c"));
+			$ilToolbar->addInputItem($ai, true);
+			
 		}
 		
 		$term_list = $this->glossary->getTermList();		
-		
+
 		return $this->listTermByGiven($term_list);
 	}
 
@@ -185,7 +192,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven($term_list, $filter ="")
 	{
-		global $ilCtrl, $ilAccess, $ilias, $lng;
+		global $ilCtrl, $ilAccess, $ilias, $lng, $tpl;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -201,6 +208,16 @@ class ilGlossaryPresentationGUI
 //		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
+
+if (!false)
+{
+	include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+	$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
+		$this->offlineMode());
+	$tpl->setContent($table->getHTML());
+	return;
+}
+
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_presentation.html", "Modules/Glossary");
 		
@@ -419,6 +436,36 @@ class ilGlossaryPresentationGUI
 		{
 			return $this->tpl->get();
 		}
+	}
+
+	/**
+	 * Apply filter
+	 */
+	function applyFilter()
+	{
+		global $ilTabs;
+
+		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
+			$this->offlineMode());
+		$prtab->resetOffset();
+		$prtab->writeFilterToSession();
+		$this->listTerms();
+	}
+	
+	/**
+	 * Reset filter
+	 * (note: this function existed before data table filter has been introduced
+	 */
+	function resetFilter()
+	{
+		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
+			$this->offlineMode());
+		$prtab->resetOffset();
+		$prtab->resetFilter();
+
+		$this->listTerms();
 	}
 
 	/**
