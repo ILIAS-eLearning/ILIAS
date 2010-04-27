@@ -113,6 +113,11 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setValue('y');
 		$this->form->addItem($cb);
 		
+		// prevent smtp mails
+		$cb = new ilCheckboxInputGUI($this->lng->txt('mail_prevent_smtp_globally'), 'prevent_smtp_globally');
+		$cb->setValue(1);
+		$this->form->addItem($cb);
+
 		// section header
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt('mail').' ('.$this->lng->txt('internal_system').')');
@@ -159,6 +164,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->ilias->setSetting('mail_maxsize_attach', $this->form->getInput('mail_maxsize_attach'));
 			$this->ilias->setSetting('pear_mail_enable', $this->form->getInput('pear_mail_enable'));
 			$this->ilias->setSetting('mail_external_sender_noreply', $this->form->getInput('mail_external_sender_noreply'));
+			$this->ilias->setSetting('prevent_smtp_globally', (int)$this->form->getInput('prevent_smtp_globally'));
 			
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}		
