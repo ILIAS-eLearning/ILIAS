@@ -704,7 +704,7 @@ class ilMailFormGUI
 			"fields" => array('login', 'firstname', 'lastname'));
 
 		$dsFormatCallback = 'formatAutoCompleteResults';
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync');
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', '', false);
 		$dsDelimiter = array(',');
 		
 		// RECIPIENT
