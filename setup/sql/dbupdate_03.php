@@ -1414,3 +1414,11 @@ $ilDB->addTableColumn('read_event', 'childs_spent_seconds', array(
 	"length" => 4,
 	"default" => 0));
 ?>
+<#3038>
+<?php
+  $ilDB->addIndex('addressbook',array('user_id','login','firstname','lastname'),'i1');
+?>
+<#3039>
+<?php
+	$ilDB->addIndex('mail',array('sender_id','user_id'), 'i4');
+?>

@@ -143,6 +143,7 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
 			'pear_mail_enable' => ($settings['pear_mail_enable'] == 'y' && $is_pear_mail_installed) ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
+			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
 			'mail_maxsize_attach' => $settings['mail_maxsize_attach']			
 		));
 	}

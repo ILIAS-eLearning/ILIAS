@@ -3,7 +3,7 @@
 
 /**
 * @author Nadia Krzywon
-* @version $Id$
+* @version $Id:$
 */
 class ilMailForm
 {
@@ -37,7 +37,9 @@ class ilMailForm
 			AND ('. $ilDB->like('abook.login', 'text', $a_search).' 
 					OR '. $ilDB->like('abook.firstname', 'text', $a_search).' 
 					OR '. $ilDB->like('abook.lastname', 'text', $a_search).' 
-			)
+			)';
+
+		$union_query_1 = '
 			UNION
 			SELECT DISTINCT
 				abook.email login,
@@ -45,13 +47,13 @@ class ilMailForm
 				abook.lastname lastname,
 				"addressbook" type
 			FROM addressbook abook
-			WHERE 1='.($this->allow_smtp ? 1 : 0).'
-			AND abook.user_id = '.$ilDB->quote($this->user_id,'integer') .' 
+			WHERE abook.user_id = '.$ilDB->quote($this->user_id,'integer') .' 
 			AND abook.login IS NULL
 			AND ('. $ilDB->like('abook.email', 'text', $a_search).' 
 					OR '. $ilDB->like('abook.firstname', 'text', $a_search).' 
 					OR '. $ilDB->like('abook.lastname', 'text', $a_search).' 
-			)			
+			)';
+		$union_query_2 = '
 			UNION
 			SELECT DISTINCT
 				mail.rcp_to login,
@@ -60,8 +62,13 @@ class ilMailForm
 				"mail" type
 			FROM mail
 			WHERE '. $ilDB->like('mail.rcp_to', 'text', $a_search).' 
-				AND sender_id ='.$ilDB->quote($this->user_id,'integer');
-				
+			AND sender_id ='.$ilDB->quote($this->user_id,'integer').'
+			AND mail.sender_id = mail.user_id';
+
+		if($this->allow_smtp == 1) $query .= $union_query_1;
+
+		$query .= $union_query_2;
+	
 		$query_res = $ilDB->query($query);
 
 		$setMap = array();
