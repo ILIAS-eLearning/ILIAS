@@ -32,8 +32,9 @@ class ilSearchAutoComplete
 		$object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
 			'chat','icrs','icla','webr','mcst','sess','pg','st','wiki');
 
-		$set = $ilDB->query("SELECT title, obj_id FROM object_data WHERE title LIKE ".
-			$ilDB->quote($a_str."%", "text")." AND type in (".implode(ilUtil::quoteArray($object_types),",").") ORDER BY title");
+		$set = $ilDB->query("SELECT title, obj_id FROM object_data WHERE "
+			.$ilDB->like('title', 'text', $a_str."%")." AND "
+			.$ilDB->in('type', $object_types, false, 'text')." ORDER BY title");
 		$max = ($settings->getAutoCompleteLength() > 0)
 			? $settings->getAutoCompleteLength()
 			: 10;
@@ -59,8 +60,9 @@ class ilSearchAutoComplete
 			}
 		}
 		
-		$set = $ilDB->query("SELECT rbac_id,obj_id,obj_type, keyword FROM il_meta_keyword WHERE keyword LIKE ".
-			$ilDB->quote($a_str."%", "text")." AND obj_type in (".implode(ilUtil::quoteArray($object_types),",").") ORDER BY keyword"); 
+		$set = $ilDB->query("SELECT rbac_id,obj_id,obj_type, keyword FROM il_meta_keyword WHERE "
+			.$ilDB->like('keyword', 'text', $a_str."%")." AND "
+			.$ilDB->in('obj_type', $object_types, false, 'text')." ORDER BY keyword");
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)
 		{
 			if (!in_array($rec["keyword"], $list) && !in_array($rec["rbac_id"], $checked))
