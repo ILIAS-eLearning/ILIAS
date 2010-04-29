@@ -4866,7 +4866,7 @@ content#:#cont_annex#:#Anhang
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
-content#:#cont_assign_characteristic#:#Style Zuordnen
+content#:#cont_assign_characteristic#:#Art zuordnen
 content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
@@ -4896,7 +4896,7 @@ content#:#cont_chapters_after_pages#:#Beachten Sie, dass innerhalb einer Ebene z
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_characteristic#:#Art
-content#:#cont_choose_characteristic#:#Style Auswählen
+content#:#cont_choose_characteristic#:#Art auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Textelemente
 content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
@@ -7392,7 +7392,7 @@ mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
-mep#:#mep_content_snippet_in_use#:#Textelement '%s' wird verwendet und kann daher nicht gelöscht werden.
+mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein '%s' wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_copy_to_mep#:#In Medienpool kopieren
 mep#:#mep_create_content_snippet#:#Inhaltsbaustein erzeugen
 mep#:#mep_create_folder#:#Ordner anlegen
@@ -7407,14 +7407,14 @@ mep#:#mep_folder_content#:#Verzeichnisinhalt
 mep#:#mep_format#:#Format
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
-mep#:#mep_page_created#:#Textelement erzeugt
-mep#:#mep_page_properties#:#Eigenschaften der Seite
+mep#:#mep_page_created#:#Inhaltsbaustein erzeugt
+mep#:#mep_page_properties#:#Eigenschaften des Bausteins
 mep#:#mep_parent_folder#:#Übergeordneter Ordner
 mep#:#mep_thumbnail#:#Miniaturbild
 mep#:#mep_title_and_description#:#Titel und Beschreibung
 mep#:#mep_unknown#:#Unbekannt
-mep#:#mobs_activate_pages#:#Aktiviere Inhaltsseitenverwaltung
-mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiten zu Medienpools hinzuzufügen. Diese Seiten können in Lernmodule, Glossaren etc. wiederverwendet aber dort nicht bearbeitet werden.
+mep#:#mobs_activate_pages#:#Aktiviere Nutzung von Inhaltsbausteinen
+mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine zu Medienpools hinzuzufügen. Diese Inhaltsbausteine können in Lernmodulen, Glossaren etc. wiederverwendet aber dort nicht bearbeitet werden.
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 meta#:#md_adv_active#:#Aktiv
@@ -9112,12 +9112,12 @@ shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
 style#:#sty_acopy#:#Kopieren
-style#:#sty_add_characteristic#:#Neue Styleklasse hinzufügen
+style#:#sty_add_characteristic#:#Neue Art hinzufügen
 style#:#sty_add_color#:#Farbe hinzufügen
 style#:#sty_add_image#:#Bild hinzufügen
 style#:#sty_add_pgl#:#Seitenlayout hinzufügen
 style#:#sty_add_template#:#Template hinzufügen
-style#:#sty_added_characteristic#:#Styleklassehinzugefügt.
+style#:#sty_added_characteristic#:#Art hinzugefügt.
 style#:#sty_all#:#Alle
 style#:#sty_background#:#Hintergrund
 style#:#sty_background_attachment#:#Wasserzeichen
@@ -9136,7 +9136,7 @@ style#:#sty_bottom#:#Unten
 style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
 style#:#sty_caption_side#:#Seitliche Beschriftung
-style#:#sty_characteristic_already_exists#:#Eine Style-Klasse dieses Namens existiert bereits in diesem Stylesheet.
+style#:#sty_characteristic_already_exists#:#Eine Klasse für eine Art dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_clear#:#Textumfluss beenden
 style#:#sty_col_foot_class#:#Fuß (Spalten)
 style#:#sty_col_head_class#:#Kopf (Spalten)
@@ -9212,8 +9212,8 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits eine Styleklasse mit diesem Namen im Stylesheet.
-style#:#sty_msg_characteristic_must_only_include#:#Der Styleklassentitel darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits eine Art mit diesem Namen im Stylesheet.
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel der Art darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
