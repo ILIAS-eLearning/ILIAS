@@ -61,7 +61,16 @@ class ilPersonalProfileGUI
 			
 			default:
 				//$this->setTabs();
+				
 				$cmd = $this->ctrl->getCmd("showPersonalData");
+				
+				// check whether password of user have to be changed
+				// due to first login or password of user is expired
+				if( $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired() )
+				{
+					$cmd = 'showPassword';
+				}
+
 				$this->$cmd();
 				break;
 		}
