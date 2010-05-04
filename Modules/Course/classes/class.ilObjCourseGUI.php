@@ -3244,6 +3244,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTab('view_content', $lng->txt("content"),
 								 $this->ctrl->getLinkTarget($this,''));
 		}
+		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
@@ -3272,15 +3273,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				array("edit", "editMapSettings", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
 
-		// lom meta data
-		if ($ilAccess->checkAccess('write','',$this->ref_id))
-		{
-			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
-								 "",
-								 "ilmdeditorgui");
-		}
-
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -3299,8 +3291,17 @@ class ilObjCourseGUI extends ilContainerGUI
 								 get_class($this));
 		}
 		
-		// learning objectives
+		// learning progress
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 		
+		// learning objectives
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			include_once('./Modules/Course/classes/class.ilCourseObjective.php');
@@ -3315,17 +3316,6 @@ class ilObjCourseGUI extends ilContainerGUI
 									 get_class($this), "", $force_active);
 			}
 		}
-		
-
-		// learning progress
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
-		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
-								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-		}
 
 		// license overview
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
@@ -3335,6 +3325,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->addTarget("licenses",
 				$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
 			"", "illicenseoverviewgui");
+		}
+
+		// lom meta data
+		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$tabs_gui->addTarget("meta_data",
+								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','ilmdeditorgui'),'listSection'),
+								 "",
+								 "ilmdeditorgui");
 		}
 
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
@@ -3813,7 +3812,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 
-	function &__initTableGUI()
+	function __initTableGUI()
 	{
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -4242,7 +4241,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory,$ilCtrl;
 

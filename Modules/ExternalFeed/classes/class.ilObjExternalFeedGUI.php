@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
 
@@ -45,9 +25,9 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	}
 	
 	
-	function &executeCommand()
+	function executeCommand()
 	{
-		global $rbacsystem, $tpl;
+		global $tpl, $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		
@@ -55,6 +35,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->prepareOutput();
+				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -62,6 +43,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				
 			case "ilexternalfeedblockgui":
 				$this->prepareOutput();
+				$ilTabs->activateTab("id_settings");
 				include_once("./Services/Block/classes/class.ilExternalFeedBlockGUI.php");
 				$fb_gui =& new ilExternalFeedBlockGUI();
 				$fb_gui->setGuiObject($this);
@@ -181,11 +163,10 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	/**
 	* get tabs
 	* @access	public
-	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function setTabs()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $ilAccess, $ilCtrl, $ilTabs, $lng;
 		
 		if (in_array($ilCtrl->getCmd(), array("create", "saveFeedBlock")))
 		{
@@ -196,22 +177,18 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 			$_GET["external_feed_block_id"]);
 		$ilCtrl->saveParameter($this, "external_feed_block_id");
 
-		if ($rbacsystem->checkAccess('write', $this->object->getRefId()))
+		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
-			$force_active = ($_GET["cmd"] == "edit" ||
-				$this->ctrl->getNextClass() == "ilexternalfeedblockgui")
-				? true
-				: false;
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTargetByClass("ilexternalfeedblockgui", "editFeedBlock"),
-				"edit", get_class($this),
-				"", $force_active);
+			$ilTabs->addTab("id_settings",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTargetByClass("ilexternalfeedblockgui", "editFeedBlock"));
 		}
 
-		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"), "", "ilpermissiongui");
+			$ilTabs->addTab("id_permissions",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 
 	}
