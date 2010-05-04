@@ -10332,3 +10332,4 @@ common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles th
 common#:#delete_inactive_user_accounts_interval#:#Frequency
 common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
+content#:#glo_quick_navigation#:#Quick Navigation

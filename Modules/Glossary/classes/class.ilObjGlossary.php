@@ -236,14 +236,38 @@ class ilObjGlossary extends ilObject
 
 
 	/**
-	* get term list
+	* Get term list
 	*/
-	function getTermList($searchterm="")
+	function getTermList($searchterm = "")
 	{
+		$glo_ids = $this->getAllGlossaryIds();
+ 		
+		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $_GET["letter"]);
+		return $list;
+	}
+
+	/**
+	* Get term list
+	*/
+	function getFirstLetters()
+	{
+		$glo_ids = $this->getAllGlossaryIds();
+		$first_letters = ilGlossaryTerm::getFirstLetters($glo_ids);
+		return $first_letters;
+	}
+
+	/**
+	 * Get all glossary ids
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllGlossaryIds()
+	{
+		global $tree;
+		
 		if ($this->isVirtual())
-		{
-			global $tree;
-			
+		{	
 			$glo_ids = array();
 			
 			switch ($this->getVirtualMode())
@@ -271,11 +295,6 @@ class ilObjGlossary extends ilObject
 					}
 					break;
 				
-/* for futere enhancements
-				case "fixed":
-					
-					break;
-*/
 				// fallback to none virtual mode in case of error
 				default:
 					$glo_ids[] = $this->getId();
@@ -287,10 +306,9 @@ class ilObjGlossary extends ilObject
 			$glo_ids = $this->getId();
 		}
 		
-		$list = ilGlossaryTerm::getTermList($glo_ids,$searchterm);
-		return $list;
+		return $glo_ids;
 	}
-
+	
 	/**
 	* creates data directory for import files
 	* (data_dir/glo_data/glo_<id>/import, depending on data

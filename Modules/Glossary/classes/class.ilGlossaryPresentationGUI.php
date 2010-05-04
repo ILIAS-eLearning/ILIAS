@@ -42,7 +42,7 @@ class ilGlossaryPresentationGUI
 		$this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->offline = false;
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "letter"));
 
 		// Todo: check lm id
 		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
@@ -59,7 +59,6 @@ class ilGlossaryPresentationGUI
 	{
 		$this->offline = $a_offline;
 	}
-	
 	
 	/**
 	* checks wether offline content generation is activated 
@@ -162,7 +161,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar, $ilCtrl;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -174,17 +173,20 @@ class ilGlossaryPresentationGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				$this->ctrl->getLinkTarget($this, "listTerms"), "glo");
 			
-			// desc
+			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
-			$ai->setLetters(array("a", "b", "c"));
+			$ai->setLetters($this->glossary->getFirstLetters());
+			$ai->setParentCommand($this, "chooseLetter");
 			$ilToolbar->addInputItem($ai, true);
 			
 		}
 		
 		$term_list = $this->glossary->getTermList();		
 
-		return $this->listTermByGiven($term_list);
+		$ret =  $this->listTermByGiven($term_list);
+		$ilCtrl->setParameter($this, "term_id", "");
+		return $ret;
 	}
 
 	/**
@@ -1307,7 +1309,20 @@ if (!false)
 			$this->ctrl->forwardCommand($info);
 		}
 	}
-
+	
+	/**
+	 * Choose first letter
+	 *
+	 * @param
+	 * @return
+	 */
+	function chooseLetter()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listTerms");
+	}
+	
 }
 
 ?>

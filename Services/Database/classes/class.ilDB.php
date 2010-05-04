@@ -1738,6 +1738,43 @@ abstract class ilDB extends PEAR
 		return $concat;
 	}
 	
+	/**
+	 * Substring
+	 *
+	 * @param
+	 * @return
+	 */
+	function substr($a_exp, $a_pos = 1, $a_len = -1)
+	{
+		$lenstr = "";
+		if ($a_len > -1)
+		{
+			$lenstr = ", ".$a_len;
+		}
+		return " SUBSTR(".$a_exp.", ".$a_pos.$lenstr.") ";
+	}
+	
+	/**
+	 * Upper
+	 *
+	 * @param	string		expression
+	 * @return	string		upper sql string
+	 */
+	function upper($a_exp)
+	{
+		return " UPPER (".$a_exp.") ";
+	}
+
+	/**
+	 * Upper
+	 *
+	 * @param	string		expression
+	 * @return	string		upper sql string
+	 */
+	function lower($a_exp)
+	{
+		return " LOWER (".$a_exp.") ";
+	}
 	
 	/**
 	 * Create locate string
