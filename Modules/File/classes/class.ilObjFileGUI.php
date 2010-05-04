@@ -1,27 +1,5 @@
 <?php
-
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
@@ -55,9 +33,9 @@ class ilObjFileGUI extends ilObjectGUI
 		return array();
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory,$ilCtrl, $ilUser;	
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -98,11 +76,6 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 		
 		$this->prepareOutput();
-		
-//var_dump($_GET);
-//var_dump($_POST);
-//var_dump($_SESSION);
-//echo "-$cmd-";
 
 		switch ($next_class)
 		{
@@ -111,6 +84,7 @@ class ilObjFileGUI extends ilObjectGUI
 				break;
 
 			case 'ilmdeditorgui':
+				$ilTabs->activateTab("id_meta");
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
@@ -124,6 +98,7 @@ class ilObjFileGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
+				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -136,7 +111,6 @@ class ilObjFileGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 				
-
 			default:
 				if (empty($cmd))
 				{
@@ -372,7 +346,7 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $objDefinition, $ilUser;
+		global $objDefinition, $ilUser;
 
 		$this->initSingleUploadForm("create");
 		
@@ -464,7 +438,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		$this->tabs_gui->setTabActive('edit');
+		global $ilTabs;
+		
+		$ilTabs->activateTab("id_edit");
 		
 		$this->initPropertiesForm('edit');
 		if(!$this->form->checkInput())
@@ -541,14 +517,14 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $ilAccess;
+		global $ilAccess, $ilTabs;
 
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tabs_gui->setTabActive('edit');
+		$ilTabs->activateTab("id_edit");
 
 		$this->initPropertiesForm('edit');
 		$this->getPropertiesValues('edit');
@@ -691,7 +667,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function versionsObject()
 	{
-		global $rbacsystem, $ilAccess;
+		global $ilAccess, $ilTabs;
+		
+		$ilTabs->activateTab("id_versions");
 
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
@@ -728,7 +706,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
+		
+		$ilTabs->activateTab("id_info");
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -786,51 +766,47 @@ class ilObjFileGUI extends ilObjectGUI
 
 
 	// get tabs
-	function getTabs(&$tabs_gui)
+	function setTabs()
 	{
-		global $rbacsystem, $ilAccess;
-		
-//echo "-".$this->ctrl->getCmd()."-";
+		global $ilAccess, $ilTabs, $lng;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
 		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
-			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
-				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
-				? true
-				: false;
-			$tabs_gui->addTarget("info_short",
-				 $this->ctrl->getLinkTargetByClass(
-				 array("ilobjfilegui", "ilinfoscreengui"), "showSummary"),
-				 array("showSummary","", "infoScreen"),
-				 "", "", $force_active);
+			$ilTabs->addTab("id_info",
+				$lng->txt("info_short"),
+				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
+
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("edit",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", "");
-		}
-		
-		// meta data 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass(array('ilobjfilegui','ilmdeditorgui'),'listSection'),
-				 "", 'ilmdeditorgui');
+			$ilTabs->addTab("id_edit",
+				$lng->txt("edit"),
+				$this->ctrl->getLinkTarget($this, "edit"));
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("versions",
-				$this->ctrl->getLinkTarget($this, "versions"), "versions", get_class($this));
+			$ilTabs->addTab("id_versions",
+				$lng->txt("versions"),
+				$this->ctrl->getLinkTarget($this, "versions"));
+		}
+
+		// meta data
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			$ilTabs->addTab("id_meta",
+				$lng->txt("meta_data"),
+				$this->ctrl->getLinkTargetByClass(array('ilobjfilegui','ilmdeditorgui'),'listSection'));
 		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				$ilTabs->addTab("id_permissions",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
 	}
 	
