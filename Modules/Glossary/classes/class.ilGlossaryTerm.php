@@ -343,13 +343,14 @@ class ilGlossaryTerm
 	}
 
 	/**
-	* static
-	* 
-	* @access	public
-	* @param 	integer/array	$a_glo_id	array of glossary ids for meta glossaries
-	* @param	string			$searchterm	searchstring
-	*/
-	function getTermList($a_glo_id, $searchterm = "")
+	 * Get all terms for given set of glossary ids.
+	 * 
+	 * @param 	integer/array	array of glossary ids for meta glossaries
+	 * @param	string			searchstring
+	 * @param	string			first letter
+	 * @return	array			array of terms 
+	 */
+	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "")
 	{
 		global $ilDB;
 		
@@ -358,6 +359,11 @@ class ilGlossaryTerm
 		$searchterm = (!empty ($searchterm))
 			? " AND ".$ilDB->like("term", "text", "%".$searchterm."%")." "
 			: "";
+			
+		if ($a_first_letter != "")
+		{
+			$searchterm.= " AND ".$ilDB->upper($ilDB->substr("term", 1, 1))." = ".$ilDB->upper($ilDB->quote($a_first_letter, "text"))." ";
+		}
 		
 		// meta glossary
 		if (is_array($a_glo_id))
@@ -378,6 +384,41 @@ class ilGlossaryTerm
 				"language" => $term_rec["language"], "id" => $term_rec["id"], "glo_id" => $term_rec["glo_id"]);
 		}
 		return $terms;
+	}
+
+	/**
+	 * Get all terms for given set of glossary ids.
+	 * 
+	 * @param 	integer/array	array of glossary ids for meta glossaries
+	 * @param	string			searchstring
+	 * @param	string			first letter
+	 * @return	array			array of terms 
+	 */
+	static function getFirstLetters($a_glo_id)
+	{
+		global $ilDB;
+		
+		$terms = array();
+				
+		// meta glossary
+		if (is_array($a_glo_id))
+		{
+			$where = $ilDB->in("glo_id", $a_glo_id, false, "integer");
+		}
+		else
+		{
+			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
+		}
+		
+		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("term", 1, 1))." let FROM glossary_term WHERE ".$where." ORDER BY let";
+		$let_set = $ilDB->query($q);
+		
+		$lets = array();
+		while ($let_rec = $ilDB->fetchAssoc($let_set))
+		{
+			$let[$let_rec["let"]] = $let_rec["let"];
+		}
+		return $let;
 	}
 
 	/**
