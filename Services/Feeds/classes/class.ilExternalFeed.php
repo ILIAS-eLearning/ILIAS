@@ -112,6 +112,11 @@ class ilExternalFeed
 				define('IL_FEED_PROXY_HOST', ilProxySettings::_getInstance()->getHost());
 				define('IL_FEED_PROXY_PORT', ilProxySettings::_getInstance()->getPort());
 			}
+			else
+			{
+				define('IL_FEED_PROXY_HOST', "");
+				define('IL_FEED_PROXY_PORT', "");
+			}
 		}
 		
 		$feed = @fetch_rss($a_url);
@@ -234,6 +239,11 @@ class ilExternalFeed
 			{
 				define('IL_FEED_PROXY_HOST', ilProxySettings::_getInstance()->getHost());
 				define('IL_FEED_PROXY_PORT', ilProxySettings::_getInstance()->getPort());
+			}
+			else
+			{
+				define('IL_FEED_PROXY_HOST', "");
+				define('IL_FEED_PROXY_PORT', "");
 			}
 		}
 
