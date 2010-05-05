@@ -165,18 +165,18 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addColumn($lng->txt('title'), 'title', '20%');
-			$this->addColumn($lng->txt('url'), 'url', '80%');
-			$this->addColumn('', '', '10%');
-			$this->setLimit(32000);
-			$this->setEnableHeader(true);
-			
 			foreach($invalidLinks as $key => $invalidLink)
 			{
 				$invalidLinks[$key] = $this->getRowHandler()->formatInvalidLinkArray($invalidLink);
 			}
-			$this->setData($invalidLinks);			
 		}
+		
+		$this->addColumn($lng->txt('title'), 'title', '20%');
+		$this->addColumn($lng->txt('url'), 'url', '80%');
+		$this->addColumn('', '', '10%');
+		$this->setLimit(32000);
+		$this->setEnableHeader(true);
+		$this->setData($invalidLinks);
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));		
 		$this->setRowTemplate('tpl.link_checker_table_row.html', 'Services/LinkChecker');
