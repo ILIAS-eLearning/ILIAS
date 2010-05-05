@@ -35,7 +35,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
   		global $ilUser, $ilCtrl, $tpl, $ilTabs, $ilAccess;
   
@@ -52,6 +52,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 
 			case 'ilpermissiongui':
+				$ilTabs->activateTab("perm_settings");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -246,7 +247,9 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser, $lng;
+		global $ilAccess, $ilUser, $ilTabs, $lng;
+		
+		$ilTabs->activateTab("info_short");
 
 		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
@@ -360,6 +363,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilTabs, $ilCtrl;
 		
+		$ilTabs->activateTab("wiki_pages");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$ilCtrl->setParameter($this, "wpg_id",
 			ilWikiPage::getPageIdForTitle($this->object->getId(),
@@ -384,7 +389,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function getTabs($tabs_gui)
 	{
-		global $ilCtrl, $ilAccess, $lng;
+		global $ilCtrl, $ilAccess, $ilTabs, $lng;
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
@@ -397,49 +402,44 @@ class ilObjWikiGUI extends ilObjectGUI
 						ilWikiUtil::makeDbTitle($_GET["page"])));
 			}
 			
+			// pages
+			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
+			{
+				$ilTabs->addTab("wiki_pages",
+					$lng->txt("wiki_pages"),
+					$this->ctrl->getLinkTarget($this, "allPages"));
+			}
+			
 			// info screen
 			if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
 			{
-				$force_active = ($ilCtrl->getNextClass() == "ilinfoscreengui"
-					|| $_GET["cmd"] == "infoScreen")
-					? true
-					: false;
-				$tabs_gui->addTarget("info_short",
-					$this->ctrl->getLinkTargetByClass(
-					"ilinfoscreengui", "showSummary"),
-					"showSummary",
-					"", "", $force_active);
+				$ilTabs->addTab("info_short",
+					$lng->txt("info_short"),
+					$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 			}
 
 			// settings
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
-				$tabs_gui->addTarget("settings",
-					$this->ctrl->getLinkTarget($this, "editSettings"), array("editSettings"),
-					array(strtolower(get_class($this)), ""));
+				$ilTabs->addTab("settings",
+					$lng->txt("settings"),
+					$this->ctrl->getLinkTarget($this, "editSettings"));
 			}
 
-			// pages
-			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
-			{
-				$tabs_gui->addTarget("wiki_pages",
-					$this->ctrl->getLinkTarget($this, "allPages"),
-					"allPages");
-			}
-			
 			// contributors
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
-				$tabs_gui->addTarget("wiki_contributors",
-					$this->ctrl->getLinkTarget($this, "listContributors"), array("listContributors"),
-					array(strtolower(get_class($this)), ""));
+				$ilTabs->addTab("wiki_contributors",
+					$lng->txt("wiki_contributors"),
+					$this->ctrl->getLinkTarget($this, "listContributors"));
 			}
 	
 			// edit permissions
 			if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 			{
-				$tabs_gui->addTarget("perm_settings",
-					$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"), array("perm","info","owner"), 'ilpermissiongui');
+				$ilTabs->addTab("perm_settings",
+					$lng->txt("perm_settings"),
+					$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 			}
 		}
 	}
@@ -491,9 +491,10 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function initSettingsForm($a_mode = "edit")
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $ilTabs;
 		
 		$lng->loadLanguageModule("wiki");
+		$ilTabs->activateTab("settings");
 		
 		include("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -631,9 +632,10 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function listContributorsObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		$this->checkPermission("write");
+		$ilTabs->activateTab("wiki_contributors");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php");
 		
@@ -833,14 +835,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function popularPagesObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl;
 		
 		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->addPagesSubTabs();
-		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "popularPages",
 			$this->object->getId(), IL_WIKI_POPULAR_PAGES);
@@ -854,14 +855,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function orphanedPagesObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl;
 		
 		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->addPagesSubTabs();
-		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "orphanedPages",
 			$this->object->getId(), IL_WIKI_ORPHANED_PAGES);
@@ -924,14 +924,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function recentChangesObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl;
 		
 		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php");
 		
 		$this->addPagesSubTabs();
-		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiRecentChangesTableGUI($this, "recentChanges",
 			$this->object->getId());
@@ -965,14 +964,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function newPagesObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl;
 		
 		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->addPagesSubTabs();
-		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "newPages",
 			$this->object->getId(), IL_WIKI_NEW_PAGES);
