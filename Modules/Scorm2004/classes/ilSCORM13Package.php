@@ -182,20 +182,23 @@ class ilSCORM13Package
 			
 				$ilErr->raiseError("<b>The uploaded SCORM 1.2 / SCORM 2004 is not valid. You can try to import the package without the validation option checked on your own risk. </b><br><br>Validation Error(s):</b><br> Normalized XML is not conform to ". self::VALIDATE_XSD,
 				$ilErr->MESSAGE);
-	  		}
+			}
 		}
-	  	$this->dbImport($this->manifest);
+		$this->dbImport($this->manifest);
 
-		$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
-  		$l = $doc->xpath ("/ContentObject/MetaData" );
-		if($l[0])
-	  	{
-	  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
-	  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$packageId,$packageId,ilObject::_lookupType($packageId));
-			$mdxml->startParsing();
-			$mdxml->getMDObject()->update();
-	  	}
-  	
+		if(file_exists($this->packageFolder . '/' . 'index.xml'))
+		{
+			$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+			$l = $doc->xpath ("/ContentObject/MetaData" );
+			if($l[0])
+			{
+				include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+				$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$packageId,$packageId,ilObject::_lookupType($packageId));
+				$mdxml->startParsing();
+				$mdxml->getMDObject()->update();
+			}
+		}
+
 	  	//step 5
 	  	$x = simplexml_load_string($this->manifest->saveXML());
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
