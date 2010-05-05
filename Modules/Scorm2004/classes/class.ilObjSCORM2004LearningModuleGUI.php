@@ -42,7 +42,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilCtrl, $tpl, $ilTabs;
 
@@ -1443,7 +1443,7 @@ function showTrackingItem()
 	 */
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $ilAccess;
 
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -1475,11 +1475,6 @@ function showTrackingItem()
 			get_class($this));
 			*/
 
-		// edit meta
-		$tabs_gui->addTarget("meta_data",
-		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
-
 		// organization
 		$tabs_gui->addTarget("sahs_organization",
 		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
@@ -1509,13 +1504,18 @@ function showTrackingItem()
 			}
 			*/
 
+		// edit meta
+		$tabs_gui->addTarget("meta_data",
+		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "", "ilmdeditorgui");
+
 		// export
 		$tabs_gui->addTarget("export",
 		$this->ctrl->getLinkTarget($this, "showExportList"), array("showExportList", 'confirmDeleteExportFile'),
 		get_class($this));
 
 		// perm
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
