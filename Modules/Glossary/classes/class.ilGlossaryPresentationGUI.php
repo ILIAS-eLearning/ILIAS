@@ -142,27 +142,15 @@ class ilGlossaryPresentationGUI
 		$this->setLocator();
 	}
 
-	function clearTerms()
-	{
-		$_REQUEST["term"] = "";
-		$_GET["offset"] = $_GET["oldoffset"];
-		$this->searchTerms();
-	}
-	
-	function searchTerms ()
-	{
-		$term_list = $this->glossary->getTermList($_REQUEST["term"]);
-		$this->listTermByGiven($term_list, $_REQUEST["term"]);
-	}
-
 
 	/**
 	 * List all terms
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar, $ilCtrl;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar, $ilCtrl, $ilTabs;
 
+		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
@@ -178,14 +166,17 @@ class ilGlossaryPresentationGUI
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
 			$ai->setLetters($this->glossary->getFirstLetters());
 			$ai->setParentCommand($this, "chooseLetter");
+			$ai->setHighlighted($_GET["letter"]);
 			$ilToolbar->addInputItem($ai, true);
 			
 		}
 		
-		$term_list = $this->glossary->getTermList();		
+//		$term_list = $this->glossary->getTermList();	
 
 		$ret =  $this->listTermByGiven($term_list);
 		$ilCtrl->setParameter($this, "term_id", "");
+		
+		$ilTabs->activateTab("terms");
 		return $ret;
 	}
 
@@ -453,6 +444,7 @@ if (!false)
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
 		$this->listTerms();
+		
 	}
 	
 	/**
@@ -466,7 +458,6 @@ if (!false)
 			$this->offlineMode());
 		$prtab->resetOffset();
 		$prtab->resetFilter();
-
 		$this->listTerms();
 	}
 
@@ -749,7 +740,7 @@ if (!false)
 	*/
 	function showDownloadList()
 	{
-		global $ilBench, $ilAccess, $ilias, $lng;
+		global $ilBench, $ilAccess, $ilias, $lng, $ilTabs;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -759,6 +750,7 @@ if (!false)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "Modules/Glossary");
 
 		$this->setTabs();
+		$ilTabs->activateTab("download");
 		
 		// set title header
 		$this->tpl->setTitle($this->glossary->getTitle());
@@ -1152,7 +1144,7 @@ if (!false)
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $lng, $ilCtrl;
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 		
@@ -1162,21 +1154,14 @@ if (!false)
 			{
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$tabs_gui->addTarget("cont_terms",
-						$this->ctrl->getLinkTarget($this, "listTerms"),
-						array("listTerms", "searchTerms", "clearTerms", ""),
-						"");
+					$tabs_gui->addTab("terms",
+						$lng->txt("cont_terms"),
+						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}
 	
-				$force_active = false;
-				if ($this->ctrl->getCmd() == "showSummary" ||
-					strtolower($this->ctrl->getNextClass()) == "ilinfoscreengui")
-				{
-					$force_active = true;
-				}
-				$tabs_gui->addTarget("information_abbr",
-					$this->ctrl->getLinkTarget($this, "infoScreen"), array("infoScreen"),
-					"ilInfoScreenGUI", "", $force_active);
+				$tabs_gui->addTab("info",
+					$lng->txt("information_abbr"),
+					$ilCtrl->getLinkTarget($this, "infoScreen"));
 	
 				// glossary menu
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -1187,8 +1172,8 @@ if (!false)
 						if ($this->glossary->isActiveDownloads())
 						{
 							$tabs_gui->addTarget("download",
-								$this->ctrl->getLinkTarget($this, "showDownloadList"), "showDownloadList",
-								"");
+								$lng->txt("download"),
+								$ilCtrl->getLinkTarget($this, "showDownloadList"));
 						}
 					}
 				}
@@ -1200,14 +1185,13 @@ if (!false)
 				{
 					$this->ctrl->setParameter($this, "term", $_REQUEST["term"]);
 					$this->ctrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
-					$back = $this->ctrl->getLinkTarget($this, "searchTerms");
+					$back = $ilCtrl->getLinkTarget($this, "searchTerms");
 				}
 				else
 				{
-					$back = $this->ctrl->getLinkTarget($this, "listTerms");
+					$back = $ilCtrl->getLinkTarget($this, "listTerms");
 				}
-				$tabs_gui->setBackTarget($this->lng->txt("obj_glo"),
-					$back, "", "");
+				$tabs_gui->setBackTarget($this->lng->txt("obj_glo"), $back);
 			}
 			
 		}
@@ -1252,9 +1236,10 @@ if (!false)
 	*/
 	function outputInfoScreen()
 	{
-		global $ilBench, $ilAccess;
+		global $ilBench, $ilAccess, $ilTabs;
 
 		$this->setTabs();
+		$ilTabs->activateTab("info");
 		$this->lng->loadLanguageModule("meta");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");

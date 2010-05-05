@@ -15,6 +15,10 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
 	protected $letters;
+	protected $parent_object;
+	protected $parent_cmd;
+	protected $highlight;
+	protected $highlight_letter;
 
 	/**
 	* Constructor
@@ -131,6 +135,18 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	}
 	
 	/**
+	 * Set highlighted
+	 *
+	 * @param
+	 * @return
+	 */
+	function setHighlighted($a_high_letter)
+	{
+		$this->highlight = true;
+		$this->highlight_letter = $a_high_letter;
+	}
+	
+	/**
 	* Get HTML for toolbar
 	*/
 	function getToolbarHTML()
@@ -145,11 +161,19 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 			$ilCtrl->setParameter($this->parent_object, "letter", rawurlencode($l));
 			$tpl->setVariable("TXT_LET", $l);
 			$tpl->setVariable("HREF_LET", $ilCtrl->getLinkTarget($this->parent_object, $this->parent_cmd));
+			if ($this->highlight && $this->highlight_letter == $l)
+			{
+				$tpl->setVariable("CLASS", ' class="ilHighlighted" ');
+			}
 			$tpl->parseCurrentBlock();
 		}
 		$ilCtrl->setParameter($this->parent_object, "letter", "");
 		$tpl->setVariable("TXT_ALL", $lng->txt("all"));
 		$tpl->setVariable("HREF_ALL", $ilCtrl->getLinkTarget($this->parent_object, $this->parent_cmd));
+		if ($this->highlight && $this->highlight_letter == "")
+		{
+			$tpl->setVariable("CLASSA", ' class="ilHighlighted" ');
+		}
 		return $tpl->get();
 	}
 	

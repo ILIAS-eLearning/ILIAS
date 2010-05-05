@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("classes/class.ilObjectGUI.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
@@ -61,10 +42,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
-		//if ($a_prepare_output)
-		//{
-		//	$this->prepareOutput();
-		//}
 	}
 
 	/**
@@ -1798,6 +1775,35 @@ return;
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
+
+	/**
+	 * Apply filter
+	 */
+	function applyFilter()
+	{
+		global $ilTabs;
+
+		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
+		$prtab = new ilTermListTableGUI($this, "listTerms");
+		$prtab->resetOffset();
+		$prtab->writeFilterToSession();
+		$this->listTerms();
+		
+	}
+	
+	/**
+	 * Reset filter
+	 * (note: this function existed before data table filter has been introduced
+	 */
+	function resetFilter()
+	{
+		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
+		$prtab = new ilTermListTableGUI($this, "listTerms");
+		$prtab->resetOffset();
+		$prtab->resetFilter();
+		$this->listTerms();
+	}
+
 
 }
 

@@ -350,12 +350,23 @@ class ilGlossaryTerm
 	 * @param	string			first letter
 	 * @return	array			array of terms 
 	 */
-	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "")
+	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "")
 	{
 		global $ilDB;
 		
 		$terms = array();
 		
+		if ($a_def != "")
+		{
+			$join = " JOIN glossary_definition gd ON (gd.term_id = gt.id)".
+			" JOIN page_object ON (".
+			"page_object.parent_id = ".$ilDB->quote($a_glo_id, "integer").
+			" AND page_object.parent_type = ".$ilDB->quote("gdf", "text").
+			" AND page_object.page_id = gd.id".
+			" AND ".$ilDB->like("page_object.content", "text", "%".$a_def."%").
+			")";
+		}
+
 		$searchterm = (!empty ($searchterm))
 			? " AND ".$ilDB->like("term", "text", "%".$searchterm."%")." "
 			: "";
@@ -375,9 +386,9 @@ class ilGlossaryTerm
 			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
 		}
 		
-		$q = "SELECT * FROM glossary_term WHERE ".$where.$searchterm." ORDER BY term";
+		$q = "SELECT gt.term, gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
 		$term_set = $ilDB->query($q);
-
+//var_dump($q);
 		while ($term_rec = $ilDB->fetchAssoc($term_set))
 		{
 			$terms[] = array("term" => $term_rec["term"],
