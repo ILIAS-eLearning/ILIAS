@@ -69,7 +69,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory,$ilCtrl;
 		
@@ -3239,7 +3239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$force_active = ($this->ctrl->getCmd() == "")
 				? true
 				: false;
-			$tabs_gui->addTarget("properties",
+			$tabs_gui->addTarget("settings",
 				 $this->ctrl->getLinkTarget($this,'properties'),
 				 array("properties", "save", "cancel"), "",
 				 "", $force_active);
@@ -3248,11 +3248,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// questions
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
-	
 			// constraints
 			$tabs_gui->addTarget("constraints",
 				 $this->ctrl->getLinkTarget($this, "constraints"),
@@ -3261,6 +3256,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				"editPrecondition"),
 				 "");
 		}
+		
 		if (($ilAccess->checkAccess("write", "", $this->ref_id)) || ($ilAccess->checkAccess("invite", "", $this->ref_id)))
 		{
 			// invite
@@ -3270,16 +3266,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "inviteUserGroup", "disinviteUserGroup"),
 				 "");
 		}
+		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			// export
-			$tabs_gui->addTarget("export",
-				 $this->ctrl->getLinkTarget($this,'export'),
-				 array("export", "createExportFile", "confirmDeleteExportFile",
-				 "downloadExportFile"), 
-				 ""
-				);
-	
 			// maintenance
 			$tabs_gui->addTarget("maintenance",
 				 $this->ctrl->getLinkTarget($this,'maintenance'),
@@ -3295,7 +3284,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					 "");
 			}
 		}
-
+			
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 		if ($ilAccess->checkAccess("write", "", $this->ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
@@ -3306,7 +3295,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 	"evaluationuser"),
 				 "");
 		}
-				 
+
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this,'export'),
+				 array("export", "createExportFile", "confirmDeleteExportFile",
+				 "downloadExportFile"), 
+				 ""
+				);
+		}
+
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			// permissions
