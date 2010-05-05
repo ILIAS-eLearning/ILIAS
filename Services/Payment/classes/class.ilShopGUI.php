@@ -45,6 +45,8 @@ class ilShopGUI extends ilShopBaseGUI
 		
 	function executeCommand()
 	{
+		global $ilUser;
+		
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{
