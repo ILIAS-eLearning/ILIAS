@@ -55,9 +55,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
-		
-		#include_once("classes/class.ilTabsGUI.php");
-		#$this->tabs_gui =& new ilTabsGUI();
 
 		$this->type = "htlm";
 		$lng->loadLanguageModule("content");
@@ -71,9 +68,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
-		global $ilUser, $ilLocator;		
+		global $ilUser, $ilLocator, $ilTabs;
 	
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -112,6 +109,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{
 			case 'ilmdeditorgui':
 				$this->checkPermission("write");
+				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -122,6 +120,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 			case "ilfilesystemgui":
 				$this->checkPermission("write");
+				$ilTabs->activateTab('id_list_files');
 				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("htlmfs".$this->object->getId());
@@ -139,22 +138,23 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				break;
 
 			case "illearningprogressgui":
+				$ilTabs->activateTab('id_learning_progress');
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
-				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 				
 			case 'ilpermissiongui':
+				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'illicensegui':
+				$ilTabs->activateTab('id_license');
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
 				$license_gui =& new ilLicenseGUI($this);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
@@ -170,7 +170,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
-		//$this->tpl->show();
 	}
 
 	/**
@@ -313,7 +312,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl;
+		global $rbacsystem, $tree, $tpl, $ilTabs;
+		
+		$ilTabs->activateTab("id_settings");
 
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -475,6 +476,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function saveBibItemObject($a_target = "")
 	{
+		global $ilTabs;
+
+		$ilTabs->activateTab("id_bib_data");
+
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
@@ -511,6 +516,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function editBibItemObject($a_target = "")
 	{
+		global $ilTabs;
+
+		$ilTabs->activateTab("id_bib_data");
+		
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
@@ -545,6 +554,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function deleteBibItemObject($a_target = "")
 	{
+		global $ilTabs;
+
+		$ilTabs->activateTab("id_bib_data");
+		
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
@@ -579,6 +592,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function addBibItemObject($a_target = "")
 	{
+		global $ilTabs;
+	
+		$ilTabs->activateTab("id_bib_data");
+	
 		$bibItemName = $_POST["bibItemName"] ? $_POST["bibItemName"] : $_GET["bibItemName"];
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
 		if ($bibItemName == "BibItem")
@@ -716,10 +733,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function outputInfoScreen($a_standard_locator = true)
 	{
-		global $ilBench, $ilLocator, $ilAccess;
+		global $ilBench, $ilLocator, $ilAccess, $ilTabs;
 
-
-		$this->tabs_gui->setTabActive('info_short');
+		$ilTabs->activateTab('id_info');
 		
 		$this->lng->loadLanguageModule("meta");
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -767,82 +783,65 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->parseCurrentBlock();
 		
-		$this->getTabs($this->tabs_gui);
-		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
+		$this->getTabs();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 
 	/**
 	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem,$ilUser;
-		
+		global $ilUser, $ilAccess, $ilTabs, $lng;
 
-		if($rbacsystem->checkAccess('write',$this->ref_id))
+		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			// properties
-			$tabs_gui->addTarget("cont_list_files",
-								 $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
-								 "ilfilesystemgui");
+			$ilTabs->addTab("id_list_files",
+				$lng->txt("cont_list_files"),
+				$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
 			
-			// info screen
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilinfoscreengui"
-							 || strtolower($_GET["cmdClass"]) == "ilnotegui")
-				? true
-				: false;
-			$tabs_gui->addTarget("info_short",
-								 $this->ctrl->getLinkTargetByClass(array("ilobjfilebasedlmgui",
-																		 "ilinfoscreengui"), 
-																   "showSummary"),
-								 "infoScreen",
-								 "", 
-								 "",
-								 $force_active);
+			$ilTabs->addTab("id_info",
+				$lng->txt("info_short"),
+				$this->ctrl->getLinkTargetByClass(array("ilobjfilebasedlmgui", "ilinfoscreengui"), "showSummary"));
 			
-			// properties
-			$tabs_gui->addTarget("properties",
-								 $this->ctrl->getLinkTarget($this, "properties"), "properties",
-								 get_class($this));
-			
-			$tabs_gui->addTarget("meta_data",
-								 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-								 "", "ilmdeditorgui");
-			
-			// edit bib item information
-			$tabs_gui->addTarget("bib_data",
-								 $this->ctrl->getLinkTarget($this, "editBibItem"),
-								 array("editBibItem", "saveBibItem", "deleteBibItem", "addBibItem"),
-								 get_class($this));
+			$ilTabs->addTab("id_settings",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "properties"));
 		}
-
-		// learning progress
+		
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'),''),
-								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+			$ilTabs->addTab("id_learning_progress",
+				$lng->txt("learning_progress"),
+				$this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'), ''));
 		}
 
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
-		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id)
+		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id)
 		and ilLicenseAccess::_isEnabled())
 		{
-			$tabs_gui->addTarget("license",
-				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
-			"", "illicensegui");
+			$ilTabs->addTab("id_license",
+				$lng->txt("license"),
+				$this->ctrl->getLinkTargetByClass('illicensegui', ''));
+		}
+		
+		if($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilTabs->addTab("id_meta_data",
+				$lng->txt("meta_data"),
+				$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''));
+			
+			$ilTabs->addTab("id_bib_data",
+				$lng->txt("bib_data"),
+				$this->ctrl->getLinkTarget($this, "editBibItem"));
 		}
 
-		// perm
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$ilTabs->addTab("id_permissions",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
 	}
 	
