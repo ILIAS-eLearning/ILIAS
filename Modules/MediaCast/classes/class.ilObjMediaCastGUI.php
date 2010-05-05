@@ -91,8 +91,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
-
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
@@ -235,9 +233,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function initAddCastItemForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilTabs;
 		
 		$this->checkPermission("write");
+		$ilTabs->activateTab("id_content");
 		
 		$lng->loadLanguageModule("mcst");
 		
@@ -381,9 +380,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveCastItemObject()
 	{
-		global $tpl, $ilCtrl, $ilUser, $lng;
+		global $tpl, $ilCtrl, $ilUser, $lng, $ilTabs;
 
 		$this->checkPermission("write");
+		$ilTabs->activateTab("id_content");
 		
 		$this->initAddCastItemForm();
 		
@@ -677,9 +677,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function confirmDeletionItemsObject()
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $ilCtrl, $lng, $tpl, $ilTabs;
 		
 		$this->checkPermission("write");
+		$ilTabs->activateTab("id_content");
 		
 		if (!is_array($_POST["item_id"]))
 		{
@@ -987,9 +988,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		$this->checkPermission("write");
+		$ilTabs->activateTab("id_settings");
 		
 		$this->initSettingsForm();
 		if ($this->form_gui->checkInput())

@@ -316,7 +316,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	public function updateLinkObject()
 	{
 		global $ilCtrl;
-		
+
 		$this->initFormLink(self::LINK_MOD_EDIT);
 		if($this->checkLinkInput(self::LINK_MOD_EDIT,$this->object->getId(),(int) $_REQUEST['link_id']))
 		{
@@ -608,6 +608,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	protected function initFormLink($a_mode)
 	{
+		global $ilTabs;
+	
+		$ilTabs->activateTab("id_content");
+	
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->form = new ilPropertyFormGUI();
 		
