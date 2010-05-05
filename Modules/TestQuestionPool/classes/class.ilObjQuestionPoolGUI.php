@@ -65,7 +65,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl;
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
@@ -1465,19 +1465,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
-	// properties
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", "",
-			 "");
-
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
+			// properties
+			$tabs_gui->addTarget("settings",
+				 $this->ctrl->getLinkTarget($this,'properties'),
+				 "properties", "",
+				 "");
 		}
 
 		// print view
@@ -1486,11 +1480,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 array("print"),
 			 "", "");
 
-		// export
-		$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
-			 "", "");
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this,'export'),
+				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
+				 "", "");
+		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
