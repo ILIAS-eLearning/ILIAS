@@ -5,16 +5,16 @@
 * @modulegroup		language
 * @author		Arturo González Ferrer <arturogf@ugr.es>, Jose Ramon Balsas Almagro <jrbalsas@ujaen.es>
 * @version		$Id$
-* @il_server		http://www.ilias.de/test40x
-* @il_version		4.0.2 2009-12-15
-* @created		2010-01-06 11:57:10
+* @il_server		http://localhost:8888/ilias-trunk
+* @il_version		4.1.0 pre-alpha
+* @created		2010-05-05 17:30:45
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2010 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -225,7 +225,7 @@ assessment#:#all_available_question_pools#:#Todos los bancos de preguntas dispon
 assessment#:#allow_images#:#Imagen de apoyo para la respuesta
 assessment#:#allowedextensions#:#Extensiones de archivo permitidas
 assessment#:#allowedextensions_info#:#Escriba una lista separada por comas de extensiones de archivos permitidas, si desea restringir la carga a una serie de extensiones de archivo (ej, DOC, XLS, ODT).
-assessment#:#analyze_errortext#:#Analizar los errores del test
+assessment#:#analyze_errortext#:#Seleccionar errores marcados
 assessment#:#answer#:#Respuesta
 assessment#:#answer_image#:#Imagen respuesta
 assessment#:#answer_is_not_correct_but_positive#:#Ha obtenido puntos para su solución, pero no es la mejor posible
@@ -247,22 +247,22 @@ assessment#:#ass_export_files#:#Exportar archivos
 assessment#:#ass_file#:#Archivo
 assessment#:#ass_question#:#Pregunta
 assessment#:#ass_size#:#Tamaño
-assessment#:#assClozeTest#:#Pregunta Rellenar Huecos
-assessment#:#assErrorText#:#Errores del test
+assessment#:#assClozeTest#:#Pregunta de rellenar huecos
+assessment#:#assErrorText#:#Pregunta de detectar errores en un texto
 assessment#:#assessment_eval_settings#:#Mostrar las siguientes celdas en la evaluaci&oacute;n de todos los usuarios
-assessment#:#assFileUpload#:#Carga de archivo de preguntas
-assessment#:#assFlashQuestion#:#Pregunta Flash
-assessment#:#assImagemapQuestion#:#Pregunta Mapa de Imagen
+assessment#:#assFileUpload#:#Pregunta de enviar archivo
+assessment#:#assFlashQuestion#:#Pregunta con contenido flash
+assessment#:#assImagemapQuestion#:#Pregunta mapa de imagen
 assessment#:#assJavaApplet#:#Pregunta Applet Java
-assessment#:#assMatchingQuestion#:#Pregunta de Unir Parejas
-assessment#:#assMultipleChoice#:#Pregunta de Opción Múltiple (múltiple respuesta)
-assessment#:#assNumeric#:#Pregunta numérica
-assessment#:#assOrderingHorizontal#:#Ordenación de preguntas (Horizontal)
-assessment#:#assOrderingQuestion#:#Pregunta de Ordenación
+assessment#:#assMatchingQuestion#:#Pregunta de unir parejas
+assessment#:#assMultipleChoice#:#Pregunta de respuesta múltiple
+assessment#:#assNumeric#:#Pregunta de entrada numérica
+assessment#:#assOrderingHorizontal#:#Pregunta de ordenación (horizontal)
+assessment#:#assOrderingQuestion#:#Pregunta de ordenación (vertical)
 assessment#:#assQuestions#:#Preguntas
-assessment#:#assSingleChoice#:#Pregunta de Opción Múltiple (respuesta única)
-assessment#:#assTextQuestion#:#Pregunta de Respuesta Corta
-assessment#:#assTextSubset#:#Pregunta Subconjunto de
+assessment#:#assSingleChoice#:#Pregunta de respuesta única
+assessment#:#assTextQuestion#:#Pregunta de respuesta corta
+assessment#:#assTextSubset#:#Pregunta de seleccionar subconjunto
 assessment#:#autosave_failed#:#¡Fallo al guardar!
 assessment#:#autosave_success#:#Guardado satisfactoriamente...
 assessment#:#available_points#:#Puntos disponibles
@@ -342,6 +342,7 @@ assessment#:#disable_javascript#:#Haga click para deshabilitar el soporte JavaSc
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
+assessment#:#duplicate_term_message#:#Ha introducido al menos un término duplicado. Por favor, utilice términos únicos.
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
 assessment#:#ects_fill_out_all_values#:#¡Por favor introduzca un valor para cada nota ECTS!
 assessment#:#ects_grade#:#nota ECTS
@@ -394,8 +395,8 @@ assessment#:#error_random_question_generation#:#Ocurrió un error fatal durante 
 assessment#:#error_save_image_file#:#Error grabando el archivo de imagen!
 assessment#:#errors#:#Errores
 assessment#:#errors_section#:#Error de Datos
-assessment#:#errortext#:#Error de Texto
-assessment#:#errortext_info#:#Por favor, introduzca el texto de error.
+assessment#:#errortext#:#Texto con errores
+assessment#:#errortext_info#:#Por favor, introduzca el texto con los errores. Mara parcar una palabra con error, colocarte el prefijo (#). Si presiona "Seleccionar errores marcados", todas las palabras marcadas serán seleccionada para asignarles puntuación
 assessment#:#eval_all_users#:#Evaluación de todos los usuarios
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Hueco número %s con el valor %s es %s.Usted recibió %s puntos.
@@ -750,7 +751,7 @@ assessment#:#text_maximum_chars_allowed#:#Por favor no introduzca más de %s car
 assessment#:#text_rating#:#Método de coincidencia de texto
 assessment#:#text_wrong#:#Texto erroneo
 assessment#:#textsize#:#Tamaño del texto
-assessment#:#textsize_errortext_info#:#Introduzca el tamaño del texto del texto de error en porcentaje si desea otro tamaño de 100 por ciento.
+assessment#:#textsize_errortext_info#:#Introduzca el porcentaje de reducción del tipo de letra del texto con los errores (100% tamaño normal)
 assessment#:#textsize_info#:#Introduzca el tamaño del texto de texto ordenado en porcentaje si desea otro tamaño de 100 por ciento.
 assessment#:#thumb_geometry#:#Geometría de la miniatura
 assessment#:#thumb_geometry_info#:#Las miniaturas de imagen se crearán con un valor máximo de la altura y anchura determinado, la relación de aspecto se conserva.
@@ -1088,8 +1089,30 @@ assessment#:#working_time#:#Tiempo de Trabajo
 assessment#:#working_time_avg#:#Tiempo medio de trabajo
 assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
 auth#:#auth_account_migration#:#Nueva cuenta ILIAS
+auth#:#auth_account_migration_keep#:#Migrate Existing User Account
+auth#:#auth_account_migration_name#:#Migration
+auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_info_add#:#Escoja esta opción si nunca se registró antes en ILIAS. Un nueva cuenta será creada.
 auth#:#auth_info_migrate#:#Si ya tiene una cuenta ILIAS introduzca nombre de usuario y contraseña para migrar sus datos personales (Correos, Resultados de Tests...)
+auth#:#auth_openid#:#OpenId
+auth#:#auth_openid_configure#:#Configure OpenId-Authentication
+auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
+auth#:#auth_openid_enable#:#Enable OpenId Support
+auth#:#auth_openid_login#:#Your OpenID
+auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
+auth#:#auth_openid_migration#:#Account Migration:
+auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
+auth#:#auth_openid_provider#:#Provider Selection
+auth#:#auth_openid_provider_add#:#Add Provider
+auth#:#auth_openid_provider_edit#:#Edit Provider
+auth#:#auth_openid_provider_tbl#:#OpenID Provider
+auth#:#auth_openid_role_select#:#Role:
+auth#:#auth_openid_settings#:#OpenId Settings
+auth#:#auth_openid_sync#:#User Synchronization
+auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.
+auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
+auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
+auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
 auth#:#auth_rad_migration#:#Migración de cuenta:
 auth#:#auth_rad_migration_info#:#Activar esta opción para dar a los nuevos usuarios la posibilidad de migrar sus cuentas ILIAS existentes a autenticación RADIUS.
 auth#:#auth_radius_charset#:#Codificación de caracteres
@@ -1399,9 +1422,9 @@ chat#:#chat_message_notify_deactivate#:#Desactivar notificación de mensajes
 chat#:#chat_messages_deleted#:#Los mensajes han sido eliminados.
 chat#:#chat_moderator_password#:#contraseña del moderador
 chat#:#chat_navy#:#azul marino
-chat#:#chat_new_invitation_sound_status#:#Reproduce un soniso si un usuario recibe una invitaci&oacute;n al chat
+chat#:#chat_new_invitation_sound_status#:#Reproduce un sonido si un usuario recibe una invitaci&oacute;n al chat
 chat#:#chat_new_message#:#Nuevo mensaje
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chat#:#chat_new_message_sound_status#:#Reproducir un sonido si llega un nuevo mensaje
 chat#:#chat_no_active_users#:#No hay otros usuarios presentes.
 chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat
@@ -1575,10 +1598,10 @@ cntr#:#cntr_back_to_old_editor#:#Volver al anterior editor
 cntr#:#cntr_disable_multi_commands#:#Deshabilitar Multi Comandos
 cntr#:#cntr_enable_multi_commands#:#Habilitar Multi Comandos
 cntr#:#cntr_hide_title_and_icon#:#Esconder icono y t&iacute;tulo
-cntr#:#cntr_manage#:#Gestionar
+cntr#:#cntr_manage#:#Gestionar contenido
 cntr#:#cntr_old_editor_open_standard_editor#:#Abrir editor est&aacute;ndar
 cntr#:#cntr_old_editor_warning#:#El mantenimiento de este editor ser&aacute; suspendido en una versi&oacute;n superior de ILIAS.<br />Puede usar este editor de contenidos en esta p&aacute;gina ahora. Pero le recomendamos cambiar al editor est&aacute;ndar de ILIAS cuando sea posible.
-cntr#:#cntr_ordering#:#Ordenando
+cntr#:#cntr_ordering#:#Ordenación
 cntr#:#cntr_page_actions#:#Acciones de Página
 cntr#:#cntr_saved_sorting#:#Guardar ordenación
 cntr#:#cntr_switch_to_new_editor_cmd#:#Cambie a esta página para presentación
@@ -1616,7 +1639,7 @@ common#:#accs_visible#:#Las opciones de Accesibilidad son visibles
 common#:#accs_write#:#Editar opciones de accesibilidad.
 common#:#action#:#Acción
 common#:#action_aborted#:#Acción abortada!
-common#:#actions#:#acciones
+common#:#actions#:#Acciones
 common#:#activate#:#Poner activa
 common#:#activate_assessment_logging#:#Activar informes de LOG de la herramienta de Tests
 common#:#activate_block#:#Activar
@@ -1815,6 +1838,7 @@ common#:#auth_mode#:#Modo de Autenticación
 common#:#auth_mode_not_changed#:#(No se ha realizado modificación alguna)
 common#:#auth_mode_roles_changed#:#Modificado el modo de autenticación para este rol
 common#:#auth_new_account_mail_desc#:#Enviar e-mail de nueva cuenta al usuario, si el usuario es generado automáticamente. Sólo se generará una contraseña, si también se activa "Permitir Autenticación Local".
+common#:#auth_openid#:#OpenId
 common#:#auth_per_default#:#Por defecto
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Configurar Autenticación RADIUS
@@ -2041,7 +2065,7 @@ common#:#chat_moderate#:#Moderar chat
 common#:#chat_new#:#Nuevo Chat
 common#:#chat_read#:#Acceso de lectura/escritura al Chat
 common#:#chat_settings#:#Ajustes Chat
-common#:#chat_users_active#:#usuarios conectados
+common#:#chat_users_active#:#Usuarios conectados
 common#:#chat_visible#:#El Chat está visible
 common#:#chat_write#:#Editar Chat
 common#:#check#:#comprobar
@@ -2085,6 +2109,7 @@ common#:#cnt_new#:#(%s nuevo)
 common#:#collapse#:#Reducir
 common#:#collapse_all#:#Contraer todo
 common#:#collapsed#:#Contraer
+common#:#columns#:#Columns
 common#:#comma_separated#:#separado por comas
 common#:#comment#:#Comentario
 common#:#compose#:#Nuevo mensaje
@@ -2241,6 +2266,7 @@ common#:#days#:#Días
 common#:#days_of_period#:#Días del período
 common#:#db_host#:#host Base de Datos
 common#:#db_name#:#nombre de la Base de Datos
+common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
 common#:#db_need_update#:#La Base de Datos necesita una actualización!
 common#:#db_pass#:#contraseña de la base de datos
 common#:#db_type#:#tipo de base de datos
@@ -2259,6 +2285,7 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
+common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Poner inactiva
 common#:#decrease_attempts#:#Intentos - 1
@@ -2711,6 +2738,7 @@ common#:#glossaries#:#Glosarios
 common#:#glossary#:#glosario
 common#:#glossary_added#:#Glosario añadido
 common#:#go#:#Ir
+common#:#group#:#Grupo
 common#:#group_access_denied#:#Acceso Denegado
 common#:#group_any_objects#:#No hay subobjetos disponibles
 common#:#group_create_chat#:#Crear Chat
@@ -2838,7 +2866,7 @@ common#:#grp_select_one_file#:#Por favor seleccione un archivo
 common#:#grp_select_one_file_only#:#Por favor seleccione exáctamente un archivo.
 common#:#grp_visible#:#Grupo visible
 common#:#grp_wizard_page#:#Copiar Grupo (Paso 2/2)
-common#:#grp_write#:#Editar Grupo
+common#:#grp_write#:#Configurar Grupo
 common#:#guest#:#Invitado
 common#:#guests#:#Invitados
 common#:#header_searchable#:#Búsqueda
@@ -2852,6 +2880,7 @@ common#:#hh_mm#:#HH:MM
 common#:#hh_mm_ss#:#HH:MM:SS
 common#:#hide#:#ocultar
 common#:#hide_details#:#ocultar detalles
+common#:#hide_filter#:#Hide Filter
 common#:#hide_own_online_status#:#Ocultar mi estado on-line
 common#:#hide_private_notes#:#Ocultar notas privadas
 common#:#hide_structure#:#deshabilitar vista estructural
@@ -2865,6 +2894,7 @@ common#:#hist_dbk_pg_update#:#Página modificada.
 common#:#hist_dbk_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
 common#:#hist_dbk_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_file_create#:#Archivo creado, el nombre del archivo es "%1".
+common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. 
 common#:#hist_file_replace#:#Archivo reemplazado, nuevo archivo es "%1", la nueva versión es %2.
 common#:#hist_lm_delete_pg#:#Página "%1" [%2] ha sido eliminada.
 common#:#hist_lm_delete_st#:#Capítulo "%1" [%2] ha sido eliminado.
@@ -2919,7 +2949,7 @@ common#:#icla_add#:#Añadir iLinc Classroom
 common#:#icla_deleted#:#Aula(s) LearnLinc eliminada(s)
 common#:#icla_edit#:#Editar Aula LearnLinc
 common#:#icla_new#:#Nueva iLinc Classroom
-common#:#icon#:#Icon
+common#:#icon#:#Icono
 common#:#icon_settings#:#Configuración de Iconos
 common#:#icons_in_header#:#Fila de Cabecera
 common#:#icons_in_item_rows#:#Fila de Items
@@ -3132,7 +3162,7 @@ common#:#java_server_no_connection#:#Atención: No se puede conectar al servidor
 common#:#java_server_port#:#Puerto
 common#:#java_server_readme#:#Información de Setup
 common#:#join#:#Matrícula
-common#:#join_session#:#Unión
+common#:#join_session#:#Apuntarse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
 common#:#lang_bg#:#Bulgaro
@@ -3214,6 +3244,7 @@ common#:#ldap_version#:#versión de protocolo LDAP
 common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
+common#:#learning_module#:#Módulo de aprendizaje
 common#:#learning_objects#:#Objetos de aprendizaje
 common#:#learning_progress#:#Progreso de aprendizaje
 common#:#learning_resourc#:#Recurso de aprendizaje
@@ -3311,6 +3342,7 @@ common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes ca
 common#:#login_time#:#Tiempo online
 common#:#login_to_ilias#:#entrada a ILIAS
 common#:#login_to_ilias_via_cas#:#Entrar a ILIAS vía CAS(Central Authentication Service)
+common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID
 common#:#login_to_ilias_via_shibboleth#:#Entrar a ILIAS vía
 common#:#loginname_already_exists#:#Este nombre de usuario ya existe
 common#:#loginname_settings#:#Configuraciones Nombre Usuario
@@ -3403,9 +3435,9 @@ common#:#mem_reg_period#:#Periodo de registro
 common#:#mem_reg_type#:#Tipo de registro
 common#:#mem_start#:#Registro comienza:
 common#:#mem_unlimited#:#Ilimitado
-common#:#mem_view_activate#:#Activate Members View
+common#:#mem_view_activate#:#Activar vista de miembro
 common#:#mem_view_close#:#Cerrar vista de miembros
-common#:#mem_view_deactivate#:#Deactivate Members View
+common#:#mem_view_deactivate#:#Desactivar Vista de Miembro
 common#:#mem_view_long#:#Vista de Miembros
 common#:#mem_waiting_list#:#Usuarios en lista de espera:
 common#:#mem_waiting_list_position#:#Su posici&oacute;n en la lista de espera:
@@ -3491,6 +3523,7 @@ common#:#msg_changes_ok#:#las modificaciones fueron correctamente realizadas
 common#:#msg_clear_clipboard#:#Portapapeles limpiado
 common#:#msg_cloned#:#objeto(s) seleccionados copiados.
 common#:#msg_copy_clipboard#:#objeto(s) seleccionados almacenados en el portapapeles (Acción: copiar)
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".
 common#:#msg_cut_clipboard#:#objeto(s) seleccionados almacenados en el portapapeles (Acción: cortar)
 common#:#msg_cut_copied#:#objeto(s) seleccionados movidos.
 common#:#msg_deleted_export_files#:#Exportar archivo(s) borrados
@@ -3501,7 +3534,7 @@ common#:#msg_deleted_rolt#:#Plantilla de Rol eliminada
 common#:#msg_deleted_rolts#:#Plantillas de Rol eliminadas
 common#:#msg_error_copy#:#Error en la Copia
 common#:#msg_failed#:#lo siento, la acción falló
-common#:#msg_form_save_error#:#Los datos del formulario no pueden ser almacenados. Por favor, compruebe los campos de entrada en busca de otros mensajes de error.
+common#:#msg_form_save_error#:#Los datos del formulario no pueden ser almacenados. Por favor, compruebe los campos de entrada para encontrar los mensajes de error
 common#:#msg_input_does_not_match_regexp#:#Por favor introduzca un valor válido.
 common#:#msg_input_either_file_or_url#:#Tiene que ofrecer una URL o fichero
 common#:#msg_input_is_required#:#Esta entrada es requerida. Por favor introduzca un valor.
@@ -3631,6 +3664,7 @@ common#:#no_license_available#:#Ninguna licencia disponible!
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
 common#:#no_local_users#:#No hay usuario local
+common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
 common#:#no_objects#:#no hay objetos
 common#:#no_owner#:#Ningún propietario
 common#:#no_parent_access#:#No tiene acceso al contenedor de nivel superior!
@@ -3678,7 +3712,7 @@ common#:#obj_adve#:#Edición Avanzada
 common#:#obj_adve_desc#:#Configuración de administración para edición avanzada (JavaScript Rich Text Editors, soporte LaTeX, etc...)
 common#:#obj_alm#:#Módulo de aprendizaje AICC
 common#:#obj_assf#:#Tests
-common#:#obj_assf_desc#:#Configuración de registro de Test&Assessment
+common#:#obj_assf_desc#:#Configuración de registro de Test y Evaluaciones
 common#:#obj_auth#:#Autenticación y Registro
 common#:#obj_auth_desc#:#Configure su modo de autenticación (local, LDAP, ...) y la configuración de nueva cuenta aquí.
 common#:#obj_calendar#:#Calendario
@@ -3707,7 +3741,7 @@ common#:#obj_exc_duplicate#:#Copiar Actividad
 common#:#obj_exc_select#:#-- Por favor seleccione una Actividad --
 common#:#obj_extt#:#Software Externo
 common#:#obj_extt_desc#:#Configurar software externo o servicios soportados por ILIAS
-common#:#obj_facs#:#File Access
+common#:#obj_facs#:#Acceso a Fichero
 common#:#obj_facs_desc#:#Configurar acceso a archivos
 common#:#obj_feed#:#Feed
 common#:#obj_file#:#Archivo
@@ -3736,7 +3770,7 @@ common#:#obj_lngf#:#Administración de idiomas
 common#:#obj_lngf_desc#:#Gestione sus idiomas del sistema aquí
 common#:#obj_lo#:#Objeto de Aprendizaje
 common#:#obj_lrss#:#Recursos de aprendizaje
-common#:#obj_lrss_desc#:#Configurar todos los tipos de módulos de aprendeizaje
+common#:#obj_lrss_desc#:#Configurar todos los tipos de módulos de aprendizaje
 common#:#obj_mail#:#Configuración de Correo
 common#:#obj_mail_desc#:#Configure sus opciones globales de correo aquí.
 common#:#obj_mcst#:#MediaCast
@@ -3889,6 +3923,7 @@ common#:#online_version#:#versión online
 common#:#open_views_inside_frameset#:#Abrir vistas dentro del 'frameset'
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
+common#:#option#:#Option
 common#:#options#:#Opciones
 common#:#options_for_subobjects#:#Opciones para subobjetos
 common#:#order_by#:#ordenar por
@@ -4017,6 +4052,17 @@ common#:#profile_changed#:#[ILIAS] - Su perfil ha cambiado
 common#:#profile_incomplete#:#Su perfil está incompleto. Por favor rellene todos los datos requeridos.
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propiedades
+common#:#proxy#:#Proxy
+common#:#proxy_connectable#:#Connection established.
+common#:#proxy_host#:#Host
+common#:#proxy_host_info#:#Please enter a host.
+common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
+common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+common#:#proxy_port#:#Port
+common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
+common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
+common#:#proxy_status#:#Proxy
+common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
 common#:#ps_edit_permission#:#Modificar Configuración de Permisos
 common#:#ps_export_member_data#:#El usuario puede Exportar Datos de Miembros
 common#:#ps_read#:#Acceso de Lectura a Configuración de Privacidad/Seguridad
@@ -4093,7 +4139,7 @@ common#:#repeat_scan_failed#:#Repetir el escaneo falló.
 common#:#repeat_scan_succeded#:#Repetir el escaneo tuvo éxito.
 common#:#replace_file#:#Reemplazar archivo
 common#:#reply#:#responder
-common#:#repository#:#Contenidos
+common#:#repository#:#Espacios
 common#:#repository_admin#:#Contenidos, Papelera y Permisos
 common#:#repository_admin_desc#:#Configurar permisos para items de Contenidos, restaurar o eliminar objetos de la Papelera del sistema
 common#:#repository_frame#:#Sección Contenidos
@@ -4324,6 +4370,8 @@ common#:#shib_language#:#Atributo para lenguaje
 common#:#shib_lastname#:#Atributo para apellido
 common#:#shib_login#:#Atributo Shibboleth único
 common#:#shib_login_button#:#Ruta de la imagen 'Botón de login Shibboleth' que se usará para redirigir los usuariosto al WAYF especificado en la configuración Shibboleth
+common#:#shib_login_embedded_wayf#:#Design custom login area
+common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.
 common#:#shib_login_external_wayf#:#Usar servicio WAYF externo
 common#:#shib_login_internal_wayf#:#Usar servicio WAYF ILIAS
 common#:#shib_login_type#:#Selección de organización
@@ -4467,7 +4515,7 @@ common#:#systemcheck_cron#:#Proceso de comprobación del sistema en Cronjob
 common#:#systemcheck_cronform#:#Activación del sistema de comprobación en Cronjob
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
 common#:#tabs#:#Tabs
-common#:#tagging_my_tags#:#Mis Etiquetas
+common#:#tagging_my_tags#:#Mis etiquetas
 common#:#tags_edit_permission#:#Cambiar permisos
 common#:#tags_read#:#Acceso de lectura a ajustes de etiquetado
 common#:#tags_visible#:#Configuraci&oacute;n de Etiquetado Visible
@@ -4539,7 +4587,7 @@ common#:#tracking_data_deleted#:#Datos de seguimiento eliminados
 common#:#tracking_settings#:#Configuración de Seguimiento
 common#:#translation#:#Traducción
 common#:#trash#:#papelera
-common#:#tree#:#Tree
+common#:#tree#:#Árbol
 common#:#tree_frame#:#Marco árbol
 common#:#tree_frame_info#:#Define si el marco de árbol (e.g. árbol de contenidos/administración) debe aparecer a la izquierda o a la derecha
 common#:#tree_left#:#Izquierda
@@ -4678,7 +4726,7 @@ common#:#userfolder_export_xml#:#XML
 common#:#username#:#Usuario
 common#:#users#:#usuarios
 common#:#users_not_imported#:#Los siguientes usuarios no existen,sus mensajes no pueden ser importados
-common#:#users_online#:#Usuarios on-line
+common#:#users_online#:#Usuarios conectados
 common#:#users_online_show_associated#:#Mostrar miembros de mis cursos y grupos únicamente
 common#:#users_online_show_n#:#No mostrar usuarios activos
 common#:#users_online_show_short_associated#:#Tan sólo cursos y miembros de grupo
@@ -4767,9 +4815,9 @@ common#:#webfolder_dir_info#:#Lleg&oacute; aqu&iacute; porque su navegador no pu
 common#:#webfolder_index_of#:#&Iacute;ndice de %1$s
 common#:#webfolder_instructions#:#Instrucciones de Carpeta Web
 common#:#webfolder_instructions_info#:#Las instrucciones de la Carpeta Web son mostradas en navegadores que no pueden abrir una Carpeta Web directamente. Puede usar c&oacute;digo HTML y los siguientes marcadores de posici&oacute;n:<br /><b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Borre el campo para obtener las instrucciones por defecto.
-common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
+common#:#webfolder_instructions_text#:#<p>Seguir las siguientes instrucciones para abrir <b>[WEBFOLDER_TITLE]</b> como una carpeta web:</p>[IF_WINDOWS]<h3>Instrucciones para Windows XP con Internet Explorer</h3><ol><li>Abrir Internet Explorer</li><li>Seleccionar la opción de menú 'Archivo &gt; Abrir...'</li><li>En el campo 'Abrir' introducir la siguiente dirección:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Seleccionar la opción 'Abrir como carpeta web' y pulsar 'Aceptar'.</li><li>Introducir usuario, clave de acceso y pulsar 'Aceptar'.</li></ol><h3>Instrucciones para Windows XP sin Internet Explorer</h3><ol><li>Hacer Doble-click en el icono 'Mis sitios de red' en el escritorio.</li><li>Pulsar en 'Añadir sitio de red' en el menú  'Taréas de red' en la izquierda de la ventana.</li><li>Se abrirá el asistente 'Agregar un sitio de red' y pulsar 'Siguiente'.</li><li>Seleccionar la opción 'Elegir otra ubicación de red' y pulsar 'Siguiente'.<li>En el campo 'Dirección de red o Internet' introducir<br/><b>[WEBFOLDER_URI]</b><br/> y seleccionar 'Siguiente'.</li><li>Introducir nombre de usuario, clave y pulsar 'Aceptar'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instrucciones para Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instrucciones para Linux usando Konqueror</h3><ol><li>Arrancar el navegador Konqueror</li><li>En la barra de dirección introducir la siguiente url:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Pulsar Enter.</li><li>Introducir usuario, clave y pulsar 'OK'.</li></ol><h3>Instrucciones para Linux con Nautilus</h3><ol><li>Arrancar el navegador Nautilus</li><li>En la barra de dirección introducir la url:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Pulsar la tecla Enter.</li><li>Introducir el nombre del usuario, la clave y pulsar 'OK'.</li></ol>[/IF_LINUX]<p>Si no puede abrir la carpeta web, por favor, contacte con <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#Abrir %1$s como carpeta web
-common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.
+common#:#webfolder_mount_dir_with#:#Abrir esta página como carpeta web con <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">otro navegador</a>.
 common#:#webr#:#Recurso Web
 common#:#webr_active#:#Activo
 common#:#webr_add#:#Añadir Recurso Web
@@ -4817,7 +4865,7 @@ common#:#wiki_write#:#Cambiar propiedades wiki, calificar alumnos
 common#:#with#:#con
 common#:#wizard_search_list#:#Su búsqueda produjo los siguientes resultados. Por favor seleccione uno.
 common#:#wizard_title_info#:#Por favor introduzca el título del objeto que quiere duplicar.
-common#:#write#:#escritura
+common#:#write#:#configurar
 common#:#wrong_ip_detected#:#Su acceso ha sido denegado por una IP cliente incorrecta.<br>Por favor contacte al administrador del sistema.
 common#:#year#:#año
 common#:#years#:#Años
@@ -4868,7 +4916,7 @@ content#:#cont_annex#:#Anexo
 content#:#cont_api_adapter#:#Nombre de adaptador API
 content#:#cont_api_func_prefix#:#Prefijo de las funciones del API
 content#:#cont_areas_deleted#:#Áreas de mapa eliminadas
-content#:#cont_assign_characteristic#:#Asignar Característicia
+content#:#cont_assign_characteristic#:#Formatear párrafo
 content#:#cont_assign_full#:#Asignar Pantalla Completa
 content#:#cont_assign_std#:#Asignar Vista estándar
 content#:#cont_assign_translation#:#Asignar traducción
@@ -4920,10 +4968,10 @@ content#:#cont_click_tl_corner#:#Por favor haga click en la izquierda superior i
 content#:#cont_Code#:#Código
 content#:#cont_colspan#:#Col. Span
 content#:#cont_confirm_delete#:#¿Desea realmente eliminar?
-content#:#cont_constrain_proportions#:#Constrain Proportions
+content#:#cont_constrain_proportions#:#Mantener Proporciones
 content#:#cont_content#:#Contenido
 content#:#cont_content_obj#:#-Contenido Objeto-
-content#:#cont_contents#:#Contenidos
+content#:#cont_contents#:#Espacios
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_object#:#copiar objeto
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
@@ -5018,7 +5066,7 @@ content#:#cont_ed_insert_pcqst#:#Insertar Pregunta
 content#:#cont_ed_insert_plach#:#Insertar Marcador
 content#:#cont_ed_insert_repobj#:#Insertar lista de recursos
 content#:#cont_ed_insert_section#:#Insertar sección
-content#:#cont_ed_insert_tabs#:#Insertar tabulaciones
+content#:#cont_ed_insert_tabs#:#Insertar Desplegable
 content#:#cont_ed_item_down#:#Mover item abajo
 content#:#cont_ed_item_up#:#Mover item arriba
 content#:#cont_ed_list#:# Lista avanzada
@@ -5109,6 +5157,9 @@ content#:#cont_fullscreen#:#Pantalla Completa
 content#:#cont_general_properties#:#Propiedades generales
 content#:#cont_get_link#:#obtener enlace
 content#:#cont_get_orig_size#:#Establecer tamaño original
+content#:#cont_glo_assign#:#Assign Glossary
+content#:#cont_glo_create#:#Create Glossary
+content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_menu#:#Men&uacute;
 content#:#cont_glo_properties#:#Propiedades del Glosario
 content#:#cont_header#:#Cabecera
@@ -5206,7 +5257,7 @@ content#:#cont_lk_term_new#:#Término de Glosario (Nuevo Marco)
 content#:#cont_lm_default_layout#:#Fondo por defecto en Módulo de aprendizaje
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
-content#:#cont_LocalFile#:#Archivo Local
+content#:#cont_localfile#:#Fichero Local
 content#:#cont_location#:#Localizaci&oacute;n
 content#:#cont_lrs_settings#:#Configuración
 content#:#cont_lvalue#:#-Datos-
@@ -5265,7 +5316,7 @@ content#:#cont_nr_row_footer#:#Filas del pie de página
 content#:#cont_nr_row_header#:#Filas de la cabecera
 content#:#cont_nr_rows#:#Número de Filas
 content#:#cont_Number#:#Número
-content#:#cont_number_of_tabs#:#Tabulaciones de n&uacute;meros
+content#:#cont_number_of_tabs#:#Número de pestañas
 content#:#cont_number_std#:#Estándar
 content#:#cont_number_type#:#Número de tipo
 content#:#cont_numbered_list#:#Lista numerada
@@ -5299,7 +5350,7 @@ content#:#cont_pc_code#:#Código
 content#:#cont_pc_deleted#:#Contenidos eliminados
 content#:#cont_pc_dtab#:#Tabla de datos
 content#:#cont_pc_flist#:#Lista de archivos
-content#:#cont_pc_hacc#:#Acordeón (Horizontal)
+content#:#cont_pc_hacc#:#Desplegable (Horizontal)
 content#:#cont_pc_incl#:#Segmento del contenido
 content#:#cont_pc_list#:#Lista avanzada
 content#:#cont_pc_map#:#Mapa
@@ -5311,7 +5362,7 @@ content#:#cont_pc_qst#:#Pregunta
 content#:#cont_pc_res#:#Recursos
 content#:#cont_pc_sec#:#Sección
 content#:#cont_pc_tab#:#Tabla avanzada
-content#:#cont_pc_vacc#:#Acordeón (Vertical)
+content#:#cont_pc_vacc#:#Desplegable (Vertical)
 content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
@@ -5431,10 +5482,12 @@ content#:#cont_set_width#:#Configurar Anchura
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
 content#:#cont_show_citation#:#Mostrar con cita
+content#:#cont_show_info#:#Mostrar información
 content#:#cont_show_line_numbers#:#Mostrar números de línea
 content#:#cont_show_print_view#:#Mostrar vista de impresión
 content#:#cont_size#:#Tamaño
 content#:#cont_skip_chapter#:#Saltar este capítulo
+content#:#cont_snippets_used#:#Fragmentos de contenido usados
 content#:#cont_source#:#Fuente
 content#:#cont_span#:#Espacio
 content#:#cont_Special#:#Especial
@@ -5472,8 +5525,8 @@ content#:#cont_table_spreadsheet_import_info#:#Pegar tabla desde aplicación de 
 content#:#cont_table_width#:#Ancho de tabla
 content#:#cont_TableContent#:#Tabla de Contenidos
 content#:#cont_tabs#:#Tabs
-content#:#cont_tabs_acc_hor#:#Acordeón horizontal
-content#:#cont_tabs_acc_ver#:#Acordeón vertical
+content#:#cont_tabs_acc_hor#:#Desplegable horizontal
+content#:#cont_tabs_acc_ver#:#Desplegable vertical
 content#:#cont_tabs_accordion#:#Acordeón
 content#:#cont_tabs_confirm_deletion#:#¿Estás seguro que todas las pestañas y su contenido debe ser borrado?
 content#:#cont_tabs_hor_align_info#:#El acordeón horizontal siempre se alineará a la izquierda.
@@ -5521,7 +5574,7 @@ content#:#cont_update_resources#:#Actualizar lista de recursos
 content#:#cont_update_section#:#Actualizar secci&oacute;n
 content#:#cont_update_tabs#:#Actualizar tabulaciones
 content#:#cont_upload_dir#:#Directorio de Subida
-content#:#cont_upload_dir_info#:#El directorio del servidor desde donde se copian y suben los SCORM y paquetes HTML. Sólo administradores de ILIAS verán podrán ver la lista de archivos de este directorio. Por favor, introduzca una ruta completa del servidor sin la barra final.
+content#:#cont_upload_dir_info#:#Directorio del servidor se pueden colocar módulos SCORM y HTML en vez de subirlos. Sólo administradores de ILIAS verán podrán ver la lista de archivos de este directorio. Por favor, introduzca una ruta completa del servidor sin la barra final.
 content#:#cont_upload_file#:#Cargar Archivo
 content#:#cont_uploaded_file#:#Archivo existente.
 content#:#cont_url#:#URL
@@ -5547,7 +5600,9 @@ content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#dgl_pagebreak#:#Salto de página
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Los siguientes recursos enlazando a ese término
+content#:#glo_usages#:#Glossary is used in...
 content#:#HTML export#:#exportar a HTML
+content#:#HTML_export#:#exportar a HTML
 content#:#import_sco_object#:#Importar SCO
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -5563,11 +5618,14 @@ content#:#msg_page_no_public_access#:#La página solicitada no está disponible 
 content#:#msg_page_not_public#:#La página no es pública
 content#:#Pages#:#Páginas
 content#:#pages from#:#Páginas Desde
+content#:#pages_from#:#Páginas Desde
 content#:#par#:#Párrafo
 content#:#PDF export#:#exportar a PDF
+content#:#PDF_export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
+content#:#read_offline#:#Leer Offline
 content#:#saved_media_object#:#Objeto Media guardado.
 content#:#scorm_editable#:#Importación editable
 content#:#scorm_editable_comments#:#Sólo funcionan paquetes SCORM 1.2/2004
@@ -5601,6 +5659,7 @@ content#:#seq_toc#:#Desde la tabla de contenidos en la izquierda, escoja una act
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
+content#:#start_export#:#Exportar
 content#:#text_repr#:#Representacion del Texto
 content#:#text_repr_info#:#Usado por el atributo "alt" de imagen
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
@@ -6220,24 +6279,28 @@ dateplaner#:#cal_all_day#:#Todo el día
 dateplaner#:#cal_appointments#:#Cita(s)
 dateplaner#:#cal_apps#:#N&uacute;mero de citas
 dateplaner#:#cal_assigned_appointments#:#Citas asignadas
+dateplaner#:#cal_cache#:#Cache de calendario
+dateplaner#:#cal_cache_disabled#:#Desactivado
+dateplaner#:#cal_cache_enabled#:#Activado
+dateplaner#:#cal_cache_info#:#Si se activa, las citas de calendario en el escritorio personal y en el repositorio se calculan cada x minutos.
 dateplaner#:#cal_cal_details#:#Detalles de calendario
 dateplaner#:#cal_cal_type#:#Tipo de calendario
 dateplaner#:#cal_calendar_color#:#Color
 dateplaner#:#cal_calendar_name#:#Título
 dateplaner#:#cal_category_selection#:#Seleccionar calendario
-dateplaner#:#cal_change_responsible_users#:#Cambiar responsabilidad de usuario
+dateplaner#:#cal_change_responsible_users#:#Cambiar asignación de usuarios
 dateplaner#:#cal_changed_events_header#:#Citas cambiadas
 dateplaner#:#cal_create#:#Crear
 dateplaner#:#cal_created_appointment#:#Crear nuevo cargo.
 dateplaner#:#cal_created_milestone#:#Añadido cita.
 dateplaner#:#cal_created_milestone_resp_q#:#Añadido hito. Por favor, seleecione el usuario para encontrarse con él en la cita.
 dateplaner#:#cal_daily#:#Diario
-dateplaner#:#cal_day_end#:#Día de inicio
+dateplaner#:#cal_day_end#:#Final del día
 dateplaner#:#cal_day_of_month#:#Dia del mes
 dateplaner#:#cal_day_overview#:#Resumen del día
 dateplaner#:#cal_day_s#:#Dia(s)
 dateplaner#:#cal_day_selection#:#Selecciona día
-dateplaner#:#cal_day_start#:#Día de finalización
+dateplaner#:#cal_day_start#:#Comienzo del día
 dateplaner#:#cal_day_week_view#:#Ajustes de vista de Día/Semana
 dateplaner#:#cal_deadline#:#Fecha Finalización
 dateplaner#:#cal_declined#:#Rechazado
@@ -6274,7 +6337,7 @@ dateplaner#:#cal_month_s#:#Mes(es)
 dateplaner#:#cal_month_selection#:#Seleccione Mes
 dateplaner#:#cal_monthly#:#Mensualmente
 dateplaner#:#cal_ms_details#:#Detalles de cita
-dateplaner#:#cal_ms_users_responsible#:#Usuario responsable:
+dateplaner#:#cal_ms_users_responsible#:#Asignado a:
 dateplaner#:#cal_new_app#:#Nueva cita
 dateplaner#:#cal_new_ms#:#Nuevo hito
 dateplaner#:#cal_no_ending#:#Sin fecha de fin
@@ -6284,8 +6347,8 @@ dateplaner#:#cal_on#:#En:
 dateplaner#:#cal_on_the#:#En el:
 dateplaner#:#cal_rec_err_limit#:#Por favor, introduzca un numero valido de responsables.
 dateplaner#:#cal_recurrences#:#Frecuencia
-dateplaner#:#cal_responsible#:#Responsable
-dateplaner#:#cal_save_responsible_users#:#Guardar usuarios responsables
+dateplaner#:#cal_responsible#:#Asignado a:
+dateplaner#:#cal_save_responsible_users#:#Guardar usuarios asignados
 dateplaner#:#cal_search#:#T&eacute;rminos de b&uacute;squeda
 dateplaner#:#cal_search_info_share#:#Por favor indique el nombre del usuario/rol para compartir el calendario.
 dateplaner#:#cal_second#:#Segundo
@@ -6304,6 +6367,11 @@ dateplaner#:#cal_start#:#Inicio
 dateplaner#:#cal_subscription_header#:#Dirección del calendario
 dateplaner#:#cal_subscription_info#:#Por favor, use la siguiente dirección para acceder a tu calendario desde otras aplicaciones. Puedes copiar y pegar esto en otro calendario que soporte el formato iCal.
 dateplaner#:#cal_subscription_url#:#Calendario URL:
+dateplaner#:#cal_sync_cache#:#Cache de calendario
+dateplaner#:#cal_sync_cache_info#:#Si se activa, las citas nuevas o modificadas de calendario se calculan cada x minutos.
+dateplaner#:#cal_sync_disabled#:#Desactivado
+dateplaner#:#cal_sync_enabled#:#Activado
+dateplaner#:#cal_sync_header#:#Ajustes de sincronización
 dateplaner#:#cal_table_categories#:#Seleccionar calendario
 dateplaner#:#cal_task_completion#:#Finalización de la taréa
 dateplaner#:#cal_third#:#Tercero
@@ -6452,6 +6520,7 @@ dateplaner#:#help_text_l#:#Aquí se puede introducir el texto para una cita conc
 dateplaner#:#help_week#:#Vista semanal del calendario
 dateplaner#:#help_week_l#:#En la vista semanal se muestran todas las citas de una semana dada.
 dateplaner#:#hour#:#hora
+dateplaner#:#ical_export#:#Exportación iCal
 dateplaner#:#importDates#:#Importar citas de Outlook
 dateplaner#:#inbox#:#Bandeja de entrada
 dateplaner#:#insertImportDates#:#Las siguientes citas fueron registradas con éxito:
@@ -6625,6 +6694,7 @@ ecs#:#ecs_new_user_profile#:#Datos de perfil de usuario:
 ecs#:#ecs_new_user_subject#:#Nuevo cuenta de usuario ECS
 ecs#:#ecs_no_owner#:#Por favor, seleccione un nombre.
 ecs#:#ecs_no_value#:#No disponible
+ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_notifications#:#Notificaciones
 ecs#:#ecs_participants#:#Participantes
 ecs#:#ecs_participants_infos#:#Información adicional
@@ -6634,6 +6704,7 @@ ecs#:#ecs_port#:#Puerto
 ecs#:#ecs_protocol#:#Protocolo
 ecs#:#ecs_publish_as#:#Publicado por:
 ecs#:#ecs_publish_for#:#Release:
+ecs#:#ecs_published_for#:#Published for
 ecs#:#ecs_rcrs_created_body_a#:#Un nuevo curso remoto  ha sido creado:
 ecs#:#ecs_read_remote_links#:#Actualizar cursos remotos
 ecs#:#ecs_released#:#Exportar
@@ -6648,6 +6719,65 @@ ecs#:#ecs_tbl_active_rules#:#Reglas de activación para asignación de categorí
 ecs#:#ecs_unique_id#:#Participant-ID
 ecs#:#ecs_user_rcp#:#Notificaci&oacute;n de usuarios ECS
 ecs#:#ecs_user_rcp_info#:#Introduzca uno o mas nombres de usuario (separados por coma) que seran informados acerca de los nuevos usuarios ECS por e-mail.
+exc#:#exc_add_assignment#:#Add Assignment
+exc#:#exc_add_feedback_file#:#Add Feedback File
+exc#:#exc_add_participant#:#Add Participant
+exc#:#exc_assignment#:#Assignment
+exc#:#exc_assignment_view#:#Assignment View
+exc#:#exc_assignments#:#Assignments
+exc#:#exc_assignments_deleted#:#The assignments have been deleted.
+exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?
+exc#:#exc_deadline#:#Deadline
+exc#:#exc_edit_assignment#:#Edit Assignment
+exc#:#exc_edit_assignments#:#Edit Assignments
+exc#:#exc_edit_submission#:#Edit Submission
+exc#:#exc_ended_on#:#Ended On
+exc#:#exc_export_excel#:#Export (Excel)
+exc#:#exc_fb_files#:#Feedback Files
+exc#:#exc_grades#:#Grades Overview
+exc#:#exc_grades_overview#:#Grades View
+exc#:#exc_hand_in#:#Hand In
+exc#:#exc_list_submission#:#List All Submissions
+exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:
+exc#:#exc_manage#:#Manage
+exc#:#exc_mandatory#:#Mandatory
+exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.
+exc#:#exc_min_nr#:#Number of Assignments
+exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
+exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
+exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
+exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
+exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
+exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
+exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.
+exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
+exc#:#exc_msg_saved_grades#:#Grades have been saved.
+exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!
+exc#:#exc_new_assignment#:#New Assignment
+exc#:#exc_no_participants#:#There are currently no participants.
+exc#:#exc_order_by_deadline#:#Order by Deadline
+exc#:#exc_overview#:#Overview
+exc#:#exc_participant#:#Participant
+exc#:#exc_participant_view#:#Participant View
+exc#:#exc_pass_all#:#All Mandatory Assignments
+exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.
+exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments
+exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.
+exc#:#exc_pass_mode#:#Pass Mode
+exc#:#exc_presentation_order#:#Presentation Order
+exc#:#exc_public_submission#:#Public Submissions
+exc#:#exc_save_order#:#Save Order
+exc#:#exc_saved_order#:#Saved presentation order.
+exc#:#exc_select_ass#:#Select Assignment
+exc#:#exc_select_part#:#Select Participant
+exc#:#exc_send_assignment#:#Send Assignment by Mail
+exc#:#exc_show_submissions#:#Publish Submissions after Deadline
+exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.
+exc#:#exc_start_time#:#Start Time
+exc#:#exc_starting_on#:#Starting On
+exc#:#exc_submissions_and_grades#:#Submissions & Grades
+exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
+exc#:#exc_total_exc#:#Total Exercise
 exercise#:#exc_comment#:#Comentario
 exercise#:#exc_comment_for_learner#:#Comentario para el Alumno
 exercise#:#exc_crs_add_members#:#Añadir estudiantes de este curso
@@ -6659,6 +6789,13 @@ exercise#:#exc_notgraded#:#No calificado
 exercise#:#exc_passed#:#Superado
 exercise#:#exc_send_mail#:#Enviar Mail
 exercise#:#exc_your_submission#:#Enviar actividad
+exp#:#exp_create_file#:#Create Export File
+exp#:#exp_export_files#:#Export Files
+exp#:#exp_html#:#HTML
+exp#:#exp_really_delete#:#Do you really want to delete these export files?
+exp#:#exp_scorm#:#SCORM
+exp#:#exp_select_max_one_item#:#Please select only one item.
+exp#:#exp_xml#:#XML
 export#:#export_create#:#Crear
 export#:#export_create_new_file#:#Crear nuevo archivo de exportación
 export#:#export_export_date#:#Fecha de exportación
@@ -6806,6 +6943,7 @@ forum#:#frm_moderators_search_query#:#Términos de búsqueda:
 forum#:#frm_moderators_select_at_least_one#:#Por favor, elija al menos un moderador.
 forum#:#frm_moderators_select_one#:#Por favor, elija un usuario.
 forum#:#frm_post_not_activated_yet#:#No activado todav&iacute;a.
+forum#:#frm_pseudonym#:#Seudónimo
 forum#:#frm_purifier_not_implemented_for_type_x#:#Depurador del tipo %s no implementado aún.
 forum#:#frm_statistics#:#Estad&iacute;sticas
 forum#:#frm_statistics_disabled_for_participants#:#Las estadísticas están deshabilitadas para miembros del foro.
@@ -6944,6 +7082,7 @@ grp#:#grp_reg_request_info#:#Los usuarios interesados pueden enviar un mensaje d
 grp#:#grp_reg_start#:#Inicio de registro:
 grp#:#grp_reg_subject#:#Mensaje
 grp#:#grp_registration_unlimited#:#Período de registro ilimitado
+grp#:#grp_reject_subscriber#:#Rechazado en grupo "%s"
 grp#:#grp_search_users#:#Búsqueda de Usuarios.
 grp#:#grp_select_one_file#:#Por favor seleccione un fichero.
 grp#:#grp_selected_users#:#Participantes seleccionados
@@ -7172,7 +7311,7 @@ license#:#license_counter#:#Contador de Licencias
 license#:#license_counter_info#:#Permite contar las licencias usadas de módulos de aprendizaje SCORM y HTML comprados.
 license#:#license_updated#:#los datos de licencia fueron actualizados.
 license#:#license_warning#:#Aviso de licencia.
-license#:#license_warning_info#:#Por encima de este número, cada vez que un nuevo usuario entre en el curso aparecerá una advertencia.
+license#:#license_warning_info#:#Cuando el número de licencias disponibles para un objeto está por debajo de este número, se muestra una advertencia cuando un usuario entra al curso
 license#:#potential_accesses#:#Accesos potenciales.
 license#:#potential_accesses_explanation#:#Todo usuario con acceso de lectura que no ha accedido hasta la fecha cuenta como una posibilidad de acceso.
 license#:#remaining_licenses#:#Licencias disponibles
@@ -7328,7 +7467,7 @@ mail#:#mail_user_addr_n_valid#:#Los siguientes usuarios no tienen una dirección
 mail#:#placeholders_advise#:#Las variables sólo se resuelven para destinatarios en el campo To.%s Destinatarios en el campo CC y BCC tendrán variables no resueltas.
 mail#:#search_bc_recipient#:#Buscar Destinatario BC
 mail#:#search_cc_recipient#:#Buscar Destinatario CC
-mail#:#search_recipients#:#Buscar destinatarios.
+mail#:#search_recipients#:#Buscar destinatarios
 mail#:#send_mail_to#:#Enviar correo a
 mcst#:#mcst_add_new_item#:#Añadir nuevo item de Media Cast
 mcst#:#mcst_audioportable_settings_info#:#Lista separada por comas de sufijos de fichero
@@ -7379,8 +7518,10 @@ mcst#:#mcst_visibility_public#:#P&uacute;blico
 mcst#:#mcst_visibility_users#:#Usuarios conectados
 mep#:#mep_all#:#Todos
 mep#:#mep_all_mobs#:#Todos los objetos Media
+mep#:#mep_clone#:#Clone an existing media pool
 mep#:#mep_content_snippet_in_use#:#Parte del contenido '%s' está en uso y no puede ser eliminado.
 mep#:#mep_copy_to_mep#:#Copias a repositorio multimedia
+mep#:#mep_create#:#Create a new media pool
 mep#:#mep_create_content_snippet#:#Crear fragmento de contenido.
 mep#:#mep_create_folder#:#Crear carpeta
 mep#:#mep_create_mob#:#Crear objeto Media
@@ -7392,6 +7533,7 @@ mep#:#mep_edit_folder#:#Editar carpeta
 mep#:#mep_folder#:#Carpeta
 mep#:#mep_folder_content#:#Carpeta de contenido
 mep#:#mep_format#:#Formato
+mep#:#mep_import#:#Import a media pool
 mep#:#mep_new_content_snippet#:#Nuevo fragmento de contenido
 mep#:#mep_new_folder#:#Nueva carpeta
 mep#:#mep_page_created#:#Fragmento de contenido creado.
@@ -7401,7 +7543,9 @@ mep#:#mep_thumbnail#:#Imagen reducida
 mep#:#mep_title_and_description#:#T&iacute;tulo y descripci&oacute;n
 mep#:#mep_unknown#:#Desconocido
 mep#:#mobs_activate_pages#:#Activa gestor de páginas de contenido
-mep#:#mobs_activate_pages_info#:#Permite añadir contenido. Estas páginas pueden ser re-usadas (no editadas) en módulos de aprendizaje, etc.
+mep#:#mobs_activate_pages_info#:#Permite añadir fragmentos de páginas a repositorios multimedia. Estos fragmentos pueden ser re-usados (no editadas) en otros módulos de aprendizaje, etc.
+mep#:#mobs_always_show_file_manager#:#Mostrar siempre el gestor de archivos
+mep#:#mobs_always_show_file_manager_info#:#Si se desactiva, el gestor de archivos para objetos multimedia estará oculto para tipos simples (e.g. imágenes).
 meta#:#md_adv_active#:#Activo
 meta#:#md_adv_add_value#:#Añadir valor
 meta#:#md_adv_added_new_record#:#Nuevo conjunto de datos añadido
@@ -7798,7 +7942,7 @@ meta#:#meta_l_dz#:#bhutani
 meta#:#meta_l_el#:#greek
 meta#:#meta_l_en#:#english
 meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#Español
+meta#:#meta_l_es#:#español
 meta#:#meta_l_et#:#estonian
 meta#:#meta_l_eu#:#basque
 meta#:#meta_l_fa#:#persian (farsi)
@@ -8100,6 +8244,8 @@ notes#:#notes_notes_deleted#:#Las notas han sido borradas.
 notes#:#notes_public_comments#:#Comentarios p&uacute;blicos
 notes#:#notes_show_comments#:#Mostrar comentarios
 payment#:#advanced_search#:#B&uacute;squeda avanzada
+payment#:#coupon_type#:#Coupon-Type
+payment#:#currency#:#Currency
 payment#:#currency_cent#:#Céntimo
 payment#:#currency_euro#:#Euro
 payment#:#delete_addresses_bill#:#Delete Billing addresses
@@ -8115,6 +8261,7 @@ payment#:#import_use_only_textfile#:#Pista: Por favor use un fichero de texto pl
 payment#:#info#:#Información sobre el método de pago
 payment#:#new_topic#:#Nuevo tema
 payment#:#no_topics_yet#:#No topics created yet
+payment#:#no_vendor_selected#:#No se ha seleccionado el vendedor.
 payment#:#object_deleted#:#Objeto borrado
 payment#:#pay_abstract#:#Abstracto
 payment#:#pay_add_to_shopping_cart#:#Añadir al carrito de la compra
@@ -8200,7 +8347,7 @@ payment#:#pay_info_paypal#:#Para pagar aquellos items que están en su carrito d
 payment#:#pay_item_already_in_sc#:#Este objeto ya existe en su carrito de la compra.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. WÃ€hlen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Pago
-payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics
+payment#:#pay_manual_sorting_of_topics#:#Ordenación Manual de los Objetos
 payment#:#pay_max_hits#:#Max hits
 payment#:#pay_max_hits_info#:#Por favor indique el n&uacute;mero m&aacute;ximo para los resultados de la b&uacute;squeda.
 payment#:#pay_message_attachment#:#Como confirmación de su pedido le enviaremos una factura (formato PDF) como adjunto.
@@ -8230,12 +8377,12 @@ payment#:#pay_paypal_success#:#Gracias por comprar objetos en ILIAS usando PayPa
 payment#:#pay_paypal_unreachable#:#La conexión al servidor de pago de PayPal falló.
 payment#:#pay_personal_settings#:#Opciones personales
 payment#:#pay_reset_filter#:#Reiniciar Filtro
-payment#:#pay_save_sorting#:#Save Sorting
+payment#:#pay_save_sorting#:#Guardar Ordenación
 payment#:#pay_select_one_item#:#Por favor seleccione un item
 payment#:#pay_select_price#:#Por favor seleccione una combinación precio/duración
 payment#:#pay_send_order#:#Enviar pedidoi
 payment#:#pay_shopping_cart_empty#:#Su carrito de la compra está vacío.
-payment#:#pay_sorting_value#:#Sorting Value
+payment#:#pay_sorting_value#:#Valor de Ordenación
 payment#:#pay_starting#:#comienza con
 payment#:#pay_step1#:#Su pedido - Paso 1/3: Introduzca su información personal
 payment#:#pay_step2#:#Su pedido - Paso 2/3: Elija la forma de pago
@@ -8525,6 +8672,7 @@ payment#:#price_a#:#Precio
 payment#:#price_from#:#de
 payment#:#prices#:#Precios
 payment#:#reset_filter#:#Resetear Filtros
+payment#:#search_in_title#:#Search in title
 payment#:#select_one_topic#:#Por favor seleccione al menos un tema
 payment#:#set_filter#:#Ajustar Filtro
 payment#:#shop_info#:#Información de la Tienda
@@ -8618,6 +8766,7 @@ ps#:#ps_error_message_invalid_password_min_length#:#El tama&ntilde;o m&iacute;ni
 ps#:#ps_error_message_password_max_less_min#:#El tama&ntilde;o m&aacute;ximo de la contrase&ntilde;a no puede ser menor que el tama&ntilde;o m&iacute;nimo.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#El tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a no puede ser menor que 2 si la contrase&ntilde;a debe tener n&uacute;meros y car&aacute;cteres.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#El tamaño mínimo de la contraseña, no podrá ser inferior a 3 si la contraseña tiene que contener caracteres, números y caracteres especiales.El tamaño mínimo de la contraseña no podrá ser inferior a 3 si la contraseña tiene que contener caracteres, números y caracteres especiales.
+ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#El tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a no debe ser menor que 3 si la &eacute;sta contiene caracteres, n&uacute;meros y caracteres especiales.
 ps#:#ps_export_admin#:#Administradores
 ps#:#ps_export_confirm#:#Confirmación de Usuario al Entrar a los Cursos
 ps#:#ps_export_course#:#Exportación Avanzada de Datos del Perfil de Usuario en Cursos
@@ -8646,7 +8795,7 @@ ps#:#ps_password_max_age_info#:#Establece la caducidad máxima de la clave en d�
 ps#:#ps_password_max_length#:#Tama&ntilde;o m&aacute;ximo de la contrase&ntilde;a
 ps#:#ps_password_max_length_info#:#Establece el tamaño máximo de clave. El valor 0 desactiva esta opción
 ps#:#ps_password_min_length#:#Tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a
-ps#:#ps_password_min_length_info#:#Establece el tamaño mínimo de clave. Si se establece a 0, el tamaño al menos deberá ser de un carácter
+ps#:#ps_password_min_length_info#:#Estab lece el tamaño mínimo de clave. Si se establece a 0, el tamaño al menos deberá ser de un carácter
 ps#:#ps_password_special_chars_enabled#:#Caracteres especiales
 ps#:#ps_password_special_chars_enabled_info#:#Si esta activado, las contrase&ntilde;as pueden contener car&aacute;cteres especiales.
 ps#:#ps_perform_export#:#Iniciar Exportación CSV
@@ -8883,6 +9032,25 @@ rep#:#rep_intro3#:#Haga click en el botón<i>%s</i> junto a la lista desplegable
 rep#:#rep_intro4#:#En el siguiente formulario, introduzca un título y una descripción, y haga click en <i>%s</i>.
 rep#:#rep_intro5#:#Haciendo click en el título de la categoría puedes entrar dentro de la misma
 rep#:#rep_intro6#:#Después de ese procedimiento puedes añadir cualquier recurso de aprendizaje o trabajo a tus categorías.
+rep_robj_xavc#:#rep_robj_xavc_cancel#:#Cancelar
+rep_robj_xavc#:#rep_robj_xavc_content#:#Contenido
+rep_robj_xavc#:#rep_robj_xavc_description#:#Descripcion
+rep_robj_xavc#:#rep_robj_xavc_edit#:#Editar
+rep_robj_xavc#:#rep_robj_xavc_edit_properties#:#Editar Propiedades
+rep_robj_xavc#:#rep_robj_xavc_end_date#:#Fecha de Finalización
+rep_robj_xavc#:#rep_robj_xavc_obj_xavc#:#Clase Virtual
+rep_robj_xavc#:#rep_robj_xavc_obj_xavc_duplicate#:#Copiar
+rep_robj_xavc#:#rep_robj_xavc_obj_xavc_select#:#Seleccionar Clase Virtual
+rep_robj_xavc#:#rep_robj_xavc_objs_xavc#:#Clases Virtuales
+rep_robj_xavc#:#rep_robj_xavc_objs_xavc_duplicate#:#Copiar Clase Virtual
+rep_robj_xavc#:#rep_robj_xavc_offline#:#Offline
+rep_robj_xavc#:#rep_robj_xavc_properties#:#Propiedades
+rep_robj_xavc#:#rep_robj_xavc_save#:#Guardar
+rep_robj_xavc#:#rep_robj_xavc_start_date#:#Fecha de Comienzo
+rep_robj_xavc#:#rep_robj_xavc_status#:#Estado
+rep_robj_xavc#:#rep_robj_xavc_title#:#Título
+rep_robj_xavc#:#rep_robj_xavc_xavc_add#:#Añadir Clase Virtual
+rep_robj_xavc#:#rep_robj_xavc_xavc_new#:#Añadir nueva Clase Virtual
 sahs#:#sahs_chapter#:#Cápitulo
 sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Por favor, seleccione solamente páginas, SCO o capítulos.
 sahs#:#sahs_insert_chapter#:#Insertar Capítulo
@@ -9651,6 +9819,7 @@ survey#:#qpl_unfold_select_none#:#Por favor seleccione al menos un bloque de pre
 survey#:#question_contains_no_categories#:#No hay respuetas definidas para esta pregunta
 survey#:#question_has_constraints#:#Restricciones
 survey#:#question_icon#:#Icono de pregunta
+survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
 survey#:#question_mr_not_checked#:#Por favor marque al menos una de las respuestas ofrecidas
 survey#:#question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#question_obligatory#:#¡La pregunta es obligatoria!
@@ -9801,6 +9970,7 @@ survey#:#use_anonymous_id_desc#:#Si se activa, el nombre de usuario en encuestas
 survey#:#use_browser_print_function#:#Por favor use la opción de impresión de su navegador Web.
 survey#:#use_google_chart_api#:#Utilizar Google Chart API
 survey#:#use_google_chart_api_desc#:#Si está activada, los gráficos en los detalles de los resultados acumulados de las estadísticas de la encuesta se dibuja con el <a href="http://code.google.com/apis/chart/" target="_blank"> Google Chart API </ a >. Tenga en cuenta que una conexión permanente a Internet es necesario para el API Google Chart para trabajar
+survey#:#use_other_answer#:#Open answer
 survey#:#used#:#usado
 survey#:#users_answered#:#Usuarios respondieron
 survey#:#users_invited#:#%s usuarios han sido invitados
@@ -10046,7 +10216,7 @@ trac#:#trac_show_hidden#:#Mostrar
 trac#:#trac_spent_time#:#Tiempo empleado
 trac#:#trac_status#:#Estado
 trac#:#trac_time_passed#:#Tiempo de entrega excedido
-trac#:#trac_title_description#:#Title / Description
+trac#:#trac_title_description#:#Título / Descripción
 trac#:#trac_total_online#:#Tiempo total online
 trac#:#trac_update_edit_user#:#Configuración grabada
 trac#:#trac_updated_status#:#Estado del progreso de aprendizaje guardado.
@@ -10147,7 +10317,7 @@ wiki#:#wiki_random_page#:#P&aacute;gina Aleatoria
 wiki#:#wiki_recent_changes#:#Cambios Recientes
 wiki#:#wiki_search#:#B&uacute;squeda
 wiki#:#wiki_search_results#:#Resultados de la B&uacute;squeda
-wiki#:#wiki_settings#:#Configuraci&oacute; Wiki
+wiki#:#wiki_settings#:#Configuraci&oacute;n Wiki
 wiki#:#wiki_short_title#:#Nombre corto
 wiki#:#wiki_short_title_already_in_use#:#Este t&iacute;tulo ya est&aacute; usado. Por favor seleccione otro t&iacute;tulo.
 wiki#:#wiki_short_title_desc2#:#Este t&iacute;tulo ser&aacute; usado en enlaces a la wiki. Una vez elegido no deber&aacute; cambiar, porque los usuarios no podr&aacute;n usar sus marcadores.
@@ -10158,145 +10328,3 @@ wiki#:#wiki_what_links_here#:#¿Qu&eacute; enlaza aqu&iacute;?
 wiki#:#wiki_what_links_to_page#:#¿Qu&eacute; enlaza a la p&aacute;gina "%s"?
 wiki#:#wiki_wiki_page#:#Página Wiki
 wiki#:#wiki_wiki_search#:#B&uacute;squeda Wiki
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. ###26 03 2010 new variable
-common#:#shib_login_embedded_wayf#:#Design custom login area###26 03 2010 new variable
-common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.###26 03 2010 new variable
-content#:#cont_localfile#:#Local File###26 03 2010 new variable
-common#:#group#:#Group###26 03 2010 new variable
-mep#:#mobs_always_show_file_manager#:#Always Show File Manager###26 03 2010 new variable
-mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###26 03 2010 new variable
-content#:#cont_snippets_used#:#Used Content Snippets###26 03 2010 new variable
-content#:#cont_show_info#:#Show Info###26 03 2010 new variable
-dateplaner#:#cal_sync_header#:#Synchronisation Settings###26 03 2010 new variable
-dateplaner#:#cal_sync_cache#:#Calendar Cache###26 03 2010 new variable
-dateplaner#:#cal_sync_disabled#:#Disabled###26 03 2010 new variable
-dateplaner#:#cal_sync_enabled#:#Enabled###26 03 2010 new variable
-dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.###26 03 2010 new variable
-dateplaner#:#cal_cache#:#Kalender-Cache###26 03 2010 new variable
-dateplaner#:#cal_cache_disabled#:#Disabled###26 03 2010 new variable
-dateplaner#:#cal_cache_enabled#:#Enabled###26 03 2010 new variable
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  ###26 03 2010 new variable
-payment#:#no_vendor_selected#:#No vendor selected. ###26 03 2010 new variable
-dateplaner#:#ical_export#:#iCal Export###26 03 2010 new variable
-forum#:#frm_pseudonym#:#Pseudonym###26 03 2010 new variable
-ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable
-common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
-exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
-common#:#option#:#Option###26 03 2010 new variable
-mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
-mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
-mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
-survey#:#use_other_answer#:#Open answer###26 03 2010 new variable
-survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer###26 03 2010 new variable
-common#:#columns#:#Columns###26 03 2010 new variable
-common#:#proxy#:#Proxy###26 03 2010 new variable
-common#:#proxy_connectable#:#Connection established.###26 03 2010 new variable
-common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###26 03 2010 new variable
-common#:#proxy_status#:#Proxy###26 03 2010 new variable
-common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###26 03 2010 new variable
-common#:#proxy_host#:#Host###26 03 2010 new variable
-common#:#proxy_host_info#:#Please enter a host.###26 03 2010 new variable
-common#:#proxy_port#:#Port###26 03 2010 new variable
-common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###26 03 2010 new variable
-common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###26 03 2010 new variable
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error###26 03 2010 new variable
-payment#:#currency#:#Currency###26 03 2010 new variable
-payment#:#coupon_type#:#Coupon-Type###26 03 2010 new variable
-payment#:#search_in_title#:#Search in title###26 03 2010 new variable
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".###26 03 2010 new variable
-exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
-exp#:#exp_xml#:#XML###26 03 2010 new variable
-exp#:#exp_html#:#HTML###26 03 2010 new variable
-exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
-exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
-exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
-common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
-exc#:#exc_assignments#:#Assignments###26 03 2010 new variable
-exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
-exc#:#exc_deadline#:#Deadline###26 03 2010 new variable
-exc#:#exc_new_assignment#:#New Assignment###26 03 2010 new variable
-exc#:#exc_start_time#:#Start Time###26 03 2010 new variable
-exc#:#exc_mandatory#:#Mandatory###26 03 2010 new variable
-exc#:#exc_pass_mode#:#Pass Mode###26 03 2010 new variable
-exc#:#exc_pass_all#:#All Mandatory Assignments###26 03 2010 new variable
-exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.###26 03 2010 new variable
-exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments###26 03 2010 new variable
-exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.###26 03 2010 new variable
-exc#:#exc_min_nr#:#Number of Assignments###26 03 2010 new variable
-exc#:#exc_save_order#:#Save Order###26 03 2010 new variable
-exc#:#exc_order_by_deadline#:#Order by Deadline###26 03 2010 new variable
-exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?###26 03 2010 new variable
-exc#:#exc_assignments_deleted#:#The assignments have been deleted.###26 03 2010 new variable
-exc#:#exc_presentation_order#:#Presentation Order###26 03 2010 new variable
-exc#:#exc_saved_order#:#Saved presentation order.###26 03 2010 new variable
-exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.###26 03 2010 new variable
-exc#:#exc_show_submissions#:#Publish Submissions after Deadline###26 03 2010 new variable
-exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.###26 03 2010 new variable
-exc#:#exc_edit_assignment#:#Edit Assignment###26 03 2010 new variable
-exc#:#exc_edit_assignments#:#Edit Assignments###26 03 2010 new variable
-exc#:#exc_submissions_and_grades#:#Submissions & Grades###26 03 2010 new variable
-exc#:#exc_assignment_view#:#Assignment View###26 03 2010 new variable
-exc#:#exc_participant_view#:#Participant View###26 03 2010 new variable
-exc#:#exc_grades_overview#:#Grades View###26 03 2010 new variable
-exc#:#exc_select_ass#:#Select Assignment###26 03 2010 new variable
-exc#:#exc_add_participant#:#Add Participant###26 03 2010 new variable
-exc#:#exc_assignment#:#Assignment###26 03 2010 new variable
-exc#:#exc_manage#:#Manage###26 03 2010 new variable
-exc#:#exc_ended_on#:#Ended On###26 03 2010 new variable
-exc#:#exc_starting_on#:#Starting On###26 03 2010 new variable
-exc#:#exc_hand_in#:#Hand In###26 03 2010 new variable
-exc#:#exc_edit_submission#:#Edit Submission###26 03 2010 new variable
-exc#:#exc_send_assignment#:#Send Assignment by Mail###26 03 2010 new variable
-exc#:#exc_select_part#:#Select Participant###26 03 2010 new variable
-exc#:#exc_participant#:#Participant###26 03 2010 new variable
-exc#:#exc_grades#:#Grades Overview###26 03 2010 new variable
-exc#:#exc_overview#:#Overview###26 03 2010 new variable
-exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.###26 03 2010 new variable
-exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.###26 03 2010 new variable
-exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.###26 03 2010 new variable
-exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.###26 03 2010 new variable
-exc#:#exc_total_exc#:#Total Exercise###26 03 2010 new variable
-exc#:#exc_public_submission#:#Public Submissions###26 03 2010 new variable
-exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.###26 03 2010 new variable
-exc#:#exc_list_submission#:#List All Submissions###26 03 2010 new variable
-exc#:#exc_export_excel#:#Export (Excel)###26 03 2010 new variable
-exc#:#exc_add_feedback_file#:#Add Feedback File###26 03 2010 new variable
-exc#:#exc_fb_files#:#Feedback Files###26 03 2010 new variable
-exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".###26 03 2010 new variable
-exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.###26 03 2010 new variable
-exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:###26 03 2010 new variable
-exc#:#exc_msg_saved_grades#:#Grades have been saved.###26 03 2010 new variable
-exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!###26 03 2010 new variable
-exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.###26 03 2010 new variable
-exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.###26 03 2010 new variable
-exc#:#exc_no_participants#:#There are currently no participants.###26 03 2010 new variable
-ecs#:#ecs_published_for#:#Published for:###26 03 2010 new variable
-auth#:#auth_account_migration_name#:#Migration###26 03 2010 new variable
-auth#:#auth_account_migration_keep#:#Migrate Existing User Account###26 03 2010 new variable
-auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new variable
-auth#:#auth_openid#:#OpenId###26 03 2010 new variable
-auth#:#auth_openid_configure#:#Configure OpenId-Authentication###26 03 2010 new variable
-auth#:#auth_openid_enable#:#Enable OpenId Support###26 03 2010 new variable
-auth#:#auth_openid_sync#:#User Synchronization###26 03 2010 new variable
-auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###26 03 2010 new variable
-auth#:#auth_openid_role_select#:#Role:###26 03 2010 new variable
-auth#:#auth_openid_migration#:#Account Migration:###26 03 2010 new variable
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.###26 03 2010 new variable
-common#:#auth_openid#:#OpenId###26 03 2010 new variable
-common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID###26 03 2010 new variable
-content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
-content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
-content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
-content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
-auth#:#auth_openid_settings#:#OpenId Settings###26 03 2010 new variable
-auth#:#auth_openid_provider#:#Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_login#:#Your OpenID###26 03 2010 new variable
-auth#:#auth_openid_provider_tbl#:#OpenID Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_add#:#Add Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_edit#:#Edit Provider###26 03 2010 new variable
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com###26 03 2010 new variable
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
