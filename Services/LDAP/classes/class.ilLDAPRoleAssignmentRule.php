@@ -129,11 +129,18 @@ class ilLDAPRoleAssignmentRule
 				
 				foreach($attribute_val as $value)
 				{
+					if($this->wildcardCompare(trim($this->getAttributeValue()),trim($value)))
+					{
+				 		$ilLog->write(__METHOD__.': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
+						return true;
+					}
+					/*					
 					if(trim($value) == trim($this->getAttributeValue()))
 					{
 				 		$ilLog->write(__METHOD__.': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
 						return true;
 					}
+					*/
 				}
 				return false;
 
@@ -141,6 +148,13 @@ class ilLDAPRoleAssignmentRule
 				return $this->isGroupMember($a_user_data);
 				
 		}
+	}
+	
+	protected function wildcardCompare($a_str1, $a_str2)
+	{
+		$pattern = str_replace('*','.*?', $a_str1);
+		$GLOBALS['ilLog']->write(__METHOD__.': Replace pattern:'. $pattern.' => '.$a_str2);
+		return (bool) preg_match('/^'.$pattern.'$/i',$a_str2);
 	}
 	
 	/**
