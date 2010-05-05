@@ -633,11 +633,7 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			$this->object->sendFile($_GET["hist_id"]);
 		}
-		else
-		{
-			//user_id exists
-			$ilCtrl->redirectByClass('ilrepositorygui'); 
-		}
+
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
 			// BEGIN ChangeEvent: Record read event.
