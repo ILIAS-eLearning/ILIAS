@@ -16,6 +16,8 @@
 */
 class ilPermanentLinkGUI
 {
+	protected $align_center = true;
+	
 	/**
 	* Example: type = "wiki", id (ref_id) = "234", append = "_Start_Page"
 	*/
@@ -147,6 +149,26 @@ class ilPermanentLinkGUI
 	{
 		return $this->title;
 	}
+	
+	/**
+	 * Set center alignment
+	 *
+	 * @param	boolean	align the link at center
+	 */
+	function setAlignCenter($a_val)
+	{
+		$this->align_center = $a_val;
+	}
+	
+	/**
+	 * Get center alignment
+	 *
+	 * @return	boolean	align the link at center
+	 */
+	function getAlignCenter()
+	{
+		return $this->align_center;
+	}
 
 	/**
 	* Get HTML for link
@@ -186,6 +208,15 @@ class ilPermanentLinkGUI
 		$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
 		$tpl->setVariable("LINK", $href);
+		
+		if ($this->getAlignCenter())
+		{
+			$tpl->setVariable("ALIGN", "center");
+		}
+		else
+		{
+			$tpl->setVariable("ALIGN", "left");
+		}
 		
 		if ($this->getTarget() != "")
 		{
