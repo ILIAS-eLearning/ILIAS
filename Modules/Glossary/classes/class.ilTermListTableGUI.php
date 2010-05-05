@@ -41,10 +41,43 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
 		$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		
-		$this->setData($this->glossary->getTermList());
+		$this->initFilter();
+		$this->setData($this->glossary->getTermList($this->filter["term"], "",
+			$this->filter["definition"]));
 		
 	}
 	
+		/**
+	* Init filter
+	*/
+	function initFilter()
+	{
+		global $lng, $rbacreview, $ilUser, $ilDB;
+		
+		// term
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($lng->txt("cont_term"), "term");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$ti->setSubmitFormOnEnter(true);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();
+		$this->filter["term"] = $ti->getValue();
+		
+		// definition
+		if ($ilDB->getDBType() != "oracle")
+		{
+			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+			$ti = new ilTextInputGUI($lng->txt("cont_definition"), "defintion");
+			$ti->setMaxLength(64);
+			$ti->setSize(20);
+			$ti->setSubmitFormOnEnter(true);
+			$this->addFilterItem($ti);
+			$ti->readFromSession();
+			$this->filter["definition"] = $ti->getValue();
+		}
+	}
+
 	/**
 	 * Fill table row
 	 */

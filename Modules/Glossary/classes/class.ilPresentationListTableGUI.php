@@ -44,7 +44,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 
-		$this->setData($this->glossary->getTermList());
+		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
+													$this->filter["definition"]));
 		
 	}
 	
@@ -53,7 +54,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $lng, $rbacreview, $ilUser, $ilDB;
 		
 		// term
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -66,15 +67,17 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->filter["term"] = $ti->getValue();
 		
 		// definition
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("cont_definition"), "defintion");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$ti->setSubmitFormOnEnter(true);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["definition"] = $ti->getValue();
-
+		if ($ilDB->getDBType() != "oracle")
+		{
+			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+			$ti = new ilTextInputGUI($lng->txt("cont_definition"), "defintion");
+			$ti->setMaxLength(64);
+			$ti->setSize(20);
+			$ti->setSubmitFormOnEnter(true);
+			$this->addFilterItem($ti);
+			$ti->readFromSession();
+			$this->filter["definition"] = $ti->getValue();
+		}
 	}
 	
 	/**
