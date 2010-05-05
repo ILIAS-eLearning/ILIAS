@@ -617,7 +617,7 @@ return;
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
-		$title = $newObj->readObject();		
+		$title = $newObj->readObject();
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);
@@ -751,6 +751,14 @@ return;
 			return;
 		}
 
+		// file system gui tabs
+		// properties
+		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
+		$tabs_gui->addTarget("cont_list_files",
+			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
+			"ilfilesystemgui");
+		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
+
 		// info screen
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
 			? true
@@ -760,17 +768,19 @@ return;
 			"ilinfoscreengui", "", $force_active);
 			
 		// properties
-		$tabs_gui->addTarget("properties",
+		$tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
-
-		// file system gui tabs
-		// properties
-		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
-		$tabs_gui->addTarget("cont_list_files",
-			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
-			"ilfilesystemgui");
-		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
+			
+		// learning progress
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
 
 		// tracking data
 		$tabs_gui->addTarget("cont_tracking_data",
@@ -791,26 +801,7 @@ return;
 				);
 				break;
 		}
-		// edit meta
-/*
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));
-*/
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
-
-		// learning progress
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
-		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-		}
-
+		
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
 		and ilLicenseAccess::_isEnabled())
@@ -819,6 +810,11 @@ return;
 				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
 			"", "illicensegui");
 		}
+		
+		// edit meta
+		$tabs_gui->addTarget("meta_data",
+			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "", "ilmdeditorgui");
 
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -826,13 +822,6 @@ return;
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
-
-		// owner
-/*
-		$tabs_gui->addTarget("owner",
-			$this->ctrl->getLinkTarget($this, "owner"), "owner",
-			get_class($this));
-*/
 	}
 
 	/**
