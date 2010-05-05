@@ -468,61 +468,70 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tree, $tpl;
 
-		// glossary properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glossary_properties.html", true);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,"saveProperties"));
-		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_glo_properties"));
+		$this->initSettingsForm();
+		$this->getSettingsValues();
+		$tpl->setContent($this->form->getHTML());
+	}
 
+	/**
+	 * Init settings form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initSettingsForm($a_mode = "edit")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
 		// online
-		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
-		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
-		$this->tpl->setVariable("VAL_ONLINE", "y");
-
-		if ($this->object->getOnline())
-		{
-			$this->tpl->setVariable("CHK_ONLINE", "checked");
-		}
+		$cb = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
+		$cb->setValue("y");
+		$this->form->addItem($cb);
 		
 		// glossary mode
-		$stati 	= array(
-						"none"=>$this->lng->txt("glo_mode_normal"),
-						"level"=>$this->lng->txt("glo_mode_level"),
-						"subtree"=>$this->lng->txt("glo_mode_subtree")
-						);
-
-		$opts 	= ilUtil::formSelect($this->object->getVirtualMode(),"glo_mode",$stati,false,true);
+		$options = array(
+			"none"=>$this->lng->txt("glo_mode_normal"),
+			"level"=>$this->lng->txt("glo_mode_level"),
+			"subtree"=>$this->lng->txt("glo_mode_subtree")
+			);
+		$si = new ilSelectInputGUI($lng->txt("glo_mode"), "glo_mode");
+		$si->setOptions($options);
+		$si->setInfo($lng->txt("glo_mode_desc"));
+		$this->form->addItem($si);
 		
-		$this->tpl->setVariable("SELECT_GLO_MODE", $opts);
-		$this->tpl->setVariable("TXT_GLO_MODE", $this->lng->txt("glo_mode"));
-		$this->tpl->setVariable("TXT_GLO_MODE_DESC", $this->lng->txt("glo_mode_desc"));
-
-		// glossary menu
-		$this->tpl->setVariable("TXT_GLO_MENU", $this->lng->txt("cont_glo_menu"));
-		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
-		$this->tpl->setVariable("CBOX_GLO_MENU", "glo_act_menu");
-		$this->tpl->setVariable("VAL_GLO_MENU", "y");
-
-		if ($this->object->isActiveGlossaryMenu())
-		{
-			$this->tpl->setVariable("CHK_GLO_MENU", "checked");
-		}
+		// menu enabled?
+		$cb = new ilCheckboxInputGUI($lng->txt("cont_glo_menu"), "glo_act_menu");
+		$cb->setValue("y");
+		$this->form->addItem($cb);
 		
 		// downloads
-		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
-		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
-		$this->tpl->setVariable("CBOX_DOWNLOADS", "glo_act_downloads");
-		$this->tpl->setVariable("VAL_DOWNLOADS", "y");
-		if ($this->object->isActiveDownloads())
-		{
-			$this->tpl->setVariable("CHK_DOWNLOADS", "checked");
-		}
+		$cb = new ilCheckboxInputGUI($lng->txt("cont_downloads"), "glo_act_downloads");
+		$cb->setValue("y");
+		$cb->setInfo($lng->txt("cont_downloads_desc"));
+		$this->form->addItem($cb);
+	
+		// save and cancel commands
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+					
+		$this->form->setTitle($lng->txt("cont_glo_properties"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}	
 
-
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
-
+	/**
+	 * Get current values for settings from 
+	 */
+	public function getSettingsValues()
+	{
+		$values = array();
+	
+		$values["cobj_online"] = $this->object->getOnline();
+		$values["glo_mode"] = $this->object->getVirtualMode();
+		$values["glo_act_menu"] = $this->object->isActiveGlossaryMenu();
+		$values["glo_act_downloads"] = $this->object->isActiveDownloads();
+	
+		$this->form->setValuesByArray($values);
 	}
 
 	/**
