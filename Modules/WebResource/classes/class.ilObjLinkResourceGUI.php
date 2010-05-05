@@ -47,7 +47,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
@@ -75,7 +75,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 				break;
 
 			case 'ilmdeditorgui':
-				$this->tabs_gui->setTabActive('meta_data');
+				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -83,7 +83,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 				break;
 				
 			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
+				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -192,8 +192,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	protected function settingsObject()
 	{
+		global $ilTabs;
+	
 		$this->checkPermission('write');
-		$this->tabs_gui->setTabActive('settings');
+		$ilTabs->activateTab('id_settings');
 		
 		$this->initFormSettings();
 		$this->tpl->setContent($this->form->getHTML());
@@ -205,8 +207,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	protected function saveSettingsObject()
 	{
+		global $ilTabs;
+		
 		$this->checkPermission('write');
-		$this->tabs_gui->setTabActive('settings');
+		$ilTabs->activateTab('id_settings');
 		
 		$this->initFormSettings();
 		if($this->form->checkInput())
@@ -292,7 +296,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		global $ilCtrl;
 		
 		$this->checkPermission('write');
-		$this->activateTabs('content','view');
+		$this->activateTabs('content','id_content_view');
 		
 		if(!(int) $_GET['link_id'])
 		{
@@ -345,7 +349,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	public function addLinkObject()
 	{
 		$this->checkPermission('write');
-		$this->activateTabs('content','view');
+		$this->activateTabs('content','id_content_view');
 	
 		$this->initFormLink(self::LINK_MOD_ADD);
 		$this->tpl->setContent($this->form->getHTML());
@@ -387,7 +391,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$this->form->setValuesByPost();
 		
-		$this->activateTabs('content','view');
+		$this->activateTabs('content','id_content_view');
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
@@ -769,7 +773,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	public function viewObject()
 	{
-		global $ilAccess,$ilErr;
+		global $ilAccess, $ilErr, $ilTabs;
+		
+		$ilTabs->activateTab("id_content");
 		
 		$this->checkPermission('read');
 		
@@ -805,7 +811,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	protected function manageObject()
 	{
 		$this->checkPermission('write');
-		$this->activateTabs('content','cntr_manage');
+		$this->activateTabs('content','id_content_manage');
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_manage.html','Modules/WebResource');
 		$this->showToolbar('ACTION_BUTTONS');
@@ -824,7 +830,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	protected function showLinksObject()
 	{
 		$this->checkPermission('read');
-		$this->activateTabs('content','view');
+		$this->activateTabs('content','id_content_view');
 		
 		include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
 		$table = new ilWebResourceLinkTableGUI($this,'showLinks');
@@ -842,7 +848,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	protected function sortObject()
 	{
 		$this->checkPermission('write');
-		$this->activateTabs('content','cntr_ordering');
+		$this->activateTabs('content','id_content_ordering');
 		
 		include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
 		$table = new ilWebResourceLinkTableGUI($this,'sort',true);
@@ -903,7 +909,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	protected function confirmDeleteLinkObject()
 	{
 		$this->checkPermission('write');
-		$this->activateTabs('content','view');
+		$this->activateTabs('content','id_content_view');
 		
 		$link_ids = is_array($_POST['link_ids']) ?
 			$_POST['link_ids'] :
@@ -999,10 +1005,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
 
 		$this->checkPermission('visible');
-		$this->tabs_gui->setTabActive('info_short');
+		$ilTabs->activateTab('id_info');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -1019,8 +1025,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 
 	function historyObject()
 	{
+		global $ilTabs;
+		
 		$this->checkPermission('write');
-		$this->tabs_gui->setTabActive('history');
+		$ilTabs->activateTab('id_history');
 
 		include_once("classes/class.ilHistoryGUI.php");
 		
@@ -1071,10 +1079,10 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	protected function linkCheckerObject()
 	{
-		global $ilias, $ilUser, $tpl;		
+		global $ilias, $ilUser, $tpl, $ilTabs;
 		
 		$this->checkPermission('write');
-		$this->tabs_gui->setTabActive('link_check');
+		$ilTabs->activateTab('id_link_check');
 
 		$this->__initLinkChecker();
 		$this->object->initLinkResourceItemsObject();
@@ -1082,7 +1090,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		
 		$toolbar = new ilToolbarGUI();
-		
+
 		if((bool)$ilias->getSetting('cron_web_resource_check'))
 		{
 			include_once 'classes/class.ilLinkCheckNotify.php';
@@ -1097,12 +1105,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 			$toolbar->addFormButton($this->lng->txt('save'), 'saveLinkCheck');
 			$toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'saveLinkCheck'));
 		}
-		
+
 		$tgui = new ilLinkCheckerTableGUI($this, 'linkChecker');
 		$tgui->setLinkChecker($this->link_checker_obj)
 			 ->setRowHandler($this)
 			 ->setRefreshButton($this->lng->txt('refresh'), 'refreshLinkCheck');
-		
+
 		return $tpl->setContent($tgui->prepareHTML()->getHTML().$toolbar->getHTML());
 	}
 	
@@ -1188,7 +1196,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	 */
 	protected function activateTabs($a_active_tab,$a_active_subtab = '')
 	{
-		global $ilAccess,$ilCtrl;
+		global $ilAccess, $ilCtrl, $ilTabs, $lng;
 		
 		switch($a_active_tab)
 		{
@@ -1198,13 +1206,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 					$this->lng->loadLanguageModule('cntr');
 					
 					$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_VIEW);
-					$this->tabs_gui->addSubTabTarget(
-						'view',
+					$ilTabs->addSubTab('id_content_view',
+						$lng->txt('view'),
 						$this->ctrl->getLinkTarget($this,'switchViewMode')
 					);
 					$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_MANAGE);
-					$this->tabs_gui->addSubTabTarget(
-						'cntr_manage',
+					$ilTabs->addSubTab('id_content_manage',
+						$lng->txt('cntr_manage'),
 						$this->ctrl->getLinkTarget($this,'switchViewMode')
 					);
 					include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
@@ -1214,44 +1222,41 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 						and ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL)
 					{
 						$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_SORT);
-						$this->tabs_gui->addSubTabTarget(
+						$ilTabs->addSubTab('id_content_ordering',
 							'cntr_ordering',
 							$this->ctrl->getLinkTarget($this,'switchViewMode')
 						);
 					}
 					
 					$ilCtrl->clearParameters($this);
-					$this->tabs_gui->setSubTabActive($a_active_subtab);				
+					$ilTabs->activateSubTab($a_active_subtab);
 				}				
-			
 		}
-		$this->tabs_gui->setTabActive('content');
+		
+		$ilTabs->activateTab('id_content');
 	}
 	
 	
 	/**
 	* get tabs
 	* @access	public
-	* @param	object	tabs gui object
 	*/
-	function getTabs($tabs_gui)
+	function setTabs()
 	{
-		global $rbacreview,$ilAccess;
+		global $ilAccess, $ilTabs, $lng;
 
 		if ($ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
-				"content",
-				$this->ctrl->getLinkTarget($this, "view"), array("", "view")
-			);
+			$ilTabs->addTab("id_content",
+				$lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, "view"));
 		}
 		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
-			$tabs_gui->addTarget(
-				"info_short",
-				$this->ctrl->getLinkTarget($this,'infoScreen')
-			);
+			$ilTabs->addTab("id_info",
+				$lng->txt("info_short"),
+				$this->ctrl->getLinkTarget($this, "infoScreen"));
 		}
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()) and !$this->getCreationMode())
@@ -1259,25 +1264,18 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 			include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 			if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
 			{
-				$tabs_gui->addTarget(
-					'settings',
-					$this->ctrl->getLinkTarget($this,'settings')
-				);
+				$ilTabs->addTab("id_settings",
+					$lng->txt("settings"),
+					$this->ctrl->getLinkTarget($this, "settings"));
 			}
 			
-		}
-		
-		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", 'ilmdeditorgui');
 		}
 
 		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("history",
-				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
+			$ilTabs->addTab("id_history",
+				$lng->txt("history"),
+				$this->ctrl->getLinkTarget($this, "history"));
 		}
 
 		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
@@ -1285,16 +1283,24 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 			// Check if pear library is available
 			if(@include_once('HTTP/Request.php'))
 			{
-				$tabs_gui->addTarget("link_check",
-									 $this->ctrl->getLinkTarget($this, "linkChecker"),
-									 array("linkChecker", "refreshLinkCheck"), get_class($this));
+				$ilTabs->addTab("id_link_check",
+					$lng->txt("link_check"),
+					$this->ctrl->getLinkTarget($this, "linkChecker"));
 			}
+		}
+
+		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilTabs->addTab("id_meta_data",
+				$lng->txt("meta_data"),
+				$this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'));
 		}
 
 		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$ilTabs->addTab("id_permissions",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
 	}
 
@@ -1331,11 +1337,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getDescription());
 
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($this->tabs_gui);
-
-		// output tabs
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$this->setTabs();
 	}
 
 	function __setLocator()

@@ -777,7 +777,6 @@ class ilObjFileGUI extends ilObjectGUI
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
-
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
