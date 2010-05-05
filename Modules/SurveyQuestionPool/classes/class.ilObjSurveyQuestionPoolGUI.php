@@ -62,7 +62,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory;
 		
@@ -869,6 +869,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function getTabs(&$tabs_gui)
 	{
+		global $ilAccess;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class)
 		{
@@ -910,37 +912,36 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 ),
 			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 
-		global $rbacsystem;
-		global $ilAccess;
-		// properties
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", 
-			 "", "");
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
-
+			// properties
+			$tabs_gui->addTarget("settings",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties",
+			 "", "");
+			 
 			// manage phrases
 			$tabs_gui->addTarget("manage_phrases",
 				 $this->ctrl->getLinkTargetByClass("ilsurveyphrasesgui", "phrases"),
 				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase"),
 				 "ilsurveyphrasesgui", "");
+				 
+			// meta data
+			$tabs_gui->addTarget("meta_data",
+				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+				 "", "ilmdeditorgui");
+				 
+			// export
+			$tabs_gui->addTarget("export",
+				 $this->ctrl->getLinkTarget($this,'export'),
+				 array("export", "createExportFile", "confirmDeleteExportFile",
+				 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
+				 "", "");
 		}
-
-		// export
-		$tabs_gui->addTarget("export",
-			 $this->ctrl->getLinkTarget($this,'export'),
-			 array("export", "createExportFile", "confirmDeleteExportFile", 
-			 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
-			 "", "");
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
-				$tabs_gui->addTarget("perm_settings",
+			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
