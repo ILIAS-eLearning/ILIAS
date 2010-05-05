@@ -360,15 +360,19 @@ class ilSCORM13Package
 				include_once ("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Sequencing.php");
 				$seq_info = new ilSCORM2004Sequencing($this->slm->getId(),true);
 				$seq_info->insert();
-		  		$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
-		  		$l = $doc->xpath ( "/ContentObject/MetaData" );
-				if($l[0])
-			  	{
-			  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
-			  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$this->slm->getId(),$this->slm->getId(),$this->slm->getType());
-					$mdxml->startParsing();
-					$mdxml->getMDObject()->update();
-			  	}
+				
+				if(file_exists($this->packageFolder . '/' . 'index.xml'))
+				{
+					$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+					$l = $doc->xpath ( "/ContentObject/MetaData" );
+					if($l[0])
+					{
+						include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+						$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$this->slm->getId(),$this->slm->getId(),$this->slm->getType());
+						$mdxml->startParsing();
+						$mdxml->getMDObject()->update();
+					}
+				}
 				break;
 			case "organization":
 				$this->slm->title=$node->title;
