@@ -41,9 +41,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->mimeTypes = $settings->getMimeTypes();      
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
-  		global $ilUser;
+  		global $ilUser, $ilTabs;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -57,10 +57,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				break;
 
 			case 'ilpermissiongui':
+				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
-			break;
+				break;
 		
 			default:
 				if(!$cmd)
@@ -115,9 +116,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function listItemsObject()
 	{
-		global $tpl, $lng, $ilAccess;
+		global $tpl, $lng, $ilAccess, $ilTabs;
 		
 		$this->checkPermission("read");
+		$ilTabs->activateTab("id_content");
 		
 		$med_items = $this->object->getItemsArray();
 
@@ -806,7 +808,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser, $ilTabs;
+		
+		$ilTabs->activateTab("id_info");
 
 		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
@@ -853,47 +857,41 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	/**
 	* get tabs
 	* @access	public
-	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function setTabs()
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilAccess, $ilTabs, $lng;
 		
 		// list items
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, "listItems"), array("", "listItems"),
-				array(strtolower(get_class($this)), ""));
+			$ilTabs->addTab("id_content",
+				$lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, "listItems"));
 		}
 
 		// info screen
 		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
 		{
-			$force_active = ($ilCtrl->getNextClass() == "ilinfoscreengui"
-				|| $_GET["cmd"] == "infoScreen")
-				? true
-				: false;
-			$tabs_gui->addTarget("info_short",
-				$this->ctrl->getLinkTargetByClass(
-				"ilinfoscreengui", "showSummary"),
-				"showSummary",
-				"", "", $force_active);
+			$ilTabs->addTab("id_info",
+				$lng->txt("info_short"),
+				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 
 		// settings
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "editSettings"), array("editSettings"),
-				array(strtolower(get_class($this)), ""));
+			$ilTabs->addTab("id_settings",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "editSettings"));
 		}
 
 		// edit permissions
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$ilTabs->addTab("id_permissions",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 	}
 
@@ -902,9 +900,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function editSettingsObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		$this->checkPermission("write");
+		$ilTabs->activateTab("id_settings");
 		
 		$this->initSettingsForm();
 		$tpl->setContent($this->form_gui->getHtml());
