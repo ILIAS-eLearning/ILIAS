@@ -47,7 +47,7 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory,$ilCtrl;
 
@@ -4027,18 +4027,7 @@ class ilObjTestGUI extends ilObjectGUI
 					),
 					 array("", "ilobjtestgui", "ilcertificategui")
 				);
-			}
 
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
-			{
-				// meta data
-				$tabs_gui->addTarget("meta_data",
-					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-					 "", "ilmdeditorgui");
-			}
-
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
-			{
 				// participants
 				$tabs_gui->addTarget("participants",
 					 $this->ctrl->getLinkTarget($this,'participants'),
@@ -4051,14 +4040,19 @@ class ilObjTestGUI extends ilObjectGUI
 					 "showPassOverview", "showUserAnswers", "participantsAction",
 					"showDetailedResults"), 
 					 "");
+			}
 
-				// export tab
-				$tabs_gui->addTarget("export",
-					 $this->ctrl->getLinkTarget($this,'export'),
-					 array("export", "createExportFile", "confirmDeleteExportFile",
-					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
-					 "");
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+			{
+				$tabs_gui->addTarget('learning_progress',
+									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+									 '',
+									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+			}
 
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
 				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 				$scoring = ilObjAssessmentFolder::_getManualScoring();
 				if (count($scoring))
@@ -4081,27 +4075,30 @@ class ilObjTestGUI extends ilObjectGUI
 					 , "");
 			}
 
-			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
-			{
-				$tabs_gui->addTarget('learning_progress',
-									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-									 '',
-									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-			}
-			
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
 				// history
 				$tabs_gui->addTarget("history",
 					 $this->ctrl->getLinkTarget($this,'history'),
 					 "history", "");
-
-				if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
-				{
-					$tabs_gui->addTarget("perm_settings",
-					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-				}
+					 
+				// meta data
+				$tabs_gui->addTarget("meta_data",
+					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+					 "", "ilmdeditorgui");
+					 
+				// export tab
+				$tabs_gui->addTarget("export",
+					 $this->ctrl->getLinkTarget($this,'export'),
+					 array("export", "createExportFile", "confirmDeleteExportFile",
+					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
+					 "");
+			}
+			
+			if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+			{
+				$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 			}
 		}
 	}
