@@ -253,10 +253,17 @@ class ilShibbolethRoleAssignmentRule
 		}
 		else
 		{
-			return $this->getValue() == $values;
+			return $this->wildcardCompare($this->getValue(),$values);
+			#return $this->getValue() == $values;
 		}
 	}
 	
+	protected function wildcardCompare($a_str1, $a_str2)
+	{
+		$pattern = str_replace('*','.*?', $a_str1);
+		$GLOBALS['ilLog']->write(__METHOD__.': Replace pattern:'. $pattern.' => '.$a_str2);
+		return (bool) preg_match('/^'.$pattern.'$/i',$a_str2);
+	}
 	
 	
 	private function read()
