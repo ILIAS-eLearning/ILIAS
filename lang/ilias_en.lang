@@ -10338,3 +10338,6 @@ forum#:#force_new_post_title#:#Force new post titles
 forum#:#force_new_post_title_info#:#If enabled the user have to enter a new title for postings.
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Global Forumsettings
+administration#:#forum_settings#:#Forumsettings
+administration#:#show_topics_overview#:#Topic Overview
+administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown

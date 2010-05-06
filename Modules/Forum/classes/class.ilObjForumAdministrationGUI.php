@@ -156,10 +156,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
 		// forum overview
 
-		$frm_radio = new ilRadioGroupInputGUI($this->lng->txt('advanced_editing_frm_post_settings'), 'forum_overview');
-		$frm_radio->addOption(new ilRadioOption($this->lng->txt('show_postings').': '.$this->lng->txt('new').','.$this->lng->txt('is_read').','.$this->lng->txt('unread'), '0'));
-		$frm_radio->addOption(new ilRadioOption($this->lng->txt('show_postings').': '.$this->lng->txt('is_read').','.$this->lng->txt('unread'), '1'));
+		$frm_radio = new ilRadioGroupInputGUI($this->lng->txt('show_topics_overview'), 'forum_overview');
+		$frm_radio->addOption(new ilRadioOption($this->lng->txt('new').','.$this->lng->txt('is_read').','.$this->lng->txt('unread'), '0'));
+		$frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read').','.$this->lng->txt('unread'), '1'));
 		$frm_radio->setValue($frma_set->get('forum_overview'));
+		$frm_radio->setInfo($this->lng->txt('topics_overview_info'));
 		$form->addItem($frm_radio);
 
 		$this->tpl->setContent($form->getHTML());
