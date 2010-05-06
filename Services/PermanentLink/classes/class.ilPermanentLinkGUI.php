@@ -202,8 +202,8 @@ class ilPermanentLinkGUI
 			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
 			$title = $ilObjDataCache->lookupTitle($obj_id);
 		}
-		if (!$title)
-			$bookmark->setTitle("untitled");
+		#if (!$title)
+		#	$bookmark->setTitle("untitled");
 
 		$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
