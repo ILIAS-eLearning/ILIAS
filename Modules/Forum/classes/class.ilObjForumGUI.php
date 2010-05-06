@@ -86,7 +86,7 @@ class ilObjForumGUI extends ilObjectGUI
 					     	  'askForPostActivation', 'askForPostDeactivation',
 					     	  'toggleThreadNotification', 'toggleThreadNotificationTab',
 					     	  'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch',
-							  'rememberTreeState'
+							  'rememberTreeStateAsynch'
 					     	  );
 
 		if (!is_array($exclude_cmds) || !in_array($cmd, $exclude_cmds))
@@ -1905,11 +1905,10 @@ class ilObjForumGUI extends ilObjectGUI
 		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
 		
 		ilYuiUtil::initConnection();
-
 		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/yahoo/yahoo-min.js');
 		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/event/event-min.js');
 		$tpl->addJavaScript('./Modules/Forum/js/treeview.js');
-		
+		$tpl->addJavaScript('./Services/JavaScript/js/md5.js');		
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		
 		if(!is_array($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']))
@@ -1918,34 +1917,32 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 
 		$tplTree = new ilTemplate('tpl.frm_tree.html', true, true, 'Modules/Forum');
-
 		$tplTree->setVariable('THR_OPEN_NODES',
 			ilJsonUtil::encode($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']));
 
 		$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
-
 		$tplTree->setVariable('THR_TREE_STATE_URL',
-			$this->ctrl->getFormAction($this, 'rememberTreeState', '', true, false));
+			$this->ctrl->getFormAction($this, 'rememberTreeStateAsynch', '', true, false));
 		
-		$obj_frm_exp = new ilForumExplorer($tplTree, "./repository.php?cmd=viewThread&cmdClass=ilobjforumgui&thr_pk=".$this->objCurrentTopic->getId()."&ref_id=".$_GET['ref_id'], 
-			$this->objCurrentTopic, (int) $_GET['ref_id']);
+		$obj_frm_exp = new ilForumExplorer(		
+			$tplTree, $this->ctrl->getLinkTarget($this, 'viewThread'), 
+			$this->objCurrentTopic, (int) $_GET['ref_id']
+		);
 
 		$obj_frm_exp->renderTree();
 		return $tplTree->get();
 	}	
 	
-	public function rememberTreeStateObject()
+	public function rememberTreeStateAsynchObject()
 	{		
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
 		$response = new stdClass();		
+		$response->success = true;
 		
 		$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] =
 			explode(',', $_POST['openNodes']);
 		
-		$response->success = true;
-		
-		header('Content-type: text/json; charset=UTF-8');
 		echo ilJsonUtil::encode($response);
 		exit();
 	}		
