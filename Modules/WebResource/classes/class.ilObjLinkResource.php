@@ -74,6 +74,51 @@ class ilObjLinkResource extends ilObject
 		$this->updateMetaData();
 		parent::update();
 	}
+	
+	/**
+	 * Overwriten Metadata update listener for ECS functionalities
+	 *
+	 * @access public
+	 * 
+	 */
+	public function MDUpdateListener($a_element)
+	{
+	 	global $ilLog;
+	 	
+		parent::MDUpdateListener($a_element);
+	 	
+		$md = new ilMD($this->getId(),0, $this->getType());
+		if(!is_object($md_gen = $md->getGeneral()))
+		{
+			return false;
+		}
+		$title = $md_gen->getTitle();
+		foreach($md_gen->getDescriptionIds() as $id)
+		{
+			$md_des = $md_gen->getDescription($id);
+			$description = $md_des->getDescription();
+			break;
+		}
+	 	switch($a_element)
+	 	{
+	 		case 'General':
+					include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+					if(ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1)
+					{
+						$link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
+						$link = new ilLinkResourceItems($this->getId());
+						$link->readItem($link_arr['link_id']);
+						$link->setTitle($title);
+						$link->setDescription($description);
+						$link->update();
+					}
+		 			break;
+	 		default:
+	 			return true;
+	 	}
+		return true;
+	}
+	
 
 
 	/**
