@@ -68,7 +68,7 @@ class ilForumExportGUI
 	*/
 	function printThread()
 	{
-		global $tpl, $lng, $ilDB, $ilUser, $ilAccess, $ilias;
+		global $tpl, $lng, $ilUser, $ilAccess, $ilias;
 
 		if (!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
@@ -173,7 +173,7 @@ class ilForumExportGUI
 	*/
 	function printPost()
 	{
-		global $tpl, $lng, $ilDB, $ilAccess, $ilias;
+		global $tpl, $lng, $ilAccess, $ilias;
 		
 		if (!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
@@ -269,7 +269,7 @@ class ilForumExportGUI
 	function exportHTML()
 	{
 		
-		global $lng, $tpl, $ilDB, $ilUser, $ilAccess, $ilias;
+		global $lng, $tpl, $ilUser, $ilAccess, $ilias;
 	
 		if (!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
 		{

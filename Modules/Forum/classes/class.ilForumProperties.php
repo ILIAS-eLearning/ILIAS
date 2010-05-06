@@ -23,7 +23,7 @@
 
 /**
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @version $Id: $
 *
 * @ingroup ModulesForum
 */
@@ -79,6 +79,12 @@ class ilForumProperties
 	 * @var		boolean
 	 */
 	private $thread_ratings_allowed = false;
+	
+	/**
+	 * Forced new post title
+	 * @access	private
+	 */
+	private $new_post_title = 0;
 
 	/**
 	 * DB Object
@@ -130,6 +136,7 @@ class ilForumProperties
 				$this->post_activation_enabled = $row->post_activation ;// == 1 ? true : false;
 				$this->admin_force_noti = $row->admin_force_noti == 1 ? true : false;
 				$this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
+				$this->new_post_title = $row->new_post_title;// == 1 ? true : false;
 				
 				return true;
 			}
@@ -144,19 +151,17 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$statement = $this->db->manipulateF('INSERT INTO frm_settings 
-				(	obj_id,
-					default_view,
-					anonymized,
-					statistics_enabled,
-					post_activation,
-					admin_force_noti,
-					user_toggle_noti
-				)
-				VALUES( %s, %s, %s, %s, %s, %s, %s)',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-			array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti));
-			
+			$this->db->insert('frm_settings', 
+			array(	'obj_id'			=> array('integer', $this->obj_id),
+					'default_view'		=> array('integer', $this->default_view),
+					'anonymized'		=> array('integer', $this->anonymized),
+					'statistics_enabled'=> array('integer', $this->statistics_enabled),
+					'post_activation'	=> array('integer', $this->post_activation_enabled),
+					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
+					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
+					'new_post_title'	=> array('integer', $this->new_post_title))
+			);
+
 			return true;
 		}
 		
@@ -167,7 +172,18 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$statement = $this->db->manipulateF('UPDATE frm_settings 
+			$this->db->update('frm_settings', 
+			array(	'default_view'		=> array('integer', $this->default_view),
+					'anonymized'		=> array('integer', $this->anonymized),
+					'statistics_enabled'=> array('integer', $this->statistics_enabled),
+					'post_activation'	=> array('integer', $this->post_activation_enabled),
+					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
+					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
+					'new_post_title'	=> array('integer', $this->new_post_title)),
+			array(	'obj_id'			=> array('integer', $this->obj_id))
+			);
+
+/*			$statement = $this->db->manipulateF('UPDATE frm_settings
 				SET default_view = %s, 
 					anonymized = %s, 
 					statistics_enabled = %s, 
@@ -177,7 +193,7 @@ class ilForumProperties
 				WHERE obj_id = %s', 
 				array ('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
 				array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti, $this->obj_id));
-			
+*/
 			return true;
 		}		
 		return false;		
@@ -187,19 +203,16 @@ class ilForumProperties
 	{
 		if ($a_new_obj_id)
 		{		
-			$statement = $this->db->manipulateF('INSERT INTO frm_settings
-				(	obj_id,
-					default_view,
-					anonymized,
-					statistics_enabled,
-					post_activation,
-					admin_force_noti,
-					user_toggle_noti
-				)
-				VALUES( %s, %s, %s, %s, %s, %s, %s)',
-				array ('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-				array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti));
-			
+			$this->db->insert('frm_settings', 
+			array(	'obj_id'			=> array('integer',	$a_new_obj_id),
+					'default_view'		=> array('integer', $this->default_view),
+					'anonymized'		=> array('integer', $this->anonymized),
+					'statistics_enabled'=> array('integer', $this->statistics_enabled),
+					'post_activation'	=> array('integer', $this->post_activation_enabled),
+					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
+					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
+					'new_post_title'	=> array('integer', $this->new_post_title))
+			);
 			return true;
 		}
 		
@@ -323,5 +336,16 @@ class ilForumProperties
 
 		return $this;
 	}
+
+	public function setNewPostTitle($a_post_title)
+	{
+		$this->new_post_title = $a_post_title;
+	}
+
+	public function getNewPostTitle()
+	{
+		return $this->new_post_title;
+	}
+	
 }
 ?>

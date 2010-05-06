@@ -442,6 +442,18 @@ class ilYuiUtil
 	}
 	
 	/**
+	* Init treeView
+	*/
+	public static function initTreeView()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/yahoo/yahoo-min.js');
+		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/event/event-min.js');
+		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/treeview/treeview.js');
+	}
+	
+	/**
 	* Init YUI Event
 	*/
 	static function initTooltip()
