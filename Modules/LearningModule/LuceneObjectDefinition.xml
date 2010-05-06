@@ -6,6 +6,7 @@
 		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
+		<xi:include href="../../Modules/File/LuceneFileListDataSource.xml" />
 		<DataSource type="JDBC" action="create">
 			<Query>
 				SELECT title,content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type 
