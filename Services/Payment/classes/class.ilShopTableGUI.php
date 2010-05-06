@@ -7,7 +7,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 * Class ilShopTableGUI
 *
 
-* @author Nadia Ahmad <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id:$
 * 
 * @ingroup ServicesPayment

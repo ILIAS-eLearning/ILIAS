@@ -75,7 +75,6 @@ class ilPaymentShoppingCart
 		}
 		else
 		{
-		
 			$tmp_entries = array();
 			foreach($this->sc_entries as $entry)
 			{
@@ -101,14 +100,11 @@ class ilPaymentShoppingCart
 		global  $ilDB;
 
 		$session_id = session_id();
-	
-		$res = $ilDB->manipulateF('
-			UPDATE payment_shopping_cart
-			SET customer_id = %s
-			WHERE session_id = %s',
-		array('integer', 'text'),
-		array( $a_user_id, $session_id));
-		
+
+		$ilDB->update('payment_shopping_cart',
+		array('customer_id' => array('integer', (int) $a_user_id)),
+		array('session_id'=> array('text', $session_id)));
+
 		return true;
 	}
 	
@@ -116,10 +112,10 @@ class ilPaymentShoppingCart
 	{
 		global $ilDB;
 		
-		$res = $ilDB->manipulateF('UPDATE payment_shopping_cart
-			SET session_id = %s
-			WHERE session_id = %s',
-		array('text', 'text'), array($a_new_sessid, $a_old_sessid));
+		$ilDB->update('payment_shopping_cart',
+		array('session_id' => array('text', $a_new_sessid)),
+		array('session_id'=> array('text', $a_old_sessid)));
+
 	}
 	
 	public function isInShoppingCart($a_pobject_id)
@@ -204,18 +200,15 @@ class ilPaymentShoppingCart
 		}
 		
 		$next_id = $this->db->nextId('payment_shopping_cart');
-		
-		$statement = $this->db->manipulateF('
-			INSERT INTO payment_shopping_cart
-			( 	psc_id,
-				customer_id,
-				pobject_id,
-				price_id,
-				session_id
-			) VALUES(%s,%s,%s,%s, %s)', 
-			array('integer', 'integer', 'integer', 'integer','text'),
-			array($next_id, $this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId(), $this->getSessionId()));
-		
+
+		$this->db->insert('payment_shopping_cart',
+		array('psc_id'	 => array('integer', $next_id),
+			'customer_id'=> array('integer', $this->user_obj->getId()),
+			'pobject_id' => array('integer', $this->getPobjectId()),
+			'price_id'   => array('integer', $this->getPriceId()),
+			'session_id' => array('text', $this->getSessionId()))
+		);
+
 		$this->__read();
 
 		return true;
@@ -226,37 +219,21 @@ class ilPaymentShoppingCart
 		global $ilUser;
 		if(ANONYMOUS_USER_ID == $ilUser->getId())
 		{
-			$statement = $this->db->manipulateF('
-				UPDATE payment_shopping_cart
-				SET 
-					pobject_id = %s,
-					price_id = %s,
-					session_id = %s
-				WHERE psc_id = %s',
-				array('integer', 'integer', 'text', 'integer'),
-				array(		$this->getPobjectId(),
-							$this->getPriceId(),
-							$this->getSessionId(),
-							$a_psc_id
-				));			
+			$this->db->update('payment_shopping_cart',
+			array('pobject_id'=> array('integer', $this->getPobjectId()),
+				  'price_id'  => array('integer', $this->getPriceId()),
+				  'session_id'=> array('text', $this->getSessionId())),
+			array('psc_id'	  => array('integer', (int)$a_psc_id)));
+
 		}
 		else
 		{
-				
-			$statement = $this->db->manipulateF('
-				UPDATE payment_shopping_cart
-				SET customer_id = %s,
-					pobject_id = %s,
-					price_id = %s,
-					session_id = %s
-				WHERE psc_id = %s',
-				array('integer', 'integer', 'integer', 'text', 'integer'),
-				array(	$this->user_obj->getId(), 
-							$this->getPobjectId(),
-							$this->getPriceId(),
-							$this->getSessionId(),
-							$a_psc_id
-				));
+			$this->db->update('payment_shopping_cart',
+			array('customer_id'	=> array('integer', $this->user_obj->getId()),
+				  'pobject_id'	=> array('integer', $this->getPobjectId()),
+				  'price_id'	=> array('integer', $this->getPriceId()),
+				  'session_id'	=> array('text', $this->getSessionId())),
+			array( 'psc_id'		=> array('integer', (int)$a_psc_id)));
 		}
 		$this->__read();
 
@@ -283,7 +260,6 @@ class ilPaymentShoppingCart
 				WHERE session_id = %s',
 				array('text'), array($this->getSessionId())
 				);
-			
 		}
 		else
 		{
@@ -317,8 +293,6 @@ class ilPaymentShoppingCart
 			WHERE customer_id = %s',
 			array('integer'), array($a_user_id));		
 		}
-
-
 		return $res->numRows() ? true : false;
 	}
 
@@ -458,10 +432,8 @@ class ilPaymentShoppingCart
 			for ($i = 0; $i < count($result); $i++)
 			{
 				$amount += $result[$i]["price"];
-							
 			}
 		}
-
 		return (float) $amount;
 	}
 
@@ -473,8 +445,7 @@ class ilPaymentShoppingCart
 		
 		$res = $ilDB->queryF('
 		SELECT * FROM payment_objects WHERE pobject_id = %s',
-		array('integer'),
-		array($a_pobject_id));
+		array('integer'), array($a_pobject_id));
 			
 		while($row = $ilDB->fetchObject($res))
 		{
@@ -483,16 +454,13 @@ class ilPaymentShoppingCart
 		
 		$res = $ilDB->queryF('
 			SELECT * FROM payment_vats WHERE vat_id = %s',
-			array('integer'),
-			array($this->vat_id));
+			array('integer'),array($this->vat_id));
 			
 		while($row = $ilDB->fetchObject($res))
 		{
 			$this->vat_rate = $row->vat_rate;
-
 		}
 		return (float) ($a_amount - (round(($a_amount / (1 + ($this->vat_rate / 100.0))) * 100) / 100));		
-
 	}
 	
 	function clearCouponItemsSession()

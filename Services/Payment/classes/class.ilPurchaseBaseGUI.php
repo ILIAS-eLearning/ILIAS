@@ -4,7 +4,7 @@
 /**
 * Class class.ilPurchaseBaseGUI.php
 *
-* @author Nadia Krzywon
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id: class.ilPurchaseBaseGUI.php 
 *
 * 
@@ -30,6 +30,7 @@ class ilPurchaseBaseGUI
 	public $pmethod_obj = null;
 	private $pm_id = 0;
 	private $totalVat = 0;
+	private $session_var = null;
 
 	public function ilPurchaseBaseGUI($user_obj, $pay_method)
 	{
@@ -832,9 +833,9 @@ class ilPurchaseBaseGUI
 		$counter = 0;
 		foreach($items as $item)
 		{
-			$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+			$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
 
 			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 			
@@ -852,29 +853,29 @@ class ilPurchaseBaseGUI
 					}
 				}
 			}
-			
-			$f_result[$counter][] = $tmp_obj->getTitle();
+			$f_result[$counter]['item'] = '';
+			$f_result[$counter]['title'] = $tmp_obj->getTitle();
 			if ($assigned_coupons != '') $f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
 		
 			if($price_arr['duration'] == 0)
 			{
-				$f_result[$counter][] = $this->lng->txt('unlimited_duration');				
+				$f_result[$counter]['duration'] = $this->lng->txt('unlimited_duration');
 			}
 			else
 			{
-				$f_result[$counter][] = $price_arr['duration'] . ' ' . $this->lng->txt('paya_months');	
+				$f_result[$counter]['duration'] = $price_arr['duration'] . ' ' . $this->lng->txt('paya_months');
 			}
 			
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
-		    $f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+		    $f_result[$counter]['vat_rate'] = ilShopUtils::_formatVAT($oVAT->getRate());
 		
 		    $float_price = $price_arr['price'];
 		
 		    $currency = ilPaymentCurrency::_getUnit($price_arr['currency']);
-		    $f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$currency;
+		    $f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
 		    $this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);			
 			
-			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
+			$f_result[$counter]['price'] = number_format(ilPaymentPrices::_getPriceString($item['price_id']), 2, ',', '.') .' '.$genSet->get('currency_unit');
 			
 			unset($tmp_obj);
 			unset($tmp_pobject);
@@ -885,156 +886,95 @@ class ilPurchaseBaseGUI
 		return $this->__showItemsTable($f_result);
 	}
 
-	function __initTableGUI()
-	{
-/*		include_once './Services/Table/classes/class.ilTableGUI.php';
-
-		return new ilTableGUI(0,false);
-*/	}
-
 	function __showItemsTable($a_result_set)
 	{
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 		
 		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilShoppingCartTableGUI.php';
 
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock('tbl_form_header');
-
-		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt('paya_shopping_cart'),'icon_pays_b.gif',$this->lng->txt('paya_shopping_cart'));
-		$tbl->setHeaderNames(array($this->lng->txt('title'),
-								   $this->lng->txt('duration'),
-								   $this->lng->txt('vat_rate'),
-								   $this->lng->txt('vat_unit'),								   
-								   $this->lng->txt('price_a')));
-
-		$tbl->setHeaderVars(array(	'title',
-									'duration',
-									'vat_rate',
-									'vat_unit',
-									'price'),
-							array('cmd' => '',
-								  'cmdClass' => 'ilpurchasebillgui',
-								  'cmdNode' => $_GET['cmdNode']));
-
-		$tbl->disable('footer');
+		$tbl = new ilShoppingCartTableGUI($this);
+		$tbl->setId('tbl_id_'.$this->session_var);
+		$tbl->setTitle($this->lng->txt('paya_shopping_cart'));
+		/*
+				" (".$this->lng->txt('payment_system').": ".
+				ilPayMethods::getStringByPaymethod($a_pay_method['pm_title']) .")");
+		*/
+		$tbl->setRowTemplate("tpl.shop_shoppingcart_row.html", "Services/Payment");
+		$tbl->addColumn('','item','1%');
+		$tbl->addColumn($this->lng->txt('title'), 'title', '30%');
+		$tbl->addColumn($this->lng->txt('duration'),'duration', '30%');
+		$tbl->addColumn($this->lng->txt('vat_rate'), 'vat_rate', '15%');
+		$tbl->addColumn($this->lng->txt('vat_unit'), 'vat_unit', '15%');
+		$tbl->addColumn($this->lng->txt('price_a'), 'price', '10%');
 		$tbl->disable('sort');
-		$tbl->disable('linkbar');
 
-		$offset = $_GET['offset'];
-		$order = $_GET['sort_by'];
-		$direction = $_GET['sort_order'] ? $_GET['sort_order'] : 'desc';
-
-		$tbl->setOrderColumn($order,'title');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET['limit']);
-		$tbl->setMaxCount(count($a_result_set));
-#		$tbl->setFooter('tblfooter',$this->lng->txt('previous'),$this->lng->txt('next'));
-		$tbl->setData($a_result_set);
-
-		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
-
+		#$tbl->setPrefix("table". $a_pay_method['pm_title']."_");
+		
+		// show total amount of costs
+		$sc_obj = new ilPaymentShoppingCart($this->user_obj);
 		$totalAmount =  $sc_obj->getTotalAmount();
 
-		$tpl->setCurrentBlock('tbl_footer_linkbar');
-		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
 		if (!empty($_SESSION['coupons'][$this->session_var]))
 		{
-			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
+			if (count($items = $sc_obj->getEntries($this->pm_id)))
+			{
+				$tbl->setTotalData('TXT_SUB_TOTAL', $this->lng->txt('pay_bmf_subtotal_amount') . ": ");
+				$tbl->setTotalData('VAL_SUB_TOTAL', number_format($totalAmount[$this->pm_id], 2, ',', '.') . " " . $genSet->get('currency_unit'));
+				#$tbl->setTotalData('VAL_SUB_TOTAL',ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] ));
 
-			if (count($items = $this->psc_obj->getEntries($this->pm_id)))
-			{			
-				$amount .= "<tr>\n";
-				$amount .= "<td>\n";
-				$amount .= "<b>" . $this->lng->txt("pay_bmf_subtotal_amount") . ":";				
-				$amount .= "</td>\n";
-				$amount .= "<td>\n";
-				$amount .= number_format($totalAmount[$this->pm_id], 2, ",", ".") . " " . $currency . "</b>";				
-				$amount .= "</td>\n";				
-				$amount .= "</tr>\n";
-				
 				foreach ($_SESSION['coupons'][$this->session_var] as $coupon)
-				{		
-					$this->coupon_obj->setCurrentCoupon($coupon);
+				{
 					$this->coupon_obj->setId($coupon['pc_pk']);
-					
+					$this->coupon_obj->setCurrentCoupon($coupon);
+
 					$total_object_price = 0.0;
 					$current_coupon_bonus = 0.0;
-					
+
 					foreach ($items as $item)
 					{
-						$tmp_pobject =& new ilPaymentObject($this->user_obj, $item['pobject_id']);						
-						
+						$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);
+
 						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-						{			
-							$price_data = ilPaymentPrices::_getPrice($item['price_id']);									
+						{
+							$price_data = ilPaymentPrices::_getPrice($item['price_id']);
 							$price = (float) $price_data['price'];
-														
-							$total_object_price += $price;																						
-						}			
-						
+
+							$total_object_price += $price;
+						}
 						unset($tmp_pobject);
 					}
-					
-					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);					
-					$totalAmount[$this->pm_id] += $current_coupon_bonus * (-1);				
-					
-					$amount .= "<tr>\n";
-					$amount .= "<td>\n";					
-					$amount .= $this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code'] . ':';
-					$amount .= "</td>\n";
-					$amount .= "<td>\n";
-					$amount .= number_format($current_coupon_bonus * (-1), 2, ",", ".") . " " . $currency; 
-					$amount .= "</td>\n";
-					$amount .= "</tr>\n";
+
+					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);
+					$totalAmount[$current_coupon_bonus] += $current_coupon_bonus * (-1);
+					$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . " " . $coupon['pcc_code'] . ": ");
+					$tbl->setTotalData('VAL_COUPON_BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				}
-				
+
 				if ($totalAmount[$this->pm_id] < 0)
 				{
 					$totalAmount[$this->pm_id] = 0;
 					$this->totalVat = 0;
 				}
-			}				
-		}		
-		
-		$amount .= "<tr>\n";
-		$amount .= "<td>\n";					
-		$amount .= "<b>" . $this->lng->txt("pay_bmf_total_amount") . ":";
-		$amount .= "</td>\n";
-		$amount .= "<td>\n";
-		$amount .= number_format($totalAmount[$this->pm_id], 2, ",", ".") . " " .   $currency;
-		$amount .= "</td>\n";
-		$amount .= "</tr>\n";
-		
-		if ($this->totalVat > 0)
-		{		
-			$amount .= "<tr>\n";
-			$amount .= "<td>\n";					
-			$amount .= $this->lng->txt("pay_bmf_vat_included") . ":";
-			$amount .= "</td>\n";
-			$amount .= "<td>\n";
-			$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " .   $currency;
-			$amount .= "</td>\n";
-			$amount .= "</tr>\n";	
+			}
 		}
-				
-		$amount .= "</table>\n";
-		
-		$tpl->setVariable('LINKBAR', $amount);
-		$tpl->parseCurrentBlock('tbl_footer_linkbar');
-		$tpl->setCurrentBlock('tbl_footer');
-		$tpl->setVariable('COLUMN_COUNT',5);
-		$tpl->parseCurrentBlock();
-		$tbl->render();
 
-		$this->tpl->setVariable('ITEMS_TABLE',$tbl->tpl->get());
+		$this->totalAmount[$this->pm_id] = $totalAmount[$this->pm_id]-$current_coupon_bonus;
+		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
+		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$this->pm_id] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
+
+		// TODO: CURRENCY
+		#$currency_conversion_totalvat = (float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
+		#if($currency_conversion_totalvat > 0) $this->totalVat = $currency_conversion_totalvat;
+
+		if ($this->totalVat > 0)
+		{
+			$tbl->setTotalData('TXT_TOTAL_VAT', $this->lng->txt('pay_bmf_vat_included') . ": ");
+			$tbl->setTotalData('VAL_TOTAL_VAT',  number_format($this->totalVat , 2, ',', '.') . " " . $genSet->get('currency_unit'));
+		}
+
+		$tbl->setData($a_result_set);
+		$this->tpl->setVariable('ITEMS_TABLE',$tbl->getCartHTML());
 
 		return true;
 	}
