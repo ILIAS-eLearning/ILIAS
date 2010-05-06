@@ -22,81 +22,81 @@
 /* first or middle sibling, no children */
 .ygtvtn {
 	width:16px; height:22px; 
-	background: url(../../../../Modules/Scorm2004/templates/default/images/tn.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/tn.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, collapsable */
 .ygtvtm {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/tm.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/tm.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, collapsable, hover */
 .ygtvtmh {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/tmh.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/tmh.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, expandable */
 .ygtvtp {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/tp.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/tp.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, expandable, hover */
 .ygtvtph {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/tph.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/tph.gif) 0 0 no-repeat;
 }
 
 /* last sibling, no children */
 .ygtvln {
 	width:16px; height:22px; 
-	background: url(../../../../Modules/Scorm2004/templates/default/images/ln.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/ln.gif) 0 0 no-repeat;
 }
 
 /* Last sibling, collapsable */
 .ygtvlm {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/lm.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lm.gif) 0 0 no-repeat;
 }
 
 /* Last sibling, collapsable, hover */
 .ygtvlmh {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/lmh.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lmh.gif) 0 0 no-repeat;
 }
 
 /* Last sibling, expandable */
 .ygtvlp { 
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/lp.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lp.gif) 0 0 no-repeat;
 }
 
 /* Last sibling, expandable, hover */
 .ygtvlph { 
 	width:16px; height:22px; cursor:pointer ;
-	background: url(../../../../Modules/Scorm2004/templates/default/images/lph.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lph.gif) 0 0 no-repeat;
 }
 
 /* Loading icon */
 .ygtvloading { 
 	width:16px; height:22px; 
-	background: url(../../../../Modules/Scorm2004/templates/default/images/loading.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/loading.gif) 0 0 no-repeat;
 }
 
 /* the style for the empty cells that are used for rendering the depth 
  * of the node */
 .ygtvdepthcell { 
 	width:16px; height:22px; 
-	background: url(../../../../Modules/Scorm2004/templates/default/images/vline.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/vline.gif) 0 0 no-repeat;
 }
 
 .ygtvblankdepthcell { width:16px; height:22px; }

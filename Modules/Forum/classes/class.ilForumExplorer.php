@@ -93,7 +93,7 @@ class ilForumExplorer
 	*/
 	public function setOutput($a_parent, $a_depth = 1)
 	{
-		global $lng,$ilUser, $ilCtrl;
+		global $lng, $ilUser, $ilCtrl;
 		static $counter = 0;
 		if (is_numeric($a_parent) && $objects = $this->objCurrentTopic->getPostChilds($a_parent, 'explorer'))
 		{
@@ -101,6 +101,11 @@ class ilForumExplorer
 		
 			foreach($objects as $key => $object)
 			{
+				if (!$object['status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
+				{
+					continue;
+				}
+				
 				$href_target = $this->target."&pos_pk=".$object['child'].'#'.$object['child'];
 				$title = "<span style='white-space:nowrap;' class='frmTitle'><a href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
 						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
@@ -128,20 +133,6 @@ class ilForumExplorer
 					$this->tpl->setVariable('FRM_NODES_LINK', $title);
 					$this->tpl->parseCurrentBlock();
 				}
-
-				/*
-				$this->format_options[$counter]['visible'] = true;
-				if (!$object['status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
-				{
-					$this->format_options[$counter]['visible'] = false;				}
-
-			
-				// only if parent is expanded and visible, object is visible
-				if ($object['child'] != $this->root_id  && (!in_array($object['parent'], $this->expanded) 
-														|| !$this->format_options[$parent_index]['visible']))
-				{
-					$this->format_options[$counter]['visible'] = true;
-				}*/
 				
 				++$counter;
 
