@@ -18,6 +18,7 @@ include_once './Services/Payment/classes/class.ilShopBoughtObjectsGUI.php';
 * Class ilShopShoppingCartGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id:$
 * 
 * @ingroup ServicesPayment
@@ -25,19 +26,14 @@ include_once './Services/Payment/classes/class.ilShopBoughtObjectsGUI.php';
 class ilShopShoppingCartGUI extends ilShopBaseGUI
 {	
 	private $user_obj;
-
 	private $psc_obj = null;
-
 	private $paypal_obj = null;
    
 	private $totalAmount = array();
-	
 	private $totalVat = 0;
 	private $epSet;
 	
-// TODO: CURRENCY	
-private $default_currency = 1;
-
+	private $default_currency = 1;
 	private $session_id;
 
 	public function __construct($user_obj)
@@ -57,8 +53,7 @@ private $default_currency = 1;
 
 		$this->checkCouponsOfShoppingCart();		
 
-#TODO: CURRENCY		$this->default_currency = ilPaymentCurrency::_getDefaultCurrency();
-
+		$this->default_currency = ilPaymentCurrency::_getDefaultCurrency();
 	}
 	
 	/**
@@ -68,11 +63,6 @@ private $default_currency = 1;
 	{
 		global $ilUser;
 
-/*		if(ANONYMOUS_USER_ID == $ilUser->getId())
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-*/	
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -145,8 +135,6 @@ private $default_currency = 1;
 		return true;
 	}
 	
-	
-	
 	private function addBookings($pay_method, $coupon_session)
 	{
 		global $ilias, $ilUser, $ilObjDataCache;
@@ -180,7 +168,6 @@ private $default_currency = 1;
 					}				
 				}				
 			}
-			
 			unset($pobject);
 		}
 		
@@ -189,7 +176,6 @@ private $default_currency = 1;
 		$i = 0;
 		foreach($items as $entry)
 		{
-
 			$pobject = new ilPaymentObject($this->user_obj, $entry['pobject_id']);
 
 			$price = ilPaymentPrices::_getPrice($entry['price_id']);
@@ -207,7 +193,6 @@ private $default_currency = 1;
 			$booking_obj->setOrderDate(time());
 			$booking_obj->setDuration($price['duration']);
 			$booking_obj->setPrice(ilPaymentPrices::_getPriceString($entry['price_id']));
-			//$booking_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount((-1) * $bonus) : 0);
 			$booking_obj->setDiscount($bonus > 0 ? ((-1) * $bonus) : 0);
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
@@ -332,8 +317,6 @@ private $default_currency = 1;
 			}
 		}
 	}
-
-
   
   /**
   * Return from ePay
@@ -360,7 +343,6 @@ private $default_currency = 1;
     ilUtil::sendSuccess($this->lng->txt('pay_epay_success'));
 	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
-	
 
 	public function finishPaypal()
 	{
@@ -418,7 +400,6 @@ private $default_currency = 1;
 		ilUtil::sendInfo($this->lng->txt('pay_epay_canceled'));
 		$this->showItems();
 	}
-  
 
 	public function cancelPaypal()
 	{
@@ -457,17 +438,9 @@ private $default_currency = 1;
 		return $pay_methods;
   }
 
-  private function _getPayString( $v )
-  {
-// TODO: use payment_paymethods -> pm_title instead
-/*  	
-    if ($v == PAY_METHOD_BILL) $str = 'bill';
-    if ($v == PAY_METHOD_BMF) $str ='bmf';
-    if ($v == PAY_METHOD_PAYPAL) $str = 'paypal';
-    if ($v == PAY_METHOD_EPAY) $str = 'epay';
-    return $str;
-    */
-  }
+  /*
+   *
+   */
   private function _getTemplateFilename( $a_pm_title )
   {
   // use payment_paymethods -> pm_title  	
@@ -499,13 +472,12 @@ private $default_currency = 1;
 		global $ilObjDataCache, $ilUser;
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
-//TODO: CURRENCY include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html','Services/Payment');
 		$this->initShoppingCartObject();
 
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		
 		$genSet = new ilGeneralSettings();
 		$pay_methods = $this->_getPayMethods( true );
 		$num_items = 0;
@@ -520,321 +492,303 @@ private $default_currency = 1;
 
 		$force_user_login = false;
 
-#		if (is_array($pay_methods))
-#		{			
-#			for ($p = 0; $p < count($pay_methods); $p++)
-			foreach($pay_methods as $pay_method)
-			{		
-				$this->totalVat = 0;
-				$tpl = new ilTemplate(  $this->_getTemplateFilename( $pay_method['pm_title'] ), true,'Services/Payment');
-				$coupon_session_id = $pay_method['pm_title'];
+		foreach($pay_methods as $pay_method)
+		{
+			$this->totalVat = 0;
+			$tpl = new ilTemplate(  $this->_getTemplateFilename( $pay_method['pm_title'] ), true,'Services/Payment');
+			$coupon_session_id = $pay_method['pm_title'];
 
-				if (count($items = $this->psc_obj->getEntries( $pay_method['pm_id'])))
+			if (count($items = $this->psc_obj->getEntries( $pay_method['pm_id'])))
+			{
+				$counter = 0;
+				$paypal_counter = 0;
+				$total_price = 0;
+
+				$total_price_in_default_currency = 0;
+				$total_vat_in_default_currency = 0;
+				foreach ($items as $item)
 				{
-					$counter = 0;
-					$paypal_counter = 0;
-					$total_price = 0;
+					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
+
+					$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
+					$obj_type = $ilObjDataCache->lookupType($obj_id);
+					$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+					$desc[] = "[" . $obj_type . "] " . $obj_title;
+					$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
+
 // TODO: CURRENCY 
-/*  
- 					$total_price_in_default_currency = 0;
-					$total_vat_in_default_currency = 0;	
- */
-					foreach ($items as $item)
+ /*					$is_default_currency = ((int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] ? true : false);
+					$is_default_currency
+					? $item_conversion_rate = (float)$this->default_currency['conversion_rate']
+					: $item_conversion_rate = ilPaymentCurrency::_getConversionRate($price_arr['currency']);
+ */ 
+					# checks object_type: needed for purchasing file or crs objects without login
+					switch ($obj_type)
 					{
-						$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
-			
-						$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
-						$obj_type = $ilObjDataCache->lookupType($obj_id);
-						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
-						$desc[] = "[" . $obj_type . "] " . $obj_title;
-						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
-// TODO: CURRENCY 
-/*  
- 						$is_default_currency = ((int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] ? true : false);
-						(int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] 
-							?  $currency_id = $this->default_currency['currency_id'] : $currency_id = $price_arr['currency'];   	
-							
-						$item_conversion_rate = ilPaymentCurrency::_getConversionRate($currency_id);
+						case 'crs':
+							// if is_crs there an user-aacount will be autogenerated
+							$is_crs_object = true;
+							$_SESSION['is_crs_object'] = true;
+							$crs_obj_ids[] = $obj_id;
+							$_SESSION['crs_obj_ids'] = $crs_obj_ids;
+							break;
+						case 'lm':
+						case 'sahs':
+						case 'htlm':
+						case 'tst':
+							$is_lm_object = true;
+							$_SESSION['is_lm_object'] = true;
+							$lm_obj_ids[] = obj_id;
+							$_SESSION['lm_obj_ids'] = $lm_obj_ids;
+							break;
 
-
- */						
-			# checks object_type: needed for purchasing file or crs objects without login
-				switch ($obj_type)
-				{
-					case 'crs':
-						// if is_crs there an user-aacount will be autogenerated
-						$is_crs_object = true;
-						$_SESSION['is_crs_object'] = true;
-						$crs_obj_ids[] = $obj_id;
-						$_SESSION['crs_obj_ids'] = $crs_obj_ids;
-						break;
-					case 'lm':
-					case 'sahs':
-					case 'htlm':
-					case 'tst':
-						$is_lm_object = true;
-						$_SESSION['is_lm_object'] = true;
-						$lm_obj_ids[] = obj_id;
-						$_SESSION['lm_obj_ids'] = $lm_obj_ids;
-						break;
-
-					case 'file':
-						$is_file_object = true;
-						break;
-					default:
-						$force_user_login = true;
-						break;
-				}
+						case 'file':
+							$is_file_object = true;
+							break;
+						default:
+							$force_user_login = true;
+							break;
+					}
 					
-						$direct_paypal_info_output = true;
-						
-						$assigned_coupons = '';					
-						if (!empty($_SESSION['coupons'][$coupon_session_id]))
-						{			
-							$price = $price_arr['price'];						
-							$item['math_price'] = (float) $price;
-														
-							foreach ($_SESSION['coupons'][$coupon_session_id] as $key => $coupon)
+					$direct_paypal_info_output = true;
+
+					$assigned_coupons = '';
+					if (!empty($_SESSION['coupons'][$coupon_session_id]))
+					{
+						$price = $price_arr['price'];
+						$item['math_price'] = (float) $price;
+
+						foreach ($_SESSION['coupons'][$coupon_session_id] as $key => $coupon)
+						{
+							$this->coupon_obj->setId($coupon['pc_pk']);
+							$this->coupon_obj->setCurrentCoupon($coupon);
+
+							if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 							{
-								$this->coupon_obj->setId($coupon['pc_pk']);
-								$this->coupon_obj->setCurrentCoupon($coupon);
+								$assigned_coupons .=  $this->lng->txt('paya_coupons_coupon') . ': ' . $coupon['pcc_code'];
 
-								if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-								{
-									$assigned_coupons .= '<br />' . $this->lng->txt('paya_coupons_coupon') . ': ' . $coupon['pcc_code'];
-
-									$_SESSION['coupons'][$coupon_session_id][$key]['total_objects_coupon_price'] += (float) $price;
-									$_SESSION['coupons'][$coupon_session_id][$key]['items'][] = $item;
-									$direct_paypal_info_output = false;
-								}
+								$_SESSION['coupons'][$coupon_session_id][$key]['total_objects_coupon_price'] += (float) $price;
+								$_SESSION['coupons'][$coupon_session_id][$key]['items'][] = $item;
+								$direct_paypal_info_output = false;
 							}
 						}
+					}
 
-						$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
-						$f_result[$counter][] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>";
-						if ($assigned_coupons != '')
-						{
-							$f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
-						}
+					$f_result[$counter]['item'] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
+					$f_result[$counter]['title'] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>";
+					if ($assigned_coupons != '')
+					{
+						// !!! $f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
+						$f_result[$counter]['assigned_coupons'] .= $assigned_coupons;
+					}
 						
-						if($price_arr['duration'] == 0)
-						{
-							$f_result[$counter][] = $this->lng->txt('unlimited_duration');
-						}
-						else
-						$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
-						
-						$float_price = $price_arr['price'];
-						$total_price += $float_price;
-						
-						$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
-						$f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+					if($price_arr['duration'] == 0)
+					{
+						$f_result[$counter]['duration'] = $this->lng->txt('unlimited_duration');
+					}
+					else
+					$f_result[$counter]['duration'] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
+
+					$float_price = $price_arr['price'];
+					$total_price += $float_price;
+
+					$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
+					$f_result[$counter]['vat_rate'] = ilShopUtils::_formatVAT($oVAT->getRate());
 //TODO CURRENCY 
 /*
-						
-						$current_vat = $tmp_pobject->getVat($float_price);
-		
-						$current_vat_in_default_currency = $current_vat * $item_conversion_rate;
-						$current_price_in_default_currency = $float_price * $item_conversion_rate;
-				
-						$item_current_vat = ilPaymentPrices::_formatPriceToString($current_vat, $price_arr['currency']); 
-						if(!$is_default_currency)
-							$item_current_vat .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_vat_in_default_currency,$this->default_currency['symbol']).' )';
-						
-						$f_result[$counter][] = $item_current_vat; 
-						
- 
-						
-						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
+					$current_vat = $tmp_pobject->getVat($float_price);
+
+					$current_vat_in_default_currency = $current_vat * $item_conversion_rate;
+					$current_price_in_default_currency = $float_price * $item_conversion_rate;
+
+					$item_current_vat = ilPaymentPrices::_formatPriceToString($current_vat, $price_arr['currency']);
+					if(!$is_default_currency)
+						$item_current_vat .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString((float)$current_vat_in_default_currency,$this->default_currency['symbol']).' )';
+
+					$f_result[$counter]['vat_unit'] = $item_current_vat;
+
+					$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
 					
-		$total_price_in_default_currency += $current_price_in_default_currency;
-		$total_vat_in_default_currency += $current_vat_in_default_currency;	
-						
-		$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['price'] = $current_price_in_default_currency; 
-		$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['vat'] = $current_vat_in_default_currency;
+					$total_price_in_default_currency += $current_price_in_default_currency;
+					$total_vat_in_default_currency += $current_vat_in_default_currency;
 
-		$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_vat'] = $total_vat_in_default_currency;
-		$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_price'] = $total_price_in_default_currency; 
+					$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['price'] = $current_price_in_default_currency;
+					$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['vat'] = $current_vat_in_default_currency;
 
-		
-//						$f_result[$counter][] = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
+					$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_vat'] = $total_vat_in_default_currency;
+					$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_price'] = $total_price_in_default_currency;
 
-						$item_current_price = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
-						if(!$is_default_currency)
-							$item_current_price .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_price_in_default_currency,$this->default_currency['symbol']).' )';
-						
-							
-						$f_result[$counter][] = $item_current_price;
-						
+					$item_current_price = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
+					if(!$is_default_currency)
+						$item_current_price .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_price_in_default_currency,$this->default_currency['symbol']).' )';
 
-*/						
-// old one						
-						$f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
-						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
-						
-						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']).' '.$genSet->get('currency_unit');;
-/*******/
-						if ($pay_method['pm_title'] == 'paypal')
+					$f_result[$counter]['price'] = $item_current_price;
+ **/
+ //* old one without currency-conversion
+					$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
+					$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
+
+					$f_result[$counter]['price'] = number_format(ilPaymentPrices::_getPriceString($item['price_id']), 2, ',', '.') .' '.$genSet->get('currency_unit');
+/*****/
+					if ($pay_method['pm_title'] == 'paypal')
+					{
+						if ($direct_paypal_info_output == true) // Paypal information in hidden fields
 						{
-							if ($direct_paypal_info_output == true) // Paypal information in hidden fields
-							{				
-								$tpl->setCurrentBlock('loop_items');
-								$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
-								$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
-								$tpl->setVariable('LOOP_ITEMS_AMOUNT', $float_price);
+							$tpl->setCurrentBlock('loop_items');
+							$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
+							$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
+							$tpl->setVariable('LOOP_ITEMS_AMOUNT', $float_price);
 // TODO : CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT',ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']));								
-								$tpl->parseCurrentBlock('loop_items');														
-							}
-
+							$tpl->parseCurrentBlock('loop_items');
 						}
+					}
 						
-						++$counter;
-						unset($tmp_pobject);					
-					} // foreach
+					++$counter;
+					unset($tmp_pobject);					
+				} // foreach
 					
-					$this->showItemsTable($tpl, $f_result, $pay_method);
+				$this->showItemsTable($tpl, $f_result, $pay_method);
 
-					if (!(bool)$genSet->get('hide_coupons')) 
-					{
-					    $tpl->setVariable('COUPON_TABLE', $this->showCouponInput($pay_method['pm_title']));
-					}			
-					$tpl->setCurrentBlock('buy_link');
-					
-					switch($pay_method['pm_title'])
-					{
-						case 'bill':
-							if ($this->totalAmount[$pay_method['pm_id']] == 0)
-							{
-								$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
-							}
-							else
-							{
-								# Anonymous user has to login
-								if(ANONYMOUS_USER_ID == $ilUser->getId())
-							
-								{ 
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
-								}
-								else
-								{
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
-								}									
-							}	
-							break;
+				if (!(bool)$genSet->get('hide_coupons'))
+				{
+					$tpl->setVariable('COUPON_TABLE', $this->showCouponInput($pay_method['pm_title']));
+				}
+				$tpl->setCurrentBlock('buy_link');
 
-						case 'bmf':				
-							#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');							
-							if ($this->totalAmount[$pay_method['pm_id']] == 0)
-							{
-								$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
-							}
-							else
-							{
-								# Anonymous user has to login
-								if(ANONYMOUS_USER_ID == $ilUser->getId())
-								{ 
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
-								}
-								else
-								{								
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBMFGUI', ''));
-								}
-							}	
-							break;
-		
-   						case 'epay':
-								# Anonymous user has to login
+				switch($pay_method['pm_title'])
+				{
+					case 'bill':
+						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						{
+							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
+							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
+						}
+						else
+						{
+							# Anonymous user has to login
 							if(ANONYMOUS_USER_ID == $ilUser->getId())
-							{ 
+
+							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
 							else
-							{								
-   						
-	   					// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
-							  $tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
-								$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
-								$tpl->setVariable('AMOUNT', $total_price * 100);
-								$tpl->setVariable('CURRENCY', "208");
-								$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
-								$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
-	             				$tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
-								$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
-								$tpl->setVariable('ADDFEE', 1);
-								$tpl->setVariable('LANGUAGE', 1);
-								$tpl->setVariable('GROUP', "");
-								$tpl->setVariable('CARDTYPE', "");
-								$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
-	
-								$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
-								$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
-								$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));							
-								}
-								break;
-								
-						case 'paypal':								
-							if ($this->totalAmount[$pay_method['pm_id']] == 0)
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTarget($this, 'unlockPAYPALObjectsInShoppingCart'));
+								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
+							}
+						}
+						break;
+
+					case 'bmf':
+						#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');
+						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						{
+							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
+							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
+						}
+						else
+						{
+							# Anonymous user has to login
+							if(ANONYMOUS_USER_ID == $ilUser->getId())
+							{
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
 							else
 							{
-								if(ANONYMOUS_USER_ID == $ilUser->getId() && $force_user_login == true)
-							
-								{ 
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
-								}
-								else
-								{
-									$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-									$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);
-								}								
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBMFGUI', ''));
 							}
+						}
+						break;
 
-							$tpl->setVariable('POPUP_BLOCKER', $this->lng->txt('popup_blocker'));
-							$tpl->setVariable('VENDOR', $this->paypalConfig['vendor']);
-							$tpl->setVariable('RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishPaypal'));
-							$tpl->setVariable('CANCEL_RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelPaypal'));
-							$tpl->setVariable('CUSTOM', $ilUser->getId());
-							$tpl->setVariable('CURRENCY', $genSet->get('currency_unit'));
-// TODO CURRENCY $tpl->setVariable('CURRENCY', $currency);							
-							$tpl->setVariable('PAGE_STYLE', $this->paypalConfig['page_style']);
-							
-							if (!empty($_SESSION['coupons'][$coupon_session_id]))
+					case 'epay':
+							# Anonymous user has to login
+						if(ANONYMOUS_USER_ID == $ilUser->getId())
+						{
+							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+							$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+						}
+						else
+						{
+							/// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
+							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
+							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
+							$tpl->setVariable('AMOUNT', $total_price * 100);
+							$tpl->setVariable('CURRENCY', "208");
+							$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
+							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
+							$tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
+							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
+							$tpl->setVariable('ADDFEE', 1);
+							$tpl->setVariable('LANGUAGE', 1);
+							$tpl->setVariable('GROUP', "");
+							$tpl->setVariable('CARDTYPE', "");
+							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
+
+							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
+							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
+							$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));
+						}
+						break;
+								
+					case 'paypal':
+						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						{
+							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+							$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTarget($this, 'unlockPAYPALObjectsInShoppingCart'));
+						}
+						else
+						{
+							if(ANONYMOUS_USER_ID == $ilUser->getId() && $force_user_login == true)
+
 							{
-								$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION['coupons'][$coupon_session_id]);
-																
-								if (is_array($coupon_discount_items) && !empty($coupon_discount_items))
-								{
-									foreach ($coupon_discount_items as $item)
-									{
-										$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);
-			
-										$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());										
-										$obj_title = $ilObjDataCache->lookupTitle($obj_id);
-														
-										$tpl->setCurrentBlock('loop_items');
-										$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
-										$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
-										$tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2));
-// TODO CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2).' '.$currency);										
-										$tpl->parseCurrentBlock('loop_items');
-										
-										unset($tmp_pobject);
-									}										
-								}															
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
+							else
+							{
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);
+							}
+						}
 
+						$tpl->setVariable('POPUP_BLOCKER', $this->lng->txt('popup_blocker'));
+						$tpl->setVariable('VENDOR', $this->paypalConfig['vendor']);
+						$tpl->setVariable('RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishPaypal'));
+						$tpl->setVariable('CANCEL_RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelPaypal'));
+						$tpl->setVariable('CUSTOM', $ilUser->getId());
+						$tpl->setVariable('CURRENCY', $genSet->get('currency_unit'));
+// TODO CURRENCY $tpl->setVariable('CURRENCY', $currency);
+						$tpl->setVariable('PAGE_STYLE', $this->paypalConfig['page_style']);
+
+						if (!empty($_SESSION['coupons'][$coupon_session_id]))
+						{
+							$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION['coupons'][$coupon_session_id]);
+
+							if (is_array($coupon_discount_items) && !empty($coupon_discount_items))
+							{
+								foreach ($coupon_discount_items as $item)
+								{
+									$tmp_pobject = new ilPaymentObject($this->user_obj, $item['pobject_id']);
+
+									$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
+									$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+
+									$tpl->setCurrentBlock('loop_items');
+									$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
+									$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
+									$tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2));
+// TODO CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2).' '.$currency);										
+									$tpl->parseCurrentBlock('loop_items');
+
+									unset($tmp_pobject);
+								}
+							}
+						}
+						break;
 #							$buttonParams["upload"] = 1;
 #							$buttonParams["charset"] = "utf-8";
 #							$buttonParams["business"] = $this->paypalConfig["vendor"];
@@ -848,8 +802,6 @@ private $default_currency = 1;
 #							{
 #								$tpl->setVariable("ENCDATA", $enc_data);
 #							}
-
-							break;
 					}
 
 					if ($pay_method['pm_title'] == 'paypal')
@@ -876,8 +828,6 @@ private $default_currency = 1;
 				}
 			}
 	#}
-/* BEGIN IF: ONLY RB */
-		//if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_SESSION['is_crs_object'])&& !isset($_SESSION['user_name']) && $num_items > 0)
 
 		if($_SESSION['tmp_user_account'])
 		{
@@ -889,7 +839,6 @@ private $default_currency = 1;
 			$question .= $this->lng->txt('please_use_account');
 
 			ilUtil::sendQuestion($question);
-
 
 			if($_SESSION['tmp_transaction'] || ANONYMOUS_USER_ID == $ilUser->getId())
 			{
@@ -909,10 +858,8 @@ private $default_currency = 1;
 				$form->addItem($form_item);
 				$this->tpl->setVariable('FORM', $form->getHTML());
 			}
-			//unset($_SESSION['is_crs_object']);
 			$_SESSION['download_links'] = array();
 		}
-
 /***/
 		if ($num_items == 0)
 		{
@@ -924,9 +871,8 @@ private $default_currency = 1;
 			//$_SESSION['currency_conversion']=null;
 			return true;
 		}
- *
  */
-//$_SESSION['currency_conversion']=null;
+
 	}
 	
 	/*  not used ?!   */
@@ -939,7 +885,6 @@ private $default_currency = 1;
 			switch ($this->coupon_obj->checkCouponValidity())
 			{
 				case 1:
-				
 				case 2:
 					ilUtil::sendInfo($this->lng->txt('paya_coupons_not_valid'));				
 					$this->showItems();			
@@ -968,9 +913,7 @@ private $default_currency = 1;
 			if (!$assignedItems)
 			{
 				ilUtil::sendInfo($this->lng->txt('paya_coupons_no_object_assigned'));
-			
 				$this->showItems();
-			
 				return true;
 			}			
 			
@@ -985,7 +928,6 @@ private $default_currency = 1;
 						unset($_SESSION['coupons'][$key][$coupon['pc_pk']]);
 					}
 				}
-					
 				ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_added'));
 				$_SESSION['coupons'][$coupon_session_id][$coupon['pc_pk']] = $coupon;
 			}
@@ -995,12 +937,10 @@ private $default_currency = 1;
 			}
 			
 			$this->showItems();
-				
 			return true;		
 		}	
 		
 		$this->showItems();
-		
 		return true;		
 	}	
 	
@@ -1015,7 +955,6 @@ private $default_currency = 1;
 		}
 				
 		$this->showItems();
-		
 		return true;		
 	}
 /*
@@ -1073,94 +1012,42 @@ private $default_currency = 1;
 	*/	
 	private function showItemsTable(&$a_tpl, $a_result_set, $a_pay_method = 0)
 	{
-		// TODO: redesign shoppingcart !!!
-		
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-
 		$genSet = new ilGeneralSettings();
 		
-		include_once('Services/Table/classes/class.ilTableGUI.php');
+		include_once './Services/Payment/classes/class.ilShoppingCartTableGUI.php';
 
-		$tbl = new ilTableGUI(array(), false);
-		$tpl = $tbl->getTemplateObject();
+		$tbl = new ilShoppingCartTableGUI($this);
+		$tbl->setId('tbl_id_'.$a_pay_method);
+		$tbl->setTitle($this->lng->txt('paya_shopping_cart').
+				" (".$this->lng->txt('payment_system').": ".
+				ilPayMethods::getStringByPaymethod($a_pay_method['pm_title']) .")");
 
-		// SET FORMACTION
-		$tpl->setCurrentBlock('tbl_form_header');
-
-		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock('tbl_action_row');
-		$tpl->setCurrentBlock('plain_buttons');
-		$tpl->parseCurrentBlock();
-
-		$tpl->setVariable('COLUMN_COUNTS',6);
-		$tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.gif'));
-
-		$tpl->setCurrentBlock('tbl_action_button');
-		$tpl->setVariable('BTN_NAME','deleteItem');
-		$tpl->setVariable('BTN_VALUE',$this->lng->txt('delete'));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock('tbl_action_row');
-		$tpl->setVariable('TPLPATH',$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-
-		$title = $this->lng->txt('paya_shopping_cart');
-		
 		$coupon_session = $a_pay_method['pm_title'];
-		$title .= " (" . $this->lng->txt('payment_system') . ": " . ilPayMethods::getStringByPaymethod($a_pay_method['pm_title']) . ")";
 
-		$tbl->setTitle($title,'icon_pays_cart.gif',$this->lng->txt('paya_shopping_cart'));
-		$tbl->setHeaderNames(array($this->lng->txt(''),
-								   $this->lng->txt('title'),
-								   $this->lng->txt('duration'),
-								   $this->lng->txt('vat_rate'),
-								   $this->lng->txt('vat_unit'),
-								   $this->lng->txt('price_a')));
+		$tbl->setRowTemplate("tpl.shop_shoppingcart_row.html", "Services/Payment");
+		$tbl->addColumn('', 'item', '1%', true);
+		$tbl->addColumn($this->lng->txt('title'), "table". $a_pay_method['pm_title']."_title", '30%');
+		$tbl->addColumn($this->lng->txt('duration'), "table". $a_pay_method['pm_title']."_duration", '30%');
+		$tbl->addColumn($this->lng->txt('vat_rate'), "table". $a_pay_method['pm_title']."_vat_rate", '15%');
+		$tbl->addColumn($this->lng->txt('vat_unit'), "table". $a_pay_method['pm_title']."_vat_unit", '15%');
+		$tbl->addColumn($this->lng->txt('price_a'), "table". $a_pay_method['pm_title']."_price", '10%');
 
-		$tbl->setHeaderVars(array("",
-								  "table". $a_pay_method['pm_title']."_title",
-								  "table". $a_pay_method['pm_title']."_duration",
-								  "table". $a_pay_method['pm_title']."_vat_rate",
-								  "table". $a_pay_method['pm_title']."_vat_unit",
-								  "table". $a_pay_method['pm_title']."_price"),
-							$this->ctrl->getParameterArray($this, ''));
-								   
-		$offset = $_GET["table". $a_pay_method['pm_title']."_offset"];
-		$order = $_GET["table". $a_pay_method['pm_title']."_sort_by"];
-		$direction = $_GET["table". $a_pay_method['pm_title']."_sort_order"] ? $_GET['table'. $a_pay_method['pm_title'].'_sort_order'] : 'desc';
-							
 		$tbl->setPrefix("table". $a_pay_method['pm_title']."_");
-		$tbl->setOrderColumn($order,'table'. $a_pay_method['pm_title'].'_title');
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($_GET['limit']);
-		$tbl->setMaxCount(count($a_result_set));
-		$tbl->setFooter('tblfooter',$this->lng->txt('previous'),$this->lng->txt('next'));
-		$tbl->setData($a_result_set);
-
+		$tbl->addMultiCommand('deleteItem', $this->lng->txt('delete'));
+	
 		// show total amount of costs
 		$sc_obj = new ilPaymentShoppingCart($this->user_obj);
-
 		$totalAmount =  $sc_obj->getTotalAmount();
 
-		$tpl->setCurrentBlock('tbl_footer_linkbar');
-		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
 		if (!empty($_SESSION['coupons'][$coupon_session]))
 		{
 			if (count($items = $sc_obj->getEntries($a_pay_method['pm_id'])))
 			{
-				$amount .= "<tr>\n";
-				$amount .= "<td>\n";
-				$amount .= "<b>" . $this->lng->txt('pay_bmf_subtotal_amount') . ":";				
-				$amount .= "</td>\n";
-				$amount .= "<td>\n";
-				$amount .= number_format($totalAmount[$a_pay_method['pm_id']], 2, ',', '.') . " " . $genSet->get('currency_unit') . "</b>";
-//TODO: CURRENCY //$amount .=  ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] );
-								
-				$amount .= "</td>\n";				
-				$amount .= "</tr>\n";
-				
+				$tbl->setTotalData('TXT_SUB_TOTAL', $this->lng->txt('pay_bmf_subtotal_amount') . ": ");
+				$tbl->setTotalData('VAL_SUB_TOTAL', number_format($totalAmount[$a_pay_method['pm_id']], 2, ',', '.') . " " . $genSet->get('currency_unit'));
+//TODO: CURRENCY #$tbl->setTotalData('VAL_SUB_TOTAL',ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] ));
+
 				foreach ($_SESSION['coupons'][$coupon_session] as $coupon)
 				{
 					$this->coupon_obj->setId($coupon['pc_pk']);
@@ -1180,23 +1067,13 @@ private $default_currency = 1;
 							
 							$total_object_price += $price;																					
 						}
-						
 						unset($tmp_pobject);
 					}					
 					
 					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);					
-					#$totalAmount[$a_pay_method] += $current_coupon_bonus * (-1);
 					$totalAmount[$current_coupon_bonus] += $current_coupon_bonus * (-1);
-					
-					$amount .= "<tr>\n";
-					$amount .= "<td>\n";					
-					$amount .= $this->lng->txt('paya_coupons_coupon') . " " . $coupon['pcc_code'] . ":";
-					$amount .= "</td>\n";
-					$amount .= "<td>\n";
-					$amount .= number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit');
-//$amount .= ilPaymentPrices::_formatPriceToString($current_coupon_bonus * (-1));
-					$amount .= "</td>\n";
-					$amount .= "</tr>\n";
+					$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . " " . $coupon['pcc_code'] . ": ");
+					$tbl->setTotalData('VAL_COUPON_BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				}
 				
 				if ($totalAmount[$a_pay_method['pm_id']] < 0)
@@ -1205,52 +1082,24 @@ private $default_currency = 1;
 					$this->totalVat = 0;
 				}
 			}				
-		}		
-		
-		$amount .= "<tr>\n";
-		$amount .= "<td>\n";					
-		$amount .= "<b>" . $this->lng->txt('pay_bmf_total_amount') . ":";	
-		$amount .= "</td>\n";
-		$amount .= "<td>\n";
-	//	$amount .= number_format($totalAmount[$a_pay_method], 2, ',', '.') . " " . $genSet->get('currency_unit');
-// TODO CURRENCY 		
-$amount .= ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus);
-#.' '.$item['currency'];
-		$amount .= "</td>\n";
-		$amount .= "</tr>\n";
+		}
+
 		$this->totalAmount[$a_pay_method['pm_id']] = $totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus;
-		
-// TODO CURRENCY 	 
-/*
-$currency_conversion_totalvat=(float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
-if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_totalvat;
- 
- */	
+		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
+		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$a_pay_method['pm_id']] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
+
+		// TODO: CURRENCY
+		#$currency_conversion_totalvat = (float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
+		#if($currency_conversion_totalvat > 0) $this->totalVat = $currency_conversion_totalvat;
+
 		if ($this->totalVat > 0)
 		{
-			$amount .= "<tr>\n";
-			$amount .= "<td>\n";					
-			$amount .=  $this->lng->txt('pay_bmf_vat_included') . ":";
-			$amount .= "</td>\n";
-			$amount .= "<td>\n";
-			#$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
-			$amount .= ilPaymentPrices::_formatPriceToString($this->totalVat,(int)$this->default_currency['currency_id']);			
-			
-			$amount .= "</td>\n";
-			$amount .= "</tr>\n";
+			$tbl->setTotalData('TXT_TOTAL_VAT', $this->lng->txt('pay_bmf_vat_included') . ": ");
+			$tbl->setTotalData('VAL_TOTAL_VAT',  number_format($this->totalVat , 2, ',', '.') . " " . $genSet->get('currency_unit'));
 		}
 						
-		$amount .= "</table>\n";
-
-		$tpl->setVariable('LINKBAR', $amount);
-		$tpl->parseCurrentBlock('tbl_footer_linkbar');
-		$tpl->setCurrentBlock('tbl_footer');
-		$tpl->setVariable('COLUMN_COUNT',6);
-		$tpl->parseCurrentBlock();
-
-		$tbl->render();
-		
-		$a_tpl->setVariable('ITEMS_TABLE',$tbl->tpl->get());
+		$tbl->setData($a_result_set);
+		$a_tpl->setVariable('ITEMS_TABLE',$tbl->getCartHTML());
 
 		return true;
 	}
@@ -1276,7 +1125,6 @@ if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_tota
 
 		return true;
 	}
-		
 
 	private function initShoppingCartObject()
 	{
@@ -1372,7 +1220,6 @@ if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_tota
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 
-
 		$form_2 = new ilPropertyFormGUI();
 		$form_2->setFormAction($ilCtrl->getFormAction($this, 'validateNewUser'));
 		$form_2->setTitle($lng->txt('login'));
@@ -1411,7 +1258,6 @@ if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_tota
 
 			if($obj_user->getPasswd() == md5($_POST["user_pass"]))
 			{
-
 				ilShopUtils::_assignTransactionToCustomerId($old_user_id, $user_id, $transaction_extern);
 
 				// assign new_user_id to crs
@@ -1431,8 +1277,6 @@ if($currency_conversion_totalvat > 0) $this->totalVat =$currency_conversion_tota
 				$ilUser = new ilObjUser(ANONYMOUS_USER_ID);
 				ilUtil::sendInfo(sprintf($lng->txt('user_name_accepted'),$_SESSION['tmp_user_account']['login']), true);
 				unset($_SESSION['tmp_user_account']);
-			//	unset($_SESSION['tmp_transaction']);
-	
 			}
 			$this->showItems();
 			return true;
