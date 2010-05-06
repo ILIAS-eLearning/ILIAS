@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "classes/class.ilObjectListGUI.php";
+include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
 * ListGUI class for wiki objects.
@@ -132,8 +132,21 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		// separate method for this line
-		$cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
+		switch($a_cmd)
+		{
+			case 'downloadFile':
+				$cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI".
+					"&amp;cmdClass=ilwikipagegui&amp;ref_id=".$this->ref_id.
+					"&amp;cmd=downloadFile&amp;file_id=".$this->getChildId();
+				break;
+			
+			default:
+				// separate method for this line
+				$cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
+				break;
+
+		}
+		
 
 		return $cmd_link;
 	}
