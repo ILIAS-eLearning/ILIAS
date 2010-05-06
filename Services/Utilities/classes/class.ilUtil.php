@@ -1594,9 +1594,7 @@ class ilUtil
 	*/
 	function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
-		//global $ilias;
-
-		if (!is_file ($a_file))
+		if (!is_file($a_file))
 		{
 			return;
 		}
@@ -1620,13 +1618,12 @@ class ilUtil
 		$cdir = getcwd();
 		chdir($dir);
 		$unzip = PATH_TO_UNZIP;
-		//$unzip = $ilias->getSetting("unzip_path");
 
 		// workaround for unzip problem (unzip of subdirectories fails, so
 		// we create the subdirectories ourselves first)
 		// get list
-		$unzipcmd = $unzip." -Z -1 ".ilUtil::escapeShellArg($file);
-		exec($unzipcmd, $arr);
+		$unzipcmd = "-Z -1 ".ilUtil::escapeShellArg($file);
+		$arr = ilUtil::execQuoted($unzip, $unzipcmd);
 		$zdirs = array();
 
 		foreach($arr as $line)
@@ -1654,15 +1651,15 @@ class ilUtil
 		}
 
 		// real unzip
-		if ($overvwrite)
+		if (!$overwrite)
 		{
-			$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
+			$unzipcmd = ilUtil::escapeShellArg($file);
 		}
 		else
 		{
-			$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($file);
+			$unzipcmd = "-o ".ilUtil::escapeShellArg($file);
 		}
-		exec($unzipcmd);
+		ilUtil::execQuoted($unzip, $unzipcmd);
 
 		chdir($cdir);
 		
@@ -1691,8 +1688,6 @@ class ilUtil
 	*/
 	function zip($a_dir, $a_file, $compress_content = false)
 	{
-		//global $ilias;
-
 		$cdir = getcwd();
 
 		if($compress_content)
@@ -1712,7 +1707,6 @@ class ilUtil
 		}
 
 		$zip = PATH_TO_ZIP;
-		//$zip = $ilias->getSetting("zip_path");
 		
 		if(!$zip)
 		{
@@ -1742,9 +1736,8 @@ class ilUtil
 			}
 		}
 
-		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($a_file)." ".$source;
-//echo htmlentities($zipcmd); exit;
-		exec($zipcmd);
+		$zipcmd = "-r ".ilUtil::escapeShellArg($a_file)." ".$source;
+		ilUtil::execQuoted($zip, $zipcmd);
 		chdir($cdir);
 		return true;
 	}
@@ -1767,25 +1760,34 @@ class ilUtil
 			return false;
 		}
 		
-			$name = basename($a_dir);
+		$name = basename($a_dir);
+		$source = ilUtil::escapeShellArg($name);
 
-				$source = ilUtil::escapeShellArg($name);
-
-		$zipcmd = $mkisofs." -r -J -o ".$a_file." ".$source;
-		exec($zipcmd);
+		$zipcmd = "-r -J -o ".$a_file." ".$source;
+		ilUtil::execQuoted($mkisofs, $zipcmd);
 		chdir($cdir);
 		return true;
 	}
 	
 	/**
 	* get convert command
+	*
+	* @deprecated
+	* @see ilUtil::execConvert()
 	*/
 	function getConvertCmd()
 	{
 		return PATH_TO_CONVERT;
-		//global $ilias;
-
-		//return $ilias->getSetting("convert_path");
+	}
+	
+	/**
+	 * execute convert command
+	 *
+	 * @param	string	$args
+	 */
+	public static function execConvert($args)
+	{
+		ilUtil::execQuoted(PATH_TO_CONVERT, $args);
 	}
 
 	/**
@@ -1807,10 +1809,9 @@ class ilUtil
 		$bg_color = ($a_background_color != "")
 			? " -background color ".$a_background_color." "
 			: "";
-		$convert_cmd = ilUtil::getConvertCmd()." ".
-			ilUtil::escapeShellArg($a_from)." ".$bg_color.$geometry.ilUtil::escapeShellArg($format_str.$a_to);
+		$convert_cmd = ilUtil::escapeShellArg($a_from)." ".$bg_color.$geometry.ilUtil::escapeShellArg($format_str.$a_to);
 
-		system($convert_cmd);
+		ilUtil::execConvert($convert_cmd);
 	}
 
 	/**
@@ -1831,10 +1832,9 @@ class ilUtil
 		{
 			$size = " -resize ".$a_width."x".$a_height."! ";
 		}
-		$convert_cmd = ilUtil::getConvertCmd()." ".
-			ilUtil::escapeShellArg($a_from)." ".$size.ilUtil::escapeShellArg($a_to);
+		$convert_cmd = ilUtil::escapeShellArg($a_from)." ".$size.ilUtil::escapeShellArg($a_to);
 
-		system($convert_cmd);
+		ilUtil::execConvert($convert_cmd);
 	}
 	
 	/**
@@ -1883,11 +1883,9 @@ class ilUtil
 	*/
 	function htmlfile2pdf($html_file, $pdf_file)
 	{
-
 		$htmldoc_path = PATH_TO_HTMLDOC;
 
-		$htmldoc = $htmldoc_path." ";
-		$htmldoc .= "--no-toc ";
+		$htmldoc = "--no-toc ";
 		$htmldoc .= "--no-jpeg ";
 		$htmldoc .= "--webpage ";
 		$htmldoc .= "--outfile " . ilUtil::escapeShellArg($pdf_file) . " ";
@@ -1901,7 +1899,7 @@ class ilUtil
 		$htmldoc .= "--left 60 ";
 		// $htmldoc .= "--right 200 ";
 		$htmldoc .= $html_file;
-		exec($htmldoc);
+		ilUtil::execQuoted($htmldoc_path, $htmldoc);
 
 	}
 
@@ -3386,7 +3384,43 @@ class ilUtil
 		setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
 		return escapeshellcmd($a_arg);
 	}
-
+	
+	/**
+	 * exec command and fix spaces on windows
+	 *
+	 * @param	string $cmd
+	 * @param	string $args
+	 * @return array
+	 */
+	public static function execQuoted($cmd, $args = NULL)
+	{
+		if(ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"')
+		{
+			// cmd won't work without quotes
+			$cmd = '"'.$cmd.'"';
+			if($args)
+			{
+				// args are also quoted, workaround is to quote the whole command AGAIN
+				// was fixed in php 5.2 (see php bug #25361)
+				if (version_compare(phpversion(), "5.2", "<") && strpos($args, '"') !== false)
+				{
+					$cmd = '"'.$cmd." ".$args.'"';
+				}
+				// args are not quoted or php is fixed, just append
+				else
+				{
+					$cmd .= " ".$args;
+				}
+			}
+		}
+		// nothing todo, just append args
+		else if($args)
+		{
+			$cmd .= " ".$args;
+		}
+		exec($cmd, $arr);
+		return $arr;
+	}
 
 	/*
 	* Calculates a Microsoft Excel date/time value
