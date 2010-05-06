@@ -15,11 +15,11 @@
 class ilPaymentCurrency
 {
 	 
-	var $currency_id;
-	var $unit;
-	var $iso_code;
-	var $symbol;
-	var $conversion_rate;
+	private $currency_id;
+	private $unit;
+	private $iso_code;
+	private $symbol;
+	private $conversion_rate;
 
 	public function ilPaymentCurrency($a_currency_id = '')
 	{
@@ -211,29 +211,28 @@ class ilPaymentCurrency
 		return $row;
 	}
 	
-	public static function _updateIsDefault($a_currency_id, $a_is_default)
+	public static function _updateIsDefault($a_currency_id)
 	{
 		global $ilDB;
-		
 
-		if($a_is_default == 1)
+		// calculate other currencies to default_currency
+		$conversion_rate = self::_getConversionRate($a_currency_id);
+		$currencies = self::_getAvailableCurrencies();
+
+		foreach ($currencies as $tmp_cur)
 		{
-			$res = $ilDB->manipulateF('UPDATE payment_currencies
-			SET is_default = %s,
-				conversion_rate = %s 
-			WHERE currency_id = %s',
-			array('integer', 'integer', 'integer'), array($a_is_default,1,$a_currency_id));
+			//calculate conversion rates
+			$con_result = round((float)$tmp_cur['conversion_rate'] / (float)$conversion_rate, 4);
 			
+			$upd = $ilDB->update('payment_currencies',
+				array( 'conversion_rate' => array('float', $con_result),	
+						'is_default' => array('integer', 0)),
+				array('currency_id' => array('integer', $tmp_cur['currency_id'])));
 		}
-		else
-		{
-			$res = $ilDB->manipulateF('UPDATE payment_currencies
-			SET is_default = %s WHERE currency_id = %s',
-			array('integer', 'integer'), array($a_is_default,$a_currency_id));
-			
-		}
+		$new_default = $ilDB->update('payment_currencies',
+			array( 'is_default' => array('integer', 1)),
+			array('currency_id' => array('integer', $a_currency_id)));
 	}
-	
 	
 	static public function _getDecimalSeparator()
 	{ 
@@ -260,14 +259,28 @@ class ilPaymentCurrency
 			$currency_symbol = $currency_obj['symbol'];
 		}
 		else $currency_symbol = $a_currency_symbol;
-		$separator= ilPaymentCurrency::_getDecimalSeparator();
+		$separator = ilPaymentCurrency::_getDecimalSeparator();
 		
 		$price_string = number_format($a_price,'2',$separator,'');
 		
 		return $price_string . ' ' . $currency_symbol;
 	}
-		
 
+	public static function _isDefault($a_currency_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT is_default FROM payment_currencies WHERE currency_id = %s',
+				array('integer'), array((int)$a_currency_id));
+
+		$row = $ilDB->fetchAssoc($res);
+
+		if($row['is_default'] == '1') {
+			return true;
+		}else
+			 return false;
+			
+	}
 }
 
 ?>

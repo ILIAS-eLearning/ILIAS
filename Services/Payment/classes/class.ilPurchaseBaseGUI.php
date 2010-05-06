@@ -34,10 +34,9 @@ class ilPurchaseBaseGUI
 
 	public function ilPurchaseBaseGUI($user_obj, $pay_method)
 	{
-		global $ilias, $ilDB, $lng, $tpl, $rbacsystem, $ilCtrl,  $ilTabs;
+		global $ilias, $lng, $tpl, $rbacsystem, $ilCtrl,  $ilTabs;
 
 		$this->ilias = $ilias;
-		$this->db = $ilDB;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;

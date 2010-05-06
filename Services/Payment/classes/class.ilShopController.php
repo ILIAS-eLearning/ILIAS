@@ -25,7 +25,7 @@ include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 * Class ilShopController
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @version $Id:$
 *
 * @defgroup ServicesPayment Services/Payment
 * @ingroup ServicesPayment
@@ -175,9 +175,6 @@ class ilShopController
 				$ilTabs->addTarget('pay_personal_settings', $this->ctrl->getLinkTargetByClass('ilshoppersonalsettingsgui'), '', '', '');
 			}
 
-			// Only show cart if not empty
-//			$ilTabs->addTarget('paya_shopping_cart', $this->ctrl->getLinkTargetByClass('ilshopshoppingcartgui'), '', '', '');
-			
 			// Only show if not empty
 			$ilTabs->addTarget('paya_buyed_objects', $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui'), '', '', '');
 			
