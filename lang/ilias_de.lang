@@ -10336,3 +10336,6 @@ forum#:#force_new_post_title#:#Neue Titel für Beiträge erzwingen
 forum#:#force_new_post_title_info#:#Wenn diese Option eingeschaltet ist, muss der Benutzer bei Beiträgen einen neuen Titel eingeben.
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Globale Foreneinstellungen
+administration#:#forum_settings#:#Foreneinstellungen
+administration#:#show_topics_overview#:#Themen-Übersicht
+administration#:#topics_overview_info#:#Wenn aktiviert, werden nur Themen mit den gewählten Informationen angezeigt.
