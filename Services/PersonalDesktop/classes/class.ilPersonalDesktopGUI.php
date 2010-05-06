@@ -252,7 +252,7 @@ class ilPersonalDesktopGUI
 				}
 			}
 		}
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass($_GET['redirectClass'], $_GET['redirectCmd']));
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass($_GET['redirectClass'], $_GET['redirectCmd'], '', true));
 	}	
 	
 	/**

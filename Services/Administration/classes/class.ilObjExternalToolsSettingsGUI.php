@@ -296,7 +296,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 	function addSocialBookmarkObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -312,7 +312,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function createSocialBookmarkObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -351,7 +351,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function updateSocialBookmarkObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -401,7 +401,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function editSocialBookmarkObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -427,7 +427,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function enableSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -442,7 +442,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function disableSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -457,7 +457,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function deleteSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -491,7 +491,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 	function confirmDeleteSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -512,7 +512,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function editSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{

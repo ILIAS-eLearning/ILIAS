@@ -175,7 +175,7 @@ class ilPermanentLinkGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilCtrl, $ilObjDataCache, $ilDB;
+		global $lng, $ilCtrl, $ilObjDataCache;
 		
 		$tpl = new ilTemplate("tpl.permanent_link.html", true, true,
 			"Services/PermanentLink");
@@ -242,12 +242,13 @@ class ilPermanentLinkGUI
 	 */
 	public static function _getBookmarksSelectionList($title, $href)
 	{
-		global $ilDB, $lng;
+		global $lng;
+
+		require_once 'Services/PermanentLink/classes/class.ilPermanentLink.php';
 
 		// social bookmarkings
 		
-		$q = 'SELECT sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm WHERE sbm_active = 1 ORDER BY sbm_title';
-		$rset = $ilDB->query($q);
+		$rset = ilPermanentLink::getActiveBookmarks();
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
@@ -265,7 +266,7 @@ class ilPermanentLinkGUI
 			$cnt++;
 		}
 
-		while ($row = $ilDB->fetchObject($rset))
+		foreach ($rset as $row)
 		{
 			$linktpl = $row->sbm_link;
 			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
