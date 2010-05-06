@@ -152,7 +152,7 @@ class ilImagemapPreview
 	{
 		if (count($this->areas)+count($this->points)==0) return;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$convert_prefix = ilUtil::getConvertCmd() . " -quality 100 ";
+		$convert_cmd = "-quality 100 ";
 		foreach ($this->points as $point)
 		{
 			if ($point["visible"])
@@ -223,8 +223,8 @@ class ilImagemapPreview
 		
 		$source = ilUtil::escapeShellCmd($this->imagemap_filename);
 		$target = ilUtil::escapeShellCmd($this->preview_filename);
-		$convert_cmd = $convert_prefix . $convert_cmd .  $source ." " . $target;
-		system($convert_cmd);
+		$convert_cmd .=. $source ." " . $target;
+		ilUtil::execConvert($convert_cmd);
 	}
 
 	function getPreviewFilename($imagePath, $baseFileName)

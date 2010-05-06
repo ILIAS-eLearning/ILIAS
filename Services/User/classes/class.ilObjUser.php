@@ -3785,10 +3785,10 @@ class ilObjUser extends ilObject
 		$xthumb_file = "$image_dir/usr_".$obj_id."_xsmall.jpg";
 		$xxthumb_file = "$image_dir/usr_".$obj_id."_xxsmall.jpg";
 
-		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
-		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
-		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
-		system(ilUtil::getConvertCmd()." $tmp_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
+		ilUtil::execConvert($tmp_file . "[0] -geometry 200x200 -quality 100 JPEG:".$show_file);
+		ilUtil::execConvert($tmp_file . "[0] -geometry 100x100 -quality 100 JPEG:".$thumb_file);
+		ilUtil::execConvert($tmp_file . "[0] -geometry 75x75 -quality 100 JPEG:".$xthumb_file);
+		ilUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:".$xxthumb_file);
 
 		// store filename
 		ilObjUser::_writePref($obj_id, "profile_image", $store_file);
