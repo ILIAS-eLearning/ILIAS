@@ -122,7 +122,12 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				
 			case "infoScreen":
 				$cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=".$this->ref_id.
-					"&amp;cmd=infoScreen";
+					"&amp;cmd=infoScreen&amp;file_id".$this->getChildId();
+				break;
+				
+			case 'downloadFile':
+				$cmd_link = 'ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id='.$this->ref_id.
+					'&amp;cmd=downloadFile&amp;file_id='.$this->getChildId();
 				break;
 
 			default:

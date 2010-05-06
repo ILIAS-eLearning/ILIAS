@@ -53,25 +53,43 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 			}
 			$this->tpl->setCurrentBlock('subitem');
 
+			$this->tpl->setVariable('SEPERATOR',':');
+
 			switch(ilLMObject::_lookupType($sub_item))
 			{
 				case 'pg':
+					$this->getItemListGUI()->setChildId($sub_item);
 					$this->tpl->setVariable("SUBITEM_TYPE",$lng->txt('obj_pg'));
+					$link = $this->getItemListGUI()->getCommandLink('page');
+					include_once './Services/Search/classes/class.ilUserSearchCache.php';
+					$link .= ('&srcstring='.urlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
+					$this->tpl->setVariable('LINK',$link);
+					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
+					$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));			
 					break;
+					
 				case 'st':
+					
+					$this->getItemListGUI()->setChildId($sub_item);
 					$this->tpl->setVariable("SUBITEM_TYPE",$lng->txt('obj_st'));
+					$link = $this->getItemListGUI()->getCommandLink('page');
+					include_once './Services/Search/classes/class.ilUserSearchCache.php';
+					$link .= ('&srcstring='.urlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
+					$this->tpl->setVariable('LINK',$link);
+					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
+					$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));	
+					break;
+
+				default:
+					$this->getItemListGUI()->setChildId('il__file_'.$sub_item);
+					$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_file'));
+					$link = $this->getItemListGUI()->getCommandLink('downloadFile');
+					$this->tpl->setVariable('LINK',$link);
+					$this->tpl->setVariable('TITLE',ilObject::_lookupTitle($sub_item));			
 					break;
 			}
-			$this->tpl->setVariable('SEPERATOR',':');
 			
-			$this->getItemListGUI()->setChildId($sub_item);
 			
-			$link = $this->getItemListGUI()->getCommandLink('page');
-			include_once './Services/Search/classes/class.ilUserSearchCache.php';
-			$link .= ('&srcstring='.urlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
-			$this->tpl->setVariable('LINK',$link);
-			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
-			$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));			
 			$this->tpl->parseCurrentBlock();
 		}
 		
