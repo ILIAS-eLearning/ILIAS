@@ -56,6 +56,5 @@ public class RPCTransformationHandler {
 			logger.warn("Transformation failed:" + e);
 		}
         return null;
-
     }
 }
