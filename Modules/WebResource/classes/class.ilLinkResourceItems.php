@@ -581,7 +581,7 @@ class ilLinkResourceItems
 	* @return   boolean		success status
 	*
 	*/
-	function _isSingular($a_webr_id)
+	public static function _isSingular($a_webr_id)
 	{
 		global $ilDB;
 
@@ -614,7 +614,7 @@ class ilLinkResourceItems
 	* @return array link item data
 	*
 	*/
-	function _getFirstLink($a_webr_id)
+	public static function _getFirstLink($a_webr_id)
 	{
 		global $ilDB;
 
