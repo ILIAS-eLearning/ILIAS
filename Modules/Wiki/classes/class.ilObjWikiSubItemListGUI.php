@@ -54,20 +54,37 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 				$this->tpl->setVariable('TXT_FRAGMENT',$this->getHighlighter()->getContent($this->getObjId(),$sub_item));
 				$this->tpl->parseCurrentBlock();
 			}
+			
 			$this->tpl->setCurrentBlock('subitem');
-			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_pg'));
-			$this->tpl->setVariable('SEPERATOR',':');
 			
-			$title = ilWikiPage::lookupTitle($sub_item);
-			
-			include_once './Services/Search/classes/class.ilUserSearchCache.php';
-			$link = '&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getQuery();
-			$link = ilObjWikiGUI::getGotoLink($this->getRefId(),$title).$link;
-			
-			$this->tpl->setVariable('LINK',$link);
-			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			$this->tpl->setVariable('TITLE',$title);			
-			$this->tpl->parseCurrentBlock();
+			// TODO: subitem type must returned from lucene 
+			if(($title = ilWikiPage::lookupTitle($sub_item)) !== false)
+			{
+				// Page
+				$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_pg'));
+				$this->tpl->setVariable('SEPERATOR',':');
+
+				include_once './Services/Search/classes/class.ilUserSearchCache.php';
+				$link = '&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getQuery();
+				$link = ilObjWikiGUI::getGotoLink($this->getRefId(),$title).$link;
+				
+				$this->tpl->setVariable('LINK',$link);
+				$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
+				$this->tpl->setVariable('TITLE',$title);			
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_file'));
+				$this->tpl->setVariable('SEPERATOR',':');
+
+				// File
+				$this->getItemListGUI()->setChildId('il__file_'.$sub_item);
+				$link = $this->getItemListGUI()->getCommandLink('downloadFile');
+				$this->tpl->setVariable('LINK',$link);
+				$this->tpl->setVariable('TITLE',ilObject::_lookupTitle($sub_item));			
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		$this->showDetailsLink();
