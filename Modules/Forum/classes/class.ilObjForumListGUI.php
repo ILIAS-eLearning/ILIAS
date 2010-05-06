@@ -84,8 +84,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		global $ilDB;
-		
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 /*		$this->frm_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->frm =& new ilForum();
@@ -108,7 +106,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser, $ilAccess, $ilDB;
+		global $lng, $ilUser, $ilAccess;
 
 		$props = array();
 

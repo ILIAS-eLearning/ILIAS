@@ -10333,3 +10333,8 @@ common#:#delete_inactive_user_accounts_interval#:#Frequency
 common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)
 content#:#glo_quick_navigation#:#Quick Navigation
+forum#:#post_reply#:#Re:
+forum#:#force_new_post_title#:#Force new post titles
+forum#:#force_new_post_title_info#:#If enabled the user have to enter a new title for postings.
+administration#:#obj_frma#:#Forum
+administration#:#obj_frma_desc#:#Global Forumsettings
