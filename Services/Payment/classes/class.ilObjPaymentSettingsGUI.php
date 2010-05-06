@@ -32,9 +32,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
 	public $user_obj = null;
 	public $pobject = null;
-
-	public $section;
-	public $mainSection;
 	public $genSetData = null;
 
 	/**
@@ -55,22 +52,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->type = 'pays';
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
-		$this->SECTION_GENERAL = 1;
-		$this->SECTION_PAYPAL = 2;
-		$this->SECTION_EPAY = 12;
-		$this->SETTINGS = 3;
-		$this->OTHERS = 0;
-		$this->STATISTIC = 4;
-		$this->VENDORS = 5;
-//		$this->CURRENCIES = 14; #TODO: CURRENCY not finished yet
-		$this->PAY_METHODS = 6;
-		$this->OBJECTS = 7;
-		$this->SECTION_BMF = 8;
-		$this->TOPICS = 9;
-		$this->VATS = 10;
-		$this->SECTION_VATS = 11;
-		$this->SECTION_ERP = 13;
-		
 		$this->lng->loadLanguageModule('payment');
 	}
 	
@@ -79,6 +60,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+
+		$this->getTabs($this->tabs_gui);
 
 		switch($next_class)
 		{
@@ -111,79 +94,33 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			
 				switch ($cmd)
 				{
-					case 'vendors' :
-					case 'searchUser' :
-					case 'search' :
-					case 'performSearch' :
-					case 'addVendor' :
-					case 'exportVendors' :
-					case 'performDeleteVendors' :
-					case 'cancelDeleteVendors' :
-					case 'performEditVendor' :	$this->__setSection($this->OTHERS);
-												$this->__setMainSection($this->STATISTIC);
-												$this->tabs_gui->setTabActive('vendors');
-												break;
-					case 'statistic' :
-					case 'editStatistic' :
-					case 'updateStatistic' :
-					case 'deleteStatistic' :
-					case 'performDelete' :
-					case 'resetFilter' :
-					case 'exportVendors' :
-					case 'addCustomer' :
-					case 'saveCustomer' :
-					case 'showObjectSelector' :
-					case 'searchUserSP' :
-					case 'performSearchSP' :	$this->__setSection($this->OTHERS);
-												$this->__setMainSection($this->STATISTIC);
-												$this->tabs_gui->setTabActive('bookings');
-												break;
-					case 'updateObjectDetails' :
-					case 'deleteObject' :
-					case 'performObjectDelete' :
-					case 'objects' :
-					case 'editPrices' :
-					case 'addPrice' :					
-					case 'editDetails' :
-					case 'resetObjectFilter' :
-												$this->__setSection($this->OTHERS);
-												$this->__setMainSection($this->OBJECTS);
-												$this->tabs_gui->setTabActive('objects');
-												break;
+					// only needed for subtabs
 					case 'saveGeneralSettings' :
-					case 'generalSettings' :	$this->__setSection($this->SECTION_GENERAL);
-												$this->__setMainSection($this->SETTINGS);
+					case 'generalSettings' :
 												$this->tabs_gui->setTabActive('settings');
+												$this->getSubTabs('settings', 'generalSettings');
 												break;
 					case 'saveBmfSettings' :
-					case 'bmfSettings' :		$this->__setSection($this->SECTION_BMF);
-												$this->__setMainSection($this->SETTINGS);
-												$this->tabs_gui->setTabActive('settings');
+					case 'bmfSettings' :		$this->tabs_gui->setTabActive('settings');
+												$this->getSubTabs('settings', 'bmfSettings');
 												break;
 					case 'savePaypalSettings' :
-					case 'paypalSettings' :		$this->__setSection($this->SECTION_PAYPAL);
-												$this->__setMainSection($this->SETTINGS);
+					case 'paypalSettings' :
 												$this->tabs_gui->setTabActive('settings');
+												$this->getSubTabs('settings', 'paypalSettings');
 												break;
 					case 'saveEPaySettings' :
-					case 'epaySettings' :		$this->__setSection($this->SECTION_EPAY);
-												$this->__setMainSection($this->SETTINGS);
+					case 'epaySettings' :
 												$this->tabs_gui->setTabActive('settings');
+												$this->getSubTabs('settings', 'epaySettings');
 												break;
-					case 'savePayMethods' :		$this->__setSection($this->OTHERS);
-												$this->__setMainSection($this->PAY_METHODS);
-												$this->tabs_gui->setTabActive('pay_methods');
+					case 'saveERPsettings' :
+					case 'delERPpreview':
+					case 'testERPsettings' :
+					case 'erpSettings' :
+												$this->tabs_gui->setTabActive('settings');
+												$this->getSubTabs('settings', 'erpSettings');
 												break;
-					case 'gateway' :			if ($_POST['action'] == 'editVendorObject' ||
-													$_POST['action'] == 'deleteVendorsObject')
-												{
-													$this->__setSection($this->OTHERS);
-													$this->__setMainSection($this->STATISTIC);
-													$this->tabs_gui->setTabActive('vendors');
-												}
-												break;
-												
-		
 					case 'deleteVat' :
 					case 'newVat':
 					case 'insertVat':
@@ -193,43 +130,23 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					case 'confirmDeleteVat':
 					case 'createVat':
 					case 'saveVat':
-					case 'editVat':			
-					case 'vats' :						
-									$this->__setSection($this->OTHERS);
-									$this->__setMainSection($this->VATS);
-									$this->tabs_gui->setTabActive('vats');					
-								break;
+					case 'editVat':
+					case 'vats' :				$this->tabs_gui->setTabActive('vats');
+												break;
 								
-					case 'saveERPsettings' :
-					case 'delERPpreview': 
-					case 'testERPsettings' :
-					case 'erpSettings' : $this->__setSection($this->SECTION_ERP);
-				                        $this->__setMainSection($this->SETTINGS);
-				                        $this->tabs_gui->setTabActive('settings');
-									break;
-#TODO: CURRENCY not finished yet
-/*				case 'addCurrency':
-								$this->__setSection($this->OTHERS);
-								$this->__setMainSection($this->CURRENCIES);
-								$this->tabs_gui->setTabActive('currencies');						
-							break;    
-					case 'currencies':
-					case 'performDeleteCurrency':
-					case 'updateCurrency':
-								if($_POST['action'] == 'editCurrency' || $_POST['action'] == 'deleteCurrency')
-									$cmd = $_POST['action'];
-								$this->__setSection($this->OTHERS);
-								$this->__setMainSection($this->CURRENCIES);
-								$this->tabs_gui->setTabActive('currencies');						
-							break;    
-*/
-					default :	$this->__setSection($this->OTHERS);
-								$this->__setMainSection($this->OTHERS);
-							break;
-				}
-				$cmd .= 'Object';
 
-				$this->__buildSettingsButtons();
+#TODO: CURRENCY not finished yet
+/**/				case 'addCurrency':
+					case 'currencies':
+			#		case 'performDeleteCurrency':
+					case 'updateCurrency':
+			#					if($_POST['action'] == 'editCurrency' || $_POST['action'] == 'deleteCurrency')
+			#					$cmd = $_POST['action'];
+								$this->tabs_gui->setTabActive('currencies');						
+							break;    
+/**/
+				}	
+				$cmd .= 'Object';
 
 				$this->$cmd();
 
@@ -698,7 +615,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		foreach($currencies as $currency)
 		{
-			$currency_options[$currency['currency_id']] = $currency['unit'].' / '.$currency['subunit'];
+			$currency_options[$currency['currency_id']] = $currency['unit'];
 		}
 
 		
@@ -707,8 +624,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$oCurrency->setValue($_SESSION['pay_objects']['currency_value']);
 		$oCurrency->setPostVar('currency_id');
- */
-		$currency_options = $this->genSetData['currency_unit'] .'/'.$this->genSetData['currency_subunit']; 
+ /**/
+		$currency_options = $this->genSetData['currency_unit'];
 		$oCurrency = new ilNonEditableValueGUI($this->lng->txt('currency'));
 		$oCurrency->setValue($currency_options);
 		$form->addItem($oCurrency);
@@ -1894,11 +1811,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
-	public function getAdminTabs($tabs_gui)
-	{
-		$this->getTabs($tabs_gui);
-	}
-
 	/**
 	* get tabs
 	* @access	public
@@ -1908,38 +1820,103 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$tabs_gui->clearTargets();
 		if ($rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('settings',
-				$this->ctrl->getLinkTarget($this, 'generalSettings'), array('generalSettings','', 'view'), '', '');
-				
+			// Settings
+			$tabs_gui->addTarget('settings',$this->ctrl->getLinkTarget($this, 'generalSettings'),
+			array('saveGeneralSettings','generalSettings ','saveBmfSettings','savePaypalSettings','paypalSettings',
+					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings','','view'), '', '');
+			
+			// Bookings
 			$tabs_gui->addTarget('bookings',
-				$this->ctrl->getLinkTarget($this, 'statistic'), 'statistic', '', '');
-				
+				$this->ctrl->getLinkTarget($this, 'statistic'),
+			array(	'statistic','editStatistic','updateStatistic','deleteStatistic','performDelete',
+					'resetFilter','exportVendors','addCustomer', 'saveCustomer','showObjectSelector',
+					'searchUserSP','performSearchSP'), '', '');
+			// Objects
 			$tabs_gui->addTarget('objects',
-				$this->ctrl->getLinkTarget($this, 'objects'), 'objects', '', '');
-				
+				$this->ctrl->getLinkTarget($this, 'objects'),
+					array('updateObjectDetails','deleteObject','performObjectDelete','objects',
+							'editPrices','addPrice','editDetails','resetObjectFilter'), '', '');
+			// Vendors
 			$tabs_gui->addTarget('vendors',
-				$this->ctrl->getLinkTarget($this, 'vendors'), 'vendors', '', '');
+				$this->ctrl->getLinkTarget($this, 'vendors'),
+				array('vendors','searchUser','search','performSearch','addVendor','addUser','exportVendors','deleteVendors','performDeleteVendors',
+					'cancelDeleteVendors','editVendor','performEditVendor'), '', '');
+			
 #TODO: CURRENCY not finished yet
 /*	
+			// Currencies
 			$tabs_gui->addTarget('currencies',
-				$this->ctrl->getLinkTarget($this, 'currencies'), 'currencies', '','');
-*/
+				$this->ctrl->getLinkTarget($this, 'currencies'),
+					array('currencies','editCurrency','deleteCurrency','performDeleteCurrency','updateCurrency','updateDefaultCurrency'), '','');
+/**/
+			// Paymethods
 			$tabs_gui->addTarget('pay_methods',
-				$this->ctrl->getLinkTarget($this, 'payMethods'), 'payMethods', '', '');
-			
+				$this->ctrl->getLinkTarget($this, 'payMethods'), array('payMethods','savePayMethods'), '', '');
+
+			// Topics
 			$tabs_gui->addTarget('topics',
 					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', ''), 'payment_topics', '', '');
 
+			// Vats
 			$tabs_gui->addTarget('vats',
 					$this->ctrl->getLinkTarget($this, 'vats'), 'vats', '', '');				
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
+			// Permissions
 			$tabs_gui->addTarget('perm_settings',
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm','info','owner'), 'ilpermissiongui');
+		}
+	}
+
+	private function  getSubTabs($a_tab, $a_sub_tab = null)
+	{
+		switch($a_tab)
+		{
+			case 'bookings':
+				break;
+			case 'objects':
+				break;
+			case 'vendors':
+				break;
+			case 'paymethods':
+				break;
+			case 'currecies':
+				break;
+			case 'vats':
+				break;
+			case 'topics':
+				break;
+
+			default:
+			case 'settings':
+				if (($_GET['cmd'] == '') || ($_GET['cmd'] == 'view') || ($a_sub_tab == 'generalSettings'))
+				$a_sub_tab = 'generalSettings';
+
+				$this->tabs_gui->addSubTabTarget('pays_general',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'generalSettings'),
+					'','', '',$a_sub_tab == 'generalSettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_bmf',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'bmfSettings'),
+					'','', '',$a_sub_tab == 'bmfSettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_paypal',
+					 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
+					 '','', '',$a_sub_tab == 'paypalSettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_epay',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'epaySettings'),
+					'','', '',$a_sub_tab == 'epaySettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_erp',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
+					'','', '',$a_sub_tab == 'erpSettings' ? true : false);
+				break;
 		}
 	}
 
@@ -2140,7 +2117,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
   public function epaySettingsObject($a_show_confirm = false)
   {
     global $rbacsystem;
-
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
@@ -2500,6 +2476,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public function erpSettingsObject($a_show_confirm = false)
 	{
 		global $rbacsystem;
+
     	if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
@@ -2515,7 +2492,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public function paypalSettingsObject($a_show_confirm = false)
 	{	
 		global $rbacsystem;
-
+		
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
@@ -3009,7 +2986,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
-	public function deleteVendors()
+	public function deleteVendorsObject()
 	{
 		//include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 
@@ -3067,7 +3044,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
-	public function editVendor()
+	public function editVendorObject()
 	{
 		global $rbacsystem;
 
@@ -3445,7 +3422,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 			return false;
 		}
-
 	
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
 		$this->ctrl->setParameter($this, 'sell_id', $_GET['sell_id']);
@@ -3503,14 +3479,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		// get obj
-
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id']);
 		// get customer_obj
 		$tmp_user = ilObjectFactory::getInstanceByObjId($_POST['user_id']);
 		// get vendor_obj
 		$tmp_vendor = ilObjectFactory::getInstanceByObjId($obj->getVendorId());
 /**/
-
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'saveCustomer'));
 		$oForm->setTitle($this->lng->txt($tmp_user->getFullname().' ['.$tmp_user->getLogin().']'));
@@ -3541,12 +3515,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oPayMethods->setPostVar('pay_method');
 		$oForm->addItem($oPayMethods);	
 		
-		
 		//duration
 		$duration_opions = array();	
 		$prices_obj = new ilPaymentPrices($pObjectId);
 		$prices = $prices_obj->getPrices();
-
 		
 		if (is_array($prices = $prices_obj->getPrices()))
 		{
@@ -3691,61 +3663,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	}
 
 	// PRIVATE
-	private function __setSection($a_section)
-	{
-		$this->section = $a_section;
-	}
-	private function __getSection()
-	{
-		return $this->section;
-	}
-	private function __setMainSection($a_section)
-	{
-		$this->mainSection = $a_section;
-	}
-	private function __getMainSection()
-	{
-		return $this->mainSection;
-	}
-
-	private function __buildSettingsButtons()
-	{
-		if($this->__getMainSection() == $this->SETTINGS)
-		{
-			$this->tabs_gui->addSubTabTarget('pays_general',
-											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'generalSettings'),
-											 '',
-											 '',
-											 '',
-											 $this->__getSection() == $this->SECTION_GENERAL ? true : false);
-			$this->tabs_gui->addSubTabTarget('pays_bmf',
-											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'bmfSettings'),
-											 '',
-											 '',
-											 '',
-											 $this->__getSection() == $this->SECTION_BMF ? true : false);
-			$this->tabs_gui->addSubTabTarget('pays_paypal',
-											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
-											 '',
-											 '',
-											 '',
-											 $this->__getSection() == $this->SECTION_PAYPAL ? true : false);
-
-			$this->tabs_gui->addSubTabTarget('pays_epay',
-											 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'epaySettings'),
-											 '',
-											 '',
-											 '',
-											 $this->__getSection() == $this->SECTION_EPAY ? true : false);
-			$this->tabs_gui->addSubTabTarget('pays_erp',
-			 								 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
-			 								 '',
-			 								 '',
-			 								 '',
-			 								 $this->__getSection() == $this->SECTION_ERP ? true : false);
-		}
-	}
-	
 	private function __showStatisticTable($a_result_set)
 	{
 		$this->ctrl->setParameter($this, 'cmd', 'statistic');
@@ -3784,10 +3701,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	private function __showVendorsTable($a_result_set)
 	{
 		$this->ctrl->setParameter($this, 'cmd', 'vendors');
-		$actions = array(
-			'editVendorObject'	=> $this->lng->txt('pays_edit_vendor'),
-			'deleteVendorsObject'	=> $this->lng->txt('pays_delete_vendor')
-		);
 
 		$tbl = new ilShopTableGUI($this);
 		$tbl->setTitle($this->lng->txt("vendors"));
@@ -3799,10 +3712,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->addColumn($this->lng->txt('pays_cost_center'), 'cost_center', '10%');
 		$tbl->addColumn($this->lng->txt('pays_number_bookings'), 'number_bookings', '10%');
 
-		$tbl->addMultiItemSelectionButton('action',$actions,'gateway',$this->lng->txt('execute'));
-		$tbl->addCommandButton('exportVendors',$this->lng->txt('excel_export'));
-		$tbl->setData($a_result_set);
+		$tbl->addMultiCommand("editVendor", $this->lng->txt('pays_edit_vendor'));
+		$tbl->addMultiCommand("deleteVendors", $this->lng->txt('pays_delete_vendor'));
 
+		$tbl->addCommandButton('exportVendors',$this->lng->txt('excel_export'));
+
+		$tbl->setData($a_result_set);
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
 		return true;
@@ -4192,42 +4107,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	public function currenciesObject()
 	{
-		global $ilToolbar;
-		$currency_res = ilPaymentCurrency::_getAvailableCurrencies();
-		$oCurrency = new ilSelectInputGUI($this->lng->txt("paya_set_default_currency"));
-
-		$currency_options = array();
-		foreach($currency_res as $cur)
-		{
-			$currency_options[$cur['currency_id']] = $cur['unit'];
-
-			if($cur['is_default'])
-			{
-				$old_default_currency = $cur['currency_id'];
-			}
-		}
-		$oCurrency->setOptions($currency_options);
-		$default_cur = ilPaymentCurrency::_getDefaultCurrency();
-
-		$oCurrency->setValue($default_cur['currency_id']);
-		$oCurrency->setPostVar('set_default_currency');
-		$ohidden = new ilHiddenInputGUI('old_default_currency');
-
-		$ohidden->setValue($old_default_currency);
-		$ohidden->setPostVar('old_default_currency');
-
-		$ilToolbar->addInputItem($oCurrency, true);
-		$ilToolbar->addFormButton($this->lng->txt("save"), "updateDefaultCurrency");
-		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-		$ilToolbar->addSeparator();
-				
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
-
+		$currency_res = ilPaymentCurrency::_getAvailableCurrencies();
 		// currency table
 		 $counter = 0;
 		 foreach($currency_res as $cur)
 		 {
 			$f_result[$counter]['currency_id'] = ilUtil::formRadioButton(0,'currency_id',$cur['currency_id']);
+			$f_result[$counter]['is_default'] = $cur['is_default'] == 1 ? $this->lng->txt('yes') :  $this->lng->txt('no');
 
 			$f_result[$counter]['currency_unit'] = $cur['unit'];
 			$f_result[$counter]['iso_code'] = $cur['iso_code'];
@@ -4244,32 +4131,32 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->setRowTemplate("tpl.shop_currencies_row.html", "Services/Payment");
 
 		$tbl->addColumn(' ', 'currency_id', '1%', true);
+		$tbl->addColumn($this->lng->txt('is_default'), 'is_default', '5%');
 		$tbl->addColumn($this->lng->txt('currency_unit'), 'currency_unit', '10%');
 		$tbl->addColumn($this->lng->txt('iso_code'),'iso_code','20%');
 		$tbl->addColumn($this->lng->txt('currency_symbol'), 'currency_symbol', '20%');
 		$tbl->addColumn($this->lng->txt('conversion_rate'), 'conversion_rate', '15%');
 		$tbl->addColumn('', 'options', '5%');
 
-		$actions = array(
-			'deleteCurrency'	=> $this->lng->txt('delete'),
-			'editCurrency'	=> $this->lng->txt('edit')
-		);
-
 		$this->ctrl->setParameter($this, 'cmd', 'currencies');
-		$tbl->addCommandButton('addCurrency',$this->lng->txt('paya_add_currency'));
-		$tbl->addMultiItemSelectionButton('action',$actions,'currencies',$this->lng->txt('execute'));
 
+		$tbl->addMultiCommand('updateDefaultCurrency', $this->lng->txt('paya_set_default_currency'));
+		$tbl->addMultiCommand("editCurrency",$this->lng->txt('edit'));
+		$tbl->addMultiCommand("deleteCurrency", $this->lng->txt('delete'));
+
+		$tbl->addCommandButton('addCurrency',$this->lng->txt('add_currency'));
 		$tbl->setData($f_result);
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 		return true;
 	}
 	public function updateDefaultCurrencyObject()
 	{
-		if($_POST['old_default_currency'] != $_POST['set_default_currency'])
+		if(isset($_POST['currency_id'] ))
 		{
-			ilPaymentCurrency::_updateIsDefault($_POST['old_default_currency'], 0);
-			ilPaymentCurrency::_updateIsDefault($_POST['set_default_currency'], 1);
+			ilPaymentCurrency::_updateIsDefault($_POST['currency_id']);
 		}
+		else ilUtil::sendFailure($this->lng->txt('please_select_currency'));
+		
 		$this->currenciesObject();
 	}
 	
@@ -4373,7 +4260,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');	
+		if(ilPaymentCurrency::_isDefault($_POST['currency_id'])) return false;
 		$_SESSION['currency_id'] = $_POST['currency_id'];
+
 		$oConfirmationGUI = new ilConfirmationGUI();
 		$this->ctrl->setParameter($this,'currency_id',(int) $_POST['currency_id']);
 		// set confirm/cancel commands
@@ -4412,5 +4301,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->currenciesObject();
 		
 	}
+
 } // END class.ilObjPaymentSettingsGUI
 ?>
