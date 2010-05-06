@@ -141,7 +141,7 @@ class ilObjectListGUI
 		$this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
 
 		// general commands array, e.g.
-		include_once('class.ilObjectAccess.php');
+		include_once('classes/class.ilObjectAccess.php');
 		$this->commands = ilObjectAccess::_getCommands();
 	}
 
@@ -1708,7 +1708,7 @@ class ilObjectListGUI
 			{
 				continue;
 			}
-			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
 			if(ilConditionHandler::_checkCondition($condition['id']) and 
 				!ilMemberViewSettings::getInstance()->isActive())
 			{
@@ -2077,7 +2077,7 @@ class ilObjectListGUI
 		$id_ref = ($this->reference_ref_id > 0)
 			? $this->reference_ref_id
 			: $this->ref_id;
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
@@ -2090,7 +2090,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setUseImages(false);
 		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$id_ref, "ilContainerListItemOuterHighlight");
 		
-		include_once './Services/Payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
@@ -2249,7 +2249,7 @@ class ilObjectListGUI
 		
 		if($this->getPathStatus() != false)
 		{
-			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			include_once 'Services/Tree/classes/class.ilPathGUI.php';
 			$path_gui = new ilPathGUI();
 			$path_gui->enableTextOnly(!$this->path_linked);
 			$path_gui->setUseImages(false);
@@ -2330,7 +2330,7 @@ class ilObjectListGUI
 			}
 			else
 			{
-				include_once("./Services/Component/classes/class.ilPlugin.php");
+				include_once("Services/Component/classes/class.ilPlugin.php");
 				$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".
 					ilPlugin::lookupTxt("rep_robj", $this->getIconImageType(), "obj_".$this->getIconImageType()));
 			}
@@ -2429,7 +2429,7 @@ class ilObjectListGUI
 		}
 
 		// read from cache
-		include_once("./Services/Object/classes/class.ilListItemAccessCache.php");
+		include_once("Services/Object/classes/class.ilListItemAccessCache.php");
 		$this->acache = new ilListItemAccessCache();
 		$cres = $this->acache->getEntry($ilUser->getId().":".$a_ref_id);
 		if($this->acache->getLastAccessStatus() == "hit")

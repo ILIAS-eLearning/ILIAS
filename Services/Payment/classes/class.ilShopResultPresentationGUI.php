@@ -158,7 +158,7 @@ class ilShopResultPresentationGUI
 					// get list gui class for each object type
 					if ($cur_obj_type != $item['type'])
 					{
-						include_once 'classes/class.ilObjectListGUIFactory.php';	
+						include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';	
 						$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item['type']);
 					}
 					

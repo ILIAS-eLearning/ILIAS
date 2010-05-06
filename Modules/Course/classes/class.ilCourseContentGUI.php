@@ -448,7 +448,7 @@ class ilCourseContentGUI
 
 		global $rbacsystem;
 
-		include_once './classes/class.ilObjectListGUIFactory.php';
+		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html",
 		//	"Services/Container");
@@ -1705,7 +1705,7 @@ class ilCourseContentGUI
 /* this moved to ilContainerContentGUI and ilContainerGUI->modifyItemGUI */
 	function __getItemGUI($cont_data,$a_show_path = false)
 	{
-		include_once './classes/class.ilObjectListGUIFactory.php';
+		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
 		// ACTIVATION
 		$activation = '';

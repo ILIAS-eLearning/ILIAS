@@ -796,7 +796,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $objDefinition, $ilBench, $ilSetting;
 		
-		include_once("classes/class.ilObjectListGUIFactory.php");
+		include_once("Services/Object/classes/class.ilObjectListGUIFactory.php");
 
 		$output_html = "";
 		$this->clearAdminCommandsDetermination();
@@ -3081,7 +3081,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// this should be done via container-object->getSubItem in the future
 		$data = array("child" => $ref_id, "ref_id" => $ref_id, "obj_id" => $obj_id,
 			"type" => $type);
-		include_once './classes/class.ilObjectListGUIFactory.php';
+		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($type);
 		$item_list_gui->setContainerObject($this);
 		$this->modifyItemGUI($item_list_gui, $data, false);
