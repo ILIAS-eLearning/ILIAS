@@ -263,7 +263,7 @@ abstract class ilContainerContentGUI
 	*/
 	protected function getItemGUI($item_data,$a_show_path = false)
 	{
-		include_once './classes/class.ilObjectListGUIFactory.php';
+		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
 		// get item list gui object
 		if (!is_object ($this->list_gui[$item_data["type"]]))

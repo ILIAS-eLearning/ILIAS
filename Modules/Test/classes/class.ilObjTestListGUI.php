@@ -34,7 +34,7 @@
 */
 
 
-include_once "classes/class.ilObjectListGUI.php";
+include_once "Services/Object/classes/class.ilObjectListGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjTestListGUI extends ilObjectListGUI

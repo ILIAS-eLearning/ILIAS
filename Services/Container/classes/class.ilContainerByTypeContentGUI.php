@@ -129,7 +129,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	{
 		global $objDefinition, $ilBench, $ilSetting, $lng;
 		
-		include_once("classes/class.ilObjectListGUIFactory.php");
+		include_once("Services/Object/classes/class.ilObjectListGUIFactory.php");
 
 		$output_html = "";
 		$this->clearAdminCommandsDetermination();

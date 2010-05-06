@@ -85,7 +85,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
 
-		include_once './classes/class.ilObjectListGUIFactory.php';
+		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
 		$tpl = new ilTemplate ("tpl.container_page.html", true, true,"Services/Container");
 

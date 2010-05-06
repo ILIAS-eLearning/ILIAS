@@ -22,7 +22,7 @@
 */
 
 
-include_once "./classes/class.ilObjectListGUI.php";
+include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
 * Class ilObjGroupListGUI
