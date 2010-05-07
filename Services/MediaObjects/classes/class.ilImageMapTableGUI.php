@@ -45,7 +45,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$this->media_object = $a_media_object;
 		
 		$this->addColumn("", "", "1");	// checkbox
-		$this->addColumn($this->lng->txt("cont_name"), "", "");
+		$this->addColumn($this->lng->txt("cont_name"), "title", "");
 		$this->addColumn($this->lng->txt("cont_shape"), "", "");
 		$this->addColumn($this->lng->txt("cont_coords"), "", "");
 		$this->addColumn($this->lng->txt("cont_link"), "", "");
@@ -69,7 +69,8 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$this->addCommandButton("addRectangle", $this->lng->txt("cont_add_rectangle"));
 		$this->addCommandButton("addCircle", $this->lng->txt("cont_add_circle"));
 		$this->addCommandButton("addPolygon", $this->lng->txt("cont_add_polygon"));
-		
+		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderDirection("asc");
 		$this->setEnableTitle(false);
 	}
 
@@ -86,7 +87,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 		for ($i=1; $i<=$max; $i++)
 		{
 			$area = new ilMapArea($st_item->getId(), $i);
-			$areas[] = array("nr" => $i, "area" => $area);
+			$areas[] = array("nr" => $i, "area" => $area, "title" => $area->getTitle());
 		}
 
 		$this->setData($areas);
