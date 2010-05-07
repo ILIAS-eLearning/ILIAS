@@ -348,7 +348,10 @@ class ilLDAPQuery
 		if($this->settings->enabledGroupMemberIsDN() and $a_check_dn)
 		{
 			$dn = $a_name;
-			$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
+			#$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,$dn,$filter,$this->user_fields);
+
+			$fields = array_merge($this->user_fields,array('useraccountcontrol'));
+			$res = $this->queryByScope(IL_LDAP_SCOPE_BASE,strtolower($dn),$filter,$fields);
 		}
 		else
 		{
@@ -405,20 +408,21 @@ class ilLDAPQuery
 	 */
 	private function queryByScope($a_scope,$a_base_dn,$a_filter,$a_attributes)
 	{
+		$a_filter = $a_filter ? $a_filter : "(objectclass=*)";
+
 	 	switch($a_scope)
 	 	{
 	 		case IL_LDAP_SCOPE_SUB:
-	 			#$this->log->write('LDAP: Scope is: sub, using ldap_search');
 	 			$res = @ldap_search($this->lh,$a_base_dn,$a_filter,$a_attributes);
 	 			break;
 	 			
  			case IL_LDAP_SCOPE_ONE:
-	 			#$this->log->write('LDAP: Scope is: one, using ldap_list');
 	 			$res = @ldap_list($this->lh,$a_base_dn,$a_filter,$a_attributes);
 				break;
 			
 			case IL_LDAP_SCOPE_BASE:
-				$res = @ldap_read($this->lh,$a_base_dn,$a_filter,$a_attributes);
+
+				$res = ldap_read($this->lh,$a_base_dn,$a_filter,$a_attributes);
 				break;
 
 			default:
