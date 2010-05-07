@@ -90,6 +90,11 @@ class ilObjectPluginAccess
 		return false;
 	}
 
+	// this is called by permission -> check permissions of user screen
+	function _getCommands()
+	{
+		return array();
+	}
 }
 
 ?>

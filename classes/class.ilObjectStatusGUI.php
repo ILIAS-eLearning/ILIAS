@@ -239,7 +239,7 @@ class ilObjectStatusGUI
 	
 	function getPermissionInfo()
 	{
-		global $ilAccess,$lng,$rbacreview,$ilUser,$ilObjDataCache;
+		global $ilAccess,$lng,$rbacreview,$ilUser,$ilObjDataCache,$objDefinition;
 
 		// icon handlers
 		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
@@ -256,7 +256,22 @@ class ilObjectStatusGUI
 			$access = $ilAccess->doRBACCheck($ops['operation'],"info",$this->object->getRefId(),$this->user->getId(),$this->object->getType());
 
 			$result_set[$counter][] = $access ? $icon_ok : $icon_not_ok;
-			$result_set[$counter][] = $lng->txt($this->object->getType()."_".$ops['operation']);
+			
+			if (substr($ops['operation'], 0, 7) == "create_" &&
+				$objDefinition->isPlugin(substr($ops['operation'], 7)))
+			{
+				$result_set[$counter][] = ilPlugin::lookupTxt("rep_robj", substr($ops['operation'],7),
+					$this->object->getType()."_".$ops['operation']);
+			}
+			else if ($objDefinition->isPlugin($this->object->getType()))
+			{
+				$result_set[$counter][] = ilPlugin::lookupTxt("rep_robj", $this->object->getType(),
+					$this->object->getType()."_".$ops['operation']);
+			}
+			else
+			{
+				$result_set[$counter][] = $lng->txt($this->object->getType()."_".$ops['operation']);
+			}
 			
 			$list_role = "";
 

@@ -218,7 +218,7 @@ class ilPageEditorGUI
 				$this->ctrl->setParameter($this, "pgEdMediaMode", "editLinkedMedia");
 				$this->ctrl->setParameter($this, "mob_id", $_GET["mob_id"]);
 				if ($cmdClass != "ilinternallinkgui" && $cmdClass != "ilmdeditorgui"
-					&& $cmdClass != "ilimagemapeditorgui")
+					&& $cmdClass != "ilimagemapeditorgui" && $cmdClass != "ilfilesystemgui")
 				{
 					$this->ctrl->setCmdClass("ilobjmediaobjectgui");
 					$cmdClass = "ilobjmediaobjectgui";
