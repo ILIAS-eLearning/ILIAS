@@ -1340,6 +1340,10 @@ class ilObjUser extends ilObject
 		
 		// Delete clipboard entries
 		$this->clipboardDeleteAll();
+		
+		// Reset owner
+		$this->resetOwner();
+		
 
 		// Trigger deleteUser Event
 		global $ilAppEventHandler;
@@ -4922,6 +4926,17 @@ class ilObjUser extends ilObject
 
 		if($affected) return $last_login;
 		else return false;
+	}
+	
+	public function resetOwner()
+	{
+		global $ilDB;
+		
+		$query = "UPDATE object_data SET owner = 0 ".
+			"WHERE owner = ".$ilDB->quote($this->getId(),'integer');
+		$ilDB->query($query);
+		
+		return true;
 	}
 } // END class ilObjUser
 ?>
