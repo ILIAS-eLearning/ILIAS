@@ -72,6 +72,25 @@ class ilRegistrationSettingsGUI
 		return true;
 	}
 	
+	/**
+	* set sub tabs
+	* @param	string	$activeTab
+	*/
+	function setSubTabs($activeTab = 'registration_settings')
+	{
+		global $ilTabs, $lng;
+
+		$ilTabs->addSubTab("registration_settings",
+			$lng->txt("registration_tab_settings"),
+			$this->ctrl->getLinkTarget($this, 'view'));
+
+		$ilTabs->addSubTab("registration_codes",
+			$lng->txt("registration_tab_codes"),
+			$this->ctrl->getLinkTarget($this, 'listCodes'));
+			
+		$ilTabs->activateSubTab($activeTab);
+	}
+	
 	function initForm()
 	{
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -90,11 +109,15 @@ class ilRegistrationSettingsGUI
 			$reg_type->addOption($option);
 			$option = new ilRadioOption($this->lng->txt('reg_type_confirmation'), IL_REG_ACTIVATION);
 			$option->setInfo($this->lng->txt('reg_type_confirmation_info'));
-				$lt = new ilTextInputGUI('', 'reg_hash_life_time');
+				$lt = new ilNumberInputGUI('', 'reg_hash_life_time');
 				$lt->setSize(5);
 				$lt->setMaxLength(5);
+				$lt->setMinValue(60);
 				$lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
 				$option->addSubItem($lt);
+			$reg_type->addOption($option);
+			$option = new ilRadioOption($this->lng->txt('registration_reg_type_codes'), IL_REG_CODES);
+			$option->setInfo($this->lng->txt('registration_reg_type_codes_info'));
 			$reg_type->addOption($option);
 		$this->form_gui->addItem($reg_type);
 
@@ -158,12 +181,14 @@ class ilRegistrationSettingsGUI
 	
 	function view()
 	{
-		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar;
+		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar, $ilTabs;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
+		
+		$this->setSubTabs();
 		
 		// edit new accout mail
 		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", USER_FOLDER_ID);
@@ -750,6 +775,63 @@ class ilRegistrationSettingsGUI
 		return array('y' => date('Y',$a_unix_time),
 					 'm' => date('n',$a_unix_time),
 					 'd' => date('d',$a_unix_time));
+	}
+	
+	function listCodes()
+	{
+		global $ilAccess, $ilErr, $ilCtrl, $ilTabs, $ilToolbar;
+
+		if(!$ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+		}
+
+		$this->setSubTabs('registration_codes');
+
+		$ilToolbar->addButton($this->lng->txt("registration_codes_add"),
+			$this->ctrl->getLinkTarget($this, "addCodes"));
+
+		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
+		$ctab = new ilRegistrationCodesTableGUI($this, "view");
+		$this->tpl->setContent($ctab->getHTML());
+	}
+	
+	function initAddCodesForm()
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'createCodes'));
+		$this->form_gui->setTitle($this->lng->txt('registration_codes_edit_header'));
+		
+		$count = new ilNumberInputGUI($this->lng->txt('registration_codes_number'), 'reg_codes_number');
+		$count->setSize(4);
+		$count->setMaxLength(4);
+		$count->setMinValue(1);
+		$count->setMaxValue(1000);
+		$count->setRequired(true);
+		$this->form_gui->addItem($count);
+		
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$options = array();
+		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		{
+			$options[$role['id']] = $role['title'];
+		}
+		$roles = new ilSelectInputGUI($this->lng->txt("registration_codes_roles"), "reg_codes_role");
+		$roles->setOptions($options);
+		$roles->setRequired(true);
+		$this->form_gui->addItem($roles);
+
+		$this->form_gui->addCommandButton('createCodes', $this->lng->txt('create'));
+	}
+	
+	function addCodes()
+	{
+		$this->setSubTabs('registration_codes');
+		
+		$this->initAddCodesForm();
+		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 }
 ?>

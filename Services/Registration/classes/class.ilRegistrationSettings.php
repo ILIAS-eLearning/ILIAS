@@ -26,6 +26,7 @@ define('IL_REG_DISABLED',1);
 define('IL_REG_DIRECT',2);
 define('IL_REG_APPROVE',3);
 define('IL_REG_ACTIVATION',4);
+define('IL_REG_CODES',5);
 
 define('IL_REG_ROLES_FIXED',1);
 define('IL_REG_ROLES_EMAIL',2);
