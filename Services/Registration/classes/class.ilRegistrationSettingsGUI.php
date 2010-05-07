@@ -72,109 +72,125 @@ class ilRegistrationSettingsGUI
 		return true;
 	}
 	
+	function initForm()
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));
+		$this->form_gui->setTitle($this->lng->txt('reg_settings_header'));
+
+		$reg_type = new ilRadioGroupInputGUI($this->lng->txt('reg_type'), 'reg_type');
+			$reg_type->addOption(new ilRadioOption($this->lng->txt('reg_disabled'), IL_REG_DISABLED));
+			$option = new ilRadioOption($this->lng->txt('reg_direct'), IL_REG_DIRECT);
+			$option->setInfo($this->lng->txt('reg_direct_info'));
+			$reg_type->addOption($option);
+			$option = new ilRadioOption($this->lng->txt('reg_approve'), IL_REG_APPROVE);
+			$option->setInfo($this->lng->txt('reg_approve_info'));
+			$reg_type->addOption($option);
+			$option = new ilRadioOption($this->lng->txt('reg_type_confirmation'), IL_REG_ACTIVATION);
+			$option->setInfo($this->lng->txt('reg_type_confirmation_info'));
+				$lt = new ilTextInputGUI('', 'reg_hash_life_time');
+				$lt->setSize(5);
+				$lt->setMaxLength(5);
+				$lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
+				$option->addSubItem($lt);
+			$reg_type->addOption($option);
+		$this->form_gui->addItem($reg_type);
+
+		$pwd_gen = new ilCheckboxInputGUI($this->lng->txt('passwd_generation'), 'reg_pwd');
+		$pwd_gen->setValue(1);
+		$pwd_gen->setInfo($this->lng->txt('reg_info_pwd'));
+		$this->form_gui->addItem($pwd_gen);
+
+		$approver = new ilTextInputGUI($this->lng->txt('reg_notification'), 'reg_approver');
+		$approver->setSize(32);
+		$approver->setMaxLength(50);
+		$approver->setInfo($this->lng->txt('reg_notification_info'));
+		$this->form_gui->addItem($approver);
+
+		$roles = new ilRadioGroupInputGUI($this->lng->txt('reg_role_assignment'), 'reg_role_type');
+			$option = new ilRadioOption($this->lng->txt('reg_fixed'), IL_REG_ROLES_FIXED);
+				$list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
+				$edit = $this->ctrl->getLinkTarget($this,'editRoles');
+				$list->setHtml($this->__parseRoleList($this->__prepareRoleList(), $edit));
+				$option->addSubItem($list);
+			$roles->addOption($option);
+			$option = new ilRadioOption($this->lng->txt('reg_email'), IL_REG_ROLES_EMAIL);
+				$list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
+				$edit = $this->ctrl->getLinkTarget($this,'editEmailAssignments');
+				$list->setHtml($this->__parseRoleList($this->__prepareAutomaticRoleList(), $edit));
+				$option->addSubItem($list);
+			$roles->addOption($option);
+		$this->form_gui->addItem($roles);
+
+		$limit = new ilCheckboxInputGUI($this->lng->txt('reg_access_limitations'), 'reg_access_limitation');
+		$limit->setValue(1);
+			$list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
+			$edit = $this->ctrl->getLinkTarget($this,'editRoleAccessLimitations');
+			$list->setHtml($this->__parseRoleList($this->__prepareAccessLimitationRoleList(), $edit));
+			$limit->addSubItem($list);
+		$this->form_gui->addItem($limit);
+
+		$this->form_gui->addCommandButton('save', $this->lng->txt('save'));
+	}
+	
+	function initFormValues()
+	{
+		if(!$this->registration_settings->enabled())
+		{
+			$reg_type = IL_REG_DISABLED;
+		}
+		else if ($this->registration_settings->directEnabled())
+		{
+			$reg_type = IL_REG_DIRECT;
+		}
+		else if ($this->registration_settings->approveEnabled())
+		{
+			$reg_type = IL_REG_APPROVE;
+		}
+		else if ($this->registration_settings->activationEnabled())
+		{
+			$reg_type = IL_REG_ACTIVATION;
+		}
+
+		if($this->registration_settings->roleSelectionEnabled())
+		{
+			$role_type = IL_REG_ROLES_FIXED;
+		}
+		else if ($this->registration_settings->automaticRoleAssignmentEnabled())
+		{
+			$role_type = IL_REG_ROLES_EMAIL;
+		}
+
+		$this->form_gui->setValuesByArray(array(
+			'reg_type' => $reg_type,
+			'reg_hash_life_time' => (int)$this->registration_settings->getRegistrationHashLifetime(),
+			'reg_pwd' => $this->registration_settings->passwordGenerationEnabled(),
+			'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
+			'reg_role_type' => $role_type,
+			'reg_access_limitation' => $this->registration_settings->getAccessLimitation()
+		));
+	}
+	
 	function view()
 	{
-		global $ilAccess,$ilErr,$ilCtrl;
+		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.registration_settings.html','Services/Registration');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_REGISTRATION_SETTINGS",$this->lng->txt('reg_settings_header'));
-		$this->tpl->setVariable("TXT_REG_TYPE",$this->lng->txt('reg_type'));
-		$this->tpl->setVariable("TXT_REG_DEACTIVATED",$this->lng->txt('reg_disabled'));
-		$this->tpl->setVariable("REG_DEACTIVATED_DESC",$this->lng->txt('reg_disabled_info'));
-		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt('reg_direct'));
-		$this->tpl->setVariable("REG_DIRECT_DESC",$this->lng->txt('reg_direct_info'));
-		$this->tpl->setVariable("TXT_APPROVE",$this->lng->txt('reg_approve'));
-		$this->tpl->setVariable("REG_APPROVE_DESC",$this->lng->txt('reg_approve_info'));
-		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT",$this->lng->txt('reg_role_assignment'));
-		$this->tpl->setVariable("TXT_REG_FIXED",$this->lng->txt('reg_fixed'));
-		$this->tpl->setVariable("TXT_AVAILABLE",$this->lng->txt('reg_available_roles'));
-		$this->tpl->setVariable("TXT_APPROVE_REC",$this->lng->txt('approve_recipient'));
-		$this->tpl->setVariable("TXT_REG_NOTIFICATION",$this->lng->txt('reg_notification'));
-		$this->tpl->setVariable("REG_NOTIFICATION_DESC",$this->lng->txt('reg_notification_info'));
-		$this->tpl->setVariable("TXT_REG_EMAIL",$this->lng->txt('reg_email'));
 		
-		$this->tpl->setVariable("TXT_REG_ACTIVATION_LINK",$this->lng->txt('reg_type_confirmation'));
-		$this->tpl->setVariable("REG_INFO_ACTIVATION",$this->lng->txt('reg_type_confirmation_info'));		
-
-		$this->tpl->setVariable("TXT_REG_ACCESS_LIMITATIONS",$this->lng->txt('reg_access_limitations'));
-		$this->tpl->setVariable("TXT_ENABLE_ACCESS_LIMITATIONS",$this->lng->txt('reg_enable_access_limitations'));
-
-		$this->tpl->setVariable("EDIT",$this->lng->txt('edit'));
-		$this->tpl->setVariable("LINK_EDIT_FIXED",$this->ctrl->getLinkTarget($this,'editRoles'));
-		$this->tpl->setVariable("LINK_EDIT_EMAIL",$this->ctrl->getLinkTarget($this,'editEmailAssignments'));
-		$this->tpl->setVariable("LINK_EDIT_ACCESS_LIMITATIONS",$this->ctrl->getLinkTarget($this,'editRoleAccessLimitations'));
-
-		$this->__prepareRoleList();
-		$this->__prepareAutomaticRoleList();
-		$this->__prepareAccessLimitationRoleList();
-		
-		// jump to new account mail
-		$this->tpl->setVariable("TXT_NEW_ACCOUNT_MAIL",
-			$this->lng->txt('user_new_account_mail'));
-		$this->tpl->setVariable("TXT_JUMP_ACCOUNT_MAIL",
-			$this->lng->txt('edit'));
+		// edit new accout mail
 		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", USER_FOLDER_ID);
-		$this->tpl->setVariable("HREF_NEW_ACCOUNT_MAIL",
+		$ilToolbar->addButton($this->lng->txt('registration_user_new_account_mail'),
 			$ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjuserfoldergui"), "newAccountMail"));
 		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", $_GET["ref_id"]);
 
-		// pwd forwarding
-		$this->tpl->setVariable("TXT_REG_PWD_FORWARD",$this->lng->txt('passwd_generation'));
-		$this->tpl->setVariable("REG_INFO_PWD",$this->lng->txt('reg_info_pwd'));
-
-		$this->tpl->setVariable("RADIO_DEACTIVATE",ilUtil::formRadioButton(!$this->registration_settings->enabled(),
-																		   'reg_type',
-																		   IL_REG_DISABLED));
-								
-		$this->tpl->setVariable("RADIO_DIRECT",ilUtil::formRadioButton($this->registration_settings->directEnabled(),
-																	   'reg_type',
-																	   IL_REG_DIRECT));
-
-		$this->tpl->setVariable("RADIO_APPROVE",ilUtil::formRadioButton($this->registration_settings->approveEnabled(),
-																	   'reg_type',
-																	   IL_REG_APPROVE));
-																	   
-		$this->tpl->setVariable("CHECK_ACTIVATION_REG",ilUtil::formRadioButton($this->registration_settings->activationEnabled(),
-																	   'reg_type',
-																	   IL_REG_ACTIVATION));
-
-		$this->tpl->setVariable("APPROVER",ilUtil::prepareFormOutput($this->registration_settings->getApproveRecipientLogins()));
-
-
-		$this->tpl->setVariable("CHECK_PWD",ilUtil::formCheckbox($this->registration_settings->passwordGenerationEnabled(),
-																 'reg_pwd',
-																 1));
-
-		$this->tpl->setVariable("RADIO_FIXED",ilUtil::formRadioButton($this->registration_settings->roleSelectionEnabled(),
-																	   'reg_role_type',
-																	   IL_REG_ROLES_FIXED));
-
-		$this->tpl->setVariable("RADIO_EMAIL",ilUtil::formRadioButton($this->registration_settings->automaticRoleAssignmentEnabled(),
-																	   'reg_role_type',
-																	   IL_REG_ROLES_EMAIL));
-        // access limitation
-        if ($this->registration_settings->getAccessLimitation())
-        {
-            $this->tpl->setVariable("REG_ACCESS_LIMITATION_CHECK","checked=\"checked\"");
-            $this->tpl->setVariable("CSS_DISPLAY_ACCESS_LIMITATION","block");
-        }
-        else
-        {
-        	$this->tpl->setVariable("CSS_DISPLAY_ACCESS_LIMITATION","none");
-        }
-        
-        $this->tpl->setVariable('REG_HASH_LIFE_TIME', (int)$this->registration_settings->getRegistrationHashLifetime());
-        $this->tpl->setVariable('REG_HASH_LIFE_TIME_INFO', $this->lng->txt('reg_confirmation_hash_life_time_info'));
-        
-
-		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+		$this->initForm();
+		$this->initFormValues();
+		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 
 	function save()
@@ -524,17 +540,40 @@ class ilRegistrationSettingsGUI
 		return true;
 	}
 
+	function __parseRoleList($roles, $url)
+	{
+		$tpl = new ilTemplate('tpl.registration_roles.html', true, true,'Services/Registration');
+		
+		$tpl->setVariable("EDIT", $this->lng->txt("edit"));
+		$tpl->setVariable("LINK_EDIT", $url);
+		
+		if (is_array($roles) && sizeof($roles))
+		{
+			foreach($roles as $role)
+			{
+				$tpl->setCurrentBlock("list_item");
+				$tpl->setVariable("LIST_ITEM_ITEM", $role);
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->setVariable("NONE", $this->lng->txt('none'));
+		}
+		
+		return $tpl->get();
+	}
 
 	function __prepareRoleList()
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
+		
+		$all = array();
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
-			$this->tpl->setCurrentBlock("fixed_item");
-			$this->tpl->setVariable("FIXED_ITEM_TITLE",$role['title']);
-			$this->tpl->parseCurrentBlock();
+			$all[] = $role['title'];
 		}
+		return $all;
 	}
 
 	function __prepareAutomaticRoleList()
@@ -542,28 +581,21 @@ class ilRegistrationSettingsGUI
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$this->__initRoleAssignments();
 		
+		$all = array();
 		foreach($this->assignments_obj->getAssignments() as $assignment)
 		{
 			if(strlen($assignment['domain']) and $assignment['role'])
 			{
-				$this->tpl->setCurrentBlock("auto_item");
-				$this->tpl->setVariable("AUTO_ITEM_TITLE",$assignment['domain']);
-				$this->tpl->setVariable("AUTO_ROLE",ilObjRole::_lookupTitle($assignment['role']));
-				$this->tpl->parseCurrentBlock();
+				$all[] = $assignment['domain'].' -> '.ilObjRole::_lookupTitle($assignment['role']);
 			}
 		}
 
 		if(strlen($this->assignments_obj->getDefaultRole()))
 		{
-			$this->tpl->setCurrentBlock("auto_item");
-			$this->tpl->setVariable("AUTO_ITEM_TITLE",$this->lng->txt('reg_default'));
-			$this->tpl->setVariable("AUTO_ROLE",ilObjRole::_lookupTitle($this->assignments_obj->getDefaultRole()));
-			$this->tpl->parseCurrentBlock();
+			$all[] = $this->lng->txt('reg_default').' -> '.ilObjRole::_lookupTitle($this->assignments_obj->getDefaultRole());
 		}			
 
-		$this->tpl->setCurrentBlock("auto");
-		$this->tpl->parseCurrentBlock();
-
+		return $all;
 	}
 	
 	function __prepareAccessLimitationRoleList()
@@ -574,11 +606,9 @@ class ilRegistrationSettingsGUI
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
+		$all = array();
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
-			$this->tpl->setCurrentBlock("access_limitation_item");
-			$this->tpl->setVariable("ACCESS_LIMITATION_ITEM_TITLE",$role['title']);
-			
 			switch ($this->access_limitations_obj->getMode($role['id']))
 			{
 				case 'absolute':
@@ -638,10 +668,10 @@ class ilRegistrationSettingsGUI
 					break;
 			}
 			
-			$this->tpl->setVariable("ACCESS_LIMITATION_VALUE",$txt_access_value);
-			$this->tpl->setVariable("EDIT_ITEM",$lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			$all[] = $role['title'].' ('.$txt_access_value.')';
 		}
+		
+		return $all;
 	}
 
 	function __initRoleAssignments()
