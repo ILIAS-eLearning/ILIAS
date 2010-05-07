@@ -518,7 +518,7 @@ class ilInfoScreenGUI
 			ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(),IL_CAL_DATETIME)));
 
 		// owner
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner())
 		{
 			include_once 'classes/class.ilObjectFactory.php';
 			if(!$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false))
