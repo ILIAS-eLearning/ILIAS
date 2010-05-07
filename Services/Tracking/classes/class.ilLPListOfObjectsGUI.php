@@ -92,6 +92,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($lp_table);
 				break;
+			
+			case 'illpobjectstablegui':
+				include_once("./Services/Tracking/classes/class.ilLPObjectsTableGUI.php");
+				$lp_table = new ilLPObjectsTableGUI($this, "");
+				$lp_table->initFilter();
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($lp_table);
+				break;
+
 
 			default:
 				$cmd = $this->__getDefaultCommand();
