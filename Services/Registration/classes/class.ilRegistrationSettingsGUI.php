@@ -137,23 +137,6 @@ class ilRegistrationSettingsGUI
 	
 	function initFormValues()
 	{
-		if(!$this->registration_settings->enabled())
-		{
-			$reg_type = IL_REG_DISABLED;
-		}
-		else if ($this->registration_settings->directEnabled())
-		{
-			$reg_type = IL_REG_DIRECT;
-		}
-		else if ($this->registration_settings->approveEnabled())
-		{
-			$reg_type = IL_REG_APPROVE;
-		}
-		else if ($this->registration_settings->activationEnabled())
-		{
-			$reg_type = IL_REG_ACTIVATION;
-		}
-
 		if($this->registration_settings->roleSelectionEnabled())
 		{
 			$role_type = IL_REG_ROLES_FIXED;
@@ -164,7 +147,7 @@ class ilRegistrationSettingsGUI
 		}
 
 		$this->form_gui->setValuesByArray(array(
-			'reg_type' => $reg_type,
+			'reg_type' => $this->registration_settings->getRegistrationType(),
 			'reg_hash_life_time' => (int)$this->registration_settings->getRegistrationHashLifetime(),
 			'reg_pwd' => $this->registration_settings->passwordGenerationEnabled(),
 			'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
