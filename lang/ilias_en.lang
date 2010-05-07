@@ -8994,6 +8994,10 @@ registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#New Registrations
 registration#:#registration_user_new_account_mail#:#Edit New Account Mail
+registration#:#registration_tab_settings#:#Registration Settings
+registration#:#registration_tab_codes#:#Registration Codes
+registration#:#registration_reg_type_codes#:#Registration with Codes
+registration#:#registration_reg_type_codes_info#:#...
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
