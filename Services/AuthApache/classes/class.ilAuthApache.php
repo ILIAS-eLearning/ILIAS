@@ -111,10 +111,16 @@ class ilAuthApache extends Auth
 			// redirect to sso			
 			// this part is executed in default ilias context...
 
-			$path = ilUtil::getHtmlPath($_SERVER['REQUEST_URI']);
-			if ($path{0} == '/')
+			$path = $_SERVER['REQUEST_URI'];
+
+                        if ($path{0} == '/') {
 				$path = substr($path, 1);
-			//ilUtil::redirect(ilUtil::getHtmlPath('/Services/AuthApache/apache_container/index.php?force_mode_apache=1&r=' . $path . '&cookie_path='.IL_COOKIE_PATH));
+                        }
+
+                        if (substr($path, 0, 4) != 'http') {
+                                $parts = parse_url(ILIAS_HTTP_PATH);
+                                $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
+                        }
 			ilUtil::redirect(ilUtil::getHtmlPath('/sso/index.php?force_mode_apache=1&r=' . $path . '&cookie_path='.IL_COOKIE_PATH . '&ilias_path=' . ILIAS_HTTP_PATH));
 			exit;
 		}
