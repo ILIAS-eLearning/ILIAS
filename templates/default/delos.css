@@ -28,10 +28,12 @@ div.ilFrame{
   margin-right:auto;  
 }
 
+/* --- creates bug in IE6, if hasLayout not given (zoom: 1;) */
 div.ilFrameH{
 	background-image: url(images/head_back.gif);
 	background-repeat: repeat-x;
 	background-color: #a7d3ff;
+    zoom: 1;
 }
 
 div.ilFrameTL{
@@ -2898,5 +2900,6 @@ h3.ilProfileSectionHead {
 /* locator */
 div.ilLocator {
 	padding: 2px 0px 0px 8px;
+	zoom: 1;
 }
 
