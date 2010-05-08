@@ -662,6 +662,7 @@ class ilLMPresentationGUI
 			if ($in_module)
 			{
 				$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+				$this->tpl->setBodyClass("");
 			}
 			else
 			{
@@ -902,8 +903,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		$ilBench->start("ContentPresentation", "ilMainMenu");
-
 		if ($this->determineLayout() == "2window" || 
 			$this->determineLayout() == "3window")
 		{
@@ -914,19 +913,12 @@ class ilLMPresentationGUI
 			$ilMainMenu->setSmallMode(false);
 		}
 		
+		$this->tpl->touchBlock("mm_intro");
+		$this->tpl->touchBlock("mm_outro");
+		$this->tpl->touchBlock("pg_intro");
+		$this->tpl->touchBlock("pg_outro");
+		$this->tpl->setBodyClass("std");
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-//		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-//		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-		
-
-//		$this->tpl->fillJavaScriptFiles();
-//		$this->tpl->fillScreenReaderFocus();
-		
-		//require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
-		//$nav_hist = new ilNavigationHistoryGUI();
-		//$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
-		
-		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}
 
 	/**

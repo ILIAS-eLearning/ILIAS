@@ -410,7 +410,6 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	
 			$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-	
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -418,6 +417,10 @@ class ilMainMenuGUI
 	
 			// set link to return to desktop, not depending on a specific position in the hierarchy
 			//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
+		}
+		else
+		{
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		}
 
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
