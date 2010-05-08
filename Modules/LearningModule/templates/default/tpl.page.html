@@ -20,12 +20,12 @@
 	<!-- END css_file -->
 </head>
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> >
-<div class="ilFrame"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+<div class="ilFrame"><!-- BEGIN mm_intro --><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR"><!-- END mm_intro -->
 {MAINMENU}<!-- BEGIN sr_focus -->
 <script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus);</script>
 <!-- END sr_focus -->
-</div></div></div>
-<div class="ilFrameBL"><div class="ilFrameBR">
+<!-- BEGIN mm_outro --></div></div></div><!-- END mm_outro -->
+<!-- BEGIN pg_intro --><div class="ilFrameBL"><div class="ilFrameBR"><!-- END pg_intro -->
 {NAVIGATION_HISTORY}
 <!-- BEGIN ilLocator -->
 {STATUSLINE}
@@ -85,8 +85,8 @@
 <br />
 {NOTES}
 </td></tr></table>
+<!-- BEGIN pg_outro --></div></div><!-- END pg_outro -->
 </div>
-</div></div>
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
 ilAddOnLoad(function() {
