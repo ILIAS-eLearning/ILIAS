@@ -104,7 +104,8 @@ class ilAccountRegistrationGUI
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
 
-		if ($this->registration_settings->getRegistrationType() == IL_REG_DIRECT and
+		if (($this->registration_settings->getRegistrationType() == IL_REG_DIRECT or
+				$this->registration_settings->getRegistrationType() == IL_REG_CODES) and
 			!$this->registration_settings->passwordGenerationEnabled())
 		{
 			$this->tpl->setCurrentBlock("activation");
@@ -135,6 +136,11 @@ class ilAccountRegistrationGUI
 	{
 		$data = array();
 		$data["fields"] = array();
+		if ($this->registration_settings->registrationCodeRequired())
+		{
+			$data["fields"]["registration_code"] = "";
+		}
+		
 		$data["fields"]["login"] = "";
 
 		if (!$this->registration_settings->passwordGenerationEnabled())
@@ -183,7 +189,7 @@ class ilAccountRegistrationGUI
 		// fill presets
 		foreach((array)$data["fields"] as $key => $val)
 		{
-			if(!in_array($key, array('login')))
+			if(!in_array($key, array('login', 'registration_code')))
 			{
 				// dont show fields, which are not enabled for registration
 				if( isset($settings['require_' . $key]) && (int)$settings['require_' . $key] ||
@@ -212,7 +218,7 @@ class ilAccountRegistrationGUI
 			// check to see if dynamically required
 			if (((isset($settings['require_' . $key]) && 
 			    (int)$settings['require_' . $key])) 
-			    || in_array($key, array('login', 'passwd')) ||
+			    || in_array($key, array('login', 'passwd', 'registration_code')) ||
 			    ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() || 
 				                     $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
                                      	$this->registration_settings->getRegistrationType() == IL_REG_APPROVE )))
@@ -480,7 +486,7 @@ class ilAccountRegistrationGUI
 		$this->profile_incomplete = false;
 		foreach($data['fields'] as $key => $val)
 		{
-			if(in_array($key, array('login', 'passwd', 'passwd2')))
+			if(in_array($key, array('login', 'passwd', 'passwd2', 'registration_code')))
 			{
 				$require_keys[] = $key;
 				continue;
@@ -526,6 +532,17 @@ class ilAccountRegistrationGUI
 					$this->displayForm();
 					return false;
  				}
+			}
+			
+			if($val == 'registration_code')
+			{
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				if(!ilRegistrationCode::isUnusedCode($_POST['user']['registration_code']))
+				{
+					ilUtil::sendFailure($lng->txt('registration_code_not_valid'), true);
+					$this->displayForm();
+					return false;
+				}
 			}
 		}
 
@@ -675,6 +692,13 @@ class ilAccountRegistrationGUI
 		else
 		{
 			$this->userObj->setActive(0,0);
+		}
+		
+		// set code to used
+		if($this->registration_settings->getRegistrationType() == IL_REG_CODES)
+		{
+			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+			ilRegistrationCode::useCode($_POST['user']['registration_code']);
 		}
 
 		$this->userObj->updateOwner();

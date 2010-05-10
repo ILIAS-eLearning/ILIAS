@@ -8911,6 +8911,7 @@ registration#:#registration_used#:#Benutzungsdatum
 registration#:#registration_roles_all#:#Alle Rollen
 registration#:#registration_generated_all#:#Alle Daten
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
+registration#:#registration_code_not_valid#:#Der gegebene Registrierungs-Code ist ungültig oder wurde bereits benutzt.
 rep#:#rep_intro#:#Willkommen im Magazin!
 rep#:#rep_intro1#:#In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren.
 rep#:#rep_intro2#:#Mit drei Schritten können Sie eine erste Struktur aufbauen:
