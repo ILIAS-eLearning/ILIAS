@@ -10357,3 +10357,4 @@ administration#:#forum_settings#:#Foreneinstellungen
 administration#:#show_topics_overview#:#Themen-Übersicht
 administration#:#topics_overview_info#:#Wenn aktiviert, werden nur Themen mit den gewählten Informationen angezeigt.
 common#:#show_system_messages#:#Systemnachrichten
+rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
