@@ -8,8 +8,6 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id: class.ilRegistrationSettingsGUI.php 23797 2010-05-07 15:54:03Z jluetzen $
 *
-* @ilCtrl_Calls ilRegistrationCode:
-*
 * @ingroup ServicesRegistration
 */
 class ilRegistrationCode
@@ -56,5 +54,89 @@ class ilRegistrationCode
 		}
 		return $code;
 	}
+	
+	public static function getCodesData($order_field, $order_direction, $offset, $limit, $filter_code, $filter_role, $filter_generated)
+	{
+		global $ilDB;
+		
+		// filter
+		$where = array();
+		if($filter_code)
+		{
+			$where[] = $ilDB->like("code", "text", "%".$filter_code."%");
+		}
+		if($filter_role)
+		{
+			$where[] ="role = ".$ilDB->quote($filter_role, "integer");
+		}
+		if($filter_generated)
+		{
+			$where[] ="generated = ".$ilDB->quote($filter_generated, "text");
+		}
+		if(sizeof($where))
+		{
+			$where = " WHERE ".implode(" AND ", $where);
+		}
+		else
+		{
+			$where = "";
+		}
+
+		// count query
+		$set = $ilDB->query("SELECT COUNT(*) AS cnt FROM ".self::DB_TABLE.$where);
+		$cnt = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = $rec["cnt"];
+		}
+		
+		// set query
+		$ilDB->setLimit((int)$limit, (int)$offset);
+		$set = $ilDB->query("SELECT * FROM ".self::DB_TABLE.$where." ORDER BY ".$order_field." ".$order_direction);
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+		return array("cnt" => $cnt, "set" => $result);
+	}
+	
+	public static function loadCodesByIds(array $ids)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM ".self::DB_TABLE." WHERE ".$ilDB->in("code_id", $ids, false, "integer"));
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+		return $result;
+	}
+	
+	public static function deleteCodes(array $ids)
+	{
+		global $ilDB;
+
+		if(sizeof($ids))
+		{
+			return $ilDB->manipulate("DELETE FROM ".self::DB_TABLE." WHERE ".$ilDB->in("code_id", $ids, false, "integer"));
+		}
+		return false;
+	}
+	
+	public static function getGenerationDates()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT DISTINCT(generated) AS generated FROM ".self::DB_TABLE." ORDER BY generated");
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec["generated"];
+		}
+		return $result;
+	}
+
 }
 ?>

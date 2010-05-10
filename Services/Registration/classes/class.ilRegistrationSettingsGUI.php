@@ -792,7 +792,11 @@ class ilRegistrationSettingsGUI
 			$this->ctrl->getLinkTarget($this, "addCodes"));
 
 		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
-		$ctab = new ilRegistrationCodesTableGUI($this, "view");
+		$ctab = new ilRegistrationCodesTableGUI($this, "listCodes");
+		
+		
+		
+		
 		$this->tpl->setContent($ctab->getHTML());
 	}
 	
@@ -865,12 +869,72 @@ class ilRegistrationSettingsGUI
 			{
 				ilRegistrationCode::create($role, $stamp);
 			}
+			
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+			$this->ctrl->redirect($this, "listCodes");
 		}
 		else
 		{
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHtml());
 		}
+	}
+	
+	function deleteCodes()
+	{
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		ilRegistrationCode::deleteCodes($_POST["id"]);
+		
+		ilUtil::sendSuccess($this->lng->txt('deleted_successfully'), true);
+		$this->ctrl->redirect($this, "listCodes");
+	}
+
+	function deleteConfirmation()
+	{
+		global $ilErr, $ilias;
+
+		if(!isset($_POST["id"]))
+		{
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+		}
+		
+		$this->setSubTabs('registration_codes');
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$gui = new ilConfirmationGui();
+		$gui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$gui->setCancel($this->lng->txt("cancel"), "listCodes");
+		$gui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
+		$gui->setFormAction($this->ctrl->getFormAction($this, "deleteCodes"));
+		
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		$data = ilRegistrationCode::loadCodesByIds($_POST["id"]);
+		foreach($data as $code)
+		{
+			$gui->addItem("id[]", $code["code_id"], $code["code"]);
+		}
+
+		$this->tpl->setContent($gui->getHTML());
+	}
+	
+	function resetFilter()
+	{
+		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
+		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
+		$utab->resetOffset();
+		$utab->resetFilter();
+		
+		$this->listCodes();
+	}
+	
+	function applyFilter()
+	{
+		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
+		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
+		$utab->resetOffset();
+		$utab->writeFilterToSession();
+		
+		$this->listCodes();
 	}
 }
 ?>
