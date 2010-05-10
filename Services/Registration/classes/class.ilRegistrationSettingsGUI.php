@@ -955,7 +955,7 @@ class ilRegistrationSettingsGUI
 		}
 		else
 		{
-			ilUtil::sendFailure($this->lng->txt("export_codes_no_data"));
+			ilUtil::sendFailure($this->lng->txt("registration_export_codes_no_data"));
 			$this->listCodes();
 		}
 	}

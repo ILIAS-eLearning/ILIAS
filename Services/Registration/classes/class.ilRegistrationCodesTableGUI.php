@@ -48,7 +48,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->setTopCommands(true);
 		$this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
 		
-		$this->addCommandButton("exportCodes", $lng->txt("export_codes"));
+		$this->addCommandButton("exportCodes", $lng->txt("registration_codes_export"));
 		
 		$this->getItems();
 	}
@@ -95,24 +95,26 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 			$role_map[$role['id']] = $role['title'];
 		}
 
+		$result = array();
 		foreach ($codes_data["set"] as $k => $code)
 		{
-			$codes_data["set"][$k]["generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
+			$result[$k]["registration_generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
 
 			if($code["used"])
 			{
-				$codes_data["set"][$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
+				$result[$k]["registration_used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
 			}
 			else
 			{
-				$codes_data["set"][$k]["used"] = "";
+				$result[$k]["registration_used"] = "";
 			}
 
-			$codes_data["set"][$k]["role"] = $role_map[$code["role"]];
+			$result[$k]["role"] = $role_map[$code["role"]];
+			$result[$k]["registration_code"] = $code["code"];
 		}
-
+		
 		$this->setMaxCount($codes_data["cnt"]);
-		$this->setData($codes_data["set"]);
+		$this->setData($result);
 	}
 	
 	
@@ -127,7 +129,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		// code
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("code"), "query");
+		$ti = new ilTextInputGUI($lng->txt("registration_code"), "query");
 		$ti->setMaxLength(ilRegistrationCode::CODE_LENGTH);
 		$ti->setSize(20);
 		$ti->setSubmitFormOnEnter(true);
@@ -138,7 +140,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		// role
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
  		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$options = array("" => $this->lng->txt("roles_all"));
+		$options = array("" => $this->lng->txt("registration_roles_all"));
 		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
 		{
 			$options[$role['id']] = $role['title'];
@@ -151,12 +153,12 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		// generated
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$options = array("" => $this->lng->txt("generated_all"));
+		$options = array("" => $this->lng->txt("registration_generated_all"));
 		foreach((array)ilRegistrationCode::getGenerationDates() as $date)
 		{
 			$options[$date] = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_UNIX));
 		}
-		$si = new ilSelectInputGUI($this->lng->txt("generated"), "generated");
+		$si = new ilSelectInputGUI($this->lng->txt("registration_generated"), "generated");
 		$si->setOptions($options);
 		$this->addFilterItem($si);
 		$si->readFromSession();
@@ -165,7 +167,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	
 	public function getSelectedColumns()
 	{
-		return array("code", "role", "generated", "used");
+		return array("registration_code", "role", "registration_generated", "registration_used");
 	}
 	
 	/**

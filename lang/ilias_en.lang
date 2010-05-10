@@ -8997,7 +8997,18 @@ registration#:#registration_user_new_account_mail#:#Edit New Account Mail
 registration#:#registration_tab_settings#:#Registration Settings
 registration#:#registration_tab_codes#:#Registration Codes
 registration#:#registration_reg_type_codes#:#Registration with Codes
-registration#:#registration_reg_type_codes_info#:#...
+registration#:#registration_reg_type_codes_info#:#This type allows self-registration of users but requires a valid code.
+registration#:#registration_codes_add#:#Add Codes
+registration#:#registration_codes_export#:#Export Codes
+registration#:#registration_codes_edit_header#:#Add Codes
+registration#:#registration_codes_number#:#Number Of Codes
+registration#:#registration_codes_roles#:#Role For New Accounts
+registration#:#registration_code#:#Code
+registration#:#registration_generated#:#Date Of Generation
+registration#:#registration_used#:#Date Of Usage
+registration#:#registration_roles_all#:#All Roles
+registration#:#registration_generated_all#:#All Dates
+registration#:#registration_export_codes_no_data#:#No codes to export were selected.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:

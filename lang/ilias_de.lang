@@ -8899,7 +8899,18 @@ registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuan
 registration#:#registration_tab_settings#:#Einstellungen für die Neuanmeldung
 registration#:#registration_tab_codes#:#Registrierungs-Codes
 registration#:#registration_reg_type_codes#:#Registrieren mit Codes
-registration#:#registration_reg_type_codes_info#:#...
+registration#:#registration_reg_type_codes_info#:#Bei dieser Registrierungsmethode benötigt der neue Benutzer einen gültigen Code.
+registration#:#registration_codes_add#:#Codes generieren
+registration#:#registration_codes_export#:#Codes exportieren
+registration#:#registration_codes_edit_header#:#Neue Codes generieren
+registration#:#registration_codes_number#:#Anzahl Codes
+registration#:#registration_codes_roles#:#Rolle für neue Accounts
+registration#:#registration_code#:#Code
+registration#:#registration_generated#:#Erstellungsdatum
+registration#:#registration_used#:#Benutzungsdatum
+registration#:#registration_roles_all#:#Alle Rollen
+registration#:#registration_generated_all#:#Alle Daten
+registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 rep#:#rep_intro#:#Willkommen im Magazin!
 rep#:#rep_intro1#:#In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren.
 rep#:#rep_intro2#:#Mit drei Schritten können Sie eine erste Struktur aufbauen:
