@@ -828,10 +828,49 @@ class ilRegistrationSettingsGUI
 	
 	function addCodes()
 	{
+		global $ilAccess, $ilErr;
+
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+		}
+	
 		$this->setSubTabs('registration_codes');
 		
 		$this->initAddCodesForm();
 		$this->tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	function createCodes()
+	{
+		global $ilAccess, $ilErr;
+
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+		}
+		
+		$this->setSubTabs('registration_codes');
+
+		$this->initAddCodesForm();
+		if($this->form_gui->checkInput())
+		{
+			$number = $this->form_gui->getInput('reg_codes_number');
+			$role = $this->form_gui->getInput('reg_codes_role');
+			
+			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+			
+			$stamp = time();
+			for($loop = 1; $loop <= $number; $loop++)
+			{
+				ilRegistrationCode::create($role, $stamp);
+			}
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$this->tpl->setContent($this->form_gui->getHtml());
+		}
 	}
 }
 ?>

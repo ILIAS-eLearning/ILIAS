@@ -1476,3 +1476,44 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3043>
+<?php
+if(!$ilDB->tableExists('reg_registration_codes'))
+{
+	$fields = array (
+		'code_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+
+		'code' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 50,
+			'fixed' => false),
+
+	 	'role' => array(
+			'type' => 'integer',
+			'notnull' => false,
+			'length' => 4,
+			'default' => 0),
+
+		'generated' => array(
+			'type' => 'integer',
+			'notnull' => false,
+			'length' => 4,
+			'default' => 0),
+
+		'used' => array(
+			'type' => 'integer',
+			'notnull' => true,
+			'length' => 4,
+			'default' => 0)
+	);
+	$ilDB->createTable('reg_registration_codes', $fields);
+	$ilDB->addPrimaryKey('reg_registration_codes', array('code_id'));
+	$ilDB->addIndex('reg_registration_codes', array('code'), 'i1');
+	$ilDB->createSequence("reg_registration_codes");
+}
+?>
