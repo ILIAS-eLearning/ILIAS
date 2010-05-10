@@ -60,27 +60,7 @@ class ilRegistrationCode
 		global $ilDB;
 		
 		// filter
-		$where = array();
-		if($filter_code)
-		{
-			$where[] = $ilDB->like("code", "text", "%".$filter_code."%");
-		}
-		if($filter_role)
-		{
-			$where[] ="role = ".$ilDB->quote($filter_role, "integer");
-		}
-		if($filter_generated)
-		{
-			$where[] ="generated = ".$ilDB->quote($filter_generated, "text");
-		}
-		if(sizeof($where))
-		{
-			$where = " WHERE ".implode(" AND ", $where);
-		}
-		else
-		{
-			$where = "";
-		}
+		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated);
 
 		// count query
 		$set = $ilDB->query("SELECT COUNT(*) AS cnt FROM ".self::DB_TABLE.$where);
@@ -137,6 +117,49 @@ class ilRegistrationCode
 		}
 		return $result;
 	}
+	
+	protected static function filterToSQL($filter_code, $filter_role, $filter_generated)
+	{
+		global $ilDB;
 
+		$where = array();
+		if($filter_code)
+		{
+			$where[] = $ilDB->like("code", "text", "%".$filter_code."%");
+		}
+		if($filter_role)
+		{
+			$where[] ="role = ".$ilDB->quote($filter_role, "integer");
+		}
+		if($filter_generated)
+		{
+			$where[] ="generated = ".$ilDB->quote($filter_generated, "text");
+		}
+		if(sizeof($where))
+		{
+			return " WHERE ".implode(" AND ", $where);
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	public static function getCodesForExport($filter_code, $filter_role, $filter_generated)
+	{
+		global $ilDB;
+
+		// filter
+		$where = self::filterToSQL($filter_code, $filter_role, $filter_generated);
+
+		// set query
+		$set = $ilDB->query("SELECT code FROM ".self::DB_TABLE.$where." ORDER BY code_id");
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec["code"];
+		}
+		return $result;
+	}
 }
 ?>
