@@ -39,13 +39,16 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.code_list_row.html", "Services/Registration");
 		$this->setEnableTitle(true);
 		$this->initFilter();
-		$this->setFilterCommand("applyFilter");
+		$this->setFilterCommand("applyCodesFilter");
+		$this->setResetCommand("resetCodesFilter");
 		$this->setDefaultOrderField("generated");
 		$this->setDefaultOrderDirection("desc");
 
 		$this->setSelectAllCheckbox("id[]");
 		$this->setTopCommands(true);
 		$this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
+		
+		$this->addCommandButton("exportCodes", $lng->txt("export_codes"));
 		
 		$this->getItems();
 	}

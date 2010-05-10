@@ -779,7 +779,7 @@ class ilRegistrationSettingsGUI
 	
 	function listCodes()
 	{
-		global $ilAccess, $ilErr, $ilCtrl, $ilTabs, $ilToolbar;
+		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar;
 
 		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
@@ -793,10 +793,6 @@ class ilRegistrationSettingsGUI
 
 		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
 		$ctab = new ilRegistrationCodesTableGUI($this, "listCodes");
-		
-		
-		
-		
 		$this->tpl->setContent($ctab->getHTML());
 	}
 	
@@ -917,7 +913,7 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setContent($gui->getHTML());
 	}
 	
-	function resetFilter()
+	function resetCodesFilter()
 	{
 		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
 		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
@@ -927,7 +923,7 @@ class ilRegistrationSettingsGUI
 		$this->listCodes();
 	}
 	
-	function applyFilter()
+	function applyCodesFilter()
 	{
 		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
 		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
@@ -935,6 +931,33 @@ class ilRegistrationSettingsGUI
 		$utab->writeFilterToSession();
 		
 		$this->listCodes();
+	}
+	
+	function exportCodes()
+	{
+		global $ilAccess, $ilErr;
+
+		if(!$ilAccess->checkAccess('read', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
+		}
+		
+		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
+		$utab = new ilRegistrationCodesTableGUI($this, "listCodes");
+		
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		$codes = ilRegistrationCode::getCodesForExport($utab->filter["code"], $utab->filter["role"], $utab->filter["generated"]);
+
+		if(sizeof($codes))
+		{
+			// :TODO: add url/link to login?!
+			ilUtil::deliverData(implode("\n", $codes), "ilias_registration_codes_".date("d-m-Y").".txt","text/plain");
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("export_codes_no_data"));
+			$this->listCodes();
+		}
 	}
 }
 ?>
