@@ -2012,7 +2012,10 @@ class ilObjContentObject extends ilObject
 		$mobs = array();
 		$int_links = array();
 		$this->offline_files = array();
-		
+
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+
 		foreach ($pages as $page)
 		{
 			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
@@ -2022,9 +2025,22 @@ class ilObjContentObject extends ilObject
 				$ilBench->start("ExportHTML", "exportPageHTML");
 				$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
 				$ilBench->stop("ExportHTML", "exportPageHTML");
-				
+
+				// get all snippets of page
+				$pcs = ilPageContentUsage::getUsagesOfPage($page["obj_id"], $this->getType().":pg");
+				foreach ($pcs as $pc)
+				{
+					if ($pc["type"] == "incl")
+					{
+						$incl_mobs = ilObjMediaObject::_getMobsOfObject("mep:pg", $pc["id"]);
+						foreach($incl_mobs as $incl_mob)
+						{
+							$mobs[$incl_mob] = $incl_mob;
+						}
+					}
+				}
+
 				// get all media objects of page
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 				$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
 				foreach($pg_mobs as $pg_mob)
 				{
@@ -2048,6 +2064,8 @@ class ilObjContentObject extends ilObject
 		
 		
 	}
+
+
 
 	/**
 	* export page html
