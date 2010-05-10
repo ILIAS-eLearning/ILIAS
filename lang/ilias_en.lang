@@ -9009,6 +9009,7 @@ registration#:#registration_used#:#Date Of Usage
 registration#:#registration_roles_all#:#All Roles
 registration#:#registration_generated_all#:#All Dates
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.
+registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:

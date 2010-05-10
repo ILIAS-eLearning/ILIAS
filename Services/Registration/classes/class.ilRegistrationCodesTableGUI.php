@@ -111,6 +111,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
 			$result[$k]["role"] = $role_map[$code["role"]];
 			$result[$k]["registration_code"] = $code["code"];
+			$result[$k]["code_id"] = $code["code_id"];
 		}
 		
 		$this->setMaxCount($codes_data["cnt"]);

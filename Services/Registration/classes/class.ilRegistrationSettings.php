@@ -87,6 +87,10 @@ class ilRegistrationSettings
 	{
 		return $this->registration_type == IL_REG_ACTIVATION;
 	}
+	function registrationCodeRequired()
+	{
+		return $this->registration_type == IL_REG_CODES;
+	}
 	
 	function passwordGenerationEnabled()
 	{
@@ -96,7 +100,7 @@ class ilRegistrationSettings
 	{
 		$this->password_generation_enabled = $a_status;
 	}
-	
+
 	function getAccessLimitation()
 	{
 		return $this->access_limitation;

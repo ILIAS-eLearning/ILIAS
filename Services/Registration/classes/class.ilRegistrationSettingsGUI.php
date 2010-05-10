@@ -881,7 +881,7 @@ class ilRegistrationSettingsGUI
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 		ilRegistrationCode::deleteCodes($_POST["id"]);
 		
-		ilUtil::sendSuccess($this->lng->txt('deleted_successfully'), true);
+		ilUtil::sendSuccess($this->lng->txt('info_deleted'), true);
 		$this->ctrl->redirect($this, "listCodes");
 	}
 

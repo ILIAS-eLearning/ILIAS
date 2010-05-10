@@ -161,5 +161,25 @@ class ilRegistrationCode
 		}
 		return $result;
 	}
+	
+	public static function isUnusedCode($code)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT used FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
+		$set = $ilDB->fetchAssoc($set);
+		if($set && !$set["used"])
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static function useCode($code)
+	{
+		global $ilDB;
+
+		return (bool)$ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
+	}
 }
 ?>
