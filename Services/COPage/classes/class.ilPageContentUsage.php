@@ -78,5 +78,38 @@ class ilPageContentUsage
 		}
 		return $usages;
 	}
-	
+
+	/**
+	 * Get page content usages for page
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUsagesOfPage($a_usage_id, $a_usage_type, $a_hist_nr = 0, $a_all_hist_nrs = false)
+	{
+		global $ilDB;
+
+		if (!$a_all_hist_nrs)
+		{
+			$hist_str = " AND usage_hist_nr = ".$ilDB->quote($a_hist_nr, "integer");
+		}
+
+		$set = $ilDB->query("SELECT pc_type, pc_id FROM page_pc_usage WHERE ".
+			" usage_id = ".$ilDB->quote($a_usage_id, "integer")." AND ".
+			" usage_type = ".$ilDB->quote($a_usage_type, "text").
+			$hist_str
+			);
+
+		$usages = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$usages[$rec["pc_type"].":".$rec["pc_id"]] = array(
+				"type" => $rec["pc_type"],
+				"id" => $rec["pc_id"]
+			);
+		}
+
+		return $usages;
+	}
+
 }
