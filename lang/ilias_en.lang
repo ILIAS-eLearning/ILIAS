@@ -10359,3 +10359,4 @@ administration#:#forum_settings#:#Forumsettings
 administration#:#show_topics_overview#:#Topic Overview
 administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown
 common#:#show_system_messages#:#System Messages
+rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
