@@ -1656,3 +1656,9 @@ if(!$ilDB->tableExists('org_unit_assignments'))
 }
 
 ?>
+
+<#3046>
+<?php
+	$ilDB->modifyTableColumn('glossary_definition', 'short_text',
+		array("type" => "text", "length" => 4000, "notnull" => false));
+?>
