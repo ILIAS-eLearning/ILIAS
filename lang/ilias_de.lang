@@ -2625,7 +2625,7 @@ common#:#forums_forum_notification_enabled#:#Sie werden über neue Nachrichten i
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_moderators#:#Moderatoren
 common#:#forums_new_articles#:#Neue Beiträge
-common#:#forums_notification_settings#:#Forenbenachrichtigungs-Einstellungen
+common#:#forums_notification_settings#:#Einstellungen Forenbenachrichtigung
 common#:#forums_overview#:#Übersicht Foren
 common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
@@ -6772,10 +6772,10 @@ forum#:#forums_notification#:#Benachrichtigung
 forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
-forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
-forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
-forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
-forum#:#forums_notification_subject#:#Neue Nachricht im Forum
+forum#:#forums_notification_is_disabled#:#Sie werden noch nicht über neue Beiträge in diesem Thema benachrichtigt.
+forum#:#forums_notification_is_enabled#:#Sie werden bereits über neue Beiträge in diesem Thema benachrichtigt.
+forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
+forum#:#forums_notification_subject#:#Neuer Beitrag im Forum:
 forum#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_and_children_were_activated#:#Der Beitrag und seine Folgebeiträge wurden aktiviert.
 forum#:#forums_post_and_children_were_deactivated#:#Der Beitrag und seine Folgebeiträge wurden deaktiviert.
