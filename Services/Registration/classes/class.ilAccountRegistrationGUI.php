@@ -42,10 +42,6 @@ class ilAccountRegistrationGUI
 {
 	var $ctrl;
 	var $tpl;
-	
-	private $display_pdata = false;
-	private $display_cdata = false;
-	private $display_odata = false;
 
 	public function __construct()
 	{
@@ -62,7 +58,7 @@ class ilAccountRegistrationGUI
 		$this->registration_settings = new ilRegistrationSettings();
 	}
 
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $ilErr, $tpl;
 
@@ -91,223 +87,22 @@ class ilAccountRegistrationGUI
 		return true;
 	}
 
-	function login()
+	public function displayForm()
 	{
-		global $ilias,$lng,$ilLog;
-
-		$ilLog->write("Entered login");
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registered.html");
-
-		$this->tpl->setVariable("IMG_USER",
-			ilUtil::getImagePath("icon_usr_b.gif"));
-		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
-		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
-
-		if (($this->registration_settings->getRegistrationType() == IL_REG_DIRECT or
-				$this->registration_settings->getRegistrationType() == IL_REG_CODES) and
-			!$this->registration_settings->passwordGenerationEnabled())
-		{
-			$this->tpl->setCurrentBlock("activation");
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
-			$this->tpl->setVariable("FORMACTION", "login.php?cmd=post&target=".$_GET["target"]);
-			$this->tpl->setVariable("TARGET","target=\"_parent\"");
-			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
-			$this->tpl->setVariable("PASSWORD",$_POST["user"]['passwd']);
-			$this->tpl->parseCurrentBlock();
-		}
-		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
-		{
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
-		}
-		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
-		{
-			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), './login.php'));
-			$this->tpl->setVariable("REDIRECT_URL", './login.php');
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
-		}
-	}
-	
-	private function getRegistrationFieldsArray()
-	{
-		$data = array();
-		$data["fields"] = array();
-		if ($this->registration_settings->registrationCodeRequired())
-		{
-			$data["fields"]["registration_code"] = "";
-		}
-		
-		$data["fields"]["login"] = "";
-
-		if (!$this->registration_settings->passwordGenerationEnabled())
-		{
-			$data["fields"]["passwd"] = "";
-			$data["fields"]["passwd2"] = "";
-		}
-
-		$data["fields"]["title"] = "";
-		$data["fields"]["gender"] = "";
-		$data["fields"]["firstname"] = "";
-		$data["fields"]["lastname"] = "";
-		$data["fields"]["institution"] = "";
-		$data["fields"]["department"] = "";
-		$data["fields"]["street"] = "";
-		$data["fields"]["city"] = "";
-		$data["fields"]["zipcode"] = "";
-		$data["fields"]["country"] = "";
-		$data["fields"]["phone_office"] = "";
-		$data["fields"]["phone_home"] = "";
-		$data["fields"]["phone_mobile"] = "";
-		$data["fields"]["fax"] = "";
-		$data["fields"]["email"] = "";
-		$data["fields"]["hobby"] = "";
-		$data["fields"]["referral_comment"] = "";
-		$data["fields"]["matriculation"] = "";
-		$data["fields"]["delicious"] = "";
-		
-		return $data;
-	}
-
-	function displayForm()
-	{
-		global $ilias,$lng,$ObjDefinition,$ilSetting;
+		global $lng;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-		//load ILIAS settings
-		$settings = $ilias->getAllSettings();
-
-		$this->__showRoleSelection();
-
-		$data = $this->getRegistrationFieldsArray();
-
-		// fill presets
-		foreach((array)$data["fields"] as $key => $val)
-		{
-			if(!in_array($key, array('login', 'registration_code')))
-			{
-				// dont show fields, which are not enabled for registration
-				if( isset($settings['require_' . $key]) && (int)$settings['require_' . $key] ||
-					(int)$ilSetting->get('usr_settings_visib_reg_' . $key, '1') ||
-					in_array($key, array('passwd', 'passwd2')) ||
-					$key == 'email' && (
-						$this->registration_settings->passwordGenerationEnabled() ||
-						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
-						$this->registration_settings->getRegistrationType() == IL_REG_APPROVE
-					)
-				){
-					$this->tpl->setCurrentBlock($key."_section");
-				}
-				else
-				{
-					continue;
-				}
-			}
-
-			$str = $lng->txt($key);
-			if ($key == 'title')
-			{
-				$str = $lng->txt('person_title');
-			}
-			
-			// check to see if dynamically required
-			if (((isset($settings['require_' . $key]) && 
-			    (int)$settings['require_' . $key])) 
-			    || in_array($key, array('login', 'passwd', 'registration_code')) ||
-			    ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() || 
-				                     $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
-                                     	$this->registration_settings->getRegistrationType() == IL_REG_APPROVE )))
-			{
-				$str = $str . '<span class="asterisk">*</span>';
-			}
-
-			if($key == 'passwd2')
-			{
-				// text label for passwd2 is nonstandard
-				$str = $lng->txt('retype_password');				
-				$str = $str . '<span class="asterisk">*</span>';
-			}
-			
- 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
-			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($_POST['user'][$key],true));
-			
-			if($key == 'matriculation' || $key == 'delicious')
-			{
-				$this->display_odata = true;
-			}
-			else if(in_array($key, array('title', 'gender', 'firstname', 'lastname')))
-			{
-				$this->display_pdata = true;
-			}
-			else if(in_array($key, array('institution', 'department', 'street', 'city',
-										 'zipcode', 'country', 'phone_office', 'phone_home',
-										 'phone_mobile', 'fax', 'email', 'hobby', 'referral_comment')))
-			{
-				$this->display_cdata = true;
-			}
-
-			if($key == 'gender')
-			{
-				$this->tpl->setVariable('TXT_GENDER_F', $lng->txt('gender_f'));
-				$this->tpl->setVariable('TXT_GENDER_M', $lng->txt('gender_m'));
-				
-				// FILL SAVED VALUES IN CASE OF ERROR
-				if(isset($_POST['user']))
-				{
-					// gender selection
-					$gender = strtoupper($_POST['user']['gender']);		
-					if(!empty($gender))
-					{
-						$this->tpl->setVariable('BTN_GENDER_'.$gender, 'checked="checked"');
-					}
-				}
-			}
-			
-			if(!in_array($key, array('login')))
-			{
-				$this->tpl->parseCurrentBlock();
-			}
-		}		
-
-		if($this->registration_settings->passwordGenerationEnabled())
-		{
-			$this->tpl->setCurrentBlock('select_password');
-			$this->tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
-			$this->tpl->setVariable("TXT_PASSWD_VIA_MAIL", $lng->txt("reg_passwd_via_mail"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $lng->txt("register"));
-		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
-		$this->tpl->setVariable("TXT_LOGIN_DATA", $lng->txt("login_data"));
-		$this->tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
-		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
-		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$this->tpl->setVariable("REG_LANG_FORMACTION",
-			$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 
 		// language selection
-		$languages = $lng->getInstalledLanguages();
-
-		$count = (int) round(count($languages) / 2);
-		$num = 1;
-
-		foreach ($languages as $lang_key)
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
+		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+		$this->ctrl->getFormAction($this);
+		foreach ($lng->getInstalledLanguages() as $lang_key)
 		{
-			/*
-			 if ($num === $count)
-			 {
-			 $this->tpl->touchBlock("lng_new_row");
-			 }
-			*/
-
 			$this->tpl->setCurrentBlock("languages");
 			$this->tpl->setVariable("LINK_LANG",$this->ctrl->getLinkTarget($this,'displayForm'));
 			$this->tpl->setVariable("LANG_NAME",
@@ -316,155 +111,94 @@ class ilAccountRegistrationGUI
 			$this->tpl->setVariable("BORDER", 0);
 			$this->tpl->setVariable("VSPACE", 0);
 			$this->tpl->parseCurrentBlock();
-
-			$num++;
 		}
 
-		// preselect previous chosen language otherwise default language
-		$selected_lang = (isset($_POST["user"]["language"])) ?
-			$_POST["user"]["language"] : $lng->lang_key;
-		
-		foreach ($languages as $lang_key)
-		{
-			$this->tpl->setCurrentBlock("language_selection");
-			$this->tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
-			$this->tpl->setVariable("LANGSHORT", $lang_key);
-
-			if ($selected_lang == $lang_key)
-			{
-				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
-			}
-
-			$this->tpl->parseCurrentBlock();
-		} // END language selection
-
-
-		$this->tpl->setVariable("IMG_USER",
-			ilUtil::getImagePath("icon_usr_b.gif"));
-		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
-		$this->tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("registration"));
-		$this->tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
-		$this->tpl->setVariable("AGREEMENT", ilUserAgreement::_getText());
-		$this->tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
-		$this->tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement") . '<span class="asterisk">*</span>');
-
-		$this->showUserDefinedFields();
-		
-		// show personal data if at least one field appears
-		if($this->display_pdata)
-		{
-			$this->tpl->setCurrentBlock('block_headline_personalinfo');
-			$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
-			$this->tpl->parseCurrentBlock();
-		}
-		// show contact data if at least one field appears
-		if($this->display_cdata)
-		{		
-			$this->tpl->setCurrentBlock('block_headline_contactinfo');
-			$this->tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
-			$this->tpl->parseCurrentBlock();
-		}
-		// show other data if at least one field appears
-		if($this->display_odata)
-		{		
-			$this->tpl->setCurrentBlock('block_headline_otherdata');
-			$this->tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->initForm();
+		$this->tpl->setVariable("FORM", $this->form->getHTML());
 	}
-
-	function showUserDefinedFields()
+	
+	protected function initForm()
 	{
+		global $lng, $ilUser;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+
+		// standard fields
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->setMode(ilUserProfile::MODE_REGISTRATION);
+		$up->skipGroup("preferences");
+
+		// standard fields
+		$up->addStandardFieldsToForm($this->form);
+
+
+		// user defined fields
+		
+		$user_defined_data = $ilUser->getUserDefinedData();
+
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields =& ilUserDefinedFields::_getInstance();
-
-		#$user_defined_data = $ilUser->getUserDefinedData();
-		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
+		$input = array();
+		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
-			$this->display_odata = true;
-			
 			if($definition['field_type'] == UDF_TYPE_TEXT)
 			{
-				$old = isset($_POST["udf"][$field_id]) ?
-					$_POST["udf"][$field_id] : '';
-
-
-				$this->tpl->setCurrentBlock("field_text");
-				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
-				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
-				if(!$definition['changeable'])
-				{
-					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
-				}
-				$this->tpl->parseCurrentBlock();
+				$input["udf_".$definition['field_id']] =
+					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$inputt["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$input["udf_".$definition['field_id']]->setMaxLength(255);
+				$input["udf_".$definition['field_id']]->setSize(40);
 			}
 			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
 			{
-				include_once "./Services/RTE/classes/class.ilRTE.php";
-				$rtestring = ilRTE::_getRTEClassname();
-				include_once "./Services/RTE/classes/class.$rtestring.php";
-				$rte = new $rtestring();
-				include_once "./Services/Form/classes/class.ilTextAreaInputGUI.php";
-				$ta = new ilTextAreaInputGUI("","");
-				$rte->addCustomRTESupport(0, "", $ta->getRteTags());
-
-				$old = isset($_POST["udf"][$field_id]) ?
-					$_POST["udf"][$field_id] : '';
-
-				$this->tpl->setCurrentBlock("field_wysiwyg");
-				$this->tpl->setVariable("FIELD_NAME",'udf['.$definition['field_id'].']');
-				$this->tpl->setVariable("FIELD_VALUE",ilUtil::prepareFormOutput($old));
-				if(!$definition['changeable'])
-				{
-					$this->tpl->setVariable("DISABLED_FIELD",'disabled=\"disabled\"');
-				}
-				$this->tpl->parseCurrentBlock();
+				$input["udf_".$definition['field_id']] =
+					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$input["udf_".$definition['field_id']]->setUseRte(true);
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("field_select");
-				$this->tpl->setVariable("SELECT_BOX",ilUtil::formSelect($_POST['udf']["$definition[field_id]"],
-																  'udf['.$definition['field_id'].']',
-																  $user_defined_fields->fieldValuesToSelectArray(
-																	  $definition['field_values']),
-																  false,
-																  true));
-				$this->tpl->parseCurrentBlock();
+				$input["udf_".$definition['field_id']] =
+					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$input["udf_".$definition['field_id']]->setOptions(
+					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
 			}
-			$this->tpl->setCurrentBlock("user_defined");
-
+			if(!$definition['changeable'])
+			{
+				$input["udf_".$definition['field_id']]->setDisabled(true);
+			}
 			if($definition['required'])
 			{
-				$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
+				$input["udf_".$definition['field_id']]->setRequired(true);
 			}
-			else
-			{
-				$name = $definition['field_name'];
-			}
-			$this->tpl->setVariable("TXT_FIELD_NAME",$name);
-			$this->tpl->parseCurrentBlock();
+			$this->form->addItem($input["udf_".$definition['field_id']]);
 		}
-		return true;
+
+
+		// user agreement
+
+		$field = new ilFormSectionHeaderGui();
+		$field->setTitle($lng->txt("usr_agreement"));
+		$this->form->addItem($field);
+
+		$field = new ilNonEditableValueGUI();
+		$field->setValue(ilUserAgreement::_getText());
+		$this->form->addItem($field);
+
+		$field = new ilCheckboxInputGui($lng->txt("accept_usr_agreement"), "usr_agreement");
+		$field->setRequired(true);
+		$field->setValue(1);
+		$this->form->addItem($field);
+
+
+		$this->form->addCommandButton("saveForm", $lng->txt("register"));
 	}
 
-
-	function checkUserDefinedRequiredFields()
-	{
-		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
-
-		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
-		{
-			if($definition['required'] and !strlen($_POST['udf'][$field_id]))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-
-	function saveForm()
+	public function saveForm()
 	{
 		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr, $ilSetting;
 		
@@ -481,8 +215,6 @@ class ilAccountRegistrationGUI
 			return false;
 		}
 		
-		$data = $this->getRegistrationFieldsArray();
-		$require_keys = array();
 		$this->profile_incomplete = false;
 		foreach($data['fields'] as $key => $val)
 		{
@@ -544,13 +276,6 @@ class ilAccountRegistrationGUI
 					return false;
 				}
 			}
-		}
-
-		if(!$this->checkUserDefinedRequiredFields())
-		{
-			ilUtil::sendFailure($lng->txt("fill_out_all_required_fields"),true);
-			$this->displayForm();
-			return false;
 		}
 
 		// validate username
@@ -741,8 +466,7 @@ class ilAccountRegistrationGUI
 		return true;
 	}
 
-
-	function __validateRole()
+	protected function __validateRole()
 	{
 		global $ilDB,$ilias,$ilErr,$lng;
 
@@ -758,7 +482,7 @@ class ilAccountRegistrationGUI
 		return true;
 	}
 
-	function __assignRole()
+	protected function __assignRole()
 	{
 		global $rbacadmin;
 
@@ -779,34 +503,7 @@ class ilAccountRegistrationGUI
 									  true);
 	}
 
-	function __showRoleSelection()
-	{
-		if(!$this->registration_settings->roleSelectionEnabled())
-		{
-			return true;
-		}
-
-		// TODO put query in a function
-		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
-		$reg_roles = ilObjRole::_lookupRegisterAllowed();
-
-		$rol = array();
-		foreach ($reg_roles as $role)
-		{
-			$rol[$role["id"]] = $role["title"];
-		}
-
-		$this->tpl->setCurrentBlock("role");
-		$this->tpl->setVariable("TXT_DEFAULT_ROLE",$this->lng->txt('default_role'));
-		$this->tpl->setVariable("DEFAULT_ROLE",ilUtil::formSelect($_POST["user"]["default_role"],
-																  "user[default_role]",
-																  $rol,false,true));
-		$this->tpl->parseCurrentBlock();
-
-		return true;
-	}
-
-	function __distributeMails()
+	protected function __distributeMails()
 	{
 		global $ilias;
 
@@ -919,6 +616,47 @@ class ilAccountRegistrationGUI
 				$mmail->Send();
 			}
 		}
-	}	
+	}
+	
+	public function login()
+	{
+		global $ilias,$lng,$ilLog;
+
+		$ilLog->write("Entered login");
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registered.html");
+
+		$this->tpl->setVariable("IMG_USER",
+			ilUtil::getImagePath("icon_usr_b.gif"));
+		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
+		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
+
+		if (($this->registration_settings->getRegistrationType() == IL_REG_DIRECT or
+				$this->registration_settings->getRegistrationType() == IL_REG_CODES) and
+			!$this->registration_settings->passwordGenerationEnabled())
+		{
+			$this->tpl->setCurrentBlock("activation");
+			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
+			$this->tpl->setVariable("FORMACTION", "login.php?cmd=post&target=".$_GET["target"]);
+			$this->tpl->setVariable("TARGET","target=\"_parent\"");
+			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
+			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
+			$this->tpl->setVariable("PASSWORD",$_POST["user"]['passwd']);
+			$this->tpl->parseCurrentBlock();
+		}
+		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		{
+			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
+		}
+		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{
+			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), './login.php'));
+			$this->tpl->setVariable("REDIRECT_URL", './login.php');
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
+		}
+	}
 }
 ?>
