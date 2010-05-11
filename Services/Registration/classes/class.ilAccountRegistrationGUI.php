@@ -104,10 +104,49 @@ class ilAccountRegistrationGUI
 	protected function __initForm()
 	{
 		global $lng, $ilUser;
-
+		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		
+		// user defined fields
+
+		$user_defined_data = $ilUser->getUserDefinedData();
+
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$user_defined_fields =& ilUserDefinedFields::_getInstance();
+		$custom_fields = array();
+		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
+		{
+			if($definition['field_type'] == UDF_TYPE_TEXT)
+			{
+				$custom_fields["udf_".$definition['field_id']] =
+					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$custom_fields["udf_".$definition['field_id']]->setMaxLength(255);
+				$custom_fields["udf_".$definition['field_id']]->setSize(40);
+			}
+			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
+			{
+				$custom_fields["udf_".$definition['field_id']] =
+					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$custom_fields["udf_".$definition['field_id']]->setUseRte(true);
+			}
+			else
+			{
+				$custom_fields["udf_".$definition['field_id']] =
+					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$custom_fields["udf_".$definition['field_id']]->setOptions(
+					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
+			}
+			if($definition['required'])
+			{
+				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
+			}
+		}
 
 		// standard fields
 		include_once("./Services/User/classes/class.ilUserProfile.php");
@@ -115,52 +154,9 @@ class ilAccountRegistrationGUI
 		$up->setMode(ilUserProfile::MODE_REGISTRATION);
 		$up->skipGroup("preferences");
 
-		// standard fields
-		$up->addStandardFieldsToForm($this->form);
-
-
-		// user defined fields
-		
-		$user_defined_data = $ilUser->getUserDefinedData();
-
-		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
-		$input = array();
-		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
-		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)
-			{
-				$input["udf_".$definition['field_id']] =
-					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$inputt["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$input["udf_".$definition['field_id']]->setMaxLength(255);
-				$input["udf_".$definition['field_id']]->setSize(40);
-			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
-			{
-				$input["udf_".$definition['field_id']] =
-					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$input["udf_".$definition['field_id']]->setUseRte(true);
-			}
-			else
-			{
-				$input["udf_".$definition['field_id']] =
-					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$input["udf_".$definition['field_id']]->setOptions(
-					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
-			}
-			if(!$definition['changeable'])
-			{
-				$input["udf_".$definition['field_id']]->setDisabled(true);
-			}
-			if($definition['required'])
-			{
-				$input["udf_".$definition['field_id']]->setRequired(true);
-			}
-			$this->form->addItem($input["udf_".$definition['field_id']]);
-		}
+		// add fields to form
+		$up->addStandardFieldsToForm($this->form, NULL, $custom_fields);
+		unset($custom_fields);
 
 
 		// user agreement
@@ -284,17 +280,14 @@ class ilAccountRegistrationGUI
 		// Set user defined data
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields =& ilUserDefinedFields::_getInstance();
-		$defs = $user_defined_fields->getVisibleDefinitions();
+		$defs = $user_defined_fields->getRegistrationDefinitions();
 		$udf = array();
 		foreach ($_POST as $k => $v)
 		{
 			if (substr($k, 0, 4) == "udf_")
 			{
 				$f = substr($k, 4);
-				if ($defs[$f]["changeable"] && $defs[$f]["visible"])
-				{
-					$udf[$f] = $v;
-				}
+				$udf[$f] = $v;
 			}
 		}
 		$this->userObj->setUserDefinedData($udf);

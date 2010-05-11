@@ -325,7 +325,7 @@ class ilUserProfile
 	/**
 	* Add standard fields to form
 	*/
-	function addStandardFieldsToForm($a_form, $a_user = NULL)
+	function addStandardFieldsToForm($a_form, $a_user = NULL, array $custom_fields = NULL)
 	{
 		global $ilSetting, $lng, $rbacreview, $ilias;
 
@@ -362,13 +362,33 @@ class ilUserProfile
 		
 		$fields = $this->getStandardFields();
 		$current_group = "";
+		$custom_fields_done = false;
 		foreach ($fields as $f => $p)
 		{
 			// next group? -> diplay subheader
 			if (($p["group"] != $current_group) &&
 				ilUserProfile::userSettingVisible($f))
 			{
-				// contact data
+				if (is_array($custom_fields) && !$custom_fields_done)
+				{
+					// should be appended to "other" or at least before "settings"
+					if($current_group == "other" || $p["group"] == "settings")
+					{
+						// add "other" subheader
+						if($current_group != "other")
+						{
+							$sh = new ilFormSectionHeaderGUI();
+							$sh->setTitle($lng->txt("other"));
+							$a_form->addItem($sh);
+						}
+						foreach($custom_fields as $custom_field)
+						{
+							$a_form->addItem($custom_field);
+						}
+						$custom_fields_done = true;
+					}
+				}
+				
 				$sh = new ilFormSectionHeaderGUI();
 				$sh->setTitle($lng->txt($p["group"]));
 				$a_form->addItem($sh);
@@ -631,6 +651,22 @@ class ilUserProfile
 						$a_form->addItem($ta);
 					}
 					break;
+			}
+		}
+		
+		// append custom fields as "other"
+		if(is_array($custom_fields) && !$custom_fields_done)
+		{
+			// add "other" subheader
+			if($current_group != "other")
+			{
+				$sh = new ilFormSectionHeaderGUI();
+				$sh->setTitle($lng->txt("other"));
+				$a_form->addItem($sh);
+			}
+			foreach($custom_fields as $custom_field)
+			{
+				$a_form->addItem($custom_field);
 			}
 		}
 	}

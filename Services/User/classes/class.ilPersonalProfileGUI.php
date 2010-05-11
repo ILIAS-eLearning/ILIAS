@@ -1949,19 +1949,9 @@ return;
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
-		// standard fields
-		include_once("./Services/User/classes/class.ilUserProfile.php");
-		$up = new ilUserProfile();
-		$up->skipField("password");
-		$up->skipGroup("settings");
-		$up->skipGroup("preferences");
-		
-		// standard fields
-		$up->addStandardFieldsToForm($this->form, $ilUser);
-
 		// user defined fields
 		$user_defined_data = $ilUser->getUserDefinedData();
-		
+
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
 			if($definition['field_type'] == UDF_TYPE_TEXT)
@@ -1995,8 +1985,17 @@ return;
 			{
 				$this->input["udf_".$definition['field_id']]->setRequired(true);
 			}
-			$this->form->addItem($this->input["udf_".$definition['field_id']]);
 		}
+		
+		// standard fields
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipField("password");
+		$up->skipGroup("settings");
+		$up->skipGroup("preferences");
+		
+		// standard fields
+		$up->addStandardFieldsToForm($this->form, $ilUser, $this->input);
 
 		$this->form->addCommandButton("savePersonalData", $lng->txt("save"));
 
