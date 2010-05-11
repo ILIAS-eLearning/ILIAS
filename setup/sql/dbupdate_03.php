@@ -1524,6 +1524,8 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 ?>
 <#3045>
 <?php
+if(!$ilDB->tableExists('org_unit_data'))
+{
 	$ilDB->createTable('org_unit_data', array(
 			'ou_id' => array(
 				'type'     => 'integer',
@@ -1557,7 +1559,10 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 		'ou_id' => array('integer', $root_unit_id),
 		'ou_title' => array('text', 'RootUnit')
 	));
+}
 
+if(!$ilDB->tableExists('org_unit_tree'))
+{
 	$ilDB->createTable('org_unit_tree', array(
 			'tree' => array(
 				'type'     => 'integer',
@@ -1605,7 +1610,10 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 		'rgt' => array('integer', 2),
 		'depth' => array('integer', 1)
 	));
+}
 
+if(!$ilDB->tableExists('org_unit_assignments'))
+{
 	$ilDB->createTable('org_unit_assignments', array(
 			'oa_ou_id' => array(
 				'type'     => 'integer',
@@ -1645,5 +1653,6 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 			)
 	));
 	$ilDB->addPrimaryKey('org_unit_assignments', array('oa_ou_id', 'oa_usr_id'));
+}
 
 ?>
