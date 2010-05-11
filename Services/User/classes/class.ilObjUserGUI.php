@@ -57,6 +57,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this,'obj_id');
 		
 		$lng->loadLanguageModule('user');
+		$lng->loadLanguageModule('orgunit');
 
 		// for gender selection. don't change this
 		// maybe deprecated
@@ -89,6 +90,13 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
+			case 'ilorgunittreegui':
+				include_once('Services/OrgUnit/classes/class.ilOrgUnitTreeGUI.php');
+				$org_unit_tree =& new ilOrgUnitTreeGUI();
+
+				$this->tabs_gui->setTabActive('assigned_org_units');
+				$ret =& $this->ctrl->forwardCommand($org_unit_tree);
+				break;
 
 			default:
 				if($cmd == "" || $cmd == "view")
@@ -170,6 +178,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
+
+		$tabs_gui->addTarget("assigned_org_units",
+				$this->ctrl->getLinkTargetByClass('ilOrgUnitTreeGUI','viewAssignedUnits'),
+				array(''), "ilorgunittreegui", ""
+		);
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");

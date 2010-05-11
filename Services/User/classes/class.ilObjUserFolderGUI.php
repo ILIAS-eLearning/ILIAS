@@ -33,6 +33,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule("user");
+		$this->lng->loadLanguageModule("orgunit");
 	}
 
 	function setUserOwnerId($a_id)
@@ -74,6 +75,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
 				$ret =& $this->ctrl->forwardCommand($user_search);
+				break;
+
+			case 'ilorgunittreegui':
+				include_once('Services/OrgUnit/classes/class.ilOrgUnitTreeGUI.php');
+				$org_unit_tree =& new ilOrgUnitTreeGUI();
+
+				$this->tabs_gui->setTabActive('org_unit_tree');
+				$ret =& $this->ctrl->forwardCommand($org_unit_tree);
 				break;
 
 			default:
@@ -3589,6 +3598,11 @@ else
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
+			$tabs_gui->addTarget("org_unit_tree",
+				$this->ctrl->getLinkTargetByClass('ilOrgUnitTreeGUI',''),
+				array(''), "ilorgunittreegui", ""
+			);
+
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings", "saveGlobalUserSettings"), "", "");
 				
