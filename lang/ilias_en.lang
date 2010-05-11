@@ -8698,7 +8698,7 @@ pdesk#:#pdesk_feedbacks#:#Feedback Request(s)
 pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!
 pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:
 pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.
-pdesk#:#pdesk_intro4#:#If you found something of interest, add it to your desktop by clicking the <i>Add to Desktop</i> button.
+pdesk#:#pdesk_intro4#:#If you have found something of interest, put it on your desktop by clicking <i>Add to Desktop</i> in the object's <i>Actions</i> menu.
 ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_account_security_mode#:#Account Security
