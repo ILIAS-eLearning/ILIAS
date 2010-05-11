@@ -1588,7 +1588,7 @@ common#:#access_unlimited#:#unbefristet
 common#:#access_until#:#Zugang bis
 common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
-common#:#accessFree#:#Beschränkten Zugriff Deaktivieren
+common#:#accessFree#:#Beschränkten Zugriff deaktivieren
 common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
@@ -4346,7 +4346,7 @@ common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Brow
 common#:#show#:#Anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
-common#:#show_hidden_block#:#Deaktivieren Block anzeigen
+common#:#show_hidden_block#:#Deaktivierten Block anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
