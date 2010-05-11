@@ -1854,13 +1854,18 @@ abstract class ilDB extends PEAR
 	*/
 	function equalsNot($a_col, $a_value, $a_type, $a_empty_or_null = false)
 	{
-		if (!$a_empty_or_null || $a_value == "")
+		if (!$a_empty_or_null)
 		{
 			return $a_col." <> ".$this->quote($a_value, $a_type);
 		}
+		if ($a_value != "")
+		{
+			return $a_col." <> ".$this->quote($a_value, $a_type). " OR ".
+				$a_col." IS NULL";
+		}
 		else
 		{
-			return "(".$a_col." <> ".$this->quote($a_value, $a_type)." OR $a_col IS NULL)";
+			return "(".$a_col." <> '' AND $a_col IS NOT NULL)";
 		}
 	}
 

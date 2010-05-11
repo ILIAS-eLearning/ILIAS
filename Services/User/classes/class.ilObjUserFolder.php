@@ -445,24 +445,67 @@ class ilObjUserFolder extends ilObject
 		fclose($file);*/
 	}
 
+
+	/**
+	 * Get all exportable user defined fields
+	 */
+	function getUserDefinedExportFields()
+	{
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$udf_obj =& ilUserDefinedFields::_getInstance();
+
+		$udf_ex_fields = array();
+		foreach($udf_obj->getDefinitions() as $definition)
+		{
+			if ($definition["export"] != FALSE)
+			{
+				$udf_ex_fields[] = array("name" => $definition["field_name"],
+					"id" => $definition["field_id"]);
+			}
+		}
+
+		return $udf_ex_fields;
+	}
+
 	function createCSVExport(&$settings, &$data, $filename)
 	{
+
+		// header
 		$headerrow = array();
-		foreach ($settings as $value)
+		$udf_ex_fields = $this->getUserDefinedExportFields();
+		foreach ($settings as $value)	// standard fields
 		{
 			array_push($headerrow, $this->lng->txt($value));
 		}
+		foreach ($udf_ex_fields as $f)	// custom fields
+		{
+			array_push($headerrow, $f["name"]);
+		}
+
 		$separator = ";";
 		$file = fopen($filename, "w");
 		$formattedrow =& ilUtil::processCSVRow($headerrow, TRUE, $separator);
-		fwrite($file, join ($separator, $formattedrow) ."");
+		fwrite($file, join ($separator, $formattedrow) ."\n");
 		foreach ($data as $row)
 		{
 			$csvrow = array();
-			foreach ($settings as $header)
+			foreach ($settings as $header)	// standard fields
 			{
 				array_push($csvrow, $row[$header]);
 			}
+
+			// custom fields
+			reset($udf_ex_fields);
+			if (count($udf_ex_fields) > 0)
+			{
+				include_once("./Services/User/classes/class.ilUserDefinedData.php");
+				$udf = new ilUserDefinedData($row["usr_id"]);
+				foreach ($udf_ex_fields as $f)	// custom fields
+				{
+					array_push($csvrow, $udf->get("f_".$f["id"]));
+				}
+			}
+
 			$formattedrow =& ilUtil::processCSVRow($csvrow, TRUE, $separator);
 			fwrite($file, join ($separator, $formattedrow) ."\n");
 		}
@@ -491,21 +534,28 @@ class ilObjUserFolder extends ilObject
 		$row = 0;
 		$col = 0;
 
-		foreach ($settings as $value)
+		$udf_ex_fields = $this->getUserDefinedExportFields();
+
+		// title row
+		foreach ($settings as $value)	// standard fields
 		{
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($value), $a_mode), $format_title);
 			$col++;
 		}
-
+		foreach ($udf_ex_fields as $f)	// custom fields
+		{
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($f["name"], $a_mode), $format_title);
+			$col++;
+		}
 
 		foreach ($data as $index => $rowdata)
 		{
 			$row++;
 			$col = 0;
+
+			// standard fields
 			foreach ($settings as $fieldname)
 			{
-//			foreach ($rowdata as $rowindex => $value)
-//			{
 				$value = $rowdata[$fieldname];
 				switch ($fieldname)
 				{
@@ -535,6 +585,19 @@ class ilObjUserFolder extends ilObject
 						break;
 				}
 				$col++;
+			}
+
+			// custom fields
+			reset($udf_ex_fields);
+			if (count($udf_ex_fields) > 0)
+			{
+				include_once("./Services/User/classes/class.ilUserDefinedData.php");
+				$udf = new ilUserDefinedData($rowdata["usr_id"]);
+				foreach ($udf_ex_fields as $f)	// custom fields
+				{
+					$worksheet->write($row, $col, ilExcelUtils::_convert_text($udf->get("f_".$f["id"]), $a_mode));
+					$col++;
+				}
 			}
 		}
 		$workbook->close();

@@ -87,7 +87,7 @@ class ilPageObject
 		$this->halt_on_error = $a_halt;
 	}
 
-		/**
+	/**
 	* Set Render MD5.
 	*
 	* @param	string	$a_rendermd5	Render MD5
