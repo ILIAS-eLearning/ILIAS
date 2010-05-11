@@ -1714,7 +1714,6 @@ class ilObjectListGUI
 			{
 				continue;
 			}
-			$missing_cond_exist = true;
 
 			$cond_txt = $lng->txt("condition_".$condition["operator"])." ".
 				$condition["value"];
@@ -1722,6 +1721,12 @@ class ilObjectListGUI
 			// display trigger item
 			$class = $objDefinition->getClassName($condition["trigger_type"]);
 			$location = $objDefinition->getLocation($condition["trigger_type"]);
+			if ($class == "" && $location == "")
+			{
+				continue;
+			}
+			$missing_cond_exist = true;
+
 			$full_class = "ilObj".$class."ListGUI";
 			include_once($location."/class.".$full_class.".php");
 			$item_list_gui = new $full_class($this);
