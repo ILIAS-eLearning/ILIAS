@@ -27,6 +27,10 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 				return;
 			}
 		}
+		else if (isset($a_values[$this->getPostVar()]["date"]) && !is_array($a_values[$this->getPostVar()]["date"]))
+		{
+			$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"], IL_CAL_DATE));
+		}
 		else
 		{
 			if (!is_array($a_values[$this->getPostVar()]) && strlen($a_values[$this->getPostVar()]))
