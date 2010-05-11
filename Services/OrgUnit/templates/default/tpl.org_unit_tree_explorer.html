@@ -1,0 +1,36 @@
+<style>
+ul.il_ou_explorer,
+ul.il_ou_explorer li
+{
+	margin: 0;
+	padding: 0;
+}
+ul.il_ou_explorer li
+{
+	list-style-type: none;
+}
+ul.il_ou_explorer li span.il_ou_explorer_indent
+{
+	padding-left: 16px;
+}
+ul.il_ou_explorer li span.il_ou_explorer_title
+{
+}
+ul.il_ou_explorer li span.il_ou_explorer_subtitle
+{
+	font-size: 0.8em;
+	font-style: italic;
+}
+</style>
+<!-- BEGIN explorer -->
+<!-- BEGIN exp_list_begin --><ul class="il_ou_explorer {CLASSNAME}"><!-- END exp_list_begin -->
+<!-- BEGIN exp_item_begin --><li class="{CLASSNAME}"><!-- END exp_item_begin -->
+<!-- BEGIN exp_item_indent --><span class="il_ou_explorer_indent"></span><!-- END exp_item_indent -->
+<!-- BEGIN exp_item_expander_plus --><span>(+)</span><!-- END exp_item_expander_plus -->
+<!-- BEGIN exp_item_expander_minus --><span>(-)</span><!-- END exp_item_expander_minus -->
+<!-- BEGIN exp_item_icon --><img src="{ITEM_ICON_SRC}" /><!-- END exp_item_icon -->
+<!-- BEGIN exp_item_title --><span class="il_ou_explorer_title">{ITEM_TITLE}</span><!-- END exp_item_title -->
+<!-- BEGIN exp_item_subtitle --><span class="il_ou_explorer_subtitle">{ITEM_SUBTITLE}</span><!-- END exp_item_subtitle -->
+<!-- BEGIN exp_item_end --></li><!-- END exp_item_end -->
+<!-- BEGIN exp_list_end --></ul><!-- END exp_list_end -->
+<!-- END explorer -->
