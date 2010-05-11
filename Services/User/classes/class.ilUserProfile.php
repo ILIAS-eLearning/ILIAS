@@ -328,14 +328,42 @@ class ilUserProfile
 	function addStandardFieldsToForm($a_form, $a_user = NULL)
 	{
 		global $ilSetting, $lng, $rbacreview, $ilias;
+
+		// custom registration settings
+		if(self::$mode == self::MODE_REGISTRATION)
+		{
+			include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+			$registration_settings = new ilRegistrationSettings();
+
+			self::$user_field["username"]["group"] = "login_data";
+			self::$user_field["password"]["group"] = "login_data";
+			self::$user_field["language"]["default"] = $lng->lang_key;
+
+			// different position for role
+			$roles = self::$user_field["roles"];
+			unset(self::$user_field["roles"]);
+			self::$user_field["roles"] = $roles;
+			self::$user_field["roles"]["group"] = "settings";
+			
+			// add code field if required
+			if($registration_settings->registrationCodeRequired())
+			{
+				include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
+				$code = array(
+					"input" => "text",
+					"maxlength" => ilRegistrationCode::CODE_LENGTH,
+					"size" => 40,
+					"required" => true,
+					"group" => "login_data"
+				);
+ 				self::$user_field = array_merge(array("registration_code"=>$code), self::$user_field);
+			}
+		}
 		
 		$fields = $this->getStandardFields();
-		$registration_settings = new ilRegistrationSettings();
-		
 		$current_group = "";
 		foreach ($fields as $f => $p)
 		{
-//var_dump($p);
 			// next group? -> diplay subheader
 			if (($p["group"] != $current_group) &&
 				ilUserProfile::userSettingVisible($f))
@@ -395,6 +423,10 @@ class ilUserProfile
 						$ti->setSize($p["size"]);
 						$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$ti->setRequired($ilSetting->get("require_".$f));
+						if($f == "registration_code")
+						{
+							$ti->setRequired(true);
+						}
 						$a_form->addItem($ti);
 					}
 					break;
@@ -634,20 +666,6 @@ class ilUserProfile
 		if(in_array($mode, array(self::MODE_DESKTOP, self::MODE_REGISTRATION)))
 		{
 			self::$mode = $mode;
-			
-			if($mode == self::MODE_REGISTRATION)
-			{
-				self::$user_field["username"]["group"] = "login_data";
-				self::$user_field["password"]["group"] = "login_data";
-				self::$user_field["language"]["default"] = $lng->lang_key;
-				
-				// different position for role
-				$roles = self::$user_field["roles"];
-				unset(self::$user_field["roles"]);
-				self::$user_field["roles"] = $roles;
-				self::$user_field["roles"]["group"] = "settings";
-			}
-			
 			return true;
 		}
 		return false;
