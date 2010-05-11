@@ -708,6 +708,8 @@ class ilUserProfile
 		{
 			$birthday = $a_form->getInput("usr_birthday");
 			$birthday = $birthday["date"];
+			
+			// when birthday was not set, array will not be substituted with string by ilBirthdayInputGui
 			if(!is_array($birthday))
 			{
 				$a_user->setBirthday($birthday);
@@ -725,9 +727,6 @@ class ilUserProfile
 				$a_user->setInstantMessengerId($client, $a_form->getInput($field));
 			}
 		}
-
-
-
 	}
 }
 ?>
