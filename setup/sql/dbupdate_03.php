@@ -1517,3 +1517,8 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 	$ilDB->createSequence("reg_registration_codes");
 }
 ?>
+<#3044>
+<?php
+	$ilDB->update("settings", array("value"=>array("integer", 0)), array("module"=>array("text", "common"), "keyword"=>array("text", "usr_settings_visib_reg_birthday")));
+	$ilDB->update("settings", array("value"=>array("integer", 0)), array("module"=>array("text", "common"), "keyword"=>array("text", "usr_settings_visib_reg_instant_messengers")));
+?>

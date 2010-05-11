@@ -14,6 +14,11 @@ include_once 'Services/Mail/classes/class.ilMailOptions.php';
  */
 class ilUserProfile
 {
+	const MODE_DESKTOP = 1;
+	const MODE_REGISTRATION = 2;
+
+	private static $mode = self::MODE_DESKTOP;
+
 	// this array should be used in all places where user data is tackled
 	// in the future: registration, personal profile, user administration
 	// public profile, user import/export
@@ -48,6 +53,13 @@ class ilUserProfile
 						"changeable_hide" => true,
 						"required_hide" => true,
 						"group" => "personal_data"),
+		"password" => array(
+						"input" => "password",
+						"required_hide" => true,
+						"visib_reg_hide" => true,
+						"course_export_hide" => true,
+						"lists_hide" => true,
+						"group" => "personal_data"),
 		"firstname" => array(
 						"input" => "text",
 						"maxlength" => 32,
@@ -78,7 +90,6 @@ class ilUserProfile
 						"lang_var" => "birthday",
 						"maxlength" => 32,
 						"size" => 40,
-						"registration_hide" => true,
 						"method" => "getBirthday",
 						"group" => "personal_data"),
 		"gender" => array(
@@ -89,7 +100,7 @@ class ilUserProfile
 		"upload" => array(
 						"input" => "picture",
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"lists_hide" => true,
 						"lang_var" => "personal_picture",
@@ -98,15 +109,8 @@ class ilUserProfile
 						"input" => "roles",
 						"changeable_hide" => true,
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"export_hide" => true,
-						"course_export_hide" => true,
-						"lists_hide" => true,
-						"group" => "personal_data"),
-		"password" => array(
-						"input" => "password",
-						"required_hide" => true,
-						"registration_hide" => true,
 						"course_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "personal_data"),
@@ -196,7 +200,6 @@ class ilUserProfile
 						"types" => array("icq","yahoo","msn","aim","skype","jabber","voip"), 
 						"maxlength" => 40,
 						"size" => 40,
-						"registration_hide" => true,
 						"course_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "instant_messengers"),
@@ -216,13 +219,13 @@ class ilUserProfile
 						"input" => "language",
 						"method" => "getLanguage",
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "settings"),
 		"skin_style" => array(
 						"input" => "skinstyle",
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "settings"),
 		"hits_per_page" => array(
@@ -232,7 +235,7 @@ class ilUserProfile
 							10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
 							50 => 50, 100 => 100, 9999 => 9999),
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "settings"),
 		"show_users_online" => array(
@@ -243,20 +246,20 @@ class ilUserProfile
 							"associated" => "users_online_show_short_associated",
 							"n" => "users_online_show_short_n"),
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "settings"),
 		"hide_own_online_status" => array(
 						"input" => "selection",
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "settings"),
 		"preferences" => array(
 						"visible_fix_value" => 1,
 						"changeable_fix_value" => 1,
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"group" => "preferences"),
 		"mail_incoming_mail" => array(
@@ -267,7 +270,7 @@ class ilUserProfile
 							IL_MAIL_EMAIL => "mail_incoming_smtp",
 							IL_MAIL_BOTH => "mail_incoming_both"),
 						"required_hide" => true,
-						"registration_hide" => true,
+						"visib_reg_hide" => true,
 						"course_export_hide" => true,
 						"export_hide" => true,
 						"search_hide" => true,
@@ -322,11 +325,12 @@ class ilUserProfile
 	/**
 	* Add standard fields to form
 	*/
-	function addStandardFieldsToForm($a_form, $a_user)
+	function addStandardFieldsToForm($a_form, $a_user = NULL)
 	{
 		global $ilSetting, $lng, $rbacreview, $ilias;
 		
 		$fields = $this->getStandardFields();
+		$registration_settings = new ilRegistrationSettings();
 		
 		$current_group = "";
 		foreach ($fields as $f => $p)
@@ -356,10 +360,13 @@ class ilUserProfile
 			switch ($p["input"])
 			{
 				case "login":
-					if ((int)$ilSetting->get('allow_change_loginname'))
+					if ((int)$ilSetting->get('allow_change_loginname') || self::$mode == self::MODE_REGISTRATION)
 					{
 						$val = new ilTextInputGUI($lng->txt('username'),'username');
-						$val->setValue($a_user->getLogin());
+						if($a_user)
+						{
+							$val->setValue($a_user->getLogin());
+						}
 						$val->setMaxLength(32);
 						$val->setSize(40);
 						$val->setRequired(true);
@@ -367,8 +374,11 @@ class ilUserProfile
 					else
 					{
 						// user account name
-						$val = new ilNonEditableValueGUI($lng->txt("username"));	
-						$val->setValue($a_user->getLogin());
+						$val = new ilNonEditableValueGUI($lng->txt("username"));
+						if($a_user)
+						{
+							$val->setValue($a_user->getLogin());
+						}
 					}
 					$a_form->addItem($val);
 					break;
@@ -377,7 +387,10 @@ class ilUserProfile
 					if (ilUserProfile::userSettingVisible($f))
 					{
 						$ti = new ilTextInputGUI($lng->txt($lv), "usr_".$f);
-						$ti->setValue($a_user->$m());
+						if($a_user)
+						{
+							$ti->setValue($a_user->$m());
+						}
 						$ti->setMaxLength($p["maxlength"]);
 						$ti->setSize($p["size"]);
 						$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
@@ -391,7 +404,7 @@ class ilUserProfile
 					{
 						$bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_".$f);
 						include_once "./Services/Calendar/classes/class.ilDateTime.php";
-						if (strlen($a_user->$m()))
+						if ($a_user && strlen($a_user->$m()))
 						{
 							$date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
 							$bi->setDate($date);
@@ -408,7 +421,10 @@ class ilUserProfile
 					if (ilUserProfile::userSettingVisible($f))
 					{
 						$rg = new ilRadioGroupInputGUI($lng->txt($lv), "usr_".$f);
-						$rg->setValue($a_user->$m());
+						if($a_user)
+						{
+							$rg->setValue($a_user->$m());
+						}
 						foreach  ($p["values"] as $k => $v)
 						{
 							$op = new ilRadioOption($lng->txt($v), $k);
@@ -421,7 +437,7 @@ class ilUserProfile
 					break;
 					
 				case "picture":
-					if (ilUserProfile::userSettingVisible("upload"))
+					if (ilUserProfile::userSettingVisible("upload") && $a_user)
 					{
 						$ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
 						$im = ilObjUser::_getPersonalPicturePath($a_user->getId(), "small", true,
@@ -461,26 +477,49 @@ class ilUserProfile
 					break;
 					
 				case "roles":
-					$global_roles = $rbacreview->getGlobalRoles();
-					foreach($global_roles as $role_id)
+					if(self::$mode == self::MODE_DESKTOP)
 					{
-						if (in_array($role_id,$rbacreview->assignedRoles($a_user->getId())))
+						$global_roles = $rbacreview->getGlobalRoles();
+						foreach($global_roles as $role_id)
 						{
-							$roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
-							$role_names .= $roleObj->getTitle().", ";
-							unset($roleObj);
+							if (in_array($role_id,$rbacreview->assignedRoles($a_user->getId())))
+							{
+								$roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
+								$role_names .= $roleObj->getTitle().", ";
+								unset($roleObj);
+							}
+						}
+						$dr = new ilNonEditableValueGUI($lng->txt("default_roles"));
+						$dr->setValue(substr($role_names,0,-2));
+						$a_form->addItem($dr);
+					}
+					else if(self::$mode == self::MODE_REGISTRATION)
+					{
+						if($registration_settings->roleSelectionEnabled())
+						{
+							include_once("./Services/AccessControl/classes/class.ilObjRole.php");
+							$options = array();
+							foreach (ilObjRole::_lookupRegisterAllowed() as $role)
+							{
+								$options[$role["id"]] = $role["title"];
+							}
+							$ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_".$f);
+							$ta->setOptions($options);
+							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+							$ta->setRequired($ilSetting->get("require_".$f));
+							$a_form->addItem($ta);
 						}
 					}
-					$dr = new ilNonEditableValueGUI($lng->txt("default_roles"));
-					$dr->setValue(substr($role_names,0,-2));
-					$a_form->addItem($dr);
 					break;
 					
 				case "email":
 					if (ilUserProfile::userSettingVisible($f))
 					{
 						$em = new ilTextInputGUI($lng->txt($lv), "usr_".$f);
-						$em->setValue($a_user->$m());
+						if($a_user)
+						{
+							$em->setValue($a_user->$m());
+						}
 						$em->setMaxLength($p["maxlength"]);
 						$em->setSize($p["size"]);
 						$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
@@ -493,7 +532,10 @@ class ilUserProfile
 					if (ilUserProfile::userSettingVisible($f))
 					{
 						$ta = new ilTextAreaInputGUI($lng->txt($lv), "usr_".$f);
-						$ta->setValue($a_user->$m());
+						if($a_user)
+						{
+							$ta->setValue($a_user->$m());
+						}
 						$ta->setRows($p["rows"]);
 						$ta->setCols($p["cols"]);
 						$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
@@ -509,7 +551,10 @@ class ilUserProfile
 						foreach ($im_arr as $im_name)
 						{
 							$im = new ilTextInputGUI($lng->txt("im_".$im_name), "usr_im_".$im_name);
-							$im->setValue($a_user->getInstantMessengerId($im_name));
+							if($a_user)
+							{
+								$im->setValue($a_user->getInstantMessengerId($im_name));
+							}
 							$im->setMaxLength($p["maxlength"]);
 							$im->setSize($p["size"]);
 							$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
@@ -520,11 +565,46 @@ class ilUserProfile
 					break;
 					
 				case "password":
-					// todo
+					if (self::$mode == self::MODE_REGISTRATION)
+					{
+						if(!$registration_settings->passwordGenerationEnabled())
+						{
+							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);
+							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+							$ta->setRequired(true);
+						}
+						else
+						{
+							$ta = new ilNonEditableValueGUI($lng->txt($lv));
+							$ta->setValue($lng->txt("reg_passwd_via_mail"));
+						}
+						$a_form->addItem($ta);
+					}
+					break;
+					
+				case "language":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						$ta = new ilSelectInputGUI($lng->txt($lv), "usr_".$f);
+						if($a_user)
+						{
+							$ta->setValue($a_user->$m());
+						}
+						$options = array();
+						foreach ($lng->getInstalledLanguages() as $lang_key)
+						{
+							$options[$lang_key] = $lng->txt("lang_".$lang_key);
+						}
+						$ta->setOptions($options);
+						$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						$ta->setRequired($ilSetting->get("require_".$f));
+						$a_form->addItem($ta);
+					}
 					break;
 			}
 		}
 	}
+
 	
 	/**
 	* Checks whether user setting is visible
@@ -532,8 +612,45 @@ class ilUserProfile
 	static function userSettingVisible($a_setting)
 	{
 		global $ilSetting;
-		
-		return ($ilSetting->get("usr_settings_hide_".$a_setting) != 1);
+
+		if(self::$mode == self::MODE_DESKTOP)
+		{
+			return ($ilSetting->get("usr_settings_hide_".$a_setting) != 1);
+		}
+		else
+		{
+			if(isset(self::$user_field[$a_setting]["visib_reg_hide"]) && self::$user_field[$a_setting]["visib_reg_hide"] === true)
+			{
+				return true;
+			}
+			return ($ilSetting->get("usr_settings_visib_reg_".$a_setting, "1") || $ilSetting->get("require_".$a_setting, "0"));
+		}
+	}
+	
+	static function setMode($mode)
+	{
+		global $lng;
+
+		if(in_array($mode, array(self::MODE_DESKTOP, self::MODE_REGISTRATION)))
+		{
+			self::$mode = $mode;
+			
+			if($mode == self::MODE_REGISTRATION)
+			{
+				self::$user_field["username"]["group"] = "login_data";
+				self::$user_field["password"]["group"] = "login_data";
+				self::$user_field["language"]["default"] = $lng->lang_key;
+				
+				// different position for role
+				$roles = self::$user_field["roles"];
+				unset(self::$user_field["roles"]);
+				self::$user_field["roles"] = $roles;
+				self::$user_field["roles"]["group"] = "settings";
+			}
+			
+			return true;
+		}
+		return false;
 	}
 }
 ?>

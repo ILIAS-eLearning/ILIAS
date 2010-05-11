@@ -16,36 +16,20 @@
 	</select>
 	<input class="submit" type="submit" value="{TXT_OK}"/>
 </div>
-<h1><!-- <img border="0" src="{IMG_USER}" style="vertical-align:middle" />&nbsp;-->{TXT_PAGEHEADLINE}</h1>
+<h1>{TXT_PAGEHEADLINE}</h1>
 </div>
+</form>
 <p>{TXT_WELCOME}</p>
 {MESSAGE}
+{FORM}
 <table class="std">
-  <tr class="tblheader">
-    <td class="std" colspan="2" >{TXT_LOGIN_DATA}</td>
-  </tr>
+
 <!-- BEGIN registration_code_section -->
   <tr>
     <td class="option" >{TXT_REGISTRATION_CODE}</td>
     <td class="option_value"><input type="text" name="user[registration_code]"  value="{REGISTRATION_CODE}" size="40" maxlength="32" /></td>
   </tr>
 <!-- END registration_code_section -->
-  <tr>
-    <td class="option">{TXT_LOGIN}</td>
-    <td class="option_value"><input type="text" name="user[login]"  value="{LOGIN}" size="40" maxlength="80" /></td>
-  </tr>
-<!-- BEGIN passwd_section -->
-  <tr>
-    <td class="option" >{TXT_PASSWD}</td>
-    <td class="option_value"><input type="password" name="user[passwd]"  value="{PASSWD}" size="40" maxlength="32" /></td>
-  </tr>
-<!-- END passwd_section -->
-<!-- BEGIN passwd2_section -->
-  <tr>
-    <td class="option">{TXT_PASSWD2}</td>
-    <td class="option_value"><input type="password" name="user[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
-  </tr>
-<!-- END passwd2_section -->
 <!-- BEGIN select_password -->
   <tr>
     <td class="option" >{TXT_PASSWD_SELECT}</td>
@@ -53,204 +37,8 @@
   </tr>
 <!-- END select_password -->
 
-<!-- BEGIN block_headline_personalinfo -->
-  <tr class="tblheader">
-    <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
-  </tr>
-<!-- END block_headline_personalinfo -->
-<!-- BEGIN gender_section -->
-  <tr>
-    <td class="option">{TXT_GENDER}</td>
-    <td class="option_value">
-    <input type="radio" name="user[gender]" value="f" id="gender_f" {BTN_GENDER_F} /> <label for="gender_f">{TXT_GENDER_F}</label>
-    &nbsp;&nbsp;&nbsp;<input type="radio" name="user[gender]" value="m" id="gender_m" {BTN_GENDER_M} /> <label for="gender_m">{TXT_GENDER_M}</label>
-    </td>
-  </tr>
-<!-- END gender_section -->
-<!-- BEGIN firstname_section -->
-  <tr>
-    <td class="option">{TXT_FIRSTNAME}</td>
-    <td class="option_value"><input type="text" name="user[firstname]" value="{FIRSTNAME}" size="40" maxlength="32" /></td>
-  </tr>
-<!-- END firstname_section -->
-<!-- BEGIN lastname_section -->
-  <tr>
-    <td class="option">{TXT_LASTNAME}</td>
-    <td class="option_value"><input type="text" name="user[lastname]" value="{LASTNAME}" size="40" maxlength="32" /></td>
-  </tr>
-<!-- END lastname_section -->
-  <!-- BEGIN title_section -->
-  <tr>
-    <td class="option">{TXT_TITLE}</td>
-    <td class="option_value"><input type="text" name="user[title]" value="{TITLE}" size="40" maxlength="32" /></td>
-  </tr>
-  <!-- END title_section -->
-<!-- BEGIN block_headline_contactinfo -->
-  <tr class="tblheader">
-    <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
-  </tr>
-<!-- END block_headline_contactinfo -->
-  <!-- BEGIN institution_section -->
-  <tr>
-    <td class="option">{TXT_INSTITUTION}</td>
-    <td class="option_value"><input type="text" name="user[institution]" value="{INSTITUTION}" size="40" maxlength="80" /></td>
-  </tr>
-  <!-- END institution_section -->
-  <!-- BEGIN department_section -->
-  <tr>
-    <td class="option">{TXT_DEPARTMENT}</td>
-    <td class="option_value"><input type="text" name="user[department]" value="{DEPARTMENT}" size="40" maxlength="80" /></td>
-  </tr>
-  <!-- END department_section -->
-  <!-- BEGIN street_section -->
-  <tr>
-    <td class="option">{TXT_STREET}</td>
-    <td class="option_value"><input type="text" name="user[street]" value="{STREET}" size="40" maxlength="40" /></td>
-  </tr>
-  <!-- END street_section -->
-  <!-- BEGIN city_section -->
-  <tr>
-    <td class="option">{TXT_CITY}</td>
-    <td class="option_value"><input type="text" name="user[city]" value="{CITY}" size="40" maxlength="40" /></td>
-  </tr>
-  <!-- END city_section -->
-  <!-- BEGIN zipcode_section -->
-  <tr>
-    <td class="option">{TXT_ZIPCODE}</td>
-    <td class="option_value"><input type="text" name="user[zipcode]" value="{ZIPCODE}" size="5" maxlength="10" /></td>
-  </tr>
-  <!-- END zipcode_section -->
-  <!-- BEGIN country_section -->
-  <tr>
-    <td class="option">{TXT_COUNTRY}</td>
-    <td class="option_value"><input type="text" name="user[country]" value="{COUNTRY}" size="40" maxlength="40" /></td>
-  </tr>
-  <!-- END country_section -->
-  <!-- BEGIN phone_office_section -->
-  <tr>
-    <td class="option">{TXT_PHONE_OFFICE}</td>
-    <td class="option_value"><input type="text" name="user[phone_office]" value="{PHONE_OFFICE}" size="40" maxlength="30" /></td>
-  </tr>
-  <!-- END phone_office_section -->
-  <!-- BEGIN phone_home_section -->
-  <tr>
-    <td class="option">{TXT_PHONE_HOME}</td>
-    <td class="option_value"><input type="text" name="user[phone_home]" value="{PHONE_HOME}" size="40" maxlength="30" /></td>
-  </tr>
-  <!-- END phone_home_section -->
-  <!-- BEGIN phone_mobile_section -->
-  <tr>
-    <td class="option">{TXT_PHONE_MOBILE}</td>
-    <td class="option_value"><input type="text" name="user[phone_mobile]" value="{PHONE_MOBILE}" size="40" maxlength="30" /></td>
-  </tr>
-  <!-- END phone_mobile_section -->
-  <!-- BEGIN fax_section -->
-  <tr>
-    <td class="option">{TXT_FAX}</td>
-    <td class="option_value"><input type="text" name="user[fax]" value="{FAX}" size="40" maxlength="30" /></td>
-  </tr>
-  <!-- END fax_section -->
-  <!-- BEGIN email_section -->
-  <tr>
-    <td class="option">{TXT_EMAIL}</td>
-    <td class="option_value"><input type="text" name="user[email]" value="{EMAIL}" size="40" maxlength="80" /></td>
-  </tr>
-  <!-- END email_section -->
-  <!-- BEGIN hobby_section -->
-  <tr>
-    <td class="option">{TXT_HOBBY}</td>
-    <td class="option_value">
-    <textarea name="user[hobby]" rows="3" cols="40">{HOBBY}</textarea>
-    </td>
-  </tr>
-  <!-- END hobby_section -->
-  <!-- BEGIN referral_comment_section -->
-    <tr>
-        <td class="option">{TXT_REFERRAL_COMMENT}</td>
-        <td class="option_value">
-        <textarea name="user[referral_comment]" rows="3" cols="40">{REFERRAL_COMMENT}</textarea>
-        </td>
-    </tr>
-	<!-- END referral_comment_section -->
-<!-- BEGIN block_headline_otherdata -->
-	<tr class="tblheader">
-		<td class="std" colspan="2">{TXT_OTHER}</td>
-	</tr>
-<!-- END block_headline_otherdata -->
-	<!-- BEGIN matriculation_section -->
-	<tr>
-		<td class="option">{TXT_MATRICULATION}</td>
-		<td class="option_value"><input type="text" name="user[matriculation]" maxlength="40" size="40" value="{MATRICULATION}" /></td>
-	</tr>
-	<!-- END matriculation_section -->
-	<!-- BEGIN delicious_section -->
-	<tr>
-		<td class="option">{TXT_DELICIOUS}</td>
-		<td class="option_value"><input type="text" name="user[delicious]" maxlength="40" size="40" value="{DELICIOUS}" /></td>
-	</tr>
-	<!-- END delicious_section -->
-		<!-- BEGIN user_defined -->
-		<tr>
-		  <td class="option">{TXT_FIELD_NAME}</td>
-		  <td class="option_value" colspan="3">
-			<!-- BEGIN field_text -->
-			<input type="text" name="{FIELD_NAME}" maxlength="255" size="40" value="{FIELD_VALUE}"{DISABLED_FIELD} />
-			<!-- END field_text -->
-			<!-- BEGIN field_wysiwyg -->
-			<textarea name="{FIELD_NAME}" id="{FIELD_NAME}">{FIELD_VALUE}</textarea>
-			<!-- END field_wysiwyg -->
-			<!-- BEGIN disabled_wysiwyg -->
-			<div style="overflow: auto; width:400px; height:100px; color:#888888; border: 1px solid; border-color:#C0C0C0; padding: 5px;">
-			{DR_VAL}
-			</div>
-			<!-- END disabled_wysiwyg -->
-			<!-- BEGIN field_select -->
-			{SELECT_BOX}
-			<!-- END field_select -->
-		  </td>
-		</tr>
-		<!-- END user_defined -->
-<!-- BEGIN block_headline_settings -->
-  <tr class="tblheader">
-    <td class="std" colspan="2">{TXT_SETTINGS}</td>
-  </tr>
-<!-- END block_headline_settings -->
-<!-- BEGIN role -->
-  <tr>
-    <td class="option">{TXT_DEFAULT_ROLE}</td>
-    <td class="option_value">
-        {DEFAULT_ROLE}
-    </td>
-  </tr>
-<!-- END role -->
-  <tr>
-    <td class="option">{TXT_LANGUAGE}</td>
-    <td class="option_value">
-    <select name="user[language]">
-<!-- BEGIN language_selection -->
-        <option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
-<!-- END language_selection -->
-    </select>
-    </td>
-  </tr>
-  <tr class="std">
-    <td colspan="2" width="600" class="option_value">
-        <div id="agreement">{AGREEMENT}</div>
-    </td>
-  </tr>
-  <tr>
-    <td class="option"><label for="status">{ACCEPT_AGREEMENT}</label></td>
-    <td class="option_value">
-    {ACCEPT_CHECKBOX}
-    </td>
-  </tr>
-  <tr>
-    <td class="submit" colspan="2">
-    <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
-    <div align="right"><input class="submit" type="submit" name="cmd[saveForm]" value="{TXT_SAVE}" /></div></td>
-  </tr>
 </table>
-</form>
 </div>
 </div>
 </div></div></div></div></div></div>
+
