@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @defgroup ServicesRegistration Services/Registration
  */
@@ -113,7 +93,10 @@ class ilAccountRegistrationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->initForm();
+		if(!$this->form)
+		{
+			$this->initForm();
+		}
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
 	}
 	
@@ -202,268 +185,277 @@ class ilAccountRegistrationGUI
 	{
 		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr, $ilSetting;
 		
-		require_once 'Services/User/classes/class.ilObjUser.php';
-
-		//load ILIAS settings
-		$settings = $ilias->getAllSettings();
-
-		//check, whether user-agreement has been accepted
-		if ($_POST["status"] != "accepted")
+		$this->initForm();
+		if($this->form->checkInput())
 		{
-			ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"),true);
-			$this->displayForm();
-			return false;
-		}
-		
-		$this->profile_incomplete = false;
-		foreach($data['fields'] as $key => $val)
-		{
-			if(in_array($key, array('login', 'passwd', 'passwd2', 'registration_code')))
+			require_once 'Services/User/classes/class.ilObjUser.php';
+
+			//load ILIAS settings
+			$settings = $ilias->getAllSettings();
+
+			//check, whether user-agreement has been accepted
+			if ($_POST["status"] != "accepted")
 			{
-				$require_keys[] = $key;
-				continue;
-			}
-			
-			if((int)$settings['require_'.$key])
-			{
-				#if((int)$settings['usr_settings_visib_reg_'.$key])
-				#{
-					$require_keys[] = $key;
-				#}
-				#else
-				#{
-				#	$this->profile_incomplete = true;
-				#}
-			}
-		}
-
-		// email address is required if password generation is enabled or registration type = link confirmation
-		if(($this->registration_settings->passwordGenerationEnabled() ||
-		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
-           $this->registration_settings->getRegistrationType() == IL_REG_APPROVE ) &&
-		   !in_array('email', $require_keys))
-		{
-			$require_keys[] = 'email';
-		}
-
-		foreach($require_keys as $key => $val)
-		{
-			if(empty($_POST['user'][$val]))
- 			{
-				ilUtil::sendFailure($lng->txt('fill_out_all_required_fields') . ': ' . $lng->txt($val), true);
+				ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"),true);
 				$this->displayForm();
 				return false;
 			}
 
-			if($val == 'email')
+			$this->profile_incomplete = false;
+			foreach($data['fields'] as $key => $val)
 			{
-				// validate email
-				if(!ilUtil::is_email($_POST['user']['email']))
- 				{
-					ilUtil::sendFailure($lng->txt('email_not_valid'), true);
+				if(in_array($key, array('login', 'passwd', 'passwd2', 'registration_code')))
+				{
+					$require_keys[] = $key;
+					continue;
+				}
+
+				if((int)$settings['require_'.$key])
+				{
+					#if((int)$settings['usr_settings_visib_reg_'.$key])
+					#{
+						$require_keys[] = $key;
+					#}
+					#else
+					#{
+					#	$this->profile_incomplete = true;
+					#}
+				}
+			}
+
+			// email address is required if password generation is enabled or registration type = link confirmation
+			if(($this->registration_settings->passwordGenerationEnabled() ||
+			   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION ||
+	           $this->registration_settings->getRegistrationType() == IL_REG_APPROVE ) &&
+			   !in_array('email', $require_keys))
+			{
+				$require_keys[] = 'email';
+			}
+
+			foreach($require_keys as $key => $val)
+			{
+				if(empty($_POST['user'][$val]))
+	 			{
+					ilUtil::sendFailure($lng->txt('fill_out_all_required_fields') . ': ' . $lng->txt($val), true);
 					$this->displayForm();
 					return false;
- 				}
-			}
-			
-			if($val == 'registration_code')
-			{
-				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-				if(!ilRegistrationCode::isUnusedCode($_POST['user']['registration_code']))
+				}
+
+				if($val == 'email')
 				{
-					ilUtil::sendFailure($lng->txt('registration_code_not_valid'), true);
+					// validate email
+					if(!ilUtil::is_email($_POST['user']['email']))
+	 				{
+						ilUtil::sendFailure($lng->txt('email_not_valid'), true);
+						$this->displayForm();
+						return false;
+	 				}
+				}
+
+				if($val == 'registration_code')
+				{
+					include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+					if(!ilRegistrationCode::isUnusedCode($_POST['user']['registration_code']))
+					{
+						ilUtil::sendFailure($lng->txt('registration_code_not_valid'), true);
+						$this->displayForm();
+						return false;
+					}
+				}
+			}
+
+			// validate username
+			if (!ilUtil::isLogin($_POST["user"]["login"]))
+			{
+				ilUtil::sendFailure($lng->txt("login_invalid"),true);
+				$this->displayForm();
+				return false;
+			}
+
+			// check loginname
+			if (ilObjUser::_loginExists($_POST["user"]["login"]))
+			{
+				ilUtil::sendFailure($lng->txt("login_exists"), true);
+				$this->displayForm();
+				return false;
+			}
+
+			//check if loginname exists in history
+			if((int)$ilSetting->get('allow_change_loginname') &&
+			   (int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+			   ilObjUser::_doesLoginnameExistInHistory($_POST['user']['login']))
+			{
+				ilUtil::sendFailure($lng->txt('login_exists'), true);
+				$this->displayForm();
+				return false;
+			}
+
+			if (!$this->registration_settings->passwordGenerationEnabled())
+			{
+				// check passwords
+				if ($_POST["user"]["passwd"] != $_POST["user"]["passwd2"])
+				{
+					ilUtil::sendFailure($lng->txt("passwd_not_match"),true);
+					$this->displayForm();
+					return false;
+				}
+
+				// validate password
+				if (!ilUtil::isPassword($_POST["user"]["passwd"],$custom_error))
+				{
+					if($custom_error != '') ilUtil::sendFailure($custom_error,true);
+					else ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
+
 					$this->displayForm();
 					return false;
 				}
 			}
-		}
-
-		// validate username
-		if (!ilUtil::isLogin($_POST["user"]["login"]))
-		{
-			ilUtil::sendFailure($lng->txt("login_invalid"),true);
-			$this->displayForm();
-			return false;
-		}
-	
-		// check loginname
-		if (ilObjUser::_loginExists($_POST["user"]["login"]))
-		{
-			ilUtil::sendFailure($lng->txt("login_exists"), true);
-			$this->displayForm();
-			return false;
-		}
-
-		//check if loginname exists in history		
-		if((int)$ilSetting->get('allow_change_loginname') &&
-		   (int)$ilSetting->get('prevent_reuse_of_loginnames') &&
-		   ilObjUser::_doesLoginnameExistInHistory($_POST['user']['login']))
-		{
-			ilUtil::sendFailure($lng->txt('login_exists'), true);
-			$this->displayForm();
-			return false;	
-		}
-
-		if (!$this->registration_settings->passwordGenerationEnabled())
-		{
-			// check passwords
-			if ($_POST["user"]["passwd"] != $_POST["user"]["passwd2"])
-			{
-				ilUtil::sendFailure($lng->txt("passwd_not_match"),true);
-				$this->displayForm();
-				return false;
-			}
-
-			// validate password
-			if (!ilUtil::isPassword($_POST["user"]["passwd"],$custom_error))
-			{
-				if($custom_error != '') ilUtil::sendFailure($custom_error,true);
-				else ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
-
-				$this->displayForm();
-				return false;
-			}
-		}
-		else
-		{
-			$passwd = ilUtil::generatePasswords(1);
-			$_POST["user"]["passwd"] = $passwd[0];
-		}
-		// The password type is not passed in the post data. Therefore we
-		// append it here manually.		
-		$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
-
-		// Do some Radius checks
-		$this->__validateRole();
-
-		// TODO: check if login or passwd already exists
-		// TODO: check length of login and passwd
-
-		// checks passed. save user
-
-		$this->userObj = new ilObjUser();
-		$this->userObj->assignData($_POST["user"]);
-		$this->userObj->setTitle($this->userObj->getFullname());
-		$this->userObj->setDescription($this->userObj->getEmail());
-		
-		if($this->profile_incomplete)
-			$this->userObj->setProfileIncomplete(true);
-
-		// Time limit
-		$this->userObj->setTimeLimitOwner(7);
-
-		if ($this->registration_settings->getAccessLimitation())
-		{
-			include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
-
-			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
-
-			if ($this->registration_settings->roleSelectionEnabled())
-			{
-				$default_role = $_POST['user']['default_role'];
-			}
 			else
 			{
-				// Assign by email
-				include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
-
-				$registration_role_assignments = new ilRegistrationRoleAssignments();
-				$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
+				$passwd = ilUtil::generatePasswords(1);
+				$_POST["user"]["passwd"] = $passwd[0];
 			}
+			// The password type is not passed in the post data. Therefore we
+			// append it here manually.
+			$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
 
-			$access_limit_mode = $access_limitations_obj->getMode($default_role);
+			// Do some Radius checks
+			$this->__validateRole();
 
-			if ($access_limit_mode == 'absolute')
+			// TODO: check if login or passwd already exists
+			// TODO: check length of login and passwd
+
+			// checks passed. save user
+
+			$this->userObj = new ilObjUser();
+			$this->userObj->assignData($_POST["user"]);
+			$this->userObj->setTitle($this->userObj->getFullname());
+			$this->userObj->setDescription($this->userObj->getEmail());
+
+			if($this->profile_incomplete)
+				$this->userObj->setProfileIncomplete(true);
+
+			// Time limit
+			$this->userObj->setTimeLimitOwner(7);
+
+			if ($this->registration_settings->getAccessLimitation())
 			{
-				$access_limit = $access_limitations_obj->getAbsolute($default_role);
-				$this->userObj->setTimeLimitUnlimited(0);
-				$this->userObj->setTimeLimitUntil($access_limit);
-			}
-			elseif ($access_limit_mode == 'relative')
-			{
-				$rel_d = (int) $access_limitations_obj->getRelative($default_role,'d');
-				$rel_m = (int) $access_limitations_obj->getRelative($default_role,'m');
-				$rel_y = (int) $access_limitations_obj->getRelative($default_role,'y');
+				include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
 
-				$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
-				$this->userObj->setTimeLimitUnlimited(0);
-				$this->userObj->setTimeLimitUntil($access_limit);
+				$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
+
+				if ($this->registration_settings->roleSelectionEnabled())
+				{
+					$default_role = $_POST['user']['default_role'];
+				}
+				else
+				{
+					// Assign by email
+					include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
+
+					$registration_role_assignments = new ilRegistrationRoleAssignments();
+					$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
+				}
+
+				$access_limit_mode = $access_limitations_obj->getMode($default_role);
+
+				if ($access_limit_mode == 'absolute')
+				{
+					$access_limit = $access_limitations_obj->getAbsolute($default_role);
+					$this->userObj->setTimeLimitUnlimited(0);
+					$this->userObj->setTimeLimitUntil($access_limit);
+				}
+				elseif ($access_limit_mode == 'relative')
+				{
+					$rel_d = (int) $access_limitations_obj->getRelative($default_role,'d');
+					$rel_m = (int) $access_limitations_obj->getRelative($default_role,'m');
+					$rel_y = (int) $access_limitations_obj->getRelative($default_role,'y');
+
+					$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
+					$this->userObj->setTimeLimitUnlimited(0);
+					$this->userObj->setTimeLimitUntil($access_limit);
+				}
+				else
+				{
+					$this->userObj->setTimeLimitUnlimited(1);
+					$this->userObj->setTimeLimitUntil(time());
+				}
 			}
 			else
 			{
 				$this->userObj->setTimeLimitUnlimited(1);
 				$this->userObj->setTimeLimitUntil(time());
 			}
+
+			$this->userObj->setTimeLimitFrom(time());
+
+			$this->userObj->setUserDefinedData($_POST['udf']);
+			$this->userObj->create();
+
+			if($this->registration_settings->getRegistrationType() == IL_REG_DIRECT)
+			{
+				$this->userObj->setActive(1);
+			}
+			else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+			{
+				$this->userObj->setActive(0,0);
+			}
+			else
+			{
+				$this->userObj->setActive(0,0);
+			}
+
+			// set code to used
+			if($this->registration_settings->getRegistrationType() == IL_REG_CODES)
+			{
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				ilRegistrationCode::useCode($_POST['user']['registration_code']);
+			}
+
+			$this->userObj->updateOwner();
+
+
+			// set a timestamp for last_password_change
+			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
+			// in ilSecuritySettings
+			$this->userObj->setLastPasswordChangeTS( time() );
+
+			//insert user data in table user_data
+			$this->userObj->saveAsNew();
+
+			// store acceptance of user agreement
+			$this->userObj->writeAccepted();
+
+			// setup user preferences
+			$this->userObj->setLanguage($_POST["user"]["language"]);
+			$hits_per_page = $ilias->getSetting("hits_per_page");
+			if ($hits_per_page < 10)
+			{
+				$hits_per_page = 10;
+			}
+			$this->userObj->setPref("hits_per_page", $ilias->getSetting("hits_per_page"));
+			$show_online = $ilias->getSetting("show_users_online");
+			if ($show_online == "")
+			{
+				$show_online = "y";
+			}
+			$this->userObj->setPref("show_users_online", $show_online);
+			$this->userObj->writePrefs();
+
+			// Assign role (depends on settings in administration)
+			$this->__assignRole();
+
+			// Distribute mails
+			$this->__distributeMails();
+
+			$this->login();
+			return true;
 		}
 		else
 		{
-			$this->userObj->setTimeLimitUnlimited(1);
-			$this->userObj->setTimeLimitUntil(time());
+			$this->form->setValuesByPost();
+			$this->displayForm();
 		}
-
-		$this->userObj->setTimeLimitFrom(time());
-
-		$this->userObj->setUserDefinedData($_POST['udf']);
-		$this->userObj->create();
-
-		if($this->registration_settings->getRegistrationType() == IL_REG_DIRECT)
-		{
-			$this->userObj->setActive(1);
-		}
-		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
-		{
-			$this->userObj->setActive(0,0);						 
-		}
-		else
-		{
-			$this->userObj->setActive(0,0);
-		}
-		
-		// set code to used
-		if($this->registration_settings->getRegistrationType() == IL_REG_CODES)
-		{
-			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-			ilRegistrationCode::useCode($_POST['user']['registration_code']);
-		}
-
-		$this->userObj->updateOwner();
-
-
-		// set a timestamp for last_password_change
-		// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
-		// in ilSecuritySettings
-		$this->userObj->setLastPasswordChangeTS( time() );		
-		
-		//insert user data in table user_data
-		$this->userObj->saveAsNew();
-
-		// store acceptance of user agreement
-		$this->userObj->writeAccepted();
-
-		// setup user preferences
-		$this->userObj->setLanguage($_POST["user"]["language"]);
-		$hits_per_page = $ilias->getSetting("hits_per_page");
-		if ($hits_per_page < 10)
-		{
-			$hits_per_page = 10;
-		}
-		$this->userObj->setPref("hits_per_page", $ilias->getSetting("hits_per_page"));
-		$show_online = $ilias->getSetting("show_users_online");
-		if ($show_online == "")
-		{
-			$show_online = "y";
-		}
-		$this->userObj->setPref("show_users_online", $show_online);
-		$this->userObj->writePrefs();
-
-		// Assign role (depends on settings in administration)
-		$this->__assignRole();
-
-		// Distribute mails
-		$this->__distributeMails();
-
-		$this->login();
-		return true;
 	}
 
 	protected function __validateRole()
