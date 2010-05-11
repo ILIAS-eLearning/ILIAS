@@ -1522,3 +1522,128 @@ if(!$ilDB->tableExists('reg_registration_codes'))
 	$ilDB->update("settings", array("value"=>array("integer", 0)), array("module"=>array("text", "common"), "keyword"=>array("text", "usr_settings_visib_reg_birthday")));
 	$ilDB->update("settings", array("value"=>array("integer", 0)), array("module"=>array("text", "common"), "keyword"=>array("text", "usr_settings_visib_reg_instant_messengers")));
 ?>
+<#3045>
+<?php
+	$ilDB->createTable('org_unit_data', array(
+			'ou_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'ou_title' => array(
+				'type'     => 'text',
+				'length'   => 128,
+				'notnull' => false,
+				'default' => null
+			),
+			'ou_subtitle' => array(
+				'type'     => 'text',
+				'length'   => 128,
+				'notnull' => false,
+				'default' => null
+			),
+			'ou_import_id' => array(
+				'type'     => 'text',
+				'length'   => 64,
+				'notnull' => false,
+				'default' => null
+			)
+	));
+	$ilDB->addPrimaryKey('org_unit_data', array('ou_id'));
+	$ilDB->createSequence('org_unit_data');
+	$root_unit_id = $ilDB->nextId('org_unit_data');
+	$ilDB->insert('org_unit_data', array(
+		'ou_id' => array('integer', $root_unit_id),
+		'ou_title' => array('text', 'RootUnit')
+	));
+
+	$ilDB->createTable('org_unit_tree', array(
+			'tree' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'child' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'parent' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'lft' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'rgt' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'depth' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			)
+	));
+	$ilDB->addPrimaryKey('org_unit_tree', array('tree', 'child'));
+	$ilDB->insert('org_unit_tree', array(
+		'tree' => array('integer', 1),
+		'child' => array('integer', $root_unit_id),
+		'parent' => array('integer', 0),
+		'lft' => array('integer', 1),
+		'rgt' => array('integer', 2),
+		'depth' => array('integer', 1)
+	));
+
+	$ilDB->createTable('org_unit_assignments', array(
+			'oa_ou_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'oa_usr_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'oa_reporting_access' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'oa_cc_compl_invit' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'oa_cc_compl_not1' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			),
+			'oa_cc_compl_not2' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true,
+				'default' => 0
+			)
+	));
+	$ilDB->addPrimaryKey('org_unit_assignments', array('oa_ou_id', 'oa_usr_id'));
+
+?>
