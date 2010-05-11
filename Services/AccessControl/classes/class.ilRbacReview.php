@@ -1916,8 +1916,6 @@ class ilRbacReview
 		}
 		
 		$role_list = $this->__setRoleType($role_list);
-		var_dump('<pre>',$role_list,'</pre>');
-
 		return $role_list;
 	}
 	
