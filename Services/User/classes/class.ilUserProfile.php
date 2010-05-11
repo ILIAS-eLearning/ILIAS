@@ -402,7 +402,7 @@ class ilUserProfile
 					else
 					{
 						// user account name
-						$val = new ilNonEditableValueGUI($lng->txt("username"));
+						$val = new ilNonEditableValueGUI($lng->txt("username"), 'ne_un');
 						if($a_user)
 						{
 							$val->setValue($a_user->getLogin());
@@ -521,7 +521,7 @@ class ilUserProfile
 								unset($roleObj);
 							}
 						}
-						$dr = new ilNonEditableValueGUI($lng->txt("default_roles"));
+						$dr = new ilNonEditableValueGUI($lng->txt("default_roles"), "ne_dr");
 						$dr->setValue(substr($role_names,0,-2));
 						$a_form->addItem($dr);
 					}
