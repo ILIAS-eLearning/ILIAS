@@ -8027,10 +8027,10 @@ news#:#news_allow_longer_periods#:#Längere Zeiträume zulassen
 news#:#news_allow_longer_periods_info#:#Benutzer können längere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
 news#:#news_allow_shorter_periods#:#Kürzere Zeiträume zulassen
 news#:#news_allow_shorter_periods_info#:#Benutzer können kürzere Zeiträume für Nachrichten auf dem persönlichen Schreibtisch auswählen.
-news#:#news_block_information#:#Der Nachrichtenblock zeigt alle <b>Nachrichten</b> in chronologischer Reihenfolge an, die sich auf Ihre <b>Ausgewählten Angebote</b> auf dem persönlichen Schreibtisch beziehen.
+news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b>Nachrichten</b> zu den Objekten an, die sich auf Ihrem Persönlichen Schreibtisch im Block <b>Meine Angebote</b> befinden.
 news#:#news_block_news_for_context#:#Nachrichten
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
-news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht zugängliche Objekte verweisen.
+news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Standardzugriff
 news#:#news_edit_news_settings#:#Einstellungen bearbeiten
 news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
@@ -8040,13 +8040,13 @@ news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Nachrichten
 news#:#news_enable_private_feed#:#Privaten Newsfeed aktivieren
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Nachrichten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
-news#:#news_feed_url_for#:#Feed-URL for '%s'
+news#:#news_feed_url_for#:#Feed-URL für '%s'
 news#:#news_first_letter_of_word_notification#:#B
-news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Autoren als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
-news#:#news_get_feed_title#:#Persönliche Newsfeed-URL
+news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
+news#:#news_get_feed_title#:#URL Ihres Persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
-news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres persönlichen privaten Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, auch die, die von den jeweiligen Autoren als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- mit Ihrem Feed-Passwort.
-news#:#news_get_priv_feed_title#:#Persönliche private Newsfeed-URL
+news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Nachrichten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
+news#:#news_get_priv_feed_title#:#URL Ihres Privaten Newsfeeds
 news#:#news_hidden_news_block#:#Nachrichtenblock wird zur Zeit in der Lernersicht nicht angezeigt.
 news#:#news_hide_news_block#:#Nachrichtenblock verbergen
 news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberichtigung sichtbar sein.
@@ -8071,7 +8071,7 @@ news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
 news#:#news_nr_of_items#:#Anzahl der maximalen Nachrichten pro Objekt
 news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
-news#:#news_pd_period#:#Zeitraum News auf Persönlichem Schreibtisch
+news#:#news_pd_period#:#Zeitraum für Nachrichtenanzeige auf Persönlichem Schreibtisch
 news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_period_1_month#:#Letzter Monat
 news#:#news_period_1_week#:#Letzte Woche
@@ -8083,7 +8083,7 @@ news#:#news_public_feed#:#Extra Webfeed-URL
 news#:#news_public_feed_info#:#Wenn diese Option gewählt wird, wird eine eigene Newsfeed-URL für diese Objekt erzeugt.
 news#:#news_related_to#:#bezieht sich auf
 news#:#news_rss_period#:#RSS Zeitraum
-news#:#news_settings#:#Nachrichten-Einstellungen
+news#:#news_settings#:#Einstellungen für Nachrichten
 news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
 news#:#news_unsubscribe#:#Löse Abonnement
@@ -8092,13 +8092,13 @@ news#:#news_visibility_users#:#Angemeldete Benutzer
 news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.
 news#:#news_x_files_updated#:#Es wurden %s Dateien aktualisiert.
 news#:#news_x_postings#:#%s Beiträge hinzugefügt.
-news#:#passwd_equals_ilpasswd#:#Bitte geben Sie ein anderes Passwort als ihr ILIAS-Passwort ein
-news#:#priv_feed_disabled#:#Privater News-Feed wurde deaktiviert.
+news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als ihr ILIAS-Passwort ein
+news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_no_access_body#:#Bitte wenden Sie sich an den Systemadministrator für weitere Informationen.
 news#:#priv_feed_no_access_title#:#Private Newsfeeds sind nicht freigeschaltet.
 news#:#priv_feed_no_auth_body#:#Bitte überprüfen Sie, ob Sie das Kennwort für den privaten Newsfeed gesetzt und richtig eingegeben haben.
 news#:#priv_feed_no_auth_title#:#Authentifizierung fehlgeschlagen
-news#:#priv_feed_settings#:#Einstellungen privater News-Feed
+news#:#priv_feed_settings#:#Einstellungen für Privaten Newsfeed
 notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
 notes#:#notes_add_comment#:#Kommentar hinzufügen
 notes#:#notes_add_note#:#Notiz hinzufügen
