@@ -500,6 +500,27 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$si->setOptions($options);
 		$si->setInfo($lng->txt("glo_mode_desc"));
 		$this->form->addItem($si);
+
+		// presentation mode
+		$radg = new ilRadioGroupInputGUI($lng->txt("glo_presentation_mode"), "pres_mode");
+		$radg->setValue("table");
+		$op1 = new ilRadioOption($lng->txt("glo_table_form"), "table", $lng->txt("glo_table_form_info"));
+
+			// short text length
+			$ni = new ilNumberInputGUI($lng->txt("glo_text_snippet_length"), "snippet_length");
+			$ni->setMaxValue(3000);
+			$ni->setMinValue(100);
+			$ni->setMaxLength(4);
+			$ni->setSize(4);
+			$ni->setInfo($lng->txt("glo_text_snippet_length_info"));
+			$ni->setValue(200);
+			$op1->addSubItem($ni);
+
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("glo_full_definitions"), "full_def", $lng->txt("glo_full_definitions_info"));
+		$radg->addOption($op2);
+		$this->form->addItem($radg);
+
 		
 		// menu enabled?
 		$cb = new ilCheckboxInputGUI($lng->txt("cont_glo_menu"), "glo_act_menu");
@@ -530,6 +551,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$values["glo_mode"] = $this->object->getVirtualMode();
 		$values["glo_act_menu"] = $this->object->isActiveGlossaryMenu();
 		$values["glo_act_downloads"] = $this->object->isActiveDownloads();
+		$values["pres_mode"] = $this->object->getPresentationMode();
+		$values["snippet_length"] = $this->object->getSnippetLength();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -539,13 +562,23 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function saveProperties()
 	{
-		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
-		$this->object->setVirtualMode($_POST["glo_mode"]);
-		$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
-		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
-		$this->object->update();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "properties");
+		global $tpl;
+
+		$this->initSettingsForm();
+		if ($this->form->checkInput())
+		{
+			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->setVirtualMode($_POST["glo_mode"]);
+			$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
+			$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
+			$this->object->setPresentationMode($_POST["pres_mode"]);
+			$this->object->setSnippetLength($_POST["snippet_length"]);
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "properties");
+		}
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHTML());
 	}
 
 	/**

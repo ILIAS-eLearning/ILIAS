@@ -45,10 +45,13 @@ class ilObjGlossary extends ilObject
 			$this->createMetaData();
 		}
 		
-		$ilDB->manipulate("INSERT INTO glossary (id, is_online, virtual) VALUES (".
+		$ilDB->manipulate("INSERT INTO glossary (id, is_online, virtual, pres_mode, snippet_length) VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote("n", "text").",".
-			$ilDB->quote($this->getVirtualMode(), "text").")");
+			$ilDB->quote($this->getVirtualMode(), "text").",".
+			$ilDB->quote("table", "text").",".
+			$ilDB->quote(200, "integer").
+			")");
 
 	}
 
@@ -72,6 +75,8 @@ class ilObjGlossary extends ilObject
 		$this->setPublicExportFile("html", $gl_rec["public_html_file"]);
 		$this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
 		$this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
+		$this->setPresentationMode($gl_rec["pres_mode"]);
+		$this->setSnippetLength($gl_rec["snippet_length"]);
 	}
 
 	/**
@@ -149,6 +154,46 @@ class ilObjGlossary extends ilObject
 //		$this->meta_data->setTitle($a_title);
 	}
 
+	/**
+	 * Set presentation mode
+	 *
+	 * @param	string	presentation mode
+	 */
+	function setPresentationMode($a_val)
+	{
+		$this->pres_mode = $a_val;
+	}
+
+	/**
+	 * Get presentation mode
+	 *
+	 * @return	string	presentation mode
+	 */
+	function getPresentationMode()
+	{
+		return $this->pres_mode;
+	}
+
+	/**
+	 * Set snippet length
+	 *
+	 * @param	int	snippet length
+	 */
+	function setSnippetLength($a_val)
+	{
+		$this->snippet_length = $a_val;
+	}
+
+	/**
+	 * Get snippet length
+	 *
+	 * @return	int	snippet length
+	 */
+	function getSnippetLength()
+	{
+		return $this->snippet_length;
+	}
+
 	function setOnline($a_online)
 	{
 		$this->online = $a_online;
@@ -209,7 +254,9 @@ class ilObjGlossary extends ilObject
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
 			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
 			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
-			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text")." ".
+			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
+			" pres_mode = ".$ilDB->quote($this->getPresentationMode(), "text").", ".
+			" snippet_length = ".$ilDB->quote($this->getSnippetLength(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		
 		parent::update();
