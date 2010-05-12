@@ -135,6 +135,7 @@ class ilLPStatusEvent extends ilLPStatus
 			case 'sess':
 				include_once './Modules/Session/classes/class.ilEventParticipants.php';
 				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				include_once('./Modules/Session/classes/class.ilObjSession.php');
 				
 				$time_info = ilSessionAppointment::_lookupAppointment($a_obj_id);
 				$registration = ilObjSession::_lookupRegistrationEnabled($a_obj_id);
