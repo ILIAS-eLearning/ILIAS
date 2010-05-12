@@ -10360,3 +10360,10 @@ administration#:#show_topics_overview#:#Topic Overview
 administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown
 common#:#show_system_messages#:#System Messages
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
+content#:#glo_presentation_mode#:#Presentation Mode
+content#:#glo_table_form#:#In Table Form
+content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
+content#:#glo_text_snippet_length#:#Definition Snippet Length
+content#:#glo_text_snippet_length_info#:#Length of the text snippet of the definition that is shown in the overview.
+content#:#glo_full_definitions#:#Full Definitions
+content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.

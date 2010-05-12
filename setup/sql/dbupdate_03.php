@@ -1662,3 +1662,21 @@ if(!$ilDB->tableExists('org_unit_assignments'))
 	$ilDB->modifyTableColumn('glossary_definition', 'short_text',
 		array("type" => "text", "length" => 4000, "notnull" => false));
 ?>
+
+<#3047>
+<?php
+$ilDB->addTableColumn('glossary', 'pres_mode', array(
+	"type" => "text",
+	"notnull" => true,
+	"length" => 10,
+	"default" => "table"));
+?>
+<#3048>
+<?php
+$ilDB->addTableColumn('glossary', 'snippet_length', array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 4,
+	"default" => 200));
+?>
+
