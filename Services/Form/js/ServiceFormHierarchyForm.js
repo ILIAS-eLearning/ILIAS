@@ -428,14 +428,18 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 	startDrag: function(x, y)
 	{
 		var targets = YAHOO.util.DDM.getRelated(this, true);
+
 		for (var i=0; i<targets.length; i++)
-		{ 
+		{
 			var targetEl = this.getTargetDomRef(targets[i]);
-			if (!this.originalStyles[targetEl.id])
+			if (targetEl != null)
 			{
-				this.originalStyles[targetEl.id] = targetEl.className;
+				if (!this.originalStyles[targetEl.id])
+				{
+					this.originalStyles[targetEl.id] = targetEl.className;
+				}
+				targetEl.className = "il_droparea_valid_target";
 			}
-			targetEl.className = "il_droparea_valid_target";
 		}
 	},
 	
