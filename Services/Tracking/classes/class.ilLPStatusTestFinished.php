@@ -70,6 +70,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 	{
 		global $ilDB;
 
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+
 		$res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active".
 			" WHERE test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
 		$user_ids = array();
