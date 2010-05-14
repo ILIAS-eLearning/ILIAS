@@ -197,9 +197,12 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 														 "","","",$a_active == LP_ACTIVE_OBJECTS);
 
-// New tracking table
+						// New tracking table
 						$this->tabs_gui->addSubTabTarget("tr_learners",
 							$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'));
+
+						$this->tabs_gui->addSubTabTarget("tr_summary",
+							$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'));
 
 					}
 
