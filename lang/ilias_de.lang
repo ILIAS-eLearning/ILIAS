@@ -6230,7 +6230,7 @@ dateplaner#:#cal_calendar_color#:#Farbe
 dateplaner#:#cal_calendar_name#:#Kalendername
 dateplaner#:#cal_category_selection#:#Kalenderauswahl
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
-dateplaner#:#cal_changed_events_header#:#Geänderte Termine
+dateplaner#:#cal_changed_events_header#:#Neue und geänderte Termine
 dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
