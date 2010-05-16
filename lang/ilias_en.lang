@@ -6259,7 +6259,7 @@ dateplaner#:#cal_calendar_color#:#Color
 dateplaner#:#cal_calendar_name#:#Calendar Name
 dateplaner#:#cal_category_selection#:#Calendar Selection
 dateplaner#:#cal_change_responsible_users#:#Change Responsible Users
-dateplaner#:#cal_changed_events_header#:#Changed Appointments
+dateplaner#:#cal_changed_events_header#:#New and Changed Appointments
 dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
