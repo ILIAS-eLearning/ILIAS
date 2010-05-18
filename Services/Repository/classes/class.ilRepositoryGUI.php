@@ -394,10 +394,20 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
+		global $ilCtrl, $tree;
+
+		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
+
+		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+
 		include_once ("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
-		$exp->setUseStandardFrame(true);
-		$exp->setExpandTarget("repository.php?cmd=showTree");
+		$exp->setUseStandardFrame(false);
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "showTree"));
+		$exp->setFrameUpdater("tree", "updater");
 		$exp->setTargetGet("ref_id");
 
 		if ($_GET["repexpand"] == "")
@@ -411,11 +421,37 @@ class ilRepositoryGUI
 
 		$exp->setExpand($expanded);
 
+		$active_node = ($_GET["active_node"] > 1)
+			? $_GET["active_node"]
+			: ($_GET["ref_id"] > 1)
+				? $_GET["ref_id"]
+				: 0;
+		if ($active_node > 0)
+		{
+			$path = $tree->getPathId($active_node);
+			$exp->setForceOpenPath($path);
+			$exp->highlightNode($active_node);
+		}
+
 		// build html-output
 		$exp->setOutput(0);
-		$output = $exp->getOutput();
+		$output = $exp->getOutput(false);
 
-		echo $output;
+		// asynchronous output
+		if ($ilCtrl->isAsynch())
+		{
+			echo $output; exit;
+		}
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("overview"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+		$this->tpl->setVariable("EXPLORER",$output);
+		$ilCtrl->setParameter($this, "repexpand", $_GET["repexpand"]);
+		$this->tpl->setVariable("ACTION", $ilCtrl->getLinkTarget($this, "showTree", "", false, false));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show(false);
+		exit;
 	}
 
 } // END class.ilRepository
