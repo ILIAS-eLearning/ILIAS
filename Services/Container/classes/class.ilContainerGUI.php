@@ -505,6 +505,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilTabs->activateSubTab("view_content");
 		}
 
+		// add tree updater javascript
+		if ((int) $_GET["ref_id"] > 1)
+		{
+			$ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
+			$tpl->addOnloadCode("
+				if (parent && parent.tree && parent.tree.updater)
+				{
+					parent.tree.updater('tree_div', '".
+					$ilCtrl->getLinkTarget($this, "showTree", "", true, false)
+					."');
+				}");
+		}
 	}
 
 	/**

@@ -1,36 +1,16 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-/*
-* Repository Explorer
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("classes/class.ilExplorer.php");
 
+/*
+ * Repository Explorer
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup	ServicesRepository
+ */
 class ilRepositoryExplorer extends ilExplorer
 {
 
@@ -53,6 +33,10 @@ class ilRepositoryExplorer extends ilExplorer
 		global $tree, $ilCtrl, $lng;
 
 		$this->ctrl = $ilCtrl;
+
+
+		$this->force_open_path = array();
+
 
 		parent::ilExplorer($a_target);
 		$this->tree = $tree;
@@ -83,6 +67,14 @@ class ilRepositoryExplorer extends ilExplorer
 		//$this->addFilter('tst');
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
+	}
+
+	/**
+	 * set force open path
+	 */
+	function setForceOpenPath($a_path)
+	{
+		$this->force_open_path = $a_path;
 	}
 
 	/**
@@ -664,6 +656,21 @@ class ilRepositoryExplorer extends ilExplorer
 		
 		return $nodes;
 		//return parent::sortNodes($a_nodes,$a_parent_obj_id);
+	}
+
+	/**
+	 * Force expansion of node
+	 *
+	 * @param
+	 * @return
+	 */
+	function forceExpanded($a_node)
+	{
+		if (in_array($a_node, $this->force_open_path))
+		{
+			return true;
+		}
+		return false;
 	}
 
 } // END class ilRepositoryExplorer
