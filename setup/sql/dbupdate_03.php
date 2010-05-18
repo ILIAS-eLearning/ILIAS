@@ -1679,4 +1679,8 @@ $ilDB->addTableColumn('glossary', 'snippet_length', array(
 	"length" => 4,
 	"default" => 200));
 ?>
+<#3049>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
