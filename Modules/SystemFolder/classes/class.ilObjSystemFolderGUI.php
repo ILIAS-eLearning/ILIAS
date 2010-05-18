@@ -2025,6 +2025,31 @@ return $this->showServerInfoObject();
 			$si->setValue("flat");
 		}
 		$this->form->addItem($si);
+
+		//
+		$options = array(
+			"" => $lng->txt("adm_rep_tree_only_container"),
+			"tree" => $lng->txt("adm_all_resource_types")
+			);
+
+		// repository tree
+		$radg = new ilRadioGroupInputGUI($lng->txt("adm_rep_tree_presentation"), "tree_pres");
+		$radg->setValue($ilSetting->get("repository_tree_pres"));
+		$op1 = new ilRadioOption($lng->txt("adm_rep_tree_only_cntr"), "",
+			$lng->txt("adm_rep_tree_only_cntr_info"));
+		$radg->addOption($op1);
+
+		$op2 = new ilRadioOption($lng->txt("adm_rep_tree_all_types"), "all_types",
+			$lng->txt("adm_rep_tree_all_types_info"));
+
+			// limit tree in courses and groups
+			$cb = new ilCheckboxInputGUI($lng->txt("adm_rep_tree_limit_grp_crs"), "var");
+			$cb->setValue($ilSetting->get("repository_tree_limit_grp_crs"));
+			$op2->addSubItem($cb);
+
+		$radg->addOption($op2);
+
+		$this->form->addItem($radg);
 		
 		// repository access check
 		$options = array(
@@ -2263,6 +2288,8 @@ return $this->showServerInfoObject();
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
+			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
+			$ilSetting->set("repository_tree_limit_grp_crs", $_POST["tree_limit_grp_crs"]);
 			
 			$global_profiles = ($_POST["pub_section"])
 				? (int)$_POST['enable_global_profiles']
