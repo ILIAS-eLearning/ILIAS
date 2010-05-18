@@ -30,7 +30,7 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function ilRepositoryExplorer($a_target)
 	{
-		global $tree, $ilCtrl, $lng;
+		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
 
 		$this->ctrl = $ilCtrl;
 
@@ -46,27 +46,28 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->setTitle($lng->txt("overview"));
 
 		// please do not uncomment this
-		$this->addFilter("root");
-		$this->addFilter("cat");
-		$this->addFilter('catr');
-		//$this->addFilter("exc");
-		//$this->addFilter("sahs");
-		$this->addFilter("grp");
-		//$this->addFilter("lm");
-		//$this->addFilter("htlm");
-		//$this->addFilter("mep");
-		//$this->addFilter("frm");
-		//$this->addFilter("dbk");
-		//$this->addFilter("chat");
-		//$this->addFilter("glo");
-		//$this->addFilter("file");
-		$this->addFilter("icrs");
-		$this->addFilter("crs");
-		$this->addFilter('crsr');
-		$this->addFilter('rcrs');
-		//$this->addFilter('tst');
-		$this->setFiltered(true);
-		$this->setFilterMode(IL_FM_POSITIVE);
+		if ($ilSetting->get("repository_tree_pres") == "")
+		{
+			$this->addFilter("root");
+			$this->addFilter("cat");
+			$this->addFilter('catr');
+			$this->addFilter("grp");
+			$this->addFilter("icrs");
+			$this->addFilter("crs");
+			$this->addFilter('crsr');
+			$this->addFilter('rcrs');
+			$this->setFiltered(true);
+			$this->setFilterMode(IL_FM_POSITIVE);
+		}
+		else if ($ilSetting->get("repository_tree_pres") == "all_types")
+		{
+			foreach ($objDefinition->getAllRBACObjects() as $rtype)
+			{
+				$this->addFilter($rtype);
+			}
+			$this->setFiltered(true);
+			$this->setFilterMode(IL_FM_POSITIVE);
+		}
 	}
 
 	/**
@@ -96,19 +97,6 @@ class ilRepositoryExplorer extends ilExplorer
 				#$a_node_id = current($ref_ids);
 				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
 
-			case "lm":
-			case "dbk":
-				return "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$a_node_id;
-
-			case "htlm":
-				return "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$a_node_id;
-
-			case "sahs":
-				return "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$a_node_id;
-
-			case "mep":
-				return "";
-
 			case "grp":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 
@@ -122,39 +110,6 @@ class ilRepositoryExplorer extends ilExplorer
 				#$a_node_id = current($ref_ids);
 				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
 
-			case "frm":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjforumgui";
-
-			case "glo":
-				return "ilias.php?baseClass=ilGlossaryPresentationGUI&ref_id=".$a_node_id;
-
-			case "exc":
-				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
-
-			case "chat":
-				return "ilias.php?baseClass=ilChatPresentationGUI&cmd=view&ref_id=".$a_node_id;
-
-			case "fold":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjfoldergui";
-				
-			case "file":
-				return "repository.php?cmd=sendfile&ref_id=".$a_node_id;
-
-			case 'sess':
-				return "repository.php?ref_id=".$a_node_id;
-
-			case 'tst':
-				return "ilias.php?cmd=infoScreen&baseClass=ilObjTestGUI&ref_id=".$a_node_id;
-
-			case 'svy':
-				return "ilias.php?baseClass=ilObjSurveyGUI&cmd=infoScreen&ref_id=".$a_node_id;
-
-			case 'spl':
-				return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$a_node_id;
-
-			case 'qpl':
-				return "ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=".$a_node_id;
-
 			case 'crsg':
 				return "repository.php?ref_id=".$a_node_id;
 
@@ -166,7 +121,11 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'rcrs':
 				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
-				
+
+			default:
+				include_once('classes/class.ilLink.php');
+				return ilLink::_getStaticLink($a_node_id, $a_type, true);
+
 		}
 	}
 	
@@ -277,25 +236,6 @@ class ilRepositoryExplorer extends ilExplorer
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "catr");
 				return $t_frame;
 
-			case "lm":
-			case "dbk":
-			case "htlm":
-			case "sahs":
-				// Determine whether the view of a learning resource should
-				// be shown in the frameset of ilias, or in a separate window.
-				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
-				$showViewInFrameset = true;
-
-				if ($showViewInFrameset) 
-				{
-					return ilFrameTargetInfo::_getFrame("MainContent");
-	  				//return "bottom";
-				}
-				else
-				{
-					return "ilContObj".$a_obj_id;
-				}
-
 			case "grp":
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grp");
 				return $t_frame;
@@ -312,32 +252,8 @@ class ilRepositoryExplorer extends ilExplorer
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent",'rcrs');
 				return $t_frame;
 
-			case "frm":
-				return "";
-
-			case "glo":
-				return "";
-
-			case "tst":
-				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
-				$showViewInFrameset = true;
-				if ($showViewInFrameset) 
-				{
-					return ilFrameTargetInfo::_getFrame("MainContent");
-	  				//return "bottom";
-				}
-				else
-				{
-					return "ilTest".$a_obj_id;
-				}
-				break;
-
-			case "icrs":
-				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "icrs");
-				return $t_frame;
-
 			default:
-				return "";
+				return "_top";
 		}
 	}
 	

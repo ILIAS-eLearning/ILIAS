@@ -10368,3 +10368,9 @@ content#:#glo_text_snippet_length_info#:#Length of the text snippet of the defin
 content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_editing_view#:#Editing View
+administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
+administration#:#adm_rep_tree_only_cntr#:#Container Only
+administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.
+administration#:#adm_rep_tree_all_types#:#All Resource Types
+administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.
+administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.
