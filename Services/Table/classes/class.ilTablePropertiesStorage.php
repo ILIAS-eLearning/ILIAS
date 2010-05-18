@@ -17,7 +17,8 @@ class ilTablePropertiesStorage
 		"order" => array("storage" => "db"),
 		"rows" => array("storage" => "db"),
 		"offset" => array("storage" => "session"),
-		"selfields" => array("storage" => "db")
+		"selfields" => array("storage" => "db"),
+		"selfilters" => array("storage" => "db")
 		);
 	
 	/**
