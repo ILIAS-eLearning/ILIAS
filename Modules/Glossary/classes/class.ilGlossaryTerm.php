@@ -528,7 +528,28 @@ class ilGlossaryTerm
 		
 		return $new_term->getId();
 	}
-	
-} // END class ilGlossaryTerm
+
+	/**
+	 * Get terms of glossary
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getTermsOfGlossary($a_glo_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT id FROM glossary_term WHERE ".
+			" glo_id = ".$ilDB->quote($a_glo_id, "integer")
+		);
+		$ids = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $rec["id"];
+		}
+		return $ids;
+	}
+
+}
 
 ?>

@@ -26,12 +26,19 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		//$this->setTitle($lng->txt("cont_terms"));
-		
-		$this->addColumn($lng->txt("cont_term"));
-		$this->addColumn($lng->txt("cont_definitions"));
-		if ($this->glossary->isVirtual())
+
+		if ($this->glossary->getPresentationMode() == "full_def")
 		{
-			$this->addColumn($lng->txt("obj_glo"));
+			$this->addColumn($lng->txt("cont_terms"));
+		}
+		else
+		{
+			$this->addColumn($lng->txt("cont_term"));
+			$this->addColumn($lng->txt("cont_definitions"));
+			if ($this->glossary->isVirtual())
+			{
+				$this->addColumn($lng->txt("obj_glo"));
+			}
 		}
 		
 		$this->setEnableHeader(true);
@@ -90,80 +97,98 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 		$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
 
-		for($j=0; $j<count($defs); $j++)
+		if ($this->glossary->getPresentationMode() == "full_def")
 		{
-			$def = $defs[$j];
-			if (count($defs) > 1)
-			{
-				$this->tpl->setCurrentBlock("definition");
-				$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			//
-			$this->tpl->setCurrentBlock("definition");
-			$short_str = $def["short_text"];
-			// replace tex
-			// if a tex end tag is missing a tex end tag
-			$ltexs = strrpos($short_str, "[tex]");
-			$ltexe = strrpos($short_str, "[/tex]");
-			if ($ltexs > $ltexe)
-			{
-				$page =& new ilPageObject("gdf", $def["id"]);
-				$page->buildDom();
-				$short_str = $page->getFirstParagraphText();
-				$short_str = strip_tags($short_str, "<br>");
-				$ltexe = strpos($short_str, "[/tex]", $ltexs);
-				$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
-			}
-			if (!$this->offline)
-			{
-				$short_str = ilUtil::insertLatexImages($short_str);
-			}
-			else
-			{
-				$short_str = ilUtil::buildLatexImages($short_str,
-					$this->getOfflineDirectory());
-			}
-			$short_str = ilPCParagraph::xml2output($short_str);
-			
-			$this->tpl->setVariable("DEF_SHORT", $short_str);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("definition_row");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// display additional column 'glossary' for meta glossaries
-		if ($this->glossary->isVirtual())
-		{
-			$this->tpl->setCurrentBlock("glossary_row");
-			$glo_title = ilObject::_lookupTitle($term["glo_id"]);
-			$this->tpl->setVariable("GLO_TITLE", $glo_title);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("view_term");
-		$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-		if (!$this->offline)
-		{
-			if (!empty ($filter))
-			{
-				$ilCtrl->setParameter($this, "term", $filter);
-				$ilCtrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
-			}
-			$ilCtrl->setParameter($this, "term_id", $term["id"]);
-			$ilCtrl->setParameter($this, "offset", $_GET["offset"]);
-			$this->tpl->setVariable("LINK_VIEW_TERM",
-				$ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions"));
-			$ilCtrl->clearParameters($this);
+			$this->tpl->setVariable("FULL_DEF",
+				$this->parent_obj->listDefinitions($_GET["ref_id"], $term["id"], true));
 		}
 		else
 		{
-			$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
+			for ($j=0; $j < count($defs); $j++)
+			{
+				$def = $defs[$j];
+				if (count($defs) > 1)
+				{
+					$this->tpl->setCurrentBlock("definition");
+					$this->tpl->setVariable("DEF_TEXT", $lng->txt("cont_definition")." ".($j + 1));
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// check dirty short texts
+				$this->tpl->setCurrentBlock("definition");
+				if ($def["short_text_dirty"])
+				{
+					$def = new ilGlossaryDefinition($def["id"]);
+					$def->updateShortText();
+					$short_str = $def->getShortText();
+				}
+				else
+				{
+					$short_str = $def["short_text"];
+				}
+				// replace tex
+				// if a tex end tag is missing a tex end tag
+				$ltexs = strrpos($short_str, "[tex]");
+				$ltexe = strrpos($short_str, "[/tex]");
+				if ($ltexs > $ltexe)
+				{
+					$page =& new ilPageObject("gdf", $def["id"]);
+					$page->buildDom();
+					$short_str = $page->getFirstParagraphText();
+					$short_str = strip_tags($short_str, "<br>");
+					$ltexe = strpos($short_str, "[/tex]", $ltexs);
+					$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+				}
+				if (!$this->offline)
+				{
+					$short_str = ilUtil::insertLatexImages($short_str);
+				}
+				else
+				{
+					$short_str = ilUtil::buildLatexImages($short_str,
+						$this->getOfflineDirectory());
+				}
+				$short_str = ilPCParagraph::xml2output($short_str);
+
+				$this->tpl->setVariable("DEF_SHORT", $short_str);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("definition_row");
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->touchBlock("def_td");
+
+			// display additional column 'glossary' for meta glossaries
+			if ($this->glossary->isVirtual())
+			{
+				$this->tpl->setCurrentBlock("glossary_row");
+				$glo_title = ilObject::_lookupTitle($term["glo_id"]);
+				$this->tpl->setVariable("GLO_TITLE", $glo_title);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("view_term");
+			$this->tpl->setVariable("TEXT_TERM", $term["term"]);
+			if (!$this->offline)
+			{
+				if (!empty ($filter))
+				{
+					$ilCtrl->setParameter($this, "term", $filter);
+					$ilCtrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
+				}
+				$ilCtrl->setParameter($this, "term_id", $term["id"]);
+				$ilCtrl->setParameter($this, "offset", $_GET["offset"]);
+				$this->tpl->setVariable("LINK_VIEW_TERM",
+					$ilCtrl->getLinkTarget($this->parent_obj, "listDefinitions"));
+				$ilCtrl->clearParameters($this);
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
+			}
+			$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
+			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
-		$this->tpl->parseCurrentBlock();
 		
 		$ilCtrl->clearParameters($this);
 
