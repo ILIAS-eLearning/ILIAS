@@ -1051,7 +1051,7 @@ class ilUtil
 	*/
 	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
-		global $lng;
+		global $lng, $ilUser;
 
 		$minute_steps = 1;
 		$disabled = '';
@@ -1088,9 +1088,17 @@ class ilUtil
 		}
 		$sel_hour .= " ".$disabled."name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
 
+		$format = $ilUser->getTimeFormat();
 		for ($i = 0; $i <= 23; $i++)
 		{
-			$sel_hour .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+			if($format == ilCalendarSettings::TIME_FORMAT_24)
+			{
+			  $sel_hour .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
+			}
+			else
+			{
+			  $sel_hour .= "<option value=\"$i\">" . date("ga", mktime($i, 0, 0)) . "</option>\n";
+			}
 		}
 		$sel_hour .= "</select>\n";
 		$sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);

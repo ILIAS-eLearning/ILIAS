@@ -28,8 +28,15 @@ class ilTable2GUI extends ilTableGUI
 	
 	protected $mi_sel_buttons = null;
 	protected $disable_filter_hiding = false;
+	protected $selected_filter = false;
 	protected $top_commands = true;
 	protected $selectable_columns = array();
+	protected $selected_column = array();
+
+	const FILTER_TEXT = 1;
+	const FILTER_SELECT = 2;
+	const FILTER_DATE = 3;
+	const FILTER_LANGUAGE = 4;
 	
 	/**
 	* Constructor
@@ -115,7 +122,7 @@ class ilTable2GUI extends ilTableGUI
 	function determineSelectedColumns()
 	{
 		global $ilUser;
-
+		
 		if (!is_object($ilUser))
 		{
 			return array();
@@ -484,6 +491,67 @@ class ilTable2GUI extends ilTableGUI
 			$this->optional_filters[] = $a_input_item;
 		}
 	}
+
+	/**
+	 *
+	 * 
+	 * @global <type> $lng
+	 * @param <type> $id
+	 * @param <type> $type
+	 * @param <type> $a_optional
+	 * @param <type> $caption
+	 * @return <type>
+	 */
+	function addFilterItemByMetaType($id, $type = self::FILTER_TEXT, $a_optional = false, $caption = NULL)
+	{
+		global $lng;
+
+		if(!$caption)
+		{
+			$caption = $lng->txt($id);
+		}
+
+		switch($type)
+		{
+			case self::FILTER_SELECT:
+				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+				$item = new ilSelectInputGUI($caption, $id);
+				break;
+
+			case self::FILTER_DATE:
+				include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+				$item = new ilDateTimeInputGUI($caption, $id);
+				$default_date = new ilDateTime(time(), IL_CAL_DATETIME);
+				$item->setDate($default_date);
+				break;
+
+			case self::FILTER_TEXT:
+				include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+				$item = new ilTextInputGUI($caption, $id);
+				$item->setMaxLength(64);
+				$item->setSize(20);
+				$item->setSubmitFormOnEnter(true);
+				break;
+			
+			case self::FILTER_LANGUAGE:
+				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+				$item = new ilSelectInputGUI($caption, $id);
+				$options = array("" => $lng->txt("all"));
+				foreach ($lng->getInstalledLanguages() as $lang_key)
+				{
+					$options[$lang_key] = $lng->txt("lang_".$lang_key);
+				}
+				$item->setOptions($options);
+				break;
+
+			default:
+				return false;
+		}
+
+		$this->addFilterItem($item, $a_optional);
+		$item->readFromSession();
+		return $item;
+	}
 	
 	/**
 	* Get filter items
@@ -547,7 +615,7 @@ class ilTable2GUI extends ilTableGUI
 	}
 	
 	/**
-	* Get disable filter hiding		disable filter hiding
+	* Get disable filter hiding		
 	*
 	* @return	boolean
 	*/
@@ -555,7 +623,97 @@ class ilTable2GUI extends ilTableGUI
 	{
 		return $this->disable_filter_hiding;
 	}
-	
+
+	/**
+	 * Is given filter selected?
+	 *
+	 * @param	string	column name
+	 * @return	boolean
+	 */
+	function isFilterSelected($a_col)
+	{
+		return $this->selected_filter[$a_col];
+	}
+
+	/**
+	 * Get selected filters
+	 *
+	 * @param
+	 * @return
+	 */
+	function getSelectedFilters()
+	{
+		$sfil = array();
+		foreach ($this->selected_filter as $k => $v)
+		{
+			if ($v)
+			{
+				$sfil[$k] = $k;
+			}
+		}
+		return $sfil;
+	}
+
+	/**
+	 * Determine selected filters
+	 *
+	 * @param
+	 * @return
+	 */
+	function determineSelectedFilters()
+	{
+		global $ilUser;
+
+		if (!is_object($ilUser))
+		{
+			return array();
+		}
+		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+		$tab_prop = new ilTablePropertiesStorage();
+		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfilters");
+
+		$stored = false;
+		if ($old_sel != "")
+		{
+			$sel_filters =
+				@unserialize($old_sel);
+			$stored = true;
+		}
+		if(!is_array($sel_filters))
+		{
+			$stored = false;
+			$sel_filters = array();
+		}
+
+		$this->selected_filter = array();
+		$set = false;
+		foreach ($this->getFilterItems(true) as $item)
+		{
+			$k = $item->getPostVar();
+			
+			$this->selected_filter[$k] = false;
+
+			if ($_POST["tblfsf".$this->getId()])
+			{
+				$set = true;
+				if (is_array($_POST["tblff".$this->getId()]) && in_array($k, $_POST["tblff".$this->getId()]))
+				{
+					$this->selected_filter[$k] = true;
+				}
+			}
+			else if ($stored)	// take stored values
+			{
+				$this->selected_filter[$k] = $sel_filters[$k];
+			}
+		}
+
+		if ($old_sel != serialize($this->selected_filter) && $set)
+		{
+			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfilters",
+				serialize($this->selected_filter));
+		}
+	}
+
 	/**
 	* Set custom previous/next links
 	*/
@@ -565,7 +723,6 @@ class ilTable2GUI extends ilTableGUI
 		$this->custom_prev = $a_prev_link;
 		$this->custom_next = $a_next_link;
 	}
-	
 	
 	/**
 	* Set Form action parameter.
@@ -1416,11 +1573,12 @@ class ilTable2GUI extends ilTableGUI
 		ilYuiUtil::initConnection();
 
 		$tpl->addJavascript("./Services/Table/js/ServiceTable.js");
-		
+
+		$ccnt = 0;
+
 		// render standard filter
 		if (count($filter) > 0)
 		{
-			$ccnt = 0;
 			foreach ($filter as $item)
 			{
 				if ($ccnt >= $this->getFilterCols())
@@ -1439,6 +1597,62 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 				$ccnt++;
 			}
+		}
+		
+		// render optional filter
+		if (count($opt_filter) > 0)
+		{
+			$this->determineSelectedFilters();
+
+			foreach ($opt_filter as $item)
+			{
+				if($this->isFilterSelected($item->getPostVar()))
+				{
+					if ($ccnt >= $this->getFilterCols())
+					{
+						$this->tpl->setCurrentBlock("filter_row");
+						$this->tpl->parseCurrentBlock();
+						$ccnt = 0;
+					}
+					$this->tpl->setCurrentBlock("filter_item");
+					$this->tpl->setVariable("OPTION_NAME",
+						$item->getTitle());
+					$this->tpl->setVariable("F_INPUT_ID",
+						$item->getFieldId());
+					$this->tpl->setVariable("INPUT_HTML",
+						$item->getTableFilterHTML());
+					$this->tpl->parseCurrentBlock();
+					$ccnt++;
+				}
+			}
+		
+			// filter selection
+			$items = array();
+			foreach ($opt_filter as $item)
+			{
+				$k = $item->getPostVar();
+				$items[$k] = array("txt" => $item->getTitle(),
+					"selected" => $this->isFilterSelected($k));
+			}
+
+			include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
+			$cb_over = new ilCheckboxListOverlayGUI("tbl_filters_".$this->getId());
+			$cb_over->setLinkTitle($lng->txt("optional_filters"));
+			$cb_over->setItems($items);
+
+			$cb_over->setFormCmd($this->getParentCmd());
+			$cb_over->setFieldVar("tblff".$this->getId());
+			$cb_over->setHiddenVar("tblfsf".$this->getId());
+			
+			$cb_over->setSelectionHeaderClass("ilTableMenuItem");
+			$this->tpl->setCurrentBlock("filter_select");
+			$this->tpl->setVariable("FILTER_SELECTOR", $cb_over->getHTML());
+		    $this->tpl->parseCurrentBlock();
+		}
+
+		// if any filter
+		if($ccnt > 0)
+		{
 			if ($ccnt < $this->getFilterCols())
 			{
 				for($i = $ccnt; $i<=$this->getFilterCols(); $i++)
@@ -1448,7 +1662,8 @@ class ilTable2GUI extends ilTableGUI
 			}
 			$this->tpl->setCurrentBlock("filter_row");
 			$this->tpl->parseCurrentBlock();
-			
+
+			$this->tpl->setCurrentBlock("filter_buttons");
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
 			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
@@ -1459,7 +1674,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("FIL_ID", $this->getId());
 			$this->tpl->parseCurrentBlock();
 			
-			// filter hidden?
+			// (keep) filter hidden?
 			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 			$tprop = new ilTablePropertiesStorage();
 			if ($tprop->getProperty($this->getId(), $ilUser->getId(), "filter") != 1)
@@ -1470,7 +1685,7 @@ class ilTable2GUI extends ilTableGUI
 					$this->tpl->setVariable("FI_ID", $this->getId());
 					$this->tpl->parseCurrentBlock();
 				}
-			}			
+			}
 		}
 	}
 	
@@ -1657,9 +1872,9 @@ class ilTable2GUI extends ilTableGUI
 			
 			// top navigation, if number info or linkbar given
 			if ($numinfo != "" || $linkbar != "" || $column_selector != "" ||
-				count($this->filter) > 0)
+				count($this->filters) > 0 || count($this->optional_filters) > 0)
 			{
-				if (count($this->filter))
+				if (count($this->filters) || count($this->optional_filters))
 				{
 					$this->tpl->setCurrentBlock("filter_activation");
 					$this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));

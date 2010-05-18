@@ -78,26 +78,21 @@ class ilTrackingGUI
 	{
 		global $tpl;
 
-		$data = array();
-		$this->buildSummaryData($data, $this->getObjectId());
-
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
 		$table = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		
+		$data = array();
+		$this->buildSummaryData($data, $this->getObjectId(), $table->getCurrentFilter());
 		$table->setData($data);
 
 		$tpl->setContent($table->getHTML());
 	}
 
-	protected function buildSummaryData(&$rows, $object_id)
+	protected function buildSummaryData(&$rows, $object_id, array $filter = NULL)
 	{
 		global $lng;
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
-
-		$a_users = ilTrQuery::getParticipantsForObject($object_id);
-		$users_no = 0;
-		if(is_array($a_users))
-			$users_no = sizeof($a_users);
 
 		$type = ilObject::_lookupType($object_id);
 
@@ -105,11 +100,12 @@ class ilTrackingGUI
 		$result["id"] = $object_id;
 		$result["title"] = ilObject::_lookupTitle($object_id);
 		$result["type"] = $type;
-
-		if($users_no > 0)
-		{		
-			$summary = ilTrQuery::getSummaryDataForObject($object_id);
-		
+	
+		$summary = ilTrQuery::getSummaryDataForObject($object_id, $filter);
+		$users_no = $summary["cnt"];
+		$summary = $summary["set"];
+		if($users_no)
+		{
 			// user related
 
 			$result["user_total"] = $users_no;
@@ -170,7 +166,7 @@ class ilTrackingGUI
 			foreach(ilLPCollectionCache::_getItems($object_id) as $child_ref_id)
 			{
 				$child_id = ilObject::_lookupObjId($child_ref_id);
-				$this->buildSummaryData($rows, $child_id);
+				$this->buildSummaryData($rows, $child_id, $filter);
 			}
 		}
 	}
@@ -178,6 +174,11 @@ class ilTrackingGUI
 	protected function buildSummaryPercentages(array $data, $overall, array $value_map = NULL, $limit = 3)
 	{
 		global $lng;
+
+		if(!$overall)
+		{
+			return false;
+		}
 
 		$result = array();
 		$counter = $others_counter = $others_sum = 0;
@@ -223,6 +224,24 @@ class ilTrackingGUI
 		}
 
 		return $result;
+	}
+
+	public function applyFilter()
+	{
+		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		$utab->resetOffset();
+		$utab->writeFilterToSession();
+		$this->showObjectSummary();
+	}
+
+	public function resetFilter()
+	{
+		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		$utab->resetOffset();
+		$utab->resetFilter();
+		$this->showObjectSummary();
 	}
 }
 ?>

@@ -19,6 +19,8 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
+		$this->setId("tr_summary");
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("tr_summary"));
 		$this->setLimit(9999);
@@ -42,10 +44,10 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		}
 
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		// $this->disable("footer");
-		$this->setEnableTitle(true);
+		$this->initFilter($a_parent_obj->getObjectId());
 
 		// $this->addMultiCommand("", $lng->txt(""));
 		// $this->addCommandButton("", $lng->txt(""));
@@ -72,6 +74,43 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			);
 		}
 		return $columns;
+	}
+
+	/**
+	* Init filter
+	*/
+	function initFilter($a_obj_id)
+	{
+		global $lng;
+
+		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
+		
+		$data = ilTrQuery::getFilterData($a_obj_id);
+
+		$item = $this->addFilterItemByMetaType("title");
+		$this->filter["title"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
+		$this->filter["country"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("registration_earliest", ilTable2GUI::FILTER_DATE, true);
+		$item->setDate(new ilDateTime($data["first_registration"], IL_CAL_DATETIME));
+		$item->readFromSession();
+		$this->filter["registration_earliest"] = $item->getDate();
+		$item = $this->addFilterItemByMetaType("registration_latest", ilTable2GUI::FILTER_DATE, true);
+		$item->setDate(new ilDateTime($data["last_registration"], IL_CAL_DATETIME));
+		$item->readFromSession();
+		$this->filter["registration_latest"] = $item->getDate();
+
+		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
+		$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+		$this->filter["gender"] = $item->getValue();
+
+        $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
+		$this->filter["city"] = $item->getValue();
+		
+        $item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
+		$this->filter["language"] = $item->getValue();
 	}
 
 	/**
@@ -136,5 +175,32 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	   }
 	}
 
+	public function getCurrentFilter()
+	{
+		$result = array();
+		foreach($this->filter as $id => $value)
+		{
+		  $item = $this->getFilterItemByPostVar($id);
+		  switch($id)
+		  {
+			 case "title":
+			 case "country":
+			 case "gender":
+			 case "city":
+			 case "language":
+			     if($value)
+				 {
+					 $result[$id] = $value;
+				 }
+				 break;
+
+			 case "registration_earliest":
+			 case "registration_latest":
+                 $result[$id] = $value->get(IL_CAL_DATETIME);
+				 break;
+		  }
+		}
+		return $result;
+	}
 }
 ?>
