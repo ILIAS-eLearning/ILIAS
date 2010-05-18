@@ -6301,8 +6301,8 @@ dateplaner#:#cal_share_decline#:#Einladung ablehnen
 dateplaner#:#cal_share_search_header#:#Kalender freigeben
 dateplaner#:#cal_share_search_role_header#:#Rollenauswahl
 dateplaner#:#cal_share_search_usr_header#:#Benutzerauswahl
-dateplaner#:#cal_shared_calendars#:#Kalender Freigaben (Einladungen)
-dateplaner#:#cal_shared_header#:#Kalender Freigaben
+dateplaner#:#cal_shared_calendars#:#Kalender freigeben (Einladungen)
+dateplaner#:#cal_shared_header#:#Kalender freigeben für:
 dateplaner#:#cal_shared_selected_usr#:#Der Kalender wurde für die ausgewählten Benutzer/Rollen freigegeben.
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_subscription_header#:#Kalender-Adresse
