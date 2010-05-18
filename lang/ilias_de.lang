@@ -8707,7 +8707,7 @@ pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, di
 rating#:#rating_average_rating#:#Durchschnittliche Bewertung
 rating#:#rating_nr_users#:#%s Benutzer
 rating#:#rating_your_rating#:#Ihre Bewertung
-rbac#:#cals_edit_event#:#Öffentliche Kalender verwalten
+rbac#:#cals_edit_event#:#Öffentliche Kalender anlegen und verwalten
 rbac#:#cals_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cals_read#:#Lesezugriff auf Kalendereinstellungen
 rbac#:#cals_visible#:#Kalendereinstellungen sind sichtbar

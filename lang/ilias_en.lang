@@ -8805,7 +8805,7 @@ pwassist#:#pwassist_username_mail_body#:#These are the active username found for
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
 rating#:#rating_your_rating#:#Your Rating
-rbac#:#cals_edit_event#:#Administrate Public Calendars
+rbac#:#cals_edit_event#:#Create and Administrate Public Calendars
 rbac#:#cals_edit_permission#:#Change permission settings
 rbac#:#cals_read#:#Read access to Calendar settings
 rbac#:#cals_visible#:#Calendar settings are visible
