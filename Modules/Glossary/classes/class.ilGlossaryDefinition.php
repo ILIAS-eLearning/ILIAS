@@ -23,6 +23,7 @@ class ilGlossaryDefinition
 	var $page_object;
 	var $short_text;
 	var $nr;
+	var $short_text_dirty = false;
 
 	/**
 	* Constructor
@@ -58,6 +59,7 @@ class ilGlossaryDefinition
 		$this->setTermId($def_rec["term_id"]);
 		$this->setShortText($def_rec["short_text"]);
 		$this->setNr($def_rec["nr"]);
+		$this->setShortTextDirty($def_rec["short_text_dirty"]);
 
 		$this->page_object =& new ilPageObject("gdf", $this->id);
 	}
@@ -136,23 +138,49 @@ class ilGlossaryDefinition
 	}
 
 	/**
-	* get description of content object
-	*
-	* @return	string		description
-	*/
+	 * Get description
+	 *
+	 * @return	string		description
+	 */
 	function getDescription()
 	{
 		return $this->description;
 	}
 
 	/**
-	* set description of content object
-	*/
+	 * Set description
+	 * 
+	 * @param string description
+	 */
 	function setDescription($a_description)
 	{
 		$this->description = $a_description;
 	}
 
+	/**
+	 * Set short text dirty
+	 *
+	 * @param	boolean	short text dirty
+	 */
+	function setShortTextDirty($a_val)
+	{
+		$this->short_text_dirty = $a_val;
+	}
+
+	/**
+	 * Get short text dirty
+	 *
+	 * @return	boolean	short text dirty
+	 */
+	function getShortTextDirty()
+	{
+		return $this->short_text_dirty;
+	}
+	/**
+	 * Create definition
+	 *
+	 * @param boolean upload true/false
+	 */
 	function create($a_upload = false)
 	{
 		global $ilDB;
@@ -174,12 +202,14 @@ class ilGlossaryDefinition
 		$max = (int) $max_rec["max_nr"];
 
 		// insert new definition record
-		$ilDB->manipulate("INSERT INTO glossary_definition (id, term_id, short_text, nr)".
+		$ilDB->manipulate("INSERT INTO glossary_definition (id, term_id, short_text, nr, short_text_dirty)".
 			" VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTermId(), "integer").",".
 			$ilDB->quote($this->getShortText(), "text").", ".
-			$ilDB->quote(($max + 1), "integer").")");
+			$ilDB->quote(($max + 1), "integer").", ".
+			$ilDB->quote($this->getShortTextDirty(), "integer").
+			")");
 
 		// unlock glossary definition table
 		$ilDB->unlockTables();
@@ -345,7 +375,8 @@ class ilGlossaryDefinition
 		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" term_id = ".$ilDB->quote($this->getTermId(), "integer").", ".
 			" nr = ".$ilDB->quote($this->getNr(), "integer").", ".
-			" short_text = ".$ilDB->quote($this->getShortText(), "text")." ".
+			" short_text = ".$ilDB->quote($this->getShortText(), "text").", ".
+			" short_text_dirty = ".$ilDB->quote($this->getShortTextDirty(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 
@@ -357,13 +388,26 @@ class ilGlossaryDefinition
 	 */
 	function shortenShortText($text)
 	{
+		$a_length = 196;
+
+		if ($this->getTermId() > 0)
+		{
+			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+			$glo_id = ilGlossaryTerm::_lookGlossaryId($this->getTermId());
+			$snippet_length = ilObjGlossary::lookupSnippetLength($glo_id);
+			if ($snippet_length > 0)
+			{
+				$a_length = $snippet_length;
+			}
+		}
+
 		$text = str_replace("<br/>", "<br>", $text);
 		$text = strip_tags($text, "<br>");
-		if (is_int(strpos(substr($text, 175, 10), "[tex]")))
+		if (is_int(strpos(substr($text, $a_length - 16 - 5, 10), "[tex]")))
 		{
 			$offset = 5;
 		}
-		$short = ilUtil::shortenText($text, 180 + $offset, true);
+		$short = ilUtil::shortenText($text, $a_length - 16 + $offset, true);
 		
 		// make short text longer, if tex end tag is missing
 		$ltexs = strrpos($short, "[tex]");
@@ -377,7 +421,7 @@ class ilGlossaryDefinition
 			}
 		}
 		
-		$short = ilUtil::shortenText($text, 196, true);
+		$short = ilUtil::shortenText($text, $a_length, true);
 		
 		return $short;
 	}
@@ -390,6 +434,7 @@ class ilGlossaryDefinition
 		$short = $this->shortenShortText($text);
 
 		$this->setShortText($short);
+		$this->setShortTextDirty(false);
 		$this->update();
 	}
 
@@ -410,7 +455,8 @@ class ilGlossaryDefinition
 			$defs[] = array("term_id" => $def_rec["term_id"],
 				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
 				"short_text" => strip_tags($def_rec["short_text"], "<br>"),
-				"nr" => $def_rec["nr"]);
+				"nr" => $def_rec["nr"],
+				"short_text_dirty" => $def_rec["short_text_dirty"]);
 		}
 		return $defs;
 	}
@@ -601,6 +647,28 @@ class ilGlossaryDefinition
 
 		return $def_rec["term_id"];
 	}
-} // END class ilGlossaryDefinition
+
+	/**
+	 * Set short texts dirty
+	 *
+	 * @param
+	 * @return
+	 */
+	static function setShortTextsDirty($a_glo_id)
+	{
+		global $ilDB;
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		$term_ids = ilGlossaryTerm::getTermsOfGlossary($a_glo_id);
+
+		foreach ($term_ids as $term_id)
+		{
+			$ilDB->manipulate("UPDATE glossary_definition SET ".
+				" short_text_dirty = ".$ilDB->quote(1, "integer").
+				" WHERE term_id = ".$ilDB->quote($term_id, "integer")
+				);
+		}
+	}
+}
 
 ?>

@@ -464,69 +464,122 @@ if (!false)
 	/**
 	* list definitions of a term
 	*/
-	function listDefinitions()
+	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false)
 	{
 		global $ilUser, $ilAccess, $ilias, $lng;
+
+		if ($a_ref_id == 0)
+		{
+			$ref_id = (int) $_GET["ref_id"];
+		}
+		else
+		{
+			$ref_id = $a_ref_id;
+		}
+		if ($a_term_id == 0)
+		{
+			$term_id = (int) $_GET["term_id"];
+		}
+		else
+		{
+			$term_id = $a_term_id;
+		}
 		
-		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if (!$ilAccess->checkAccess("read", "", $ref_id))
 		{
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
 
-		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		//$this->setLocator();
-		$this->setTabs();
+		$term = new ilGlossaryTerm($term_id);
 		
-		if ($this->offlineMode())
+		if (!$a_get_html)
 		{
-			$style_name = $ilUser->prefs["style"].".css";;
-			$this->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+			$tpl = $this->tpl;
+
+			require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+			$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+			//$this->setLocator();
+			$this->setTabs();
+
+			if ($this->offlineMode())
+			{
+				$style_name = $ilUser->prefs["style"].".css";;
+				$tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
+			}
+			else
+			{
+				$this->setLocator();
+			}
+
+			// content style
+			$tpl->setCurrentBlock("ContentStyle");
+			if (!$this->offlineMode())
+			{
+				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+			}
+			else
+			{
+				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
+			}
+			$tpl->parseCurrentBlock();
+
+			// syntax style
+			$tpl->setCurrentBlock("SyntaxStyle");
+			if (!$this->offlineMode())
+			{
+				$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+			}
+			else
+			{
+				$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					"syntaxhighlight.css");
+			}
+			$tpl->parseCurrentBlock();
+
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
+
+			// load template for table
+			$tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", "Modules/Glossary");
 		}
 		else
 		{
-			$this->setLocator();
+			// content style
+			$this->tpl->setCurrentBlock("ContentStyle");
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
+			}
+			$this->tpl->parseCurrentBlock();
+
+			// syntax style
+			$this->tpl->setCurrentBlock("SyntaxStyle");
+			if (!$this->offlineMode())
+			{
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+			}
+			else
+			{
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					"syntaxhighlight.css");
+			}
+			$this->tpl->parseCurrentBlock();
+
+			$tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
 		}
 
-		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","content.css");
-		}
-		$this->tpl->parseCurrentBlock();
+		$defs = ilGlossaryDefinition::getDefinitionList($term_id);
 
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				ilObjStyleSheet::getSyntaxStylePath());
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				"syntaxhighlight.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
-		$term =& new ilGlossaryTerm($_GET["term_id"]);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
-		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", "Modules/Glossary");
-		//$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
-
-		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
+		$tpl->setVariable("TXT_TERM", $term->getTerm());
 		$this->mobs = array();
 
 		for($j=0; $j<count($defs); $j++)
@@ -546,12 +599,12 @@ if (!false)
 				$page_gui->setOutputMode("offline");
 				$page_gui->setOfflineDirectory($this->getOfflineDirectory());
 			}
-			$page_gui->setSourcecodeDownloadScript($this->getLink($_GET["ref_id"]));
-			$page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen", $_GET["term_id"], $def["id"]));
+			$page_gui->setSourcecodeDownloadScript($this->getLink($ref_id));
+			$page_gui->setFullscreenLink($this->getLink($ref_id, "fullscreen", $term_id, $def["id"]));
 
 			$page_gui->setTemplateOutput(false);
 			$page_gui->setRawPageContent(true);
-			$page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+			$page_gui->setFileDownloadLink($this->getLink($ref_id, "downloadFile"));
 			if (!$this->offlineMode())
 			{
 				$output = $page_gui->preview();
@@ -563,15 +616,15 @@ if (!false)
 
 			if (count($defs) > 1)
 			{
-				$this->tpl->setCurrentBlock("definition_header");
-				$this->tpl->setVariable("TXT_DEFINITION",
+				$tpl->setCurrentBlock("definition_header");
+				$tpl->setVariable("TXT_DEFINITION",
 					$this->lng->txt("cont_definition")." ".($j+1));
-				$this->tpl->parseCurrentBlock();
+				$tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("definition");
-			$this->tpl->setVariable("PAGE_CONTENT", $output);
-			$this->tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("definition");
+			$tpl->setVariable("PAGE_CONTENT", $output);
+			$tpl->parseCurrentBlock();
 		}
 		
 		// display possible backlinks
@@ -591,7 +644,7 @@ if (!false)
 						$title = ilLMPageObject::_getPresentationTitle($src['id']);
 						$lm_id = ilLMObject::_lookupContObjID($src['id']);
 						$lm_title = ilObject::_lookupTitle($lm_id);
-						$this->tpl->setCurrentBlock('backlink_item');
+						$tpl->setCurrentBlock('backlink_item');
 						$ref_ids = ilObject::_getAllReferences($lm_id);
 						$access = false;
 						foreach($ref_ids as $rid)
@@ -603,10 +656,10 @@ if (!false)
 						}
 						if ($access)
 						{
-							$this->tpl->setCurrentBlock("backlink_item");
-							$this->tpl->setVariable("BACKLINK_LINK",ILIAS_HTTP_PATH."/goto.php?target=".$type[1]."_".$src['id']);
-							$this->tpl->setVariable("BACKLINK_ITEM",$lm_title.": ".$title);
-							$this->tpl->parseCurrentBlock();
+							$tpl->setCurrentBlock("backlink_item");
+							$tpl->setVariable("BACKLINK_LINK",ILIAS_HTTP_PATH."/goto.php?target=".$type[1]."_".$src['id']);
+							$tpl->setVariable("BACKLINK_ITEM",$lm_title.": ".$title);
+							$tpl->parseCurrentBlock();
 							$backlist_shown = true;
 						}
 					}
@@ -614,20 +667,23 @@ if (!false)
 			}
 			if ($backlist_shown)
 			{
-				$this->tpl->setCurrentBlock("backlink_list");
-				$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
-				$this->tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("backlink_list");
+				$tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
+				$tpl->parseCurrentBlock();
 			}
 		}
-		
-		$this->tpl->setCurrentBlock("perma_link");
-		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-			"/goto.php?target=".
-			"git".
-			"_".$_GET["term_id"]."_".$_GET["ref_id"]."&client_id=".CLIENT_ID);
-		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-		$this->tpl->setVariable("PERMA_TARGET", "_top");
-		$this->tpl->parseCurrentBlock();
+
+		if (!$a_get_html)
+		{
+			$tpl->setCurrentBlock("perma_link");
+			$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
+				"/goto.php?target=".
+				"git".
+				"_".$term_id."_".$ref_id."&client_id=".CLIENT_ID);
+			$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
+			$tpl->setVariable("PERMA_TARGET", "_top");
+			$tpl->parseCurrentBlock();
+		}
 
 		// highlighting?
 		if ($_GET["srcstring"] != "" && !$this->offlineMode())
@@ -641,16 +697,15 @@ if (!false)
 			{
 				foreach ($words as $w)
 				{
-					ilTextHighlighterGUI::highlight("ilGloContent", $w, $this->tpl);
+					ilTextHighlighterGUI::highlight("ilGloContent", $w, $tpl);
 				}
 			}
 			$this->fill_on_load_code = true;
 		}
 		
-		if ($this->offlineMode())
+		if ($this->offlineMode() || $a_get_html)
 		{
-//echo "<br>glo_pres_return";
-			return $this->tpl->get();
+			return $tpl->get();
 		}
 	}
 	
@@ -1177,6 +1232,15 @@ if (!false)
 						}
 					}
 				}
+
+				if ($ilAccess->checkAccess("write", "", (int) $_GET["ref_id"]))
+				{
+					$tabs_gui->addNonTabbedLink("editing_view",
+						$lng->txt("glo_editing_view"),
+						"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
+						"_top");
+				}
+
 			}
 			else
 			{

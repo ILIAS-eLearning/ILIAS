@@ -574,6 +574,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->object->setPresentationMode($_POST["pres_mode"]);
 			$this->object->setSnippetLength($_POST["snippet_length"]);
 			$this->object->update();
+
+			// set definition short texts dirty
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
+
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
 		}

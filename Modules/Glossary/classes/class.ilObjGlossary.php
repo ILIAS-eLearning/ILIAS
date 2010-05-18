@@ -205,19 +205,48 @@ class ilObjGlossary extends ilObject
 	}
 
 	/**
-	* check wether content object is online
-	*/
+	 * check wether content object is online
+	 */
 	function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM glossary WHERE id = ".
+		$q = "SELECT is_online FROM glossary WHERE id = ".
 			$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
+
+	/**
+	 * Lookup glossary property
+	 * 
+	 * @param	int		glossary id
+	 * @param	string	property
+	 */
+	static protected function lookup($a_id, $a_property)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT $a_property FROM glossary WHERE id = ".
+			$ilDB->quote($a_id, "integer"));
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec[$a_property];
+	}
+
+	/**
+	 * Lookup snippet length
+	 *
+	 * @param	int		glossary id
+	 * @return	int		snippet length
+	 */
+	static function lookupSnippetLength($a_id)
+	{
+		return ilObjGlossary::lookup($a_id, "snippet_length");
+	}
+
 	
 	function setActiveGlossaryMenu($a_act_glo_menu)
 	{
