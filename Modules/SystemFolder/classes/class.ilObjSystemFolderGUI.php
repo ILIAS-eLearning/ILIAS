@@ -2043,8 +2043,8 @@ return $this->showServerInfoObject();
 			$lng->txt("adm_rep_tree_all_types_info"));
 
 			// limit tree in courses and groups
-			$cb = new ilCheckboxInputGUI($lng->txt("adm_rep_tree_limit_grp_crs"), "var");
-			$cb->setValue($ilSetting->get("repository_tree_limit_grp_crs"));
+			$cb = new ilCheckboxInputGUI($lng->txt("adm_rep_tree_limit_grp_crs"), "rep_tree_limit_grp_crs");
+			$cb->setChecked($ilSetting->get("rep_tree_limit_grp_crs"));
 			$op2->addSubItem($cb);
 
 		$radg->addOption($op2);
@@ -2289,7 +2289,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
-			$ilSetting->set("repository_tree_limit_grp_crs", $_POST["tree_limit_grp_crs"]);
+			$ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
 			
 			$global_profiles = ($_POST["pub_section"])
 				? (int)$_POST['enable_global_profiles']
