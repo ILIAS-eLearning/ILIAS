@@ -368,6 +368,7 @@ class ilCalendarSettings
 	 	$this->storage->set('enabled',(int) $this->isEnabled());
 	 	$this->storage->set('default_timezone',$this->getDefaultTimeZone());
 	 	$this->storage->set('default_week_start',$this->getDefaultWeekStart());
+	 	$this->storage->set('default_date_format',$this->getDefaultDateFormat());
 	 	$this->storage->set('default_time_format',$this->getDefaultTimeFormat());
 		$this->storage->set('enable_grp_milestones',(int) $this->getEnableGroupMilestones());
 		$this->storage->set('default_day_start',(int) $this->getDefaultDayStart());

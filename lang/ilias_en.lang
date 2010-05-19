@@ -2853,6 +2853,9 @@ common#:#help#:#Help
 common#:#hh_mm_ss#:#HH:MM:SS
 common#:#hh_mm#:#HH:MM
 common#:#HH#:#HH:MM
+common#:#mm_dd_yyyy#:#MM/DD/YYYY
+common#:#dd_mm_yyyy#:#DD.MM.YYYY
+common#:#yyyy_mm_dd#:#YYYY-MM-DD
 common#:#hide_details#:#Hide Details
 common#:#hide_filter#:#Hide Filter
 common#:#hide_own_online_status#:#Hide My Online Status
@@ -3898,6 +3901,7 @@ common#:#open_views_inside_frameset#:#Open views inside frameset
 common#:#operation#:#Operation
 common#:#optimize#:#Optimize
 common#:#option#:#Option
+common#:#optional_filters#:#Optional Filters
 common#:#options_for_subobjects#:#Options for subobjects
 common#:#options#:#Options
 common#:#order_by_answers#:#Order by Answers
@@ -6265,6 +6269,7 @@ dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
 dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_daily#:#Daily
+dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
 dateplaner#:#cal_day_end#:#Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
 dateplaner#:#cal_day_overview#:#Day Overview
@@ -6274,7 +6279,9 @@ dateplaner#:#cal_day_start#:#Day Start
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_declined#:#Declined
-dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.
+dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.
+dateplaner#:#cal_def_date_format#:#Default Date Input Format
+dateplaner#:#cal_def_time_format_info#:#Please choose a format for the input and presentation of time.
 dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
@@ -6345,7 +6352,7 @@ dateplaner#:#cal_sync_header#:#Synchronisation Settings
 dateplaner#:#cal_table_categories#:#Calendar Selection
 dateplaner#:#cal_task_completion#:#Task Completion
 dateplaner#:#cal_third#:#Third
-dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.
+dateplaner#:#cal_time_format_info#:#Please choose a format for the input and presentation of time.
 dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
@@ -6357,6 +6364,7 @@ dateplaner#:#cal_type_usr#:#Personal Calendar
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_user_settings#:#Calendar Settings
+dateplaner#:#cal_user_date_format#:#Date Input Format
 dateplaner#:#cal_user_time_format#:#Time Format
 dateplaner#:#cal_user_timezone#:#Timezone
 dateplaner#:#cal_week_abbrev#:#W
