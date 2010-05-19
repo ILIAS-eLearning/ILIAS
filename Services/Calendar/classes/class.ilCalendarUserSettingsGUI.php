@@ -125,6 +125,7 @@ class ilCalendarUserSettingsGUI
 		
 		$this->user_settings->setTimeZone($_POST['timezone']);
 		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
+		$this->user_settings->setDateFormat((int) $_POST['date_format']);
 		$this->user_settings->setTimeFormat((int) $_POST['time_format']);
 		$this->user_settings->setDayStart((int) $_POST['dst']);
 		$this->user_settings->setDayEnd((int) $_POST['den']);
@@ -167,6 +168,16 @@ class ilCalendarUserSettingsGUI
 		$select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
 		$select->setInfo($this->lng->txt('cal_timezone_info'));
 		$select->setValue($this->user_settings->getTimeZone());
+		$this->form->addItem($select);
+
+		$year = date("Y");
+		$select = new ilSelectInputGUI($this->lng->txt('cal_user_date_format'),'date_format');
+		$select->setOptions(array(
+			ilCalendarSettings::DATE_FORMAT_DMY => '31.10.'.$year,
+			ilCalendarSettings::DATE_FORMAT_YMD => $year."-10-31",
+			ilCalendarSettings::DATE_FORMAT_MDY => "10/31/".$year));
+		$select->setInfo($this->lng->txt('cal_date_format_info'));
+		$select->setValue($this->user_settings->getDateFormat());
 		$this->form->addItem($select);
 		
 		$select = new ilSelectInputGUI($this->lng->txt('cal_user_time_format'),'time_format');

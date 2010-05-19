@@ -39,6 +39,10 @@ class ilCalendarSettings
 	
 	const DEFAULT_DAY_START = 8;
 	const DEFAULT_DAY_END = 19;
+
+	const DATE_FORMAT_DMY = 1;
+	const DATE_FORMAT_YMD = 2;
+	const DATE_FORMAT_MDY = 3;
 	
 	const TIME_FORMAT_24 = 1;
 	const TIME_FORMAT_12 = 2;
@@ -198,6 +202,29 @@ class ilCalendarSettings
 	public function getDefaultTimeZone()
 	{
 	 	return $this->timezone;
+	}
+
+	/**
+	 * set default date format
+	 *
+	 * @access public
+	 * @param int date format
+	 * @return
+	 */
+	public function setDefaultDateFormat($a_format)
+	{
+		$this->date_format = $a_format;
+	}
+
+	/**
+	 * get default date format
+	 *
+	 * @access public
+	 * @return int date format
+	 */
+	public function getDefaultDateFormat()
+	{
+		return $this->date_format;
 	}
 	
 	/**
@@ -363,6 +390,7 @@ class ilCalendarSettings
 		$this->setEnabled($this->storage->get('enabled'));
 		$this->setDefaultTimeZone($this->storage->get('default_timezone',ilTimeZone::_getDefaultTimeZone()));
 		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
+		$this->setDefaultDateFormat($this->storage->get('default_date_format',self::DATE_FORMAT_DMY));
 		$this->setDefaultTimeFormat($this->storage->get('default_time_format',self::TIME_FORMAT_24));
 		$this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
 		$this->setDefaultDayStart($this->storage->get('default_day_start',self::DEFAULT_DAY_START));

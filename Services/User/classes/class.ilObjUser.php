@@ -1182,6 +1182,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * get date format
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getDateFormat()
+	{
+	 	if($format = $this->getPref('date_format'))
+	 	{
+	 		return $format;
+	 	}
+	 	else
+	 	{
+	 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
+	 		$settings = ilCalendarSettings::_getInstance();
+	 		return $settings->getDefaultDateFormat();
+	 	}
+	}
+
+	/**
 	* set a user preference
 	* @param	string	name of parameter
 	* @param	string	value

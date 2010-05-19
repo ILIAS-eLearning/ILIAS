@@ -522,8 +522,7 @@ class ilTable2GUI extends ilTableGUI
 			case self::FILTER_DATE:
 				include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 				$item = new ilDateTimeInputGUI($caption, $id);
-				$default_date = new ilDateTime(time(), IL_CAL_DATETIME);
-				$item->setDate($default_date);
+				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				break;
 
 			case self::FILTER_TEXT:
