@@ -61,7 +61,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "listModules";
+					$cmd = "listPlugins";
 				}
 
 				$this->$cmd();
@@ -216,67 +216,103 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 		
 		$ilCtrl->redirect($this, "listModules");
 	}
-	
+
 	/**
-	* Show information about a plugin slot.
-	*/
+	 * Show information about a plugin slot.
+	 */
+	function showPluginSlotInfo()
+	{
+		global $tpl,$lng, $ilTabs, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		if ($_GET["ctype"] == "Services")
+		{
+			$ilTabs->setBackTarget($lng->txt("cmps_services"),
+				$ilCtrl->getLinkTarget($this, "listServices"));
+		}
+		else
+		{
+			$ilTabs->setBackTarget($lng->txt("cmps_modules"),
+				$ilCtrl->getLinkTarget($this, "listModules"));
+		}
+
+		include_once("./Services/Component/classes/class.ilComponent.php");
+		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		// component
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_component"), "");
+		$ne->setValue($comp->getComponentType()."/".$comp->getName()." [".$comp->getId()."]");
+		$form->addItem($ne);
+
+		// plugin slot
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_slot"), "");
+		$ne->setValue($comp->getPluginSlotName($_GET["slot_id"])." [".$_GET["slot_id"]."]");
+		$form->addItem($ne);
+
+		// main dir
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_main_dir"), "");
+		$ne->setValue($comp->getPluginSlotDirectory($_GET["slot_id"])."/&lt;Plugin_Name&gt;");
+		$form->addItem($ne);
+
+		// plugin file
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_file"), "");
+		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
+			"/classes/class.il&lt;Plugin_Name&gt;Plugin.php");
+		$form->addItem($ne);
+
+		// language files
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_lang_files"), "");
+		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
+			"/lang/ilias_&lt;Language ID&gt;.lang");
+		$form->addItem($ne);
+
+		// db update
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_db_update"), "");
+		$ne->setValue("&lt;".$lng->txt("cmps_main_dir")."&gt;".
+			"/sql/dbupdate.php");
+		$form->addItem($ne);
+
+		// lang prefix
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_lang_prefixes"), "");
+		$ne->setValue($comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
+		$form->addItem($ne);
+
+		// db prefix
+		$ne = new ilNonEditableValueGUI($lng->txt("cmps_plugin_db_prefixes"), "");
+		$ne->setValue($comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
+		$form->addItem($ne);
+
+		$form->setTitle($lng->txt("cmps_plugin_slot"));
+
+		// set content and title
+		$tpl->setContent($form->getHTML());
+		$tpl->setTitle($comp->getComponentType()."/".$comp->getName().": ".
+			$lng->txt("cmps_plugin_slot")." \"".$comp->getPluginSlotName($_GET["slot_id"])."\"");
+		$tpl->setDescription("");
+	}
+
+	/**
+	 * Show information about a plugin slot.
+	 */
 	function showPluginSlot()
 	{
 		global $tpl,$lng, $ilTabs;
 		
-		if ($_GET["mode"] == "Services")
-		{
-			$ilTabs->setTabActive("cmps_services");
-		}
-		
-		//slot_id
-		$ptpl = new ilTemplate("tpl.plugin_slot.html", true, true,
-			"Services/Component");
-		
+		$ilTabs->setTabActive("plugins");
+
 		include_once("./Services/Component/classes/class.ilComponent.php");
 		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);
-		$ptpl->setVariable("TXT_COMPONENT", $lng->txt("cmps_component"));
-		$ptpl->setVariable("VAL_COMPONENT_NAME", $comp->getComponentType()."/".$comp->getName());
-		$ptpl->setVariable("VAL_COMPONENT_ID", $comp->getId());
-		
-		$ptpl->setVariable("TXT_PLUGIN_SLOT", $lng->txt("cmps_plugin_slot"));
-		$ptpl->setVariable("VAL_PLUGIN_SLOT", $comp->getPluginSlotName($_GET["slot_id"]));
-		$ptpl->setVariable("VAL_PLUGIN_SLOT_ID", $_GET["slot_id"]);
-		
-		// directories
-		$ptpl->setVariable("TXT_PLUGIN_DIR", $lng->txt("cmps_plugin_dirs"));
-		$ptpl->setVariable("VAL_PLUGIN_DIR",
-			$comp->getPluginSlotDirectory($_GET["slot_id"])."/&lt;Plugin_Name&gt;");
-		$ptpl->setVariable("TXT_MAIN_DIR", $lng->txt("cmps_main_dir"));
-		$ptpl->setVariable("TXT_PLUGIN_FILE", $lng->txt("cmps_plugin_file"));
-		$ptpl->setVariable("TXT_LANG_FILES", $lng->txt("cmps_lang_files"));
-		$ptpl->setVariable("TXT_DB_UPDATE", $lng->txt("cmps_db_update"));
-		$ptpl->setVariable("VAL_PLUGIN_FILE",
-			"&lt;".$lng->txt("cmps_main_dir")."&gt;".
-			"/classes/class.il&lt;Plugin_Name&gt;Plugin.php");
-		$ptpl->setVariable("VAL_LANG_FILES",
-			"&lt;".$lng->txt("cmps_main_dir")."&gt;".
-			"/lang/ilias_&lt;Language ID&gt;.lang");
-		$ptpl->setVariable("VAL_DB_UPDATE",
-			"&lt;".$lng->txt("cmps_main_dir")."&gt;".
-			"/sql/dbupdate.php");
-
-		$ptpl->setVariable("TXT_PLUGIN_LANG_PREFIX", $lng->txt("cmps_plugin_lang_prefixes"));
-		$ptpl->setVariable("VAL_PLUGIN_LANG_PREFIX",
-			$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
-
-		$ptpl->setVariable("TXT_PLUGIN_DB_PREFIX", $lng->txt("cmps_plugin_db_prefixes"));
-		$ptpl->setVariable("VAL_PLUGIN_DB_PREFIX",
-			$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
 
 		// plugins table
 		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");
 		$plugins_table = new ilPluginsTableGUI($this, "showPluginSlot",
 			$_GET["ctype"], $_GET["cname"], $_GET["slot_id"]);
-		$ptpl->setVariable("PLUGIN_LIST", $plugins_table->getHTML());
+		$tpl->setContent($plugins_table->getHTML());
 
 		// set content and title
-		$tpl->setContent($ptpl->get());
 		$tpl->setTitle($comp->getComponentType()."/".$comp->getName().": ".
 			$lng->txt("cmps_plugin_slot")." \"".$comp->getPluginSlotName($_GET["slot_id"])."\"");
 		$tpl->setDescription("");

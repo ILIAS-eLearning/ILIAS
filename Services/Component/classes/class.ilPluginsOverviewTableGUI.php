@@ -26,7 +26,8 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn($lng->txt("cmps_plugin_slot"));
-		$this->addColumn($lng->txt("cmps_plugin"));
+		$this->addColumn($lng->txt("cmps_plugins"));
+		$this->addColumn($lng->txt("actions"));
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.plugin_overview_row.html",
@@ -41,19 +42,28 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	function getComponents()
 	{
-		$plugins = array();
 		include_once("./Services/Component/classes/class.ilModule.php");
 		$modules = ilModule::getAvailableCoreModules();
+		$slots = array();
 		foreach ($modules as $m)
 		{
 			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE,
 				$m["subdir"]);
 			foreach ($plugin_slots as $ps)
 			{
+				$plugins = array();
 				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
-					$plugins[] = $p + array("slot_name" => $slot->getSlotName());
+					$plugins[] = $p;
+				}
+				if (count($plugins) > 0)
+				{
+					$slots[] = array("slot_name" => $slot->getSlotName(),
+						"component_type" => IL_COMP_MODULE,
+						"component_name" => $s["subdir"],
+						"slot_id" => $ps["id"],
+						"plugins" => $plugins);
 				}
 			}
 		}
@@ -65,14 +75,23 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 				$s["subdir"]);
 			foreach ($plugin_slots as $ps)
 			{
+				$plugins = array();
 				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{
-					$plugins[] = $p + array("slot_name" => $slot->getSlotName());
+					$plugins[] = $p;
+				}
+				if (count($plugins) > 0)
+				{
+					$slots[] = array("slot_name" => $slot->getSlotName(),
+						"component_type" => IL_COMP_SERVICE,
+						"component_name" => $s["subdir"],
+						"slot_id" => $ps["id"],
+						"plugins" => $plugins);
 				}
 			}
 		}
-		$this->setData($plugins);		
+		$this->setData($slots);
 		//include_once("./Services/Component/classes/class.ilService.php");
 		//$services = ilService::getAvailableCoreServices();
 	}
@@ -83,12 +102,29 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
+		global $ilCtrl, $lng;
+
 //var_dump($a_set);
+
+		$ilCtrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
+		$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
+		$ilCtrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
+		$this->tpl->setCurrentBlock("cmd");
+		$this->tpl->setVariable("TXT_CMD", $lng->txt("administrate"));
+		$this->tpl->setVariable("HREF_CMD",
+			$ilCtrl->getLinkTarget($this->parent_obj, "showPluginSlot"));
+		$this->tpl->parseCurrentBlock();
+
+		foreach ($a_set["plugins"] as $p)
+		{
+			$this->tpl->setCurrentBlock("plugin");
+			$this->tpl->setVariable("TXT_PLUGIN_NAME", $p["name"]);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("TXT_SLOT_NAME",
 			$a_set["slot_name"]);
 		$this->tpl->setVariable("TXT_COMP_NAME",
 			$a_set["component_type"]."/".$a_set["component_name"]);
-		$this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["name"]);
 	}
 
 }
