@@ -44,11 +44,11 @@ class ilComponentsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("subdir");
 		$this->setLimit(10000);
 		
-		// save options command
-		$this->addCommandButton("saveOptions", $lng->txt("cmps_save_options"));
-
 		if ($this->mode == IL_COMP_MODULE)
 		{
+			// save options command
+			$this->addCommandButton("saveOptions", $lng->txt("cmps_save_options"));
+
 			$this->setTitle($lng->txt("cmps_modules"));
 		}
 		else
@@ -101,7 +101,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["subdir"]);
 			$ilCtrl->setParameter($this->parent_obj, "slot_id", $slot["id"]);
 			$this->tpl->setVariable("HREF_SHOW_SLOT",
-				$ilCtrl->getLinkTarget($this->parent_obj, "showPluginSlot"));
+				$ilCtrl->getLinkTarget($this->parent_obj, "showPluginSlotInfo"));
 			$this->tpl->setVariable("TXT_SHOW_SLOT", $lng->txt("cmps_show_details"));
 			$this->tpl->parseCurrentBlock();
 		}
