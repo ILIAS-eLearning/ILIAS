@@ -143,7 +143,6 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				case "language":
 				case "status":
 				case "mark":
-					$this->tpl->touchBlock($c);
 					$this->renderPercentages($c, $a_set[$c]);
 					break;
 			}
@@ -153,17 +152,15 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	protected function renderPercentages($id, $data)
 	{
 	  if($data)
-	  {
-		  $this->tpl->touchBlock($id."_percentages");
-		  $this->tpl->setCurrentBlock($id."_row");
+	  {		  
 		  foreach($data as $item)
 		  {
+			 $this->tpl->setCurrentBlock($id."_row");
 			$this->tpl->setVariable("CAPTION", $item["caption"]);
 			$this->tpl->setVariable("ABSOLUTE", $item["absolute"]);
 			$this->tpl->setVariable("PERCENTAGE", $item["percentage"]);
 			$this->tpl->parseCurrentBlock();
 		  }
-		 
 	   }
 	}
 
