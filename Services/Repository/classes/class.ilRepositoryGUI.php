@@ -394,7 +394,7 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
-		global $ilCtrl, $tree;
+		global $ilCtrl, $tree, $ilSetting;
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
@@ -404,7 +404,31 @@ class ilRepositoryGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		include_once ("./Services/Repository/classes/class.ilRepositoryExplorer.php");
-		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
+
+		$active_node = ($_GET["active_node"] > 1)
+			? $_GET["active_node"]
+			: ($_GET["ref_id"] > 1)
+				? $_GET["ref_id"]
+				: 0;
+		$top_node = 0;
+		if ($ilSetting->get("rep_tree_limit_grp_crs") && $active_node > 0)
+		{
+			$path = $tree->getPathId($active_node);
+			foreach ($path as $n)
+			{
+				if ($top_node > 0)
+				{
+					break;
+				}
+				if (in_array(ilObject::_lookupType(ilObject::_lookupObjId($n)),
+					array("crs", "grp")))
+				{
+					$top_node = $n;
+				}
+			}
+		}
+
+		$exp = new ilRepositoryExplorer("repository.php?cmd=goto", $top_node);
 		$exp->setUseStandardFrame(false);
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "showTree"));
 		$exp->setFrameUpdater("tree", "updater");
@@ -421,20 +445,32 @@ class ilRepositoryGUI
 
 		$exp->setExpand($expanded);
 
-		$active_node = ($_GET["active_node"] > 1)
-			? $_GET["active_node"]
-			: ($_GET["ref_id"] > 1)
-				? $_GET["ref_id"]
-				: 0;
 		if ($active_node > 0)
 		{
 			$path = $tree->getPathId($active_node);
-			$exp->setForceOpenPath($path);
+			if ($top_node > 0)
+			{
+				$exp->setForceOpenPath($path);
+				$exp->setExpand($expanded);
+			}
+			else
+			{
+				$exp->setForceOpenPath($path + array($top_node));
+			}
 			$exp->highlightNode($active_node);
 		}
 
 		// build html-output
-		$exp->setOutput(0);
+		if ($top_node > 0)
+		{
+			$exp->setOutput($tree->getParentId($top_node), 1,
+				ilObject::_lookupObjId($tree->getParentId($top_node)));
+		}
+		else
+		{
+			$exp->setOutput(0);
+		}
+
 		$output = $exp->getOutput(false);
 
 		// asynchronous output

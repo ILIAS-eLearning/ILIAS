@@ -28,7 +28,7 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryExplorer($a_target)
+	function ilRepositoryExplorer($a_target, $a_top_node = 0)
 	{
 		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
 
@@ -46,7 +46,8 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->setTitle($lng->txt("overview"));
 
 		// please do not uncomment this
-		if ($ilSetting->get("repository_tree_pres") == "")
+		if ($ilSetting->get("repository_tree_pres") == "" ||
+			($ilSetting->get("rep_tree_limit_grp_crs") && $a_top_node == 0))
 		{
 			$this->addFilter("root");
 			$this->addFilter("cat");
@@ -528,7 +529,7 @@ class ilRepositoryExplorer extends ilExplorer
 	public function sortNodes($a_nodes,$a_parent_obj_id)
 	{
 		global $objDefinition;
-		
+
 		if ($a_parent_obj_id > 0)
 		{
 			$parent_type = ilObject::_lookupType($a_parent_obj_id);
@@ -544,12 +545,16 @@ class ilRepositoryExplorer extends ilExplorer
 			$this->type_grps[$parent_type] =
 				$objDefinition->getGroupedRepositoryObjectTypes($parent_type);
 		}
-		
 		$group = array();
 		
 		foreach ($a_nodes as $node)
 		{
-			$group[$node["type"]][] = $node;
+			$g = $objDefinition->getGroupOfObj($node["type"]);
+			if ($g == "")
+			{
+				$g = $node["type"];
+			}
+			$group[$g][] = $node;
 		}
 
 		$nodes = array();

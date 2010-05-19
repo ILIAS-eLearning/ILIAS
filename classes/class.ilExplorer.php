@@ -519,46 +519,42 @@ class ilExplorer
 
 		if ($this->showChilds($a_parent_id,$a_obj_id))
 		{
-#echo "<br>getChildsFor:".$a_parent_id.":";
-			$ilBench->start("Explorer", "setOutput_getChilds");
 			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
-			$ilBench->stop("Explorer", "setOutput_getChilds");
 		}
 		else
 		{
 			$objects = array();
 		}
-		
+
 		$objects = $this->modifyChilds($a_parent_id, $objects);
-		
+
 		// force expansion (of single nodes)
-		if ($this->forceExpanded($a_obj_id) && !in_array($a_obj_id, $this->expanded))
-		{
-			$this->expanded[] = $a_obj_id;
-		}
+//		if ($this->forceExpanded($a_obj_id) && !in_array($a_obj_id, $this->expanded))
+//		{
+//			$this->expanded[] = $a_obj_id;
+//		}
+if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expanded))
+{
+	$this->expanded[] = $a_parent_id;
+}
 
 		if (count($objects) > 0)
 		{
 			// Maybe call a lexical sort function for the child objects
-			$ilBench->start("Explorer", "setOutput_sortNodes");
 			$tab = ++$a_depth - 2;
 			if ($this->post_sort)
 			{
 				$objects = $this->sortNodes($objects,$a_obj_id);
 			}
-			$ilBench->stop("Explorer", "setOutput_sortNodes");
-
 			$skip_rest = false;
-			
 			foreach ($objects as $key => $object)
 			{
-//echo "<br>-KEY:$key";
-//var_dump($object);
 				// skip childs, if parent is not expanded
 				if (!$this->forceExpanded($object["child"]) && $skip_rest)
 				{
 					continue;
 				}
+//echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
 				//ask for FILTER
 				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
@@ -580,7 +576,7 @@ class ilExplorer
 						$this->format_options["$this->counter"]["container"]	= false;
 						$this->format_options["$this->counter"]["visible"]	= true;
 						$this->format_options["$this->counter"]["highlighted_subtree"] = $a_highlighted_subtree;
-						
+
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
 						{
