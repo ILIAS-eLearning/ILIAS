@@ -22,6 +22,7 @@ class ilCalendarUserSettings
 	private $timezone;
 	private $weekstart;
 	private $time_format;
+	private $date_format;
 	
 	private $day_start;
 	private $day_end;
@@ -163,6 +164,29 @@ class ilCalendarUserSettings
 	{
 		return $this->day_end;
 	}
+
+	/**
+	 * set date format
+	 *
+	 * @access public
+	 * @param int date
+	 * @return
+	 */
+	public function setDateFormat($a_format)
+	{
+		$this->date_format = $a_format;
+	}
+
+	/**
+	 * get date format
+	 *
+	 * @access public
+	 * @return int date format
+	 */
+	public function getDateFormat()
+	{
+		return $this->date_format;
+	}
 	
 	/**
 	 * set time format
@@ -216,8 +240,9 @@ class ilCalendarUserSettings
 	public function save()
 	{
 		$this->user->writePref('user_tz',$this->getTimeZone());
-		$this->user->writePref('weekstart',$this->getWeekStart()); 
-		$this->user->writePref('time_format',$this->getTimeFormat());
+		$this->user->writePref('weekstart',$this->getWeekStart());
+		$this->user->writePref('date_format',$this->getDateFormat());
+		$this->user->writePref('time_format',$this->getTimeFormat());	
 		$this->user->writePref('calendar_selection_type',$this->getCalendarSelectionType());
 		$this->user->writePref('day_start',$this->getDayStart());
 		$this->user->writePref('day_end',$this->getDayEnd());
@@ -232,6 +257,7 @@ class ilCalendarUserSettings
 	protected function read()
 	{
 		$this->timezone = $this->user->getTimeZone();
+		$this->date_format = $this->user->getDateFormat();
 		$this->time_format = $this->user->getTimeFormat();
 		if(($weekstart = $this->user->getPref('weekstart')) === false)
 		{

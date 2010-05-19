@@ -290,37 +290,4 @@ class ilTrQuery
 		}
 		return $result;
 	}
-
-	public static function getFilterData($a_obj_id)
-	{
-		global $ilDB;
-
-		$a_users = self::getParticipantsForObject($a_obj_id);
-		$left = $join_and = "";
-		if (is_array($a_users))
-		{
-			$left = "LEFT";
-			$join_and = "AND ".$ilDB->in("usr_data.usr_id", $a_users, false, "integer");
-		}
-
-		$base_query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
-			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
-			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
-			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
-			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
-			" WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." ".$join_and;
-
-		$result = array();
-
-		$query = "SELECT MIN(create_date) AS first_registration, MAX(create_date) AS last_registration".$base_query;
-		$set = $ilDB->query($query);
-		$dates = $ilDB->fetchAssoc($set);
-		$result["first_registration"] = $dates["first_registration"]; // datetime
-		$result["last_registration"] = $dates["last_registration"]; // datetime
-
-		return $result;
-	}
-
-	
-
 }
