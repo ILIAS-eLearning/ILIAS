@@ -8,7 +8,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
+class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $date_obj = null;
 	protected $date;

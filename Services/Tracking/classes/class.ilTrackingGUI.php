@@ -104,7 +104,7 @@ class ilTrackingGUI
 		$summary = ilTrQuery::getSummaryDataForObject($object_id, $filter);
 		$users_no = $summary["cnt"];
 		$summary = $summary["set"];
-		if($users_no)
+		if(sizeof($summary))
 		{
 			// user related
 
