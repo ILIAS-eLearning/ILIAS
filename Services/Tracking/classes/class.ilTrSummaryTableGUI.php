@@ -46,10 +46,10 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
-		// $this->disable("footer");
 		$this->initFilter($a_parent_obj->getObjectId());
 
-		// $this->addMultiCommand("", $lng->txt(""));
+		// var_dump($this->getCurrentState());
+
 		// $this->addCommandButton("", $lng->txt(""));
 	}
 
@@ -57,10 +57,13 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$columns = array();
 		$all = array("user_total", "country", "registration_earliest", "registration_latest",
 			"gender", "city", "language", "access_total", "access_average", "activity_earliest",
 			"activity_latest", "time_average", "status", "mark", "completion_average");
+		
+		$default = array("user_total", "access_total", "access_average", "time_average", "status", "mark", "completion_average");
+
+		$columns = array();
 		foreach($all as $column)
 		{
 			$l = $column;
@@ -70,7 +73,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			}
 			$columns[$column] = array(
 				"txt" => $lng->txt($l),
-				"default" => false
+				"default" => (in_array($column, $default) ? true :false)
 			);
 		}
 		return $columns;
@@ -155,7 +158,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	  {		  
 		  foreach($data as $item)
 		  {
-			 $this->tpl->setCurrentBlock($id."_row");
+			$this->tpl->setCurrentBlock($id."_row");
 			$this->tpl->setVariable("CAPTION", $item["caption"]);
 			$this->tpl->setVariable("ABSOLUTE", $item["absolute"]);
 			$this->tpl->setVariable("PERCENTAGE", $item["percentage"]);

@@ -33,6 +33,11 @@ class ilTable2GUI extends ilTableGUI
 	protected $selectable_columns = array();
 	protected $selected_column = array();
 
+	protected $nav_determined= false;
+	protected $limit_determined = false;
+	protected $filters_determined = false;
+	protected $columns_determined = false;
+
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
@@ -74,7 +79,7 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $ilUser;
 
-		if (is_object($ilUser))
+		if (is_object($ilUser) && !$this->limit_determined)
 		{
 			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 			$tab_prop = new ilTablePropertiesStorage();
@@ -101,6 +106,7 @@ class ilTable2GUI extends ilTableGUI
 			}
 			
 			$this->setLimit($limit);
+			$this->limit_determined = true;
 		}		
 	}
 	
@@ -124,10 +130,11 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $ilUser;
 		
-		if (!is_object($ilUser))
+		if (!is_object($ilUser) || $this->columns_determined)
 		{
-			return array();
+			return;
 		}
+		
 		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 		$tab_prop = new ilTablePropertiesStorage();
 		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfields");
@@ -178,7 +185,7 @@ class ilTable2GUI extends ilTableGUI
 				serialize($this->selected_column));
 		}
 
-//		$this->determineSelectedColumns();
+		$this->columns_determined = true;
 	}
 	
 	/**
@@ -672,9 +679,9 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $ilUser;
 
-		if (!is_object($ilUser))
+		if (!is_object($ilUser) || $this->filters_determined)
 		{
-			return array();
+			return;
 		}
 		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 		$tab_prop = new ilTablePropertiesStorage();
@@ -720,6 +727,8 @@ class ilTable2GUI extends ilTableGUI
 			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfilters",
 				serialize($this->selected_filter));
 		}
+
+		$this->filters_determined = true;
 	}
 
 	/**
@@ -1247,11 +1256,12 @@ class ilTable2GUI extends ilTableGUI
 	function determineOffsetAndOrder($a_omit_offset = false)
 	{
 		global $ilUser;
-		
-//echo "<br>".$this->getNavParameter();
 
-//var_dump($_POST);
-		
+		if ($this->nav_determined)
+		{
+			return true;
+		}
+	
 		if ($_POST[$this->getNavParameter()."1"] != "")
 		{
 			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
@@ -1265,18 +1275,15 @@ class ilTable2GUI extends ilTableGUI
 		}
 		elseif($_GET[$this->getNavParameter()])
 		{
-//echo "3";
 			$this->nav_value = $_GET[$this->getNavParameter()];
 		}
 		elseif($_SESSION[$this->getNavParameter()] != "")
 		{
-//echo "4";
 			$this->nav_value = $_SESSION[$this->getNavParameter()];
 		}
 		
 		if ($this->nav_value == "" && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-//echo "5";
 			// get order and direction from db
 			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
 			$tab_prop = new ilTablePropertiesStorage();
@@ -1285,7 +1292,6 @@ class ilTable2GUI extends ilTableGUI
 				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "direction").":".
 				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "offset");
 		}
-//echo "+".$this->nav_value;
 		$nav = explode(":", $this->nav_value);
 		
 		// $nav[0] is order by
@@ -1293,7 +1299,6 @@ class ilTable2GUI extends ilTableGUI
 		$this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
 		if (!$a_omit_offset)
 		{
-//echo "-".$nav[2]."-".$this->max_count."-";
 			if (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count)
 			{
 				$this->resetOffset(true);
@@ -2298,10 +2303,32 @@ class ilTable2GUI extends ilTableGUI
 	 *
 	 * @param string $html
 	 */
-	
 	public function setHeaderHTML($html) 
 	{
 	    $this->headerHTML = $html;
+	}
+
+	/**
+	 * get current settings for order, limit, columns and filter
+	 * 
+	 * @return array
+	 */
+	public function getCurrentState()
+	{
+		$this->determineOffsetAndOrder();
+		$this->determineLimit();
+		$this->determineSelectedColumns();
+		$this->determineSelectedFilters();
+
+		$result = array();
+
+		$result["order"] = array("field" => $this->getOrderField(), "direction" => $this->getOrderDirection());
+		$result["offset"] = $this->getOffset();
+		$result["limit"] = $this->getLimit();
+		$result["columns"] = array_keys($this->getSelectedColumns());
+		$result["filters"] = array_keys($this->getSelectedFilters());
+
+		return $result;
 	}
 }
 ?>
