@@ -170,9 +170,23 @@ class ilTrQuery
 			{
 				switch($id)
 				{
+					case "country":
+					case "gender":
+					case "city":
+						$where_and[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
+						break;
+
 				    case "language":
 						$where_and[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
 						break;
+
+					case "registration_earliest":
+						$where_and[] = "usr_data.create_date >= ".$ilDB->quote($value ,"date");
+					    break;
+
+					case "registration_latest":
+						$where_and[] = "usr_data.create_date <= ".$ilDB->quote($value ,"date");
+					    break;
 
 					default:
 						break;
@@ -192,7 +206,7 @@ class ilTrQuery
 		$set = $ilDB->query($query);
 		$users_no = $ilDB->fetchAssoc($set);
 		$users_no = $users_no["counter"];
-		if($users_no)
+		if($users_no && (!isset($filter["user_total"]) || ($users_no >= $filter["user_total"][0] && $users_no <= $filter["user_total"][1])))
 		{
 			// --- user related
 

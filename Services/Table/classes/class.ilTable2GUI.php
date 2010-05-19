@@ -37,6 +37,7 @@ class ilTable2GUI extends ilTableGUI
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
 	const FILTER_LANGUAGE = 4;
+	const FILTER_NUMBER_RANGE = 5;
 	
 	/**
 	* Constructor
@@ -530,7 +531,15 @@ class ilTable2GUI extends ilTableGUI
 				$item = new ilTextInputGUI($caption, $id);
 				$item->setMaxLength(64);
 				$item->setSize(20);
-				$item->setSubmitFormOnEnter(true);
+				// $item->setSubmitFormOnEnter(true);
+				break;
+
+			case self::FILTER_NUMBER_RANGE:
+				include_once("./Services/Form/classes/class.ilNumberRangeInputGUI.php");
+				$item = new ilNumberRangeInputGUI($caption, $id);
+				$item->setMaxLength(6);
+				$item->setSize(10);
+				$item->setLabel(array($lng->txt("from").":", $lng->txt("to").":"));
 				break;
 			
 			case self::FILTER_LANGUAGE:

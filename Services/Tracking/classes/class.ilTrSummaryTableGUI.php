@@ -87,8 +87,10 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		
 		$data = ilTrQuery::getFilterData($a_obj_id);
 
+		/*
 		$item = $this->addFilterItemByMetaType("title");
 		$this->filter["title"] = $item->getValue();
+		*/
 
 		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
 		$this->filter["country"] = $item->getValue();
@@ -111,6 +113,9 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		
         $item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
 		$this->filter["language"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
+		$this->filter["user_total"] = $item->getValue();
 	}
 
 	/**
@@ -194,9 +199,21 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				 }
 				 break;
 
-			 case "registration_earliest":
+			case "user_total":
+				if(is_array($value) && ($value[0] || $value[1]))
+				{
+					$result[$id] = $value;
+				}
+				break;
+
 			 case "registration_latest":
+				 $result[$id] = $value->get(IL_CAL_DATETIME);
+				 $result[$id] = substr($result[$id], 0, -8)." 23:59:59";
+				 break;
+
+			 case "registration_earliest":
                  $result[$id] = $value->get(IL_CAL_DATETIME);
+				$result[$id] = substr($result[$id], 0, -8)." 00:00:00";
 				 break;
 		  }
 		}
