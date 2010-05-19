@@ -349,6 +349,16 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			}
 		}
 
+		// very basic validation
+		if($dt['mday'] == 0 || $dt['mon'] == 0 || $dt['year'] == 0 || $dt['mday'] > 31 || $dt['mon'] > 12)
+		{
+			$dt = false;
+		}
+		else if($this->getShowTime() && ($dt['hours'] > 23 || $dt['minutes'] > 59 || $dt['seconds'] > 59))
+		{
+			$dt = false;
+		}
+
 		if($dt)
 		{
 			$date = new ilDateTime(NULL, 0, $ilUser->getTimeZone());
@@ -474,6 +484,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 							$value = date("d.m.Y", mktime(0, 0, 0, $month, $day, $year));
 						}
 						$format = "%d.%m.%Y";
+						$input_hint = $lng->txt("dd_mm_yyyy");
 						break;
 
 					case ilCalendarSettings::DATE_FORMAT_YMD:
@@ -482,6 +493,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 							$value = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
 						}
 						$format = "%Y-%m-%d";
+						$input_hint = $lng->txt("yyyy_mm_dd");
 						break;
 
 					case ilCalendarSettings::DATE_FORMAT_MDY:
@@ -490,6 +502,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 							$value = date("m/d/Y", mktime(0, 0, 0, $month, $day, $year));
 						}
 						$format = "%m/%d/%Y";
+						$input_hint = $lng->txt("mm_dd_yyyy");
 						break;
 				}
 				
@@ -497,6 +510,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 				$tpl->setVariable("DATE_ID", $this->getPostVar());
 				$tpl->setVariable("DATE_VALUE", $value); 
 				$tpl->setVariable("DISABLED", $this->getDisabled() ? " disabled=\"disabled\"" : "");
+				$tpl->parseCurrentBlock();
+
+				$tpl->setCurrentBlock("prop_date_input_field_info");
+				$tpl->setVariable("TXT_INPUT_FORMAT", $input_hint);
 				$tpl->parseCurrentBlock();
 
 				$tpl->setCurrentBlock("prop_date_input_field_setup");
@@ -564,8 +581,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			
 			$tpl->parseCurrentBlock();
 		}
-		
-		if ($this->getShowTime() && $this->getShowDate())
+
+		if ($this->getShowTime() && $this->getShowDate() && $this->getMode() == self::MODE_SELECT)
 		{
 			$tpl->setVariable("DELIM", "<br />");
 		}

@@ -2833,6 +2833,9 @@ common#:#help#:#Hilfe
 common#:#HH#:#SS:MM
 common#:#hh_mm#:#HH:MM
 common#:#hh_mm_ss#:#HH:MM:SS
+common#:#mm_dd_yyyy#:#MM/TT/JJJJ
+common#:#dd_mm_yyyy#:#TT.MM.JJJJ
+common#:#yyyy_mm_dd#:#JJJJ-MM-TT
 common#:#hide#:#Ausblenden
 common#:#hide_details#:#Details ausblenden
 common#:#hide_own_online_status#:#Eigenen Online-Status nicht anzeigen
@@ -3874,6 +3877,7 @@ common#:#online_version#:#Online-Version
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
+common#:#optional_filters#:#Optionale Filter
 common#:#options#:#Einstellungen
 common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
 common#:#order_by#:#Sortieren nach
@@ -6236,6 +6240,7 @@ dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
 dateplaner#:#cal_daily#:#Täglich
+dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
 dateplaner#:#cal_day_end#:#Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
@@ -6245,8 +6250,10 @@ dateplaner#:#cal_day_start#:#Tagesbeginn
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
+dateplaner#:#cal_def_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
+dateplaner#:#cal_def_date_format#:#Default-Datums-Eingabeformat
 dateplaner#:#cal_def_time_format#:#Default-Zeitformat
-dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit aus.
+dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit aus.
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
 dateplaner#:#cal_def_week_start#:#Wochenbeginn
@@ -6316,7 +6323,7 @@ dateplaner#:#cal_sync_header#:#Einstellungen zur Kalendersynchronisation
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
-dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit.
+dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit.
 dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
@@ -6328,6 +6335,7 @@ dateplaner#:#cal_type_usr#:#Persönlicher Kalender
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
+dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
 dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_user_timezone#:#Zeitzone
 dateplaner#:#cal_week_abbrev#:#KW

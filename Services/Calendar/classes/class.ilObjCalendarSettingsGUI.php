@@ -204,6 +204,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setEnabled((int) $_POST['enable']);
 		$this->settings->setDefaultWeekStart((int) $_POST['default_week_start']);
 		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
+		$this->settings->setDefaultDateFormat((int) $_POST['default_date_format']);
 		$this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
 		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
 		$this->settings->setDefaultDayStart((int) $_POST['dst']);
@@ -271,6 +272,16 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$select->setInfo($this->lng->txt('cal_def_timezone_info'));
 		$select->setValue($this->settings->getDefaultTimeZone());
 		$this->form->addItem($select);
+
+		$year = date("Y");
+		$select = new ilSelectInputGUI($this->lng->txt('cal_def_date_format'),'default_date_format');
+		$select->setOptions(array(
+			ilCalendarSettings::DATE_FORMAT_DMY => '31.10.'.$year,
+			ilCalendarSettings::DATE_FORMAT_YMD => $year."-10-31",
+			ilCalendarSettings::DATE_FORMAT_MDY => "10/31/".$year));
+		$select->setInfo($this->lng->txt('cal_def_date_format_info'));
+		$select->setValue($this->settings->getDefaultDateFormat());
+		$this->form->addItem($select);
 		
 		$select = new ilSelectInputGUI($this->lng->txt('cal_def_time_format'),'default_time_format');
 		$select->setOptions(array(
@@ -279,7 +290,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$select->setInfo($this->lng->txt('cal_def_time_format_info'));
 		$select->setValue($this->settings->getDefaultTimeFormat());
 		$this->form->addItem($select);
-		
 		
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_def_week_start'),'default_week_start');
 		$radio->setValue($this->settings->getDefaultWeekStart());

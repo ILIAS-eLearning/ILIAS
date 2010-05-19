@@ -536,8 +536,8 @@ class ilTable2GUI extends ilTableGUI
 			case self::FILTER_NUMBER_RANGE:
 				include_once("./Services/Form/classes/class.ilNumberRangeInputGUI.php");
 				$item = new ilNumberRangeInputGUI($caption, $id);
-				$item->setMaxLength(6);
-				$item->setSize(10);
+				$item->setMaxLength(7);
+				$item->setSize(20);
 				$item->setLabel(array($lng->txt("from").":", $lng->txt("to").":"));
 				break;
 			
