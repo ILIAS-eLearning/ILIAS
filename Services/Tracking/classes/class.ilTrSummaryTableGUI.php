@@ -104,6 +104,12 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 
 		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
 		$this->filter["user_total"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+		$this->filter["activity_earliest"] = $item->getDate();
+
+		$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+		$this->filter["activity_latest"] = $item->getDate();
 	}
 
 	/**
@@ -192,17 +198,19 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				break;
 
 			 case "registration":
+			 case "activity_earliest":
+			 case "activity_latest":
 				 if($value)
 				 {
 					 if($value["from"])
 					 {
 						 $result[$id]["from"] = $value["from"]->get(IL_CAL_DATETIME);
-						 $result[$id]["from"] = substr($result[$id]["from"], 0, -8)." 00:00:00";
+						 $result[$id]["from"] = substr($result[$id]["from"], 0, -8)."00:00:00";
 					 }
 					 if($value["to"])
 					 {
 						 $result[$id]["to"] = $value["to"]->get(IL_CAL_DATETIME);
-						 $result[$id]["to"] = substr($result[$id]["to"], 0, -8)." 23:59:59";
+						 $result[$id]["to"] = substr($result[$id]["to"], 0, -8)."23:59:59";
 					 }
 				 }
 				 break;
