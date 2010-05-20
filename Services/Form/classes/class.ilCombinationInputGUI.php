@@ -24,7 +24,7 @@
 /**
 * This class represents a number property in a property form.
 *
-* @author Alex Killing <alex.killing@gmx.de> 
+* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
 * @version $Id$
 * @ingroup	ServicesForm
 */
@@ -32,6 +32,10 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 {
 	protected $items = array();
 	protected $labels;
+	protected $comparison;
+
+	const COMPARISON_ASCENDING = 1;
+	const COMPARISON_DESCENDING = 2;
 
 	/**
 	 * Add property item
@@ -96,6 +100,19 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	}
 
 	/**
+	 * Set mode for comparison (extended validation)
+	 *
+	 * @param	int	$mode
+	 */
+	function setComparisonMode($mode)
+	{
+		if(in_array($mode, array(self::COMPARISON_ASCENDING, self::COMPARISON_DESCENDING)))
+		{
+			$this->comparison_mode = $mode;
+		}
+	}
+
+	/**
 	* Set Value.
 	*
 	* @param	string	$a_value	Value
@@ -157,6 +174,37 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 				if(!$obj->checkInput())
 				{
 					return false;
+				}
+			}
+
+			if($this->comparison_mode)
+			{
+				$prev = NULL;
+				foreach($this->items as $id => $obj)
+				{
+					$value = ilUtil::stripSlashes($_POST[$obj->getPostVar()]);
+					if(is_numeric($value))
+					{
+						$value = (int)$value;
+					}
+					if($prev !== NULL)
+					{
+						if($this->comparison_mode == self::COMPARISON_ASCENDING)
+						{
+							if($value < $prev)
+							{
+								return false;
+							}
+						}
+						else
+						{
+							if($value > $prev)
+							{
+								return false;
+							}
+						}
+					}
+					$prev = $value;
 				}
 			}
 		}
