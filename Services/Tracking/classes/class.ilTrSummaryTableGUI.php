@@ -5,7 +5,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 /**
  * name table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
  * @version $Id$
  *
  * @ingroup Services
