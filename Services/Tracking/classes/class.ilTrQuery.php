@@ -166,6 +166,10 @@ class ilTrQuery
 		if(sizeof($filter))
 		{
 			$where_and = array();
+			$date_map = array(
+				"registration"=>"usr_data.create_date",
+				"activity_earliest"=>"first_access",
+				"activity_latest"=>"last_access");
 			foreach($filter as $id => $value)
 			{
 				switch($id)
@@ -180,14 +184,29 @@ class ilTrQuery
 						$where_and[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
 						break;
 
-					case "registration":
+					// timestamp
+					case "activity_latest":
 						if($value["from"])
 						{
-							$where_and[] = "usr_data.create_date >= ".$ilDB->quote($value["from"] ,"date");
+							$value["from"] = new ilDateTime($value["from"], IL_CAL_DATETIME);
+							$value["from"] = $value["from"]->get(IL_CAL_UNIX);
 						}
 						if($value["to"])
 						{
-							$where_and[] = "usr_data.create_date <= ".$ilDB->quote($value["to"] ,"date");
+							$value["to"] = new ilDateTime($value["to"], IL_CAL_DATETIME);
+							$value["to"] = $value["to"]->get(IL_CAL_UNIX);
+						}
+						// fallthrough
+
+					case "registration":
+					case "activity_earliest":
+						if($value["from"])
+						{
+							$where_and[] = $date_map[$id]." >= ".$ilDB->quote($value["from"] ,"date");
+						}
+						if($value["to"])
+						{
+							$where_and[] = $date_map[$id]." <= ".$ilDB->quote($value["to"] ,"date");
 						}
 					    break;
 

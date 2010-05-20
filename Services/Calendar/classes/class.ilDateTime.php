@@ -340,7 +340,7 @@ class ilDateTime
 				
 			case IL_CAL_DATETIME:
 				
-				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts) === false)
+				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts) < 1)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
 					throw new ilDateTimeException('Cannot parse date.');
@@ -354,7 +354,7 @@ class ilDateTime
 					$d_parts[2],
 					$d_parts[3],
 					$d_parts[1]);
-
+				
 				if($d_parts[0] == '0000-00-00 00:00:00')
 				{
 					$this->unix = 0;
