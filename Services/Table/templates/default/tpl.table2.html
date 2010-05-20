@@ -68,7 +68,16 @@
 	</script>
 	<!-- END filter_hidden -->
 		
-	{COLUMN_SELECTOR} {ROW_SELECTOR}
+	{COLUMN_SELECTOR} {ROW_SELECTOR} {SETTINGS_SELECTOR}
+
+	<!-- BEGIN settings_editor -->
+	<div id="{SETTINGS_EDITOR_ID}" class="ilOverlay" style="padding:10px">
+		{TXT_SETTINGS_EDITOR_SAVE_AS}:<br />
+		<input type="text" id="{SETTINGS_EDITOR_ID}_NAME" style="width:150px" />
+		<input type="submit" class="submit" value="Save" onClick="if (ilTableSaveSettings('{SETTINGS_EDITOR_ID}_NAME', '{SETTINGS_EDITOR_URL_SAVE}')) { ilOverlay.hide(null, '{SETTINGS_EDITOR_ID}'); }; return false;" />
+	</div>
+	<!-- END settings_editor -->
+	
 	</td>
 	</tr></table>
 </div>
