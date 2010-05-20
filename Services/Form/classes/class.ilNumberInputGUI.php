@@ -311,4 +311,19 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
 		return $tpl->get();
 	}
+
+	/**
+	 * parse post value to make it comparable
+	 *
+	 * used by combination input gui
+	 */
+	function getPostValueForComparison()
+	{
+		$value = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		if($value != "")
+		{
+			return (int)$value;
+		}
+	}
 }
+?>

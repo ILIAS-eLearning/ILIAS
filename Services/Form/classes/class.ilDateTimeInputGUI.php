@@ -245,8 +245,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	}
 
 	/*
+	 * Convert Post Values To Date-Object
 	 *
-	 * 
+	 * @param	array	$post
+	 * @return	ilDateTime
 	 */
 	protected function convertIncomingValues($post)
 	{
@@ -383,6 +385,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		{
 			$this->setDate($date);
 		}
+		else if($this->getMode() == self::MODE_INPUT)
+		{
+			$this->date = NULL;
+		}
 
 		foreach($this->getSubItems() as $item)
 		{
@@ -402,10 +408,18 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			return true;
 		}
 
-		$date = $this->convertIncomingValues($_POST[$this->getPostVar()]);
+		$post = $_POST[$this->getPostVar()];
+
+		// empty date valid with input field
+		if(!$this->getRequired() && $this->getMode() == self::MODE_INPUT && $post["date"] == "")
+		{
+			return true;
+		}
+
+		$date = $this->convertIncomingValues($post);
 		if($date)
 		{
-			$this->setDate($date);
+			// $this->setDate($date);
 			return true;
 		}
 		return false;
@@ -634,6 +648,19 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		}
 	}
 
+	/**
+	 * parse post value to make it comparable
+	 *
+	 * used by combination input gui
+	 */
+	function getPostValueForComparison()
+	{
+		$date = $this->convertIncomingValues($_POST[$this->getPostVar()]);
+		if($date)
+		{
+			return $date->get(IL_CAL_DATETIME);
+		}
+	}
 }
 
 ?>

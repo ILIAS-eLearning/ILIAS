@@ -180,12 +180,15 @@ class ilTrQuery
 						$where_and[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
 						break;
 
-					case "registration_earliest":
-						$where_and[] = "usr_data.create_date >= ".$ilDB->quote($value ,"date");
-					    break;
-
-					case "registration_latest":
-						$where_and[] = "usr_data.create_date <= ".$ilDB->quote($value ,"date");
+					case "registration":
+						if($value["from"])
+						{
+							$where_and[] = "usr_data.create_date >= ".$ilDB->quote($value["from"] ,"date");
+						}
+						if($value["to"])
+						{
+							$where_and[] = "usr_data.create_date <= ".$ilDB->quote($value["to"] ,"date");
+						}
 					    break;
 
 					default:

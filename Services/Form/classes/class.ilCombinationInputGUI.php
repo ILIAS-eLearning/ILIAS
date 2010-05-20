@@ -100,15 +100,63 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	}
 
 	/**
+	* serialize data
+	*/
+	function serializeData()
+	{
+		$result = array();
+		foreach($this->items as $id => $obj)
+		{
+			$result[$id] = $obj->serializeData();
+		}
+		return serialize($result);
+	}
+
+	/**
+	* unserialize data
+	*/
+	function unserializeData($a_data)
+	{
+		$data = unserialize($a_data);
+
+		if ($data)
+		{
+			foreach($this->items as $id => $obj)
+			{
+				$obj->unserializeData($data[$id]);
+			}
+		}
+		else
+		{
+			foreach($this->items as $id => $obj)
+			{
+				if(method_exists($obj, "setValue"))
+				{
+					$this->setValue(false);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Set mode for comparison (extended validation)
 	 *
 	 * @param	int	$mode
+	 * @return	bool
 	 */
 	function setComparisonMode($mode)
 	{
 		if(in_array($mode, array(self::COMPARISON_ASCENDING, self::COMPARISON_DESCENDING)))
 		{
+			foreach($this->items as $obj)
+			{
+				if(!method_exists($obj, "getPostValueForComparison"))
+				{
+					return false;
+				}
+			}
 			$this->comparison_mode = $mode;
+			return true;
 		}
 	}
 
@@ -154,8 +202,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	function setValueByArray($a_values)
 	{
 		foreach($this->items as $id => $obj)
-		{
-			
+		{	
 			$obj->setValueByArray($a_values);
 		}
 	}
@@ -182,33 +229,32 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 				$prev = NULL;
 				foreach($this->items as $id => $obj)
 				{
-					$value = ilUtil::stripSlashes($_POST[$obj->getPostVar()]);
-					if(is_numeric($value))
+					$value = $obj->getPostValueForComparison();
+					if($value != "")
 					{
-						$value = (int)$value;
-					}
-					if($prev !== NULL)
-					{
-						if($this->comparison_mode == self::COMPARISON_ASCENDING)
+						if($prev !== NULL)
 						{
-							if($value < $prev)
+							if($this->comparison_mode == self::COMPARISON_ASCENDING)
 							{
-								return false;
+								if($value < $prev)
+								{
+									return false;
+								}
+							}
+							else
+							{
+								if($value > $prev)
+								{
+									return false;
+								}
 							}
 						}
-						else
-						{
-							if($value > $prev)
-							{
-								return false;
-							}
-						}
+						$prev = $value;
 					}
-					$prev = $value;
 				}
 			}
 		}
-		
+
 		return $this->checkSubItemsInput();
 	}
 
