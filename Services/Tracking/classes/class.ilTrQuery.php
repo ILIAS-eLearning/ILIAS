@@ -206,7 +206,7 @@ class ilTrQuery
 		$set = $ilDB->query($query);
 		$users_no = $ilDB->fetchAssoc($set);
 		$users_no = $users_no["counter"];
-		if($users_no && (!isset($filter["user_total"]) || ($users_no >= $filter["user_total"][0] && $users_no <= $filter["user_total"][1])))
+		if($users_no && (!isset($filter["user_total"]) || ($users_no >= $filter["user_total"]["from"] && $users_no <= $filter["user_total"]["to"])))
 		{
 			// --- user related
 

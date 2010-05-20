@@ -214,7 +214,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
 			return false;
 		}
-		
+
 		if (trim($_POST[$this->getPostVar()]) != "" &&
 			! is_numeric(str_replace(',', '.', $_POST[$this->getPostVar()])))
 		{
@@ -251,24 +251,38 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Insert property html
+	*/
+	function render()
+	{
 		global $lng;
-		
+
+		$tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
+
 		if (strlen($this->getValue()))
 		{
-			$a_tpl->setCurrentBlock("prop_number_propval");
-			$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
-			$a_tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("prop_number_propval");
+			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+			$tpl->parseCurrentBlock();
 		}
-		$a_tpl->setCurrentBlock("prop_number");
+		$tpl->setCurrentBlock("prop_number");
 		
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("SIZE", $this->getSize());
-		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-		if (strlen($this->getSuffix())) $a_tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
+		$tpl->setVariable("POST_VAR", $this->getPostVar());
+		$tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable("SIZE", $this->getSize());
+		$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if (strlen($this->getSuffix())) $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
 		if ($this->getDisabled())
 		{
-			$a_tpl->setVariable("DISABLED",
+			$tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
 		}
 		
@@ -290,9 +304,11 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		if ($constraints != "")
 		{
-			$a_tpl->setVariable("TXT_NUMBER_CONSTRAINTS", $constraints);
+			$tpl->setVariable("TXT_NUMBER_CONSTRAINTS", $constraints);
 		}
 		
-		$a_tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
 	}
 }
