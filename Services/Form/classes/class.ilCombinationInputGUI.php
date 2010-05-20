@@ -1,0 +1,219 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/**
+* This class represents a number property in a property form.
+*
+* @author Alex Killing <alex.killing@gmx.de> 
+* @version $Id$
+* @ingroup	ServicesForm
+*/
+class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
+{
+	protected $items = array();
+	protected $labels;
+
+	/**
+	 * Add property item
+	 *
+	 * @param	string	$id
+	 * @param	object	$item
+	 * @param	string	$label
+	 */
+	function addCombinationItem($id, $item, $label = "")
+	{
+		$this->items[$id] = $item;
+		if($label)
+		{
+			$this->labels[$id] = $label;
+		}
+	}
+
+	/**
+	 * Get property item
+	 *
+	 * @param	string	$id
+	 * @return	object
+	 */
+	function getCombinationItem($id)
+	{
+		if(isset($this->items[$id]))
+		{
+			return $this->items[$id];
+		}
+	}
+
+	/**
+	 * Remove property item
+	 *
+	 * @param	string	$id
+	 */
+	function removeCombinationItem($id)
+	{
+		if(isset($this->items[$id]))
+		{
+			unset($this->items[$id]);
+		}
+	}
+
+	/**
+	 * Call item methods
+	 *
+	 * @param	string	$method
+	 * @param	array	$param
+	 */
+	function __call($method, $param)
+	{
+		$result = array();
+		foreach($this->items as $id => $obj)
+		{
+			if(method_exists($obj, $method))
+			{
+				$result[$id] = call_user_func_array(array($obj, $method), $param);
+			}
+		}
+		return $result;
+	}
+
+	/**
+	* Set Value.
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
+	{
+		if(is_array($a_value))
+		{
+			foreach($a_value as $id => $value)
+			{
+				if(isset($this->items[$id]))
+				{
+					$this->items[$id]->setValue($value);
+				}
+			}
+		}
+	}
+
+	/**
+	* Get Value.
+	*
+	* @return	string	Value
+	*/
+	function getValue()
+	{
+		$result = array();
+		foreach($this->items as $id => $obj)
+		{
+			$result[$id] = $obj->getValue();
+		}
+		return $result;
+	}
+
+	/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
+	{
+		foreach($this->items as $id => $obj)
+		{
+			
+			$obj->setValueByArray($a_values);
+		}
+	}
+
+	/**
+	* Check input, strip slashes etc. set alert, if input is not ok.
+	*
+	* @return	boolean		Input ok, true/false
+	*/	
+	function checkInput()
+	{
+		if(sizeof($this->items))
+		{
+			foreach($this->items as $id => $obj)
+			{
+				if(!$obj->checkInput())
+				{
+					return false;
+				}
+			}
+		}
+		
+		return $this->checkSubItemsInput();
+	}
+
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Render item
+	*/
+	function render()
+	{
+		global $lng;
+
+		$tpl = new ilTemplate("tpl.prop_combination.html", true, true, "Services/Form");
+
+		if(sizeof($this->items))
+		{
+			foreach($this->items as $id => $obj)
+			{
+				// label
+				if(isset($this->labels[$id]))
+				{
+					$tpl->setCurrentBlock("prop_combination_label");
+					$tpl->setVariable("LABEL", $this->labels[$id]);
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("prop_combination");
+				$tpl->setVariable("FIELD", $obj->render());
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		return $tpl->get();
+	}
+
+    /**
+	* Get HTML for table filter
+	*/
+	function getTableFilterHTML()
+	{
+		$html = $this->render();
+		return $html;
+	}
+}

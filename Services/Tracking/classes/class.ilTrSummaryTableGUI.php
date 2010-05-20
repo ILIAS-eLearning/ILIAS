@@ -187,7 +187,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				 break;
 
 			case "user_total":
-				if(is_array($value) && ($value[0] || $value[1]))
+				if(is_array($value) && implode("", $value))
 				{
 					$result[$id] = $value;
 				}
