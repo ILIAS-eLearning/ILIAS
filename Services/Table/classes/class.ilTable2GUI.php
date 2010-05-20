@@ -43,6 +43,7 @@ class ilTable2GUI extends ilTableGUI
 	const FILTER_DATE = 3;
 	const FILTER_LANGUAGE = 4;
 	const FILTER_NUMBER_RANGE = 5;
+	const FILTER_DATE_RANGE = 6;
 	
 	/**
 	* Constructor
@@ -540,6 +541,17 @@ class ilTable2GUI extends ilTableGUI
 				// $item->setSubmitFormOnEnter(true);
 				break;
 
+			case self::FILTER_LANGUAGE:
+				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+				$item = new ilSelectInputGUI($caption, $id);
+				$options = array("" => $lng->txt("all"));
+				foreach ($lng->getInstalledLanguages() as $lang_key)
+				{
+					$options[$lang_key] = $lng->txt("lang_".$lang_key);
+				}
+				$item->setOptions($options);
+				break;
+
 			case self::FILTER_NUMBER_RANGE:
 				include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
 				include_once("./Services/Form/classes/class.ilNumberInputGUI.php");
@@ -552,24 +564,25 @@ class ilTable2GUI extends ilTableGUI
 				$item->setMaxLength(7);
 				$item->setSize(20);
 				break;
-			
-			case self::FILTER_LANGUAGE:
-				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-				$item = new ilSelectInputGUI($caption, $id);
-				$options = array("" => $lng->txt("all"));
-				foreach ($lng->getInstalledLanguages() as $lang_key)
-				{
-					$options[$lang_key] = $lng->txt("lang_".$lang_key);
-				}
-				$item->setOptions($options);
-				break;
 
+			case self::FILTER_DATE_RANGE:
+				include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
+				include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+				$item = new ilCombinationInputGUI($caption, $id);
+				$combi_item = new ilDateTimeInputGUI("", $id."_from");
+				$item->addCombinationItem("from", $combi_item, $lng->txt("from"));
+				$combi_item = new ilDateTimeInputGUI("", $id."_to");
+				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
+				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
+				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				break;
+			
 			default:
 				return false;
 		}
 
 		$this->addFilterItem($item, $a_optional);
-		$item->readFromSession();
+	    $item->readFromSession();
 		return $item;
 	}
 	
