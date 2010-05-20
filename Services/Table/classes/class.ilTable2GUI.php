@@ -1481,6 +1481,15 @@ class ilTable2GUI extends ilTableGUI
 	function render()
 	{
 		global $lng;
+
+
+		// settings handler
+		if($_GET["tgcmd"] == "saveSettings")
+		{
+			var_dump($this->getCurrentState());
+			exit();
+		}
+
 		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
 		$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
@@ -1891,6 +1900,45 @@ class ilTable2GUI extends ilTableGUI
 			$footer = true;
 		}
 
+		// :TODO: make state persistent
+		if(get_class($this) == "ilTrSummaryTableGUI")
+		{
+			$form_id = "settings_overlay_".$this->getId();
+			$list_id = "sellst_stg_".$this->getId();
+
+			// overlay form to save new settings
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$overlay = new ilOverlayGui($form_id);
+			$overlay->setTrigger($list_id."_save");
+			$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
+			$overlay->setSize("210px", "40px");
+			$overlay->setAutoHide(false);
+			$overlay->add();
+			$this->tpl->setCurrentBlock("settings_editor");
+			$this->tpl->setVariable("SETTINGS_EDITOR_ID", $form_id);
+			$this->tpl->setVariable("TXT_SETTINGS_EDITOR_SAVE_AS", $lng->txt("settings_editor_save_as"));
+			$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd)."&tgcmd=saveSettings";
+			$this->tpl->setVariable("SETTINGS_EDITOR_URL_SAVE", $link);
+			$this->tpl->parseCurrentBlock();
+
+			// load saved settings
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$alist = new ilAdvancedSelectionListGUI();
+			$alist->setId($list_id);
+			$alist->addItem($lng->txt("settings_editor_save_as"), "save", "#");
+			/*
+			$options = array(6 => 666, 7 => 777);
+			foreach ($options as $k => $v)
+			{
+				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_stg", $k);
+				$alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_stg", "");
+			}
+			 */
+			$alist->setListTitle($lng->txt("settings"));
+			$this->tpl->setVariable("SETTINGS_SELECTOR", $alist->getHTML());
+		}
+
 		if ($footer)
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
@@ -1953,6 +2001,7 @@ class ilTable2GUI extends ilTableGUI
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
+					$alist->setId("sellst_rows");
 					$hpp = ($ilUser->getPref("hits_per_page") != 9999)
 						? $ilUser->getPref("hits_per_page")
 						: $lng->txt("unlimited");

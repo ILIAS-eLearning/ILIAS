@@ -48,8 +48,6 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		$this->initFilter($a_parent_obj->getObjectId());
 
-		// var_dump($this->getCurrentState());
-
 		// $this->addCommandButton("", $lng->txt(""));
 	}
 

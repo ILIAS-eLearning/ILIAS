@@ -480,6 +480,7 @@ class ilAdvancedSelectionListGUI
 	//					'onclick="parent.location='."'".$item["link"]."';".'"');
 					$tpl->setVariable("ONCLICK_ITEM",'');
 					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
+					$tpl->setVariable("ID_ITEM", $this->getId()."_".$item["value"]);
 				}
 				else if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)

@@ -109,3 +109,16 @@ function ilTablePageSelection(el, cmd)
 	return false;
 }
 
+function ilTableSaveSettings(id, sUrl)
+{
+	var obj = document.getElementById(id);
+	if(obj.value != "")
+	{
+		sUrl = sUrl + "&name=" + obj.value;
+		ilTableJSHandler(sUrl);
+		obj.value = "";
+		return true;
+	}
+	return false;
+}
+
