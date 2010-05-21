@@ -215,13 +215,27 @@ ilOverlayFunc.prototype =
 		{
 			var el = document.getElementById(k);
 			var el_reg = YAHOO.util.Region.getRegion(el);
-			if (!el_reg.contains(new YAHOO.util.Point(e.pageX , e.pageY)) || force)
+
+			// problems with form select: pageXY can be outside layer
+			var offsetIn = false;
+			if(!force)
+			{
+				try {
+					if(e.originalTarget.offsetParent.id == k) {
+						offsetIn = true;
+					}
+				}
+				catch(err) {
+				}
+			}
+			
+			if ((!offsetIn && !el_reg.contains(new YAHOO.util.Point(e.pageX , e.pageY))) || force)
 			{
 				ilOverlayFunc.prototype.hide(null, k);
 			}
 		}
 	},
-	
+
 	mouseOver: function (e, id)
 	{
 		this.closeCnt[id] = -1;

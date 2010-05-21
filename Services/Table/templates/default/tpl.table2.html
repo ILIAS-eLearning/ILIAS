@@ -80,10 +80,10 @@
 	<!-- BEGIN template_editor_delete -->
 	<div id="{TEMPLATE_DELETE_ID}" class="ilOverlay" style="padding:10px">
 		{TXT_TEMPLATE_DELETE}:<br />
-		<select name="tbltpldel">
+		<select name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name">
 		<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION}">{TEMPLATE_DELETE_OPTION}</option><!-- END template_editor_delete_item -->
 		</select>
-		<input type="submit" class="submit" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" />
+		<input type="submit" class="submit" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_DELETE_ID}_name').value == '') { return false; }" />
 	</div>
     <!-- END template_editor_delete -->
 	<!-- END template_editor -->
