@@ -508,14 +508,13 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
-	 *
+	 * Add filter by standard type
 	 * 
-	 * @global <type> $lng
-	 * @param <type> $id
-	 * @param <type> $type
-	 * @param <type> $a_optional
-	 * @param <type> $caption
-	 * @return <type>
+	 * @param	string	$id
+	 * @param	int		$type
+	 * @param	bool	$a_optional
+	 * @param	string	$caption
+	 * @return	object
 	 */
 	function addFilterItemByMetaType($id, $type = self::FILTER_TEXT, $a_optional = false, $caption = NULL)
 	{
@@ -707,7 +706,6 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		$old_sel = $this->loadProperty("selfilters");
-
 		$stored = false;
 		if ($old_sel != "")
 		{
@@ -1887,7 +1885,7 @@ class ilTable2GUI extends ilTableGUI
 			$footer = true;
 		}
 
-		if($this->getShowTemplates())
+		if($this->getShowTemplates() && is_object($ilUser))
 		{
 			$form_id = "template_overlay_".$this->getId();
 			$list_id = "template_stg_".$this->getId();
@@ -1939,7 +1937,7 @@ class ilTable2GUI extends ilTableGUI
 			if ($numinfo != "" || $linkbar != "" || $column_selector != "" ||
 				count($this->filters) > 0 || count($this->optional_filters) > 0)
 			{
-				if (count($this->filters) || count($this->optional_filters))
+				if (is_object($ilUser) && (count($this->filters) || count($this->optional_filters)))
 				{
 					$this->tpl->setCurrentBlock("filter_activation");
 					$this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
@@ -2416,8 +2414,8 @@ class ilTable2GUI extends ilTableGUI
 		$result["direction"] = $this->getOrderDirection();
 		$result["offset"] = $this->getOffset();
 		$result["rows"] = $this->getLimit();
-		$result["selfields"] = array_keys($this->getSelectedColumns());
-		$result["selfilters"] = array_keys($this->getSelectedFilters());
+		$result["selfields"] = $this->getSelectedColumns();
+		$result["selfilters"] = $this->getSelectedFilters();
 		// "filter" show/hide is not saved
 
 		return $result;
@@ -2510,7 +2508,11 @@ class ilTable2GUI extends ilTableGUI
 			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
 			$storage = new ilTableTemplatesStorage();
 
-			return $storage->store($this->getContext(), $ilUser->getId(), $a_name, $this->getCurrentState());
+			$state = $this->getCurrentState();
+			$state["selfields"] = serialize($state["selfields"]);
+			$state["selfilters"] = serialize($state["selfilters"]);
+
+			return $storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
 		}
 		return false;
 	}
