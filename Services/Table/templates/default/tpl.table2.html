@@ -75,12 +75,11 @@
 		{TXT_TEMPLATE_CREATE}:<br />
 		<input type="text" id="{TEMPLATE_CREATE_ID}_name" name="tbltplcrt" style="width:150px" />
 		<input type="submit" class="submit" name="cmd[{TEMPLATE_CREATE_CMD}]" value="{TXT_TEMPLATE_CREATE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_CREATE_ID}_name').value == '') { return false; }" />
-		</form>
 	</div>
 	<!-- BEGIN template_editor_delete -->
 	<div id="{TEMPLATE_DELETE_ID}" class="ilOverlay" style="padding:10px">
 		{TXT_TEMPLATE_DELETE}:<br />
-		<select name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name">
+		<select name="tbltpldel" id="{TEMPLATE_DELETE_ID}_name" style="width:150px">
 		<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION}">{TEMPLATE_DELETE_OPTION}</option><!-- END template_editor_delete_item -->
 		</select>
 		<input type="submit" class="submit" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_DELETE_ID}_name').value == '') { return false; }" />
