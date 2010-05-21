@@ -108,17 +108,3 @@ function ilTablePageSelection(el, cmd)
 	el.form.submit();
 	return false;
 }
-
-function ilTableSaveTemplate(id, sUrl)
-{
-	var obj = document.getElementById(id);
-	if(obj.value != "")
-	{
-		sUrl = sUrl + "&name=" + obj.value;
-		ilTableJSHandler(sUrl);
-		obj.value = "";
-		return true;
-	}
-	return false;
-}
-

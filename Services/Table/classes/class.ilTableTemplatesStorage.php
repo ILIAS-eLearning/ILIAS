@@ -104,7 +104,8 @@ class ilTableTemplatesStorage
 
 		$set = $ilDB->query("SELECT name FROM table_templates ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND context = ".$ilDB->quote($a_context, "text")
+			" AND context = ".$ilDB->quote($a_context, "text").
+			" ORDER BY name"
 			);
 		$result = array();
 		while ($rec  = $ilDB->fetchAssoc($set))

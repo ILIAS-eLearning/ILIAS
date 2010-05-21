@@ -70,7 +70,7 @@ class ilTable2GUI extends ilTableGUI
 		}
 		$this->setContext($a_template_context);
 
-		// restore table properties from template
+		// template handling
 		if(isset($_GET[$this->prefix."_tpl"]))
         {
 			$this->restoreTemplate($_GET[$this->prefix."_tpl"]);
@@ -1470,14 +1470,6 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $lng;
 
-		// templates handler
-		if($_GET["tplcmd"] == "save")
-		{
-			$this->saveTemplate($_GET["name"]);
-			exit();
-		}
-
-		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
 		$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
 		if ($this->getId() != "")
@@ -1887,37 +1879,89 @@ class ilTable2GUI extends ilTableGUI
 
 		if($this->getShowTemplates() && is_object($ilUser))
 		{
-			$form_id = "template_overlay_".$this->getId();
+			// template handling
+			if(isset($_POST["tbltplcrt"]) && $_POST["tbltplcrt"])
+			{
+				if($this->saveTemplate($_POST["tbltplcrt"]))
+				{
+					ilUtil::sendSuccess($lng->txt("template_created"));
+				}
+			}
+			else if(isset($_POST["tbltpldel"]) && $_POST["tbltpldel"])
+			{
+				if($this->deleteTemplate($_POST["tbltpldel"]))
+				{
+					ilUtil::sendSuccess($lng->txt("template_deleted"));
+				}
+			}
+
+			$create_id = "template_create_overlay_".$this->getId();
+			$delete_id = "template_delete_overlay_".$this->getId();
 			$list_id = "template_stg_".$this->getId();
 
-			// overlay form to save new template
+			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
+			$storage = new ilTableTemplatesStorage();
+			$templates = $storage->getNames($this->getContext(), $ilUser->getId());
+			
 			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$overlay = new ilOverlayGui($form_id);
-			$overlay->setTrigger($list_id."_edit");
+
+			// form to delete template
+			if(sizeof($templates))
+			{
+				$overlay = new ilOverlayGui($delete_id);
+				$overlay->setTrigger($list_id."_delete");
+				$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
+				$overlay->setSize("210px", "50px");
+				$overlay->setAutoHide(false);
+				$overlay->add();
+
+				$this->tpl->setCurrentBlock("template_editor_delete_item");
+				$this->tpl->setVariable("TEMPLATE_DELETE_OPTION", "");
+				$this->tpl->parseCurrentBlock();
+				foreach($templates as $name)
+				{
+					$this->tpl->setVariable("TEMPLATE_DELETE_OPTION", $name);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("template_editor_delete");
+				$this->tpl->setVariable("TEMPLATE_DELETE_ID", $delete_id);
+				$this->tpl->setVariable("TXT_TEMPLATE_DELETE", $lng->txt("template_delete"));
+				$this->tpl->setVariable("TXT_TEMPLATE_DELETE_SUBMIT", $lng->txt("delete"));
+				$this->tpl->setVariable("TEMPLATE_DELETE_CMD", $this->parent_cmd);
+				$this->tpl->parseCurrentBlock();
+			}
+
+
+			// form to save new template
+			$overlay = new ilOverlayGui($create_id);
+			$overlay->setTrigger($list_id."_create");
 			$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
-			$overlay->setSize("210px", "40px");
+			$overlay->setSize("210px", "50px");
 			$overlay->setAutoHide(false);
 			$overlay->add();
+
 			$this->tpl->setCurrentBlock("template_editor");
-			$this->tpl->setVariable("TEMPLATE_EDITOR_ID", $form_id);
-			$this->tpl->setVariable("TXT_TEMPLATE_EDITOR_SAVE_AS", $lng->txt("template_save_as"));
-			$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd)."&tplcmd=save";
-			$this->tpl->setVariable("TEMPLATE_EDITOR_URL_SAVE", $link);
+			$this->tpl->setVariable("TEMPLATE_CREATE_ID", $create_id);
+			$this->tpl->setVariable("TXT_TEMPLATE_CREATE", $lng->txt("template_create"));
+			$this->tpl->setVariable("TXT_TEMPLATE_CREATE_SUBMIT", $lng->txt("save"));
+			$this->tpl->setVariable("TEMPLATE_CREATE_CMD", $this->parent_cmd);
 			$this->tpl->parseCurrentBlock();
 
 			// load saved template
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
 			$alist->setId($list_id);
-			$alist->addItem($lng->txt("template_edit"), "edit", "#");
-
-			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
-			$storage = new ilTableTemplatesStorage();
-			foreach($storage->getNames($this->getContext(), $ilUser->getId()) as $name)
+			$alist->addItem($lng->txt("template_create"), "create", "#");
+			if(sizeof($templates))
 			{
-				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", $name);
-				$alist->addItem($name, $name, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
-				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", "");
+				$alist->addItem($lng->txt("template_delete"), "delete", "#");
+				foreach($templates as $name)
+				{
+					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", $name);
+					$alist->addItem($name, $name, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", "");
+				}
 			}
 			$alist->setListTitle($lng->txt("templates"));
 			$this->tpl->setVariable("TEMPLATE_SELECTOR", $alist->getHTML());
@@ -2512,7 +2556,28 @@ class ilTable2GUI extends ilTableGUI
 			$state["selfields"] = serialize($state["selfields"]);
 			$state["selfilters"] = serialize($state["selfilters"]);
 
-			return $storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
+			$storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Delete template
+	 *
+	 * @param	string	$a_name
+	 * @return	bool
+	 */
+	public function deleteTemplate($a_name)
+	{
+		global $ilUser;
+
+		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
+			$storage = new ilTableTemplatesStorage();
+			$storage->delete($this->getContext(), $ilUser->getId(), $a_name);
+			return true;
 		}
 		return false;
 	}

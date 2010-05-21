@@ -71,11 +71,21 @@
 	{COLUMN_SELECTOR} {ROW_SELECTOR} &nbsp; {TEMPLATE_SELECTOR}
 
 	<!-- BEGIN template_editor -->
-	<div id="{TEMPLATE_EDITOR_ID}" class="ilOverlay" style="padding:10px">
-		{TXT_TEMPLATE_EDITOR_SAVE_AS}:<br />
-		<input type="text" id="{TEMPLATE_EDITOR_ID}_NAME" style="width:150px" />
-		<input type="submit" class="submit" value="Save" onClick="if (ilTableSaveTemplate('{TEMPLATE_EDITOR_ID}_NAME', '{TEMPLATE_EDITOR_URL_SAVE}')) { ilOverlay.hide(null, '{TEMPLATE_EDITOR_ID}'); }; return false;" />
+	<div id="{TEMPLATE_CREATE_ID}" class="ilOverlay" style="padding:10px">
+		{TXT_TEMPLATE_CREATE}:<br />
+		<input type="text" id="{TEMPLATE_CREATE_ID}_name" name="tbltplcrt" style="width:150px" />
+		<input type="submit" class="submit" name="cmd[{TEMPLATE_CREATE_CMD}]" value="{TXT_TEMPLATE_CREATE_SUBMIT}" onclick="if (document.getElementById('{TEMPLATE_CREATE_ID}_name').value == '') { return false; }" />
+		</form>
 	</div>
+	<!-- BEGIN template_editor_delete -->
+	<div id="{TEMPLATE_DELETE_ID}" class="ilOverlay" style="padding:10px">
+		{TXT_TEMPLATE_DELETE}:<br />
+		<select name="tbltpldel">
+		<!-- BEGIN template_editor_delete_item --><option value="{TEMPLATE_DELETE_OPTION}">{TEMPLATE_DELETE_OPTION}</option><!-- END template_editor_delete_item -->
+		</select>
+		<input type="submit" class="submit" name="cmd[{TEMPLATE_DELETE_CMD}]" value="{TXT_TEMPLATE_DELETE_SUBMIT}" />
+	</div>
+    <!-- END template_editor_delete -->
 	<!-- END template_editor -->
 	
 	</td>
