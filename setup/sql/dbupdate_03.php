@@ -1722,3 +1722,8 @@ if(!$ilDB->tableExists('table_templates'))
 	$ilDB->addPrimaryKey('table_templates', array('name', 'user_id', 'context'));
 }
 ?>
+
+<#3052>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
