@@ -11,6 +11,8 @@
  */
 class ilUIHookPluginGUI
 {
+	protected $plugin_object = null;
+	
 	const UNSPECIFIED = "";
 	const KEEP = "";
 	const REPLACE = "r";
