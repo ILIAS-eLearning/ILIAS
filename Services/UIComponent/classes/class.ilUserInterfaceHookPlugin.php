@@ -1,5 +1,8 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once("./Services/Component/classes/class.ilPlugin.php");
 
 /**
  * User interface hook plugin
@@ -8,7 +11,7 @@
  * @version $Id$
  * @ingroup ServicesUIComponent
  */
-class ilUserInterfaceHookPlugin
+abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
 	/**
 	 * Get Component Type
@@ -58,5 +61,16 @@ class ilUserInterfaceHookPlugin
 		// nothing to do here
 	}
 
+	/**
+	 * Get UI plugin class
+	 */
+	function getUIClassInstance()
+	{
+		$class = "il".$this->getPluginName()."UIHookGUI";
+		$this->includeClass("class.".$class.".php");
+		$obj = new $class();
+		$obj->setPluginObject($this);
+		return $obj;
+	}
 }
 ?>

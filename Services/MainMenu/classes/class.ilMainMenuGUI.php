@@ -72,272 +72,42 @@ class ilMainMenuGUI
 	}
 
 	/**
-	* add menu template as block
-	*/
-	function addMenuBlock($a_var = "CONTENT", $a_block = "navigation")
-	{
-		echo "ilMainMenu->addMenuBlick is deprecated. Use getHTML instead.";
-		return;
-		$this->tpl->addBlockFile($a_var, $a_block, "tpl.main_buttons.html");
-	}
-
-	/**
 	* set all template variables (images, scripts, target frames, ...)
 	*/
 	function setTemplateVars()
 	{
-		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting;
+		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 
-		
-		// navigation history
-		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
-		$nav_hist = new ilNavigationHistoryGUI();
-		$nav_html = $nav_hist->getHTML();
-
-		if ($nav_html != "")
+		// user interface hook [uihk]
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		$plugin_html = false;
+		foreach ($pl_names as $pl)
 		{
-
-			$this->tpl->setCurrentBlock("nav_history");
-			$this->tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
-			$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
-			$this->tpl->parseCurrentBlock();
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			$resp = $gui_class->getHTML("Services/MainMenu", "main_menu_list_entries",
+				array("main_menu_gui" => $this));
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$plugin_html = true;
+				break;		// first one wins
+			}
 		}
 
-		// administration button
-		if(ilMainMenuGUI::_checkAdministrationPermission())
+		// default html
+		if (!$plugin_html || $resp["mode"] != ilUIHookPluginGUI::REPLACE)
 		{
-			$this->tpl->setCurrentBlock("userisadmin");
-			$this->tpl->setVariable("IMG_ADMIN", ilUtil::getImagePath("navbar/admin.gif", false));
-			$this->tpl->setVariable("IMG_SPACE_ADMIN", ilUtil::getImagePath("spacer.gif", false));
-			$this->tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
-			$this->tpl->setVariable("SCRIPT_ADMIN", $this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"));
-			$this->tpl->setVariable("TARGET_ADMIN", $this->target);
-			if ($this->active == "administration")
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMActive");
-				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-			}
-			else
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMInactive");
-			}
-			$this->tpl->parseCurrentBlock();
+			$mmle_tpl = new ilTemplate("tpl.main_menu_list_entries.html", true, true, "Services/MainMenu");
+			$mmle_html = $this->renderMainMenuListEntries($mmle_tpl);
 		}
 
-		// search
-		include_once 'Services/Search/classes/class.ilSearchSettings.php';
-		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
+		// combine plugin and default html
+		if ($plugin_html)
 		{
-			$this->tpl->setCurrentBlock("searchbutton");
-			$this->tpl->setVariable("SCRIPT_SEARCH",$this->getScriptTarget('ilias.php?baseClass=ilSearchController'));
-			$this->tpl->setVariable("TARGET_SEARCH",$this->target);
-			$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
-			if ($this->active == "search")
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMActive");
-				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-			}
-			else
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMInactive");
-			}
-			$this->tpl->parseCurrentBlock();
-			
-			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
-			$main_search = new ilMainMenuSearchGUI();
-			if(strlen($html = $main_search->getHTML()))
-			{
-				$this->tpl->setVariable('SEARCHBOX',$html);
-			}
-		}
-		
-		
-		// webshop
-		if(IS_PAYMENT_ENABLED)
-		{
-			$this->tpl->setCurrentBlock('shopbutton');
-			$this->tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=clearFilter'));
-			$this->tpl->setVariable('TARGET_SHOP', $this->target);			
-			
-			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
-			$items = $objShoppingCart->getEntries();
-			
-			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop'));
-/*			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop').(count($items) > 0 ? ' ('.count($items).')' : ''));
-
-			if($this->active == 'shop' || $this->active == 'shoppingcart')
-			{
-				$this->tpl->setVariable('MM_CLASS', 'MMActive');
-				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-			}
-			else
-			{
-				$this->tpl->setVariable('MM_CLASS', 'MMInactive');
-			}
-			$this->tpl->parseCurrentBlock();
-*/		
-		
-			// shoppingcart
-			if(count($items) > 0 )
-			{
-			
-				$this->tpl->setVariable('SCRIPT_SHOPPINGCART', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui'));
-				$this->tpl->setVariable('TARGET_SHOPPINGCART', $this->target);			
-				$this->tpl->setVariable('TXT_SHOPPINGCART', '('.count($items).')');		
-				if($this->active == 'shop')
-				{
-					$this->tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMActive');
-				}
-				else
-				{
-					$this->tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMInactive');
-				}
-			}			
-
-			if($this->active == 'shop')
-			{
-				$this->tpl->setVariable('MM_CLASS', 'MMActive');
-				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-				if(count($items) > 0 )
-				{
-					$this->tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
-				}
-			}
-			else
-			{
-				$this->tpl->setVariable('MM_CLASS', 'MMInactive');
-				if(count($items) > 0 )
-				{
-					$this->tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-				
+			$mmle_html = $gui_class->modifyHTML($mme_html, $resp);
 		}
 
-		// help button
-		//$this->tpl->setCurrentBlock("userhelp");
-		//$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
-		//$this->tpl->setVariable("SCRIPT_HELP", "ilias.php?baseClass=ilHelpGUI");
-		//$this->tpl->setVariable("TARGET_HELP", "ilias_help");
-		//$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
-		
-		// mail & desktop button
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-		{
-			$this->tpl->setCurrentBlock("desktopbutton");
-			$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
-			$this->tpl->setVariable("IMG_SPACE_DESK", ilUtil::getImagePath("spacer.gif", false));
-			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
-			#$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI&PDHistory=1"));
-			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"));
-			$this->tpl->setVariable("TARGET_DESK", $this->target);
-			if ($this->active == "desktop")
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMActive");
-				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-			}
-			else
-			{
-				$this->tpl->setVariable("MM_CLASS", "MMInactive");
-			}
-			$this->tpl->parseCurrentBlock();
-
-			include_once "Services/Mail/classes/class.ilMail.php";
-			
-			$mail = new ilMail($_SESSION["AccountId"]);
-
-			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
-			{
-				#$link = "mail_frameset.php";
-				$link = "ilias.php?baseClass=ilMailGUI";
-				
-				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
-				{
-					$mbox = new ilMailbox($_SESSION["AccountId"]);
-					$mail = new ilMail($_SESSION['AccountId']);
-					$folder_id = $mbox->getInboxFolder();
-				
-					//$link = "mail_frameset.php?target=".
-					//	htmlentities(urlencode("mail_read.php?mobj_id=".
-					//	$folder_id."&mail_id=".$mail_id));
-					$add = " ".sprintf($lng->txt("cnt_new"),
-						ilMailbox::_countNewMails($_SESSION["AccountId"]));
-				}
-				
-				$this->tpl->setCurrentBlock("mailbutton");
-				$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
-				$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
-				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail").$add);
-				$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget($link));
-				$this->tpl->setVariable("TARGET_MAIL", $this->target);
-				if ($this->active == "mail")
-				{
-					$this->tpl->setVariable("MM_CLASS", "MMActive");
-					$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-				}
-				else
-				{
-					$this->tpl->setVariable("MM_CLASS", "MMInactive");
-				}
-				$this->tpl->parseCurrentBlock();				
-			}
-		}
-		
-		// chat messages
-		if ($ilSetting->get('chat_message_notify_status') == 1 && $_REQUEST['baseClass'] != 'ilChatPresentationGUI' && $ilUser->getPref('chat_message_notify_status') == 1) {
-			include_once 'Modules/Chat/classes/class.ilChatMessageNotifyGUI.php';
-			$msg_notify = new ilChatMessageNotifyGUI();
-			$html = $msg_notify->getHtml();
-			if ($html) {
-				$this->tpl->setCurrentBlock("chat_lastmsg");
-				$this->tpl->setVariable('CHAT_LAST_MESSAGE', $html);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-		}
-		
-		// chat invitations
-		include_once 'Modules/Chat/classes/class.ilChatInvitationGUI.php';
-		$chat_invitation_gui = new ilChatInvitationGUI();
-		$chat_invitation_html = $chat_invitation_gui->getHTML();
-		if(trim($chat_invitation_html) != '')
-		{
-			$this->tpl->setCurrentBlock('chatbutton');
-			$this->tpl->setVariable('CHAT_INVITATIONS', $chat_invitation_html);
-			$this->tpl->parseCurrentBlock();
-		}		
-
-		// repository link		
-		$this->tpl->setCurrentBlock("rep_button");
-#		$this->tpl->setVariable("SCRIPT_CATALOG",'goto__target__root_1__client__ilias38.html');
-#			#$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
-
-		include_once('classes/class.ilLink.php');
-		$this->tpl->setVariable('SCRIPT_CATALOG',ilLink::_getStaticLink(1,'root',true));
-		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-		$title = $nd["title"];
-		if ($title == "ILIAS")
-		{
-			$title = $lng->txt("repository");
-		}
-		$this->tpl->setVariable("TXT_CATALOG", $title);
-		if ($this->active == "repository" || $this->active == "")
-		{
-			$this->tpl->setVariable("MM_CLASS", "MMActive");
-			$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-		}
-		else
-		{
-			$this->tpl->setVariable("MM_CLASS", "MMInactive");
-		}
-		// set target frame
-		$this->tpl->setVariable("TARGET", $this->target);
-		$this->tpl->parseCurrentBlock();
-		
+		$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html);
 
 		$link_dir = (defined("ILIAS_MODULE"))
 			? "../"
@@ -427,6 +197,216 @@ class ilMainMenuGUI
 		
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * desc
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderMainMenuListEntries($a_tpl, $a_call_get = true)
+	{
+		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting;
+
+		// personal desktop
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			$this->renderEntry($a_tpl, "desktop",
+				$lng->txt("personal_desktop"),
+				$this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"),
+				$this->target);
+		}
+
+		// repository
+		include_once('classes/class.ilLink.php');
+		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+		$title = $nd["title"];
+		if ($title == "ILIAS")
+		{
+			$title = $lng->txt("repository");
+		}
+		$this->renderEntry($a_tpl, "repository",
+			$title,
+			ilLink::_getStaticLink(1,'root',true),
+			$this->target);
+
+		// search
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
+		{
+			$this->renderEntry($a_tpl, "search",
+				$lng->txt("search"),
+				$this->getScriptTarget('ilias.php?baseClass=ilSearchController'),
+				$this->target);
+
+			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
+			$main_search = new ilMainMenuSearchGUI();
+			if(strlen($html = $main_search->getHTML()))
+			{
+				$a_tpl->setVariable('SEARCHBOX',$html);
+			}
+		}
+
+		// mail
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			include_once "Services/Mail/classes/class.ilMail.php";
+
+			$mail = new ilMail($_SESSION["AccountId"]);
+			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
+			{
+				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
+				{
+					$mbox = new ilMailbox($_SESSION["AccountId"]);
+					$mail = new ilMail($_SESSION['AccountId']);
+					$folder_id = $mbox->getInboxFolder();
+					$add = " ".sprintf($lng->txt("cnt_new"),
+						ilMailbox::_countNewMails($_SESSION["AccountId"]));
+				}
+
+				$this->renderEntry($a_tpl, "mail",
+					$lng->txt("mail").$add,
+					$this->getScriptTarget("ilias.php?baseClass=ilMailGUI"),
+					$this->target);
+			}
+		}
+
+
+		// webshop
+		if(IS_PAYMENT_ENABLED)
+		{
+			$a_tpl->setCurrentBlock('shopbutton');
+			$a_tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=clearFilter'));
+			$a_tpl->setVariable('TARGET_SHOP', $this->target);
+
+			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
+			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
+			$items = $objShoppingCart->getEntries();
+
+			$a_tpl->setVariable('TXT_SHOP', $lng->txt('shop'));
+
+			// shoppingcart
+			if(count($items) > 0 )
+			{
+
+				$a_tpl->setVariable('SCRIPT_SHOPPINGCART', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui'));
+				$a_tpl->setVariable('TARGET_SHOPPINGCART', $this->target);
+				$a_tpl->setVariable('TXT_SHOPPINGCART', '('.count($items).')');
+				if($this->active == 'shop')
+				{
+					$a_tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMActive');
+				}
+				else
+				{
+					$a_tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMInactive');
+				}
+			}
+
+			if($this->active == 'shop')
+			{
+				$a_tpl->setVariable('MM_CLASS', 'MMActive');
+				$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
+				if(count($items) > 0 )
+				{
+					$a_tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
+				}
+			}
+			else
+			{
+				$a_tpl->setVariable('MM_CLASS', 'MMInactive');
+				if(count($items) > 0 )
+				{
+					$a_tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
+				}
+			}
+			$a_tpl->parseCurrentBlock();
+
+		}
+
+		// administration
+		if(ilMainMenuGUI::_checkAdministrationPermission())
+		{
+			$this->renderEntry($a_tpl, "administration",
+				$lng->txt("administration"),
+				$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
+				$this->target);
+		}
+
+
+		// navigation history
+		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
+		$nav_hist = new ilNavigationHistoryGUI();
+		$nav_html = $nav_hist->getHTML();
+		if ($nav_html != "")
+		{
+
+			$a_tpl->setCurrentBlock("nav_history");
+			$a_tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
+			$a_tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
+			$a_tpl->parseCurrentBlock();
+		}
+
+
+		// chat messages
+		if ($ilSetting->get('chat_message_notify_status') == 1 && $_REQUEST['baseClass'] != 'ilChatPresentationGUI' && $ilUser->getPref('chat_message_notify_status') == 1) {
+			include_once 'Modules/Chat/classes/class.ilChatMessageNotifyGUI.php';
+			$msg_notify = new ilChatMessageNotifyGUI();
+			$html = $msg_notify->getHtml();
+			if ($html) {
+				$a_tpl->setCurrentBlock("chat_lastmsg");
+				$a_tpl->setVariable('CHAT_LAST_MESSAGE', $html);
+				$a_tpl->parseCurrentBlock();
+			}
+
+		}
+
+		// chat invitations
+		include_once 'Modules/Chat/classes/class.ilChatInvitationGUI.php';
+		$chat_invitation_gui = new ilChatInvitationGUI();
+		$chat_invitation_html = $chat_invitation_gui->getHTML();
+		if(trim($chat_invitation_html) != '')
+		{
+			$a_tpl->setCurrentBlock('chatbutton');
+			$a_tpl->setVariable('CHAT_INVITATIONS', $chat_invitation_html);
+			$a_tpl->parseCurrentBlock();
+		}
+
+		if ($a_call_get)
+		{
+			return $a_tpl->get();
+		}
+
+		return "";
+	}
+
+	/**
+	 * Render main menu entry
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
+	{
+		global $lng;
+
+		$id = strtolower($a_id);
+		$id_up = strtoupper($a_id);
+		$a_tpl->setCurrentBlock("entry_".$id);
+		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
+		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
+		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
+		if ($this->active == $a_id || ($this->active == "" && $a_id == "repository"))
+		{
+			$a_tpl->setVariable("MM_CLASS", "MMActive");
+			$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
+		}
+		else
+		{
+			$a_tpl->setVariable("MM_CLASS", "MMInactive");
+		}
+		$a_tpl->parseCurrentBlock();
+	}
+
 
 	/**
 	* generates complete script target (private)

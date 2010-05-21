@@ -401,7 +401,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
-			
+
 		$result = $pl->update();
 		
 		if ($result !== true)
