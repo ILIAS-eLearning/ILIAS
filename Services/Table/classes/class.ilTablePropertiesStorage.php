@@ -70,7 +70,7 @@ class ilTablePropertiesStorage
 	{
 		global $ilDB;
 
-		if ($a_table_id == "")
+		if ($a_table_id == "" || !$this->isValidProperty($a_property))
 		{
 			return;
 		}
@@ -106,7 +106,7 @@ class ilTablePropertiesStorage
 	{
 		global $ilDB;
 		
-		if ($a_table_id == "")
+		if ($a_table_id == "" || !$this->isValidProperty($a_property))
 		{
 			return;
 		}
@@ -134,7 +134,21 @@ class ilTablePropertiesStorage
 				break;
 		}
 	}
-	
 
+	/**
+	 * Check if given property id is valid
+	 *
+	 * @param	string	$a_property
+	 * @return	bool
+	 */
+	function isValidProperty($a_property)
+	{
+		if(array_key_exists($a_property, $this->properties))
+		{
+			return true;
+		}
+		return false;
+	}
 }
+
 ?>
