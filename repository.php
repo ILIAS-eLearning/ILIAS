@@ -24,6 +24,4 @@ $repository_gui = new ilRepositoryGUI();
 //$repository_gui->executeCommand();
 $ilCtrl->forwardCommand($repository_gui);
 
-$ilBench->save();
-
 ?>

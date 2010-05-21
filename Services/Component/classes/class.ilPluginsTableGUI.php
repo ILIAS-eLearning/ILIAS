@@ -1,37 +1,18 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 
 /**
-* TableGUI class for plugins listing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesComponent
-*/
+ * TableGUI class for plugins listing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesComponent
+ */
 class ilPluginsTableGUI extends ilTable2GUI
 {
 	function ilPluginsTableGUI($a_parent_obj, $a_parent_cmd = "",
@@ -185,7 +166,18 @@ class ilPluginsTableGUI extends ilTable2GUI
 					$lng->txt("cmps_refresh"));
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
+			// configure button
+			if (ilPlugin::hasConfigureClass($this->slot->getPluginsDirectory(), $a_set["name"]) &&
+				$ilCtrl->checkTargetClass(ilPlugin::getConfigureClassName($a_set["name"])))
+			{
+				$this->tpl->setCurrentBlock("configure");
+				$this->tpl->setVariable("HREF_CONFIGURE",
+					$ilCtrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($a_set["name"])), "configure"));
+				$this->tpl->setVariable("TXT_CONFIGURE",
+					$lng->txt("cmps_configure"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		// update button

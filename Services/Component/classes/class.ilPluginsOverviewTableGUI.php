@@ -52,6 +52,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 			foreach ($plugin_slots as $ps)
 			{
 				$plugins = array();
+				include_once("./Services/Component/classes/class.ilPluginSlot.php");
 				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
 				foreach ($slot->getPluginsInformation() as $p)
 				{

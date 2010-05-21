@@ -1210,7 +1210,13 @@ abstract class ilDB extends PEAR
 	function query($sql, $a_handle_error = true)
 	{
 		$r = $this->db->query($sql);
-		
+
+/*$f = substr($sql, stripos($sql, "from ") + 5);
+$t = substr($f, 0, stripos($f, " "));
+$this->tqueried[$t]++;
+if ($t == "tree")
+	echo "<br>".$sql;*/
+
 		if ($a_handle_error)
 		{
 			return $this->handleError($r, "query(".$sql.")");

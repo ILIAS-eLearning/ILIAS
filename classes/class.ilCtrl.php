@@ -299,7 +299,7 @@ class ilCtrl
 	 * @param	string		class that should be searched
 	 * @return	int			id of target node that has been found
 	 */
-	function getNodeIdForTargetClass($a_par_node, $a_class)
+	function getNodeIdForTargetClass($a_par_node, $a_class, $a_check = false)
 	{
 		$class = strtolower($a_class);
 		$this->readClassInfo($class);
@@ -350,6 +350,11 @@ class ilCtrl
 			}
 			$temp_node = $this->removeLastCid($temp_node);
 		}
+
+		if ($a_check)
+		{
+			return false;
+		}
 		
 		// Please do NOT change these lines.
 		// Developers must be aware, if they use classes unknown to the controller
@@ -372,6 +377,32 @@ class ilCtrl
 		}
 
 		exit;
+	}
+
+	/**
+	 * Check whether target is valid
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkTargetClass($a_class)
+	{
+		if (!is_array($a_class))
+		{
+			$a_class = array($a_class);
+		}
+
+		$nr = $this->current_node;
+		foreach ($a_class as $class)
+		{
+			$class = strtolower($class);
+			$nr = $this->getNodeIdForTargetClass($nr, $class, true);
+			if ($nr === false)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -1617,6 +1648,37 @@ class ilCtrl
 	{
 		$n_arr = explode(":", $a_node);
 		return $n_arr[count($n_arr) - 1];
+	}
+
+	/**
+	 * Insert ctrl calls record
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertCtrlCalls($a_parent, $a_child, $a_comp_prefix)
+	{
+		global $ilDB;
+
+		$a_parent = strtolower($a_parent);
+		$a_child = strtolower($a_child);
+		$a_comp_prefix = strtolower($a_comp_prefix);
+
+		$set = $ilDB->query("SELECT * FROM ctrl_calls WHERE ".
+			" parent = ".$ilDB->quote($a_parent, "text")." AND ".
+			" child = ".$ilDB->quote($a_child, "text")." AND ".
+			" comp_prefix = ".$ilDB->quote($a_comp_prefix, "text")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return;
+		}
+		$ilDB->manipulate("INSERT INTO ctrl_calls ".
+			"(parent, child, comp_prefix) VALUES (".
+			$ilDB->quote($a_parent, "text").",".
+			$ilDB->quote($a_child, "text").",".
+			$ilDB->quote($a_comp_prefix, "text").
+			")");
 	}
 
 }
