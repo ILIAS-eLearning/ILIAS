@@ -304,8 +304,8 @@ abstract class ilPlugin
 	}
 	
 	/**
-	* Get array of all language files in the plugin
-	*/
+	 * Get array of all language files in the plugin
+	 */
 	static final function getAvailableLangFiles($a_lang_directory)
 	{
 		$langs = array();
@@ -336,7 +336,35 @@ abstract class ilPlugin
 
 		return $langs;
 	}
-	
+
+	/**
+	 * Has the plugin a configure class?
+	 *
+	 * @param	string	slot directory
+	 * @param	string	plugin name
+	 * @return	boolean	true/false
+	 */
+	static final function hasConfigureClass($a_slot_dir, $a_name)
+	{
+		if (is_file($a_slot_dir."/".
+			$a_name."/classes/class.il".$a_name."ConfigGUI.php"))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get plugin configure class name
+	 *
+	 * @param
+	 * @return
+	 */
+	static final function getConfigureClassName($a_name)
+	{
+		return "il".$a_name."ConfigGUI";
+	}
+
 	/**
 	* Get plugin prefix, used for lang vars
 	*/
@@ -716,10 +744,10 @@ abstract class ilPlugin
 
 		return $result;
 	}
-	
+
 	/**
-	* Update
-	*/
+	 * Update plugin
+	 */
 	final function update()
 	{
 		global $ilDB, $ilCtrl;
@@ -741,6 +769,10 @@ abstract class ilPlugin
 		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix(),
 			$this->getDirectory());
 //		$ilCtrl->storeCommonStructures();
+
+		// add config gui to the ctrl calls
+		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($this->getPluginName()),
+			$this->getPrefix());
 		
 		// set last update version to current version
 		if ($result === true)

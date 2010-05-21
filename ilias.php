@@ -37,5 +37,5 @@ global $ilCtrl, $ilBench, $ilLog;
 
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
-$ilBench->save();
+
 ?>

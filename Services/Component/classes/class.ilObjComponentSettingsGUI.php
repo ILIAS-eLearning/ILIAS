@@ -37,7 +37,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		global $rbacsystem, $ilErr, $ilAccess, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -59,12 +59,30 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				break;
 
 			default:
-				if(!$cmd || $cmd == 'view')
+
+				// configure classes
+				$config = false;
+				if (substr(strtolower($next_class), strlen($next_class) - 9) == "configgui")
 				{
-					$cmd = "listPlugins";
+					$path = $ilCtrl->lookupClassPath(strtolower($next_class));
+					if ($path != "")
+					{
+						include_once($path);
+						$nc = new $next_class();
+						$ret = $this->ctrl->forwardCommand($nc);
+						$config = true;
+					}
 				}
 
-				$this->$cmd();
+				if (!$config)
+				{
+					if(!$cmd || $cmd == 'view')
+					{
+						$cmd = "listPlugins";
+					}
+
+					$this->$cmd();
+				}
 				break;
 		}
 		return true;
@@ -299,9 +317,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	 */
 	function showPluginSlot()
 	{
-		global $tpl,$lng, $ilTabs;
+		global $tpl, $lng, $ilTabs, $ilCtrl;
 		
-		$ilTabs->setTabActive("plugins");
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("cmps_plugins"),
+			$ilCtrl->getLinkTarget($this, "listPlugins"));
 
 		include_once("./Services/Component/classes/class.ilComponent.php");
 		$comp = ilComponent::getComponentObject($_GET["ctype"], $_GET["cname"]);

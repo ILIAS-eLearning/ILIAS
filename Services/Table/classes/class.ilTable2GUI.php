@@ -87,6 +87,8 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function determineLimit()
 	{
+		global $ilUser;
+
 		if ($this->limit_determined)
 		{
 			return;
@@ -108,7 +110,14 @@ class ilTable2GUI extends ilTableGUI
 			}
 			else
 			{
-				$limit = $ilUser->getPref("hits_per_page");
+				if (is_object($ilUser))
+				{
+					$limit = $ilUser->getPref("hits_per_page");
+				}
+				else
+				{
+					$limit = 40;
+				}
 			}
 		}
 
