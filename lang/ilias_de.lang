@@ -10366,3 +10366,8 @@ administration#:#show_topics_overview#:#Themen-Übersicht
 administration#:#topics_overview_info#:#Wenn aktiviert, werden nur Themen mit den gewählten Informationen angezeigt.
 common#:#show_system_messages#:#Systemnachrichten
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
+tbl#:#tbl_templates#:#Ansicht
+tbl#:#tbl_template_create#:#Aktuelle Ansicht speichern
+tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
+tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
+tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.

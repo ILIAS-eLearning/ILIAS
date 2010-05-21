@@ -10383,3 +10383,8 @@ administration#:#adm_rep_tree_all_types#:#All Resource Types
 administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.
 administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.
 cmps#:#cmps_configure#:#Configure
+tbl#:#tbl_templates#:#View
+tbl#:#tbl_template_create#:#Save Current View
+tbl#:#tbl_template_delete#:#Delete Saved View
+tbl#:#tbl_template_created#:#The current view has been saved.
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.
