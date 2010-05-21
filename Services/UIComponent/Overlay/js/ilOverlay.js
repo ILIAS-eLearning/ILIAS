@@ -171,10 +171,11 @@ ilOverlayFunc.prototype =
 	fixPosition: function(id)
 	{
 		var el = document.getElementById(id);
-		var el_reg = YAHOO.util.Region.getRegion(el);
-		var cl_reg = YAHOO.util.Dom.getClientRegion();
 		
 		el.style.overflow = '';
+
+		var el_reg = YAHOO.util.Region.getRegion(el);
+		var cl_reg = YAHOO.util.Dom.getClientRegion();
 		
 		// make it smaller, if window height is not sufficient
 		if (cl_reg.height < el_reg.height + 20)
@@ -213,24 +214,31 @@ ilOverlayFunc.prototype =
 	hideAllOverlays: function (e, force) {
 		for (var k in ilOverlayFunc.prototype.overlays)
 		{
-			var el = document.getElementById(k);
-			var el_reg = YAHOO.util.Region.getRegion(el);
+			var isIn = false;
 
 			// problems with form select: pageXY can be outside layer
-			var offsetIn = false;
-			if(!force)
-			{
+			if (!force) {
 				try {
-					if(e.originalTarget.offsetParent.id == k) {
-						offsetIn = true;
+					var tgt = YAHOO.util.Event.getTarget(e, true);
+					if(tgt.offsetParent.id == k) {
+						isIn = true;
 					}
 				}
-				catch(err) {
+				catch (err) {
 				}
 			}
-			
-			if ((!offsetIn && !el_reg.contains(new YAHOO.util.Point(e.pageX , e.pageY))) || force)
+
+			// try with event coordiantes
+			if (!force && !isIn)
 			{
+				var el = document.getElementById(k);
+				var el_reg = YAHOO.util.Region.getRegion(el);
+				if(el_reg.contains(new YAHOO.util.Point(YAHOO.util.Event.getPageX(e), YAHOO.util.Event.getPageY(e)))) {
+					isIn = true;
+				}
+			}
+
+			if (!isIn) {
 				ilOverlayFunc.prototype.hide(null, k);
 			}
 		}

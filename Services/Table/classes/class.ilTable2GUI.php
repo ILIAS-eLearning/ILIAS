@@ -1915,7 +1915,6 @@ class ilTable2GUI extends ilTableGUI
 				$overlay = new ilOverlayGui($delete_id);
 				$overlay->setTrigger($list_id."_delete");
 				$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
-				$overlay->setSize("210px", "50px");
 				$overlay->setAutoHide(false);
 				$overlay->add();
 
@@ -1941,7 +1940,6 @@ class ilTable2GUI extends ilTableGUI
 			$overlay = new ilOverlayGui($create_id);
 			$overlay->setTrigger($list_id."_create");
 			$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
-			$overlay->setSize("210px", "50px");
 			$overlay->setAutoHide(false);
 			$overlay->add();
 
