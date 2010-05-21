@@ -855,7 +855,7 @@ class assClozeTest extends assQuestion
 			{
 				array_push($answers, str_replace(",", "\\,", $item->getAnswerText()));
 			}
-			$output = preg_replace("/\[gap\].*?\[\/gap\]/", "[_gap]" . ilUtil::prepareFormOutput(join(",", $answers)) . "[/_gap]", $output, 1);
+			$output = preg_replace("/\[gap\].*?\[\/gap\]/", "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]", $output, 1);
 		}
 		$output = str_replace("_gap]", "gap]", $output);
 		$this->question = $output;

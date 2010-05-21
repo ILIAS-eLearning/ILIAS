@@ -44,6 +44,20 @@
 	
 	<xsl:template match="//div">
 		<xsl:choose>
+			<xsl:when test="@class='solutionbox'">
+				<xsl:attribute name="border-width">1</xsl:attribute>
+				<xsl:attribute name="border-style">solid</xsl:attribute>
+				<xsl:attribute name="border-color">#808080</xsl:attribute>
+				<xsl:attribute name="margin-top">1em</xsl:attribute>
+				<xsl:attribute name="margin-left">0.25em</xsl:attribute>
+				<xsl:attribute name="margin-right">0.25em</xsl:attribute>
+				<xsl:attribute name="padding-left">0.25em</xsl:attribute>
+				<xsl:attribute name="padding-right">0.25em</xsl:attribute>
+				<xsl:attribute name="padding-top">2px</xsl:attribute>
+				<xsl:attribute name="padding-bottom">2px</xsl:attribute>
+				<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
+				<xsl:apply-templates select="node()"></xsl:apply-templates>
+			</xsl:when>
 			<xsl:when test="@class='surveySheet'">
 				<fo:block>
 					<xsl:attribute name="page-break-inside">avoid</xsl:attribute>
@@ -409,6 +423,16 @@
 					<xsl:attribute name="border-top-color">#9EADBA</xsl:attribute>
 					<xsl:attribute name="border-top-style">solid</xsl:attribute>
 				</xsl:when>
+				<xsl:when test="@class='tblrow1'">
+					<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
+					<xsl:attribute name="color">#222222</xsl:attribute>
+					<xsl:attribute name="padding">3px</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@class='tblrow2'">
+					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
+					<xsl:attribute name="color">#222222</xsl:attribute>
+					<xsl:attribute name="padding">3px</xsl:attribute>
+				</xsl:when>
 			</xsl:choose>
 			
 			<xsl:apply-templates/>
@@ -461,7 +485,31 @@
 				<xsl:when test="@class='middle'">
 					<xsl:attribute name="display-align">center</xsl:attribute>
 				</xsl:when>
+				<xsl:when test="@class='center'">
+					<xsl:attribute name="display-align">center</xsl:attribute>
+				</xsl:when>
 			</xsl:choose>
+
+			<xsl:if test="contains(@style, 'border-right')">
+				<xsl:attribute name="border-right-width">1px</xsl:attribute>
+				<xsl:attribute name="border-right-style">solid</xsl:attribute>
+				<xsl:attribute name="border-right-color">#808080</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'border-left')">
+				<xsl:attribute name="border-left-width">1px</xsl:attribute>
+				<xsl:attribute name="border-left-style">solid</xsl:attribute>
+				<xsl:attribute name="border-left-color">#808080</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'border-top')">
+				<xsl:attribute name="border-top-width">1px</xsl:attribute>
+				<xsl:attribute name="border-top-style">solid</xsl:attribute>
+				<xsl:attribute name="border-top-color">#808080</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'border-bottom')">
+				<xsl:attribute name="border-bottom-width">1px</xsl:attribute>
+				<xsl:attribute name="border-bottom-style">solid</xsl:attribute>
+				<xsl:attribute name="border-bottom-color">#808080</xsl:attribute>
+			</xsl:if>
 			
 			<xsl:if test="@width">
 				<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
@@ -473,6 +521,17 @@
 				<xsl:attribute name="number-columns-spanned"><xsl:value-of select="@colspan"/></xsl:attribute>
 			</xsl:if>
 			<fo:block>
+				<xsl:choose>
+					<xsl:when test="@class='center'">
+						<xsl:attribute name="text-align">center</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="@align='center'">
+						<xsl:attribute name="text-align">center</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="@class='column'">
+						<xsl:attribute name="text-align">center</xsl:attribute>
+					</xsl:when>
+				</xsl:choose>
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -552,5 +611,3 @@
 		</fo:inline>
 	</xsl:template>
 </xsl:stylesheet>
-
-
