@@ -53,6 +53,8 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
+		global $lng;
+
 		parent::__construct(0, false);
 		$this->unique_id = md5(uniqid());
 		$this->parent_obj = $a_parent_obj;
@@ -63,6 +65,8 @@ class ilTable2GUI extends ilTableGUI
 		$this->hidden_inputs = array();
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
+
+		$lng->loadLanguageModule('tbl');
 
 		if(!$a_template_context)
 		{
@@ -1884,14 +1888,14 @@ class ilTable2GUI extends ilTableGUI
 			{
 				if($this->saveTemplate($_POST["tbltplcrt"]))
 				{
-					ilUtil::sendSuccess($lng->txt("template_created"));
+					ilUtil::sendSuccess($lng->txt("tbl_template_created"));
 				}
 			}
 			else if(isset($_POST["tbltpldel"]) && $_POST["tbltpldel"])
 			{
 				if($this->deleteTemplate($_POST["tbltpldel"]))
 				{
-					ilUtil::sendSuccess($lng->txt("template_deleted"));
+					ilUtil::sendSuccess($lng->txt("tbl_template_deleted"));
 				}
 			}
 
@@ -1926,7 +1930,7 @@ class ilTable2GUI extends ilTableGUI
 
 				$this->tpl->setCurrentBlock("template_editor_delete");
 				$this->tpl->setVariable("TEMPLATE_DELETE_ID", $delete_id);
-				$this->tpl->setVariable("TXT_TEMPLATE_DELETE", $lng->txt("template_delete"));
+				$this->tpl->setVariable("TXT_TEMPLATE_DELETE", $lng->txt("tbl_template_delete"));
 				$this->tpl->setVariable("TXT_TEMPLATE_DELETE_SUBMIT", $lng->txt("delete"));
 				$this->tpl->setVariable("TEMPLATE_DELETE_CMD", $this->parent_cmd);
 				$this->tpl->parseCurrentBlock();
@@ -1943,7 +1947,7 @@ class ilTable2GUI extends ilTableGUI
 
 			$this->tpl->setCurrentBlock("template_editor");
 			$this->tpl->setVariable("TEMPLATE_CREATE_ID", $create_id);
-			$this->tpl->setVariable("TXT_TEMPLATE_CREATE", $lng->txt("template_create"));
+			$this->tpl->setVariable("TXT_TEMPLATE_CREATE", $lng->txt("tbl_template_create"));
 			$this->tpl->setVariable("TXT_TEMPLATE_CREATE_SUBMIT", $lng->txt("save"));
 			$this->tpl->setVariable("TEMPLATE_CREATE_CMD", $this->parent_cmd);
 			$this->tpl->parseCurrentBlock();
@@ -1952,10 +1956,10 @@ class ilTable2GUI extends ilTableGUI
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
 			$alist->setId($list_id);
-			$alist->addItem($lng->txt("template_create"), "create", "#");
+			$alist->addItem($lng->txt("tbl_template_create"), "create", "#");
 			if(sizeof($templates))
 			{
-				$alist->addItem($lng->txt("template_delete"), "delete", "#");
+				$alist->addItem($lng->txt("tbl_template_delete"), "delete", "#");
 				foreach($templates as $name)
 				{
 					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", $name);
@@ -1963,7 +1967,7 @@ class ilTable2GUI extends ilTableGUI
 					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", "");
 				}
 			}
-			$alist->setListTitle($lng->txt("templates"));
+			$alist->setListTitle($lng->txt("tbl_templates"));
 			$this->tpl->setVariable("TEMPLATE_SELECTOR", $alist->getHTML());
 		}
 
