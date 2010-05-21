@@ -1695,3 +1695,30 @@ $ilDB->addTableColumn("glossary_definition", "short_text_dirty", array(
 	));
 ?>
 
+<#3051>
+<?php
+if(!$ilDB->tableExists('table_templates'))
+{
+	$ilDB->createTable('table_templates', array(
+			'name' => array(
+				'type'     => 'text',
+				'length'   => 64,
+				'notnull' => true
+			),
+			'user_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true
+			),
+			'context' => array(
+				'type'     => 'text',
+				'length'   => 128,
+				'notnull' => true
+			),
+			'value' => array(
+				'type'     => 'clob'
+			)
+	));
+	$ilDB->addPrimaryKey('table_templates', array('name', 'user_id', 'context'));
+}
+?>

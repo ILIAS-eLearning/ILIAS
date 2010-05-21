@@ -24,6 +24,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("tr_summary"));
 		$this->setLimit(9999);
+		$this->setShowTemplates(true);
 
 		$this->addColumn($this->lng->txt("title"));
 

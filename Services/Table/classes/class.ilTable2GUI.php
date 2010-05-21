@@ -25,6 +25,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $filter_cols = 4;
 	protected $ext_sort = false;
 	protected $ext_seg = false;
+	protected $context = "";
 	
 	protected $mi_sel_buttons = null;
 	protected $disable_filter_hiding = false;
@@ -32,6 +33,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $top_commands = true;
 	protected $selectable_columns = array();
 	protected $selected_column = array();
+	protected $show_templates = false;
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -49,10 +51,8 @@ class ilTable2GUI extends ilTableGUI
 	* Constructor
 	*
 	*/
-	public function __construct($a_parent_obj, $a_parent_cmd = "")
+	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
-		global $ilUser;
-		
 		parent::__construct(0, false);
 		$this->unique_id = md5(uniqid());
 		$this->parent_obj = $a_parent_obj;
@@ -63,52 +63,57 @@ class ilTable2GUI extends ilTableGUI
 		$this->hidden_inputs = array();
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
-		
+
+		if(!$a_template_context)
+		{
+			$a_template_context = $this->getId();
+		}
+		$this->setContext($a_template_context);
+
+		// restore table properties from template
+		if(isset($_GET[$this->prefix."_tpl"]))
+        {
+			$this->restoreTemplate($_GET[$this->prefix."_tpl"]);
+		}
+
 		$this->determineLimit();
 		$this->setIsDataTable(true);
 		$this->setEnableNumInfo(true);
 		$this->determineSelectedColumns();
 	}
-	
+
 	/**
 	 * Determine the limit
-	 *
-	 * @param
-	 * @return
 	 */
 	function determineLimit()
 	{
-		global $ilUser;
-
-		if (is_object($ilUser) && !$this->limit_determined)
+		if ($this->limit_determined)
 		{
-			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-			$tab_prop = new ilTablePropertiesStorage();
+			return;
+		}
 
-			$limit = 0;
-			if (isset($_GET[$this->prefix."_trows"]))
+		$limit = 0;
+		if (isset($_GET[$this->prefix."_trows"]))
+		{
+			$this->storeProperty("rows", $_GET[$this->prefix."_trows"]);
+			$limit = $_GET[$this->prefix."_trows"];
+		}
+
+		if ($limit == 0)
+		{
+			$rows = $this->loadProperty("rows");
+			if ($rows > 0)
 			{
-				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "rows",
-					$_GET[$this->prefix."_trows"]);
-				$limit = $_GET[$this->prefix."_trows"];
+				$limit = $rows;
 			}
-			
-			if ($limit == 0)
+			else
 			{
-				$rows = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "rows");
-				if ($rows > 0)
-				{
-					$limit = $rows;
-				}
-				else
-				{
-					$limit = $ilUser->getPref("hits_per_page");
-				}
+				$limit = $ilUser->getPref("hits_per_page");
 			}
-			
-			$this->setLimit($limit);
-			$this->limit_determined = true;
-		}		
+		}
+
+		$this->setLimit($limit);
+		$this->limit_determined = true;
 	}
 	
 	/**
@@ -123,22 +128,15 @@ class ilTable2GUI extends ilTableGUI
 
 	/**
 	 * Determine selected columns
-	 *
-	 * @param
-	 * @return
 	 */
 	function determineSelectedColumns()
 	{
-		global $ilUser;
-		
-		if (!is_object($ilUser) || $this->columns_determined)
+		if ($this->columns_determined)
 		{
 			return;
 		}
-		
-		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-		$tab_prop = new ilTablePropertiesStorage();
-		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfields");
+	
+		$old_sel = $this->loadProperty("selfields");
 
 		$stored = false;
 		if ($old_sel != "")
@@ -182,8 +180,7 @@ class ilTable2GUI extends ilTableGUI
 		
 		if ($old_sel != serialize($this->selected_column) && $set)
 		{
-			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfields",
-				serialize($this->selected_column));
+			$this->storeProperty("selfields", serialize($this->selected_column));
 		}
 
 		$this->columns_determined = true;
@@ -695,15 +692,12 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function determineSelectedFilters()
 	{
-		global $ilUser;
-
-		if (!is_object($ilUser) || $this->filters_determined)
+		if ($this->filters_determined)
 		{
 			return;
 		}
-		include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-		$tab_prop = new ilTablePropertiesStorage();
-		$old_sel = $tab_prop->getProperty($this->getId(), $ilUser->getId(), "selfilters");
+
+		$old_sel = $this->loadProperty("selfilters");
 
 		$stored = false;
 		if ($old_sel != "")
@@ -742,8 +736,7 @@ class ilTable2GUI extends ilTableGUI
 
 		if ($old_sel != serialize($this->selected_filter) && $set)
 		{
-			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "selfilters",
-				serialize($this->selected_filter));
+			$this->storeProperty("selfilters", serialize($this->selected_filter));
 		}
 
 		$this->filters_determined = true;
@@ -1141,7 +1134,7 @@ class ilTable2GUI extends ilTableGUI
 		global $ilCtrl, $ilUser;
 		
 		$hash = "";
-		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 		{
 			$hash = "#".$this->getTopAnchor();
 		}
@@ -1274,7 +1267,7 @@ class ilTable2GUI extends ilTableGUI
 	function determineOffsetAndOrder($a_omit_offset = false)
 	{
 		global $ilUser;
-
+		
 		if ($this->nav_determined)
 		{
 			return true;
@@ -1303,12 +1296,10 @@ class ilTable2GUI extends ilTableGUI
 		if ($this->nav_value == "" && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			// get order and direction from db
-			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-			$tab_prop = new ilTablePropertiesStorage();
 			$this->nav_value =
-				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "order").":".
-				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "direction").":".
-				$tab_prop->getProperty($this->getId(), $ilUser->getId(), "offset");
+				$this->loadProperty("order").":".
+				$this->loadProperty("direction").":".
+				$this->loadProperty("offset");
 		}
 		$nav = explode(":", $this->nav_value);
 		
@@ -1332,28 +1323,18 @@ class ilTable2GUI extends ilTableGUI
 	
 	function storeNavParameter()
 	{
-		global $ilUser;
-		
-		if ($this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if ($this->getOrderField() != "")
 		{
-			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-			$tab_prop = new ilTablePropertiesStorage();
-			if ($this->getOrderField() != "")
-			{
-				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "order",
-					$this->getOrderField());
-			}
-			if ($this->getOrderDirection() != "")
-			{
-				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "direction",
-					$this->getOrderDirection());
-			}
+			$this->storeProperty("order", $this->getOrderField());
+		}
+		if ($this->getOrderDirection() != "")
+		{
+			$this->storeProperty("direction", $this->getOrderDirection());
+		}
 //echo "-".$this->getOffset()."-";
-			if ($this->getOffset() !== "")
-			{
-				$tab_prop->storeProperty($this->getId(), $ilUser->getId(), "offset",
-					$this->getOffset());
-			}
+		if ($this->getOffset() !== "")
+		{
+			$this->storeProperty("offset", $this->getOffset());
 		}
 	}
 	
@@ -1441,7 +1422,7 @@ class ilTable2GUI extends ilTableGUI
 		if ($this->form_action != "")
 		{
 			$hash = "";
-			if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+			if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 			{
 				$hash = "#".$this->getTopAnchor();
 			}
@@ -1482,11 +1463,10 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $lng;
 
-
-		// settings handler
-		if($_GET["tgcmd"] == "saveSettings")
+		// templates handler
+		if($_GET["tplcmd"] == "save")
 		{
-			var_dump($this->getCurrentState());
+			$this->saveTemplate($_GET["name"]);
 			exit();
 		}
 
@@ -1599,7 +1579,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	private function renderFilter()
 	{
-		global $lng, $tpl, $ilUser;
+		global $lng, $tpl;
 		
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
@@ -1715,9 +1695,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			// (keep) filter hidden?
-			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
-			$tprop = new ilTablePropertiesStorage();
-			if ($tprop->getProperty($this->getId(), $ilUser->getId(), "filter") != 1)
+			if ($this->loadProperty("filter") != 1)
 			{
 				if (!$this->getDisableFilterHiding())
 				{
@@ -1900,43 +1878,42 @@ class ilTable2GUI extends ilTableGUI
 			$footer = true;
 		}
 
-		// :TODO: make state persistent
-		if(get_class($this) == "ilTrSummaryTableGUI")
+		if($this->getShowTemplates())
 		{
-			$form_id = "settings_overlay_".$this->getId();
-			$list_id = "sellst_stg_".$this->getId();
+			$form_id = "template_overlay_".$this->getId();
+			$list_id = "template_stg_".$this->getId();
 
-			// overlay form to save new settings
+			// overlay form to save new template
 			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 			$overlay = new ilOverlayGui($form_id);
-			$overlay->setTrigger($list_id."_save");
+			$overlay->setTrigger($list_id."_edit");
 			$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
 			$overlay->setSize("210px", "40px");
 			$overlay->setAutoHide(false);
 			$overlay->add();
-			$this->tpl->setCurrentBlock("settings_editor");
-			$this->tpl->setVariable("SETTINGS_EDITOR_ID", $form_id);
-			$this->tpl->setVariable("TXT_SETTINGS_EDITOR_SAVE_AS", $lng->txt("settings_editor_save_as"));
-			$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd)."&tgcmd=saveSettings";
-			$this->tpl->setVariable("SETTINGS_EDITOR_URL_SAVE", $link);
+			$this->tpl->setCurrentBlock("template_editor");
+			$this->tpl->setVariable("TEMPLATE_EDITOR_ID", $form_id);
+			$this->tpl->setVariable("TXT_TEMPLATE_EDITOR_SAVE_AS", $lng->txt("template_save_as"));
+			$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd)."&tplcmd=save";
+			$this->tpl->setVariable("TEMPLATE_EDITOR_URL_SAVE", $link);
 			$this->tpl->parseCurrentBlock();
 
-			// load saved settings
+			// load saved template
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
 			$alist->setId($list_id);
-			$alist->addItem($lng->txt("settings_editor_save_as"), "save", "#");
-			/*
-			$options = array(6 => 666, 7 => 777);
-			foreach ($options as $k => $v)
+			$alist->addItem($lng->txt("template_edit"), "edit", "#");
+
+			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
+			$storage = new ilTableTemplatesStorage();
+			foreach($storage->getNames($this->getContext(), $ilUser->getId()) as $name)
 			{
-				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_stg", $k);
-				$alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
-				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_stg", "");
+				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", $name);
+				$alist->addItem($name, $name, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+				$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", "");
 			}
-			 */
-			$alist->setListTitle($lng->txt("settings"));
-			$this->tpl->setVariable("SETTINGS_SELECTOR", $alist->getHTML());
+			$alist->setListTitle($lng->txt("templates"));
+			$this->tpl->setVariable("TEMPLATE_SELECTOR", $alist->getHTML());
 		}
 
 		if ($footer)
@@ -2042,7 +2019,7 @@ class ilTable2GUI extends ilTableGUI
 		global $ilCtrl, $lng, $ilUser;
 		
 		$hash = "";
-		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 		{
 			$hash = "#".$this->getTopAnchor();
 		}
@@ -2376,8 +2353,46 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	 * Store table property
+	 *
+	 * @param	string	$type
+	 * @param	mixed	$value
+	 */
+	function storeProperty($type, $value)
+	{
+		global $ilUser;
+
+		if(is_object($ilUser) && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tab_prop = new ilTablePropertiesStorage();
+
+			$tab_prop->storeProperty($this->getId(), $ilUser->getId(), $type, $value);
+		}
+	}
+
+	/**
+	 * Load table property
+	 *
+	 * @param	string	$type
+	 * @return	mixed
+	 */
+	function loadProperty($type)
+    {
+		global $ilUser;
+
+		if(is_object($ilUser) && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tab_prop = new ilTablePropertiesStorage();
+
+			return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
+		}
+	}
+
+    /**
 	 * get current settings for order, limit, columns and filter
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getCurrentState()
@@ -2388,14 +2403,108 @@ class ilTable2GUI extends ilTableGUI
 		$this->determineSelectedFilters();
 
 		$result = array();
-
-		$result["order"] = array("field" => $this->getOrderField(), "direction" => $this->getOrderDirection());
+		$result["order"] = $this->getOrderField();
+		$result["direction"] = $this->getOrderDirection();
 		$result["offset"] = $this->getOffset();
-		$result["limit"] = $this->getLimit();
-		$result["columns"] = array_keys($this->getSelectedColumns());
-		$result["filters"] = array_keys($this->getSelectedFilters());
+		$result["rows"] = $this->getLimit();
+		$result["selfields"] = array_keys($this->getSelectedColumns());
+		$result["selfilters"] = array_keys($this->getSelectedFilters());
+		// "filter" show/hide is not saved
 
 		return $result;
 	}
+
+
+	/**
+	 * Set context
+	 *
+	 * @param	string	$id
+	 */
+	public function setContext($id)
+	{
+		if(trim($id))
+		{
+			$this->context = $id;
+		}
+	}
+
+	/**
+	 * Get context
+	 *
+	 * @return	string
+	 */
+	public function getContext()
+	{
+		return $this->context;
+	}
+
+	/**
+	 * Toggle templates
+	 *
+	 * @param	bool	$a_value
+	 */
+	public function setShowTemplates($a_value)
+	{
+		$this->show_templates = (bool)$a_value;
+	}
+	
+	/**
+	 * Get template state
+	 *
+	 * @return	bool
+	 */
+	public function getShowTemplates()
+	{
+		return $this->show_templates;
+	}
+
+	/**
+	 * Restore state from template
+	 *
+	 * @param	string	$a_name
+	 * @return	bool
+	 */
+	public function restoreTemplate($a_name)
+	{
+		global $ilUser;
+
+		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
+			$storage = new ilTableTemplatesStorage();
+
+			$data = $storage->load($this->getContext(), $ilUser->getId(), $a_name);
+			if(is_array($data))
+			{
+				foreach($data as $property => $value)
+				{
+					$this->storeProperty($property, $value);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Save current state as template
+	 *
+	 * @param	string	$a_name
+	 * @return	bool
+	 */
+	public function saveTemplate($a_name)
+	{
+		global $ilUser;
+		
+		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
+			$storage = new ilTableTemplatesStorage();
+
+			return $storage->store($this->getContext(), $ilUser->getId(), $a_name, $this->getCurrentState());
+		}
+		return false;
+	}
 }
+
 ?>
