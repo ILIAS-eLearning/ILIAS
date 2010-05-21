@@ -396,6 +396,12 @@ class ilCtrl
 		foreach ($a_class as $class)
 		{
 			$class = strtolower($class);
+
+			if (!$this->getCidForClass($class, true))
+			{
+				return false;
+			}
+
 			$nr = $this->getNodeIdForTargetClass($nr, $class, true);
 			if ($nr === false)
 			{
@@ -1493,7 +1499,7 @@ class ilCtrl
 	/**
 	 * Get Cid for Class
 	 */
-	private function getCidForClass($a_class)
+	private function getCidForClass($a_class, $a_check = false)
 	{
 		if ($this->class_cid[$a_class] == "")
 		{
@@ -1501,6 +1507,10 @@ class ilCtrl
 		}
 		if ($this->class_cid[$a_class] == "")
 		{
+			if ($a_check)
+			{
+				return false;
+			}
 			if (DEVMODE == 1)
 			{
 				$add = "<br><br>Please make sure your GUI class name ends with 'GUI' and that the filename is 'class.[YourClassName].php'. In exceptional cases you

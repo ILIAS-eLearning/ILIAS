@@ -260,7 +260,7 @@ abstract class ilPlugin
 	*
 	* @return	object	Plugin Slot
 	*/
-	protected final function getDirectory()
+	public final function getDirectory()
 	{
 		return $this->getSlotObject()->getPluginsDirectory()."/".$this->getPluginName();
 	}

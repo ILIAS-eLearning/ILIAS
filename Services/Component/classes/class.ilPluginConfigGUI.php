@@ -10,6 +10,28 @@
  */
 abstract class ilPluginConfigGUI
 {
+	protected $plugin_object = null;
+	
+	/**
+	 * Set plugin object
+	 *
+	 * @param	object	plugin object
+	 */
+	final function setPluginObject($a_val)
+	{
+		$this->plugin_object = $a_val;
+	}
+
+	/**
+	 * Get plugin object
+	 *
+	 * @return	object	plugin object
+	 */
+	final function getPluginObject()
+	{
+		return $this->plugin_object;
+	}
+
 	/**
 	 * Execute command
 	 *

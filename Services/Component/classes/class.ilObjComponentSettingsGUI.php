@@ -69,6 +69,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 					{
 						include_once($path);
 						$nc = new $next_class();
+
+						$pl = ilPluginAdmin::getPluginObject($_GET["ctype"],
+							$_GET["cname"], $_GET["slot_id"], $_GET["pname"]);
+
+						$nc->setPluginObject($pl);
+
 						$ret = $this->ctrl->forwardCommand($nc);
 						$config = true;
 					}
