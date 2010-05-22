@@ -122,8 +122,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $lng, $ilTabs, $ilCtrl;
-//ilObjStyleSheet::_addMissingStyleClassesToAllStyles();
+		global $rbacsystem, $lng, $ilTabs, $ilCtrl, $ilToolbar;
+
 		$this->setSubTabs();
 		
 		$this->includeCSS();
@@ -137,8 +137,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			? $this->super_type
 			: "text_block";
 		$ilCtrl->setParameter($this, "style_type", $style_type);
-
 		$ilTabs->setSubTabActive("sty_".$style_type."_char");
+
+		// add new style?
+		$all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
+		$subtypes = $all_super_types[$style_type];
+		$expandable = false;
+		foreach ($subtypes as $t)
+		{
+			if (ilObjStyleSheet::_isExpandable($t))
+			{
+				$expandable = true;
+			}
+		}
+		if ($expandable)
+		{
+			$ilToolbar->addButton($lng->txt("sty_add_characteristic"),
+				$ilCtrl->getLinkTarget($this, "addCharacteristicForm"));
+		}
+
 
 		include_once("./Services/Style/classes/class.ilStyleTableGUI.php");
 		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type,
@@ -1257,6 +1274,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		else
 		{
+			// check whether there are any core style classes included
+			$core_styles = ilObjStyleSheet::_getCoreStyles();
+			foreach ($_POST["char"] as $char)
+			{
+				if (!empty($core_styles[$char]))
+				{
+					$this->deleteCoreCharMessage();
+					return;
+				}
+			}
+
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
@@ -1272,6 +1300,55 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			
 			$tpl->setContent($cgui->getHTML());
 		}
+	}
+
+	/**
+	 * Message that appears, when user tries to delete core characteristics
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteCoreCharMessage()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+
+
+		$core_styles = ilObjStyleSheet::_getCoreStyles();
+		$cnt = 0;
+		foreach ($_POST["char"] as $char)
+		{
+			if (!empty($core_styles[$char]))
+			{
+				$cnt++;
+				$char_comp = explode(".", $char);
+				$cgui->addItem("", "", $char_comp[2]);
+			}
+			else
+			{
+				$cgui->addHiddenItem("char[]", $char);
+			}
+		}
+		$all_core_styles = ($cnt == count($_POST["char"]))
+			? true
+			: false;
+
+		if ($all_core_styles)
+		{
+			$cgui->setHeaderText($lng->txt("sty_all_styles_obligatory"));
+			$cgui->setCancel($lng->txt("back"), "cancelCharacteristicDeletion");
+		}
+		else
+		{
+			$cgui->setHeaderText($lng->txt("sty_some_styles_obligatory_delete_rest"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelCharacteristicDeletion");
+			$cgui->setConfirm($lng->txt("sty_delete_other_selected"), "deleteCharacteristicConfirmation");
+		}
+
+		$tpl->setContent($cgui->getHTML());
 	}
 	
 	/**
@@ -1339,7 +1416,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				$this->object->addCharacteristic($_POST["type"], $_POST["new_characteristic"]);
 				ilUtil::sendInfo($lng->txt("sty_added_characteristic"), true);
-				$ilCtrl->redirect($this, "edit");
+				$ilCtrl->setParameter($this, "tag",
+					ilObjStyleSheet::_determineTag($_POST["type"]).".".$_POST["new_characteristic"]);
+				$ilCtrl->setParameter($this, "style_type", $_POST["type"]);
+				$ilCtrl->redirect($this, "editTagStyle");
 			}
 		}
 		$this->form_gui->setValuesByPost();
