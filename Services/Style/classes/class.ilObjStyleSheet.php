@@ -873,8 +873,8 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* Check whether characteristic exists
-	*/
+	 * Check whether characteristic exists
+	 */
 	function characteristicExists($a_char, $a_style_type)
 	{
 		global $ilDB;
@@ -891,8 +891,8 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* Check whether characteristic exists
-	*/
+	 * Add characteristic
+	 */
 	function addCharacteristic($a_type, $a_char, $a_hidden = false)
 	{
 		global $ilDB;
@@ -908,8 +908,50 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* Get characteristics
-	*/
+	 * Copy characteristic
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyCharacteristic($a_from_style_id,
+		$a_from_type, $a_from_char, $a_to_char)
+	{
+		global $ilDB;
+
+		if (!$this->characteristicExists($a_to_char, $a_from_type))
+		{
+			$this->addCharacteristic($a_from_type, $a_to_char);
+		}
+		$this->deleteStyleParOfChar($a_from_type, $a_to_char);
+
+		$from_style = new ilObjStyleSheet($a_from_style_id);
+
+		$pars = $from_style->getParametersOfClass($a_from_type, $a_from_char);
+
+		$colors = array();
+		foreach ($pars as $p => $v)
+		{
+			if (substr($v, 0, 1) == "!")
+			{
+				$colors[] = substr($v, 1);
+			}
+			$this->replaceStylePar(ilObjStyleSheet::_determineTag($a_from_type),
+				$a_to_char, $p, $v, $a_from_type);
+		}
+
+		// copy colors
+		foreach ($colors as $c)
+		{
+			if (!$this->colorExists($c))
+			{
+				$this->addColor($c, $from_style->getColorCodeForName($c));
+			}
+		}
+	}
+
+	/**
+	 * Get characteristics
+	 */
 	function getCharacteristics($a_type = "", $a_no_hidden = false)
 	{
 		$chars = array();
@@ -1184,9 +1226,13 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* delete style parameter by tag/class/parameter
-	*
-	*/
+	 * Delete style parameter by tag/class/parameter
+	 *
+	 * @param	string		tag
+	 * @param	string		class
+	 * @param	string		parameter
+	 * @param	string		type
+	 */
 	function deleteStylePar($a_tag, $a_class, $a_par, $a_type)
 	{
 		global $ilDB;
@@ -1200,6 +1246,27 @@ class ilObjStyleSheet extends ilObject
 
 		$ilDB->manipulate($q);
 	}
+
+	/**
+	 * Delete style parameters of characteristic
+	 *
+	 * @param	string		tag
+	 * @param	string		class
+	 * @param	string		parameter
+	 * @param	string		type
+	 */
+	function deleteStyleParOfChar($a_type, $a_class)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM style_parameter WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" ".$ilDB->equals("type", $a_type, "text", true);
+
+		$ilDB->manipulate($q);
+	}
+
 
 	/**
 	* delete style object
@@ -1281,12 +1348,13 @@ class ilObjStyleSheet extends ilObject
 			$cclass = $style_rec["class"];
 			$ctype = $style_rec["type"];
 			$tag[] = $style_rec;
+			$this->style_class[$ctype][$cclass][$style_rec["parameter"]] = $style_rec["value"];
 		}
 		if(is_array($tag))
 		{
 			$this->style[] = $tag;
 		}
-		
+//var_dump($this->style_class);
 		$q = "SELECT * FROM style_data WHERE id = ".
 			$ilDB->quote($this->getId(), "integer");
 		$res = $ilDB->query($q);
@@ -1470,6 +1538,21 @@ class ilObjStyleSheet extends ilObject
 		}
 		
 		return 0;
+	}
+
+	/**
+	 * Get parameters of class
+	 *
+	 * @param
+	 * @return
+	 */
+	function getParametersOfClass($a_type, $a_class)
+	{
+		if (is_array($this->style_class[$a_type][$a_class]))
+		{
+			return $this->style_class[$a_type][$a_class];
+		}
+		return array();
 	}
 
 	/**
@@ -2627,8 +2710,8 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* Check whether color exists
-	*/
+	 * Check whether color exists
+	 */
 	function colorExists($a_color_name)
 	{
 		global $ilDB;

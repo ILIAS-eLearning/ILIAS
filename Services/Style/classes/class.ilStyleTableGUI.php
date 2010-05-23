@@ -48,10 +48,10 @@ class ilStyleTableGUI extends ilTable2GUI
 			}
 		}
 
-		if ($this->expandable)
-		{
+//		if ($this->expandable)
+//		{
 			$this->addColumn("", "", "1");	// checkbox
-		}
+//		}
 		$this->addColumn($this->lng->txt("sty_name"), "", "1");
 		$this->addColumn($this->lng->txt("sty_type"), "", "");
 		$this->addColumn($this->lng->txt("sty_example"), "", "");
@@ -70,6 +70,8 @@ class ilStyleTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("saveHideStatus", $lng->txt("sty_save_hide_status"));
 		}
+
+		$this->addMultiCommand("copyCharacteristics", $lng->txt("copy"));
 		
 		// action commands
 		if ($this->expandable)

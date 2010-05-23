@@ -10391,3 +10391,10 @@ tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?
 style#:#sty_delete_other_selected#:#Continue
 style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.
+style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".
+style#:#sty_paste_style_classes#:#Paste Style Classes
+style#:#sty_if_style_class_already_exists#:#If style class already exists...
+style#:#sty_overwrite#:#Overwrite
+style#:#sty_keep_existing#:#Keep Existing
+style#:#sty_paste_characteristics#:#Paste Style Classes
+style#:#sty_style_classes_copied#:#Style classes have been copied.
