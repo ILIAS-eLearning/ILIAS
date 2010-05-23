@@ -156,6 +156,19 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, "addCharacteristicForm"));
 		}
 
+		if ($_SESSION["sty_copy"] != "")
+		{
+			$style_cp = explode(":::", $_SESSION["sty_copy"]);
+			if ($style_cp[1] == $_GET["style_type"])
+			{
+				if ($expandable)
+				{
+					$ilToolbar->addSeparator();
+				}
+				$ilToolbar->addButton($lng->txt("sty_paste_style_classes"),
+					$ilCtrl->getLinkTarget($this, "pasteCharacteristicsOverview"));
+			}
+		}
 
 		include_once("./Services/Style/classes/class.ilStyleTableGUI.php");
 		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type,
@@ -1523,8 +1536,80 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "edit");
 	}
+
+	/**
+	 * Copy style classes
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyCharacteristicsObject()
+	{
+		global $ilCtrl, $lng;
 	
-	
+		if (!is_array($_POST["char"]) || count($_POST["char"]) == 0)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+		}
+		else
+		{
+			$style_cp = implode("::", $_POST["char"]);
+			$style_cp = $this->object->getId().":::".$_GET["style_type"].":::".$style_cp;
+			$_SESSION["sty_copy"] = $style_cp;
+			ilUtil::sendSuccess($lng->txt("sty_copied_please_select_target"), true);
+		}
+		$ilCtrl->redirect($this, "edit");
+	}
+
+	/**
+	 * Paste characteristics overview
+	 *
+	 * @param
+	 * @return
+	 */
+	function pasteCharacteristicsOverviewObject()
+	{
+		global $tpl, $ilTabs;
+
+		$ilTabs->clearTargets();
+
+		include_once("./Services/Style/classes/class.ilPasteStyleCharacteristicTableGUI.php");
+		$table = new ilPasteStyleCharacteristicTableGUI($this, "pasteCharacteristicsOverview");
+		
+		$tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Paste characteristics
+	 *
+	 * @param
+	 * @return
+	 */
+	function pasteCharacteristicsObject()
+	{
+		global $ilCtrl, $lng;
+
+		if (is_array($_POST["title"]))
+		{
+			foreach ($_POST["title"] as $from_char => $to_title)
+			{
+				$fc = explode(".", $from_char);
+
+				if ($_POST["conflict_action"][$from_char] == "overwrite" ||
+					!$this->object->characteristicExists($to_title, $fc[0]))
+				{
+					$this->object->copyCharacteristic($_POST["from_style_id"],
+						$fc[0], $fc[2], $to_title);
+				}
+			}
+			ilObjStyleSheet::_writeUpToDate($this->object->getId(), false);
+			unset($_SESSION["sty_copy"]);
+			ilUtil::sendSuccess($lng->txt("sty_style_classes_copied"), true);
+		}
+
+		$ilCtrl->redirect($this, "edit");
+	}
+
 	//
 	// Color management
 	//
@@ -1990,6 +2075,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		$ilCtrl->redirect($this, "listTemplates");
 	}
+
 
 	/**
 	* Save table template
@@ -2468,6 +2554,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		$ilCtrl->returnToParent($this);
 	}
+
 
 }
 ?>
