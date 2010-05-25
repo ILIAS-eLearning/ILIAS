@@ -244,16 +244,59 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		return $this->showseconds;
 	}
 
-	/*
-	 * Convert Post Values To Date-Object
-	 *
-	 * @param	array	$post
-	 * @return	ilDateTime
-	 */
-	protected function convertIncomingValues($post)
+	/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
+	{
+		global $ilUser;
+
+		if($this->getMode() == self::MODE_INPUT && (
+				!isset($a_values[$this->getPostVar()]["date"]) || $a_values[$this->getPostVar()]["date"] == ""))
+		{
+			$this->date = NULL;
+		}
+		else if(isset($a_values[$this->getPostVar()]["time"]))
+		{
+			$this->setDate(new ilDateTime($a_values[$this->getPostVar()]["date"].' '.$a_values[$this->getPostVar()]["time"],
+				IL_CAL_DATETIME,$ilUser->getTimeZone()));
+		}
+		else if (isset($a_values[$this->getPostVar()]["date"]))
+		{
+			$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"],
+				IL_CAL_DATE));
+		}
+	
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
+	}
+
+	/**
+	* Check input, strip slashes etc. set alert, if input is not ok.
+	*
+	* @return	boolean		Input ok, true/false
+	*/	
+	function checkInput()
 	{
 		global $ilUser;
 		
+		if ($this->getDisabled())
+		{
+			return true;
+		}
+
+		$post = $_POST[$this->getPostVar()];
+
+		// empty date valid with input field
+		if(!$this->getRequired() && $this->getMode() == self::MODE_INPUT && $post["date"] == "")
+		{
+			return true;
+		}
+
 		if($this->getMode() == self::MODE_SELECT)
 		{
 			$post["date"]["y"] = ilUtil::stripSlashes($post["date"]["y"]);
@@ -366,61 +409,17 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$date = new ilDateTime(NULL, 0, $ilUser->getTimeZone());
 			if($date->setDate($dt, IL_CAL_FKT_GETDATE))
 			{
-				return $date;
+				$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
+				$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
+				return true;
 			}
 		}
-	}
-	
-	/**
-	* Set value by array
-	*
-	* @param	array	$a_values	value array
-	*/
-	function setValueByArray($a_values)
-	{
-		global $ilUser;
 
-		$date = $this->convertIncomingValues($a_values[$this->getPostVar()]);
-		if($date)
+		// post values used to be overwritten anyways - cannot change behaviour
+		if($this->getMode() == self::MODE_SELECT)
 		{
-			$this->setDate($date);
-		}
-		else if($this->getMode() == self::MODE_INPUT)
-		{
-			$this->date = NULL;
-		}
-
-		foreach($this->getSubItems() as $item)
-		{
-			$item->setValueByArray($a_values);
-		}
-	}
-
-	/**
-	* Check input, strip slashes etc. set alert, if input is not ok.
-	*
-	* @return	boolean		Input ok, true/false
-	*/	
-	function checkInput()
-	{
-		if ($this->getDisabled())
-		{
-			return true;
-		}
-
-		$post = $_POST[$this->getPostVar()];
-
-		// empty date valid with input field
-		if(!$this->getRequired() && $this->getMode() == self::MODE_INPUT && $post["date"] == "")
-		{
-			return true;
-		}
-
-		$date = $this->convertIncomingValues($post);
-		if($date)
-		{
-			// $this->setDate($date);
-			return true;
+			$_POST[$this->getPostVar()]['date'] = "";
+			$_POST[$this->getPostVar()]['time'] = "";
 		}
 		return false;
 	}
@@ -655,11 +654,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	 */
 	function getPostValueForComparison()
 	{
-		$date = $this->convertIncomingValues($_POST[$this->getPostVar()]);
-		if($date)
-		{
-			return $date->get(IL_CAL_DATETIME);
-		}
+		return $_POST[$this->getPostVar()]["date"]." ". $_POST[$this->getPostVar()]["time"];
 	}
 }
 

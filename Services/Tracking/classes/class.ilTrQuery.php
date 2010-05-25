@@ -260,30 +260,6 @@ class ilTrQuery
 
 			$result["status"] = self::getSummaryPercentages("status", $base_query);
 			$result["mark"] = self::getSummaryPercentages("mark", $base_query);
-
-
-			// --- object type related
-
-			/*
-			switch(ilObject::_lookupType($a_obj_id))
-			{
-				case "crs":
-					break;
-
-				case "tst":
-					break;
-
-				case "exc":
-					break;
-
-				case "sahs":
-
-					break;
-
-				default:
-					break;
-			}
-			 */
 		}
 
 		return array("cnt"=>$users_no, "set"=>$result);
@@ -311,5 +287,113 @@ class ilTrQuery
 			$result[$rec[$field_alias]] = (int)$rec["counter"];
 		}
 		return $result;
+	}
+
+	/**
+	* Get data for user administration list.
+	*/
+	static function getDataForUser($a_user_id, $a_order_field, $a_order_dir, $a_offset, $a_limit,
+		$a_filter = array(), $a_additional_fields = "")
+	{
+		global $ilDB, $rbacreview;
+
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		ilLPStatus::checkStatusForObject($a_obj_id);
+
+		$fields = $group_by = array("read_event.obj_id");
+
+		if (is_array($a_additional_fields))
+		{
+			foreach($a_additional_fields as $field)
+			{
+				switch($field)
+				{
+					case "first_access":
+						$fields[] = "min(".$field.") AS ".$field;
+						break;
+
+				    case "last_access":
+						$fields[] = "max(".$field.") AS ".$field;
+						break;
+
+					case "read_count":
+					case "spent_seconds":
+						$fields[] = "sum(".$field.") AS ".$field;
+						break;
+					
+					default:
+						$group_by[] = $field;
+						$fields[] = $field;
+						break;
+				}
+			}
+		}
+
+		// count query
+		$count_query = "SELECT count(read_event.obj_id) cnt".
+			" FROM read_event".
+			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = read_event.usr_id AND".
+			" ut_lp_marks.obj_id = read_event.obj_id)";
+
+		// basic query
+		$query = "SELECT ".implode($fields, ",").
+			" FROM read_event".
+			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = read_event.usr_id AND".
+			" ut_lp_marks.obj_id = read_event.obj_id)";
+
+		// filter
+		$query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$count_query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer");
+
+		/*
+		$where = " AND";
+//var_dump($query);
+		if ($a_filter["string"] != "")		// email, name, login
+		{
+			$add = $where." (".$ilDB->like("usr_data.login", "text", $a_filter["string"]."%")." ".
+				"OR ".$ilDB->like("usr_data.firstname", "text", $a_filter["string"]."%")." ".
+				"OR ".$ilDB->like("usr_data.lastname", "text", $a_filter["string"]."%")." ".
+				"OR ".$ilDB->like("usr_data.email", "text", "%".$a_filter["string"]."%").") ";
+			$query.= $add;
+			$count_query.= $add;
+			$where = " AND";
+		}
+		 */
+
+		$query .= " GROUP BY ".implode(", ", $group_by);
+		$count_query .= " GROUP BY ".implode(", ", $group_by);
+
+		// order by
+		if (!in_array($a_order_field, $fields))
+		{
+			$a_order_field = "read_event.obj_id";
+		}
+		if ($a_order_dir != "asc" && $a_order_dir != "desc")
+		{
+			$a_order_dir = "asc";
+		}
+		$query.= " ORDER BY ".$a_order_field." ".strtoupper($a_order_dir);
+
+		// count query
+		$set = $ilDB->query($count_query);
+		$cnt = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = $rec["cnt"];
+		}
+
+		$offset = (int) $a_offset;
+		$limit = (int) $a_limit;
+		$ilDB->setLimit($limit, $offset);
+
+		// set query
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+
+		return array("cnt" => $cnt, "set" => $result);
 	}
 }
