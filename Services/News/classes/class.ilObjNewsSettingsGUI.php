@@ -109,6 +109,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		
 		$enable_internal_news = $ilSetting->get("block_activated_news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$rss_title_format = $news_set->get("rss_title_format");
 		$enable_private_feed = $news_set->get("enable_private_feed");
 		$news_default_visibility = ($news_set->get("default_visibility") != "")
 			? $news_set->get("default_visibility")
@@ -156,6 +157,16 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 			$rssp_sel->setOptions($rssp_opts);
 			$rssp_sel->setValue((int) $rss_period);
 			$cb_prop->addSubItem($rssp_sel);
+
+			// title format for rss entries
+			$options = array(
+				"" => $lng->txt("news_rss_title_format_obj_news"),
+				"news_obj" => $lng->txt("news_rss_title_format_news_obj"),
+				);
+			$si = new ilSelectInputGUI($lng->txt("news_rss_title_format"), "rss_title_format");
+			$si->setOptions($options);
+			$si->setValue($rss_title_format);
+			$cb_prop->addSubItem($si);
 
 		$form->addItem($cb_prop);
 		
@@ -277,6 +288,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		
 		$news_set = new ilSetting("news");
 		$feed_set = new ilSetting("feed");
+
+
+
 		$ilSetting->set("block_activated_news", $_POST["enable_internal_news"]);
 		$ilSetting->set("block_activated_pdnews", $_POST["enable_internal_news"]);
 		$news_set->set("enable_rss_for_internal", $_POST["enable_internal_rss"]);
@@ -287,6 +301,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"]);
 		$news_set->set("allow_longer_periods", $_POST["allow_longer_periods"]);
 		$news_set->set("rss_period", $_POST["news_rss_period"]);
+		$news_set->set("rss_title_format", $_POST["rss_title_format"]);
 		
 		$feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 		$ilSetting->set("block_limit_pdfeed", $_POST["nr_pd_feeds"]);
@@ -312,5 +327,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		
 		$ilCtrl->redirect($this, "view");
 	}
+
+	
 }
 ?>

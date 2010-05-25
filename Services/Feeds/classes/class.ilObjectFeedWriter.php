@@ -128,8 +128,19 @@ class ilObjectFeedWriter extends ilFeedWriter
 				$loc = "[".$loc."]";
 			}
 
-			$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).
-				": ".$this->prepareStr($title));
+			if ($news_set->get("rss_title_format") == "news_obj")
+			{
+				$sep = (trim($this->prepareStr($loc)) == "")
+					? ""
+					: " ";
+				$feed_item->setTitle($this->prepareStr($title)." (".$this->prepareStr($loc).$sep.$this->prepareStr($obj_title).
+					")");
+			}
+			else
+			{
+				$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).
+					": ".$this->prepareStr($title));
+			}
 			$feed_item->setDescription($this->prepareStr(nl2br($item["content"])));
 
 			// lm hack, not nice
