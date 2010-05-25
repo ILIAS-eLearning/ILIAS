@@ -76,11 +76,19 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			// New tracking table
 			case "iltrackinggui":
 				include_once("./Services/Tracking/classes/class.ilTrackingGUI.php");
-
-				$this->__setSubTabs(LP_ACTIVE_OBJECTS);
+				// :TODO: should not be done here
+			    if($this->ctrl->getCmd() == "showObjectSummary")
+				{
+					$active = LP_ACTIVE_SUMMARY;
+				}
+				else
+				{
+					$active = LP_ACTIVE_USERS;
+				}
+				$this->__setSubTabs($active);
 				$track_gui = new ilTrackingGUI();
 				// hack, should be controlled through calling class
-				$track_gui->setObjectId(ilObject::_lookupObjId($_GET["ref_id"]));
+				$track_gui->setObjectId(ilObject::_lookupObjId($this->getRefId()));
 				$this->ctrl->forwardCommand($track_gui);
 				break;
 

@@ -41,6 +41,8 @@ define("LP_ACTIVE_SETTINGS",1);
 define("LP_ACTIVE_OBJECTS",2);
 define("LP_ACTIVE_PROGRESS",3);
 define("LP_ACTIVE_LM_STATISTICS",4);
+define("LP_ACTIVE_USERS",5);
+define("LP_ACTIVE_SUMMARY",6);
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -197,13 +199,6 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 														 "","","",$a_active == LP_ACTIVE_OBJECTS);
 
-						// New tracking table
-						$this->tabs_gui->addSubTabTarget("tr_learners",
-							$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'));
-
-						$this->tabs_gui->addSubTabTarget("tr_summary",
-							$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'));
-
 					}
 
 					if ($this->statistics_activated)
@@ -217,6 +212,17 @@ class ilLearningProgressBaseGUI
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 													 "","","",$a_active == LP_ACTIVE_SETTINGS);
 
+					// New tracking table
+					if(!$this->isAnonymized())
+					{
+						$this->tabs_gui->addSubTabTarget("trac_learners",
+														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'),
+														"", "", "", $a_active == LP_ACTIVE_USERS);
+
+						$this->tabs_gui->addSubTabTarget("trac_summary",
+														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
+														"", "", "", $a_active == LP_ACTIVE_SUMMARY);
+					}
 				}
 				break;
 

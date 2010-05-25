@@ -40,7 +40,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
 		
-		$this->addColumn("", "", "1", true);	// checkbox column
+		// $this->addColumn("", "", "1", true);	// checkbox column
 		$this->addColumn($this->lng->txt("login"), "login");
 		
 		foreach ($this->getSelectedColumns() as $c)
@@ -70,7 +70,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 
-		$this->setSelectAllCheckbox("id[]");
+		// $this->setSelectAllCheckbox("id[]");
 		//$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
 		//$this->addCommandButton("addUser", $lng->txt("usr_add"));
 		

@@ -10094,7 +10094,7 @@ trac#:#trac_completed#:#Completed
 trac#:#trac_crs_assignments#:#Assignment of Course Items
 trac#:#trac_crs_items#:#Assignable Course Items
 trac#:#trac_crs_members#:#Course Participants:
-trac#:#trac_crs_objects#:#Learning Progress of Course Participants
+trac#:#trac_crs_objects#:#Course Participants (OLD)
 trac#:#trac_crs_releavant_items#:#Course Items
 trac#:#trac_crs_relevant_items#:#Course Materials
 trac#:#trac_edit_collection#:#Please assign materials. If the status of all assigned items is 'Completed' the overall status is completed by the user.
@@ -10167,7 +10167,7 @@ trac#:#trac_not_completed#:#Not Completed
 trac#:#trac_not_participated#:#Not Participated
 trac#:#trac_not_registered#:#Not Registered
 trac#:#trac_num_visits#:#Number of Visits
-trac#:#trac_objects#:#Learning Progress of Users
+trac#:#trac_objects#:#Users
 trac#:#trac_occurrences#:#Path:
 trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Assumed Processing Time
@@ -10400,3 +10400,5 @@ style#:#sty_paste_characteristics#:#Paste Style Classes
 style#:#sty_style_classes_copied#:#Style classes have been copied.
 news#:#news_attached_to#:#Attached to
 news#:#news_add_news#:#Add News
+trac#:#trac_learners#:#Learners (NEW)
+trac#:#trac_summary#:#Summary (NEW)

@@ -26,7 +26,21 @@ class ilTrQuery
 	
 		if (is_array($a_additional_fields))
 		{
-			$fields = array_merge($fields, $a_additional_fields);
+			foreach($a_additional_fields as $field)
+			{
+				switch($field)
+				{
+					// add values from children
+					case "spent_seconds":
+					case "read_count":
+						$fields[] = "(".$field."+childs_".$field.") AS ".$field;
+						break;
+
+					default:
+						$fields[] = $field;
+						break;
+				}
+			}
 		}
 
 		$a_users = self::getParticipantsForObject($a_obj_id);
@@ -290,15 +304,33 @@ class ilTrQuery
 	}
 
 	/**
+	 *
+	 * 
+	 *
+	 */
+	static function getObjectHierarchy($a_parent_id, array &$result)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($a_parent_id) as $child_ref_id)
+		{
+			$child_id = ilObject::_lookupObjId($child_ref_id);
+			$result[] = $child_id;
+			self::getObjectHierarchy($child_id, $result);
+		}
+	}
+
+	/**
 	* Get data for user administration list.
 	*/
-	static function getDataForUser($a_user_id, $a_order_field, $a_order_dir, $a_offset, $a_limit,
+	static function getDataForUser($a_user_id, array $a_object_ids, $a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_filter = array(), $a_additional_fields = "")
 	{
 		global $ilDB, $rbacreview;
 
+		/*
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		ilLPStatus::checkStatusForObject($a_obj_id);
+		*/
 
 		$fields = $group_by = array("read_event.obj_id");
 
@@ -318,7 +350,7 @@ class ilTrQuery
 
 					case "read_count":
 					case "spent_seconds":
-						$fields[] = "sum(".$field.") AS ".$field;
+						$fields[] = "sum(".$field."+childs_".$field.") AS ".$field;
 						break;
 					
 					default:
@@ -342,8 +374,8 @@ class ilTrQuery
 			" ut_lp_marks.obj_id = read_event.obj_id)";
 
 		// filter
-		$query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer");
-		$count_query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".$ilDB->in("read_event.obj_id", $a_object_ids, false, "integer");
+		$count_query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".$ilDB->in("read_event.obj_id", $a_object_ids, false, "integer");
 
 		/*
 		$where = " AND";
