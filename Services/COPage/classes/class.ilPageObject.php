@@ -2146,6 +2146,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
+		// delete news
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		ilNewsItem::deleteNewsOfContext($this->getParentId(),
+			$this->getParentType(), $this->getId(), "pg");
+
 		// delete page_object entry
 		$ilDB->manipulate("DELETE FROM page_object ".
 			"WHERE page_id = ".$ilDB->quote($this->getId(), "integer").

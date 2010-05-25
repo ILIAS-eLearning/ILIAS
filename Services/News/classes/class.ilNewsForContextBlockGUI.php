@@ -690,10 +690,18 @@ if (empty(self::$st_data))
 						$add = "_".$thread."_".$pos;
 					}
 				}
-				//$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
-				//	$obj_type."_".$_GET["news_context"].$add;
+
 				$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 					$obj_type."_".$item["ref_id"].$add;
+
+				// lm page hack, not nice
+				if (in_array($obj_type, array("dbk", "lm")) && $item["context_sub_obj_type"] == "pg"
+					&& $item["context_sub_obj_id"] > 0)
+				{
+					$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+						"pg_".$item["context_sub_obj_id"]."_".$item["ref_id"];
+				}
+
 	
 				$context_opened = false;				
 				if ($item["loc_context"] != null && $item["loc_context"] != $item["loc_stop"])
