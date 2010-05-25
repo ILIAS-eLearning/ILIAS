@@ -10405,3 +10405,5 @@ news#:#news_rss_title_format_obj_news#:#Object Title - News Headline
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)
 trac#:#trac_learners#:#Learners 
 trac#:#trac_summary#:#Summary 
+trac#:#trac_learners_back#:#Back To Learners
+trac#:#trac_user_objects#:#Learning Objects for User
