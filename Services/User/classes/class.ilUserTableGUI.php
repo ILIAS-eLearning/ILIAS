@@ -307,7 +307,7 @@ class ilUserTableGUI extends ilTable2GUI
 			else if (in_array($c, array("email", "firstname", "lastname")))
 			{
 				$this->tpl->setCurrentBlock($c);
-				$this->tpl->setVariable("VAL_".strtoupper($c), $user[$c]);
+				$this->tpl->setVariable("VAL_".strtoupper($c), (string) $user[$c]);
 			}
 			else	// all other fields
 			{
