@@ -92,7 +92,17 @@ class ilUserFeedWriter extends ilFeedWriter
 				$loc = "[".$cont_loc->getHTML()."]";
 				
 				// title
-				$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).": ".$this->prepareStr(str_replace("<br />", " ", $title)));
+				if ($news_set->get("rss_title_format") == "news_obj")
+				{
+					$feed_item->setTitle($this->prepareStr(str_replace("<br />", " ", $title)).
+						" (".$this->prepareStr($loc)." ".$this->prepareStr($obj_title).
+						")");
+				}
+				else
+				{
+					$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).
+						": ".$this->prepareStr(str_replace("<br />", " ", $title)));
+				}
 								
 				// description
 				$content = $this->prepareStr(nl2br($item["content"]));
