@@ -10094,7 +10094,7 @@ trac#:#trac_completed#:#Completed
 trac#:#trac_crs_assignments#:#Assignment of Course Items
 trac#:#trac_crs_items#:#Assignable Course Items
 trac#:#trac_crs_members#:#Course Participants:
-trac#:#trac_crs_objects#:#Course Participants (OLD)
+trac#:#trac_crs_objects#:#Course Participants
 trac#:#trac_crs_releavant_items#:#Course Items
 trac#:#trac_crs_relevant_items#:#Course Materials
 trac#:#trac_edit_collection#:#Please assign materials. If the status of all assigned items is 'Completed' the overall status is completed by the user.
@@ -10403,5 +10403,5 @@ news#:#news_add_news#:#Add News
 news#:#news_rss_title_format#:#Title Format of RSS Entries
 news#:#news_rss_title_format_obj_news#:#Object Title - News Headline
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)
-trac#:#trac_learners#:#Learners (NEW)
-trac#:#trac_summary#:#Summary (NEW)
+trac#:#trac_learners#:#Learners 
+trac#:#trac_summary#:#Summary 
