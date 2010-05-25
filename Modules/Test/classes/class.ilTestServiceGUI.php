@@ -135,16 +135,16 @@ class ilTestServiceGUI
 				if (!$short)
 				{
 					$result_array =& $this->object->getTestResult($active_id, $pass);
-					if (!$result_array["test"]["total_max_points"])
+					if (!$result_array["pass"]["total_max_points"])
 					{
 						$percentage = 0;
 					}
 					else
 					{
-						$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+						$percentage = ($result_array["pass"]["total_reached_points"]/$result_array["pass"]["total_max_points"])*100;
 					}
-					$total_max = $result_array["test"]["total_max_points"];
-					$total_reached = $result_array["test"]["total_reached_points"];
+					$total_max = $result_array["pass"]["total_max_points"];
+					$total_reached = $result_array["pass"]["total_reached_points"];
 				}
 				if (!$hide_details)
 				{
@@ -165,9 +165,16 @@ class ilTestServiceGUI
 				{
 					$template->setVariable("COLOR_CLASS", "tblrowmarked");
 					$template->setVariable("VALUE_SCORED", "&otimes;");
-					$result_percentage = $percentage;
-					$result_total_reached = $total_reached;
-					$result_total_max = $total_max;
+					if (!$result_array["test"]["total_max_points"])
+					{
+						$result_percentage = 0;
+					}
+					else
+					{
+						$result_percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+					}
+					$result_total_max = $result_array["test"]["total_max_points"];
+					$result_total_reached = $result_array["test"]["total_reached_points"];
 				}
 				else
 				{
@@ -178,7 +185,7 @@ class ilTestServiceGUI
 				
 				if (!$short)
 				{
-					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));
+					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-2));
 					$template->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
 					$template->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
 				}
