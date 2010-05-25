@@ -511,9 +511,13 @@ class ilNewsItem extends ilNewsItemGen
 	}
 
 	/**
-	* Query NewsForContext
-	*
-	*/
+	 * Query news for a context
+	 *
+	 * @param	boolean		query for outgoing rss feed
+	 * @param	int			time period in seconds
+	 * @param	string		startind date
+	 * @param	boolean		do not include auto generated news items
+	 */
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
 		$a_starting_date = "", $a_no_auto_generated = false)
 	{
@@ -534,6 +538,13 @@ class ilNewsItem extends ilNewsItemGen
 		if ($a_no_auto_generated)
 		{
 			$and.= " AND priority = 1 AND content_type = ".$ilDB->quote("text", "text")." ";
+		}
+
+		// this is changed with 4.1 (news table for lm pages)
+		if ($this->getContextSubObjId() > 0)
+		{
+			$and.= " AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text");
 		}
 
 		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
@@ -572,6 +583,7 @@ class ilNewsItem extends ilNewsItemGen
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
+//echo $query;
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
@@ -802,8 +814,8 @@ class ilNewsItem extends ilNewsItemGen
 	* Delete all news of a context
 	*
 	*/
-	public function deleteNewsOfContext($a_context_obj_id,
-		$a_context_obj_type)
+	static public function deleteNewsOfContext($a_context_obj_id,
+		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
 	{
 		global $ilDB;
 		
@@ -811,12 +823,19 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			return;
 		}
+
+		if ($a_context_sub_obj_id > 0)
+		{
+			$and = " AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id, "integer").
+				" AND context_sub_obj_type = ".$ilDB->quote($a_context_sub_obj_type, "text");
+		}
 		
 		// get news records
 		$query = "SELECT * FROM il_news_item".
 			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id, "integer").
-			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text");
-			
+			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text").
+			$and;
+
 		$news_set = $ilDB->query($query);
 		
 		while ($news = $ilDB->fetchAssoc($news_set))

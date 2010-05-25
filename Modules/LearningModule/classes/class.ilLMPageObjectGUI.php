@@ -51,7 +51,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl, $ilCtrl, $ilTabs;
+		global $tpl, $ilCtrl, $ilTabs, $ilSetting;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -77,8 +77,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$this->obj->getId(), $this->obj->getType(),
 					$this->obj, "MDUpdateListener");
 				$page_gui->setEnabledPCTabs(true);
-$page_gui->setEnabledNews(true, $this->obj->getId(),
-	$this->obj->content_object->getType());
+
+				if ($ilSetting->get("block_activated_news"))
+				{
+					$page_gui->setEnabledNews(true, $this->obj->content_object->getId(),
+						$this->obj->content_object->getType());
+				}
 
 				// set page view link
 				if ($showViewInFrameset)

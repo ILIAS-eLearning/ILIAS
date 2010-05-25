@@ -14,11 +14,13 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilNewsForContextTableGUI extends ilTable2GUI
 {
 
-	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "")
+	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "", $a_perm_ref_id = 0)
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		$this->perm_ref_id = $a_perm_ref_id;
 
 		$this->addColumn("", "f", "1");
 		$this->addColumn($lng->txt("news_news_item_content"));
@@ -101,8 +103,11 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($ilAccess->checkAccess("write", "", $a_set["ref_id"]))
+		$perm_ref_id = ($this->perm_ref_id > 0)
+			? $this->perm_ref_id
+			: $a_set["ref_id"];
 
+		if ($ilAccess->checkAccess("write", "", $perm_ref_id))
 		{
 			$this->tpl->setCurrentBlock("edit");
 			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));

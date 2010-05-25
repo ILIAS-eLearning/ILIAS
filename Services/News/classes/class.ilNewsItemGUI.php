@@ -477,7 +477,7 @@ class ilNewsItemGUI
 
 		$this->setTabs();
 
-		$ilToolbar->addButton($lng->txt("add"),
+		$ilToolbar->addButton($lng->txt("news_add_news"),
 			$ilCtrl->getLinkTarget($this, "createNewsItem"));
 
 		if (!$this->getEnableEdit())
@@ -600,18 +600,34 @@ class ilNewsItemGUI
 	{
 		global $lng;
 
-		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
-		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable");
-
 		$news_item = new ilNewsItem();
-
 		$news_item->setContextObjId($this->getContextObjId());
 		$news_item->setContextObjType($this->getContextObjType());
 		$news_item->setContextSubObjId($this->getContextSubObjId());
 		$news_item->setContextSubObjType($this->getContextSubObjType());
-		//$data = $news_item->queryNewsForContext();
-		$data = $news_item->getNewsForRefId($_GET["ref_id"], false, false,
-			0, true, false, true, true);
+
+		$perm_ref_id = 0;
+		if (in_array($this->getContextObjType(), array("cat", "grp", "crs", "root")))
+		{
+			$data = $news_item->getNewsForRefId($_GET["ref_id"], false, false,
+				0, true, false, true, true);
+		}
+		else
+		{
+			$perm_ref_id = $_GET["ref_id"];
+			if ($this->getContextSubObjId() > 0)
+			{
+				$data = $news_item->queryNewsForContext(false, 0,
+					"", true, true);
+			}
+			else
+			{
+				$data = $news_item->queryNewsForContext();
+			}
+		}
+
+		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
+		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable", $perm_ref_id);
 
 		$table_gui->setTitle($lng->txt("news_table_news_for_context"));
 		$table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "Services/News");
