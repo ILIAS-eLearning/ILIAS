@@ -9996,7 +9996,7 @@ trac#:#trac_completed#:#Bearbeitet
 trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
 trac#:#trac_crs_items#:#Kurselemente
 trac#:#trac_crs_members#:#Kursteilnehmer:
-trac#:#trac_crs_objects#:#Lernfortschritt der KursteilnehmerInnen
+trac#:#trac_crs_objects#:#KursteilnehmerInnen (ALT)
 trac#:#trac_crs_releavant_items#:#Kursobjekte
 trac#:#trac_crs_relevant_items#:#Kursmaterialien
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.
@@ -10069,7 +10069,7 @@ trac#:#trac_not_completed#:#Nicht bearbeitet
 trac#:#trac_not_participated#:#Nicht teilgenommen
 trac#:#trac_not_registered#:#Nicht angemeldet
 trac#:#trac_num_visits#:#Anzahl der Besuche
-trac#:#trac_objects#:#Lernfortschritt der NutzerInnen
+trac#:#trac_objects#:#NutzerInnen
 trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
@@ -10371,3 +10371,5 @@ tbl#:#tbl_template_create#:#Aktuelle Ansicht speichern
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
+trac#:#trac_learners#:#Lernende (NEW)
+trac#:#trac_summary#:#Zusammenfassung (NEW)

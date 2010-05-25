@@ -22,7 +22,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setId("tr_summary");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setTitle($lng->txt("tr_summary"));
+		// $this->setTitle($lng->txt("tr_summary"));
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
 
@@ -203,16 +203,11 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 
 		// --- child objects
 
-		if($type != 'sahs_item' and
-		   $type != 'objective' and
-		   $type != 'event')
+		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($object_id) as $child_ref_id)
 		{
-			include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-			foreach(ilLPCollectionCache::_getItems($object_id) as $child_ref_id)
-			{
-				$child_id = ilObject::_lookupObjId($child_ref_id);
-				$this->getItems($rows, $child_id, $filter);
-			}
+			$child_id = ilObject::_lookupObjId($child_ref_id);
+			$this->getItems($rows, $child_id, $filter);
 		}
 	}
 

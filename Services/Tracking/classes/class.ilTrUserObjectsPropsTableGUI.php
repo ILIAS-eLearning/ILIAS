@@ -17,12 +17,13 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_user_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_user_id, $a_obj_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->setId($a_table_id);
 		$this->user_id = $a_user_id;
+		$this->obj_id = $a_obj_id;
 
 		/*
 		$this->type = ilObject::_lookupType($a_obj_id);
@@ -32,6 +33,11 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		*/
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		$user = ilObjUser::_lookupFullName($this->user_id)." (".
+			ilObjUser::_lookupLogin($this->user_id).")";
+
+		$this->setTitle($this->lng->txt("trac_user_objects")." ".$user);
 		
 		$this->addColumn($this->lng->txt("title"), "title");
 		
@@ -115,11 +121,15 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
+
+		$object_ids = array($this->obj_id);
+		ilTrQuery::getObjectHierarchy($this->obj_id, $object_ids);
 		
 		$additional_fields = $this->getSelectedColumns();
 
 		$tr_data = ilTrQuery::getDataForUser(
 			$this->user_id,
+			$object_ids,
 			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
@@ -133,6 +143,7 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 			$this->resetOffset();
 			$tr_data = ilTrQuery::getDataForUser(
 				$this->user_id,
+				$object_ids,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
