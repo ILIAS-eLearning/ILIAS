@@ -1866,8 +1866,8 @@ if ($t == "tree")
 		}
 		if ($a_value != "")
 		{
-			return $a_col." <> ".$this->quote($a_value, $a_type). " OR ".
-				$a_col." IS NULL";
+			return "(".$a_col." <> ".$this->quote($a_value, $a_type). " OR ".
+				$a_col." IS NULL)";
 		}
 		else
 		{

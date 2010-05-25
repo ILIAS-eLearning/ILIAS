@@ -25,7 +25,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
-* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -485,7 +485,29 @@ class ilPageObjectGUI
 	{
 		return $this->scheduled_activation;
 	}
-	
+
+	/**
+	 * Set enabled news
+	 *
+	 * @param	boolean	enabled news
+	 */
+	function setEnabledNews($a_enabled, $a_news_obj_id = 0, $a_news_obj_type = 0)
+	{
+		$this->enabled_news = $a_enabled;
+		$this->news_obj_id = $a_news_obj_id;
+		$this->news_obj_type = $a_news_obj_type;
+	}
+
+	/**
+	 * Get enabled news
+	 *
+	 * @return	boolean	enabled news
+	 */
+	function getEnabledNews()
+	{
+		return $this->enabled_news;
+	}
+
 	/**
 	* Set tab hook
 	*/
@@ -1024,6 +1046,22 @@ class ilPageObjectGUI
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
+				break;
+
+			case 'ilnewsitemgui':
+				include_once("./Services/News/classes/class.ilNewsItemGUI.php");
+				$news_item_gui = new ilNewsItemGUI();
+				$news_item_gui->setEnableEdit(true);
+				$news_item_gui->setContextObjId($this->news_obj_id);
+				$news_item_gui->setContextObjType($this->news_obj_type);
+				$news_item_gui->setContextSubObjId($this->obj->getId());
+				$news_item_gui->setContextSubObjType("pg");
+
+				$ret = $ilCtrl->forwardCommand($news_item_gui);
+				break;
+
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 
 			default:
@@ -2345,6 +2383,13 @@ class ilPageObjectGUI
 		{
 			$ilTabs->addTarget("cont_activation", $this->ctrl->getLinkTarget($this, "editActivation"),
 				"editActivation", get_class($this));
+		}
+
+		if ($this->getEnabledNews())
+		{
+			$ilTabs->addTarget("news",
+				$this->ctrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
+				"", "ilnewsitemgui");
 		}
 
 		// external hook to add tabs

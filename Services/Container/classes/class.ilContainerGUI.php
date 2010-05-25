@@ -481,6 +481,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$container_view = new ilContainerByTypeContentGUI($this);
 				break;
 		}
+
+		$this->setContentSubTabs();
+		if ($this->isActiveAdministrationPanel())
+		{
+			$ilTabs->activateSubTab("manage");
+		}
+		else
+		{
+			$ilTabs->activateSubTab("view_content");
+		}
 		
 		$container_view->setOutput();
 
@@ -495,15 +505,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$this->showPermanentLink($tpl);
-		$this->setContentSubTabs();
-		if ($this->isActiveAdministrationPanel())
-		{
-			$ilTabs->activateSubTab("manage");
-		}
-		else
-		{
-			$ilTabs->activateSubTab("view_content");
-		}
 
 		// add tree updater javascript
 		if ((int) $_GET["ref_id"] > 1)

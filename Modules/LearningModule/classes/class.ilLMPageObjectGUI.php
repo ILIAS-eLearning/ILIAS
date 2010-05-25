@@ -77,6 +77,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$this->obj->getId(), $this->obj->getType(),
 					$this->obj, "MDUpdateListener");
 				$page_gui->setEnabledPCTabs(true);
+$page_gui->setEnabledNews(true, $this->obj->getId(),
+	$this->obj->content_object->getType());
 
 				// set page view link
 				if ($showViewInFrameset)

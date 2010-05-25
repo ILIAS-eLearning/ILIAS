@@ -3,25 +3,31 @@
 <input type="checkbox" name="news_id[]" value="{VAL_ID}" />
 </td>
 <td class="std">
-<div style="float:right;"><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a></div>
-<h2>{VAL_TITLE}</h2>
-<div style="clear:both;">
+{VAL_TITLE}
 <!-- BEGIN content -->
-<p>{VAL_CONTENT}</p>
+<p class="small">{VAL_CONTENT}</p>
 <!-- END content -->
 <!-- BEGIN long -->
-<div>{VAL_LONG_CONTENT}</div>
+<div class="small">{VAL_LONG_CONTENT}</div>
 <!-- END long -->
-<div style="text-align:right;" class="il_BlockInfo">{TXT_CREATED}: {VAL_CREATION_DATE}</div>
-<!-- BEGIN ni_update -->
-<div style="text-align:right;" class="il_BlockInfo">{TXT_LAST_UPDATE}: {VAL_LAST_UPDATE}</div>
-<!-- END ni_update -->
-<!-- BEGIN access -->
-<div style="text-align:right;" class="il_BlockInfo">{TXT_ACCESS}: {VAL_ACCESS}</div>
-<!-- END access -->
-<!-- BEGIN user_info -->
-<div style="text-align:right;" class="il_BlockInfo">{TXT_AUTHOR}: {VAL_AUTHOR}</div>
-<!-- END user_info -->
 </div>
+</td>
+<td class="std small">
+{CONTEXT}
+</td>
+<td class="std small">
+<!-- BEGIN access -->{VAL_ACCESS}<!-- END access -->
+</td>
+<td class="std small">
+	<!-- BEGIN user_info -->{VAL_AUTHOR}<!-- END user_info -->
+</td>
+<td class="std small">
+	{VAL_CREATION_DATE}
+</td>
+<td class="std small">
+	<!-- BEGIN ni_update -->{VAL_LAST_UPDATE}<!-- END ni_update -->
+</td>
+<td class="std">
+	<!-- BEGIN edit --><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a><!-- END edit -->
 </td>
 </tr>

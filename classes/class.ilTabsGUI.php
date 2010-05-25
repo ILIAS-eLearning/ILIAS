@@ -170,6 +170,7 @@ class ilTabsGUI
 	function clearTargets()
 	{
 		$this->target = array();
+		$this->sub_target = array();
 		$this->back_title = "";
 		$this->back_target = "";
 		$this->back_2_target = "";
