@@ -2841,6 +2841,40 @@ return;
 			$this->form->addItem($cb);
 		}
 		
+
+		// calendar settings (copied here to be reachable when calendar is inactive)
+		// they cannot be hidden/deactivated
+
+		include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
+		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
+		$lng->loadLanguageModule("dateplaner");
+		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+
+		$select = new ilSelectInputGUI($lng->txt('cal_user_timezone'),'timezone');
+		$select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
+		$select->setInfo($lng->txt('cal_timezone_info'));
+		$select->setValue($user_settings->getTimeZone());
+		$this->form->addItem($select);
+
+		$year = date("Y");
+		$select = new ilSelectInputGUI($lng->txt('cal_user_date_format'),'date_format');
+		$select->setOptions(array(
+			ilCalendarSettings::DATE_FORMAT_DMY => '31.10.'.$year,
+			ilCalendarSettings::DATE_FORMAT_YMD => $year."-10-31",
+			ilCalendarSettings::DATE_FORMAT_MDY => "10/31/".$year));
+		$select->setInfo($lng->txt('cal_date_format_info'));
+		$select->setValue($user_settings->getDateFormat());
+		$this->form->addItem($select);
+
+		$select = new ilSelectInputGUI($lng->txt('cal_user_time_format'),'time_format');
+		$select->setOptions(array(
+			ilCalendarSettings::TIME_FORMAT_24 => '13:00',
+			ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'));
+		$select->setInfo($lng->txt('cal_time_format_info'));
+	    $select->setValue($user_settings->getTimeFormat());
+		$this->form->addItem($select);
+
+		
 		$this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
 		$this->form->setTitle($lng->txt("general_settings"));
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -2926,6 +2960,15 @@ return;
 			}
 
 			$ilUser->update();
+
+			// calendar settings
+			include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
+			$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+			$user_settings->setTimeZone($this->form->getInput("timezone"));
+			$user_settings->setDateFormat((int)$this->form->getInput("date_format"));
+			$user_settings->setTimeFormat((int)$this->form->getInput("time_format"));
+			$user_settings->save();
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}
