@@ -160,7 +160,7 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
-		global $rbacsystem,$ilObjDataCache;
+		global $rbacsystem,$ilObjDataCache,$lng;
 
 
 		
@@ -222,6 +222,12 @@ class ilLearningProgressBaseGUI
 						$this->tabs_gui->addSubTabTarget("trac_summary",
 														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
 														"", "", "", $a_active == LP_ACTIVE_SUMMARY);
+
+						// :TODO: should not be done here
+						if($this->ctrl->getCmd() == "showUserObjectsProps")
+						{
+							$this->tabs_gui->setBackTarget($lng->txt("trac_learners_back"), $this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'));
+						}
 					}
 				}
 				break;

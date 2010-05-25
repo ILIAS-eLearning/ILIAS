@@ -10373,3 +10373,5 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 trac#:#trac_learners#:#Lernende
 trac#:#trac_summary#:#Zusammenfassung
+trac#:#trac_learners_back#:#Zurück zu Lernenden
+trac#:#trac_user_objects#:#Zurück zu Lernenden
