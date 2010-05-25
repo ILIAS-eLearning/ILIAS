@@ -1,28 +1,68 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ("Services/News/classes/class.ilNewsItemGUIGen.php");
+include_once("./Services/News/classes/class.ilNewsItem.php");
+
+define("IL_FORM_EDIT", 0);
+define("IL_FORM_CREATE", 1);
+define("IL_FORM_RE_EDIT", 2);
+define("IL_FORM_RE_CREATE", 3);
 
 /**
-* User Interface for NewsItem entities.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesNews
-*/
-class ilNewsItemGUI extends ilNewsItemGUIGen
+ * User Interface for NewsItem entities.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesNews
+ */
+class ilNewsItemGUI
 {
+	protected $enable_edit = 0;
+	protected $context_obj_id;
+	protected $context_obj_type;
+	protected $context_sub_obj_id;
+	protected $context_sub_obj_type;
+	protected $form_edit_mode;
 
+
+	/**
+	 * Constructor
+	 */
 	function __construct()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
-		parent::__construct();
-		
+		$this->ctrl = $ilCtrl;
+
+		include_once("Services/News/classes/class.ilNewsItemGen.php");
+		if ($_GET["news_item_id"] > 0)
+		{
+			$this->news_item = new ilNewsItemGen($_GET["news_item_id"]);
+		}
+
+		$this->ctrl->saveParameter($this, array("news_item_id"));
+
+		// Init EnableEdit.
+		$this->setEnableEdit(false);
+
+		// Init Context.
+		$this->setContextObjId($ilCtrl->getContextObjId());
+		$this->setContextObjType($ilCtrl->getContextObjType());
+		$this->setContextSubObjId($ilCtrl->getContextSubObjId());
+		$this->setContextSubObjType($ilCtrl->getContextSubObjType());
+
+		$lng->loadLanguageModule("news");
+
 		$ilCtrl->saveParameter($this, "add_mode");
 	}
-	
+
+	/**
+	 * Get html
+	 *
+	 * @return string	html
+	 */
 	function getHTML()
 	{
 		global $lng, $ilCtrl;
@@ -31,88 +71,328 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		
 		return $this->getNewsForContextBlock();
 	}
-	
-	/**
-	* BLOCK NewsForContext: Prepare block. (Can be overwritten in derived classes)
-	*
-	* @param	object	$a_block_gui	ilBlockGUI instance.
-	*/
-	public function prepareBlockNewsForContext(&$a_block_gui)
-	{
-		$a_block_gui->setParentClass("ilinfoscreengui");
-		$a_block_gui->setParentCmd("showSummary");
-		$a_block_gui->setEnableEdit($this->getEnableEdit());
-	}
 
 	/**
-	* BLOCK NewsForContext: Prepare block query for news block.
-	*/
-	function prepareBlockQueryNewsForContext(&$a_news_item)
+	 * Execute command.
+	 *
+	 */
+	public function &executeCommand()
 	{
-		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
-		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
-	}
-	
-	/**
-	* FORM NewsItem: Prepare saving.
-	*/
-	function prepareSaveNewsItem(&$a_news_item)
-	{
-		global $ilUser;
-		
-		$a_news_item->setContextObjId($this->ctrl->getContextObjId());
-		$a_news_item->setContextObjType($this->ctrl->getContextObjType());
-		$a_news_item->setUserId($ilUser->getId());
+		global $ilCtrl;
 
-		$news_set = new ilSetting("news");
-		if (!$news_set->get("enable_rss_for_internal"))
+		// get next class and command
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch ($next_class)
 		{
-			$a_news_item->setVisibility("users");
+			default:
+				$html = $this->$cmd();
+				break;
 		}
+
+		return $html;
+
 	}
-	
+
 	/**
-	* FORM NewsItem: Prepare form.
-	*
-	* @param	object	$a_form_gui	ilPropertyFormGUI instance.
-	*/
-	public function prepareFormNewsItem(&$a_form_gui)
+	 * Set EnableEdit.
+	 *
+	 * @param	boolean	$a_enable_edit	Edit mode on/off
+	 */
+	public function setEnableEdit($a_enable_edit = 0)
 	{
-		$a_form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
-		
-		$news_set = new ilSetting("news");
-		if (!$news_set->get("enable_rss_for_internal"))
+		$this->enable_edit = $a_enable_edit;
+	}
+
+	/**
+	 * Get EnableEdit.
+	 *
+	 * @return	boolean	Edit mode on/off
+	 */
+	public function getEnableEdit()
+	{
+		return $this->enable_edit;
+	}
+
+	/**
+	 * Set ContextObjId.
+	 *
+	 * @param	int	$a_context_obj_id
+	 */
+	public function setContextObjId($a_context_obj_id)
+	{
+		$this->context_obj_id = $a_context_obj_id;
+	}
+
+	/**
+	 * Get ContextObjId.
+	 *
+	 * @return	int
+	 */
+	public function getContextObjId()
+	{
+		return $this->context_obj_id;
+	}
+
+	/**
+	 * Set ContextObjType.
+	 *
+	 * @param	int	$a_context_obj_type
+	 */
+	public function setContextObjType($a_context_obj_type)
+	{
+		$this->context_obj_type = $a_context_obj_type;
+	}
+
+	/**
+	 * Get ContextObjType.
+	 *
+	 * @return	int
+	 */
+	public function getContextObjType()
+	{
+		return $this->context_obj_type;
+	}
+
+	/**
+	 * Set ContextSubObjId.
+	 *
+	 * @param	int	$a_context_sub_obj_id
+	 */
+	public function setContextSubObjId($a_context_sub_obj_id)
+	{
+		$this->context_sub_obj_id = $a_context_sub_obj_id;
+	}
+
+	/**
+	 * Get ContextSubObjId.
+	 *
+	 * @return	int
+	 */
+	public function getContextSubObjId()
+	{
+		return $this->context_sub_obj_id;
+	}
+
+	/**
+	 * Set ContextSubObjType.
+	 *
+	 * @param	int	$a_context_sub_obj_type
+	 */
+	public function setContextSubObjType($a_context_sub_obj_type)
+	{
+		$this->context_sub_obj_type = $a_context_sub_obj_type;
+	}
+
+	/**
+	 * Get ContextSubObjType.
+	 *
+	 * @return	int
+	 */
+	public function getContextSubObjType()
+	{
+		return $this->context_sub_obj_type;
+	}
+
+	/**
+	 * Set FormEditMode.
+	 *
+	 * @param	int	$a_form_edit_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 */
+	public function setFormEditMode($a_form_edit_mode)
+	{
+		$this->form_edit_mode = $a_form_edit_mode;
+	}
+
+	/**
+	 * Get FormEditMode.
+	 *
+	 * @return	int	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 */
+	public function getFormEditMode()
+	{
+		return $this->form_edit_mode;
+	}
+
+	/**
+	 * FORM NewsItem: Create NewsItem.
+	 *
+	 */
+	public function createNewsItem()
+	{
+		$this->initFormNewsItem(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
+	}
+
+	/**
+	 * FORM NewsItem: Edit form.
+	 *
+	 */
+	public function editNewsItem()
+	{
+		$this->initFormNewsItem(IL_FORM_EDIT);
+		$this->getValuesNewsItem();
+		return $this->form_gui->getHtml();
+
+	}
+
+
+	/**
+	 * FORM NewsItem: Init form.
+	 *
+	 * @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	 */
+	public function initFormNewsItem($a_mode)
+	{
+		global $lng, $ilTabs;
+
+		$ilTabs->clearTargets();
+		//$this->setTabs();
+
+		$lng->loadLanguageModule("news");
+
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		$this->form_gui = new ilPropertyFormGUI();
+
+
+		// Property Title
+		$text_input = new ilTextInputGUI($lng->txt("news_news_item_title"), "news_title");
+		$text_input->setInfo("");
+		$text_input->setRequired(true);
+		$text_input->setMaxLength(200);
+		$this->form_gui->addItem($text_input);
+
+		// Property Content
+		$text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content"), "news_content");
+		$text_area->setInfo("");
+		$text_area->setRequired(false);
+		$this->form_gui->addItem($text_area);
+
+		// Property Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_news_item_visibility"), "news_visibility");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue("users");
+		$this->form_gui->addItem($radio_group);
+
+		// Property ContentLong
+		$text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content_long"), "news_content_long");
+		$text_area->setInfo($lng->txt("news_news_item_content_long_info"));
+		$text_area->setRequired(false);
+		$text_area->setCols("40");
+		$text_area->setRows("8");
+		$text_area->setUseRte(true);
+		$this->form_gui->addItem($text_area);
+
+
+		// save and cancel commands
+		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
 		{
-			$a_form_gui->removeItemByPostVar("news_visibility");
+			$this->form_gui->addCommandButton("saveNewsItem", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"));
 		}
 		else
 		{
-			$nv = $a_form_gui->getItemByPostVar("news_visibility");
+			$this->form_gui->addCommandButton("updateNewsItem", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelUpdateNewsItem", $lng->txt("cancel"));
+		}
+
+		$this->form_gui->setTitle($lng->txt("news_news_item_head"));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
+
+		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+
+		$news_set = new ilSetting("news");
+		if (!$news_set->get("enable_rss_for_internal"))
+		{
+			$this->form_gui->removeItemByPostVar("news_visibility");
+		}
+		else
+		{
+			$nv = $this->form_gui->getItemByPostVar("news_visibility");
 			if (is_object($nv))
 			{
 				$nv->setValue(ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]));
 			}
 		}
+
 	}
-	
+
 	/**
-	* FORM NewsItem: Save NewsItem.
-	*
-	*/
+	 * FORM NewsItem: Get current values for NewsItem form.
+	 *
+	 */
+	public function getValuesNewsItem()
+	{
+		$values = array();
+
+		$values["news_title"] = $this->news_item->getTitle();
+		$values["news_content"] = $this->news_item->getContent();
+		$values["news_visibility"] = $this->news_item->getVisibility();
+		$values["news_content_long"] = $this->news_item->getContentLong();
+
+		$this->form_gui->setValuesByArray($values);
+
+	}
+
+	/**
+	 * FORM NewsItem: Save NewsItem.
+	 *
+	 */
 	function saveNewsItem()
 	{
+		global $ilUser;
+
 		if (!$this->getEnableEdit())
 		{
 			return;
 		}
-		
-		return parent::saveNewsItem();
+
+		$this->initFormNewsItem(IL_FORM_CREATE);
+		if ($this->form_gui->checkInput())
+		{
+			$this->news_item = new ilNewsItem();
+			$this->news_item->setTitle($this->form_gui->getInput("news_title"));
+			$this->news_item->setContent($this->form_gui->getInput("news_content"));
+			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
+			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
+
+// changed
+			//$this->news_item->setContextObjId($this->ctrl->getContextObjId());
+			//$this->news_item->setContextObjType($this->ctrl->getContextObjType());
+			$this->news_item->setContextObjId($this->getContextObjId());
+			$this->news_item->setContextObjType($this->getContextObjType());
+			$this->news_item->setContextSubObjId($this->getContextSubObjId());
+			$this->news_item->setContextSubObjType($this->getContextSubObjType());
+			$this->news_item->setUserId($ilUser->getId());
+
+			$news_set = new ilSetting("news");
+			if (!$news_set->get("enable_rss_for_internal"))
+			{
+				$a_news_item->setVisibility("users");
+			}
+
+			$this->news_item->create();
+			$this->exitSaveNewsItem();
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
+		}
+
 	}
-	
+
 	function exitSaveNewsItem()
 	{
 		global $ilCtrl;
-		
+
 		if ($_GET["add_mode"] == "block")
 		{
 			$ilCtrl->returnToParent($this);
@@ -133,14 +413,29 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		{
 			return;
 		}
-		
-		return parent::updateNewsItem();
+
+		$this->initFormNewsItem(IL_FORM_EDIT);
+		if ($this->form_gui->checkInput())
+		{
+
+			$this->news_item->setTitle($this->form_gui->getInput("news_title"));
+			$this->news_item->setContent($this->form_gui->getInput("news_content"));
+			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
+			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
+			$this->news_item->update();
+			$this->exitUpdateNewsItem();
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
+		}
 	}
 
 	function exitUpdateNewsItem()
 	{
 		global $ilCtrl;
-		
+
 		$ilCtrl->redirect($this, "editNews");
 	}
 
@@ -160,7 +455,7 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	function cancelSaveNewsItem()
 	{
 		global $ilCtrl;
-		
+
 		if ($_GET["add_mode"] == "block")
 		{
 			$ilCtrl->returnToParent($this);
@@ -171,8 +466,20 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		}
 	}
 
+	/**
+	 * Edit news
+	 *
+	 * @return html
+	 */
 	function editNews()
 	{
+		global $ilTabs, $ilToolbar, $lng, $ilCtrl;
+
+		$this->setTabs();
+
+		$ilToolbar->addButton($lng->txt("add"),
+			$ilCtrl->getLinkTarget($this, "createNewsItem"));
+
 		if (!$this->getEnableEdit())
 		{
 			return;
@@ -180,25 +487,12 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 		return $this->getNewsForContextTable();
 	}
 
-	
+	/**
+	 * Cancel update
+	 */
 	function cancelUpdate()
 	{
 		return $this->editNews();
-	}
-	
-	/**
-	* TABLE MewsForContext: Prepare the new table
-	*/
-	function prepareTableNewsForContext(&$a_table_gui)
-	{
-		global $ilCtrl, $lng;
-		
-		$a_table_gui->setDefaultOrderField("creation_date");
-		$a_table_gui->setDefaultOrderDirection("desc");
-		$a_table_gui->addCommandButton("createNewsItem", $lng->txt("add"));
-		$a_table_gui->addMultiCommand("confirmDeletionNewsItems", $lng->txt("delete"));
-		$a_table_gui->setTitle($lng->txt("news"), "icon_news.gif", $lng->txt("news"));
-		$a_table_gui->setSelectAllCheckbox("news_id");
 	}
 
 	/**
@@ -206,13 +500,13 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 	*/
 	function confirmDeletionNewsItems()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilTabs;
 
 		if (!$this->getEnableEdit())
 		{
 			return;
 		}
-		
+
 		// check whether at least one item is selected
 		if (count($_POST["news_id"]) == 0)
 		{
@@ -220,9 +514,11 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 			return $this->editNews();
 		}
 
+		$ilTabs->clearTargets();
+
 		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$c_gui = new ilConfirmationGUI();
-		
+
 		// set confirm/cancel commands
 		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteNewsItems"));
 		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
@@ -236,7 +532,7 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 			$c_gui->addItem("news_id[]", $news_id, $news->getTitle(),
 				ilUtil::getImagePath("icon_news.gif"));
 		}
-		
+
 		return $c_gui->getHTML();
 	}
 
@@ -255,7 +551,95 @@ class ilNewsItemGUI extends ilNewsItemGUIGen
 			$news = new ilNewsItem($news_id);
 			$news->delete();
 		}
-		
+
 		return $this->editNews();
+	}
+
+	/**
+	 * BLOCK NewsForContext: Get block HTML.
+	 *
+	 */
+	public function getNewsForContextBlock()
+	{
+		global $lng;
+
+		include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
+		$block_gui = new ilNewsForContextBlockGUI(get_class($this));
+
+		$block_gui->setParentClass("ilinfoscreengui");
+		$block_gui->setParentCmd("showSummary");
+		$block_gui->setEnableEdit($this->getEnableEdit());
+
+
+		$news_item = new ilNewsItemGen();
+
+// changed
+		//$news_item->setContextObjId($this->ctrl->getContextObjId());
+		//$news_item->setContextObjType($this->ctrl->getContextObjType());
+		$news_item->setContextObjId($this->getContextObjId());
+		$news_item->setContextObjType($this->getContextObjType());
+		$news_item->setContextSubObjId($this->getContextSubObjId());
+		$news_item->setContextSubObjType($this->getContextSubObjType());
+
+		$data = $news_item->queryNewsForContext();
+
+		$block_gui->setTitle($lng->txt("news_block_news_for_context"));
+		$block_gui->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
+		$block_gui->setData($data);
+
+		return $block_gui->getHTML();
+
+	}
+
+
+	/**
+	 * TABLE NewsForContext: Get table HTML.
+	 *
+	 */
+	public function getNewsForContextTable()
+	{
+		global $lng;
+
+		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
+		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable");
+
+		$news_item = new ilNewsItem();
+
+		$news_item->setContextObjId($this->getContextObjId());
+		$news_item->setContextObjType($this->getContextObjType());
+		$news_item->setContextSubObjId($this->getContextSubObjId());
+		$news_item->setContextSubObjType($this->getContextSubObjType());
+		//$data = $news_item->queryNewsForContext();
+		$data = $news_item->getNewsForRefId($_GET["ref_id"], false, false,
+			0, true, false, true, true);
+
+		$table_gui->setTitle($lng->txt("news_table_news_for_context"));
+		$table_gui->setRowTemplate("tpl.table_row_news_for_context.html", "Services/News");
+		$table_gui->setData($data);
+
+		$table_gui->setDefaultOrderField("creation_date");
+		$table_gui->setDefaultOrderDirection("desc");
+		$table_gui->addMultiCommand("confirmDeletionNewsItems", $lng->txt("delete"));
+		$table_gui->setTitle($lng->txt("news"), "icon_news.gif", $lng->txt("news"));
+		$table_gui->setSelectAllCheckbox("news_id");
+
+
+		return $table_gui->getHTML();
+
+	}
+	
+	/**
+	 * Set tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setTabs()
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getParentReturnByClass("ilnewsitemgui"));
 	}
 }

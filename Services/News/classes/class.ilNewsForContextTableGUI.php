@@ -19,13 +19,19 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
+
 		$this->addColumn("", "f", "1");
-		$this->addColumn($lng->txt("news_news_item_content"), "");
+		$this->addColumn($lng->txt("news_news_item_content"));
+		$this->addColumn($lng->txt("news_attached_to"));
+		$this->addColumn($lng->txt("access"));
+		$this->addColumn($lng->txt("author"));
+		$this->addColumn($lng->txt("created"));
+		$this->addColumn($lng->txt("last_update"));
+		$this->addColumn($lng->txt("actions"));
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_news_for_context.html",
 			"Services/News");
-		$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilnewsitemgui"));
+		//$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilnewsitemgui"));
 	}
 	
 	/**
@@ -34,7 +40,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -90,21 +96,28 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable( $a_set["content"], true));
+			$this->tpl->setVariable("VAL_CONTENT", 
+				ilUtil::shortenText($a_set["content"], 80, true, true), true);
 			$this->tpl->parseCurrentBlock();
 		}
-		if ($a_set["content_long"] != "")
+
+		if ($ilAccess->checkAccess("write", "", $a_set["ref_id"]))
+
 		{
-			$this->tpl->setCurrentBlock("long");
-			$this->tpl->setVariable("VAL_LONG_CONTENT", ilUtil::makeClickable($a_set["content_long"], true));
+			$this->tpl->setCurrentBlock("edit");
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+			$ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);
+			$this->tpl->setVariable("CMD_EDIT",
+				$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNewsItem"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
+		// context
+		$this->tpl->setVariable("CONTEXT",
+			$lng->txt("obj_".$a_set["context_obj_type"]).":<br />".
+			ilObject::_lookupTitle($a_set["context_obj_id"]));
+
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-		$ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);
-		$this->tpl->setVariable("CMD_EDIT",
-			$ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNewsItem"));
 	}
 
 }

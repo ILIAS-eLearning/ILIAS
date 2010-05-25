@@ -1727,3 +1727,9 @@ if(!$ilDB->tableExists('table_templates'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#3053>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
