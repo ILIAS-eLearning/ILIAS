@@ -117,7 +117,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 			$title = ilNewsItem::determineNewsTitle
 				($item["context_obj_type"], $item["title"], $item["content_is_lang_var"],
 				$item["agg_ref_id"], $item["aggregation"]);
-				
+
 			// path
 			$cont_loc = new ilLocatorGUI();
 			$cont_loc->addContextItems($item["ref_id"], true, $a_ref_id);
