@@ -4118,7 +4118,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &getTestResult($active_id, $pass = NULL, $ordered_sequence = FALSE)
 	{
 		global $ilDB;
-		
+
 		$results = $this->getResultsForActiveId($active_id);
 		if (is_null($pass))
 		{
@@ -4148,6 +4148,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
 		$found = array();
 		$key = 1;
+		$pass_max = 0;
+		$pass_reached = 0;
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$percentvalue = ($row['points']) ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0;
@@ -4164,6 +4166,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"original_id" => $row["original_id"],
 				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0
 			);
+			$pass_max += $row['points'];
+			$pass_reached += $arrResults[$row['question_id']]['reached'];
 			array_push($found, $data);
 			$key++;
 		}
@@ -4173,9 +4177,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$results['reached_points'] = 0;
 			}
+			if ($pass_reached < 0) $pass_reached = 0;
 		}
+		$found['pass']['total_max_points'] = $pass_max;
+		$found['pass']['total_reached_points'] = $pass_reached;
+		$found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];
+		$found["test"]["result_pass"] = $results['pass'];
 		if ((!$total_reached_points) or (!$total_max_points))
 		{
 			$percentage = 0.0;
