@@ -304,9 +304,9 @@ class ilTrQuery
 	}
 
 	/**
-	 *
-	 * 
-	 *
+	 * Get children for given object
+	 * @param	int		$a_parent_id
+	 * @param	array	$result
 	 */
 	static function getObjectHierarchy($a_parent_id, array &$result)
 	{
