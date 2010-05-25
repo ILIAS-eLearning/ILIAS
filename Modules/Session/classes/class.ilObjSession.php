@@ -59,11 +59,10 @@ class ilObjSession extends ilObject
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilDB;
-		
+
+		$this->db = $ilDB;
 		$this->type = "sess";
 		parent::__construct($a_id,$a_call_by_reference);
-		
-		$this->db = $ilDB;
 	}
 	
 	/**

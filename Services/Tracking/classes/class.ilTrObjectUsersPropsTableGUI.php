@@ -65,7 +65,8 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->initFilter();
-		$this->setFilterCommand("applyFilter");
+		$this->setFilterCommand("applyFilterUsers");
+		$this->setResetCommand("resetFilterUsers");
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 
@@ -292,10 +293,10 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("VAL_LOGIN", $data["login"]);
 		
-		//$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $data["usr_id"]);
-		//$this->tpl->setVariable("HREF_LOGIN",
-		//	$ilCtrl->getLinkTargetByClass("ilobjusergui", "view"));
-		//$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", "");
+		$ilCtrl->setParameterByClass("iltrackinggui", "obj_id", $data["usr_id"]);
+		$this->tpl->setVariable("HREF_LOGIN",
+			$ilCtrl->getLinkTargetByClass("iltrackinggui", "showUserObjectsProps"));
+	    $ilCtrl->setParameterByClass("iltrackinggui", "obj_id", "");
 	}
 
 }
