@@ -89,6 +89,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$track_gui = new ilTrackingGUI();
 				// hack, should be controlled through calling class
 				$track_gui->setObjectId(ilObject::_lookupObjId($this->getRefId()));
+				$track_gui->setRefId($this->getRefId());
 				$this->ctrl->forwardCommand($track_gui);
 				break;
 

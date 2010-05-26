@@ -30,7 +30,7 @@ include_once("./Services/Form/classes/class.ilRadioOption.php");
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
+class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $options = array();
 	protected $value;
@@ -135,7 +135,6 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 		}
 		return $ok;
-
 	}
 
 	/**
@@ -144,6 +143,18 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	* @return	int	Size
 	*/
 	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Insert property html
+	*/
+	function render()
 	{
 		$tpl = new ilTemplate("tpl.prop_radio.html", true, true, "Services/Form");
 		
@@ -213,10 +224,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
 		}
 
-		$a_tpl->setCurrentBlock("prop_generic");
-		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
-		$a_tpl->parseCurrentBlock();
-
+		return $tpl->get();
 	}
 
 	/**
@@ -249,4 +257,8 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 		return false;
 	}
 
+	function getTableFilterHTML()
+	{
+       return $this->render();
+	}
 }

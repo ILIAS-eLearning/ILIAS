@@ -17,13 +17,14 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_user_id, $a_obj_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_user_id, $a_obj_id, $a_ref_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->setId($a_table_id);
 		$this->user_id = $a_user_id;
 		$this->obj_id = $a_obj_id;
+		$this->ref_id = $a_ref_id;
 
 		/*
 		$this->type = ilObject::_lookupType($a_obj_id);
@@ -67,7 +68,7 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		$this->setResetCommand("resetFilterObjects");
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-		
+
 		$this->getItems();
 	}
 	
@@ -116,16 +117,44 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		global $lng, $tree;
 
 		$this->determineOffsetAndOrder();
 		
-		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
-
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		
 		$object_ids = array($this->obj_id);
-		ilTrQuery::getObjectHierarchy($this->obj_id, $object_ids);
+		$objectives_parent_id = false;
+		if($this->filter["view_mode"] == "coll")
+		{
+			if(ilLPObjSettings::_lookupMode($this->obj_id) != LP_MODE_OBJECTIVES)
+			{
+				$this->getObjectHierarchy($this->obj_id, $object_ids);
+			}
+			else
+			{
+				$objectives_parent_id = $this->obj_id;
+			}
+		}
+		else
+		{
+		   $children = $tree->getChilds($this->ref_id);
+		   if($children)
+		   {
+				foreach($children as $child)
+				{
+					$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
+					if($cmode != LP_MODE_DEACTIVATED && $cmode != LP_MODE_UNDEFINED)
+					{
+						$object_ids[] = $child["obj_id"];
+					}
+				}
+		   }
+		}
 		
 		$additional_fields = $this->getSelectedColumns();
+
+		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
 		$tr_data = ilTrQuery::getDataForUser(
 			$this->user_id,
@@ -135,7 +164,8 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
 			$this->filter,
-			$additional_fields
+			$additional_fields,
+			$objectives_parent_id
 			);
 			
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
@@ -149,12 +179,30 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
 				$this->filter,
-				$additional_fields
+				$additional_fields,
+				$objectives_parent_id
 				);
 		}
 
 		$this->setMaxCount($tr_data["cnt"]);
 		$this->setData($tr_data["set"]);
+	}
+
+
+	/**
+	 * Get children for given object
+	 * @param	int		$a_parent_id
+	 * @param	array	$result
+	 */
+	function getObjectHierarchy($a_parent_id, array &$result)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
+		foreach(ilLPCollectionCache::_getItems($a_parent_id) as $child_ref_id)
+		{
+			$child_id = ilObject::_lookupObjId($child_ref_id);
+			$result[] = $child_id;
+			$this->getObjectHierarchy($child_id, $result);
+		}
 	}
 	
 	
@@ -164,16 +212,19 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 	function initFilter()
 	{
 		global $lng, $rbacreview, $ilUser;
+
+		include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+		include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 		
-		// title/description
-		/* include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"), "query");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$ti->setSubmitFormOnEnter(true);
+		// show collection only/all
+		include_once("./Services/Form/classes/class.ilRadioGroupInputGui.php");
+		include_once("./Services/Form/classes/class.ilRadioOption.php");
+		$ti = new ilRadioGroupInputGui($lng->txt("trac_view_mode"), "view_mode");
+		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_all"), ""));
+		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_collection"), "coll"));
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
-		$this->filter["query"] = $ti->getValue(); */
+		$this->filter["view_mode"] = $ti->getValue(); 
 		
 	}
 	
@@ -191,7 +242,7 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 				? " "
 				: $data[$c];
 
-			if ($data[$c] != "")
+			if ($data[$c] != "" || $c == "status")
 			{
 				switch ($c)
 				{
@@ -241,24 +292,22 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$type = ilObject::_lookupType($data["obj_id"]);
-		$title = ilObject::_lookupTitle($data["obj_id"]);
-		if($title == "")
+		if($data["title"] == "")
 		{
 			// sessions have no title
-			if($type == "sess")
+			if($data["type"] == "sess")
 			{
 				include_once "modules/Session/classes/class.ilObjSession.php";
 				$sess = new ilObjSession($data["obj_id"], false);
-				$title = $sess->getFirstAppointment()->appointmentToString();
+				$data["title"] = $sess->getFirstAppointment()->appointmentToString();
 			}
-			if($title == "")
+			if($data["title"] == "")
 			{
-				$title = "--".$lng->txt("none")."--";
+				$data["title"] = "--".$lng->txt("none")."--";
 			}
 		}
-		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($type, $data["obj_id"], "small"));
-		$this->tpl->setVariable("VAL_TITLE", $title);
+		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "small"));
+		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 	}
 
 }
