@@ -127,7 +127,7 @@ class ilShopResultPresentationGUI
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
 							ilPaymentPrices::_formatPriceToString($lowest_price['price']);
-// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);	
+					// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
 					$md_obj = new ilMD($item['obj_id'], 0, $item['type']);
@@ -362,7 +362,7 @@ class ilShopResultPresentationGUI
 		}
 		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
 		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
-		
+
 		switch($item['type'])
 		{
 			case 'lm':

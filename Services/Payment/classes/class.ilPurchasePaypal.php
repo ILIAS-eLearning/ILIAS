@@ -122,7 +122,6 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			}
 
 // check that txn_id has not been previously processed
-
 			if ($this->__checkTransactionId($keyarray["txn_id"]))
 			{
 				if($_SESSION['tmp_transaction']['result'] == 'success'
@@ -151,24 +150,29 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				return ERROR_WRONG_ITEMS;
 			}
 
-			if($_SESSION['is_crs_object'] && ($ilUser->getId() == ANONYMOUS_USER_ID))
+			if($ilUser->getId() == ANONYMOUS_USER_ID)
 			{
-				include_once './Services/Payment/classes/class.ilShopUtils.php';
-				// anonymous user needs an account to use crs
-				$ilUser = ilShopUtils::_createRandomUserAccount($keyarray);
-				$user_id = $ilUser->getId();
+			    include_once './Services/Payment/classes/class.ilShopUtils.php';
+			    // anonymous user needs an account to use crs
+			    $ilUser = ilShopUtils::_createRandomUserAccount($keyarray);
+			    $user_id = $ilUser->getId();
 
-				$_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
-				$_SESSION['tmp_transaction']['usr_id'] = $user_id;
-			
+			    $_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
+			    $_SESSION['tmp_transaction']['usr_id'] = $user_id;
+
+			    if($_SESSION['is_crs_object'] && ($ilUser->getId() == ANONYMOUS_USER_ID))
+			    {
 				include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 				foreach ($_SESSION['crs_obj_ids'] as $obj_id)
 				{
-					$members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
-					$members_obj->add($user_id,IL_CRS_MEMBER);
+				    $members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
+				    $members_obj->add($user_id,IL_CRS_MEMBER);
 				}
+			    }
 			}
-			if(($_SESSION['is_lm_object'] || $_SESSION['is_file_object'] ) && ($ilUser->getId() == ANONYMOUS_USER_ID))
+			//#else
+			//if(($_SESSION['is_lm_object'] || $_SESSION['is_file_object'] ) && ($ilUser->getId() == ANONYMOUS_USER_ID))
+/*			if($ilUser->getId() == ANONYMOUS_USER_ID)
 			{
 				include_once './Services/Payment/classes/class.ilShopUtils.php';
 				// anonymous user needs an account to use lm
@@ -178,7 +182,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				$_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
 				$_SESSION['tmp_transaction']['usr_id'] = $user_id;
 			}
-	
+	*/
 // old one  TODO: if possible use ilPurchaseBaseGUI 
 			$bookings = $this->__saveTransaction($keyarray);
 			
@@ -211,7 +215,8 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 	{
 		global $ilDB;
 	
-		$res = $this->db->query('SELECT * FROM payment_statistic WHERE transaction_extern = '.$ilDB->quote($a_id, 'text'));
+	$res = $ilDB->queryF('SELECT * FROM payment_statistic WHERE transaction_extern = %s',
+			array('text'), array($a_id));
 
 		return $res->numRows() ? true : false;
 	}
@@ -681,8 +686,10 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			
 			if(ANONYMOUS_USER_ID == $ilUser->getId())
 			{
-				$m->To($bookings['payer_email']);
+			#	$m->To($bookings['payer_email']);
 				#$m->To( $ilUser->getEmail() ); #zum testen
+			    $m->To('volker.reuschenbach@t-online.de'); #zum testen
+
 				$message = $this->lng->txt("pay_message_hello") . " " .$booking['address_name']. ",\n\n";
 				
 			}

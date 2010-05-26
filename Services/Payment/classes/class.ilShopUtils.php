@@ -98,7 +98,9 @@
 
 		if($_SESSION['create_user_account'] != NULL)
 		{
-			return true;
+		
+		    $obj_user = new ilObjUser($_SESSION['create_user_account']);
+		    return $obj_user;
 		}
 		else
 		{

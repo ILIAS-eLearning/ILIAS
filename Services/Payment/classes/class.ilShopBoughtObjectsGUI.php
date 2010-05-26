@@ -55,8 +55,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		}
 	}
 	
-/* nkrzywon	*/
-  
+
  	protected function buildSubTabs()
 	{
 		global $ilTabs, $ilUser, $rbacreview;
@@ -349,11 +348,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			if($booking['duration'] != 0)
 			{
 				$f_result[$counter]['duration'] = $booking['duration'].' '.$this->lng->txt('paya_months');
-			
 			}
 			else
 			{
-					$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
+				$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
 			}
 			$f_result[$counter]['price'] = $booking['price'].' '.$booking['currency_unit'];
 			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? ($booking['discount'].' '.$booking['currency_unit']) : '&nbsp;');
