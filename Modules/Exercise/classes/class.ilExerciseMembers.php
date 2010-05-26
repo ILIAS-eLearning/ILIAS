@@ -90,6 +90,7 @@ class ilExerciseMembers
 			array("integer", "integer", "text", "integer", "integer"),
 			array($this->getObjId(), $a_usr_id, 'notgraded', 0, 0));
 
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		ilExAssignment::createNewUserRecords($a_usr_id, $this->getObjId());
 		
 		$this->read();

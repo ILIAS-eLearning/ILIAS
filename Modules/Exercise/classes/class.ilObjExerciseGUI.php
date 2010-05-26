@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObjectGUI.php";
 
@@ -1045,9 +1045,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object, $_GET["ass_id"]);
-		$tpl->setContent($exc_tab->getHTML());
+		if (count($ass) > 0)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object, $_GET["ass_id"]);
+			$tpl->setContent($exc_tab->getHTML());
+		}
+		else
+		{
+			ilUtil::sendInfo("exc_no_assignments_available");
+		}
 		return;		
 	}
 
@@ -1124,11 +1131,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilToolbar->addFormButton($this->lng->txt("exc_select_part"),
 				"selectParticipant");
 		}
-		
-		include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
-		$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
-			$this->object, $_GET["part_id"]);
-		$tpl->setContent($part_tab->getHTML()); 
+
+		if (count($mems) > 0)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
+			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
+				$this->object, $_GET["part_id"]);
+			$tpl->setContent($part_tab->getHTML());
+		}
+		else
+		{
+			ilUtil::sendInfo("exc_no_assignments_available");
+		}
 	}
 	
 	/**

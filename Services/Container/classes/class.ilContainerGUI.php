@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
@@ -193,6 +193,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
+		$page_gui->setEnabledInternalLinks(true);
 
 		// old editor information text
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
@@ -669,7 +670,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$fs_gui->setFramesetTitle($this->object->getTitle());
 		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("link_list");
+		$fs_gui->setSideFrameName("tree");
 
 		// old tiny stuff
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
