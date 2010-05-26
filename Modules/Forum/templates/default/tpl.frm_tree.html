@@ -8,7 +8,7 @@
 	ExtendedTreeView.NAME = "extendedtreeview";
 	YAHOO.extend(ExtendedTreeView, YAHOO.widget.TreeView, {
 		expandedNodes: [],
-		setExpandedNodes: function(nodes) {			
+		setExpandedNodes: function(nodes) {
 			this.expandedNodes = nodes;
 			return this;
 		},
@@ -97,10 +97,14 @@
 	var nodeHTML = "{FRM_NODES_LINK}{FRM_NODES_AUTHOR_AND_DATE}";
 	var {FRM_NODES_VARNAME} = new YAHOO.widget.HTMLNode(nodeHTML, {FRM_NODES_PARENT_VARNAME}, false, true);
 	<!-- END frm_nodes -->
-	
+
 	//the tree won't show up until you draw (render) it:
-	tree.draw();	
-	tree.expandCertainNodes({THR_OPEN_NODES});
+	tree.draw();
+
+	if ({THR_OPEN_NODES}.length == 0)
+		tree.expandAll();
+	else
+		tree.expandCertainNodes({THR_OPEN_NODES});
 })();
 /*]]>*/
 </script>

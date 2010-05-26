@@ -79,7 +79,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		$exclude_cmds = array('showExplorer', 'viewThread',
+		$exclude_cmds = array('showExplorer', 'viewThread', 'markPostUnread','markPostRead',
 							  'showThreadNotification',
 					     	  'cancelPostActivation', 'cancelPostDeactivation',
 					     	  'performPostActivation', 'performPostDeactivation', 'performPostAndChildPostsActivation',
@@ -159,6 +159,7 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					$cmd = 'showThreads';
 				}
+		
 				$cmd .= 'Object';
 				
 				$this->$cmd();
@@ -222,7 +223,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'update'));		
-		$form->setTitle($this->lng->txt('edit_properties'));
+		$form->setTitle($this->lng->txt('settings'));
 		
 		$ti_prop = new ilTextInputGUI($this->lng->txt('title'), 'title');
 		$ti_prop->setValue($this->object->getTitle());
@@ -850,8 +851,8 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$force_active = ($_GET['cmd'] == 'edit') ? true	: false;
-			$tabs_gui->addTarget('edit_properties', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
-		}
+			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
+}
 		
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
@@ -891,7 +892,32 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		return true;
 	}
-	
+
+	public function settingsTabs()
+	{
+		global $ilTabs,$ilAccess, $ilUser, $tree;
+
+		$ilTabs->setTabActive('settings');
+		$ilTabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $_GET['cmd']=='edit'? true : false );
+// member tab
+		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
+
+		$parent_type = $parent_obj->getType();
+
+		if($parent_type == 'grp' || $parent_type == 'crs')
+		{
+			#show member-tab for notification
+			if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
+			{
+				$mem_active = array('showMembers', 'forums_notification_settings');
+				(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
+
+					$ilTabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
+			}
+		}
+		return true;
+	}
 	/**
 	 * called from GUI
 	 */
@@ -1910,7 +1936,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->addJavaScript('./Modules/Forum/js/treeview.js');
 		$tpl->addJavaScript('./Services/JavaScript/js/md5.js');		
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
-		
+
 		if(!is_array($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']))
 		{
 			$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = array();
@@ -1923,9 +1949,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
 		$tplTree->setVariable('THR_TREE_STATE_URL',
 			$this->ctrl->getFormAction($this, 'rememberTreeStateAsynch', '', true, false));
-		
+	
 		$obj_frm_exp = new ilForumExplorer(		
-			$tplTree, $this->ctrl->getLinkTarget($this, 'viewThread'), 
+			$tplTree, 
+			$this->ctrl->getLinkTarget($this, 'viewThread'),
+			#$this->ctrl->getLinkTarget($this, 'markPostRead'), 
 			$this->objCurrentTopic, (int) $_GET['ref_id']
 		);
 
@@ -1942,7 +1970,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] =
 			explode(',', $_POST['openNodes']);
-		
+
 		echo ilJsonUtil::encode($response);
 		exit();
 	}		
@@ -1954,10 +1982,12 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
 			   $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar;
-
+		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if (!isset($_GET['viewmode']) || $_GET['viewmode'] == 'answers')
 		{
-			$this->tpl->setLeftContent($this->getForumExplorer());
+			
+		#	$this->tpl->setLeftContent($this->getForumExplorer());
+			$tpl->setLeftContent($this->getForumExplorer());
 		}
 
 		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
@@ -2010,11 +2040,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$forumObj->updateLastAccess($ilUser->getId(), (int) $this->objCurrentTopic->getId());
 		
 		// mark post read if explorer link was clicked
-		if ($this->objCurrentTopic->getId() && $this->objCurrentPost->getId())
-		{
-			$forumObj->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
+	/*	if ($this->objCurrentTopic->getId() && $this->objCurrentPost->getId() )
+		{vd('z:2043');
+			#$forumObj->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
 		}		
-		
+	*/
 		$this->prepareThreadScreen($forumObj);
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_view.html', 'Modules/Forum');
@@ -2033,10 +2063,13 @@ class ilObjForumGUI extends ilObjectGUI
 		}		
 
 		$session_name = 'viewmode_'.$forumObj->getId();
-		if ($_SESSION[$session_name] == 'date')
+
+	//	if ($_SESSION[$session_name] == 'date')
+		if ($_GET['viewmode'] == 'date')
 		{
 			$new_order = 'answers';
 			$orderField = 'frm_posts_tree.fpt_date';
+
 		}
 		else
 		{
@@ -2069,7 +2102,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 			
-			// mark read
+			// mark all as read
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 			   $forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
 			{
@@ -2114,7 +2147,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		if ($_GET['mark_read'])
 		{
-			$forumObj->markThreadRead($ilUser->getId(),(int) $this->objCurrentTopic->getId());
+		$forumObj->markThreadRead($ilUser->getId(),(int) $this->objCurrentTopic->getId());
 			ilUtil::sendInfo($lng->txt('forums_thread_marked'), true);
 		}
 
@@ -2173,7 +2206,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			$this->objCurrentTopic->setOrderField($orderField);
 			$subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
-				
+
 			// no posts
 			if (!$posNum = count($subtree_nodes))
 			{
@@ -2266,7 +2299,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('REPLY_ANKER', $this->objCurrentPost->getId());
 								$oEditReplyForm = $this->getReplyEditForm();
 
-								$this->objProperties->getNewPostTitle() ? $subject = NULL : $subject = $this->lng->txt('post_reply'). $this->objCurrentPost->getSubject();
+								$this->objProperties->getNewPostTitle() ? $subject = NULL : $subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject();
 
 								switch($_GET['action'])
 								{
@@ -2493,11 +2526,28 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 								$this->ctrl->setParameter($this, 'offset', $Start);
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId()));
 								$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
 								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
-							}							
+							}
+
+							// button: mark unread
+							if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+							    $node->isRead($ilUser->getId()))
+							{
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+							#	$this->ctrl->setParameter($this, 'unread_id', $_GET['orderby']);
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostUnread', $node->getId()));
+							#	$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('unread'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+							}
 						}
 					} // if ($this->objCurrentPost->getId() != $node->getId())										
 										
@@ -2531,7 +2581,7 @@ class ilObjForumGUI extends ilObjectGUI
 					$tpl->setVariable('POST_ANKER', $node->getId());					
 					
 					//permanent link for every post																
-					$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
+				//	$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
 					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));
@@ -3830,20 +3880,19 @@ class ilObjForumGUI extends ilObjectGUI
 		// check input
 		if($this->notificationSettingsForm->checkInput())
 		{
-			// set values and call update
-			$this->objProperties->setAdminForceNoti((int)$this->notificationSettingsForm->getInput('adm_force'));
-			$this->objProperties->setUserToggleNoti((int)$this->notificationSettingsForm->getInput('usr_toggle'));
-			if((int)$this->notificationSettingsForm->getInput('usr_toggle'))
-			{
-				$this->objProperties->setAdminForceNoti(1);
-				$_POST['adm_force'] = 1;
-			}
+				// set values and call update
+				$this->objProperties->setAdminForceNoti((int)$this->notificationSettingsForm->getInput('adm_force'));
+				$this->objProperties->setUserToggleNoti((int)$this->notificationSettingsForm->getInput('usr_toggle'));
+				if((int)$this->notificationSettingsForm->getInput('usr_toggle'))
+				{
+					$this->objProperties->setAdminForceNoti(1);
+					$_POST['adm_force'] = 1;
+				}
 			$this->objProperties->update();
 
 			// print success message
 			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
 		}
-
 		$this->notificationSettingsForm->setValuesByPost();
 
 		return $this->showMembersObject();
@@ -3872,7 +3921,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$chb = new ilCheckboxInputGUI($this->lng->txt('user_toggle_noti'), 'usr_toggle');
 			$chb->setValue(1);
 			$form->addItem($chb);
-
+	
 			$form->addCommandButton('updateNotificationSettings', $this->lng->txt('save'));
 
 			$this->notificationSettingsForm = $form;
@@ -3922,7 +3971,7 @@ class ilObjForumGUI extends ilObjectGUI
 		//$parent_type = ilForumNotification::_isParentNodeGrpCrs($_GET['ref_id']);
 
 	//	if($parent_type == 'crs')
-	if($parent_obj->getType() == 'crs')
+		if($parent_obj->getType() == 'crs')
 		{
 			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 			$oParticipants = ilCourseParticipants::_getInstanceByObjId(
@@ -4020,7 +4069,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 
 		$this->__showMembersTable($moderators, $admins, $members, $tutors);
-	}
+		}
 
 	function __showMembersTable($moderators,$admins,$members,$tutors)
 	{
@@ -4299,5 +4348,23 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return $this->showMembersObject();
 	}
+
+	public function markPostUnreadObject()
+	{
+		global $ilUser;
+		
+		$this->object->markPostUnread((int)$ilUser->getId(), (int)$_GET['pos_pk']);
+		$this->viewThreadObject();
+	}
+
+	public function markPostReadObject()
+	{
+		global $ilUser;
+
+		$this->object->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
+		$this->viewThreadObject();
+	}
+
+	#$forumObj->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
 } // END class.ilObjForumGUI
 ?>
