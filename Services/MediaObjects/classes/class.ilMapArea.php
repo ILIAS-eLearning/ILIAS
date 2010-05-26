@@ -1,11 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilInternalLink.php");
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
 define("IL_AREA_POLY", "Poly");
+define("IL_AREA_WHOLE_PICTURE", "WholePicture");
 
 define("IL_INT_LINK", "int");
 define("IL_EXT_LINK", "ext");
@@ -282,7 +283,7 @@ class ilMapArea
 	}
 
 	/**
-	* set shape (IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY)
+	* set shape (IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY, IL_AREA_WHOLE_PICTURE)
 	*
 	* @param	string		$a_shape	shape of map area
 	*/
@@ -294,7 +295,7 @@ class ilMapArea
 	/**
 	* get shape
 	*
-	* @return	string		(IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY)
+	* @return	string		(IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY, IL_AREA_WHOLE_PICTURE)
 	*/
 	function getShape()
 	{

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * User interface class for map editor
@@ -149,10 +149,21 @@ class ilImageMapEditorGUI
 		ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
-	
+
 	/**
-	* Add a new rectangle
-	*/
+	 * Link the whole picture
+	 */
+	function linkWholePicture()
+	{
+		$this->clearSessionVars();
+		$_SESSION["il_map_edit_area_type"] = "WholePicture";
+
+		return $this->editMapArea(false, false, true);
+	}
+
+	/**
+	 * Add a new rectangle
+	 */
 	function addRectangle()
 	{
 		$this->clearSessionVars();
@@ -161,8 +172,8 @@ class ilImageMapEditorGUI
 	}
 
 	/**
-	* Add a new circle
-	*/
+	 * Add a new circle
+	 */
 	function addCircle()
 	{
 		$this->clearSessionVars();
@@ -171,8 +182,8 @@ class ilImageMapEditorGUI
 	}
 
 	/**
-	* Add a new polygon
-	*/
+	 * Add a new polygon
+	 */
 	function addPolygon()
 	{
 		$this->clearSessionVars();
@@ -829,8 +840,18 @@ class ilImageMapEditorGUI
 	}
 
 	/**
-	* Edit an existing shape (make it a rectangle)
-	*/
+	 * Edit an existing shape (make it a whole picture link)
+	 */
+	function editShapeWholePicture()
+	{
+		$this->clearSessionVars();
+		$_SESSION["il_map_edit_area_type"] = "WholePicture";
+		return $this->setShape(false);
+	}
+
+	/**
+	 * Edit an existing shape (make it a rectangle)
+	 */
 	function editShapeRectangle()
 	{
 		$this->clearSessionVars();
@@ -839,8 +860,8 @@ class ilImageMapEditorGUI
 	}
 
 	/**
-	* Edit an existing shape (make it a circle)
-	*/
+	 * Edit an existing shape (make it a circle)
+	 */
 	function editShapeCircle()
 	{
 		$this->clearSessionVars();
@@ -849,8 +870,8 @@ class ilImageMapEditorGUI
 	}
 
 	/**
-	* Edit an existing shape (make it a polygon)
-	*/
+	 * Edit an existing shape (make it a polygon)
+	 */
 	function editShapePolygon()
 	{
 		$this->clearSessionVars();
@@ -893,7 +914,7 @@ class ilImageMapEditorGUI
 		{
 			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
 			$_SESSION["il_map_edit_mode"] = "edit_shape";
-			$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "setShape");
+			$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "setShape", "", false, false);
 		}
 
 
@@ -951,7 +972,11 @@ class ilImageMapEditorGUI
 					return $this->editMapArea(true, true, true, "shape", $_POST["area"][0]);
 				}
 				break;
-		}
+			
+			// Whole Picture
+			case "WholePicture":
+				return $this->saveArea();
+			}
 
 	}
 

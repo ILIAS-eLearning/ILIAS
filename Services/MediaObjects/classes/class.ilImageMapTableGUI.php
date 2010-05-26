@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
@@ -57,6 +38,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 		// action commands
 		$this->addMultiCommand("deleteAreas", $lng->txt("delete"));
 		$this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
+		$this->addMultiCommand("editShapeWholePicture", $lng->txt("cont_edit_shape_whole_picture"));
 		$this->addMultiCommand("editShapeRectangle", $lng->txt("cont_edit_shape_rectangle"));
 		$this->addMultiCommand("editShapeCircle", $lng->txt("cont_edit_shape_circle"));
 		$this->addMultiCommand("editShapePolygon", $lng->txt("cont_edit_shape_polygon"));
@@ -66,6 +48,8 @@ class ilImageMapTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("updateAreas", $this->lng->txt("cont_update_names"));
 		}
+
+		$this->addCommandButton("linkWholePicture", $this->lng->txt("cont_link_whole_picture"));
 		$this->addCommandButton("addRectangle", $this->lng->txt("cont_add_rectangle"));
 		$this->addCommandButton("addCircle", $this->lng->txt("cont_add_circle"));
 		$this->addCommandButton("addPolygon", $this->lng->txt("cont_add_polygon"));
