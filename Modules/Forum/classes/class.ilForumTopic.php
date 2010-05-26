@@ -192,7 +192,7 @@ class ilForumTopic
 	*/
 	private function read()
 	{
-	
+
 		if ($this->id)
 		{
 			$res = $this->db->queryf('
@@ -206,7 +206,8 @@ class ilForumTopic
 
 			if (is_object($row))
 			{
-				$this->thr_pk = $row->pos_pk;
+				
+				$this->thr_pk = $row->pos_pk;   // thr_pk = pos_pk ??!??!
 				$this->forum_id = $row->thr_top_fk;
 				$this->user_id = $row->thr_usr_id;
 				$this->user_alias = $row->thr_usr_alias;	
@@ -223,7 +224,7 @@ class ilForumTopic
 				
 				return true;
 			}
-			
+		
 			return false;
 		}
 		
@@ -600,7 +601,7 @@ class ilForumTopic
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT pos_pk FROM frm_posts_tree 
+		$query = 'SELECT pos_pk, fpt_date, rgt FROM frm_posts_tree
 				  INNER JOIN frm_posts ON pos_fk = pos_pk 
 				  WHERE lft BETWEEN %s AND %s 
 				  AND thr_fk = %s';
@@ -617,9 +618,9 @@ class ilForumTopic
 			$query .= " ORDER BY ".$this->orderField." DESC";
 		}
 		$res = $this->db->queryf($query, $data_types, $data);
-		
+
 		$deactivated = array();
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $this->db->fetchObject($res))
 		{
 			$tmp_object = new ilForumPost($row->pos_pk);
 

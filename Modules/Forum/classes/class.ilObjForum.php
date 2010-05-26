@@ -260,6 +260,17 @@ class ilObjForum extends ilObject
 		return true;
 	}
 
+	public function markPostUnread($a_user_id, $a_post_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('
+			DELETE FROM frm_user_read
+			WHERE usr_id = %s
+			AND post_id = %s',
+			array('integer','integer'),
+			array($a_user_id, $a_post_id));
+	}
 	function isRead($a_usr_id,$a_post_id)
 	{
 		global $ilDB;

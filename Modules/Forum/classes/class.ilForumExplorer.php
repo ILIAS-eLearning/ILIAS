@@ -98,16 +98,16 @@ class ilForumExplorer
 		if (is_numeric($a_parent) && $objects = $this->objCurrentTopic->getPostChilds($a_parent, 'explorer'))
 		{
 			++$a_depth;
-		
+	
 			foreach($objects as $key => $object)
 			{
-				if (!$object['status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
+				if (!$object['pos_status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
 				{
 					continue;
 				}
 				
 				$href_target = $this->target."&pos_pk=".$object['child'].'#'.$object['child'];
-				$title = "<span style='white-space:nowrap;' class='frmTitle'><a href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+				$title = "<span style='white-space:nowrap;' class='frmTitle'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
 						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
 				if ($this->objProperties->isAnonymized())
 				{
