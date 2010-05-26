@@ -304,35 +304,14 @@ class ilTrQuery
 	}
 
 	/**
-	 * Get children for given object
-	 * @param	int		$a_parent_id
-	 * @param	array	$result
-	 */
-	static function getObjectHierarchy($a_parent_id, array &$result)
-	{
-		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-		foreach(ilLPCollectionCache::_getItems($a_parent_id) as $child_ref_id)
-		{
-			$child_id = ilObject::_lookupObjId($child_ref_id);
-			$result[] = $child_id;
-			self::getObjectHierarchy($child_id, $result);
-		}
-	}
-
-	/**
 	* Get data for user administration list.
 	*/
 	static function getDataForUser($a_user_id, array $a_object_ids, $a_order_field, $a_order_dir, $a_offset, $a_limit,
-		$a_filter = array(), $a_additional_fields = "")
+		$a_filter = array(), $a_additional_fields = "", $objectives_parent_id = false)
 	{
-		global $ilDB, $rbacreview;
+		global $ilDB;
 
-		/*
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		ilLPStatus::checkStatusForObject($a_obj_id);
-		*/
-
-		$fields = $group_by = array("read_event.obj_id");
+		$fields = $group_by = array("object_data.obj_id", "title", "type");
 
 		if (is_array($a_additional_fields))
 		{
@@ -361,21 +340,16 @@ class ilTrQuery
 			}
 		}
 
-		// count query
-		$count_query = "SELECT count(read_event.obj_id) cnt".
-			" FROM read_event".
-			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = read_event.usr_id AND".
-			" ut_lp_marks.obj_id = read_event.obj_id)";
+		// obj_data
 
-		// basic query
-		$query = "SELECT ".implode($fields, ",").
-			" FROM read_event".
-			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = read_event.usr_id AND".
-			" ut_lp_marks.obj_id = read_event.obj_id)";
+		$query = " FROM object_data LEFT JOIN read_event ON (object_data.obj_id = read_event.obj_id AND".
+			" read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
+			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND".
+			" ut_lp_marks.obj_id = object_data.obj_id)".
+			" WHERE ".$ilDB->in("object_data.obj_id", $a_object_ids, false, "integer");
 
-		// filter
-		$query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".$ilDB->in("read_event.obj_id", $a_object_ids, false, "integer");
-		$count_query.= " WHERE read_event.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".$ilDB->in("read_event.obj_id", $a_object_ids, false, "integer");
+		$count_query = "SELECT count(object_data.obj_id) cnt".$query;
+		$query = "SELECT ".implode($fields, ",").$query;
 
 		/*
 		$where = " AND";
@@ -395,6 +369,48 @@ class ilTrQuery
 		$query .= " GROUP BY ".implode(", ", $group_by);
 		$count_query .= " GROUP BY ".implode(", ", $group_by);
 
+		// count query
+		$set = $ilDB->query($count_query);
+		$cnt = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = $rec["cnt"];
+		}
+		
+		if($objectives_parent_id)
+		{
+			$objective_fields = array("crs_objectives.objective_id AS obj_id", "title", 
+				$ilDB->quote("lobj", "text")." as type");
+			if (is_array($a_additional_fields))
+			{
+              foreach($a_additional_fields as $field)
+			  {
+				if($field != "status")
+				{
+					$objective_fields[] = "NULL AS ".$field;
+				}
+				else
+				{
+					$objective_fields[] = "status";
+				}
+			  }
+			}
+			
+			$objectives_query = " FROM crs_objectives".
+				" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id".
+				" AND crs_objective_status.user_id = ".$ilDB->quote($a_user_id, "integer").")".
+				" WHERE crs_objectives.crs_id = ".$ilDB->quote($objectives_parent_id, "integer");
+					
+			$query  = "(".$query.") UNION (SELECT ".implode(",", $objective_fields).$objectives_query.")";
+
+			// add number of objectives to overall counter
+			$set = $ilDB->query("SELECT COUNT(*) AS cnt".$objectives_query);
+			if ($rec = $ilDB->fetchAssoc($set))
+			{
+				$cnt += $rec["cnt"];
+			}
+		}
+
 		// order by
 		if (!in_array($a_order_field, $fields))
 		{
@@ -405,14 +421,6 @@ class ilTrQuery
 			$a_order_dir = "asc";
 		}
 		$query.= " ORDER BY ".$a_order_field." ".strtoupper($a_order_dir);
-
-		// count query
-		$set = $ilDB->query($count_query);
-		$cnt = 0;
-		if ($rec = $ilDB->fetchAssoc($set))
-		{
-			$cnt = $rec["cnt"];
-		}
 
 		$offset = (int) $a_offset;
 		$limit = (int) $a_limit;

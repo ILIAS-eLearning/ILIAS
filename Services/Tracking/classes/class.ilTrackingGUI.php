@@ -48,6 +48,26 @@ class ilTrackingGUI
 	{
 		return $this->obj_id;
 	}
+
+	/**
+	 * Set reference id
+	 *
+	 * @param	integer	object id
+	 */
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+
+	/**
+	 * Get reference id
+	 *
+	 * @return	integer	ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
 	
 	/**
 	 * For one object: List users (rows) and tracking properties in columns
@@ -69,13 +89,16 @@ class ilTrackingGUI
 	 */
 	function showUserObjectsProps()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl, $ilTabs, $lng;
+
+	    $ilTabs->setBackTarget($lng->txt("trac_learners_back"), $ilCtrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'));
 
 		$user_id = (int)$_GET["obj_id"];
+		$ilCtrl->setParameter($this, "obj_id", $user_id);
 
 		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
 		$table = new ilTrUserObjectsPropsTableGUI($this, "showUserObjectsProps", "truop".$user_id,
-			$user_id, $this->getObjectId());
+			$user_id, $this->obj_id, $this->ref_id);
 		$tpl->setContent($table->getHTML());
 	}
 
@@ -113,6 +136,42 @@ class ilTrackingGUI
 		$utab->resetOffset();
 		$utab->resetFilter();
 		$this->showObjectSummary();
+	}
+
+		/**
+	 * Apply filter settings - used by table2gui
+	 */
+	public function applyFilterObjects()
+	{
+		global $ilCtrl;
+		
+		$user_id = (int)$_GET["obj_id"];
+		$ilCtrl->setParameter($this, "obj_id", $user_id);
+
+		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+		$utab = new ilTrUserObjectsPropsTableGUI($this, "showObjectSummary", "truop".$user_id,
+			$user_id, $this->obj_id, $this->ref_id);
+		$utab->resetOffset();
+		$utab->writeFilterToSession();
+		$this->showUserObjectsProps();
+	}
+
+	/**
+	 * Reset filter settings - used by table2gui
+	 */
+	public function resetFilterObjects()
+	{
+		global $ilCtrl;
+
+		$user_id = (int)$_GET["obj_id"];
+		$ilCtrl->setParameter($this, "obj_id", $user_id);
+
+		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+		$utab = new ilTrUserObjectsPropsTableGUI($this, "showObjectSummary", "truop".$user_id,
+			$user_id, $this->obj_id, $this->ref_id);
+		$utab->resetOffset();
+		$utab->resetFilter();
+		$this->showUserObjectsProps();
 	}
 }
 ?>
