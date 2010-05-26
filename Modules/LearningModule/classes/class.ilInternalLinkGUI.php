@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
