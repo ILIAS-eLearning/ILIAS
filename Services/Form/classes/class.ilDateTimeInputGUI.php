@@ -253,8 +253,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	{
 		global $ilUser;
 
-		if($this->getMode() == self::MODE_INPUT && (
-				!isset($a_values[$this->getPostVar()]["date"]) || $a_values[$this->getPostVar()]["date"] == ""))
+		if($this->getMode() == self::MODE_INPUT &&
+				(!isset($a_values[$this->getPostVar()]["date"]) || $a_values[$this->getPostVar()]["date"] == ""))
 		{
 			$this->date = NULL;
 		}
@@ -404,24 +404,14 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$dt = false;
 		}
 
-		if($dt)
-		{
-			$date = new ilDateTime(NULL, 0, $ilUser->getTimeZone());
-			if($date->setDate($dt, IL_CAL_FKT_GETDATE))
-			{
-				$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
-				$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
-				return true;
-			}
-		}
-
+		$date = new ilDateTime($dt, IL_CAL_FKT_GETDATE, $ilUser->getTimeZone());
+		$this->setDate($date);
+		
 		// post values used to be overwritten anyways - cannot change behaviour
-		if($this->getMode() == self::MODE_SELECT)
-		{
-			$_POST[$this->getPostVar()]['date'] = "";
-			$_POST[$this->getPostVar()]['time'] = "";
-		}
-		return false;
+		$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
+		$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
+		
+		return (bool)$dt;
 	}
 
 	/**
@@ -654,7 +644,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	 */
 	function getPostValueForComparison()
 	{
-		return $_POST[$this->getPostVar()]["date"]." ". $_POST[$this->getPostVar()]["time"];
+		return trim($_POST[$this->getPostVar()]["date"]." ". $_POST[$this->getPostVar()]["time"]);
 	}
 }
 
