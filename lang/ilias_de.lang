@@ -1566,7 +1566,7 @@ cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
-cntr#:#cntr_text_media_editor#:#Text/Media-Editor
+cntr#:#cntr_text_media_editor#:#Text-/Media-Editor
 cntr#:#cntr_view_by_type#:#Ansicht nach Typen
 cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
 cntr#:#cntr_view_info_sessions#:#In dieser Kursansicht werden zunächst alle Sitzungen angezeigt. Kursinhalte, die nicht Sitzungen zugeordnet sind, werden darunter aufgeführt.
