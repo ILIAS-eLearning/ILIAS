@@ -358,17 +358,20 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		{
 			
 			$res = $this->paypal_obj->checkData($fp);
+
+			
 			if ($res == SUCCESS)
 			{
 				ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);		
-
-				if($ilUser->getId() == ANONYMOUS_USER_ID || $_SESSION['is_crs_object'] || $_SESSION['is_lm_object'])
+				if($ilUser->getId() == ANONYMOUS_USER_ID || $_SESSION['is_crs_object'] || $_SESSION['is_lm_object'] || $_SESSION['is_file_object'])
 				{
+		
 					$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
 				}
 				else
 				{
-					$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
+				#	$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
+				    $this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
 				}
 			}
 			else
@@ -538,7 +541,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						case 'tst':
 							$is_lm_object = true;
 							$_SESSION['is_lm_object'] = true;
-							$lm_obj_ids[] = obj_id;
+							$lm_obj_ids[] = $obj_id;
 							$_SESSION['lm_obj_ids'] = $lm_obj_ids;
 							break;
 

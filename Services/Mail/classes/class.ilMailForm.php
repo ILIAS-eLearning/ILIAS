@@ -26,44 +26,45 @@ class ilMailForm
 		$ilDB->setLimit(0,20);
 
 		$query =
-			'SELECT DISTINCT
+			"SELECT DISTINCT
 				abook.login login,
 				abook.firstname firstname,
 				abook.lastname lastname,
-				"addressbook" type
+				'addressbook' type
 			FROM addressbook abook
-			WHERE abook.user_id = '.$ilDB->quote($this->user_id,'integer') .' 
+			WHERE abook.user_id = ".$ilDB->quote($this->user_id,'integer')."
 			AND abook.login IS NOT NULL
-			AND ('. $ilDB->like('abook.login', 'text', $a_search).' 
-					OR '. $ilDB->like('abook.firstname', 'text', $a_search).' 
-					OR '. $ilDB->like('abook.lastname', 'text', $a_search).' 
-			)';
+			AND (".$ilDB->like('abook.login', 'text', $a_search)."
+					OR ".$ilDB->like('abook.firstname', 'text', $a_search)."
+					OR ".$ilDB->like('abook.lastname', 'text', $a_search)."
+			)";
 
-		$union_query_1 = '
+		$union_query_1 = "
 			UNION
 			SELECT DISTINCT
 				abook.email login,
 				abook.firstname firstname,
 				abook.lastname lastname,
-				"addressbook" type
+				'addressbook' type
 			FROM addressbook abook
-			WHERE abook.user_id = '.$ilDB->quote($this->user_id,'integer') .' 
+			WHERE abook.user_id = ".$ilDB->quote($this->user_id,'integer')."
 			AND abook.login IS NULL
-			AND ('. $ilDB->like('abook.email', 'text', $a_search).' 
-					OR '. $ilDB->like('abook.firstname', 'text', $a_search).' 
-					OR '. $ilDB->like('abook.lastname', 'text', $a_search).' 
-			)';
-		$union_query_2 = '
+			AND (". $ilDB->like('abook.email', 'text', $a_search)."
+					OR ".$ilDB->like('abook.firstname', 'text', $a_search)."
+					OR ".$ilDB->like('abook.lastname', 'text', $a_search)."
+			)";
+
+		$union_query_2 = "
 			UNION
 			SELECT DISTINCT
 				mail.rcp_to login,
-				"" firstname,
-				"" lastname,
-				"mail" type
+				'' firstname,
+				'' lastname,
+				'mail' type
 			FROM mail
-			WHERE '. $ilDB->like('mail.rcp_to', 'text', $a_search).' 
-			AND sender_id ='.$ilDB->quote($this->user_id,'integer').'
-			AND mail.sender_id = mail.user_id';
+			WHERE ".$ilDB->like('mail.rcp_to', 'text', $a_search)."
+			AND sender_id =".$ilDB->quote($this->user_id,'integer')."
+			AND mail.sender_id = mail.user_id";
 
 		if($this->allow_smtp == 1) $query .= $union_query_1;
 
@@ -73,7 +74,7 @@ class ilMailForm
 
 		$setMap = array();
 		$i = 0;
-		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($query_res))
 		{
 			if ($i > 20)
 				break;

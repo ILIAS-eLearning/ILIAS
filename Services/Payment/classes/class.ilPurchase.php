@@ -16,7 +16,7 @@ require_once './Services/User/classes/class.ilObjUser.php';
 require_once './Services/Payment/classes/class.ilERP.php';
 
 
-
+// TODO: rename class to ilPurchaseERP
 class ilPurchase
 {
   private $deb;
