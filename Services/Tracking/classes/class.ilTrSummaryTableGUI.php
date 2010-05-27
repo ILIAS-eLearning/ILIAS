@@ -137,7 +137,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
-				NULL,
+				$this->getCurrentFilter(),
 				$this->getSelectedColumns()
 				);
 
@@ -246,6 +246,78 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		return $result;
 	}
 
+	protected function parseValue($id, $value, $type)
+	{
+		global $lng;
+		
+		// get rid of aggregation
+		$pos = strrpos($id, "_");
+		if($pos !== false)
+		{
+			$function = strtoupper(substr($id, $pos+1));
+			if(in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+			{
+				$id = substr($id, 0, $pos);
+			}
+		}
+
+		if(trim($value) == "")
+		{
+			if($id == "title")
+			{
+				return "--".$lng->txt("none")."--";
+			}
+			return "";
+		}
+
+		switch($id)
+		{
+			case "first_access":
+			case "create_date":
+				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
+
+			case "last_access":
+				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
+
+			case "spent_seconds":
+				if(in_array($type, array("exc")))
+				{
+					$value = "-";
+				}
+				else
+				{
+					include_once("./classes/class.ilFormat.php");
+					$value = ilFormat::_secondsToString($value);
+				}
+				break;
+
+			case "percentage":
+				/* :TODO:
+				if(in_array(strtolower($this->status_class),
+						  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
+				$type == "exc"))
+				*/
+			    if(false)
+				{
+					$value = "-";
+				}
+				else
+				{
+					$value = $value."%";
+				}
+				break;
+
+			case "mark":
+				if(in_array($type, array("lm", "dbk")))
+				{
+					$value = "-";
+				}
+				break;
+		}
+
+		return $value;
+	}
+
 	/**
 	 * Fill table row
 	 */
@@ -253,60 +325,13 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		if(!$a_set["title"])
-		{
-			$a_set["title"] = "--".$lng->txt("none")."--";
-		}
-
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["id"], "small"));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if($a_set[$c] === NULL)
-			{
-				$a_set[$c] = "";
-			}
 			switch($c)
 			{
-				case "create_date_min":
-				case "create_date_max":
-				case "first_access_min":
-					if($a_set[$c])
-					{
-						$a_set[$c] = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_DATETIME));
-					}
-					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
-					break;
-
-				case "last_access_max":
-					if($a_set[$c])
-					{
-						$a_set[$c] = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_UNIX));
-					}
-					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
-					break;
-
-				case "spent_seconds_avg":
-					include_once("./classes/class.ilFormat.php");
-					$this->tpl->setVariable(strtoupper($c), ilFormat::_secondsToString($a_set[$c]));
-					break;
-
-				case "percentage_avg":
-					if($a_set[$c])
-					{
-						$a_set[$c] .= "%";
-					}
-					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
-					break;
-
-				case "title":
-				case "user_total":
-				case "read_count_sum":
-				case "read_count_avg":
-					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
-					break;
-
 				case "country":
 				case "gender":
 				case "city":
@@ -314,6 +339,11 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				case "status":
 				case "mark":
 					$this->renderPercentages($c, $a_set[$c]);
+					break;
+
+				default:
+					$value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
+					$this->tpl->setVariable(strtoupper($c), $value);
 					break;
 			}
 		}
