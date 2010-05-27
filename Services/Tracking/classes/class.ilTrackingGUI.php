@@ -120,7 +120,7 @@ class ilTrackingGUI
 	public function applyFilterSummary()
 	{
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
 		$utab->resetOffset();
 		$utab->writeFilterToSession();
 		$this->showObjectSummary();
@@ -132,7 +132,7 @@ class ilTrackingGUI
 	public function resetFilterSummary()
 	{
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
 		$utab->resetOffset();
 		$utab->resetFilter();
 		$this->showObjectSummary();

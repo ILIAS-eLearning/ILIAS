@@ -371,31 +371,26 @@ class ilTrQuery
 	 */
 	static protected function buildFilters(array $where, array $a_filters = NULL)
     {
-		if(sizeof($where))
-		{
+		global $ilDB;
 
-			/*
-				$where_and = array();
-			$date_map = array(
-				"registration"=>"usr_data.create_date",
-				"activity_earliest"=>"first_access",
-				"activity_latest"=>"last_access");
-			foreach($filter as $id => $value)
+		if(sizeof($a_filters))
+		{
+			foreach($a_filters as $id => $value)
 			{
 				switch($id)
 				{
 					case "country":
 					case "gender":
 					case "city":
-						$where_and[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
+						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
 				    case "language":
-						$where_and[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
+						$where[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
 						break;
 
 					// timestamp
-					case "activity_latest":
+					case "last_access":
 						if($value["from"])
 						{
 							$value["from"] = new ilDateTime($value["from"], IL_CAL_DATETIME);
@@ -408,23 +403,26 @@ class ilTrQuery
 						}
 						// fallthrough
 
-					case "registration":
-					case "activity_earliest":
+					case "create_date":
+					case "first_access":
 						if($value["from"])
 						{
-							$where_and[] = $date_map[$id]." >= ".$ilDB->quote($value["from"] ,"date");
+							$where[] = $id." >= ".$ilDB->quote($value["from"] ,"date");
 						}
 						if($value["to"])
 						{
-							$where_and[] = $date_map[$id]." <= ".$ilDB->quote($value["to"] ,"date");
+							$where[] = $id." <= ".$ilDB->quote($value["to"] ,"date");
 						}
 					    break;
 
 					default:
 						break;
 				}
-				*/
+			}
+		}
 
+		if(sizeof($where))
+		{
 			return " WHERE ".implode(" AND ", $where);
 		}
 	}
