@@ -110,7 +110,7 @@ class ilTrackingGUI
 		global $tpl;
 
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$table = new ilTrSummaryTableGUI($this, "showObjectSummary");
+		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
 		$tpl->setContent($table->getHTML());
 	}
 	

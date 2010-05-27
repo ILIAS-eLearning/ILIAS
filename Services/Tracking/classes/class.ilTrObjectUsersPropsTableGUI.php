@@ -161,7 +161,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		
 		$additional_fields = $this->getSelectedColumns();
 
-		$tr_data = ilTrQuery::getDataForObject(
+		$tr_data = ilTrQuery::getUserDataForObject(
 			$this->obj_id,
 			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
@@ -174,7 +174,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getDataForObject(
+			$tr_data = ilTrQuery::getUSerDataForObject(
 				$this->obj_id,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),

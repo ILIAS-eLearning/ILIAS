@@ -121,67 +121,36 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 
 		$this->determineOffsetAndOrder();
 		
-		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-		
-		$object_ids = array($this->obj_id);
-		$objectives_parent_id = false;
-		if($this->filter["view_mode"] == "coll")
-		{
-			if(ilLPObjSettings::_lookupMode($this->obj_id) != LP_MODE_OBJECTIVES)
-			{
-				$this->getObjectHierarchy($this->obj_id, $object_ids);
-			}
-			else
-			{
-				$objectives_parent_id = $this->obj_id;
-			}
-		}
-		else
-		{
-		   $children = $tree->getChilds($this->ref_id);
-		   if($children)
-		   {
-				foreach($children as $child)
-				{
-					$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
-					if($cmode != LP_MODE_DEACTIVATED && $cmode != LP_MODE_UNDEFINED)
-					{
-						$object_ids[] = $child["obj_id"];
-					}
-				}
-		   }
-		}
-		
 		$additional_fields = $this->getSelectedColumns();
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
-		$tr_data = ilTrQuery::getDataForUser(
+		$tr_data = ilTrQuery::getObjectsDataForUser(
 			$this->user_id,
-			$object_ids,
+			$this->obj_id,
+			$this->ref_id,
 			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
 			$this->filter,
 			$additional_fields,
-			$objectives_parent_id
-			);
+			$this->filter["view_mode"]);
 			
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getDataForUser(
+			$tr_data = ilTrQuery::getObjectsDataForUser(
 				$this->user_id,
-				$object_ids,
+				$this->obj_id,
+				$this->ref_id,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
 				$this->filter,
 				$additional_fields,
-				$objectives_parent_id
-				);
+				$this->filter["view_mode"]);
 		}
 
 		$this->setMaxCount($tr_data["cnt"]);
