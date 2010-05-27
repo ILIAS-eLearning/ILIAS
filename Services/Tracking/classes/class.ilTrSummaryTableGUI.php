@@ -15,7 +15,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
@@ -29,9 +29,9 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("title"));
 
 		// re-use caption from learners list
-		$this->lng_map = array("activity_earliest" => "trac_first_access", "activity_latest" => "trac_last_access",
-			"mark" => "trac_mark", "status" => "trac_status", "time_average" => "trac_spent_seconds",
-			"access_total" => "trac_read_count", "completion_average" => "trac_percentage"
+		$this->lng_map = array("first_access_min" => "trac_first_access", "last_access_max" => "trac_last_access",
+			"mark" => "trac_mark", "status" => "trac_status", "spent_seconds_avg" => "trac_spent_seconds",
+			"read_count_sum" => "trac_read_count", "percentage_avg" => "trac_percentage"
 			);
 
 		foreach ($this->getSelectedColumns() as $c)
@@ -44,6 +44,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt($l), $c);
 		}
 
+		$this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
@@ -51,10 +52,8 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setResetCommand("resetFilterSummary");
 		$this->initFilter($a_parent_obj->getObjectId());
 
-		$data = array();
-		$this->getItems($data, $a_parent_obj->getObjectId(), $this->getCurrentFilter());
-		$this->setData($data);
-
+		$this->getItems($a_parent_obj->getObjectId(), $ref_id, $this->getCurrentFilter());
+		
 		// $this->addCommandButton("", $lng->txt(""));
 	}
 
@@ -62,11 +61,12 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$all = array("user_total", "country", "registration_earliest", "registration_latest",
-			"gender", "city", "language", "access_total", "access_average", "activity_earliest",
-			"activity_latest", "time_average", "status", "mark", "completion_average");
+		$all = array("user_total", "country", "create_date_min", "create_date_max",
+			"gender", "city", "language","read_count_sum", "read_count_avg", "first_access_min",
+			"last_access_max", "spent_seconds_avg",	"status", "mark", "percentage_avg");
 		
-		$default = array("user_total", "access_total", "access_average", "time_average", "status", "mark", "completion_average");
+		$default = array("read_count_sum", "spent_seconds_avg", "status", "mark",
+			"percentage_avg");
 
 		$columns = array();
 		foreach($all as $column)
@@ -111,10 +111,10 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->filter["user_total"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["activity_earliest"] = $item->getDate();
+		$this->filter["first_access"] = $item->getDate();
 
 		$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["activity_latest"] = $item->getDate();
+		$this->filter["last_access"] = $item->getDate();
 	}
 
 	/**
@@ -124,63 +124,46 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	 * @param	int		$object_id
 	 * @param	array	$filter
 	 */
-	function getItems(&$rows, $object_id, array $filter = NULL)
+	function getItems($object_id, $ref_id, array $filter = NULL)
 	{
 		global $lng;
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
-		$type = ilObject::_lookupType($object_id);
+		$data = ilTrQuery::getObjectsSummaryForObject(
+				$object_id,
+				$ref_id,
+				ilUtil::stripSlashes($this->getOrderField()),
+				ilUtil::stripSlashes($this->getOrderDirection()),
+				ilUtil::stripSlashes($this->getOffset()),
+				ilUtil::stripSlashes($this->getLimit()),
+				NULL,
+				$this->getSelectedColumns()
+				);
 
-		$result = array();
-		$result["id"] = $object_id;
-		$result["title"] = ilObject::_lookupTitle($object_id);
-		$result["type"] = $type;
-
-		$summary = ilTrQuery::getSummaryDataForObject($object_id, $filter);
-		$users_no = $summary["cnt"];
-		$summary = $summary["set"];
-		if(sizeof($summary))
+		$rows = array();
+		foreach($data["set"] as $idx => $result)
 		{
 			// sessions have no title
-			if($result["title"] == "" && $type == "sess")
+			if($result["title"] == "" && $result["type"] == "sess")
 			{
 				include_once "modules/Session/classes/class.ilObjSession.php";
-				$sess = new ilObjSession($object_id, false);
-				$result["title"] = $sess->getFirstAppointment()->appointmentToString();
+				$sess = new ilObjSession($result["obj_id"], false);
+				$data["set"][$idx]["title"] = $sess->getFirstAppointment()->appointmentToString();
 			}
 
-
-			// user related
-
-			$result["user_total"] = $users_no;
-
-			$result["country"] = $this->getItemsPercentages($summary["countries"], $users_no);
-
-			$result["registration_earliest"] = ilDatePresentation::formatDate(new ilDateTime($summary["first_registration"],IL_CAL_DATETIME));
-			$result["registration_latest"] = ilDatePresentation::formatDate(new ilDateTime($summary["last_registration"],IL_CAL_DATETIME));
-
-			$result["gender"] = $this->getItemsPercentages($summary["gender"], $users_no, array("m"=>$lng->txt("gender_m"), "f"=>$lng->txt("gender_f")));
-
-			$result["city"] = $this->getItemsPercentages($summary["cities"], $users_no);
+			// percentages
+			$users_no = $result["user_total"];
+			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
+			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array("m"=>$lng->txt("gender_m"), "f"=>$lng->txt("gender_f")));
+			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
 
 			$languages = array();
 			foreach ($lng->getInstalledLanguages() as $lang_key)
 			{
 				$languages[$lang_key] = $lng->txt("lang_".$lang_key);
 			}
-			$result["language"] = $this->getItemsPercentages($summary["languages"], $users_no, $languages);
-
-
-			// object related
-			$result["access_total"] = $summary["sum_access"];
-			$result["access_average"] = $summary["avg_access"];
-
-			$result["activity_earliest"] = ilDatePresentation::formatDate(new ilDateTime($summary["first_access"],IL_CAL_DATETIME));
-			$result["activity_latest"] = ilDatePresentation::formatDate(new ilDateTime($summary["last_access"],IL_CAL_UNIX));
-
-			include_once("./classes/class.ilFormat.php");
-			$result["time_average"] = ilFormat::_secondsToString($summary["avg_learn_time"]);
+			$data["set"][$idx]["language"] = $this->getItemsPercentages($result["language"], $users_no, $languages);
 
 			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
@@ -191,24 +174,12 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				$text = ilLearningProgressBaseGUI::_getStatusText($status);
 				$map[$status] = ilUtil::img($path, $text);
 			}
-			$result["status"] = $this->getItemsPercentages($summary["status"], $users_no, $map);
-
-			$result["mark"] = $this->getItemsPercentages($summary["mark"], $users_no);
-
-			$result["completion_average"] = $summary["avg_completion"]."%";
+			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $map);
+			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
 		}
 
-		$rows[] = $result;
-
-
-		// --- child objects
-
-		include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-		foreach(ilLPCollectionCache::_getItems($object_id) as $child_ref_id)
-		{
-			$child_id = ilObject::_lookupObjId($child_ref_id);
-			$this->getItems($rows, $child_id, $filter);
-		}
+		$this->setMaxCount($data["cnt"]);
+		$this->setData($data["set"]);
 	}
 
 	/**
@@ -220,7 +191,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 	 * @param	int		$limit		summarize all entries beyond limit
 	 * @return	array
 	 */
-	protected function getItemsPercentages(array $data, $overall, array $value_map = NULL, $limit = 3)
+	protected function getItemsPercentages(array $data = NULL, $overall, array $value_map = NULL, $limit = 3)
 	{
 		global $lng;
 
@@ -292,18 +263,47 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
+			if($a_set[$c] === NULL)
+			{
+				$a_set[$c] = "";
+			}
 			switch($c)
 			{
+				case "create_date_min":
+				case "create_date_max":
+				case "first_access_min":
+					if($a_set[$c])
+					{
+						$a_set[$c] = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_DATETIME));
+					}
+					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
+					break;
+
+				case "last_access_max":
+					if($a_set[$c])
+					{
+						$a_set[$c] = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_UNIX));
+					}
+					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
+					break;
+
+				case "spent_seconds_avg":
+					include_once("./classes/class.ilFormat.php");
+					$this->tpl->setVariable(strtoupper($c), ilFormat::_secondsToString($a_set[$c]));
+					break;
+
+				case "percentage_avg":
+					if($a_set[$c])
+					{
+						$a_set[$c] .= "%";
+					}
+					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
+					break;
+
 				case "title":
 				case "user_total":
-				case "registration_earliest":
-				case "registration_latest":
-				case "access_total":
-				case "access_average":
-				case "activity_earliest":
-				case "activity_latest":
-				case "completion_average":
-				case "time_average":
+				case "read_count_sum":
+				case "read_count_avg":
 					$this->tpl->setVariable(strtoupper($c), $a_set[$c]);
 					break;
 
@@ -331,6 +331,10 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("PERCENTAGE", $item["percentage"]);
 			$this->tpl->parseCurrentBlock();
 		  }
+	   }
+	   else
+	   {
+		   $this->tpl->touchBlock($id);;
 	   }
 	}
 
@@ -361,8 +365,8 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				break;
 
 			 case "registration":
-			 case "activity_earliest":
-			 case "activity_latest":
+			 case "first_access":
+			 case "last_access":
 				 if($value)
 				 {
 					 if($value["from"])
