@@ -203,15 +203,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// sort and slice array
 		$usr_data = ilUtil::sortArray($usr_data,$_SESSION["usrf_sort_by"],$_SESSION["usrf_sort_order"]);
-		$usr_data = array_slice($usr_data,$_GET["offset"],$this->max_count);
-
-		foreach ($usr_data as $val)
+		foreach ($usr_data as $idx => $val)
 		{
 			if ($val["usr_id"] == ANONYMOUS_USER_ID)
 			{
-                continue;
-            }
-			
+				unset($usr_data[$idx]);
+			}
+		}
+		
+		$usr_data = array_slice($usr_data,$_GET["offset"],$this->max_count);
+		foreach ($usr_data as $val)
+		{
 			$data["data"]["$val[usr_id]"] = array(
 				"login"			=> $val["login"],
 				"firstname"		=> $val["firstname"],
