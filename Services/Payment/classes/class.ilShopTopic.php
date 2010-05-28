@@ -5,7 +5,7 @@
 * Class ilShopTopic
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @version $Id:$
 * 
 * @ingroup ServicesPayment 
 * 
@@ -92,7 +92,7 @@ class ilShopTopic
 		{
 			$this->createdate = time();
 			
-			$next_id =$this->db->nextId('payment_topics');
+			$next_id = $this->db->nextId('payment_topics');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_topics 
 				( 	pt_topic_pk,
@@ -171,17 +171,16 @@ class ilShopTopic
 				array('integer', 'integer'),
 				array($this->getId(), $ilUser->getId())
 			);
-
 			
-			if($res->numRows() > 0)
+			if($this->db->numRows($res) > 0)
 			{
 				$statement = $this->db->manipulateF('
 					UPDATE payment_topic_usr_sort
-					SET ptus_pt_topic_fk = %s,
-						ptus_usr_id = %s,
-						ptus_sorting = %s',
+					SET ptus_usr_id = %s,
+						ptus_sorting = %s
+					WHERE ptus_pt_topic_fk = %s',
 						array('integer', 'integer', 'integer'),
-						array($this->getId(), $ilUser->getId(), $this->getCustomSorting())
+						array( $ilUser->getId(), $this->getCustomSorting(),$this->getId())
 				);
 			}
 			else
