@@ -1,35 +1,9 @@
 <!-- BEGIN page_content -->{PAGE_CONTENT}<div style="height: 1px; line-height: 1px; clear: both;">&nbsp;</div><!-- END page_content -->
 
-<!-- BEGIN SHOW_FILTER -->
-<form method="post" action="{FILTER_FORM_ACTION}">
-<table class="invisible">
-<tr>
-	<td>{FILTER_TEXT}</td>
-	<td>
-		<select name="sel_filter_type">
-<!-- BEGIN filterrow -->
-		<option value="{VALUE_FILTER_TYPE}" {VALUE_FILTER_SELECTED}>{NAME_FILTER_TYPE}</option>
-<!-- END filterrow -->
-		</select>
-	</td>
-	<td>{TEXT_FILTER_BY}</td>
-	<td><input type="text" name="filter_text" size="20" value="{VALUE_FILTER_TEXT}" /></td>
-	<td><input class="submit" type="submit" name="cmd[{CMD_SUBMIT_FILTER}]" value="{VALUE_SUBMIT_FILTER}" /></td>
-	<td><input class="submit" type="submit" name="cmd[{CMD_RESET_FILTER}]" value="{VALUE_RESET_FILTER}" /></td>
-</tr>
-
-<!-- BEGIN filter_topics -->
-<tr>
-	<td>{TXT_FILTER_TOPICS}:</td>
-	<td>{SELECTBOX_FILTER_TOPICS}</td>
-</tr>
-<!-- END filter_topics -->
-</table>
-</form>
-<!-- END SHOW_FILTER -->
+<!-- BEGIN SHOW_FILTER -->{FORM}<!-- END SHOW_FILTER -->
 <!-- BEGIN sorting -->
 <form method="post" action="{SORTING_FORM_ACTION}">
-<table class="invisible" align="right">
+<table class="invisible" align="left">
 <!-- BEGIN topics_sort_block -->
 <tr>	
  	<td valign="middle">{SORT_TOPICS_BY_TEXT}:&nbsp;</td>
