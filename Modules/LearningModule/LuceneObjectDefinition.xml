@@ -13,6 +13,7 @@
 				FROM lm_data ld
 				JOIN page_object po ON ld.obj_id = po.page_id
 				WHERE parent_type = 'lm'
+				AND po.active = 1
 				AND type = 'pg'
 				AND lm_id IN (?)
 			</Query>
