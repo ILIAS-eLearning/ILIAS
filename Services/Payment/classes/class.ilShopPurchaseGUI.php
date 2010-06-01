@@ -7,7 +7,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * Class ilShopPurchaseGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
-* 
+* @version $Id:$
 * @ilCtrl_Calls ilShopPurchaseGUI: ilPageObjectGUI
 *
 * @ingroup ServicesPayment
@@ -54,6 +54,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	*/
 	public function executeCommand()
 	{
+		$cmd = $this->ctrl->getCmd();
 		switch($this->ctrl->getCmdClass())
 		{
 			case 'ilpageobjectgui':
@@ -64,22 +65,24 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($page_gui);				
 				return;
 				break;
+		}
+
+		$this->__buildHeader();
+
+		switch($cmd)
+		{
+			case 'addToShoppingCart':
+				break;
+
 			default:
-				$cmd = $this->ctrl->getCmd();
-				$this->__buildHeader();
-				
 				if(!in_array($cmd, array('showDemoVersion', 'showDetails', 'addToShoppingCart')))
 				{
 					$cmd = ($_GET['purchasetype'] == 'demo' ? 'showDemoVersion' : 'showDetails');
 				}
-								
-				if(!$cmd || !method_exists($this, $cmd))
-				{
-					$cmd = 'showDetails';
-				}
-				$this->$cmd();
 				break;
 		}
+		$this->$cmd();
+		return true;
 	}
 	
 	public function showDemoVersion()
@@ -330,7 +333,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$this->__initShoppingCartObject();
 		
 		$ilToolbar->addButton($this->lng->txt('payment_back_to_shop'),'ilias.php?baseClass=ilShopController');
-		$ilToolbar->addButton($this->lng->txt('pay_goto_shopping_cart'), 'cart');
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pay_purchase_details.html', 'Services/Payment');
 
@@ -472,10 +474,10 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 	public function addToShoppingCart()
 	{
-		global $ilUser, $ilTabs, $ilToolbar;
+		global $ilTabs;
 		
 		$ilTabs->setTabActive('buy');		
-		//TODO: $ilToolbar->addButton()   'back to shop', 'goto shoppingcart'
+		
 		if(!isset($_POST['price_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_select_price'));
@@ -494,13 +496,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			$this->sc_obj->setPobjectId($this->pobject->getPobjectId());
 			$this->sc_obj->add();
 
-			$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pay_purchase_details.html', 'Services/Payment');
-			$this->tpl->setCurrentBlock('shopping_cart');
-			$this->tpl->setVariable('LINK_GOTO_SHOPPING_CART', 'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
-			$this->tpl->setVariable('TXT_GOTO_SHOPPING_CART', $this->lng->txt('pay_goto_shopping_cart'));
-			$this->tpl->parseCurrentBlock('shopping_cart');
-
-			ilUtil::sendInfo($this->lng->txt('pay_added_to_shopping_cart'));
+			ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
 
 			return true;
 		}
