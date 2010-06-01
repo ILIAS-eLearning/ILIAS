@@ -2909,6 +2909,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->addColumn($this->lng->txt('enabled'), 'pm_enabled', '10%');
 		$tbl->addColumn($this->lng->txt('save_customer_address'),'save_usr_adr','10%');
 		$tbl->addCommandButton('savePayMethods', $this->lng->txt('save'));
+
+		$tbl->disable('sort');
 		$tbl->setData($result);
 
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
@@ -2931,7 +2933,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$count_pm = ilPayMethods::countPM();
 
 		$askForDeletingAddresses = array();
-		
+
 		for($i = 1; $i <= $count_pm; $i++)
 		{
 			if(!array_key_exists($i,$_POST['pm_enabled']) && ilPayMethods::_PmEnabled($i) == 1)
@@ -2973,7 +2975,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tmp = $this->payMethodsObject($askForDeletingAddresses,$oConfirmationGUI);
 		if(!$askForDeletingAddresses)
 			ilUtil::sendSuccess($this->lng->txt('pays_updated_pay_method'));
-		
 
 		return true;
 	}	
