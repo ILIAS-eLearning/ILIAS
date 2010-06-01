@@ -60,6 +60,12 @@ class ilForumProperties
 	private $post_activation_enabled = 0; //false; 
 
 	/**
+	 * Global notification-type setting (CRS/GRP)
+	 * @access	private
+	 */
+	private $notification_type = false;
+
+	/**
 	 * Activation of (CRS/GRP) forum notification by mod/admin
 	 * @access	private
 	 */
@@ -137,7 +143,9 @@ class ilForumProperties
 				$this->admin_force_noti = $row->admin_force_noti == 1 ? true : false;
 				$this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
 				$this->new_post_title = $row->new_post_title;// == 1 ? true : false;
-				
+
+				 $this->notification_type = $row->notification_type;
+
 				return true;
 			}
 			
@@ -159,7 +167,8 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title))
+					'new_post_title'	=> array('integer', $this->new_post_title),
+					'notification_type' => array('text', $this->notification_type))
 			);
 
 			return true;
@@ -179,7 +188,8 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title)),
+					'new_post_title'	=> array('integer', $this->new_post_title),
+					'notification_type' => array('text', $this->notification_type)),
 			array(	'obj_id'			=> array('integer', $this->obj_id))
 			);
 
@@ -211,7 +221,8 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title))
+					'new_post_title'	=> array('integer', $this->new_post_title),
+					'notification_type' => array('text', $this->notification_type))
 			);
 			return true;
 		}
@@ -345,6 +356,15 @@ class ilForumProperties
 	public function getNewPostTitle()
 	{
 		return $this->new_post_title;
+	}
+
+	public function setNotificationType($a_notification_type)
+	{
+		$this->notification_type = $a_notification_type;
+	}
+	public function getNotificationType()
+	{
+		return $this->notification_type;
 	}
 	
 }

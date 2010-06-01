@@ -10409,3 +10409,5 @@ trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
+common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
+common#:#settings_per_users#:#Settings per Course/Group Members

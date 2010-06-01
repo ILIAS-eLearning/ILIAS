@@ -178,20 +178,6 @@ class ilForumNotification
 			array($this->getUserId(),$this->getForumId(),1));
 	}
 
-	public function insertUserToggle()
-	{
-		global $ilDB, $ilUser;
-
-		$next_id = $ilDB->nextId('frm_notification');
-
-		$res = $ilDB->manipulateF(
-			'INSERT INTO frm_notification
-			(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti) 
-			VALUES(%s, %s, %s, %s, %s, %s)',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-			array($next_id, $this->getUserId(), $this->getForumId(), $this->getAdminForce(), $this->getUserToggle(), $ilUser->getId()));
-			
-	}
 	public function deleteUserToggle()
 	{
 		global $ilDB, $ilUser;
@@ -375,5 +361,36 @@ class ilForumNotification
 		}
 
 		return array();
+	}
+
+	public function update()
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('
+			UPDATE frm_notification
+			SET admin_force_noti = %s,
+				user_toggle_noti = %s
+				WHERE user_id = %s
+				AND frm_id = %s',
+			array('integer','integer','integer','integer'),
+			array($this->getAdminForce(), $this->getUserToggle(), $this->getUserId(), $this->getForumId()));
+	}
+	public function read()
+	{
+		global $ilDB;
+		$result = array();
+	
+		$query = $ilDB->queryF('
+			SELECT * FROM frm_notification WHERE
+			frm_id = %s',
+			array('integer'),
+			array($this->getForumId()));
+
+		while($row = $ilDB->fetchAssoc($query))
+		{
+			$result[$row['user_id']] = $row;
+		}
+		return $result;
 	}
 } // END class.ilForumNotification

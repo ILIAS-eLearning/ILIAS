@@ -214,7 +214,10 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function editObject()
 	{
-		global $ilAccess, $ilSetting;
+		global $ilAccess, $ilSetting, $ilTabs;
+		$ilTabs->setTabActive('settings');
+		// subtabs
+		$this->settingsTabs();
 
 		if (!$ilAccess->checkAccess('write', '', $_GET['ref_id']))
 		{
@@ -320,7 +323,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 		// mark all read
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if($ilUser->getId() != ANONYMOUS_USER_ID && !(int)strlen($this->confirmation_gui_html))
 		{
 			$ilToolbar->addButton($this->lng->txt('forums_mark_read'),
 				$this->ctrl->getLinkTarget($this, 'markAllRead'),
@@ -857,24 +860,6 @@ class ilObjForumGUI extends ilObjectGUI
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
 			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
-		}
-
-		// member tab
-		$parent_ref_id = $tree->getParentId($this->object->getRefId());
-		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
-
-		$parent_type = $parent_obj->getType();
-
-		if($parent_type == 'grp' || $parent_type == 'crs')
-		{
-			#show member-tab for notification
-			if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
-			{
-				$mem_active = array('showMembers', 'forums_notification_settings');
-				(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
-
-				$tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
-			}
 		}
 
 		if ($this->ilias->getSetting('enable_fora_statistics', true) &&
@@ -3880,14 +3865,23 @@ class ilObjForumGUI extends ilObjectGUI
 		// check input
 		if($this->notificationSettingsForm->checkInput())
 		{
+			if($_POST['notification_type']== 'all_users')
+			{
 				// set values and call update
 				$this->objProperties->setAdminForceNoti((int)$this->notificationSettingsForm->getInput('adm_force'));
 				$this->objProperties->setUserToggleNoti((int)$this->notificationSettingsForm->getInput('usr_toggle'));
+				$this->objProperties->setNotificationType('all_users');
 				if((int)$this->notificationSettingsForm->getInput('usr_toggle'))
 				{
 					$this->objProperties->setAdminForceNoti(1);
 					$_POST['adm_force'] = 1;
 				}
+			}
+			else
+			{
+				$this->objProperties->setNotificationType('per_user');
+			}
+
 			$this->objProperties->update();
 
 			// print success message
@@ -3912,16 +3906,26 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$form = new ilPropertyFormGUI();
 			$form->setFormAction($this->ctrl->getFormAction($this, 'updateNotificationSettings'));
-			$form->setTitle($this->lng->txt('settings_for_new_members'));
+			$form->setTitle($this->lng->txt('forums_notification_settings'));
 
-			$chb = new ilCheckboxInputGUI($this->lng->txt('admin_force_noti'), 'adm_force');
-			$chb->setValue(1);
-			$form->addItem($chb);
+			$radio_grp = new ilRadioGroupInputGUI('','notification_type');
+			$radio_grp->setValue('all_users');
+			$opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
+			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_members"), 'per_user');
 
-			$chb = new ilCheckboxInputGUI($this->lng->txt('user_toggle_noti'), 'usr_toggle');
-			$chb->setValue(1);
-			$form->addItem($chb);
+			$radio_grp->addOption($opt_0, 'all_users');
+			$radio_grp->addOption($opt_1, 'per_user');
 	
+			$chb_1 = new ilCheckboxInputGUI($this->lng->txt('admin_force_noti'), 'adm_force');
+			$chb_1->setValue(1);
+
+			$chb_2 = new ilCheckboxInputGUI($this->lng->txt('user_toggle_noti'), 'usr_toggle');
+			$chb_2->setValue(1);
+
+			$opt_0->addSubItem($chb_1);
+			$opt_0->addSubItem($chb_2);
+			$form->addItem($radio_grp);
+
 			$form->addCommandButton('updateNotificationSettings', $this->lng->txt('save'));
 
 			$this->notificationSettingsForm = $form;
@@ -3945,14 +3949,14 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'Modules/Forum');
 
-		// activate the members tab
-		$ilTabs->setTabActive('members');
-
+		$ilTabs->setTabActive('settings');
+		$this->settingsTabs();
 		// instantiate the property form
 		if(!$this->initNotificationSettingsForm())
 		{
 			// if the form was just created set the values fetched from database
 			$this->notificationSettingsForm->setValuesByArray(array(
+				'notification_type' => $this->objProperties->getNotificationType(),
 				'adm_force' => (bool)$this->objProperties->isAdminForceNoti(),
 				'usr_toggle' => (bool)$this->objProperties->isUserToggleNoti()
 			));
@@ -3999,6 +4003,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$members = array();
 		$tutors = array();
 
+		if($this->objProperties->getNotificationType() == 'per_user')
+		{
 		$counter = 0;
 		foreach($moderator_ids as $user_id)
 		{
@@ -4070,6 +4076,29 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->__showMembersTable($moderators, $admins, $members, $tutors);
 		}
+		else
+		{
+			$frm_noti = new ilForumNotification($_GET['ref_id']);
+			$all_notis = $frm_noti->read();
+
+			foreach($member_ids as $user_id)
+			{
+				$frm_noti->setUserId($user_id);
+
+				$frm_noti->setAdminForce($this->objProperties->isAdminForceNoti());
+				$frm_noti->setUserToggle($this->objProperties->isUserToggleNoti());
+
+				if(array_key_exists($user_id, $all_notis))
+				{
+					$res = $frm_noti->update();
+				}
+				else
+				{
+					$res = $frm_noti->insertAdminForce();
+				}
+			}
+		}
+	}
 
 	function __showMembersTable($moderators,$admins,$members,$tutors)
 	{

@@ -1732,4 +1732,11 @@ if(!$ilDB->tableExists('table_templates'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#3054>
+<?php
+$ilDB->addTableColumn('frm_settings', 'notification_type', array(
+	"type" => "text",
+	"notnull" => true,
+	"length" => 10,
+	"default" => "all_users"));
+?>
