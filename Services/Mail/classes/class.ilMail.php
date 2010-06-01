@@ -2022,7 +2022,7 @@ class ilMail
 
 		global $ilUser;
 
-		return ilMimeMail::_mimeEncode($ilUser->getFullname()).'<'.$a_email.'>';
+		return ilMimeMail::_mimeEncode($ilUser->getFullname()).' <'.$a_email.'>';
 	}
 
 	/**
@@ -2106,7 +2106,11 @@ class ilMail
 			{
 				$attachments[] = $this->mfile->getAbsolutePath($attachment);
 			}
-			$attachments = implode(',',$attachments);
+			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
+			$attachments = implode('#:#',$attachments);
+			// mjansen: use "#:#" as leading delimiter
+			if(strlen($attachments))  
+				$attachments = "#:#".$attachments;
 
 			$soap_client->call('sendMail',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],	// session id
 												$a_rcp_to,
