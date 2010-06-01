@@ -2826,7 +2826,7 @@ else
 		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 		$this->tpl->setVariable('TXT_VISIB_LUA',$lng->txt('usr_settings_visib_lua'));
 		$this->tpl->setVariable('TXT_CHANGE_LUA',$lng->txt('usr_settings_changeable_lua'));
-		$this->tpl->setVariable('TXT_VISIB_LUA', $lng->txt('usr_settings_visib_lua'));
+		$this->tpl->setVariable('TXT_VISIB_REG', $lng->txt('visible_registration'));
 
 		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
