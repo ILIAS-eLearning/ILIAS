@@ -83,7 +83,18 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 		if($attach)
 		{
-			$attachments = explode(',',$attach);
+			// mjansen: switched separator from "," to "#:#" because of mantis bug #6039
+			// for backward compatibility we have to check if the substring "#:#" exists as leading separator
+			// otherwise we should use ";" 
+			if(strpos($attach, '#:#') === 0)
+			{
+				$attach = substr($attach, strlen('#:#'));
+				$attachments = explode('#:#', $attach);	
+			}
+			else
+			{
+				$attachments = explode(',', $attach);	
+			}
 			foreach ($attachments as $attachment)
 			{
 				$mmail->Attach($attachment);

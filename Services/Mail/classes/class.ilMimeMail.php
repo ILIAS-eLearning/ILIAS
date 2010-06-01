@@ -85,7 +85,7 @@ class ilMimeMail
 	 * 	@var string
 	 */
 	var $charset = "utf-8";
-	var $ctencoding = "7bit";
+	var $ctencoding = "8bit";
 	var $receipt = 0;
 	
 
@@ -246,8 +246,8 @@ class ilMimeMail
 	
 		if( $charset != "" ) {
 			$this->charset = strtolower($charset);
-			if( $this->charset != "us-ascii" )
-				$this->ctencoding = "8bit";
+			if( $this->charset == "us-ascii" )
+				$this->ctencoding = "7bit";
 		}
 	}
 
@@ -369,7 +369,7 @@ class ilMimeMail
 		// envoie du mail
 		if(!(int)$ilSetting->get('prevent_smtp_globally'))
 		{
-			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );
+			$res = @mail( $this->strTo, $this->xheaders['Subject'], $this->fullBody, $this->headers );		
 		}
 		#$ilLog->write($this->strTo.' '. $this->xheaders['Subject'].' '. $this->fullBody.' '. $this->headers);
 	}
