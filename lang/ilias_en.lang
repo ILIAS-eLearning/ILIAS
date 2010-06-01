@@ -4732,6 +4732,8 @@ common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in th
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_header_profile#:#Standard User Profile Fields
 common#:#usr_settings_saved#:#Global user settings saved successfully!
+common#:#usr_settings_visib_lua#:#Visible in Local User Administration
+common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usr_without_courses#:#Users without courses assigned
@@ -10411,3 +10413,8 @@ content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
 common#:#settings_per_users#:#Settings per Course/Group Members
+user#:#enable_local_user_administration#:#Enable Local User Administration
+user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
+user#:#restrict_user_access#:#Restriced Access to User Accounts
+user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". 
+common#:#backto_lua#:#Back to Local User Administration

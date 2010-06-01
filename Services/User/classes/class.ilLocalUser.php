@@ -56,7 +56,7 @@ class ilLocalUser
 		return $users ? $users : array();
 	}
 
-	function _getFolderIds()
+	public static function _getFolderIds()
 	{
 		global $ilDB,$rbacsystem;
 

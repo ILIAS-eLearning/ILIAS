@@ -287,7 +287,13 @@ class ilMailSearchGUI
 			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
 	
 			
-			$users = $all_results->getResults();
+			//$users = $all_results->getResults();
+			
+			// Filter users (depends on setting in user accounts)
+			include_once './Services/User/classes/class.ilUserFilter.php';
+			$users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
+			
+			
 			if (count($users))
 			{
 				$tbl_users = new ilTable2GUI($this);
@@ -298,16 +304,16 @@ class ilMailSearchGUI
 				$counter = 0;				
 				foreach ($users as $user)
 				{					
-					$login = ilObjUser::_lookupLogin($user['obj_id']);			
+					$login = ilObjUser::_lookupLogin($user);			
 
 					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_usr[]', $login) . 
 							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
 												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
 					$result[$counter]['login'] = $login;
 					
-					if (in_array(ilObjUser::_lookupPref($user['obj_id'], 'public_profile'), array('y',"g")))
+					if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y',"g")))
 					{
-						$name = ilObjUser::_lookupName($user['obj_id']);
+						$name = ilObjUser::_lookupName($user);
 						$result[$counter]['firstname'] = $name['firstname'];
 						$result[$counter]['lastname'] = $name['lastname'];
 					}
@@ -317,10 +323,10 @@ class ilMailSearchGUI
 						$result[$counter]['lastname'] = '';
 					}
 					
-					if (ilObjUser::_lookupPref($user['obj_id'], 'public_email') == 'y')
+					if (ilObjUser::_lookupPref($user, 'public_email') == 'y')
 					{
 						$has_mail_usr = true;
-						$result[$counter]['email'] = ilObjUser::_lookupEmail($user['obj_id']);
+						$result[$counter]['email'] = ilObjUser::_lookupEmail($user);
 					}
 						
 					++$counter;

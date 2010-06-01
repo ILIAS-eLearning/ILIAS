@@ -307,6 +307,29 @@ class ilUserProfile
 	}
 	
 	/**
+	 * Get visible fields in local user administration
+	 * @return 
+	 */
+	public function getLocalUserAdministrationFields()
+	{
+		global $ilSetting;
+		
+		$settings = $ilSetting->getAll();
+		
+		$fields = array();
+		foreach($this->getStandardFields() as $field => $info)
+		{
+			if($ilSetting->get('usr_settings_visib_lua_'.$field,1))
+			{
+				
+				$fields[$field] = $info;
+			}
+		}
+		return $fields;
+	}
+	
+	
+	/**
 	 * Skip a group
 	 */
 	function skipGroup($a_group)

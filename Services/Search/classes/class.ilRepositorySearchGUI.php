@@ -34,9 +34,12 @@
 */
 include_once 'Services/Search/classes/class.ilSearchResult.php';
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
+include_once './Services/User/classes/class.ilUserAccountSettings.php';
 
 class ilRepositorySearchGUI
 {
+	private $search_results = array();
+	
 	protected $add_options = array();
 	
 	var $search_type = 'usr';
@@ -283,8 +286,22 @@ class ilRepositorySearchGUI
 		}
 		$this->result_obj->addObserver($this, 'userFilter');
 		$this->result_obj->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+		
+		// User access filter
+		if($this->search_type == 'usr')
+		{
+			include_once './Services/User/classes/class.ilUserFilter.php';
+			$this->search_results = array_intersect(
+				$this->result_obj->getResultIds(),
+				ilUserFilter::getInstance()->filter($this->result_obj->getResultIds())
+			);
+		}
+		else
+		{
+			$this->search_results = $this->result_obj->getResults();
+		}
 
-		if(!count($this->result_obj->getResults()))
+		if(!count($this->search_results))
 		{
 			ilUtil::sendFailure($this->lng->txt('search_no_match'));
 			$this->showSearch();
@@ -476,9 +493,9 @@ class ilRepositorySearchGUI
 		{
 			$_SESSION['rep_search'] = array();
 		}
-		foreach($this->result_obj->getResults() as $result)
+		foreach($this->search_results as $result)
 		{
-			$_SESSION['rep_search'][$this->search_type][] = $result['obj_id'];
+			$_SESSION['rep_search'][$this->search_type][] = $result;
 		}
 		if(!$_SESSION['rep_search'][$this->search_type])
 		{
@@ -707,6 +724,7 @@ class ilRepositorySearchGUI
 				return false;
 			}
 		}
+		
 		return true;
 	}
 }

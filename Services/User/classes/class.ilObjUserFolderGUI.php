@@ -2713,6 +2713,8 @@ else
 			$user_field_definitions->enableSearchable((int) $_POST['chb']['searchable_'.$field_id]);
 			$user_field_definitions->enableExport((int) $_POST['chb']['export_'.$field_id]);
 			$user_field_definitions->enableCourseExport((int) $_POST['chb']['course_export_'.$field_id]);
+			$user_field_definitions->enableVisibleLocalUserAdministration((int) $_POST['chb']['visib_lua_'.$field_id]);
+			$user_field_definitions->enableChangeableLocalUserAdministration((int) $_POST['chb']['changeable_lua_'.$field_id]);
 
 			$user_field_definitions->enableVisibleRegistration((int)$_POST['chb']['visib_reg_'.$field_id]);
 
@@ -2822,8 +2824,9 @@ else
 		$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
 		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
-
-		$this->tpl->setVariable('TXT_VISIB_REG', $this->lng->txt('visible_registration'));
+		$this->tpl->setVariable('TXT_VISIB_LUA',$lng->txt('usr_settings_visib_lua'));
+		$this->tpl->setVariable('TXT_CHANGE_LUA',$lng->txt('usr_settings_changeable_lua'));
+		$this->tpl->setVariable('TXT_VISIB_LUA', $lng->txt('usr_settings_visib_lua'));
 
 		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
@@ -2831,6 +2834,8 @@ else
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
 		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
 		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+		$this->tpl->setVariable("VISIB_LUA",ilUtil::formCheckbox($_POST['def']['visible_lua'],"def[visible_lua]",1));
+		$this->tpl->setVariable("CHANGE_LUA",ilUtil::formCheckbox($_POST['def']['changeable_lua'],"def[changeable_lua]",1));
 
 		$this->tpl->setVariable('VISIB_REG', 
 				ilUtil::formCheckbox($_POST['def']['visib_reg'], 'def[visib_reg]', 1));
@@ -2870,6 +2875,9 @@ else
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
 		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
+		$this->tpl->setVariable('TXT_CHANGE_LUA',$lng->txt('usr_settings_changeable_lua'));
+		$this->tpl->setVariable('TXT_VISIB_LUA', $this->lng->txt('usr_settings_visib_lua'));
+		
 
 		$this->tpl->setVariable('TXT_VISIB_REG', $this->lng->txt('visible_registration'));
 
@@ -2879,6 +2887,9 @@ else
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
 		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
 		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+		$this->tpl->setVariable("VISIB_LUA",ilUtil::formCheckbox($_POST['def']['visible_lua'],"def[visible_lua]",1));
+		$this->tpl->setVariable("CHANGE_LUA",ilUtil::formCheckbox($_POST['def']['changeable_lua'],"def[changeable_lua]",1));
+		
 
 		$this->tpl->setVariable('VISIB_REG', 
 				ilUtil::formCheckbox($_POST['def']['visib_reg'], 'def[visib_reg]', 1));
@@ -2931,6 +2942,8 @@ else
 		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
+		$this->tpl->setVariable('TXT_CHANGE_LUA',$lng->txt('usr_settings_changeable_lua'));
+		$this->tpl->setVariable('TXT_VISIB_LUA', $this->lng->txt('usr_settings_visib_lua'));
 
 		$this->tpl->setVariable('TXT_VISIB_REG', $this->lng->txt('visible_registration'));
 
@@ -2939,6 +2952,8 @@ else
 		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
 		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
 		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+		$this->tpl->setVariable("VISIB_LUA",ilUtil::formCheckbox($_POST['def']['visible_lua'],"def[visible_lua]",1));
+		$this->tpl->setVariable("CHANGE_LUA",ilUtil::formCheckbox($_POST['def']['changeable_lua'],"def[changeable_lua]",1));
 
 		$this->tpl->setVariable('VISIB_REG', 
 				ilUtil::formCheckbox($_POST['def']['visib_reg'], 'def[visib_reg]', 1));
@@ -3007,6 +3022,8 @@ else
 		$user_field_definitions->setFieldName($_POST['field_name']);
 		$user_field_definitions->enableVisible($_POST['def']['visible']);
 		$user_field_definitions->enableChangeable($_POST['def']['changeable']);
+		$user_field_definitions->enableVisibleLocalUserAdministration($_POST['def']['visible_lua']);
+		$user_field_definitions->enableChangeableLocalUserAdministration($_POST['def']['changeable_lua']);
 		$user_field_definitions->enableRequired($_POST['def']['required']);
 		$user_field_definitions->enableSearchable($_POST['def']['searchable']);		
 		$user_field_definitions->enableExport($_POST['def']['export']);
@@ -3027,6 +3044,139 @@ else
 
 		return true;
 	}
+
+	/**
+	 * Show user account general settings
+	 * @return 
+	 */
+	protected function generalSettingsObject()
+	{
+		global $ilSetting;
+		
+		$this->initFormGeneralSettings();
+		
+		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		$aset = ilUserAccountSettings::getInstance();
+		$this->form->setValuesByArray(
+			array(
+				'lua'	=> $aset->isLocalUserAdministrationEnabled(),
+				'lrua'	=> $aset->isUserAccessRestricted(),
+				'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
+				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
+				'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
+				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time')
+			)
+		);
+						
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	
+	/**
+	 * Save user account settings
+	 * @return 
+	 */
+	public function saveGeneralSettingsObject()
+	{
+		global $ilUser, $ilSetting;
+		
+		$this->initFormGeneralSettings();
+		if($this->form->checkInput())
+		{
+			$valid = true;
+			
+			if(strlen($this->form->getInput('loginname_change_blocking_time')) &&
+			   !preg_match('/^[0-9]*$/',
+			   $this->form->getInput('loginname_change_blocking_time')))
+			{
+				$valid = false;
+				$this->form->getItemByPostVar('loginname_change_blocking_time')
+										->setAlert($this->lng->txt('loginname_change_blocking_time_invalidity_info'));
+			}
+			
+			if($valid)
+			{			
+				include_once './Services/User/classes/class.ilUserAccountSettings.php';
+				ilUserAccountSettings::getInstance()->enableLocalUserAdministration($this->form->getInput('lua'));
+				ilUserAccountSettings::getInstance()->restrictUserAccess($this->form->getInput('lrua'));
+				ilUserAccountSettings::getInstance()->update();
+				
+				// TODO: move to user account settings
+				$ilSetting->set('allow_change_loginname', (int)$this->form->getInput('allow_change_loginname'));
+				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
+				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->form->getInput('prevent_reuse_of_loginnames'));
+				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
+				
+				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+		}
+		$this->form->setValuesByPost();		
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	
+	/**
+	 * init general settings form
+	 * @return 
+	 */
+	protected function initFormGeneralSettings()
+	{
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('general_settings');
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this, 'saveGeneralSettings'));
+		
+		$this->form->setTitle($this->lng->txt('general_settings'));
+		
+		$lua = new ilCheckboxInputGUI($this->lng->txt('enable_local_user_administration'),'lua');
+		$lua->setInfo($this->lng->txt('enable_local_user_administration_info'));
+		$lua->setValue(1);
+		$this->form->addItem($lua);
+		
+		$lrua = new ilCheckboxInputGUI($this->lng->txt('restrict_user_access'),'lrua');
+		$lrua->setInfo($this->lng->txt('restrict_user_access_info'));
+		$lrua->setValue(1);
+		$this->form->addItem($lrua);
+		
+		$log = new ilFormSectionHeaderGUI();
+		$log->setTitle($this->lng->txt('loginname_settings'));
+		$this->form->addItem($log);
+		
+		$chbChangeLogin = new ilCheckboxInputGUI($this->lng->txt('allow_change_loginname'), 'allow_change_loginname');
+		$chbChangeLogin->setValue(1);
+		$this->form->addItem($chbChangeLogin);		
+		$chbCreateHistory = new ilCheckboxInputGUI($this->lng->txt('history_loginname'), 'create_history_loginname');
+		$chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
+		$chbCreateHistory->setValue(1);
+		
+		$chbChangeLogin->addSubItem($chbCreateHistory);	
+		$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'prevent_reuse_of_loginnames');
+		$chbReuseLoginnames->setValue(1);
+		$chbReuseLoginnames->setInfo($this->lng->txt('prevent_reuse_of_loginnames_contained_in_history_info'));
+		
+		$chbChangeLogin->addSubItem($chbReuseLoginnames);
+		$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
+		$chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
+		$chbChangeBlockingTime->setSize(10);
+		$chbChangeBlockingTime->setMaxLength(10);
+		$chbChangeLogin->addSubItem($chbChangeBlockingTime);		
+		
+		$this->form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
+	}
+
+
+
 
 	/**
 	* Global user settings
@@ -3158,6 +3308,26 @@ else
 			else
 			{
 				$ilSetting->set('usr_settings_visib_reg_'.$field, '0');
+			}
+
+			if ((int)$_POST['chb']['visib_lua_' . $field])
+			{
+				
+				$ilSetting->set('usr_settings_visib_lua_'.$field, '1');
+			}
+			else
+			{
+				$ilSetting->set('usr_settings_visib_lua_'.$field, '0');
+			}
+
+			if ((int)$_POST['chb']['changeable_lua_' . $field])
+			{
+				
+				$ilSetting->set('usr_settings_changeable_lua_'.$field, '1');
+			}
+			else
+			{
+				$ilSetting->set('usr_settings_changeable_lua_'.$field, '0');
 			}
 
 			if ($_POST["chb"]["export_" . $field])
@@ -3592,7 +3762,7 @@ else
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings", "saveGlobalUserSettings"), "", "");
+				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
@@ -3625,6 +3795,9 @@ else
 		switch($a_tab)
 		{
 			case "settings":
+				$this->tabs_gui->addSubTabTarget(
+					'general_settings',
+					$this->ctrl->getLinkTarget($this, 'generalSettings'), 'generalSettings', get_class($this));												 
 				$this->tabs_gui->addSubTabTarget("standard_fields",
 												 $this->ctrl->getLinkTarget($this,'settings'),
 												 array("settings", "saveGlobalUserSettings"), get_class($this));
@@ -3634,8 +3807,6 @@ else
 				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
 												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
 												 "newAccountMail",get_class($this));
-				$this->tabs_gui->addSubTabTarget('loginname_settings',
-					$this->ctrl->getLinkTarget($this, 'showLoginnameSettings'), 'showLoginnameSettings', get_class($this));												 
 												 
 				break;
 		}
