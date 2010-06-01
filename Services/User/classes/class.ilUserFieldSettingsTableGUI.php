@@ -60,13 +60,17 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 		
 		$field = $a_set["key"];
 		
-		$props = array("visible" => "user_visible_in_profile",
+		$props = array(
+			"visible" => "user_visible_in_profile",
 			"changeable" => "changeable",
 			"searchable" => "header_searchable",
 			"required"  => "required_field",
 			"export" => "export",
 			"course_export" => "course_export",
-			"visib_reg" => "header_visible_registration");
+			"visib_reg" => "header_visible_registration",
+			'visib_lua' => 'usr_settings_visib_lua',
+			'changeable_lua' => 'usr_settings_changeable_lua'
+		);
 		
 		foreach ($props as $prop => $lv)
 		{
@@ -110,6 +114,16 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 				{
 					$checked = true;
 				}
+				if ($prop == "visib_lua" && (int)$ilSetting->get('usr_settings_visib_lua_'.$field, '1'))
+				{
+					$checked = true;
+				}
+				
+				if ($prop == "changeable_lua" && (int)$ilSetting->get('usr_settings_changeable_lua_'.$field, '1'))
+				{
+					$checked = true;
+				}
+				
 
 				if ($this->confirm_change == 1)	// confirm value
 				{

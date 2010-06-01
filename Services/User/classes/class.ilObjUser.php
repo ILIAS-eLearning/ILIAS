@@ -4677,8 +4677,18 @@ class ilObjUser extends ilObject
 		$no_anonym = ($a_no_anonymous)
 			? "AND user_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." "
 			: "";
-
-		$r = $ilDB->queryF("SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
+			
+		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
+		{
+			include_once './Services/User/classes/class.ilUserFilter.php';
+			$user_filter = 'AND '.$ilDB->in('time_limit_owner',ilUserFilter::getInstance()->getFolderIds(),false,'integer').' ';
+		}
+		else
+		{
+			$user_filter = ' ';
+		}
+		$r = $ilDB->queryF($q = "SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
 			"FROM usr_session ".
 			"LEFT JOIN usr_data u ON user_id = u.usr_id ".
 			"LEFT JOIN usr_pref p ON (p.usr_id = u.usr_id AND p.keyword = ".
@@ -4686,6 +4696,7 @@ class ilObjUser extends ilObject
 			"AND expires > %s ".
 			"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
 			$no_anonym.
+			$user_filter.
 			"GROUP BY user_id,firstname,lastname,title,login,last_login ".
 			"ORDER BY lastname, firstname", $type_array, $val_array);
 

@@ -14,16 +14,15 @@ class ilUserQuery
 	/**
 	* Get data for user administration list.
 	*/
-	static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
+	public static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
-		$a_course_group_filter = 0, $a_role_filter = 0,$a_additional_fields = '',
-		$a_user_filter = null)
+		$a_course_group_filter = 0, $a_role_filter = 0, $a_user_folder_filter = null, $a_additional_fields = '',$a_user_filter = null)
 	{
 		global $ilDB, $rbacreview;
 		
 		$fields = array("usr_id", "login", "firstname", "lastname", "email",
-			"time_limit_until", "time_limit_unlimited", "last_login", "active");
+			"time_limit_until", "time_limit_unlimited", "time_limit_owner", "last_login", "active");
 
 		if (is_array($a_additional_fields))
 		{
@@ -132,6 +131,14 @@ class ilUserQuery
 			$count_query.= $add;
 			$where = " AND";
 		}
+		
+		if($a_user_folder_filter)
+		{
+			$add = $where." ".$ilDB->in('time_limit_owner',$a_user_folder_filter,false,'integer');
+			$query.= $add;
+			$count_query.= $add;
+			$where = " AND";
+		}
 
 		// order by
 		if ($a_order_field != "access_until")
@@ -179,114 +186,4 @@ class ilUserQuery
 		}
 		return array("cnt" => $cnt, "set" => $result);
 	}
-	
-	function old()
-	{
-		$result_arr = array();
-		$types = array();
-		$values = array();
-
-		if ($a_fields !== NULL and is_array($a_fields))
-		{
-			if (count($a_fields) == 0)
-			{
-				$select = "*";
-			}
-			else
-			{
-			if (($usr_id_field = array_search("usr_id",$a_fields)) !== false)
-				unset($a_fields[$usr_id_field]);
-
-				$select = implode(",",$a_fields).",usr_data.usr_id";
-				// online time
-				if(in_array('online_time',$a_fields))
-				{
-					$select .= ",ut_online.online_time ";
-				}
-			}
-
-			$q = "SELECT ".$select." FROM usr_data ";
-
-			// Add online_time if desired
-			// Need left join here to show users that never logged in
-			if(in_array('online_time',$a_fields))
-			{
-				$q .= "LEFT JOIN ut_online ON usr_data.usr_id = ut_online.usr_id ";
-			}
-
-			switch ($active)
-			{
-				case 0:
-				case 1:
-					$q .= "WHERE active = ".$ilDB->quote($active, "integer");
-					break;
-				case 2:
-					$q .= "WHERE time_limit_unlimited= ".$ilDB->quote(0, "integer");;
-					break;
-				case 3:
-					$qtemp = $q . ", rbac_ua, object_data WHERE rbac_ua.rol_id = object_data.obj_id AND ".
-						$ilDB->like("object_data.title", "text", "%crs%")." AND usr_data.usr_id = rbac_ua.usr_id";
-					$r = $ilDB->query($qtemp);
-					$course_users = array();
-					while ($row = $ilDB->fetchAssoc($r))
-					{
-						array_push($course_users, $row["usr_id"]);
-					}
-					if (count($course_users))
-					{
-						$q .= " WHERE ".$ilDB->in("usr_data.usr_id", $course_users, true, "integer")." ";
-					}
-					else
-					{
-						return $result_arr;
-					}
-					break;
-				case 4:
-					$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-					$q.= " AND last_login < ".$ilDB->quote($date, "timestamp");
-					break;
-				case 5:
-					$ref_id = $_SESSION["user_filter_data"];
-					if ($ref_id)
-					{
-						$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id ".
-							"WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference ".
-							"WHERE ref_id = ".$ilDB->quote($ref_id, "integer").") ";
-					}
-					break;
-				case 6:
-					global $rbacreview;
-					$ref_id = $_SESSION["user_filter_data"];
-					if ($ref_id)
-					{
-						$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
-						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-						if (is_array($local_roles) && count($local_roles))
-					{
-							$q.= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".
-								$ilDB->in("rbac_ua.rol_id", $local_roles, false, "integer")." ";
-						}
-					}
-					break;
-				case 7:
-					$rol_id = $_SESSION["user_filter_data"];
-					if ($rol_id)
-					{
-						$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = ".
-							$ilDB->quote($rol_id, "integer");
-					}
-					break;
-			}
-
-			$r = $ilDB->query($q);
-
-			while ($row = $ilDB->fetchAssoc($r))
-			{
-				$result_arr[] = $row;
-			}
-		}
-
-		return $result_arr;
-	}
-
 }

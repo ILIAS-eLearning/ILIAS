@@ -31,11 +31,27 @@ class ilUserAutoComplete
 			return ilJsonUtil::encode($result);
 		}
 		
-		$set = $ilDB->query("SELECT login, firstname, lastname FROM usr_data WHERE ".
-			$ilDB->like("login", "text", $a_str."%")." OR ".
-			$ilDB->like("firstname", "text", $a_str."%")." OR ".
-			$ilDB->like("lastname", "text", $a_str."%").
-			" ORDER BY login");
+		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
+		{
+			include_once './Services/User/classes/class.ilUserFilter.php';
+			$query = "SELECT login, firstname, lastname FROM usr_data ".
+				"WHERE ".
+				$ilDB->like("login", "text", $a_str."%")." OR ".
+				$ilDB->like("firstname", "text", $a_str."%")." OR ".
+				$ilDB->like("lastname", "text", $a_str."%").
+				"AND ".$ilDB->in('time_limit_owner',ilUserFilter::getInstance()->getFolderIds(),false,'integer')." ".
+				"ORDER BY login ";
+			$set = $ilDB->query($query);
+		}
+		else
+		{
+			$set = $ilDB->query("SELECT login, firstname, lastname FROM usr_data WHERE ".
+				$ilDB->like("login", "text", $a_str."%")." OR ".
+				$ilDB->like("firstname", "text", $a_str."%")." OR ".
+				$ilDB->like("lastname", "text", $a_str."%").
+				" ORDER BY login");
+		}
 		$max = 20;
 		$cnt = 0;
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)

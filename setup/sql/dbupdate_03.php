@@ -1740,3 +1740,18 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 	"length" => 10,
 	"default" => "all_users"));
 ?>
+<#3055>
+<?php
+	$ilDB->addTableColumn("udf_definition", "visible_lua", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+	$ilDB->addTableColumn("udf_definition", "changeable_lua", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+?>

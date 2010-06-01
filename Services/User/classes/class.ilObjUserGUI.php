@@ -202,505 +202,6 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* display user create form
 	*/
-/*
-	function createOldObject()
-	{
-		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting,$ilUser;
-
-		//load ILIAS settings
-		$settings = $ilias->getAllSettings();
-
-		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
-			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if($this->usrf_ref_id != USER_FOLDER_ID)
-		{
-			$this->tabs_gui->clearTargets();
-		}
-
-		// role selection
-		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-		$rol = array();
-		foreach ($obj_list as $obj_data)
-		{
-			// allow only 'assign_users' marked roles if called from category
-			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
-			{
-				include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
-				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
-				{
-					continue;
-				}
-			}
-			// exclude anonymous role from list
-			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
-			{
-				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
-				{
-					$rol[$obj_data["obj_id"]] = $obj_data["title"];
-				}
-			}
-		}
-
-		// raise error if there is no global role user can be assigned to
-		if(!count($rol))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$keys = array_keys($rol);
-
-		// set pre defined user role to default
-		if (in_array(4,$keys))
-		{
-			$default_role = 4;
-		}
-		else
-		{
-			if (count($keys) > 1 and in_array(2,$keys))
-			{
-				// remove admin role as preselectable role
-				foreach ($keys as $key => $val)
-				{
-					if ($val == 2)
-					{
-						unset($keys[$key]);
-						break;
-					}
-				}
-			}
-
-			$default_role = array_shift($keys);
-		}
-
-		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
-
-		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
-
-		$data = array();
-		$data["fields"] = array();
-		$data["fields"]["login"] = "";
-		$data["fields"]["passwd"] = "";
-		#$data["fields"]["passwd2"] = "";
-		$data["fields"]["title"] = "";
-		$data["fields"]["ext_account"] = "";
-		$data["fields"]["gender"] = "";
-		$data["fields"]["firstname"] = "";
-		$data["fields"]["lastname"] = "";
-		$data["fields"]["institution"] = "";
-		$data["fields"]["department"] = "";
-		$data["fields"]["street"] = "";
-		$data["fields"]["city"] = "";
-		$data["fields"]["zipcode"] = "";
-		$data["fields"]["country"] = "";
-		$data["fields"]["phone_office"] = "";
-		$data["fields"]["phone_home"] = "";
-		$data["fields"]["phone_mobile"] = "";
-		$data["fields"]["fax"] = "";
-		$data["fields"]["email"] = "";
-		$data["fields"]["hobby"] = "";
-		$data["fields"]["im_icq"] = "";
-		$data["fields"]["im_yahoo"] = "";
-		$data["fields"]["im_msn"] = "";
-		$data["fields"]["im_aim"] = "";
-		$data["fields"]["im_skype"] = "";
-		$data["fields"]["matriculation"] = "";
-		$data["fields"]["client_ip"] = "";
-		$data["fields"]["referral_comment"] = "";
-		$data["fields"]["create_date"] = "";
-		$data["fields"]["approve_date"] = "";
-		$data["fields"]["active"] = " checked=\"checked\"";
-		$data["fields"]["default_role"] = $roles;
-		$data["fields"]["auth_mode"] = "";
-
-		$this->getTemplateFile("edit","usr");
-
-		// fill presets
-		foreach ($data["fields"] as $key => $val)
-		{
-			$str = $this->lng->txt($key);
-			if ($key == "title")
-			{
-				$str = $this->lng->txt("person_title");
-			}
-			if ($key == "ext_account")
-			{
-				continue;
-			}
-			if($key == 'passwd')
-			{
-				$this->tpl->setCurrentBlock('passwords_visible');
-				$this->tpl->setVariable('VISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
-				$this->tpl->setVariable('VISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
-				$this->tpl->setVariable('VISIBLE_PASSWD',$_SESSION['error_post_vars']['Fobject']['passwd']);
-				$this->tpl->setVariable('VISIBLE_PASSWD2',$_SESSION['error_post_vars']['Fobject']['passwd2']);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// check to see if dynamically required
-			if (isset($settings["require_" . $key]) && $settings["require_" . $key])
-			{
-				$str = $str . '<span class="asterisk">*</span>';
-			}
-
-			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
-
-			if ($key == "default_role")
-			{
-				$this->tpl->setVariable(strtoupper($key), $val);
-			}
-			else
-			{
-				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
-			}
-
-			if ($this->prepare_output)
-			{
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		// new account mail
-		include_once './Services/User/classes/class.ilObjUserFolder.php';
-		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
-		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
-		{
-			$this->tpl->setCurrentBlock("inform_user");
-
-			// BEGIN DiskQuota Remember the state of the "send info mail" checkbox
-			$sendInfoMail = $ilUser->getPref('send_info_mails') == 'y';
-			if ($sendInfoMail)
-			// END DiskQuota Remember the state of the "send info mail" checkbox
-			{
-				$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
-			}
-			$this->tpl->setVariable("TXT_INFORM_USER_MAIL",
-				$this->lng->txt("user_send_new_account_mail"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->ctrl->setParameter($this,'new_type',$this->type);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
-		$this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
-		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
-		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
-		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
-		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
-		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
-		$this->tpl->setVariable("TXT_SKIN_STYLE",$this->lng->txt("usr_skin_style"));
-		$this->tpl->setVariable("TXT_HITS_PER_PAGE",$this->lng->txt("usr_hits_per_page"));
-		$this->tpl->setVariable("TXT_SHOW_USERS_ONLINE",$this->lng->txt("show_users_online"));
-		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
-		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
-		$this->tpl->setVariable("TXT_OTHER",$this->lng->txt("user_profile_other"));
-		$this->tpl->setVariable("TXT_INSTANT_MESSENGERS",$this->lng->txt("user_profile_instant_messengers"));
-		$this->tpl->setVariable("TXT_IM_ICQ",$this->lng->txt("im_icq"));
-		$this->tpl->setVariable("TXT_IM_YAHOO",$this->lng->txt("im_yahoo"));
-		$this->tpl->setVariable("TXT_IM_MSN",$this->lng->txt("im_msn"));
-		$this->tpl->setVariable("TXT_IM_AIM",$this->lng->txt("im_aim"));
-		$this->tpl->setVariable("TXT_IM_SKYPE",$this->lng->txt("im_skype"));
-
-		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-		if(ilAuthUtils::_isExternalAccountEnabled())
-		{
-			$this->tpl->setCurrentBlock("ext_account");
-			$this->tpl->setVariable("TXT_EXT_ACCOUNT",$this->lng->txt("user_ext_account"));
-			$this->tpl->setVariable("TXT_EXT_ACCOUNT_DESC",$this->lng->txt("user_ext_account_desc"));
-			if (isset($_SESSION["error_post_vars"]["Fobject"]["ext_account"]))
-			{
-				$this->tpl->setVariable("EXT_ACCOUNT_VAL",
-					$_SESSION["error_post_vars"]["Fobject"]["ext_account"]);
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-
-		//$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").
-		//	$_SERVER["REMOTE_ADDR"]);
-		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
-
-		// FILL SAVED VALUES IN CASE OF ERROR
-		if (isset($_SESSION["error_post_vars"]["Fobject"]))
-		{
-			if (!isset($_SESSION["error_post_vars"]["Fobject"]["active"]))
-			{
-				$_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
-			}
-
-			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
-			{
-				if ($key != "default_role" and $key != "language"
-					and $key != "skin_style" and $key != "hits_per_page"
-					and $key != "show_users_online" and $key != 'passwd' and $key != 'passwd2')
-				{
-					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
-				}
-			}
-
-			// gender selection
-			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-
-			if (!empty($gender))
-			{
-				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
-			}
-
-			$active = $_SESSION["error_post_vars"]["Fobject"]["active"];
-			if ($active)
-			{
-				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
-			}
-		}
-
-		// auth mode selection
-		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
-
-		// preselect previous chosen auth mode otherwise default auth mode
-		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ?
-			$_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : 'default';
-
-		foreach ($active_auth_modes as $auth_name => $auth_key)
-		{
-			$this->tpl->setCurrentBlock("auth_mode_selection");
-
-			if ($auth_name == 'default')
-			{
-				$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
-			}
-			else
-			{
-				$name = $this->lng->txt('auth_'.$auth_name);
-			}
-
-			$this->tpl->setVariable("AUTH_MODE_NAME", $name);
-
-			$this->tpl->setVariable("AUTH_MODE", $auth_name);
-
-			if ($selected_auth_mode == $auth_name)
-			{
-				$this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
-			}
-
-			$this->tpl->parseCurrentBlock();
-		} // END auth_mode selection
-
-		// language selection
-		$languages = $this->lng->getInstalledLanguages();
-
-		// preselect previous chosen language otherwise default language
-		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ?
-			$_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
-
-		foreach ($languages as $lang_key)
-		{
-			$this->tpl->setCurrentBlock("language_selection");
-			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
-			$this->tpl->setVariable("LANGSHORT", $lang_key);
-
-			if ($selected_lang == $lang_key)
-			{
-				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
-			}
-
-			$this->tpl->parseCurrentBlock();
-		} // END language selection
-
-		// skin & style selection
-		$templates = $styleDefinition->getAllTemplates();
-		//$this->ilias->getSkins();
-
-		// preselect previous chosen skin/style otherwise default skin/style
-		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
-		{
-			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
-
-			$selected_style = $sknst[1];
-			$selected_skin = $sknst[0];
-		}
-		else
-		{
-			$selected_style = $this->ilias->ini->readVariable("layout","style");;
-			$selected_skin = $this->ilias->ini->readVariable("layout","skin");;
-		}
-		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
-		foreach ($templates as $template)
-		{
-			// get styles for skin
-			//$this->ilias->getStyles($template["id"]);
-			$styleDef =& new ilStyleDefinition($template["id"]);
-			$styleDef->startParsing();
-			$styles = $styleDef->getStyles();
-
-			foreach($styles as $style)
-			{
-				if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
-				{
-					continue;
-				}
-
-				$this->tpl->setCurrentBlock("selectskin");
-
-				if ($selected_skin == $template["id"] &&
-					$selected_style == $style["id"])
-				{
-					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
-				}
-
-				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
-				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		} // END skin & style selection
-
-		// BEGIN hits per page
-		$hits_options = array(2,10,15,20,30,40,50,100,9999);
-		// preselect previous chosen option otherwise default option
-		if (isset($_SESSION["error_post_vars"]["Fobject"]["hits_per_page"]))
-		{
-			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["hits_per_page"];
-		}
-		else
-		{
-			$selected_option = $this->ilias->getSetting("hits_per_page");
-		}
-		foreach($hits_options as $hits_option)
-		{
-			$this->tpl->setCurrentBlock("selecthits");
-
-			if ($hits_option == $selected_option)
-			{
-				$this->tpl->setVariable("HITSSELECTED", "selected=\"selected\"");
-			}
-
-			$this->tpl->setVariable("HITSVALUE", $hits_option);
-
-			if ($hits_option == 9999)
-			{
-				$hits_option = $this->lng->txt("no_limit");
-			}
-
-			$this->tpl->setVariable("HITSOPTION", $hits_option);
-			$this->tpl->parseCurrentBlock();
-		}
-		// END hits per page
-
-		// BEGIN show users online
-		// preselect previous chosen option otherwise default option
-		if (isset($_SESSION["error_post_vars"]["Fobject"]["show_users_online"]))
-		{
-			$selected_option = $_SESSION["error_post_vars"]["Fobject"]["show_users_online"];
-		}
-		else
-		{
-			$selected_option = $this->ilias->getSetting("show_users_online");
-		}
-		$users_online_options = array("y","associated","n");
-		foreach($users_online_options as $an_option)
-		{
-			$this->tpl->setCurrentBlock("show_users_online");
-
-			if ($selected_option == $an_option)
-			{
-				$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
-			}
-
-			$this->tpl->setVariable("USERS_ONLINE_VALUE", $an_option);
-
-			$this->tpl->setVariable("USERS_ONLINE_OPTION", $this->lng->txt("users_online_show_".$an_option));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END show users online
-
-		// BEGIN hide_own_online_status
-
-		if (isset($_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"]))
-		{
-			$hide_own_online_status = $_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"];
-		}
-		else
-		{
-			$hide_own_online_status = $this->ilias->getSetting("hide_own_online_status");
-		}
-
-		$this->tpl->setCurrentBlock("hide_own_online_status");
-		$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
-		if ($hide_own_online_status == "y") {
-			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked=\"checked\"");
-		}
-		else {
-			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "");
-		}
-		$this->tpl->parseCurrentBlock();
-		// END hide_own_online_status
-
-		// time limit
-		if (is_array($_SESSION["error_post_vars"]))
-		{
-			$time_limit_unlimited = $_SESSION["error_post_vars"]["time_limit"]["unlimited"];
-		}
-		else
-		{
-			$time_limit_unlimited = 1;
-		}
-
-		$time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
-			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
-			time();
-
-		$time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
-			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
-			time();
-
-		$this->lng->loadLanguageModule('crs');
-
-		$this->tpl->setCurrentBlock("time_limit");
-		$this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
-		$this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
-		$this->tpl->setVariable("TXT_TIME_LIMIT_FROM", $this->lng->txt("crs_from"));
-		$this->tpl->setVariable("TXT_TIME_LIMIT_UNTIL", $this->lng->txt("crs_to"));
-		$this->tpl->setVariable("TXT_TIME_LIMIT_CLOCK", $this->lng->txt("clock"));
-		$this->tpl->setVariable("TIME_LIMIT_UNLIMITED",ilUtil::formCheckbox($time_limit_unlimited,"time_limit[unlimited]",1));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MINUTE",$this->__getDateSelect("minute","time_limit[from][minute]",
-			date("i",$time_limit_from)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_HOUR",$this->__getDateSelect("hour","time_limit[from][hour]",
-																					 date("G",$time_limit_from)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_DAY",$this->__getDateSelect("day","time_limit[from][day]",
-																					date("d",$time_limit_from)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MONTH",$this->__getDateSelect("month","time_limit[from][month]",
-																					  date("m",$time_limit_from)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_YEAR",$this->__getDateSelect("year","time_limit[from][year]",
-																					 date("Y",$time_limit_from)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MINUTE",$this->__getDateSelect("minute","time_limit[until][minute]",
-																						date("i",$time_limit_until)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_HOUR",$this->__getDateSelect("hour","time_limit[until][hour]",
-																					  date("G",$time_limit_until)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_DAY",$this->__getDateSelect("day","time_limit[until][day]",
-																					 date("d",$time_limit_until)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MONTH",$this->__getDateSelect("month","time_limit[until][month]",
-																					   date("m",$time_limit_until)));
-		$this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
-																					  date("Y",$time_limit_until)));
-		$this->tpl->parseCurrentBlock();
-
-
-		$this->__showUserDefinedFields();
-
-	}
-*/
 
 	function __checkUserDefinedRequiredFields()
 	{
@@ -876,37 +377,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 // @todo: external account; time limit check and savings
 
-			// set password type manually
-			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
 			// checks passed. save user
-			$userObj = new ilObjUser();
-			
-			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
-			
-			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-			if (is_array($_POST['birthday']))
-			{
-				//if (strlen($_POST['birthday']['date']))
-				if ( ((int) ($_POST['birthday']['date']['d'])) > 0)
-				{
-					$_POST['birthday'] = $_POST['birthday']['date'];
-				}
-				else
-				{
-					$_POST['birthday'] = null;
-				}
-			}
-			$userObj->assignData($_POST);
+			$userObj = $this->loadValuesFromForm();
+	
+			$userObj->setPasswd($this->form_gui->getInput('passwd'),IL_PASSWD_PLAIN);
 			$userObj->setTitle($userObj->getFullname());
 			$userObj->setDescription($userObj->getEmail());
-
-			$userObj->setTimeLimitOwner($this->object->getRefId());
-			$userObj->setTimeLimitUnlimited($_POST["time_limit_unlimited"]);
-// @todo
-//			$userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
-//			$userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
 
 			$udf = array();
 			foreach($_POST as $k => $v)
@@ -935,7 +411,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$userObj->saveAsNew();
 
 			// setup user preferences
-			$userObj->setLanguage($_POST["language"]);
+			if($this->isSettingChangeable('language'))
+			{
+				$userObj->setLanguage($_POST["language"]);
+			}
 
 			// Set disk quota
 			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
@@ -944,20 +423,31 @@ class ilObjUserGUI extends ilObjectGUI
 				// The disk quota is entered in megabytes but stored in bytes
 				$userObj->setPref("disk_quota", trim($_POST["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
 			}
-
-			//set user skin and style
-			$sknst = explode(":", $_POST["skin_style"]);
-
-			if ($userObj->getPref("style") != $sknst[1] ||
-				$userObj->getPref("skin") != $sknst[0])
+			
+			if($this->isSettingChangeable('skin_style'))
 			{
-				$userObj->setPref("skin", $sknst[0]);
-				$userObj->setPref("style", $sknst[1]);
+				//set user skin and style
+				$sknst = explode(":", $_POST["skin_style"]);
+	
+				if ($userObj->getPref("style") != $sknst[1] ||
+					$userObj->getPref("skin") != $sknst[0])
+				{
+					$userObj->setPref("skin", $sknst[0]);
+					$userObj->setPref("style", $sknst[1]);
+				}
 			}
-
-			$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
-			$userObj->setPref("show_users_online", $_POST["show_users_online"]);
-			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+			if($this->isSettingChangeable('hits_per_page'))
+			{
+				$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
+			}
+			if($this->isSettingChangeable('show_users_online'))
+			{
+				$userObj->setPref("show_users_online", $_POST["show_users_online"]);
+			}
+			if($this->isSettingChangeable('hide_own_online_status'))
+			{
+				$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+			}
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$userObj->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
@@ -973,7 +463,11 @@ class ilObjUserGUI extends ilObjectGUI
 			$ilUser->writePrefs();                        
 
 			$this->object = $userObj;
-			$this->uploadUserPictureObject();
+			
+			if($this->isSettingChangeable('upload'))
+			{
+				$this->uploadUserPictureObject();
+			}
 
 			// send new account mail
 			if($_POST['send_mail'] == 'y')
@@ -1058,6 +552,183 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->getValues();
 		$this->tpl->setContent($this->form_gui->getHTML());
 	}
+	
+	/**
+	 * @param object $a_mode [optional]
+	 * @return object ilObjUser
+	 */
+	protected function loadValuesFromForm($a_mode = 'create')
+	{
+		global $ilSetting;
+		
+		switch($a_mode)
+		{
+			case 'create':
+				$user = new ilObjUser();
+				break;
+			
+			case 'update':
+				$user = $this->object;
+				break;
+		}		
+		
+		$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME);
+		$user->setTimeLimitFrom($from->get(IL_CAL_UNIX));
+		
+		$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME);
+		$user->setTimeLimitUntil($until);
+		
+		$user->setTimeLimitUnlimited($this->form_gui->getInput('time_limit_unlimited'));
+		
+		if($a_mode == 'create')
+		{
+			$user->setTimeLimitOwner($this->usrf_ref_id);
+		}
+		
+		// Birthday
+		if($this->isSettingChangeable('birthday'))
+		{
+			$bd = $this->form_gui->getInput('birthday');
+			if($bd['date']['d'])
+			{
+				$user->setBirthday($bd['date']);
+			}
+			else
+			{
+				$user->setBirthday(null);
+			}
+		}
+		
+		// Login
+		$user->setLogin($this->form_gui->getInput('login'));
+		
+		
+		// Gender
+		if($this->isSettingChangeable('gender'))
+		{
+			$user->setGender($this->form_gui->getInput('gender'));
+		}
+		
+		// Title
+		if($this->isSettingChangeable('title'))
+		{
+			$user->setUTitle($this->form_gui->getInput('title'));
+		}
+
+		// Firstname
+		if($this->isSettingChangeable('firstname'))
+		{
+			$user->setFirstname($this->form_gui->getInput('firstname'));
+		}
+		// Lastname
+		if($this->isSettingChangeable('lastname'))
+		{
+			$user->setLastname($this->form_gui->getInput('lastname'));
+		}
+		$user->setFullname();
+		
+		// Institution
+		if($this->isSettingChangeable('institution'))
+		{
+			$user->setInstitution($this->form_gui->getInput('institution'));
+		}
+		
+		// Department
+		if($this->isSettingChangeable('department'))
+		{
+			$user->setDepartment($this->form_gui->getInput('department'));
+		}
+		// Street
+		if($this->isSettingChangeable('street'))
+		{
+			$user->setStreet($this->form_gui->getInput('street'));
+		}
+		// City
+		if($this->isSettingChangeable('city'))
+		{
+			$user->setCity($this->form_gui->getInput('city'));
+		}
+		// Zipcode
+		if($this->isSettingChangeable('zipcode'))
+		{
+			$user->setZipcode($this->form_gui->getInput('zipcode'));
+		}
+		// Country
+		if($this->isSettingChangeable('country'))
+		{
+			$user->setCountry($this->form_gui->getInput('country'));
+		}
+		// Phone Office
+		if($this->isSettingChangeable('phone_office'))
+		{
+			$user->setPhoneOffice($this->form_gui->getInput('phone_office'));
+		}
+		// Phone Home
+		if($this->isSettingChangeable('phone_home'))
+		{
+			$user->setPhoneHome($this->form_gui->getInput('phone_home'));
+		}
+		// Phone Mobile
+		if($this->isSettingChangeable('phone_mobile'))
+		{
+			$user->setPhoneMobile($this->form_gui->getInput('phone_mobile'));
+		}
+		// Fax
+		if($this->isSettingChangeable('fax'))
+		{
+			$user->setFax($this->form_gui->getInput('fax'));
+		}
+		// Matriculation
+		if($this->isSettingChangeable('matriculation'))
+		{
+			$user->setMatriculation($this->form_gui->getInput('matriculation'));
+		}
+		// Email
+		if($this->isSettingChangeable('email'))
+		{
+			$user->setEmail($this->form_gui->getInput('email'));
+		}
+		// Hobby
+		if($this->isSettingChangeable('hobby'))
+		{
+			$user->setHobby($this->form_gui->getInput('hobby'));
+		}
+		// Referral Comment
+		if($this->isSettingChangeable('referral_comment'))
+		{
+			$user->setComment($this->form_gui->getInput('referral_comment'));
+		}
+		// ClientIP
+		$user->setClientIP($this->form_gui->getInput('client_ip'));
+		
+		if($this->isSettingChangeable('instant_messengers'))
+		{
+			$user->setInstantMessengerId('icq', $this->form_gui->getInput('im_icq'));
+			$user->setInstantMessengerId('yahoo', $this->form_gui->getInput('im_yahoo'));
+			$user->setInstantMessengerId('msn', $this->form_gui->getInput('im_msn'));
+			$user->setInstantMessengerId('aim', $this->form_gui->getInput('im_aim'));
+			$user->setInstantMessengerId('skype', $this->form_gui->getInput('im_skype'));
+			$user->setInstantMessengerId('jabber', $this->form_gui->getInput('im_jabber'));
+			$user->setInstantMessengerId('voip', $this->form_gui->getInput('im_voip'));
+		}
+		// Delicious
+		if($this->isSettingChangeable('delicious'))
+		{
+			$user->setDelicious($this->form_gui->getInput('delicious'));
+		}
+		// Google maps
+		$user->setLatitude($this->form_gui->getInput('latitude'));
+		$user->setLongitude($this->form_gui->getInput('longitude'));
+		$user->setLocationZoom($this->form_gui->getInput('loc_zoom'));
+		
+		// External account
+		$user->setAuthMode($this->form_gui->getInput('auth_mode'));
+		$user->setExternalAccount($this->form_gui->getInput('ext_account'));
+		$user->setActive($this->form_gui->getInput('active'));
+		
+		return $user;
+	}
+	
 
 	/**
 	* Update user
@@ -1114,26 +785,8 @@ class ilObjUserGUI extends ilObjectGUI
 					ilObjUser::_resetLoginAttempts( $this->object->getId() );
 				}
 			}
-
-			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
-			
-			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
-			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-			$_POST['time_limit_owner'] = $this->usrf_ref_id;
-			if (is_array($_POST['birthday']))
-			{
-				//if (strlen($_POST['birthday']['date']))
-				if ( ((int) ($_POST['birthday']['date']['d'])) > 0)
-				{
-					$_POST['birthday'] = $_POST['birthday']['date'];
-				}
-				else
-				{
-					$_POST['birthday'] = null;
-				}
-			}
-			$this->object->assignData($_POST);
+			#$this->object->assignData($_POST);
+			$this->loadValuesFromForm('update');
 
 			$udf = array();
 			foreach($_POST as $k => $v)
@@ -1158,7 +811,11 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			$this->object->setTitle($this->object->getFullname());
 			$this->object->setDescription($this->object->getEmail());
-			$this->object->setLanguage($_POST["language"]);
+			
+			if($this->isSettingChangeable('language'))
+			{
+				$this->object->setLanguage($this->form_gui->getInput('language'));
+			}
 
 			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 			if (ilDiskQuotaActivationChecker::_isActive())
@@ -1167,19 +824,30 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
 			}
 
-			//set user skin and style
-			$sknst = explode(":", $_POST["skin_style"]);
-
-			if ($this->object->getPref("style") != $sknst[1] ||
-				$this->object->getPref("skin") != $sknst[0])
+			if($this->isSettingChangeable('skin_style'))
 			{
-				$this->object->setPref("skin", $sknst[0]);
-				$this->object->setPref("style", $sknst[1]);
+				//set user skin and style
+				$sknst = explode(":", $_POST["skin_style"]);
+	
+				if ($this->object->getPref("style") != $sknst[1] ||
+					$this->object->getPref("skin") != $sknst[0])
+				{
+					$this->object->setPref("skin", $sknst[0]);
+					$this->object->setPref("style", $sknst[1]);
+				}
 			}
-
-			$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
-			$this->object->setPref("show_users_online", $_POST["show_users_online"]);
-			$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+			if($this->isSettingChangeable('hits_per_page'))
+			{
+				$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
+			}
+			if($this->isSettingChangeable('show_users_online'))
+			{
+				$this->object->setPref("show_users_online", $_POST["show_users_online"]);
+			}
+			if($this->isSettingChangeable('hide_own_online_status'))
+			{
+				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+			}
 
 			// set a timestamp for last_password_change
 			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
@@ -1209,9 +877,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$msg = $this->lng->txt('saved_successfully').$mail_message;
 			
 			// same personal image
-//var_dump($_POST);
-//var_dump($_FILES);
-			$this->uploadUserPictureObject();
+			if($this->isSettingChangeable('upload'))
+			{
+				$this->uploadUserPictureObject();
+			}
 
 			// feedback
 			ilUtil::sendSuccess($msg,true);
@@ -1578,50 +1247,68 @@ class ilObjUserGUI extends ilObjectGUI
 
          
 		// personal data
-		$sec_pd = new ilFormSectionHeaderGUI();
-		$sec_pd->setTitle($this->lng->txt("personal_data"));
-		$this->form_gui->addItem($sec_pd);
+		if(
+			$this->isSettingChangeable('gender') or
+			$this->isSettingChangeable('firstname') or
+			$this->isSettingChangeable('lastname') or
+			$this->isSettingChangeable('title') or
+			$this->isSettingChangeable('personal_image') or
+			$this->isSettingChangeable('birhtday')
+		)
+		{
+			$sec_pd = new ilFormSectionHeaderGUI();
+			$sec_pd->setTitle($this->lng->txt("personal_data"));
+			$this->form_gui->addItem($sec_pd);
+		}
 
 		// gender
-		$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
-		$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
-		$female = new ilRadioOption($lng->txt("gender_f"), "f");
-		$gndr->addOption($female);
-		$male = new ilRadioOption($lng->txt("gender_m"), "m");
-		$gndr->addOption($male);
-		$this->form_gui->addItem($gndr);
+		if($this->isSettingChangeable('gender'))
+		{
+			$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
+			$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
+			$female = new ilRadioOption($lng->txt("gender_f"), "f");
+			$gndr->addOption($female);
+			$male = new ilRadioOption($lng->txt("gender_m"), "m");
+			$gndr->addOption($male);
+			$this->form_gui->addItem($gndr);
+		}
 
 		// firstname, lastname, title
 		$fields = array("firstname" => true, "lastname" => true,
 			"title" => isset($settings["require_title"]) && $settings["require_title"]);
 		foreach($fields as $field => $req)
 		{
-			$inp = new ilTextInputGUI($lng->txt($field), $field);
-			$inp->setSize(32);
-			$inp->setMaxLength(32);
-			$inp->setRequired($req);
-			$this->form_gui->addItem($inp);
+			if($this->isSettingChangeable($field))
+			{
+				$inp = new ilTextInputGUI($lng->txt($field), $field);
+				$inp->setSize(32);
+				$inp->setMaxLength(32);
+				$inp->setRequired($req);
+				$this->form_gui->addItem($inp);
+			}
 		}
 
 		// personal image
-		$pi = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
-		if ($a_mode == "edit" || $a_mode == "upload")
+		if($this->isSettingChangeable('upload'))
 		{
-			$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId(), "small", true,
-				true));
+			$pi = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
+			if ($a_mode == "edit" || $a_mode == "upload")
+			{
+				$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId(), "small", true,
+					true));
+			}
+			$this->form_gui->addItem($pi);
 		}
-		$this->form_gui->addItem($pi);
 
-		$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
-		$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);
-		$birthday->setShowEmpty(true);
-		$birthday->setStartYear(1900);
-		$this->form_gui->addItem($birthday);
+		if($this->isSettingChangeable('birthday'))
+		{
+			$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
+			$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);
+			$birthday->setShowEmpty(true);
+			$birthday->setStartYear(1900);
+			$this->form_gui->addItem($birthday);
+		}
 
-		// contact data
-		$sec_cd = new ilFormSectionHeaderGUI();
-		$sec_cd->setTitle($this->lng->txt("contact_data"));
-		$this->form_gui->addItem($sec_cd);
 
 		// institution, department, street, city, zip code, country, phone office
 		// phone home, phone mobile, fax, e-mail
@@ -1636,73 +1323,109 @@ class ilObjUserGUI extends ilObjectGUI
 			array("phone_home", 30, 30),
 			array("phone_mobile", 30, 30),
 			array("fax", 30, 30));
+			
+		$counter = 0;
 		foreach ($fields as $field)
 		{
-			$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
-			$inp->setSize($field[1]);
-			$inp->setMaxLength($field[2]);
-			$inp->setRequired(isset($settings["require_".$field[0]]) &&
-				$settings["require_".$field[0]]);
-			$this->form_gui->addItem($inp);
+			if(!$counter++ and $this->isSettingChangeable( $field[0]))
+			{
+				// contact data
+				$sec_cd = new ilFormSectionHeaderGUI();
+				$sec_cd->setTitle($this->lng->txt("contact_data"));
+				$this->form_gui->addItem($sec_cd);
+			}
+			if($this->isSettingChangeable($field[0]))
+			{
+				$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
+				$inp->setSize($field[1]);
+				$inp->setMaxLength($field[2]);
+				$inp->setRequired(isset($settings["require_".$field[0]]) &&
+					$settings["require_".$field[0]]);
+				$this->form_gui->addItem($inp);
+			}
 		}
 
 		// email
-		$em = new ilEMailInputGUI($lng->txt("email"), "email");
-		$em->setRequired(isset($settings["require_email"]) &&
-			$settings["require_email"]);
-		$this->form_gui->addItem($em);
+		if($this->isSettingChangeable('email'))
+		{
+			$em = new ilEMailInputGUI($lng->txt("email"), "email");
+			$em->setRequired(isset($settings["require_email"]) &&
+				$settings["require_email"]);
+			$this->form_gui->addItem($em);
+		}
 
 		// interests/hobbies
-		$hob = new ilTextAreaInputGUI($lng->txt("hobby"), "hobby");
-		$hob->setRows(3);
-		$hob->setCols(40);
-		$hob->setRequired(isset($settings["require_hobby"]) &&
-			$settings["require_hobby"]);
-		$this->form_gui->addItem($hob);
+		if($this->isSettingChangeable('hobby'))
+		{
+			$hob = new ilTextAreaInputGUI($lng->txt("hobby"), "hobby");
+			$hob->setRows(3);
+			$hob->setCols(40);
+			$hob->setRequired(isset($settings["require_hobby"]) &&
+				$settings["require_hobby"]);
+			$this->form_gui->addItem($hob);
+		}
 
 		// referral comment
-		$rc = new ilTextAreaInputGUI($lng->txt("referral_comment"), "referral_comment");
-		$rc->setRows(3);
-		$rc->setCols(40);
-		$rc->setRequired(isset($settings["require_referral_comment"]) &&
-			$settings["require_referral_comment"]);
-		$this->form_gui->addItem($rc);
+		if($this->isSettingChangeable('referral_comment'))
+		{
+			$rc = new ilTextAreaInputGUI($lng->txt("referral_comment"), "referral_comment");
+			$rc->setRows(3);
+			$rc->setCols(40);
+			$rc->setRequired(isset($settings["require_referral_comment"]) &&
+				$settings["require_referral_comment"]);
+			$this->form_gui->addItem($rc);
+		}
 
 		// instant messengers
-		$sec_im = new ilFormSectionHeaderGUI();
-		$sec_im->setTitle($this->lng->txt("instant_messengers"));
-		$this->form_gui->addItem($sec_im);
+		if($this->isSettingChangeable('instant_messengers'))
+		{
+			$sec_im = new ilFormSectionHeaderGUI();
+			$sec_im->setTitle($this->lng->txt("instant_messengers"));
+			$this->form_gui->addItem($sec_im);
+		}
 
 		// icq, yahoo, msn, aim, skype
 		$fields = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");
 		foreach ($fields as $field)
 		{
-			$im = new ilTextInputGUI($lng->txt("im_".$field), "im_".$field);
-			$im->setSize(40);
-			$im->setMaxLength(40);
-			$this->form_gui->addItem($im);
+			if($this->isSettingChangeable('instant_messengers'))
+			{
+				$im = new ilTextInputGUI($lng->txt("im_".$field), "im_".$field);
+				$im->setSize(40);
+				$im->setMaxLength(40);
+				$this->form_gui->addItem($im);
+			}
 		}
 
 		// other information
-		$sec_oi = new ilFormSectionHeaderGUI();
-		$sec_oi->setTitle($this->lng->txt("user_profile_other"));
-		$this->form_gui->addItem($sec_oi);
+		if($this->isSettingChangeable('user_profile_other'))
+		{
+			$sec_oi = new ilFormSectionHeaderGUI();
+			$sec_oi->setTitle($this->lng->txt("user_profile_other"));
+			$this->form_gui->addItem($sec_oi);
+		}
 
 		// matriculation number
-		$mr = new ilTextInputGUI($lng->txt("matriculation"), "matriculation");
-		$mr->setSize(40);
-		$mr->setMaxLength(40);
-		$mr->setRequired(isset($settings["require_matriculation"]) &&
-			$settings["require_matriculation"]);
-		$this->form_gui->addItem($mr);
+		if($this->isSettingChangeable('matriculation'))
+		{
+			$mr = new ilTextInputGUI($lng->txt("matriculation"), "matriculation");
+			$mr->setSize(40);
+			$mr->setMaxLength(40);
+			$mr->setRequired(isset($settings["require_matriculation"]) &&
+				$settings["require_matriculation"]);
+			$this->form_gui->addItem($mr);
+		}
 
 		// delicious
-		$mr = new ilTextInputGUI($lng->txt("delicious"), "delicious");
-		$mr->setSize(40);
-		$mr->setMaxLength(40);
-		$mr->setRequired(isset($settings["require_delicious"]) &&
-			$settings["require_delicious"]);
-		$this->form_gui->addItem($mr);
+		if($this->isSettingChangeable('delicious'))
+		{
+			$mr = new ilTextInputGUI($lng->txt("delicious"), "delicious");
+			$mr->setSize(40);
+			$mr->setMaxLength(40);
+			$mr->setRequired(isset($settings["require_delicious"]) &&
+				$settings["require_delicious"]);
+			$this->form_gui->addItem($mr);
+		}
 
 		// client IP
 		$ip = new ilTextInputGUI($lng->txt("client_ip"), "client_ip");
@@ -1715,7 +1438,17 @@ class ilObjUserGUI extends ilObjectGUI
 		// additional user defined fields
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields = ilUserDefinedFields::_getInstance();
-		foreach($user_defined_fields->getDefinitions() as $field_id => $definition)
+		
+		if($this->usrf_ref_id == USER_FOLDER_ID)
+		{
+			$all_defs = $user_defined_fields->getDefinitions();
+		}
+		else
+		{
+			$all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
+		}
+	
+		foreach($all_defs as $field_id => $definition)
 		{
 			if($definition['field_type'] == UDF_TYPE_TEXT)	// text input
 			{
@@ -1742,9 +1475,18 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// settings
-		$sec_st = new ilFormSectionHeaderGUI();
-		$sec_st->setTitle($this->lng->txt("settings"));
-		$this->form_gui->addItem($sec_st);
+		if(
+			$a_mode == 'create' or
+			$this->isSettingChangeable( 'language') or
+			$this->isSettingChangeable( 'skin_style') or
+			$this->isSettingChangeable( 'hits_per_page') or
+			$this->isSettingChangeable( 'hide_own_online_status')
+		)
+		{
+			$sec_st = new ilFormSectionHeaderGUI();
+			$sec_st->setTitle($this->lng->txt("settings"));
+			$this->form_gui->addItem($sec_st);
+		}
 
 		// role
 		if ($a_mode == "create")
@@ -1758,82 +1500,100 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// language
-		$lang = new ilSelectInputGUI($lng->txt("language"),
-			'language');
-		$languages = $this->lng->getInstalledLanguages();
-		$options = array();
-		foreach($languages as $l)
+		if($this->isSettingChangeable('language'))
 		{
-			$options[$l] = $lng->txt("lang_".$l);
+			$lang = new ilSelectInputGUI($lng->txt("language"),
+				'language');
+			$languages = $this->lng->getInstalledLanguages();
+			$options = array();
+			foreach($languages as $l)
+			{
+				$options[$l] = $lng->txt("lang_".$l);
+			}
+			$lang->setOptions($options);
+			$lang->setValue($ilSetting->get("language"));
+			$this->form_gui->addItem($lang);
 		}
-		$lang->setOptions($options);
-		$lang->setValue($ilSetting->get("language"));
-		$this->form_gui->addItem($lang);
 
 		// skin/style
-		$sk = new ilSelectInputGUI($lng->txt("skin_style"),
-			'skin_style');
-		$templates = $styleDefinition->getAllTemplates();
-		include("./Services/Style/classes/class.ilObjStyleSettings.php");
-		$options = array();
-		if (count($templates) > 0 && is_array ($templates))
+		if($this->isSettingChangeable('skin_style'))
 		{
-			foreach ($templates as $template)
+			$sk = new ilSelectInputGUI($lng->txt("skin_style"),
+				'skin_style');
+			$templates = $styleDefinition->getAllTemplates();
+			include("./Services/Style/classes/class.ilObjStyleSettings.php");
+			$options = array();
+			if (count($templates) > 0 && is_array ($templates))
 			{
-				$styleDef =& new ilStyleDefinition($template["id"]);
-				$styleDef->startParsing();
-				$styles = $styleDef->getStyles();
-				foreach ($styles as $style)
+				foreach ($templates as $template)
 				{
-					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef->startParsing();
+					$styles = $styleDef->getStyles();
+					foreach ($styles as $style)
 					{
-						continue;
+						if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+						{
+							continue;
+						}
+						$options[$template["id"].":".$style["id"]] =
+							$styleDef->getTemplateName()." / ".$style["name"];
 					}
-					$options[$template["id"].":".$style["id"]] =
-						$styleDef->getTemplateName()." / ".$style["name"];
 				}
 			}
+			$sk->setOptions($options);
+			$sk->setValue($ilClientIniFile->readVariable("layout","skin").
+				":".$ilClientIniFile->readVariable("layout","style"));
+	
+			$this->form_gui->addItem($sk);
 		}
-		$sk->setOptions($options);
-		$sk->setValue($ilClientIniFile->readVariable("layout","skin").
-			":".$ilClientIniFile->readVariable("layout","style"));
-
-		$this->form_gui->addItem($sk);
 
 		// hits per page
-		$hpp = new ilSelectInputGUI($lng->txt("hits_per_page"),
-			'hits_per_page');
-		$options = array(10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
-			50 => 50, 100 => 100, 9999 => $this->lng->txt("no_limit"));
-		$hpp->setOptions($options);
-		$hpp->setValue($ilSetting->get("hits_per_page"));
-		$this->form_gui->addItem($hpp);
-
-		// users online
-		$uo = new ilSelectInputGUI($lng->txt("users_online"),
-			'show_users_online');
-		$options = array(
-			"y" => $lng->txt("users_online_show_y"),
-			"associated" => $lng->txt("users_online_show_associated"),
-			"n" => $lng->txt("users_online_show_n"));
-		$uo->setOptions($options);
-		$uo->setValue($ilSetting->get("show_users_online"));
-		$this->form_gui->addItem($uo);
+		if($this->isSettingChangeable('hits_per_page'))
+		{
+			$hpp = new ilSelectInputGUI($lng->txt("hits_per_page"),
+				'hits_per_page');
+			$options = array(10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
+				50 => 50, 100 => 100, 9999 => $this->lng->txt("no_limit"));
+			$hpp->setOptions($options);
+			$hpp->setValue($ilSetting->get("hits_per_page"));
+			$this->form_gui->addItem($hpp);
+	
+			// users online
+			$uo = new ilSelectInputGUI($lng->txt("users_online"),
+				'show_users_online');
+			$options = array(
+				"y" => $lng->txt("users_online_show_y"),
+				"associated" => $lng->txt("users_online_show_associated"),
+				"n" => $lng->txt("users_online_show_n"));
+			$uo->setOptions($options);
+			$uo->setValue($ilSetting->get("show_users_online"));
+			$this->form_gui->addItem($uo);
+		}
 
 		// hide online status
-		$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
-		$this->form_gui->addItem($os);
+		if($this->isSettingChangeable('hide_own_online_status'))
+		{
+			$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
+			$this->form_gui->addItem($os);
+		}
 
 		// Options
-		$sec_op = new ilFormSectionHeaderGUI();
-		$sec_op->setTitle($this->lng->txt("options"));
-		$this->form_gui->addItem($sec_op);
+		if($this->isSettingChangeable('send_mail'))
+		{
+			$sec_op = new ilFormSectionHeaderGUI();
+			$sec_op->setTitle($this->lng->txt("options"));
+			$this->form_gui->addItem($sec_op);
+		}
 
 		// send email
-		$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
-		$se->setValue('y');
-		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
-		$this->form_gui->addItem($se);
+		if($this->isSettingChangeable('send_mail'))
+		{
+			$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
+			$se->setValue('y');
+			$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
+			$this->form_gui->addItem($se);
+		}
 		
 		if((int)$ilSetting->get('session_reminder_enabled'))
 		{
@@ -1854,6 +1614,35 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->form_gui->addCommandButton("update", $lng->txt("save"));
 		}
 		$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+	}
+	
+	/**
+	 * Check if setting is visible
+	 * This is the case when called from user folder.
+	 * Otherwise (category local user account depend on a setting)
+	 * @param array $settings
+	 * @param string $a_field
+	 * @return 
+	 */
+	protected function isSettingChangeable($a_field)
+	{
+		// TODO: Allow mixed field parameter to support checks against an array of field names.
+		
+		global $ilSetting;
+		static $settings = null;
+		
+		
+		
+		if($this->usrf_ref_id == USER_FOLDER_ID)
+		{
+			return true;
+		}
+		
+		if($settings == NULL)
+		{
+			$settings = $ilSetting->getAll();
+		}
+		return (bool) $settings['usr_settings_changeable_lua_'.$a_field];
 	}
 
 	/**

@@ -65,8 +65,11 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 			"required"  => "required_field",
 			"export" => "export",
 			"course_export" => "course_export",
-			"visib_reg" => "header_visible_registration");
-//var_dump($a_set);
+			"visib_reg" => "header_visible_registration",
+			'visib_lua' => 'usr_settings_visib_lua',
+			'changeable_lua' => 'usr_settings_changeable_lua'
+		);
+
 		foreach ($props as $prop => $lv)
 		{
 			$up_prop = strtoupper($prop);

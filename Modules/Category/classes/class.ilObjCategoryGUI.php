@@ -13,7 +13,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -39,7 +39,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl;
+		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl,$ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -62,6 +62,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->gui_obj->setCreationMode($this->creation_mode);
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				}
+				
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
 				break;
 
 			case "ilobjuserfoldergui":
@@ -124,6 +127,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				
 			case "ilobjstylesheetgui":
 				$this->forwardToStyleSheet();
+				break;
+				
+			case 'ilusertablegui':
+				include_once './Services/User/classes/class.ilUserTableGUI.php';
+				$u_table = new ilUserTableGUI($this, "listUsers");
+				$u_table->initFilter();
+				$this->ctrl->setReturn($this,'listUsers');
+				$this->ctrl->forwardCommand($u_table);
 				break;
 
 			default:
@@ -208,7 +219,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 				, "", $force_active);
 		}
 
-		if($rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
+		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		if(
+			ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and 
+			$rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
 			$tabs_gui->addTarget("administrate_users",
 				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
@@ -1102,18 +1116,41 @@ class ilObjCategoryGUI extends ilContainerGUI
 		ilUtil::sendSuccess($lng->txt("categories_imported"), true);
 		$this->ctrl->redirect($this);
 	}
-
-	function applyFilterObject()
+	
+	/**
+	* Reset filter
+	* (note: this function existed before data table filter has been introduced
+	*/
+	protected function resetFilterObject()
 	{
-		unset($_GET['offset']);
-		unset($_SESSION['lua_offset'][$this->object->getRefId()]);
+		include_once("./Services/User/classes/class.ilUserTableGUI.php");
+		$utab = new ilUserTableGUI($this, "listUsers",ilUserTableGUI::MODE_LOCAL_USER);
+		$utab->resetOffset();
+		$utab->resetFilter();
+
+		// from "old" implementation
+		$this->listUsersObject();
+	}
+	
+	/**
+	 * Apply filter
+	 * @return 
+	 */
+	protected function applyFilterObject()
+	{
+		global $ilTabs;
+		
+		include_once("./Services/User/classes/class.ilUserTableGUI.php");
+		$utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
+		$utab->resetOffset();
+		$utab->writeFilterToSession();
 		$this->listUsersObject();
 	}
 
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
-		global $ilUser,$rbacreview;
+		global $ilUser,$rbacreview, $ilToolbar;
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		include_once './Services/User/classes/class.ilObjUserGUI.php';
@@ -1127,63 +1164,26 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('administrate_users');
 
 
-		$_GET['sort_by'] = ($_SESSION['lua_sort_by'][$this->object->getRefId()] = 
-							($_GET['sort_by'] ? $_GET['sort_by'] : $_SESSION['lua_sort_by'][$this->object->getRefId()]));
-		$_GET['sort_order'] = $_SESSION['lua_sort_order'][$this->object->getRefId()] = 
-			($_GET['sort_order'] ? $_GET['sort_order'] : $_SESSION['lua_sort_order'][$this->object->getRefId()]);
-		$_GET['offset'] = $_SESSION['lua_offset'][$this->object->getRefId()] = 
-			(isset($_GET['offset']) ? $_GET['offset'] : $_SESSION['lua_offset'][$this->object->getRefId()]);
-
-
-		// default to local users view
-		if(!isset($_SESSION['filtered_users'][$this->object->getRefId()]))
-		{
-			$_SESSION['filtered_users'][$this->object->getRefId()] = $this->object->getRefId();
-		}
-
-		$_SESSION['delete_users'] = $show_delete ? $_SESSION['delete_users'] : array();
-		$_SESSION['filtered_users'][$this->object->getRefId()] = isset($_POST['filter']) ? 
-			$_POST['filter'] : 
-			$_SESSION['filtered_users'][$this->object->getRefId()];
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_admin_users.html',
 			"Modules/Category");
-		$parent = ilLocalUser::_getFolderIds();
-		if(count($parent) > 1)
-		{
-			$this->tpl->setCurrentBlock("filter");
-			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
-			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect($parent));
-			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("FILTER_NAME",'applyFilter');
-			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
-			$this->tpl->parseCurrentBlock();
-		}
 
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		if(count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 		{
-			// add user button
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjusergui','create'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('add_user'));
-			$this->tpl->parseCurrentBlock();
-
-			// import user button
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui','importUserForm'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('import_users'));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton(
+				$this->lng->txt('add_user'),
+				$this->ctrl->getLinkTargetByClass('ilobjusergui','create')
+			);
+	
+			$ilToolbar->addButton(
+				$this->lng->txt('import_users'),
+				$this->ctrl->getLinkTargetByClass('ilobjuserfoldergui','importUserForm')
+			);
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
 		}
-		if(!count($users = ilLocalUser::_getAllUserIds($_SESSION['filtered_users'][$this->object->getRefId()])))
-		{
-			ilUtil::sendInfo($this->lng->txt('no_local_users'));
-		}
-
 
 		if($show_delete)
 		{
@@ -1194,6 +1194,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->lng->loadLanguageModule('user');
+		
+		include_once("./Services/User/classes/class.ilUserTableGUI.php");
+		$utab = new ilUserTableGUI($this, 'listUsers',ilUserTableGUI::MODE_LOCAL_USER);
+		$this->tpl->setVariable('USERS_TABLE',$utab->getHTML());
+		return;
+		
 		
 		$counter = 0;
 		$editable = false;
@@ -1273,10 +1281,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 			
-	function deleteUserObject()
+	function deleteUsersObject()
 	{
 		$this->checkPermission("cat_administrate_users");
-		if(!count($_POST['user_ids']))
+		if(!count($_POST['id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_users_selected'));
 			$this->listUsersObject();
@@ -1291,7 +1299,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$confirm->setConfirm($this->lng->txt('delete'), 'performDeleteUsers');
 		$confirm->setCancel($this->lng->txt('cancel'), 'listUsers');
 		
-		foreach($_POST['user_ids'] as $user)
+		foreach($_POST['id'] as $user)
 		{
 			$name = ilObjUser::_lookupName($user);
 			

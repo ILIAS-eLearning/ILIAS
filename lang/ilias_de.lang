@@ -4709,6 +4709,8 @@ common#:#usr_settings_explanation_profile#:#Wird die Checkbox 'Anzeigen' aktivie
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
+common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
+common#:#usr_settings_changeable_lua#:#Änderbar in lokaler Benutzerverwaltung
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -10377,3 +10379,8 @@ trac#:#trac_learners_back#:#Zurück zu Lernenden
 trac#:#trac_user_objects#:#Zurück zu Lernenden
 common#:#settings_for_all_members#:#Globale Einstellung für alle Kurs/Gruppen Mitglieder
 common#:#settings_per_users#:#Einstellungen pro Kurs/Gruppen Mitglieder
+user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
+user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien angelegt und verwaltet werden.
+user#:#restrict_user_access#:#Eingeschänkter Zugriff auf Benutzerkonten
+user#:#restrict_user_access_info#:#Aktivieren Sie diese Option, um den Zugriff auf Benutzerkonten zu beschränken.  Nur die Benutzer, denen das Recht "Lesezugriff auf Benutzerkonten" gewährt wird, haben Zugriff auf die entsprechenden Benutzerkonten in Kategorien und auf die globalen Benutzerkonten.
+common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung

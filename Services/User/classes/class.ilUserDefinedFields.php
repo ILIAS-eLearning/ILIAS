@@ -115,8 +115,31 @@ class ilUserDefinedFields
 		}
 		return $visible_definition ? $visible_definition : array();
 	}
-
 	
+	public function getLocalUserAdministrationDefinitions()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['visib_lua'])
+			{
+				$visible_definition[$id] = $definition;
+			}
+		}
+		return $visible_definition ? $visible_definition : array();
+	}
+	
+	public function getChangeableLocalUserAdministrationDefinitions()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['changeable_lua'])
+			{
+				$visible_definition[$id] = $definition;
+			}
+		}
+		return $visible_definition ? $visible_definition : array();
+	}
+
 	public function getRegistrationDefinitions()
 	{
 		foreach($this->definitions as $id => $definition)
@@ -201,6 +224,14 @@ class ilUserDefinedFields
 	{
 		return $this->field_visible;
 	}
+	function enableVisibleLocalUserAdministration($a_visible)
+	{
+		$this->field_visib_lua = $a_visible;
+	}
+	function enabledVisibleLocalUserAdministration()
+	{
+		return $this->field_visib_lua;
+	}
 	function enableChangeable($a_changeable)
 	{
 		$this->field_changeable = $a_changeable;
@@ -208,6 +239,14 @@ class ilUserDefinedFields
 	function enabledChangeable()
 	{
 		return $this->field_changeable;
+	}
+	function enableChangeableLocalUserAdministration($a_changeable)
+	{
+		$this->field_changeable_lua = $a_changeable;
+	}
+	function enabledChangeableLocalUserAdministration()
+	{
+		return $this->field_changeable_lua;
 	}
 	function enableRequired($a_required)
 	{
@@ -314,7 +353,9 @@ class ilUserDefinedFields
 			'searchable'				=> array('integer', (int) $this->enabledSearchable()),
 			'export'					=> array('integer', (int) $this->enabledExport()),
 			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
-			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()));
+			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
+			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
+			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()));
 			
 		$ilDB->insert('udf_definition',$values);
 
@@ -360,7 +401,9 @@ class ilUserDefinedFields
 			'searchable'				=> array('integer', (int) $this->enabledSearchable()),
 			'export'					=> array('integer', (int) $this->enabledExport()),
 			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
-			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()));
+			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
+			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
+			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()));
 
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
@@ -397,11 +440,14 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['export'] = $row->export;
 			$this->definitions[$row->field_id]['course_export'] = $row->course_export;
 			$this->definitions[$row->field_id]['visib_reg'] = $row->registration_visible;
+			$this->definitions[$row->field_id]['visib_lua'] = $row->visible_lua;
+			$this->definitions[$row->field_id]['changeable_lua'] = $row->changeable_lua;
 
 		}
 
 		return true;
 	}
+	
 
 	function deleteValue($a_field_id,$a_value_id)
 	{
@@ -471,7 +517,10 @@ class ilUserDefinedFields
                 "Searchable" => $definition["searchable"]? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"]? "TRUE" : "FALSE",
                 "Export" => $definition["export"]? "TRUE" : "FALSE",
-                "RegistrationVisible" => $definition["visib_reg"]? "TRUE" : "FALSE"
+                "RegistrationVisible" => $definition["visib_reg"]? "TRUE" : "FALSE",
+                "LocalUserAdministrationVisible" => $definition["visib_lua"]? "TRUE" : "FALSE",
+                "LocalUserAdministrationChangeable" => $definition["changeable_lua"]? "TRUE" : "FALSE",
+				
     	    );
 		    $xml_writer->xmlStartTag ("UDFDefinition", $attributes);
 		    $xml_writer->xmlElement('UDFName', null, $definition['field_name']);
