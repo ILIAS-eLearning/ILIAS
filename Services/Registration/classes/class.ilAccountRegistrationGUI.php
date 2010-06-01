@@ -161,7 +161,7 @@ class ilAccountRegistrationGUI
 
 		// user agreement
 
-		$field = new ilFormSectionHeaderGui();
+		$field = new ilFormSectionHeaderGUI();
 		$field->setTitle($lng->txt("usr_agreement"));
 		$this->form->addItem($field);
 
@@ -169,7 +169,7 @@ class ilAccountRegistrationGUI
 		$field->setHTML('<div id="agreement">'.ilUserAgreement::_getText().'</div>');
 		$this->form->addItem($field);
 
-		$field = new ilCheckboxInputGui($lng->txt("accept_usr_agreement"), "usr_agreement");
+		$field = new ilCheckboxInputGUI($lng->txt("accept_usr_agreement"), "usr_agreement");
 		$field->setRequired(true);
 		$field->setValue(1);
 		$this->form->addItem($field);

@@ -1912,7 +1912,7 @@ class ilTable2GUI extends ilTableGUI
 			// form to delete template
 			if(sizeof($templates))
 			{
-				$overlay = new ilOverlayGui($delete_id);
+				$overlay = new ilOverlayGUI($delete_id);
 				$overlay->setTrigger($list_id."_delete");
 				$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
 				$overlay->setAutoHide(false);
@@ -1937,7 +1937,7 @@ class ilTable2GUI extends ilTableGUI
 
 
 			// form to save new template
-			$overlay = new ilOverlayGui($create_id);
+			$overlay = new ilOverlayGUI($create_id);
 			$overlay->setTrigger($list_id."_create");
 			$overlay->setAnchor("ilAdvSelListAnchorElement_".$list_id);
 			$overlay->setAutoHide(false);

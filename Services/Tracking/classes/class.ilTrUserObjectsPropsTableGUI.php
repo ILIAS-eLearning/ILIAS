@@ -186,9 +186,9 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 		
 		// show collection only/all
-		include_once("./Services/Form/classes/class.ilRadioGroupInputGui.php");
+		include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
 		include_once("./Services/Form/classes/class.ilRadioOption.php");
-		$ti = new ilRadioGroupInputGui($lng->txt("trac_view_mode"), "view_mode");
+		$ti = new ilRadioGroupInputGUI($lng->txt("trac_view_mode"), "view_mode");
 		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_all"), ""));
 		$ti->addOption(new ilRadioOption($lng->txt("trac_view_mode_collection"), "coll"));
 		$this->addFilterItem($ti);
@@ -266,7 +266,7 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 			// sessions have no title
 			if($data["type"] == "sess")
 			{
-				include_once "modules/Session/classes/class.ilObjSession.php";
+				include_once "./Modules/Session/classes/class.ilObjSession.php";
 				$sess = new ilObjSession($data["obj_id"], false);
 				$data["title"] = $sess->getFirstAppointment()->appointmentToString();
 			}

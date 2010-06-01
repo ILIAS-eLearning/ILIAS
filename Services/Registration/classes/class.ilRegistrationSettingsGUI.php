@@ -897,7 +897,7 @@ class ilRegistrationSettingsGUI
 		$this->setSubTabs('registration_codes');
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-		$gui = new ilConfirmationGui();
+		$gui = new ilConfirmationGUI();
 		$gui->setHeaderText($this->lng->txt("info_delete_sure"));
 		$gui->setCancel($this->lng->txt("cancel"), "listCodes");
 		$gui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
