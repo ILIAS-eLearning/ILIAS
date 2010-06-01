@@ -26,7 +26,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
 
-		$this->addColumn($this->lng->txt("title"));
+		$this->addColumn($this->lng->txt("title"), "title");
 
 		// re-use caption from learners list
 		$this->lng_map = array("first_access_min" => "trac_first_access", "last_access_max" => "trac_last_access",
@@ -44,7 +44,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt($l), $c);
 		}
 
-		$this->setExternalSorting(true);
+		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
@@ -147,7 +147,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 			// sessions have no title
 			if($result["title"] == "" && $result["type"] == "sess")
 			{
-				include_once "modules/Session/classes/class.ilObjSession.php";
+				include_once "Modules/Session/classes/class.ilObjSession.php";
 				$sess = new ilObjSession($result["obj_id"], false);
 				$data["set"][$idx]["title"] = $sess->getFirstAppointment()->appointmentToString();
 			}
@@ -174,6 +174,7 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 				$text = ilLearningProgressBaseGUI::_getStatusText($status);
 				$map[$status] = ilUtil::img($path, $text);
 			}
+			$map[""] = $map[0];
 			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $map);
 			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
 		}

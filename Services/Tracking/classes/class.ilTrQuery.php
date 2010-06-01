@@ -11,6 +11,283 @@
  */
 class ilTrQuery
 {
+	/*
+	 usr_data: usr_id, login, firstname, lastname, ...
+	 
+	 object_data: obj_id, type, title, description, ...
+	 
+	 read_event: obj_id, usr_id, first_access, last_access, (childs_)read_count,
+	 	(childs_)spent_seconds
+	 
+	 ut_lp_marks: obj_id, usr_id, completed, mark, u_comment, status, percentage,
+	 	[status_changed, status_dirty]
+	
+	 usr_pref: usr_id, keyword (language), value
+
+	 event: obj_id, title, event_id|order
+	 event_appointment: e_start, e_end, event_id
+	 event_participants: event_id (obj_id), usr_id, registered, participated,
+		mark, e_comment
+	 
+	 crs_objectives: crs_id, objective_id, title, position|order
+	 crs_objective_status: objective_id, user_id, status
+
+     ---
+
+     personal desktop
+
+
+	 personal learning progress
+
+	 SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN 0 ELSE status END AS status, percentage
+		FROM object_data
+		JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)
+	    LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND usr_id = 6)
+	    WHERE type IN ('crs', 'grp', 'tst', 'exc', 'lm','sahs','htlm','dbk')
+			AND u_mode > 0 AND u_mode < 13
+	    ORDER BY title;
+
+	 -- objectives
+
+	 SELECT crs_id, crs_objectives.objective_id, title, (CASE WHEN status THEN 2 ELSE 1 END) AS status
+	 	FROM crs_objectives
+	 	LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id AND user_id = 6)
+		ORDER BY position;
+
+	 -- events
+
+	 SELECT obj_id, title, e_start, e_end, (CASE WHEN participated THEN 2 WHEN registered THEN 1 ELSE NULL END) AS status, mark, e_comment AS comment
+		FROM event JOIN event_appointment ON (event.obj_id = event_appointment.event_id)
+	 	LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id AND usr_id = 228)
+		ORDER BY e_start;
+
+
+     users
+
+	 SELECT object_data.obj_id, title, SUM(CASE WHEN status IS NULL THEN 1 ELSE 0 END) AS status_not_attempted,
+		SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS status_in_progress,
+		SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) AS status_completed,
+	    SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS status_not_attempted,
+	    AVG(percentage)
+		FROM object_data
+		JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)
+	    LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id)
+	    WHERE type IN ('crs', 'grp', 'tst', 'exc', 'lm','sahs','htlm','dbk')
+			AND u_mode > 0 AND u_mode < 13
+	    GROUP BY obj_id
+	    ORDER BY title;
+
+	 -- objectives
+
+	 SELECT crs_id, crs_objectives.objective_id, title, SUM(CASE WHEN status IS NULL THEN 1 ELSE 0 END) AS status_not_attempted,
+		SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS status_completed
+	 	FROM crs_objectives
+	 	LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id)
+	    GROUP BY crs_objectives.objective_id
+		ORDER BY position;
+
+	 -- events
+
+	 SELECT obj_id, title, e_start, e_end, SUM(CASE WHEN (registered IS NULL OR registered = 0) AND (participated IS NULL OR participated = 0) THEN 1 ELSE 0 END) AS status_not_attempted,
+	    SUM(CASE WHEN registered = 1 AND participated IS NULL THEN 1 ELSE 0 END) AS status_in_progress,
+		SUM(CASE WHEN participated = 1 THEN 1 ELSE 0 END) AS status_completed
+		FROM event JOIN event_appointment ON (event.obj_id = event_appointment.event_id)
+	 	LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id)
+	    GROUP BY obj_id
+		ORDER BY e_start;
+
+     ---
+
+	 repository
+
+	 learners
+
+     SELECT usr_data.usr_id, login, firstname, lastname, read_event.obj_id, ut_lp_marks.obj_id, status, percentage
+		FROM usr_data
+		LEFT JOIN read_event ON (read_event.usr_id = usr_data.usr_id AND read_event.obj_id = 172)
+		LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id AND ut_lp_marks.obj_id = 172)
+	    ORDER BY login;
+
+		ohne obj_id:
+			WHERE (read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)
+
+	 -- objectives
+
+
+	 -- events
+
+	 details
+
+	 => personal learning progress auf objekte einschränken
+	 
+     summary
+	    :TODO: multi-request
+
+
+	 status overview
+
+	 => learners auf bestimmte object ids einschränken, ergebnis manuell aggregieren (limit, offset, ?)
+
+	 SELECT usr_data.usr_id, login, firstname, lastname, read_event.obj_id, ut_lp_marks.obj_id, status, percentage
+		FROM usr_data
+		LEFT JOIN read_event ON (read_event.usr_id = usr_data.usr_id)
+		LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id)
+		WHERE (read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)
+	    ORDER BY login;
+
+     ---
+
+	 DEFAULT MODES
+	 
+	  	case 'crs':
+			// If [course-settings-]objectives are enabled
+			if(ilLPObjSettings::_checkObjectives($a_obj_id))
+			{
+				return LP_MODE_OBJECTIVES;
+			}
+			return LP_MODE_MANUAL_BY_TUTOR;
+
+		case 'dbk':
+		case 'lm':
+		case 'htlm':
+			return LP_MODE_MANUAL;
+
+		case 'sahs':
+			return LP_MODE_DEACTIVATED;
+
+		case 'tst':
+			return LP_MODE_TEST_PASSED;
+
+		case 'exc':
+			return LP_MODE_EXERCISE_RETURNED;
+
+		case 'grp':
+			return LP_MODE_DEACTIVATED;
+
+		case 'fold':
+			return LP_MODE_DEACTIVATED;
+
+		case 'sess':
+			return LP_MODE_EVENT;
+
+		default:
+			return LP_MODE_UNDEFINED;
+
+	  ---
+
+	  VALID MODES
+
+		case 'crs':
+			if(ilLPObjSettings::_checkObjectives($this->getObjId()))
+			{
+				return array(LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'));
+			}
+
+			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
+						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
+
+			break;
+
+		case 'tst':
+			return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
+						 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'),
+						 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+
+		case 'exc':
+			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						 LP_MODE_EXERCISE_RETURNED => $lng->txt('trac_mode_exercise_returned'));
+
+		case 'grp':
+			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
+						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
+
+		case 'fold':
+			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
+
+		case 'sess':
+			return array(LP_MODE_EVENT => $this->lng->txt('trac_mode_event'));
+
+		case 'dbk':
+			return array(
+				LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+				LP_MODE_DEACTIVATE => $lng->txt('trac_mode_deactivated')
+			);
+		case 'lm':
+			return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
+						 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
+						 LP_MODE_TLT => $lng->txt('trac_mode_tlt'),
+						 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+
+		case 'htlm':
+			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
+
+		case 'sahs':
+			include_once './Services/Tracking/classes/class.ilLPCollections.php';
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$subtype = ilObjSAHSLearningModule::_lookupSubType($this->getObjId());
+
+			if ($subtype != "scorm2004")
+			{
+				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+				{
+					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				}
+				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+				{
+					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+								 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				}
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
+			}
+			else
+			{
+				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
+				{
+					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'),
+						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
+				}
+				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
+				{
+					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'),
+						LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
+				}
+				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
+					LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
+			}
+			break;
+
+	 */
+
+	 /*
+	 *
+	 *  getUserDataForObjects($user_id, $object_ids)
+	 *  getSummarizedUserDataForObject($object_id)
+	 *  getObjectDataForUsers($object_id, $user_ids)
+	 *  getUserStatusForObjects($object_ids)
+	 *  getObjectStatusForUsers($user_id, $object_ids)
+	 *
+	 *
+	 *
+	 *  buildObjectDataBaseQuery($fields, $filters, $obj_id = false, $ref_id = false, $user_id = false)
+	 *  buildUserDataBaseQuery($fields, $filters, $obj_id = false, $ref_id = false, $user_id = false)
+	 *
+	 *
+	 *  getObjectIds()
+	 *  getParticipants()
+	 *  getObjectInfo()
+	 *  getUserInfo()
+	 *
+	 *
+	 */
+
+
+
+
 	/**
 	 * Get all user-based tracking data for object
 	 *
