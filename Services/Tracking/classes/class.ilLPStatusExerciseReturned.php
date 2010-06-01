@@ -65,6 +65,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		global $ilDB;
 
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
 		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		$users = $users + $all;

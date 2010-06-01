@@ -343,7 +343,8 @@ class ilLearningProgressBaseGUI
 	{
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
-		switch($a_status)
+		// constants are either number or string, so make comparison string-based
+		switch((string)$a_status)
 		{
 			case LP_STATUS_IN_PROGRESS_NUM:
 			case LP_STATUS_IN_PROGRESS:
