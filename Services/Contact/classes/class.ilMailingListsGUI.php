@@ -307,11 +307,10 @@ class ilMailingListsGUI
 				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 				$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
 
-                                $this->ctrl->setParameter($this, 'ml_id',  $this->mlists->getCurrentMailingList()->getId());
-                                $link = $this->ctrl->getLinkTarget($this, "showMembersList");
+				$this->ctrl->setParameter($this, 'ml_id',  $this->mlists->getCurrentMailingList()->getId());
+				$this->ctrl->redirect($this,'showMembersList');
 
-                                ilUtil::redirect($link);
-                                exit;
+				exit;
 			}
 		}
 		
