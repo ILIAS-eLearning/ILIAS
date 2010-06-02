@@ -57,6 +57,7 @@ class ilUserProfile
 						"input" => "password",
 						"required_hide" => true,
 						"visib_reg_hide" => true,
+						'visib_lua_fix_value' => 0,
 						"course_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "personal_data"),
@@ -67,6 +68,7 @@ class ilUserProfile
 						"method" => "getFirstname",
 						"required_fix_value" => 1,
 						"visib_reg_fix_value" => 1,
+						'visib_lua_fix_value' => 1,
 						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"lastname" => array(
@@ -76,6 +78,7 @@ class ilUserProfile
 						"method" => "getLastname",
 						"required_fix_value" => 1,
 						"visib_reg_fix_value" => 1,
+						'visib_lua_fix_value' => 1,
 						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"title" => array(
