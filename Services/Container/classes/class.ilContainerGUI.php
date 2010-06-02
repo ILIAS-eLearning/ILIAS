@@ -57,8 +57,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			// page editing
 			case "ilpageobjectgui":
-				$ret = $this->forwardToPageObject();
-				$tpl->setContent($ret);
+				if ($_GET["redirectSource"] != "ilinternallinkgui")
+				{
+					$ret = $this->forwardToPageObject();
+					$tpl->setContent($ret);
+				}
+				else
+				{
+					return "";
+				}
 				break;
 				
 			case "ilobjstylesheetgui":
@@ -119,7 +126,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $lng, $ilTabs, $ilCtrl;
 		
 		$ilTabs->clearTargets();
-		
+
+		if ($_GET["redirectSource"] == "ilinternallinkgui")
+		{
+			exit;
+		}
+
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		if ($xpage_id > 0)
@@ -177,7 +189,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
 		//	$view_frame);
 
-		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
+		$page_gui->setIntLinkHelpDefault("RepositoryItem", $_GET["ref_id"]);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setLinkXML($link_xml);
 		//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
@@ -286,8 +298,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
 		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
-		//$page_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_gui->setLinkXML($link_xml);
 		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
@@ -685,8 +695,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$fs_gui->setMainWidth("100%");
-			$fs_gui->setSideWidth("0");
+//			$fs_gui->setMainWidth("100%");
+//			$fs_gui->setSideWidth("0");
 			
 			// to do: check this
 			$fs_gui->setSideFrameSource("");

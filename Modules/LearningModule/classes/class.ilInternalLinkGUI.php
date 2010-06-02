@@ -454,7 +454,14 @@ class ilInternalLinkGUI
 			// chapter link
 			case "StructureObject":
 			
-	//echo "-$type-".$_SESSION["il_link_cont_obj"]."-";
+				// check whether current object matchs to type
+				if (!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
+					array("lm", "dbk")))
+				{
+					$this->changeTargetObject("lm");
+				}
+
+
 				if ($type == "lm")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
@@ -1095,9 +1102,6 @@ class ilInternalLinkGUI
 			$a_type = $_GET["target_type"];
 		}
 
-		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Modules/LearningModule");
-		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
 		include_once "./Modules/LearningModule/classes/class.ilIntLinkRepItemExplorer.php";
 		$exp = new ilIntLinkRepItemExplorer(ilUtil::appendUrlParameterString(
 			$this->ctrl->getTargetScript(), "do=set"));
@@ -1143,35 +1147,13 @@ class ilInternalLinkGUI
 			'cat','crs','grp','file','fold','sahs','mcst');
 		$exp->setSelectableTypes($sel_types);
 
-		/*
-		$exp->setClickable("cat", false);
-		$exp->setClickable("grp", false);
-		$exp->setClickable("fold", false);
-		$exp->setClickable("crs", false);*/
 
 		$exp->setFrameTarget("");
 		$exp->setOutput(0);
 
 		$output = $exp->getOutput();
-//echo "<br><br><br>out:".$output.":<br>";
 
-		$tpl->setCurrentBlock("content");
-		$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_repository_item_links"));
-		$tpl->setVariable("EXPLORER",$output);
-		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("BTN_REFRESH", "showLinkHelp");
-		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
-		$tpl->setVariable("BTN_RESET", "resetLinkList");
-		$tpl->setVariable("TXT_RESET", $this->lng->txt("reset"));
-
-		/*
-		$tpl->setVariable("BTN_STRUCTURE", "resetLinkList");
-		$tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("reset"));*/
-		$tpl->parseCurrentBlock();
-
-		return $tpl->get();
-		//$tpl->show();
-		//exit;
+		return $output;
 	}
 
 
