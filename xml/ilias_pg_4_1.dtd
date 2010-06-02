@@ -234,6 +234,7 @@ col or row span. -->
 	PCID CDATA #IMPLIED
 	ColSpan CDATA #IMPLIED
 	RowSpan CDATA #IMPLIED
+	HorizontalAlign (Left | Center | Right) #IMPLIED
 	Hidden (Y | N) #IMPLIED
 >
 

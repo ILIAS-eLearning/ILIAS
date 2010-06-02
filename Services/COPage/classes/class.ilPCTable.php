@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageContent.php");
 
@@ -492,6 +473,33 @@ class ilPCTable extends ilPageContent
 		return $classes;
 	}
 
+	/**
+	 * Get all cell alignments
+	 *
+	 * @return	array		array of cell alignments
+	 */
+	function getAllCellAlignments()
+	{
+		$classes = array();
+		$rows = $this->tab_node->child_nodes();
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$classes[$cell->get_attribute("HierId").":".$cell->get_attribute("PCID")]
+							= $cell->get_attribute("HorizontalAlign");
+					}
+				}
+			}
+		}
+
+		return $classes;
+	}
 
 	/**
 	* Get all cell spans
@@ -589,6 +597,37 @@ class ilPCTable extends ilPageContent
 				if ($res->nodeset[0]->has_attribute("Class"))
 				{
 					$res->nodeset[0]->remove_attribute("Class");
+				}
+			}
+		}
+	}
+
+	/**
+	 * set alignment of table data cell
+	 */
+	function setTDAlignment($a_hier_id, $a_class, $a_pc_id = "")
+	{
+		$xpc = xpath_new_context($this->dom);
+		if ($a_pc_id == "")
+		{
+			$path = "//TableData[@HierId = '".$a_hier_id."']";
+		}
+		else
+		{
+			$path = "//TableData[@PCID = '".$a_pc_id."']";
+		}
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			if($a_class != "")
+			{
+				$res->nodeset[0]->set_attribute("HorizontalAlign", $a_class);
+			}
+			else
+			{
+				if ($res->nodeset[0]->has_attribute("HorizontalAlign"))
+				{
+					$res->nodeset[0]->remove_attribute("HorizontalAlign");
 				}
 			}
 		}
