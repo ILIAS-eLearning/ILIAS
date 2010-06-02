@@ -71,8 +71,14 @@ class ilMailBoxQuery
 			++$counter;
 		}	
 		
+		$sortColumn = '';
+		if(self::$orderColumn == 'rcp_to' && $ilDB->getDBType() == 'oracle')
+		{
+			$sortColumn = ", CAST(rcp_to AS VARCHAR2(4000)) SORTCOL";
+		}
+		
 		// item query
-		$query = 'SELECT mail.* FROM mail '
+		$query = 'SELECT mail.*'.$sortColumn.' FROM mail '
 			   . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   . 'WHERE user_id = %s '
@@ -90,7 +96,11 @@ class ilMailBoxQuery
 		}			   
 			  
 		// order column
-		if(strlen(self::$orderColumn) &&
+		if(self::$orderColumn == 'rcp_to' && $ilDB->getDBType() == 'oracle')
+		{
+			$query .= ' ORDER BY SORTCOL '.$orderDirection;
+		}
+		else if(strlen(self::$orderColumn) &&
 		   $ilDB->tableColumnExists('mail', strtolower(self::$orderColumn)))
 		{
 			$query .= ' ORDER BY '.strtolower(self::$orderColumn).' '.$orderDirection;
