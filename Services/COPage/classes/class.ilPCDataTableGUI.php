@@ -6,15 +6,15 @@ require_once("./Services/COPage/classes/class.ilPCTableGUI.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 
 /**
-* Class ilPCTableGUI
-*
-* User Interface for Data Table Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCTableGUI
+ *
+ * User Interface for Data Table Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesCOPage
+ */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
 

@@ -5,15 +5,15 @@ require_once("./Services/COPage/classes/class.ilPCTable.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 
 /**
-* Class ilPCTableGUI
-*
-* User Interface for Table Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCTableGUI
+ *
+ * User Interface for Table Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesCOPage
+ */
 class ilPCTableGUI extends ilPageContentGUI
 {
 
@@ -94,6 +94,10 @@ class ilPCTableGUI extends ilPageContentGUI
 
 		$ilTabs->addSubTabTarget("cont_width",
 			$ilCtrl->getLinkTarget($this, "editCellWidth"), "editCellWidth",
+			get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_alignment",
+			$ilCtrl->getLinkTarget($this, "editCellAlignment"), "editCellAlignment",
 			get_class($this));
 
 		$ilTabs->addSubTabTarget("cont_span",
@@ -444,6 +448,10 @@ class ilPCTableGUI extends ilPageContentGUI
 					$output = ilPCTableGUI::_addStyleCheckboxes($output, $a_table_obj);
 					break;
 
+				case "alignment":
+					$output = ilPCTableGUI::_addAlignmentCheckboxes($output, $a_table_obj);
+					break;
+
 				case "width":
 					$output = ilPCTableGUI::_addWidthInputs($output, $a_table_obj);
 					break;
@@ -459,8 +467,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	}
 	
 	/**
-	* Add style checkboxes in edit mode
-	*/
+	 * Add style checkboxes in edit mode
+	 */
 	static function _addStyleCheckboxes($a_output, $a_table)
 	{
 		global $lng;
@@ -485,7 +493,31 @@ class ilPCTableGUI extends ilPageContentGUI
 		}
 		return $a_output;
 	}
-	
+
+	/**
+	 * Add alignment checkboxes in edit mode
+	 */
+	static function _addAlignmentCheckboxes($a_output, $a_table)
+	{
+		global $lng;
+
+		$classes = $a_table->getAllCellAlignments();
+
+		foreach ($classes as $k => $v)
+		{
+			if ($v == "")
+			{
+				$v = $lng->txt("default");
+			}
+			$check = $lng->txt("cont_alignment").": ".
+				'<input type="checkbox" value="1"'.
+				' name="target['.$k.']">'.'</input> '.$v;
+
+			$a_output = str_replace("{{{{{TableEdit;".$k."}}}}}", $check, $a_output);
+		}
+		return $a_output;
+	}
+
 	/**
 	* Add width inputs
 	*/
@@ -547,8 +579,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	}
 	
 	/**
-	* Edit cell styles
-	*/
+	 * Edit cell styles
+	 */
 	function editCellStyle()
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
@@ -641,8 +673,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	}
 
 	/**
-	* Set cell styles and
-	*/
+	 * Set cell styles and
+	 */
 	function setStyles()
 	{
 		global $lng;
@@ -897,6 +929,77 @@ class ilPCTableGUI extends ilPageContentGUI
 	{
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
+
+
+	//
+	// Edit cell alignments
+	//
+
+	/**
+	 * Edit cell styles
+	 */
+	function editCellAlignment()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+
+		$this->displayValidationError();
+		$this->setTabs();
+		$this->setCellPropertiesSubTabs();
+		$ilTabs->setSubTabActive("cont_alignment");
+
+		// edit form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("cont_table_cell_properties"));
+
+		// alignment
+		$options = array(
+			"" => $lng->txt("default"),
+			"Left" => $lng->txt("cont_left"),
+			"Center" => $lng->txt("cont_center"),
+			"Right" => $lng->txt("cont_right")
+		);
+		$si = new ilSelectInputGUI($lng->txt("cont_alignment"), "alignment");
+		$si->setOptions($options);
+		$si->setInfo($lng->txt(""));
+		$form->addItem($si);
+
+		$form->setKeepOpen(true);
+
+		$form->addCommandButton("setAlignment", $lng->txt("cont_set_alignment"));
+
+		$html = $form->getHTML();
+		$html.= "<br />".$this->renderTable("table_edit", "alignment")."</form>";
+		$tpl->setContent($html);
+
+	}
+
+	/**
+	 * Set cell alignments
+	 */
+	function setAlignment()
+	{
+		global $lng;
+
+		if (is_array($_POST["target"]))
+		{
+			foreach ($_POST["target"] as $k => $value)
+			{
+				if ($value > 0)
+				{
+					$cid = explode(":", $k);
+					$this->content_obj->setTDAlignment(ilUtil::stripSlashes($cid[0]),
+						ilUtil::stripSlashes($_POST["alignment"]), ilUtil::stripSlashes($cid[1]));
+				}
+			}
+		}
+		$this->updated = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+		$this->ctrl->redirect($this, "editCellAlignment");
+	}
+
 
 }
 ?>

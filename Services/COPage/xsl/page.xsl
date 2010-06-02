@@ -1423,6 +1423,13 @@
 	<xsl:param name="footerrows" />
 	<xsl:param name="headercols" />
 	<xsl:param name="footercols" />
+	<xsl:if test="@HorizontalAlign and @HorizontalAlign != ''">
+		<xsl:attribute name="align"><xsl:choose>
+			<xsl:when test="@HorizontalAlign = 'Left'">left</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'Right'">right</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'Center'">center</xsl:when>
+		</xsl:choose></xsl:attribute>
+	</xsl:if>
 	<xsl:if test="@ColSpan and number(@ColSpan) > 1">
 		<xsl:attribute name="colspan"><xsl:value-of select = "@ColSpan"/></xsl:attribute>
 	</xsl:if>
