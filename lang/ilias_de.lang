@@ -7266,10 +7266,10 @@ mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gülti
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_group_members#:#Gruppenmitglieder
 mail#:#mail_in_addressbook#:#Bereits in den Kontakten
-mail#:#mail_incoming#:#Nachrichten Empfang
-mail#:#mail_incoming_both#:#Lokal und Weiterleitung
-mail#:#mail_incoming_local#:#Nur lokal
-mail#:#mail_incoming_mail#:#Nachrichten Empfang
+mail#:#mail_incoming#:#Nachrichtenempfang
+mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
+mail#:#mail_incoming_local#:#Nur lokal empfangen
+mail#:#mail_incoming_mail#:#Nachrichtenempfang
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
