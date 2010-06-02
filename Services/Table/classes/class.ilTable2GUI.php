@@ -1378,22 +1378,25 @@ class ilTable2GUI extends ilTableGUI
 		
 		$this->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		
-		// sort
 		$data = $this->getData();
-		if (!$this->getExternalSorting())
+		if($this->dataExists())
 		{
-			$data = ilUtil::sortArray($data, $this->getOrderField(),
-				$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
-		}
+			// sort
+			if (!$this->getExternalSorting())
+			{
+				$data = ilUtil::sortArray($data, $this->getOrderField(),
+					$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
+			}
 
-		// slice
-		if (!$this->getExternalSegmentation())
-		{
-			$data = array_slice($data, $this->getOffset(), $this->getLimit());
+			// slice
+			if (!$this->getExternalSegmentation())
+			{
+				$data = array_slice($data, $this->getOffset(), $this->getLimit());
+			}
 		}
 		
 		// fill rows
-		if(count($data) > 0)
+		if($this->dataExists())
 		{
 			$this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", $this->row_template,
 				$this->row_template_dir);

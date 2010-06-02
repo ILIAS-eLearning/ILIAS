@@ -11,6 +11,68 @@
  */
 class ilTrQuery
 {
+	function getObjectsStatusForUser($a_user_id, array $obj_refs)
+	{
+		global $ilDB, $ilObjDataCache;
+
+		if(sizeof($obj_refs))
+		{
+			$obj_ids = array_keys($obj_refs);
+
+			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+
+			// prepare object view modes
+			include_once 'Modules/Course/classes/class.ilObjCourse.php';
+			$view_modes = array();
+			$query = "SELECT obj_id, view_mode FROM crs_settings".
+				" WHERE ".$ilDB->in("obj_id", $obj_ids , false, "integer");
+			$set = $ilDB->query($query);
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$view_modes[(int)$rec["obj_id"]] = (int)$rec["view_mode"];
+			}
+
+			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
+				" percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
+				" u_mode, type, visits".
+				" FROM object_data".
+				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
+				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
+				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND ut_lp_marks.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
+				" WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
+				" AND ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
+				" ORDER BY title";
+			$set = $ilDB->query($query);
+			$result = array();
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$rec["ref_ids"] = $obj_refs[(int)$rec["obj_id"]];
+				$rec["status"] = (int)$rec["status"];
+				$rec["percentage"] = (int)$rec["percentage"];
+				$rec["read_count"] = (int)$rec["read_count"];
+				$rec["spent_seconds"] = (int)$rec["spent_seconds"];
+				$rec["u_mode"] = (int)$rec["u_mode"];
+
+				// lp mode might not match object/course view mode
+				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
+				{
+					$rec["u_mode"] = LP_MODE_OBJECTIVES;
+				}
+				else if(!$rec["u_mode"])
+				{
+					$rec["u_mode"] = ilLPObjSettings::__getDefaultMode($rec["obj_id"], $rec["type"]);
+				}
+
+				// can be default mode
+				if($rec["u_mode"] != LP_MODE_DEACTIVATE)
+				{
+					$result[] = $rec;
+				}
+			}
+			return $result;
+		}
+	}
 	/*
 	 usr_data: usr_id, login, firstname, lastname, ...
 	 
