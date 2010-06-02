@@ -1314,7 +1314,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function assignRolesObject()
 	{
-		global $rbacreview;
+		global $rbacreview,$ilTabs;
 		
 		$this->checkPermission("cat_administrate_users");
 
@@ -1328,7 +1328,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			return true;
 		}
 
-		$this->tabs_gui->setTabActive('administrate_users');
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
 
 		$roles = $this->__getAssignableRoles();
 		
@@ -1342,7 +1343,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.cat_role_assignment.html',
 			"Modules/Category");
-		$this->__showButton('listUsers',$this->lng->txt('back'));
 
 		$ass_roles = $rbacreview->assignedRoles($_GET['obj_id']);
 
