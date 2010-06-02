@@ -1817,12 +1817,14 @@ class ilPageObjectGUI
 	}
 	
 	/**
-	* Set standard link xml
-	*/
+	 * Set standard link xml
+	 */
 	function setDefaultLinkXml()
 	{
-		$int_links = $this->getPageObject()->getInternalLinks();
+		global $ilCtrl;
 
+		$int_links = $this->getPageObject()->getInternalLinks();
+//var_dump($int_links);
 		$link_info = "<IntLinkInfos>";
 		$targetframe = "None";
 		foreach ($int_links as $int_link)
@@ -1833,7 +1835,17 @@ class ilPageObjectGUI
 				$target_arr = explode("_", $target);
 				$target_id = $target_arr[count($target_arr) - 1];
 				$type = $int_link["Type"];
-				
+
+				$targetframe = ($int_link["TargetFrame"] != "")
+					? $int_link["TargetFrame"]
+					: "None";
+
+				$ltarget="_top";
+				if ($targetframe != "None")
+				{
+					$ltarget="_blank";
+				}
+
 				// anchor
 				$anc = $anc_add = "";
 				if ($int_link["Anchor"] != "")
@@ -1842,12 +1854,12 @@ class ilPageObjectGUI
 					$anc_add = "_".rawurlencode($int_link["Anchor"]);
 				}
 
+				$href = "";
 				switch($type)
 				{
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$ltarget="_top";
 						if ($type == "PageObject")
 						{
 							$href = "./goto.php?target=pg_".$target_id.$anc_add;
@@ -1859,21 +1871,22 @@ class ilPageObjectGUI
 						break;
 
 					case "GlossaryItem":
-						$ltarget="_blank";
 						$href = "./goto.php?target=git_".$target_id;
 						break;
 
 					case "MediaObject":
-						$ltarget="_blank";
-						$href = "";
+						$ilCtrl->setParameter($this, "mob_id", $target_id);
+						//$ilCtrl->setParameter($this, "pg_id", $this->obj->getId());
+						$href = $ilCtrl->getLinkTarget($this, "displayMedia");
+						$ilCtrl->setParameter($this, "mob_id", "");
 						break;
 
 					case "RepositoryItem":
-						$ltarget="_top";
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);
 						$href = "./goto.php?target=".$obj_type."_".$target_id;
 						break;
+
 
 				}
 				$anc_par = 'Anchor="'.$anc.'"';
@@ -1882,6 +1895,7 @@ class ilPageObjectGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
+//echo htmlentities($link_info);
 		$this->setLinkXML($link_info);
 	}
 	
@@ -1898,9 +1912,17 @@ class ilPageObjectGUI
 	}
 	
 	/**
-	* Show media in fullscreen mode
-	*/
+	 * Show media in fullscreen mode
+	 */
 	function displayMediaFullscreen()
+	{
+		$this->displayMedia(true);
+	}
+
+	/**
+	 * Display media
+	 */
+	function displayMedia($a_fullscreen = false)
 	{
 		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
@@ -1917,26 +1939,42 @@ class ilPageObjectGUI
 		$pg_obj = $this->getPageObject();
 		$pg_obj->buildDom();
 
-		$xml = "<dummy>";
-		// todo: we get always the first alias now (problem if mob is used multiple
-		// times in page)
-		$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
-		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-		$xml.= $link_xml;
-		$xml.="</dummy>";
+		if (!empty ($_GET["pg_id"]))
+		{
+			$xml = "<dummy>";
+			$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.= $link_xml;
+			$xml.="</dummy>";
+		}
+		else
+		{
+			$xml = "<dummy>";
+			$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.= $link_xml;
+			$xml.="</dummy>";
+		}
 
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
+		$mode = "media";
+		if ($a_fullscreen)
+		{
+			$mode = "fullscreen";
+		}
+
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$params = array ('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
+		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
 			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+//echo "<br><br>".htmlentities($output);
 	//echo xslt_error($xh);
 		xslt_free($xh);
 
