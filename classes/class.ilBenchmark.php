@@ -86,6 +86,22 @@ return;
 	function save()
 	{
 		global $ilDB;
+		global $ilUser, $ilLog;
+		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
+			$this->db_enabled_user == $ilUser->getLogin())
+		{
+			if (is_array($this->db_bench) && is_object($ilLog))
+			{
+				foreach ($this->db_bench as $b)
+				{
+					$ilLog->write($b["sql"]);
+					$ilLog->write($this->microtimeDiff($b["start"], $b["stop"]));
+				}
+			}
+			$this->enableDbBench(false);
+		}
+
+
 return;
 		if ($this->isEnabled() &&
 			($this->getMaximumRecords() > $this->getCurrentRecordNumber()))
@@ -246,6 +262,100 @@ return;
 		return false;
 	}
 	// END WebDAV: Get measured time.
+
+	//
+	//
+	// NEW DB BENCHMARK IMPLEMENTATION
+	//
+	//
+
+	/**
+	 * Check wether benchmarking is enabled or not
+	 */
+	function isDbBenchEnabled()
+	{
+		global $ilSetting;
+
+		if (isset($this->db_enabled))
+		{
+			return $this->db_enabled;
+		}
+
+		if (!is_object($ilSetting))
+		{
+			return false;
+		}
+
+		$this->db_enabled = $ilSetting->get("enable_db_bench");
+		$this->db_enabled_user = $ilSetting->get("db_bench_user");
+		return $this->db_enabled;
+	}
+
+	/**
+	 * Enable DB benchmarking
+	 *
+	 * @param	boolean		enable db benchmarking
+	 * @param	string		user account name that should be benchmarked
+	 */
+	function enableDbBench($a_enable, $a_user = 0)
+	{
+		global $ilias;
+
+		if ($a_enable)
+		{
+			$ilias->setSetting("enable_db_bench", 1);
+			if ($a_user !== 0)
+			{
+				$ilias->setSetting("db_bench_user", $a_user);
+			}
+		}
+		else
+		{
+			$ilias->setSetting("enable_db_bench", 0);
+			if ($a_user !== 0)
+			{
+				$ilias->setSetting("db_bench_user", $a_user);
+			}
+		}
+	}
+
+	/**
+	 * start measurement
+	 *
+	 * @param	string		$type		measurement type
+	 *
+	 * @return	int			measurement id
+	 */
+	function startDbBench($a_sql)
+	{
+		global $ilUser;
+
+		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
+			$this->db_enabled_user == $ilUser->getLogin())
+		{
+			$this->start = microtime();
+			$this->sql = $a_sql;
+		}
+	}
+
+
+	/**
+	 * stop measurement
+	 *
+	 * @param	int			$mid		measurement id
+	 */
+	function stopDbBench()
+	{
+		global $ilUser;
+
+		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
+			$this->db_enabled_user == $ilUser->getLogin())
+		{
+			$this->db_bench[] =
+				array("start" => $this->start, "stop" => microtime(),
+					"sql" => $this->sql);
+		}
+	}
 
 }
 

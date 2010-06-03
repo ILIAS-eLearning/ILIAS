@@ -1209,14 +1209,12 @@ abstract class ilDB extends PEAR
 	*/
 	function query($sql, $a_handle_error = true)
 	{
+		global $ilBench;
+
+		$ilBench->startDbBench($sql);
 		$r = $this->db->query($sql);
-
-/*$f = substr($sql, stripos($sql, "from ") + 5);
-$t = substr($f, 0, stripos($f, " "));
-$this->tqueried[$t]++;
-if ($t == "tree")
-	echo "<br>".$sql;*/
-
+		$ilBench->stopDbBench();
+		
 		if ($a_handle_error)
 		{
 			return $this->handleError($r, "query(".$sql.")");

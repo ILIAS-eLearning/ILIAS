@@ -10369,7 +10369,6 @@ administration#:#forum_settings#:#Forumsettings
 administration#:#show_topics_overview#:#Topic Overview
 administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown
 common#:#show_system_messages#:#System Messages
-rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -10420,3 +10419,9 @@ user#:#restrict_user_access_info#:#If enabled, the access to user account is res
 common#:#backto_lua#:#Back to Local User Administration
 content#:#cont_alignment#:#Alignment
 content#:#cont_set_alignment#:#Set Alignment
+rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
+administration#:#adm_db_benchmark#:#DB Benchmark
+administration#:#adm_activate_db_benchmark#:#Activate Benchmark
+administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
+administration#:#adm_db_benchmark_user#:#User Account Name
+administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
