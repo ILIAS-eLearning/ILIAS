@@ -1504,7 +1504,7 @@ class ilInitialisation
 	 	$scheduler->start();
 
 		$ilBench->stop("Core", "HeaderInclude");
-		$ilBench->save();
+//		$ilBench->save();
 
 	}
 

@@ -1589,95 +1589,56 @@ return $this->showServerInfoObject();
 
 
 	/**
-	* view benchmark settings
-	*/
+	 * Benchmark settings
+	 */
 	function benchmarkObject()
 	{
-		global $ilBench, $rbacsystem;
+		global $ilBench, $rbacsystem, $lng, $ilCtrl, $ilSetting, $tpl;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->getTemplateFile("bench");
-		$this->ctrl->setParameter($this,'cur_mode',$_GET['cur_mod']);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
-		$this->tpl->setVariable("TXT_ACTIVATION", $this->lng->txt("activation"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_settings"));
-		$this->tpl->setVariable("TXT_CUR_RECORDS", $this->lng->txt("cur_number_rec"));
-		$this->tpl->setVariable("VAL_CUR_RECORDS", $ilBench->getCurrentRecordNumber());
-		$this->tpl->setVariable("TXT_MAX_RECORDS", $this->lng->txt("max_number_rec"));
-		$this->tpl->setVariable("VAL_MAX_RECORDS", $ilBench->getMaximumRecords());
-		$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("delete_all_rec"));
-		if($ilBench->isEnabled())
-		{
-			$this->tpl->setVariable("ACT_CHECKED", " checked=\"1\" ");
-		}
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
 
-		$modules = $ilBench->getMeasuredModules();
+		// Activate DB Benchmark
+		$cb = new ilCheckboxInputGUI($lng->txt("adm_activate_db_benchmark"), "enable_db_bench");
+		$cb->setChecked($ilSetting->get("enable_db_bench"));
+		$cb->setInfo($lng->txt("adm_activate_db_benchmark_desc"));
+		$this->form->addItem($cb);
 
-		if (count($modules) > 0)
-		{
-			$this->tpl->setCurrentBlock("eval_table");
+		// DB Benchmark User
+		$ti = new ilTextInputGUI($lng->txt("adm_db_benchmark_user"), "db_bench_user");
+		$ti->setValue($ilSetting->get("db_bench_user"));
+		$ti->setInfo($lng->txt("adm_db_benchmark_user_desc"));
+		$this->form->addItem($ti);
 
-			$cur_module = ($_GET["cur_mod"] != "" &&
-				in_array($_GET["cur_mod"], $modules))
-				? $_GET["cur_mod"]
-				: current($modules);
+		$this->form->addCommandButton("saveBenchSettings", $lng->txt("save"));
 
-			$benchs = $ilBench->getEvaluation($cur_module);
+		$this->form->setTitle($lng->txt("adm_db_benchmark"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
 
-			$i=0;
-			foreach($benchs as $bench)
-			{
-				$this->tpl->setCurrentBlock("eval_row");
-				$this->tpl->setVariable("ROWCOL",
-					ilUtil::switchColor($i++, "tblrow2", "tblrow1"));
-
-				$this->tpl->setVariable("VAL_BENCH", $bench["benchmark"]);
-				$this->tpl->setVariable("VAL_NUMBER_RECORDS", $bench["cnt"]);
-				$this->tpl->setVariable("VAL_AVG_TIME", $bench["duration"]);
-				$this->tpl->setVariable("VAL_MIN_TIME", $bench["min"]);
-				$this->tpl->setVariable("VAL_MAX_TIME", $bench["max"]);
-				$this->tpl->setVariable("VAL_CUM_TIME", $bench["duration"] * $bench["cnt"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setVariable("SELECT_MODULE",
-				ilUtil::formSelect($cur_module, "module",$modules, false, true));
-
-			$this->tpl->setVariable("TXT_SHOW", $this->lng->txt("show"));
-			$this->tpl->setVariable("TXT_BENCH", $this->lng->txt("benchmark"));
-			$this->tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
-			$this->tpl->setVariable("TXT_AVG_TIME", $this->lng->txt("average_time"));
-			$this->tpl->setVariable("TXT_MIN_TIME", $this->lng->txt("min_time"));
-			$this->tpl->setVariable("TXT_MAX_TIME", $this->lng->txt("max_time"));
-			$this->tpl->setVariable("TXT_CUM_TIME", $this->lng->txt("cumulative_time"));
-
-			$this->tpl->parseCurrentBlock();
-		}
+		$tpl->setContent($this->form->getHTML());
 	}
 
 
 	/**
-	* save benchmark settings
-	*/
+	 * Save benchmark settings
+	 */
 	function saveBenchSettingsObject()
 	{
 		global $ilBench;
 
-		if ($_POST["activate"] == "y")
+		if ($_POST["enable_db_bench"])
 		{
-			$ilBench->enable(true);
+			$ilBench->enableDbBench(true, ilUtil::stripSlashes($_POST["db_bench_user"]));
 		}
 		else
 		{
-			$ilBench->enable(false);
+			$ilBench->enableDbBench(false);
 		}
-//echo ":".$_POST["max_records"].":<br>"; exit;
-		$ilBench->setMaximumRecords($_POST["max_records"]);
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 
@@ -1746,8 +1707,8 @@ return $this->showServerInfoObject();
 			$tabs_gui->addTarget("system_check",
 				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
-//			$tabs_gui->addTarget("benchmarks",
-//				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
+			$tabs_gui->addTarget("benchmarks",
+				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
