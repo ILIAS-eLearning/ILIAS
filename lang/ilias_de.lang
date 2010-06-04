@@ -8005,8 +8005,8 @@ meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
 meta#:#meta_subjectmatterexpert#:#Experte für das Thema
 meta#:#meta_table#:#Tabelle
-meta#:#meta_taxon#:#Taxonomie
-meta#:#meta_taxon_path#:#Taxonomie-Pfad
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_taxon_path#:#Taxon-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_technicalimplementer#:#Technische Umsetzung
