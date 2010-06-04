@@ -3,7 +3,24 @@
 		<input type="checkbox" name="item_id[]" value="{OBJ_ID}" />
 	</td>
 	<td class="std">
-		{ITEM_HTML}
+	<img src="{ICON_SRC}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TITLE_TEXT}
+	</td>
+	<td class="std" style="padding-left: 20px;">
+	{STATUS_NOT_ATTEMPTED_VALUE}
+	</td>
+	<td class="std" style="padding-left: 20px;">
+	{STATUS_IN_PROGRESS_VALUE}
+	</td>
+	<td class="std" style="padding-left: 20px;">
+	{STATUS_COMPLETED_VALUE}
+	</td>
+	<td class="std" style="padding-left: 20px;">
+	{STATUS_FAILED_VALUE}
+	</td>
+	<td class="std small">
+    <!-- BEGIN item_path -->
+	{PATH_ITEM}<br />
+	<!-- END item_path -->
 	</td>
 	<td class="std" valign="top" nowrap="nowrap" width="20%" align="center">
 		<!-- BEGIN item_command -->

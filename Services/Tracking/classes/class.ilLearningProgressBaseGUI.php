@@ -208,21 +208,23 @@ class ilLearningProgressBaseGUI
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
 
-					$this->tabs_gui->addSubTabTarget('trac_settings',
-													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
-													 "","","",$a_active == LP_ACTIVE_SETTINGS);
-
 					// New tracking table
 					if(!$this->isAnonymized())
 					{
+						/*
 						$this->tabs_gui->addSubTabTarget("trac_learners",
 														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'),
 														"", "", "", $a_active == LP_ACTIVE_USERS);
+						 */
 
 						$this->tabs_gui->addSubTabTarget("trac_summary",
 														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
 														"", "", "", $a_active == LP_ACTIVE_SUMMARY);
 					}
+
+					$this->tabs_gui->addSubTabTarget('trac_settings',
+													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
+													 "","","",$a_active == LP_ACTIVE_SETTINGS);
 				}
 				break;
 

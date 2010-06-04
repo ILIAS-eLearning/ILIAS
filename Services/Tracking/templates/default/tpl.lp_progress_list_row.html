@@ -1,20 +1,28 @@
 <tr class="{TBLROW}">
+	<!-- BEGIN column_checkbox -->
 	<td class="std" style="vertical-align:top;">
 	<input type="checkbox" name="item_id[]" value="{OBJ_ID}" />
 	</td>
+	<!-- END column_checkbox -->
 	<td class="std">
-	{TITLE_TEXT}
+	<img src="{ICON_SRC}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TITLE_TEXT}
 	<!-- BEGIN warning_img -->
 	<img border="0" src="{WARNING_IMG}" alt="{WARNING_ALT}" title="{WARNING_ALT}" />
 	<!-- END warning_img -->
 	</td>
-	<td class="std" valign="top" style="padding-left: 20px;">
+	<td class="std" style="padding-left: 20px;">
 	<img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
 	</td>
 	<td class="std">
 	{PERCENTAGE_VALUE}
 	</td>
 	<td class="std">
+	{MARK_VALUE}
+	</td>
+	<td class="std">
+	{COMMENT_TEXT}
+	</td>
+	<td class="std small">
 	{MODE_TEXT}
 	</td>
 	<td class="std small">
@@ -22,9 +30,11 @@
 	{PATH_ITEM}<br />
 	<!-- END item_path -->
 	</td>
-	<td class="std" valign="top" nowrap="nowrap" width="20%" align="center">
+	<!-- BEGIN column_action -->
+	<td class="std" nowrap="nowrap">
 	<!-- BEGIN item_command -->
 	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
 	<!-- END item_command -->
 	</td>
+	<!-- END column_action -->
 </tr>

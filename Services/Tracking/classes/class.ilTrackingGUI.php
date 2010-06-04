@@ -98,7 +98,7 @@ class ilTrackingGUI
 
 		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
 		$table = new ilTrUserObjectsPropsTableGUI($this, "showUserObjectsProps", "truop".$user_id,
-			$user_id, $this->obj_id, $this->ref_id);
+			$user_id, $this->getObjectId(), $this->getRefId());
 		$tpl->setContent($table->getHTML());
 	}
 
