@@ -74,7 +74,7 @@ class ilContainerSorting
 	 *
 	 * @access public
 	 * @param int obj_id
-	 * @return
+	 * @return object ilContainerSorting
 	 * @static
 	 */
 	public static function _getInstance($a_obj_id)

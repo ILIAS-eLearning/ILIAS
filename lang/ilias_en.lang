@@ -10417,6 +10417,9 @@ user#:#enable_local_user_administration_info#:#If enabled, local user accounts c
 user#:#restrict_user_access#:#Restriced Access to User Accounts
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". 
 common#:#backto_lua#:#Back to Local User Administration
+common#:#sort_activation_header#:#Nach Zeitvorgaben
+common#:#sort_inherit_prefix#:#Default
+common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.
 content#:#cont_alignment#:#Alignment
 content#:#cont_set_alignment#:#Set Alignment
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.

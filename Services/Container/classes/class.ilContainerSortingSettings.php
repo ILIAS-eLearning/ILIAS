@@ -56,6 +56,22 @@ class ilContainerSortingSettings
 	 	$this->read();
 	}
 	
+	public static function _readSortMode($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM container_sorting_set ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->sort_mode;
+		}
+		return ilContainer::SORT_INHERIT;
+	}
+
+
 	/**
 	 * lookup sort mode
 	 *
@@ -66,18 +82,45 @@ class ilContainerSortingSettings
 	 */
 	public static function _lookupSortMode($a_obj_id)
 	{
-		global $tree;
-		global $ilDB;
+		global $tree, $ilDB, $objDefinition;
+		
+		// Try to read from table
+		$query = "SELECT * FROM container_sorting_set ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->sort_mode != ilContainer::SORT_INHERIT)
+			{
+				return $row->sort_mode;
+			}
+		}
+		return self::lookupSortModeFromParentContainer($a_obj_id);
+	}
+	
+	/**
+	 * Lookup sort mode from parent container
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	public static function lookupSortModeFromParentContainer($a_obj_id)
+	{
+		global $tree, $ilDB, $objDefinition;
+
+		if(!$objDefinition->isContainer(ilObject::_lookupType($a_obj_id)))
+		{
+			return ilContainer::SORT_TITLE;
+		}
 		
 		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = current($ref_ids);
-		
+
 		if($course_ref_id = $tree->checkForParentType($ref_id,'crs'))
 		{
 			$a_obj_id = ilObject::_lookupObjId($course_ref_id);
 		}
 				
-		
 		$query = "SELECT * FROM container_sorting_set ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
@@ -88,6 +131,7 @@ class ilContainerSortingSettings
 		}
 		return ilContainer::SORT_TITLE;
 	}
+	
 	
 	/**
 	 * is manual sorting enabled
@@ -228,7 +272,29 @@ class ilContainerSortingSettings
 	 	}
 	}
 	
+	/**
+	 * get String representation of sort mode
+	 * @param int $a_sort_mode
+	 * @return 
+	 */
+	public static function sortModeToString($a_sort_mode)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule('crs');
+		switch($a_sort_mode)
+		{
+			case ilContainer::SORT_ACTIVATION:
+				return $lng->txt('crs_sort_activation');
+				
+			case ilContainer::SORT_MANUAL:
+				return $lng->txt('crs_sort_manual');
+
+			case ilContainer::SORT_TITLE:
+				return $lng->txt('crs_sort_title');
+				 
+		}
+		return '';
+	}
 }
-
-
 ?>
