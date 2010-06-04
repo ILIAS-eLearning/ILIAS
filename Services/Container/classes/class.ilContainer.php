@@ -55,6 +55,7 @@ class ilContainer extends ilObject
 	const SORT_TITLE = 0;
 	const SORT_MANUAL = 1;
 	const SORT_ACTIVATION = 2;
+	const SORT_INHERIT = 3;
 	
 	/**
 	* Constructor
