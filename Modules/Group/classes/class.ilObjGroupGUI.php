@@ -383,6 +383,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->initDefaultRoles();
 		$this->object->initGroupStatus($this->object->getGroupType());
 		
+		// Save sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort->setSortMode((int) $_POST['sor']);
+		$sort->update();
 		
 		// Add user as admin and enable notification
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
@@ -497,6 +502,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		
 		$this->object->update();
+		
+		// Save sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort->setSortMode((int) $_POST['sor']);
+		$sort->update();
 
 		// BEGIN ChangeEvents: Record update Object.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -2548,7 +2559,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	protected function initForm($a_mode = 'edit')
 	{
-		global $ilUser,$tpl;
+		global $ilUser,$tpl,$tree;
 		
 		if(is_object($this->form))
 		{
@@ -2643,6 +2654,59 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		$this->form->addItem($grp_type);
 		
+		// Sorting
+		if($a_mode == 'create')
+		{
+			$ref_id = (int) $_GET['ref_id'];
+		}
+		else
+		{
+			$ref_id = $this->object->getRefId();
+		}
+
+		$hasParentCourse = $tree->checkForParentType($ref_id,'crs');
+
+		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
+		$sog->setRequired(true);
+		if($a_mode == 'edit')
+		{
+			$sog->setValue(ilContainerSortingSettings::_readSortMode(ilObject::_lookupObjId($ref_id)));
+		}
+		elseif($hasParentCourse)
+		{
+			$sog->setValue(ilContainer::SORT_INHERIT);
+		}
+		else
+		{
+			$sog->setValue(ilContainer::SORT_TITLE);
+		}
+		
+		if($hasParentCourse)
+		{
+			$sde = new ilRadioOption();
+			$sde->setValue(ilContainer::SORT_INHERIT);
+
+			$title = $this->lng->txt('sort_inherit_prefix');
+			$title .= ' ('.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer(ilObject::_lookupObjectId($ref_id))).') ';
+			$sde->setTitle($title);
+			$sde->setInfo($this->lng->txt('sorting_info_inherit'));
+			$sog->addOption($sde);
+		}
+		
+		$sma = new ilRadioOption();
+		$sma->setValue(ilContainer::SORT_TITLE);
+		$sma->setTitle($this->lng->txt('sorting_title_header'));
+		$sma->setInfo($this->lng->txt('sorting_info_title'));
+		$sog->addOption($sma);
+
+		$sti = new ilRadioOption();
+		$sti->setValue(ilContainer::SORT_MANUAL);
+		$sti->setTitle($this->lng->txt('sorting_manual_header'));
+		$sti->setInfo($this->lng->txt('sorting_info_manual'));
+		$sog->addOption($sti);
+		
+		$this->form->addItem($sog);
+
 		// time limit
 		$time_limit = new ilCheckboxInputGUI($this->lng->txt('grp_reg_limited'),'reg_limit_time');
 		$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
@@ -2677,7 +2741,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 		$this->form->addItem($time_limit);
 				
-			// max member
+		// max member
 		$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
 		$lim->setValue(1);
 		$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
