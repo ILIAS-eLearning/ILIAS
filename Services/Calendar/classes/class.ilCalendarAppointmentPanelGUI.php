@@ -114,12 +114,12 @@ class ilCalendarAppointmentPanelGUI
 		if($a_app['event']->getLocation())
 		{
 			$this->tpl->setVariable('PANEL_TXT_WHERE',$this->lng->txt('cal_where'));
-			$this->tpl->setVariable('PANEL_WHERE',$a_app['event']->getLocation());
+			$this->tpl->setVariable('PANEL_WHERE',ilUtil::makeClickable($a_app['event']->getLocation()),true);
 		}
 		if($a_app['event']->getDescription())
 		{
 			$this->tpl->setVariable('PANEL_TXT_DESC',$this->lng->txt('description'));
-			$this->tpl->setVariable('PANEL_DESC',nl2br($a_app['event']->getDescription()));
+			$this->tpl->setVariable('PANEL_DESC',ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
 		}
 
 		if($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)

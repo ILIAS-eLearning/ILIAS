@@ -798,7 +798,7 @@ class ilUtil
 	* @param	boolean	$detectGotoLinks	if true, internal goto-links will be retargeted to _self and text is replaced by title
 	* @return	string	clickable link
 	*/
-	function makeClickable($a_text, $detectGotoLinks = false)
+	public static function makeClickable($a_text, $detectGotoLinks = false)
 	{
 		// New code, uses MediaWiki Sanitizer
 		$ret = $a_text;
