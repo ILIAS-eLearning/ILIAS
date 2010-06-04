@@ -10428,3 +10428,11 @@ administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_db_benchmark_user#:#User Account Name
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
+administration#:#adm_db_bench_chronological#:#Chronological
+administration#:#adm_db_bench_slowest_first#:#Slowest First
+administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
+administration#:#adm_sql#:#SQL
+administration#:#adm_time#:#Time
+administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
+administration#:#adm_nr_statements#:#Number of Statements
+administration#:#adm_table#:#Table

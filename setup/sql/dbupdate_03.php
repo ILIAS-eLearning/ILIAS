@@ -1759,3 +1759,10 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3057>
+<?php
+	$ilDB->addTableColumn("benchmark", "sql_stmt", array(
+		"type" => "clob"
+	));
+?>
+

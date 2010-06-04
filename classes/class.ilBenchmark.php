@@ -85,17 +85,22 @@ return;
 	*/
 	function save()
 	{
-		global $ilDB;
-		global $ilUser, $ilLog;
+		global $ilDB, $ilUser;
+
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin())
 		{
-			if (is_array($this->db_bench) && is_object($ilLog))
+			if (is_array($this->db_bench) && is_object($ilDB))
 			{
+				$this->db_bench_stop_rec = true;
+
+				$ilDB->manipulate("DELETE FROM benchmark");
 				foreach ($this->db_bench as $b)
 				{
-					$ilLog->write($b["sql"]);
-					$ilLog->write($this->microtimeDiff($b["start"], $b["stop"]));
+					$ilDB->insert("benchmark", array(
+						"duration" => array("float", $this->microtimeDiff($b["start"], $b["stop"])),
+						"sql_stmt" => array("clob", $b["sql"])
+					));
 				}
 			}
 			$this->enableDbBench(false);
@@ -331,7 +336,8 @@ return;
 		global $ilUser;
 
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
-			$this->db_enabled_user == $ilUser->getLogin())
+			$this->db_enabled_user == $ilUser->getLogin() &&
+			!$this->db_bench_stop_rec)
 		{
 			$this->start = microtime();
 			$this->sql = $a_sql;
@@ -349,12 +355,33 @@ return;
 		global $ilUser;
 
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
-			$this->db_enabled_user == $ilUser->getLogin())
+			$this->db_enabled_user == $ilUser->getLogin() &&
+			!$this->db_bench_stop_rec)
 		{
 			$this->db_bench[] =
 				array("start" => $this->start, "stop" => microtime(),
 					"sql" => $this->sql);
 		}
+	}
+
+	/**
+	 * Get db benchmark records
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDbBenchRecords()
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM benchmark");
+		$b = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$b[] = array("sql" => $rec["sql_stmt"],
+				"time" => $rec["duration"]);
+		}
+		return $b;
 	}
 
 }

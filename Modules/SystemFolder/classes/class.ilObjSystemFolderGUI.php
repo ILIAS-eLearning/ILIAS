@@ -4,15 +4,15 @@
 require_once "./classes/class.ilObjectGUI.php";
 
 /**
-* Class ilObjSystemFolderGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* $Id$
-*
-* @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjSystemFolderGUI
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * $Id$
+ *
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
+ *
+ * @extends ilObjectGUI
+ */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
 	/**
@@ -1600,6 +1600,8 @@ return $this->showServerInfoObject();
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->benchmarkSubTabs("settings");
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
@@ -1621,6 +1623,92 @@ return $this->showServerInfoObject();
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 
 		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Show db benchmark results
+	 */
+	function showDbBenchChronologicalObject()
+	{
+		$this->benchmarkSubTabs("chronological");
+		$this->showDbBenchResults("chronological");
+	}
+
+	/**
+	 * Show db benchmark results
+	 */
+	function showDbBenchSlowestFirstObject()
+	{
+		$this->benchmarkSubTabs("slowest_first");
+		$this->showDbBenchResults("slowest_first");
+	}
+
+	/**
+	 * Show db benchmark results
+	 */
+	function showDbBenchSortedBySqlObject()
+	{
+		$this->benchmarkSubTabs("sorted_by_sql");
+		$this->showDbBenchResults("sorted_by_sql");
+	}
+
+	/**
+	 * Show db benchmark results
+	 */
+	function showDbBenchByFirstTableObject()
+	{
+		$this->benchmarkSubTabs("by_first_table");
+		$this->showDbBenchResults("by_first_table");
+	}
+
+	/**
+	 * Show Db Benchmark Results
+	 *
+	 * @param	string		mode
+	 */
+	function showDbBenchResults($a_mode)
+	{
+		global $ilBench, $lng, $tpl;
+
+		$rec = $ilBench->getDbBenchRecords();
+
+		include_once("./Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php");
+		$table = new ilBenchmarkTableGUI($this, "benchmark", $rec, $a_mode);
+		$tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Benchmark sub tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function benchmarkSubTabs($a_current)
+	{
+		global $ilTabs, $lng, $ilCtrl, $ilBench;
+
+		$ilTabs->addSubtab("settings",
+			$lng->txt("settings"),
+			$ilCtrl->getLinkTarget($this, "benchmark"));
+
+		$rec = $ilBench->getDbBenchRecords();
+		if (count($rec) > 0)
+		{
+			$ilTabs->addSubtab("chronological",
+				$lng->txt("adm_db_bench_chronological"),
+				$ilCtrl->getLinkTarget($this, "showDbBenchChronological"));
+			$ilTabs->addSubtab("slowest_first",
+				$lng->txt("adm_db_bench_slowest_first"),
+				$ilCtrl->getLinkTarget($this, "showDbBenchSlowestFirst"));
+			$ilTabs->addSubtab("sorted_by_sql",
+				$lng->txt("adm_db_bench_sorted_by_sql"),
+				$ilCtrl->getLinkTarget($this, "showDbBenchSortedBySql"));
+			$ilTabs->addSubtab("by_first_table",
+				$lng->txt("adm_db_bench_by_first_table"),
+				$ilCtrl->getLinkTarget($this, "showDbBenchByFirstTable"));
+		}
+
+		$ilTabs->activateSubTab($a_current);
 	}
 
 
