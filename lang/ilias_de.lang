@@ -10386,3 +10386,6 @@ user#:#restrict_user_access_info#:#Aktivieren Sie diese Option, um den Zugriff a
 common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_info_inherit#:#Die Sortierung wird vom übergeordneten Kurs übernommen.
+trac#:#trac_subitems#:#Unterobjekte zeigen
+trac#:#trac_participants#:#Teilnehmer zeigen
+trac#:#trac_title#:#Titel

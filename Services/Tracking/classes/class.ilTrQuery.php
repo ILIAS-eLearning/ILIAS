@@ -13,7 +13,7 @@ class ilTrQuery
 {
 	function getObjectsStatusForUser($a_user_id, array $obj_refs)
 	{
-		global $ilDB, $ilObjDataCache;
+		global $ilDB;
 
 		if(sizeof($obj_refs))
 		{
@@ -33,9 +33,35 @@ class ilTrQuery
 				$view_modes[(int)$rec["obj_id"]] = (int)$rec["view_mode"];
 			}
 
+			// prepare session data
+			$query = "SELECT obj_id, title, e_start, e_end, (CASE WHEN participated THEN 2 WHEN registered THEN 1 ELSE NULL END) AS status,".
+				"mark, e_comment AS comment".
+				" FROM event".
+				" JOIN event_appointment ON (event.obj_id = event_appointment.event_id)".
+				" LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id AND usr_id = ".$ilDB->quote($a_user_id, "integer").")".
+				" WHERE ".$ilDB->in("obj_id", $obj_ids , false, "integer");
+			$set = $ilDB->query($query);
+			$sessions = array();
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$date = ilDatePresentation::formatPeriod(
+					new ilDateTime($rec["e_start"], IL_CAL_DATETIME),
+					new ilDateTime($rec["e_end"], IL_CAL_DATETIME));
+			    
+				if($rec["title"])
+				{
+					$rec["title"] = $date.': '.$rec["title"];
+				}
+				else
+				{
+					$rec["title"] = $date;
+				}
+				$sessions[$rec["obj_id"]] = $rec;
+			}
+
 			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
 				" percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
-				" u_mode, type, visits".
+				" u_mode, type, visits, mark, u_comment AS comment".
 				" FROM object_data".
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
 				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
@@ -53,6 +79,13 @@ class ilTrQuery
 				$rec["read_count"] = (int)$rec["read_count"];
 				$rec["spent_seconds"] = (int)$rec["spent_seconds"];
 				$rec["u_mode"] = (int)$rec["u_mode"];
+
+				if($rec["type"] == "sess")
+				{
+					$session = $sessions[$rec["obj_id"]];
+					$rec["title"] = $session["title"];
+					$rec["status"] = (int)$session["status"];
+				}
 
 				// lp mode might not match object/course view mode
 				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
@@ -73,6 +106,136 @@ class ilTrQuery
 			return $result;
 		}
 	}
+
+	function getObjectivesStatusForUser($a_user_id, array $obj_ids)
+	{
+		global $ilDB;
+
+		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status".
+			" FROM crs_objectives".
+			" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id AND user_id = ".$a_user_id.")".
+			" WHERE ".$ilDB->in("crs_objectives.objective_id", $obj_ids, false, "integer").
+			" ORDER BY position";
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			if($rec["status"])
+			{
+				$rec["status"] = LP_STATUS_COMPLETED_NUM;
+			}
+			$result[] = $rec;
+		}
+		
+		return $result;
+	}
+
+	function getObjectsStatus(array $obj_refs)
+	{
+		global $ilDB;
+
+		if(sizeof($obj_refs))
+		{
+			$obj_ids = array_keys($obj_refs);
+
+			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+
+			// prepare object view modes
+			include_once 'Modules/Course/classes/class.ilObjCourse.php';
+			$view_modes = array();
+			$query = "SELECT obj_id, view_mode FROM crs_settings".
+				" WHERE ".$ilDB->in("obj_id", $obj_ids , false, "integer");
+			$set = $ilDB->query($query);
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$view_modes[(int)$rec["obj_id"]] = (int)$rec["view_mode"];
+			}
+
+			// prepare session data
+			/*
+			$query = "SELECT obj_id, title, e_start, e_end, (CASE WHEN participated THEN 2 WHEN registered THEN 1 ELSE NULL END) AS status".
+				" FROM event".
+				" JOIN event_appointment ON (event.obj_id = event_appointment.event_id)".
+				" LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id)".
+				" WHERE ".$ilDB->in("obj_id", $obj_ids , false, "integer");
+			$set = $ilDB->query($query);
+			$sessions = array();
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$date = ilDatePresentation::formatPeriod(
+					new ilDateTime($rec["e_start"], IL_CAL_DATETIME),
+					new ilDateTime($rec["e_end"], IL_CAL_DATETIME));
+
+				if($rec["title"])
+				{
+					$rec["title"] = $date.': '.$rec["title"];
+				}
+				else
+				{
+					$rec["title"] = $date;
+				}
+				$sessions[$rec["obj_id"]] = $rec;
+			}
+
+			 */
+
+
+			$query = "SELECT object_data.obj_id, title, SUM(CASE WHEN status IS NULL THEN 1 ELSE 0 END) AS status_not_attempted,".
+				" SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS status_in_progress,".
+				" SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) AS status_completed,".
+				" SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS status_failed,".
+				// " AVG(percentage), SUM(read_count+childs_read_count) AS read_count, AVG(spent_seconds+childs_spent_seconds) AS spent_seconds,".
+				" u_mode, type".
+				" FROM object_data".
+				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
+				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id)".
+				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id)".
+				" WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
+				" AND (read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)".
+				" AND (read_event.usr_id IS NULL OR ut_lp_marks.usr_id IS NULL OR read_event.usr_id = ut_lp_marks.usr_id)".
+				" AND ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
+				" GROUP BY object_data.obj_id, title, u_mode, type".
+				" ORDER BY title";
+			$set = $ilDB->query($query);
+			$result = array();
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$rec["ref_ids"] = $obj_refs[(int)$rec["obj_id"]];
+				$rec["status"] = (int)$rec["status"];
+				$rec["u_mode"] = (int)$rec["u_mode"];
+				$rec["status_not_attempted"] = (int)$rec["status_not_attempted"];
+				$rec["status_in_progress"] = (int)$rec["status_in_progress"];
+				$rec["status_completed"] = (int)$rec["status_completed"];
+				$rec["status_failed"] = (int)$rec["status_failed"];
+
+				if($rec["type"] == "sess")
+				{
+					$session = $sessions[$rec["obj_id"]];
+					$rec["title"] = $session["title"];
+					$rec["status"] = (int)$session["status"];
+				}
+
+				// lp mode might not match object/course view mode
+				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
+				{
+					$rec["u_mode"] = LP_MODE_OBJECTIVES;
+				}
+				else if(!$rec["u_mode"])
+				{
+					$rec["u_mode"] = ilLPObjSettings::__getDefaultMode($rec["obj_id"], $rec["type"]);
+				}
+
+				// can be default mode
+				if($rec["u_mode"] != LP_MODE_DEACTIVATE)
+				{
+					$result[] = $rec;
+				}
+			}
+			return $result;
+		}
+	}
+
 	/*
 	 usr_data: usr_id, login, firstname, lastname, ...
 	 
@@ -198,155 +361,7 @@ class ilTrQuery
 	    ORDER BY login;
 
      ---
-
-	 DEFAULT MODES
-	 
-	  	case 'crs':
-			// If [course-settings-]objectives are enabled
-			if(ilLPObjSettings::_checkObjectives($a_obj_id))
-			{
-				return LP_MODE_OBJECTIVES;
-			}
-			return LP_MODE_MANUAL_BY_TUTOR;
-
-		case 'dbk':
-		case 'lm':
-		case 'htlm':
-			return LP_MODE_MANUAL;
-
-		case 'sahs':
-			return LP_MODE_DEACTIVATED;
-
-		case 'tst':
-			return LP_MODE_TEST_PASSED;
-
-		case 'exc':
-			return LP_MODE_EXERCISE_RETURNED;
-
-		case 'grp':
-			return LP_MODE_DEACTIVATED;
-
-		case 'fold':
-			return LP_MODE_DEACTIVATED;
-
-		case 'sess':
-			return LP_MODE_EVENT;
-
-		default:
-			return LP_MODE_UNDEFINED;
-
-	  ---
-
-	  VALID MODES
-
-		case 'crs':
-			if(ilLPObjSettings::_checkObjectives($this->getObjId()))
-			{
-				return array(LP_MODE_OBJECTIVES => $lng->txt('trac_mode_objectives'));
-			}
-
-			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
-						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-
-			break;
-
-		case 'tst':
-			return array(LP_MODE_TEST_FINISHED => $lng->txt('trac_mode_test_finished'),
-						 LP_MODE_TEST_PASSED => $lng->txt('trac_mode_test_passed'),
-						 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-
-		case 'exc':
-			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						 LP_MODE_EXERCISE_RETURNED => $lng->txt('trac_mode_exercise_returned'));
-
-		case 'grp':
-			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						 LP_MODE_MANUAL_BY_TUTOR => $lng->txt('trac_mode_manual_by_tutor'),
-						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-
-		case 'fold':
-			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
-
-		case 'sess':
-			return array(LP_MODE_EVENT => $this->lng->txt('trac_mode_event'));
-
-		case 'dbk':
-			return array(
-				LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-				LP_MODE_DEACTIVATE => $lng->txt('trac_mode_deactivated')
-			);
-		case 'lm':
-			return array(LP_MODE_MANUAL => $lng->txt('trac_mode_manual'),
-						 LP_MODE_VISITS => $lng->txt('trac_mode_visits'),
-						 LP_MODE_TLT => $lng->txt('trac_mode_tlt'),
-						 LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-
-		case 'htlm':
-			return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						 LP_MODE_MANUAL => $lng->txt('trac_mode_manual'));
-
-		case 'sahs':
-			include_once './Services/Tracking/classes/class.ilLPCollections.php';
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$subtype = ilObjSAHSLearningModule::_lookupSubType($this->getObjId());
-
-			if ($subtype != "scorm2004")
-			{
-				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
-				{
-					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-				}
-				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
-				{
-					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-								 LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-				}
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'));
-			}
-			else
-			{
-				if(ilLPObjSettings::_checkSCORMPreconditions($this->getObjId()))
-				{
-					return array(LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'),
-						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
-				}
-				if(ilLPCollections::_getCountPossibleSAHSItems($this->getObjId()))
-				{
-					return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-						LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'),
-						LP_MODE_SCORM => $lng->txt('trac_mode_scorm_aicc'));
-				}
-				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
-					LP_MODE_SCORM_PACKAGE => $lng->txt('trac_mode_scorm_package'));
-			}
-			break;
-
-	 */
-
-	 /*
-	 *
-	 *  getUserDataForObjects($user_id, $object_ids)
-	 *  getSummarizedUserDataForObject($object_id)
-	 *  getObjectDataForUsers($object_id, $user_ids)
-	 *  getUserStatusForObjects($object_ids)
-	 *  getObjectStatusForUsers($user_id, $object_ids)
-	 *
-	 *
-	 *
-	 *  buildObjectDataBaseQuery($fields, $filters, $obj_id = false, $ref_id = false, $user_id = false)
-	 *  buildUserDataBaseQuery($fields, $filters, $obj_id = false, $ref_id = false, $user_id = false)
-	 *
-	 *
-	 *  getObjectIds()
-	 *  getParticipants()
-	 *  getObjectInfo()
-	 *  getUserInfo()
-	 *
-	 *
-	 */
-
+     */
 
 
 
@@ -609,47 +624,6 @@ class ilTrQuery
 		return $result;
 	}
 
-	/*
-	static function getUserStatusForAllObjects($a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
-		array $a_filter = NULL)
-	{
-		// status only
-		// rows: objects + objectives(?)
-		// aggr. user
-
-		// a_parent_obj_id: ROOT
-		// a_ref_id: ROOT
-		// fields: title, status
-		// group_by: obj_id, status
-	}
-
-	static function getObjectStatusForUser($a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
-		array $a_filter = NULL)
-	{
-		// 1 user
-		// status only
-		// rows: objects
-
-		// a_parent_obj_id: ROOT
-		// a_ref_id: ROOT
-		// fields: title, status
-		// group_by: -
-	}
-
-	static function getStatusOverviewForObject($a_parent_obj_id, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
-		array $a_filter = NULL)
-	{
-		// status only
-		// rows: objects + objectives
-		// aggr user
-
-		// a_parent_obj_id: ok
-		// a_ref_id: ok
-		// fields: title, status
-		// group by: obj_id, status
-	}
-	 */
-
 	/**
 	 * Get participant ids for given object
 	 *
@@ -664,6 +638,7 @@ class ilTrQuery
 		switch(ilObject::_lookupType($a_obj_id))
 		{
 			case "crs":
+				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 				$a_users = $member_obj->getParticipants();
 				break;
