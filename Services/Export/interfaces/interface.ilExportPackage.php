@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Interface for export classes
+ * Interface for export package manager classes
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesExport
  */
-interface ilExport2Int
+interface ilExportPackage
 {
 	/**
 	 * Get export sequence

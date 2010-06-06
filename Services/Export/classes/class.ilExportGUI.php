@@ -215,7 +215,8 @@ class ilExportGUI
 				else if ($format == "xml")		// standard procedure
 				{
 					include_once("./Services/Export/classes/class.ilExport.php");
-					ilExport::_exportObject($this->obj->getType(),
+					$exp = new ilExport();
+					$exp->exportObject($this->obj->getType(),
 						$this->obj->getId(), "4.1.0");
 				}
 			}
