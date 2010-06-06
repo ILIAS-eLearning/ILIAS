@@ -287,7 +287,7 @@ class ilExport
 	 * @param
 	 * @return
 	 */
-	static function _exportObject($a_type, $a_id, $a_target_release, $a_config = "")
+	function exportObject($a_type, $a_id, $a_target_release, $a_config = "")
 	{
 		global $objDefinition, $tpl;
 				
@@ -296,89 +296,111 @@ class ilExport
 		
 		// manifest writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-		$manifest_writer = new ilXmlWriter();
-		$manifest_writer->xmlHeader();
-		$manifest_writer->xmlStartTag('manifest', array());
+		$this->manifest_writer = new ilXmlWriter();
+		$this->manifest_writer->xmlHeader();
+		$this->manifest_writer->xmlStartTag('manifest', array());
 
 		// get export class
-		$success = true;
-		$export_class_file = "./".$comp."/classes/class.il".$class."Export2.php";
-		if (!is_file($export_class_file))
-		{
-			$success = false;
-		}
-		if ($success)
-		{
-			ilExport::_createExportDirectory($a_id, "xml", $a_type);
-			$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
-			$ts = time();
-			$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
-			$export_run_dir = $export_dir."/".$sub_dir;
-			
-			$class = "il".$class."Export2";
-			include_once($export_class_file);
-			$export = new $class();
-			$sequence = $export->getXmlExportSequence($a_target_release, $a_id);
-			$cnt = array();
-			// work through export sequence
-			foreach ($sequence as $s)
-			{
-				// dataset file
-				$dataset_file = "./".$s["component"]."/classes/class.il".$s["ds_class"].".php";
-				if (is_file($dataset_file))
-				{
-					if (!isset($cnt[$s["component"]]))
-					{
-						$cnt[$s["component"]] = 1;
-					}
-					else
-					{
-						$cnt[$s["component"]]++;
-					}
-					
-					include_once($dataset_file);
-					$ds_class = "il".$s["ds_class"];
-					$success = false;
-					$ds = new $ds_class();
-					
-					$set_dir_relative = $s["component"]."/set_".$cnt[$s["component"]];
-					$set_dir_absolute = $export_run_dir."/".$set_dir_relative;
-					ilUtil::makeDirParents($set_dir_absolute);
-					$ds->setExportDirectories($set_dir_relative, $set_dir_absolute);
+		ilExport::_createExportDirectory($a_id, "xml", $a_type);
+		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
+		$ts = time();
+		$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+		$this->export_run_dir = $export_dir."/".$sub_dir;
+		ilUtil::makeDirParents($this->export_run_dir);
 
-					$xml = $ds->getXmlRepresentation($s["entity"], $a_target_release, $s["ids"]);
-					
-					$file = $set_dir_absolute."/dataset.xml"; 
-					if ($fp = @fopen($file,"w+"))
-					{
-						// set file permissions
-						chmod($file, 0770);
-						fwrite($fp, $xml);
-						fclose($fp);
-					}
-					
-					$manifest_writer->xmlElement("xmlfile",
-						array("component" => $s["component"], "path" => $set_dir_relative."/dataset.xml"));
-				}
-			}
-			
-		}
+		$this->cnt = array();
 		
-		$manifest_writer->xmlEndTag('manifest');
+		$success = $this->processExporter($comp, "il".$class."Export2", $a_type, $a_target_release, $a_id);
 
-$tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDumpMem(true))."</pre>");
-	
-		$manifest_writer->xmlDumpFile($export_run_dir."/manifest.xml", false);
+		$this->manifest_writer->xmlEndTag('manifest');
+
+//$tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDumpMem(true))."</pre>");
+
+		$this->manifest_writer->xmlDumpFile($this->export_run_dir."/manifest.xml", false);
 //echo "-".$export_run_dir."-";
-	
+
 		// zip the file
-		ilUtil::zip($export_run_dir, $export_dir."/".$sub_dir.".zip");
-		ilUtil::delDir($export_run_dir);
-		
+		ilUtil::zip($this->export_run_dir, $export_dir."/".$sub_dir.".zip");
+		ilUtil::delDir($this->export_run_dir);
+//exit;
 		return array(
 			"success" => $success,
 			"file" => $filename,
 			"directory" => $directory
 			);
+	}
+
+	/**
+	 * Process exporter
+	 *
+	 * @param
+	 * @return
+	 */
+	function processExporter($a_comp, $a_class, $a_entity, $a_target_release, $a_id)
+	{
+		$success = true;
+
+		// get exporter object
+		$export_class_file = "./".$a_comp."/classes/class.".$a_class.".php";
+//echo "1-".$export_class_file."-";
+		if (!is_file($export_class_file))
+		{
+			return false;
+		}
+		include_once($export_class_file);
+		$exp = new $a_class();
+
+		// process head dependencies
+		$sequence = $exp->getXmlExportHeadDependencies($a_target_release, $a_id);
+		foreach ($sequence as $s)
+		{
+			$s = $this->processExporter($s["component"], $s["exp_class"],
+				$s["entity"], $a_target_release, $s["ids"]);
+			if (!$s)
+			{
+				$success = false;
+			}
+		}
+//echo "2";
+		if (!isset($this->cnt[$a_comp]))
+		{
+			$this->cnt[$a_comp] = 1;
+		}
+		else
+		{
+			$this->cnt[$a_comp]++;
+		}
+		$set_dir_relative = $a_comp."/set_".$this->cnt[$a_comp];
+		$set_dir_absolute = $this->export_run_dir."/".$set_dir_relative;
+		ilUtil::makeDirParents($set_dir_absolute);
+		$exp->setExportDirectories($set_dir_relative, $set_dir_absolute);
+
+		$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $a_id);
+
+		$file = $set_dir_absolute."/export.xml";
+		if ($fp = @fopen($file,"w+"))
+		{
+			// set file permissions
+			chmod($file, 0770);
+			fwrite($fp, $xml);
+			fclose($fp);
+		}
+
+		$this->manifest_writer->xmlElement("xmlfile",
+			array("component" => $a_comp, "path" => $set_dir_relative."/export.xml"));
+
+		// process tail dependencies
+		$sequence = $exp->getXmlExportTailDependencies($a_target_release, $a_id);
+		foreach ($sequence as $s)
+		{
+			$s = $this->processExporter($s["component"], $s["exp_class"],
+				$s["entity"], $a_target_release, $s["ids"]);
+			if (!$s)
+			{
+				$success = false;
+			}
+		}
+
+		return $success;
 	}
 }
