@@ -67,11 +67,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			 */
 
 			default:
-				$cmd = $this->ctrl->getCmd();
-				if(!$cmd)
-				{
-				  $cmd = $this->__getDefaultCommand();
-				}
+				$cmd = $this->__getDefaultCommand();
 				$this->$cmd();
 
 		}

@@ -16,7 +16,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI
 *
 * @package ilias-tracking
 *
@@ -48,10 +48,23 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		switch($this->ctrl->getNextClass())
 		{
+			case 'iltruserobjectspropstablegui':
+				$user_id = (int)$_GET["user_id"];
+				$this->ctrl->setParameter($this, "user_id", $user_id);
+
+				$this->ctrl->setParameter($this, "details_id", $this->details_id);
+
+				include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+				$table_gui = new ilTrUserObjectsPropsTableGUI($this, "userDetails", "truop".$user_id,
+					$user_id, $this->details_obj_id, $this->details_id);
+				$this->ctrl->setReturn($this, 'userDetails');
+				$this->ctrl->forwardCommand($table_gui);
+				break;
+			
 			case 'illpobjectstablegui':
 				include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 			    $table_gui = new ilLPObjectsTableGUI($this, "", $this->tracked_user);
-				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->setReturn($this, 'show');
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
@@ -66,9 +79,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             */
 
 			default:
-				$cmd = $this->__getDefaultCommand();
+			    $cmd = $this->__getDefaultCommand();
 				$this->$cmd();
-
 		}
 
 		return true;
