@@ -2535,7 +2535,7 @@ common#:#file_copy#:#Copy File
 common#:#file_created#:#File has been added.
 common#:#file_delete#:#Delete File
 common#:#file_edit_permission#:#Change Permission settings
-common#:#file_edit#:#Edit File
+common#:#file_edit#:#Edit File and Upload New Version
 common#:#file_icon#:#File icon
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
