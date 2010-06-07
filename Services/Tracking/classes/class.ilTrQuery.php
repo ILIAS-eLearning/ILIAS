@@ -66,8 +66,8 @@ class ilTrQuery
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
 				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
 				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND ut_lp_marks.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
-				" WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
-				" AND ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
+				// " WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
+				" WHERE ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
 				" ORDER BY title";
 			$set = $ilDB->query($query);
 			$result = array();
@@ -98,7 +98,7 @@ class ilTrQuery
 				}
 
 				// can be default mode
-				if($rec["u_mode"] != LP_MODE_DEACTIVATE)
+				if(/*$rec["u_mode"] != LP_MODE_DEACTIVATE*/ true)
 				{
 					$result[] = $rec;
 				}

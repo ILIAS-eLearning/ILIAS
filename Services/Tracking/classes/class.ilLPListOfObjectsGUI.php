@@ -16,7 +16,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilLPFilterGUI, ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI
 *
 * @package ilias-tracking
 *
@@ -55,8 +55,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		switch($this->ctrl->getNextClass())
 		{
-			case 'illpfiltergui':
-				$this->ctrl->forwardCommand($this->filter_gui);
+			case 'illpobjectstablegui':
+				include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
+			    $table_gui = new ilLPObjectsTableGUI($this, "", $this->tracked_user);
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($table_gui);
 				break;
 
 			/*
@@ -283,7 +286,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		 */
 
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-		$lp_table = new ilLPObjectsTableGUI($this, "", $type, $objs);
+		$lp_table = new ilLPObjectsTableGUI($this, "");
 		
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 	}

@@ -197,26 +197,30 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 		$tpl = new ilTemplate("tpl.prop_multi_select.html", true, true, "Services/Form");
 		$values = $this->getValue();
 
-		foreach($this->getOptions() as $option_value => $option_text)
+		$options = $this->getOptions();
+		if($options)
 		{
-			$tpl->setCurrentBlock("item");
-			if ($this->getDisabled())
+			foreach($options as $option_value => $option_text)
 			{
-				$tpl->setVariable("DISABLED",
-					" disabled=\"disabled\"");
-			}
-			if (in_array($option_value, $values))
-			{
-				$tpl->setVariable("CHECKED",
-					" checked=\"checked\"");
-			}
+				$tpl->setCurrentBlock("item");
+				if ($this->getDisabled())
+				{
+					$tpl->setVariable("DISABLED",
+						" disabled=\"disabled\"");
+				}
+				if (in_array($option_value, $values))
+				{
+					$tpl->setVariable("CHECKED",
+						" checked=\"checked\"");
+				}
 
-			$tpl->setVariable("VAL", ilUtil::prepareFormOutput($option_value));
-			$tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput($option_value));
-			$tpl->setVariable("IID", $this->getFieldId());
-			$tpl->setVariable("TXT_OPTION", $option_text);
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
-			$tpl->parseCurrentBlock();
+				$tpl->setVariable("VAL", ilUtil::prepareFormOutput($option_value));
+				$tpl->setVariable("ID_VAL", ilUtil::prepareFormOutput($option_value));
+				$tpl->setVariable("IID", $this->getFieldId());
+				$tpl->setVariable("TXT_OPTION", $option_text);
+				$tpl->setVariable("POST_VAR", $this->getPostVar());
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		$tpl->setVariable("ID", $this->getFieldId());
