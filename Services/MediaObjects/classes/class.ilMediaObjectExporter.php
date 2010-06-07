@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/interfaces/interface.ilXmlExporter.php");
+include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
  * Export2 class for media pools
@@ -10,30 +10,26 @@ include_once("./Services/Export/interfaces/interface.ilXmlExporter.php");
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
-class ilMediaObjectExporter implements ilXmlExporter
+class ilMediaObjectExporter extends ilXmlExporter
 {
 	private $ds;
 
 	/**
-	 * Constructor
+	 * Initialisation
 	 */
-	function __construct()
+	function init()
 	{
 		include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
 		$this->ds = new ilMediaObjectDataSet();
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 	}
 
 	/**
-	 * Get export sequence
+	 * Get tail dependencies
 	 *
 	 * @param
 	 * @return
 	 */
-	function getXmlExportHeadDependencies($a_target_release, $a_id)
-	{
-		return array();
-	}
-
 	public function getXmlExportTailDependencies($a_target_release, $a_id)
 	{
 		if (!is_array($a_id))
@@ -58,11 +54,6 @@ class ilMediaObjectExporter implements ilXmlExporter
 				"entity" => "md",
 				"ids" => $md_ids)
 			);
-	}
-
-	public function setExportDirectories($a_dir_relative, $a_dir_absolute)
-	{
-		$this->ds->setExportDirectories($a_dir_relative, $a_dir_absolute);
 	}
 
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)

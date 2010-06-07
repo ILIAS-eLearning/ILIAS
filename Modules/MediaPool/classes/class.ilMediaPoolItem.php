@@ -260,6 +260,30 @@ class ilMediaPoolItem
 		}
 		return $pool_ids;		// currently this array should contain only one id
 	}
-	
+
+	/**
+	 * Get all ids for type
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getIdsForType($a_id, $a_type)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT mep_tree.child as id".
+			" FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) WHERE ".
+			" mep_tree.mep_id = ".$ilDB->quote($a_id, "integer")." AND ".
+			" mep_item.type = ".$ilDB->quote($a_type, "text")
+		);
+
+		$ids = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $rec["id"];
+		}
+		return $ids;
+	}
+
 }
 ?>

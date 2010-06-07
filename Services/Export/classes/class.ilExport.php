@@ -310,7 +310,7 @@ class ilExport
 
 		$this->cnt = array();
 		
-		$success = $this->processExporter($comp, "il".$class."Export2", $a_type, $a_target_release, $a_id);
+		$success = $this->processExporter($comp, "il".$class."Exporter", $a_type, $a_target_release, $a_id);
 
 		$this->manifest_writer->xmlEndTag('manifest');
 
@@ -349,19 +349,6 @@ class ilExport
 		}
 		include_once($export_class_file);
 		$exp = new $a_class();
-
-		// process head dependencies
-		$sequence = $exp->getXmlExportHeadDependencies($a_target_release, $a_id);
-		foreach ($sequence as $s)
-		{
-			$s = $this->processExporter($s["component"], $s["exp_class"],
-				$s["entity"], $a_target_release, $s["ids"]);
-			if (!$s)
-			{
-				$success = false;
-			}
-		}
-//echo "2";
 		if (!isset($this->cnt[$a_comp]))
 		{
 			$this->cnt[$a_comp] = 1;
@@ -374,6 +361,19 @@ class ilExport
 		$set_dir_absolute = $this->export_run_dir."/".$set_dir_relative;
 		ilUtil::makeDirParents($set_dir_absolute);
 		$exp->setExportDirectories($set_dir_relative, $set_dir_absolute);
+		$exp->init();
+
+		// process head dependencies
+		$sequence = $exp->getXmlExportHeadDependencies($a_target_release, $a_id);
+		foreach ($sequence as $s)
+		{
+			$s = $this->processExporter($s["component"], $s["exp_class"],
+				$s["entity"], $a_target_release, $s["ids"]);
+			if (!$s)
+			{
+				$success = false;
+			}
+		}
 
 		$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $a_id);
 
@@ -381,7 +381,7 @@ class ilExport
 		if ($fp = @fopen($file,"w+"))
 		{
 			// set file permissions
-			chmod($file, 0770);
+//			chmod($file, 0770);
 			fwrite($fp, $xml);
 			fclose($fp);
 		}

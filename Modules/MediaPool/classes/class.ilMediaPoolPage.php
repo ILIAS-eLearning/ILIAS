@@ -139,33 +139,6 @@ class ilMediaPoolPage extends ilPageObject
 		return ilMediaPoolItem::lookupTitle($a_page_id);
 	}
 
-	/**
-	* Get all pages of media pool
-	*
-	* @access	public
-	*/
-	static function getAllPages($a_media_pool_id)
-	{
-		global $ilDB;
-// todo
-/*
-		$pages = parent::getAllPages("mep", $a_media_pool_id);
-		
-		$query = "SELECT * FROM il_media_pool_page".
-			" WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer").
-			" ORDER BY title";
-		$set = $ilDB->query($query);
-		
-		while($rec = $ilDB->fetchAssoc($set))
-		{
-			if (isset($pages[$rec["id"]]))
-			{
-				$pages[$rec["id"]]["title"] = $rec["title"];
-			}
-		}
-*/		
-		return $pages;
-	}
 
 	/**
 	* Check whether page exists in media pool or not	
