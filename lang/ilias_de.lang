@@ -2515,7 +2515,7 @@ common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Die Datei wurde hinzugefügt.
 common#:#file_delete#:#Datei löschen
-common#:#file_edit#:#Datei bearbeiten
+common#:#file_edit#:#Dateieinstellungen bearbeiten und neue Version hochladen
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_icon#:#Dateisymbol
 common#:#file_info#:#Dateiinformation
