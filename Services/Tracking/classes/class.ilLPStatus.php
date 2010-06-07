@@ -203,6 +203,17 @@ class ilLPStatus
 	{
 		return false;
 	}
+
+	/**
+	 * Determine status
+	 *
+	 * @param
+	 * @return
+	 */
+	function determineStatus($a_obj_id, $a_usr_id, $a_obj = null)
+	{
+		return false;
+	}
 	
 		
 	/**

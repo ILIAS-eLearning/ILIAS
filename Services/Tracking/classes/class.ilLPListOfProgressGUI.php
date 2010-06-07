@@ -8,7 +8,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI, ilPDFPresentation, ilLPProgressTableGUI
+* @ilCtrl_Calls ilLPListOfProgressGUI: ilPDFPresentation, ilLPProgressTableGUI
 *
 * @package ilias-tracking
 *
@@ -49,10 +49,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->ctrl->saveParameter($this,'user_id',$this->getUserId());
 		switch($this->ctrl->getNextClass())
 		{
-			case 'illpfiltergui':
-				include_once './Services/Tracking/classes/class.ilLPFilterGUI.php';
-				$filter_gui = new ilLPFilterGUI($ilUser->getId());
-				$this->ctrl->forwardCommand($filter_gui);
+			case 'illpprogresstablegui':
+				include_once './Services/Tracking/classes/class.ilLPProgressTableGUI.php';
+			    $table_gui = new ilLPProgressTableGUI($this, "", $this->tracked_user);
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($table_gui);
 				break;
 
 			/*
@@ -65,15 +66,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				break;
 			 */
 
-			/*
-			case 'illpprogresstablegui':
-				include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-				$lp_table = new ilLPProgressTableGUI($this, "");
-				$this->ctrl->setReturn($this,'show');
-				$this->ctrl->forwardCommand($lp_table);
-				break;
-			 */
-				
 			default:
 				$cmd = $this->ctrl->getCmd();
 				if(!$cmd)
@@ -216,7 +208,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 	}
-		
+
 	function __initUser($a_usr_id = 0)
 	{
 		global $ilUser,$rbacreview;
