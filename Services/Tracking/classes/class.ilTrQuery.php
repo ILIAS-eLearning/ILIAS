@@ -440,7 +440,7 @@ class ilTrQuery
 		self::buildColumns($fields, $a_additional_fields);
 
 		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, $use_collection);
-		
+
 		$query = " FROM object_data LEFT JOIN read_event ON (object_data.obj_id = read_event.obj_id AND".
 			" read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = ".$ilDB->quote($a_user_id, "integer")." AND".
@@ -488,7 +488,15 @@ class ilTrQuery
 			$a_order_field = "title";
 		}
 
-		return self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
+		$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
+		if($result["cnt"])
+		{
+			foreach($result["set"] as $idx => $item)
+			{
+				$result["set"][$idx]["ref_id"] = $objects["ref_ids"][$item["obj_id"]];
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -828,6 +836,7 @@ class ilTrQuery
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		
 		$object_ids = array($a_parent_obj_id);
+		$ref_ids = array($a_parent_obj_id=>$a_parent_ref_id);
 		$objectives_parent_id = false;
 
 		// lp collection
@@ -840,6 +849,7 @@ class ilTrQuery
 				{
 					$child_id = ilObject::_lookupObjId($child_ref_id);
 					$object_ids[] = $child_id;
+					$ref_ids[$child_id] = $child_ref_id;
 				}
 			}
 			// add objectives?
@@ -860,7 +870,8 @@ class ilTrQuery
 					if($cmode != LP_MODE_DEACTIVATED && $cmode != LP_MODE_UNDEFINED)
 					{
 						$object_ids[] = $child["obj_id"];
-					}
+						$ref_ids[$child["obj_id"]] = $child["ref_id"];
+ 					}
 				}
 		   }
 		}
@@ -871,7 +882,9 @@ class ilTrQuery
 			ilLPStatus::checkStatusForObject($object_id);
 		}
 
-		return array("object_ids"=>$object_ids, "objectives_parent_id"=>$objectives_parent_id);
+		return array("object_ids"=>$object_ids,
+			"ref_ids"=>$ref_ids,
+			"objectives_parent_id"=>$objectives_parent_id);
 	}
 
 	/**

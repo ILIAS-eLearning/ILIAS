@@ -26,21 +26,20 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_obj_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_obj_id, $a_ref_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->setId($a_table_id);
 		$this->obj_id = $a_obj_id;
+		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
-		
+
 		include_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
 		$this->status_class = ilLPStatusFactory::_getClassById($a_obj_id);
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-//		$this->setTitle($this->lng->txt("users"));
-		
-		// $this->addColumn("", "", "1", true);	// checkbox column
+
 		$this->addColumn($this->lng->txt("login"), "login");
 		
 		foreach ($this->getSelectedColumns() as $c)
@@ -57,6 +56,8 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt($l), $c);
 		}
 
+		$this->addColumn($this->lng->txt("actions"), "");
+
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -64,16 +65,11 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.object_users_props_row.html", "Services/Tracking");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
-		$this->initFilter();
-		$this->setFilterCommand("applyFilterUsers");
-		$this->setResetCommand("resetFilterUsers");
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 
-		// $this->setSelectAllCheckbox("id[]");
-		//$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
-		//$this->addCommandButton("addUser", $lng->txt("usr_add"));
-		
+		$this->initFilter();
+
 		$this->getItems();
 	}
 	
@@ -293,10 +289,16 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("VAL_LOGIN", $data["login"]);
 		
-		$ilCtrl->setParameterByClass("iltrackinggui", "obj_id", $data["usr_id"]);
-		$this->tpl->setVariable("HREF_LOGIN",
-			$ilCtrl->getLinkTargetByClass("iltrackinggui", "showUserObjectsProps"));
-	    $ilCtrl->setParameterByClass("iltrackinggui", "obj_id", "");
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
+		
+		$this->tpl->setVariable("HREF_LOGIN", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
+	  
+		$this->tpl->setCurrentBlock("item_command");
+		$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+		$this->tpl->parseCurrentBlock();
+
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
 	}
 
 }

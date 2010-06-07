@@ -638,5 +638,78 @@ class ilLearningProgressBaseGUI
 			$lng->txt("trac_failed"));
 		return $tpl->get();
 	}
+
+	function __showEditUser($a_user_id, $a_ref_id, $a_cancel, $a_sub_id = false)
+	{
+		global $ilObjDataCache, $lng, $ilCtrl;
+
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+
+		if(!$a_sub_id)
+        {
+			$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
+		}
+		else
+		{
+			$ilCtrl->setParameter($this,'userdetails_id',$a_sub_id);
+			$obj_id = $ilObjDataCache->lookupObjId($a_sub_id);
+		}
+		
+		$marks = new ilLPMarks($obj_id, $a_user_id);
+
+		$tpl = new ilTemplate('tpl.lp_edit_user.html', true, true, 'Services/Tracking');
+
+		$ilCtrl->setParameter($this,'user_id',$a_user_id);
+		$ilCtrl->setParameter($this,'details_id',$a_ref_id);
+		$tpl->setVariable("FORMACTION",$ilCtrl->getFormAction($this));
+
+		$tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath($a_user_id,'xxsmall'));
+		$tpl->setVariable("ALT_IMG",$ilObjDataCache->lookupTitle($a_user_id));
+		$tpl->setVariable("TXT_LP",$lng->txt('trac_learning_progress_tbl_header'));
+
+		$tpl->setVariable("COMMENT",ilUtil::prepareFormOutput($marks->getComment(),false));
+
+		$type = $ilObjDataCache->lookupType($obj_id);
+		if($type != 'lm')
+		{
+			$tpl->setVariable("TXT_MARK",$lng->txt('trac_mark'));
+			$tpl->setVariable("MARK",ilUtil::prepareFormOutput($marks->getMark(),false));
+		}
+
+		$tpl->setVariable("TXT_COMMENT",$lng->txt('trac_comment'));
+
+		$mode = ilLPObjSettings::_lookupMode($obj_id);
+		if($mode == LP_MODE_MANUAL or $mode == LP_MODE_MANUAL_BY_TUTOR)
+		{
+			$completed = ilLPStatusWrapper::_getCompleted($obj_id);
+
+			$tpl->setVariable("mode_manual");
+			$tpl->setVariable("TXT_COMPLETED",$lng->txt('trac_completed'));
+			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(in_array($a_user_id,$completed),
+																		   'completed',
+																		   '1'));
+		}
+
+		$tpl->setVariable("TXT_CANCEL",$lng->txt('cancel'));
+		$tpl->setVariable("TXT_SAVE",$lng->txt('save'));
+		$tpl->setVariable("CMD_CANCEL", $a_cancel);
+
+		return $tpl->get();
+	}
+
+	function __updateUser($user_id, $obj_id)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+
+		$marks = new ilLPMarks($obj_id, $user_id);
+		$marks->setMark(ilUtil::stripSlashes($_POST['mark']));
+		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
+		$marks->setCompleted((bool) $_POST['completed']);
+		$marks->update();
+
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+	}
 }
+
 ?>
