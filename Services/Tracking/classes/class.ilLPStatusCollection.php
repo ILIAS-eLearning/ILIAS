@@ -296,6 +296,7 @@ class ilLPStatusCollection extends ilLPStatus
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case "crs":
+				include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
 					$status = LP_STATUS_IN_PROGRESS_NUM;

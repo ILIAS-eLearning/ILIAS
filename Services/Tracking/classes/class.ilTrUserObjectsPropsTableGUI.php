@@ -26,13 +26,6 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		$this->obj_id = $a_obj_id;
 		$this->ref_id = $a_ref_id;
 
-		/*
-		$this->type = ilObject::_lookupType($a_obj_id);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
-		$this->status_class = ilLPStatusFactory::_getClassById($a_obj_id);
-		*/
-
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$user = ilObjUser::_lookupFullName($this->user_id)." (".
@@ -55,6 +48,8 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 			}
 			$this->addColumn($this->lng->txt($l), $c);
 		}
+
+		$this->addColumn($this->lng->txt("actions"), "");
 
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -277,6 +272,17 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "small"));
 		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
+
+		$this->tpl->setCurrentBlock("item_command");
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $this->user_id);
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", $this->ref_id);
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
+		$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", "");
+		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", "");
+		$this->tpl->parseCurrentBlock();
 	}
 
 }

@@ -36,13 +36,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		// Set item id for details
 		$this->__initDetails((int) $_REQUEST['details_id']);
-
-		$this->item_ref_id = (int) $_REQUEST['item_id'];
-		$this->item_id = $ilObjDataCache->lookupObjId($this->item_ref_id);
-		$this->offset = (int) $_GET['offset'];
-		$this->ctrl->saveParameter($this,'offset',$this->offset);
-		$this->ctrl->saveParameter($this,'details_id',$_REQUEST['details_id']);
-		$this->max_count = $ilUser->getPref('hits_per_page');
 	}
 	/**
 	* execute command
@@ -70,36 +63,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($pdf_gui);
 				break;
-
-			case 'iluserfiltergui':
-				switch($this->getMode())
-				{
-					case LP_MODE_REPOSITORY:
-						$this->ctrl->setReturn($this,'show');
-						break;
-					default:
-						$this->ctrl->setReturn($this,'details');
-						break;
-				}
-				$this->user_filter_gui = new ilUserFilterGUI($ilUser->getId());
-				$this->ctrl->forwardCommand($this->user_filter_gui);
-				break;
-
-			case 'illpprogresstablegui':
-				include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-				$lp_table = new ilLPProgressTableGUI($this, "");
-				$lp_table->initFilter();
-				$this->ctrl->setReturn($this,'show');
-				$this->ctrl->forwardCommand($lp_table);
-				break;
-			
-			case 'illpobjectstablegui':
-				include_once("./Services/Tracking/classes/class.ilLPObjectsTableGUI.php");
-				$lp_table = new ilLPObjectsTableGUI($this, "");
-				$lp_table->initFilter();
-				$this->ctrl->setReturn($this,'show');
-				$this->ctrl->forwardCommand($lp_table);
-				break;
             */
 
 			default:
@@ -113,81 +76,50 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function updateUser()
 	{
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		$marks = new ilLPMarks($this->item_id,$_REQUEST['user_id']);
-		$marks->setMark(ilUtil::stripSlashes($_POST['mark']));
-		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
-		$marks->setCompleted((bool) $_POST['completed']);
-		$marks->update();
+		if(isset($_GET["userdetails_id"]))
+		{
+			$parent = $this->details_id;
+			$this->__initDetails((int)$_GET["userdetails_id"]);
+		}
 		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->item_id, $_REQUEST['user_id']);
-		
+		$this->__updateUser($_REQUEST['user_id'], $this->details_obj_id);
 		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'));
-		$this->details();
+
+		if(!isset($_GET["userdetails_id"]))
+		{
+			$this->details();
+		}
+		else
+		{
+			$this->__initDetails($parent);
+			$this->userDetails();
+		}
 	}
 
 	function editUser()
 	{
 		global $ilObjDataCache;
 
-		// Load template
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_edit_user.html','Services/Tracking');
-
 		include_once 'Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
-		$item_list = & ilLPItemListFactory::_getInstanceByRefId(0,$this->item_ref_id,$ilObjDataCache->lookupType($this->item_id));
+
+		$parent_id = $this->details_id;
+		if(isset($_GET["userdetails_id"]))
+		{
+			$this->__initDetails((int)$_GET["userdetails_id"]);
+			$sub_id = $this->details_id;
+			$cancel = "userdetails";
+		}
+		else
+		{
+			$sub_id = NULL;
+			$cancel = "details";
+		}
+
+		$item_list = & ilLPItemListFactory::_getInstanceByRefId(0,$this->details_id,$this->details_type);
 		$info =& $item_list->renderObjectInfo();
-		$this->__appendLPDetails($info,$this->item_id,(int) $_GET['user_id']);
+		$this->__appendLPDetails($info,$this->details_obj_id,(int)$_GET['user_id']);
 
-		// Finally set template variable
-		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
-
-		$this->__showEditUser();
-	}
-
-	function __showEditUser()
-	{
-		global $ilObjDataCache;
-
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		$marks = new ilLPMarks($this->item_id,$_REQUEST['user_id']);
-
-		$this->ctrl->setParameter($this,'user_id',(int) $_GET['user_id']);
-		$this->ctrl->setParameter($this,'item_id',(int) $this->item_ref_id);
-		$this->ctrl->setParameter($this,'details_id',$this->details_id);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		$this->tpl->setVariable("TYPE_IMG",ilObjUser::_getPersonalPicturePath((int) $_GET['user_id'],'xxsmall'));
-		$this->tpl->setVariable("ALT_IMG",$ilObjDataCache->lookupTitle((int) $_GET['user_id']));
-		$this->tpl->setVariable("TXT_LP",$this->lng->txt('trac_learning_progress_tbl_header'));
-
-		$this->tpl->setVariable("COMMENT",ilUtil::prepareFormOutput($marks->getComment(),false));
-
-		$type = $ilObjDataCache->lookupType($this->item_id);
-		if($type != 'lm')
-		{
-			$this->tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-			$this->tpl->setVariable("MARK",ilUtil::prepareFormOutput($marks->getMark(),false));
-		}
-
-		$this->tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
-
-		$mode = ilLPObjSettings::_lookupMode($this->item_id);
-		if($mode == LP_MODE_MANUAL or $mode == LP_MODE_MANUAL_BY_TUTOR)
-		{
-			$completed = ilLPStatusWrapper::_getCompleted($this->item_id);
-			
-			$this->tpl->setVariable("mode_manual");
-			$this->tpl->setVariable("TXT_COMPLETED",$this->lng->txt('trac_completed'));
-			$this->tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(in_array((int) $_GET['user_id'],$completed),
-																		   'completed',
-																		   '1'));
-		}
-
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML().$this->__showEditUser((int)$_GET['user_id'], $parent_id, $cancel, $sub_id));
 	}
 
 	function details()
@@ -237,11 +169,31 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->obj_tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
 		}
 
+		$this->ctrl->setParameter($this, "details_id", $this->details_id);
+
 		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
-		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", "objectdetails".$this->details_obj_id, $this->details_obj_id);
+		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", "objectdetails".$this->details_obj_id, $this->details_obj_id, $this->details_id);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
+	}
+
+	function userDetails()
+	{
+		global $ilCtrl, $ilObjDataCache;
+
+		$ilCtrl->setParameter($this, "details_id", $this->details_id);
+
+		// Show back button
+		$this->__showButton($this->ctrl->getLinkTarget($this,'details'), $this->lng->txt('trac_view_user_list'));
+
+		$user_id = (int)$_GET["user_id"];
+		$ilCtrl->setParameter($this, "user_id", $user_id);
+
+		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
+		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", "truop".$user_id,
+			$user_id, $this->details_obj_id, $this->details_id);
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	function show()
