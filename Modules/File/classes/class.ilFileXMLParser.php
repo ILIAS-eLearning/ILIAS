@@ -23,7 +23,7 @@
 
 
 /**
-* Exercise XML Parser which completes/updates a given exercise by an xml string.
+* Exercise XML Parser which completes/updates a given file by an xml string.
 *
 * @author Roland Küstermann <roland@kuestermann.com>
 * @version $Id: class.ilObjectXMLParser.php 12811 2006-12-08 18:37:44Z akill $

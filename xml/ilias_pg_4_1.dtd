@@ -1,8 +1,4 @@
-<!-- ilias_pg.dtd for ILIAS Page Objects only, omitting MetaData -->
-<!-- , see http://www.ilias.uni-koeln.de/download/dtd/ilias_pg.dtd for current version -->
-<!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
-<!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
-<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- ilias_pg.dtd for ILIAS Page Objects only -->
 <!-- $Id$ -->
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
@@ -16,7 +12,7 @@
 <!ENTITY % kwtext "#PCDATA | br | Comment | Footnote | Strong | Emph | Accent | Important | Quotation | Code">
 <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
 <!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink">
-<!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | Code | ExtLink | IntLink | Important | Quotation | Code">
+<!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | ExtLink | IntLink | Important | Quotation | Code">
 <!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
 
 <!-- PageObject -->
@@ -63,7 +59,7 @@
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
-<!ELEMENT MediaObject ((MetaData, MediaItem+) | (MediaAlias, MediaAliasItem+))>
+<!ELEMENT MediaObject (MediaAlias, MediaAliasItem+)>
 <!-- MediaAlias -->
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
@@ -76,13 +72,7 @@
 <!ATTLIST MediaAliasItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
-<!--  is not an alias -->
-<!-- Every MediaItem belongs to a corresponding format/location pair in the technical
-	 Section of Meta Data -->
-<!ELEMENT MediaItem (Location, Format?, Layout?, Caption?, TextRepresentation?, Parameter*, MapArea*)>
-<!ATTLIST MediaItem
-	Purpose (Standard | Fullscreen | Additional) #REQUIRED
->
+
 <!-- MapAreas should be only defined for image objects with purpose Standard or Fullscreen -->
 <!ELEMENT MapArea (ExtLink | IntLink)>
 <!ATTLIST MapArea
@@ -94,6 +84,7 @@
 <!ELEMENT TextRepresentation (#PCDATA)>
 
 <!ELEMENT Format (#PCDATA)>
+
 <!ELEMENT Location (#PCDATA)>
 <!ATTLIST Location
 	Type (LocalFile | Reference) #REQUIRED
@@ -329,18 +320,6 @@ col or row span. -->
 	InstId CDATA #IMPLIED
 >
 
-<!-- Glossary -->
-<!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
-<!ELEMENT Glossary (MetaData, GlossaryItem+)>
-<!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects-->
-<!ELEMENT GlossaryItem (GlossaryTerm, Definition+)>
-<!ATTLIST GlossaryItem
-	Language (%langcode;) #REQUIRED
-	Id ID #REQUIRED
->
-<!-- GlossaryTerms can be included in Paragraphs -->
-<!ELEMENT GlossaryTerm (#PCDATA)>
-<!ELEMENT Definition (MetaData, PageContent*)>
 
 <!-- Layout -->
 <!-- Layout information for formatting content output different from default layout -->

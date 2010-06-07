@@ -44,6 +44,8 @@ class ilFileXMLWriter extends ilXmlWriter
     static $CONTENT_ATTACH_ENCODED = 1;
     static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
     static $CONTENT_ATTACH_GZIP_ENCODED = 3;
+	static $CONTENT_ATTACH_COPY = 4;
+
     /**
 	 * if true, file contents will be attached as base64
 	 *
@@ -57,6 +59,8 @@ class ilFileXMLWriter extends ilXmlWriter
 	 * @var ilObjFile
 	 */
 	var $file;
+
+	var $omit_header = false;
 
 	/**
 	* constructor
@@ -78,6 +82,37 @@ class ilFileXMLWriter extends ilXmlWriter
 	}
 
 
+	/**
+	 * Set omit header
+	 *
+	 * @param	boolean	omit header
+	 */
+	function setOmitHeader($a_val)
+	{
+		$this->omit_header = $a_val;
+	}
+
+	/**
+	 * Get omit header
+	 *
+	 * @return	boolean	omit header
+	 */
+	function getOmitHeader()
+	{
+		return $this->omit_header;
+	}
+
+	/**
+	 * Set file target directories
+	 *
+	 * @param	string	relative file target directory
+	 * @param	string	absolute file target directory
+	 */
+	function setFileTargetDirectories($a_rel, $a_abs)
+	{
+		$this->target_dir_relative = $a_rel;
+		$this->target_dir_absolute = $a_abs;
+	}
 
 
     /**
@@ -123,19 +158,29 @@ class ilFileXMLWriter extends ilXmlWriter
             $filename = $this->file->getDirectory($this->file->getVersion())."/".$this->file->getFileName();
             if (@is_file($filename))
             {
-                $content = @file_get_contents($filename);
-                $attribs = array("mode" =>"PLAIN");
-                if ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED)
-                {
-                    $attribs ["mode"] ="ZLIB";
-                    $content = @gzcompress($content, 9);
-                }elseif ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED)
-                {
-                    $attribs ["mode"] ="GZIP";
-                    $content = @gzencode($content, 9);
-                }
-                $content = base64_encode($content);
-                $this->xmlElement("Content",$attribs, $content);
+				if ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_COPY)
+				{
+					$attribs = array("mode" =>"COPY");
+					copy($filename, $this->target_dir_absolute."/".$this->file->getFileName());
+					$content = $this->target_dir_relative."/".$this->file->getFileName();
+					$this->xmlElement("Content",$attribs, $content);
+				}
+				else
+				{
+					$content = @file_get_contents($filename);
+					$attribs = array("mode" =>"PLAIN");
+					if ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED)
+					{
+						$attribs ["mode"] ="ZLIB";
+						$content = @gzcompress($content, 9);
+					}elseif ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED)
+					{
+						$attribs ["mode"] ="GZIP";
+						$content = @gzencode($content, 9);
+					}
+					$content = base64_encode($content);
+					$this->xmlElement("Content",$attribs, $content);
+				}
             }
 
         }
@@ -175,9 +220,12 @@ class ilFileXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_file_3_8.dtd\">");
-		$this->xmlSetGenCmt("Exercise Object");
-		$this->xmlHeader();
+		if (!$this->getOmitHeader())
+		{
+			$this->xmlSetDtdDef("<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_file_3_8.dtd\">");
+			$this->xmlSetGenCmt("Exercise Object");
+			$this->xmlHeader();
+		}
 
 		return true;
 	}

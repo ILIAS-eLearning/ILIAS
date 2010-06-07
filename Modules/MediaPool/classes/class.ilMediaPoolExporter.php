@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/interfaces/interface.ilXmlExporter.php");
+include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
  * Export2 class for media pools
@@ -10,17 +10,18 @@ include_once("./Services/Export/interfaces/interface.ilXmlExporter.php");
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
-class ilMediaPoolExport2 implements ilXmlExporter
+class ilMediaPoolExporter extends ilXmlExporter
 {
 	private $ds;
 
 	/**
-	 * Constructor
+	 * Initialisation
 	 */
-	function __construct()
+	function init()
 	{
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
 		$this->ds = new ilMediaPoolDataSet();
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 	}
 
 	/**
@@ -34,29 +35,29 @@ class ilMediaPoolExport2 implements ilXmlExporter
 		include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 		$mob_ids = ilObjMediaPool::getAllMobIds($a_id);
 
+		$pg_ids = array();
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		
+		$pages = ilMediaPoolItem::getIdsForType($a_id, "pg");
+
+		foreach ($pages as $p)
+		{
+			$pg_ids[] = "mep:".$p;
+		}
+
 		return array (
 			array(
 				"component" => "Services/MediaObjects",
 				"exp_class" => "ilMediaObjectExporter",
 				"entity" => "mob",
 				"ids" => $mob_ids)
-//			,
-//			array(
-//				"component" => "Modules/MediaPool",
-//				"exp_class" => "MediaPoolDataSet",
-//				"entity" => "mep",
-//				"ids" => $a_id)
+			,
+			array(
+				"component" => "Services/COPage",
+				"exp_class" => "ilCOPageExporter",
+				"entity" => "pg",
+				"ids" => $pg_ids)
 			);
-	}
-
-	public function getXmlExportTailDependencies($a_target_release, $a_id)
-	{
-		return array();
-	}
-
-	public function setExportDirectories($a_dir_relative, $a_dir_absolute)
-	{
-		$this->ds->setExportDirectories($a_dir_relative, $a_dir_absolute);
 	}
 
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
