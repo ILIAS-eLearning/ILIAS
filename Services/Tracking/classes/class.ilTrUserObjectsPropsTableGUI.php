@@ -12,7 +12,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @ilCtrl_Calls ilTrUserObjectsPropsTableGUI: ilFormPropertyDispatchGUI
  * @ingroup ServicesTracking
  */
-class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
+class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 {
 	/**
 	* Constructor
@@ -54,13 +54,11 @@ class ilTrUserObjectsPropsTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
+		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.user_objects_props_row.html", "Services/Tracking");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->initFilter();
-		$this->setFilterCommand("applyFilterObjects");
-		$this->setResetCommand("resetFilterObjects");
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 
