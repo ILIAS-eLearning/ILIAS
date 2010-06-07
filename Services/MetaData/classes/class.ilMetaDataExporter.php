@@ -23,6 +23,7 @@ class ilMetaDataExporter extends ilXmlExporter
 
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
 	{
+// todo: die ganze Schleife in ilExport und hier nur eine ID anfragen.
 		$xml = $this->getExportStartTag($a_entity, $a_target_release);
 		include_once("./Services/MetaData/classes/class.ilMD2XML.php");
 		foreach ($a_ids as $id)
