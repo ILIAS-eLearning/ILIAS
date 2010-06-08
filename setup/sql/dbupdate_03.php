@@ -1765,4 +1765,7 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 		"type" => "clob"
 	));
 ?>
-
+<#3058>
+<?php
+	$ilDB->dropTable("ut_lp_filter", false);
+?>

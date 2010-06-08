@@ -20,7 +20,6 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
 	var $tracked_user = null;
-	var $show_user_info = false;
 	var $details_id = 0;
 	var $details_type = '';
 	var $details_mode = 0;
@@ -125,8 +124,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($ilCtrl->getFormAction($this));
-
-		$this->__appendUserInfo($info);
+		$this->__appendUserInfo($info, $this->tracked_user);
 		$this->__showObjectDetails($info,$this->details_obj_id);
 		$this->__appendLPDetails($info,$this->details_obj_id,$this->tracked_user->getId());
 		
@@ -148,22 +146,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
 	}
 
-	function __appendUserInfo(&$info)
-	{
-		if($this->show_user_info)
-		{
-			$info->addSection($this->lng->txt("trac_user_data"));
-			$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
-			$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
-			$info->addProperty($this->lng->txt('last_login'),
-				ilDatePresentation::formatDate(new ilDateTime($this->tracked_user->getLastLogin(),IL_CAL_DATETIME)));
-			$info->addProperty($this->lng->txt('trac_total_online'),
-							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
-			return true;
-		}
-		return false;
-	}
-
 	function __showProgressList()
 	{
 		global $ilUser,$ilObjDataCache,$ilCtrl;
@@ -175,7 +157,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($ilCtrl->getFormAction($this));
 		
-		if ($this->__appendUserInfo($info))
+		if ($this->__appendUserInfo($info, $this->tracked_user))
 		{
 			$this->tpl->setCurrentBlock("info_user");
 			$this->tpl->setVariable("USER_INFO",$info->getHTML());
@@ -230,7 +212,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tracked_user = $ilUser;
 		}
 		
-		$this->show_user_info = ($this->tracked_user->getId() != $ilUser->getId());
 		return true;
 	}
 

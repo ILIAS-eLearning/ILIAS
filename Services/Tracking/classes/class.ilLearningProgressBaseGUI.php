@@ -208,19 +208,9 @@ class ilLearningProgressBaseGUI
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
 
-					// New tracking table
-					if(!$this->isAnonymized())
-					{
-						/*
-						$this->tabs_gui->addSubTabTarget("trac_learners",
-														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectUsersProps'),
-														"", "", "", $a_active == LP_ACTIVE_USERS);
-						 */
-
-						$this->tabs_gui->addSubTabTarget("trac_summary",
-														$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
-														"", "", "", $a_active == LP_ACTIVE_SUMMARY);
-					}
+					$this->tabs_gui->addSubTabTarget("trac_summary",
+													$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
+													"", "", "", $a_active == LP_ACTIVE_SUMMARY);
 
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
@@ -429,6 +419,9 @@ class ilLearningProgressBaseGUI
 		// Section object details
 		$info->addSection($this->lng->txt('details'));
 		$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($details_id));
+
+		// :TODO: event title
+
 		if(strlen($desc = $ilObjDataCache->lookupDescription($details_id)))
 		{
 			$info->addProperty($this->lng->txt('description'),$desc);
@@ -444,6 +437,28 @@ class ilLearningProgressBaseGUI
 		if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 		{
 			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+		}
+	}
+
+	function __appendUserInfo(&$info, $a_user)
+	{
+		global $ilUser;
+
+		if(!is_object($a_user))
+		{
+			$a_user = ilObjectFactory::getInstanceByObjId($a_user);
+		}
+
+		if($a_user->getId() != $ilUser->getId())
+		{
+			$info->addSection($this->lng->txt("trac_user_data"));
+			$info->addProperty($this->lng->txt('username'),$a_user->getLogin());
+			$info->addProperty($this->lng->txt('name'),$a_user->getFullname());
+			$info->addProperty($this->lng->txt('last_login'),
+				ilDatePresentation::formatDate(new ilDateTime($a_user->getLastLogin(),IL_CAL_DATETIME)));
+			$info->addProperty($this->lng->txt('trac_total_online'),
+							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($a_user->getId())));
+		   return true;
 		}
 	}
 

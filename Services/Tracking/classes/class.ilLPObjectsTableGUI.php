@@ -69,6 +69,8 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		}
 		if($obj_ids)
 		{
+			$this->is_anonymized = !ilObjUserTracking::_enabledUserRelatedData();
+			
 			include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 			$data = ilTrQuery::getObjectsStatus($obj_ids);
 			$this->setData($data);
@@ -111,13 +113,16 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_hide'));
 		$this->tpl->parseCurrentBlock();
 
-		$ref_id = $a_set["ref_ids"];
-		$ref_id = array_shift($ref_id);
-		$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
-		$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
-		$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
-		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_participants'));
-		$this->tpl->parseCurrentBlock();
+		if(!$this->is_anonymized)
+		{
+			$ref_id = $a_set["ref_ids"];
+			$ref_id = array_shift($ref_id);
+			$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
+			$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
+			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_participants'));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 

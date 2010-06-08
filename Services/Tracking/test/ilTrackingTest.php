@@ -119,25 +119,6 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test LP filter 
-	 * @return
-	 */
-	public function testLPFilter()
-	{
-		include_once './Services/Tracking/classes/class.ilLPFilter.php';
-
-		$filter = new ilLPFilter(9999);
-		$filter->setHidden(array(1));
-		$filter->update();
-		
-		$filter = new ilLPFilter(9999);
-		$f = $filter->getHidden();
-		$this->assertEquals($f,array(1));
-		
-		ilLPFilter::_delete(9999);
-	}
-
-	/**
 	 * Test LP collections 
 	 * @return
 	 */

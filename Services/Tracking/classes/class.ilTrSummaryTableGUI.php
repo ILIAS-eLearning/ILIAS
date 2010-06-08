@@ -50,9 +50,9 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		$this->setFilterCommand("applyFilterSummary");
 		$this->setResetCommand("resetFilterSummary");
-		$this->initFilter($a_parent_obj->getObjectId());
+		$this->initFilter($a_parent_obj->getObjId());
 
-		$this->getItems($a_parent_obj->getObjectId(), $ref_id, $this->getCurrentFilter());
+		$this->getItems($a_parent_obj->getObjId(), $ref_id, $this->getCurrentFilter());
 		
 		// $this->addCommandButton("", $lng->txt(""));
 	}

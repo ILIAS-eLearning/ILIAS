@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
+
 /**
  * Tracking user interface class.
  *
@@ -8,7 +10,7 @@
  * @version $Id$
  * @ingroup ServicesTracking
  */
-class ilTrackingGUI
+class ilTrackingGUI extends ilLearningProgressBaseGUI
 {
 	/**
 	 * Execute command
@@ -28,46 +30,6 @@ class ilTrackingGUI
 		}
 		
 	}
-	
-	/**
-	 * Set object id
-	 *
-	 * @param	integer	object id
-	 */
-	function setObjectId($a_val)
-	{
-		$this->obj_id = $a_val;
-	}
-	
-	/**
-	 * Get object id
-	 *
-	 * @return	integer	object id
-	 */
-	function getObjectId()
-	{
-		return $this->obj_id;
-	}
-
-	/**
-	 * Set reference id
-	 *
-	 * @param	integer	object id
-	 */
-	function setRefId($a_val)
-	{
-		$this->ref_id = $a_val;
-	}
-
-	/**
-	 * Get reference id
-	 *
-	 * @return	integer	ref id
-	 */
-	function getRefId()
-	{
-		return $this->ref_id;
-	}
 
 	/**
 	 * Show object-baes summarized tracking data
@@ -77,7 +39,7 @@ class ilTrackingGUI
 		global $tpl;
 
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
+		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId());
 		$tpl->setContent($table->getHTML());
 	}
 	
@@ -87,7 +49,7 @@ class ilTrackingGUI
 	public function applyFilterSummary()
 	{
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId());
 		$utab->resetOffset();
 		$utab->writeFilterToSession();
 		$this->showObjectSummary();
@@ -99,7 +61,7 @@ class ilTrackingGUI
 	public function resetFilterSummary()
 	{
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->ref_id);
+		$utab = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId());
 		$utab->resetOffset();
 		$utab->resetFilter();
 		$this->showObjectSummary();
