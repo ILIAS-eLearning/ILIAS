@@ -223,7 +223,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 
-		include_once './classes/class.ilRoleDesktopItem.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
 		if($rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
@@ -301,7 +301,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
 
-		include_once './classes/class.ilRoleDesktopItem.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
@@ -353,7 +353,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return true;
 		}
 
-		include_once './classes/class.ilRoleDesktopItem.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
@@ -373,8 +373,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$tree;
 
-		include_once './classes/class.ilRoleDesktopItemSelector.php';
-		include_once './classes/class.ilRoleDesktopItem.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItemSelector.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
 		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
@@ -422,7 +422,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		include_once './classes/class.ilRoleDesktopItem.php';
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
