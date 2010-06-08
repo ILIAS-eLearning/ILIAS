@@ -16,7 +16,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI
 *
 * @package ilias-tracking
 *
@@ -63,6 +63,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			case 'illpobjectstablegui':
 				include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 			    $table_gui = new ilLPObjectsTableGUI($this, "", $this->tracked_user);
+				$this->ctrl->forwardCommand($table_gui);
+				break;
+
+			case 'iltrsummarytablegui':
+				include_once './Services/Tracking/classes/class.ilTrSummaryTableGUI.php';
+			    $table_gui = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
@@ -276,6 +282,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->details_type = $ilObjDataCache->lookupType($this->details_obj_id);
 			$this->details_mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
 		}
+	}
+
+	/**
+	 * Show object-baes summarized tracking data
+	 */
+	function showObjectSummary()
+	{
+		global $tpl;
+
+		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId());
+		$tpl->setContent($table->getHTML());
 	}
 }
 ?>

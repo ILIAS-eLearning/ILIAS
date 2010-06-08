@@ -72,26 +72,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$this->__setCmdClass('illmstatisticsgui');
 				$this->ctrl->forwardCommand($los_gui);
 				break;
-				
-			// New tracking table
-			case "iltrackinggui":
-				include_once("./Services/Tracking/classes/class.ilTrackingGUI.php");
 			
-				// hack, should be controlled through calling class
-				if(isset($_GET["ref_id"]))
-			    {
-					$ref_id = (int)$_GET["ref_id"];
-				}
-				else
-				{
-					$ref_id = $this->getRefId();
-				}
-
-				$this->__setSubTabs(LP_ACTIVE_SUMMARY);
-				$track_gui = new ilTrackingGUI($this->getMode(), $ref_id);
-				$this->ctrl->forwardCommand($track_gui);
-				break;
-
 			default:
 				die("No mode given");
 		}

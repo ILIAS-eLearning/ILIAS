@@ -209,7 +209,7 @@ class ilLearningProgressBaseGUI
 					}
 
 					$this->tabs_gui->addSubTabTarget("trac_summary",
-													$this->ctrl->getLinkTargetByClass("iltrackinggui", 'showObjectSummary'),
+													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
 													"", "", "", $a_active == LP_ACTIVE_SUMMARY);
 
 					$this->tabs_gui->addSubTabTarget('trac_settings',
