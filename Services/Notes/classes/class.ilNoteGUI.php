@@ -397,15 +397,23 @@ class ilNoteGUI
 		$cnt_str = (count($all_notes) > 0)
 			? " (".count($all_notes).")"
 			: "";
-		
-		if ($a_type == IL_NOTE_PUBLIC)
+
+		if (!$this->export_html)
 		{
-			$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.gif"));
+			$tpl->setCurrentBlock("notes_img");
+			if ($a_type == IL_NOTE_PUBLIC)
+			{
+				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.gif"));
+				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
+			}
+			else
+			{
+				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
+				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("private_notes"));
+			}
+			$tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
-		}
+
 		if ($this->delete_note)
 		{
 			$cnt_str = "";
@@ -413,13 +421,11 @@ class ilNoteGUI
 		if ($a_type == IL_NOTE_PRIVATE)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("private_notes").$cnt_str);
-			$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("private_notes"));
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
 		}
 		else
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("notes_public_comments").$cnt_str);
-			$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PUBLIC);
 		}
 		$anch = $this->anchor_jump
