@@ -28,10 +28,12 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
+		/*
 		$user = ilObjUser::_lookupFullName($this->user_id)." (".
 			ilObjUser::_lookupLogin($this->user_id).")";
 
 		$this->setTitle($this->lng->txt("trac_user_objects").": ".$user);
+		 */
 		
 		$this->addColumn($this->lng->txt("title"), "title");
 		

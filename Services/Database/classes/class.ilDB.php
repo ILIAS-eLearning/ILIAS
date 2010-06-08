@@ -503,7 +503,7 @@ abstract class ilDB extends PEAR
 	* Drop a table
 	*
 	* @param	string		table name
-	* @param	boolean		raise an error, if table already exists
+	* @param	boolean		raise an error, if table not exists
 	*/
 	function dropTable($a_name, $a_error_if_not_existing = true)
 	{

@@ -53,7 +53,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				$obj->writeToSession();
 			}
 
-			$ilCtrl->returnToParent($this->parent_obj);
+			$ilCtrl->redirect($this->parent_obj, $this->parent_cmd);
 		}
         else
 		{
@@ -150,20 +150,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	public function searchFilterListener($a_ref_id, $a_data)
 	{
-		global $ilUser;
-		
-		if($this->tracked_user && $this->tracked_user->getId() != $ilUser->getId())
-		{
-			switch($a_data["type"])
-			{
-				case 'tst':
-					include_once './Modules/Test/classes/class.ilObjTest.php';
-					if(ilObjTest::_lookupAnonymity($a_data["obj_id"]))
-					{
-						return false;
-					}
-			}
-		}
 		if(is_array($this->filter["hide"]) && in_array($a_data["obj_id"], $this->filter["hide"]))
 		{
 			return false;
