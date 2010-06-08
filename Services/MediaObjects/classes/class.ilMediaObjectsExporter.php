@@ -10,7 +10,7 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
-class ilMediaObjectExporter extends ilXmlExporter
+class ilMediaObjectsExporter extends ilXmlExporter
 {
 	private $ds;
 
@@ -21,7 +21,6 @@ class ilMediaObjectExporter extends ilXmlExporter
 	{
 		include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
 		$this->ds = new ilMediaObjectDataSet();
-		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 	}
 
 	/**
@@ -58,7 +57,9 @@ class ilMediaObjectExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id);
+		ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true);
 	}
 }
 

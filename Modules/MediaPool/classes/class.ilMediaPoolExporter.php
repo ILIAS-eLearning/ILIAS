@@ -41,8 +41,8 @@ class ilMediaPoolExporter extends ilXmlExporter
 
 		foreach ($a_ids as $id)
 		{
-			$mob_ids = ilObjMediaPool::getAllMobIds($id);
-			foreach ($mob_ids as $m)
+			$m_ids = ilObjMediaPool::getAllMobIds($id);
+			foreach ($m_ids as $m)
 			{
 				$mob_ids[] = $m;
 			}
