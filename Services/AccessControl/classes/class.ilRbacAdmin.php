@@ -226,7 +226,7 @@ class ilRbacAdmin
 			 "VALUES (".$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_rol_id,'integer').")";
 			$res = $ilDB->manipulate($query);
 		
-			include_once './classes/class.ilRoleDesktopItem.php';
+			include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 	
 			$role_desk_item_obj =& new ilRoleDesktopItem($a_rol_id);
 			
