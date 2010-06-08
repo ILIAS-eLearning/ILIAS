@@ -264,7 +264,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
 		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 
-		if($data["type"] != "sco")
+		if(!in_array($data["type"], array("sco", "lobj")))
         {
 			$this->tpl->setCurrentBlock("item_command");
 			$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $this->user_id);
