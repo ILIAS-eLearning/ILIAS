@@ -1,7 +1,7 @@
 <schema
   xmlns = 'http://www.w3.org/2001/XMLSchema'
-  targetNamespace = "http://www.ilias.de/schema/ilias_pg_4_1"
-  xmlns:t = 'http://www.ilias.de/schema/ilias_pg_4_1'>
+  targetNamespace = "http://www.ilias.de/Services/COPage/pg/4_1"
+  xmlns:t = 'http://www.ilias.de/Services/COPage/pg/4_1'>
 
 <!-- Type: LanguageCode -->
 <simpleType name='LanguageCode'>
