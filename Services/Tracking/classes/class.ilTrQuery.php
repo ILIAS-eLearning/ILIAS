@@ -60,7 +60,7 @@ class ilTrQuery
 				{
 					$session = $sessions[$rec["obj_id"]];
 					$rec["title"] = $session["title"];
-					$rec["status"] = (int)$session["status"];
+					// $rec["status"] = (int)$session["status"];
 				}
 
 				// lp mode might not match object/course view mode
@@ -312,7 +312,7 @@ class ilTrQuery
 				{
 					$session = $sessions[$item["obj_id"]];
 					$result["set"][$idx]["title"] = $session["title"];
-					$result["set"][$idx]["status"] = (int)$session["status"];
+					// $result["set"][$idx]["status"] = (int)$session["status"];
 				}
 
 				$result["set"][$idx]["ref_id"] = $objects["ref_ids"][$item["obj_id"]];
@@ -816,7 +816,7 @@ class ilTrQuery
 
 		return array("object_ids" => $object_ids,
 			"ref_ids" => $ref_ids,
-			"objectives_parent_id " => $objectives_parent_id,
+			"objectives_parent_id" => $objectives_parent_id,
 			"scorm" => $scorm);
 	}
 
