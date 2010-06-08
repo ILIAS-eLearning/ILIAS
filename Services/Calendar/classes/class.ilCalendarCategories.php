@@ -366,6 +366,27 @@ class ilCalendarCategories
 	}
 	
 	/**
+	 * Get all calendars that allow send of notifications
+	 * (Editable and course group calendars)
+	 * @return 
+	 */
+	public function getNotificationCalendars()
+	{
+		$not = array();
+		foreach($this->categories_info as $info)
+		{
+			if($info['type'] == ilCalendarCategory::TYPE_OBJ and $info['editable'] == true)
+			{
+				if(ilObject::_lookupType($info['obj_id']) == 'crs' or ilObject::_lookupType($info['obj_id']) == 'grp')
+				{
+					$not[] = $info['cat_id'];
+				}
+			}
+		}
+		return $not;		
+	}
+	
+	/**
 	 * check if category is editable
 	 *
 	 * @access public

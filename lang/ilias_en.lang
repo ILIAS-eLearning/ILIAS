@@ -10439,3 +10439,16 @@ administration#:#adm_table#:#Table
 trac#:#trac_subitems#:#Show Sub-Items
 trac#:#trac_participants#:#Show Participants
 trac#:#trac_title#:#Title
+dateplaner#:#cal_grp_new_notification_sub#:#New Appointment in Group "%s"
+dateplaner#:#cal_grp_notification_sub#:#Changed Appointment in Group "%s"
+dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
+dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Course "%s"
+grp#:#grp_notification_salutation#:#Dear group participant,
+crs#:#crs_notification_salutation#:#Dear course participant,
+dateplaner#:#cal_grp_new_notification_body#:#a new appointment has been created in group "%s".
+dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
+dateplaner#:#cal_grp_notification_body#:#an appointment has been changed in group "%s".
+dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in course "%s".
+dateplaner#:#cal_notification#:#Mail Notification
+dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.
+dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.

@@ -597,6 +597,34 @@ class ilCalendarEntry implements ilDatePeriod
 	}
 	
 	/**
+	 * 
+	 * @param ilLanguage $lng
+	 * @return 
+	 */
+	public function appointmentToMailString($lng)
+	{
+		$body = $lng->txt('cal_details');
+		$body .= "\n\n";
+		$body .= $lng->txt('title').': '.$this->getTitle()."\n";
+		
+		ilDatePresentation::setUseRelativeDates(false);
+		$body .= $lng->txt('date').': '.ilDatePresentation::formatPeriod($this->getStart(), $this->getEnd())."\n";
+		ilDatePresentation::setUseRelativeDates(true);
+		
+		if(strlen($this->getLocation()))
+		{
+			$body .= $lng->txt('cal_where').': '.$this->getLocation()."\n";
+		}
+	
+		if(strlen($this->getDescription()))
+		{
+			$body .= $lng->txt('description').': '.$this->getDescription()."\n";
+		}
+		return $body;
+	}
+	
+	
+	/**
 	* Write users responsible for a milestone
 	*/
 	function writeResponsibleUsers($a_users)

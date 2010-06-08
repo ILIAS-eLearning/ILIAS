@@ -1265,12 +1265,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt->setInfo($this->lng->txt('crs_availability_until_info'));
 
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'activation_start');
+				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$start->setShowTime(true);
 				$start_date = new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX);
 				$start->setDate($start_date);
 				$opt->addSubItem($start);
 
 				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'activation_end');
+				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$end->setShowTime(true);
 				$end_date = new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX);
 				$end->setDate($end_date);

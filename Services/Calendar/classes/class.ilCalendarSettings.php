@@ -68,6 +68,8 @@ class ilCalendarSettings
 	
 	private $sync_cache_enabled = true;
 	private $sync_cache_minutes = 10;
+	
+	private $notification = false;
 
 	/**
 	 * singleton contructor
@@ -359,6 +361,25 @@ class ilCalendarSettings
 	}
 	
 	/**
+	 * Course group notification enabled
+	 * @return 
+	 */
+	public function isNotificationEnabled()
+	{
+		return (bool) $this->notification;
+	}
+	
+	/**
+	 * Enable course group notification
+	 * @param bool $a_status
+	 * @return 
+	 */
+	public function enableNotification($a_status)
+	{
+		$this->notification = $a_status;
+	}
+	
+	/**
 	 * save 
 	 *
 	 * @access public
@@ -377,6 +398,7 @@ class ilCalendarSettings
 		$this->storage->set('sync_cache_enabled',(int) $this->isSynchronisationCacheEnabled());
 		$this->storage->set('sync_cache_minutes',(int) $this->getSynchronisationCacheMinutes());
 		$this->storage->set('cache_enabled',(int) $this->isCacheUsed());
+		$this->storage->set('notification',(int) $this->isNotificationEnabled());
 	}
 
 	/**
@@ -400,6 +422,7 @@ class ilCalendarSettings
 		$this->setCacheMinutes($this->storage->get('cache_minutes',self::DEFAULT_CACHE_MINUTES));
 		$this->enableSynchronisationCache($this->storage->get('sync_cache_enabled'),$this->isSynchronisationCacheEnabled());
 		$this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes',self::DEFAULT_SYNC_CACHE_MINUTES));
+		$this->enableNotification($this->storage->get('notification',$this->isNotificationEnabled()));
 	}
 	
 	/**
