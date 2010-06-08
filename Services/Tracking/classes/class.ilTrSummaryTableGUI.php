@@ -1,6 +1,7 @@
 <?php
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * name table
@@ -10,7 +11,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  *
  * @ingroup Services
  */
-class ilTrSummaryTableGUI extends ilTable2GUI
+class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 {
 	/**
 	 * Constructor
@@ -46,10 +47,8 @@ class ilTrSummaryTableGUI extends ilTable2GUI
 
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
+		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
-		$this->setFilterCommand("applyFilterSummary");
-		$this->setResetCommand("resetFilterSummary");
 		$this->initFilter($a_parent_obj->getObjId());
 
 		$this->getItems($a_parent_obj->getObjId(), $ref_id, $this->getCurrentFilter());

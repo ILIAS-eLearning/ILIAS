@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * Build table list for objects of given user
