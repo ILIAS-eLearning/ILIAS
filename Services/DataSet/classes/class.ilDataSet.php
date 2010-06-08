@@ -161,7 +161,7 @@ abstract class ilDataSet
 	 *  </dataset>
 	 */
 	final function getXmlRepresentation($a_entity, $a_target_release,
-		$a_ids, $a_field = "")
+		$a_ids, $a_field = "", $a_omit_header = false)
 	{	
 		$this->dircnt = 1;
 		
@@ -172,7 +172,10 @@ abstract class ilDataSet
 		// step 2: init writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$writer = new ilXmlWriter();
-		$writer->xmlHeader();
+		if (!$a_omit_header)
+		{
+			$writer->xmlHeader();
+		}
 		
 		// collect namespaces
 		$namespaces = $prefixes = array();

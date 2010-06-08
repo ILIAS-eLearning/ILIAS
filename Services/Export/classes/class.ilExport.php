@@ -292,7 +292,7 @@ class ilExport
 		global $objDefinition, $tpl;
 				
 		$comp = $objDefinition->getComponentForType($a_type);
-		$c = explode("/", $s["component"]);
+		$c = explode("/", $comp);
 		$class = "il".$c[1]."Exporter";
 		
 		// manifest writer
@@ -352,9 +352,10 @@ class ilExport
 
 		// get exporter object
 		$export_class_file = "./".$a_comp."/classes/class.".$a_class.".php";
-//echo "1-".$export_class_file."-";
+//echo "1-".$export_class_file."-"; exit;
 		if (!is_file($export_class_file))
 		{
+echo "1-not found:".$export_class_file."-"; exit;
 			return false;
 		}
 		include_once($export_class_file);
@@ -401,23 +402,14 @@ class ilExport
 				$set_dir_absolute."/dir_".$dir_cnt);
 			$export_writer->xmlStartTag('ExportItem', array("Id" => $id));
 			$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
-			$export_writer->addXml($xml);
+			$export_writer->appendXml($xml);
 			$export_writer->xmlEndTag('ExportItem');
 			$dir_cnt++;
 		}
 		
 		$export_writer->xmlEndTag('Export');
-		$xml = $export_writer->getXml();
-
-		$file = $set_dir_absolute."/export.xml";
-		if ($fp = @fopen($file,"w+"))
-		{
-			// set file permissions
-//			chmod($file, 0770);
-			fwrite($fp, $xml);
-			fclose($fp);
-		}
-
+		$export_writer->xmlDumpFile($set_dir_absolute."/export.xml", false);
+		
 		$this->manifest_writer->xmlElement("xmlfile",
 			array("component" => $a_comp, "path" => $set_dir_relative."/export.xml"));
 
@@ -425,7 +417,9 @@ class ilExport
 		$sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
 		{
-			$s = $this->processExporter($s["component"], $s["exp_class"],
+			$comp = explode("/", $s["component"]);
+			$exp_class = "il".$comp[1]."Exporter";
+			$s = $this->processExporter($s["component"], $exp_class,
 				$s["entity"], $a_target_release, $s["ids"]);
 			if (!$s)
 			{
