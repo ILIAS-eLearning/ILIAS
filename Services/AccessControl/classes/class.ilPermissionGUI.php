@@ -6,6 +6,7 @@
 * Class ilPermissionGUI
 * RBAC related output
 *
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 *
 * @version $Id: class.ilPermissionGUI.php 20310 2009-06-23 12:57:19Z smeyer $
@@ -16,10 +17,12 @@
 */
 class ilPermissionGUI
 {
-	/**
-	* Constructor
-	*/
-	function ilPermissionGUI(&$a_gui_obj)
+	private $gui_obj = null;
+	private $ilErr = null;
+	private $ctrl = null;
+	private $lng = null;
+	
+	public function __construct($a_gui_obj)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng;
 
@@ -33,9 +36,7 @@ class ilPermissionGUI
 			$this->ilErr =& $ilErr;
 		}
 
-		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
-		$this->tree =& $tree;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("rbac");
@@ -49,7 +50,11 @@ class ilPermissionGUI
 	}
 	
 
-	function &executeCommand()
+	/**
+	 * Execute command
+	 * @return 
+	 */
+	public function executeCommand()
 	{
 		global $rbacsystem, $ilErr;
 
@@ -66,9 +71,8 @@ class ilPermissionGUI
 			case "ilobjrolegui":
 				include_once("Services/AccessControl/classes/class.ilObjRoleGUI.php");
 				$this->gui_obj = new ilObjRoleGUI("",(int) $_GET["obj_id"], false, false);
-				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),
-					$this->ctrl->getLinkTarget($this, "perm"));
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),$this->ctrl->getLinkTarget($this, "perm"));
+				$ret = $this->ctrl->forwardCommand($this->gui_obj);
 				break;
 				
 			default:
@@ -87,18 +91,21 @@ class ilPermissionGUI
 	*/
 	function perm()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview,$tree,$ilToolbar;
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content","tpl.edit_permissions.html", "Services/AccessControl");
 
+		// Show new role button
+		#$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		#$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'addRole'));
+		#$this->tpl->setVariable('TB',$ilTollbar->getHTML());	
+		
 		$this->getRolesData();
 
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
 		$this->__initSubTabs("perm");
-
-//		$this->gui_obj->getTemplateFile("perm");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
-			"tpl.edit_permissions.html", "Services/AccessControl");
 
 		$this->num_roles = count($this->roles);
 
@@ -184,7 +191,7 @@ class ilPermissionGUI
 			{
 				if($rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true))
 				{
-					$parent_node = $this->tree->getParentNodeData($rolf[0]);
+					$parent_node = $tree->getParentNodeData($rolf[0]);
 					//$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
 					//$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
 					$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$parent_node["title"]);
@@ -302,7 +309,7 @@ class ilPermissionGUI
 					continue;
 				}
 				
-				$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+				$role_obj = ilObjectFactory::getInstanceByObjId($role_id);
 				$role_obj->setParent($rolf_id);
 				$role_obj->delete();
 				unset($role_obj);
@@ -336,11 +343,11 @@ class ilPermissionGUI
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_role_reserved_prefix"),$ilErr->MESSAGE);
 		}
 		if(!strlen($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$ilErr->MESSAGE);
 		}
 		
 		$new_title = ilUtil::stripSlashes($_POST['Fobject']['title']);
@@ -393,7 +400,7 @@ class ilPermissionGUI
 		}
 		else
 		{
-			$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
+			$rfoldObj = ilObjectFactory::getInstanceByRefId($rolf_id);
 			$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
 		}
 
@@ -900,7 +907,7 @@ class ilPermissionGUI
 	
 	function __showPermissionsCreateSection()
 	{
-		global $objDefinition;
+		global $objDefinition,$ilSetting;
 		
 		// no create operation for roles/role templates in local role folders
 		// access is controlled by 'administrate' (change permission settings) only
@@ -951,7 +958,7 @@ class ilPermissionGUI
 				
 				foreach ($role['permissions']['create'] as $perm)
 				{
-					if ($perm["name"] == "create_icrs" and !$this->ilias->getSetting("ilinc_active"))
+					if ($perm["name"] == "create_icrs" and !$ilSetting->get("ilinc_active"))
 					{
 						continue;
 					}
