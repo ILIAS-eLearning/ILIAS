@@ -40,8 +40,10 @@ abstract class ilMailNotification
 	 */
 	public function __construct()
 	{
+		global $lng;
+
 		$this->setSender(ANONYMOUS_USER_ID);
-		$this->language = ilLanguageFactory::_getLanguage('en');
+		$this->language = ilLanguageFactory::_getLanguage($lng->getDefaultLanguage());
 	}
 	
 	/**
@@ -161,6 +163,16 @@ abstract class ilMailNotification
 	}
 	
 	/**
+	 * A language
+	 * @param object $a_language
+	 * @return 
+	 */
+	protected function setLanguage($a_language)
+	{
+		$this->language = $a_language;
+	}
+	
+	/**
 	 * get language object
 	 * @return 
 	 */
@@ -207,6 +219,15 @@ abstract class ilMailNotification
 	public function getObjId()
 	{
 		return $this->obj_id;
+	}
+	
+	/**
+	 * set obj id
+	 * @return 
+	 */
+	public function setObjId($a_obj_id)
+	{
+		$this->obj_id = $a_obj_id;
 	}
 	
 	/**
@@ -270,12 +291,19 @@ abstract class ilMailNotification
 	 *  @param array mail type (one 'normal', 'system', 'email')
 	 * @return 
 	 */
-	public function sendMail($a_rcp,$a_type)
+	public function sendMail($a_rcp,$a_type,$a_parse_recipients = true)
 	{
 		$recipients = array();
 		foreach($a_rcp as $rcp)
 		{
-			$recipients[] = ilObjUser::_lookupLogin($rcp);
+			if($a_parse_recipients)
+			{
+				$recipients[] = ilObjUser::_lookupLogin($rcp);
+			}
+			else
+			{
+				$recipients[] = $rcp;
+			}
 		}
 		$recipients = implode(',',$recipients);
 		$error = $this->getMail()->sendMail(
@@ -287,7 +315,7 @@ abstract class ilMailNotification
 			array(),
 			$a_type
 		);
-		
+
 		if(strlen($error))
 		{
 			ilUtil::sendFailure($error,true);

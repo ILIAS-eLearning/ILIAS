@@ -10389,3 +10389,16 @@ common#:#sorting_info_inherit#:#Die Sortierung wird vom übergeordneten Kurs üb
 trac#:#trac_subitems#:#Unterobjekte zeigen
 trac#:#trac_participants#:#Teilnehmer zeigen
 trac#:#trac_title#:#Titel
+dateplaner#:#cal_grp_new_notification_sub#:#Neuer Termin in Gruppe "%s"
+dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
+dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
+dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs "%s"
+grp#:#grp_notification_salutation#:#Liebe Gruppenteilnehmerin, lieber Gruppenteilnehmer,
+crs#:#crs_notification_salutation#:#Liebe Kursteilnehmerin, lieber Kursteilnehmer,
+dateplaner#:#cal_grp_new_notification_body#:#ein neuer Termin ist in der Gruppe "%s" angelegt worden.
+dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
+dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der Gruppe "%s".
+dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Kurs "%s".
+dateplaner#:#cal_notification#:#Mail Benachrichtigung
+dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
+dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichem.

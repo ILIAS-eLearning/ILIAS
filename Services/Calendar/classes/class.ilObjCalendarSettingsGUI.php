@@ -213,6 +213,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setSynchronisationCacheMinutes((int) $_POST['sync_cache_time']);
 		$this->settings->setCacheMinutes((int) $_POST['cache_time']);
 		$this->settings->useCache((bool) $_POST['cache']);	
+		$this->settings->enableNotification((bool) $_POST['cn']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -370,6 +371,16 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		
 		$this->form->addItem($cache);
 		
+		// Notifications
+		$not = new ilFormSectionHeaderGUI();
+		$not->setTitle($this->lng->txt('notifications'));
+		$this->form->addItem($not);
+		
+		$cgn = new ilCheckboxInputGUI($this->lng->txt('cal_notification'),'cn');
+		$cgn->setValue(1);
+		$cgn->setChecked($this->settings->isNotificationEnabled());
+		$cgn->setInfo($this->lng->txt('cal_adm_notification_info'));
+		$this->form->addItem($cgn);
 	}
 }
 ?>

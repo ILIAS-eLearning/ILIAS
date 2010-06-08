@@ -898,7 +898,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _getAllReferences($a_id)
+	public static function _getAllReferences($a_id)
 	{
 		global $ilDB;
 

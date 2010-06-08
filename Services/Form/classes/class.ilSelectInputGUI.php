@@ -34,6 +34,7 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 */
 class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
+	protected $cust_attr = array();
 	protected $options = array();
 	protected $value;
 	
@@ -118,6 +119,16 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		}
 		return $this->checkSubItemsInput();
 	}
+	
+	public function addCustomAttribute($a_attr)
+	{
+		$this->cust_attr[] = $a_attr;
+	}
+	
+	public function getCustomAttributes()
+	{
+		return (array) $this->cust_attr;
+	}
 
 	/**
 	* Render item
@@ -125,6 +136,13 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	function render($a_mode = "")
 	{
 		$tpl = new ilTemplate("tpl.prop_select.html", true, true, "Services/Form");
+		
+		foreach($this->getCustomAttributes() as $attr)
+		{
+			$tpl->setCurrentBlock('cust_attr');
+			$tpl->setVariable('CUSTOM_ATTR',$attr);
+			$tpl->parseCurrentBlock();
+		}
 		
 		// determin value to select. Due to accessibility reasons we
 		// should always select a value (per default the first one)

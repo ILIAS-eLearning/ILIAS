@@ -183,28 +183,38 @@ class ilCalendarAppointmentGUI
 		if($_POST['category'])
 		{
 			$calendar->setValue((int) $_POST['calendar']);
+			$selected_calendar = (int) $_POST['calendar'];
 		}
 		elseif($a_mode == 'edit')
 		{
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$cat = $ass->getFirstAssignment();
 			$calendar->setValue($cat);
+			$selected_calendar = $cat;
 		}
 		elseif(isset($_GET['ref_id']))
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 			$obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
 			$calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
+			$selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
 		}
 		$calendar->setRequired(true);
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
+		
+		include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+		if(ilCalendarSettings::_getInstance()->isNotificationEnabled())
+		{
+			$notification_cals = $cats->getNotificationCalendars();
+			$notification_cals = count($notification_cals) ? implode(',',$notification_cals) : ''; 
+			$calendar->addCustomAttribute("onchange=\"ilToggleNotification(new Array(".$notification_cals."));\"");
+		}		
 		$this->form->addItem($calendar);
 		
 		if (!$a_as_milestone)
 		{
 			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-			#$tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
 			$dur->setStartText($this->lng->txt('cal_start'));
@@ -220,29 +230,6 @@ class ilCalendarAppointmentGUI
 			$dur->setEnd($this->app->getEnd());
 			$this->form->addItem($dur);
 
-			/*
-			$tpl->addJavaScript('./Services/Calendar/js/toggle_appointment_time.js');		
-			$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
-			$fullday->setChecked($this->app->isFullday() ? true : false);
-			$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
-			$fullday->setAdditionalAttributes('onchange="ilToggleAppointmentTime(this);"');
-			$this->form->addItem($fullday);
-	
-			$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');
-			$start->setDate($this->app->getStart());
-			$start->setShowTime(true);
-			$start->setMinuteStepSize(5);
-			$this->form->addItem($start);
-			#$fullday->addSubItem($start);
-			
-			$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
-			$end->setDate($this->app->getEnd());
-			$end->setShowTime(true);
-			$end->setMinuteStepSize(5);
-			#$fullday->addSubItem($end);
-			$this->form->addItem($end);
-			*/
-			
 			// recurrence
 			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
 			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
@@ -304,6 +291,29 @@ class ilCalendarAppointmentGUI
 			}
 
 			$this->form->addItem($resp);
+		}
+		
+		// Notifications
+		include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+		if(ilCalendarSettings::_getInstance()->isNotificationEnabled()  and count($cats->getNotificationCalendars()))
+		{
+			$selected_cal = new ilCalendarCategory($selected_calendar);
+			$disabled = true;
+			if($selected_cal->getType() == ilCalendarCategory::TYPE_OBJ)
+			{
+				if(ilObject::_lookupType($selected_cal->getObjId()) == 'crs' or ilObject::_lookupType($selected_cal->getObjId()) == 'grp')
+				{
+					$disabled = false;
+				}
+			}
+			
+			$tpl->addJavaScript('./Services/Calendar/js/toggle_notification.js');
+			$not = new ilCheckboxInputGUI($this->lng->txt('cal_notification'),'not');
+			$not->setInfo($this->lng->txt('cal_notification_info'));
+			$not->setValue(1);
+			$not->setChecked(false);
+			$not->setDisabled($disabled);
+			$this->form->addItem($not);
 		}
 	}
 	
@@ -376,6 +386,13 @@ class ilCalendarAppointmentGUI
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$ass->addAssignment($cat_id);
 			
+			// Send notifications
+			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+			if(ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not'])
+			{
+				$this->distributeNotifications($cat_id,$this->app->getEntryId(),false);
+			}
+
 			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 			$type = ilObject::_lookupType($cat_info['obj_id']);
@@ -409,9 +426,53 @@ class ilCalendarAppointmentGUI
 		{
 			$this->add();
 		}
-
 	}
 	
+	/**
+	 * Distribute mail notifications
+	 * @return 
+	 */
+	protected function distributeNotifications($a_cat_id, $app_id, $a_new_appointment = true)
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($a_cat_id);
+		
+		include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
+		$notification =  new ilCalendarMailNotification();
+		$notification->setAppointmentId($app_id);
+		
+		switch($cat_info['type'])
+		{
+			case ilCalendarCategory::TYPE_OBJ:
+				
+					switch($cat_info['obj_type'])
+					{
+						case 'crs':
+							$ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
+							$ref_id = current($ref_ids);
+							$notification->setRefId($ref_id);
+							$notification->setType(
+								$a_new_appointment ?
+								ilCalendarMailNotification::TYPE_CRS_NEW_NOTIFICATION :
+								ilCalendarMailNotification::TYPE_CRS_NOTIFICATION);
+							break;
+						
+						case 'grp':
+							$ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
+							$ref_id = current($ref_ids);
+							$notification->setRefId($ref_id);
+							$notification->setType(
+								$a_new_appointment ?
+								ilCalendarMailNotification::TYPE_GRP_NEW_NOTIFICATION :
+								ilCalendarMailNotification::TYPE_GRP_NOTIFICATION);
+							break;
+					}
+					break;
+		}
+
+		$notification->send();
+	}
+
 	/**
 	* Edit responsible users
 	*/
@@ -601,6 +662,13 @@ class ilCalendarAppointmentGUI
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$ass->deleteAssignments();
 			$ass->addAssignment($cat_id);
+			
+			// Send notifications
+			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+			if(ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not'])
+			{
+				$this->distributeNotifications($cat_id,$this->app->getEntryId(),false);
+			}
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->ctrl->returnToParent($this);
