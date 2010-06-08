@@ -1934,10 +1934,10 @@
 	<xsl:if test="./Size">
 		<xsl:choose>
 			<xsl:when test="./Size > 1000000">
-				(<xsl:value-of select="round(./Size div 10000) div 100"/> MB)
+				(<xsl:value-of select="format-number(round(./Size div 10000) div 100, '#.00')"/> MB)
 			</xsl:when>
 			<xsl:when test="./Size > 1000">
-				(<xsl:value-of select="round(./Size div 10) div 100"/> KB)
+				(<xsl:value-of select="format-number(round(./Size div 10) div 100, '#.00')"/> KB)
 			</xsl:when>
 			<xsl:otherwise>
 				(<xsl:value-of select="./Size"/> B)
