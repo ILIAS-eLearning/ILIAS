@@ -20,33 +20,32 @@ class ilFileExporter extends ilXmlExporter
 	{
 	}
 
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
+	/**
+	 * Get xml representation
+	 *
+	 * @param	string		entity
+	 * @param	string		target release
+	 * @param	string		id
+	 * @return	string		xml string
+	 */
+	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		$xml = $this->getExportStartTag($a_entity, $a_target_release);
 		
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		include_once("./Modules/File/classes/class.ilFileXMLWriter.php");
-		$dir_cnt = 1;
-		foreach ($a_ids as $id)
+		if (ilObject::_lookupType($a_id) == "file")
 		{
-			if (ilObject::_lookupType($id) == "file")
-			{
-				$file = new ilObjFile($id, false);
-				$writer = new ilFileXMLWriter();
-				$writer->setFile($file);
-				$writer->setOmitHeader(true);
-				$writer->setAttachFileContents(ilFileXMLWriter::$CONTENT_ATTACH_COPY);
-				$writer->setFileTargetDirectories($this->getRelativeExportDirectory()."/dir_".$dir_cnt,
-					$this->getAbsoluteExportDirectory()."/dir_".$dir_cnt);
-				ilUtil::makeDirParents($this->getAbsoluteExportDirectory()."/dir_".$dir_cnt);
-				$xml.= $this->getExportRecordStartTag($id);
-				$writer->start();
-				$xml.= $writer->getXml();
-				$xml.= $this->getExportRecordEndTag();
-			}
-			$dir_cnt++;
+			$file = new ilObjFile($a_id, false);
+			$writer = new ilFileXMLWriter();
+			$writer->setFile($file);
+			$writer->setOmitHeader(true);
+			$writer->setAttachFileContents(ilFileXMLWriter::$CONTENT_ATTACH_COPY);
+			ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+			$writer->setFileTargetDirectories($this->getRelativeExportDirectory(),
+				$this->getAbsoluteExportDirectory());
+			$writer->start();
+			$xml.= $writer->getXml();
 		}
-		$xml.= $this->getExportEndTag();
 
 		return $xml;
 	}

@@ -27,22 +27,15 @@ class ilMediaObjectExporter extends ilXmlExporter
 	/**
 	 * Get tail dependencies
 	 *
-	 * @param
-	 * @return
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	public function getXmlExportTailDependencies($a_target_release, $a_id)
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		if (!is_array($a_id))
-		{
-			if ($a_id <= 0)
-			{
-				return array();
-			}
-			$a_id = array($a_id);
-		}
-
 		$md_ids = array();
-		foreach ($a_id as $mob_id)
+		foreach ($a_ids as $mob_id)
 		{
 			$md_ids[] = "0:".$mob_id.":mob";
 		}
@@ -50,15 +43,22 @@ class ilMediaObjectExporter extends ilXmlExporter
 		return array (
 			array(
 				"component" => "Services/MetaData",
-				"exp_class" => "ilMetaDataExporter",
 				"entity" => "md",
 				"ids" => $md_ids)
 			);
 	}
 
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
+	/**
+	 * Get xml representation
+	 *
+	 * @param	string		entity
+	 * @param	string		target release
+	 * @param	string		id
+	 * @return	string		xml string
+	 */
+	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_ids);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id);
 	}
 }
 

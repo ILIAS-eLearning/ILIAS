@@ -23,24 +23,22 @@ class ilCOPageExporter extends ilXmlExporter
 
 
 	/**
-	 * Get export sequence
+	 * Get head dependencies
 	 *
-	 * @param
-	 * @return
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	function getXmlExportHeadDependencies($a_target_release, $a_id)
+	function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		if (!is_array($a_id))
-		{
-			$a_id = array($a_id);
-		}
 
 		// get all media objects and files of the page
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$mob_ids = array();
 		$file_ids = array();
-		foreach ($a_id as $pg_id)
+		foreach ($a_ids as $pg_id)
 		{
 			$pg_id = explode(":", $pg_id);
 
@@ -68,12 +66,10 @@ class ilCOPageExporter extends ilXmlExporter
 		return array (
 			array(
 				"component" => "Services/MediaObjects",
-				"exp_class" => "ilMediaObjectExporter",
 				"entity" => "mob",
 				"ids" => $mob_ids),
 			array(
 				"component" => "Modules/File",
-				"exp_class" => "ilFileExporter",
 				"entity" => "file",
 				"ids" => $file_ids)
 			);
@@ -87,28 +83,21 @@ class ilCOPageExporter extends ilXmlExporter
 	 * @param array		ids
 	 * @return string	xml
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
+	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		$xml = $this->getExportStartTag($a_entity, $a_target_release);
-
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		foreach ($a_ids as $id)
-		{
-			$id = explode(":", $id);
+		
+		$id = explode(":", $a_id);
 
-			$page_object = new ilPageObject($id[0], $id[1]);
-			$page_object->buildDom();
-			$page_object->insertInstIntoIDs($a_inst);
-			$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
-			$pxml = str_replace("&","&amp;", $pxml);
-			$xml.= $this->getExportRecordStartTag($id[0].":".$id[1]);
-			$xml.= "<PageObject>";
-			$xml.= $pxml;
-			$xml.= "</PageObject>";
-			$xml.= $this->getExportRecordEndTag();
-			$page_object->freeDom();
-		}
-		$xml.= $this->getExportEndTag();
+		$page_object = new ilPageObject($id[0], $id[1]);
+		$page_object->buildDom();
+		$page_object->insertInstIntoIDs($a_inst);
+		$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
+		$pxml = str_replace("&","&amp;", $pxml);
+		$xml = "<PageObject>";
+		$xml.= $pxml;
+		$xml.= "</PageObject>";
+		$page_object->freeDom();
 
 		return $xml;
 	}

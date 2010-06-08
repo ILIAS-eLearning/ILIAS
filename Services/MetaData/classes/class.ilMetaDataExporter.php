@@ -21,24 +21,23 @@ class ilMetaDataExporter extends ilXmlExporter
 	{
 	}
 
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
+	/**
+	 * Get xml representation
+	 *
+	 * @param	string		entity
+	 * @param	string		target release
+	 * @param	string		id
+	 * @return	string		xml string
+	 */
+	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-// todo: die ganze Schleife in ilExport und hier nur eine ID anfragen.
-		$xml = $this->getExportStartTag($a_entity, $a_target_release);
 		include_once("./Services/MetaData/classes/class.ilMD2XML.php");
-		foreach ($a_ids as $id)
-		{
-			$id = explode(":", $id);
-			$mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
-			$mdxml->setExportMode();
-			$mdxml->startExport();
-			$xml.= $this->getExportRecordStartTag($id[0].":".$id[1].":".$id[2]);
-			$xml.= $mdxml->getXml();
-			$xml.= $this->getExportRecordEndTag();
-		}
-		$xml.= $this->getExportEndTag();
-
-		return $xml;
+		$id = explode(":", $a_id);
+		$mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
+		$mdxml->setExportMode();
+		$mdxml->startExport();
+		
+		return $mdxml->getXml();
 	}
 }
 

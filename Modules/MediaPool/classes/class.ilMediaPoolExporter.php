@@ -25,44 +25,59 @@ class ilMediaPoolExporter extends ilXmlExporter
 	}
 
 	/**
-	 * Get export sequence
+	 * Get head dependencies
 	 *
-	 * @param
-	 * @return
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	function getXmlExportHeadDependencies($a_target_release, $a_id)
+	function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
 		include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-		$mob_ids = ilObjMediaPool::getAllMobIds($a_id);
-
-		$pg_ids = array();
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
-		
-		$pages = ilMediaPoolItem::getIdsForType($a_id, "pg");
+		$pg_ids = array();
+		$mob_ids = array();
 
-		foreach ($pages as $p)
+		foreach ($a_ids as $id)
 		{
-			$pg_ids[] = "mep:".$p;
+			$mob_ids = ilObjMediaPool::getAllMobIds($id);
+			foreach ($mob_ids as $m)
+			{
+				$mob_ids[] = $m;
+			}
+
+			$pages = ilMediaPoolItem::getIdsForType($id, "pg");
+			foreach ($pages as $p)
+			{
+				$pg_ids[] = "mep:".$p;
+			}
 		}
 
 		return array (
 			array(
 				"component" => "Services/MediaObjects",
-				"exp_class" => "ilMediaObjectExporter",
 				"entity" => "mob",
 				"ids" => $mob_ids)
 			,
 			array(
 				"component" => "Services/COPage",
-				"exp_class" => "ilCOPageExporter",
 				"entity" => "pg",
 				"ids" => $pg_ids)
 			);
 	}
 
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_ids)
+	/**
+	 * Get xml representation
+	 *
+	 * @param	string		entity
+	 * @param	string		target release
+	 * @param	string		id
+	 * @return	string		xml string
+	 */
+	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_ids);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id);
 	}
 }
 

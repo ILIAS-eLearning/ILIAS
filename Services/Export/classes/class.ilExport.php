@@ -292,7 +292,8 @@ class ilExport
 		global $objDefinition, $tpl;
 				
 		$comp = $objDefinition->getComponentForType($a_type);
-		$class = $objDefinition->getClassName($a_type);
+		$c = explode("/", $s["component"]);
+		$class = "il".$c[1]."Exporter";
 		
 		// manifest writer
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
@@ -310,7 +311,7 @@ class ilExport
 
 		$this->cnt = array();
 		
-		$success = $this->processExporter($comp, "il".$class."Exporter", $a_type, $a_target_release, $a_id);
+		$success = $this->processExporter($comp, $class, $a_type, $a_target_release, $a_id);
 
 		$this->manifest_writer->xmlEndTag('manifest');
 
@@ -340,6 +341,15 @@ class ilExport
 	{
 		$success = true;
 
+		if (!is_array($a_id))
+		{
+			if ($a_id == "")
+			{
+				return;
+			}
+			$a_id = array($a_id);
+		}
+
 		// get exporter object
 		$export_class_file = "./".$a_comp."/classes/class.".$a_class.".php";
 //echo "1-".$export_class_file."-";
@@ -360,14 +370,15 @@ class ilExport
 		$set_dir_relative = $a_comp."/set_".$this->cnt[$a_comp];
 		$set_dir_absolute = $this->export_run_dir."/".$set_dir_relative;
 		ilUtil::makeDirParents($set_dir_absolute);
-		$exp->setExportDirectories($set_dir_relative, $set_dir_absolute);
 		$exp->init();
 
 		// process head dependencies
-		$sequence = $exp->getXmlExportHeadDependencies($a_target_release, $a_id);
+		$sequence = $exp->getXmlExportHeadDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
 		{
-			$s = $this->processExporter($s["component"], $s["exp_class"],
+			$comp = explode("/", $s["component"]);
+			$exp_class = "il".$comp[1]."Exporter";
+			$s = $this->processExporter($s["component"], $exp_class,
 				$s["entity"], $a_target_release, $s["ids"]);
 			if (!$s)
 			{
@@ -375,7 +386,28 @@ class ilExport
 			}
 		}
 
-		$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $a_id);
+		// write export.xml file
+		$export_writer = new ilXmlWriter();
+		$export_writer->xmlHeader();
+		$attribs = array("InstallationId" => IL_INST_ID,
+			"InstallationUrl" => ILIAS_HTTP_PATH,
+			"Entity" => $a_entity, "Version" => $a_target_release);
+		$export_writer->xmlStartTag('Export', $attribs);
+
+		$dir_cnt = 1;
+		foreach ($a_id as $id)
+		{
+			$exp->setExportDirectories($set_dir_relative."/dir_".$dir_cnt,
+				$set_dir_absolute."/dir_".$dir_cnt);
+			$export_writer->xmlStartTag('ExportItem', array("Id" => $id));
+			$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
+			$export_writer->addXml($xml);
+			$export_writer->xmlEndTag('ExportItem');
+			$dir_cnt++;
+		}
+		
+		$export_writer->xmlEndTag('Export');
+		$xml = $export_writer->getXml();
 
 		$file = $set_dir_absolute."/export.xml";
 		if ($fp = @fopen($file,"w+"))
@@ -390,7 +422,7 @@ class ilExport
 			array("component" => $a_comp, "path" => $set_dir_relative."/export.xml"));
 
 		// process tail dependencies
-		$sequence = $exp->getXmlExportTailDependencies($a_target_release, $a_id);
+		$sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
 		{
 			$s = $this->processExporter($s["component"], $s["exp_class"],
