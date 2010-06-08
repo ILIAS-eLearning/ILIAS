@@ -326,6 +326,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		global $lng;
 
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["id"], "small"));
+		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
 
 		foreach ($this->getSelectedColumns() as $c)
