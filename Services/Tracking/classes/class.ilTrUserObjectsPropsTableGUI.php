@@ -258,31 +258,25 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
 		if($data["title"] == "")
 		{
-			// sessions have no title
-			if($data["type"] == "sess")
-			{
-				include_once "./Modules/Session/classes/class.ilObjSession.php";
-				$sess = new ilObjSession($data["obj_id"], false);
-				$data["title"] = $sess->getFirstAppointment()->appointmentToString();
-			}
-			if($data["title"] == "")
-			{
-				$data["title"] = "--".$lng->txt("none")."--";
-			}
+			$data["title"] = "--".$lng->txt("none")."--";
 		}
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "small"));
+		$this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
 		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 
-		$this->tpl->setCurrentBlock("item_command");
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $this->user_id);
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", $this->ref_id);
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
-		$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
-		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", "");
-		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", "");
-		$this->tpl->parseCurrentBlock();
+		if($data["type"] != "sco")
+        {
+			$this->tpl->setCurrentBlock("item_command");
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $this->user_id);
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", $this->ref_id);
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", "");
+			$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", "");
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 }

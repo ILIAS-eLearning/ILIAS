@@ -407,7 +407,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 	
 	
-	function getTrackingDataAgg($a_sco_id)
+	function getTrackingDataAgg($a_sco_id, $raw = false)
 	{
 		global $ilDB;
       
@@ -449,13 +449,21 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	   				} else {
 	   					$status = $data_rec["completion_status"];
 	   				}	
-	   			}	
-	   			$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
-	   			$score = $data_rec["c_raw"];
-	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
-	   			$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
-				 $data[] = array("user_id" => $data_rec["user_id"],
-				   	"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+	   			}
+				if(!$raw)
+				{
+					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
+					$score = $data_rec["c_raw"];
+					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
+					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
+					 $data[] = array("user_id" => $data_rec["user_id"],
+						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+				}
+				else
+				{
+					$data_rec["session_time"] = self::_ISODurationToCentisec($data_rec["session_time"])/100;
+					$data[$data_rec["cp_node_id"]] = $data_rec;
+				}
 	   		}
       	}
 	  
