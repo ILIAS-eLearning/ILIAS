@@ -168,25 +168,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __showUsersList()
 	{
-		$this->obj_tpl = new ilTemplate('tpl.lp_loo_user_list.html',true,true,'Services/Tracking');
-       
-		$this->obj_tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_usr.gif'));
-		$this->obj_tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_usr'));
-		$this->obj_tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('trac_usr_list'));
-
-		// Show table header
-		$this->obj_tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
-		$this->obj_tpl->setVariable("HEAD_MARK",$this->lng->txt('trac_mark'));
-		$this->obj_tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
-
-		// Show timings header
-		include_once 'Modules/Course/classes/class.ilCourseItems.php';
-		if($this->has_timings = ilCourseItems::_hasCollectionTimings($this->details_id))
-		{
-			$this->obj_tpl->setVariable('HEAD_TIMING',$this->lng->txt('trac_head_timing'));
-			$this->obj_tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
-		}
-
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
