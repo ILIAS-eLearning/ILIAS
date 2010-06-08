@@ -79,6 +79,25 @@ class ilMediaPoolExporter extends ilXmlExporter
 	{
 		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id);
 	}
+
+	/**
+	 * Returns schema versions that the component can export to.
+	 * ILIAS chooses the first one, that has min/max constraints which
+	 * fit to the target release. Please put the newest on top.
+	 *
+	 * @return
+	 */
+	function getValidSchemaVersions($a_entity)
+	{
+		return array (
+			"4.1.0" => array(
+				"namespace" => "",
+				"xsd_file" => "",
+				"min" => "4.1.0",
+				"max" => "")
+		);
+	}
+
 }
 
 ?>
