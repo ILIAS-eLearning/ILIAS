@@ -1488,6 +1488,9 @@ class ilInitialisation
 		// main toolbar gui
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$ilToolbar = new ilToolbarGUI();
+		/**
+		 * @var object ilToolbarGUI
+		 */
 		$GLOBALS['ilToolbar'] =& $ilToolbar;
 
 		// main menu

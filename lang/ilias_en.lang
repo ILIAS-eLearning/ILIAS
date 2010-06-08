@@ -10452,3 +10452,4 @@ dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in cour
 dateplaner#:#cal_notification#:#Mail Notification
 dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
+rbac#:#rbac_add_new_local_role#:#Add New Local Role
