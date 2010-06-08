@@ -373,6 +373,8 @@ echo "1-not found:".$export_class_file."-"; exit;
 		ilUtil::makeDirParents($set_dir_absolute);
 		$exp->init();
 
+		$sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
+
 		// process head dependencies
 		$sequence = $exp->getXmlExportHeadDependencies($a_entity, $a_target_release, $a_id);
 		foreach ($sequence as $s)
@@ -390,24 +392,36 @@ echo "1-not found:".$export_class_file."-"; exit;
 		// write export.xml file
 		$export_writer = new ilXmlWriter();
 		$export_writer->xmlHeader();
+
 		$attribs = array("InstallationId" => IL_INST_ID,
 			"InstallationUrl" => ILIAS_HTTP_PATH,
-			"Entity" => $a_entity, "Version" => $a_target_release);
-		$export_writer->xmlStartTag('Export', $attribs);
+			"Entity" => $a_entity, "SchemaVersion" => $sv["schema_version"], "TargetRelease" => $a_target_release,
+			"xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+			"xmlns:exp" => "http://www.ilias.de/Services/Export/exp/4_1",
+			"xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 ".ILIAS_HTTP_PATH."/xml/ilias_export_4_1.xsd"
+			);
+		if ($sv["namespace"] != "" && $sv["xsd_file"] != "")
+		{
+			$attribs["xsi:schemaLocation"].= " ".$sv["namespace"]." ".
+				ILIAS_HTTP_PATH."/xml/".$sv["xsd_file"];
+			$attribs["xmlns"] = $sv["namespace"];
+		}
+
+		$export_writer->xmlStartTag('exp:Export', $attribs);
 
 		$dir_cnt = 1;
 		foreach ($a_id as $id)
 		{
 			$exp->setExportDirectories($set_dir_relative."/dir_".$dir_cnt,
 				$set_dir_absolute."/dir_".$dir_cnt);
-			$export_writer->xmlStartTag('ExportItem', array("Id" => $id));
+			$export_writer->xmlStartTag('exp:ExportItem', array("Id" => $id));
 			$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
 			$export_writer->appendXml($xml);
-			$export_writer->xmlEndTag('ExportItem');
+			$export_writer->xmlEndTag('exp:ExportItem');
 			$dir_cnt++;
 		}
 		
-		$export_writer->xmlEndTag('Export');
+		$export_writer->xmlEndTag('exp:Export');
 		$export_writer->xmlDumpFile($set_dir_absolute."/export.xml", false);
 		
 		$this->manifest_writer->xmlElement("xmlfile",

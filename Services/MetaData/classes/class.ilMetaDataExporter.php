@@ -39,6 +39,25 @@ class ilMetaDataExporter extends ilXmlExporter
 		
 		return $mdxml->getXml();
 	}
+
+	/**
+	 * Returns schema versions that the component can export to.
+	 * ILIAS chooses the first one, that has min/max constraints which
+	 * fit to the target release. Please put the newest on top.
+	 *
+	 * @return
+	 */
+	function getValidSchemaVersions($a_entity)
+	{
+		return array (
+			"4.1.0" => array(
+				"namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
+				"xsd_file" => "ilias_md_4_1.xsd",
+				"min" => "4.1.0",
+				"max" => "")
+		);
+	}
+
 }
 
 ?>

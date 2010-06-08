@@ -95,5 +95,50 @@ abstract class ilXmlExporter
 		return array();
 	}
 
+	/**
+	 * Returns schema versions that the component can export to.
+	 * ILIAS chooses the first one, that has min/max constraints which
+	 * fit to the target release. Please put the newest on top. Example:
+	 *
+	 * 		return array (
+	 *		"4.1.0" => array(
+	 *			"namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
+	 *			"xsd_file" => "ilias_md_4_1.xsd",
+	 *			"min" => "4.1.0",
+	 *			"max" => "")
+	 *		);
+	 *
+	 *
+	 * @return		array
+	 */
+	abstract public function getValidSchemaVersions($a_entity);
+
+	/**
+	 * Determine schema version
+	 *
+	 * @param
+	 * @return
+	 */
+	final function determineSchemaVersion($a_entity, $a_target_release)
+	{
+		$svs = $this->getValidSchemaVersions($a_entity);
+		$found = false;
+		foreach ($svs as $k => $sv)
+		{
+			if (!$found)
+			{
+				if (version_compare($sv["min"], ILIAS_VERSION_NUMERIC, "<=")
+					&& ($sv["max"] == "" || version_compare($sv["max"], ILIAS_VERSION_NUMERIC, ">=")))
+				{
+					$rsv = $sv;
+					$rsv["schema_version"] = $k;
+					$found = true;
+				}
+			}
+		}
+
+		return $rsv;
+	}
+
 }
 ?>
