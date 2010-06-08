@@ -29,62 +29,19 @@ abstract class ilXmlExporter
 	 *
 	 * @param	string		entity
 	 * @param	string		target release
-	 * @param	mixed		string or array of ids
+	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	abstract public function getXmlRepresentation($a_entity, $a_target_release, $a_ids);
+	abstract public function getXmlRepresentation($a_entity, $a_target_release, $a_id);
 
 	abstract public function init();
 
-	/**
-	 * Get export start tag
-	 *
-	 * @param	string	enity
-	 * @param	string	target release
-	 * @return	string	start tag
-	 */
-	function getExportStartTag($a_entity, $a_target_release)
-	{
-		return '<export install_id="'.IL_INST_ID.'" install_url="'.ILIAS_HTTP_PATH.'" '.
-			'entity="'.$a_entity.'" version="'.$a_target_release.'">';
-	}
 
 	/**
-	 * Get export end tag
-	 * 
-	 * @return	string	end tag
-	 */
-	function getExportEndTag()
-	{
-		return "</export>";
-	}
-
-	/**
-	 * Get export start tag
+	 * Export directories
 	 *
-	 * @param	string	id
-	 * @return	string	start tag
-	 */
-	function getExportRecordStartTag($a_id)
-	{
-		return '<export_rec id="'.$a_id.'" >';
-	}
-
-	/**
-	 * Get export end tag
-	 *
-	 * @return	string	end tag
-	 */
-	function getExportRecordEndTag()
-	{
-		return "</export_rec>";
-	}
-
-	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
+	 * @param	string		relative directory
+	 * @param	string		absolute directory
 	 */
 	public function setExportDirectories($a_dir_relative, $a_dir_absolute)
 	{
@@ -95,8 +52,7 @@ abstract class ilXmlExporter
 	/**
 	 * Get relative export directory
 	 *
-	 * @param
-	 * @return
+	 * @return	string	relative directory
 	 */
 	function getRelativeExportDirectory()
 	{
@@ -106,8 +62,7 @@ abstract class ilXmlExporter
 	/**
 	 * Get absolute export directory
 	 *
-	 * @param
-	 * @return
+	 * @return	string	absolute directory
 	 */
 	function getAbsoluteExportDirectory()
 	{
@@ -117,10 +72,12 @@ abstract class ilXmlExporter
 	/**
 	 * Get head dependencies
 	 *
-	 * @param
-	 * @return
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	public function getXmlExportHeadDependencies($a_target_release, $a_id)
+	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
 		return array();
 	}
@@ -128,10 +85,12 @@ abstract class ilXmlExporter
 	/**
 	 * Get tail dependencies
 	 *
-	 * @param
-	 * @return
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	public function getXmlExportTailDependencies($a_target_release, $a_id)
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
 		return array();
 	}
