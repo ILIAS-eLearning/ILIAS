@@ -187,11 +187,12 @@ class ilTrQuery
 	 * @param	array	$a_filters
 	 * @param	array	$a_additional_fields
 	 * @param	bool	$check_agreement
+	 * @param	arry	$privacy_fields
 	 * @return	array	cnt, set
 	 */
 	static function getUserDataForObject($a_obj_id, $a_order_field = "", $a_order_dir = "", 
 		$a_offset = 0, $a_limit = 9999, array $a_filters = NULL, array $a_additional_fields = NULL,
-		$check_agreement = false)
+		$check_agreement = false, $privacy_fields = NULL)
 	{
 		global $ilDB;
 
@@ -199,8 +200,8 @@ class ilTrQuery
 		ilLPStatus::checkStatusForObject($a_obj_id);
 
 		$fields = array("usr_data.usr_id", "login");
-		self::buildColumns($fields, $a_additional_fields);
-
+		$udf = self::buildColumns($fields, $a_additional_fields);
+		
 	    $where = array();
 		$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 
@@ -229,6 +230,17 @@ class ilTrQuery
 		$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
 		if($result["cnt"])
 		{
+			if(sizeof($udf))
+			{
+				$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $udf, false, "integer");
+				$set = $ilDB->query($query);
+				$udf = array();
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$udf[$row["usr_id"]]["udf_".$row["field_id"]] = $row["value"];
+				}
+			}
+
 			// public information for users
 			$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
 				" AND value = ".$ilDB->quote("y", "text");
@@ -238,23 +250,8 @@ class ilTrQuery
 			{
 				$public[$row["usr_id"]][] = substr($row["keyword"], 7);
 			}
-
-			// get standard fields
-		    include_once("./Services/User/classes/class.ilUserProfile.php");
-			$up = new ilUserProfile();
-			$up->skipGroup("preferences");
-			$up->skipGroup("settings");
-			$valid = array();
-			foreach ($up->getStandardFields() as $f => $fd)
-			{
-				if (!$fd["lists_hide"] && !in_array($f, array("firstname", "lastname")))
-				{
-					$valid[] = $f;
-				}
-			}
-
+			
 			// (course) user agreement
-			$agreements = array();
 			if($check_agreement)
 			{
 				// admins/tutors (write-access) will never have agreement ?!
@@ -262,17 +259,26 @@ class ilTrQuery
 				$agreements = ilCourseAgreement::lookupAcceptedAgreements($a_obj_id);
 			}
 			
-			// remove all private data
 			foreach($result["set"] as $idx => $row)
 			{
-				foreach($valid as $field)
+				// add udf data
+				if(isset($udf[$row["usr_id"]]))
 				{
-					if(isset($row[$field]) &&
-						(!in_array($row["usr_id"], $agreements) ||
-						!isset($public[$row["usr_id"]]) ||
-						!in_array($field, $public[$row["usr_id"]])))
+					$result["set"][$idx] = $row = array_merge($row, $udf[$row["usr_id"]]);
+				}
+
+				// remove all private data
+				if(sizeof($privacy_fields))
+			    {
+					foreach($privacy_fields as $field)
 					{
-						$result["set"][$idx][$field] = false;
+						if(isset($row[$field]) &&
+							(($check_agreement && !in_array($row["usr_id"], $agreements)) ||
+							!isset($public[$row["usr_id"]]) ||
+							!in_array($field, $public[$row["usr_id"]])))
+						{
+							$result["set"][$idx][$field] = false;
+						}
 					}
 				}
 			}
@@ -733,69 +739,79 @@ class ilTrQuery
 	 * @param	array	&$a_fields
 	 * @param	array	$a_additional_fields
 	 * @param	bool	$aggregate
+	 * @return array
 	 */
 	static protected function buildColumns(array &$a_fields, array $a_additional_fields = NULL, $aggregate = false)
 	{
 		if(sizeof($a_additional_fields))
 		{
+			$udf = NULL;
 			foreach($a_additional_fields as $field)
 			{
-				$function = NULL;
-				if($aggregate)
+				if(substr($field, 0, 4) != "udf_")
 				{
-					$pos = strrpos($field, "_");
-					if($pos === false)
+					$function = NULL;
+					if($aggregate)
 					{
-						continue;
+						$pos = strrpos($field, "_");
+						if($pos === false)
+						{
+							continue;
+						}
+						$function = strtoupper(substr($field, $pos+1));
+						$field =  substr($field, 0, $pos);
+						if(!in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+						{
+							continue;
+						}
 					}
-					$function = strtoupper(substr($field, $pos+1));
-					$field =  substr($field, 0, $pos);
-					if(!in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+
+					switch($field)
 					{
-						continue;
+						case "read_count":
+						case "spent_seconds":
+							if(!$function)
+							{
+								$a_fields[] = "(".$field."+childs_".$field.") AS ".$field;
+							}
+							else
+							{
+								if($function == "AVG")
+								{
+									$a_fields[] = "ROUND(AVG(".$field."+childs_".$field."), 2) AS ".$field."_".strtolower($function);
+								}
+								else
+								{
+									$a_fields[] = $function."(".$field."+childs_".$field.") AS ".$field."_".strtolower($function);
+								}
+							}
+							break;
+
+						default:
+							if($function)
+							{
+								if($function == "AVG")
+								{
+									$a_fields[] = "ROUND(AVG(".$field."), 2) AS ".$field."_".strtolower($function);
+								}
+								else
+								{
+									$a_fields[] = $function."(".$field.") AS ".$field."_".strtolower($function);
+								}
+							}
+							else
+							{
+								$a_fields[] = $field;
+							}
+							break;
 					}
 				}
-				
-				switch($field)
+				else
 				{
-					case "read_count":
-					case "spent_seconds":
-						if(!$function)
-						{
-							$a_fields[] = "(".$field."+childs_".$field.") AS ".$field;
-						}
-						else
-						{
-							if($function == "AVG")
-							{
-								$a_fields[] = "ROUND(AVG(".$field."+childs_".$field."), 2) AS ".$field."_".strtolower($function);
-							}
-							else
-							{
-								$a_fields[] = $function."(".$field."+childs_".$field.") AS ".$field."_".strtolower($function);
-							}
-						}
-						break;
-
-					default:
-						if($function)
-						{
-							if($function == "AVG")
-							{
-								$a_fields[] = "ROUND(AVG(".$field."), 2) AS ".$field."_".strtolower($function);
-							}
-							else
-							{
-								$a_fields[] = $function."(".$field.") AS ".$field."_".strtolower($function);
-							}
-						}
-						else
-						{
-							$a_fields[] = $field;
-						}
-						break;
+					$udf[] = substr($field, 4);
 				}
 			}
+			return $udf;
 		}
 	}
 
