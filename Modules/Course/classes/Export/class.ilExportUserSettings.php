@@ -88,7 +88,7 @@ class ilExportUserSettings
 	 */
 	public function enabled($a_option)
 	{
-	 	if(array_key_exists($a_option,$this->settings) and $this->settings[$a_option])
+	 	if(array_key_exists($a_option,(array) $this->settings) and $this->settings[$a_option])
 	 	{
 	 		return true;
 	 	}
@@ -178,6 +178,7 @@ class ilExportUserSettings
 	 	$query = "SELECT * FROM member_usr_settings WHERE user_id = ".$this->db->quote($this->user_id ,'integer');
 	 	$res = $this->db->query($query);
 		
+		$this->settings = array();
 	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->settings = unserialize($row->settings);
