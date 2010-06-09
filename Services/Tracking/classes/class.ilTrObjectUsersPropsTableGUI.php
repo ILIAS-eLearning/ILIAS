@@ -123,27 +123,21 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			"txt" => $lng->txt("trac_comment"),
 			"default" => false);
 
-		$cols["email"] = array(
-			"txt" => $lng->txt("email"),
-			"default" => false);
-
 		 // object is [part of] course
 		$check_export = (bool)$tree->checkForParentType($this->ref_id, "crs");
+
+		$this->user_fields = array();
 
 		// other user profile fields
 		foreach ($ufs as $f => $fd)
 		{
-			if (!isset($cols[$f]) && !$fd["lists_hide"])
+			if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"] && ($fd["course_export_fix_value"] || !$check_export || $ilSetting->get("usr_settings_course_export_".$f)))
 			{
 				$cols[$f] = array(
 					"txt" => $lng->txt($f),
 					"default" => false);
-			}
 
-	        // needs "course export" setting to be displayed
-			if(!$fd["course_export_fix_value"] && $check_export && !$ilSetting->get("usr_settings_course_export_".$f))
-			{
-				unset($cols[$f]);
+				$this->user_fields[] = $f;
 			}
 		}
 
@@ -152,21 +146,17 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$user_defined_fields = ilUserDefinedFields::_getInstance();
 		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
-			$f = "udf_".$definition["field_id"];
-			$cols[$f] = array(
-					"txt" => $definition["field_name"],
-					"default" => false);
-
-			// needs "course export" setting to be displayed
-		    if($check_export && !$definition["course_export"])
+		    if($definition["field_type"] != UDF_TYPE_WYSIWYG && (!$check_export || $definition["course_export"]))
 			{
-				unset($cols[$f]);
+				$f = "udf_".$definition["field_id"];
+				$cols[$f] = array(
+						"txt" => $definition["field_name"],
+						"default" => false);
+				
+				$this->user_fields[] = $f;
 			}
 		}
-		
-		// fields that are always shown
-		unset($cols["username"]);
-		
+
 		return $cols;
 	}
 	
@@ -206,7 +196,8 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			ilUtil::stripSlashes($this->getLimit()),
 			$this->filter,
 			$additional_fields,
-			$check_agreement
+			$check_agreement,
+			$this->user_fields
 			);
 			
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
@@ -220,7 +211,8 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				ilUtil::stripSlashes($this->getLimit()),
 				$this->filter,
 				$additional_fields,
-				$check_agreement
+				$check_agreement,
+				$this->user_fields
 				);
 		}
 
