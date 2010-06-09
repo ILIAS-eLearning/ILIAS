@@ -105,10 +105,25 @@ class ilForumExplorer
 				{
 					continue;
 				}
-				
+
 				$href_target = $this->target."&pos_pk=".$object['child'].'#'.$object['child'];
-				$title = "<span style='white-space:nowrap;' class='frmTitle'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+
+				/**/
+				if($ilUser->getId() == ANONYMOUS_USER_ID ||
+				 $this->forum_obj->isRead($ilUser->getId(),$object['id']))
+				{
+					$title = "<span style='white-space:nowrap;' class='frmTitle'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
 						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+				}
+				else
+				{	//bold
+					$mark_post_target = str_replace('viewThread', 'markPostRead', $href_target);
+					$href_target = $mark_post_target;
+					$title = "<span style='white-space:nowrap;' class='frmTitleBold'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+				}
+				/**/
+
 				if ($this->objProperties->isAnonymized())
 				{
 					if ($object['alias'] != '') $title .= stripslashes($object['alias']);

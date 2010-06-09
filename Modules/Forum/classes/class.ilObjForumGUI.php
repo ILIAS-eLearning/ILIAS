@@ -161,7 +161,6 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 		
 				$cmd .= 'Object';
-				
 				$this->$cmd();
 
 				break;
@@ -1146,7 +1145,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$ilTabs->addTarget('order_by_date',	$this->ctrl->getLinkTarget($this, 'viewThread'));
 		$this->ctrl->clearParameters($this);
 
-		if($_GET['viewmode']== 'date')
+		if($_SESSION['viewmode']== 'date')
 		{
 			$ilTabs->setTabActive('order_by_date');
 		}
@@ -1644,7 +1643,8 @@ class ilObjForumGUI extends ilObjectGUI
 	public function savePostObject()	
 	{
 		global $ilUser, $ilAccess, $lng;
-		
+
+		$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = NULL;
 		if(!is_array($_POST['del_file'])) $_POST['del_file'] = array();
 		
 		if($this->objCurrentTopic->isClosed())
@@ -1837,7 +1837,6 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$_GET['action'] = substr($_GET['action'], 6);
 		}		
-		
 		return $this->viewThreadObject();
 	}
 	
@@ -1967,11 +1966,15 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
 			   $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar;
+
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
-		if (!isset($_GET['viewmode']) || $_GET['viewmode'] == 'answers')
+
+		if(!isset($_SESSION['viewmode']) || isset($_GET['viewmode']))
+			$_SESSION['viewmode'] = $_GET['viewmode'];
+		else $_SESSION['viewmode'] = 'answers';
+
+ 		if ($_SESSION['viewmode'] == 'answers')
 		{
-			
-		#	$this->tpl->setLeftContent($this->getForumExplorer());
 			$tpl->setLeftContent($this->getForumExplorer());
 		}
 
@@ -2050,7 +2053,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$session_name = 'viewmode_'.$forumObj->getId();
 
 	//	if ($_SESSION[$session_name] == 'date')
-		if ($_GET['viewmode'] == 'date')
+		if ($_SESSION['viewmode'] == 'date')
 		{
 			$new_order = 'answers';
 			$orderField = 'frm_posts_tree.fpt_date';
@@ -2511,6 +2514,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 								$this->ctrl->setParameter($this, 'offset', $Start);
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
 								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId()));
 								$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
 								$this->ctrl->clearParameters($this);
@@ -2526,6 +2530,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 								$this->ctrl->setParameter($this, 'offset', $Start);
 								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
 							#	$this->ctrl->setParameter($this, 'unread_id', $_GET['orderby']);
 								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'markPostUnread', $node->getId()));
 							#	$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
@@ -2782,19 +2787,15 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 					else
 					{
-						if ($forumObj->isNew($ilUser->getId(), $node->getThreadId(), $node->getId()))
-						{
-							$tpl->setVariable('SUBJECT', '<i><b>'.$node->getSubject().'</b></i>');
-							$tpl->setVariable('TXT_MARK_ICON', $this->lng->txt('new'));
-							$tpl->setVariable('IMG_MARK_ICON', ilUtil::getImagePath('icon_new.gif'));
-						}
-						else
-						{
-							
-							$tpl->setVariable('SUBJECT', '<b>'.$node->getSubject().'</b>');
-							$tpl->setVariable('TXT_MARK_ICON', $this->lng->txt('unread'));
-							$tpl->setVariable('IMG_MARK_ICON', ilUtil::getImagePath('icon_unread.gif'));
-						}
+						$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+						$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+						$this->ctrl->setParameter($this, 'offset', $Start);
+						$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+						$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+						$mark_post_target = $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId());
+
+						$tpl->setVariable('SUBJECT',"<a href=\"".$mark_post_target."\"><b>".$node->getSubject()."</b></a>");
+
 					}
 		
 					$tpl->setVariable('POST_DATE', $frm->convertDate($node->getCreateDate()));
