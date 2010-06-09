@@ -91,6 +91,34 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	{
 	 	return (bool) $this->optional_check;
 	}
+	
+	/**
+	 * Overwritten from base class
+	 * @param object $username
+	 * @param object $password
+	 * @return 
+	 */
+	public function fetchData($username, $password)
+	{
+		$res = parent::fetchData($username,$password);
+		
+		if (PEAR::isError($res))
+		{ 
+			$this->log('Container '.$key.': '.$res->getMessage(), AUTH_LOG_ERR);
+			return $res;
+		}
+		elseif ($res == true)
+		{
+			$this->log('Container '.$key.': Authentication successful.', AUTH_LOG_DEBUG);
+			return true;
+		} 
+		if(!$this->enabledOptionalGroupCheck() and $this->server->isMembershipOptional())
+		{
+			$this->enableOptionalGroupCheck();
+			return parent::fetchData($username,$password);
+		}
+		return false;
+	}
 
 	
 	/**
@@ -139,7 +167,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	private function updateUserFilter()
 	{
-	 	$this->getContainer()->options['userfilter'] = $this->server->getGroupUserFilter();
+	 	$this->options['userfilter'] = $this->server->getGroupUserFilter();
 	}
 
 	/** 
@@ -212,7 +240,6 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 			return false;
 		}
 		
-		
 		// Finally setAuth
 		$a_auth->setAuth($user_data['ilInternalAccount']);
 		$ilBench->stop('Auth','LDAPLoginObserver');
@@ -238,14 +265,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	public function failedLoginObserver($a_username,$a_auth)
 	{
-		if(!$this->enabledOptionalGroupCheck() and $this->server->isMembershipOptional())
-		{
-			$a_auth->logout();
-			$this->enableOptionalGroupCheck();
-			$a_auth->start();
-			return false;
-		}
-		return true;
+		return false;
 	}
 	
 	/**

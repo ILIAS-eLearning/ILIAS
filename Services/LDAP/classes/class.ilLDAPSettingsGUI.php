@@ -958,7 +958,7 @@ class ilLDAPSettingsGUI
 		$binding->addOption($anonymous);
 			$user = new ilRadioOption($this->lng->txt('ldap_bind_user'), IL_LDAP_BIND_USER);
 				$dn = new ilTextInputGUI($this->lng->txt('ldap_server_bind_dn'), 'bind_dn');
-				$dn->setSize(32);
+				$dn->setSize(64);
 				$dn->setMaxLength(255);
 			$user->addSubItem($dn);
 				$pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_pass'), 'bind_pass');
@@ -974,7 +974,7 @@ class ilLDAPSettingsGUI
 		
 		$search_base = new ilTextInputGUI($this->lng->txt('ldap_user_dn'), 'search_base');
 		$search_base->setInfo($this->lng->txt('ldap_search_base_info'));
-		$search_base->setSize(32);
+		$search_base->setSize(64);
 		$search_base->setMaxLength(255);
 		$this->form_gui->addItem($search_base);
 		
@@ -992,7 +992,7 @@ class ilLDAPSettingsGUI
 		
 		$filter = new ilTextInputGUI($this->lng->txt('ldap_search_filter'), 'filter');
 		$filter->setInfo($this->lng->txt('ldap_filter_info'));
-		$filter->setSize(32);
+		$filter->setSize(64);
 		$filter->setMaxLength(255);
 		$this->form_gui->addItem($filter);
 		
@@ -1002,7 +1002,7 @@ class ilLDAPSettingsGUI
 		
 		$group_dn = new ilTextInputGUI($this->lng->txt('ldap_group_search_base'), 'group_dn');
 		$group_dn->setInfo($this->lng->txt('ldap_group_dn_info'));
-		$group_dn->setSize(32);
+		$group_dn->setSize(64);
 		$group_dn->setMaxLength(255);
 		$this->form_gui->addItem($group_dn);
 		
@@ -1014,7 +1014,7 @@ class ilLDAPSettingsGUI
 		
 		$group_filter = new ilTextInputGUI($this->lng->txt('ldap_group_filter'), 'group_filter');
 		$group_filter->setInfo($this->lng->txt('ldap_group_filter_info'));
-		$group_filter->setSize(32);
+		$group_filter->setSize(64);
 		$group_filter->setMaxLength(255);
 		$this->form_gui->addItem($group_filter);
 		
@@ -1047,7 +1047,7 @@ class ilLDAPSettingsGUI
 		$group_optional->setInfo($this->lng->txt('ldap_group_optional_info'));
 		$group_optional->setValue(1);
 			$group_user_filter = new ilTextInputGUI($this->lng->txt('ldap_group_user_filter'), 'group_user_filter');
-			$group_user_filter->setSize(32);
+			$group_user_filter->setSize(64);
 			$group_user_filter->setMaxLength(255);
 			$group_optional->addSubItem($group_user_filter);			
 		$this->form_gui->addItem($group_optional);

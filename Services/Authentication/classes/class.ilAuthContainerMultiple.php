@@ -138,7 +138,7 @@ class ilAuthContainerMultiple extends Auth_Container
             if (PEAR::isError($result)) 
 			{
                 $this->log('Container '.$key.': '.$result->getMessage(), AUTH_LOG_ERR);
-                return $result;
+				// Do not return here, otherwise wrong configured auth modes might block ilias database authentication
             } 
 			elseif ($result == true) 
 			{
