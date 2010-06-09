@@ -42,8 +42,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->initFilter($a_parent_obj->getObjId());
 
 		$this->getItems($a_parent_obj->getObjId(), $ref_id, $this->getCurrentFilter());
-		
-		// $this->addCommandButton("", $lng->txt(""));
 	}
 
 	function getSelectableColumns()
@@ -362,54 +360,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	   {
 		   $this->tpl->touchBlock($id);;
 	   }
-	}
-
-	public function getCurrentFilter()
-	{
-		$result = array();
-		foreach($this->filter as $id => $value)
-		{
-		  $item = $this->getFilterItemByPostVar($id);
-		  switch($id)
-		  {
-			 case "title":
-			 case "country":
-			 case "gender":
-			 case "city":
-			 case "language":
-			     if($value)
-				 {
-					 $result[$id] = $value;
-				 }
-				 break;
-
-			case "user_total":
-				if(is_array($value) && implode("", $value))
-				{
-					$result[$id] = $value;
-				}
-				break;
-
-			 case "registration":
-			 case "first_access":
-			 case "last_access":
-				 if($value)
-				 {
-					 if($value["from"])
-					 {
-						 $result[$id]["from"] = $value["from"]->get(IL_CAL_DATETIME);
-						 $result[$id]["from"] = substr($result[$id]["from"], 0, -8)."00:00:00";
-					 }
-					 if($value["to"])
-					 {
-						 $result[$id]["to"] = $value["to"]->get(IL_CAL_DATETIME);
-						 $result[$id]["to"] = substr($result[$id]["to"], 0, -8)."23:59:59";
-					 }
-				 }
-				 break;
-		  }
-		}
-		return $result;
 	}
 }
 ?>

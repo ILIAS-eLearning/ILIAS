@@ -218,7 +218,8 @@ class ilTrQuery
 			" AND read_event.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
-			self::buildFilters($where, $a_filter);
+			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
+			self::buildFilters($where, $a_filters);
 
 		$queries = array(array("fields"=>$fields, "query"=>$query));
 
@@ -688,7 +689,25 @@ class ilTrQuery
 					case "country":
 					case "gender":
 					case "city":
+					case "login":
+					case "firstname":
+					case "lastname":
+					case "mark":
+					case "u_comment":
+					case "institution":
+					case "department":
+					case "title":
+					case "street":
+					case "zipcode":
+					case "email":
+					case "matriculation":
 						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
+						break;
+
+					case "status":
+					case "mark":
+					case "comment":
+						$where[] = "ut_lp_marks.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
 				    case "language":
@@ -711,6 +730,7 @@ class ilTrQuery
 
 					case "create_date":
 					case "first_access":
+					case "birthday":
 						if($value["from"])
 						{
 							$where[] = $id." >= ".$ilDB->quote($value["from"] ,"date");
@@ -768,6 +788,17 @@ class ilTrQuery
 
 					switch($field)
 					{
+						case "language":
+							if($function)
+							{
+								$a_fields[] = $function."(value) AS ".$field."_".strtolower($function);
+							}
+							else
+							{
+								$a_fields[] = "value AS ".$field;
+							}
+							break;
+						
 						case "read_count":
 						case "spent_seconds":
 							if(!$function)
