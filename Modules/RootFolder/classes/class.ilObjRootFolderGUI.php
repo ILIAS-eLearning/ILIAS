@@ -157,7 +157,16 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-				
+
+			case "ilcolumngui":
+				$this->checkPermission("read");
+				$this->prepareOutput();
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+				$this->renderObject();
+				break;
+
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
