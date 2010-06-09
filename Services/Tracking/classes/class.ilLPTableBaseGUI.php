@@ -20,10 +20,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	{
 		global $ilCtrl;
 
+		$this->determineSelectedFilters();
+
+
 		if(!$ilCtrl->getNextClass($this))
 		{
 			$to_hide = false;
-			
+
 			switch($ilCtrl->getCmd())
 			{
 				case "applyFilter":
@@ -60,36 +63,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			// e.g. repository selector
 			return parent::executeCommand();
 		}
-	}
-
-	/**
-	 * Get current filter settings
-	 * 
-	 * @param	bool	$as_query
-	 * @return	array
-	 */
-	protected function getCurrentFilter($as_query = false)
-	{
-		$filter = array();
-		$filter["type"] = $this->filter["type"];
-		$filter["hidden"] = $this->filter["hide"];
-		$filter["title"] = $this->filter["query"];
-
-		if($as_query)
-		{
-			switch($filter["type"])
-			{
-				case 'lm':
-					$filter["type"] = array('lm','sahs','htlm','dbk');
-					break;
-
-				default:
-					$filter["type"] = array($filter["type"]);
-					break;
-			}
-		}
-
-		return $filter;
 	}
 
 	/**
@@ -280,6 +253,176 @@ class ilLPTableBaseGUI extends ilTable2GUI
 					 'tst' => $lng->txt('objs_tst'),
 					 'grp' => $lng->txt('objs_grp'),
 					 'exc' => $lng->txt('objs_exc'));
+	}
+
+	protected function parseValue($id, $value, $type)
+	{
+		global $lng;
+
+		// get rid of aggregation
+		$pos = strrpos($id, "_");
+		if($pos !== false)
+		{
+			$function = strtoupper(substr($id, $pos+1));
+			if(in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+			{
+				$id = substr($id, 0, $pos);
+			}
+		}
+
+		if(trim($value) == "")
+		{
+			if($id == "title")
+			{
+				return "--".$lng->txt("none")."--";
+			}
+			return " ";
+		}
+
+		switch($id)
+		{
+			case "first_access":
+			case "create_date":
+				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
+
+			case "last_access":
+				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
+
+			case "spent_seconds":
+				if(in_array($type, array("exc")))
+				{
+					$value = "-";
+				}
+				else
+				{
+					include_once("./classes/class.ilFormat.php");
+					$value = ilFormat::_secondsToString($value);
+				}
+				break;
+
+			case "percentage":
+				/* :TODO:
+				if(in_array(strtolower($this->status_class),
+						  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
+				$type == "exc"))
+				*/
+			    if(false)
+				{
+					$value = "-";
+				}
+				else
+				{
+					$value = $value."%";
+				}
+				break;
+
+			case "mark":
+				if(in_array($type, array("lm", "dbk")))
+				{
+					$value = "-";
+				}
+				break;
+
+			case "gender":
+				$value = $lng->txt("gender_".$value);
+				break;
+
+			case "status":
+				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
+				$text = ilLearningProgressBaseGUI::_getStatusText($value);
+				$value = ilUtil::img($path, $text);
+				break;
+
+			case "birthday":
+				$value = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
+				break;
+
+			case "language":
+				$value = $lng->txt("lang_".$value);
+				break;
+		}
+
+		return $value;
+	}
+
+	public function getCurrentFilter($as_query = false)
+	{
+		$result = array();
+		foreach($this->filter as $id => $value)
+		{
+			$item = $this->getFilterItemByPostVar($id);
+			switch($id)
+			{
+				case "type":
+					switch($value)
+					{
+						case 'lm':
+							$result["type"] = array('lm','sahs','htlm','dbk');
+							break;
+
+						default:
+							$result["type"] = array($value);
+							break;
+					 }
+					 break;
+
+				case "title":
+				case "country":
+				case "gender":
+				case "city":
+				case "language":
+				case "login":
+				case "firstname":
+				case "lastname":
+				case "mark":
+				case "u_comment":
+				case "institution":
+				case "department":
+				case "title":
+				case "street":
+				case "zipcode":
+				case "email":
+				case "matriculation":
+				case "status":
+					if($value)
+					{
+						$result[$id] = $value;
+					}
+					break;
+
+				case "user_total":
+				case "read_count":
+				case "percentage":
+				case "hidden":
+					if(is_array($value) && implode("", $value))
+					{
+						$result[$id] = $value;
+					}
+					break;
+
+				 case "registration":
+				 case "first_access":
+				 case "last_access":
+				 case "birthday":
+					 if($value)
+					 {
+						 if($value["from"])
+						 {
+							 $result[$id]["from"] = $value["from"]->get(IL_CAL_DATETIME);
+							 $result[$id]["from"] = substr($result[$id]["from"], 0, -8)."00:00:00";
+						 }
+						 if($value["to"])
+						 {
+							 $result[$id]["to"] = $value["to"]->get(IL_CAL_DATETIME);
+							 $result[$id]["to"] = substr($result[$id]["to"], 0, -8)."23:59:59";
+						 }
+					 }
+					 break;
+		  }
+		}
+
+		return $result;
 	}
 }
 

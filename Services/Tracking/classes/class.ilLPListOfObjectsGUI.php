@@ -16,7 +16,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI
 *
 * @package ilias-tracking
 *
@@ -69,6 +69,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			case 'iltrsummarytablegui':
 				include_once './Services/Tracking/classes/class.ilTrSummaryTableGUI.php';
 			    $table_gui = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->details_id);
+				$this->ctrl->forwardCommand($table_gui);
+				break;
+
+			case 'iltrobjectuserspropstablegui':
+				$this->ctrl->setParameter($this, "details_id", $this->details_id);
+			
+				include_once './Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php';
+			    $table_gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
@@ -171,7 +179,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
-		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", "objectdetails".$this->details_obj_id, $this->details_obj_id, $this->details_id);
+		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());

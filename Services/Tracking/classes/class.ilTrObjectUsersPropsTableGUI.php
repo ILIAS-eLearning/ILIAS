@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
  * Learning progress table: One object, rows: users, columns: properties
@@ -20,18 +20,19 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI
  * @ingroup ServicesTracking
  */
-class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
+class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 {
 	protected $user_fields; // array
+	protected $filter; // array
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_obj_id, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
-		$this->setId($a_table_id);
+		$this->setId("tr_users");
 		$this->obj_id = $a_obj_id;
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
@@ -54,7 +55,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
+		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.object_users_props_row.html", "Services/Tracking");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
@@ -75,6 +76,11 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 	function getSelectableColumns()
 	{
 		global $lng, $tree, $ilSetting;
+
+		if($this->selectable_columns)
+		{
+			return $this->selectable_columns;
+		}
 		
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -115,6 +121,9 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$cols["u_comment"] = array(
 			"txt" => $lng->txt("trac_comment"),
 			"default" => false);
+		$cols["language"] = array(
+			"txt" => $lng->txt("language"),
+			"default" => false);
 
 		 // object is [part of] course
 		$check_export = (bool)$tree->checkForParentType($this->ref_id, "crs");
@@ -149,6 +158,8 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				$this->user_fields[] = $f;
 			}
 		}
+
+		$this->selectable_columns = $cols;
 
 		return $cols;
 	}
@@ -187,7 +198,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
-			$this->filter,
+			$this->getCurrentFilter(),
 			$additional_fields,
 			$check_agreement,
 			$this->user_fields
@@ -202,7 +213,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
-				$this->filter,
+				$this->getCurrentFilter(),
 				$additional_fields,
 				$check_agreement,
 				$this->user_fields
@@ -219,18 +230,70 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $lng;
+
+		$item = $this->addFilterItemByMetaType("login", ilTable2GUI::FILTER_TEXT);
+	    $this->filter["login"] = $item->getValue();
 		
-		// title/description
-		/* include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"), "query");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$ti->setSubmitFormOnEnter(true);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["query"] = $ti->getValue(); */
-		
+		foreach($this->getSelectableColumns() as $column => $meta)
+		{
+			// no udf!
+			switch($column)
+			{
+				case "firstname":
+				case "lastname":
+				case "mark":
+				case "u_comment":
+				case "institution":
+				case "department":
+				case "title":
+				case "street":
+				case "zipcode":
+				case "city":
+				case "country":
+				case "email":
+				case "matriculation":
+					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_TEXT, true, $meta["txt"]);
+					$this->filter[$column] = $item->getValue();
+					break;
+
+				case "first_access":
+				case "last_access":
+				case "birthday":
+					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATE_RANGE, true, $meta["txt"]);
+					$this->filter[$column] = $item->getDate();
+					break;
+
+				case "read_count":
+				case "percentage":
+					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_NUMBER_RANGE, true, $meta["txt"]);
+					$this->filter[$column] = $item->getValue();
+					break;
+
+				case "gender":
+					$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
+					$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+					$this->filter["gender"] = $item->getValue();
+					break;
+
+				case "status":
+					$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
+					$item->setOptions(array("" => $lng->txt("all"),
+						LP_STATUS_NOT_ATTEMPTED_NUM => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
+						LP_STATUS_IN_PROGRESS_NUM => $lng->txt(LP_STATUS_IN_PROGRESS),
+						LP_STATUS_COMPLETED_NUM => $lng->txt(LP_STATUS_COMPLETED),
+						LP_STATUS_FAILED_NUM => $lng->txt(LP_STATUS_FAILED)));
+					$this->filter["status"] = $item->getValue();
+					break;
+
+				case "language":
+					$item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
+					$this->filter["language"] = $item->getValue();
+					break;
+
+				// spent_seconds?!
+			}
+		}
 	}
 	
 	/**
@@ -247,67 +310,10 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), $data[$c]);
 			}
-			else	// all other fields
+			else	
 			{
 				$this->tpl->setCurrentBlock("user_field");
-				$val = (trim($data[$c]) == "")
-					? " "
-					: $data[$c];
-	
-				if ($data[$c] != "")
-				{
-					switch ($c)
-					{
-						case "first_access":
-							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_DATETIME));
-							break;
-
-						case "last_access":
-							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_UNIX));
-							break;
-
-						case "gender":
-							$val = $lng->txt("gender_".$data[$c]);
-							break;
-						
-						case "status":
-							include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-							$path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
-							$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
-							$val = ilUtil::img($path, $text);
-							break;
-						
-
-						case "spent_seconds":
-							include_once("./classes/class.ilFormat.php");
-							$val = ilFormat::_secondsToString($data[$c]);
-							break;
-						
-						case "percentage":
-							$val = $data[$c]."%";
-							break;
-
-						case "birthday":
-							$val = ilDatePresentation::formatDate(new ilDate($data[$c], IL_CAL_DATE));
-							break;
-					}
-				}
-				if ($c == "mark" && in_array($this->type, array("lm", "dbk")))
-				{
-					$val = "-";
-				}
-				if ($c == "spent_seconds" && in_array($this->type, array("exc")))
-				{
-					$val = "-";
-				}
-				if ($c == "percentage" &&
-					(in_array(strtolower($this->status_class),
-							  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-					$this->type == "exc"))
-				{
-					$val = "-";
-				}
-				
+				$val = $this->parseValue($c, $data[$c], "user");
 				$this->tpl->setVariable("VAL_UF", $val);
 			}
 			
