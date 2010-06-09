@@ -1304,8 +1304,8 @@ certificate#:#default_background_info#:#This background image will be chosen as 
 certificate#:#download_certificate#:#Download Certificate
 chat#:#cancel_talk#:#Cancel address
 chat#:#cancel_whisper#:#Cancel whisper
-chat#:#chat_access_blocked#:#You are excluded from these chatrooms
-chat#:#chat_active_users#:#Further users (present)
+chat#:#chat_access_blocked#:#You are excluded from these chat rooms
+chat#:#chat_active_users#:#Present Users in Chat Room
 chat#:#chat_active#:#Active
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
 chat#:#chat_add_blocking#:#Block user
@@ -1313,7 +1313,7 @@ chat#:#chat_add_external_ip#:#Please add the server's external IP.
 chat#:#chat_add_internal_ip#:#Please add the server's internal IP.
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
-chat#:#chat_add_private_chatroom#:#Add private chatroom
+chat#:#chat_add_private_chatroom#:#Add Private Chat Room
 chat#:#chat_add_smiley#:#Add Smiley
 chat#:#chat_add_ssl_port#:#Please add the server SSL port.
 chat#:#chat_add_to_addressbook#:#Add to Contacts
@@ -1349,7 +1349,7 @@ chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '
 chat#:#chat_default_bookmark_title#:#Chat Link: %s
 chat#:#chat_delete_selected#:#Delete selected Smilies
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chat room
-chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
+chat#:#chat_disinvite_user#:#Disinvite/remove user from private chat room
 chat#:#chat_disinvite#:#Disinvite
 chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit_smiley#:#Edit Smiley
@@ -1385,7 +1385,7 @@ chat#:#chat_invited_by#:#Invited by
 chat#:#chat_italic#:#Italic
 chat#:#chat_kick_user_session#:#Kick user
 chat#:#chat_kick#:#Kick
-chat#:#chat_kicked_from_room#:#You have been kicked from this chatroom, you cannot write messages.
+chat#:#chat_kicked_from_room#:#You have been kicked from this chat room, you cannot write messages.
 chat#:#chat_level_all#:#All
 chat#:#chat_level_debug#:#Debug
 chat#:#chat_level_error#:#Error
@@ -1415,7 +1415,7 @@ chat#:#chat_no_users_selected#:#You have to select one user.
 chat#:#chat_no_write_perm#:#No permission to write
 chat#:#chat_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 chat#:#chat_olive#:#olive
-chat#:#chat_online_users#:#Further users (online)
+chat#:#chat_online_users#:#Other Users Online
 chat#:#chat_open#:#Enter Room
 chat#:#chat_private_message#:#Private Message
 chat#:#chat_profile#:#Profile
@@ -1437,7 +1437,7 @@ chat#:#chat_recordings_select_one#:#Please choose recordings you would like to d
 chat#:#chat_recordings#:#Recordings
 chat#:#chat_red#:#red
 chat#:#chat_refresh#:#Refresh
-chat#:#chat_refreshed#:#Deleted all messages of the selected chatrooms.
+chat#:#chat_refreshed#:#Deleted all messages of the selected chat rooms.
 chat#:#chat_room_added#:#Added new chat room
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.
 chat#:#chat_room_name#:#Name of chat room
@@ -1497,10 +1497,10 @@ chat#:#chat_upload_smiley#:#Upload Smiley
 chat#:#chat_user_already_blocked#:#The access for the selected user is already blocked.
 chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.
 chat#:#chat_user_blocked#:#Blocked access for the selected user.
-chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.
+chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chat room.
 chat#:#chat_user_dropped#:#User kicked
 chat#:#chat_user_hidden#:#hidden
-chat#:#chat_user_invited_private#:#The user was invited to the private chatroom '%s'.
+chat#:#chat_user_invited_private#:#The user was invited to the private chat room '%s'.
 chat#:#chat_user_invited_public#:#The user was invited to the chat '%s'.
 chat#:#chat_user_invited#:#Invited user to chat.
 chat#:#chat_user_name#:#Username
