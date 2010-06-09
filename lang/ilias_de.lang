@@ -1288,7 +1288,7 @@ chat#:#cancel_talk#:#Anreden beenden
 chat#:#cancel_whisper#:#Flüstern beenden
 chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
-chat#:#chat_active_users#:#Weitere Benutzer (anwesend)
+chat#:#chat_active_users#:#Anwesende Benutzer
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
 chat#:#chat_add_blocking#:#Benutzer sperren
 chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
@@ -1397,7 +1397,7 @@ chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
 chat#:#chat_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 chat#:#chat_olive#:#oliv
-chat#:#chat_online_users#:#Weitere Benutzer (online)
+chat#:#chat_online_users#:#Aktuell eingeloggte Benutzer
 chat#:#chat_open#:#Raum betreten
 chat#:#chat_private_message#:#Private Nachricht
 chat#:#chat_profile#:#Profil
