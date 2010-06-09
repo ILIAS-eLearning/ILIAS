@@ -22,6 +22,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 {
+	protected $user_fields; // array
 	
 	/**
 	* Constructor
@@ -41,19 +42,11 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("login"), "login");
-		
+
+		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$l = $c;
-			if (in_array($l, array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage")))
-			{
-				$l = "trac_".$l;
-			}
-			if ($l == "u_comment")
-			{
-				$l = "trac_comment";
-			}
-			$this->addColumn($this->lng->txt($l), $c);
+			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
 		$this->addColumn($this->lng->txt("actions"), "");

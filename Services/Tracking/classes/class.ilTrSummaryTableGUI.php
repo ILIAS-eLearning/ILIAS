@@ -29,20 +29,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn($this->lng->txt("title"), "title");
 
-		// re-use caption from learners list
-		$this->lng_map = array("first_access_min" => "trac_first_access", "last_access_max" => "trac_last_access",
-			"mark" => "trac_mark", "status" => "trac_status", "spent_seconds_avg" => "trac_spent_seconds",
-			"read_count_sum" => "trac_read_count", "percentage_avg" => "trac_percentage"
-			);
-
+		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$l = $c;
-			if(isset($this->lng_map[$l]))
-			{
-				$l = $this->lng_map[$l];
-			}
-			$this->addColumn($this->lng->txt($l), $c);
+			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
 		// $this->setExternalSorting(true);
@@ -60,6 +50,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
+		$lng_map = array("first_access_min" => "trac_first_access", "last_access_max" => "trac_last_access",
+			"mark" => "trac_mark", "status" => "trac_status", "spent_seconds_avg" => "trac_spent_seconds",
+			"read_count_sum" => "trac_read_count", "percentage_avg" => "trac_percentage"
+			);
+
 		$all = array("user_total", "country", "create_date_min", "create_date_max",
 			"gender", "city", "language","read_count_sum", "read_count_avg", "first_access_min",
 			"last_access_max", "spent_seconds_avg",	"status", "mark", "percentage_avg");
@@ -71,9 +66,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		foreach($all as $column)
 		{
 			$l = $column;
-			if(isset($this->lng_map[$l]))
+			if(isset($lng_map[$l]))
 			{
-				$l = $this->lng_map[$l];
+				$l = $lng_map[$l];
 			}
 			$columns[$column] = array(
 				"txt" => $lng->txt($l),
