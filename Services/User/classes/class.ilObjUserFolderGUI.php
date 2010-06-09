@@ -2677,6 +2677,7 @@ else
 		}
 		
 		// check if a course export state of any user defined field has been added
+		/*
 		if ($action != 'save')
 		{
 			include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
@@ -2701,6 +2702,7 @@ else
 			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 			ilCourseAgreement::_reset();	
 		}
+		 */
 
 		foreach($a_fields as $field_id => $definition)
 		{			

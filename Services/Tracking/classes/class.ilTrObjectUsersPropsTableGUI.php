@@ -81,7 +81,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 	 */
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $lng, $tree, $ilSetting;
 		
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -126,7 +126,10 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		$cols["email"] = array(
 			"txt" => $lng->txt("email"),
 			"default" => false);
-		
+
+		 // object is [part of] course
+		$check_export = (bool)$tree->checkForParentType($this->ref_id, "crs");
+
 		// other user profile fields
 		foreach ($ufs as $f => $fd)
 		{
@@ -135,6 +138,29 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 				$cols[$f] = array(
 					"txt" => $lng->txt($f),
 					"default" => false);
+			}
+
+	        // needs "course export" setting to be displayed
+			if(!$fd["course_export_fix_value"] && $check_export && !$ilSetting->get("usr_settings_course_export_".$f))
+			{
+				unset($cols[$f]);
+			}
+		}
+
+		// additional defined user data fields
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
+		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		{
+			$f = "udf_".$definition["field_id"];
+			$cols[$f] = array(
+					"txt" => $definition["field_name"],
+					"default" => false);
+
+			// needs "course export" setting to be displayed
+		    if($check_export && !$definition["course_export"])
+			{
+				unset($cols[$f]);
 			}
 		}
 		
@@ -149,7 +175,7 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		global $lng, $tree;
 
 		$this->determineOffsetAndOrder();
 		
@@ -157,6 +183,21 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 		
 		$additional_fields = $this->getSelectedColumns();
 
+	    // object is [part of] course
+		$check_agreement = $check_export = false;
+		if($tree->checkForParentType($this->ref_id, "crs"))
+		{
+            $check_export = true;
+			
+			// privacy (if course agreement is activated)
+			include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+			$privacy = ilPrivacySettings::_getInstance();
+		    if($privacy->confirmationRequired())
+			{
+				$check_agreement = true;
+			}
+		}
+		
 		$tr_data = ilTrQuery::getUserDataForObject(
 			$this->obj_id,
 			ilUtil::stripSlashes($this->getOrderField()),
@@ -164,20 +205,22 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
 			$this->filter,
-			$additional_fields
+			$additional_fields,
+			$check_agreement
 			);
 			
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
-			$tr_data = ilTrQuery::getUSerDataForObject(
+			$tr_data = ilTrQuery::getUserDataForObject(
 				$this->obj_id,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
 				$this->filter,
-				$additional_fields
+				$additional_fields,
+				$check_agreement
 				);
 		}
 
@@ -259,6 +302,9 @@ class ilTrObjectUsersPropsTableGUI extends ilTable2GUI
 							$val = $data[$c]."%";
 							break;
 
+						case "birthday":
+							$val = ilDatePresentation::formatDate(new ilDate($data[$c], IL_CAL_DATE));
+							break;
 					}
 				}
 				if ($c == "mark" && in_array($this->type, array("lm", "dbk")))

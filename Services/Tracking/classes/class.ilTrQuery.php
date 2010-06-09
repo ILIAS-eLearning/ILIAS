@@ -186,10 +186,12 @@ class ilTrQuery
 	 * @param	int		$a_limit
 	 * @param	array	$a_filters
 	 * @param	array	$a_additional_fields
+	 * @param	bool	$check_agreement
 	 * @return	array	cnt, set
 	 */
 	static function getUserDataForObject($a_obj_id, $a_order_field = "", $a_order_dir = "", 
-		$a_offset = 0, $a_limit = 9999, array $a_filters = NULL, array $a_additional_fields = NULL)
+		$a_offset = 0, $a_limit = 9999, array $a_filters = NULL, array $a_additional_fields = NULL,
+		$check_agreement = false)
 	{
 		global $ilDB;
 
@@ -224,7 +226,58 @@ class ilTrQuery
 			$a_order_field = "login";
 		}
 
-		return self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
+		$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
+		if($result["cnt"])
+		{
+			// public information for users
+			$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
+				" AND value = ".$ilDB->quote("y", "text");
+			$set = $ilDB->query($query);
+			$public = array();
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$public[$row["usr_id"]][] = substr($row["keyword"], 7);
+			}
+
+			// get standard fields
+		    include_once("./Services/User/classes/class.ilUserProfile.php");
+			$up = new ilUserProfile();
+			$up->skipGroup("preferences");
+			$up->skipGroup("settings");
+			$valid = array();
+			foreach ($up->getStandardFields() as $f => $fd)
+			{
+				if (!$fd["lists_hide"] && !in_array($f, array("firstname", "lastname")))
+				{
+					$valid[] = $f;
+				}
+			}
+
+			// (course) user agreement
+			$agreements = array();
+			if($check_agreement)
+			{
+				// admins/tutors (write-access) will never have agreement ?!
+				include_once "Modules/Course/classes/class.ilCourseAgreement.php";
+				$agreements = ilCourseAgreement::lookupAcceptedAgreements($a_obj_id);
+			}
+			
+			// remove all private data
+			foreach($result["set"] as $idx => $row)
+			{
+				foreach($valid as $field)
+				{
+					if(isset($row[$field]) &&
+						(!in_array($row["usr_id"], $agreements) ||
+						!isset($public[$row["usr_id"]]) ||
+						!in_array($field, $public[$row["usr_id"]])))
+					{
+						$result["set"][$idx][$field] = false;
+					}
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
