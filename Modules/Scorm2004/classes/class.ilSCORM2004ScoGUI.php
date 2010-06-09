@@ -388,12 +388,12 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					<!-- BEGIN ilLMNavigation_Prev -->
 					<div class="ilc_page_lnav_LeftNavigation">
 					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" class="ilc_page_rnavimage_RightNavigationImage" />&nbsp;Prev</a>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
 					</div>
 					<!-- END ilLMNavigation_Prev -->
 					<!-- BEGIN ilLMNavigation_Next -->
 					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
 					</div>
 					<!-- END ilLMNavigation_Next -->
 					<div style="clear:both;"></div>
@@ -443,12 +443,12 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					<!-- BEGIN ilLMNavigation_Prev -->
 					<div class="ilc_page_lnav_LeftNavigation">
 					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" class="ilc_page_rnavimage_RightNavigationImage" />&nbsp;Prev</a>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
 					</div>
 					<!-- END ilLMNavigation_Prev -->
 					<!-- BEGIN ilLMNavigation_Next -->
 					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
 					</div>
 					<!-- END ilLMNavigation_Next -->
 					<div style="clear:both;"></div>
