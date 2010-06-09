@@ -2289,9 +2289,23 @@ return;
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);*/
+
+		$birthday = $ilUser->getBirthday();
+		if($birthday)
+		{
+			$birthday = ilDatePresentation::formatDate(new ilDate($birthday, IL_CAL_DATE));
+		}
+		$gender = $ilUser->getGender();
+		if($gender)
+		{
+			$gender = $lng->txt("gender_".$gender);
+		}
 		
 		// personal data
 		$val_array = array(
+			"title" => $ilUser->getUTitle(),
+			"birthday" => $birthday,
+			"gender" => $gender,
 			"institution" => $ilUser->getInstitution(),
 			"department" => $ilUser->getDepartment(),
 			"upload" => "",
@@ -2393,7 +2407,7 @@ return;
 			$ilUser->setPref("public_profile", $_POST["public_profile"]);
 
 			// if check on Institute
-			$val_array = array("institution", "department", "upload", "street",
+			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
 				"zipcode", "city", "country", "phone_office", "phone_home", "phone_mobile",
 				"fax", "email", "hobby", "matriculation");
 	
