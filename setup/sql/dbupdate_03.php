@@ -861,7 +861,7 @@ $res = $ilDB->query($query);
 			array("type" => "text", "length" => 32, "notnull" => false));
 		$ilDB->addTableColumn("exc_mem_ass_status",
 			"u_comment",
-			array("type" => "text", "length" => 1000, "notnull" => false));
+			array("type" => "text", "length" => 4000, "notnull" => false));
 
 		$set = $ilDB->query("SELECT id, exc_id FROM exc_assignment");
 		while ($rec  = $ilDB->fetchAssoc($set))
@@ -1768,4 +1768,10 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <#3058>
 <?php
 	$ilDB->dropTable("ut_lp_filter", false);
+?>
+<#3059>
+<?php
+	$ilDB->modifyTableColumn("exc_mem_ass_status",
+		"u_comment",
+		array("type" => "text", "length" => 4000, "notnull" => false));
 ?>
