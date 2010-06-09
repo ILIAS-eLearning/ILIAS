@@ -3,6 +3,8 @@
 	overflow-y: hidden;
 	width: 100%; 
 	height: 100%;
+	border-right: 2px solid #F4F4F4;
+
 }
 
 #treeView a {
@@ -22,41 +24,43 @@
 /* first or middle sibling, no children */
 .ygtvtn {
 	width:16px; height:22px; 
-	background: url(../templates/default/images/tn.gif) 0 0 no-repeat;
+
 }
 
 /* first or middle sibling, collapsable */
 .ygtvtm {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../templates/default/images/tm.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lm.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, collapsable, hover */
 .ygtvtmh {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../templates/default/images/tmh.gif) 0 0 no-repeat;
+		background: url(../templates/default/images/lmh.gif) 0 0 no-repeat;
 }
 
 /* first or middle sibling, expandable */
 .ygtvtp {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../templates/default/images/tp.gif) 0 0 no-repeat;
+		background: url(../templates/default/images/lp.gif) 0 0 no-repeat;
+
 }
 
 /* first or middle sibling, expandable, hover */
 .ygtvtph {
 	width:16px; height:22px; 
 	cursor:pointer ;
-	background: url(../templates/default/images/tph.gif) 0 0 no-repeat;
+	background: url(../templates/default/images/lph.gif) 0 0 no-repeat;
+
 }
 
 /* last sibling, no children */
 .ygtvln {
 	width:16px; height:22px; 
-	background: url(../templates/default/images/ln.gif) 0 0 no-repeat;
+
 }
 
 /* Last sibling, collapsable */
@@ -96,7 +100,7 @@
  * of the node */
 .ygtvdepthcell { 
 	width:16px; height:22px; 
-	background: url(../templates/default/images/vline.gif) 0 0 no-repeat;
+	
 }
 
 .ygtvblankdepthcell { width:16px; height:22px; }
@@ -131,4 +135,23 @@ span.frmTitle a:hover {
 
 span.frmTitle a:visited {
 	color:#054784;
+}
+span.frmTitleBold {
+	color:#054784;
+	font-size: 18px;
+	font-weight: bold;
+}
+span.frmTitleBold a:link {
+	color:#054784;
+	font-weight: bold;
+}
+
+span.frmTitleBold a:hover {
+	color:#054784;
+	font-weight: bold;
+}
+
+span.frmTitleBold a:visited {
+	color:#054784;
+	font-weight: bold;
 }

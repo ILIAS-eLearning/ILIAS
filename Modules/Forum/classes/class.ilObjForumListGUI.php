@@ -279,10 +279,10 @@ class ilObjForumListGUI extends ilObjectListGUI
 					? $last_post["import_name"]." (".$lng->txt("imported").")"
 					: $lng->txt("unknown");
 			}
-			
+
 			$lpCont = "<a class=\"il_ItemProperty\" target=\"".
 			ilFrameTargetInfo::_getFrame('MainContent').
-			"\" href=\"repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=true&pos_pk=".
+				"\" href=\"repository.php?cmd=viewThread&cmdClass=ilobjforumgui&target=true&pos_pk=".
 			$last_post["pos_pk"]."&thr_pk=".$last_post["pos_thr_fk"]."&ref_id=".
 			$this->ref_id."#".$last_post["pos_pk"]."\">".
 				ilObjForumAccess::prepareMessageForLists($last_post["pos_message"])."</a> ".
@@ -351,16 +351,16 @@ class ilObjForumListGUI extends ilObjectListGUI
 	}
 
 	function getCommandLink($a_cmd)
-	{
+	{		
 		switch($a_cmd)
 		{
 			case 'thread':
-				return "repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&ref_id=".$this->ref_id.
+				return "repository.php?cmd=viewThread&cmdClass=ilobjforumgui&ref_id=".$this->ref_id.
 					"&thr_pk=".$this->getChildId();
 
 			case 'posting':
 				$thread_post = $this->getChildId();
-				return "repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=1&ref_id=".$this->ref_id.
+				return "repository.php?cmd=viewThread&cmdClass=ilobjforumgui&target=1&ref_id=".$this->ref_id.
 					"&thr_pk=".$thread_post[0].
 					"&pos_pk=".$thread_post[1]."#".$thread_post[1];
 
