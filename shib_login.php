@@ -31,13 +31,13 @@ if (
 	$ilias->raiseError($message,$ilias->error_obj->WARNING);
 }
 
-global $ilAuth;
+#global $ilAuth;
 
 // Shibboleth login
-if (!empty($_SERVER[$ilias->getSetting("shib_login")]))
-{
-	$ilAuth->login();
-}
+#if (!empty($_SERVER[$ilias->getSetting("shib_login")]))
+#{
+#	$ilAuth->login();
+#}
 
 // We only get here if we didn't login successfully
 ilUtil::redirect("login.php");
