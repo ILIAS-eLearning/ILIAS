@@ -242,7 +242,7 @@ class ilPermanentLinkGUI
 	 */
 	public static function _getBookmarksSelectionList($title, $href)
 	{
-		global $lng;
+		global $ilDB, $lng, $ilSetting;
 
 		require_once 'Services/PermanentLink/classes/class.ilPermanentLink.php';
 
@@ -259,7 +259,7 @@ class ilPermanentLinkGUI
 		
 		$cnt = 0;
 
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
 		{
 			$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI']));
 			$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
