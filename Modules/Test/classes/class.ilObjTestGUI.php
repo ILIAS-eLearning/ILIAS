@@ -957,7 +957,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($this->object->getShowSolutionSignature()) array_push($values, 'solution_signature');
 		if ($this->object->getShowSolutionSuggested()) array_push($values, 'solution_suggested');
 		$results_presentation->setValue($values);
-		$results_presentation->setInfo($this->lng->txt("tst_results_access_description"));
+		$results_presentation->setInfo($this->lng->txt("tst_results_presentation_description"));
 		if ($this->object->getAnonymity())
 		{
 			$signatureOption->setDisabled(true);
