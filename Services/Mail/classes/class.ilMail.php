@@ -2187,13 +2187,17 @@ class ilMail
 	{
 		global $ilDB;
 
-		$statement = $ilDB->manipulateF('
-			UPDATE '. $this->table_mail_saved .'
-			SET attachments = %s
-			WHERE user_id = %s',
-			array('clob', 'integer'),
-			array(serialize($a_attachments), $this->user_id));
-
+		$ilDB->update($this->table_mail_saved,
+			array
+			(
+				'attachments' => array('clob', serialize($a_attachments))
+			),
+			array
+			(
+				'user_id' => array('integer', $this->user_id)
+			)
+		);
+		
 		return true;
 	}
 
