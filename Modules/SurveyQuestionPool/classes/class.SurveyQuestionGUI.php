@@ -394,10 +394,10 @@ class SurveyQuestionGUI
 
 			$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this, 'addMaterial'), get_class($this));
 
-			$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+			$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->getParentId($_GET["ref_id"]));
 			$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
 			$exp->setTargetGet("ref_id");
-			$exp->setRefId($this->cur_ref_id);
+			$exp->setRefId($_GET["ref_id"]);
 			$exp->addFilter($_SESSION["link_new_type"]);
 			$exp->setSelectableType($_SESSION["link_new_type"]);
 
