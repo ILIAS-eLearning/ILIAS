@@ -14,6 +14,16 @@ include_once("./Services/Math/classes/class.EvalMath.php");
 class ilFormulaInputGUI extends ilTextInputGUI
 {
 	/**
+	* Set Value.
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
+	{
+		$this->value = str_replace(',', '.', $a_value);
+	}
+
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
