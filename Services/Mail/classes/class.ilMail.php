@@ -937,7 +937,7 @@ class ilMail
 		$ilDB->update($this->table_mail,
 			array(
 				'folder_id'			=> array('integer', $a_folder_id),
-				'attachments'		=> array('text', serialize($a_attachments)),
+				'attachments'		=> array('clob', serialize($a_attachments)),
 				'send_time'			=> array('timestamp', date('Y-m-d H:i:s', time())),
 				'rcp_to'			=> array('clob', $a_rcp_to), 
 				'rcp_cc'			=> array('clob', $a_rcp_cc),
@@ -1023,7 +1023,7 @@ class ilMail
 			'user_id'		=> array('integer', $a_user_id),
 			'folder_id'		=> array('integer', $a_folder_id),
 			'sender_id'		=> array('integer', $a_sender_id),
-			'attachments'	=> array('text', serialize($a_attachments)),
+			'attachments'	=> array('clob', serialize($a_attachments)),
 			'send_time'		=> array('timestamp', date('Y-m-d H:i:s', time())),
 			'rcp_to'		=> array('clob', $a_rcp_to),
 			'rcp_cc'		=> array('clob', $a_rcp_cc),
@@ -1724,7 +1724,7 @@ class ilMail
 
 		$ilDB->insert($this->table_mail_saved, array(
 			'user_id'			=> array('integer', $a_user_id),
-			'attachments'		=> array('text', serialize($a_attachments)),
+			'attachments'		=> array('clob', serialize($a_attachments)),
 			'rcp_to'			=> array('clob', $a_rcp_to),
 			'rcp_cc'			=> array('clob', $a_rcp_cc),
 			'rcp_bcc'			=> array('clob', $a_rcp_bcc),
@@ -2191,7 +2191,7 @@ class ilMail
 			UPDATE '. $this->table_mail_saved .'
 			SET attachments = %s
 			WHERE user_id = %s',
-			array('text', 'integer'),
+			array('clob', 'integer'),
 			array(serialize($a_attachments), $this->user_id));
 
 		return true;
