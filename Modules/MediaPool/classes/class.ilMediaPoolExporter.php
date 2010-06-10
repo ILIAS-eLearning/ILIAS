@@ -77,7 +77,7 @@ class ilMediaPoolExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true);
 	}
 
 	/**
