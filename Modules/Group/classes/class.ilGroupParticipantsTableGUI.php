@@ -89,6 +89,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 			$this->setSelectAllCheckbox('members');
 		}
 	 	$this->addColumn($this->lng->txt(''),'optional');
+		$this->setDefaultOrderField('lastname');
 	 	
 		$this->setRowTemplate("tpl.show_participants_row.html","Modules/Group");
 		
