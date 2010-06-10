@@ -461,7 +461,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	{
 		$this->search_cache->setRoot((int) $_GET['root_id']);
 		$this->search_cache->save();
-		$this->search();
+		$this->search_cache->deleteCachedEntries();
+		// Reset details
+		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+		ilSubItemListGUI::resetDetails();
+		$this->showSearchForm();
 	}
 	
 	/**
