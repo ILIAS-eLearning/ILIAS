@@ -1375,15 +1375,15 @@ chat#:#chat_level_fatal#:#Schwerwiegend
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chat#:#chat_message_notify#:#Nachrichtenhinweise
-chat#:#chat_message_notify_activate#:#aktiviere Nachrichtenhinweise
+chat#:#chat_message_notify#:#Chat-Benachrichtigungen
+chat#:#chat_message_notify_activate#:#Chat-Benachrichtigungen
 chat#:#chat_message_notify_deactivate#:#deaktiviere Nachrichtenhinweise
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderatorenpasswort
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#Sound bei neuen Einladungen abspielen wenn die Benachrichtigung erscheint.
+chat#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
 chat#:#chat_new_message#:#Neue Nachricht
-chat#:#chat_new_message_sound_status#:#Einen Sound abspielen, wenn eine neue Nachricht erhalten wurde und dadurch der Nachrichtenhinweis erscheint.
+chat#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
@@ -2022,7 +2022,7 @@ common#:#chat_link_to_this_chat#:#Link zu diesem Chat
 common#:#chat_moderate#:#Chat moderieren
 common#:#chat_new#:#Neuer Chat
 common#:#chat_read#:#Lese/Schreibzugriff auf Chat
-common#:#chat_settings#:#Chat Einstellungen
+common#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
@@ -10403,3 +10403,4 @@ dateplaner#:#cal_notification#:#Mail Benachrichtigung
 dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
 dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichem.
 rbac#:#rbac_add_new_local_role#:#Neue lokale Rolle anlegen
+chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste
