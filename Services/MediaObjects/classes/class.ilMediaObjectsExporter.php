@@ -21,6 +21,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
 	{
 		include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
 		$this->ds = new ilMediaObjectDataSet();
+		$this->ds->setDSPrefix("ds");
 	}
 
 	/**
@@ -75,6 +76,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
 			"4.1.0" => array(
 				"namespace" => "",
 				"xsd_file" => "",
+				"uses_dataset" => true,
 				"min" => "4.1.0",
 				"max" => "")
 		);
