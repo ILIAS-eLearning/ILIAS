@@ -260,14 +260,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		if(!in_array($data["type"], array("sco", "lobj")))
         {
 			$this->tpl->setCurrentBlock("item_command");
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $this->user_id);
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", $this->ref_id);
 			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
 			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
 			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
 			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "details_id", "");
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", "");
 			$this->tpl->parseCurrentBlock();
 		}
 	}
