@@ -152,6 +152,13 @@ class ilMailFormGUI
 				)
 			)
 		{
+			if(is_array($_POST['attachments']))
+			{
+				foreach($_POST['attachments'] as $key => $value)
+				{
+					$_POST['attachments'][$key] = urldecode($value);
+				}
+			}
 			ilUtil::sendInfo($errorMessage);
 		}
 		else
