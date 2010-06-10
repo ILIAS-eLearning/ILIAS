@@ -1174,10 +1174,10 @@ class assQuestionGUI
 
 		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this, 'suggestedsolution'), get_class($this));
 
-		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->getParentId($_GET["ref_id"]));
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'outSolutionExplorer'));
 		$exp->setTargetGet("ref_id");
-		$exp->setRefId($this->cur_ref_id);
+		$exp->setRefId($_GET["ref_id"]);
 		$exp->addFilter($type);
 		$exp->setSelectableType($type);
 
