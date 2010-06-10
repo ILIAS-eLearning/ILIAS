@@ -284,9 +284,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			case "first_access":
 			case "create_date":
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
+				break;
 
 			case "last_access":
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
+				break;
+
+			case "birthday":
+				$value = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
+				break;
 
 			case "spent_seconds":
 				if(in_array($type, array("exc")))
@@ -332,10 +338,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
 				$text = ilLearningProgressBaseGUI::_getStatusText($value);
 				$value = ilUtil::img($path, $text);
-				break;
-
-			case "birthday":
-				$value = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATE));
 				break;
 
 			case "language":

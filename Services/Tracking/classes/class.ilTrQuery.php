@@ -223,7 +223,7 @@ class ilTrQuery
 
 		$queries = array(array("fields"=>$fields, "query"=>$query));
 
-		if(!in_array($a_order_field, $fields))
+		if(!$a_order_field)
 		{
 			$a_order_field = "login";
 		}
@@ -242,22 +242,22 @@ class ilTrQuery
 				}
 			}
 
-			// public information for users
-			$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
-				" AND value = ".$ilDB->quote("y", "text");
-			$set = $ilDB->query($query);
-			$public = array();
-			while($row = $ilDB->fetchAssoc($set))
-			{
-				$public[$row["usr_id"]][] = substr($row["keyword"], 7);
-			}
-			
 			// (course) user agreement
 			if($check_agreement)
 			{
 				// admins/tutors (write-access) will never have agreement ?!
 				include_once "Modules/Course/classes/class.ilCourseAgreement.php";
 				$agreements = ilCourseAgreement::lookupAcceptedAgreements($a_obj_id);
+				
+				// public information for users
+				$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
+					" AND value = ".$ilDB->quote("y", "text");
+				$set = $ilDB->query($query);
+				$public = array();
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$public[$row["usr_id"]][] = substr($row["keyword"], 7);
+				}
 			}
 			
 			foreach($result["set"] as $idx => $row)
@@ -268,14 +268,13 @@ class ilTrQuery
 					$result["set"][$idx] = $row = array_merge($row, $udf[$row["usr_id"]]);
 				}
 
-				// remove all private data
-				if(sizeof($privacy_fields))
+				// remove all private data - if active agreement and agreement not given by user
+				if(sizeof($privacy_fields) && $check_agreement && !in_array($row["usr_id"], $agreements))
 			    {
 					foreach($privacy_fields as $field)
 					{
-						if(isset($row[$field]) &&
-							(($check_agreement && !in_array($row["usr_id"], $agreements)) ||
-							!isset($public[$row["usr_id"]]) ||
+						// check against public profile
+						if(isset($row[$field]) && (!isset($public[$row["usr_id"]]) ||
 							!in_array($field, $public[$row["usr_id"]])))
 						{
 							$result["set"][$idx][$field] = false;

@@ -20,7 +20,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
-		$this->setId("tr_summary");
+		$this->setId("trsmy");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		// $this->setTitle($lng->txt("tr_summary"));
