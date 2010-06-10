@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
 include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
@@ -261,9 +262,28 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		unset($_SESSION['vis_references']);
 
+		$filter_query = '';
+		if($_POST['item_filter_enabled'])
+		{
+			$filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
+			foreach((array) $_POST['filter'] as $obj => $value)
+			{
+				if(!$filter_query)
+				{
+					$filter_query .= '+( ';
+				}
+				else
+				{
+					$filter_query .= 'OR';
+				}
+				$filter_query .= (' '. (string) $filter_settings[$obj]['filter'].' ');
+			}
+			$filter_query .= ') ';
+		}
+		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		$qp = new ilLuceneQueryParser($this->search_cache->getQuery());
+		$qp = new ilLuceneQueryParser($filter_query.' '.$this->search_cache->getQuery());
 		$qp->parse();
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
@@ -381,6 +401,28 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		$path->setHTML($tpl->get());
 		$this->form->addItem($path);
+		
+		// object filter
+		$itemFilter = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
+		$currentFilter = $this->search_cache->getItemFilter();
+		if(count($itemFilter))
+		{
+			$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter'),'item_filter_enabled');
+			$if->setValue(1);
+			$if->setChecked(count($currentFilter));
+			$this->form->addItem($if);
+			foreach($itemFilter as $obj => $def)
+			{
+				$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'filter['.$obj.']');
+				$ch->setChecked(isset($currentFilter[$obj]));
+				$ch->setValue(1);
+				$if->addSubItem($ch);
+			}
+
+		}
+		
+		
+		
 		return true;
 	}
 	
@@ -462,6 +504,14 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		if(isset($_POST['query']))
 		{
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']));
+			if($_POST['item_filter_enabled'])
+			{
+				$this->search_cache->setItemFilter($_POST['filter']);
+			}
+			else
+			{
+				$this->search_cache->setItemFilter(array());
+			}
 		}
 	}
 	

@@ -10403,4 +10403,7 @@ dateplaner#:#cal_notification#:#Mail Benachrichtigung
 dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
 dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichem.
 rbac#:#rbac_add_new_local_role#:#Neue lokale Rolle anlegen
+search#:#search_item_filter#:#Objektauswahl
+search#:#search_item_filter_form#:#Objektauswahl
+search#:#search_item_filter_form_info#:#Wenn aktiviert, kann die Suche auf die ausgewählten Objekttypen beschränkt werden.
 chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste

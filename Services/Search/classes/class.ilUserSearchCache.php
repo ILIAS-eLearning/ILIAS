@@ -55,6 +55,8 @@ class ilUserSearchCache
 	private $query;
 	private $root = ROOT_FOLDER_ID;
 	
+	private $item_filter = array();
+	
 	
 	/**
 	 * Constructor
@@ -268,6 +270,16 @@ class ilUserSearchCache
 		return $this->root ? $this->root : ROOT_FOLDER_ID;
 	}
 	
+	public function setItemFilter($a_filter)
+	{
+		$this->item_filter = $a_filter;
+	}
+	
+	public function getItemFilter()
+	{
+		return (array) $this->item_filter;
+	}
+	
 	/**
 	 * delete cached entries
 	 * @param
@@ -307,8 +319,8 @@ class ilUserSearchCache
 					'usr_id'		=> array('integer',(int) $this->usr_id),
 					'search_type'	=> array('integer',(int) $this->search_type)
 			));			
-		}		
-
+		}
+		
 		$this->setResultPageNumber(1);
 		$this->search_result = array();
 		$this->checked = array();
@@ -329,8 +341,8 @@ class ilUserSearchCache
 	 	$query = "DELETE FROM usr_search ".
 	 		"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ".
 	 		"AND search_type = ".$this->db->quote($this->search_type ,'integer');
-		$res = $ilDB->manipulate($query);	
-
+		$res = $ilDB->manipulate($query);
+		
 	 	$this->read();
 		return true;
 	}
@@ -343,7 +355,7 @@ class ilUserSearchCache
 	 */
 	public function save()
 	{
-		global $ilDB;
+		global $ilDB,$ilLog;
 		
 		if($this->usr_id == ANONYMOUS_USER_ID)
 		{
@@ -367,6 +379,11 @@ class ilUserSearchCache
 			'search_type'	=> array('integer',$this->search_type),
 			'query'			=> array('clob',serialize($this->getQuery())),
 			'root'			=> array('integer',$this->getRoot())));
+		
+		if($this->getItemFilter())
+		{
+			$_SESSION['lucene_item_filter'] = serialize($this->getItemFilter());
+		}
 		
 	}
 	
@@ -409,6 +426,13 @@ class ilUserSearchCache
 			$this->setQuery(unserialize($row->query));
 			$this->setRoot($row->root);
 	 	}
+
+		// Item filter
+		if($_SESSION['lucene_item_filter'])
+		{
+			$this->setItemFilter(unserialize($_SESSION['lucene_item_filter']));
+		}
+
 		return true;			
 	}
 }
