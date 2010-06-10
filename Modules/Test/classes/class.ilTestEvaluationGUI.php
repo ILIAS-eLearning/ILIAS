@@ -844,7 +844,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");
 		$user_data = $this->getResultsUserdata($active_id, FALSE);
-
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
@@ -895,7 +894,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, TRUE);
-
 		$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

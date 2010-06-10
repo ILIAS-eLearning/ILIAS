@@ -428,7 +428,7 @@ class ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$testresults = $result_array["test"];
+		$testresults = $result_array["pass"];
 		unset($result_array["test"]);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
