@@ -1775,3 +1775,29 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 		"u_comment",
 		array("type" => "text", "length" => 4000, "notnull" => false));
 ?>
+<#3060>
+<?php
+	// mail attachments
+	$ilDB->addTableColumn("mail", "attachments_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail SET attachments_tmp = attachments');
+	$ilDB->dropTableColumn('mail', 'attachments');
+	$ilDB->renameTableColumn("mail", "attachments_tmp", "attachments");
+?>
+<#3061>
+<?php
+	// mail_saved attachments
+	$ilDB->addTableColumn("mail_saved", "attachments_tmp", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE mail_saved SET attachments_tmp = attachments');
+	$ilDB->dropTableColumn('mail_saved', 'attachments');
+	$ilDB->renameTableColumn("mail_saved", "attachments_tmp", "attachments");
+?>
