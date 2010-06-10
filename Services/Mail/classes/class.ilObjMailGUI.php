@@ -86,7 +86,9 @@ class ilObjMailGUI extends ilObjectGUI
 		);	
 		$si = new ilSelectInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
 		$si->setOptions($options);		
+		$this->ctrl->setParameterByClass('ilobjuserfoldergui', 'ref_id', USER_FOLDER_ID);
 		$si->setInfo(sprintf($this->lng->txt('mail_settings_incoming_type_see_also'), $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')));
+		$this->ctrl->clearParametersByClass('ilobjuserfoldergui');
 		$this->form->addItem($si);
 		
 		// noreply address
