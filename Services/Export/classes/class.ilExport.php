@@ -406,6 +406,13 @@ echo "1-not found:".$export_class_file."-"; exit;
 				ILIAS_HTTP_PATH."/xml/".$sv["xsd_file"];
 			$attribs["xmlns"] = $sv["namespace"];
 		}
+		if ($sv["uses_dataset"])
+		{
+			$attribs["xsi:schemaLocation"].= " ".
+				"http://www.ilias.de/Services/DataSet/ds/4_1 ".ILIAS_HTTP_PATH."/xml/ilias_ds_4_1.xsd";
+			$attribs["xmlns:ds"] = "http://www.ilias.de/Services/DataSet/ds/4_1";
+		}
+
 
 		$export_writer->xmlStartTag('exp:Export', $attribs);
 

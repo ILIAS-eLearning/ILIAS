@@ -93,7 +93,35 @@ abstract class ilDataSet
 		$this->relative_export_dir = $a_relative;
 		$this->absolute_export_dir = $a_absolute;
 	}
-	
+
+	/**
+	 * Set XML dataset namespace prefix
+	 *
+	 * @param	string	XML dataset namespace prefix
+	 */
+	function setDSPrefix($a_val)
+	{
+		$this->var = $a_val;
+	}
+
+	/**
+	 * Get XML dataset namespace prefix
+	 *
+	 * @return	string	XML dataset namespace prefix
+	 */
+	function getDSPrefix()
+	{
+		return $this->var;
+	}
+
+	function getDSPrefixString()
+	{
+		if ($this->getDSPrefix() != "")
+		{
+			return $this->getDSPrefix().":";
+		}
+	}
+
 	/**
 	 * Get data from query.This is a standard procedure,
 	 * all db field names are directly mapped to abstract fields.
@@ -210,18 +238,18 @@ abstract class ilDataSet
 		// collect namespaces
 		$namespaces = $prefixes = array();
 		$this->getNamespaces($namespaces, $a_entity, $a_target_release);
-		$atts = array("install_id" => IL_INST_ID,
-			"install_url" => ILIAS_HTTP_PATH, "top_entity" => $a_entity);
+		$atts = array("InstallationId" => IL_INST_ID,
+			"InstallationUrl" => ILIAS_HTTP_PATH, "TopEntity" => $a_entity);
 		$cnt = 1;
 		foreach ($namespaces as $entity => $ns)
 		{
 			$prefix = "ns".$cnt;
 			$prefixes[$entity] = $prefix; 
-			$atts["xmlns:".$prefix] = $ns;
+//			$atts["xmlns:".$prefix] = $ns;
 			$cnt++;
 		}
 		
-		$writer->xmlStartTag('dataset', $atts);		
+		$writer->xmlStartTag($this->getDSPrefixString().'DataSet', $atts);
 		
 		// add types
 		$this->addTypesXml($writer, $a_entity, $a_target_release);
@@ -230,7 +258,7 @@ abstract class ilDataSet
 		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "");
 		
 		
-		$writer->xmlEndTag("dataset");
+		$writer->xmlEndTag($this->getDSPrefixString()."DataSet");
 //if ($a_entity == "mep")
 //{
 //	echo "<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>"; exit;
@@ -254,8 +282,12 @@ abstract class ilDataSet
 		{		
 			foreach ($this->data as $d)
 			{
-				$a_writer->xmlStartTag("rec",
-					array("entity" => $this->getXmlEntityName($a_entity, $a_target_release)));
+				$a_writer->xmlStartTag($this->getDSPrefixString()."Rec",
+					array("Entity" => $this->getXmlEntityName($a_entity, $a_target_release)));
+
+				// entity tag
+				$a_writer->xmlStartTag($this->getXmlEntityTag($a_entity, $a_target_release));
+
 				$rec = $this->getXmlRecord($a_entity, $a_target_release, $d);
 				foreach ($rec as $f => $c)
 				{
@@ -274,10 +306,14 @@ abstract class ilDataSet
 					}	
 					
 					// this changes schema/dtd
-					$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
-						array(), $c);
+					//$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
+					//	array(), $c);
+					$a_writer->xmlElement($f, array(), $c);
 				}
-				$a_writer->xmlEndTag("rec");
+
+				$a_writer->xmlEndTag($this->getXmlEntityTag($a_entity, $a_target_release));
+
+				$a_writer->xmlEndTag($this->getDSPrefixString()."Rec");
 
 				// foreach record records of dependent entities (no record)
 				$deps = $this->getDependencies($a_entity, $a_target_release, $rec, $a_ids);
@@ -316,15 +352,15 @@ abstract class ilDataSet
 		// add types of current entity
 		if (is_array($types))
 		{
-			$a_writer->xmlStartTag("types",
-				array("entity" => $this->getXmlEntityName($a_entity, $a_target_release),
-					"version" => $a_target_release));
+			$a_writer->xmlStartTag($this->getDSPrefixString()."Types",
+				array("Entity" => $this->getXmlEntityName($a_entity, $a_target_release),
+					"TargetRelease" => $a_target_release));
 			foreach ($this->getXmlTypes($a_entity, $a_target_release) as $f => $t)
 			{
-				$a_writer->xmlElement('ftype',
-					array("name" => $f, "type" => $t));
+				$a_writer->xmlElement($this->getDSPrefixString().'FieldType',
+					array("Name" => $f, "Type" => $t));
 			}
-			$a_writer->xmlEndTag("types");
+			$a_writer->xmlEndTag($this->getDSPrefixString()."Types");
 		}
 		
 		// add types of dependent entities
@@ -415,6 +451,17 @@ abstract class ilDataSet
 	function getXMLEntityName($a_entity, $a_version)
 	{
 		return $a_entity;
+	}
+
+	/**
+	 * Get entity tag
+	 *
+	 * @param
+	 * @return
+	 */
+	function getXMLEntityTag($a_entity, $a_target_release)
+	{
+		return $this->convertToLeadingUpper($a_entity);
 	}
 	
 	/**

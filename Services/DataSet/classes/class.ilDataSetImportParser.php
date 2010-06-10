@@ -67,23 +67,23 @@ class ilDataSetImportParser extends ilSaxParser
 
 		switch ($a_name)
 		{
-			case "dataset":
+			case "Dataset":
 				$this->import->setInstallId($a_attribs["install_id"]);
 				$this->import->setInstallUrl($a_attribs["install_url"]);
 				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
 				break;
 				
-			case "types":
+			case "Types":
 				$this->current_entity = $a_attribs["entity"];
 				$this->current_version = $a_attribs["version"];
 				break;
 				
-			case "ftype":
+			case "FieldType":
 				$this->current_ftypes[$a_attribs["name"]] =
 					$a_attribs["type"];
 				break;
 				
-			case "rec":
+			case "Rec":
 				if (!$this->entities_sent)
 				{
 					$this->import->setEntityTypes($this->entities);
@@ -111,7 +111,7 @@ class ilDataSetImportParser extends ilSaxParser
 	{
 		switch ($a_name)
 		{
-			case "types":
+			case "Types":
 				$this->entities[$this->current_entity] =
 					array(
 						"version" => $this->current_version,
@@ -122,7 +122,7 @@ class ilDataSetImportParser extends ilSaxParser
 				$this->current_version = "";
 				break;
 				
-			case "rec":
+			case "Rec":
 				$this->import->importRecord($this->current_entity,
 					$this->entities[$this->current_entity]["types"],
 					$this->current_field_values);
