@@ -101,7 +101,7 @@ abstract class ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getDirectDataFromQuery($a_query)
+	function getDirectDataFromQuery($a_query, $a_convert_to_leading_upper = true)
 	{
 		global $ilDB;
 		
@@ -109,9 +109,39 @@ abstract class ilDataSet
 		$this->data = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
+			if ($a_convert_to_leading_upper)
+			{
+				$tmp = array();
+				foreach ($rec as $k => $v)
+				{
+					$tmp[$this->convertToLeadingUpper($k)]
+						= $v;
+				}
+				$rec = $tmp;
+			}
+
 			$this->data[] = $rec;
 		}
 	}
+
+	/**
+	 * Make xyz_abc a XyzAbc string
+	 *
+	 * @param
+	 * @return
+	 */
+	function convertToLeadingUpper($a_str)
+	{
+		$a_str = strtoupper(substr($a_str, 0, 1)).substr($a_str, 1);
+		while (is_int($pos = strpos($a_str, "_")))
+		{
+			$a_str = substr($a_str, 0, $pos).
+				strtoupper(substr($a_str, $pos+1, 1)).
+				substr($a_str, $pos+2);
+		}
+		return $a_str;
+	}
+
 			
 	/**
 	 * Get json representation

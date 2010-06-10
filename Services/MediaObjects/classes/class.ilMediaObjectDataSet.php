@@ -65,10 +65,10 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					return array(
-						"id" => "integer",
-						"title" => "text",
-						"description" => "text",
-						"dir" => "directory"
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Dir" => "directory"
 						);
 			}
 		}
@@ -80,19 +80,19 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					return array(
-						"id" => "integer",
-						"mob_id" => "integer",
-						"width" => "integer",
-						"height" => "integer",
-						"halign" => "text",
-						"caption" => "text",
-						"nr" => "integer",
-						"purpose" => "text",
-						"location" => "text",
-						"location_type" => "text",
-						"format" => "text",
-						"param" => "text",
-						"text_representation" => "text"
+						"Id" => "integer",
+						"MobId" => "integer",
+						"Width" => "integer",
+						"Height" => "integer",
+						"Halign" => "text",
+						"Caption" => "text",
+						"Nr" => "integer",
+						"Purpose" => "text",
+						"Location" => "text",
+						"LocationType" => "text",
+						"Format" => "text",
+						"Param" => "text",
+						"TextRepresentation" => "text"
 					);
 			}
 		}
@@ -104,16 +104,16 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 						return array(
-							"mi_id" => "integer",
-							"nr" => "integer",
-							"shape" => "text",
-							"coords" => "text",
-							"link_type" => "text",
-							"title" => "text",
-							"href" => "text",
-							"target" => "text",
-							"type" => "text",
-							"target_frame" => "text"
+							"MiId" => "integer",
+							"Nr" => "integer",
+							"Shape" => "text",
+							"Coords" => "text",
+							"LinkType" => "text",
+							"Title" => "text",
+							"Href" => "text",
+							"Target" => "text",
+							"Type" => "text",
+							"TargetFrame" => "text"
 						);
 			}
 		}				
@@ -125,9 +125,9 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 						return array(
-							"mi_id" => "integer",
-							"name" => "text",
-							"value" => "text"
+							"MiId" => "integer",
+							"Name" => "text",
+							"Value" => "text"
 						);
 			}
 		}				
@@ -158,9 +158,9 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				if (ilObject::_lookupType($mob_id) == "mob")
 				{
-					$this->data[] = array ("id" => $mob_id,
-						"title" => ilObject::_lookupTitle($mob_id),
-						"description" => ilObject::_lookupDescription($mob_id));
+					$this->data[] = array ("Id" => $mob_id,
+						"Title" => ilObject::_lookupTitle($mob_id),
+						"Description" => ilObject::_lookupDescription($mob_id));
 				}
 			}
 		}
@@ -186,7 +186,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr ".
+					$this->getDirectDataFromQuery("SELECT item_id, nr".
 						" ,shape, coords, link_type, title, href, target, type, target_frame ".
 						" FROM map_area ".
 						" WHERE ".
@@ -202,7 +202,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value ".
+					$this->getDirectDataFromQuery("SELECT med_item_id, name Name, value".
 						" FROM mob_parameter ".
 						" WHERE ".
 						$ilDB->in("med_item_id", $a_ids, false, "integer"));
@@ -221,13 +221,13 @@ class ilMediaObjectDataSet extends ilDataSet
 		{
 			case "mob":
 				return array (
-					"mob_media_item" => array("ids" => $a_rec["id"])
+					"mob_media_item" => array("ids" => $a_rec["Id"])
 				);
 				
 			case "mob_media_item":
 				return array (
-					"mob_mi_map_area" => array("ids" => $a_rec["id"]),
-					"mob_mi_parameter" => array("ids" => $a_rec["id"])
+					"mob_mi_map_area" => array("ids" => $a_rec["Id"]),
+					"mob_mi_parameter" => array("ids" => $a_rec["Id"])
 				);
 		}
 		return false;
@@ -244,9 +244,10 @@ class ilMediaObjectDataSet extends ilDataSet
 		if ($a_entity == "mob")
 		{
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$dir = ilObjMediaObject::_getDirectory($a_set["id"]);
-			$a_set["dir"] = $dir;
+			$dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
+			$a_set["Dir"] = $dir;
 		}
+
 		return $a_set;
 	}
 	

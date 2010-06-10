@@ -20,7 +20,7 @@ Base64 encoded file content
 -->
 <!ELEMENT Content (#PCDATA)>
 <!ATTLIST Content
-	mode (PLAIN | ZLIB | GZIP) #IMPLIED
+	mode (PLAIN | ZLIB | GZIP | COPY) #IMPLIED
 >
 <!-- meta information -->
 <!ELEMENT Title (#PCDATA)>
