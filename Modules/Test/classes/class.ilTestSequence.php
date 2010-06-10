@@ -203,17 +203,14 @@ class ilTestSequence
 			array($this->active_id, $this->pass)
 		);
 		
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','text','text','text', 'integer'),
-			array(
-				$this->active_id,
-				$this->pass,
-				serialize($this->sequencedata["sequence"]),
-				$postponed,
-				$hidden,
-				time()
-			)
-		);
+		$affectedRows = $ilDB->insert("tst_sequence", array(
+			"active_fi" => array("integer", $this->active_id),
+			"pass" => array("integer", $this->pass),
+			"sequence" => array("clob", serialize($this->sequencedata["sequence"])),
+			"postponed" => array("text", $postponed),
+			"hidden" => array("text", $hidden),
+			"tstamp" => array("integer", time())
+		));
 	}
 	
 	function postponeQuestion($question_id)

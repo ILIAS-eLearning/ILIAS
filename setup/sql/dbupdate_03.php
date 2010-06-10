@@ -1814,4 +1814,41 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 		)
 	);
 ?>
-		
+<#3063>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// test sequence
+		if (!$ilDB->tableColumnExists('tst_sequence', 'sequence_tmp'))
+		{
+			$ilDB->addTableColumn("tst_sequence", "sequence_tmp", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3064>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE tst_sequence SET sequence_tmp = sequence');
+	}
+?>
+<#3065>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('tst_sequence', 'sequence'))
+			$ilDB->dropTableColumn('tst_sequence', 'sequence');
+
+		$ilDB->renameTableColumn("tst_sequence", "sequence_tmp", "sequence");
+	}
+?>
+<#3066>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$ilDB->modifyTableColumn('tst_sequence','sequence', array("type" => "clob", "default" => null, "notnull" => false));
+	}
+?>
