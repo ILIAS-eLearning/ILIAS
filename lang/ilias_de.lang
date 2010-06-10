@@ -1306,7 +1306,7 @@ chat#:#chat_address#:#Ansprechen
 chat#:#chat_address_user#:#Direkte Anrede von
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
-chat#:#chat_available_smilies#:#Verfügbare Smilies
+chat#:#chat_available_smilies#:#Verfügbare Smileys
 chat#:#chat_black#:#schwarz
 chat#:#chat_block_user#:#Sperren
 chat#:#chat_blocked#:#Zugang gesperrt
@@ -1323,13 +1323,13 @@ chat#:#chat_chatviewer#:#Chatviewer
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?
 chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
-chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smilies wirklich gelöscht werden?
+chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smileys wirklich gelöscht werden?
 chat#:#chat_confirm_kick_user#:#Sind Sie sicher, dass der Benutzer rausgeworfen werden soll?
 chat#:#chat_confirm_user_invite#:#Der Benutzer wird in den Chat eingeladen
 chat#:#chat_current_image_path#:#aktuelles Bild
 chat#:#chat_default_bookmark_description#:#Link zum Chatraum ' %s '
 chat#:#chat_default_bookmark_title#:#Chat Link
-chat#:#chat_delete_selected#:#Ausgewählte Smilies löschen
+chat#:#chat_delete_selected#:#Ausgewählte Smileys löschen
 chat#:#chat_delete_sure#:#Sind Sie sicher, dass dieser Chatraum gelöscht werden soll?
 chat#:#chat_disinvite#:#Einladung zurückziehen
 chat#:#chat_disinvite_user#:#Benutzer aus privatem Chatraum ausladen/entfernen
@@ -1351,7 +1351,7 @@ chat#:#chat_general_settings#:#Allgemeine Einstellungen
 chat#:#chat_gray#:#grau
 chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
-chat#:#chat_hide_smilies#:#Smilies verbergen
+chat#:#chat_hide_smilies#:#Smileys verbergen
 chat#:#chat_hide_textformat#:#Textformat verbergen
 chat#:#chat_html_export#:#Export als HTML
 chat#:#chat_ilias#:#ILIAS Chat Modul
@@ -1442,7 +1442,7 @@ chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_settings#:#SSL Einstellungen
 chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
-chat#:#chat_show_smilies#:#Smilies anzeigen
+chat#:#chat_show_smilies#:#Smileys anzeigen
 chat#:#chat_show_textformat#:#Textformat anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_smiley_image#:#Smiley Bild
@@ -1450,13 +1450,13 @@ chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an
 chat#:#chat_smiley_keyword#:#Smiley Schlagwort
 chat#:#chat_smiley_keywords#:#Smiley Schlagwörter
 chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlagwörter für jedes Smiley angeben. Jede Zeile wird als einzelnes Schlagwort benutzt.
-chat#:#chat_smilies_activate#:#aktiviere Smilies
-chat#:#chat_smilies_deactivate#:#deaktiviere Smilies
-chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smilies genutzt werden, bis dieses Problem behoben wurde.
+chat#:#chat_smilies_activate#:#Aktiviere Smileys
+chat#:#chat_smilies_deactivate#:#Deaktiviere Smileys
+chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smileys genutzt werden, bis dieses Problem behoben wurde.
 chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiley-Daten existiert nicht. Versuche es anzulegen.
-chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können daher keine neuen Smilies hinzugefügt werden.
-chat#:#chat_smilies_initialized#:#Die Smilies wurden erstellt und können nun benutzt werden
-chat#:#chat_smilies_status#:#Chat-Smilies
+chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können daher keine neuen Smileys hinzugefügt werden.
+chat#:#chat_smilies_initialized#:#Die Smileys wurden erstellt und können nun benutzt werden
+chat#:#chat_smilies_status#:#Chat-Smileys
 chat#:#chat_sound_status_activate#:#Sounds aktivieren
 chat#:#chat_sound_status_deactivate#:#Sounds deaktvieren
 chat#:#chat_sounds#:#Klänge
@@ -1492,7 +1492,7 @@ chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
 chat#:#chats#:#Chats
 chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
-chat#:#edit_smilies#:#Smilies bearbeiten
+chat#:#edit_smilies#:#Smileys bearbeiten
 chat#:#my_chats#:#Meine Chats
 cmps#:#cmps_activate#:#Aktivieren
 cmps#:#cmps_active#:#Aktiv
