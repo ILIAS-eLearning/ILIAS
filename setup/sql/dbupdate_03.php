@@ -1801,3 +1801,17 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 	$ilDB->dropTableColumn('mail_saved', 'attachments');
 	$ilDB->renameTableColumn("mail_saved", "attachments_tmp", "attachments");
 ?>
+<#3062>
+<?php
+	$ilDB->addTableColumn(
+		'usr_search',
+		'item_filter',
+		array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default'	=> NULL
+		)
+	);
+?>
+		

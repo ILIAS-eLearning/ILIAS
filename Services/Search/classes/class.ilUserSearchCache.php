@@ -378,12 +378,8 @@ class ilUserSearchCache
 			'page'			=> array('integer',$this->page_number),
 			'search_type'	=> array('integer',$this->search_type),
 			'query'			=> array('clob',serialize($this->getQuery())),
-			'root'			=> array('integer',$this->getRoot())));
-		
-		if($this->getItemFilter())
-		{
-			$_SESSION['lucene_item_filter'] = serialize($this->getItemFilter());
-		}
+			'root'			=> array('integer',$this->getRoot()),
+			'item_filter'	=> array('text',serialize($this->getItemFilter()))));
 		
 	}
 	
@@ -425,14 +421,8 @@ class ilUserSearchCache
 	 		$this->page_number = $row->page;
 			$this->setQuery(unserialize($row->query));
 			$this->setRoot($row->root);
+			$this->setItemFilter(unserialize($row->item_filter));
 	 	}
-
-		// Item filter
-		if($_SESSION['lucene_item_filter'])
-		{
-			$this->setItemFilter(unserialize($_SESSION['lucene_item_filter']));
-		}
-
 		return true;			
 	}
 }
