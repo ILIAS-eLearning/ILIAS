@@ -335,6 +335,25 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$operator->addOption($or);
 		$this->form->addItem($operator);
 		
+		// Item filter
+		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
+		$if->setValue(1);
+		$if->setChecked($this->settings->isLuceneItemFilterEnabled());
+		$if->setInfo($this->lng->txt('search_item_filter_form_info'));
+		$this->form->addItem($if);
+
+		$filter = $this->settings->getLuceneItemFilter();
+		foreach(ilSearchSettings::getLuceneItemFilterDefinitions() as $obj => $def)
+		{
+			$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'filter['.$obj.']');
+			if(isset($filter[$obj]) and $filter[$obj])
+			{
+				$ch->setChecked(true);
+			}
+			$ch->setValue(1);
+			$if->addSubItem($ch);
+		}
+
 		$numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'),'fragmentCount');
 		$numFrag->setRequired(true);
 		$numFrag->setSize(2);
@@ -390,13 +409,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		global $ilBench,$ilLog,$ilSetting;
 		
 		$this->initFormLuceneSettings();
-
+		
 		$settings = ilSearchSettings::getInstance();
 		$settings->setDefaultOperator((int) $_POST['operator']);
 		$settings->setFragmentCount((int) $_POST['fragmentCount']);
 		$settings->setFragmentSize((int) $_POST['fragmentSize']);
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
 		$settings->showRelevance((int) $_POST['relevance']);
+		$settings->enableLuceneItemFilter((int) $_POST['if']);
+		$settings->setLuceneItemFilter((array) $_POST['filter']);
 		
 		if($this->form->checkInput())
 		{

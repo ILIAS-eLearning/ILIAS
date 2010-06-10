@@ -28,7 +28,10 @@ class ilSearchSettings
 	protected $numSubitems = 5;
 	protected $showRelevance = true;
 	protected $last_index_date = null;
-	// END PATCH Lucene Search
+	protected $lucene_item_filter_enabled = false;
+	protected $lucene_item_filter = array();
+	
+	
 	
 	var $ilias = null;
 	var $max_hits = null;
@@ -55,6 +58,52 @@ class ilSearchSettings
 			return self::$instance = new ilSearchSettings();
 		}
 		return self::$instance;
+	}
+	
+	/**
+	 * Get lucene item filter definitions
+	 * @return
+	 * @todo This has to be defined in module.xml 
+	 */
+	public static function getLuceneItemFilterDefinitions()
+	{
+		return array(
+			'crs' => array('filter' => 'type:crs','trans' => 'objs_crs'),
+			'grp' => array('filter' => 'type:grp', 'trans' => 'objs_grp'),
+			'lms' => array('filter' => 'type:lm OR type:htlm OR type:sahs OR type:dbk','trans' => 'learning_resource'),
+			'glo' => array('filter' => 'type:glo','trans' => 'objs_glo'),
+			'mep' => array('filter' => 'type:mep', 'trans' => 'objs_mep'),
+			'tst' => array('filter' => 'type:tst OR type:svy OR type:qpl OR type:spl','trans' => 'search_tst_svy'),
+			'frm' => array('filter' => 'type:frm','trans' => 'objs_frm'),
+			'exc' => array('filter' => 'type:exc','trans' => 'objs_exc'),
+			'file' => array('filter' => 'type:file','trans' => 'objs_file'),
+			'mcst' => array('filter' => 'type:mcst','trans' => 'objs_mcst'),
+			'wiki' => array('filter' => 'type:wiki','trans' => 'objs_wiki')
+		);
+	}
+	
+	/**
+	 * Get lucene item filter definitions
+	 * @return
+	 * @todo This has to be defined in module.xml 
+	 */
+	public function getEnabledLuceneItemFilterDefinitions()
+	{
+		if(!$this->isLuceneItemFilterEnabled())
+		{
+			return array();
+		}
+		
+		$filter = $this->getLuceneItemFilter();
+		$enabled = array();
+		foreach(self::getLuceneItemFilterDefinitions() as $obj => $def)
+		{
+			if(isset($filter[$obj]) and $filter[$obj])
+			{
+				$enabled[$obj] = $def;
+			}
+		}
+		return $enabled;
 	}
 
 	/**
@@ -191,6 +240,26 @@ class ilSearchSettings
 			new ilDateTime('2009-01-01 12:00:00',IL_CAL_DATETIME);
 	}
 	
+	public function enableLuceneItemFilter($a_status)
+	{
+		$this->lucene_item_filter_enabled = $a_status;
+	}
+	
+	public function isLuceneItemFilterEnabled()
+	{
+		return $this->lucene_item_filter_enabled;
+	}
+
+	public function getLuceneItemFilter()
+	{
+		return $this->lucene_item_filter;
+	}
+	
+	public function setLuceneItemFilter($a_filter)
+	{
+		$this->lucene_item_filter = $a_filter;
+	}
+	
 	/**
 	 * @param object instance of ilDateTime 
 	 */
@@ -207,16 +276,16 @@ class ilSearchSettings
 		$this->ilias->setSetting('search_index',(int) $this->enabledIndex());
 		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
 		
-		// BEGIN PATCH Lucene search
 		$this->ilias->setSetting('lucene_default_operator',$this->getDefaultOperator());
 		$this->ilias->setSetting('lucene_fragment_size',$this->getFragmentSize());
 		$this->ilias->setSetting('lucene_fragment_count',$this->getFragmentCount());
 		$this->ilias->setSetting('lucene_max_subitems',$this->getMaxSubitems());
 		$this->ilias->setSetting('lucene_show_relevance',$this->isRelevanceVisible());
 		$this->ilias->setSetting('lucene_last_index_time',$this->getLastIndexTime()->get(IL_CAL_UNIX));
-		// END PATCH Lucene Search
 		$this->ilias->setSetting('hide_adv_search',(int) $this->getHideAdvancedSearch());
 		$this->ilias->setSetting('auto_complete_length',(int) $this->getAutoCompleteLength());
+		$this->ilias->setSetting('lucene_item_filter_enabled',(int) $this->isLuceneItemFilterEnabled());
+		$this->ilias->setSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
 
 		return true;
 	}
@@ -228,7 +297,6 @@ class ilSearchSettings
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
 		
-		// BEGIN PATCH Lucene search
 		$this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator',self::OPERATOR_AND));
 		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',50));
 		$this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count',3));
@@ -243,10 +311,14 @@ class ilSearchSettings
 		{
 			$this->setLastIndexTime(null);	
 		}
-		// END PATCH Lucene Search
 		
 		$this->setHideAdvancedSearch($this->ilias->getSetting('hide_adv_search',0));
 		$this->setAutoCompleteLength($this->ilias->getSetting('auto_complete_length',10));
+		
+		$this->enableLuceneItemFilter($this->ilias->getSetting('lucene_item_filter_enabled',(int) $this->isLuceneItemFilterEnabled()));
+		
+		$filter = $this->ilias->getSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
+		$this->setLuceneItemFilter(unserialize($filter));
 	}
 }
 ?>

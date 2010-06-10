@@ -36,6 +36,7 @@ class ilLuceneQueryParser
 {
 	private $query_string;
 	protected $parsed_query;
+	
 
 	/**
 	 * Constructor 
