@@ -1393,14 +1393,14 @@ chat#:#chat_level_fatal#:#Fatal
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chat#:#chat_message_notify_activate#:#Activate Message Notify
+chat#:#chat_message_notify_activate#:#Chat Notifications
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify
 chat#:#chat_message_notify#:#Message Notifier
 chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation and the notifier appears
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received and the message notifier appears
+chat#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
+chat#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
 chat#:#chat_new_message#:#New message
 chat#:#chat_no_active_users#:#No further users present.
 chat#:#chat_no_blocked#:#No blocked users available
@@ -10453,3 +10453,4 @@ dateplaner#:#cal_notification#:#Mail Notification
 dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
+chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar
