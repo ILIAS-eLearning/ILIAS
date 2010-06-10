@@ -4145,6 +4145,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$arrResults[$row['question_fi']] = $row;
 		}
 
+		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
 		$found = array();
 		$key = 1;
@@ -4160,7 +4161,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"max" => $row['points'],
 				"reached" => $arrResults[$row['question_id']]['reached'],
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-				"solution" => ($has_sug_sol) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
+				"solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
 				"type" => $row["type_tag"],
 				"qid" => $row['question_id'],
 				"original_id" => $row["original_id"],

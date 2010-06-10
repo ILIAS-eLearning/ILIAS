@@ -203,7 +203,7 @@ class ilTestServiceGUI
 			$template->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
 		}
 		$template->parseCurrentBlock();
-		
+
 		return $template->get();
 	}
 
