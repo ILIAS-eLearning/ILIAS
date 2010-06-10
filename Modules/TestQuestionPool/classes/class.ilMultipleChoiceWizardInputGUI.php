@@ -309,7 +309,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('multiline');
-				$tpl->setVariable("PROPERTY_VALUE", $this->qstObject->prepareTextareaOutput($value->getAnswertext()));
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
 				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
 				$tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());

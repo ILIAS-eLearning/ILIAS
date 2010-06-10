@@ -204,7 +204,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		global $lng;
 		
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{
@@ -409,7 +410,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					$tpl->setCurrentBlock("prop_points_propval");
 					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
 					$tpl->parseCurrentBlock();
-				}
+				} 
 				$tpl->setCurrentBlock('singleline');
 				$tpl->setVariable("SIZE", $this->getSize());
 				$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
@@ -434,7 +435,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					}
 				}
 				$tpl->setCurrentBlock('multiline');
-				$tpl->setVariable("PROPERTY_VALUE", $this->qstObject->prepareTextareaOutput($value->getAnswertext()));
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
 				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
 				$tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());

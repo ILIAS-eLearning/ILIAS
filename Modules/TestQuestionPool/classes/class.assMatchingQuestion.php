@@ -399,9 +399,12 @@ class assMatchingQuestion extends assQuestion
 				{
 					$ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
 				}
-				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+				if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) 
 				{
-					$ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+					{
+						$ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
+					}
 				}
 			}
 		}
@@ -414,9 +417,12 @@ class assMatchingQuestion extends assQuestion
 				{
 					$ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
 				}
-				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+				if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename))
 				{
-					$ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+					{
+						$ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
+					}
 				}
 			}
 		}
@@ -436,11 +442,11 @@ class assMatchingQuestion extends assQuestion
 			if (strlen($term->picture))
 			{
 				$filename = $term->picture;
-				if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
 					$ilLog->write("matching question image could not be copied: $imagepath_original$filename");
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
 				{
 					$ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
