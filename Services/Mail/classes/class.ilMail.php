@@ -2052,12 +2052,12 @@ class ilMail
 				}
 
 				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  '<'.$no_reply_adress.'>';
+						  ' <'.$no_reply_adress.'>';
 			}
 			else
 			{
 				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  '<noreply@'.$_SERVER['SERVER_NAME'].'>';
+						  ' <noreply@'.$_SERVER['SERVER_NAME'].'>';
 			}
 		}
 
