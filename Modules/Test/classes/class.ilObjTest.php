@@ -9926,7 +9926,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function sendSimpleNotification($active_id)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($this->getOwner());
+		$mail = new ilMail(ANONYMOUS_USER_ID);
 
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 		$message = new ilTemplate("tpl.il_as_tst_finish_notification_simple.html", TRUE, TRUE, "Modules/Test");
@@ -9953,7 +9953,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function sendAdvancedNotification($active_id)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($this->getOwner());
+		$mail = new ilMail(ANONYMOUS_USER_ID);
 
 		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
 		$message = new ilTemplate("tpl.il_as_tst_finish_notification_simple.html", TRUE, TRUE, "Modules/Test");
@@ -9969,18 +9969,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$exportObj = new ilTestExport($this, "results");
 		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
 		include_once "./classes/class.ilFileDataMail.php";
-		$fd = new ilFileDataMail($this->getOwner());
+		$fd = new ilFileDataMail(ANONYMOUS_USER_ID);
 		$fd->copyAttachmentFile($file, "result_" . $active_id . ".xls");
+		$file_names[] = "result_" . $active_id . ".xls";
 		$result = $mail->sendMail(
 			ilObjUser::_lookupLogin($this->getOwner()), // to
 			"", // cc
 			"", // bcc
 			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
 			$message->get(), // message
-			array("result_" . $active_id . ".xls"), // attachments
+			count($file_names) ? $file_names : array(), // attachments
 			array('normal') // type
 		);
-		@unlink($file);
+		if(count($file_names))
+		{
+			$fd->unlinkFiles($file_names);
+			unset($fd);
+			@unlink($file);
+		}
 	}
 
 	function createRandomSolutions($number)
