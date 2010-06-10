@@ -1740,27 +1740,24 @@ class assQuestion
 		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
 		if ($obj_id > 0)
 		{
-			$next_id = $ilDB->nextId("qpl_questions");
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, nr_of_tries, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "integer", "text", "text", "integer", "integer", "integer"),
-				array(
-					$next_id,
-					$this->getQuestionTypeID(), 
-					$obj_id, 
-					NULL, 
-					NULL, 
-					$this->getAuthor(), 
-					$ilUser->getId(), 
-					NULL, 
-					0,
-					1,
-					$estw_time,
-					$complete,
-					time(),
-					NULL,
-					0
-				)
-			);
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->insert("qpl_questions", array(
+				"question_id" => array("integer", $next_id),
+				"question_type_fi" => array("integer", $this->getQuestionTypeID()),
+				"obj_fi" => array("integer", $this->getObjId()),
+				"title" => array("text", NULL),
+				"description" => array("text", NULL),
+				"author" => array("text", $this->getAuthor()),
+				"owner" => array("integer", $ilUser->getId()),
+				"question_text" => array("clob", NULL),
+				"points" => array("float", 0),
+				"nr_of_tries" => array("integer", 1),
+				"working_time" => array("text", $estw_time),
+				"complete" => array("text", $complete),
+				"created" => array("integer", time()),
+				"original_id" => array("integer", NULL),
+				"tstamp" => array("integer", 0)
+			));
 			$this->setId($next_id);
 			// create page object of question
 			$this->createPageObject();
