@@ -17,24 +17,17 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_table_id, $a_user_id, $a_obj_id, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, $a_obj_id, $a_ref_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
-		$this->setId($a_table_id);
+		$this->setId("truop");
 		$this->user_id = $a_user_id;
 		$this->obj_id = $a_obj_id;
 		$this->ref_id = $a_ref_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		/*
-		$user = ilObjUser::_lookupFullName($this->user_id)." (".
-			ilObjUser::_lookupLogin($this->user_id).")";
-
-		$this->setTitle($this->lng->txt("trac_user_objects").": ".$user);
-		 */
-		
 		$this->addColumn($this->lng->txt("title"), "title");
 		
 		foreach ($this->getSelectedColumns() as $c)
@@ -58,11 +51,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.user_objects_props_row.html", "Services/Tracking");
-		//$this->disable("footer");
 		$this->setEnableTitle(true);
-		$this->initFilter();
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
+
+		$this->initFilter();
 
 		$this->getItems();
 	}

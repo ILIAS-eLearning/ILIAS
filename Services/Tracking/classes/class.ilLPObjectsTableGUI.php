@@ -21,7 +21,7 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
-		$this->setId("lp_obj_table");
+		$this->setId("lpobjtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($this->lng->txt("learning_progress"));
@@ -32,12 +32,16 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$this->addColumn($this->lng->txt("trac_title"), "title", "30%");
 
 		include_once("Services/Tracking/classes/class.ilLPStatus.php");
-		foreach(array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM) as $status)
+		$all_status = array(LP_STATUS_NOT_ATTEMPTED_NUM => "status_not_attempted",
+			LP_STATUS_IN_PROGRESS_NUM => "status_in_progress",
+			LP_STATUS_COMPLETED_NUM => "status_completed",
+			LP_STATUS_FAILED_NUM => "status_failed");
+		foreach($all_status as $status => $column)
 		{
 			$caption = ilLearningProgressBaseGUI::_getStatusText($status);
 		    $caption = "<img src=\"".ilLearningProgressBaseGUI::_getImagePathForStatus($status)."\" alt=\"".$caption."\" title=\"".$caption."\" /> ".$caption;
 
-			$this->addColumn($caption, "status_".$status, "10%");
+			$this->addColumn($caption, $column, "10%");
 		}
 
 		$this->addColumn($this->lng->txt("path"), "", "20%");

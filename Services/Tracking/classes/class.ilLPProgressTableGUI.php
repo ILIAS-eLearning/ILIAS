@@ -26,7 +26,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->objectives_mode = $objectives_mode;
 		$this->details = $details;
 
-		$this->setId("lp_table");
+		$this->setId("lpprgtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		

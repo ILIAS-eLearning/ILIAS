@@ -24,21 +24,21 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 {
 	protected $user_fields; // array
 	protected $filter; // array
+	protected $in_course; // array
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem, $tree;
 		
-		$this->setId("tr_users");
+		$this->setId("troup");
 		$this->obj_id = $a_obj_id;
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
 
-		include_once("./Services/Tracking/classes/class.ilLPStatusFactory.php");
-		$this->status_class = ilLPStatusFactory::_getClassById($a_obj_id);
+		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -57,7 +57,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.object_users_props_row.html", "Services/Tracking");
-		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
@@ -75,7 +74,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	 */
 	function getSelectableColumns()
 	{
-		global $lng, $tree, $ilSetting;
+		global $lng, $ilSetting;
 
 		if($this->selectable_columns)
 		{
@@ -121,41 +120,46 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$cols["u_comment"] = array(
 			"txt" => $lng->txt("trac_comment"),
 			"default" => false);
+
+		$cols["create_date"] = array(
+			"txt" => $lng->txt("create_date"),
+			"default" => false);
 		$cols["language"] = array(
 			"txt" => $lng->txt("language"),
 			"default" => false);
 
-		 // object is [part of] course
-		$check_export = (bool)$tree->checkForParentType($this->ref_id, "crs");
-
-		$this->user_fields = array();
-
-		// other user profile fields
-		foreach ($ufs as $f => $fd)
+	    // add user data only if object is [part of] course
+		if($this->in_course)
 		{
-			if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"] && ($fd["course_export_fix_value"] || !$check_export || $ilSetting->get("usr_settings_course_export_".$f)))
-			{
-				$cols[$f] = array(
-					"txt" => $lng->txt($f),
-					"default" => false);
+			$this->user_fields = array();
 
-				$this->user_fields[] = $f;
-			}
-		}
-
-		// additional defined user data fields
-		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields = ilUserDefinedFields::_getInstance();
-		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
-		{
-		    if($definition["field_type"] != UDF_TYPE_WYSIWYG && (!$check_export || $definition["course_export"]))
+			// other user profile fields
+			foreach ($ufs as $f => $fd)
 			{
-				$f = "udf_".$definition["field_id"];
-				$cols[$f] = array(
-						"txt" => $definition["field_name"],
+				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"] && ($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
+				{
+					$cols[$f] = array(
+						"txt" => $lng->txt($f),
 						"default" => false);
-				
-				$this->user_fields[] = $f;
+
+					$this->user_fields[] = $f;
+				}
+			}
+
+			// additional defined user data fields
+			include_once './Services/User/classes/class.ilUserDefinedFields.php';
+			$user_defined_fields = ilUserDefinedFields::_getInstance();
+			foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+			{
+				if($definition["field_type"] != UDF_TYPE_WYSIWYG && $definition["course_export"])
+				{
+					$f = "udf_".$definition["field_id"];
+					$cols[$f] = array(
+							"txt" => $definition["field_name"],
+							"default" => false);
+
+					$this->user_fields[] = $f;
+				}
 			}
 		}
 
@@ -177,12 +181,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		
 		$additional_fields = $this->getSelectedColumns();
 
-	    // object is [part of] course
-		$check_agreement = $check_export = false;
-		if($tree->checkForParentType($this->ref_id, "crs"))
+	    // only if object is [part of] course
+		$check_agreement = false;
+		if($this->in_course)
 		{
-            $check_export = true;
-			
 			// privacy (if course agreement is activated)
 			include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
 			$privacy = ilPrivacySettings::_getInstance();
@@ -259,6 +261,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 				case "first_access":
 				case "last_access":
+				case "create_date":
 				case "birthday":
 					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATE_RANGE, true, $meta["txt"]);
 					$this->filter[$column] = $item->getDate();

@@ -55,7 +55,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 				include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
-				$table_gui = new ilTrUserObjectsPropsTableGUI($this, "userDetails", "truop".$user_id,
+				$table_gui = new ilTrUserObjectsPropsTableGUI($this, "userDetails",
 					$user_id, $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
@@ -187,15 +187,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function userDetails()
 	{
-		global $ilCtrl, $ilObjDataCache;
+		global $ilObjDataCache;
 
-		$ilCtrl->setParameter($this, "details_id", $this->details_id);
+		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 		// Show back button
 		$this->__showButton($this->ctrl->getLinkTarget($this,'details'), $this->lng->txt('trac_view_list'));
 
 		$user_id = (int)$_GET["user_id"];
-		$ilCtrl->setParameter($this, "user_id", $user_id);
+		$this->ctrl->setParameter($this, "user_id", $user_id);
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -205,8 +205,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// $this->__appendLPDetails($info,$this->details_obj_id,$user_id);
 
 		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
-		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", "truop".$user_id,
-			$user_id, $this->details_obj_id, $this->details_id);
+		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", $user_id,
+			$this->details_obj_id, $this->details_id);
 		$this->tpl->setContent($info->getHTML().$table->getHTML());
 	}
 
