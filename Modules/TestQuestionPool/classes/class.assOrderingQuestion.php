@@ -202,7 +202,7 @@ class assOrderingQuestion extends assQuestion
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-			$this->ordering_type = $data["ordering_type"];
+			$this->ordering_type = strlen($data["ordering_type"]) ? $data["ordering_type"] : OQ_TERMS;
 			$this->thumb_geometry = $data["thumb_geometry"];
 			$this->element_height = $data["element_height"];
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
