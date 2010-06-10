@@ -275,7 +275,7 @@ class ilPermanentLinkGUI
 			$cnt++;
 		}
 
-		if ($cnt == 1 && $_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if ($cnt == 1 && $_SESSION["AccountId"] != ANONYMOUS_USER_ID && !$ilSetting->get('disable_bookmarks'))
 		{
 			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
 			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
