@@ -4271,6 +4271,16 @@ class ilObjSurvey extends ilObject
 		return ($result->numRows() > 0) ? true : false;
 	}
 	
+	function isSurveyCodeUnique($code)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_anonymous WHERE survey_fi = %s AND survey_key = %s",
+			array('integer','text'),
+			array($this->getSurveyId(), $code)
+		);
+		return ($result->numRows() > 0) ? false : true;
+	}
+	
 	function createSurveyCodes($nrOfCodes)
 	{
 		global $ilDB;
@@ -4360,7 +4370,7 @@ class ilObjSurvey extends ilObject
 			$code .= substr($codestring, $index, 1);
 		}
 		// verify it against the database
-		while ($this->isSurveyCodeUsed($code))
+		while (!$this->isSurveyCodeUnique($code))
 		{
 			$code = $this->createNewAccessCode();
 		}
