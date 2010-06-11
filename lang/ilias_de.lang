@@ -1429,9 +1429,9 @@ chat#:#chat_rooms#:#Chaträume
 chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
 chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
-chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1 oder 192.168.1.2)
-chat#:#chat_server_external_ip#:#Externe Server IP
-chat#:#chat_server_internal_ip#:#Interne Server IP
+chat#:#chat_server_allowed_b#:#(IP-Adresse des ILIAS-Servers, z.B 192.168.1.1)
+chat#:#chat_server_external_ip#:#Externe Server-IP
+chat#:#chat_server_internal_ip#:#Interne Server-IP
 chat#:#chat_server_logfile#:#Pfad zur Logdatei
 chat#:#chat_server_loglevel#:#Loglevel
 chat#:#chat_server_not_active#:#Der Chat-Server ist zur Zeit nicht aktiv
