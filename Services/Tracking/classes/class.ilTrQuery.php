@@ -87,7 +87,7 @@ class ilTrQuery
 	{
 		global $ilDB;
 
-		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status".
+		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status, ".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".
 			" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id AND user_id = ".$a_user_id.")".
 			" WHERE ".$ilDB->in("crs_objectives.objective_id", $obj_ids, false, "integer").

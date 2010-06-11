@@ -52,7 +52,6 @@ class ilTable2GUI extends ilTableGUI
 
 	const EXPORT_EXCEL = 1;
 	const EXPORT_CSV = 2;
-	const EXPORT_XML = 3;
 	
 	/**
 	* Constructor
@@ -1536,20 +1535,6 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			if(sizeof($this->export_formats))
-            {
-				$map = array(self::EXPORT_EXCEL => "export_excel",
-					self::EXPORT_CSV => "export_csv",
-					self::EXPORT_XML => "export_xml");
-				foreach($this->export_formats as $format)
-				{
-					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", $format);
-					$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd);
-					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", "");
-					$this->header_commands[] = array("text"=>$lng->txt($map[$format]), "href"=>$url);
-				}
-			}
-			
 			foreach($this->header_commands as $command)
 			{
 				if ($command["img"] != "")
@@ -2001,7 +1986,7 @@ class ilTable2GUI extends ilTableGUI
 				}
 			}
 			$alist->setListTitle($lng->txt("tbl_templates"));
-			$this->tpl->setVariable("TEMPLATE_SELECTOR", $alist->getHTML());
+			$this->tpl->setVariable("TEMPLATE_SELECTOR", "&nbsp;".$alist->getHTML());
 		}
 
 		if ($footer)
@@ -2082,6 +2067,26 @@ class ilTable2GUI extends ilTableGUI
 					}
 					$alist->setListTitle($lng->txt("rows"));
 					$this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
+				}
+
+				// export
+				if(sizeof($this->export_formats))
+				{
+					$map = array(self::EXPORT_EXCEL => "export_excel",
+						self::EXPORT_CSV => "export_csv");
+
+					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+					$alist = new ilAdvancedSelectionListGUI();
+					$alist->setId("sellst_xpt");
+					foreach($this->export_formats as $format)
+					{
+						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", $format);
+						$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd);
+						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", "");
+						$alist->addItem($lng->txt($map[$format]), $format, $url);
+					}
+					$alist->setListTitle($lng->txt("export"));
+					$this->tpl->setVariable("EXPORT_SELECTOR", "&nbsp;".$alist->getHTML());
 				}
 				
 				$this->tpl->setCurrentBlock("top_navigation");
@@ -2651,7 +2656,7 @@ class ilTable2GUI extends ilTableGUI
     public function setExportFormats(array $formats)
     {
 		$this->export_formats = array();
-		$valid = array(self::EXPORT_EXCEL, self::EXPORT_CSV, self::EXPORT_XML);
+		$valid = array(self::EXPORT_EXCEL, self::EXPORT_CSV);
 		foreach($formats as $format)
 	    {
 		   if(in_array($format, $valid))
