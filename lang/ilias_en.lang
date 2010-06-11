@@ -8747,7 +8747,9 @@ ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password siz
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
-ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses
+ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
+ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
+ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
@@ -9056,7 +9058,7 @@ search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
 search#:#lucene_activate_field#:#Activate Search
-search#:#lucene_advanced_settings_table#:#Advanced Search Settings
+search#:#lucene_advanced_settings_table#:#Search Settings
 search#:#lucene_advanced_settings#:#Advanced Search
 search#:#lucene_advances_settings_table#:#Advances Search Settings
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)

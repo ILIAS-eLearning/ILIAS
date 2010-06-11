@@ -188,7 +188,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			// privacy (if course agreement is activated)
 			include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
 			$privacy = ilPrivacySettings::_getInstance();
-		    if($privacy->confirmationRequired())
+		    if($privacy->courseConfirmationRequired())
 			{
 				$check_agreement = true;
 			}

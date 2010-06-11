@@ -8649,7 +8649,9 @@ ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlä
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
-ps#:#ps_export_course#:#Erlaube den Export von Persönlichen Daten in Kursen
+ps#:#ps_export_confirm_group#:#Aktiviere Nutzungsvereinbarung für Gruppenmitglieder
+ps#:#ps_export_course#:#Zugriff auf persönliche Daten im Kurs erlauben
+ps#:#ps_export_group#:#Zugriff auf persönliche Daten in Gruppen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_member#:#Teilnehmer
