@@ -343,10 +343,10 @@ class ilMDTechnical extends ilMDBase
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
 				$this->setSize($row->t_size);
-				$this->setInstallationRemarks($row->installation_remarks);
-				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));
-				$this->setOtherPlatformRequirements($row->other_platform_requirements);
-				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->other_platform_requirements_language));
+				$this->setInstallationRemarks($row->ir);
+				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->ir_language));
+				$this->setOtherPlatformRequirements($row->opr);
+				$this->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($row->opr_language));
 				$this->setDuration($row->duration);
 			}
 			return true;
