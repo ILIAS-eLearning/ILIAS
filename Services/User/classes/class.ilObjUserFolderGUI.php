@@ -814,7 +814,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_data_filter = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
 		session_unregister("saved_post");
 		$this->object->buildExportFile($_POST["export_type"], $user_data_filter);
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
 
 	/**
@@ -3483,7 +3483,7 @@ else
 	function cancelDeleteExportFileObject()
 	{
 		session_unregister("ilExportFiles");
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
 
 
@@ -3501,7 +3501,7 @@ else
 				unlink($exp_file);
 			}
 		}
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
 
 	/**
@@ -3521,7 +3521,7 @@ else
 		if ($_POST["cmd"]["export"])
 		{
 			$this->object->buildExportFile($_POST["export_type"]);
-			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "export"));
+			$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 			exit;
 		}
 		
