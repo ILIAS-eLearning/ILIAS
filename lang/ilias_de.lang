@@ -10410,3 +10410,5 @@ search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Wenn aktiviert, kann die Suche auf die ausgewählten Objekttypen beschränkt werden.
 chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste
 administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
+tbl#:#tbl_export_csv#:#.csv exportieren
+tbl#:#tbl_export_excel#:#.xls exportien
