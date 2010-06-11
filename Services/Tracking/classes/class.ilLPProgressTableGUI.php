@@ -106,7 +106,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilObjDataCache, $ilCtrl;
+		global $ilObjDataCache, $ilCtrl;
 
 		if(!$this->details)
 		{
@@ -116,7 +116,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		}
 
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "small"));
-		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
+		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
 
@@ -149,7 +149,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			{
 				$this->tpl->setCurrentBlock('warning_img');
 				$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
-				$this->tpl->setVariable('WARNING_ALT', $lng->txt('trac_time_passed'));
+				$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -160,7 +160,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setCurrentBlock("item_command");
 			$ilCtrl->setParameterByClass(get_class($this),'hide', $a_set["obj_id"]);
 			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass(get_class($this),'hide'));
-			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_hide'));
+			$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
 			$this->tpl->parseCurrentBlock();
 
 			if(ilLPObjSettings::_isContainer($a_set["u_mode"]))
@@ -170,7 +170,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
 				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
 				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
-				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_subitems'));
+				$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_subitems'));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -193,9 +193,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	
 	protected function fillRowExcel($worksheet, &$a_row, $a_set)
 	{
-		global $lng;
-		
-		$worksheet->write($a_row, 0, $lng->txt($a_set["type"]));
+		$worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
 		$worksheet->write($a_row, 1, $a_set["title"]);
 		$worksheet->write($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$worksheet->write($a_row, 3, sprintf("%d%%", $a_set["percentage"]));
