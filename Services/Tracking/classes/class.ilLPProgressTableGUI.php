@@ -216,6 +216,46 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		*/
 
 	}
+
+	protected function fillHeaderCSV($a_csv)
+	{
+		$a_csv->addColumn($this->lng->txt("type"));
+		$a_csv->addColumn($this->lng->txt("trac_title"));
+		$a_csv->addColumn($this->lng->txt("status"));
+		$a_csv->addColumn($this->lng->txt("trac_percentage"));
+		$a_csv->addColumn($this->lng->txt("trac_mark"));
+		$a_csv->addColumn($this->lng->txt("comment"));
+		$a_csv->addColumn($this->lng->txt("trac_mode"));
+		// $a_csv->addColumn($this->lng->txt("path"));
+		$a_csv->addRow();
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($this->lng->txt($a_set["type"]));
+		$a_csv->addColumn($a_set["title"]);
+		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
+		$a_csv->addColumn(sprintf("%d%%", $a_set["percentage"]));
+		$a_csv->addColumn($a_set["mark"]);
+		$a_csv->addColumn($a_set["comment"]);
+		$a_csv->addColumn(ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+
+		/*
+		// path
+		$path = $this->buildPath($a_set["ref_ids"]);
+		if($path)
+		{
+			$col = 7;
+			foreach($path as $path_item)
+			{
+				$a_csv->addColumn(strip_tags($path_item));
+				$col++;
+			}
+		}
+		*/
+
+		$a_csv->addRow();
+	}
 }
 
 ?>

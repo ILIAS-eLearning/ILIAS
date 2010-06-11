@@ -2072,9 +2072,8 @@ class ilTable2GUI extends ilTableGUI
 				// export
 				if(sizeof($this->export_formats))
 				{
-					$map = array(self::EXPORT_EXCEL => "export_excel",
-						self::EXPORT_CSV => "export_csv");
-
+					$map = array(self::EXPORT_EXCEL => "tbl_export_excel",
+						self::EXPORT_CSV => "tbl_export_csv");
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
 					$alist->setId("sellst_xpt");
@@ -2697,12 +2696,39 @@ class ilTable2GUI extends ilTableGUI
 					$worksheet = $workbook->addWorksheet();
 					$row = 0;
 					$this->fillHeaderExcel($worksheet, $row);
-					foreach($this->row_data as $idx => $set)
+					foreach($this->row_data as $set)
 					{
 						$row++;
 						$this->fillRowExcel($worksheet, $row, $set);
 					}
 					$workbook->close();
+					break;
+
+				case self::EXPORT_CSV:
+					include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
+				    $csv = new ilCSVWriter();
+					$csv->setSeparator(";");
+					$this->fillHeaderCSV($csv);
+					foreach($this->row_data as $set)
+					{
+						$row++;
+						$this->fillRowCSV($csv, $set);
+					}
+					if($send)
+					{
+						$filename .= ".csv";
+						header("Content-type: text/comma-separated-values");
+						header("Content-Disposition: attachment; filename=\"".$filename."\"");
+						header("Expires: 0");
+						header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+						header("Pragma: public");
+						echo $csv->getCSVString();
+
+					}
+					else
+					{
+						file_put_contents($filename, $csv->getCSVString());
+					}
 					break;
 		   }
 		}
@@ -2739,14 +2765,45 @@ class ilTable2GUI extends ilTableGUI
 	* @param	int		$a_row			row counter
 	* @param	array	$a_set			data array
 	*/
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
 		$col = 0;
 		foreach ($a_set as $key => $value)
 		{
 			$col++;
-			$worksheet->write($a_row, $col, $value);
+			$a_worksheet->write($a_row, $col, $value);
 		}
+	}
+
+	/**
+	 * CSV Version of Fill Row. Likely to
+	 * be overwritten by derived class.
+	 *
+	 * @param	object	$a_csv			current file
+	 */
+	protected function fillHeaderCSV($a_csv)
+	{
+		foreach ($this->column as $column)
+		{
+			$a_csv->addColumn($column["text"]);
+		}
+		$a_csv->addRow();
+	}
+
+	/**
+	* CSV Version of Fill Row. Most likely to
+	* be overwritten by derived class.
+	*
+	* @param	object	$a_csv			current file
+	* @param	array	$a_set			data array
+	*/
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		foreach ($a_set as $key => $value)
+		{
+			$a_csv->addColumn($value);
+		}
+		$a_csv->addRow();
 	}
 }
 
