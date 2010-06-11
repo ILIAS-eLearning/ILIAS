@@ -186,7 +186,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT item_id, nr".
+					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
 						" ,shape, coords, link_type, title, href, target, type, target_frame ".
 						" FROM map_area ".
 						" WHERE ".
@@ -202,7 +202,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT med_item_id, name Name, value".
+					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name Name, value".
 						" FROM mob_parameter ".
 						" WHERE ".
 						$ilDB->in("med_item_id", $a_ids, false, "integer"));
