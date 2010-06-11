@@ -60,7 +60,7 @@ class ilCourseAgreement
 	 	
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	 	
-	 	if($this->privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+	 	if($this->privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 	 	{
 		 	$this->read();
 	 	}
@@ -280,7 +280,7 @@ class ilCourseAgreement
 	 */
 	public function agreementRequired()
 	{
-	 	if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+	 	if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 	 	{
 	 		return false;
 	 	}

@@ -578,7 +578,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if($privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledExport())
+		if($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledCourseExport())
 		{
 			include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 			
@@ -1739,7 +1739,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				// only show if export permission pis granted
 				$privacy = ilPrivacySettings::_getInstance();
 				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
-					($privacy->enabledExport() or
+					($privacy->enabledCourseExport() or
 						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
 				{
 					$this->tabs_gui->addSubTabTarget('user_fields',
@@ -1800,7 +1800,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$privacy = ilPrivacySettings::_getInstance();
 				// only show export tab when write AND export permission pis granted
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()) 
-					&& $privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
+					&& $privacy->enabledCourseExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('export_members',
 													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'));
@@ -4595,7 +4595,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		// Check agreement
-		if(($privacy->confirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
+		if(($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
 			and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
 		{
 			return false;

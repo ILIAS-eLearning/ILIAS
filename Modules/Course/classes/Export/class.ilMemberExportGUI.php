@@ -85,7 +85,7 @@ class ilMemberExportGUI
 		
 		$privacy = ilPrivacySettings::_getInstance();
 		if(!$ilAccess->checkAccess('write','',$this->ref_id) 
-			or !$privacy->enabledExport()
+			or !$privacy->enabledCourseExport()
 			or !$rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
 		{
 			$this->ctrl->returnToParent($this);

@@ -2682,7 +2682,7 @@ else
 		{
 			include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 			$privacy = ilPrivacySettings::_getInstance();
-			if ($privacy->enabledExport() == true && $privacy->confirmationRequired() == true)
+			if ($privacy->enabledCourseExport() == true && $privacy->courseConfirmationRequired() == true)
 			{ 
 				foreach($a_fields as $field_id => $definition)
 				{
@@ -3254,8 +3254,8 @@ else
 		
 		// check if a course export state of any field has been added
 		$privacy = ilPrivacySettings::_getInstance();
-		if ($privacy->enabledExport() == true && 
-			$privacy->confirmationRequired() == true && 
+		if ($privacy->enabledCourseExport() == true && 
+			$privacy->courseConfirmationRequired() == true && 
 			$action != "save")
 		{
 			foreach ($profile_fields as $field)

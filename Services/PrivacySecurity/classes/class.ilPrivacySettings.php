@@ -38,7 +38,9 @@ class ilPrivacySettings
 		private $settings;
 	
 		private $export_course;
-		private $export_confirm;
+		private $export_group;
+		private $export_confirm_course;
+		private $export_confirm_group;
 		private $fora_statistics;
 		private $anonymous_fora;
 		private $show_grp_access_times;
@@ -83,25 +85,33 @@ class ilPrivacySettings
 		return $this->ref_id;
 	}
 
-	public function enabledExport()
+	public function enabledCourseExport()
 	{
 		return $this->export_course;
 	}
 	
+	public function enabledGroupExport()
+	{
+		return $this->export_group;
+	}
 	
 	public function checkExportAccess($a_ref_id)
 	{
 		global $ilUser,$ilAccess,$rbacsystem;
-		return $this->enabledExport() and 
-			!$this->confirmationRequired() or 
+		return $this->enabledCourseExport() and 
+			!$this->courseConfirmationRequired() or 
 			($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
 	}
 	
-	public function enableExport($a_status)
+	public function enableCourseExport($a_status)
 	{
 		$this->export_course = (bool) $a_status;
 	}
 
+	public function enableGroupExport($a_status)
+	{
+		$this->export_group = (bool) $a_status;
+	}
 
 	/**
 	*	write access to property fora statitics
@@ -139,16 +149,26 @@ class ilPrivacySettings
 			return $this->anonymous_fora;
 	}
 
-	public function confirmationRequired()
+	public function courseConfirmationRequired()
 	{
-		return $this->export_confirm;
+		return $this->export_confirm_course;
 	}
 
-	public function setConfirmationRequired($a_status)
+	public function groupConfirmationRequired()
 	{
-		$this->export_confirm = (bool) $a_status;
+		return $this->export_confirm_group;
+	}
+
+	public function setCourseConfirmationRequired($a_status)
+	{
+		$this->export_confirm_course = (bool) $a_status;
 	}
 	
+	public function setGroupConfirmationRequired($a_status)
+	{
+		$this->export_confirm_group = (bool) $a_status;
+	}
+
 	/**
 	 * Show group last access times
 	 *
@@ -202,8 +222,10 @@ class ilPrivacySettings
 	 */
 	public function save()
 	{
-	 	$this->settings->set('ps_export_confirm',(bool) $this->confirmationRequired());
-	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
+	 	$this->settings->set('ps_export_confirm',(bool) $this->courseConfirmationRequired());
+	 	$this->settings->set('ps_export_confirm_group',(bool) $this->groupConfirmationRequired());
+	 	$this->settings->set('ps_export_course',(bool) $this->enabledCourseExport());
+	 	$this->settings->set('ps_export_group',(bool) $this->enabledGroupExport());
 	 	$this->settings->set('enable_fora_statistics',(bool) $this->enabledForaStatistics());
 	 	$this->settings->set('disable_anonymous_fora',(bool) $this->disabledAnonymousFora());
 	 	$this->settings->set('ps_access_times',(bool) $this->enabledGroupAccessTimes());
@@ -230,7 +252,9 @@ class ilPrivacySettings
 		$this->ref_id = $row["ref_id"];
 
 		$this->export_course = (bool) $this->settings->get('ps_export_course',false);
-		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
+		$this->export_group = (bool) $this->settings->get('ps_export_group',false);
+		$this->export_confirm_course = (bool) $this->settings->get('ps_export_confirm',false);
+		$this->export_confirm_group = (bool) $this->settings->get('ps_export_confirm_group',false);
 		$this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics',false);
 		$this->anonymous_fora = (bool) $this->settings->get('disable_anonymous_fora',false);
 		$this->show_grp_access_times = (bool) $this->settings->get('ps_access_times',false);

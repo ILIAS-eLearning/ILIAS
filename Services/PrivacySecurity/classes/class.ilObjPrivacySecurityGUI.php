@@ -138,13 +138,17 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_PRIVACY_PROTECTION',$this->lng->txt('ps_privacy_protection'));
 	 	$this->tpl->setVariable('TXT_PROFILE_EXPORT',$this->lng->txt('ps_profile_export'));
 	 	$this->tpl->setVariable('TXT_EXPORT_COURSE',$this->lng->txt('ps_export_course'));
-	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM',$this->lng->txt('ps_export_confirm'));
+	 	$this->tpl->setVariable('TXT_EXPORT_GROUP',$this->lng->txt('ps_export_groups'));
+	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM_COURSE',$this->lng->txt('ps_export_confirm'));
+	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM_GROUP',$this->lng->txt('ps_export_confirm_group'));
 	 	$this->tpl->setVariable('TXT_GRP_ACCESS',$this->lng->txt('ps_show_grp_access'));
 	 	$this->tpl->setVariable('TXT_CRS_ACCESS',$this->lng->txt('ps_show_crs_access'));
 
 	 	// Check export
-	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledExport() ? 1 : 0,'export_course',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM',ilUtil::formCheckbox($privacy->confirmationRequired() ? 1 : 0,'export_confirm',1));
+	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledCourseExport() ? 1 : 0,'export_course',1));
+	 	$this->tpl->setVariable('CHECK_EXPORT_GROUP',ilUtil::formCheckbox($privacy->enabledGroupExport() ? 1 : 0,'export_group',1));
+	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM_COURSE',ilUtil::formCheckbox($privacy->courseConfirmationRequired() ? 1 : 0,'export_confirm_course',1));
+	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM_GROUP',ilUtil::formCheckbox($privacy->groupConfirmationRequired() ? 1 : 0,'export_confirm_group',1));
 	 	$this->tpl->setVariable('CHECK_GRP_ACCESS',ilUtil::formCheckbox($privacy->enabledGroupAccessTimes() ? 1 : 0,'grp_access_times',1));
 	 	$this->tpl->setVariable('CHECK_CRS_ACCESS',ilUtil::formCheckbox($privacy->enabledCourseAccessTimes() ? 1 : 0,'crs_access_times',1));
 
@@ -299,10 +303,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
 
-
 		$privacy = ilPrivacySettings::_getInstance();
-		$privacy->enableExport((int) $_POST['export_course']);
-		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
+		$privacy->enableCourseExport((int) $_POST['export_course']);
+		$privacy->enableGroupExport((int) $_POST['export_group']);
+		$privacy->setCourseConfirmationRequired((int) $_POST['export_confirm_course']);
+		$privacy->setGroupConfirmationRequired((int) $_POST['export_confirm_group']);
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
 		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->showGroupAccessTimes((int) $_POST['grp_access_times']);

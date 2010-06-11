@@ -414,7 +414,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		$this->privacy = ilPrivacySettings::_getInstance();
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');		
-		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
+		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
 		{
 			return true;
 		}
@@ -585,7 +585,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 		return true;
 	 	}
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
+		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
 		{
 			return true;
 		}
@@ -701,7 +701,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		global $ilUser;
 
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
+		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
 		{
 			return true;
 		}
