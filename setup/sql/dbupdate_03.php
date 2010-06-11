@@ -1852,3 +1852,8 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 		$ilDB->modifyTableColumn('tst_sequence','sequence', array("type" => "clob", "default" => null, "notnull" => false));
 	}
 ?>
+<#3067>
+<?php
+	$ilDB->modifyTableColumn('ut_lp_marks','u_comment',array('type' => 'text', 'default' => null, 'length' => 4000, 'notnull' => false));
+?>
+

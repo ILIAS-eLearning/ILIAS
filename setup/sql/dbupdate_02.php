@@ -10924,7 +10924,7 @@ RENAME TABLE `reg_email_role_assignments`  TO `reg_er_assignments`;
 ?>
 
 <#2250>
-ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` VARCHAR( 1000 ) NOT NULL;
+ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` VARCHAR( 4000 ) NOT NULL;
   
 <#2251>
 <?php
