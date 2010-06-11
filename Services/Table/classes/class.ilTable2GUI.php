@@ -40,12 +40,19 @@ class ilTable2GUI extends ilTableGUI
 	protected $filters_determined = false;
 	protected $columns_determined = false;
 
+	protected $export_formats;
+	protected $export_mode;
+
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
 	const FILTER_LANGUAGE = 4;
 	const FILTER_NUMBER_RANGE = 5;
 	const FILTER_DATE_RANGE = 6;
+
+	const EXPORT_EXCEL = 1;
+	const EXPORT_CSV = 2;
+	const EXPORT_XML = 3;
 	
 	/**
 	* Constructor
@@ -73,6 +80,12 @@ class ilTable2GUI extends ilTableGUI
 			$a_template_context = $this->getId();
 		}
 		$this->setContext($a_template_context);
+
+		// activate export mode
+		if(isset($_GET[$this->prefix."_xpt"]))
+		{
+	       $this->export_mode = (int)$_GET[$this->prefix."_xpt"];
+		}
 
 		// template handling
 		if(isset($_GET[$this->prefix."_tpl"]))
@@ -1356,6 +1369,11 @@ class ilTable2GUI extends ilTableGUI
 	final public function getHTML()
 	{
 		global $lng, $ilCtrl, $ilUser;
+
+		if($this->getExportMode())
+		{
+			$this->exportData($this->getExportMode(), true);
+		}
 		
 		$this->prepareOutput();
 		
@@ -1475,7 +1493,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function render()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
 		$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
@@ -1516,6 +1534,20 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath($this->icon));
 				$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->icon_alt);
 				$this->tpl->parseCurrentBlock();
+			}
+
+			if(sizeof($this->export_formats))
+            {
+				$map = array(self::EXPORT_EXCEL => "export_excel",
+					self::EXPORT_CSV => "export_csv",
+					self::EXPORT_XML => "export_xml");
+				foreach($this->export_formats as $format)
+				{
+					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", $format);
+					$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd);
+					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_xpt", "");
+					$this->header_commands[] = array("text"=>$lng->txt($map[$format]), "href"=>$url);
+				}
 			}
 			
 			foreach($this->header_commands as $command)
@@ -2585,6 +2617,131 @@ class ilTable2GUI extends ilTableGUI
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	* Get limit.
+	*/
+	function getLimit()
+	{
+		if($this->getExportMode())
+		{
+			return 9999;
+		}
+		return parent::getLimit();
+	}
+
+	/**
+	* Get offset.
+	*/
+	function getOffset()
+	{
+		if($this->getExportMode())
+		{
+			return 0;
+		}
+		return parent::getOffset();
+	}
+
+	/**
+	 * Set available export formats
+	 *
+	 * @param	array	$formats
+	 */
+    public function setExportFormats(array $formats)
+    {
+		$this->export_formats = array();
+		$valid = array(self::EXPORT_EXCEL, self::EXPORT_CSV, self::EXPORT_XML);
+		foreach($formats as $format)
+	    {
+		   if(in_array($format, $valid))
+		   {
+				$this->export_formats[] = $format;
+		   }
+		}
+	}
+
+	/**
+	 * Was export activated?
+	 *
+	 * @return	int
+	 */
+	public function getExportMode()
+    {
+		return $this->export_mode;
+	}
+
+	 /**
+	 * Export and optionally send current table data
+	 *
+	 * @param	int	$format
+	 */
+	public function exportData($format, $send = false)
+	{
+		if($this->dataExists())
+		{
+			$filename = "export";
+
+			switch($format)
+			{
+				case self::EXPORT_EXCEL:
+					include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+					include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+					$adapter = new ilExcelWriterAdapter($filename.".xls", $send);
+					$workbook = $adapter->getWorkbook();
+					$worksheet = $workbook->addWorksheet();
+					$row = 0;
+					$this->fillHeaderExcel($worksheet, $row);
+					foreach($this->row_data as $idx => $set)
+					{
+						$row++;
+						$this->fillRowExcel($worksheet, $row, $set);
+					}
+					$workbook->close();
+					break;
+		   }
+		}
+
+	   if($send)
+	   {
+		  exit();
+	   }
+	}
+
+	/**
+	 * Excel Version of Fill Row. Likely to
+	 * be overwritten by derived class.
+	 *
+	 * @param	object	$a_worksheet	current sheet
+	 * @param	int		$a_row			row counter
+	 */
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		$col = 0;
+		foreach ($this->column as $column)
+		{
+			$col++;
+			$worksheet->write($a_row, $col, $column["text"]);
+		}
+		$a_row++;
+	}
+
+	/**
+	* Excel Version of Fill Row. Most likely to
+	* be overwritten by derived class.
+	*
+	* @param	object	$a_worksheet	current sheet
+	* @param	int		$a_row			row counter
+	* @param	array	$a_set			data array
+	*/
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		$col = 0;
+		foreach ($a_set as $key => $value)
+		{
+			$col++;
+			$worksheet->write($a_row, $col, $value);
+		}
 	}
 }
 

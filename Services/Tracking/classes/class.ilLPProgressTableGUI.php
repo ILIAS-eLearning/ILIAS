@@ -29,7 +29,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setId("lpprgtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
+
 		$this->setLimit(ilSearchSettings::getInstance()->getMaxHits());
 
 		if(!$this->details)
@@ -69,6 +69,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
+
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
 		// area selector gets in the way
 		if($this->tracked_user)
@@ -175,6 +177,46 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setCurrentBlock("column_action");
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		$worksheet->write($a_row, 0, $this->lng->txt("type"));
+		$worksheet->write($a_row, 1, $this->lng->txt("trac_title"));
+		$worksheet->write($a_row, 2, $this->lng->txt("status"));
+		$worksheet->write($a_row, 3, $this->lng->txt("trac_percentage"));
+		$worksheet->write($a_row, 4, $this->lng->txt("trac_mark"));
+		$worksheet->write($a_row, 5, $this->lng->txt("comment"));
+		$worksheet->write($a_row, 6, $this->lng->txt("trac_mode"));
+		// $worksheet->write($a_row, 7, $this->lng->txt("path"));
+	}
+	
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		global $lng;
+		
+		$worksheet->write($a_row, 0, $lng->txt($a_set["type"]));
+		$worksheet->write($a_row, 1, $a_set["title"]);
+		$worksheet->write($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
+		$worksheet->write($a_row, 3, sprintf("%d%%", $a_set["percentage"]));
+		$worksheet->write($a_row, 4, $a_set["mark"]);
+		$worksheet->write($a_row, 5, $a_set["comment"]);
+		$worksheet->write($a_row, 6, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+
+		/*
+		// path
+		$path = $this->buildPath($a_set["ref_ids"]);
+		if($path)
+		{
+			$col = 7;
+			foreach($path as $path_item)
+			{
+				$worksheet->write($a_row, $col, strip_tags($path_item));
+				$col++;
+			}
+		}
+		*/
+
 	}
 }
 
