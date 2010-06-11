@@ -3341,6 +3341,7 @@ else
 				$ilias->deleteSetting("usr_settings_export_".$field);
 			}
 			
+			// Course export/visibility
 			if ($_POST["chb"]["course_export_" . $field])
 			{
 				$ilias->setSetting("usr_settings_course_export_".$field, "1");
@@ -3348,6 +3349,15 @@ else
 			else
 			{
 				$ilias->deleteSetting("usr_settings_course_export_".$field);
+			}
+			// Group export/visibility
+			if ($_POST["chb"]["course_export_" . $field])
+			{
+				$ilias->setSetting("usr_settings_group_export_".$field, "1");
+			}
+			else
+			{
+				$ilias->deleteSetting("usr_settings_group_export_".$field);
 			}
 
 			$is_fixed = array_key_exists($field, $fixed_required_fields);

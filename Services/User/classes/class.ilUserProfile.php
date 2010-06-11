@@ -50,6 +50,7 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getLogin",
 						"course_export_fix_value" => 1,
+						"group_export_fix_value" => 1,
 						"changeable_hide" => true,
 						"required_hide" => true,
 						"group" => "personal_data"),
@@ -59,6 +60,7 @@ class ilUserProfile
 						"visib_reg_hide" => true,
 						'visib_lua_fix_value' => 0,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "personal_data"),
 		"firstname" => array(
@@ -70,6 +72,7 @@ class ilUserProfile
 						"visib_reg_fix_value" => 1,
 						'visib_lua_fix_value' => 1,
 						"course_export_fix_value" => 1,
+						"group_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"lastname" => array(
 						"input" => "text",
@@ -80,6 +83,7 @@ class ilUserProfile
 						"visib_reg_fix_value" => 1,
 						'visib_lua_fix_value' => 1,
 						"course_export_fix_value" => 1,
+						"group_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"title" => array(
 						"input" => "text",
@@ -105,6 +109,7 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"lists_hide" => true,
 						"lang_var" => "personal_picture",
 						"group" => "personal_data"),
@@ -196,6 +201,7 @@ class ilUserProfile
 						"cols" => 45,
 						"method" => "getComment",
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "contact_data"),
 		"instant_messengers" => array(
@@ -204,6 +210,7 @@ class ilUserProfile
 						"maxlength" => 40,
 						"size" => 40,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "instant_messengers"),
 		"matriculation" => array(
@@ -224,12 +231,14 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "settings"),
 		"skin_style" => array(
 						"input" => "skinstyle",
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "settings"),
 		"hits_per_page" => array(
 						"input" => "hitsperpage",
@@ -240,6 +249,7 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "settings"),
 		"show_users_online" => array(
 						"input" => "selection",
@@ -251,12 +261,14 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "settings"),
 		"hide_own_online_status" => array(
 						"input" => "selection",
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "settings"),
 		"preferences" => array(
 						"visible_fix_value" => 1,
@@ -264,6 +276,7 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"group" => "preferences"),
 		"mail_incoming_mail" => array(
 						"input" => "selection",
@@ -275,6 +288,7 @@ class ilUserProfile
 						"required_hide" => true,
 						"visib_reg_hide" => true,
 						"course_export_hide" => true,
+						"group_export_hide" => true,
 						"export_hide" => true,
 						"search_hide" => true,
 						"group" => "settings")

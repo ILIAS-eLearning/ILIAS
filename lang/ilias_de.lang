@@ -59,7 +59,7 @@ administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. 
 administration#:#cleaning#:#Bereinigen...
 administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen, werden alle Kursnutzungsvereinbarungen zurückgesetzt.
-administration#:#course_export#:#Kurs-Export
+administration#:#course_export#:#Sichtbar in der Kursteilnehmerverwaltung
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#dump_tree#:#Tree auflisten
@@ -10407,3 +10407,4 @@ search#:#search_item_filter#:#Suche nach Typ
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Wenn aktiviert, kann die Suche auf die ausgewählten Objekttypen beschränkt werden.
 chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste
+administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung

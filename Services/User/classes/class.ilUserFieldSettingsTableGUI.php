@@ -67,6 +67,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 			"required"  => "required_field",
 			"export" => "export",
 			"course_export" => "course_export",
+			'group_export' => 'group_export',
 			"visib_reg" => "header_visible_registration",
 			'visib_lua' => 'usr_settings_visib_lua',
 			'changeable_lua' => 'usr_settings_changeable_lua'
@@ -107,6 +108,10 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 					$checked = true;
 				}
 				if ($prop == "course_export" && $ilSetting->get("usr_settings_course_export_".$field) == "1")
+				{
+					$checked = true;
+				}
+				if ($prop == "group_export" && $ilSetting->get("usr_settings_group_export_".$field) == "1")
 				{
 					$checked = true;
 				}
