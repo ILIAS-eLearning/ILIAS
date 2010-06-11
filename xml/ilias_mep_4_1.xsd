@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/MediaPool/mep/4_1"
+	xmlns:t = 'http://www.ilias.de/Modules/MediaPool/mep/4_1'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Mob -->
+	<element name='Mep'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:DefaultWidth' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:DefaultHeight' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='DefaultWidth' type='t:Data' />
+	<element name='DefaultHeight' type='t:Data' />
+
+	<!-- MepTree -->
+	<element name='MepTree'>
+		<complexType>
+		<sequence>
+			<element ref='t:MepId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Child' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Parent' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Depth' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Type' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ForeignId' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='MepId' type='t:Data' />
+	<element name='Child' type='t:Data' />
+	<element name='Parent' type='t:Data' />
+	<element name='Depth' type='t:Data' />
+	<element name='Type' type='t:Data' />
+	<element name='ForeignId' type='t:Data' />
+
+</schema>

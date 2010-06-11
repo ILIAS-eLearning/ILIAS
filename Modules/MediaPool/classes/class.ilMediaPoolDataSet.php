@@ -59,11 +59,11 @@ class ilMediaPoolDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					return array(
-						"id" => "integer",
-						"title" => "text",
-						"description" => "text",
-						"default_width" => "integer",
-						"default_height" => "integer");
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"DefaultWidth" => "integer",
+						"DefaultHeight" => "integer");
 			}
 		}
 	
@@ -74,13 +74,13 @@ class ilMediaPoolDataSet extends ilDataSet
 			{
 				case "4.1.0":
 						return array(
-							"mep_id" => "integer",
-							"child" => "integer",
-							"parent" => "integer",
-							"depth" => "integer",
-							"type" => "text",
-							"title" => "text",
-							"foreign_id" => "integer"
+							"MepId" => "integer",
+							"Child" => "integer",
+							"Parent" => "integer",
+							"Depth" => "integer",
+							"Type" => "text",
+							"Title" => "text",
+							"ForeignId" => "integer"
 						);
 			}
 		}				
@@ -167,10 +167,10 @@ class ilMediaPoolDataSet extends ilDataSet
 				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 				$newObj = new ilObjMediaPool();
 				$newObj->setType("mep");
-				$newObj->setTitle($a_rec["title"]);
-				$newObj->setDescription($a_rec["description"]);
-				$newObj->setDefaultWidth($a_rec["default_width"]);
-				$newObj->setDefaultHeight($a_rec["default_height"]);
+				$newObj->setTitle($a_rec["Title"]);
+				$newObj->setDescription($a_rec["Description"]);
+				$newObj->setDefaultWidth($a_rec["DefaultWidth"]);
+				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
 				$newObj->create();
 				$this->current_obj = $newObj;
 				$this->import->addMapping("mep", $a_rec["id"], $newObj->getId());
@@ -180,10 +180,10 @@ class ilMediaPoolDataSet extends ilDataSet
 				switch ($a_rec["type"])
 				{
 					case "fold":
-						$parent = (int) $this->import->getMapping("mep_tree", $a_rec["parent"]);
+						$parent = (int) $this->import->getMapping("mep_tree", $a_rec["Parent"]);
 						$fold_id =
-							$this->current_obj->createFolder($a_rec["title"], $parent);
-						$this->import->addMapping("mep_tree", $a_rec["child"],
+							$this->current_obj->createFolder($a_rec["Title"], $parent);
+						$this->import->addMapping("mep_tree", $a_rec["Child"],
 							$fold_id);
 						break;
 				}
