@@ -10453,7 +10453,7 @@ dateplaner#:#cal_notification#:#Mail Notification
 dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
-search#:#search_item_filter#:#Item Selection
-search#:#search_item_filter_form#:#Item Selection
+search#:#search_item_filter#:#Search by Type
+search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.
 chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar
