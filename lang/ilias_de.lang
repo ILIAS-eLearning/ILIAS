@@ -1447,9 +1447,9 @@ chat#:#chat_show_textformat#:#Textformat anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_smiley_image#:#Smiley Bild
 chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an, wenn Sie das vorhandene ändern wollen. Wenn kein neues Bild angegeben wird, wird das vorhandene nicht verändert.
-chat#:#chat_smiley_keyword#:#Smiley Kürzel
-chat#:#chat_smiley_keywords#:#Smiley Kürzel
-chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlagwörter für jedes Smiley angeben. Jede Zeile wird als einzelnes Schlagwort benutzt.
+chat#:#chat_smiley_keyword#:#Smiley-Kürzel
+chat#:#chat_smiley_keywords#:#Smiley-Kürzel
+chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können für jedes Smiley mehrere Kürzel als Zeichenfolge angeben. Jede Zeile wird als einzelnes Kürzel benutzt.
 chat#:#chat_smilies_activate#:#Aktiviere Smileys
 chat#:#chat_smilies_deactivate#:#Deaktiviere Smileys
 chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smileys genutzt werden, bis dieses Problem behoben wurde.
