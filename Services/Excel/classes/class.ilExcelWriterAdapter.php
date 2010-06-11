@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once 'Services/Excel/classes/class.ilExcelWriterWrapper.php';
+
 /**
-* Class ilPaymentExcelWriterAdapter
+* Class ilExcelWriterAdapter
 *
 * @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
@@ -22,25 +24,23 @@ class ilExcelWriterAdapter
 	{
 		global $ilias, $lng;
 		
-		$result = @include_once 'Spreadsheet/Excel/Writer.php';
-		if (!$result)
-		{
-			$ilias->raiseError($lng->txt("error_no_excel_support"), $ilias->error_obj->WARNING);
-		}
 		if($a_send)
 		{
-			$this->workbook =& new Spreadsheet_Excel_Writer();
+			$this->workbook =& new ilExcelWriterWrapper();
 			$this->workbook->send($a_filename);
 		}
 		else
 		{
-			$this->workbook =& new Spreadsheet_Excel_Writer($a_filename);
+			$this->workbook =& new ilExcelWriterWrapper($a_filename);
 		}
 		
 		if(strlen($tmp = ini_get('upload_tmp_dir')))
 		{
 			$this->workbook->setTempDir($tmp);
 		}
+
+		// to make UTF8 input work
+		$this->workbook->setVersion(8);
 		
 		$this->__initFormatBold();
 		$this->__initFormatHeader();

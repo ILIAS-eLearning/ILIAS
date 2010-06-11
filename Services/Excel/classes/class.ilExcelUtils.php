@@ -13,8 +13,12 @@ class ilExcelUtils
 {
 	function _convert_text($a_text, $a_target = "has been removed")
 	{
+		return $a_text;
+
+		/* utf-8 is supported
 		$a_text = preg_replace("/<[^>]*?>/", "", $a_text);
 		return utf8_decode($a_text);
+		 */
 	}
 
 } // END class.ilExcelUtils.php
