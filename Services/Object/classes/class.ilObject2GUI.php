@@ -593,13 +593,10 @@ return "";
 		if ($this->form->checkInput())
 		{
 			// todo: make some check on manifest file
-			
 			include_once("./Services/Export/classes/class.ilImport.php");
-			
-// hack for development
-$import_file = "/opt/data/ilias_trunk/iliastrunk/mep_data/mep_2482/export/".
-	$_POST["exportfile"];
-			$imp = ilImport::_importObject($newObj, $import_file, $new_type);
+			$imp = new ilImport();
+			$imp = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
 			$map = $imp->getMappingsOfEntity($new_type);
 			
 			// we should have only one mapping here
