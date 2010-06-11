@@ -22,6 +22,7 @@ class ilMediaPoolExporter extends ilXmlExporter
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
 		$this->ds = new ilMediaPoolDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		$this->ds->setDSPrefix("ds");
 	}
 
 	/**
@@ -77,7 +78,7 @@ class ilMediaPoolExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
 	}
 
 	/**
@@ -91,8 +92,9 @@ class ilMediaPoolExporter extends ilXmlExporter
 	{
 		return array (
 			"4.1.0" => array(
-				"namespace" => "",
-				"xsd_file" => "",
+				"namespace" => "http://www.ilias.de/Modules/MediaPool/mep/4_1",
+				"xsd_file" => "ilias_mep_4_1.xsd",
+				"uses_dataset" => true,
 				"min" => "4.1.0",
 				"max" => "")
 		);

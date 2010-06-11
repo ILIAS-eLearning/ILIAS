@@ -60,7 +60,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
 	{
 		ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true);
+		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
 	}
 
 	/**

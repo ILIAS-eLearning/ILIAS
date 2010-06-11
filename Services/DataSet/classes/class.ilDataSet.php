@@ -219,7 +219,7 @@ abstract class ilDataSet
 	 *  </dataset>
 	 */
 	final function getXmlRepresentation($a_entity, $a_target_release,
-		$a_ids, $a_field = "", $a_omit_header = false)
+		$a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
 	{	
 		$this->dircnt = 1;
 		
@@ -252,7 +252,10 @@ abstract class ilDataSet
 		$writer->xmlStartTag($this->getDSPrefixString().'DataSet', $atts);
 		
 		// add types
-		$this->addTypesXml($writer, $a_entity, $a_target_release);
+		if (!$a_omit_types)
+		{
+			$this->addTypesXml($writer, $a_entity, $a_target_release);
+		}
 		
 		// add records
 		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "");
@@ -296,10 +299,10 @@ abstract class ilDataSet
 						case "directory":
 							if ($this->absolute_export_dir != "" && $this->relative_export_dir != "")
 							{
-								ilUtil::makeDir($this->absolute_export_dir."/dir_".$this->dircnt);
-								ilUtil::rCopy($c, $this->absolute_export_dir."/dir_".$this->dircnt);
+								ilUtil::makeDir($this->absolute_export_dir."/dsDir_".$this->dircnt);
+								ilUtil::rCopy($c, $this->absolute_export_dir."/dsDir_".$this->dircnt);
 //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dir_".$this->dircnt."-";
-								$c = $this->relative_export_dir."/dir_".$this->dircnt;
+								$c = $this->relative_export_dir."/dsDir_".$this->dircnt;
 								$this->dircnt++;
 							}
 							break;

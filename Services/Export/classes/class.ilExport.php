@@ -419,8 +419,8 @@ echo "1-not found:".$export_class_file."-"; exit;
 		$dir_cnt = 1;
 		foreach ($a_id as $id)
 		{
-			$exp->setExportDirectories($set_dir_relative."/dir_".$dir_cnt,
-				$set_dir_absolute."/dir_".$dir_cnt);
+			$exp->setExportDirectories($set_dir_relative."/expDir_".$dir_cnt,
+				$set_dir_absolute."/expDir_".$dir_cnt);
 			$export_writer->xmlStartTag('exp:ExportItem', array("Id" => $id));
 			$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
 			$export_writer->appendXml($xml);
