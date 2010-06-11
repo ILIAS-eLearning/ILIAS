@@ -142,7 +142,7 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			case "mep":
 				return array (
-					"mep_tree" => array("ids" => $a_rec["id"])
+					"mep_tree" => array("ids" => $a_rec["Id"])
 				);							
 		}
 		return false;
