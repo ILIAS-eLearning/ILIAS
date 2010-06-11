@@ -12,7 +12,7 @@ include_once("./classes/class.ilSaxParser.php");
  */
 class ilManifestParser extends ilSaxParser
 {
-	protected $xmlfiles = array();
+	protected $expfiles = array();
 	
 	/**
 	 * Constructor
@@ -31,9 +31,9 @@ class ilManifestParser extends ilSaxParser
 	 *
 	 * @return	array of strings	xml file pathes
 	 */
-	function getXmlFiles()
+	function getExportFiles()
 	{
-		return $this->xmlfiles;
+		return $this->expfiles;
 	}
 	
 	/**
@@ -65,9 +65,9 @@ class ilManifestParser extends ilSaxParser
 	{
 		switch ($a_name)
 		{
-			case "xmlfile":
-				$this->xmlfiles[] = array("component" => $a_attribs["component"],
-					"path" => $a_attribs["path"]);
+			case "ExportFile":
+				$this->expfiles[] = array("component" => $a_attribs["Component"],
+					"path" => $a_attribs["Path"]);
 				break;
 		}
 	}
