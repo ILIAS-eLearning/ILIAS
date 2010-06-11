@@ -299,7 +299,9 @@ class ilExport
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$this->manifest_writer = new ilXmlWriter();
 		$this->manifest_writer->xmlHeader();
-		$this->manifest_writer->xmlStartTag('manifest', array());
+		$this->manifest_writer->xmlStartTag('Manifest',
+			array("MainEntity" => $a_type, "Title" => ilObject::_lookupTitle($a_id), "TargetRelease" => $a_target_release,
+				"InstallationId" => IL_INST_ID, "InstallationUrl" => ILIAS_HTTP_PATH));
 
 		// get export class
 		ilExport::_createExportDirectory($a_id, "xml", $a_type);
@@ -313,7 +315,7 @@ class ilExport
 		
 		$success = $this->processExporter($comp, $class, $a_type, $a_target_release, $a_id);
 
-		$this->manifest_writer->xmlEndTag('manifest');
+		$this->manifest_writer->xmlEndTag('Manifest');
 
 //$tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDumpMem(true))."</pre>");
 
@@ -431,8 +433,8 @@ echo "1-not found:".$export_class_file."-"; exit;
 		$export_writer->xmlEndTag('exp:Export');
 		$export_writer->xmlDumpFile($set_dir_absolute."/export.xml", false);
 		
-		$this->manifest_writer->xmlElement("xmlfile",
-			array("component" => $a_comp, "path" => $set_dir_relative."/export.xml"));
+		$this->manifest_writer->xmlElement("ExportFile",
+			array("Component" => $a_comp, "Path" => $set_dir_relative."/export.xml"));
 
 		// process tail dependencies
 		$sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);

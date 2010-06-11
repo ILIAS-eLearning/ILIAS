@@ -13,7 +13,6 @@ class ilImport
 	protected $install_id = "";
 	protected $install_url = "";
 	protected $entities = "";
-	protected $mappings = array();
 	
 	/**
 	 * Begin new dataset
@@ -23,6 +22,9 @@ class ilImport
 		$this->install_id = "";
 		$this->install_url = "";
 		$this->entities = array();
+
+		include_once("./Services/Export/classes/class.ilImportMapping.php");
+		$this->mapping = new ilImportMapping();
 	}
 
 	/**
@@ -71,62 +73,7 @@ class ilImport
 	{
 		return $this->install_url;
 	}
-	
-	/**
-	 * Add mapping
-	 *
-	 * @param	string		entity
-	 * @param	string		old id
-	 * @param	string		new id
-	 */
-	function addMapping($a_entity, $a_old_id, $a_new_id)
-	{
-		$this->mappings[$a_entity][$a_old_id] = $a_new_id;
-	}
-	
-	/**
-	 * Get a mapping
-	 *
-	 * @param	string		entity
-	 * @param	string		old id
-	 * 
-	 * @return	string		new id, or false if no mapping given
-	 */
-	function getMapping($a_entity, $a_old_id)
-	{
-		if (isset($this->mappings[$a_entity][$a_old_id]))
-		{
-			return $this->mappings[$a_entity][$a_old_id];
-		}
-	
-		return false;	
-	}
-	
-	/**
-	 * Get mapping
-	 *
-	 * @return	array	mapping
-	 */
-	function getAllMappings()
-	{
-		return $this->mappings;
-	}
-	
-	/**
-	 * Get mappings for entity
-	 *
-	 * @param	string	entity
-	 * @return
-	 */
-	function getMappingsOfEntity($a_entity)
-	{
-		if (isset($this->mappings[$a_entity]))
-		{
-			return $this->mappings[$a_entity];
-		}
-		return array();
-	}
-	
+		
 	/**
 	 * Set entity types
 	 *
@@ -198,18 +145,20 @@ class ilImport
 		$comp = $objDefinition->getComponentForType($a_type);
 		$class = $objDefinition->getClassName($a_type);
 
+		$this->comp = $comp;
+
 		// get import class
 		$success = true;
-		$import_class_file = "./".$comp."/classes/class.il".$class."Import2.php";
+		$import_class_file = "./".$comp."/classes/class.il".$class."Importer.php";
 		if (!is_file($import_class_file))
 		{
 			$success = false;
 		}
 		if ($success)
 		{
-			$class = "il".$class."Import2";
+			$class = "il".$class."Importer";
 			include_once($import_class_file);
-			$import = new $class();
+			$this->importer = new $class();
 		
 			// create temporary directory
 			$tmpdir = ilUtil::ilTempnam();
@@ -229,14 +178,17 @@ copy($a_tmp_file, $tmpdir."/".$a_filename);
 			$parser = new ilManifestParser($dir."/manifest.xml");
 	
 			// process xml files
-			$xmlfiles = $parser->getXmlFiles();
+			$expfiles = $parser->getExportFiles();
 			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
-			foreach ($xmlfiles as $xmlfile)
+			foreach ($expfiles as $expfile)
 			{
-				$import->beginDataset();
-				$parser = new ilDataSetImportParser($import, $dir."/".$xmlfile["path"],
-					$xmlfile["component"]);
-				$import->endDataset();
+				$parser = new ilExportFileParser($dir."/".$expfile["path"],
+					$this, "processItemXml");
+
+				//$import->beginDataset();
+				//$parser = new ilDataSetImportParser($import, $dir."/".$expfile["path"],
+				//	$expfile["component"]);
+				//$import->endDataset();
 			} 
 			
 			// delete temporary directory
@@ -245,6 +197,21 @@ copy($a_tmp_file, $tmpdir."/".$a_filename);
 			return $import;
 		}
 		
+	}
+
+	/**
+	 * Process item xml
+	 *
+	 * @param
+	 * @return
+	 */
+	function processItemXml($a_entity, $a_id, $a_xml)
+	{
+		$new_id = $this->importer->importXmlRepresentation($a_entity, $a_schema_version, $a_id, $a_xml, $this->mapping);
+		if ($new_id != "")
+		{
+			$this->mapping->addMapping($this->comp ,$a_entity, $a_id, $new_id);
+		}
 	}
 	
 }

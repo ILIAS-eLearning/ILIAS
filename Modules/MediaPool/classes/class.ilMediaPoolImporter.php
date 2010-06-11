@@ -1,16 +1,16 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilImport.php");
+include_once("./Services/Export/classes/class.ilImporter.php");
 
 /**
- * Import2 class for media pools
+ * Importer class for media pools
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
-class ilMediaPoolImport2 extends ilImport
+class ilMediaPoolImporter extends ilImporter
 {
 	/**
 	 * Init dataset
@@ -18,6 +18,7 @@ class ilMediaPoolImport2 extends ilImport
 	 * @param
 	 * @return
 	 */
+/*
 	function initDataset($a_component, $a_top_entity)
 	{
 		switch ($a_top_entity)
@@ -32,6 +33,20 @@ class ilMediaPoolImport2 extends ilImport
 				$this->setCurrentDataset(new ilMediaPoolDataSet()); 
 				break;
 		}	
+	}
+ */
+
+	/**
+	 * Import XML
+	 *
+	 * @param
+	 * @return
+	 */
+	function importXmlRepresentation($a_entity, $a_schema_version, $a_id, $a_xml, $a_mapping)
+	{
+		
+
+
 	}
 	
 }
