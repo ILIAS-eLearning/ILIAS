@@ -1289,7 +1289,7 @@ chat#:#cancel_whisper#:#Flüstern beenden
 chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Anwesende Benutzer
-chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
+chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chat-Server zugreifen dürfen
 chat#:#chat_add_blocking#:#Benutzer sperren
 chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
 chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
@@ -1314,7 +1314,7 @@ chat#:#chat_blocked_unlocked#:#Freischalten
 chat#:#chat_blocked_users#:#Gesperrte Benutzer
 chat#:#chat_blue#:#blau
 chat#:#chat_bold#:#fett
-chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chatserver aufbauen.
+chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chat#:#chat_chat_invitation#:#Einladungen zu Chats
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
@@ -1386,7 +1386,7 @@ chat#:#chat_new_message#:#Neue Nachricht
 chat#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
-chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
+chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chat-Server hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
 chat#:#chat_no_online_users#:#Es sind keine weiteren Benutzer online.
 chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
@@ -1434,9 +1434,9 @@ chat#:#chat_server_external_ip#:#Externe Server IP
 chat#:#chat_server_internal_ip#:#Interne Server IP
 chat#:#chat_server_logfile#:#Pfad zur Logdatei
 chat#:#chat_server_loglevel#:#Loglevel
-chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
+chat#:#chat_server_not_active#:#Der Chat-Server ist zur Zeit nicht aktiv
 chat#:#chat_server_port#:#Server Port
-chat#:#chat_server_settings#:#Chatserver Einstellungen
+chat#:#chat_server_settings#:#Einstellungen Chat-Server
 chat#:#chat_server_ssl_active#:#SSL aktivieren
 chat#:#chat_server_ssl_port#:#Server SSL Port
 chat#:#chat_server_ssl_settings#:#SSL Einstellungen
@@ -1447,8 +1447,8 @@ chat#:#chat_show_textformat#:#Textformat anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_smiley_image#:#Smiley Bild
 chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an, wenn Sie das vorhandene ändern wollen. Wenn kein neues Bild angegeben wird, wird das vorhandene nicht verändert.
-chat#:#chat_smiley_keyword#:#Smiley Schlagwort
-chat#:#chat_smiley_keywords#:#Smiley Schlagwörter
+chat#:#chat_smiley_keyword#:#Smiley Kürzel
+chat#:#chat_smiley_keywords#:#Smiley Kürzel
 chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlagwörter für jedes Smiley angeben. Jede Zeile wird als einzelnes Schlagwort benutzt.
 chat#:#chat_smilies_activate#:#Aktiviere Smileys
 chat#:#chat_smilies_deactivate#:#Deaktiviere Smileys
@@ -3680,7 +3680,7 @@ common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
 common#:#obj_chac#:#Chat-Server
-common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
+common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chat-Server. Aktivieren/Deaktivieren der Chats
 common#:#obj_chap#:#Kapitel
 common#:#obj_chat#:#Chat
 common#:#obj_cmps#:#Module, Services und Plugins
