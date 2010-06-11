@@ -55,7 +55,7 @@ administration#:#clean#:#Clean up
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#cleaning#:#Cleaning...
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.
-administration#:#course_export#:#Course Export
+administration#:#course_export#:#Visible in Courses
 administration#:#disabled#:#Disabled
 administration#:#done#:#Done
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.
@@ -10457,3 +10457,4 @@ search#:#search_item_filter#:#Search by Type
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.
 chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar
+administration#:#group_export#:#Visible in Groups
