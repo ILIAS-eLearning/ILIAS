@@ -95,14 +95,29 @@ class ilPrivacySettings
 		return $this->export_group;
 	}
 	
+	/**
+	 * @todo rename
+	 * @param object $a_ref_id
+	 * @return 
+	 */
 	public function checkExportAccess($a_ref_id)
 	{
 		global $ilUser,$ilAccess,$rbacsystem;
-		return $this->enabledCourseExport() and 
-			!$this->courseConfirmationRequired() or 
-			($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+		
+		if(ilObject::_lookupObjId(ilObject::_lookupType($a_ref_id)) == 'crs')
+		{
+			return $this->enabledCourseExport() and 
+				!$this->courseConfirmationRequired() or 
+				($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+		}
+		else
+		{
+			return $this->enabledGroupExport() and 
+				!$this->groupConfirmationRequired() or 
+				($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+		}		
 	}
-	
+
 	public function enableCourseExport($a_status)
 	{
 		$this->export_course = (bool) $a_status;

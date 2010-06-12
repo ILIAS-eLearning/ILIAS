@@ -66,7 +66,7 @@ class ilMemberExportGUI
 	 	$this->ref_id = $a_ref_id;
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
 	 	
-	 	$this->fields_info = ilExportFieldsInfo::_getInstance();
+	 	$this->fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
 	}
 	
 	/**

@@ -112,7 +112,7 @@ class ilCourseAgreementGUI
 		$this->showCourseDefinedFields();
 		
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-		$fields_info = ilExportFieldsInfo::_getInstance();
+		$fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
 		
 		foreach($fields_info->getExportableFields() as $field)
 		{

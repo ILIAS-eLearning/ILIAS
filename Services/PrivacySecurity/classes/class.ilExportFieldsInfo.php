@@ -38,6 +38,8 @@ class ilExportFieldsInfo
 	private $db;
 	private $lng;
 	
+	private $obj_type = '';
+	
 	private $possible_fields = array();
 	
 	/**
@@ -46,7 +48,7 @@ class ilExportFieldsInfo
 	 * @access private
 	 * 
 	 */
-	private function __construct()
+	private function __construct($a_type)
 	{
 	 	global $ilDB,$ilSetting,$lng;
 	 	
@@ -54,6 +56,8 @@ class ilExportFieldsInfo
 	 	$this->lng = $lng;
 	 	$this->settings = $ilSetting;
 	 	
+		$this->obj_type = $a_type;
+		
 	 	$this->read();
 	}
 	
@@ -63,13 +67,22 @@ class ilExportFieldsInfo
 	 * @access public
 	 * 
 	 */
-	public static function _getInstance()
+	public static function _getInstanceByType($a_type)
 	{
-	 	if(is_object(self::$instance))
+	 	if(is_object(self::$instance[$a_type]))
 	 	{
-	 		return self::$instance;
+	 		return self::$instance[$a_type];
 	 	}
-	 	return self::$instance = new ilExportFieldsInfo();
+	 	return self::$instance[$a_type] = new ilExportFieldsInfo($a_type);
+	}
+	
+	/**
+	 * Get object type
+	 * @return 
+	 */
+	public function getType()
+	{
+		return $this->obj_type;
 	}
 	
 	/**
@@ -174,45 +187,54 @@ class ilExportFieldsInfo
 		
 		foreach($profile->getStandardFields() as $key => $data)
 		{
-			if(!$data['course_export_hide'])
+			if($this->getType() == 'crs')
 			{
-				if(isset($data['course_export_fix_value']) and $data['course_export_fix_value'])
+				if(!$data['course_export_hide'])
 				{
-					$this->possible_fields[$key] = $data['course_export_fix_value'];
+					if(isset($data['course_export_fix_value']) and $data['course_export_fix_value'])
+					{
+						$this->possible_fields[$key] = $data['course_export_fix_value'];
+					}
+					else
+					{
+						$this->possible_fields[$key] = 0;
+					}
 				}
-				else
+			}
+			elseif($this->getType() == 'grp')
+			{
+				if(!$data['group_export_hide'])
 				{
-					$this->possible_fields[$key] = 0;
+					if(isset($data['group_export_fix_value']) and $data['group_export_fix_value'])
+					{
+						$this->possible_fields[$key] = $data['group_export_fix_value'];
+					}
+					else
+					{
+						$this->possible_fields[$key] = 0;
+					}
 				}
 			}
 		}
-		
-		/*		
-		$this->possible_fields = array(
-			'login'		=> 1,
-			'gender' => 1,
-			'lastname' => 1,
-			'firstname' => 1, 
-			'title' => 0,
-			'institution' => 0,
-			'department' => 0,
-			'street' => 0,
-			'zipcode' => 0,
-			'city' => 0,
-			'country' => 0,
-			'phone_home' => 0,
-			'phone_mobile' => 0,
-			'phone_office' => 0,
-			'fax' => 0,
-			'email' => 0,
-			'matriculation' => 0);
-		*/
 		$settings_all = $this->settings->getAll();
+
+		switch($this->getType())
+		{
+			case 'crs':
+				$field_prefix = 'usr_settings_course_export_';
+				break;
+				
+			case 'grp':
+				$field_prefix = 'usr_settings_group_export_';
+				break;
+		}
+		
 		foreach($settings_all as $key => $value)
 		{
-			if(stristr($key,'usr_settings_course_export_') and $value)
+			if(stristr($key,$field_prefix) and $value)
 			{
-				$field = substr($key,27);
+				$field_parts = explode('_',$key);
+				$field = $field_parts[count($field_parts) - 1];
 				if(array_key_exists($field,$this->possible_fields))
 				{
 					$this->possible_fields[$field] = 1;

@@ -582,7 +582,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 			
-			$field_info = ilExportFieldsInfo::_getInstance();
+			$field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
 		
 			$this->lng->loadLanguageModule('ps');
 			$info->addSection($this->lng->txt('crs_user_agreement_info'));
@@ -2192,7 +2192,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			$table_gui->setTitle($this->lng->txt('crs_administrators'),'icon_usr.gif',$this->lng->txt('crs_administrators'));
 			$table_gui->parse($this->readMemberData($part->getAdmins()));
-			#$table_gui->setData($this->readMemberData($part->getAdmins()));
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
 		if(count($part->getTutors()))
@@ -2218,7 +2217,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_tutors'),'icon_usr.gif',$this->lng->txt('crs_tutors'));
-			$table_gui->setData($this->readMemberData($part->getTutors()));
+			$table_gui->parse($this->readMemberData($part->getTutors()));
 			$this->tpl->setVariable('TUTORS',$table_gui->getHTML());	
 		}
 		if(count($part->getMembers()))

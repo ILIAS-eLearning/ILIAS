@@ -109,7 +109,7 @@ class ilExportUserSettings
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
-		$field_info = ilExportFieldsInfo::_getInstance();
+		$field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
 
 	 	$fields[] = 'role';
 	 	// Append agreement info

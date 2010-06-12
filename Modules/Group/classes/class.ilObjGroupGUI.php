@@ -982,7 +982,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				}
 			}
 
-			$members[] = $tmp_data;
+			$members[$usr_id] = $tmp_data;
 		}
 		return $members ? $members : array();
 	}
@@ -1134,7 +1134,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('grp_admins'),'icon_usr.gif',$this->lng->txt('grp_admins'));
-			$table_gui->setData($this->readMemberData($part->getAdmins()));
+			$table_gui->parse($this->readMemberData($part->getAdmins()));
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
 		
@@ -1162,7 +1162,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 				
 			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.gif',$this->lng->txt('grp_members'));
-			$table_gui->setData($this->readMemberData($part->getMembers()));
+			$table_gui->parse($this->readMemberData($part->getMembers()));
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
 			
 		}
