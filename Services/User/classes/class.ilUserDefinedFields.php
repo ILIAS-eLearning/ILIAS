@@ -39,7 +39,11 @@ class ilUserDefinedFields
 		$this->__read();
 	}
 
-	function _getInstance()
+	/**
+	 * Get instance
+	 * @return object ilUserDefinedFields
+	 */
+	public static function _getInstance()
 	{
 		static $udf = null;
 
@@ -183,6 +187,24 @@ class ilUserDefinedFields
 		return $cexp_definition ? $cexp_definition : array();
 	}
 
+	/**
+	 * get fields visible in groups
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function getGroupExportableFields()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['group_export'])
+			{
+				$cexp_definition[$id] = $definition;
+			}
+		}
+		return $cexp_definition ? $cexp_definition : array();
+	}
 
 	function setFieldName($a_name)
 	{
@@ -280,6 +302,14 @@ class ilUserDefinedFields
 	{
 		return $this->field_course_export;
 	}
+	function enableGroupExport($a_group_export)
+	{
+		$this->field_group_export = $a_group_export;
+	}
+	function enabledGroupExport()
+	{
+		return $this->field_group_export;
+	}
 
 	public function enableVisibleRegistration($a_visible_registration)
 	{
@@ -355,14 +385,15 @@ class ilUserDefinedFields
 			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
 			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
 			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()));
+			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
+			'group_export'				=> array('interger', (int) $this->enabledGroupExport())
+		);
 			
 		$ilDB->insert('udf_definition',$values);
 
 		// add table field in usr_defined_data
 		$field_id = $next_id;
 		
-//		$ilDB->addTableColumn('udf_data','f_'.$field_id, array("type" => "text", "length" => 4000, "notnull" => false));
 
 		$this->__read();
 
@@ -400,11 +431,12 @@ class ilUserDefinedFields
 			'required'					=> array('integer', (int) $this->enabledRequired()),
 			'searchable'				=> array('integer', (int) $this->enabledSearchable()),
 			'export'					=> array('integer', (int) $this->enabledExport()),
-			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
-			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
-			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()));
-
+			'course_export'				=> array('integer', (int) $this->enabledCourseExport()),
+			'registration_visible'		=> array('integer', (int) $this->enabledVisibleRegistration()),
+			'visible_lua'				=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
+			'changeable_lua'			=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
+			'group_export'				=> array('integer', (int) $this->enabledGroupExport())
+		);
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
 
@@ -442,7 +474,7 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['visib_reg'] = $row->registration_visible;
 			$this->definitions[$row->field_id]['visib_lua'] = $row->visible_lua;
 			$this->definitions[$row->field_id]['changeable_lua'] = $row->changeable_lua;
-
+			$this->definitions[$row->field_id]['group_export'] = $row->group_export;
 		}
 
 		return true;
@@ -477,11 +509,6 @@ class ilUserDefinedFields
 		// sets value to '' where old value is $old_value
 		include_once("./Services/User/classes/class.ilUserDefinedData.php");
 		ilUserDefinedData::deleteFieldValue($a_field_id, $old_value);
-		/*	wrong place...
-		$query = "UPDATE udf_data ".
-			"SET `f_".$a_field_id."` = '' ".
-			"WHERE `f_".$this->db->quote($a_field_id)."` = ".$this->db->quote($old_value,'text')."";
-		$this->db->query($query);*/
 
 		// fianally read data
 		$this->__read();
@@ -516,6 +543,7 @@ class ilUserDefinedFields
                 "Required" => $definition["required"]? "TRUE" : "FALSE",
                 "Searchable" => $definition["searchable"]? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"]? "TRUE" : "FALSE",
+                "GroupExport" => $definition["group_export"]? "TRUE" : "FALSE",
                 "Export" => $definition["export"]? "TRUE" : "FALSE",
                 "RegistrationVisible" => $definition["visib_reg"]? "TRUE" : "FALSE",
                 "LocalUserAdministrationVisible" => $definition["visib_lua"]? "TRUE" : "FALSE",

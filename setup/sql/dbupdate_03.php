@@ -1856,4 +1856,8 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilDB->modifyTableColumn('ut_lp_marks','u_comment',array('type' => 'text', 'default' => null, 'length' => 4000, 'notnull' => false));
 ?>
+<#3068>
+<?php
+	$ilDB->addTableColumn('udf_definition','group_export',array('type' => 'integer','default' => 0,'length' => 1, 'notnull' => false));
+?>
 

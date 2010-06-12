@@ -153,6 +153,17 @@ class ilExportFieldsInfo
 					break;
 			}
 		}
+		
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
+
+		foreach($udf as $field_id => $field)
+		{
+			$fields['udf_'.$field_id]['txt'] = $field['field_name'];
+			$fields['udf_'.$field_id]['default'] = 0;
+		}
+		
+		
 		return $fields;
 	}
 	
@@ -241,6 +252,8 @@ class ilExportFieldsInfo
 				}
 			}
 		}
+		
+		
 		return true;
 	}
 }

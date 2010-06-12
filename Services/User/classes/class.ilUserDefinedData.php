@@ -24,6 +24,29 @@ class ilUserDefinedData
 
 		$this->__read();
 	}
+	
+	/**
+	 * Lookup data
+	 * @param array $a_user_ids
+	 * @param array $a_field_ids
+	 * @return 
+	 */
+	public static function lookupData($a_user_ids, $a_field_ids)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM udf_text ".
+			"WHERE ".$ilDB->in('usr_id',$a_user_ids,false,'integer').' '.
+			'AND '.$ilDB->in('field_id',$a_field_ids,false,'integer');
+		$res = $ilDB->query($query);
+		
+		$udfd = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$udfd[$row['usr_id']][$row['field_id']] = $row['value'];
+		}
+		return $udfd;
+	}
 
 	function getUserId()
 	{

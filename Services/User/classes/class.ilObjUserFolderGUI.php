@@ -2703,7 +2703,6 @@ else
 			ilCourseAgreement::_reset();	
 		}
 		 */
-
 		foreach($a_fields as $field_id => $definition)
 		{			
 			$user_field_definitions->setFieldName($definition['field_name']);
@@ -2717,7 +2716,7 @@ else
 			$user_field_definitions->enableCourseExport((int) $_POST['chb']['course_export_'.$field_id]);
 			$user_field_definitions->enableVisibleLocalUserAdministration((int) $_POST['chb']['visib_lua_'.$field_id]);
 			$user_field_definitions->enableChangeableLocalUserAdministration((int) $_POST['chb']['changeable_lua_'.$field_id]);
-
+			$user_field_definitions->enableGroupExport((int) $_POST['chb']['group_export_'.$field_id]);
 			$user_field_definitions->enableVisibleRegistration((int)$_POST['chb']['visib_reg_'.$field_id]);
 
 			$user_field_definitions->update($field_id);
