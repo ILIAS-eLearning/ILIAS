@@ -157,7 +157,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	public function getSelectableColumns()
 	{
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-		$ef = ilExportFieldsInfo::_getInstance();
+		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
 		$fields = $ef->getSelectableFieldsInfo();
 		
 		return $fields;		
@@ -288,9 +288,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('LINK_TXT',$this->lng->txt('timings_timings'));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		
-		#$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
 	}
 	
 	/**
@@ -332,10 +329,11 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			false,
 			0,
 			0,
+			null,
 			$additional_fields,
 			$part
 		);
-
+		
 		foreach($usr_data['set'] as $user)
 		{
 			// Check acceptance

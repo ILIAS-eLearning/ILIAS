@@ -422,7 +422,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		$this->lng->loadLanguageModule('ps');
 		
 		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-		$fields_info = ilExportFieldsInfo::_getInstance();
+		$fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->container->getId()));
 		
 		if(!count($fields_info->getExportableFields()))
 		{
