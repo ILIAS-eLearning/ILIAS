@@ -19,6 +19,8 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
     protected static $export_allowed = false;
     protected static $confirmation_required = true;
     protected static $accepted_ids = null;
+	
+	protected static $all_columns = null;
 
     /**
      * Constructor
@@ -53,9 +55,10 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
         $this->addColumn('','f',"1");
         $this->addColumn($this->lng->txt('name'),'lastname','20%');
         
+		$all_cols = $this->getSelectableColumns();
         foreach($this->getSelectedColumns() as $col)
         {
-            $this->addColumn($this->lng->txt($col),$col);
+			$this->addColumn($all_cols[$col]['txt'],$col);
         }
         
         if($this->show_learning_progress)
@@ -107,11 +110,15 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns()
     {
-        include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-        $ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-        $fields = $ef->getSelectableFieldsInfo();
-        
-        return $fields;     
+		if(self::$all_columns)
+		{
+			return self::$all_columns;
+		}
+		
+		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
+		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
+		self::$all_columns = $ef->getSelectableFieldsInfo();
+		return self::$all_columns;
     }
     
     
@@ -238,12 +245,24 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
                 $part = ilGroupParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
                 break;
         }
+		
+		$udf_ids = $usr_data_fields = $gdf_fields = array();
+		foreach($additional_fields as $field)
+		{
+			if(substr($field,0,3) == 'udf')
+			{
+				$udf_ids[] = substr($field,4);
+				continue;
+			}
+			
+			$usr_data_fields[] = $field;
+		}
 
         $usr_data = ilUserQuery::getUserListData(
             'login',
             'ASC',
             0,
-            999999,
+            9999,
             '',
             '',
             null,
@@ -252,9 +271,27 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
             0,
             0,
             null,
-            $additional_fields,
+            $usr_data_fields,
             $part
         );
+		// Custom user data fields
+		if($udf_ids)
+		{
+			include_once './Services/User/classes/class.ilUserDefinedData.php';
+			$data = ilUserDefinedData::lookupData($part, $udf_ids);
+			foreach($data as $usr_id => $fields)
+			{
+	            if(!$this->checkAcceptance($usr_id))
+    	        {
+					continue;
+            	}
+				
+				foreach($fields as $field_id => $value)
+				{
+					$a_user_data[$usr_id]['udf_'.$field_id] = $value;
+				}
+			}
+		}
 		
         foreach($usr_data['set'] as $user)
         {
@@ -264,7 +301,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 				continue;
             }
             // DONE: accepted
-            foreach($additional_fields as $field)
+            foreach($usr_data_fields as $field)
             {
                 $a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
             }
