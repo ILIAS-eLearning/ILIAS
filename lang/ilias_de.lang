@@ -4192,8 +4192,8 @@ common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_write#:#Daten des Systemknotens bearbeiten
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
-common#:#rte_editor_disabled#:#Rich-Text-Editor deaktiviert
-common#:#rte_editor_enabled#:#Rich-Text-Editor aktiviert
+common#:#rte_editor_disabled#:#Ohne Rich-Text-Editor arbeiten
+common#:#rte_editor_enabled#:#Mit Rich-Text-Editor arbeiten
 common#:#sahs#:#Lernmodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
