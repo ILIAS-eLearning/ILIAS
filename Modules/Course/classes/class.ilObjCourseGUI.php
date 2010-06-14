@@ -4605,7 +4605,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		// Check agreement

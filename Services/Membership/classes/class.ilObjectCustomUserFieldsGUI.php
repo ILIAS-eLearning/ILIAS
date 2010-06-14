@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 
 /** 
 * 

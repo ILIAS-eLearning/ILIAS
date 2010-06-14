@@ -365,7 +365,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
         self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
         self::$confirmation_required = ilPrivacySettings::_getInstance()->groupConfirmationRequired();
 		
-        include_once './Modules/Course/classes/class.ilCourseAgreement.php';
+        include_once 'Services/Membership/classes/class.ilCourseAgreement.php';
         self::$accepted_ids = ilCourseAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
     }
     

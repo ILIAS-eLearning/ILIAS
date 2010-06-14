@@ -126,7 +126,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('show_privacy');
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_privacy.html','Services/PrivacySecurity');
 
-	 	include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+	 	include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 	 	if(ilCourseAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
@@ -325,7 +325,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         else
         {
             $privacy->save();
-		    include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		    include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 		    ilCourseAgreement::_reset();
 		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         }

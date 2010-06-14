@@ -706,7 +706,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			return true;
 		}
 
-		include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+		include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 		$this->agreement = new ilCourseAgreement($ilUser->getId(),$this->container->getId());
  		$this->agreement->setAccepted($a_status);
  		$this->agreement->setAcceptanceTime(time());
