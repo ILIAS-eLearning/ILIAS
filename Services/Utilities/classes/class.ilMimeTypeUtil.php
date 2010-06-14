@@ -67,9 +67,11 @@ class ilMimeTypeUtil
 		// typical standard cases for wrong detection should be
 		// "overwritten" by suffic mime map
 		// text/plain, so we make our own detection in this case, too
+		// for x-zip, see bug #6102
 		if ($mime == "" || trim(strtolower($mime)) == "text/plain" ||
 			trim(strtolower($mime)) == "application/octet-stream" ||
 			trim(strtolower($mime)) == "application/force-download" ||
+			trim(strtolower($mime)) == "application/x-zip" ||
 			trim(strtolower($mime)) == "text/html")
 		{
 			if ($a_filename != "")	// first check the file name provided
@@ -83,9 +85,6 @@ class ilMimeTypeUtil
 				$ext = ".".strtolower($path["extension"]);
 			}
 
-			/**
-			* map of mimetypes.py from python.org (there was no author mentioned in the file)
-			*/
 			$types_map = ilMimeTypeUtil::getExt2MimeMap();
 			if ($types_map[$ext] != "")		// if we find something in our map, use it
 			{
