@@ -2806,7 +2806,7 @@ else
 				
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_text_field.html');
 				
-		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
 	 	if (ilCourseAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
@@ -2856,7 +2856,7 @@ else
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("ps");		
 				
-		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
 	 	if (ilCourseAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
@@ -2925,7 +2925,7 @@ else
 				
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_wysiwyg_field.html');
 				
-		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
 	 	if (ilCourseAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
@@ -3041,7 +3041,7 @@ else
 		
 		if ((int) $_POST['def']['course_export'] == 1)
 		{
-			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+			include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 			ilCourseAgreement::_reset();			
 		}
 
@@ -3276,7 +3276,7 @@ else
 		// Reset user confirmation
 		if($action == 'save')
 		{
-			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+			include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 			ilCourseAgreement::_reset();	
 		}
 

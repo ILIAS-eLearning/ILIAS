@@ -36,7 +36,7 @@ class ilCourseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMemberAgreement()
 	{
-		include_once './Modules/Course/classes/class.ilCourseAgreement.php';
+		include_once 'Services/Membership/classes/class.ilCourseAgreement.php';
 		
 		global $ilDB;
 		

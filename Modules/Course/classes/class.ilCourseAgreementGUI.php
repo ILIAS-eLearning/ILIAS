@@ -22,7 +22,7 @@
 */
 
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-include_once('Modules/Course/classes/class.ilCourseAgreement.php');
+include_once('Services/Membership/classes/class.ilCourseAgreement.php');
 include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 
