@@ -241,7 +241,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				return false;
 			}
 
-			if (is_array($_FILES) && $this->getSingleline() && (!$this->hideImages))
+			if (is_array($_FILES) && count($_FILES) && $this->getSingleline() && (!$this->hideImages))
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{

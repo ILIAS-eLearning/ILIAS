@@ -157,6 +157,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
 		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists('types', $_POST)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
+		if ($checkonly) $isSingleline = ($_POST['types'] == 0) ? true : false;
 		if ($isSingleline)
 		{
 			$form->setMultipart(TRUE);
