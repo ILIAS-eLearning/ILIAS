@@ -119,7 +119,7 @@ class ilSoapAdministration
 		
 		global $ilUser;
 		
-		if(!$ilUser->hasAcceptedUserAgreement())
+		if(!$ilUser->hasAcceptedUserAgreement() and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->__setMessage('User agreement no accepted.');
 			$this->__setMessageCode('Server');
