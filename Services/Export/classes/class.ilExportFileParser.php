@@ -67,6 +67,9 @@ class ilExportFileParser extends ilSaxParser
 		{
 			case "exp:Export":
 				$this->entity = $a_attribs["Entity"];
+				$this->install_id = $a_attribs["InstallationId"];
+				$this->install_url = $a_attribs["InstallationUrl"];
+				$this->schema_version = $a_attribs["SchemaVersion"];
 				break;
 
 			case "exp:ExportItem":
@@ -92,8 +95,9 @@ class ilExportFileParser extends ilSaxParser
 			case "exp:ExportItem":
 				$this->in_export_item = false;
 				$cf = $this->callback_func;
-				$this->callback_obj->$cf($this->entity, $this->current_id,
-					$this->export_item_writer->xmlDumpMem());
+				$this->callback_obj->$cf($this->entity, $this->schema_version, $this->current_id,
+					$this->export_item_writer->xmlDumpMem(false), $this->install_id,
+					$this->install_url);
 				break;
 
 		}

@@ -12,29 +12,17 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilMediaPoolImporter extends ilXmlImporter
 {
+
 	/**
-	 * Init dataset
-	 *
-	 * @param
-	 * @return
+	 * Initialisation
 	 */
-/*
-	function initDataset($a_component, $a_top_entity)
+	function init()
 	{
-		switch ($a_top_entity)
-		{
-			case "mob":
-				include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
-				$this->setCurrentDataset(new ilMediaObjectDataSet()); 
-				break;
-				
-			case "mep":
-				include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
-				$this->setCurrentDataset(new ilMediaPoolDataSet()); 
-				break;
-		}	
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
+		$this->ds = new ilMediaPoolDataSet();
+		$this->ds->setDSPrefix("ds");
 	}
- */
+
 
 	/**
 	 * Import XML
@@ -42,12 +30,13 @@ class ilMediaPoolImporter extends ilXmlImporter
 	 * @param
 	 * @return
 	 */
-	function importXmlRepresentation($a_entity, $a_schema_version, $a_id, $a_xml, $a_mapping)
+	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-var_dump($a_xml);
-
-
+		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+			$a_xml, $this->ds, $a_mapping);
 	}
+
 	
 }
 

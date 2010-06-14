@@ -25,7 +25,7 @@ class ilImportMapping
 		$this->mappings = array();
 	}
 
-		/**
+	/**
 	 * Set Installation ID
 	 *
 	 * @param	string	Installation ID

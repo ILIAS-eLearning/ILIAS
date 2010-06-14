@@ -93,7 +93,7 @@ class ilImport
 	final function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type)
 	{
 		global $objDefinition, $tpl;
-				
+
 		$comp = $objDefinition->getComponentForType($a_type);
 		$class = $objDefinition->getClassName($a_type);
 
@@ -134,20 +134,21 @@ class ilImport
 			$class = "il".$comp_arr[1]."Importer";
 			include_once($import_class_file);
 			$this->importer = new $class();
+			$this->importer->init();
 
 			$parser = new ilExportFileParser($dir."/".$expfile["path"],
 				$this, "processItemXml");
-			//$import->beginDataset();
-			//$parser = new ilDataSetImportParser($import, $dir."/".$expfile["path"],
-			//	$expfile["component"]);
-			//$import->endDataset();
 		}
-echo "ilImport 192, exit";
-exit;
+
+
+		// we should only get on mapping here
+		$top_mapping = $this->mapping->getMappingsOfEntity($comp, $a_type);
+		$new_id = (int) current($top_mapping);
+
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
-
-		return $import;
+//echo "end of ilImport::importObject()."; exit;
+		return $new_id;
 	}
 
 	/**
@@ -156,10 +157,14 @@ exit;
 	 * @param
 	 * @return
 	 */
-	function processItemXml($a_entity, $a_id, $a_xml)
+	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,
+		$a_install_id, $a_install_url)
 	{
-echo "A";
-		$new_id = $this->importer->importXmlRepresentation($a_entity, $a_schema_version, $a_id, $a_xml, $this->mapping);
+		$this->importer->setInstallId($a_install_id);
+		$this->importer->setInstallUrl($a_install_url);
+		$this->importer->setSchemaVersion($a_schema_version);
+
+		$new_id = $this->importer->importXmlRepresentation($a_entity, $a_id, $a_xml, $this->mapping);
 		if ($new_id != "")
 		{
 			$this->mapping->addMapping($this->comp ,$a_entity, $a_id, $new_id);

@@ -159,7 +159,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function importRecord($a_entity, $a_types, $a_rec)
+	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
 		switch ($a_entity)
 		{
@@ -173,17 +173,17 @@ class ilMediaPoolDataSet extends ilDataSet
 				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
 				$newObj->create();
 				$this->current_obj = $newObj;
-				$this->import->addMapping("mep", $a_rec["id"], $newObj->getId());
+				$a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
 				break;
 
 			case "mep_tree":
-				switch ($a_rec["type"])
+				switch ($a_rec["Type"])
 				{
 					case "fold":
-						$parent = (int) $this->import->getMapping("mep_tree", $a_rec["Parent"]);
+						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
 						$fold_id =
 							$this->current_obj->createFolder($a_rec["Title"], $parent);
-						$this->import->addMapping("mep_tree", $a_rec["Child"],
+						$a_mapping->addMapping("Modules/MediaPool", "mep_tree", $a_rec["Child"],
 							$fold_id);
 						break;
 				}

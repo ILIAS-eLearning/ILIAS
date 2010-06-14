@@ -595,14 +595,12 @@ return "";
 			// todo: make some check on manifest file
 			include_once("./Services/Export/classes/class.ilImport.php");
 			$imp = new ilImport();
-			$imp = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
 				$_FILES["importfile"]["name"], $new_type);
-			$map = $imp->getMappingsOfEntity($new_type);
-			
-			// we should have only one mapping here
-			if (count($map) == 1)
+
+			// put new object id into tree
+			if ($new_id > 0)
 			{
-				$new_id = current($map);
 				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
 				$newObj->createReference();
 				$newObj->putInTree($_GET["ref_id"]);

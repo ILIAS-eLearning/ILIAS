@@ -29,12 +29,21 @@ class ilDataSetImportParser extends ilSaxParser
 	 * @param
 	 * @return
 	 */
-	function __construct($a_import_obj, $a_file, $a_ds_component)
+	function __construct($a_top_entity, $a_schema_version, $a_xml, $a_ds, $a_mapping)
 	{
-		$this->import = $a_import_obj;
-		$this->ds_component = $a_ds_component;
-		parent::ilSaxParser($a_file, true);
+		$this->ds = $a_ds;
+		$this->mapping = $a_mapping;
+		$this->top_entity = $a_top_entity;
+		$this->schema_version = $a_schema_version;
+		$this->dspref = ($this->ds->getDSPrefix() != "")
+			? $this->ds->getDSPrefix().":"
+			: "";
+		
+		parent::ilSaxParser();
+		$this->setXMLContent($a_xml);
 		$this->startParsing();
+
+
 	}
 		
 	/**
@@ -64,32 +73,24 @@ class ilDataSetImportParser extends ilSaxParser
 	 */
 	function handleBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-
 		switch ($a_name)
 		{
-			case "Dataset":
-				$this->import->setInstallId($a_attribs["install_id"]);
-				$this->import->setInstallUrl($a_attribs["install_url"]);
-				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
+			case $this->dspref."Dataset":
+//				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
 				break;
 				
-			case "Types":
-				$this->current_entity = $a_attribs["entity"];
-				$this->current_version = $a_attribs["version"];
+			case $this->dspref."Types":
+				$this->current_entity = $a_attribs["Entity"];
+				$this->current_version = $a_attribs["Version"];
 				break;
 				
-			case "FieldType":
-				$this->current_ftypes[$a_attribs["name"]] =
-					$a_attribs["type"];
+			case $this->dspref."FieldType":
+				$this->current_ftypes[$a_attribs["Name"]] =
+					$a_attribs["Type"];
 				break;
 				
-			case "Rec":
-				if (!$this->entities_sent)
-				{
-					$this->import->setEntityTypes($this->entities);
-					$this->import->afterEntityTypes();
-				}
-				$this->current_entity = $a_attribs["entity"];
+			case $this->dspref."Rec":
+				$this->current_entity = $a_attribs["Entity"];
 				$this->in_record = true;
 				$this->current_field_values = array();
 				break;
@@ -111,7 +112,7 @@ class ilDataSetImportParser extends ilSaxParser
 	{
 		switch ($a_name)
 		{
-			case "Types":
+			case $this->dspref."Types":
 				$this->entities[$this->current_entity] =
 					array(
 						"version" => $this->current_version,
@@ -122,10 +123,12 @@ class ilDataSetImportParser extends ilSaxParser
 				$this->current_version = "";
 				break;
 				
-			case "Rec":
-				$this->import->importRecord($this->current_entity,
+			case $this->dspref."Rec":
+				$this->ds->importRecord($this->current_entity,
 					$this->entities[$this->current_entity]["types"],
-					$this->current_field_values);
+					$this->current_field_values,
+					$this->mapping,
+					$this->schema_version);
 				$this->in_record = false;
 				$this->current_entity = "";
 				$this->current_field_values = array();
