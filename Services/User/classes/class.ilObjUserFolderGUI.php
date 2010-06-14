@@ -1354,12 +1354,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserFormObject ()
 	{
-		global $tpl;
+		global $tpl, $rbacsystem;
 		
 		// Blind out tabs for local user import
 		if($this->ctrl->getTargetScript() == 'repository.php')
 		{
 			$this->tabs_gui->clearTargets();
+		}
+
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$this->initUserImportForm();
