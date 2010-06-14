@@ -131,24 +131,28 @@ class ilAdvancedMDSettingsGUI
 	 		$sub->resetSubstitutions(array());
 			$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
 			$sub->enableFieldNames((int) $_POST['enabled_field_names_'.$obj_type]);
-			
-			asort($_POST['position'][$obj_type],SORT_NUMERIC);
-			foreach($_POST['position'][$obj_type] as $field_id => $pos)
+
+			if(isset($_POST['position'][$obj_type]))
 			{
-				if(isset($_POST['show'][$obj_type][$field_id]) and $_POST['show'][$obj_type][$field_id])
+				asort($_POST['position'][$obj_type],SORT_NUMERIC);
+				foreach($_POST['position'][$obj_type] as $field_id => $pos)
 				{
-					$newline = $bold = false;
-					if(isset($_POST['bold'][$obj_type][$field_id]) and $_POST['bold'][$obj_type][$field_id])
+					if(isset($_POST['show'][$obj_type][$field_id]) and $_POST['show'][$obj_type][$field_id])
 					{
-						$bold = true;
+						$newline = $bold = false;
+						if(isset($_POST['bold'][$obj_type][$field_id]) and $_POST['bold'][$obj_type][$field_id])
+						{
+							$bold = true;
+						}
+						if(isset($_POST['newline'][$obj_type][$field_id]) and $_POST['newline'][$obj_type][$field_id])
+						{
+							$newline = true;
+						}
+						$sub->appendSubstitution($field_id,$bold,$newline);
 					}
-					if(isset($_POST['newline'][$obj_type][$field_id]) and $_POST['newline'][$obj_type][$field_id])
-					{
-						$newline = true;
-					}
-					$sub->appendSubstitution($field_id,$bold,$newline);
-				}			
+				}
 			}
+			
 			$sub->update();
 		}
 		
