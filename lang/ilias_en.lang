@@ -10462,4 +10462,6 @@ chat#:#chat_activate_status_notification#:#Show notification about new chat invi
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export .csv
 tbl#:#tbl_export_excel#:#Export .xls
+crs#:#crs_custom_user_fields#:#Course Relevant User Data
+grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.

@@ -130,7 +130,7 @@ class ilExportFieldsInfo
 	 * Get selectable fields
 	 * @return 
 	 */
-	public function getSelectableFieldsInfo()
+	public function getSelectableFieldsInfo($a_obj_id)
 	{
 		global $lng;
 		
@@ -163,6 +163,13 @@ class ilExportFieldsInfo
 			$fields['udf_'.$field_id]['default'] = 0;
 		}
 		
+		include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
+		$cdf = ilCourseDefinedFieldDefinition::_getFields($a_obj_id);
+		foreach($cdf as $def)
+		{
+			$fields['odf_'.$def->getId()]['txt'] = $def->getName();
+			$fields['odf_'.$def->getId()]['default'] = 0;
+		}
 		
 		return $fields;
 	}
