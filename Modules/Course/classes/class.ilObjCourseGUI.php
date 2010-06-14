@@ -17,6 +17,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1765,6 +1766,10 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->tabs_gui->addSubTabTarget("crs_member_administration",
 													 $this->ctrl->getLinkTarget($this,'members'),
 													 "members", get_class($this));
+
+					$this->tabs_gui->addSubTabTarget("members_groups",
+													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
+													 "", "ilCourseParticipantsGroupsGUI");
 				}
 				$this->tabs_gui->addSubTabTarget("crs_members_gallery",
 												 $this->ctrl->getLinkTarget($this,'membersGallery'),
@@ -1803,7 +1808,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					&& $privacy->enabledCourseExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('export_members',
-													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'));
+													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'),
+													"", 'ilmemberexportgui');
 				}
 				
 				break;
@@ -4489,6 +4495,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case "ilobjstylesheetgui":
 				$this->forwardToStyleSheet();
+				break;
+
+			case 'ilcourseparticipantsgroupsgui':
+				include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
+
+				$cmg_gui = new ilCourseParticipantsGroupsGUI($this->object->getRefId());
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->ctrl->forwardCommand($cmg_gui);
 				break;
 
 			default:
