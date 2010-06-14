@@ -39,6 +39,7 @@ class ilCourseAgreementGUI
 {
 	private $ref_id;
 	private $obj_id;
+	private $type;
 	
 	private $db;
 	private $ctrl;
@@ -60,6 +61,7 @@ class ilCourseAgreementGUI
 		
 		$this->ref_id = $a_ref_id;
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+		$this->type = ilObject::_lookupType($this->obj_id);
 	 	$this->ctrl = $ilCtrl;
 	 	$this->tpl = $tpl;
 	 	$this->lng = $lng;
@@ -121,16 +123,16 @@ class ilCourseAgreementGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable('AGREEMENT_HEADER',$this->lng->txt('crs_agreement_header'));
-		$this->tpl->setVariable('TXT_AGREEMENT',$this->lng->txt('crs_user_agreement'));
-		$this->tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt('crs_info_agreement'));
+		$this->tpl->setVariable('AGREEMENT_HEADER',$this->lng->txt($this->type.'_agreement_header'));
+		$this->tpl->setVariable('TXT_AGREEMENT',$this->lng->txt($this->type.'_user_agreement'));
+		$this->tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt($this->type.'_info_agreement'));
 
 		if($this->privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
 		{
 			$this->tpl->setCurrentBlock('agreement');
 			$this->tpl->setVariable('CHECK_AGREE',ilUtil::formCheckbox(0,'agreed',1));
-			$this->tpl->setVariable('INFO_AGREE',$this->lng->txt('crs_info_agree'));
-			$this->tpl->setVariable('TXT_AGREE',$this->lng->txt('crs_agree'));
+			$this->tpl->setVariable('INFO_AGREE',$this->lng->txt($this->type.'_info_agree'));
+			$this->tpl->setVariable('TXT_AGREE',$this->lng->txt($this->type.'_agree'));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
@@ -153,7 +155,7 @@ class ilCourseAgreementGUI
 	 	}
 	 	if(!$this->checkAgreement())
 	 	{
-	 		ilUtil::sendFailure($this->lng->txt('crs_agreement_required'));
+	 		ilUtil::sendFailure($this->lng->txt($this->type.'_agreement_required'));
 	 		$this->showAgreement(false);
 	 		return false;
 	 	}

@@ -164,7 +164,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-		self::$all_columns = $ef->getSelectableFieldsInfo();
+		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
 		return self::$all_columns;
 	}
 	
@@ -322,12 +322,17 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				break;
 		}
 		
-		$udf_ids = $usr_data_fields = $gdf_fields = array();
+		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
 		{
 			if(substr($field,0,3) == 'udf')
 			{
 				$udf_ids[] = substr($field,4);
+				continue;
+			}
+			if(substr($field,0,3) == 'odf')
+			{
+				$odf_ids[] = substr($field,4);
 				continue;
 			}
 			
@@ -368,6 +373,25 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				}
 			}
 		}
+		// Object specific user data fields
+		if($odf_ids)
+		{
+			include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
+			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
+			foreach($data as $usr_id => $fields)
+			{
+	            if(!$this->checkAcceptance($usr_id))
+    	        {
+					continue;
+            	}
+				
+				foreach($fields as $field_id => $value)
+				{
+					$a_user_data[$usr_id]['odf_'.$field_id] = $value;
+				}
+			}
+		}
+		
 
 		foreach($usr_data['set'] as $user)
 		{

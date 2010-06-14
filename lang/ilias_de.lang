@@ -8660,7 +8660,7 @@ ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
 ps#:#ps_export_tutor#:#Tutoren
 ps#:#ps_export_user_data#:#Benutzerdaten
 ps#:#ps_export_wait#:#Benutzer auf der Warteliste
-ps#:#ps_field_type#:#Datenfeldauswahl
+ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist, werden fehlgeschlagene Anmeldeversuche nicht gezählt.
@@ -10411,5 +10411,17 @@ search#:#search_item_filter_form_info#:#Wenn aktiviert, kann die Suche auf die a
 chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste
 administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
 tbl#:#tbl_export_csv#:#.csv exportieren
-tbl#:#tbl_export_excel#:#.xls exportien
-assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
+tbl#:#tbl_export_excel#:#.xls exportieren
+crs#:#crs_custom_user_fields#:#Kursrelevante Benutzerdaten
+grp#:#grp_custom_user_fields#:#Gruppenrelevante Benutzerdaten
+ps#:#ps_cdf_data_fields#:#Datenfelder
+ps#:#ps_cdf_edit_field#:#Datenfeld bearbeiten
+ps#:#ps_cdf_values#:#Werte
+grp#:#grp_agree#:#Zustimmung
+grp#:#grp_agreement_header#:#Nutzungsvereinbarung
+grp#:#grp_agreement_required#:#Sie können dieser Gruppe nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
+grp#:#grp_user_agreement#:#Freigegebene Daten
+grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
+grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
+grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
+assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.>>>>>>> .r24233

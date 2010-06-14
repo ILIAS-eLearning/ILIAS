@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 *
@@ -1736,16 +1736,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-				// only show if export permission pis granted
+				// only show if export permission is granted
 				$privacy = ilPrivacySettings::_getInstance();
 				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
 					($privacy->enabledCourseExport() or
 						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
 				{
-					$this->tabs_gui->addSubTabTarget('user_fields',
-													$this->ctrl->getLinkTargetByClass('ilcourseuserfieldsgui'),
+					$this->tabs_gui->addSubTabTarget('crs_custom_user_fields',
+													$this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
 													'',
-													'ilcourseuserfieldsgui');
+													'ilobjectcustomuserfieldsgui');
 				}
 				break;
 				
@@ -4302,10 +4302,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($registration);
 				break;
 				
-			case 'ilcourseuserfieldsgui':
-				include_once 'Modules/Course/classes/Export/class.ilCourseUserFieldsGUI.php';
+			case 'ilobjectcustomuserfieldsgui':
+				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
 				
-				$cdf_gui = new ilCourseUserFieldsGUI($this->object->getId());
+				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('properties');
 				$this->tabs_gui->setTabActive('settings');
 				$this->ctrl->forwardCommand($cdf_gui);
