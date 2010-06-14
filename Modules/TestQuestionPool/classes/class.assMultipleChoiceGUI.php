@@ -90,11 +90,20 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
 			$this->object->setMultilineAnswerSetting($_POST["types"]);
+			if (is_array($_POST['choice']['imagename']) && $_POST["types"] == 1)
+			{	
+				$this->object->isSingleline = true;
+				ilUtil::sendInfo($this->lng->txt('info_answer_type_change'), true);
+			}
+			else
+			{
+				$this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
+			}
 			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
 
 			// Delete all existing answers and create new answers from the form data
 			$this->object->flushAnswers();
-			if (!$this->object->getMultilineAnswerSetting())
+			if ($this->object->isSingleline)
 			{
 				foreach ($_POST['choice']['answer'] as $index => $answer)
 				{
@@ -143,8 +152,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
-		$usegraphics = ($save) ? (($_POST['types']) ? false : true) : (($this->object->getMultilineAnswerSetting()) ? false : true);
-		if ($usegraphics)
+		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists('types', $_POST)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
+		if ($isSingleline)
 		{
 			$form->setMultipart(TRUE);
 		}
@@ -177,7 +186,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
 			$types->setRequired(false);
-			$types->setValue(($this->object->getMultilineAnswerSetting()) ? 1 : 0);
+			$types->setValue(($isSingleline) ? 0 : 1);
 			$types->setOptions(array(
 				0 => $this->lng->txt('answers_singleline'),
 				1 => $this->lng->txt('answers_multiline'),
@@ -185,7 +194,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$form->addItem($types);
 		}
 
-		if (($usegraphics) && (!$this->getSelfAssessmentEditingMode()))
+		if (($isSingleline) && (!$this->getSelfAssessmentEditingMode()))
 		{
 			// thumb size
 			$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
@@ -204,7 +213,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		if ($this->getSelfAssessmentEditingMode()) $choices->setHideImages(true);
 		$choices->setRequired(true);
 		$choices->setQuestionObject($this->object);
-		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
+		$choices->setSingleline($isSingleline);
 		$choices->setAllowMove(false);
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0, 0);
 		$choices->setValues($this->object->getAnswers());

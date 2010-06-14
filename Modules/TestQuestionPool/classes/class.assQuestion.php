@@ -167,6 +167,11 @@ class assQuestion
 	private $nr_of_tries;
 	
 	/**
+	* Associative array to store properties
+	*/
+	private $arrData;
+	
+	/**
 	* assQuestion constructor
 	*
 	* @param string $title A title string to describe the question
@@ -214,6 +219,7 @@ class assQuestion
 		$this->nr_of_tries = "";
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
+		$this->arrData = array();
 	}
 
 	/**
@@ -2547,24 +2553,6 @@ class assQuestion
 		}
 	}
 
-	function getMultilineAnswerSetting()
-	{
-		global $ilUser;
-
-		$multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
-		if ($multilineAnswerSetting != 1)
-		{
-			$multilineAnswerSetting = 0;
-		}
-		return $multilineAnswerSetting;
-	}
-	
-	function setMultilineAnswerSetting($a_setting = 0)
-	{
-		global $ilUser;
-		$ilUser->writePref("tst_multiline_answers", $a_setting);
-	}
-	
 	/**
 	* Checks if an array of question ids is answered by an user or not
 	*
@@ -3229,6 +3217,14 @@ class assQuestion
 				return $this->getOriginalId();
 				break;
 			default:
+				if (array_key_exists($value, $this->arrData))
+				{
+					return $this->arrData[$value];
+				}
+				else
+				{
+					return null;
+				}
 				break;
 		}
 	}
@@ -3286,6 +3282,7 @@ class assQuestion
 				$this->page =& $value;
 				break;
 			default:
+				$this->arrData[$key] = $value;
 				break;
 		}
 	}

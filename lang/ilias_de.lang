@@ -10412,3 +10412,4 @@ chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Ein
 administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
 tbl#:#tbl_export_csv#:#.csv exportieren
 tbl#:#tbl_export_excel#:#.xls exportien
+assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.

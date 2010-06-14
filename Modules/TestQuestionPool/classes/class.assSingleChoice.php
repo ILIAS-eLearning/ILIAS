@@ -125,7 +125,7 @@ class assSingleChoice extends assQuestion
 		$this->saveQuestionDataToDb($original_id);
 
 		$oldthumbsize = 0;
-		if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
+		if ($this->isSingleline && ($this->getThumbSize()))
 		{
 			// get old thumbnail size
 			$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -138,7 +138,7 @@ class assSingleChoice extends assQuestion
 				$oldthumbsize = $data['thumb_size'];
 			}
 		}
-		if ($this->getMultilineAnswerSetting())
+		if (!$this->isSingleline)
 		{
 			ilUtil::delDir($this->getImagePath());
 		}
@@ -149,11 +149,12 @@ class assSingleChoice extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, thumb_size) VALUES (%s, %s, %s)", 
-			array("integer", "text", "integer"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)", 
+			array("integer", "text", "text", "integer"),
 			array(
 				$this->getId(),
 				$this->getShuffle(),
+				($this->isSingleline) ? "0" : "1",
 				(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
 			)
 		);
@@ -182,7 +183,6 @@ class assSingleChoice extends assQuestion
 		}
 
 		$this->rebuildThumbnails();
-
 		parent::saveToDb($original_id);
 	}
 
@@ -191,7 +191,7 @@ class assSingleChoice extends assQuestion
 	*/
 	protected function rebuildThumbnails()
 	{
-		if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
+		if ($this->isSingleline && ($this->getThumbSize()))
 		{
 			foreach ($this->getAnswers() as $answer)
 			{
@@ -267,6 +267,8 @@ class assSingleChoice extends assQuestion
 			$this->setShuffle($shuffle);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setThumbSize($data['thumb_size']);
+			$this->isSingleline = ($data['allow_images']) ? false : true;
+			$this->lastChange = $data['tstamp'];
 		}
 
 		$result = $ilDB->queryF("SELECT * FROM qpl_a_sc WHERE question_fi = %s ORDER BY aorder ASC",
@@ -795,7 +797,7 @@ class assSingleChoice extends assQuestion
 				else
 				{
 					// create thumbnail file
-					if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
+					if ($this->isSingleline && ($this->getThumbSize()))
 					{
 						$this->generateThumbForFile($imagepath, $image_filename);
 					}
@@ -1125,6 +1127,24 @@ class assSingleChoice extends assQuestion
 		$value = rand(0, count($this->answers)-1);
 		$_POST["multiple_choice_result"] = (strlen($value)) ? (string)$value : '0';
 		$this->saveWorkingData($active_id, $pass);
+	}
+
+	function getMultilineAnswerSetting()
+	{
+		global $ilUser;
+
+		$multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
+		if ($multilineAnswerSetting != 1)
+		{
+			$multilineAnswerSetting = 0;
+		}
+		return $multilineAnswerSetting;
+	}
+	
+	function setMultilineAnswerSetting($a_setting = 0)
+	{
+		global $ilUser;
+		$ilUser->writePref("tst_multiline_answers", $a_setting);
 	}
 }
 
