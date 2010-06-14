@@ -320,8 +320,16 @@ class ilObjForumGUI extends ilObjectGUI
 			 $this->tpl->setVariable('CONFIRMATION_GUI', $this->confirmation_gui_html);
 		}	
 
-		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+		if ($ilAccess->checkAccess('add_post', '', $this->object->getRefId()) &&
+			$ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) &&
+			!$this->hideToolbar())
+		{	
+			// button: new topic
+			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
+		}
+		
 		// mark all read
+		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 		if($ilUser->getId() != ANONYMOUS_USER_ID && !(int)strlen($this->confirmation_gui_html))
 		{
 			$ilToolbar->addButton($this->lng->txt('forums_mark_read'),
@@ -330,15 +338,6 @@ class ilObjForumGUI extends ilObjectGUI
 			);
 			$this->ctrl->clearParameters($this);
 		}
-
-		if ($ilAccess->checkAccess('add_post', '', $this->object->getRefId()) &&
-			$ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) &&
-			!$this->hideToolbar())
-		{	
-			// button: new topic
-			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
-		}		
-
 		// button: enable/disable forum notification
 		include_once './Modules/Forum/classes/class.ilForumNotification.php';
 
