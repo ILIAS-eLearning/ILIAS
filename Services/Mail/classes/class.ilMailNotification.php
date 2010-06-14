@@ -318,7 +318,7 @@ abstract class ilMailNotification
 
 		if(strlen($error))
 		{
-			ilUtil::sendFailure($error,true);
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$error);
 		}
 	}
 	
