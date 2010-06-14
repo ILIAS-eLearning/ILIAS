@@ -1860,4 +1860,9 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilDB->addTableColumn('udf_definition','group_export',array('type' => 'integer','default' => 0,'length' => 1, 'notnull' => false));
 ?>
+<#3069>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+	
 
