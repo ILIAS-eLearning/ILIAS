@@ -109,7 +109,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				return false;
 			}
 
-			if (is_array($_FILES) && $this->getSingleline())
+			if (is_array($_FILES) && count($_FILES) && $this->getSingleline())
 			{
 				if (!$this->hideImages)
 				{
