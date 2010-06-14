@@ -195,16 +195,24 @@ class ilPCFileListGUI extends ilPageContentGUI
 	/**
 	* Insert file from repository
 	*/
-	function insertFromRepository()
+	function insertFromRepository($a_cmd = "insert")
 	{
 		global $ilTabs, $tree, $ilCtrl, $tpl;
-		
-		$this->setTabs();
+
+		if ($a_cmd == "insert")
+		{
+			$this->setTabs();
+		}
+		else
+		{
+			$this->setItemTabs($a_cmd);
+		}
+
 		$ilTabs->setSubTabActive("cont_file_from_repository");
 		
 		include_once "./Services/COPage/classes/class.ilFileSelectorGUI.php";
 
-		$exp = new ilFileSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+		$exp = new ilFileSelectorGUI($this->ctrl->getLinkTarget($this, $a_cmd));
 
 		if ($_GET["expand"] == "")
 		{
@@ -219,7 +227,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$exp->setTargetGet("sel_id");
 		//$this->ctrl->setParameter($this, "target_type", $a_type);
 		$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, $a_cmd));
 		
 		// filter
 		$exp->setFiltered(true);
@@ -406,12 +414,19 @@ class ilPCFileListGUI extends ilPageContentGUI
 		global $ilCtrl;
 		
 		$files = $this->content_obj->getFileList();
-		
-		$ilCtrl->setParameterByClass("ilpcfileitemgui", "hier_id",
-			$files[count($files) - 1]["hier_id"]);
-		$ilCtrl->setParameterByClass("ilpcfileitemgui", "pc_id",
-			$files[count($files) - 1]["pc_id"]);
-		$ilCtrl->redirectByClass("ilpcfileitemgui", "newItemAfter");
+
+		if (count($files) >= 1)
+		{
+			$ilCtrl->setParameterByClass("ilpcfileitemgui", "hier_id",
+				$files[count($files) - 1]["hier_id"]);
+			$ilCtrl->setParameterByClass("ilpcfileitemgui", "pc_id",
+				$files[count($files) - 1]["pc_id"]);
+			$ilCtrl->redirectByClass("ilpcfileitemgui", "newItemAfter");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "newFileItem");
+		}
 	}
 	
 	/**
@@ -490,5 +505,157 @@ class ilPCFileListGUI extends ilPageContentGUI
 		}
 		return false;
 	}
+
+	//
+	//
+	// New file item
+	//
+	//
+
+	/**
+	 * New file item (called, if there is no file item in an existing
+	 *
+	 * @param
+	 * @return
+	 */
+	function newFileItem()
+	{
+		global $ilTabs;
+
+		if ($_GET["subCmd"] == "insertNew")
+		{
+			$_SESSION["cont_file_insert"] = "insertNew";
+		}
+		if ($_GET["subCmd"] == "insertFromRepository")
+		{
+			$_SESSION["cont_file_insert"] = "insertFromRepository";
+		}
+		if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "")
+		{
+			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
+		}
+
+		switch ($_GET["subCmd"])
+		{
+			case "insertFromRepository":
+				$this->insertFromRepository("newFileItem");
+				break;
+
+			case "selectFile":
+				$this->insertNewFileItem($_GET["file_ref_id"]);
+				break;
+
+			default:
+				$this->setItemTabs("newFileItem");
+				$ilTabs->setSubTabActive("cont_new_file");
+
+				// new file list form
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
+				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
+				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+				$this->displayValidationError();
+
+				// file
+				$this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
+
+				$this->tpl->parseCurrentBlock();
+
+				// operations
+				$this->tpl->setCurrentBlock("commands");
+				$this->tpl->setVariable("BTN_NAME", "insertNewFileItem");
+				$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+	}
+
+	/**
+	 * insert new file item after another item
+	 */
+	function insertNewFileItem($a_file_ref_id = 0)
+	{
+		if ($a_file_ref_id == 0)
+		{
+			$file_obj = $this->createFileItem();
+		}
+		else
+		{
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_obj = new ilObjFile($a_file_ref_id);
+		}
+		if (is_object($file_obj))
+		{
+			$this->content_obj->appendItem($file_obj->getId(),
+				$file_obj->getTitle(), $file_obj->getFileType());
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
+		}
+
+		$_GET["subCmd"] = "-";
+		$this->newFileItem();
+	}
+
+	/**
+	 * insert new file item
+	 */
+	function createFileItem()
+	{
+		global $lng;
+
+		if ($_FILES["Fobject"]["name"]["file"] == "")
+		{
+			$_GET["subCmd"] = "-";
+			ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
+			return false;
+		}
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$fileObj = new ilObjFile();
+		$fileObj->setType("file");
+		$fileObj->setTitle($_FILES["Fobject"]["name"]["file"]);
+		$fileObj->setDescription("");
+		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
+		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
+		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
+		$fileObj->setMode("filelist");
+		$fileObj->create();
+		$fileObj->raiseUploadError(false);
+		// upload file to filesystem
+		$fileObj->createDirectory();
+		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
+			$_FILES["Fobject"]["name"]["file"]);
+
+		return $fileObj;
+	}
+
+
+	/**
+	 * output tabs
+	 */
+	function setItemTabs($a_cmd = "")
+	{
+		global $ilTabs, $ilCtrl;
+
+		$ilTabs->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
+
+		if ($a_cmd != "")
+		{
+			$ilCtrl->setParameter($this, "subCmd", "insertNew");
+			$ilTabs->addSubTabTarget("cont_new_file",
+				$ilCtrl->getLinkTarget($this, $a_cmd), $a_cmd);
+
+			$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
+			$ilTabs->addSubTabTarget("cont_file_from_repository",
+				$ilCtrl->getLinkTarget($this, $a_cmd), $a_cmd);
+			$ilCtrl->setParameter($this, "subCmd", "");
+		}
+	}
+
+
 }
 ?>

@@ -18,9 +18,9 @@ class ilCOPageImporter extends ilXmlImporter
 	 * @param
 	 * @return
 	 */
-	function importXmlRepresentation($a_entity, $a_schema_version, $a_id, $a_xml, $a_mapping)
+	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-var_dump($a_xml);
+//var_dump($a_xml);
 
 
 	}

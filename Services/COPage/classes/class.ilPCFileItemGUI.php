@@ -101,8 +101,8 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
 
 	/**
-	* insert new list item after current one
-	*/
+	 * insert new list item after current one
+	 */
 	function newItemAfter()
 	{
 		global $ilTabs;
@@ -119,6 +119,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		{
 			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
 		}
+
 		switch ($_GET["subCmd"])
 		{
 			case "insertFromRepository":
@@ -219,7 +220,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		if ($res)
 		{
 			$this->content_obj->newItemAfter($this->file_object->getId(),
-				$this->file_object->getFileName(), $this->file_object->getFileType());
+				$this->file_object->getTitle(), $this->file_object->getFileType());
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
@@ -305,7 +306,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		if ($res)
 		{
 			$this->content_obj->newItemBefore($this->file_object->getId(),
-				$this->file_object->getFileName(), $this->file_object->getFileType());
+				$this->file_object->getTitle(), $this->file_object->getFileType());
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
