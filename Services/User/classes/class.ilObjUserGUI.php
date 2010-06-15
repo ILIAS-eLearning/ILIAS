@@ -763,13 +763,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			// @todo: external account; time limit
 			// if not allowed or empty -> do no change password
-			if (!ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['auth_mode']))
-				|| trim($_POST['passwd']) == "")
+			if (ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['auth_mode']))
+				&& trim($_POST['passwd']) != "")
 			{
-				$_POST['passwd'] = "********";
+				$this->object->setPasswd($_POST['passwd'], IL_PASSWD_PLAIN);
 			}
-			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
-
+			
 			// differentiate account security mode
 			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 			$security_settings = ilSecuritySettings::_getInstance();

@@ -105,8 +105,9 @@ class ilCourseParticipantsGroupsGUI
 			ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
 			$_POST["usr_id"]
 		);
-		// include_once './Modules/Forum/classes/class.ilForumNotification.php';
-		// ilForumNotification::checkForumsExistsDelete($this->ref_id, $_POST["usr_id"]);
+		
+	    include_once './Modules/Forum/classes/class.ilForumNotification.php';
+		ilForumNotification::checkForumsExistsDelete($this->ref_id, $_POST["usr_id"]);
 
 		ilUtil::sendSuccess($lng->txt("grp_msg_membership_annulled"));
 		$this->show();
@@ -133,12 +134,13 @@ class ilCourseParticipantsGroupsGUI
 					$new_member
 				);
 
-				// include_once './Modules/Forum/classes/class.ilForumNotification.php';
-				// ilForumNotification::checkForumsExistsInsert($this->ref_id, $new_member);
+				include_once './Modules/Forum/classes/class.ilForumNotification.php';
+				ilForumNotification::checkForumsExistsInsert($this->ref_id, $new_member);
 			}
 
 			ilUtil::sendSuccess($lng->txt("grp_msg_member_assigned"));
 		}
+
 		$this->show();
 	}
 }
