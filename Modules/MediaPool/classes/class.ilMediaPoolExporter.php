@@ -47,7 +47,34 @@ class ilMediaPoolExporter extends ilXmlExporter
 			{
 				$mob_ids[] = $m;
 			}
+		}
 
+		return array (
+			array(
+				"component" => "Services/MediaObjects",
+				"entity" => "mob",
+				"ids" => $mob_ids)
+			);
+	}
+
+
+	/**
+	 * Get tail dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		$pg_ids = array();
+		$mob_ids = array();
+
+		foreach ($a_ids as $id)
+		{
 			$pages = ilMediaPoolItem::getIdsForType($id, "pg");
 			foreach ($pages as $p)
 			{
@@ -56,11 +83,6 @@ class ilMediaPoolExporter extends ilXmlExporter
 		}
 
 		return array (
-			array(
-				"component" => "Services/MediaObjects",
-				"entity" => "mob",
-				"ids" => $mob_ids)
-			,
 			array(
 				"component" => "Services/COPage",
 				"entity" => "pg",

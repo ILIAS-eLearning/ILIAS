@@ -204,6 +204,21 @@ class ilMediaPoolDataSet extends ilDataSet
 						}
 						break;
 
+					case "pg":
+						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
+
+						$item = new ilMediaPoolItem();
+						$item->setType("pg");
+						$item->setTitle($a_rec["Title"]);
+						$item->create();
+						$a_mapping->addMapping("Services/COPage", "pg", "mep:".$a_rec["Child"],
+							"mep:".$item->getId());
+						if ($item->getId() > 0)
+						{
+							$this->current_obj->insertInTree($item->getId(), $parent);
+						}
+						break;
+
 				}
 		}
 	}
