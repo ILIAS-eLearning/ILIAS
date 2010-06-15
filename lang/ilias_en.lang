@@ -8713,7 +8713,8 @@ ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_account_security_mode#:#Account Security
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
-ps#:#ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.
+ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.
+ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
 ps#:#ps_auto_https_header_value#:#Header Value
@@ -8724,7 +8725,8 @@ ps#:#ps_cdf_added_field#:#Added new selection box.
 ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?
 ps#:#ps_cdf_deleted_field#:#Deleted value
 ps#:#ps_cdf_deleted#:#Deleted user fields
-ps#:#ps_cdf_info#:#Further Course-Specific Data:
+ps#:#crs_ps_cdf_info#:#Further Course-Specific Data:
+ps#:#grp_ps_cdf_info#:#Further Group-Specific Data:
 ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_no_fields#:#No User Fields Defined
 ps#:#ps_cdf_no_name_given#:#Please enter a name.
@@ -8734,6 +8736,7 @@ ps#:#ps_cdf_type#:#Type
 ps#:#ps_cdf_value#:#Value
 ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements.
 ps#:#ps_crs_user_fields#:#Course-Specific User Fields
+ps#:#ps_grp_user_fields#:#Group-Specific User Fields
 ps#:#ps_delete_export_files#:#Deleted export files
 ps#:#ps_edit_select_field#:#Edit Selection Box
 ps#:#ps_edit_text_field#:#Edit Text Field
@@ -8783,7 +8786,8 @@ ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with 
 ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_privacy_protection#:#Privacy Settings
 ps#:#ps_profile_export#:#Protection of User Profile Data
-ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
+ps#:#crs_ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
+ps#:#grp_ps_required_info#:#Further Group-Specific fields are required for accessing the group content.
 ps#:#ps_security_protection#:#Security Settings
 ps#:#ps_select_one#:#Please select one export file
 ps#:#ps_show_crs_access#:#Show last access time of course participants

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-include_once('Services/Membership/classes/class.ilCourseAgreement.php');
+include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 
 /** 
 * 
@@ -107,7 +107,7 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	protected function show()
 	{
-		if(ilCourseAgreement::_hasAgreementsByObjId($this->getObjId()))
+		if(ilMemberAgreement::_hasAgreementsByObjId($this->getObjId()))
 		{
 			ilUtil::sendInfo($this->lng->txt('ps_cdf_warning_modify'));
 		}
@@ -146,7 +146,7 @@ class ilObjectCustomUserFieldsGUI
 			$field_obj->update();
 		}
 		
-		ilCourseAgreement::_deleteByObjId($this->getObjId());
+		ilMemberAgreement::_deleteByObjId($this->getObjId());
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->listFields();
 	 	return true;
@@ -193,7 +193,7 @@ class ilObjectCustomUserFieldsGUI
 			$tmp_field->delete();
 		}
 		
-		ilCourseAgreement::_deleteByObjId($this->obj_id);
+		ilMemberAgreement::_deleteByObjId($this->obj_id);
 		
 		ilUtil::sendSuccess($this->lng->txt('ps_cdf_deleted'));
 		$this->listFields();
@@ -282,7 +282,7 @@ class ilObjectCustomUserFieldsGUI
 			$udf->update();
 
 			// Finally reset member agreements
-			ilCourseAgreement::_deleteByObjId($this->getObjId());
+			ilMemberAgreement::_deleteByObjId($this->getObjId());
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->listFields();
 			return true;

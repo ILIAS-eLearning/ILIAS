@@ -8615,7 +8615,8 @@ ps#:#ps_account_security_mode#:#Account-Sicherheit
 ps#:#ps_account_security_mode_customized#:#Benutzerdefinierte Account-Sicherheit
 ps#:#ps_account_security_mode_default#:#Standardeinstellung für Account-Sicherheit
 ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert
-ps#:#ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
+ps#:#crs_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
+ps#:#grp_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Gruppeninhalte zugreifen zu können.
 ps#:#ps_auto_https#:#Automatische HTTPS-Erkennung
 ps#:#ps_auto_https_description#:#Wenn aktiviert, versucht ILIAS den HTTPS-Status eines Request per Header-Analyse zu bestimmen.
 ps#:#ps_auto_https_header_name#:#Headername
@@ -8626,7 +8627,8 @@ ps#:#ps_cdf_added_field#:#Eine neue Auswahlliste wurde angelegt.
 ps#:#ps_cdf_delete_sure#:#Sind Sie sicher, dass Sie dieses Datenfeld löschen möchten ?
 ps#:#ps_cdf_deleted#:#Die Datenfelder wurden gelöscht.
 ps#:#ps_cdf_deleted_field#:#Der Wert wurde gelöscht.
-ps#:#ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+ps#:#grp_ps_cdf_info#:#Weitere gruppenspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
 ps#:#ps_cdf_name#:#Name
 ps#:#ps_cdf_no_fields#:#Dieser Kurs enthält keine Datenfelder
 ps#:#ps_cdf_no_name_given#:#Bitte geben Sie einen Namen ein.
@@ -8636,6 +8638,7 @@ ps#:#ps_cdf_type#:#Typ
 ps#:#ps_cdf_value#:#Wert
 ps#:#ps_cdf_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt wird.
 ps#:#ps_crs_user_fields#:#Kursspezifische Benutzerdaten
+ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_delete_export_files#:#Exportdateien löschen
 ps#:#ps_edit_select_field#:#Auswahlliste bearbeiten
 ps#:#ps_edit_text_field#:#Textfeld bearbeiten
@@ -8685,7 +8688,8 @@ ps#:#ps_prevent_simultaneous_logins#:#Verhindern gleichzeitiger Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit gleichem Account auf verschiedenen Rechnern verhindert.
 ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
 ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
-ps#:#ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
+ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
+ps#:#grp_ps_required_info#:#Für die Teilnahme an dieser Gruppe werden weitere Informationen benötigt.
 ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
 ps#:#ps_select_one#:#Bitte wählen Sie eine Datei aus
 ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
@@ -10412,8 +10416,8 @@ chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Ein
 administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
 tbl#:#tbl_export_csv#:#.csv exportieren
 tbl#:#tbl_export_excel#:#.xls exportieren
-crs#:#crs_custom_user_fields#:#Kursrelevante Benutzerdaten
-grp#:#grp_custom_user_fields#:#Gruppenrelevante Benutzerdaten
+crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
+grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_cdf_data_fields#:#Datenfelder
 ps#:#ps_cdf_edit_field#:#Datenfeld bearbeiten
 ps#:#ps_cdf_values#:#Werte
@@ -10424,4 +10428,4 @@ grp#:#grp_user_agreement#:#Freigegebene Daten
 grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
 grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
 grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
-assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.>>>>>>> .r24233
+assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.

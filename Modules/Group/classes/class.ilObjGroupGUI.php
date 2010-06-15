@@ -35,7 +35,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilCourseAgreementGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI
 * 
 *
 * @extends ilObjectGUI
@@ -221,18 +221,19 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 			case 'ilobjectcustomuserfieldsgui':
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
-				
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('properties');
 				$this->tabs_gui->setTabActive('settings');
 				$this->ctrl->forwardCommand($cdf_gui);
 				break;
 				
-			case 'ilcourseagreementgui':
-				$this->forwardToAgreement();
+			case 'ilmemberagreementgui':
+				include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
+				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->setTabActive('view_content');
+				$agreement = new ilMemberAgreementGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($agreement);
 				break;
-				
-				
 
 			default:
 			
@@ -268,22 +269,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 	
-	/**
-	 * Forward to CourseAgreementGUI
-	 *
-	 * @access private
-	 * 
-	 */
-	private function forwardToAgreement()
-	{
-		include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
-		$this->ctrl->setReturn($this,'');
-		$agreement = new ilCourseAgreementGUI($this->object->getRefId());
-		$this->ctrl->forwardCommand($agreement);
-		$this->tabs_gui->setTabActive('view_content');
-	}
-	
-
 	function viewObject()
 	{
 		global $tree,$rbacsystem,$ilUser;
@@ -299,9 +284,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->checkAgreement())
 		{
-			include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
-			$this->ctrl->setReturn($this,'view_content');
-			$agreement = new ilCourseAgreementGUI($this->object->getRefId());
+			include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
+			$this->tabs_gui->setTabActive('view_content');
+			$this->ctrl->setReturn($this,'view');
+			$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 			$this->ctrl->setCmdClass(get_class($agreement));
 			$this->ctrl->forwardCommand($agreement);
 			return true;
@@ -2547,6 +2533,28 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 
 		}
+		
+		// Confirmation
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		if($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledGroupExport())
+		{
+			include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+			
+			$field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
+		
+			$this->lng->loadLanguageModule('ps');
+			$info->addSection($this->lng->txt('grp_user_agreement_info'));
+			$info->addProperty($this->lng->txt('ps_export_data'),$field_info->exportableFieldsToInfoString());
+			
+			if(count($fields = ilCourseDefinedFieldDefinition::_fieldsToInfoString($this->object->getId())))
+			{
+				$info->addProperty($this->lng->txt('ps_grp_user_fields'),$fields);
+			}
+		}
+		
 
 		// forward the command
 		$this->ctrl->forwardCommand($info);
@@ -3020,12 +3028,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		}		
 		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		include_once('Services/Membership/classes/class.ilCourseAgreement.php');
+		include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		// Check agreement
 		if(($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
-			and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
+			and !ilMemberAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
 		{
 			return false;
 		}

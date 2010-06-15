@@ -163,6 +163,19 @@ class ilPrivacySettings
 	{
 			return $this->anonymous_fora;
 	}
+	
+	public function confirmationRequired($a_type)
+	{
+		switch($a_type)
+		{
+			case 'crs':
+				return $this->courseConfirmationRequired();
+				
+			case 'grp':
+				return $this->groupConfirmationRequired();
+		}
+		return false;
+	}
 
 	public function courseConfirmationRequired()
 	{

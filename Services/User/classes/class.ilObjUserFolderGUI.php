@@ -2704,8 +2704,8 @@ else
 		// Reset user confirmation
 		if ($action == 'save')
 		{
-			include_once('Modules/Course/classes/class.ilCourseAgreement.php');
-			ilCourseAgreement::_reset();	
+			include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+			ilMemberAgreement::_reset();	
 		}
 		 */
 		foreach($a_fields as $field_id => $definition)
@@ -2806,8 +2806,8 @@ else
 				
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_text_field.html');
 				
-		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
-	 	if (ilCourseAgreement::_hasAgreements())
+		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
+	 	if (ilMemberAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
 			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
@@ -2856,8 +2856,8 @@ else
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("ps");		
 				
-		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
-	 	if (ilCourseAgreement::_hasAgreements())
+		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
+	 	if (ilMemberAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
 			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
@@ -2925,8 +2925,8 @@ else
 				
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_wysiwyg_field.html');
 				
-		include_once("Services/Membership/classes/class.ilCourseAgreement.php");
-	 	if (ilCourseAgreement::_hasAgreements())
+		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
+	 	if (ilMemberAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
 			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
@@ -3041,8 +3041,8 @@ else
 		
 		if ((int) $_POST['def']['course_export'] == 1)
 		{
-			include_once('Services/Membership/classes/class.ilCourseAgreement.php');
-			ilCourseAgreement::_reset();			
+			include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+			ilMemberAgreement::_reset();			
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('udf_added_field'));
@@ -3276,8 +3276,8 @@ else
 		// Reset user confirmation
 		if($action == 'save')
 		{
-			include_once('Services/Membership/classes/class.ilCourseAgreement.php');
-			ilCourseAgreement::_reset();	
+			include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+			ilMemberAgreement::_reset();	
 		}
 
 		foreach ($profile_fields as $field)
