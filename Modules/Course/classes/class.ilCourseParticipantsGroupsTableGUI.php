@@ -121,15 +121,18 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 				foreach(ilUserUtil::getNamePresentation($members, false, false, "", true) as $usr_id => $name)
 				{
 					$user_groups = array();
+					$user_groups_number = 0;
 					foreach(array_keys($this->participants) as $group_id)
 					{
 						if(in_array($usr_id, $this->participants[$group_id]["members"]))
 						{
 							$user_groups["members"][$group_id] = $this->groups[$group_id];
+							$user_groups_number++;
 						}
 						else if(in_array($usr_id, $this->participants[$group_id]["admins"]))
 						{
 							$user_groups["admins"][$group_id] = $this->groups[$group_id];
+							$user_groups_number++;
 						}
 					}
 					
@@ -139,6 +142,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 						$usr_data[] = array("usr_id" => $usr_id,
 							"name" => $name,
 							"groups" => $user_groups,
+							"groups_number" => $user_groups_number
 							);
 					}
 				}
@@ -164,7 +168,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 
 		$this->tpl->setVariable("TXT_USER", $a_set["name"]);
-		$this->tpl->setVariable("VAL_GROUP_NUMBER", sizeof($a_set["groups"]));
+		$this->tpl->setVariable("VAL_GROUP_NUMBER", $a_set["groups_number"]);
 
 		if(sizeof($a_set["groups"]))
 		{
