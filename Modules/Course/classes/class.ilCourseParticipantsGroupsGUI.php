@@ -59,13 +59,6 @@ class ilCourseParticipantsGroupsGUI
 	{
 		global $ilAccess, $ilCtrl, $lng, $tpl;
 		
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			ilUtil::sendFailure($lng->txt("permission_denied"), true);
-			$this->show();
-			return;
-		}
-
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($ilCtrl->getFormAction($this,'remove'));
@@ -88,7 +81,7 @@ class ilCourseParticipantsGroupsGUI
 	{
 		global $ilAccess, $ilObjDataCache, $lng;
 		
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		if (!$ilAccess->checkAccess("write", "", $_POST["grp_id"]))
 		{
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 			$this->show();
@@ -115,10 +108,18 @@ class ilCourseParticipantsGroupsGUI
 
 	function add()
 	{
-		global $ilErr, $ilObjDataCache, $lng;
+		global $ilErr, $ilObjDataCache, $lng, $ilAccess;
+
 
 		if(sizeof($_POST["usrs"]))
 		{
+			if (!$ilAccess->checkAccess("write", "", $_POST["grp_id"]))
+			{
+				ilUtil::sendFailure($lng->txt("permission_denied"), true);
+				$this->show();
+				return;
+			}
+
 			include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 			$members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId($_POST["grp_id"]));
 			foreach ($_POST["usrs"] as $new_member)
