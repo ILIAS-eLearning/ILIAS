@@ -41,7 +41,6 @@
 			<element ref='t:Location' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:LocationType' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:Format' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:Param' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:TextRepresentation' minOccurs='1' maxOccurs='1'/>
 		</sequence>
 		</complexType>
@@ -57,7 +56,6 @@
 	<element name='Location' type='t:Data' />
 	<element name='LocationType' type='t:Data' />
 	<element name='Format' type='t:Data' />
-	<element name='Param' type='t:Data' />
 	<element name='TextRepresentation' type='t:Data' />
 
 	<!-- MobMiMapArea -->

@@ -34,7 +34,6 @@ define("IL_TF_NEW", "New");
 */
 class ilMapArea
 {
-	var $ilias;
 	var $item_id;
 	var $nr;
 	var $shape;
@@ -56,11 +55,7 @@ class ilMapArea
 	*/
 	function ilMapArea($a_item_id = 0, $a_nr = 0)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
 		$this->title = "";
-
 		if ($a_item_id !=0 && $a_nr != 0)
 		{
 			$this->setItemId($a_item_id);
