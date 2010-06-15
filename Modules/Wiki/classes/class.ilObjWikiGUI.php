@@ -14,6 +14,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilExportGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -113,6 +114,17 @@ class ilObjWikiGUI extends ilObjectGUI
 				}
 				break;
 
+			case "ilexportgui":
+//				$this->prepareOutput();
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+//				$this->tpl->show();
+				break;
+
+
 			default:
 				if(!$cmd)
 				{
@@ -164,10 +176,95 @@ class ilObjWikiGUI extends ilObjectGUI
 			
 			$this->initSettingsForm("create");
 			$this->getSettingsFormValues("create");
-			$tpl->setContent($this->form_gui->getHtml());
+			$html1 = $this->form_gui->getHtml();
+
+			$this->initImportForm("wiki");
+			$html2 = $this->form->getHTML();
+
+			$tpl->setContent($html1."<br/><br/>".$html2);
 		}
 	}
 
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->afterSave($newObj);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * save object
+	 * @access	public
+	 */
+	function afterSave($newObj)
+	{
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+
+		ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
+	}
 
 	/**
 	* save object
@@ -393,7 +490,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui")))
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui")))
 		{
 			if ($_GET["page"] != "")
 			{
@@ -433,6 +530,14 @@ class ilObjWikiGUI extends ilObjectGUI
 					$lng->txt("wiki_contributors"),
 					$this->ctrl->getLinkTarget($this, "listContributors"));
 			}
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			{
+				$ilTabs->addTab("export",
+					$lng->txt("export"),
+					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			}
+
 	
 			// edit permissions
 			if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))

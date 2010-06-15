@@ -66,7 +66,7 @@ class ilWikiPage extends ilPageObject
 	/**
 	* Create new wiki page
 	*/
-	function create()
+	function create($a_prevent_page_creation = false)
 	{
 		global $ilDB;
 
@@ -84,9 +84,11 @@ class ilWikiPage extends ilPageObject
 		$ilDB->manipulate($query);
 		
 		// create page object
-		parent::create();
-		
-		$this->saveInternalLinks($this->getXMLContent());
+		if (!$a_prevent_page_creation)
+		{
+			parent::create();
+			$this->saveInternalLinks($this->getXMLContent());
+		}
 	}
 
 	/**
@@ -254,6 +256,24 @@ class ilWikiPage extends ilPageObject
 			return $rec["title"];
 		}
 		
+		return false;
+	}
+
+	/**
+	 * Lookup wiki id
+	 */
+	static function lookupWikiId($a_page_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT wiki_id FROM il_wiki_page".
+			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
+		$set = $ilDB->query($query);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["wiki_id"];
+		}
+
 		return false;
 	}
 

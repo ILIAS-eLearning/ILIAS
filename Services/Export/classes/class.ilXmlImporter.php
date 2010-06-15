@@ -118,5 +118,14 @@ abstract class ilXmlImporter
 	 */
 	abstract public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping);
 
+	/**
+	 * Final processing
+	 *
+	 * @param	array		mapping array
+	 */
+	function finalProcessing($a_mapping)
+	{
+
+	}
 }
 ?>

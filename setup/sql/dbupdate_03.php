@@ -1888,3 +1888,7 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3075>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
