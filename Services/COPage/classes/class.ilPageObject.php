@@ -508,6 +508,17 @@ class ilPageObject
 		return $rec["parent_id"];
 	}
 	
+	/**
+	 * Write parent id
+	 */
+	function _writeParentId($a_parent_type, $a_pg_id, $a_par_id)
+	{
+		global $ilDB;
+
+		$st = $ilDB->manipulateF("UPDATE page_object SET parent_id = %s WHERE page_id = %s".
+			" AND parent_type = %s", array("integer", "integer", "text"),
+			array($a_par_id, $a_pg_id, $a_parent_type));
+	}
 	
 	/**
 	* Set Activation Start.

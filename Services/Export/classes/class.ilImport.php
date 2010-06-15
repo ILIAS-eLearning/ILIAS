@@ -121,14 +121,14 @@ class ilImport
 		$this->mapping->setInstallUrl($parser->getInstallUrl());
 		$this->mapping->setInstallId($parser->getInstallId());
 
-		// process xml files
+		// process export files
 		$expfiles = $parser->getExportFiles();
-		//include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 		include_once("./Services/Export/classes/class.ilExportFileParser.php");
-
+		$all_components = array();
 		foreach ($expfiles as $expfile)
 		{
 			$comp = $expfile["component"];
+			$all_components[$comp] = $comp;
 			$comp_arr = explode("/", $comp);
 			$import_class_file = "./".$comp."/classes/class.il".$comp_arr[1]."Importer.php";
 			$class = "il".$comp_arr[1]."Importer";
@@ -139,6 +139,19 @@ class ilImport
 
 			$parser = new ilExportFileParser($dir."/".$expfile["path"],
 				$this, "processItemXml");
+		}
+
+		// final processing
+		foreach ($all_components as $c)
+		{
+			$comp_arr = explode("/", $c);
+			$import_class_file = "./".$c."/classes/class.il".$comp_arr[1]."Importer.php";
+			$class = "il".$comp_arr[1]."Importer";
+			include_once($import_class_file);
+			$this->importer = new $class();
+			$this->importer->setImportDirectory($dir);
+			$this->importer->init();
+			$this->importer->finalProcessing($this->mapping);
 		}
 
 

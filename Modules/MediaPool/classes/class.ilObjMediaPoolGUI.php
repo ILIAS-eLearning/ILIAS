@@ -1300,34 +1300,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		global $ilCtrl;
 		$ilCtrl->redirect($this, "listMedia");
 	}
-
-	////
-	//// Export handling
-	////
-	
-	/**
-	 * Show export list
-	 *
-	 * @param
-	 * @return
-	 */
-	function showExport()
-	{
-		global $tpl, $ilTabs;
-	
-		$this->checkPermission("write");
-		
-		$ilTabs->activateTab("export");
-		
-		// this is test code. much stuff will go to other classes
-/*		include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
-		$ds = new ilMediaPoolDataSet();
-		$xml = $ds->getXmlRepresentation("mep", "4.1.0", array("id" => $this->object->getId()));*/
-
-		include_once("./Services/Export/classes/class.ilExport.php");
-		ilExport::_exportObject("mep", $this->object->getId(), "4.1.0");
-		
-	}
 	
 	////
 	//// CONTENT SNIPPETS Handling
