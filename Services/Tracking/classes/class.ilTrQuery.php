@@ -246,8 +246,8 @@ class ilTrQuery
 			if($check_agreement)
 			{
 				// admins/tutors (write-access) will never have agreement ?!
-				include_once "Services/Membership/classes/class.ilCourseAgreement.php";
-				$agreements = ilCourseAgreement::lookupAcceptedAgreements($a_obj_id);
+				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
+				$agreements = ilMemberAgreement::lookupAcceptedAgreements($a_obj_id);
 				
 				// public information for users
 				$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).

@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI
@@ -304,17 +304,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
 		
-	
 		// Trac access
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
 		
-
 		if(!$this->checkAgreement())
 		{
-			include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
+			include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
 			$this->ctrl->setReturn($this,'view_content');
-			$agreement = new ilCourseAgreementGUI($this->object->getRefId());
+			$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 			$this->ctrl->setCmdClass(get_class($agreement));
 			$this->ctrl->forwardCommand($agreement);
 			return true;
@@ -4453,8 +4451,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($export);
 				break;
 				
-			case 'ilcourseagreementgui':
-				$this->forwardToAgreement();
+			case 'ilmemberagreementgui':
+				include_once('Services/Membership/classes/class.ilMemberAgreementGUI.php');
+				$this->ctrl->setReturn($this,'');
+				$agreement = new ilMemberAgreementGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($agreement);
 				break;
 				
 			case 'ilsessionoverviewgui':
@@ -4605,12 +4606,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		include_once('Services/Membership/classes/class.ilCourseAgreement.php');
+		include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 		$privacy = ilPrivacySettings::_getInstance();
 		
 		// Check agreement
 		if(($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) 
-			and !ilCourseAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
+			and !ilMemberAgreement::_hasAccepted($ilUser->getId(),$this->object->getId()))
 		{
 			return false;
 		}
@@ -4657,20 +4658,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	/**
-	 * Forward to CourseAgreementGUI
-	 *
-	 * @access private
-	 * 
-	 */
-	private function forwardToAgreement()
-	{
-		include_once('Modules/Course/classes/class.ilCourseAgreementGUI.php');
-		$this->ctrl->setReturn($this,'');
-		$agreement = new ilCourseAgreementGUI($this->object->getRefId());
-		$this->ctrl->forwardCommand($agreement);
-	}
-
 	// STATIC
 	function _forwards()
 	{

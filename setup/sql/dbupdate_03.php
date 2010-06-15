@@ -1883,3 +1883,8 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilDB->update('rbac_operations', array('op_order'=>array('integer', 230)),
 		array('operation'=>array('text','mail_to_global_roles')));
+?>
+<#3074>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

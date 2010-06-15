@@ -36,42 +36,42 @@ class ilCourseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMemberAgreement()
 	{
-		include_once 'Services/Membership/classes/class.ilCourseAgreement.php';
+		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
 		
 		global $ilDB;
 		
 		
-		$agree = new ilCourseAgreement(9999,8888);
+		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$agree->setAccepted(true);
 		$agree->save();
 		
-		$agree = new ilCourseAgreement(9999,8888);
+		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$sta = $agree->isAccepted();
 		$this->assertEquals($sta,true);
 		$agree->delete();
 		
-		$agree = new ilCourseAgreement(9999,8888);
+		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$sta = $agree->isAccepted();
 		$this->assertEquals($sta,false);
 		
-		$sta = ilCourseAgreement::_hasAccepted(9999,8888);
+		$sta = ilMemberAgreement::_hasAccepted(9999,8888);
 		$this->assertEquals($sta,false);
 		
-		$agree = new ilCourseAgreement(9999,8888);
+		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$agree->setAccepted(true);
 		$agree->save();
 		
-		$sta = ilCourseAgreement::_hasAgreementsByObjId(8888);
+		$sta = ilMemberAgreement::_hasAgreementsByObjId(8888);
 		$this->assertEquals($sta,true);
 		
-		$sta = ilCourseAgreement::_hasAgreements();
+		$sta = ilMemberAgreement::_hasAgreements();
 		$this->assertEquals($sta,true);
 		
-		ilCourseAgreement::_deleteByUser(9999);
+		ilMemberAgreement::_deleteByUser(9999);
 	}
 	
 }

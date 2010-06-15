@@ -22,7 +22,7 @@
 */
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-include_once('Services/Membership/classes/class.ilCourseAgreement.php');
+include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 include_once('Services/User/classes/class.ilUserDefinedData.php');
@@ -73,7 +73,7 @@ class ilMemberExport
 		 	
 		$this->course = ilObjectFactory::getInstanceByRefId($this->ref_id,false);
 		$this->members = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
-		$this->agreement = ilCourseAgreement::_readByObjId($this->obj_id);
+		$this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
 	 	$this->settings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	}
