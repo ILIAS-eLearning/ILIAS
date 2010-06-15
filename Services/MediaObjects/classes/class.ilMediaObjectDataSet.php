@@ -286,6 +286,9 @@ class ilMediaObjectDataSet extends ilDataSet
 				}
 
 				$a_mapping->addMapping("Services/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());
+//echo "<br>++add++"."0:".$a_rec["Id"].":mob+0:".$newObj->getId().":mob"."+";
+				$a_mapping->addMapping("Services/MetaData", "md",
+					"0:".$a_rec["Id"].":mob", "0:".$newObj->getId().":mob");
 				break;
 
 			case "mob_media_item":
