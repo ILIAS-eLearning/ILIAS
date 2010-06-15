@@ -1312,7 +1312,7 @@ class ilRbacReview
 	function getOperation($ops_id)
 	{
 		global $ilDB;
-		
+
 		$query = 'SELECT * FROM rbac_operations WHERE ops_id = '.$ilDB->quote($ops_id,'integer');
 		$res = $this->ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
@@ -1336,7 +1336,7 @@ class ilRbacReview
 	public function getAllOperationsOfRole($a_rol_id, $a_parent = 0)
 	{
 		global $ilDB;
-		
+
 		if(!$a_parent)
 		{
 			$a_parent = ROLE_FOLDER_ID;
@@ -1424,7 +1424,7 @@ class ilRbacReview
 	function getOperationsOnType($a_typ_id)
 	{
 		global $ilDB;
-		
+
 		if (!isset($a_typ_id))
 		{
 			$message = get_class($this)."::getOperationsOnType(): No type_id given!";
@@ -1451,7 +1451,7 @@ class ilRbacReview
 	function getOperationsOnTypeString($a_type)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type ,'text')." ";
 
 		$res = $this->ilDB->query($query);
@@ -1654,7 +1654,7 @@ class ilRbacReview
 	public static function _getOperationIdByName($a_operation)
 	{
 		global $ilDB,$ilErr;
-	
+
 		if (!isset($a_operation))
 		{
 			$message = "perm::getOperationId(): No operation given!";
@@ -1798,7 +1798,7 @@ class ilRbacReview
 		global $ilDB;
 	
 		$arr = array();
-	
+
 		if ($a_type)
 		{
 			$query = sprintf('SELECT * FROM rbac_operations '.
@@ -1806,15 +1806,13 @@ class ilRbacReview
 				'JOIN object_data ON rbac_ta.typ_id = object_data.obj_id '.
 				'WHERE object_data.title = %s '.
 				'AND object_data.type = %s '.
-				'ORDER BY %s ASC',
+				'ORDER BY op_order ASC',
 				$ilDB->quote($a_type,'text'),
-				$ilDB->quote('typ','text'),
-				$ilDB->quote('op_order','text'));
+				$ilDB->quote('typ','text'));
 		}
 		else
 		{
-			$query = 'SELECT * FROM rbac_operations '.
-				 "ORDER BY 'op_order' ASC";
+			$query = 'SELECT * FROM rbac_operations ORDER BY op_order ASC';
 		}
 		$res = $ilDB->query($query);
 		while ($row = $ilDB->fetchAssoc($res))
@@ -1833,7 +1831,7 @@ class ilRbacReview
 	public static function _groupOperationsByClass($a_ops_arr)
 	{
 		$arr = array();
-	
+
 		foreach ($a_ops_arr as $ops)
 		{
 			$arr[$ops['class']][] = array ('ops_id'	=> $ops['ops_id'],
@@ -1956,7 +1954,7 @@ class ilRbacReview
 	public function filterEmptyRoleFolders($a_rolf_candidates)
 	{
 		global $ilDB;
-		
+
 		$query = 'SELECT DISTINCT(parent) parent FROM rbac_fa '.
 			'WHERE '.$ilDB->in('parent',$a_rolf_candidates,false,'integer');
 		$res = $ilDB->query($query);
