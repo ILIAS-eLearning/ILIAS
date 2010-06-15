@@ -1864,5 +1864,22 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-	
-
+<#3070>
+<?php
+	$ilDB->update('rbac_operations', array('op_order'=>array('integer', 200)),
+		array('operation'=>array('text','mail_visible')));
+?>
+<#3071>
+<?php
+	$ilDB->update('rbac_operations', array('op_order'=>array('integer', 210)),
+		array('operation'=>array('text','smtp_mail')));
+?>
+<#3072>
+<?php
+	$ilDB->update('rbac_operations', array('op_order'=>array('integer', 220)),
+		array('operation'=>array('text','system_message')));
+?>
+<#3073>
+<?php
+	$ilDB->update('rbac_operations', array('op_order'=>array('integer', 230)),
+		array('operation'=>array('text','mail_to_global_roles')));
