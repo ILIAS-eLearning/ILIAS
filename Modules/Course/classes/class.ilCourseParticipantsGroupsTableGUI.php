@@ -13,9 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 {
-	protected $filter;	     // array
-	protected $groups;		 // array
-	protected $participants; // array
+	protected $filter;	      // array
+	protected $groups;		  // array
+	protected $groups_rights; // array
+	protected $participants;  // array
 	
 	/**
 	 * Constructor
@@ -57,14 +58,14 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	function initGroups()
     {
-		global $tree;
+		global $tree, $ilAccess;
 		
 		$parent_node = $tree->getNodeData($this->ref_id);
 		$groups = $tree->getSubTree($parent_node, true, "grp");
 		if(sizeof($groups))
 		{
 			include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-			$this->participants = $this->groups = array();
+			$this->participants = $this->groups = $this->groups_rights = array();
 			foreach($groups as $idx => $group_data)
 			{
 				// check for group in group
@@ -75,8 +76,11 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 				else
 				{
 					$this->groups[$group_data["ref_id"]] = $group_data["title"];
+					$this->groups_rights[$group_data["ref_id"]]["write"] = (bool)$ilAccess->checkAccess("write", "", $group_data["ref_id"]);
+					$this->groups_rights[$group_data["ref_id"]]["edit_permission"] = (bool)$ilAccess->checkAccess("edit_permission", "", $group_data["ref_id"]);
 					$gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
-					$this->participants[$group_data["ref_id"]] = $gobj->getParticipants();
+					$this->participants[$group_data["ref_id"]]["members"] = $gobj->getMembers();
+					$this->participants[$group_data["ref_id"]]["admins"] = $gobj->getAdmins();
 				}
 			}
 		}
@@ -119,9 +123,13 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 					$user_groups = array();
 					foreach(array_keys($this->participants) as $group_id)
 					{
-						if(in_array($usr_id, $this->participants[$group_id]))
+						if(in_array($usr_id, $this->participants[$group_id]["members"]))
 						{
-							$user_groups[$group_id] = $this->groups[$group_id];
+							$user_groups["members"][$group_id] = $this->groups[$group_id];
+						}
+						else if(in_array($usr_id, $this->participants[$group_id]["admins"]))
+						{
+							$user_groups["admins"][$group_id] = $this->groups[$group_id];
 						}
 					}
 					
@@ -160,19 +168,31 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
 		if(sizeof($a_set["groups"]))
 		{
-			$this->tpl->setCurrentBlock("groups");
-			foreach($a_set["groups"] as $grp_id => $title)
+			
+			foreach($a_set["groups"] as $type => $groups)
 			{
-				$this->tpl->setVariable("TXT_GROUP_TITLE", $title);
-				$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("remove"));
+				foreach($groups as $grp_id => $title)
+				{
+					if(($type == "admins" && $this->groups_rights[$grp_id]["edit_permission"]) ||
+						($type == "members" && $this->groups_rights[$grp_id]["write"]))
+					{
+						$this->tpl->setCurrentBlock("groups_remove");
 
-				$ilCtrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
-				$ilCtrl->setParameter($this->parent_obj, "grp_id", $grp_id);
-				$this->tpl->setVariable("URL_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "confirmremove"));
-				$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
-				$ilCtrl->setParameter($this->parent_obj, "usr_id", "");
+						$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("remove"));
 
-				$this->tpl->parseCurrentBlock();
+						$ilCtrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
+						$ilCtrl->setParameter($this->parent_obj, "grp_id", $grp_id);
+						$this->tpl->setVariable("URL_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "confirmremove"));
+						$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
+						$ilCtrl->setParameter($this->parent_obj, "usr_id", "");
+
+						$this->tpl->parseCurrentBlock();
+					}
+
+					$this->tpl->setCurrentBlock("groups");
+                    $this->tpl->setVariable("TXT_GROUP_TITLE", $title);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 	}
