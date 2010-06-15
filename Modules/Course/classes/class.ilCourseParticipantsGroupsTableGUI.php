@@ -13,6 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 {
+	protected $filter;	     // array
+	protected $groups;		 // array
+	protected $participants; // array
+	
 	/**
 	 * Constructor
 	 */
@@ -32,16 +36,50 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "");
 		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("groups_nr"), "groups_nr");
+		$this->addColumn($this->lng->txt("crs_groups_nr"), "groups_nr");
 		$this->addColumn($this->lng->txt("groups"));
 
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.crs_members_grp_row.html", "Modules/Course");
-		$this->initFilter();
+		$this->setSelectAllCheckbox("usrs");
 
-	    $this->getItems($ref_id, $this->getCurrentFilter());
+		$this->initGroups();
+		
+		$this->addMultiItemSelectionButton("grp_id", $this->groups, "add", $this->lng->txt("crs_add_to_group"));
+		$this->initFilter();
+	    $this->getItems();
+	}
+
+	/**
+	 * find groups in course, exclude groups in groups
+	 */
+	function initGroups()
+    {
+		global $tree;
+		
+		$parent_node = $tree->getNodeData($this->ref_id);
+		$groups = $tree->getSubTree($parent_node, true, "grp");
+		if(sizeof($groups))
+		{
+			include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+			$this->participants = $this->groups = array();
+			foreach($groups as $idx => $group_data)
+			{
+				// check for group in group
+				if($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp"))
+				{
+					unset($groups[$idx]);
+				}
+				else
+				{
+					$this->groups[$group_data["ref_id"]] = $group_data["title"];
+					$gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
+					$this->participants[$group_data["ref_id"]] = $gobj->getParticipants();
+				}
+			}
+		}
 	}
 
 	/**
@@ -51,61 +89,60 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		/*
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
+		$item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
+		$this->filter["name"] = $item->getValue();
 
-		$item = $this->addFilterItemByMetaType("registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["registration"] = $item->getDate();
-
-		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
-		$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
-		$this->filter["gender"] = $item->getValue();
-
-        $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["city"] = $item->getValue();
-		
-        $item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
-		$this->filter["language"] = $item->getValue();
-
-		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
-		$this->filter["user_total"] = $item->getValue();
-
-		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["first_access"] = $item->getDate();
-
-		$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["last_access"] = $item->getDate();
-		 */
+		if($this->groups)
+		{
+			$item = $this->addFilterItemByMetaType("group", ilTable2GUI::FILTER_SELECT);
+			$item->setOptions(array("" => $lng->txt("all"))+$this->groups);
+			$this->filter["group"] = $item->getValue();
+		}
 	}
 
 	/**
 	 * Build item rows for given object and filter(s)
-	 *
-	 * @param	array	&$rows
-	 * @param	array	$filter
 	 */
-	function getItems($ref_id, array $filter = NULL)
+	function getItems()
 	{
-		global $lng;
-
-		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-		$part = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
-		$members = $part->getMembers();
-		if(count($members))
+        if($this->groups)
 		{
-			// :TODO: offset/limit
-
-			// what about userQuery?!
-
-			include_once './Services/User/classes/class.ilUserUtil.php';
-			foreach(ilUserUtil::getNamePresentation($members, false, false, "", true) as $usr_id => $name)
+			include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
+			$part = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
+			$members = $part->getMembers();
+			if(count($members))
 			{
-				$usr_data[] = array("usr_id" => $usr_id, "name" => $name);
+				include_once './Services/User/classes/class.ilUserUtil.php';
+                $usr_data = array();
+				foreach(ilUserUtil::getNamePresentation($members, false, false, "", true) as $usr_id => $name)
+				{
+					$user_groups = array();
+					foreach(array_keys($this->participants) as $group_id)
+					{
+						if(in_array($usr_id, $this->participants[$group_id]))
+						{
+							$user_groups[$group_id] = $this->groups[$group_id];
+						}
+					}
+					
+					if((!$this->filter["name"] || stristr($name, $this->filter["name"])) &&
+						(!$this->filter["group"] || array_key_exists($this->filter["group"], $user_groups)))
+					{
+						$usr_data[] = array("usr_id" => $usr_id,
+							"name" => $name,
+							"groups" => $user_groups,
+							);
+					}
+				}
+
+				// ???
+				$usr_data = array_slice($usr_data, (int)$this->getOffset(), (int)$this->getLimit());
+
+				$this->setMaxCount(sizeof($members));
+				$this->setData($usr_data);
 			}
-			
-			$this->setMaxCount(sizeof($members));
-			$this->setData($usr_data);
+
+			return $titles;
 		}
 	}
 
@@ -114,19 +151,30 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 
 		$this->tpl->setVariable("TXT_USER", $a_set["name"]);
-		
+		$this->tpl->setVariable("VAL_GROUP_NUMBER", sizeof($a_set["groups"]));
 
+		if(sizeof($a_set["groups"]))
+		{
+			$this->tpl->setCurrentBlock("groups");
+			foreach($a_set["groups"] as $grp_id => $title)
+			{
+				$this->tpl->setVariable("TXT_GROUP_TITLE", $title);
+				$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("remove"));
 
-	}
+				$ilCtrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
+				$ilCtrl->setParameter($this->parent_obj, "grp_id", $grp_id);
+				$this->tpl->setVariable("URL_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "confirmremove"));
+				$ilCtrl->setParameter($this->parent_obj, "grp_id", "");
+				$ilCtrl->setParameter($this->parent_obj, "usr_id", "");
 
-	protected function getCurrentFilter()
-	{
-	 
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 ?>
