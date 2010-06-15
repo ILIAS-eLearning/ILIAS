@@ -10429,3 +10429,6 @@ grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
 grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
 grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
+crs#:#crs_members_groups#:#Kursteilnehmer-Gruppen
+crs#:#crs_groups_nr#:#Anzahl Gruppen
+crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen

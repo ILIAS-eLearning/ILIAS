@@ -2648,6 +2648,9 @@ class ilTree
 		}
 		$path = array_reverse($this->getPathFull($a_ref_id));
 
+		// remove first path entry as it is requested node
+		array_shift($path);
+
 		foreach($path as $node)
 		{
 			if($node["type"] == $a_type)
