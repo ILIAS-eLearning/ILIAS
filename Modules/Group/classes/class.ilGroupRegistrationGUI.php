@@ -412,6 +412,17 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				return false;
 			}
 		}
+		if(!$this->validateCustomFields())
+		{
+			$this->join_error = $this->lng->txt('fill_out_all_required_fields');
+			return false;
+		}
+		if(!$this->validateAgreement())
+		{
+			$this->join_error = $this->lng->txt($this->type.'_agreement_required');
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -425,6 +436,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	protected function add()
 	{
 		global $ilUser,$tree, $rbacreview, $lng;
+		
+		// set aggreement accepted
+		$this->setAccepted(true);		
 		
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());

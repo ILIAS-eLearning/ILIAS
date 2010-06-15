@@ -22,7 +22,6 @@
 */
 
 
-include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 
 /**
@@ -37,8 +36,6 @@ include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 */
 class ilCourseRegistrationGUI extends ilRegistrationGUI
 {
-	protected $privacy = null;
-	
 	/**
 	 * Constructor
 	 *
@@ -48,8 +45,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	public function __construct($a_container)
 	{
 		parent::__construct($a_container);	
-		
-		$this->privacy = ilPrivacySettings::_getInstance();
 	}
 	
 	/**
@@ -397,128 +392,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	}
 
 	/**
-	 * Show user agreement
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function fillAgreement()
-	{
-		global $ilUser;
-
-		if(!$this->isRegistrationPossible())
-		{
-			return true;
-		}
-
-		
-		$this->privacy = ilPrivacySettings::_getInstance();
-		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');		
-		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
-		{
-			return true;
-		}
-		
-		$this->lng->loadLanguageModule('ps');
-		
-		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-		$fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->container->getId()));
-		
-		if(!count($fields_info->getExportableFields()))
-		{
-			return true;
-		}
-		
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('usr_agreement'));
-		$this->form->addItem($section);
-		
-		$fields = new ilCustomInputGUI($this->lng->txt('crs_user_agreement'),'');
-		$tpl = new ilTemplate('tpl.agreement_form.html',true,true,'Services/Membership');
-		$tpl->setVariable('TXT_INFO_AGREEMENT',$this->lng->txt('crs_info_agreement'));
-		foreach($fields_info->getExportableFields() as $field)
-		{
-			$tpl->setCurrentBlock('field_item');
-			$tpl->setVariable('FIELD_NAME',$this->lng->txt($field));
-			$tpl->parseCurrentBlock();
-		}
-		$fields->setHtml($tpl->get());
-		$this->form->addItem($fields);
-
-		$this->showCourseDefinedFields();
-
-		// Checkbox agreement				
-		$agreement = new ilCheckboxInputGUI($this->lng->txt('crs_agree'),'agreement');
-		$agreement->setRequired(true);
-		$agreement->setOptionTitle($this->lng->txt('crs_info_agree'));
-		$agreement->setValue(1);
-		$this->form->addItem($agreement);
-		
-		
-		return true;
-	}
-	
-	/**
-	 * Show course defined fields
-	 *
-	 * @access protected
-	 */
-	protected function showCourseDefinedFields()
-	{
-		global $ilUser;
-		
-	 	include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
-
-		if(!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->container->getId())))
-		{
-			return true;
-		}
-		
-		$cdf = new ilNonEditableValueGUI($this->lng->txt('ps_crs_user_fields'));
-		$cdf->setValue($this->lng->txt('ps_cdf_info'));
-		$cdf->setRequired(true);
-		
-		foreach($cdf_fields as $field_obj)
-		{
-			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
-			
-			switch($field_obj->getType())
-			{
-				case IL_CDF_TYPE_SELECT:
-					$select = new ilSelectInputGUI($field_obj->getName(),'cdf['.$field_obj->getId().']');
-					$select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
-					$select->setOptions($field_obj->prepareSelectBox());
-					if($field_obj->isRequired())
-					{
-						$select->setRequired(true);
-					}
-					
-					$cdf->addSubItem($select);
-					
-					
-					break;				
-
-				case IL_CDF_TYPE_TEXT:
-					$text = new ilTextInputGUI($field_obj->getName(),'cdf['.$field_obj->getId().']');
-					$text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
-					$text->setSize(32);
-					$text->setMaxLength(255);
-					if($field_obj->isRequired())
-					{
-						$text->setRequired(true);
-					}
-					$cdf->addSubItem($text);
-					break;
-			}
-		}
-		$this->form->addItem($cdf);
-		return true;
-	}
-	
-	
-	
-	/**
 	 * Validate subscription request
 	 *
 	 * @access protected
@@ -571,68 +444,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	}
 	
 	/**
-	 * Check Agreement
-	 *
-	 * @access protected
-	 * 
-	 */
-	private function validateAgreement()
-	{
-		global $ilUser;
-		
-	 	if($_POST['agreement'])
-	 	{
-	 		return true;
-	 	}
-		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
-		{
-			return true;
-		}
-	 	return false;
-	}
-	
-	/**
-	 * Check required course fields
-	 *
-	 * @access protected
-	 * 
-	 */
-	private function validateCourseDefinedFields()
-	{
-		global $ilUser;
-		
-		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
-		
-		$all_required = true;
-		foreach(ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj)
-		{
-			switch($field_obj->getType())
-			{
-				case IL_CDF_TYPE_SELECT:
-					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
-					break;
-				
-				case IL_CDF_TYPE_TEXT:
-					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);	
-					break;
-			}
-			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
-			$course_user_data->setValue($value);
-			$course_user_data->update();
-			
-			if($field_obj->isRequired() and (!strlen($value) or $value == -1))
-			{
-				$all_required = false;
-			}
-		}
-		return $all_required;
-	}
-	
-	
-	
-	/**
 	 * add user 
 	 *
 	 * @access protected
@@ -646,7 +457,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		// TODO: language vars
 
 		// set aggreement accepted
-		$this->setAccepted(true);		
+		$this->setAccepted(true);
 
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
 		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
@@ -662,7 +473,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			$this->participants->sendNotification($this->participants->NOTIFY_WAITING_LIST,$ilUser->getId());
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}
-
 
 		switch($this->container->getSubscriptionType())
 		{
@@ -690,28 +500,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		}
 	}
 	
-	/**
-	 * Set Agreement accepted
-	 *
-	 * @access private
-	 * @param bool 
-	 */
-	private function setAccepted($a_status)
-	{
-		global $ilUser;
-
-		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if(!$this->privacy->courseConfirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
-		{
-			return true;
-		}
-
-		include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-		$this->agreement = new ilMemberAgreement($ilUser->getId(),$this->container->getId());
- 		$this->agreement->setAccepted($a_status);
- 		$this->agreement->setAcceptanceTime(time());
- 		$this->agreement->save();
-	}
 	
 	
 	
