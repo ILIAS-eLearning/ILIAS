@@ -14,6 +14,20 @@ class ilMediaObjectsImporter extends ilXmlImporter
 {
 
 	/**
+	 * Init
+	 *
+	 * @param
+	 * @return
+	 */
+	function init()
+	{
+		include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
+		$this->ds = new ilMediaObjectDataSet();
+		$this->ds->setDSPrefix("ds");
+		$this->ds->setImportDirectory($this->getImportDirectory());
+	}
+
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -21,9 +35,9 @@ class ilMediaObjectsImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-//var_dump($a_xml);
-
-
+		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+			$a_xml, $this->ds, $a_mapping);
 	}
 	
 }

@@ -135,11 +135,13 @@ class ilDataSetImportParser extends ilSaxParser
 				break;
 				
 			default:
-				if ($this->in_record)
+				if ($this->in_record && $this->current_field != "")
 				{
 					$this->current_field_values[$this->current_field] = 
 						$this->chr_data;
 				}
+				$this->current_field = "";
+				break;
 		}
 		
 		$this->chr_data = "";

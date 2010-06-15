@@ -161,6 +161,9 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
+//echo $a_entity;
+//var_dump($a_rec);
+
 		switch ($a_entity)
 		{
 			case "mep":
@@ -186,8 +189,22 @@ class ilMediaPoolDataSet extends ilDataSet
 						$a_mapping->addMapping("Modules/MediaPool", "mep_tree", $a_rec["Child"],
 							$fold_id);
 						break;
+
+					case "mob":
+						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
+						$mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["ForeignId"]);
+						$item = new ilMediaPoolItem();
+						$item->setType("mob");
+						$item->setForeignId($mob_id);
+						$item->setTitle($a_rec["Title"]);
+						$item->create();
+						if ($item->getId() > 0)
+						{
+							$this->current_obj->insertInTree($item->getId(), $parent);
+						}
+						break;
+
 				}
-				break;
 		}
 	}
 }

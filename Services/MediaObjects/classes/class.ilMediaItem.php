@@ -206,6 +206,23 @@ class ilMediaItem
 	}
 
 	/**
+	 * Write parameter
+	 *
+	 * @param
+	 * @return
+	 */
+	function writeParameter($a_name, $a_value)
+	{
+		global $ilDB;
+
+		$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
+			"(".$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_name, "text").",".
+			$ilDB->quote($a_value, "text").")";
+		$ilDB->manipulate($query);
+	}
+
+	/**
 	* read media item data (item id or (mob_id and nr) must be set)
 	*/
 	function read()

@@ -95,6 +95,26 @@ abstract class ilDataSet
 	}
 
 	/**
+	 * Set import directory
+	 *
+	 * @param	string	import directory
+	 */
+	function setImportDirectory($a_val)
+	{
+		$this->import_directory = $a_val;
+	}
+
+	/**
+	 * Get import directory
+	 *
+	 * @return	string	import directory
+	 */
+	function getImportDirectory()
+	{
+		return $this->import_directory;
+	}
+
+	/**
 	 * Set XML dataset namespace prefix
 	 *
 	 * @param	string	XML dataset namespace prefix

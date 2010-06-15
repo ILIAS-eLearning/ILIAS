@@ -134,6 +134,7 @@ class ilImport
 			$class = "il".$comp_arr[1]."Importer";
 			include_once($import_class_file);
 			$this->importer = new $class();
+			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
 
 			$parser = new ilExportFileParser($dir."/".$expfile["path"],

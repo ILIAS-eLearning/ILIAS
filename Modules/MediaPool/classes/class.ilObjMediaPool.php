@@ -122,8 +122,10 @@ class ilObjMediaPool extends ilObject
 		parent::create();
 
 		$ilDB->manipulate("INSERT INTO mep_data ".
-			"(id) VALUES (".
-			$ilDB->quote($this->getId(), "integer").
+			"(id, default_width, default_height) VALUES (".
+			$ilDB->quote($this->getId(), "integer").", ".
+			$ilDB->quote($this->getDefaultWidth(), "integer").", ".
+			$ilDB->quote($this->getDefaultHeight(), "integer").
 			")");
 			
 		// create media pool tree

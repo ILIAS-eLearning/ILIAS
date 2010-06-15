@@ -14,7 +14,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ingroup ModulesMediaPool
+ * @ingroup ingroup ServicesMediaObjects
  */
 class ilMediaObjectDataSet extends ilDataSet
 {	
@@ -91,7 +91,6 @@ class ilMediaObjectDataSet extends ilDataSet
 						"Location" => "text",
 						"LocationType" => "text",
 						"Format" => "text",
-						"Param" => "text",
 						"TextRepresentation" => "text"
 					);
 			}
@@ -172,7 +171,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			{
 				case "4.1.0":
 					$this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign,".
-						"caption, nr, purpose, location, location_type, format, param, text_representation".
+						"caption, nr, purpose, location, location_type, format, text_representation".
 						" FROM media_item WHERE ".
 						$ilDB->in("mob_id", $a_ids, false, "integer"));
 					break;
@@ -202,7 +201,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name Name, value".
+					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value".
 						" FROM mob_parameter ".
 						" WHERE ".
 						$ilDB->in("med_item_id", $a_ids, false, "integer"));
@@ -257,11 +256,116 @@ class ilMediaObjectDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function importRecord($a_entity, $a_types, $a_rec)
+	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
+//echo $a_entity;
+//var_dump($a_rec);
+
 		switch ($a_entity)
 		{
 			case "mob":
+
+//var_dump($a_rec);
+
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$newObj = new ilObjMediaObject();
+				$newObj->setType("mob");
+				$newObj->setTitle($a_rec["Title"]);
+				$newObj->setDescription($a_rec["Description"]);
+				$newObj->create();
+				$newObj->createDirectory();
+				ilObjMediaObject::_createThumbnailDirectory($newObj->getId());
+				$this->current_mob = $newObj;
+
+				$dir = str_replace("..", "", $a_rec["Dir"]);
+				if ($dir != "" && $this->getImportDirectory() != "")
+				{
+					$source_dir = $this->getImportDirectory()."/".$dir;
+					$target_dir = $dir = ilObjMediaObject::_getDirectory($newObj->getId());
+					ilUtil::rCopy($source_dir, $target_dir);
+				}
+
+				$a_mapping->addMapping("Services/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());
+				break;
+
+			case "mob_media_item":
+
+				// determine parent mob
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["MobId"]);
+				if (is_object($this->current_mob) && $this->current_mob->getId() == $mob_id)
+				{
+					$mob = $this->current_mob;
+				}
+				else
+				{
+					$mob = new ilObjMediaObject($mob_id);
+				}
+
+				include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
+				$newObj = new ilMediaItem();
+				$newObj->setMobId($mob_id);
+				$newObj->setWidth($a_rec["Width"]);
+				$newObj->setHeight($a_rec["Height"]);
+				$newObj->setCaption($a_rec["Caption"]);
+				$newObj->setNr($a_rec["Nr"]);
+				$newObj->setPurpose($a_rec["Purpose"]);
+				$newObj->setLocation($a_rec["Location"]);
+				$newObj->setLocationType($a_rec["LocationType"]);
+				$newObj->setFormat($a_rec["Format"]);
+				$newObj->setFormat($a_rec["Format"]);
+				$newObj->setTextRepresentation($a_rec["TextRepresentation"]);
+				$newObj->create();
+				$this->current_media_item = $newObj;
+
+				$a_mapping->addMapping("Services/MediaObjects", "mob_media_item", $a_rec["Id"], $newObj->getId());
+
+				break;
+
+			case "mob_mi_parameter":
+
+				// get media item
+				include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
+				$med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
+				if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id)
+				{
+					$med = $this->current_media_item;
+				}
+				else
+				{
+					$med = new ilMediaItem($med_id);
+				}
+				$med->writeParameter($a_rec["Name"], $a_rec["Value"]);
+
+				break;
+
+			case "mob_mi_map_area":
+				// get media item
+				include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
+				$med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
+				if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id)
+				{
+					$med = $this->current_media_item;
+				}
+				else
+				{
+					$med = new ilMediaItem($med_id);
+				}
+
+				include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
+				$map_area = new ilMapArea();
+				$map_area->setItemId($med_id);
+				$map_area->setNr($a_rec["Nr"]);
+				$map_area->setShape($a_rec["Shape"]);
+				$map_area->setCoords($a_rec["Coords"]);
+				$map_area->setLinkType($a_rec["LinkType"]);
+				$map_area->setTitle($a_rec["Title"]);
+				$map_area->setHref($a_rec["Href"]);
+				$map_area->setTarget($a_rec["Target"]);
+				$map_area->setType($a_rec["Type"]);
+				$map_area->setTargetFrame($a_rec["TargetFrame"]);
+				$map_area->create();
+				
 				break;
 		}
 	}
