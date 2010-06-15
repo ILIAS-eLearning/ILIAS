@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tracking/classes/class.ilLPTableBaseGui.php");
+include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
 
 /**
 * TableGUI class for learning progress (object overview)
