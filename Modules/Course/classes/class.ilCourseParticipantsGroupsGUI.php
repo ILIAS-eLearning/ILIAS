@@ -136,9 +136,9 @@ class ilCourseParticipantsGroupsGUI
 				// include_once './Modules/Forum/classes/class.ilForumNotification.php';
 				// ilForumNotification::checkForumsExistsInsert($this->ref_id, $new_member);
 			}
-		}
 
-		ilUtil::sendSuccess($lng->txt("grp_msg_member_assigned"));
+			ilUtil::sendSuccess($lng->txt("grp_msg_member_assigned"));
+		}
 		$this->show();
 	}
 }
