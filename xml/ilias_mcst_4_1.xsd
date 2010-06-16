@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/MediaCast/mcst/4_1"
+	xmlns:t = 'http://www.ilias.de/Modules/MediaCast/mcst/4_1'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Mcst -->
+	<element name='Mcst'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PublicFiles' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Downloadable' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:DefaultAccess' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='PublicFiles' type='t:Data' />
+	<element name='Downloadable' type='t:Data' />
+	<element name='DefaultAccess' type='t:Data' />
+
+</schema>
