@@ -2340,6 +2340,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once "./Services/User/classes/class.ilObjUser.php";
 			include_once "./classes/class.ilLink.php";
 
+			$subject = sprintf($lng->txt('exc_submission_notification_subject'), $this->object->getTitle());
+
 			$message = sprintf($this->lng->txt('exc_submission_notification_body'), $this->object->getTitle())."\n\n";
 
 			$message .= "------------------------------------------------------------\n";
@@ -2355,7 +2357,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 					$mail_obj->appendInstallationSignature(true);
 					$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-						"", "", $lng->txt('exc_submission_notification_subject'), $message, array(), array("system"));
+						"", "", $subject, $message, array(), array("system"));
 				}
 				else
 				{
