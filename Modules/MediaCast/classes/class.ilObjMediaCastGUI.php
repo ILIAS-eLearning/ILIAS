@@ -10,7 +10,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
 * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -56,6 +56,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$this->infoScreen();	// forwards command
 				break;
 
+			case "ilexportgui":
+//				$this->prepareOutput();
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+//				$this->tpl->show();
+				break;
+
+
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -86,26 +97,183 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	}
 
 	/**
+	 * Create new object form
+	 *
+	 */
+	function createObject()
+	{
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			global $tpl;
+
+			$this->initCreationForm();
+			$html1 = $this->form->getHtml();
+
+			$this->initImportForm("mcst");
+			$html2 = $this->form->getHTML();
+
+			$tpl->setContent($html1."<br/><br/>".$html2);
+		}
+	}
+
+	/**
+	 * Init Settings Form
+	 */
+	function initCreationForm()
+	{
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$lng->loadLanguageModule("mcst");
+		$ilTabs->activateTab("settings");
+
+		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// Title
+		$tit = new ilTextInputGUI($lng->txt("title"), "title");
+		$tit->setRequired(true);
+		$this->form->addItem($tit);
+
+		// Description
+		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$this->form->addItem($des);
+
+		$this->form->setTitle($lng->txt("mcst_new"));
+		$this->form->addCommandButton("save", $lng->txt("mcst_add"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+
+		// set values
+		$ilCtrl->setParameter($this, "new_type", "mcst");
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));
+	}
+
+
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("mcst");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->afterSave($newObj);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * save object
+	 * @access	public
+	 */
+	function afterSave($newObj)
+	{
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+
+		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+	}
+
+
+	/**
 	* save object
 	* @access	public
 	*/
 	function saveObject()
 	{
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
+		global $tpl;
 
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
+		$this->initCreationForm();
+		if ($this->form->checkInput())
+		{
+			$_POST["Fobject"]["title"] = $_POST["title"];
+			$_POST["Fobject"]["desc"] = $_POST["description"];
 
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
+			// create and insert forum in objecttree
+			$newObj = parent::saveObject();
 
-		// put here object specific stuff
-			
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		
-		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+			// setup rolefolder & default local roles
+			//$roles = $newObj->initDefaultRoles();
+
+			// ...finally assign role to creator of object
+			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
+
+			// put here object specific stuff
+
+			// always send a message
+			ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+
+			ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+		}
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
 	}
 	
 	
@@ -885,6 +1053,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ilTabs->addTab("id_settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
+		}
+
+		// export
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addTab("export",
+				$lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
 		// edit permissions

@@ -124,16 +124,16 @@ class ilImport
 		// process export files
 		$expfiles = $parser->getExportFiles();
 		include_once("./Services/Export/classes/class.ilExportFileParser.php");
-		$all_components = array();
+		$all_importers = array();
 		foreach ($expfiles as $expfile)
 		{
 			$comp = $expfile["component"];
-			$all_components[$comp] = $comp;
 			$comp_arr = explode("/", $comp);
 			$import_class_file = "./".$comp."/classes/class.il".$comp_arr[1]."Importer.php";
 			$class = "il".$comp_arr[1]."Importer";
 			include_once($import_class_file);
 			$this->importer = new $class();
+			$all_importers[] = $this->importer;
 			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
 
@@ -142,18 +142,10 @@ class ilImport
 		}
 
 		// final processing
-		foreach ($all_components as $c)
+		foreach ($all_importers as $imp)
 		{
-			$comp_arr = explode("/", $c);
-			$import_class_file = "./".$c."/classes/class.il".$comp_arr[1]."Importer.php";
-			$class = "il".$comp_arr[1]."Importer";
-			include_once($import_class_file);
-			$this->importer = new $class();
-			$this->importer->setImportDirectory($dir);
-			$this->importer->init();
-			$this->importer->finalProcessing($this->mapping);
+			$imp->finalProcessing($this->mapping);
 		}
-
 
 		// we should only get on mapping here
 		$top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
