@@ -128,6 +128,10 @@ class ilMediaCastDataSet extends ilDataSet
 				$newObj->create(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Services/News", "news_context",
+					$a_rec["Id"].":mcst:0:",
+					$newObj->getId().":mcst:0:");
+//var_dump($a_mapping->mappings["Services/News"]["news_context"]);
 				break;
 		}
 	}
