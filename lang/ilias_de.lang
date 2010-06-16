@@ -7380,9 +7380,9 @@ mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
 mcst#:#mcst_media_cast_not_online_text#:#Der Mediacast ist nicht online oder wurde deaktiviert
-mcst#:#mcst_mimetype#:#Mime-Type
+mcst#:#mcst_mimetype#:#MIME-Type
 mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
-mcst#:#mcst_mimetypes#:#Mime-Types
+mcst#:#mcst_mimetypes#:#MIME-Types
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
