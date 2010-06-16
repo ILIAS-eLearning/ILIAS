@@ -576,6 +576,8 @@ class ilWikiUtil
 		$wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
 		$wiki = new ilObjWiki($a_wiki_ref_id, true);
 
+		$subject = sprintf($lng->txt('wiki_change_notification_subject'), $wiki->getTitle());
+
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
 			include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
@@ -592,7 +594,7 @@ class ilWikiUtil
 
 			include_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
 			$message .= sprintf($lng->txt('wiki_change_notification_page_link'),
-				ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle()));
+				ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle()));
 		}
 		else
 		{
@@ -615,12 +617,12 @@ class ilWikiUtil
 
 			foreach($users as $idx => $user_id)
 		    {
-				if($user_id != $ilUser->getId() || true)
+				if($user_id != $ilUser->getId())
 				{
 					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 					$mail_obj->appendInstallationSignature(true);
 					$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-						"", "", $lng->txt('wiki_change_notification_subject'), $message, array(), array("system"));
+						"", "", $subject, $message, array(), array("system"));
 				}
 				else
 				{
@@ -628,7 +630,6 @@ class ilWikiUtil
 				}
 			}
 
-			/*
 			if($a_type == ilNotification::TYPE_WIKI_PAGE)
 			{
 				ilNotification::updateNotificationTime($a_type, $a_page_id, $users);
@@ -637,8 +638,8 @@ class ilWikiUtil
 			{
 				ilNotification::updateNotificationTime($a_type, $wiki_id, $users);
 			}
-     		 */
 		}
 	}
 }
+
 ?>

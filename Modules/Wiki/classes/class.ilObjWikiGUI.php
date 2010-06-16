@@ -866,7 +866,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$a_page = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($a_ref_id));
 		}
 		
-		$goto = "./goto.php?target=wiki_".$a_ref_id."_".
+		$goto = "goto.php?target=wiki_".$a_ref_id."_".
 			ilWikiUtil::makeUrlTitle($a_page);
 			
 		return $goto;
