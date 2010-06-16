@@ -371,7 +371,7 @@ class ilObjMediaCast extends ilObject
 	/**
 	* Get all items of media cast.
 	*/
-	function readItems()
+	function readItems($a_oldest_first = false)
 	{
 		global $ilDB;
 		
@@ -380,7 +380,7 @@ class ilObjMediaCast extends ilObject
 		$it = new ilNewsItem();
 		$it->setContextObjId($this->getId());
 		$it->setContextObjType($this->getType());
-		$this->itemsarray = $it->queryNewsForContext(false);
+		$this->itemsarray = $it->queryNewsForContext(false, 0, "", false, $a_oldest_first);
 		
 		return $this->itemsarray;
 	}

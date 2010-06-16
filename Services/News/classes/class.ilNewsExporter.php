@@ -4,13 +4,13 @@
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
- * Exporter class for media casts
+ * Exporter class for news
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
- * @ingroup ModulesMediaCast
+ * @ingroup ServicesNews
  */
-class ilMediaCastExporter extends ilXmlExporter
+class ilNewsExporter extends ilXmlExporter
 {
 	private $ds;
 
@@ -19,8 +19,8 @@ class ilMediaCastExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/MediaCast/classes/class.ilMediaCastDataSet.php");
-		$this->ds = new ilMediaCastDataSet();
+		include_once("./Services/News/classes/class.ilNewsDataSet.php");
+		$this->ds = new ilNewsDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
 	}
@@ -34,27 +34,26 @@ class ilMediaCastExporter extends ilXmlExporter
 	 * @param		array		ids
 	 * @return		array		array of array with keys "component", entity", "ids"
 	 */
-	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
 
-		include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
-		$mc_items_ids = array();
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$mob_ids = array();
 
 		foreach ($a_ids as $id)
 		{
-			$mcst = new ilObjMediaCast($id, false);
-			$items = $mcst->readItems(true);
-			foreach ($items as $i)
+			$mob_id = ilNewsItem::_lookupMobId($id);
+			if ($mob_id > 0)
 			{
-				$news_ids[] = $i["id"];
+				$mob_ids[$mob_id] = $mob_id;
 			}
 		}
 
 		return array (
 			array(
-				"component" => "Services/News",
-				"entity" => "news",
-				"ids" => $news_ids)
+				"component" => "Services/MediaObjects",
+				"entity" => "mob",
+				"ids" => $mob_ids)
 			);
 	}
 
@@ -82,8 +81,8 @@ class ilMediaCastExporter extends ilXmlExporter
 	{
 		return array (
 			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/MediaCast/mcst/4_1",
-				"xsd_file" => "ilias_mcst_4_1.xsd",
+				"namespace" => "http://www.ilias.de/Services/News/news/4_1",
+				"xsd_file" => "ilias_news_4_1.xsd",
 				"uses_dataset" => true,
 				"min" => "4.1.0",
 				"max" => "")

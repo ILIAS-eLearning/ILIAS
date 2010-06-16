@@ -519,7 +519,7 @@ class ilNewsItem extends ilNewsItemGen
 	 * @param	boolean		do not include auto generated news items
 	 */
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
-		$a_starting_date = "", $a_no_auto_generated = false)
+		$a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false)
 	{
 		global $ilDB, $ilUser, $lng;
 		
@@ -547,6 +547,10 @@ class ilNewsItem extends ilNewsItemGen
 				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text");
 		}
 
+		$ordering = ($a_oldest_first)
+			? " creation_date ASC, id ASC "
+			: " creation_date DESC, id DESC ";
+
 		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
 		{
 			$query = "SELECT * ".
@@ -555,7 +559,7 @@ class ilNewsItem extends ilNewsItemGen
 					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
-					" ORDER BY creation_date DESC ";
+					" ORDER BY ".$ordering;
 		}
 		elseif (ilNewsItem::getPrivateFeedId() != false) 
 		{
@@ -568,7 +572,7 @@ class ilNewsItem extends ilNewsItemGen
 					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
-					" ORDER BY creation_date DESC ";	
+					" ORDER BY ".$ordering;
 		}
 		else
 		{
@@ -581,7 +585,7 @@ class ilNewsItem extends ilNewsItemGen
 					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
-					" ORDER BY creation_date DESC ";
+					" ORDER BY ".$ordering;
 		}
 //echo $query;
 		$set = $ilDB->query($query);
@@ -873,7 +877,21 @@ class ilNewsItem extends ilNewsItemGen
 
 		return $rec["visibility"];
 	}
-	
+
+	/**
+	* Lookup mob id
+	*/
+	static function _lookupMobId($a_news_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT mob_id FROM il_news_item WHERE id = ".
+			$ilDB->quote($a_news_id, "integer");
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec["mob_id"];
+	}
+
 	/**
 	* Checks whether news are available for
 	*/
