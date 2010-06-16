@@ -646,12 +646,6 @@ class ilObjWikiGUI extends ilObjectGUI
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
 
-
-		$cbox = new ilCheckboxInputGUI($lng->txt("wiki_edit_notification"), "notification");
-		$cbox->setInfo($lng->txt("wiki_edit_notification_info"));
-		$this->form_gui->addItem($cbox);
-		
-		
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
 		if ($a_mode != "create")
@@ -695,10 +689,6 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["rating"] = $this->object->getRating();
 			$values["intro"] = $this->object->getIntroduction();
 
-			include_once "./Services/Notification/classes/class.ilNotification.php";
-			$values["notification"] = ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->object->getId());
-
-
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -733,10 +723,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setRating($this->form_gui->getInput("rating"));
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 				$this->object->update();
-
-				include_once "./Services/Notification/classes/class.ilNotification.php";
-				ilNotification::setNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->object->getId(), (bool)$this->form_gui->getInput("notification"));
-							
+			
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 				$ilCtrl->redirect($this, "editSettings");
 			}
