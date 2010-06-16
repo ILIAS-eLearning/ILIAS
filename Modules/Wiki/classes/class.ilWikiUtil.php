@@ -615,7 +615,7 @@ class ilWikiUtil
 			include_once "./Services/User/classes/class.ilObjUser.php";
 			include_once "./classes/class.ilLink.php";
 
-			foreach($users as $idx => $user_id)
+			foreach(array_unique($users) as $idx => $user_id)
 		    {
 				if($user_id != $ilUser->getId())
 				{

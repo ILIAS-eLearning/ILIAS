@@ -10445,3 +10445,8 @@ wiki#:#wiki_change_notification_page_body_delete#:#Im Wiki "%s" wurde die Seite 
 wiki#:#wiki_change_notification_page_link#:#Link zur Wiki-Seite: %s
 wiki#:#wiki_change_notification_body_new#:#Im Wiki "%s" wurde die Seite "%s" neu angelegt.
 wiki#:#wiki_change_notification_link#:#Link zum Wiki: %s
+wiki#:#wiki_notification_toggle_info#:#Änderungs-Benachrichtigung
+wiki#:#wiki_notification_toggle_wiki_activate#:#Für Wiki aktivieren
+wiki#:#wiki_notification_toggle_wiki_deactivate#:#Für Wiki deaktivieren
+wiki#:#wiki_notification_toggle_page_activate#:#Für Seite aktivieren
+wiki#:#wiki_notification_toggle_page_deactivate#:#Für Seite deaktivieren

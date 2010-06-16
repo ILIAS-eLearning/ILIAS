@@ -10487,3 +10487,8 @@ wiki#:#wiki_change_notification_page_body_delete#:#In wiki "%s" the page "%s" wa
 wiki#:#wiki_change_notification_page_link#:#Link to wiki page: %s
 wiki#:#wiki_change_notification_body_new#:#In wiki "%s" the page "%s" was created.
 wiki#:#wiki_change_notification_link#:#Link to wiki: %s
+wiki#:#wiki_notification_toggle_info#:#Change Notification
+wiki#:#wiki_notification_toggle_wiki_activate#:#Activate for Wiki
+wiki#:#wiki_notification_toggle_wiki_deactivate#:#Deactivate for Wiki
+wiki#:#wiki_notification_toggle_page_activate#:#Activate for Page
+wiki#:#wiki_notification_toggle_page_deactivate#:#Deactivate for Page
