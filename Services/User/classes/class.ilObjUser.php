@@ -1347,13 +1347,17 @@ class ilObjUser extends ilObject
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByUser($this->getId());
 		
-		//Delete Tracking data SCORM 2004 RTE
+		// Delete Tracking data SCORM 2004 RTE
 		include_once 'Modules/Scorm2004/classes/ilSCORM13Package.php';
 		ilSCORM13Package::_removeTrackingDataForUser($this->getId());
 		
-		//Delete Tracking data SCORM 1.2 RTE
+		// Delete Tracking data SCORM 1.2 RTE
 		include_once 'Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
 		ilObjSCORMLearningModule::_removeTrackingDataForUser($this->getId());
+
+		// remove all notifications
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::removeForUser($this->getId());
 		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();

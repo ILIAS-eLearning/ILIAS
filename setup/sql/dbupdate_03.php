@@ -1896,3 +1896,31 @@ $ilDB->addTableColumn('frm_settings', 'notification_type', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3077>
+<?php
+if(!$ilDB->tableExists('notification'))
+{
+	$ilDB->createTable('notification', array(
+			'type' => array(
+				'type'     => 'integer',
+				'length'   => 1,
+				'notnull' => true
+			),
+			'id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true
+			),
+			'user_id' => array(
+				'type'     => 'integer',
+				'length'   => 4,
+				'notnull' => true
+			),
+			'last_mail' => array(
+				'type'     => 'timestamp',
+				'notnull'	=> false
+			)
+	));
+	$ilDB->addPrimaryKey('notification', array('type', 'id', 'user_id'));
+}
+?>

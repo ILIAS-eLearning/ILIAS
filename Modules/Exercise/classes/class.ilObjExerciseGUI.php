@@ -397,7 +397,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser, $lng, $ilCtrl;
 		
 		$this->checkPermission("read");
-		
+
+		$success = false;
 		foreach ($_FILES["deliver"]["name"] as $k => $v)
 		{
 			$file = array(
@@ -411,8 +412,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
 			}
+			else
+			{
+				$success = true;
+			}
 		}
-		
+
+		if($success)
+		{
+			$this->sendNotifications();
+		}
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
 
@@ -427,8 +436,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
 		{
-			$this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false,
-				(int) $_GET["ass_id"]);
+			if($this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false,
+				(int) $_GET["ass_id"]))
+			{
+				$this->sendNotifications();
+			}
 		}
 
 		$ilCtrl->redirect($this, "submissionScreen");
@@ -704,7 +716,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$op2->addSubItem($ni);
 				
 			$this->form_gui->addItem($radg);
-			
+
+
+			$cbox = new ilCheckboxInputGUI($lng->txt("exc_submission_notification"), "notification");
+		    $cbox->setInfo($lng->txt("exc_submission_notification_info"));
+			$this->form_gui->addItem($cbox);
+
 			
 /*			if(count($files = $this->object->getFiles()))
 			{
@@ -744,6 +761,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function getPropertiesValues()
 	{
+		global $ilUser;
+		
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getLongDescription();
 		$values["pass_mode"] = $this->object->getPassMode();
@@ -754,7 +773,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$values["pass_nr"] = $this->object->getPassNr();
 		}
 //		$values["instruction"] = $this->object->getInstruction();
+
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		$values["notification"] = ilNotification::hasNotification(ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(), $this->object->getId());
+
 		$this->form_gui->setValuesByArray($values);
+
 		
 //echo "-".$this->object->getTimestamp()."-";
 /*		$edit_date = new ilDateTime($this->object->getTimestamp(), IL_CAL_UNIX);
@@ -767,7 +791,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $tpl;
+		global $rbacsystem, $tpl, $ilUser;
 	
 		$this->checkPermission("write");
 		
@@ -801,6 +825,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->object->deleteFiles($del_files);*/
 			
 			$this->object->update();
+
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(), $this->object->getId(), (bool)$this->form_gui->getInput("notification"));
 			
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$this->ctrl->redirect($this, "edit");
@@ -2296,8 +2323,51 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilUtil::sendSuccess($lng->txt("exc_msg_saved_grades"), true);
 		$ilCtrl->redirect($this, "showGradesOverview");
 	}
-	
 
+	/**
+	 * Send submission notifications
+	 */
+    protected function sendNotifications()
+	{
+		global $ilUser, $lng;
+		
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->object->getId());
+
+		if(sizeof($users))
+		{
+			include_once "./Services/Mail/classes/class.ilMail.php";
+			include_once "./Services/User/classes/class.ilObjUser.php";
+
+			$update_ids = array();
+			foreach($users as $user_id)
+		    {
+				if($user_id != $ilUser->getId())
+				{
+					$message = sprintf($lng->txt('exc_submission_notification_intro'),
+						$this->ilias->ini->readVariable('client', 'name'),
+						ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
+
+					$message .= sprintf($this->lng->txt('exc_submission_notification_body'), $this->object->getTitle())."\n\n";
+
+					$message .= "------------------------------------------------------------\n";
+
+					$message .= sprintf($this->lng->txt('exc_submission_notification_link'),
+						ILIAS_HTTP_PATH.'/goto.php?target=exc_'.$this->object->getRefId().'&client_id='.CLIENT_ID);
+
+					
+					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+						"", "", $lng->txt('exc_submission_notification_subject'), $message, array(), array("system"));
+					
+					$update_ids[] = $user_id;
+				}
+			}
+
+			// always send ?!
+			// ilNotification::updateNotificationTime(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->object->getId(), $update_ids);
+		}
+	}
 }
 
 ?>
