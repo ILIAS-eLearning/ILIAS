@@ -3727,7 +3727,7 @@ common#:#obj_lrss#:#Lernressourcen
 common#:#obj_lrss_desc#:#Lernmodule usw. konfigurieren.
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
-common#:#obj_mcst#:#MediaCast
+common#:#obj_mcst#:#Mediacast
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacasts
 common#:#obj_mep#:#Medienpool
@@ -7353,37 +7353,37 @@ mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
-mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
+mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
-mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio Format
-mcst#:#mcst_audioportable_title#:#Zusätzliches Audio File für portable Geräte
+mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
+mcst#:#mcst_audioportable_title#:#Zusätzliche Audio-Datei für portable Geräte
 mcst#:#mcst_automatic_detection#:#Automatisch
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_current_value_info#:#Aktueller Wert des Formats
 mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
-mcst#:#mcst_download_audioportable#:#Download Audio File
+mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_standard#:#Download
-mcst#:#mcst_download_videoportable#:#Download Video File
+mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_downloadable#:#Objekte herunterladbar
-mcst#:#mcst_downloadable_info#:#Wenn diese Option gesetzt ist, können Media Files direkt heruntergeladen werden
+mcst#:#mcst_downloadable_info#:#Wenn diese Option gesetzt ist, können Beiträge des Mediacasts direkt heruntergeladen werden
 mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
-mcst#:#mcst_edit_item#:#Mediacast Item bearbeiten
-mcst#:#mcst_edit_settings#:#MediaCast Einstellungen
-mcst#:#mcst_entry#:#Mediacast-Einträge
+mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
+mcst#:#mcst_edit_settings#:#Mediacast-Einstellungen
+mcst#:#mcst_entry#:#Mediacast-Beiträge
 mcst#:#mcst_file_extension_settings#:#Unterstützte Dateiformate
 mcst#:#mcst_global_settings#:#Globale Einstellungen
-mcst#:#mcst_incl_files_in_rss#:#Media-Dateien in Webfeed einfügen
-mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Media-Dateien als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, erhält der Benutzer nur eine Nachricht über ein neues Objekt.
+mcst#:#mcst_incl_files_in_rss#:#Mediacast-Beiträge in Webfeed einfügen
+mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Mediacast-Beiträge als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, erhält der Benutzer nur eine Nachricht über einen neuen Beitrag.
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
 mcst#:#mcst_media_cast_not_online_text#:#Der Mediacast ist nicht online oder wurde deaktiviert
 mcst#:#mcst_mimetype#:#Mime-Type
-mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
+mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
 mcst#:#mcst_mimetypes#:#Mime-Types
-mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von Mimetypes
+mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_play_time#:#Laufzeit
@@ -7395,8 +7395,8 @@ mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
-mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video Format
-mcst#:#mcst_videoportable_title#:#Zusätzliches Video File für portable Geräte
+mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video-Format
+mcst#:#mcst_videoportable_title#:#Zusätzliche Video-Datei für portable Geräte
 mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
