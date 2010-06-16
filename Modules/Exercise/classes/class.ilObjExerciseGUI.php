@@ -2338,34 +2338,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			include_once "./Services/Mail/classes/class.ilMail.php";
 			include_once "./Services/User/classes/class.ilObjUser.php";
+			include_once "./classes/class.ilLink.php";
 
-			$update_ids = array();
-			foreach($users as $user_id)
+			$message = sprintf($this->lng->txt('exc_submission_notification_body'), $this->object->getTitle())."\n\n";
+
+			$message .= "------------------------------------------------------------\n";
+
+			$message .= sprintf($this->lng->txt('exc_submission_notification_link'),
+				ilLink::_getLink($this->object->getRefId()));
+
+
+			foreach($users as $idx => $user_id)
 		    {
 				if($user_id != $ilUser->getId())
 				{
-					$message = sprintf($lng->txt('exc_submission_notification_intro'),
-						$this->ilias->ini->readVariable('client', 'name'),
-						ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
-
-					$message .= sprintf($this->lng->txt('exc_submission_notification_body'), $this->object->getTitle())."\n\n";
-
-					$message .= "------------------------------------------------------------\n";
-
-					$message .= sprintf($this->lng->txt('exc_submission_notification_link'),
-						ILIAS_HTTP_PATH.'/goto.php?target=exc_'.$this->object->getRefId().'&client_id='.CLIENT_ID);
-
-					
 					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+					$mail_obj->appendInstallationSignature(true);
+					$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
 						"", "", $lng->txt('exc_submission_notification_subject'), $message, array(), array("system"));
-					
-					$update_ids[] = $user_id;
+				}
+				else
+				{
+					unset($users[$idx]);
 				}
 			}
-
-			// always send ?!
-			// ilNotification::updateNotificationTime(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->object->getId(), $update_ids);
 		}
 	}
 }

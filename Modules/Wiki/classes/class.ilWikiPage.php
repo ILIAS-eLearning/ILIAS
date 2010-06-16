@@ -64,6 +64,26 @@ class ilWikiPage extends ilPageObject
 	}
 
 	/**
+	* Set Wiki Ref Id.
+	*
+	* @param	int	$a_wiki_ref_id	Wiki Ref Id
+	*/
+	function setWikiRefId($a_wiki_ref_id)
+	{
+		$this->parent_ref_id = $a_wiki_ref_id;
+	}
+
+	/**
+	* Get Wiki Ref Id.
+	*
+	* @return	int	Wiki Ref Id
+	*/
+	function getWikiRefId()
+	{
+		return $this->parent_ref_id;
+	}
+
+	/**
 	* Create new wiki page
 	*/
 	function create($a_prevent_page_creation = false)
@@ -82,6 +102,9 @@ class ilWikiPage extends ilPageObject
 			.",".$ilDB->quote($this->getWikiId(), "integer")
 			.")";
 		$ilDB->manipulate($query);
+
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
 		
 		// create page object
 		if (!$a_prevent_page_creation)
@@ -108,6 +131,9 @@ class ilWikiPage extends ilPageObject
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		parent::update($a_validate, $a_no_history);
+
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
 
 		return true;
 	}
@@ -148,6 +174,13 @@ class ilWikiPage extends ilPageObject
 		// delete internal links information to this page
 		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
+
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilWikiUtil::sendNotification("delete", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
+
+		// remove all notifications
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::removeForObject(ilNotification::TYPE_WIKI_PAGE, $this->getId());
 		
 		// delete comments and notes of this page
 		// (we keep them first)
@@ -160,7 +193,7 @@ class ilWikiPage extends ilPageObject
 		
 		// delete co page
 		parent::delete();
-		
+
 		// make links of other pages to this page a missing link
 		foreach($linking_pages as $lp)
 		{
@@ -191,11 +224,13 @@ class ilWikiPage extends ilPageObject
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer");
 		$set = $ilDB->query($query);
-		
+
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$wiki_page = new ilWikiPage($rec["id"]);
 			$wiki_page->delete();
+
+			
 		}
 	}
 	

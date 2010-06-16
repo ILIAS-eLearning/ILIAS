@@ -10438,3 +10438,11 @@ exc#:#exc_submission_notification_intro#:#Diese E-Mail wurde von der ILIAS-Insta
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung %s hochgeladen
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde hochgeladen
+wiki#:#wiki_edit_notification#:#Mail Benachrichtigung bei Änderungen
+wiki#:#wiki_edit_notification_info#:#Sie werden benachrichtigt wenn eine Seite editiert wird.
+wiki#:#wiki_change_notification_subject#:#Ein Wiki wurde editiert
+wiki#:#wiki_change_notification_page_body_update#:#Im Wiki %s wurde die Seite %s editiert.
+wiki#:#wiki_change_notification_page_body_delete#:#Im Wiki %s wurde die Seite %s gelöscht.
+wiki#:#wiki_change_notification_page_link#:#Link zur Wiki-Seite: %s
+wiki#:#wiki_change_notification_body_new#:#Im Wiki %s wurde die Seite %s neu angelegt.
+wiki#:#wiki_change_notification_link#:#Link zum Wiki: %s

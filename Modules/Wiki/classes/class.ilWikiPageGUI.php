@@ -20,9 +20,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_id = 0, $a_old_nr = 0)
+	function __construct($a_id = 0, $a_old_nr = 0, $a_wiki_ref_id = 0)
 	{
 		global $tpl;
+
+		// needed for notifications
+		$this->setWikiRefId($a_wiki_ref_id);
 		
 		parent::__construct("wpg", $a_id, $a_old_nr);
 		
@@ -45,7 +48,18 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
 		$page = new ilWikiPage($a_id, $a_old_nr);
+		$page->setWikiRefId($this->getWikiRefId());
 		$this->setPageObject($page);
+	}
+
+	function setWikiRefId($a_ref_id)
+    {
+		$this->wiki_ref_id = $a_ref_id;
+	}
+
+	function getWikiRefId()
+    {
+		return $this->wiki_ref_id;
 	}
 
 	/**
@@ -110,13 +124,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	/**
 	* Get wiki page gui for id and title
 	*/
-	static function getGUIForTitle($a_wiki_id, $a_title, $a_old_nr = 0)
+	static function getGUIForTitle($a_wiki_id, $a_title, $a_old_nr = 0, $a_wiki_ref_id = 0)
 	{
 		global $ilDB;
-		
+
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$id = ilWikiPage::getPageIdForTitle($a_wiki_id, $a_title);
-		$page_gui = new ilWikiPageGUI($id, $a_old_nr);
+		$page_gui = new ilWikiPageGUI($id, $a_old_nr, $a_wiki_ref_id);
 		
 		return $page_gui;
 	}
