@@ -270,6 +270,10 @@ class ilObjWiki extends ilObject
 		$query = "DELETE FROM il_wiki_data".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
+
+		// remove all notifications
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::removeForObject(ilNotification::TYPE_WIKI, $this->getId());
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		ilWikiPage::deleteAllPagesOfWiki($this->getId());

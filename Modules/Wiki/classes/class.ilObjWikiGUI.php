@@ -62,7 +62,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			case 'ilwikipagegui':
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
+					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"], $this->object->getRefId());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->object->getStyleSheetId(), "wiki"));
@@ -645,6 +645,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
+
+
+		$cbox = new ilCheckboxInputGUI($lng->txt("wiki_edit_notification"), "notification");
+		$cbox->setInfo($lng->txt("wiki_edit_notification_info"));
+		$this->form_gui->addItem($cbox);
+		
 		
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
@@ -671,7 +677,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	function getSettingsFormValues($a_mode = "edit")
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
 		// set values
 		if ($a_mode == "create")
@@ -688,6 +694,11 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["description"] = $this->object->getDescription();
 			$values["rating"] = $this->object->getRating();
 			$values["intro"] = $this->object->getIntroduction();
+
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			$values["notification"] = ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->object->getId());
+
+
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -698,7 +709,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
 		$this->checkPermission("write");
 		
@@ -722,6 +733,9 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setRating($this->form_gui->getInput("rating"));
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 				$this->object->update();
+
+				include_once "./Services/Notification/classes/class.ilNotification.php";
+				ilNotification::setNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->object->getId(), (bool)$this->form_gui->getInput("notification"));
 							
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 				$ilCtrl->redirect($this, "editSettings");
@@ -892,7 +906,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-			ilWikiUtil::makeDbTitle($page));
+			ilWikiUtil::makeDbTitle($page), 0, $this->object->getRefId());
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), "wiki"));
