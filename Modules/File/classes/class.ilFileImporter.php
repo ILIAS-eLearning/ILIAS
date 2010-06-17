@@ -22,6 +22,21 @@ class ilFileImporter extends ilXmlImporter
 	{
 //var_dump($a_xml);
 
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$newObj = new ilObjFile();
+
+		include_once("./Modules/File/classes/class.ilFileXMLParser.php");
+		$parser = new ilFileXMLParser($newObj, $a_xml);
+		$parser->setImportDirectory($this->getImportDirectory());
+		$parser->startParsing();
+		$newObj->setType("file");
+		$newObj->create(false, true);
+		$parser->setFileContents();
+		$this->current_obj = $newObj;
+
+		$a_mapping->addMapping("Modules/File", "file", $a_id, $newObj->getId());
+		$a_mapping->addMapping("Services/MetaData", "md", $a_id.":0:file",
+			$newObj->getId().":0:file");
 
 	}
 	

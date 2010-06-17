@@ -50,7 +50,7 @@ class ilObjFile extends ilObject
 	* 
 	* @param bool upload mode (if enabled no entries in file_data will be done)
 	*/
-	function create($a_upload = false)
+	function create($a_upload = false, $a_prevent_meta_data_creation = false)
 	{
 		$new_id = parent::create();
 
@@ -68,7 +68,7 @@ class ilObjFile extends ilObject
 	 * This method has been put into a separate operation, to allow a WebDAV Null resource
 	 * (class.ilObjNull.php) to become a file object.
 	 */
-	function createProperties($a_upload = false)
+	function createProperties($a_upload = false, $a_prevent_meta_data_creation = false)
 	{
 		global $ilDB,$tree;
 		
@@ -104,7 +104,7 @@ class ilObjFile extends ilObject
 		$res = $ilDB->manipulate($q);
 		
 		// no meta data handling for file list files
-		if ($this->getMode() != "filelist")
+		if ($this->getMode() != "filelist" && !$a_prevent_meta_data_creation)
 		{
 			$this->createMetaData();
 		}
