@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Block/classes/class.ilBlockGUI.php");
 include_once("./Services/Block/classes/class.ilExternalFeedBlockGUIGen.php");
@@ -390,8 +371,91 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function create()
 	{
-		return $this->createFeedBlock();
+		$html1 = $this->createFeedBlock();
+
+		$html2 = "";
+		if (DEVMODE == 1)
+		{
+			$this->initImportForm("feed");
+			$html2 = "<br/>".$this->form->getHTML();
+		}
+
+		return $html1.$html2;
 	}
+
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("feed");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$ilCtrl->setParameter($this, "new_type", $a_new_type);
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	function importFile()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->exitSaveFeedBlock();
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
 
 	/**
 	* FORM FeedBlock: Init form. (We need to overwrite, because Generator

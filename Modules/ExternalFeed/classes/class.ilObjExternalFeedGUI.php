@@ -9,7 +9,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI, ilExportGUI
 * @ilCtrl_IsCalledBy ilObjExternalFeedGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjExternalFeedGUI extends ilObjectGUI
@@ -53,6 +53,16 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				}
 				$ret =& $this->ctrl->forwardCommand($fb_gui);
 				$tpl->setContent($ret);
+				break;
+
+			case "ilexportgui":
+				$this->prepareOutput();
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+//				$this->tpl->show();
 				break;
 
 			default:
@@ -183,6 +193,15 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTargetByClass("ilexternalfeedblockgui", "editFeedBlock"));
 		}
+
+		// export
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) && DEVMODE == 1)
+		{
+			$ilTabs->addTab("export",
+				$lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+		}
+
 
 		if($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
