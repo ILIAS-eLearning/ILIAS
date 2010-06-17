@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -43,6 +24,7 @@ class ilFileXMLParser extends ilSaxParser
     static $CONTENT_NOT_COMPRESSED = 0;
     static $CONTENT_GZ_COMPRESSED = 1;
     static $CONTENT_ZLIB_COMPRESSED = 2;
+	static $CONTENT_COPY = 4;
 
 	/**
 	 * Exercise object which has been parsed
@@ -108,7 +90,25 @@ class ilFileXMLParser extends ilSaxParser
 		$this->mode = $mode;
 	}
 
+	/**
+	 * Set import directory
+	 *
+	 * @param	string	import directory
+	 */
+	function setImportDirectory($a_val)
+	{
+		$this->importDirectory = $a_val;
+	}
 
+	/**
+	 * Get import directory
+	 *
+	 * @return	string	import directory
+	 */
+	function getImportDirectory()
+	{
+		return $this->importDirectory;
+	}
 	/**
 	* set event handlers
 	*
@@ -172,6 +172,9 @@ class ilFileXMLParser extends ilSaxParser
                              throw new ilFileException ("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
 
 			            $this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
+			        } elseif ($a_attribs["mode"] == "COPY")
+			        {
+			            $this->mode = ilFileXMLParser::$CONTENT_COPY;
 			        }
 
 			    }
@@ -189,6 +192,7 @@ class ilFileXMLParser extends ilSaxParser
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 	    $this->cdata = trim($this->cdata);
+
 		switch($a_name)
 		{
 			case 'File':
@@ -211,30 +215,37 @@ class ilFileXMLParser extends ilSaxParser
 			case 'Content':
 				$this->isReadingFile = false;
 				$baseDecodedFilename = ilUtil::ilTempnam();
-			    if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) 
-			    {
-			    		throw new ilFileException ("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);           							
-			    }
-		        if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) 
-		        {
-		           	if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
+				if ($this->mode = ilFileXMLParser::$CONTENT_COPY)
+				{
+					$this->tmpFilename = $this->getImportDirectory()."/".$this->cdata;
+				}
+				else
+				{
+					if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename))
 					{
-						throw new ilFileException ("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);           		
+							throw new ilFileException ("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
 					}
-					unlink ($baseDecodedFilename);
-		        }
-		        elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) 
-		        {
-	           		if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
+					if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED)
 					{
-						throw new ilFileException ("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);           		
+						if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename))
+						{
+							throw new ilFileException ("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);
+						}
+						unlink ($baseDecodedFilename);
 					}
-					unlink ($baseDecodedFilename);
-		        }
-		        else
-		        {
-					$this->tmpFilename = $baseDecodedFilename;
-				}	             
+					elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED)
+					{
+						if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename))
+						{
+							throw new ilFileException ("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);
+						}
+						unlink ($baseDecodedFilename);
+					}
+					else
+					{
+						$this->tmpFilename = $baseDecodedFilename;
+					}
+				}
 				//$this->content = $content;
 				$this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
 				
@@ -266,7 +277,7 @@ class ilFileXMLParser extends ilSaxParser
 	{
 		if($a_data != "\n")
 		{
-			if ($this->isReadingFile)
+			if ($this->isReadingFile && $this->mode != ilFileXMLParser::$CONTENT_COPY)
 			{
   			$handle = fopen ($this->tmpFilename, "a");
 				fwrite ($handle, $a_data);
@@ -303,6 +314,7 @@ class ilFileXMLParser extends ilSaxParser
 		$filename = $filedir."/".$this->file->getFileName();
 		if (file_exists($filename))
 			unlink($filename);
+//echo "-".$this->tmpFilename."-".$filename."-"; exit;
 		return rename($this->tmpFilename, $filename);
 	   // @file_put_contents($filename, $this->content);
 	}

@@ -1928,3 +1928,7 @@ if(!$ilDB->tableExists('notification'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3079>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

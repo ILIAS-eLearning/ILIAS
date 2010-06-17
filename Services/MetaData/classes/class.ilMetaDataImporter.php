@@ -21,6 +21,7 @@ class ilMetaDataImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		$new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
+
 		if ($new_id != "")
 		{
 			include_once("./Services/MetaData/classes/class.ilMDXMLCopier.php");
