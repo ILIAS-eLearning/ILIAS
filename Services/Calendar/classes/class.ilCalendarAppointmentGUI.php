@@ -965,11 +965,22 @@ class ilCalendarAppointmentGUI
 		switch((int) $_POST['until_type'])
 		{
 			case 1:
+				$this->rec->setFrequenceUntilDate(null);
 				// nothing to do
 				break;
 				
 			case 2:
+				$this->rec->setFrequenceUntilDate(null);
 				$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+				break;
+				
+			case 3:
+				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
+				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
+				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
+				
+				$this->rec->setFrequenceUntilCount(0);
+				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
 				break;
 		}
 		

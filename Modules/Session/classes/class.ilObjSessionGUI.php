@@ -1582,7 +1582,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
 			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
-			$rec->enableUntilSelection(false);
+			$rec->allowUnlimitedRecurrences(false);
 			$rec->setRecurrence($this->rec);
 			$this->form->addItem($rec);
 		}
@@ -1853,7 +1853,27 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		// UNTIL
-		$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+		switch((int) $_POST['until_type'])
+		{
+			case 1:
+				$this->rec->setFrequenceUntilDate(null);
+				// nothing to do
+				break;
+				
+			case 2:
+				$this->rec->setFrequenceUntilDate(null);
+				$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+				break;
+				
+			case 3:
+				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
+				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
+				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
+				
+				$this->rec->setFrequenceUntilCount(0);
+				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				break;
+		}
 	}
 	
 	

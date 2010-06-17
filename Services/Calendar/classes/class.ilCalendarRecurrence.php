@@ -257,7 +257,7 @@ class ilCalendarRecurrence
 	 * @access public
 	 * 
 	 */
-	public function setFrequenceUntilDate(ilDateTime $a_date)
+	public function setFrequenceUntilDate(ilDateTime $a_date = null)
 	{
 	 	$this->freq_until_date = $a_date;
 	}
