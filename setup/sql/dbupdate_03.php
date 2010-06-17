@@ -1924,3 +1924,7 @@ if(!$ilDB->tableExists('notification'))
 	$ilDB->addPrimaryKey('notification', array('type', 'id', 'user_id'));
 }
 ?>
+<#3078>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
