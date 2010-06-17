@@ -10451,3 +10451,9 @@ wiki#:#wiki_notification_toggle_wiki_deactivate#:#Für Wiki deaktivieren
 wiki#:#wiki_notification_toggle_page_activate#:#Für Seite aktivieren
 wiki#:#wiki_notification_toggle_page_deactivate#:#Für Seite deaktivieren
 dateplaner#:#cal_repeat_until#:#Wiederholen bis zum
+administration#:#adm_db_benchmark#:#Datenbank Benchmark
+administration#:#adm_download_log#:#Log herunterladen
+administration#:#adm_activate_db_benchmark#:#Messung aktivieren
+administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
+administration#:#adm_db_benchmark_user#:#Benutzer Login
+administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
