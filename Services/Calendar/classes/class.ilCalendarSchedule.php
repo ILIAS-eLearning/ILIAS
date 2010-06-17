@@ -275,7 +275,7 @@ class ilCalendarSchedule
 	 *
 	 * @access protected
 	 */
-	protected function getEvents()
+	public function getEvents()
 	{
 		global $ilUser,$ilDB;
 		
@@ -290,13 +290,24 @@ class ilCalendarSchedule
 
 		// TODO: optimize
 		$query = "SELECT ce.cal_id cal_id FROM cal_entries ce LEFT JOIN cal_recurrence_rules crr ON ce.cal_id = crr.cal_id ".
-			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ".
-			"WHERE ((starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
-			"AND enda >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC'),'timestamp').") ".
-			"OR (starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
-			"AND NOT rule_id IS NULL)) ".
-			"AND ".$ilDB->in('ca.cat_id',$cats,false,'integer')." ".
+			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ";
+
+		if($this->type != self::TYPE_INBOX)
+		{
+			$query .= "WHERE ((starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
+				"AND enda >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC'),'timestamp').") ".
+				"OR (starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
+				"AND NOT rule_id IS NULL)) ";
+		}
+		else
+	    {
+			$date = new ilDateTime(mktime(0, 0, 0), IL_CAL_UNIX);
+			$query .= "WHERE starta >= ".$this->db->quote($date->get(IL_CAL_DATETIME,'','UTC'),'timestamp');
+		}
+
+		$query .= "AND ".$ilDB->in('ca.cat_id',$cats,false,'integer')." ".
 			"ORDER BY starta";
+
 		$res = $this->db->query($query);
 		
 		$events = array();

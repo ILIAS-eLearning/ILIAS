@@ -10457,3 +10457,4 @@ administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_db_benchmark_user#:#Benutzer Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
+dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine

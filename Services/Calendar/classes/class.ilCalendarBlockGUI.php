@@ -453,8 +453,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
 		$events = $schedule->getChangedEvents(true);
-		
+
+		$ilCtrl->setParameterByClass('ilcalendarinboxgui', 'changed', 1);
 		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
+		$ilCtrl->setParameterByClass('ilcalendarinboxgui', 'changed', '');
 		$text = '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
 		$end_link = '</a>';
 		
