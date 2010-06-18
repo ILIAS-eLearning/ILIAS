@@ -22,6 +22,8 @@
 */
 
 include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+include_once('./Services/Table/classes/class.ilTable2GUI.php');
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>

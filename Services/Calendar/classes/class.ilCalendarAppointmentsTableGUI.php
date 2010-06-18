@@ -55,7 +55,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
 	 	
-		parent::__construct($a_parent_obj,'edit');
+		parent::__construct($a_parent_obj,'upcoming');
 		$this->setFormName('appointments');
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"50%");
