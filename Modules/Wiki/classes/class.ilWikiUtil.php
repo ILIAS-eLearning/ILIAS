@@ -582,10 +582,14 @@ class ilWikiUtil
 		{
 			include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
 			$page = new ilWikiPage($a_page_id);
-
+		
 			$users = ilNotification::getNotificationsForObject($a_type, $a_page_id);
 			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id);
 			$users = array_merge($users, $wiki_users);
+			if(!sizeof($users))
+			{
+				return;
+			}
 
             // update/delete
 			$message = sprintf($lng->txt('wiki_change_notification_page_body_'.$a_action), $wiki->getTitle(), $page->getTitle())."\n\n";
@@ -599,45 +603,46 @@ class ilWikiUtil
 		else
 		{
 			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id);
+			if(!sizeof($users))
+			{
+				return;
+			}
 
 			// new
 			$message = sprintf($lng->txt('wiki_change_notification_body_'.$a_action), $wiki->getTitle())."\n\n";
 
 			$message .= "------------------------------------------------------------\n";
 
+			include_once "./classes/class.ilLink.php";
 			$message .= sprintf($lng->txt('wiki_change_notification_link'),
 				ilLink::_getLink($a_wiki_ref_id));
 		}
 
-		if(sizeof($users))
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/User/classes/class.ilObjUser.php";
+
+		foreach(array_unique($users) as $idx => $user_id)
 		{
-			include_once "./Services/Mail/classes/class.ilMail.php";
-			include_once "./Services/User/classes/class.ilObjUser.php";
-			include_once "./classes/class.ilLink.php";
-
-			foreach(array_unique($users) as $idx => $user_id)
-		    {
-				if($user_id != $ilUser->getId())
-				{
-					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-					$mail_obj->appendInstallationSignature(true);
-					$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-						"", "", $subject, $message, array(), array("system"));
-				}
-				else
-				{
-					unset($users[$idx]);
-				}
-			}
-
-			if($a_type == ilNotification::TYPE_WIKI_PAGE)
+			if($user_id != $ilUser->getId())
 			{
-				ilNotification::updateNotificationTime($a_type, $a_page_id, $users);
+				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+				$mail_obj->appendInstallationSignature(true);
+				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+					"", "", $subject, $message, array(), array("system"));
 			}
 			else
 			{
-				ilNotification::updateNotificationTime($a_type, $wiki_id, $users);
+				unset($users[$idx]);
 			}
+		}
+
+		if($a_type == ilNotification::TYPE_WIKI_PAGE)
+		{
+			ilNotification::updateNotificationTime($a_type, $a_page_id, $users);
+		}
+		else
+		{
+			ilNotification::updateNotificationTime($a_type, $wiki_id, $users);
 		}
 	}
 }
