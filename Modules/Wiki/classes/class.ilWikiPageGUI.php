@@ -119,6 +119,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 							ilNotification::setNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId(), true);
 							break;
 				   }
+				   $ilCtrl->redirect($this, "preview");
 				}
 				
 				$this->setPresentationTitle($this->getWikiPage()->getTitle());

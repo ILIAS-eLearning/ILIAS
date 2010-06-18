@@ -40,6 +40,7 @@ class ilCalendarCategories
 	const MODE_REMOTE_ACCESS = 3;
 	const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
 	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
+	const MODE_MANAGE = 6;
 	
 	protected static $instance = null;
 	
@@ -242,6 +243,11 @@ class ilCalendarCategories
 				$this->root_ref_id = $a_source_ref_id;
 				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
 				$this->readReposCalendars();
+				break;
+
+			case self::MODE_MANAGE:
+				$this->readPDCalendars();
+				$this->readSelectedItemCalendars();
 				break;
 		}
 		
@@ -546,6 +552,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+			$this->categories_info[$row->cat_id]['accepted'] = false;
 		}
 		
 		return true;
@@ -574,7 +581,8 @@ class ilCalendarCategories
 		
 		// Read shared calendars
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
-		if(!$cat_ids = array_merge((array) $cat_ids,ilCalendarSharedStatus::getAcceptedCalendars($ilUser->getId())))
+		$accepted_ids = ilCalendarSharedStatus::getAcceptedCalendars($ilUser->getId());
+		if(!$cat_ids = array_merge((array) $cat_ids, $accepted_ids))
 		{
 			return true;
 		}
@@ -596,6 +604,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $row->obj_id == $ilUser->getId();
+			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
 		}
 	}
 	
@@ -621,7 +630,7 @@ class ilCalendarCategories
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ".
 			"AND ".$ilDB->in('obj_id',$a_obj_ids,false,'integer')." ".
 			"ORDER BY title ";
-		
+
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

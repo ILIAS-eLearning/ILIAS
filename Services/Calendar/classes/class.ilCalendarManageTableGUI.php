@@ -24,15 +24,15 @@
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
-* show presentation of calendar category side block
+* show list of alle calendars to manage
 *
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
+* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 *
 * @ingroup ServicesCalendar
 */
 
-class ilCalendarCategoryTableGUI extends ilTable2GUI
+class ilCalendarManageTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
@@ -43,30 +43,35 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj)
 	{
-	 	global $lng,$ilCtrl,$ilUser;
+	 	global $lng, $ilCtrl, $ilUser;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
 	 	
-		parent::__construct($a_parent_obj,'showCategories');
+		parent::__construct($a_parent_obj, 'manage');
 		$this->setFormName('categories');
-	 	$this->addColumn('','',"1", true);
-		$this->addColumn($this->lng->txt('type'),'',"1");
-	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
+	 	$this->addColumn('','','5%', true);
+		$this->addColumn($this->lng->txt('type'), '', '10%');
+	 	$this->addColumn($this->lng->txt('title'),'title', '50%');
+	 	$this->addColumn('','','35%');
 	 	
 	 	$this->setPrefix('categories');
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.show_category_row.html","Services/Calendar");
-		$this->disable('sort');
-		if (!$ilUser->prefs["screen_reader_optimization"])
-		{
-			$this->disable('header');
-		}
-		$this->disable('numinfo');
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
+		$this->setRowTemplate("tpl.manage_row.html","Services/Calendar");
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('selected_cat_ids');
-		$this->setDisplayAsBlock(true);
+		// $this->setDisplayAsBlock(true);
+
+
+		/*
+		$title = $this->lng->txt('cal_table_categories');
+		$title .= $this->appendCalendarSelection();
+		$table_gui->setTitle($title);
+	    */
+
+	    $this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+		// $this->addCommandButton('add',$this->lng->txt('add'));
 
 		$this->setDefaultOrderDirection('asc');
 		$this->setDefaultOrderField('title');
@@ -81,22 +86,36 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
-		if(!$a_set['hidden'])
-		{
-			$this->tpl->setVariable('VAL_CHECKED','checked="checked"');
-		}
-		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
-		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setListTitle($this->lng->txt("actions"));
+		$current_selection_list->setId("act_".$a_set['id']);
 		
-		if($a_set['editable'] or 1)
+		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
+		
+		if($a_set['editable'])
 		{
-			#$this->tpl->setCurrentBlock('title_link');
-			$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
-			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'upcoming'));
-			$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
-			#$this->tpl->parseCurrentBlock();
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
+			$current_selection_list->addItem($this->lng->txt('edit'), '', $url);
+
+			$this->tpl->setCurrentBlock("checkbox");
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+			$this->tpl->parseCurrentBlock();
 		}
+
+		if($a_set['accepted'])
+		{
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
+			$current_selection_list->addItem($this->lng->txt('unshare'), '', $url);
+		}
+		else if($a_set['type'] == ilCalendarCategory::TYPE_USR)
+		{
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
+			$current_selection_list->addItem($this->lng->txt('share'), '', $url);
+		}
+
+		$this->ctrl->setParameter($this->getParentObject(),'category_id','');
+
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
@@ -115,6 +134,11 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}
+		
+		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
+		$this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
+		
 		if(strlen($a_set['path']))
 		{
 			$this->tpl->setCurrentBlock('calendar_path');
@@ -131,33 +155,28 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $ilUser,$tree;
+		global $ilUser, $tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
-		
-		$hidden_obj = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
-		$hidden = $hidden_obj->getHidden();
-		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
-		$all = $cats->getCategoriesInfo();
+		$cats->initialize(ilCalendarCategories::MODE_MANAGE);
+	
 		$tmp_title_counter = array();
 		$categories = array();
-		foreach($all as $category)
+		foreach($cats->getCategoriesInfo() as $category)
 		{
 			$tmp_arr['obj_id'] = $category['obj_id'];
 			$tmp_arr['id'] = $category['cat_id'];
-			$tmp_arr['hidden'] = (bool) in_array($category['cat_id'],$hidden);
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
-			
+			$tmp_arr['accepted'] = $category['accepted'];
+
 			$categories[] = $tmp_arr;
 			
 			// count title for appending the parent container if there is more than one entry.
 			$tmp_title_counter[$category['type'].'_'.$category['title']]++;
-			
 		}
 		
 		$path_categories = array();

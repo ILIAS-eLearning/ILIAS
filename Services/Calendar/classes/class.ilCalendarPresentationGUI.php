@@ -139,19 +139,31 @@ class ilCalendarPresentationGUI
 				
 			case 'ilcalendarcategorygui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-
+				
 				include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');				
 				$category = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 				$this->ctrl->forwardCommand($category);
-				break;
-			
+				
+				if(in_array($this->ctrl->getCmd("show"), array("upcoming")))
+				{
+					$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+					break;
+				}
+				else
+				{
+					$this->tabs_gui->setSubTabActive("manage");
+					
+					// no side blocks
+					return;
+				}
+
 			default:
 				$cmd = $this->ctrl->getCmd("show");
+
 				$this->$cmd();
 				break;
 		}
-		
+
 		$this->showSideBlocks();
 		
 		return true;
@@ -301,6 +313,7 @@ class ilCalendarPresentationGUI
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
+		$this->tabs_gui->addSubTabTarget('manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
 		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
 	
