@@ -103,14 +103,14 @@ class ilWikiPage extends ilPageObject
 			.")";
 		$ilDB->manipulate($query);
 
-		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
-		
 		// create page object
 		if (!$a_prevent_page_creation)
 		{
 			parent::create();
 			$this->saveInternalLinks($this->getXMLContent());
+
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
 		}
 	}
 
