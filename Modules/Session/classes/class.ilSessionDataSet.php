@@ -24,6 +24,10 @@ class ilSessionDataSet extends ilDataSet
 		{
 			case "sess":
 				return array("4.1.0");
+
+			case "sess_item":
+				return array("4.1.0");
+
 		}
 	}
 	
@@ -70,6 +74,18 @@ class ilSessionDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "sess_item")
+		{
+			switch ($a_version)
+			{
+				case "4.1.0":
+					return array(
+						"SessionId" => "integer",
+						"ItemId" => "text",
+						);
+			}
+		}
+
 	}
 
 	/**
@@ -103,6 +119,19 @@ class ilSessionDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "sess_item")
+		{
+			switch ($a_version)
+			{
+				case "4.1.0":
+					$this->getDirectDataFromQuery($q = "SELECT event_id session_id, item_id ".
+						" FROM event_items ".
+						"WHERE ".
+						$ilDB->in("event_id", $a_ids, false, "integer"));
+					break;
+			}
+		}
+
 	}
 
 	/**
@@ -124,6 +153,11 @@ class ilSessionDataSet extends ilDataSet
 				$a_set["EventEnd"] = $end->get(IL_CAL_DATETIME,'','UTC');
 			}
 		}
+		if ($a_entity == "sess_item")
+		{
+			// make ref id an object id
+			$a_set["ItemId"] = ilObject::_lookupObjId($a_set["ItemId"]);
+		}
 		return $a_set;
 	}
 
@@ -134,6 +168,14 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
+		switch ($a_entity)
+		{
+			case "sess":
+				return array (
+					"sess_item" => array("ids" => $a_rec["Id"])
+				);
+		}
+
 		return false;
 	}
 	
@@ -185,6 +227,10 @@ class ilSessionDataSet extends ilDataSet
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Session", "sess", $a_rec["Id"], $newObj->getId());
 //var_dump($a_mapping->mappings["Services/News"]["news_context"]);
+				break;
+
+			case "sess_item":
+				// todo
 				break;
 		}
 	}
