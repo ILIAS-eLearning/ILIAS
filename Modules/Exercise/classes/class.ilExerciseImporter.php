@@ -21,6 +21,7 @@ class ilExerciseImporter extends ilXmlImporter
 		include_once("./Modules/Exercise/classes/class.ilExerciseDataSet.php");
 		$this->ds = new ilExerciseDataSet();
 		$this->ds->setDSPrefix("ds");
+		$this->ds->setImportDirectory($this->getImportDirectory());
 	}
 
 	/**
