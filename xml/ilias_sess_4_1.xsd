@@ -8,7 +8,6 @@
 	<complexType name='Data' mixed='true'>
 	</complexType>
 
-
 	<!-- Sess -->
 	<element name='Sess'>
 		<complexType>

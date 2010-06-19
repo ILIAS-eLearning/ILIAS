@@ -219,13 +219,14 @@ class ilObjExercise extends ilObject
 			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
 			"time_stamp = ".$ilDB->quote($this->getTimestamp());
 		$this->ilias->db->query($query);*/
-		
+
 		$ilDB->insert("exc_data", array(
 			"obj_id" => array("integer", $this->getId()),
 			"instruction" => array("clob", $this->getInstruction()),
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
-			"show_submissions" => array("integer", 0)
+			"pass_nr" => array("text", $this->getPassNr()),
+			"show_submissions" => array("integer", (int) $this->getShowSubmissions())
 			));
 		return true;
 	}
