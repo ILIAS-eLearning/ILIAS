@@ -35,6 +35,7 @@ class ilExerciseExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
 	}
 

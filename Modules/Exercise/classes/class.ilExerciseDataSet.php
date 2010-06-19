@@ -73,7 +73,8 @@ class ilExerciseDataSet extends ilDataSet
 						"Instruction" => "text",
 						"Title" => "text",
 						"Mandatory" => "integer",
-						"OrderNr" => "integer");
+						"OrderNr" => "integer",
+						"Dir" => "directory");
 			}
 		}
 
@@ -145,6 +146,11 @@ class ilExerciseDataSet extends ilDataSet
 				$deadline = new ilDateTime($a_set["Deadline"], IL_CAL_UNIX);
 				$a_set["Deadline"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
 			}
+
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
+			$a_set["Dir"] = $fstorage->getPath();
+
 		}
 
 		return $a_set;
@@ -235,6 +241,17 @@ class ilExerciseDataSet extends ilDataSet
 					$ass->setMandatory($a_rec["Mandatory"]);
 					$ass->setOrderNr($a_rec["OrderNr"]);
 					$ass->save();
+
+					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
+					$fstorage->create();
+					$dir = str_replace("..", "", $a_rec["Dir"]);
+					if ($dir != "" && $this->getImportDirectory() != "")
+					{
+						$source_dir = $this->getImportDirectory()."/".$dir;
+						$target_dir = $fstorage->getPath();
+						ilUtil::rCopy($source_dir, $target_dir);
+					}
 
 					$a_mapping->addMapping("Modules/Exercise", "exc_assignment", $a_rec["Id"], $ass->getId());
 

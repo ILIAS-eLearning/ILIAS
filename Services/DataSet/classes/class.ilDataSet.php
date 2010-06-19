@@ -319,15 +319,14 @@ abstract class ilDataSet
 						case "directory":
 							if ($this->absolute_export_dir != "" && $this->relative_export_dir != "")
 							{
-								ilUtil::makeDir($this->absolute_export_dir."/dsDir_".$this->dircnt);
+								ilUtil::makeDirParents($this->absolute_export_dir."/dsDir_".$this->dircnt);
 								ilUtil::rCopy($c, $this->absolute_export_dir."/dsDir_".$this->dircnt);
-//echo "<br>copy-".$c."-".$this->absolute_export_dir."/dir_".$this->dircnt."-";
+//echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
 								$c = $this->relative_export_dir."/dsDir_".$this->dircnt;
 								$this->dircnt++;
 							}
 							break;
 					}	
-					
 					// this changes schema/dtd
 					//$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
 					//	array(), $c);
