@@ -22,6 +22,7 @@
 */
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
+include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusions.php';
 
 /** 
 * Model of calendar entry recurrcences
@@ -68,6 +69,8 @@ class ilCalendarRecurrence
 	private $byyearday;
 	private $bysetpos;
 	private $weekstart;
+	
+	private $exclusion_dates = array();
 	
 	private $timezone = 'Europe/Berlin';
 
@@ -611,6 +614,15 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * Get exclusion dates
+	 * @return 
+	 */
+	public function getExclusionDates()
+	{
+		return (array) $this->exclusion_dates;
+	}
+	
+	/**
 	 * validate
 	 *
 	 * @access public
@@ -755,7 +767,8 @@ class ilCalendarRecurrence
 	 		$this->bysetpos = $row->bysetpos;
 	 		$this->weekstart = $row->week_start;
 	 	}
-			
+		
+		$this->exclusion_dates = ilCalendarRecurrenceExclusions::getExclusionDates($this->cal_id);
 	}
 }
 
