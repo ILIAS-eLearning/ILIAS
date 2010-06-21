@@ -160,16 +160,16 @@ class ilCalendarRecurrenceCalculator
 			#echo "BYSETPOS: ".$freq_res;
 			
 			$freq_res = $this->applyLimits($freq_res);
-
+			
 			$start = $this->incrementByFrequency($start);
 			if(ilDateTime::_after($start,$this->period_end) or $this->limit_reached)
 			{
 				break;
 			}
-
 	 	}
 	 	while(true);
 
+		$this->applyExclusionDates();
 
 		$this->valid_dates->sort();
 			
@@ -819,6 +819,24 @@ class ilCalendarRecurrenceCalculator
 	 	}
 	 	$this->valid_dates->merge($list);
 	 	return true;
+	}
+	
+	/**
+	 * 
+	 * @param ilDateList $list
+	 * @return 
+	 */
+	protected function applyExclusionDates()
+	{
+		if(!$this->recurrence->getExclusionDates())
+		{
+			return true;
+		}
+			
+		foreach($this->recurrence->getExclusionDates() as $excl)
+		{
+			$this->valid_dates->remove($excl->getDate());
+		}
 	}
 	
 	/**
