@@ -108,6 +108,15 @@ class ilCalendarRecurrenceExclusion
 	}
 	
 	/**
+	 * Exclusion date to ical format
+	 * @return 
+	 */
+	public function toICal()
+	{
+		return 'EXDATE:'.$this->getDate()->get(IL_CAL_FKT_DATE,'Ymd');
+	}
+	
+	/**
 	 * Save exclusion date to db
 	 * @return 
 	 */
