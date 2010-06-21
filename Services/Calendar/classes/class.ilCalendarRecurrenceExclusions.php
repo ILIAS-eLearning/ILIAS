@@ -34,6 +34,12 @@ include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusion.ph
 */
 class ilCalendarRecurrenceExclusions
 {
+	
+	/**
+	 * Read exclusion dates
+	 * @param object $a_cal_id
+	 * @return 
+	 */
 	public static function getExclusionDates($a_cal_id)
 	{
 		global $ilDB;
@@ -47,6 +53,20 @@ class ilCalendarRecurrenceExclusions
 			$exclusions[] = new ilCalendarRecurrenceExclusion($row->excl_id);
 		}
 		return $exclusions;
+	}
+	
+	/**
+	 * Delete exclusion dates of calendar entry
+	 * @param integer $a_cal_id
+	 * @return 
+	 */
+	public static function delete($a_cal_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_rec_exclusion ".
+			"WHERE cal_id = ".$ilDB->quote($a_cal_id,'integer');
+		$ilDB->manipulate($query);
 	}
 }
 ?>

@@ -108,6 +108,8 @@ class ilCalendarRecurrence
 		$query = "DELETE FROM cal_recurrence_rules ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+		
+		ilCalendarRecurrenceExclusions::delete($a_cal_id);
 	}
 	
 	public function toICal()
