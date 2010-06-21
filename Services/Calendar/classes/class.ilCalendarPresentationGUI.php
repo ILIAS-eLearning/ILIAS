@@ -151,7 +151,7 @@ class ilCalendarPresentationGUI
 				}
 				else
 				{
-					$this->tabs_gui->setSubTabActive("manage");
+					$this->tabs_gui->setSubTabActive("cal_manage");
 					
 					// no side blocks
 					return;
@@ -313,7 +313,7 @@ class ilCalendarPresentationGUI
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
-		$this->tabs_gui->addSubTabTarget('manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
+		$this->tabs_gui->addSubTabTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
 		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
 	

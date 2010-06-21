@@ -44,6 +44,8 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 	public function __construct($a_parent_obj)
 	{
 	 	global $lng, $ilCtrl, $ilUser;
+
+		$this->setId("calmng");
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
@@ -106,12 +108,12 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		if($a_set['accepted'])
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'unshare');
-			$current_selection_list->addItem($this->lng->txt('unshare'), '', $url);
+			$current_selection_list->addItem($this->lng->txt('cal_unshare'), '', $url);
 		}
 		else if($a_set['type'] == ilCalendarCategory::TYPE_USR)
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
-			$current_selection_list->addItem($this->lng->txt('share'), '', $url);
+			$current_selection_list->addItem($this->lng->txt('cal_share'), '', $url);
 		}
 
 		$this->ctrl->setParameter($this->getParentObject(),'category_id','');

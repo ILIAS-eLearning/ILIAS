@@ -132,7 +132,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		
 		foreach($this->cal_data as $data)
 		{
-			if($status->isDeclined($data['cal_id']))
+			if($status->isDeclined($data['cal_id']) || $status->isAccepted($data['cal_id']))
 			{
 				continue;
 			}
