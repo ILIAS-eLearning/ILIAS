@@ -1940,4 +1940,27 @@ if(!$ilDB->tableExists('notification'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3082>
+<?php
+	$ilDB->createTable('cal_rec_exclusion',array(
+		'excl_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'cal_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'excl_date'	=> array(
+			'type'	=> 'date',
+			'notnull' => FALSE,
+		)
+	));
+	
+	$ilDB->addPrimaryKey('cal_rec_exclusion',array('excl_id'));
+	$ilDB->addIndex('cal_rec_exclusion',array('cal_id'),'i1');
+	$ilDB->createSequence('cal_rec_exclusion');
+?>
 
