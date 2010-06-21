@@ -10462,3 +10462,5 @@ dateplaner#:#cal_back_to_list#:#Zurück zur Liste
 dateplaner#:#cal_back_to_search#:#Zurück zur Suche
 dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_manage#:#Verwalten
+dateplaner#:#cal_delete_single#:#Nur diesen Termin löschen
+dateplaner#:#cal_delete_recurrences#:#Alle Wiederholungen löschen
