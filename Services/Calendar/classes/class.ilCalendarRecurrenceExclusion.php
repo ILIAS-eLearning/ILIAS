@@ -79,6 +79,16 @@ class ilCalendarRecurrenceExclusion
 	}
 	
 	/**
+	 * Set entry id (id of calendar appointment)
+	 * @param object $a_id
+	 * @return 
+	 */
+	public function setEntryId($a_id)
+	{
+		$this->cal_id = $a_id;
+	}
+	
+	/**
 	 * Get exclusion date
 	 * @return 
 	 */
