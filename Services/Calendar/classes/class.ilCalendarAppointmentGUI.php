@@ -166,7 +166,7 @@ class ilCalendarAppointmentGUI
 					$this->form->addCommandButton('editResponsibleUsers',$this->lng->txt('cal_change_responsible_users'));
 				}
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
-				$this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
+				// $this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				break;
 		}
@@ -184,6 +184,11 @@ class ilCalendarAppointmentGUI
 		{
 			$calendar->setValue((int) $_POST['calendar']);
 			$selected_calendar = (int) $_POST['calendar'];
+		}
+		else if($_GET['category_id'])
+		{
+			$calendar->setValue((int) $_GET['category_id']);
+			$selected_calendar = (int) $_GET['category_id'];
 		}
 		elseif($a_mode == 'edit')
 		{
@@ -699,7 +704,7 @@ class ilCalendarAppointmentGUI
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
-		$confirm->setCancel($this->lng->txt('cancel'),'edit');
+		$confirm->setCancel($this->lng->txt('cancel'),'cancel');
 		$confirm->setConfirm($this->lng->txt('delete'),'delete');
 		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
 		$tpl->setContent($confirm->getHTML());
