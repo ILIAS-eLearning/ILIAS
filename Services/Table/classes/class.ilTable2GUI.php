@@ -1904,16 +1904,16 @@ class ilTable2GUI extends ilTableGUI
 		if($this->getShowTemplates() && is_object($ilUser))
 		{
 			// template handling
-			if(isset($_POST["tbltplcrt"]) && $_POST["tbltplcrt"])
+			if(isset($_REQUEST["tbltplcrt"]) && $_REQUEST["tbltplcrt"])
 			{
-				if($this->saveTemplate($_POST["tbltplcrt"]))
+				if($this->saveTemplate($_REQUEST["tbltplcrt"]))
 				{
 					ilUtil::sendSuccess($lng->txt("tbl_template_created"));
 				}
 			}
-			else if(isset($_POST["tbltpldel"]) && $_POST["tbltpldel"])
+			else if(isset($_REQUEST["tbltpldel"]) && $_REQUEST["tbltpldel"])
 			{
-				if($this->deleteTemplate($_POST["tbltpldel"]))
+				if($this->deleteTemplate($_REQUEST["tbltpldel"]))
 				{
 					ilUtil::sendSuccess($lng->txt("tbl_template_deleted"));
 				}

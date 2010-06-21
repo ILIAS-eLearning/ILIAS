@@ -56,6 +56,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				$obj->writeToSession();
 			}
 
+			if(isset($_POST["tbltplcrt"]))
+			{
+				$ilCtrl->setParameter($this->parent_obj, "tbltplcrt", $_POST["tbltplcrt"]);
+			}
+			if(isset($_POST["tbltpldel"]))
+			{
+				$ilCtrl->setParameter($this->parent_obj, "tbltpldel", $_POST["tbltpldel"]);
+			}
+
 			$ilCtrl->redirect($this->parent_obj, $this->parent_cmd);
 		}
         else
