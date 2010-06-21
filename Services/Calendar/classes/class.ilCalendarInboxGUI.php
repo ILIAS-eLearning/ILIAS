@@ -118,6 +118,19 @@ class ilCalendarInboxGUI
 
 		$this->tpl = new ilTemplate('tpl.inbox.html',true,true,'Services/Calendar');
 
+
+		include_once('./Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+
+		$table = new ilCalendarInboxSharedTableGUI($this,'inbox');
+		$table->setCalendars(ilCalendarShared::getSharedCalendarsForUser());
+
+		if($table->parse())
+		{
+			$this->tpl->setVariable('SHARED_CAL_TABLE',$table->getHTML());
+		}
+
+		
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
 		if(isset($_GET['changed']))
 		{

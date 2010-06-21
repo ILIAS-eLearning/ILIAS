@@ -113,7 +113,10 @@ class ilCalendarCategoryGUI
 	 */
 	protected function add()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
 		
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
 		$this->initFormCategory('create');
@@ -155,8 +158,8 @@ class ilCalendarCategoryGUI
 		$category->add();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		$this->ctrl->returnToParent($this);
-		
+		// $this->ctrl->returnToParent($this);
+		$this->manage();
 	}
 	
 	/**
@@ -167,7 +170,7 @@ class ilCalendarCategoryGUI
 	 */
 	protected function edit()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		if(!$_GET['category_id'])
 		{
@@ -184,6 +187,9 @@ class ilCalendarCategoryGUI
 			$this->manage();
 			return false;
 		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
 
 		$this->initFormCategory('edit');
 	    $tpl->setContent($this->form->getHTML());
@@ -471,7 +477,7 @@ class ilCalendarCategoryGUI
 		}
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
 		
 		$_SESSION['cal_query'] = '';
 		
@@ -579,7 +585,7 @@ class ilCalendarCategoryGUI
 		}
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("back_to_search"),  $this->ctrl->getLinkTarget($this, "shareSearch"));
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_search"),  $this->ctrl->getLinkTarget($this, "shareSearch"));
 	
 		switch($type)
 		{
@@ -773,8 +779,6 @@ class ilCalendarCategoryGUI
 		$tpl->setContent($table->getHTML());
 	}
 	
-	
-	
 	/**
 	 * init form search
 	 *
@@ -819,7 +823,6 @@ class ilCalendarCategoryGUI
 		$this->form->addCommandButton('sharePerformSearch',$this->lng->txt('search'));
 		// $this->form->addCommandButton('manage',$this->lng->txt('cancel'));
 	}
-	
 	
 	/**
 	 * init edit/create category form 
@@ -910,6 +913,40 @@ class ilCalendarCategoryGUI
 		}
 		$color->setRequired(true);
 		$this->form->addItem($color);	
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 */
+	protected function unshare()
+	{
+		global $ilUser;
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+
+		$this->readPermissions();
+		$this->checkVisible();
+
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
+		$status = new ilCalendarSharedStatus($ilUser->getId());
+
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		if(!ilCalendarShared::isSharedWithUser($ilUser->getId(), $_GET['category_id']))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
+			$this->inbox();
+			return false;
+		}
+		$status->deleteStatus($ilUser->getId(), $_GET['category_id']);
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->redirect($this, 'manage');
 	}
 
 	/**

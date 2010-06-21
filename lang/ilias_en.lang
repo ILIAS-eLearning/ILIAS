@@ -10497,3 +10497,7 @@ dateplaner#:#cal_repeat_until#:#Repeat until
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
 sess#:#sess_import#:#Import Session
 exc#:#exc_import#:#Import Exercise
+dateplaner#:#cal_back_to_list#:#Back to List
+dateplaner#:#cal_back_to_search#:#Back to Search
+dateplaner#:#cal_unshare#:#Cancel Sharing
+dateplaner#:#cal_manage#:#Manage

@@ -10458,3 +10458,7 @@ administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch n
 administration#:#adm_db_benchmark_user#:#Benutzer Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
+dateplaner#:#cal_back_to_list#:#Zurück zur Liste
+dateplaner#:#cal_back_to_search#:#Zurück zur Suche
+dateplaner#:#cal_unshare#:#Freigabe beenden
+dateplaner#:#cal_manage#:#Verwalten
