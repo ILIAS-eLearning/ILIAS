@@ -134,21 +134,21 @@ with this content
 
 JAVABIN=/usr/bin/java
 ILIASDIR=/var/www/ilias    # Type in the root directory of your ILIAS installation
-IL_SERVER_INI = /path_to_server_ini
+IL_SERVER_INI=/path_to_server_ini
 
 case "$1" in
     start)
 		echo "Starting ILIAS Java-Server"
-        $JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI start &
+        $JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI start &
 		;;
 
     stop)
         echo "Shutting down ILIAS Java-Server"
-        $JAVABIN -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI stop
+        $JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI stop
         ;;
         
     status)
-        $JAVABIN -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI status
+        $JAVABIN -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $IL_SERVER_INI status
         ;;    	
 
     restart)
