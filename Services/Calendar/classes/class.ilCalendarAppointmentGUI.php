@@ -696,17 +696,28 @@ class ilCalendarAppointmentGUI
 	protected function askDelete()
 	{
 		global $tpl;
-		
+
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		
-		$this->ctrl->saveParameter($this,array('seed','app_id'));
-	
+		$this->ctrl->saveParameter($this,array('seed','app_id','dt'));
+
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
 		$confirm->setCancel($this->lng->txt('cancel'),'cancel');
-		$confirm->setConfirm($this->lng->txt('delete'),'delete');
 		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
+
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
+		if(sizeof(ilCalendarRecurrences::_getRecurrences($_GET['app_id'])))
+		{
+			$confirm->addButton($this->lng->txt('cal_delete_single'),'deleteexclude');
+		    $confirm->setConfirm($this->lng->txt('cal_delete_recurrences'),'delete');
+		}
+		else
+		{
+			$confirm->setConfirm($this->lng->txt('delete'),'delete');
+		}
+
 		$tpl->setContent($confirm->getHTML());
 		
 	}
@@ -728,6 +739,25 @@ class ilCalendarAppointmentGUI
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 		}
+		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	 * delete single item of recurrence list
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function deleteExclude()
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceExclusion.php');
+		$excl = new ilCalendarRecurrenceExclusion();
+		$excl->setEntryId($_GET['app_id']);
+		$excl->setDate(new ilDate($_GET['dt'], IL_CAL_UNIX));
+		$excl->save();
+
 		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
 		$this->ctrl->returnToParent($this);
 	}
