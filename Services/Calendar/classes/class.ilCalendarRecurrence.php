@@ -125,6 +125,10 @@ class ilCalendarRecurrence
 		{
 			$ical .= (';COUNT='.$this->getFrequenceUntilCount());
 		}
+		elseif($this->getFrequenceUntilDate())
+		{
+			$ical .= (';UNTIL='.$this->getFrequenceUntilDate()->get(IL_CAL_FKT_DATE,'Ymd'));
+		}
 		if($this->getBYMONTH())
 		{
 			$ical .= (';BYMONTH='.$this->getBYMONTH());

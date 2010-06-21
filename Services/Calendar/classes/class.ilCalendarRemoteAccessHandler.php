@@ -93,6 +93,7 @@ class ilCalendarRemoteAccessHandler
 		$this->getTokenHandler()->storeIcal();
 		
 		echo $export->getExportString();
+		#echo nl2br($export->getExportString());
 		
 		#$fp = fopen('ilias.ics', 'w');
 		#fwrite($fp,$export->getExportString());

@@ -117,10 +117,10 @@ class ilCalendarExport
 		}
 		
 		$this->writer->addLine('DTSTART:'.$start);
+		$this->writer->addLine('DTEND:'.$end);	
 		
 		$this->createRecurrences($app);
 		
-		$this->writer->addLine('DTEND:'.$end);	
 		$this->writer->addLine('SUMMARY:'.ilICalWriter::escapeText($app->getPresentationTitle()));
 		if(strlen($app->getDescription()))
 			$this->writer->addLine('DESCRIPTION:'.ilICalWriter::escapeText($app->getDescription()));
@@ -139,6 +139,10 @@ class ilCalendarExport
 		foreach(ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec)
 		{
 			$this->writer->addLine($rec->toICal());
+			foreach(ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl)
+			{
+				$this->writer->addLine($excl->toICal());
+			}
 		}
 	}
 	
