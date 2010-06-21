@@ -93,7 +93,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		{
 			#$this->tpl->setCurrentBlock('title_link');
 			$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
-			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'upcoming'));
+			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'details'));
 			$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
 			#$this->tpl->parseCurrentBlock();
 		}

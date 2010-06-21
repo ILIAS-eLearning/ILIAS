@@ -142,19 +142,17 @@ class ilCalendarPresentationGUI
 				
 				include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');				
 				$category = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
-				$this->ctrl->forwardCommand($category);
-				
-				if(in_array($this->ctrl->getCmd("show"), array("upcoming")))
+				if($this->ctrl->forwardCommand($category))
 				{
-					$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-					break;
+					$this->tabs_gui->setSubTabActive("cal_manage");
+
+					// no side blocks
+					return;
 				}
 				else
 				{
-					$this->tabs_gui->setSubTabActive("cal_manage");
-					
-					// no side blocks
-					return;
+					$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+					break;
 				}
 
 			default:

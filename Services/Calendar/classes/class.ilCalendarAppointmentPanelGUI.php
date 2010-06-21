@@ -179,6 +179,14 @@ class ilCalendarAppointmentPanelGUI
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 			$this->tpl->setVariable('PANEL_EDIT_HREF',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock('panel_delete_link');
+			$this->tpl->setVariable('TXT_PANEL_DELETE',$this->lng->txt('delete'));
+
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+			$this->tpl->setVariable('PANEL_DELETE_HREF',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','askdelete'));
+			$this->tpl->parseCurrentBlock();
 		}			
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		if($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)

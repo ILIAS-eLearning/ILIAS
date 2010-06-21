@@ -79,7 +79,7 @@ class ilCalendarCategoryGUI
 		switch($next_class)
 		{
 			case 'ilcalendarappointmentgui':
-				$this->ctrl->setReturn($this,'edit');
+				$this->ctrl->setReturn($this,'details');
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
@@ -89,9 +89,12 @@ class ilCalendarCategoryGUI
 			default:
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
-				break;
+				if(!in_array($cmd, array("details", "askDeleteAppointments", "deleteAppointments")))
+				{
+					return true;
+				}
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -196,12 +199,12 @@ class ilCalendarCategoryGUI
 	}
 
 	/**
-	 * show upcoming appointments
+	 * show calendar details
 	 *
 	 * @access protected
 	 * @return
 	 */
-	protected function upcoming()
+	protected function details()
 	{
 		global $tpl;
 
@@ -916,9 +919,7 @@ class ilCalendarCategoryGUI
 	}
 
 	/**
-	 *
-	 *
-	 *
+	 * Stop calendar sharing
 	 */
 	protected function unshare()
 	{
@@ -943,7 +944,7 @@ class ilCalendarCategoryGUI
 			$this->inbox();
 			return false;
 		}
-		$status->deleteStatus($ilUser->getId(), $_GET['category_id']);
+		$status->decline($_GET['category_id']);
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		$this->ctrl->redirect($this, 'manage');
@@ -982,7 +983,7 @@ class ilCalendarCategoryGUI
 		if(!count($_POST['appointments']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->edit();
+			$this->details();
 			return true;
 		}
 
@@ -993,7 +994,7 @@ class ilCalendarCategoryGUI
 		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
 		$confirmation_gui->setHeaderText($this->lng->txt('cal_del_app_sure'));
 		$confirmation_gui->setConfirm($this->lng->txt('delete'),'deleteAppointments');
-		$confirmation_gui->setCancel($this->lng->txt('cancel'),'edit');
+		$confirmation_gui->setCancel($this->lng->txt('cancel'),'details');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		foreach($_POST['appointments'] as $app_id)
@@ -1016,7 +1017,7 @@ class ilCalendarCategoryGUI
 		if(!count($_POST['appointments']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->edit();
+			$this->details();
 			return true;
 		}
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
@@ -1030,7 +1031,7 @@ class ilCalendarCategoryGUI
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->edit();
+		$this->details();
 		return true;
 		
 	}
