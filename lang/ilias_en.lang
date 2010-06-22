@@ -10503,3 +10503,5 @@ dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_manage#:#Manage
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
+dateplaner#:#cal_back_to_cal#:#Back to Calendar
+rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar

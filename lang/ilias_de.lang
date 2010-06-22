@@ -10464,3 +10464,5 @@ dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_manage#:#Verwalten
 dateplaner#:#cal_delete_single#:#Nur diesen Termin löschen
 dateplaner#:#cal_delete_recurrences#:#Alle Wiederholungen löschen
+dateplaner#:#cal_back_to_cal#:#Zurück zum Kalender
+rbac#:#cals_add_consultation_hours#:#Sprechstundentermine anlegen

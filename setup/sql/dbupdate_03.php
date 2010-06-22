@@ -1963,4 +1963,36 @@ if(!$ilDB->tableExists('notification'))
 	$ilDB->addIndex('cal_rec_exclusion',array('cal_id'),'i1');
 	$ilDB->createSequence('cal_rec_exclusion');
 ?>
+<#3083>
+<?php
 
+// new permission
+$query = "INSERT INTO rbac_operations (operation,description,class,op_order) ".
+	"VALUES( ".
+	$ilDB->quote('add_consultation_hours','text').', '.
+	$ilDB->quote('Add Consultation Hours Calendar','text').", ".
+	$ilDB->quote('object','text').", ".
+	$ilDB->quote(300,'integer').
+	")";
+$res = $ilDB->query($query);
+$new_ops_id = $ilDB->getLastInsertId();
+
+// Calendar settings
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cals' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$cals = $row[0];
+
+
+
+$ilDB->manipulateF(
+	'INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)',
+	array('integer','integer'), 
+	array($cals, $new_ops_id));
+
+?>
+
+<#3084>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
