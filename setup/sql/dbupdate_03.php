@@ -1991,8 +1991,37 @@ $ilDB->manipulateF(
 	array($cals, $new_ops_id));
 
 ?>
-
 <#3084>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3085>
+<?php
+	$ilDB->createTable('rbac_log',array(
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'created'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'ref_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'action'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => TRUE
+		),
+		'data'	=> array(
+			'type'	=> 'text',
+			'length' => 4000
+		)
+	));
+	$ilDB->addIndex('rbac_log',array('ref_id'),'i1');
 ?>
