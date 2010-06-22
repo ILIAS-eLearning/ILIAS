@@ -10505,3 +10505,7 @@ dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
 rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar
+dateplaner#:#cal_ch_form_header#:#Consultation Hours
+dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. 
+dateplaner#:#cal_ch_form#:#Enable Consultation Hours
+dateplaner#:#app_consultation_hours#:#Consultation Hours

@@ -63,6 +63,8 @@ class ilCalendarSettings
 	private $enabled = false;
 	private $cal_settings_id = 0;
 	
+	private $consultation_hours = false;
+	
 	private $cache_enabled = true;
 	private $cache_minutes = 1;
 	
@@ -290,6 +292,24 @@ class ilCalendarSettings
 		$this->day_end = $a_end;
 	}
 	
+	/**
+	 * Check if consultation hours are enabled
+	 * @return 
+	 */
+	public function areConsultationHoursEnabled()
+	{
+		return $this->consultation_hours;
+	}
+	
+	/**
+	 * En/Disable consultation hours
+	 * @return 
+	 */
+	public function enableConsultationHours($a_status)
+	{
+		$this->consultation_hours = $a_status;
+	}
+	
 
 	/**
 	 * Get calendar settings id
@@ -399,6 +419,7 @@ class ilCalendarSettings
 		$this->storage->set('sync_cache_minutes',(int) $this->getSynchronisationCacheMinutes());
 		$this->storage->set('cache_enabled',(int) $this->isCacheUsed());
 		$this->storage->set('notification',(int) $this->isNotificationEnabled());
+		$this->storage->set('consultation_hours',(int) $this->areConsultationHoursEnabled());
 	}
 
 	/**
@@ -423,6 +444,7 @@ class ilCalendarSettings
 		$this->enableSynchronisationCache($this->storage->get('sync_cache_enabled'),$this->isSynchronisationCacheEnabled());
 		$this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes',self::DEFAULT_SYNC_CACHE_MINUTES));
 		$this->enableNotification($this->storage->get('notification',$this->isNotificationEnabled()));
+		$this->enableConsultationHours($this->storage->get('consultation_hours',$this->areConsultationHoursEnabled()));
 	}
 	
 	/**

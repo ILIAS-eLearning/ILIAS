@@ -214,6 +214,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setCacheMinutes((int) $_POST['cache_time']);
 		$this->settings->useCache((bool) $_POST['cache']);	
 		$this->settings->enableNotification((bool) $_POST['cn']);
+		$this->settings->enableConsultationHours((bool) $_POST['ch']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -344,6 +345,17 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		);
 		$day_end->setValue($this->settings->getDefaultDayEnd());
 		$this->form->addItem($day_end);
+		
+		// Consultation hours
+		$con = new ilFormSectionHeaderGUI();
+		$con->setTitle($this->lng->txt('cal_ch_form_header'));
+		$this->form->addItem($con);
+		
+		$ch = new ilCheckboxInputGUI($this->lng->txt('cal_ch_form'),'ch');
+		$ch->setInfo($this->lng->txt('cal_ch_form_info'));
+		$ch->setValue(1);
+		$ch->setChecked($this->settings->areConsultationHoursEnabled());
+		$this->form->addItem($ch);
 		
 		// Synchronisation cache
 		$sec = new ilFormSectionHeaderGUI();
