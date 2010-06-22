@@ -30,6 +30,7 @@
 * 
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI
 * @ingroup ServicesCalendar
 */
 
@@ -102,6 +103,17 @@ class ilCalendarPresentationGUI
 				$this->tabs_gui->setSubTabActive('app_inbox');
 				$this->forwardToClass('ilcalendarinboxgui');
 				break;
+				
+			case 'ilconsultationhoursgui':
+				$this->tabs_gui->setSubTabActive('app_consultation_hours');
+				$this->forwardToClass('ilconsultationhoursgui');
+				// No side blocks
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt('cal_back_to_cal'),
+					$this->ctrl->getLinkTargetByClass($this->readLastClass())
+				);
+				return true;
 			
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->setSubTabActive('app_month');
@@ -126,7 +138,8 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
 				$user_settings = new ilCalendarUserSettingsGUI();
 				$this->ctrl->forwardCommand($user_settings);
-				break;
+				// No side blocks
+				return true;
 				
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
@@ -182,8 +195,20 @@ class ilCalendarPresentationGUI
 		}
 		if($this->ctrl->getCmdClass() == strtolower(get_class($this)) or $this->ctrl->getCmdClass() == '')
 		{
-			return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarinboxgui';
+			return $this->readLastClass();
 		}
+	}
+	
+	/**
+	 * Read last class from history
+	 * @return 
+	 */
+	public function readLastClass()
+	{
+		global $ilUser;
+		
+		return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarinboxgui';
+				
 	}
 	
 	public function setCmdClass($a_class)
@@ -207,10 +232,10 @@ class ilCalendarPresentationGUI
 	{
 		global $ilUser;
 		
-		$ilUser->writePref('cal_last_class',$a_class);
 		switch($a_class)
 		{
 			case 'ilcalendarmonthgui':
+				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'app_month'; 
 				$this->setCmdClass('ilcalendarmonthgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
@@ -219,6 +244,7 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarweekgui':
+				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'app_week'; 
 				$this->setCmdClass('ilcalendarweekgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
@@ -227,6 +253,7 @@ class ilCalendarPresentationGUI
 				break;
 
 			case 'ilcalendardaygui':
+				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'app_day'; 
 				$this->setCmdClass('ilcalendardaygui');
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
@@ -235,6 +262,7 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarinboxgui':
+				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'app_inbox';
 				$this->setCmdClass('ilcalendarinboxgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
@@ -308,6 +336,7 @@ class ilCalendarPresentationGUI
 	protected function prepareOutput()
 	{
 		$this->tabs_gui->addSubTabTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+		$this->tabs_gui->addSubTabTarget('app_consultation',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
