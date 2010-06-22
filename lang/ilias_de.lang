@@ -10466,3 +10466,7 @@ dateplaner#:#cal_delete_single#:#Nur diesen Termin löschen
 dateplaner#:#cal_delete_recurrences#:#Alle Wiederholungen löschen
 dateplaner#:#cal_back_to_cal#:#Zurück zum Kalender
 rbac#:#cals_add_consultation_hours#:#Sprechstundentermine anlegen
+dateplaner#:#cal_ch_form_header#:#Sprechstundenverwaltung
+dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltung im Kalender 
+dateplaner#:#cal_ch_form#:#Aktiviere Sprechstundenverwaltung
+dateplaner#:#app_consultation_hours#:#Sprechstundenverwaltung

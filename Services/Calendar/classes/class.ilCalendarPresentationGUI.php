@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
 /** 
 * 
@@ -335,8 +336,17 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
+		global $rbacsystem;
+		
 		$this->tabs_gui->addSubTabTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
-		$this->tabs_gui->addSubTabTarget('app_consultation',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
+		
+		if(
+			$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
+			ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
+		)
+		{
+			$this->tabs_gui->addSubTabTarget('app_consultation',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
+		}
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
