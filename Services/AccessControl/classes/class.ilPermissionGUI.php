@@ -232,19 +232,14 @@ class ilPermissionGUI
 	{
 		global $rbacreview, $rbacadmin, $rbacsystem;
 
-		include_once "Services/AccessControl/classes/class.ilRbacReview.php";
-		$diff_old = $diff_new = array();
+		$this->getRolesData();
+
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$log_old = ilRbacLog::gatherFaPa($this->gui_obj->object->getRefId(), array_keys($this->roles));
 
 		// only revoke permission of roles that are not filtered
-		$this->getRolesData();
 		foreach($this->roles as $role_id => $data)
 		{
-			$old = ilRbacReview::getRoleOperationsOnObject($role_id, $this->gui_obj->object->getRefId());
-			if($old)
-			{
-				$diff_old[$role_id] = $old;
-			}
-			
 			$rbacadmin->revokePermission($this->gui_obj->object->getRefId(),$role_id);
 		}
 
@@ -252,45 +247,10 @@ class ilPermissionGUI
 		{
 			foreach ($_POST["perm"] as $key => $new_role_perms) // $key enthaelt die aktuelle Role_Id
 			{
-				$diff_new[$key] = $new_role_perms;
-				
 				$rbacadmin->grantPermission($key,$new_role_perms,$this->gui_obj->object->getRefId());
 			}
 		}
 
-		// build diff
-		$diff = array();
-	    $do_log = false;
-		foreach($diff_old as $role_id => $old)
-		{
-			$chk = array_diff($old, $diff_new[$role_id]);
-			if($chk)
-			{
-				$do_log = true;
-				if(isset($diff["perm"][$role_id]["del"]))
-				{
-					$diff["perm"][$role_id]["del"] = $diff["perm"][$role_id]["del"]+$chk;
-				}
-				else
-				{
-					$diff["perm"][$role_id]["del"] = $chk;
-				}
-			}
-			$chk = array_diff($diff_new[$role_id], $old);
-			if($chk)
-			{
-				$do_log = true;
-				if(isset($diff["perm"][$role_id]["add"]))
-				{
-					$diff["perm"][$role_id]["add"] = $diff["perm"][$role_id]["add"]+$chk;
-				}
-				else
-				{
-					$diff["perm"][$role_id]["add"] = $chk;
-				}
-			}
-		}
-		
 		// update object data entry (to update last modification date)
 		$this->gui_obj->object->update();
 
@@ -330,9 +290,6 @@ class ilPermissionGUI
 					$rbacadmin->copyRoleTemplatePermissions($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 												   $rolf_id,$stop_inherit);
 					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
-
-					$do_log = true;
-					$diff["inht"]["add"][] = $stop_inherit;
 				}
 			}// END FOREACH
 		}// END STOP INHERIT
@@ -347,12 +304,6 @@ class ilPermissionGUI
 			$linked_roles_to_remove = (array) array_intersect(
 				(array) $linked_roles_to_remove,
 				(array) array_keys($this->roles));
-
-			if(sizeof($linked_roles_to_remove))
-			{
-				$do_log = true;
-				$diff["inht"]["del"] = $linked_roles_to_remove;
-			}
 
 			// remove roles where stopped inheritance is cancelled and purge rolefolder if empty
 			foreach ($linked_roles_to_remove as $role_id)
@@ -369,11 +320,9 @@ class ilPermissionGUI
 			}
 		}
 
-		if($do_log)
-		{
-			include_once "Services/AccessControl/classes/class.ilRbacLog.class";
-			ilRbacLog::add(ilRbacLog::EDIT_PERMISSIONS, $this->gui_obj->object->getRefId(), $diff);
-		}
+		$log_new = ilRbacLog::gatherFaPa($this->gui_obj->object->getRefId(), array_keys($this->roles));
+		$log = ilRbacLog::diffFaPa($log_old, $log_new);
+		ilRbacLog::add(ilRbacLog::EDIT_PERMISSIONS, $this->gui_obj->object->getRefId(), $log);
 
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 		

@@ -1784,6 +1784,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($_SESSION['clipboard']['cmd'] == 'link')
 		{
 			$linked_to_folders = array();
+
+			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 			
 			foreach($_POST['nodes'] as $folder_ref_id)
 			{		
@@ -1818,6 +1820,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$obj_data->setRefId($new_ref_id);
 					$obj_data->initDefaultRoles();
 					$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+
+					// rbac log
+					$rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
+					$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles));
+					ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, $key);
 	
 					if(isset($rolf_data['child']))
 					{

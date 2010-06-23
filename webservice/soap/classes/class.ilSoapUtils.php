@@ -343,7 +343,7 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function cloneNode($node,$cp_options)
 	{
-		global $ilLog,$tree,$ilAccess;
+		global $ilLog,$tree,$ilAccess,$rbacreview;
 		
 		#sleep(20);
 		
@@ -379,6 +379,12 @@ class ilSoapUtils extends ilSoapAdministration
 			$ilLog->write(__METHOD__.': Error copying '.$source_id.', '.$node['title'].', '.$node['type'].'. No target found.');
 			return false;
 		}
+
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
+		$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$source_id);
 		
 		// Finally add new mapping entry
 		$cp_options->appendMapping($source_id,$new_obj->getRefId());
@@ -420,7 +426,7 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	private function linkNode($node,$cp_options)
 	{
-		global $ilLog,$ilAccess;
+		global $ilLog,$ilAccess,$rbacreview;
 		
 		$source_id = $node['child'];
 		$parent_id = $node['parent'];
@@ -453,6 +459,12 @@ class ilSoapUtils extends ilSoapAdministration
 			$ilLog->write(__METHOD__.': Error linking '.$source_id.', '.$node['title'].', '.$node['type'].'. No target found.');
 			return false;
 		}
+
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
+		$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, (int)$source_id);
 		
 		// Finally add new mapping entry
 		$cp_options->appendMapping($source_id,$new_ref_id);
