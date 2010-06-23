@@ -97,9 +97,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
 		// put here object specific stuff
 
 		// always send a message

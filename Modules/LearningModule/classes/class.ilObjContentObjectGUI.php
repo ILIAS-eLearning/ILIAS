@@ -1078,10 +1078,6 @@ return;
 			$newObj->setCleanFrames(true);
 			$newObj->update();
 
-			// setup rolefolder & default local roles (moderator)
-			//$roles = $newObj->initDefaultRoles();
-			// assign author role to creator of forum object
-			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			// create content object tree
 			$newObj->createLMTree();
 

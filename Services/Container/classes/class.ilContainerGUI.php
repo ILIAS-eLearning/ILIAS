@@ -1808,41 +1808,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$new_ref_id = $obj_data->createReference();
 					$obj_data->putInTree($folder_ref_id);
 					$obj_data->setPermissions($folder_ref_id);
-	
-					// ... remove top_node from list ...
-					array_shift($subnode);
-	
-					// ... store mapping of old ref_id => new_ref_id in hash array ...
-					$mapping[$new_ref_id] = $key;
-	
-					// save old ref_id & create rolefolder if applicable
-					$old_ref_id = $obj_data->getRefId();
-					$obj_data->setRefId($new_ref_id);
-					$obj_data->initDefaultRoles();
-					$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
-
+					
 					// rbac log
 					$rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
 					$rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles));
 					ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, $key);
 	
-					if(isset($rolf_data['child']))
-					{
-						// a role folder was created, so map it to old role folder
-						$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
-	
-						// ... use mapping array to find out the correct new parent node where to put in the node...
-						//$new_parent = array_search($node["parent"],$mapping);
-						// ... append node to mapping for further possible subnodes ...
-						$mapping[$rolf_data['child']] = (int)$rolf_data_old['child'];
-	
-						// log creation of role folder
-						$log->write(__METHOD__.", created role folder (ref_id): ".$rolf_data['child'].
-							", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
-							", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
-	
-					}
-					
 					// BEGIN ChangeEvent: Record link event.
 					if(ilChangeEvent::_isActive())
 					{
@@ -1852,64 +1823,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
 					}
 					// END PATCH ChangeEvent: Record link event.
-	
-					// ... insert subtree of top_node if any subnodes exist ...
-					if(count($subnode) > 0)
-					{
-						foreach($subnode as $node)
-						{
-							if($node['type'] != 'rolf')
-							{
-								$obj_data = ilObjectFactory::getInstanceByRefId($node['child']);
-								$new_ref_id = $obj_data->createReference();
-	
-								// ... use mapping array to find out the correct new parent node where to put in the node...
-								$new_parent = array_search($node["parent"],$mapping);
-								// ... append node to mapping for further possible subnodes ...
-								$mapping[$new_ref_id] = (int)$node['child'];
-	
-								$obj_data->putInTree($new_parent);
-								$obj_data->setPermissions($new_parent);
-	
-								// save old ref_id & create rolefolder if applicable
-								$old_ref_id = $obj_data->getRefId();
-								$obj_data->setRefId($new_ref_id);
-								$obj_data->initDefaultRoles();
-								$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
-	
-								if(isset($rolf_data['child']))
-								{
-									// a role folder was created, so map it to old role folder
-									$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
-	
-									// ... use mapping array to find out the correct new parent node where to put in the node...
-									//$new_parent = array_search($node["parent"],$mapping);
-									// ... append node to mapping for further possible subnodes ...
-									$mapping[$rolf_data['child']] = (int)$rolf_data_old['child'];
-	
-									// log creation of role folder
-									$log->write(__METHOD__.", created role folder (ref_id): ".$rolf_data['child'].
-										", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
-										", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
-	
-								}
-							}
-	
-							// re-map $subnodes
-							foreach($subnodes as $old_ref => $subnode)
-							{
-								$new_ref = array_search($old_ref, $mapping);
-	
-								foreach($subnode as $node)
-								{
-									$node['child'] = array_search($node['child'], $mapping);
-									$node['parent'] = array_search($node['parent'], $mapping);
-									$new_subnodes[$ref_id][] = $node;
-								}
-							}
-	
-						}
-					}
 				}
 	
 				$log->write(__METHOD__.', link finished');
@@ -2238,36 +2151,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
 
-				// ... remove top_node from list ...
-				array_shift($subnode);
-
-				// ... store mapping of old ref_id => new_ref_id in hash array ...
-				$mapping[$new_ref_id] = $key;
-
-				// save old ref_id & create rolefolder if applicable
-// old ref is wrongly set here... see next comments (Alex, 26.11.2008)
-				$old_ref_id = $obj_data->getRefId();
-				$obj_data->setRefId($new_ref_id);
-				$obj_data->initDefaultRoles();
-				$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
-
-				if (isset($rolf_data["child"]))
-				{
-					// a role folder was created, so map it to old role folder
-// rolf_data_old is wrongly set here... see next comments (Alex, 26.11.2008)
-					$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
-
-					// ... use mapping array to find out the correct new parent node where to put in the node...
-					//$new_parent = array_search($node["parent"],$mapping);
-					// ... append node to mapping for further possible subnodes ...
-					$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
-
-					// log creation of role folder
-					$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
-						", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
-						", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
-
-				}
 				// BEGIN ChangeEvent: Record link event.
 				if (ilChangeEvent::_isActive() )
 				{
@@ -2277,70 +2160,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
 				}
 				// END PATCH ChangeEvent: Record link event.
-
-// The following part is never executed (ILIAS 3.10) since ILIAS does not allow
-// to link container. This means the only $subnode could be a role folder.
-// But role folders are not tackled (if ($node[type] != 'rolf')).
-// Alex, 26.11.2008
-				// ... insert subtree of top_node if any subnodes exist ...
-/*
-				if (count($subnode) > 0)
-				{
-					foreach ($subnode as $node)
-					{
-						if ($node["type"] != 'rolf')
-						{
-							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-							$new_ref_id = $obj_data->createReference();
-
-							// ... use mapping array to find out the correct new parent node where to put in the node...
-							$new_parent = array_search($node["parent"],$mapping);
-							// ... append node to mapping for further possible subnodes ...
-							$mapping[$new_ref_id] = (int) $node["child"];
-
-							$obj_data->putInTree($new_parent);
-							$obj_data->setPermissions($new_parent);
-
-							// save old ref_id & create rolefolder if applicable
-							$old_ref_id = $obj_data->getRefId();
-							$obj_data->setRefId($new_ref_id);
-							$obj_data->initDefaultRoles();
-							$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
-
-							if (isset($rolf_data["child"]))
-							{
-								// a role folder was created, so map it to old role folder
-								$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
-
-								// ... use mapping array to find out the correct new parent node where to put in the node...
-								//$new_parent = array_search($node["parent"],$mapping);
-								// ... append node to mapping for further possible subnodes ...
-								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
-
-								// log creation of role folder
-								$log->write("ilObjectGUI::pasteObject(), created role folder (ref_id): ".$rolf_data["child"].
-									", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
-									", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
-
-							}
-						}
-
-						// re-map $subnodes
-						foreach ($subnodes as $old_ref => $subnode)
-						{
-							$new_ref = array_search($old_ref,$mapping);
-
-							foreach ($subnode as $node)
-							{
-								$node["child"] = array_search($node["child"],$mapping);
-								$node["parent"] = array_search($node["parent"],$mapping);
-								$new_subnodes[$ref_id][] = $node;
-							}
-						}
-
-					}
-				}
-*/
 			}
 
 			$log->write("ilObjectGUI::pasteObject(), link finished");

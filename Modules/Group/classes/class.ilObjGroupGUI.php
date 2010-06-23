@@ -410,7 +410,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->createReference();
 		$this->object->putInTree($_GET["ref_id"]);
 		$this->object->setPermissions($_GET["ref_id"]);
-		$this->object->initDefaultRoles();
 		$this->object->initGroupStatus($this->object->getGroupType());
 		
 		// Save sorting

@@ -305,12 +305,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				$newObj->setOnline($this->form_gui->getInput("online"));
 				$newObj->update();
 		
-				// setup rolefolder & default local roles
-				//$roles = $newObj->initDefaultRoles();
-		
-				// ...finally assign role to creator of object
-				//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-		
 				// add first page
 				
 					

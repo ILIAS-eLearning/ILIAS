@@ -185,11 +185,8 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$new_obj =& parent::saveObject();
 		
-		// Add new moderator role
-		$roles = $new_obj->initDefaultRoles();
-
 		// Assign current user.
-		$rbacadmin->assignUser($roles[0],$ilUser->getId());
+		$rbacadmin->assignUser(ilObjChat::_lookupModeratorRole($new_obj->getRefId()),$ilUser->getId());
 		
 		//$this->ctrl->setParameter($this, "ref_id", $new_obj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",

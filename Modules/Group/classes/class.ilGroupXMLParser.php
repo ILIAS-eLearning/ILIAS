@@ -320,7 +320,6 @@ class ilGroupXMLParser extends ilSaxParser
 			$this->group_obj->createReference();
 			$this->group_obj->putInTree($this->__getParentId());
 			$this->group_obj->setPermissions($this->__getParentId());
-			$this->group_obj->initDefaultRoles();
 			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? GRP_TYPE_PUBLIC : GRP_TYPE_CLOSED);
 		} 
 		else
@@ -417,8 +416,7 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->folder_obj->create();
 		$this->folder_obj->createReference();
 		$this->folder_obj->putInTree($this->__getParentId());
-		$this->folder_obj->initDefaultRoles();
-
+		
 		$this->__pushParentId($this->folder_obj->getRefId());
 
 		$this->__destroyFolderObject();

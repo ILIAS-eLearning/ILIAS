@@ -783,11 +783,8 @@ class ilObjForumGUI extends ilObjectGUI
 				
 			$forumObj->createSettings();
 	
-			// setup rolefolder & default local roles (moderator)
-			$roles = $forumObj->initDefaultRoles();
-	
 			// ...finally assign moderator role to creator of forum object
-			$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
+			$rbacadmin->assignUser(ilObjForum::_lookupModeratorRole($forumObj->getRefId()), $forumObj->getOwner(), 'n');
 			
 			// insert new forum as new topic into frm_data
 			$forumObj->saveData($roles);        
