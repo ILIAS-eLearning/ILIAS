@@ -1292,6 +1292,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_old = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+
 		// delete all template entries
 		$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
 
@@ -1305,6 +1309,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			// sets new template permissions
 			$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
 		}
+
+		$rbac_log_new = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+		$rbac_log_diff = ilRbacLog::diffTemplate($rbac_log_old, $rbac_log_new);
+		ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->rolf_ref_id, $rbac_log_diff, $this->object->getId());
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
@@ -1349,121 +1357,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 		$this->ctrl->redirect($this,'perm');
 		return true;
-			
-		
-		// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
-		// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
-		if ($_POST["recursive"] or is_array($_POST["recursive_list"]))
-		{
-			// IF ROLE IS A GLOBAL ROLE START AT ROOT
-			if ($this->rolf_ref_id == ROLE_FOLDER_ID)
-			{
-				$node_id = ROOT_FOLDER_ID;
-			}
-			else
-			{
-				$node_id = $this->tree->getParentId($this->rolf_ref_id);
-			}
-
-			// GET ALL SUBNODES
-			$node_data = $this->tree->getNodeData($node_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
-			$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
-
-			// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-			if ($this->rolf_ref_id == ROLE_FOLDER_ID)
-			{
-				$key = array_keys($all_parent_obj_of_rolf,SYSTEM_FOLDER_ID);
-			}
-			else
-			{
-				$key = array_keys($all_parent_obj_of_rolf,$node_id);
-			}
-
-			unset($all_parent_obj_of_rolf[$key[0]]);
-
-			$check = false;
-
-			foreach ($subtree_nodes as $node)
-			{
-				if (!$check)
-				{
-					if (in_array($node["child"],$all_parent_obj_of_rolf))
-					{
-						$lft = $node["lft"];
-						$rgt = $node["rgt"];
-						$check = true;
-						continue;
-					}
-
-					$valid_nodes[] = $node;
-				}
-				else
-				{
-					if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
-					{
-						continue;
-					}
-					else
-					{
-						$check = false;
-						
-						if (in_array($node["child"],$all_parent_obj_of_rolf))
-						{
-							$lft = $node["lft"];
-							$rgt = $node["rgt"];
-							$check = true;
-							continue;
-						}
-						
-						$valid_nodes[] = $node;
-					}
-				}
-			}
-
-			// Prepare arrays for permission settings below	
-			foreach ($valid_nodes as $key => $node)
-			{
-				// To change only selected object types filter selected object types
-				if (is_array($_POST["recursive_list"]) and !in_array($node["type"],$_POST["recursive_list"]))
-				{
-					unset($valid_nodes[$key]);
-					continue;
-				}
-
-				$node_ids[] = $node["child"];
-				$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
-			}
-			
-			// prepare arrays for permission settings below
-			/*foreach ($valid_nodes as $key => $node)
-			{
-				#if(!in_array($node["type"],$to_filter))
-				{
-					$node_ids[] = $node["child"];
-					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
-				}
-			}*/
-			
-			if (!empty($node_ids))
-			{
-				// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
-				$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
-	
-				// NOW SET ALL PERMISSIONS
-				foreach ($valid_nodes as $node)
-				{
-					if (is_array($node["perms"]))
-					{
-						$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
-					}
-				}
-			}
-		}// END IF RECURSIVE
-		
-
 	}
 
 

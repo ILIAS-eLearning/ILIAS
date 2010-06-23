@@ -705,7 +705,7 @@ class ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $rbacsystem, $objDefinition;
+		global $rbacsystem, $objDefinition, $rbacreview;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -731,6 +731,10 @@ class ilObjectGUI
 		//$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
 		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds($newObj->getRefId(), false);
+		$rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
 		return $newObj;
 	}

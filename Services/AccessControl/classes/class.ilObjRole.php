@@ -653,7 +653,7 @@ class ilObjRole extends ilObject
 	 */
 	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter)
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 		
 		$operation_stack = array();
 		$policy_stack = array();
@@ -665,6 +665,8 @@ class ilObjRole extends ilObject
 		array_push($right_stack, $start_node['rgt']);
 		$this->updatePolicyStack($policy_stack, $start_node['child']);
 		$this->updateOperationStack($operation_stack, $start_node['child']);
+
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 		
 		$local_policy = false;
 		foreach($a_nodes as $node)
@@ -690,12 +692,15 @@ class ilObjRole extends ilObject
 				// Continue if inside of local policy
 				continue;
 			}
-			
+
 			// Start node => set permissions and continue
 			if($node['child'] == $start_node['child'])
 			{
 				if($this->isHandledObjectType($a_filter,$node['type']))
 				{
+					$rbac_log_roles = $rbacreview->getParentRoleIds($node['child'], false);
+					$rbac_log_old = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
+
 					// Set permissions
 					$perms = end($operation_stack);
 					$rbacadmin->grantPermission(
@@ -703,6 +708,10 @@ class ilObjRole extends ilObject
 						(array) $perms[$node['type']],
 						$node['child']
 					);
+
+					$rbac_log_new = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
+					$rbac_log = ilRbacLog::diffFaPa($rbac_log_old, $rbac_log_new);
+					ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE_EXISTING, $node['child'], $rbac_log);
 				}
 				continue;
 			}
@@ -724,6 +733,9 @@ class ilObjRole extends ilObject
 			{
 				continue;
 			}
+
+			$rbac_log_roles = $rbacreview->getParentRoleIds($node['child'], false);
+			$rbac_log_old = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
 		
 			#echo "MODE: ".$a_mode.'TYPE: '.$node['type'].'<br>';
 			// Node is course => create course permission intersection
@@ -771,6 +783,10 @@ class ilObjRole extends ilObject
 				$node['child']
 			);
 			#var_dump("ALL INFO ",$this->getId(),$perms[$node['type']]);
+
+			$rbac_log_new = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
+			$rbac_log = ilRbacLog::diffFaPa($rbac_log_old, $rbac_log_new);
+			ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE_EXISTING, $node['child'], $rbac_log);
 		}
 	}
 	

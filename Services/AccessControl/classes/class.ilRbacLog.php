@@ -19,6 +19,7 @@ class ilRbacLog
 	const COPY_OBJECT = 4;
 	const CREATE_OBJECT = 5;
 	const EDIT_TEMPLATE = 6;
+	const EDIT_TEMPLATE_EXISTING = 7;
 
 	static public function gatherFaPa($ref_id, array $role_ids)
 	{
@@ -93,17 +94,55 @@ class ilRbacLog
 		return $result;
 	}
 
+	static public function gatherTemplate($role_folder_ref_id, $role_id)
+	{
+		global $rbacreview;
+
+		return $rbacreview->getAllOperationsOfRole($role_id, $role_folder_ref_id);
+	}
+
+	static public function diffTemplate(array $old, array $new)
+	{
+		$result = array();
+		$types = array_unique(array_merge(array_keys($old), array_keys($new)));
+		foreach($types as $type)
+		{
+			if(!isset($old[$type]))
+			{
+				$result[$type]["add"] = $new[$type];
+			}
+			else if(!isset($new[$type]))
+			{
+				$result[$type]["rmv"] = $old[$type];
+			}
+			else
+			{
+				$diff = array_diff($old[$type], $new[$type]);
+				if(sizeof($diff))
+				{
+					$result[$type]["rmv"] = array_values($diff);
+				}
+				$diff = array_diff($new[$type], $old[$type]);
+				if(sizeof($diff))
+				{
+					$result[$type]["add"] = array_values($diff);
+				}
+			}
+		}
+		return $result;
+	}
+
 	static public function add($action, $ref_id, array $diff, $source_ref_id = false)
 	{
 		global $ilUser, $ilDB;
 
-		if($source_ref_id)
-		{
-			$diff["src"] = $source_ref_id;
-		}
-
 		if(self::isValidAction($action) && sizeof($diff))
 	    {
+			if($source_ref_id)
+			{
+				$diff["src"] = $source_ref_id;
+			}
+
 			$ilDB->query("INSERT INTO rbac_log (user_id, created, ref_id, action, data)".
 				" VALUES (".$ilDB->quote($ilUser->getId(), "integer").",".$ilDB->quote(time(), "integer").
 				",".$ilDB->quote($ref_id, "integer").",".$ilDB->quote($action, "integer").
@@ -116,7 +155,7 @@ class ilRbacLog
 	static protected function isValidAction($action)
     {
 		if(in_array($action, array(self::EDIT_PERMISSIONS, self::MOVE_OBJECT, self::LINK_OBJECT,
-			self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE)))
+			self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE, self::EDIT_TEMPLATE_EXISTING)))
 		{
 			return true;
 		}
