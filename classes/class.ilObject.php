@@ -1698,7 +1698,6 @@ class ilObject
 		$new_obj->createReference();
 		$new_obj->putInTree($a_target_id);
 		$new_obj->setPermissions($a_target_id);
-		$new_obj->initDefaultRoles();
 		
 		// copy local roles
 		$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());

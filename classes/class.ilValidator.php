@@ -1351,7 +1351,6 @@ restore starts here
 				$obj_data =& $ilias->obj_factory->getInstanceByRefId($missing_obj["ref_id"]);
 				$obj_data->putInTree(RECOVERY_FOLDER_ID);
 				$obj_data->setPermissions(RECOVERY_FOLDER_ID);
-				$obj_data->initDefaultRoles();
 				unset($obj_data);
 				//$tree->insertNode($missing_obj["ref_id"],RECOVERY_FOLDER_ID);
 				$restored = true;
@@ -1550,7 +1549,6 @@ restore starts here
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
-			$obj_data->initDefaultRoles();
 		}
 		
 		return true;
@@ -1627,7 +1625,6 @@ restore starts here
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
-			$obj_data->initDefaultRoles();
 			
 			$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 
@@ -1643,7 +1640,6 @@ restore starts here
 					$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
 					$obj_data->putInTree($node["parent"]);
 					$obj_data->setPermissions($node["parent"]);
-					$obj_data->initDefaultRoles();
 					
 					$this->writeScanLogLine("Object '".$obj_data->getId()."' restored.");
 				}
