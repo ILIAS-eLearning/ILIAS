@@ -608,8 +608,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$newObj->createReference();
 			$newObj->putInTree($a_target_id);
 			$newObj->setPermissions($a_target_id);
-			$newObj->initDefaultRoles();
-
+			
 			switch($object_data['type'])
 			{
 				case 'grp':
@@ -718,8 +717,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$new_ref_id = $source_obj->createReference();
 			$source_obj->putInTree($target_obj->getRefId());
 			$source_obj->setPermissions($target_obj->getRefId());
-			$source_obj->initDefaultRoles();
-	
+		
 			return $new_ref_id ? $new_ref_id : "0";
 		}
 		else
@@ -741,7 +739,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			
 			$new_ref->putInTree($target_obj->getRefId());
 			$new_ref->setPermissions($target_obj->getRefId());
-			$new_ref->initDefaultRoles();
 			
 			$new_ref->setTargetId($source_obj->getId());
 			$new_ref->update();
@@ -1412,7 +1409,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$new_ref_id = $source->createReference();
 				$source->putInTree($ref_data['parent_id']);
 				$source->setPermissions($ref_data['parent_id']);
-				$source->initDefaultRoles();
 			}
 			if(isset($ref_data['time_target']) and ($crs_ref_id = $tree->checkForParentType($new_ref_id,'crs')))
 			{

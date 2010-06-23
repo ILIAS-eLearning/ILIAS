@@ -450,9 +450,6 @@ class ilSoapUtils extends ilSoapAdministration
 		$new_ref_id = $orig->createReference();
 		$orig->putInTree($target_id);
 		$orig->setPermissions($target_id);
-		$orig->setRefId($new_ref_id);
-		$orig->initDefaultRoles();
-		
 		
 		if(!($new_ref_id))
 		{

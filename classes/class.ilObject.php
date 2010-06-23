@@ -1288,6 +1288,8 @@ class ilObject
 			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
 		}
+
+		$this->initDefaultRoles();
 	}
 
 	/**

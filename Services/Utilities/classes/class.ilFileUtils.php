@@ -243,7 +243,6 @@ class ilFileUtils
 		$newObj->createReference();
 		$newObj->putInTree($ref_id);
 		$newObj->setPermissions($ref_id);
-		$newObj->initDefaultRoles();
 		
 		if ($newObj->getType() == "cat") 
 		{

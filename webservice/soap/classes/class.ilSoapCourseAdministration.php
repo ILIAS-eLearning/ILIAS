@@ -91,8 +91,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$newObj->createReference();
 		$newObj->putInTree($target_id);
 		$newObj->setPermissions($target_id);
-		$newObj->initDefaultRoles();
-
+		
 		include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
 		$xml_parser = new ilCourseXMLParser($newObj);

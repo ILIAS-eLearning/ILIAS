@@ -103,13 +103,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 		$newObj->updateOwner();
 		$a_feed_block->setContextObjId($newObj->getId());
 		$a_feed_block->setContextObjType("feed");
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
 	}
 	
 	/**

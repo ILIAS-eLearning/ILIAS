@@ -663,9 +663,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			// always call parent method first to create an object_data entry & a reference
 			$newObj = parent::saveObject();
 		
-			// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-			//$roles = $newObj->initDefaultRoles();
-		
 			// put here your object specific stuff	
 		
 			$newObj->setTitle($this->form_gui->getInput("title"));

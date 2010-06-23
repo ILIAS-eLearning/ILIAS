@@ -216,7 +216,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->initDefaultRoles();
 
 		// Copy xml file
 		include_once 'Modules/Course/classes/class.ilFileDataCourse.php';
@@ -1865,7 +1864,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		$newObj =& parent::saveObject();
-		$newObj->initDefaultRoles();
 		$newObj->initCourseMemberObject();
 		$newObj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
 		$newObj->members_obj->updateNotification($ilUser->getId(),1);

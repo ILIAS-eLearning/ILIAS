@@ -106,12 +106,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
 
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
 		// put here object specific stuff
 			
 		// always send a message

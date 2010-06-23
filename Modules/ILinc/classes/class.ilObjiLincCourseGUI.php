@@ -158,9 +158,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$this->form_gui->getInput('akclassvalue2')
 			);
 			
-			// setup rolefolder & default local roles (admin & member)
-			$roles = $icrsObj->initDefaultRoles();
-	
 			// ...finally assign icrsadmin role to creator of icrs object
 			$success = $icrsObj->addMember($this->ilias->account, $icrsObj->getDefaultAdminRole(), true);
 	
