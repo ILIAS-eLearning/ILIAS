@@ -525,7 +525,7 @@ class ilObjectCopyGUI
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$ilUser,$ilCtrl;
+		global $ilAccess,$ilErr,$rbacsystem,$ilUser,$ilCtrl,$rbacreview;
 		
 		// Create permission
 	 	if(!$rbacsystem->checkAccess('create', $this->getTarget(), $this->getType()))
@@ -567,6 +567,12 @@ class ilObjectCopyGUI
 		
 		// Delete wizard options
 		$wizard_options->deleteAll();
+
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
+		$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$this->getSource());
 
 		ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
