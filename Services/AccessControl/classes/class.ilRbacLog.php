@@ -162,21 +162,48 @@ class ilRbacLog
 		return false;
 	}
 
-	static public function getLogItems($a_ref_id)
+	static public function getLogItems($a_ref_id, $a_limit, $a_offset, array $a_filter = NULL)
 	{
 		global $ilDB, $rbacreview;
 
-		$rolf_id = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
+		if($a_filter)
+		{
+			$where = NULL;
+			if($a_filter["action"])
+			{
+				$where[] = "action = ".$ilDB->quote($a_filter["action"], "integer");
+			}
+			if($a_filter["date"]["from"])
+			{
+				$from = $a_filter["date"]["from"]->get(IL_CAL_UNIX);
+				$from = strtotime("00:00:00", $from);
+				$where[] = "created >= ".$ilDB->quote($from, "integer");
+			}
+			if($a_filter["date"]["to"])
+			{
+				$to = $a_filter["date"]["to"]->get(IL_CAL_UNIX);
+				$to = strtotime("23:59:59", $to);
+				$where[] = "created <= ".$ilDB->quote($to, "integer");
+			}
+			if(sizeof($where))
+			{
+				$where = " AND ".implode(" AND ", $where);
+			}
+		}
 
-		$result = array();
+		$set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer").$where);
+		$count = array_pop($ilDB->fetchAssoc($set));
+
+		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query("SELECT * FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer").
-			" OR ref_id = ".$ilDB->quote($rolf_id, "integer"));
+			$where." ORDER BY created DESC");
+	    $result = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$row["data"] = unserialize($row["data"]);
 			$result[] = $row;
 		}
-		return $result;
+		return array("cnt"=>$count, "set"=>$result);
 	}
 }
 

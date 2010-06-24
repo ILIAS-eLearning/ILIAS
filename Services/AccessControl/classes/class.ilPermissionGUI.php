@@ -1014,5 +1014,24 @@ class ilPermissionGUI
 		$table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
 		$this->tpl->setContent($table->getHTML());
 	}
+
+	function applyLogFilter()
+    {
+		include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
+		$table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		$this->log();
+    }
+
+	function resetLogFilter()
+    {
+		include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
+		$table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+		$table->resetOffset();
+		$table->resetFilter();
+		$this->log();
+    }
+
 } // END class.ilPermissionGUI
 ?>
