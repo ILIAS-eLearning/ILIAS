@@ -1429,6 +1429,9 @@ class ilObject
 			// TODO: Do this for role templates too
 			$rbacadmin->revokePermission($this->getRefId(),0,false);
 
+			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+			ilRbacLog::delete($this->getRefId());
+
 			// Remove desktop items
 			ilUtil::removeItemFromDesktops($this->getRefId());
 		}
