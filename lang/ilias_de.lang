@@ -10485,3 +10485,5 @@ rbac#:#rbac_log_copy_object#:#Objekt kopieren
 rbac#:#rbac_log_create_object#:#Objekt anlegen
 rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
+ps#:#rbac_log#:#Rechteeinstellungs-Log
+ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren

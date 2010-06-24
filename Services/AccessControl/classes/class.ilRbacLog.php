@@ -21,6 +21,17 @@ class ilRbacLog
 	const EDIT_TEMPLATE = 6;
 	const EDIT_TEMPLATE_EXISTING = 7;
 
+	static public function isActive()
+    {
+		include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+		$settings = ilPrivacySettings::_getInstance();
+		if($settings->enabledRbacLog())
+		{
+			return true;
+		}
+		return false;
+	}
+
 	static public function gatherFaPa($a_ref_id, array $a_role_ids)
 	{
 		global $rbacreview;
