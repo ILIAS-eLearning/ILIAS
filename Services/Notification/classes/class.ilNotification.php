@@ -134,7 +134,7 @@ class ilNotification
     {
 		global $ilDB;
 
-		$ilDB->query("DELETE id FROM notification".
+		$ilDB->query("DELETE FROM notification".
 				" WHERE user_id = ".$ilDB->quote($user_id, "integer"));
 	}
 }
