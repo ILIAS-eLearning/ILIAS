@@ -124,9 +124,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy = ilPrivacySettings::_getInstance();
 
 		$this->tabs_gui->setTabActive('show_privacy');
+
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_privacy.html','Services/PrivacySecurity');
 
-	 	include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+	    include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 	 	if(ilMemberAgreement::_hasAgreements())
 	 	{
 			$this->tpl->setCurrentBlock('warning_modify');
@@ -168,6 +169,63 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('CHECK_RBAC_LOG',ilUtil::formCheckbox($privacy->enabledRbacLog() ? 1 : 0,'rbac_log',1));
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+
+		/*
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('ps_privacy_protection'));
+		
+	 	include_once('Services/Membership/classes/class.ilMemberAgreement.php');
+	 	if(ilMemberAgreement::_hasAgreements())
+	 	{
+			$html = new ilNonEditableValueGUI();
+			$html->setValue($this->lng->txt('ps_warning_modify'));
+			$form->addItem($html);
+	 	}
+
+		$group = new ilCheckboxGroupInputGUI($this->lng->txt('ps_profile_export'),'profile_protection');
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_export_course'));
+		$check->setValue('export_course');
+		$group->addOption($check);
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_export_groups'));
+		$check->setValue('export_course');
+		$group->addOption($check);
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_export_confirm'));
+		$check->setValue('export_confirm_course');
+		$group->addOption($check);
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_export_confirm_group'));
+		$check->setValue('export_confirm_group');
+		$group->addOption($check);
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_show_grp_access'));
+		$check->setValue('grp_access_times');
+		$group->addOption($check);
+		$check = new ilCheckboxOption();
+		$check->setTitle($this->lng->txt('ps_show_crs_access'));
+		$check->setValue('crs_access_times');
+		$group->addOption($check);
+		$form->addItem($group);
+
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
+		$check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
+		$form->addItem($check);
+
+		$check = new ilCheckboxInputGui($this->lng->txt('disable_anonymous_fora'), 'anonymous_fora');
+		$check->setInfo($this->lng->txt('disable_anonymous_fora_desc'));
+		$form->addItem($check);
+
+		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
+		$check->setInfo($this->lng->txt('rbac_log_info'));
+		$form->addItem($check);
+
+		$form->addCommandButton('save_privacy',$this->lng->txt('save'));
+		$this->tpl->setContent($form->getHTML());
+		*/
 	}
 
 
@@ -183,8 +241,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$security = ilSecuritySettings::_getInstance();
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_security.html','Services/PrivacySecurity');
-
+	 	
 		$this->tabs_gui->setTabActive('show_security');
 
 		$form = new ilPropertyFormGUI();
@@ -289,7 +346,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
-		$this->tpl->setVariable('NEW_FORM',$form->getHTML());
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
