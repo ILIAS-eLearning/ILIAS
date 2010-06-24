@@ -592,6 +592,12 @@ class ilPermissionGUI
 		$ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());
 		ilUtil::sendSuccess($this->lng->txt('owner_updated'),true);
 
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		if(ilRbacLog::isActive())
+		{
+			ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
+		}
+
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
 		{
 			$this->ctrl->redirect($this->gui_obj);

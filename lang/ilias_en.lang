@@ -10526,3 +10526,5 @@ rbac#:#rbac_log_edit_template#:#Edit Role Template
 rbac#:#rbac_log_edit_template_existing#:#Use Role Template for Existing Objects
 ps#:#rbac_log#:#Permission Log
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
+rbac#:#rbac_log_change_owner#:#Change Owner of Object
+rbac#:#rbac_log_changed_owner#:#Changed Owner to

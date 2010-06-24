@@ -50,7 +50,8 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			ilRbacLog::COPY_OBJECT => $this->lng->txt("rbac_log_copy_object"),
 			ilRbacLog::CREATE_OBJECT => $this->lng->txt("rbac_log_create_object"),
 			ilRbacLog::EDIT_TEMPLATE => $this->lng->txt("rbac_log_edit_template"),
-			ilRbacLog::EDIT_TEMPLATE_EXISTING=> $this->lng->txt("rbac_log_edit_template_existing"));
+			ilRbacLog::EDIT_TEMPLATE_EXISTING=> $this->lng->txt("rbac_log_edit_template_existing"),
+			ilRbacLog::CHANGE_OWNER=> $this->lng->txt("rbac_log_change_owner"));
 
 		$this->initFilter();
 
@@ -90,7 +91,12 @@ class ilRbacLogTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("USER", ilObjUser::_lookupFullname($a_set["user_id"]));
 		$this->tpl->setVariable("ACTION", $this->action_map[$a_set["action"]]);
 
-		if($a_set["action"] == ilRbacLog::EDIT_TEMPLATE)
+		if($a_set["action"] == ilRbacLog::CHANGE_OWNER)
+		{
+			$user = ilObjUser::_lookupFullname($a_set["data"][0]);
+			$changes = array(array("action"=>$this->lng->txt("rbac_log_changed_owner"), "operation"=>$user));
+		}
+		else if($a_set["action"] == ilRbacLog::EDIT_TEMPLATE)
 		{
 			$changes = $this->parseChangesTemplate($a_set["data"]);
 		}

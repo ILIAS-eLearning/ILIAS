@@ -20,6 +20,7 @@ class ilRbacLog
 	const CREATE_OBJECT = 5;
 	const EDIT_TEMPLATE = 6;
 	const EDIT_TEMPLATE_EXISTING = 7;
+	const CHANGE_OWNER = 8;
 
 	static public function isActive()
     {
@@ -166,7 +167,8 @@ class ilRbacLog
 	static protected function isValidAction($a_action)
     {
 		if(in_array($a_action, array(self::EDIT_PERMISSIONS, self::MOVE_OBJECT, self::LINK_OBJECT,
-			self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE, self::EDIT_TEMPLATE_EXISTING)))
+			self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE, self::EDIT_TEMPLATE_EXISTING,
+			self::CHANGE_OWNER)))
 		{
 			return true;
 		}

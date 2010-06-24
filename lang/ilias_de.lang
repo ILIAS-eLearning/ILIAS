@@ -10487,3 +10487,5 @@ rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
 ps#:#rbac_log#:#Rechteeinstellungs-Log
 ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
+rbac#:#rbac_log_change_owner#:#Besitzer eines Objekts ändern
+rbac#:#rbac_log_changed_owner#:#Besitzer geändert zu
