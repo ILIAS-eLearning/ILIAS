@@ -1294,7 +1294,11 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		$rbac_log_old = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+		$rbac_log_active = ilRbacLog::isActive();
+		if($rbac_log_active)
+		{
+			$rbac_log_old = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+		}
 
 		// delete all template entries
 		$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
@@ -1310,9 +1314,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
 		}
 
-		$rbac_log_new = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
-		$rbac_log_diff = ilRbacLog::diffTemplate($rbac_log_old, $rbac_log_new);
-		ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->obj_ref_id, $rbac_log_diff);
+		if($rbac_log_active)
+		{
+			$rbac_log_new = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+			$rbac_log_diff = ilRbacLog::diffTemplate($rbac_log_old, $rbac_log_new);
+			ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->obj_ref_id, $rbac_log_diff);
+		}
 
 		// update object data entry (to update last modification date)
 		$this->object->update();

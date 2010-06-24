@@ -962,13 +962,20 @@ class ilRbacAdmin
 		}
 
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-	    $role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
+		$rbac_log_active = ilRbacLog::isActive();
+		if($rbac_log_active)
+		{
+			$role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
+		}
 		
 		foreach($nodes = $tree->getSubTree($node_data = $tree->getNodeData($a_ref_id),true) as $node_data)
 		{
 			$node_id = $node_data['child'];
 
-			$log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
+			if($rbac_log_active)
+			{
+				$log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
+			}
 			
 			// If $node_data['type'] is not set, this means there is a tree entry without
 			// object_reference and/or object_data entry
@@ -1003,9 +1010,12 @@ class ilRbacAdmin
 //var_dump("<pre>",'GRANT',$role_id,$ops,$role_id,$node_data['type'],$role_data['parent'],"</pre>");
 			}
 
-			$log_new = ilRbacLog::gatherFaPa($node_id, $role_ids);
-			$log = ilRbacLog::diffFaPa($log_old, $log_new);
-			ilRbacLog::add(ilRbacLog::MOVE_OBJECT, $node_id, $log);
+			if($rbac_log_active)
+			{
+				$log_new = ilRbacLog::gatherFaPa($node_id, $role_ids);
+				$log = ilRbacLog::diffFaPa($log_old, $log_new);
+				ilRbacLog::add(ilRbacLog::MOVE_OBJECT, $node_id, $log);
+			}
 		}
 
 	}

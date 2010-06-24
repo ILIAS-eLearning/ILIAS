@@ -570,9 +570,12 @@ class ilObjectCopyGUI
 
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
-		$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
-		ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$this->getSource());
+		if(ilRbacLog::isActive())
+		{
+			$rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
+			$rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles));
+			ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, (int)$this->getSource());
+		}
 
 		ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));

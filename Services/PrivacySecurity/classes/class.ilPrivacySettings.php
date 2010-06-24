@@ -43,6 +43,7 @@ class ilPrivacySettings
 		private $export_confirm_group;
 		private $fora_statistics;
 		private $anonymous_fora;
+		private $rbac_log;
 		private $show_grp_access_times;
 		private $show_crs_access_times;
 		private $ref_id;
@@ -161,7 +162,25 @@ class ilPrivacySettings
 	*/
 	public function disabledAnonymousFora () 
 	{
-			return $this->anonymous_fora;
+		return $this->anonymous_fora;
+	}
+
+	/**
+	* write access to property rbac_log
+	* @param bool $a_status	value to set property
+	*/
+	public function enableRbacLog ($a_status)
+	{
+		$this->rbac_log = (bool) $a_status;
+	}
+
+	/**
+	* read access to property enable rbac log
+	* @return bool true if enabled, false otherwise
+	*/
+	public function enabledRbacLog ()
+	{
+		return $this->rbac_log;
 	}
 	
 	public function confirmationRequired($a_type)
@@ -258,6 +277,7 @@ class ilPrivacySettings
 	 	$this->settings->set('disable_anonymous_fora',(bool) $this->disabledAnonymousFora());
 	 	$this->settings->set('ps_access_times',(bool) $this->enabledGroupAccessTimes());
 	 	$this->settings->set('ps_crs_access_times',(bool) $this->enabledCourseAccessTimes());
+	 	$this->settings->set('rbac_log',(bool) $this->enabledRbacLog());
 	}
 	/**
 	 * read settings
@@ -287,6 +307,7 @@ class ilPrivacySettings
 		$this->anonymous_fora = (bool) $this->settings->get('disable_anonymous_fora',false);
 		$this->show_grp_access_times = (bool) $this->settings->get('ps_access_times',false);
 		$this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times',false);
+		$this->rbac_log = (bool) $this->settings->get('rbac_log',false);
 
 	}
 

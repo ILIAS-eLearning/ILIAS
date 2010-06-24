@@ -631,8 +631,13 @@ class ilPermissionGUI
 								 "", "", "", $info);
 		$ilTabs->addSubTabTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
 								 "", "", "", $owner);
-		$ilTabs->addSubTabTarget("log", $this->ctrl->getLinkTarget($this, "log"),
-								 "", "", "", $log);
+
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		if(ilRbacLog::isActive())
+		{
+			$ilTabs->addSubTabTarget("log", $this->ctrl->getLinkTarget($this, "log"),
+									 "", "", "", $log);
+		}
 	}
 	
 	function getRolesData()
@@ -1008,6 +1013,12 @@ class ilPermissionGUI
 
 	function log()
 	{
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		if(!ilRbacLog::isActive())
+		{
+			$this->ctrl->redirect($this, "perm");
+		}
+
 		$this->__initSubTabs("log");
 
 		include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";

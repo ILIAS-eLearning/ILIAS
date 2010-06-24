@@ -162,6 +162,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_ANONYMOUS_FORA',$this->lng->txt('disable_anonymous_fora_desc'));
 	 	$this->tpl->setVariable('CHECK_ANONYMOUS_FORA',ilUtil::formCheckbox($privacy->disabledAnonymousFora() ? 1 : 0,'anonymous_fora',1));
 
+		// Rbac log
+		$this->tpl->setVariable('TXT_RBAC_LOG',$this->lng->txt('rbac_log'));
+	 	$this->tpl->setVariable('TXT_RBAC_LOG_INFO',$this->lng->txt('rbac_log_info'));
+	 	$this->tpl->setVariable('CHECK_RBAC_LOG',ilUtil::formCheckbox($privacy->enabledRbacLog() ? 1 : 0,'rbac_log',1));
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
 	}
@@ -312,6 +316,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->showGroupAccessTimes((int) $_POST['grp_access_times']);
 		$privacy->showCourseAccessTimes((int) $_POST['crs_access_times']);
+		$privacy->enableRbacLog((int) $_POST['rbac_log']);
 
         // validate settings
         $code = $privacy->validate();
