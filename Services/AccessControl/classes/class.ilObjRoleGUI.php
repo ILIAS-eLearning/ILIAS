@@ -1312,7 +1312,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$rbac_log_new = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
 		$rbac_log_diff = ilRbacLog::diffTemplate($rbac_log_old, $rbac_log_new);
-		ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->rolf_ref_id, $rbac_log_diff, $this->object->getId());
+		ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->obj_ref_id, $rbac_log_diff);
 
 		// update object data entry (to update last modification date)
 		$this->object->update();
