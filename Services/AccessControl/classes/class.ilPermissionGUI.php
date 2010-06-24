@@ -623,6 +623,7 @@ class ilPermissionGUI
 		$perm = ($a_cmd == 'perm') ? true : false;
 		$info = ($a_cmd == 'info') ? true : false;
 		$owner = ($a_cmd == 'owner') ? true : false;
+		$log = ($a_cmd == 'log') ? true : false;
 
 		$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
 								 "", "", "", $perm);
@@ -630,6 +631,8 @@ class ilPermissionGUI
 								 "", "", "", $info);
 		$ilTabs->addSubTabTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
 								 "", "", "", $owner);
+		$ilTabs->addSubTabTarget("log", $this->ctrl->getLinkTarget($this, "log"),
+								 "", "", "", $log);
 	}
 	
 	function getRolesData()
@@ -1001,6 +1004,15 @@ class ilPermissionGUI
 			$this->tpl->setCurrentBlock("perm_settings");
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	function log()
+	{
+		$this->__initSubTabs("log");
+
+		include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
+		$table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+		$this->tpl->setContent($table->getHTML());
 	}
 } // END class.ilPermissionGUI
 ?>

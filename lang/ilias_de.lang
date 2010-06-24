@@ -10470,3 +10470,18 @@ dateplaner#:#cal_ch_form_header#:#Sprechstundenverwaltung
 dateplaner#:#cal_ch_form_info#:#Diese Option aktiviert die Sprechstundenverwaltung im Kalender 
 dateplaner#:#cal_ch_form#:#Aktiviere Sprechstundenverwaltung
 dateplaner#:#app_consultation_hours#:#Sprechstundenverwaltung
+rbac#:#log#:#Log
+rbac#:#rbac_log#:#Log
+rbac#:#rbac_changes#:#Änderungen
+rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für "%s"
+rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
+rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für "%s"
+rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"
+rbac#:#rbac_log_source_object#:#Quell-Objekt
+rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
+rbac#:#rbac_log_move_object#:#Objekt verschieben
+rbac#:#rbac_log_link_object#:#Objekt verknüpfen
+rbac#:#rbac_log_copy_object#:#Objekt kopieren
+rbac#:#rbac_log_create_object#:#Objekt anlegen
+rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
+rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden

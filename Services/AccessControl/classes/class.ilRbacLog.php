@@ -21,23 +21,23 @@ class ilRbacLog
 	const EDIT_TEMPLATE = 6;
 	const EDIT_TEMPLATE_EXISTING = 7;
 
-	static public function gatherFaPa($ref_id, array $role_ids)
+	static public function gatherFaPa($a_ref_id, array $a_role_ids)
 	{
 		global $rbacreview;
 
 		$result = array();
 
 		// roles
-		foreach($role_ids as $role_id)
+		foreach($a_role_ids as $role_id)
 		{
 			if ($role_id != SYSTEM_ROLE_ID)
 			{
-				$result["ops"][$role_id] = $rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+				$result["ops"][$role_id] = $rbacreview->getRoleOperationsOnObject($role_id, $a_ref_id);
 			}
 		}
 
 		// inheritance
-		$rolf_data = $rbacreview->getRoleFolderOfObject($ref_id);
+		$rolf_data = $rbacreview->getRoleFolderOfObject($a_ref_id);
 		$rolf_id = $rolf_data["child"];
 		if($rolf_id && $rolf_id != ROLE_FOLDER_ID)
 		{
@@ -47,43 +47,43 @@ class ilRbacLog
 		return $result;
 	}
 
-	static public function diffFaPa(array $old, array $new)
+	static public function diffFaPa(array $a_old, array $a_new)
 	{
 		$result = array();
 
 		// roles
-	    foreach($old["ops"] as $role_id => $ops)
+	    foreach($a_old["ops"] as $role_id => $ops)
 		{
-			$diff = array_diff($ops, $new["ops"][$role_id]);
+			$diff = array_diff($ops, $a_new["ops"][$role_id]);
 			if(sizeof($diff))
 			{
 				$result["ops"][$role_id]["rmv"] = array_values($diff);
 			}
-			$diff = array_diff($new["ops"][$role_id], $ops);
+			$diff = array_diff($a_new["ops"][$role_id], $ops);
 			if(sizeof($diff))
 			{
 				$result["ops"][$role_id]["add"] = array_values($diff);
 			}
 		}
 
-		if(isset($old["int"]) || isset($new["inht"]))
+		if(isset($a_old["int"]) || isset($a_new["inht"]))
 		{
-			if(isset($old["inht"]) && !isset($new["inht"]))
+			if(isset($a_old["inht"]) && !isset($a_new["inht"]))
 			{
-				$result["inht"]["rmv"] = $old["inht"];
+				$result["inht"]["rmv"] = $a_old["inht"];
 			}
-			else if(!isset($old["inht"]) && isset($new["inht"]))
+			else if(!isset($a_old["inht"]) && isset($a_new["inht"]))
 			{
-				$result["inht"]["add"] = $new["inht"];
+				$result["inht"]["add"] = $a_new["inht"];
 			}
 			else
 			{
-				$diff = array_diff($old["inht"], $new["inht"]);
+				$diff = array_diff($a_old["inht"], $a_new["inht"]);
 				if(sizeof($diff))
 				{
 					$result["inht"]["rmv"] = array_values($diff);
 				}
-				$diff = array_diff($new["inht"], $old["inht"]);
+				$diff = array_diff($a_new["inht"], $a_old["inht"]);
 				if(sizeof($diff))
 				{
 					$result["inht"]["add"] = array_values($diff);
@@ -94,35 +94,35 @@ class ilRbacLog
 		return $result;
 	}
 
-	static public function gatherTemplate($role_folder_ref_id, $role_id)
+	static public function gatherTemplate($a_role_folder_ref_id, $a_role_id)
 	{
 		global $rbacreview;
 
-		return $rbacreview->getAllOperationsOfRole($role_id, $role_folder_ref_id);
+		return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_folder_ref_id);
 	}
 
-	static public function diffTemplate(array $old, array $new)
+	static public function diffTemplate(array $a_old, array $a_new)
 	{
 		$result = array();
-		$types = array_unique(array_merge(array_keys($old), array_keys($new)));
+		$types = array_unique(array_merge(array_keys($a_old), array_keys($a_new)));
 		foreach($types as $type)
 		{
-			if(!isset($old[$type]))
+			if(!isset($a_old[$type]))
 			{
-				$result[$type]["add"] = $new[$type];
+				$result[$type]["add"] = $a_new[$type];
 			}
-			else if(!isset($new[$type]))
+			else if(!isset($a_new[$type]))
 			{
-				$result[$type]["rmv"] = $old[$type];
+				$result[$type]["rmv"] = $a_old[$type];
 			}
 			else
 			{
-				$diff = array_diff($old[$type], $new[$type]);
+				$diff = array_diff($a_old[$type], $a_new[$type]);
 				if(sizeof($diff))
 				{
 					$result[$type]["rmv"] = array_values($diff);
 				}
-				$diff = array_diff($new[$type], $old[$type]);
+				$diff = array_diff($a_new[$type], $a_old[$type]);
 				if(sizeof($diff))
 				{
 					$result[$type]["add"] = array_values($diff);
@@ -132,34 +132,51 @@ class ilRbacLog
 		return $result;
 	}
 
-	static public function add($action, $ref_id, array $diff, $source_ref_id = false)
+	static public function add($a_action, $a_ref_id, array $a_diff, $a_source_ref_id = false)
 	{
 		global $ilUser, $ilDB;
 
-		if(self::isValidAction($action) && sizeof($diff))
+		if(self::isValidAction($a_action) && sizeof($a_diff))
 	    {
-			if($source_ref_id)
+			if($a_source_ref_id)
 			{
-				$diff["src"] = $source_ref_id;
+				$a_diff["src"] = $a_source_ref_id;
 			}
 
 			$ilDB->query("INSERT INTO rbac_log (user_id, created, ref_id, action, data)".
 				" VALUES (".$ilDB->quote($ilUser->getId(), "integer").",".$ilDB->quote(time(), "integer").
-				",".$ilDB->quote($ref_id, "integer").",".$ilDB->quote($action, "integer").
-				",".$ilDB->quote(serialize($diff), "text").")");
+				",".$ilDB->quote($a_ref_id, "integer").",".$ilDB->quote($a_action, "integer").
+				",".$ilDB->quote(serialize($a_diff), "text").")");
 			return true;
 		}
 		return false;
 	}
 
-	static protected function isValidAction($action)
+	static protected function isValidAction($a_action)
     {
-		if(in_array($action, array(self::EDIT_PERMISSIONS, self::MOVE_OBJECT, self::LINK_OBJECT,
+		if(in_array($a_action, array(self::EDIT_PERMISSIONS, self::MOVE_OBJECT, self::LINK_OBJECT,
 			self::COPY_OBJECT, self::CREATE_OBJECT, self::EDIT_TEMPLATE, self::EDIT_TEMPLATE_EXISTING)))
 		{
 			return true;
 		}
 		return false;
+	}
+
+	static public function getLogItems($a_ref_id)
+	{
+		global $ilDB, $rbacreview;
+
+		$rolf_id = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
+
+		$result = array();
+		$set = $ilDB->query("SELECT * FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer").
+			" OR ref_id = ".$ilDB->quote($rolf_id, "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$row["data"] = unserialize($row["data"]);
+			$result[] = $row;
+		}
+		return $result;
 	}
 }
 

@@ -10509,3 +10509,18 @@ dateplaner#:#cal_ch_form_header#:#Consultation Hours
 dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. 
 dateplaner#:#cal_ch_form#:#Enable Consultation Hours
 dateplaner#:#app_consultation_hours#:#Consultation Hours
+rbac#:#log#:#Log
+rbac#:#rbac_log#:#Log
+rbac#:#rbac_changes#:#Changes
+rbac#:#rbac_log_operation_add#:#Added Operation for "%s"
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"
+rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"
+rbac#:#rbac_log_source_object#:#Source object
+rbac#:#rbac_log_edit_permissions#:#Edit Permissions
+rbac#:#rbac_log_move_object#:#Move Object
+rbac#:#rbac_log_link_object#:#Link Object
+rbac#:#rbac_log_copy_object#:#Copy Object
+rbac#:#rbac_log_create_object#:#Create Object
+rbac#:#rbac_log_edit_template#:#Edit Role Template
+rbac#:#rbac_log_edit_template_existing#:#Use Role Template for Existing Objects
