@@ -473,7 +473,6 @@ class ilPermissionGUI
 			// create role
 			if ($this->gui_obj->object->getType() == "rolf")
 			{
-				$rfoldObj = $this->gui_obj->object;
 				$roleObj = $this->gui_obj->object->createRole($new_title, $form->getInput("desc"));
 			}
 			else
@@ -482,11 +481,33 @@ class ilPermissionGUI
 				$roleObj = $rfoldObj->createRole($new_title, $form->getInput("desc"));
 			}
 
+			// protect
 			$rbacadmin->setProtected(
-				$rfoldObj->getId(),
+				$rolf_id,
 				$roleObj->getId(),
 				$form->getInput('pro') ? 'y' : 'n'
 			);
+
+			// copy rights 
+			$right_id_to_copy = $form->getInput("rights");
+			if($right_id_to_copy)
+			{
+				$parentRoles = $rbacreview->getParentRoleIds($rolf_id,true);
+				$rbacadmin->copyRoleTemplatePermissions(
+					$right_id_to_copy,
+					$parentRoles[$right_id_to_copy]["parent"],
+					$rolf_id,
+					$roleObj->getId(),
+					false);
+			}
+
+			// add to desktop items
+			if($form->getInput("desktop"))
+			{
+				include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
+				$role_desk_item_obj =& new ilRoleDesktopItem($roleObj->getId());
+				$role_desk_item_obj->add($this->gui_obj->object->getRefId(),ilObject::_lookupType($this->gui_obj->object->getRefId(),true));
+			}		
 
 			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
 			$this->ctrl->redirect($this,'perm');
