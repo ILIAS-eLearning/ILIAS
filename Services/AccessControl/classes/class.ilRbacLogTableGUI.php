@@ -79,6 +79,12 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			$this->operations[$op["ops_id"]] = $op["operation"];
 		}
 
+		// special case: role folder should display root folder entries
+		if($a_ref_id == ROLE_FOLDER_ID)
+		{
+			$a_ref_id = ROOT_FOLDER_ID;
+		}
+
 		$data = ilRbacLog::getLogItems($a_ref_id, $this->getLimit(), $this->getOffset(), $a_current_filter);
 
 		$this->setData($data["set"]);
