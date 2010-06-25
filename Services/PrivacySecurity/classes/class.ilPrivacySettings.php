@@ -44,6 +44,7 @@ class ilPrivacySettings
 		private $fora_statistics;
 		private $anonymous_fora;
 		private $rbac_log;
+		private $rbac_log_age;
 		private $show_grp_access_times;
 		private $show_crs_access_times;
 		private $ref_id;
@@ -182,6 +183,24 @@ class ilPrivacySettings
 	{
 		return $this->rbac_log;
 	}
+
+	/**
+	* write access to property rbac log age
+	*  @param int $a_age	value to set property
+	*/
+	public function setRbacLogAge ($a_age)
+	{
+		$this->rbac_log_age = (int) $a_age;
+	}
+
+	/**
+	* read access to property rbac log age
+	* @return int
+	*/
+	public function getRbacLogAge ()
+	{
+		return $this->rbac_log_age;
+	}
 	
 	public function confirmationRequired($a_type)
 	{
@@ -278,6 +297,7 @@ class ilPrivacySettings
 	 	$this->settings->set('ps_access_times',(bool) $this->enabledGroupAccessTimes());
 	 	$this->settings->set('ps_crs_access_times',(bool) $this->enabledCourseAccessTimes());
 	 	$this->settings->set('rbac_log',(bool) $this->enabledRbacLog());
+	 	$this->settings->set('rbac_log_age',(int) $this->getRbacLogAge());
 	}
 	/**
 	 * read settings
@@ -308,6 +328,7 @@ class ilPrivacySettings
 		$this->show_grp_access_times = (bool) $this->settings->get('ps_access_times',false);
 		$this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times',false);
 		$this->rbac_log = (bool) $this->settings->get('rbac_log',false);
+		$this->rbac_log_age = (int) $this->settings->get('rbac_log_age',6);
 
 	}
 

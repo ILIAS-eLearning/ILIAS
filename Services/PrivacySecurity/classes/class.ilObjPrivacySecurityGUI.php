@@ -125,52 +125,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 		$this->tabs_gui->setTabActive('show_privacy');
 
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_privacy.html','Services/PrivacySecurity');
-
-	    include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-	 	if(ilMemberAgreement::_hasAgreements())
-	 	{
-			$this->tpl->setCurrentBlock('warning_modify');
-			$this->tpl->setVariable('TXT_WARNING',$this->lng->txt('ps_warning_modify'));
-			$this->tpl->parseCurrentBlock();
-	 	}
-
-	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TXT_PRIVACY_PROTECTION',$this->lng->txt('ps_privacy_protection'));
-	 	$this->tpl->setVariable('TXT_PROFILE_EXPORT',$this->lng->txt('ps_profile_export'));
-	 	$this->tpl->setVariable('TXT_EXPORT_COURSE',$this->lng->txt('ps_export_course'));
-	 	$this->tpl->setVariable('TXT_EXPORT_GROUP',$this->lng->txt('ps_export_groups'));
-	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM_COURSE',$this->lng->txt('ps_export_confirm'));
-	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM_GROUP',$this->lng->txt('ps_export_confirm_group'));
-	 	$this->tpl->setVariable('TXT_GRP_ACCESS',$this->lng->txt('ps_show_grp_access'));
-	 	$this->tpl->setVariable('TXT_CRS_ACCESS',$this->lng->txt('ps_show_crs_access'));
-
-	 	// Check export
-	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledCourseExport() ? 1 : 0,'export_course',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_GROUP',ilUtil::formCheckbox($privacy->enabledGroupExport() ? 1 : 0,'export_group',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM_COURSE',ilUtil::formCheckbox($privacy->courseConfirmationRequired() ? 1 : 0,'export_confirm_course',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM_GROUP',ilUtil::formCheckbox($privacy->groupConfirmationRequired() ? 1 : 0,'export_confirm_group',1));
-	 	$this->tpl->setVariable('CHECK_GRP_ACCESS',ilUtil::formCheckbox($privacy->enabledGroupAccessTimes() ? 1 : 0,'grp_access_times',1));
-	 	$this->tpl->setVariable('CHECK_CRS_ACCESS',ilUtil::formCheckbox($privacy->enabledCourseAccessTimes() ? 1 : 0,'crs_access_times',1));
-
-		// Fora statistics
-	 	$this->tpl->setVariable('TXT_STATISTICS',$this->lng->txt('enable_fora_statistics'));
-	 	$this->tpl->setVariable('TXT_FORA_STATISTICS',$this->lng->txt('enable_fora_statistics_desc'));
-	 	$this->tpl->setVariable('CHECK_FORA_STATISTICS',ilUtil::formCheckbox($privacy->enabledForaStatistics() ? 1 : 0,'fora_statistics',1));
-
-		// Anonymous Fora enabled
-	 	$this->tpl->setVariable('TXT_ANONYMITY',$this->lng->txt('disable_anonymous_fora'));
-	 	$this->tpl->setVariable('TXT_ANONYMOUS_FORA',$this->lng->txt('disable_anonymous_fora_desc'));
-	 	$this->tpl->setVariable('CHECK_ANONYMOUS_FORA',ilUtil::formCheckbox($privacy->disabledAnonymousFora() ? 1 : 0,'anonymous_fora',1));
-
-		// Rbac log
-		$this->tpl->setVariable('TXT_RBAC_LOG',$this->lng->txt('rbac_log'));
-	 	$this->tpl->setVariable('TXT_RBAC_LOG_INFO',$this->lng->txt('rbac_log_info'));
-	 	$this->tpl->setVariable('CHECK_RBAC_LOG',ilUtil::formCheckbox($privacy->enabledRbacLog() ? 1 : 0,'rbac_log',1));
-
-	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
-
-		/*
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -184,14 +138,40 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$form->addItem($html);
 	 	}
 
+		$value = array();
+		if($privacy->enabledCourseExport())
+		{
+			$value[] = "export_course";
+		}
+		if($privacy->enabledGroupExport())
+		{
+			$value[] = "export_group";
+		}
+		if($privacy->courseConfirmationRequired())
+		{
+			$value[] = "export_confirm_course";
+		}
+		if($privacy->groupConfirmationRequired())
+		{
+			$value[] = "export_confirm_group";
+		}
+		if($privacy->enabledGroupAccessTimes())
+		{
+			$value[] = "grp_access_times";
+		}
+		if($privacy->enabledCourseAccessTimes())
+		{
+			$value[] = "crs_access_times";
+		}
 		$group = new ilCheckboxGroupInputGUI($this->lng->txt('ps_profile_export'),'profile_protection');
+		$group->setValue($value);
 		$check = new ilCheckboxOption();
 		$check->setTitle($this->lng->txt('ps_export_course'));
 		$check->setValue('export_course');
 		$group->addOption($check);
 		$check = new ilCheckboxOption();
 		$check->setTitle($this->lng->txt('ps_export_groups'));
-		$check->setValue('export_course');
+		$check->setValue('export_group');
 		$group->addOption($check);
 		$check = new ilCheckboxOption();
 		$check->setTitle($this->lng->txt('ps_export_confirm'));
@@ -213,21 +193,31 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
 		$check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
+		$check->setChecked($privacy->enabledForaStatistics());
 		$form->addItem($check);
 
 		$check = new ilCheckboxInputGui($this->lng->txt('disable_anonymous_fora'), 'anonymous_fora');
 		$check->setInfo($this->lng->txt('disable_anonymous_fora_desc'));
+		$check->setChecked($privacy->disabledAnonymousFora());
 		$form->addItem($check);
 
 		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
 		$check->setInfo($this->lng->txt('rbac_log_info'));
+		$check->setChecked($privacy->enabledRbacLog());
 		$form->addItem($check);
+
+		$age = new ilNumberInputGUI($this->lng->txt('rbac_log_age'),'rbac_log_age');
+		$age->setInfo($this->lng->txt('rbac_log_age_info'));
+	    $age->setValue($privacy->getRbacLogAge());
+		$age->setMinValue(1);
+		$age->setMaxValue(24);
+		$age->setSize(2);
+		$age->setMaxLength(2);
+		$check->addSubItem($age);
 
 		$form->addCommandButton('save_privacy',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
-		*/
 	}
-
 
 	/**
 	 * Show Privacy settings
@@ -364,16 +354,26 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
 
+		if((int) $_POST['rbac_log_age'] > 24)
+		{
+			$_POST['rbac_log_age'] = 24;
+		}
+		else if((int) $_POST['rbac_log_age'] < 1)
+		{
+			$_POST['rbac_log_age'] = 1;
+		}
+
 		$privacy = ilPrivacySettings::_getInstance();
-		$privacy->enableCourseExport((int) $_POST['export_course']);
-		$privacy->enableGroupExport((int) $_POST['export_group']);
-		$privacy->setCourseConfirmationRequired((int) $_POST['export_confirm_course']);
-		$privacy->setGroupConfirmationRequired((int) $_POST['export_confirm_group']);
+		$privacy->enableCourseExport((int) in_array('export_course', $_POST['profile_protection']));
+		$privacy->enableGroupExport((int) in_array('export_group', $_POST['profile_protection']));
+		$privacy->setCourseConfirmationRequired((int) in_array('export_confirm_course', $_POST['profile_protection']));
+		$privacy->setGroupConfirmationRequired((int) in_array('export_confirm_group', $_POST['profile_protection']));
+		$privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
+		$privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
 		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
-		$privacy->showGroupAccessTimes((int) $_POST['grp_access_times']);
-		$privacy->showCourseAccessTimes((int) $_POST['crs_access_times']);
 		$privacy->enableRbacLog((int) $_POST['rbac_log']);
+		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
 
         // validate settings
         $code = $privacy->validate();

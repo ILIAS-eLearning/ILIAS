@@ -10489,3 +10489,5 @@ ps#:#rbac_log#:#Rechteeinstellungs-Log
 ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 rbac#:#rbac_log_change_owner#:#Besitzer eines Objekts ändern
 rbac#:#rbac_log_changed_owner#:#Besitzer geändert zu
+ps#:#rbac_log_age#:#Log-Einträge vorhalten
+ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
