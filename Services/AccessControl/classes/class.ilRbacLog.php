@@ -13,7 +13,6 @@
 */
 class ilRbacLog
 {
-	const THRESHOLD = 3; // oldest entries in months
 	const EDIT_PERMISSIONS = 1;
 	const MOVE_OBJECT = 2;
 	const LINK_OBJECT = 3;
@@ -226,8 +225,18 @@ class ilRbacLog
 
 		$ilDB->query("DELETE FROM rbac_log WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer"));
 
-		// delete old stuff
-		$ilDB->query("DELETE FROM rbac_log WHERE created < ".$ilDB->quote(strtotime("-".self::THRESHOLD."months"), "integer"));
+		self::garbageCollection();
+	}
+
+	static function garbageCollection()
+    {
+		global $ilDB;
+		
+		include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+		$settings = ilPrivacySettings::_getInstance();
+		$max = $settings->getRbacLogAge();
+
+		$ilDB->query("DELETE FROM rbac_log WHERE created < ".$ilDB->quote(strtotime("-".$max."months"), "integer"));
 	}
 }
 

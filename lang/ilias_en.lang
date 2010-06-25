@@ -10528,3 +10528,5 @@ ps#:#rbac_log#:#Permission Log
 ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
 rbac#:#rbac_log_change_owner#:#Change Owner of Object
 rbac#:#rbac_log_changed_owner#:#Changed Owner to
+ps#:#rbac_log_age#:#Keep Log Entries 
+ps#:#rbac_log_age_info#:#Maximum age of log entries in month
