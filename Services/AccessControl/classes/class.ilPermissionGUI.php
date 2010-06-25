@@ -95,10 +95,17 @@ class ilPermissionGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content","tpl.edit_permissions.html", "Services/AccessControl");
 
-		// Show new role button
-		#$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-		#$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'addRole'));
-		#$this->tpl->setVariable('TB',$ilTollbar->getHTML());	
+		// do not display this option for admin section and root node
+		$object_types_exclude = array("adm","root","objf","taxf");
+
+		// can the current object contain a rolefolder?
+		$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
+		if (isset($subobjects["rolf"]) && !in_array($this->gui_obj->object->getType(),$object_types_exclude) && $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
+		{
+			// Show new role button
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'displayAddRoleForm'));
+		}
 		
 		$this->getRolesData();
 
@@ -122,7 +129,6 @@ class ilPermissionGUI
 		if ($this->num_roles < 1)
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_no_roles_of_type"),false);
-			$this->__displayAddRoleForm();
 			return true;
 		}
 
@@ -217,11 +223,7 @@ class ilPermissionGUI
 		$this->__showPermissionsCreateSection();
 
 		$this->tpl->setVariable("COLSPAN", $this->num_roles);
-
-		// ADD LOCAL ROLE		
-		$this->__displayAddRoleForm();
 	}
-
 
 	/**
 	* save permissions
@@ -335,7 +337,82 @@ class ilPermissionGUI
 		$this->ctrl->redirect($this,'perm');
 	}
 
+	function initRoleForm()
+    {
+		global $rbacreview;
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('role_new'));
+		$form->addCommandButton('addrole',$this->lng->txt('role_new'));
+		$form->addCommandButton('perm', $this->lng->txt('cancel'));
 
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValidationRegexp('/^(?!il_).*$/');
+		$title->setValidationFailureMessage($this->lng->txt('msg_role_reserved_prefix'));
+		$title->setSize(40);
+		$title->setMaxLength(70);
+		$title->setRequired(true);
+		$form->addItem($title);
+
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setCols(40);
+		$desc->setRows(3);
+		$form->addItem($desc);
+
+		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'pro');
+		$pro->setInfo($this->lng->txt('role_protect_permissions_desc'));
+		$pro->setValue(1);
+		$form->addItem($pro);
+
+		$pd = new ilCheckboxInputGUI($this->lng->txt('rbac_role_add_to_desktop'),'desktop');
+		$pd->setInfo($this->lng->txt('rbac_role_add_to_desktop_info'));
+		$pd->setValue(1);
+		$form->addItem($pd);
+
+		$rights = new ilRadioGroupInputGUI($this->lng->txt("rbac_role_rights_copy"), 'rights');
+		$option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), 0);
+	    $rights->addOption($option);
+
+		$parent_role_ids = $rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(),true);
+		$ids = array();
+		foreach($parent_role_ids as $id => $tmp)
+		{
+			$ids[] = $id;
+		}
+
+		// Sort ids
+		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
+
+		// Sort roles by title
+		$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
+		$key = 0;
+
+		foreach($sorted_ids as $id)
+		{
+			$par = $parent_role_ids[$id];
+			if ($par["obj_id"] != SYSTEM_ROLE_ID)
+			{
+				$option = new ilRadioOption(($par["type"] == 'role' ? 'Role' : 'Template').": ".$par["title"], $par["obj_id"]);
+				$option->setInfo($par["desc"]);
+				$rights->addOption($option);
+			}
+			$key++;
+		}
+
+		$check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
+		$rights->addSubItem($check);
+		$form->addItem($rights);
+
+		return $form;
+	}
+
+	function displayAddRoleForm()
+	{
+		$form = $this->initRoleForm();
+		$this->tpl->setContent($form->getHTML());
+	}
 
 	/**
 	* adds a local role
@@ -348,88 +425,77 @@ class ilPermissionGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr,$ilCtrl;
 
-		// check if role title has il_ prefix
-		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
+		$form = $this->initRoleForm();
+		if($form->checkInput())
 		{
-			$ilErr->raiseError($this->lng->txt("msg_role_reserved_prefix"),$ilErr->MESSAGE);
-		}
-		if(!strlen($_POST["Fobject"]["title"]))
-		{
-			$ilErr->raiseError($this->lng->txt("fill_out_all_required_fields"),$ilErr->MESSAGE);
-		}
-		
-		$new_title = ilUtil::stripSlashes($_POST['Fobject']['title']);
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
-		if($rolf_data['child'])
-		{
-			foreach($rbacreview->getRolesOfRoleFolder($rolf_data['child']) as $role_id)
-			{
-				if(trim($new_title) == ilObject::_lookupTitle($role_id))
-				{
-					$ilErr->raiseError($this->lng->txt('rbac_role_exists_alert'),$ilErr->MESSAGE);
-				}				
-			}
-		}
-		
-
-		// if the current object is no role folder, create one
-		if ($this->gui_obj->object->getType() != "rolf")
-		{
+			$new_title = $form->getInput("title");
 			$rolf_data = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
-
-			// is there already a rolefolder?
-			if (!($rolf_id = $rolf_data["child"]))
+			if($rolf_data['child'])
 			{
-				// can the current object contain a rolefolder?
-				$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
-
-				if (!isset($subobjects["rolf"]))
+				foreach($rbacreview->getRolesOfRoleFolder($rolf_data['child']) as $role_id)
 				{
-					ilUtil::sendFailure($this->lng->txt("msg_no_rolf_allowed1")." '".$this->gui_obj->object->getTitle()."' ".
-							$this->lng->txt("msg_no_rolf_allowed2"), true);
-					$ilCtrl->redirect($this, "perm");
+					if(trim($new_title) == ilObject::_lookupTitle($role_id))
+					{
+						$ilErr->raiseError($this->lng->txt('rbac_role_exists_alert'),$ilErr->MESSAGE);
+					}
 				}
-
-				// create a rolefolder
-				$rolfObj = $this->gui_obj->object->createRoleFolder();
-				$rolf_id = $rolfObj->getRefId();
 			}
+
+			// if the current object is no role folder, create one
+			if ($this->gui_obj->object->getType() != "rolf")
+			{
+				$rolf_data = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
+
+				// is there already a rolefolder?
+				if (!($rolf_id = $rolf_data["child"]))
+				{
+					// can the current object contain a rolefolder?
+					$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
+
+					if (!isset($subobjects["rolf"]))
+					{
+						ilUtil::sendFailure($this->lng->txt("msg_no_rolf_allowed1")." '".$this->gui_obj->object->getTitle()."' ".
+								$this->lng->txt("msg_no_rolf_allowed2"), true);
+						$ilCtrl->redirect($this, "perm");
+					}
+
+					// create a rolefolder
+					$rolfObj = $this->gui_obj->object->createRoleFolder();
+					$rolf_id = $rolfObj->getRefId();
+				}
+			}
+			else
+			{
+				// Current object is already a rolefolder. To create the role we take its reference id
+				$rolf_id = $this->gui_obj->object->getRefId();
+			}
+
+			// create role
+			if ($this->gui_obj->object->getType() == "rolf")
+			{
+				$rfoldObj = $this->gui_obj->object;
+				$roleObj = $this->gui_obj->object->createRole($new_title, $form->getInput("desc"));
+			}
+			else
+			{
+				$rfoldObj = ilObjectFactory::getInstanceByRefId($rolf_id);
+				$roleObj = $rfoldObj->createRole($new_title, $form->getInput("desc"));
+			}
+
+			$rbacadmin->setProtected(
+				$rfoldObj->getId(),
+				$roleObj->getId(),
+				$form->getInput('pro') ? 'y' : 'n'
+			);
+
+			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
+			$this->ctrl->redirect($this,'perm');
 		}
 		else
 		{
-			// Current object is already a rolefolder. To create the role we take its reference id
-			$rolf_id = $this->gui_obj->object->getRefId();
+			$form->setValuesByPost();
+			$this->tpl->setContent($form->getHTML());
 		}
-
-		// create role
-		if ($this->gui_obj->object->getType() == "rolf")
-		{
-			$roleObj = $this->gui_obj->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
-		}
-		else
-		{
-			$rfoldObj = ilObjectFactory::getInstanceByRefId($rolf_id);
-			$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
-		}
-
-		ilUtil::sendSuccess($this->lng->txt("role_added"),true);
-		
-		// in administration jump to deault perm settings screen
-		// alex, ILIAS 3.6.5, 1.9.2006: this does not work and leads to errors in
-		// a) administration
-		//    -> repository trash & permissions -> item -> permissions ->
-		//    "you may add role" screen -> save
-		// b) other modules like learning modules
-		//    -> permissions -> "you may add role" screen
-		// deactivated for 3.6.6
-		//if ($this->ctrl->getTargetScript() != "repository.php")
-		//{
-		//	$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-		//	$this->ctrl->setParameter($this,"ref_id",$rolf_id);
-		//	$this->ctrl->redirect($this,'perm');
-		//}
-
-		$this->ctrl->redirect($this,'perm');
 	}
 
 	function &__initTableGUI()
@@ -726,42 +792,6 @@ class ilPermissionGUI
 			$this->roles[$role['obj_id']]['permissions'] = $grouped_ops;
 			
 			unset($grouped_ops);
-		}
-	}
-	
-	function __displayAddRoleForm()
-	{
-		// do not display this option for admin section and root node
-		$object_types_exclude = array("adm","root","objf","taxf");
-		
-		// can the current object contain a rolefolder?
-		$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
-		if (!isset($subobjects["rolf"]))
-		{
-			return;
-		}
-
-		if (!in_array($this->gui_obj->object->getType(),$object_types_exclude) and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
-		{
-			$this->tpl->addBlockFile("PERM_ADD_ROLE", "add_local_roles", "tpl.obj_perm_add_role.html");
-
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_LR_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-			}
-
-			$this->tpl->setVariable("FORMACTION_LR",
-				$this->ctrl->getLinkTarget($this, "addRole"));
-			$this->tpl->setVariable("TXT_LR_HEADER", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 	}
 	

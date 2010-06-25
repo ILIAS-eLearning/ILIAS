@@ -76,52 +76,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function &executeCommand()
 	{
-		
 		global $rbacsystem;
 
-		// todo: clean this mess up, but note that there are several
-		// points where roles can be edited:
-		// - repository categories, courses, groups, learning modules
-		// glossaries (see object.xml)
-		// - administration -> repository trash and permissions ->
-		//   item ->edit role
-		// - administration -> repository trash and permissions ->
-		//   role folder -> role
-		// - administration -> roles -> role
-		if($this->ctrl->getTargetScript() == 'repository.php' ||
-			$this->ctrl->getTargetScript() == 'role.php' ||
-			$this->ctrl->getTargetScript() == 'fblm_edit.php' ||
-			strtolower($_GET["baseClass"]) == 'ilchathandlergui' ||
-			strtolower($_GET["baseClass"]) == 'ilchatpresentationgui' ||
-			strtolower($_GET["baseClass"]) == 'illmeditorgui' ||
-			strtolower($_GET["baseClass"]) == 'ilexercisehandlergui' ||
-			strtolower($_GET["baseClass"]) == 'illinkresourcehandlergui' ||
-			strtolower($_GET["baseClass"]) == 'ilsahseditgui' ||
-			strtolower($_GET["baseClass"]) == 'ilobjsurveygui' ||
-			strtolower($_GET["baseClass"]) == 'ilwikihandlergui' ||
-			strtolower($_GET["baseClass"]) == 'ilmediapoolpresentation' ||
-			strtolower($_GET["baseClass"]) == 'ilobjsurveyquestionpoolgui' ||
-			strtolower($_GET["baseClass"]) == 'ilobjtestgui' ||
-			strtolower($_GET["baseClass"]) == 'ilobjquestionpoolgui' ||
-			strtolower($_GET["baseClass"]) == 'ilglossaryeditorgui' ||
-			$_GET["admin_mode"] == "repository")
-		{
-			$this->__prepareOutput();
-		}
-		else
-		{
-			if ($_GET["ref_id"] != SYSTEM_FOLDER_ID)
-			{
-				$this->prepareOutput();
-			}
-			else
-			{
-				//$this->setAdminTabs();
-				//$this->addAdminLocatorItems();
-				//$tpl->setLocator();
-			}
-		}
-
+		$this->prepareOutput();
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 

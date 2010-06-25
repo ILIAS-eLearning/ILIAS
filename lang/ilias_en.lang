@@ -10530,3 +10530,8 @@ rbac#:#rbac_log_change_owner#:#Change Owner of Object
 rbac#:#rbac_log_changed_owner#:#Changed Owner to
 ps#:#rbac_log_age#:#Keep Log Entries 
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
+rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop
+rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members
+rbac#:#rbac_role_rights_copy#:#Copy Rights
+rbac#:#rbac_role_rights_copy_empty#:#None
+rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects

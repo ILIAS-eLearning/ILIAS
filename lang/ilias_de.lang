@@ -10491,3 +10491,8 @@ rbac#:#rbac_log_change_owner#:#Besitzer eines Objekts ändern
 rbac#:#rbac_log_changed_owner#:#Besitzer geändert zu
 ps#:#rbac_log_age#:#Log-Einträge vorhalten
 ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
+rbac#:#rbac_role_add_to_desktop#:#Zum Persönlichen Schreibtisch hinzufügen
+rbac#:#rbac_role_add_to_desktop_info#:#Fügt Objekt dem Persönlichen Schreibtisch aller Rollen-Mitglieder zu
+rbac#:#rbac_role_rights_copy#:#Rechte kopieren
+rbac#:#rbac_role_rights_copy_empty#:#Keine
+rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
