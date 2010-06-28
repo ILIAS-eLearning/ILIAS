@@ -764,7 +764,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree,$ilTabs;
+		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree,$ilTabs, $ilToolbar;
 
 		$ilTabs->setTabActive('default_perm_settings');
 			
@@ -877,57 +877,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		$output["text_protected"] = $this->lng->txt("role_protect_permissions");
 		$output["text_protected_desc"] = $this->lng->txt("role_protect_permissions_desc");
 
-
-/************************************/
-/*		adopt permissions form		*/
-/************************************/
-
-		$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
-
-		// send message for system role
+		/* send message for system role
 		if ($this->object->getId() == SYSTEM_ROLE_ID)
 		{
 			$output["adopt"] = array();
 			$output["sysrole_msg"] = $this->lng->txt("msg_sysrole_not_editable");
 		}
-		else
-		{
-			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
-			$ids = array();
-			foreach($parent_role_ids as $id => $tmp)
-			{
-				$ids[] = $id;
-			}
-
-			// Sort ids
-			$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
-
-			// Sort roles by title
-			$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
-			$key = 0;
-			
-			foreach($sorted_ids as $id)
-			{
-				$par = $parent_role_ids[$id];
-			#foreach ($sorted_roles as $par)
-			#{
-				if ($par["obj_id"] != SYSTEM_ROLE_ID)
-				{
-					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-					$output["adopt"][$key]["css_row_adopt"] = ($key % 2 == 0) ? "tblrow1" : "tblrow2";
-					$output["adopt"][$key]["check_adopt"] = $radio;
-					$output["adopt"][$key]["role_id"] = $par["obj_id"];
-					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-					$output["adopt"][$key]["role_name"] = $par["title"];
-					$output["adopt"][$key]["role_desc"] = $par["desc"];
-				}
-				$key++;
-			}
-
-			$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
-			// END ADOPT_PERMISSIONS
-		}
+		 */
 
 		$output["formaction"] = $this->ctrl->getFormAction($this);
 
@@ -1031,30 +987,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		// don't display adopt permissions form for system role
 		if ($this->object->getId() != SYSTEM_ROLE_ID)
 		{
-			// BEGIN ADOPT PERMISSIONS
-			foreach ($this->data["adopt"] as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("ADOPT_PERM_ROW");
-				$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
-				$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
-				$this->tpl->setVariable("LABEL_ID",$value["role_id"]);
-				$this->tpl->setVariable("TYPE",$value["type"]);
-				$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
-				if(strlen($value['role_desc']))
-				{
-					$this->tpl->setVariable('ROLE_DESC',$value['role_desc']);
-				}
-
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("ADOPT_PERM_FORM");
-			$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
-			$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
-			$this->tpl->setVariable("ADOPT",$this->lng->txt('copy'));
-			$this->tpl->parseCurrentBlock();
-			// END ADOPT PERMISSIONS
-			
 			$this->tpl->setCurrentBlock("tblfooter_special_options");
 			$this->tpl->setVariable("TXT_PERM_SPECIAL_OPTIONS",$this->lng->txt("perm_special_options"));
 			$this->tpl->parseCurrentBlock();
@@ -1077,6 +1009,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("COL_ANZ_PLUS",3);
 			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 			$this->tpl->parseCurrentBlock();
+
+			// Show copy role button
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			$ilToolbar->addButton($this->lng->txt("adopt_perm_from_template"),$this->ctrl->getLinkTarget($this,'adoptPerm'));
 		}
 		else
 		{
@@ -1151,8 +1087,68 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->parseCurrentBlock();
+	}
+
+	protected function adoptPermObject()
+	{
+		global $rbacreview;
+
+		$output = array();
 		
-		//var_dump($this->data["formaction"]);
+		$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
+		$ids = array();
+		foreach($parent_role_ids as $id => $tmp)
+		{
+			$ids[] = $id;
+		}
+
+		// Sort ids
+		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
+		$key = 0;
+		foreach($sorted_ids as $id)
+		{
+			$par = $parent_role_ids[$id];
+			if ($par["obj_id"] != SYSTEM_ROLE_ID && $this->object->getId() != $par["obj_id"])
+			{
+				$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+				$output["adopt"][$key]["css_row_adopt"] = ($key % 2 == 0) ? "tblrow1" : "tblrow2";
+				$output["adopt"][$key]["check_adopt"] = $radio;
+				$output["adopt"][$key]["role_id"] = $par["obj_id"];
+				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+				$output["adopt"][$key]["role_name"] = $par["title"];
+				$output["adopt"][$key]["role_desc"] = $par["desc"];
+				$key++;
+			}
+		}
+
+		$output["formaction_adopt"] = $this->ctrl->getFormAction($this);
+		$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
+
+
+		$tpl = new ilTemplate("tpl.adm_copy_role.html", true, true, "Services/AccessControl");
+
+		$tpl->setCurrentBlock("ADOPT_PERM_ROW");
+		foreach ($output["adopt"] as $key => $value)
+		{
+			$tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
+			$tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
+			$tpl->setVariable("LABEL_ID",$value["role_id"]);
+			$tpl->setVariable("TYPE",$value["type"]);
+			$tpl->setVariable("ROLE_NAME",$value["role_name"]);
+			if(strlen($value['role_desc']))
+			{
+				$tpl->setVariable('ROLE_DESC',$value['role_desc']);
+			}
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$tpl->setVariable("MESSAGE_MIDDLE",$output["message_middle"]);
+		$tpl->setVariable("FORMACTION_ADOPT",$output["formaction_adopt"]);
+		$tpl->setVariable("ADOPT",$this->lng->txt('copy'));
+		$tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
+
+		$this->tpl->setContent($tpl->get());
 	}
 	
 	/**
@@ -1337,7 +1333,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(!$_POST['adopt'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->permObject();
+			$this->adoptPermObject();
 			return false;
 		}
 	
