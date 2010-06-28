@@ -499,6 +499,26 @@ class ilPermissionGUI
 					$rolf_id,
 					$roleObj->getId(),
 					false);
+
+				if($form->getInput('existing'))
+				{
+					if($form->getInput('pro'))
+					{
+						$roleObj->changeExistingObjects(
+							$this->gui_obj->object->getRefId(),
+							ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+							array('all')
+						);
+					}
+					else
+					{
+						$roleObj->changeExistingObjects(
+							$this->gui_obj->object->getRefId(),
+							ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+							array('all')
+						);
+					}
+				}
 			}
 
 			// add to desktop items
