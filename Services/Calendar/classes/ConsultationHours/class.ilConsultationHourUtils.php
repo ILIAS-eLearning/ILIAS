@@ -24,7 +24,6 @@
 /**
  * Consultation hour utility functions
  * 
- * @ilCtrl_Calls: ilConsultationHoursGUI:
  */
 class ilConsultationHourUtils
 {
