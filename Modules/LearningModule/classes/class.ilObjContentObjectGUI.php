@@ -1692,6 +1692,7 @@ return;
 		global $tpl;
 		
 		$this->setTabs();
+		$this->setLinkSubTabs("internal_links");
 		
 		include_once("./Modules/LearningModule/classes/class.ilLinksTableGUI.php");
 		$table_gui = new ilLinksTableGUI($this, "listLinks",
@@ -2784,6 +2785,33 @@ return;
 		}
 	}
 
+	////
+	//// Questions
+	////
+
+
+	/**
+	 * List questions
+	 *
+	 * @param
+	 * @return
+	 */
+	function listQuestions()
+	{
+		global $tpl;
+
+		$this->setTabs();
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMQuestionListTableGUI.php");
+		$table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->object);
+		$tpl->setContent($table->getHTML());
+
+	}
+
+	////
+	//// Tabs
+	////
+
 
 	/**
 	* output tabs
@@ -2801,6 +2829,35 @@ return;
 		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
+
+	/**
+	 * Set link sub tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setLinkSubTabs($a_active)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+
+		$ilTabs->addSubtab("internal_links",
+			$lng->txt("cont_internal_links"),
+			$ilCtrl->getLinkTarget($this, "listLinks"));
+
+		if ($this->object->getType() == "lm")
+		{
+			if(@include_once('HTTP/Request.php'))
+			{
+				$ilTabs->addSubtab("link_check",
+					$lng->txt("link_check"),
+					$ilCtrl->getLinkTarget($this, "linkChecker"));
+			}
+		}
+
+		$ilTabs->activateSubTab($a_active);
+		$ilTabs->activateTab("cont_links");
+	}
+
 
 	/**
 	* adds tabs to tab gui object
@@ -2823,6 +2880,11 @@ return;
 		$tabs_gui->addTarget("cont_all_pages",
 			$this->ctrl->getLinkTarget($this, "pages"),
 			"pages", get_class($this));
+
+		// questions
+		$tabs_gui->addTarget("objs_qst",
+			$this->ctrl->getLinkTarget($this, "listQuestions"),
+			"listQuestions", get_class($this));
 
 		// info
 		$tabs_gui->addTarget("info_short",
@@ -2849,18 +2911,7 @@ return;
 			$this->ctrl->getLinkTarget($this,'listLinks'),
 			"listLinks", get_class($this));
 
-		if ($this->object->getType() == "lm")
-		{
-
-			if(@include_once('HTTP/Request.php'))
-			{
-				// link checker
-				$tabs_gui->addTarget("link_check",
-									 $this->ctrl->getLinkTarget($this, "linkChecker"),
-									 array("linkChecker", "refreshLinkCheck"), get_class($this));
-			}
-		}
-		else
+		if ($this->object->getType() != "lm")
 		{
 			// bibliographical data
 			$tabs_gui->addTarget("bib_data",
@@ -3064,7 +3115,8 @@ return;
 
 		$this->__initLinkChecker();
 
-		$this->setTabs();	
+		$this->setTabs();
+		$this->setLinkSubTabs("link_check");
 		
 		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		

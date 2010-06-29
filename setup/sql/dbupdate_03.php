@@ -2071,3 +2071,40 @@ $ilDB->manipulateF(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+?>
+<#3088>
+<?php
+	$ilDB->createTable('page_qst_answer',array(
+		'qst_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'try'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => TRUE
+		),
+		'passed'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => TRUE
+		),
+		'points'	=> array(
+			'type'	=> 'float',
+			'notnull' => TRUE
+		)
+	));
+	$ilDB->addPrimaryKey('page_qst_answer', array('qst_id', 'user_id'));
+
+?>
+<#3089>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

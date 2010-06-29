@@ -14,6 +14,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilPageObjectGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -115,7 +116,7 @@ class ilLMPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng;		
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl;
 
 		if(IS_PAYMENT_ENABLED)
 		{
@@ -173,6 +174,13 @@ class ilLMPresentationGUI
 				
 			case "ilinfoscreengui":
 				$ret =& $this->outputInfoScreen();
+				break;
+
+			case "ilpageobjectgui":
+				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+				$page_gui = new ilPageObjectGUI($this->lm->getType(), $_GET["obj_id"]);
+				$this->basicPageGuiInit($page_gui);
+				$ret = $ilCtrl->forwardCommand($page_gui);
 				break;
 
 			default:
@@ -1542,8 +1550,6 @@ class ilLMPresentationGUI
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
 		}
 
-		$ilBench->start("ContentPresentation", "ilPage");
-
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
@@ -1625,50 +1631,34 @@ class ilLMPresentationGUI
 			return $cont;
 		}
 		
-		$ilBench->start("ContentPresentation", "ilPage_getPageObject");
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object->buildDom();
 		$page_object->registerOfflineHandler($this);
-		$ilBench->stop("ContentPresentation", "ilPage_getPageObject");
 		
-		$ilBench->start("ContentPresentation", "ilPage_getInternalLinks");
 		$int_links = $page_object->getInternalLinks();
-		$ilBench->stop("ContentPresentation", "ilPage_getInternalLinks");
 		
-		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
 		$page_object_gui =& new ilPageObjectGUI($this->lm->getType(), $page_id);
-		$page_object_gui->setEnabledSelfAssessment(true);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-			$this->lm->getStyleSheetId(), "lm"));
+		$this->basicPageGuiInit($page_object_gui);
 
 		$page_object_gui->setTemplateOutput(false);
-		$ilBench->stop("ContentPresentation", "ilPage_getPageObjectGUI");
 		
 		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
 		// Update course items
-		$ilBench->start("ContentPresentation", "ilPage_updateCourseItems");
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
-		$ilBench->stop("ContentPresentation", "ilPage_updateCourseItems");
 
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-//echo "<br>+".htmlentities($link_xml)."+";
 		$link_xml.= $this->getLinkTargetsXML();
-//echo "<br>+".htmlentities($link_targets_xml)."+";
 		
 		// get lm page object
-		$ilBench->start("ContentPresentation", "ilPage_getLMPageObject");
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
 		$page_object_gui->setLinkXML($link_xml);
-		$ilBench->stop("ContentPresentation", "ilPage_getLMPageObject");
 
-		$ilBench->start("ContentPresentation", "ilPage_preparePage");
 		
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
@@ -1676,19 +1666,7 @@ class ilLMPresentationGUI
 
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
-		$page_object_gui->setLinkFrame($_GET["frame"]);
-		if (!$this->offlineMode())
-		{
-			$page_object_gui->setOutputMode("presentation");
-		}
-		else
-		{
-			$page_object_gui->setOutputMode("offline");
-			$page_object_gui->setOfflineDirectory($this->getOfflineDirectory());
-		}		
-		$page_object_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
-		$page_object_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
-		
+		$page_object_gui->setLinkFrame($_GET["frame"]);		
 		
 		// page title and tracking (not for header or footer page)
 		if ($page_id == 0 || ($page_id != $this->lm->getHeaderPage() &&
@@ -1734,15 +1712,9 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 		
-		$ilBench->stop("ContentPresentation", "ilPage_preparePage");
 
-
-		$ilBench->start("ContentPresentation", "ilPage_getPageContent");
 		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());
-		$ilBench->stop("ContentPresentation", "ilPage_getPageContent");
-		
-		$ilBench->stop("ContentPresentation", "ilPage");
-		
+				
 		// process header
 		if ($this->lm->getHeaderPage() > 0 && 
 			$page_id != $this->lm->getHeaderPage() &&
@@ -1768,6 +1740,33 @@ class ilLMPresentationGUI
 //echo htmlentities("-".$ret."-");
 		return $head.$ret.$foot;
 
+	}
+
+	/**
+	 * Basic page gui initialisation
+	 *
+	 * @param
+	 * @return
+	 */
+	function basicPageGuiInit($a_page_gui)
+	{
+		$a_page_gui->setEnabledSelfAssessment(true, false);
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->lm->getStyleSheetId(), "lm"));
+		if (!$this->offlineMode())
+		{
+			$a_page_gui->setOutputMode("presentation");
+			$this->fill_on_load_code = true;
+		}
+		else
+		{
+			$a_page_gui->setOutputMode("offline");
+			$a_page_gui->setOfflineDirectory($this->getOfflineDirectory());
+		}
+		$a_page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
+		
 	}
 
 	/**

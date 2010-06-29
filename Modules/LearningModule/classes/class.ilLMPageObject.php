@@ -607,5 +607,52 @@ class ilLMPageObject extends ilLMObject
 		//$a_xml_writer->xmlEndTag("PageObject");
 	}
 
+	/**
+	 * Get questions of learning module
+	 *
+	 * @param
+	 * @return
+	 */
+	function queryQuestionsOfLearningModule($a_lm_id, $a_order_field,
+		$a_order_dir, $a_offset, $a_limit)
+	{
+		global $ilDB, $rbacreview;
+
+
+		// count query
+		$count_query = "SELECT count(pq.question_id) cnt ";
+
+		// basic query
+		$query = "SELECT pq.page_id, pq.question_id ";
+
+		$from = " FROM page_question pq JOIN lm_tree t ON (t.lm_id = ".$ilDB->quote($a_lm_id, "integer").
+			" AND pq.page_id = t.child and pq.page_parent_type = ".$ilDB->quote("lm", "text").") ".
+			" WHERE t.lm_id = ".$ilDB->quote($a_lm_id, "integer");
+		$count_query.= $from;
+		$query.= $from;
+
+
+		// count query
+		$set = $ilDB->query($count_query);
+		$cnt = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = $rec["cnt"];
+		}
+
+		$offset = (int) $a_offset;
+		$limit = (int) $a_limit;
+		$ilDB->setLimit($limit, $offset);
+
+		// set query
+		$set = $ilDB->query($query);
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+		return array("cnt" => $cnt, "set" => $result);
+	}
+
 }
 ?>
