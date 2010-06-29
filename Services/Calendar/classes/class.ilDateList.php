@@ -31,7 +31,7 @@
 * @ingroup ServicesCalendar 
 */
 
-class ilDateList
+class ilDateList implements Iterator
 {
 	const TYPE_DATE = 1;
 	const TYPE_DATETIME = 2;
@@ -39,7 +39,7 @@ class ilDateList
 	protected $list_item = array();
 
 	protected $type;
-
+	
 	/**
 	 * Constructor
 	 *
@@ -52,6 +52,53 @@ class ilDateList
 	 	$this->type = $a_type;
 	 	$this->list_item = array();
 	}
+	
+	// Iterator
+	/**
+	 * Iterator Rewind
+	 * @return 
+	 */
+	public function rewind()
+	{
+		reset($this->list_item);
+	}
+	
+	/**
+	 * Iterator Current
+	 * @return 
+	 */
+	public function current()
+	{
+		return current($this->list_item);
+	}
+	
+	/**
+	 * Iterator key
+	 * @return 
+	 */
+	public function key()
+	{
+		return key($this->list_item);
+	}
+	
+	/**
+	 * Iterator next
+	 * @return 
+	 */
+	public function next()
+	{
+		return next($this->list_item);
+	}
+	
+	/**
+	 * Iterator valid
+	 * @return 
+	 */
+	public function valid()
+	{
+		return $this->current() !== false;
+	}
+	
 	
 	/**
 	 * get

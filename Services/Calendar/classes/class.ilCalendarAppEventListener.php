@@ -76,6 +76,17 @@ class ilCalendarAppEventListener implements ilAppEventListener
 
 				break;
 				
+			case 'Services/Booking':
+				switch($a_event)
+				{
+					case 'create':
+						break;
+					case 'update':
+						break;
+					case 'delete':
+						break;
+				}
+				
 		}
 	}
 	

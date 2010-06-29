@@ -116,6 +116,7 @@ class ilCalendarCategories
 		return 0;
 	}
 	
+	
 	/**
 	 * check if user is owner of a category
 	 *
@@ -434,6 +435,7 @@ class ilCalendarCategories
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
+		$this->readConsultationHoursCalendar();
 		
 		include_once('./Services/Membership/classes/class.ilParticipants.php');
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
@@ -454,6 +456,7 @@ class ilCalendarCategories
 	 	
 	 	$this->readPublicCalendars();
 	 	$this->readPrivateCalendars();
+		$this->readConsultationHoursCalendar();
 
 		$obj_ids = array();
 		
@@ -503,6 +506,8 @@ class ilCalendarCategories
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
+		$this->readConsultationHoursCalendar();
+		
 		$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
 			"JOIN object_reference obr ON t1.child = obr.ref_id ".
 			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
@@ -605,6 +610,32 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $row->obj_id == $ilUser->getId();
 			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
+		}
+	}
+	
+	/**
+	 * Read personal consultation hours calendar
+	 * @return 
+	 */
+	public function readConsultationHoursCalendar()
+	{
+		global $ilDB;
+		
+		$query = "SELECT *  FROM cal_categories ".
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.
+			"AND obj_id = ".$ilDB->quote($this->user_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->categories[] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
+			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['title'] = $row->title;
+			$this->categories_info[$row->cat_id]['color'] = $row->color;
+			$this->categories_info[$row->cat_id]['type'] = $row->type;
+			$this->categories_info[$row->cat_id]['editable'] = true;
+			$this->categories_info[$row->cat_id]['accepted'] = true;
+			
 		}
 	}
 	

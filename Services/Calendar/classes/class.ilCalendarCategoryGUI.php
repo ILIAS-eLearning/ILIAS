@@ -1174,6 +1174,11 @@ class ilCalendarCategoryGUI
 					}
 				}
 				break;
+			
+			case ilCalendarCategory::TYPE_CH:
+				$this->editable = $ilUser->getId() == $cat->getCategoryID();
+				$this->visible = true;
+				break;
 		}
 		
 	}
