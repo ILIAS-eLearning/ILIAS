@@ -776,13 +776,17 @@ class ilPaymentBookings
 		$data = array();
 		$data_types = array();
 		
-		$query = 'SELECT * FROM payment_statistic ps, payment_objects po';
-		if ($_SESSION['pay_statistics']['customer'] || $_SESSION['pay_statistics']['vendor'])
+		$query = 'SELECT * FROM payment_statistic ps '
+			   . 'INNER JOIN payment_objects po ON po.pobject_id = ps.pobject_id ';
+		if($_SESSION['pay_statistics']['customer'])
 		{
-			$query .= ', usr_data ud';
+			$query .= 'LEFT JOIN usr_data ud ON ud.usr_id = ps.customer_id ';
 		}
-		$query .= ' WHERE ps.pobject_id = po.pobject_id ';
-
+		if($_SESSION['pay_statistics']['vendor'] && $this->admin_view)
+		{
+			$query .= 'LEFT JOIN usr_data udv ON udv.usr_id = ps.b_vendor_id ';
+		}
+		$query .= 'WHERE 1 = 1 ';
 		if ($_SESSION['pay_statistics']['transaction_value'] != '')
 		{
 			if ($_SESSION['pay_statistics']['transaction_type'] == 0)
@@ -795,42 +799,39 @@ class ilPaymentBookings
 			{
 				$query .= "AND transaction_extern LIKE %s ";
 				$data_types[] = 'text';
-				$data[] =  '%'.$_SESSION['pay_statistics']['transaction_value'];			
+				$data[] =  '%'.$_SESSION['pay_statistics']['transaction_value'];
 			}
 		}
 		if ($_SESSION['pay_statistics']['customer'] != '')
 		{
-			$query .= "AND ud.login LIKE %s
-					  AND ud.usr_id = ps.customer_id ";
+			$query .= "AND ud.login LIKE %s ";
 			$data_types[] = 'text';
-			$data[] =  '%'.$_SESSION['pay_statistics']['customer'].'%';		
-			
+			$data[] =  '%'.$_SESSION['pay_statistics']['customer'].'%';
 		}
 
 		if ($_SESSION['pay_statistics']['from']['date']['d'] != '' &&
 			$_SESSION['pay_statistics']['from']['date']['m'] != '' &&
 			$_SESSION['pay_statistics']['from']['date']['y'] != '')
 		{
-			
-			$from = mktime(0, 0, 0, $_SESSION['pay_statistics']['from']['date']['m'], 
-						   $_SESSION['pay_statistics']['from']['date']['d'], 
+
+			$from = mktime(0, 0, 0, $_SESSION['pay_statistics']['from']['date']['m'],
+						   $_SESSION['pay_statistics']['from']['date']['d'],
 						   $_SESSION['pay_statistics']['from']['date']['y']);
 			$query .= 'AND order_date >= %s ';
 			$data_types[] = 'integer';
-			$data[] =  $from;				
+			$data[] =  $from;
 		}
 		if ($_SESSION['pay_statistics']['til']['date']['d'] != '' &&
 			$_SESSION['pay_statistics']['til']['date']['m'] != '' &&
 			$_SESSION['pay_statistics']['til']['date']['y'] != '')
 		{
-			$til = mktime(23, 59, 59, $_SESSION['pay_statistics']['til']['date']['m'], 
-						  $_SESSION['pay_statistics']['til']['date']['d'], 
+			$til = mktime(23, 59, 59, $_SESSION['pay_statistics']['til']['date']['m'],
+						  $_SESSION['pay_statistics']['til']['date']['d'],
 						  $_SESSION['pay_statistics']['til']['date']['y']);
-			$query .= 'AND order_date <= %s '; 
+			$query .= 'AND order_date <= %s ';
 			$data_types[] = 'integer';
 			$data[] =  $til;
 		}
-		
 		if ($_SESSION['pay_statistics']['payed'] == '0' ||
 			$_SESSION['pay_statistics']['payed'] == '1')
 		{
@@ -838,13 +839,12 @@ class ilPaymentBookings
 			$data_types[] = 'integer';
 			$data[] =  $_SESSION['pay_statistics']['payed'];
 		}
-		
 		if ($_SESSION['pay_statistics']['access'] == '0' ||
 			$_SESSION['pay_statistics']['access'] == '1')
 		{
 			$query .= 'AND access_granted = %s ';
 			$data_types[] = 'integer';
-			$data[] =  $_SESSION['pay_statistics']['access'];			
+			$data[] =  $_SESSION['pay_statistics']['access'];
 		}
 		if ($_SESSION['pay_statistics']['pay_method'] == '1' ||
 			$_SESSION['pay_statistics']['pay_method'] == '2' ||
@@ -857,9 +857,10 @@ class ilPaymentBookings
 
 		if(!$this->admin_view)
 		{
+
 			$vendors = $this->__getVendorIds();
-	
-			if (is_array($vendors) && count($vendors) > 1)
+			if (is_array($vendors) &&
+				count($vendors) > 1)
 			{
 				foreach($vendors as $vendor)
 				{
@@ -868,25 +869,34 @@ class ilPaymentBookings
 					$data_types[] = 'integer';
 				}
 				$str_data = implode(',',$arr_data);
-				
+
 				$query .= 'AND ps.b_vendor_id IN ('.$str_data.') ';
-				
+
 			}
 			else if(is_array($vendors) && count($vendors) == 1)
 			{
 				$query .= 'AND ps.b_vendor_id = %s ';
 				$data[] = $vendors['0'];
-				$data_types[] = 'integer';				 			
+				$data_types[] = 'integer';
+			}
+			if((int)$_SESSION['pay_statistics']['filter_title_id'])
+			{
+				$query .= "AND po.ref_id = ".(int)$_SESSION['pay_statistics']['filter_title_id']." ";
 			}
 		}
 		else
 		{
 			if($_SESSION['pay_statistics']['vendor'])
 			{
-				$query .= 'AND ud.login LIKE %s
-							AND ud.usr_id = ps.b_vendor_id ';
+				$query .= 'AND udv.login LIKE %s ';
+
 				$data[] = '%'.$_SESSION['pay_statistics']['vendor'].'%';
-				$data_types[] = 'text';			
+				$data_types[] = 'text';
+			}
+
+			if((int)$_SESSION['pay_statistics']['adm_filter_title_id'])
+			{
+				$query .= "AND po.ref_id = ".(int)$_SESSION['pay_statistics']['adm_filter_title_id']." ";
 			}
 		}
 		$query .= 'ORDER BY order_date DESC';	
@@ -1054,7 +1064,12 @@ class ilPaymentBookings
 		}
 		$query .= "ORDER BY order_date DESC";
 
-		$res= $this->db->queryf($query, $data_types, $data);
+		if(!$data_types && !$data)
+		{
+			$res = $this->db->query($query);
+		}
+		else $res = $this->db->queryf($query, $data_types, $data);
+
 		$rows = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
