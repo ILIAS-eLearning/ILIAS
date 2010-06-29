@@ -998,14 +998,10 @@ class ilTrQuery
 	 *
 	 * @param	int		$a_parent_obj_id
 	 * @param	array	$a_obj_ids
-	 * @param	string	$a_order_field
-	 * @param	string	$a_order_dir
-	 * @param	int		$a_offset
-	 * @param	int		$a_limit
+	 * @param	string	$a_user_filter
 	 * @return	array	cnt, set
 	 */
-	static function getUserObjectMatrix($a_parent_obj_id, $a_obj_ids, $a_order_field = "", $a_order_dir = "",
-		$a_offset = 0, $a_limit = 9999)
+	static function getUserObjectMatrix($a_parent_obj_id, $a_obj_ids, $a_user_filter = NULL)
 	{
 		global $ilDB;
 
@@ -1025,6 +1021,11 @@ class ilTrQuery
 			$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 			$where[] = "(read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)";
 			$where[] = "(read_event.usr_id IS NULL OR ut_lp_marks.usr_id IS NULL OR read_event.usr_id = ut_lp_marks.usr_id)";
+
+			if($a_user_filter)
+			{
+				$where[] = $ilDB->like("usr_data.login", "text", $a_user_filter);
+			}
 
 			// users
 			$left = "";
