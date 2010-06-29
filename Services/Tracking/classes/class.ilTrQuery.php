@@ -853,7 +853,7 @@ class ilTrQuery
 	 * @param	int		$use_collection
 	 * @return	array	object_ids, objectives_parent_id
 	 */
-	static protected function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true)
+	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true)
 	{
 		global $tree;
 
@@ -991,6 +991,107 @@ class ilTrQuery
 		}
 
 		return array("cnt" => $cnt, "set" => $result);
+	}
+
+    /**
+	 * Get status matrix for users on objects
+	 *
+	 * @param	int		$a_parent_obj_id
+	 * @param	array	$a_obj_ids
+	 * @param	string	$a_order_field
+	 * @param	string	$a_order_dir
+	 * @param	int		$a_offset
+	 * @param	int		$a_limit
+	 * @return	array	cnt, set
+	 */
+	static function getUserObjectMatrix($a_parent_obj_id, $a_obj_ids, $a_order_field = "", $a_order_dir = "",
+		$a_offset = 0, $a_limit = 9999)
+	{
+		global $ilDB;
+
+		$result = array("cnt"=>0, "set"=>NULL);
+	    if(sizeof($a_obj_ids))
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			foreach($a_obj_ids as $obj_id)
+			{
+				ilLPStatus::checkStatusForObject($obj_id);
+			}
+
+			$fields = array("usr_data.usr_id", "login", "status", "percentage", 
+				"read_event.obj_id", "last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
+			
+			$where = array();
+			$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+			$where[] = "(read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)";
+			$where[] = "(read_event.usr_id IS NULL OR ut_lp_marks.usr_id IS NULL OR read_event.usr_id = ut_lp_marks.usr_id)";
+
+			// users
+			$left = "";
+			$a_users = self::getParticipantsForObject($a_parent_obj_id);
+			if (is_array($a_users))
+			{
+				$left = "LEFT";
+				$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
+			}
+
+			$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
+				" AND ".$ilDB->in("read_event.obj_id", $a_obj_ids, "", "integer").")".
+				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
+				" AND ".$ilDB->in("ut_lp_marks.obj_id", $a_obj_ids, "", "integer").")".
+				self::buildFilters($where, $a_filters);
+
+			$queries = array(array("fields"=>$fields, "query"=>$query));
+
+			if(!$a_order_field)
+			{
+				$a_order_field = "login";
+			}
+
+			$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
+			if($result["cnt"])
+			{
+				$result["users"] = $a_users;
+				
+				$tmp = array();
+				foreach($result["set"] as $idx => $row)
+				{
+					$tmp[$row["usr_id"]]["login"] = $row["login"];
+					$tmp[$row["usr_id"]]["objects"][$row["obj_id"]] = array("status"=>$row["status"],
+						"percentage"=>$row["percentage"]);
+					if($row["obj_id"] == $a_parent_obj_id)
+					{
+						$tmp[$row["usr_id"]]["last_access"] = $row["last_access"];
+						$tmp[$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
+					}
+				}
+				$result["set"] = $tmp;
+			}
+		}
+		return $result;
+	}
+
+	static public function getUserObjectiveMatrix($a_parent_obj_id, $a_users)
+	{
+		global $ilDB;
+		
+		if($a_parent_obj_id && $a_users)
+		{
+		    include_once("Services/Tracking/classes/class.ilLPStatus.php");
+
+			$fields = array("crs_objectives.objective_id AS obj_id", "crs_objective_status.user_id AS usr_id", "title");
+			$fields[] = "(CASE WHEN status THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
+
+			$where = array();
+			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($a_parent_obj_id, "integer");
+
+			$query = " FROM crs_objectives".
+				" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id".
+				" AND ".$ilDB->in("crs_objective_status.user_id", $a_users, "",  "integer").")".
+				self::buildFilters($where);
+
+			return self::executeQueries(array(array("fields"=>$fields, "query"=>$query, "count"=>"crs_objectives.objective_id")));
+		}
 	}
 }
 
