@@ -10543,3 +10543,8 @@ rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for a
 rbac#:#rbac_role_rights_copy#:#Copy Rights
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
+content#:#cont_users_answered#:#Users Answered
+content#:#cont_correct_after_first#:#First Try Correct
+content#:#cont_second#:#Second
+content#:#cont_third_and_more#:#Third or More
+content#:#cont_never#:#Never

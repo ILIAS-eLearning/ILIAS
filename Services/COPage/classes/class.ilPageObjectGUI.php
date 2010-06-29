@@ -834,10 +834,12 @@ class ilPageObjectGUI
 	*
 	* @param	boolean	$a_enabledselfassessment	Enable Self Assessment Questions
 	*/
-	function setEnabledSelfAssessment($a_enabledselfassessment)
+	function setEnabledSelfAssessment($a_enabledselfassessment, $a_scorm = true)
 	{
 		$this->enabledselfassessment = $a_enabledselfassessment;
+		$this->enabledselfassessment_scorm = $a_scorm;
 	}
+
 
 	/**
 	* Get Enable Self Assessment Questions.
@@ -847,6 +849,16 @@ class ilPageObjectGUI
 	function getEnabledSelfAssessment()
 	{
 		return $this->enabledselfassessment;
+	}
+
+	/**
+	* Is self assessment used in SCORM mode?
+	*
+	* @return	boolean	Enable Self Assessment Questions
+	*/
+	function getEnabledSelfAssessmentScorm()
+	{
+		return $this->enabledselfassessment_scorm;
 	}
 
 	/**
@@ -2668,7 +2680,7 @@ class ilPageObjectGUI
 	 */
 	function initSelfAssessmentRendering()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 		
 		if ($this->getEnabledSelfAssessment())
 		{ 
@@ -2679,7 +2691,34 @@ class ilPageObjectGUI
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+
+			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW)
+			{
+				$tpl->addJavaScript("./Services/COPage/js/ilCOPageQuestionHandler.js");
+				$url = $ilCtrl->getLinkTarget($this, "processAnswer", "", true, false);
+				$tpl->addOnloadCode("ilCOPageQuestionHandler.initCallback('".$url."');");
+			}
 		}
+	}
+
+	/**
+	 * Process answer
+	 */
+	function processAnswer()
+	{
+		global $ilLog;
+
+		/*$ilLog->write($_POST);
+		$ilLog->write($_POST["id"]);
+		$ilLog->write($_POST["type"]);
+		$ilLog->write($_POST["answer"]);
+		$ilLog->write($_GET);*/
+
+		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+		ilPageQuestionProcessor::saveQuestionAnswer(
+			ilUtil::stripSlashes($_POST["type"]),
+			ilUtil::stripSlashes($_POST["id"]),
+			ilUtil::stripSlashes($_POST["answer"]));
 	}
 
 	/**

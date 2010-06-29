@@ -42,6 +42,12 @@ ilias.questions.checkAnswers = function(a_id) {
 	var call = "ilias.questions."+questions[a_id].type+"("+a_id+")";
 	
 	eval(call);
+
+	// forward answer to self assessment question handler (non-scorm)
+	if (typeof ilCOPageQuestionHandler != "undefined")
+	{
+		ilCOPageQuestionHandler.processAnswer(questions[a_id].type, a_id, answers[a_id]);
+	}
 };
 
 
@@ -52,6 +58,7 @@ ilias.questions.assSingleChoice = function(a_id) {
 
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 			
 	for (var i=0;i<a_node.length;i++) {
 		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
@@ -63,6 +70,10 @@ ilias.questions.assSingleChoice = function(a_id) {
 			
 		} else {
 			answers[a_id].answer[i]=true;
+		}
+		if (a_node.get(i).checked)
+		{
+			answers[a_id].choice.push(a_node.get(i).value);
 		}
 	}		
 	
@@ -76,6 +87,7 @@ ilias.questions.assMultipleChoice = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<a_node.length;i++) {
 		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
@@ -88,6 +100,11 @@ ilias.questions.assMultipleChoice = function(a_id) {
 		} else {
 			answers[a_id].answer[i]=true;
 		}
+		if (a_node.get(i).checked)
+		{
+			answers[a_id].choice.push(a_node.get(i).value);
+		}
+
 	}		
 	ilias.questions.showFeedback(a_id);			
 };
@@ -108,6 +125,7 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<result.length;i++) {
 		if (i+1 != result[i])
@@ -118,7 +136,7 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 		} else {
 			answers[a_id].answer[i]=true;
 		}
-		
+		answers[a_id].choice.push(result[i]);
 	}
 	ilias.questions.showFeedback(a_id);
 };
@@ -148,15 +166,20 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 		
 	for (var i=0;i<questions[a_id].answers.length;i++) {
-		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points>=1) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points==0))
+		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points>=1) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points<=0))
 		{
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
 			answers[a_id].answer[i]=false;
 		} else {
 			answers[a_id].answer[i]=true;
+		}
+		if (answers[a_id].areas[i] == true)
+		{
+			answers[a_id].choice.push(i);
 		}
 	}		
 	ilias.questions.showFeedback(a_id);
@@ -165,6 +188,7 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 ilias.questions.assMatchingQuestion = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<questions[a_id].pairs.length;i++)
 	{
@@ -173,6 +197,9 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
 		}
+		
+		answers[a_id].choice.push(questions[a_id].pairs[i].def_id + '-'
+			+ a_node.options[a_node.selectedIndex].id);
 	}
 	ilias.questions.showFeedback(a_id);
 };
@@ -181,6 +208,7 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 ilias.questions.assClozeTest = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<questions[a_id].gaps.length;i++)
 	{
@@ -193,8 +221,9 @@ ilias.questions.assClozeTest = function(a_id) {
 				answers[a_id].wrong++;
 				answers[a_id].answer[i]=false;
 			} else {
-				answers[a_id].answer[i]=true;	
+				answers[a_id].answer[i]=true;
 			}
+			answers[a_id].choice.push(questions[a_id].gaps[i].item[selected].order);
 		}
 		if (type==0 || type==2) {
 			var a_node = jQuery('input#'+a_id+"_"+i).get(0);
@@ -212,6 +241,7 @@ ilias.questions.assClozeTest = function(a_id) {
 					}
 				}
 			}
+			answers[a_id].choice.push(a_node.value);
 		   if (value_found==false) {answers[a_id].passed = false; answers[a_id].wrong++; answers[a_id].answer[i]=false;}
 		}
 	}

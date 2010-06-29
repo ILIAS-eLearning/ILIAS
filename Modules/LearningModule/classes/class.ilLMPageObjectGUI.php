@@ -118,7 +118,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 				$page_gui->setEnabledActivation(true);
-				$page_gui->setEnabledSelfAssessment(true);
+				$page_gui->setEnabledSelfAssessment(true, false);
 				$page_gui->setEnabledInternalLinks(true);
 				if ($lm_set->get("time_scheduled_page_activation"))
 				{

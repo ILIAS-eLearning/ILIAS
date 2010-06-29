@@ -1448,6 +1448,7 @@ class assClozeTest extends assQuestion
 				$jitem = array();
 				$jitem['points'] = $item->getPoints();
 				$jitem['value'] = $item->getAnswertext();
+				$jitem['order'] = $item->getOrder();
 				if ($gap->getType() == CLOZE_NUMERIC)
 				{
 					$jitem['lowerbound'] = $item->getLowerBound();

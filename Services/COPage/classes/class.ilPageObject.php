@@ -2542,12 +2542,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* save internal links of page
-	*
-	* @param	string		xml page code
-	*/
+	 * save internal links of page
+	 *
+	 * @param	string		xml page code
+	 */
 	function saveInternalLinks($a_xml)
 	{
+		global $ilDB;
+
 //echo "<br>PageObject::saveInternalLinks[".$this->getId()."]";
 		$doc = domxml_open_mem($a_xml);
 
@@ -2611,6 +2613,60 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 
+		// *** STEP 2: Save question references of page ***
+
+		// delete all reference records
+		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s", array("text", "integer"),
+			array($this->getParentType(), $this->getId()));
+
+		// save question references of page
+		$doc = domxml_open_mem($a_xml);
+		$xpc = xpath_new_context($doc);
+		$path = "//Question";
+		$res = xpath_eval($xpc, $path);
+		$q_ids = array();
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$q_ref = $res->nodeset[$i]->get_attribute("QRef");
+
+			$inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
+			if (!($inst_id > 0))
+			{
+				$q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
+				if ($q_id > 0)
+				{
+					$q_ids[$q_id] = $q_id;
+				}
+			}
+		}
+		foreach($q_ids as $qid)
+		{
+			$ilDB->manipulateF("INSERT INTO page_question (page_parent_type, page_id, question_id)".
+				" VALUES (%s,%s,%s)",
+				array("text", "integer", "integer"),
+				array($this->getParentType(), $this->getId(), $qid));
+		}
+	}
+
+	/**
+	 * Get all questions of a page
+	 */
+	static function _getQuestionIdsForPage($a_parent_type, $a_page_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s",
+			array("text", "integer"),
+			array($a_parent_type, $a_page_id));
+		$q_ids = array();
+		while ($rec = $ilDB->fetchAssoc($res))
+		{
+			$q_ids[] = $rec["question_id"];
+		}
+
+		return $q_ids;
 	}
 
 	/**
