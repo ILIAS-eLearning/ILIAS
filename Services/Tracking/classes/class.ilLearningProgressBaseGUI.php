@@ -188,7 +188,7 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 														 "","","",$a_active == LP_ACTIVE_PROGRESS);
 					}
-					if(!$this->isAnonymized())
+					else
 					{
 						// Check if it is a course
 						$sub_tab = ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->getRefId())) == 'crs') ?
@@ -207,6 +207,10 @@ class ilLearningProgressBaseGUI
 														 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
+
+					$this->tabs_gui->addSubTabTarget("trac_matrix",
+													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
+													"", "", "", $a_active == LP_ACTIVE_MATRIX);
 
 					$this->tabs_gui->addSubTabTarget("trac_summary",
 													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),

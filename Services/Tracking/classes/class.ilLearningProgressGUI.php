@@ -48,8 +48,18 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 			case 'illplistofobjectsgui':
 				include_once 'Services/Tracking/classes/class.ilLPListOfObjectsGUI.php';
-
-				$this->__setSubTabs(LP_ACTIVE_OBJECTS);
+				if(stristr($this->ctrl->getCmd(), "matrix"))
+				{
+					$this->__setSubTabs(LP_ACTIVE_MATRIX);
+				}
+				else if(stristr($this->ctrl->getCmd(), "summary"))
+				{
+					$this->__setSubTabs(LP_ACTIVE_SUMMARY);
+				}
+				else
+				{
+					$this->__setSubTabs(LP_ACTIVE_OBJECTS);
+				}
 				$loo_gui = new ilLPListOfObjectsGUI($this->getMode(),$this->getRefId());
 				$this->__setCmdClass('illplistofobjectsgui');
 				$this->ctrl->forwardCommand($loo_gui);
