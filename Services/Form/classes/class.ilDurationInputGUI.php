@@ -377,3 +377,4 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	}
 
 }
+?>

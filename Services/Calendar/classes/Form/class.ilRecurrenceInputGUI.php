@@ -23,6 +23,7 @@
 
 
 include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
 
 /**
 * This class represents an input GUI for recurring events/appointments (course events or calendar appointments) 
@@ -68,6 +69,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$tpl->addJavascript("./Services/Calendar/js/recurrence_input.js");
 		
+		$this->setRecurrence(new ilCalendarRecurrence());
+		
 		parent::__construct($a_title,$a_postvar);
 	}
 	
@@ -82,6 +85,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	{
 		global $lng;
 		
+		$this->loadRecurrence();
+
 		if($_POST['frequence'] == 'NONE')
 		{
 			return true;
@@ -95,9 +100,123 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 				return false;
 			}
 		}
+		
 
 		return true;
 	}
+	
+	/**
+	 * load recurrence settings
+	 * @access protected
+	 * @return
+	 */
+	protected function loadRecurrence()
+	{
+		if(!$this->getRecurrence() instanceof ilCalendarRecurrence)
+		{
+			return false;
+		}
+		
+		
+		switch($_POST['frequence'])
+		{
+			case IL_CAL_FREQ_DAILY:
+				$this->getRecurrence()->setFrequenceType($_POST['frequence']);
+				$this->getRecurrence()->setInterval((int) $_POST['count_DAILY']);
+				break;
+			
+			case IL_CAL_FREQ_WEEKLY:
+				$this->getRecurrence()->setFrequenceType($_POST['frequence']);
+				$this->getRecurrence()->setInterval((int) $_POST['count_WEEKLY']);
+				if(is_array($_POST['byday_WEEKLY']))
+				{
+					$this->getRecurrence()->setBYDAY(ilUtil::stripSlashes(implode(',',$_POST['byday_WEEKLY'])));
+				}				
+				break;
+
+			case IL_CAL_FREQ_MONTHLY:
+				$this->getRecurrence()->setFrequenceType($_POST['frequence']);
+				$this->getRecurrence()->setInterval((int) $_POST['count_MONTHLY']);
+				switch((int) $_POST['subtype_MONTHLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						switch((int) $_POST['monthly_byday_day'])
+						{
+							case 8:
+								// Weekday
+								$this->getRecurrence()->setBYSETPOS((int) $_POST['monthly_byday_num']);
+								$this->getRecurrence()->setBYDAY('MO,TU,WE,TH,FR');
+								break;
+								
+							case 9:
+								// Day of month
+								$this->getRecurrence()->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+								break;
+								
+							default:
+								$this->getRecurrence()->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+								break;
+						}
+						break;
+					
+					case 2:
+						$this->getRecurrence()->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+						break;
+				}
+				break;			
+			
+			case IL_CAL_FREQ_YEARLY:
+				$this->getRecurrence()->setFrequenceType($_POST['frequence']);
+				$this->getRecurrence()->setInterval((int) $_POST['count_YEARLY']);
+				switch((int) $_POST['subtype_YEARLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->getRecurrence()->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+						$this->getRecurrence()->setBYDAY((int) $_POST['yearly_byday_num'].$_POST['yearly_byday']);
+						break;
+					
+					case 2:
+						$this->getRecurrence()->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
+						$this->getRecurrence()->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+						break;
+				}
+				break;			
+		}
+		
+		// UNTIL
+		switch((int) $_POST['until_type'])
+		{
+			case 1:
+				$this->getRecurrence()->setFrequenceUntilDate(null);
+				// nothing to do
+				break;
+				
+			case 2:
+				$this->getRecurrence()->setFrequenceUntilDate(null);
+				$this->getRecurrence()->setFrequenceUntilCount((int) $_POST['count']);
+				break;
+				
+			case 3:
+				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
+				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
+				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
+				
+				$this->getRecurrence()->setFrequenceUntilCount(0);
+				$this->getRecurrence()->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				break;
+		}
+		
+		return true;
+	}
+	
 	
 	/**
 	 * set recurrence object
@@ -109,6 +228,15 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	public function setRecurrence($a_rec)
 	{
 		$this->recurrence = $a_rec;
+	}
+	
+	/**
+	 * Get Recurrence
+	 * @return 
+	 */
+	public function getRecurrence()
+	{
+		return $this->recurrence;
 	}
 	
 	/**

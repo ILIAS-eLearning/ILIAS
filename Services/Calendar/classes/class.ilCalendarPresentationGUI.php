@@ -107,7 +107,10 @@ class ilCalendarPresentationGUI
 				
 			case 'ilconsultationhoursgui':
 				$this->tabs_gui->setSubTabActive('app_consultation_hours');
-				$this->forwardToClass('ilconsultationhoursgui');
+				include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php';
+				$gui = new ilConsultationHoursGUI($ilUser->getId());
+				$this->ctrl->forwardCommand($gui);
+
 				// No side blocks
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget(
@@ -345,7 +348,7 @@ class ilCalendarPresentationGUI
 			ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
 		)
 		{
-			$this->tabs_gui->addSubTabTarget('app_consultation',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
+			$this->tabs_gui->addSubTabTarget('app_consultation_hours',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
 		}
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));

@@ -2025,3 +2025,49 @@ $ilDB->manipulateF(
 	));
 	$ilDB->addIndex('rbac_log',array('ref_id'),'i1');
 ?>
+<#3086>
+<?php
+	$ilDB->createTable('booking_entry',array(
+		'booking_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'obj_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => TRUE
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 256,
+			'notnull' => FALSE
+		),
+		'description'	=> array(
+			'type'	=> 'text',
+			'length'=> 4000,
+			'notnull' => FALSE
+		),
+		'location'	=> array(
+			'type'	=> 'text',
+			'length' => 512,
+			'notnull' => FALSE
+		),
+		'deadline'	=> array(
+			'type'	=> 'integer',
+			'length' => 4,
+			'notnull' => TRUE
+		),
+		'num_bookings'	=> array(
+			'type'	=> 'integer',
+			'length' => 4,
+			'notnull' => TRUE
+		)
+	));
+	$ilDB->addPrimaryKey('booking_entry',array('booking_id'));
+	$ilDB->createSequence('booking_entry');
+?>
+<#3087>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

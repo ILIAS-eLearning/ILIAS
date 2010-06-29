@@ -35,6 +35,7 @@ class ilDateTime
 	const WEEK = 'week';
 	const DAY = 'day';
 	const HOUR = 'hour';
+	const MINUTE = 'minute';
 
 	protected $log;
 	
@@ -269,6 +270,14 @@ class ilDateTime
 				
 			case self::HOUR:
 				$this->unix = strtotime($count_str.'hour',$this->unix);
+				break;
+				
+			case self::MINUTE:
+				
+				$this->unix = strtotime($count_str.'minute',$this->unix);
+				$d = new ilDateTime($this->unix,IL_CAL_UNIX);
+				
+
 				break;
 				
 		}

@@ -37,6 +37,10 @@ class ilCalendarCategory
 	const TYPE_USR = 1;
 	const TYPE_OBJ = 2;
 	const TYPE_GLOBAL = 3;
+	/**
+	 * Consultation hours calendar
+	 */
+	const TYPE_CH = 4;  
 	
 	protected $cat_id;
 	protected $color;
@@ -93,7 +97,7 @@ class ilCalendarCategory
 	 public static function lookupAppointments($a_category_id)
 	 {
 	 	global $ilDB;
-		
+	
 		$query = "SELECT * FROM cal_cat_assignments ".
 			'WHERE cat_id = '.$ilDB->quote($a_category_id,'integer');
 		$res = $ilDB->query($query);

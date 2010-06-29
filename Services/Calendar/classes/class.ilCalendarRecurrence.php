@@ -56,7 +56,7 @@ class ilCalendarRecurrence
 	private $cal_id;
 	private $recurrence_type;
 	
-	private $freq_type;
+	private $freq_type = '';
 	private $freq_until_type; 
 	private $freq_until_date = null;
 	private $freq_until_count;

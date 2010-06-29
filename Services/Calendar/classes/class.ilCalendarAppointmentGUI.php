@@ -271,7 +271,7 @@ class ilCalendarAppointmentGUI
 		
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
 		$desc->setValue($this->app->getDescription());
-		$desc->setCols(3);
+		$desc->setRows(5);
 		$this->form->addItem($desc);
 
 		if ($a_as_milestone && $a_mode == "edit" && $resp_info)
