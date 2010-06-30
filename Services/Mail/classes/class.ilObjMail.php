@@ -45,5 +45,6 @@ class ilObjMail extends ilObject
 		$this->type = "mail";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+
 } // END class.ilObjMail
 ?>

@@ -46,6 +46,22 @@ class ilObjMailAccess extends ilObjectAccess
 		require_once "classes/class.ilFileDataMail.php";
 		return ilFileDataMail::_lookupDiskUsageOfUser($user_id);
 	}
+
+	/**
+	 * check whether goto script will succeed
+	 */
+	function _checkGoto($a_target)
+	{
+		global $rbacsystem;
+
+		$mail = new ilMail($_SESSION["AccountId"]);
+		if($rbacsystem->checkAccess('mail_visible', $mail->getMailObjectReferenceId()))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
 
 ?>
