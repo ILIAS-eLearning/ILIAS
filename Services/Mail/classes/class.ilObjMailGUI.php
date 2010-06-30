@@ -347,5 +347,36 @@ class ilObjMailGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+
+	/**
+	 * goto target group
+	 */
+	function _goto()
+	{
+		global $ilAccess, $ilErr, $lng, $rbacsystem;
+
+
+		$mail = new ilMail($_SESSION["AccountId"]);
+		if($rbacsystem->checkAccess('mail_visible', $mail->getMailObjectReferenceId()))
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilMailGUI");
+			exit;
+		}
+		else
+		{
+			if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+			{
+				$_GET["cmd"] = "frameset";
+				$_GET["target"] = "";
+				$_GET["ref_id"] = ROOT_FOLDER_ID;
+				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+				include("repository.php");
+				exit;
+			}
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
 } // END class.ilObjMailGUI
 ?>
