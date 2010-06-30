@@ -10497,6 +10497,7 @@ dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
 dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor dem Termin eine Anmeldung ermöglicht werden soll.
 dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest wie viel aufeinander folgende Termine generiert werden sollen.
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
+dateplaner#:#cal_ch_ch#:#Sprechstundentermine
 ps#:#rbac_log_age#:#Log-Einträge vorhalten
 ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
 rbac#:#rbac_role_add_to_desktop#:#Zum Persönlichen Schreibtisch hinzufügen

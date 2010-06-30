@@ -291,11 +291,25 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	public function insert($a_tpl)
 	{
 		$tpl = new ilTemplate('tpl.recurrence_input.html',true,true,'Services/Calendar');
-		$options = array('NONE' => $this->lng->txt('cal_no_recurrences'),
-			IL_CAL_FREQ_DAILY => $this->lng->txt('cal_daily'),
-			IL_CAL_FREQ_WEEKLY=> $this->lng->txt('cal_weekly'),
-			IL_CAL_FREQ_MONTHLY => $this->lng->txt('cal_monthly'),
-			IL_CAL_FREQ_YEARLY => $this->lng->txt('cal_yearly'));
+		
+		$options = array('NONE' => $this->lng->txt('cal_no_recurrence'));
+		if(in_array(IL_CAL_FREQ_DAILY, $this->getEnabledSubForms()))
+		{
+			$options[IL_CAL_FREQ_DAILY] = $this->lng->txt('cal_daily');
+		}
+		if(in_array(IL_CAL_FREQ_WEEKLY, $this->getEnabledSubForms()))
+		{
+			$options[IL_CAL_FREQ_WEEKLY] = $this->lng->txt('cal_weekly');
+		}
+		if(in_array(IL_CAL_FREQ_MONTHLY, $this->getEnabledSubForms()))
+		{
+			$options[IL_CAL_FREQ_MONTHLY] = $this->lng->txt('cal_monthly');
+		}
+		if(in_array(IL_CAL_FREQ_YEARLY, $this->getEnabledSubForms()))
+		{
+			$options[IL_CAL_FREQ_YEARLY] = $this->lng->txt('cal_yearly');
+		}
+		
 		$tpl->setVariable('FREQUENCE',ilUtil::formSelect(
 			$this->recurrence->getFrequenceType(),
 			'frequence',
@@ -309,29 +323,41 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 		$tpl->setVariable('TXT_EVERY',$this->lng->txt('cal_every'));
 
 		// DAILY
-		$tpl->setVariable('TXT_DAILY_FREQ_UNIT',$this->lng->txt('cal_day_s'));
-		$tpl->setVariable('COUNT_DAILY_VAL',$this->recurrence->getInterval());
+		if(in_array(IL_CAL_FREQ_DAILY, $this->getEnabledSubForms()))
+		{
+			$tpl->setVariable('TXT_DAILY_FREQ_UNIT',$this->lng->txt('cal_day_s'));
+			$tpl->setVariable('COUNT_DAILY_VAL',$this->recurrence->getInterval());
+		}
 		
 		// WEEKLY
-		$tpl->setVariable('TXT_WEEKLY_FREQ_UNIT',$this->lng->txt('cal_week_s'));
-		$tpl->setVariable('COUNT_WEEKLY_VAL',$this->recurrence->getInterval());
-		$this->buildWeekDaySelection($tpl);
+		if(in_array(IL_CAL_FREQ_WEEKLY, $this->getEnabledSubForms()))
+		{
+			$tpl->setVariable('TXT_WEEKLY_FREQ_UNIT',$this->lng->txt('cal_week_s'));
+			$tpl->setVariable('COUNT_WEEKLY_VAL',$this->recurrence->getInterval());
+			$this->buildWeekDaySelection($tpl);
+		}
 		
 		// MONTHLY
-		$tpl->setVariable('TXT_MONTHLY_FREQ_UNIT',$this->lng->txt('cal_month_s'));
-		$tpl->setVariable('COUNT_MONTHLY_VAL',$this->recurrence->getInterval());
-		$tpl->setVariable('TXT_ON_THE',$this->lng->txt('cal_on_the'));
-		$tpl->setVariable('TXT_BYMONTHDAY',$this->lng->txt('cal_on_the'));
-		$tpl->setVariable('TXT_OF_THE_MONTH',$this->lng->txt('cal_of_the_month'));
-		$this->buildMonthlyByDaySelection($tpl);
-		$this->buildMonthlyByMonthDaySelection($tpl);
+		if(in_array(IL_CAL_FREQ_MONTHLY, $this->getEnabledSubForms()))
+		{
+			$tpl->setVariable('TXT_MONTHLY_FREQ_UNIT',$this->lng->txt('cal_month_s'));
+			$tpl->setVariable('COUNT_MONTHLY_VAL',$this->recurrence->getInterval());
+			$tpl->setVariable('TXT_ON_THE',$this->lng->txt('cal_on_the'));
+			$tpl->setVariable('TXT_BYMONTHDAY',$this->lng->txt('cal_on_the'));
+			$tpl->setVariable('TXT_OF_THE_MONTH',$this->lng->txt('cal_of_the_month'));
+			$this->buildMonthlyByDaySelection($tpl);
+			$this->buildMonthlyByMonthDaySelection($tpl);
+		}
 
 		// YEARLY
-		$tpl->setVariable('TXT_YEARLY_FREQ_UNIT',$this->lng->txt('cal_year_s'));
-		$tpl->setVariable('COUNT_YEARLY_VAL',$this->recurrence->getInterval());
-		$tpl->setVariable('TXT_ON_THE',$this->lng->txt('cal_on_the'));
-		$this->buildYearlyByMonthDaySelection($tpl);
-		$this->buildYearlyByDaySelection($tpl);
+		if(in_array(IL_CAL_FREQ_YEARLY, $this->getEnabledSubForms()))
+		{
+			$tpl->setVariable('TXT_YEARLY_FREQ_UNIT',$this->lng->txt('cal_year_s'));
+			$tpl->setVariable('COUNT_YEARLY_VAL',$this->recurrence->getInterval());
+			$tpl->setVariable('TXT_ON_THE',$this->lng->txt('cal_on_the'));
+			$this->buildYearlyByMonthDaySelection($tpl);
+			$this->buildYearlyByDaySelection($tpl);
+		}
 
 		// UNTIL
 		$this->buildUntilSelection($tpl);
