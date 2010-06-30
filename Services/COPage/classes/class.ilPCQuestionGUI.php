@@ -18,6 +18,8 @@ include_once "./Services/COPage/classes/class.ilPCQuestion.php";
 */
 class ilPCQuestionGUI extends ilPageContentGUI
 {
+	var $page_config = null;
+
 	/**
 	* Constructor
 	* @access	public
@@ -28,6 +30,26 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$this->scormlmid = $a_pg_obj->parent_id;
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$ilCtrl->saveParameter($this, array("qpool_ref_id"));
+	}
+
+	/**
+	 * Set Page Config
+	 *
+	 * @param	object	Page Config
+	 */
+	function setPageConfig($a_val)
+	{
+		$this->page_config = $a_val;
+	}
+
+	/**
+	 * Get Page Config
+	 *
+	 * @return	object	Page Config
+	 */
+	function getPageConfig()
+	{
+		return $this->page_config;
 	}
 
 	/**
@@ -58,6 +80,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				{
 					$edit_gui->setQuestionType($q_type);
 				}
+				$edit_gui->setPageConfig($this->getPageConfig());
 				//$edit_gui->setPoolRefId($qpool_ref_id);		
 				$this->setTabs();
 				$edit_gui->addNewIdListener($this, "setNewQuestionId");
@@ -288,6 +311,7 @@ $edit_gui->setPoolRefId(0);
 
 			$edit_gui->setQuestionType($q_type);
 			$edit_gui->setSelfAssessmentEditingMode(true);
+			$edit_gui->setPageConfig($this->getPageConfig());
 			$ret = $ilCtrl->forwardCommand($edit_gui);
 			$this->tpl->setContent($ret);
 			return $ret;
@@ -331,6 +355,7 @@ $edit_gui->setPoolRefId(0);
 		}	
 //		$edit_gui->setQuestionType("assSingleChoice");
 		$edit_gui->setSelfAssessmentEditingMode(true);
+		$edit_gui->setPageConfig($this->getPageConfig());
 		$ret = $ilCtrl->forwardCommand($edit_gui);
 		$this->tpl->setContent($ret);
 		return $ret;

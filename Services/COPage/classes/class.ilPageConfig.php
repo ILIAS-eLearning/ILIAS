@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Config class for page editing
@@ -11,6 +11,7 @@
 class ilPageConfig
 {
 	var $int_link_filter = array();
+	var $prevent_rte_usage = false;
 
 	/**
 	 * Add internal links filter
@@ -38,6 +39,26 @@ class ilPageConfig
 	function getIntLinkFilters()
 	{
 		return $this->int_link_filter;
+	}
+
+	/**
+	 * Set prevent rte usage
+	 *
+	 * @param	boolean	prevent rte usage
+	 */
+	function setPreventRteUsage($a_val)
+	{
+		$this->prevent_rte_usage = $a_val;
+	}
+
+	/**
+	 * Get prevent rte usage
+	 *
+	 * @return	boolean	prevent rte usage
+	 */
+	function getPreventRteUsage()
+	{
+		return $this->prevent_rte_usage;
 	}
 }
 ?>
