@@ -25,6 +25,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
+		global $ilCtrl;
+
 		// TODO: move this to class.ilias.php
 		define('USER_FOLDER_ID',7);
 		
@@ -33,6 +35,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule("user");
+
+		$ilCtrl->saveParameter($this, "letter");
 	}
 
 	function setUserOwnerId($a_id)
@@ -356,7 +360,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function viewObject($reset_filter = FALSE)
 	{
-		global $rbacsystem, $ilUser, $ilToolbar, $tpl;
+		global $rbacsystem, $ilUser, $ilToolbar, $tpl, $ilSetting, $lng;
 		
 		// toolbar
 		$ilToolbar->addButton($this->lng->txt("usr_add"),
@@ -364,11 +368,45 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$ilToolbar->addButton($this->lng->txt("import_users"),
 			$this->ctrl->getLinkTarget($this, "importUserForm"));
 
+		// alphabetical navigation
+		include_once './Services/User/classes/class.ilUserAccountSettings.php';
+		$aset = ilUserAccountSettings::getInstance();
+		if ((int) $ilSetting->get('user_adm_alpha_nav'))
+		{
+			$ilToolbar->addSeparator();
+
+			// alphabetical navigation
+			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
+			$ai = new ilAlphabetInputGUI("", "first");
+			include_once("./Services/User/classes/class.ilObjUser.php");
+			$ai->setLetters(ilObjUser::getFirstLettersOfLastnames());
+			/*$ai->setLetters(array("A","B","C","D","E","F","G","H","I","J",
+				"K","L","M","N","O","P","Q","R","S","T",
+				"U","V","W","X","Y","Z","1","2","3","4","_",
+				"Ä","Ü","Ö",":",";","+","*","#","§","%","&"));*/
+			$ai->setParentCommand($this, "chooseLetter");
+			$ai->setHighlighted($_GET["letter"]);
+			$ilToolbar->addInputItem($ai, true);
+
+		}
+
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "view");
 		$tpl->setContent($utab->getHTML());
 	}
 
+	/**
+	 * Choose first letter
+	 *
+	 * @param
+	 * @return
+	 */
+	function chooseLetterObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirect($this, "view");
+	}
 
 	
 	/**
@@ -3070,7 +3108,8 @@ else
 				'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
 				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
 				'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
-				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time')
+				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
+				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav')
 			)
 		);
 						
@@ -3112,6 +3151,7 @@ else
 				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
 				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->form->getInput('prevent_reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
+				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
@@ -3154,7 +3194,13 @@ else
 		$lrua->setInfo($this->lng->txt('restrict_user_access_info'));
 		$lrua->setValue(1);
 		$this->form->addItem($lrua);
-		
+
+		// enable alphabetical navigation in user administration
+		$alph = new ilCheckboxInputGUI($this->lng->txt('user_adm_enable_alpha_nav'), 'user_adm_alpha_nav');
+		//$alph->setInfo($this->lng->txt('restrict_user_access_info'));
+		$alph->setValue(1);
+		$this->form->addItem($alph);
+
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));
 		$this->form->addItem($log);
@@ -3914,6 +3960,37 @@ else
 	
 		$this->tpl->setVariable('ADM_CONTENT', $this->loginSettingsForm->getHTML());
 	}
+
+	/**
+	 * goto target group
+	 */
+	function _goto()
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		$a_target = USER_FOLDER_ID;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=".$a_target);
+			exit;
+		}
+		else
+		{
+			if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+			{
+				$_GET["cmd"] = "frameset";
+				$_GET["target"] = "";
+				$_GET["ref_id"] = ROOT_FOLDER_ID;
+				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+				include("repository.php");
+				exit;
+			}
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
 	
 	/*
 	function showUpperIcon()

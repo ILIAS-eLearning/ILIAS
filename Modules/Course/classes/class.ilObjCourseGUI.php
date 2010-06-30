@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 require_once "./Services/Container/classes/class.ilContainerGUI.php";
@@ -4741,9 +4741,18 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	* goto target course
 	*/
-	function _goto($a_target)
+	function _goto($a_target, $a_add = "")
 	{
 		global $ilAccess, $ilErr, $lng;
+
+		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
+		{
+//echo "1";
+			$_GET["cmd"] = "members";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{

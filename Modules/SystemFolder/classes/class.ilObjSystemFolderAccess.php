@@ -33,7 +33,21 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjSystemFolderAccess extends ilObjectAccess
 {
+	/**
+	 * check whether goto script will succeed
+	 */
+	function _checkGoto($a_target)
+	{
+		global $ilAccess;
 
+		$a_target = SYSTEM_FOLDER_ID;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			return true;
+		}
+		return false;
+	}
 
 }
 

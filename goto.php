@@ -65,7 +65,7 @@ $rest = substr($_GET["target"], $r_pos+1);
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];
-$target_ref_id = $target_arr[2];		// optional for pages
+$additional = $target_arr[2];		// optional for pages
 
 
 // if anonymous and goto is not granted: go to login page
@@ -93,7 +93,7 @@ switch($target_type)
 	// exception, must be kept for now
 	case "st":
 		require_once("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php");
-		ilStructureObjectGUI::_goto($target_id, $target_ref_id);
+		ilStructureObjectGUI::_goto($target_id, $additional);
 		break;
 
 	// exception, must be kept for now
@@ -194,13 +194,13 @@ switch($target_type)
 	// please migrate to default branch implementation
 	case "crs":
 		require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
-		ilObjCourseGUI::_goto($target_id);
+		ilObjCourseGUI::_goto($target_id, $additional);
 		break;
 
 	// please migrate to default branch implementation
 	case "grp":
 		require_once("./Modules/Group/classes/class.ilObjGroupGUI.php");
-		ilObjGroupGUI::_goto($target_id);
+		ilObjGroupGUI::_goto($target_id, $additional);
 		break;
 		
 	// please migrate to default branch implementation

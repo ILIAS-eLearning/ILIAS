@@ -211,7 +211,9 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->filter["course_group"],
 			$this->filter["global_role"],
 			$user_filter,
-			$additional_fields
+			$additional_fields,
+			null,
+			ilUtil::stripSlashes($_GET["letter"])
 			);
 			
 		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
@@ -230,7 +232,9 @@ class ilUserTableGUI extends ilTable2GUI
 				$this->filter["course_group"],
 				$this->filter["global_role"],
 				$user_filter,
-				$additional_fields
+				$additional_fields,
+				null,
+				ilUtil::stripSlashes($_GET["letter"])
 			);
 		}
 
@@ -393,11 +397,13 @@ class ilUserTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	* Fill table row
-	*/
+	 * Fill table row
+	 */
 	protected function fillRow($user)
 	{
 		global $ilCtrl, $lng;
+
+		$ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
 
 		foreach ($this->getSelectedColumns() as $c)
 		{

@@ -54,7 +54,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->usrf_ref_id =& $this->ref_id;
 
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this,'obj_id');
+		$this->ctrl->saveParameter($this, array('obj_id', 'letter'));
+		$this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
 		
 		$lng->loadLanguageModule('user');
 		

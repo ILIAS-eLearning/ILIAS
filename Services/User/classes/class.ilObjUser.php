@@ -4973,5 +4973,29 @@ class ilObjUser extends ilObject
 		
 		return true;
 	}
+
+
+	/**
+	 * Get first letters of all lastnames
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getFirstLettersOfLastnames()
+	{
+		global $ilDB;
+
+		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("lastname", 1, 1))." let FROM usr_data ORDER BY let";
+		$let_set = $ilDB->query($q);
+
+		$lets = array();
+		while ($let_rec = $ilDB->fetchAssoc($let_set))
+		{
+			$let[$let_rec["let"]] = $let_rec["let"];
+		}
+		return $let;
+	}
+
+
 } // END class ilObjUser
 ?>
