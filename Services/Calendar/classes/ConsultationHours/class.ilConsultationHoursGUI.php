@@ -235,13 +235,13 @@ class ilConsultationHoursGUI
 			$booking->setDescription($this->form->getInput('de'));
 			$booking->setLocation($this->form->getInput('lo'));
 			$booking->setNumberOfBookings($this->form->getInput('bo'));
-			#$booking->save();
+			$booking->save();
 			
 			$this->createAppointments($booking);
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->createSequence();
-			#$this->ctrl->redirect($this,'appointmentList');
+			$this->ctrl->redirect($this,'appointmentList');
 		}
 		$this->tpl->setContent($this->form->getHTML());
 	}
@@ -293,7 +293,7 @@ class ilConsultationHoursGUI
 				
 				
 				$entry = new ilCalendarEntry();
-				$entry->setContextId(0);
+				$entry->setContextId($booking->getId());
 				$entry->setTitle($this->form->getInput('ti'));
 				$entry->setDescription($this->form->getInput('de'));
 				$entry->setLocation($this->form->getInput('lo'));
