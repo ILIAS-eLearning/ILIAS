@@ -78,6 +78,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$this->obj, "MDUpdateListener");
 				$page_gui->setEnabledPCTabs(true);
 
+				include_once("./Services/COPage/classes/class.ilPageConfig.php");
+				$pconfig = new ilPageConfig();
+				$pconfig->setPreventRteUsage(true);
+				$page_gui->setPageConfig($pconfig);
+
 				if ($ilSetting->get("block_activated_news"))
 				{
 					$page_gui->setEnabledNews(true, $this->obj->content_object->getId(),

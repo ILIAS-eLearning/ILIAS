@@ -57,6 +57,11 @@ class assQuestionGUI
 	 * question count in test
 	 */
 	var $question_count;
+
+	/**
+	 * do not use rte for editing
+	 */
+	var $prevent_rte_usage = false;
 	
 	/**
 	* assQuestionGUI constructor
@@ -712,7 +717,27 @@ class assQuestionGUI
 	{
 		return $this->selfassessmenteditingmode;
 	}
-	
+
+	/**
+	 * Set prevent rte usage
+	 *
+	 * @param	boolean	prevent rte usage
+	 */
+	function setPreventRteUsage($a_val)
+	{
+		$this->prevent_rte_usage = $a_val;
+	}
+
+	/**
+	 * Get prevent rte usage
+	 *
+	 * @return	boolean	prevent rte usage
+	 */
+	function getPreventRteUsage()
+	{
+		return $this->prevent_rte_usage;
+	}
+
 	/**
 	* Set  Default Nr of Tries
 	*
@@ -898,7 +923,10 @@ class assQuestionGUI
 		$complete->setRequired(false);
 		$complete->setRows(10);
 		$complete->setCols(80);
-		$complete->setUseRte(true);
+		if (!$this->getPreventRteUsage())
+		{
+			$complete->setUseRte(true);
+		}
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 		$complete->addPlugin("latex");
@@ -912,7 +940,10 @@ class assQuestionGUI
 		$incomplete->setRequired(false);
 		$incomplete->setRows(10);
 		$incomplete->setCols(80);
-		$incomplete->setUseRte(true);
+		if (!$this->getPreventRteUsage())
+		{
+			$incomplete->setUseRte(true);
+		}
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 		$incomplete->addPlugin("latex");

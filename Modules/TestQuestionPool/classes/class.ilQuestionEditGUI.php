@@ -83,6 +83,27 @@ class ilQuestionEditGUI
 	}
 
 	/**
+	 * Set Page Config
+	 *
+	 * @param	object	Page Config
+	 */
+	function setPageConfig($a_val)
+	{
+		$this->page_config = $a_val;
+	}
+
+	/**
+	 * Get Page Config
+	 *
+	 * @return	object	Page Config
+	 */
+	function getPageConfig()
+	{
+		return $this->page_config;
+	}
+
+
+	/**
 	* Add a listener that is notified with the new question ID, when
 	* a new question is saved
 	*/
@@ -117,6 +138,11 @@ class ilQuestionEditGUI
 					$this->getSelfAssessmentEditingMode());
 				$q_gui->setDefaultNrOfTries(
 					$this->getDefaultNrOfTries());
+
+				if (is_object($this->page_config))
+				{
+					$q_gui->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+				}
 				$q_gui->object->setObjId((int) $this->getPoolObjId());
 				
 				for ($i=0; $i<$this->new_id_listener_cnt; $i++)

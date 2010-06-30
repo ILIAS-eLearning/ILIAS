@@ -505,6 +505,8 @@ class ilPageEditorGUI
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
 				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getEnabledSelfAssessment());
+				$pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
+
 				if ($this->page_gui->getEnabledSelfAssessment())
 				{
 					$this->tabs_gui->clearTargets();
