@@ -3347,5 +3347,36 @@ return $this->showServerInfoObject();
 		// save and cancel commands
 		$this->form->addCommandButton('saveProxy', $lng->txt('save'));
 	}
+
+	/**
+	 * goto target group
+	 */
+	function _goto()
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		$a_target = SYSTEM_FOLDER_ID;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI");
+			exit;
+		}
+		else
+		{
+			if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+			{
+				$_GET["cmd"] = "frameset";
+				$_GET["target"] = "";
+				$_GET["ref_id"] = ROOT_FOLDER_ID;
+				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+				include("repository.php");
+				exit;
+			}
+		}
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
 }
 ?>

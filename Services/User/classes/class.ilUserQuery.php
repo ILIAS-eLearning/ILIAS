@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * User query class. Put any complex that queries for a set of users into
@@ -12,12 +12,13 @@
 class ilUserQuery
 {
 	/**
-	* Get data for user administration list.
-	*/
+	 * Get data for user administration list.
+	 */
 	public static function getUserListData($a_order_field, $a_order_dir, $a_offset, $a_limit,
 		$a_string_filter = "", $a_activation_filter = "", $a_last_login_filter = null,
 		$a_limited_access_filter = false, $a_no_courses_filter = false,
-		$a_course_group_filter = 0, $a_role_filter = 0, $a_user_folder_filter = null, $a_additional_fields = '',$a_user_filter = null)
+		$a_course_group_filter = 0, $a_role_filter = 0, $a_user_folder_filter = null,
+		$a_additional_fields = '', $a_user_filter = null, $a_first_letter = "")
 	{
 		global $ilDB, $rbacreview;
 		
@@ -53,7 +54,14 @@ class ilUserQuery
 
 		$count_query.= " WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 		$where = " AND";
-		
+
+		if ($a_first_letter != "")
+		{
+			$add = $where." (".$ilDB->upper($ilDB->substr("usr_data.lastname", 1, 1))." = ".$ilDB->upper($ilDB->quote($a_first_letter, "text")).") ";
+			$query.= $add;
+			$count_query.= $add;
+			$where = " AND";
+		}
 		
 		if ($a_string_filter != "")		// email, name, login
 		{

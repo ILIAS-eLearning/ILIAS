@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Container/classes/class.ilContainerGUI.php";
 include_once('./Modules/Group/classes/class.ilObjGroup.php');
@@ -2560,11 +2541,19 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	/**
-	* goto target group
-	*/
-	function _goto($a_target)
+	 * goto target group
+	 */
+	function _goto($a_target, $a_add = "")
 	{
 		global $ilAccess, $ilErr, $lng;
+
+		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
+		{
+			$_GET["cmd"] = "members";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{

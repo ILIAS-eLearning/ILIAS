@@ -152,7 +152,9 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	function getToolbarHTML()
 	{
 		global $ilCtrl, $lng;
-		
+
+		$lng->loadLanguageModule("form");
+
 		$tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
 		foreach ($this->getLetters() as $l)
 		{
@@ -168,7 +170,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 			$tpl->parseCurrentBlock();
 		}
 		$ilCtrl->setParameter($this->parent_object, "letter", "");
-		$tpl->setVariable("TXT_ALL", $lng->txt("all"));
+		$tpl->setVariable("TXT_ALL", $lng->txt("form_alphabet_all"));
 		$tpl->setVariable("HREF_ALL", $ilCtrl->getLinkTarget($this->parent_object, $this->parent_cmd));
 		if ($this->highlight && $this->highlight_letter == "")
 		{

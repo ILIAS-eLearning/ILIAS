@@ -282,10 +282,20 @@ class ilAdministrationGUI
 
 		if ($_GET["admin_mode"] != "repository")	// settings
 		{
-			$this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
-			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+			if ($_GET["ref_id"] == USER_FOLDER_ID)
+			{
+				$this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
+				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+				$fs_gui->setMainFrameSource(
+					$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+			}
+			else
+			{
+				$this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
+				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+				$fs_gui->setMainFrameSource(
+					$this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+			}
 			$this->ctrl->setParameter($this, "expand", "1");
 			$fs_gui->setSideFrameSource(
 				$this->ctrl->getLinkTarget($this, "showTree"));
