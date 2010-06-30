@@ -10536,6 +10536,7 @@ dateplaner#:#cal_ch_deadline#:#Latest Registration
 dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the registration is blocked.
 dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.
 dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
+dateplaner#:#cal_ch_ch#:#Consultation Hours
 ps#:#rbac_log_age#:#Keep Log Entries 
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop

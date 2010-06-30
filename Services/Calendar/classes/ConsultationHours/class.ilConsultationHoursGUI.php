@@ -59,6 +59,8 @@ class ilConsultationHoursGUI
 	 */
 	public function executeCommand()
 	{
+		$this->setTabs();
+		
 		switch($this->ctrl->getNextClass())
 		{
 			default:
@@ -88,6 +90,12 @@ class ilConsultationHoursGUI
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		$ilToolbar->addButton($this->lng->txt('cal_ch_add_sequence'),$this->ctrl->getLinkTarget($this,'createSequence'));
+		
+		include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursTableGUI.php';
+		$tbl = new ilConsultationHoursTableGUI($this,'appointmentList',$this->getUserId());
+		$tbl->parse();
+		$this->tpl->setContent($tbl->getHTML());
+		
 		
 	}
 	
@@ -172,6 +180,13 @@ class ilConsultationHoursGUI
 		// Recurrence
 		include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
 		$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
+		$rec->setEnabledSubForms(
+			array(
+				IL_CAL_FREQ_DAILY,
+				IL_CAL_FREQ_WEEKLY,
+				IL_CAL_FREQ_MONTHLY
+			)
+		);
 		$this->form->addItem($rec);
 		
 		
@@ -294,6 +309,15 @@ class ilConsultationHoursGUI
 		}
 	}
 	
-	
+	/**
+	 * Set tabs
+	 * @return 
+	 */
+	protected function setTabs()
+	{
+		global $ilTabs;
+		
+		$ilTabs->addTab('consultation_hours', $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+	}
 }
 ?>

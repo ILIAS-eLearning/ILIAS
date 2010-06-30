@@ -163,7 +163,11 @@ class ilCalendarAppointmentPanelGUI
 			case ilCalendarCategory::TYPE_OBJ:
 				$type = ilObject::_lookupType($cat_info['obj_id']);
 				$this->tpl->setVariable('PANEL_CAL_TYPE',$this->lng->txt('cal_type_'.$type));
-				break;				
+				break;
+				
+			case ilCalendarCategory::TYPE_CH:
+				$this->tpl->setVariable('PANEL_CAL_TYPE',$this->lng->txt('cal_ch_ch'));
+				break;
 		}
 
 		$this->tpl->setVariable('PANEL_TXT_CAL_NAME',$this->lng->txt('cal_calendar_name'));
