@@ -120,7 +120,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$this->initImportForm("mcst");
 			$html2 = $this->form->getHTML();
 
-			$tpl->setContent($html1."<br/><br/>".$html2);
+			$tpl->setContent($html1."<br/>".$html2);
 		}
 	}
 

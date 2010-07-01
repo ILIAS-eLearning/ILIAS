@@ -10554,3 +10554,4 @@ form#:#form_alphabet_all#:#All
 content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.
 content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.
 content#:#cont_no_download_file_available#:#There is currently no public download file available.
+content#:#htlm_import#:#Import HTML Learning Module
