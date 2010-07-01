@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "classes/class.ilObjectGUI.php";
 include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
@@ -8,16 +8,16 @@ include_once ("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php")
 require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandling.php';
 
 /**
-* Class ilObjContentObjectGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-*
-* $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Class ilObjContentObjectGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ *
+ * $Id$
+ *
+ * @ingroup ModulesIliasLearningModule
+ */
 class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHandling
 {
 	var $ctrl;
@@ -488,7 +488,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$lng->loadLanguageModule("style");
 		$this->setTabs();
-		$ilTabs->setTabActive("properties");
+		$ilTabs->setTabActive("settings");
 		$this->setSubTabs("cont_style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -604,11 +604,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function editMenuProperties()
 	{
-		global $lng, $ilTabs;
+		global $lng, $ilTabs, $ilCtrl;
 
 		$lng->loadLanguageModule("style");
 		$this->setTabs();
-		$ilTabs->setTabActive("properties");
+		$ilTabs->setTabActive("settings");
 		$this->setSubTabs("cont_lm_menu");
 
 		// lm menu properties
@@ -652,8 +652,23 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// downloads
+		$no_download_file_available =
+			" ".$lng->txt("cont_no_download_file_available").
+			" <a href='".$ilCtrl->getLinkTargetByClass("ilexportgui", "")."'>".$lng->txt("change")."</a>";
+		$types = array("xml", "html", "scorm");
+		foreach($types as $type)
+		{
+			if ($this->object->getPublicExportFile($type) != "")
+			{
+				if (is_file($this->object->getExportDirectory($type)."/".
+					$this->object->getPublicExportFile($type)))
+				{
+					$no_download_file_available = "";
+				}
+			}
+		}
 		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
-		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
+		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc").$no_download_file_available);
 		$this->tpl->setVariable("CBOX_DOWNLOADS", "cobj_act_downloads");
 		$this->tpl->setVariable("VAL_DOWNLOADS", "y");
 
@@ -2374,11 +2389,22 @@ return;
 	 */
 	function getPublicAccessColValue($a_type, $a_file)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
+
+		$changelink = "<a href='".$ilCtrl->getLinkTarget($this, "editMenuProperties")."'>".$lng->txt("change")."</a>";
+		if (!$this->object->isActiveLMMenu())
+		{
+			$add = "<br />".$lng->txt("cont_download_no_menu")." ".$changelink;
+		}
+		else if (!$this->object->isActiveDownloads())
+		{
+			$add = "<br />".$lng->txt("cont_download_no_download")." ".$changelink;
+		}
+
 		
 		if ($this->object->getPublicExportFile($a_type) == $a_file)
 		{
-			return $lng->txt("yes");
+			return $lng->txt("yes").$add;
 		}
 	
 		return " ";		
@@ -2988,7 +3014,7 @@ return;
 		
 		$this->setTabs();
 		$this->setSubTabs("public_section");
-		$ilTabs->setTabActive("properties");
+		$ilTabs->setTabActive("settings");
 
 		switch ($this->object->getType())
 		{
