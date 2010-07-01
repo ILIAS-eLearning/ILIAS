@@ -1762,7 +1762,7 @@ class ilObjectListGUI
 	* @param	string		$a_text		link text
 	* @param	string		$a_frame	link frame target
 	*/
-	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "")
+	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "")
 	{
 		if ($a_frame != "")
 		{
@@ -1776,7 +1776,13 @@ class ilObjectListGUI
 		$this->ctpl->setVariable("TXT_COMMAND", $a_text);
 		$this->ctpl->parseCurrentBlock();
 		
-		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame);
+		$prevent_background_click = false;
+		if ($a_cmd =='mount_webfolder')
+		{
+			$prevent_background_click = true;
+		}
+		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
+			"", $prevent_background_click);
 	}
 
 	/**
@@ -2127,13 +2133,13 @@ class ilObjectListGUI
 						{
 							$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
 						}
-						
+
 						$cmd_link = $command["link"];
 						$txt = ($command["lang_var"] == "")
 							? $command["txt"]
 							: $this->lng->txt($command["lang_var"]);
 						$this->insertCommand($cmd_link, $txt,
-							$command["frame"], $command["img"]);
+							$command["frame"], $command["img"], $command["cmd"]);
 					}
 				}
 				else
@@ -2163,7 +2169,7 @@ class ilObjectListGUI
 			foreach ($this->cust_commands as $command)
 			{
 				$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
-					$command["frame"]);
+					$command["frame"], "", $command["cmd"]);
 			}
 		}
 
