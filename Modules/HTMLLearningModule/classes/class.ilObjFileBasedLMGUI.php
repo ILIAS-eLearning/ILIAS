@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -31,7 +12,7 @@
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */
 
@@ -159,6 +140,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$license_gui =& new ilLicenseGUI($this);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
+
+			case "ilexportgui":
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("xml");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
+//				$this->tpl->show();
+				break;
+
 
 			default:				
 				$cmd = $this->ctrl->getCmd("frameset");
@@ -316,68 +307,107 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("id_settings");
 
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// view link
-		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
-		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
-
-		if ($startfile != "")
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html",
-			'Modules/HTMLLearningModule');
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
-
-		// online
-		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
-		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
-		$this->tpl->setVariable("VAL_ONLINE", "y");
-		if ($this->object->getOnline())
-		{
-			$this->tpl->setVariable("CHK_ONLINE", "checked");
-		}
-
-		// start file
-		$this->tpl->setVariable("TXT_START_FILE", $this->lng->txt("cont_startfile"));
-		if ($startfile != "")
-		{
-			$this->tpl->setVariable("VAL_START_FILE", basename($startfile));
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_START_FILE", $this->lng->txt("no_start_file"));
-		}
-		$this->tpl->setVariable("TXT_SET_START_FILE", $this->lng->txt("cont_set_start_file"));
-		$this->tpl->setVariable("LINK_SET_START_FILE",
-			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
+		$this->initSettingsForm();
+		$this->getSettingsFormValues();
+		$tpl->setContent($this->form->getHTML());
 
 	}
 
 	/**
-	* save properties
-	*/
-	function saveProperties()
+	 * Init settings form.
+	 */
+	public function initSettingsForm()
 	{
-		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
-		$this->object->update();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "properties");
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// online
+		$cb = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
+		$cb->setOptionTitle($lng->txt(""));
+		$cb->setValue("y");
+		$this->form->addItem($cb);
+
+		// startfile
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+
+		$ne = new ilNonEditableValueGUI($lng->txt("cont_startfile"), "");
+		if ($startfile != "")
+		{
+			$ne->setValue(basename($startfile));
+		}
+		else
+		{
+			$ne->setValue(basename($this->lng->txt("no_start_file")));
+		}
+
+		$this->form->addItem($ne);
+
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+		$this->form->addCommandButton("toFilesystem", $lng->txt("cont_set_start_file"));
+
+		$this->form->setTitle($lng->txt("cont_lm_properties"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this, "saveProperties"));
+	}
+
+	/**
+	 * Get current values for settings from
+	 */
+	public function getSettingsFormValues()
+	{
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+
+		$values = array();
+		$values["cobj_online"] = $this->object->getOnline();
+		if ($startfile != "")
+		{
+			$startfile = basename($startfile);
+		}
+		else
+		{
+			$startfile = $this->lng->txt("no_start_file");
+		}
+
+		$values["cobj_online"] = $this->object->getOnline();
+		$values["startfile"] = $startfile;
+
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Set start file
+	 *
+	 * @param
+	 * @return
+	 */
+	function toFilesystem()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
+	}
+
+	/**
+	 * Save properties form
+	 */
+	public function saveProperties()
+	{
+		global $tpl, $lng, $ilCtrl;
+
+		$this->initSettingsForm("");
+		if ($this->form->checkInput())
+		{
+			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "properties");
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
 	}
 
 	/**
@@ -837,12 +867,34 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "editBibItem"));
 		}
 
+
+		// export
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilTabs->addTab("export",
+				$lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+		}
+
 		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
 			$ilTabs->addTab("id_permissions",
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
+
+		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
+
+		if ($startfile != "")
+		{
+			$ilTabs->addNonTabbedLink("presentation_view",
+				$this->lng->txt("glo_presentation_view"),
+				"ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=".$this->object->getRefID(),
+				"_blank"
+			);
+		}
+
 	}
 	
 	/**
