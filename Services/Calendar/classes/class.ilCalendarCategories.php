@@ -41,6 +41,7 @@ class ilCalendarCategories
 	const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
 	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
 	const MODE_MANAGE = 6;
+	const MODE_CONSULTATION = 7;
 	
 	protected static $instance = null;
 	
@@ -249,6 +250,11 @@ class ilCalendarCategories
 			case self::MODE_MANAGE:
 				$this->readPDCalendars();
 				$this->readSelectedItemCalendars();
+				break;
+
+			case self::MODE_CONSULTATION:
+				$this->readPrivateCalendars();
+				$this->readConsultationHoursCalendar($a_source_ref_id);
 				break;
 		}
 		
@@ -615,15 +621,21 @@ class ilCalendarCategories
 	
 	/**
 	 * Read personal consultation hours calendar
+	 * @param	int	$user_id
 	 * @return 
 	 */
-	public function readConsultationHoursCalendar()
+	public function readConsultationHoursCalendar($user_id = NULL)
 	{
 		global $ilDB;
+
+		if(!$user_id)
+		{
+			$user_id = $this->user_id;
+		}
 		
 		$query = "SELECT *  FROM cal_categories ".
 			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.
-			"AND obj_id = ".$ilDB->quote($this->user_id,'integer');
+			"AND obj_id = ".$ilDB->quote($user_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -633,9 +645,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
-			$this->categories_info[$row->cat_id]['editable'] = true;
+			$this->categories_info[$row->cat_id]['editable'] = ($user_id == $this->user_id ? true: false);
 			$this->categories_info[$row->cat_id]['accepted'] = true;
-			
 		}
 	}
 	

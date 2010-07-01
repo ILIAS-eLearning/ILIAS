@@ -233,10 +233,32 @@ class ilCalendarMonthGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
-		global $tree;
-		
+		global $tree, $ilUser;
+
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
+			// booking
+			$booking_subtitle = false;
+			if(isset($_GET['bkid']))
+			{
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$entry = new ilBookingEntry($item['event']->getContextId());
+				if($entry)
+				{
+					$current = (int)$entry->getCurrentNumberOfBookings();
+					$max = (int)$entry->getNumberOfBookings();
+
+					if($current < $max || $entry->getObjId() == $ilUser->getId())
+					{
+						$booking_subtitle = ' '.$item['event']->getTitle().' ('.$current.'/'.$max.')';
+					}
+					else
+					{
+						continue;
+					}
+				}
+			}
+
 			$this->tpl->setCurrentBlock('panel_code');
 			$this->tpl->setVariable('NUM',$this->num_appointments);
 			$this->tpl->parseCurrentBlock();
@@ -282,9 +304,15 @@ class ilCalendarMonthGUI
 						$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 						break;
 				}
-				
-				
-				$title .= (' '.$item['event']->getPresentationTitle());
+
+				if(!$booking_subtitle)
+				{
+					$title .= (' '.$item['event']->getPresentationTitle());
+				}
+				else
+				{
+					$title .= $booking_subtitle;
+				}
 			}
 			$this->tpl->setVariable('EVENT_TITLE',$title);
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
