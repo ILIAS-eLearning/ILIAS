@@ -33,6 +33,7 @@ class ilConsultationHoursGUI
 {
 	const MODE_CREATE = 1;
 	const MODE_UPDATE = 2;
+	const MODE_MULTI = 3;
 	
 	protected $user_id;
 	protected $ctrl;
@@ -95,8 +96,6 @@ class ilConsultationHoursGUI
 		$tbl = new ilConsultationHoursTableGUI($this,'appointmentList',$this->getUserId());
 		$tbl->parse();
 		$this->tpl->setContent($tbl->getHTML());
-		
-		
 	}
 	
 	/**
@@ -137,13 +136,21 @@ class ilConsultationHoursGUI
 			case self::MODE_CREATE:
 				$this->form->setTitle($this->lng->txt('cal_ch_add_sequence'));
 				$this->form->addCommandButton('saveSequence', $this->lng->txt('save'));
-				$this->form->addCommandButton('settings', $this->lng->txt('cancel'));
+				$this->form->addCommandButton('appointmentList', $this->lng->txt('cancel'));
 				break;
-				
+
+			/*
 			case self::MODE_UPDATE:
 				$this->form->setTitle($this->lng->txt('cal_ch_edit_sequence'));
 				$this->form->addCommandButton('updateSequence', $this->lng->txt('save'));
-				$this->form->addCommandButton('settings', $this->lng->txt('cancel'));
+				$this->form->addCommandButton('appointmentList', $this->lng->txt('cancel'));
+				break;
+			 */
+
+			case self::MODE_MULTI:
+				$this->form->setTitle($this->lng->txt('cal_ch_multi_edit_sequence'));
+				$this->form->addCommandButton('updateMulti', $this->lng->txt('save'));
+				$this->form->addCommandButton('appointmentList', $this->lng->txt('cancel'));
 				break;
 		}
 
@@ -153,42 +160,43 @@ class ilConsultationHoursGUI
 		$ti->setMaxLength(128);
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
-		
-		// Start
-		include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
-		$dur = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'st');
-		$dur->setShowTime(true);
-		$dur->setMinuteStepSize(5);
-		$this->form->addItem($dur);
 
+		if($a_mode != self::MODE_MULTI)
+		{
+			// Start
+			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
+			$dur = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'st');
+			$dur->setShowTime(true);
+			$dur->setMinuteStepSize(5);
+			$this->form->addItem($dur);
 
-		// Duration
-		$du = new ilDurationInputGUI($this->lng->txt('cal_ch_duration'),'du');
-		$du->setShowMinutes(true);
-		$du->setShowHours(false);
-		$this->form->addItem($du);
-		
-		// Number of appointments
-		$nu = new ilNumberInputGUI($this->lng->txt('cal_ch_num_appointments'),'ap');
-		$nu->setInfo($this->lng->txt('cal_ch_num_appointments_info'));
-		$nu->setSize(2);
-		$nu->setMaxLength(2);
-		$nu->setRequired(true);
-		$nu->setMinValue(1);
-		$this->form->addItem($nu);
-		
-		// Recurrence
-		include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
-		$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
-		$rec->setEnabledSubForms(
-			array(
-				IL_CAL_FREQ_DAILY,
-				IL_CAL_FREQ_WEEKLY,
-				IL_CAL_FREQ_MONTHLY
-			)
-		);
-		$this->form->addItem($rec);
-		
+			// Duration
+			$du = new ilDurationInputGUI($this->lng->txt('cal_ch_duration'),'du');
+			$du->setShowMinutes(true);
+			$du->setShowHours(false);
+			$this->form->addItem($du);
+
+			// Number of appointments
+			$nu = new ilNumberInputGUI($this->lng->txt('cal_ch_num_appointments'),'ap');
+			$nu->setInfo($this->lng->txt('cal_ch_num_appointments_info'));
+			$nu->setSize(2);
+			$nu->setMaxLength(2);
+			$nu->setRequired(true);
+			$nu->setMinValue(1);
+			$this->form->addItem($nu);
+
+			// Recurrence
+			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
+			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
+			$rec->setEnabledSubForms(
+				array(
+					IL_CAL_FREQ_DAILY,
+					IL_CAL_FREQ_WEEKLY,
+					IL_CAL_FREQ_MONTHLY
+				)
+			);
+			$this->form->addItem($rec);
+		}
 		
 		// Number of bookings
 		$nu = new ilNumberInputGUI($this->lng->txt('cal_ch_num_bookings'),'bo');
@@ -231,15 +239,17 @@ class ilConsultationHoursGUI
 			$this->form->setValuesByPost();
 			$booking = new ilBookingEntry();
 			$booking->setObjId($this->getUserId());
-			$booking->setTitle($this->form->getInput('ti'));
-			$booking->setDescription($this->form->getInput('de'));
-			$booking->setLocation($this->form->getInput('lo'));
 			$booking->setNumberOfBookings($this->form->getInput('bo'));
+
+			$deadline = $this->form->getInput('dead');
+			$deadline = $deadline['dd']*24+$deadline['hh'];
+			$booking->setDeadlineHours($deadline);
+
 			$booking->save();
 			
 			$this->createAppointments($booking);
 			
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 			$this->createSequence();
 			$this->ctrl->redirect($this,'appointmentList');
 		}
@@ -318,6 +328,115 @@ class ilConsultationHoursGUI
 		global $ilTabs;
 		
 		$ilTabs->addTab('consultation_hours', $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+	}
+
+	/**
+	 * Edit multiple sequence items
+	 */
+	public function edit()
+	{
+		global $ilTabs;
+		
+		if(!isset($_POST['apps']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->appointmentList();
+		}
+
+		$this->initFormSequence(self::MODE_MULTI);
+
+		$hidden = new ilHiddenInputGUI('apps');
+		$hidden->setValue(implode(';', $_POST['apps']));
+		$this->form->addItem($hidden);
+		
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		$first = $_POST['apps'];
+		$first = array_shift($_POST['apps']);
+		$entry = new ilCalendarEntry($first);
+
+		$this->form->getItemByPostVar('ti')->setValue($entry->getTitle());
+		$this->form->getItemByPostVar('lo')->setValue($entry->getLocation());
+		$this->form->getItemByPostVar('de')->setValue($entry->getDescription());
+
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		$booking = new ilBookingEntry($entry->getContextId());
+
+		$this->form->getItemByPostVar('bo')->setValue($booking->getNumberOfBookings());
+
+		$deadline = $booking->getDeadlineHours();
+		$this->form->getItemByPostVar('dead')->setDays(floor($deadline/24));
+		$this->form->getItemByPostVar('dead')->setHours($deadline%24);
+
+		$this->tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Update multiple sequence items
+	 * @return
+	 */
+	protected function updateMulti()
+	{
+		$this->initFormSequence(self::MODE_MULTI);
+
+		if($this->form->checkInput())
+		{
+			$this->form->setValuesByPost();
+
+			// create new context
+			
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			$booking = new ilBookingEntry();
+			
+			$booking->setObjId($this->getUserId());
+			$booking->setNumberOfBookings($this->form->getInput('bo'));
+
+			$deadline = $this->form->getInput('dead');
+			$deadline = $deadline['dd']*24+$deadline['hh'];
+			$booking->setDeadlineHours($deadline);
+			
+			$booking->save();
+
+
+			// update entries
+
+			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+
+			$title = $this->form->getInput('ti');
+			$location = $this->form->getInput('lo');
+			$description = $this->form->getInput('de');
+			
+			$apps = explode(';', $_POST['apps']);
+			foreach($apps as $item_id)
+			{
+				$entry = new ilCalendarEntry($item_id);
+				$entry->setContextId($booking->getId());
+				$entry->setTitle($title);
+				$entry->setLocation($location);
+				$entry->setDescription($description);
+				$entry->update();
+			}
+
+			ilBookingEntry::removeObsoleteEntries();
+
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this,'appointmentList');
+		}
+		$this->tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 */
+	public function delete()
+	{
+		if(!isset($_POST['apps']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->appointmentList();
+		}
+
 	}
 }
 ?>

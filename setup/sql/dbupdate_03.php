@@ -2107,4 +2107,18 @@ $ilDB->manipulateF(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#3090>
+<?php
+if($ilDB->tableColumnExists('booking_entry','title'))
+{
+	$ilDB->dropTableColumn('booking_entry', 'title');
+}
+if($ilDB->tableColumnExists('booking_entry','description'))
+{
+	$ilDB->dropTableColumn('booking_entry', 'description');
+}
+if($ilDB->tableColumnExists('booking_entry','location'))
+{
+	$ilDB->dropTableColumn('booking_entry', 'location');
+}
+?>
