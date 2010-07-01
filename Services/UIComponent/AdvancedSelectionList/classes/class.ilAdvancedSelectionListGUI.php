@@ -109,11 +109,11 @@ class ilAdvancedSelectionListGUI
 	* @param	string		item html (is used instead of title if js is active)
 	*/
 	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "",
-		$a_html = "")
+		$a_html = "", $a_prevent_background_click = false)
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
-			"html" => $a_html);
+			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click);
 	}
 	
 	/**
@@ -476,9 +476,16 @@ class ilAdvancedSelectionListGUI
 				if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
 				{
-	//				$tpl->setVariable("ONCLICK_ITEM",
-	//					'onclick="parent.location='."'".$item["link"]."';".'"');
-					$tpl->setVariable("ONCLICK_ITEM",'');
+					if ($item["prevent_background_click"])
+					{
+						$tpl->setVariable("ONCLICK_ITEM",'');
+					}
+					else
+					{
+						$tpl->setVariable("ONCLICK_ITEM",
+							'onclick="parent.location='."'".$item["link"]."';".'"');
+					}
+
 					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
 					$tpl->setVariable("ID_ITEM", $this->getId()."_".$item["value"]);
 				}
