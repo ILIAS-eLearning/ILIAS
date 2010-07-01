@@ -1,28 +1,12 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @defgroup ModulesHTMLLearningModule Modules/HTMLLearningModule
  */
+
+require_once "classes/class.ilObject.php";
+//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 /**
 * File Based Learning Module (HTML) object
@@ -33,10 +17,6 @@
 *
 * @ingroup ModulesHTMLLearningModule
 */
-
-require_once "classes/class.ilObject.php";
-//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-
 class ilObjFileBasedLM extends ilObject
 {
 	var $tree;
@@ -54,102 +34,6 @@ class ilObjFileBasedLM extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-	/**
-	* get title of content object
-	*
-	* @return	string		title
-	*/
-/*
-	function getTitle()
-	{
-		return parent::getTitle();
-		//return $this->meta_data->getTitle();
-	}
-*/
-
-	/**
-	* set title of content object
-	*
-	* @param	string	$a_title		title
-	*/
-/*
-	function setTitle($a_title)
-	{
-		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
-	}
-*/
-
-	/**
-	* get description of content object
-	*
-	* @return	string		description
-	*/
-/*
-	function getDescription()
-	{
-		return $this->meta_data->getDescription();
-	}
-*/
-
-	/**
-	* set description of content object
-	*
-	* @param	string	$a_description		description
-	*/
-/*
-	function setDescription($a_description)
-	{
-		$this->meta_data->setDescription($a_description);
-	}
-*/
-
-	/**
-	* assign a meta data object to content object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of content object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
-	/**
-	* update meta data only
-	*/
-/*
-	function updateMetaData()
-	{
-		$this->meta_data->update();
-		if ($this->meta_data->section != "General")
-		{
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);
-		}
-		else
-		{
-			$this->setTitle($this->meta_data->getTitle());
-			$this->setDescription($this->meta_data->getDescription());
-		}
-		parent::update();
-	}
-*/
 
 	/**
 	* update object data
@@ -216,7 +100,7 @@ class ilObjFileBasedLM extends ilObject
 		$ilDB->manipulate("INSERT INTO file_based_lm (id, is_online, startfile) VALUES ".
 			" (".$ilDB->quote($this->getID(), "integer").",".
 			$ilDB->quote("n", "text").",".
-			$ilDB->quote("", "text").")");
+			$ilDB->quote($this->getStartfile(), "text").")");
 
 		$this->createMetaData();
 	}

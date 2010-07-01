@@ -52,6 +52,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function executeCommand()
 	{
 		global $ilUser, $ilLocator, $ilTabs;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 	
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -60,13 +63,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->getTemplate();
-			$this->setLocator();
-			$this->setTabs();
+			if (!in_array($cmd, array("", "framset")) || $next_class != "")
+			{
+				$this->getTemplate();
+				$this->setLocator();
+				$this->setTabs();
+			}
 		}
 
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
 			
 		if(!$this->getCreationMode())
 		{
@@ -146,6 +150,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
+				$exp_gui->addFormat("html", "", $this, "exportHTML");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
 				break;
@@ -182,13 +187,87 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{
 			$this->ctrl->setParameter($this, "new_type", $new_type);
 			$this->initEditForm("create", $new_type);
-			$tpl->setContent($this->form->getHTML());
+			$html = $this->form->getHTML();
 
-			$tpl->setContent($this->form->getHTML().$clone_html);
+			$this->initImportForm("htlm");
+			$html2 = $this->form->getHTML();
+
+			$tpl->setContent($html."<br/>".$html2.$clone_html);
 		}
 	}
-	
-	
+
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("content");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport();
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->afterSave($newObj);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
 	/**
 	* save object
 	*
@@ -682,12 +761,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false,
+		global $ilCtrl;
+
+		$ilCtrl->setCmdClass("ilfilesystemgui");
+		$ilCtrl->setCmd("listFiles");
+		return $this->executeCommand();
+
+/*		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false,
 			"Modules/HTMLLearningModule");
 		$this->tpl->setVariable("HREF_FILES",$this->ctrl->getLinkTargetByClass(
 			"ilfilesystemgui", "listFiles"));
 		$this->tpl->show();
-		exit;
+		exit;*/
 	}
 
 	/**
@@ -937,5 +1022,44 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "", $_GET["ref_id"]);
 		}
 	}
+
+
+	////
+	//// Export to HTML
+	////
+
+
+	/**
+	 * create html package
+	 */
+	function exportHTML()
+	{
+		$inst_id = IL_INST_ID;
+
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$export_dir = ilExport::_getExportDirectory($this->object->getId(), "html",
+			$this->object->getType());
+		
+		$subdir = $this->object->getType()."_".$this->object->getId();
+		$filename = $this->subdir.".zip";
+
+		$target_dir = $export_dir."/".$subdir;
+
+		ilUtil::delDir($target_dir);
+		ilUtil::makeDir($target_dir);
+
+		$source_dir = $this->object->getDataDirectory();
+
+		ilUtil::rCopy($source_dir, $target_dir);
+
+		// zip it all
+		$date = time();
+		$zip_file = $export_dir."/".$date."__".IL_INST_ID."__".
+			$this->object->getType()."_".$this->object->getId().".zip";
+		ilUtil::zip($target_dir, $zip_file);
+
+		ilUtil::delDir($target_dir);
+	}
+
 }
 ?>

@@ -2710,8 +2710,8 @@ return;
 	}
 
 	/**
-	* create html package
-	*/
+	 * create html package
+	 */
 	function exportHTML()
 	{
 		require_once("./Modules/LearningModule/classes/class.ilContObjectExport.php");
