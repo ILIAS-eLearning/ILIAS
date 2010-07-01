@@ -2122,3 +2122,7 @@ if($ilDB->tableColumnExists('booking_entry','location'))
 	$ilDB->dropTableColumn('booking_entry', 'location');
 }
 ?>
+<#3091>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
