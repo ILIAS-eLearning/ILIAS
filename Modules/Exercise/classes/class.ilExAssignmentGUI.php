@@ -106,7 +106,7 @@ class ilExAssignmentGUI
 			// instructions
 			$info->addSection($lng->txt("exc_instruction"));
 			$info->addProperty("",
-				nl2br($a_data["instruction"]));
+				nl2br(ilUtil::makeClickable($a_data["instruction"], true)));
 		}
 		
 		// schedule
