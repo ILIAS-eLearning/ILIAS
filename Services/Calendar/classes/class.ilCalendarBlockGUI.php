@@ -59,7 +59,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$lng->loadLanguageModule("dateplaner");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		
+
+		$ilCtrl->saveParameter($this, 'bkid');
+
 		if (!$a_skip_init)
 		{
 			$this->initCategories();
@@ -69,8 +71,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->setLimit(5);			// @todo: needed?
 		$this->setAvailableDetailLevels(2);
 		$this->setEnableNumInfo(false);
+
+		if(!isset($_GET["bkid"]))
+		{
+			$title = $lng->txt("calendar");
+		}
+		else
+		{
+			$title = $lng->txt("consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
+		}
 				
-		$this->setTitle($lng->txt("calendar"));
+		$this->setTitle($title);
 		//$this->setRowTemplate("tpl.block_calendar.html", "Services/Calendar");
 		//$this->setData($data);
 		$this->allow_moving = false;
@@ -408,16 +419,50 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		
 		
-		if($this->mode == ilCalendarCategories::MODE_REPOSITORY and 
-			$ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
+		if($this->mode == ilCalendarCategories::MODE_REPOSITORY)
 		{
+			global $ilObjDataCache;
+			$obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
+			$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
+			$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
 
-			$ilCtrl->setParameter($this, "add_mode", "block");
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI",
-					"add"),
-				$lng->txt("add_appointment"));
-			$ilCtrl->setParameter($this, "add_mode", "");
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			$users = ilBookingEntry::isBookable($users);
+			if($users)
+			{
+				foreach($users as $user_id)
+				{
+					if(!isset($_GET["bkid"]) || $_GET["bkid"] != $user_id)
+					{
+						$ilCtrl->setParameter($this, "bkid", $user_id);
+						$this->addBlockCommand(
+							$ilCtrl->getLinkTargetByClass("ilCalendarMonthGUI",
+								""),
+							$lng->txt("consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)."<br/>");
+					}
+				}
+			}
+
+			if(!isset($_GET["bkid"]))
+			{
+				if($ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
+				{
+					$ilCtrl->setParameter($this, "add_mode", "block");
+					$this->addBlockCommand(
+						$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI",
+							"add"),
+						$lng->txt("add_appointment"));
+					$ilCtrl->setParameter($this, "add_mode", "");
+				}
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "bkid", "");
+				$this->addBlockCommand(
+							$ilCtrl->getLinkTarget($this),
+							$lng->txt("back"));
+			}
+			$ilCtrl->clearParameters($this);
 		}
 
 		if ($this->getProperty("settings") == true)
@@ -483,7 +528,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->mode = ilCalendarCategories::MODE_REPOSITORY;
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int) $_GET['ref_id'],true);
+
+		if(!isset($_GET['bkid']))
+		{
+			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int) $_GET['ref_id'],true);
+		}
+		else
+		{
+			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['bkid'],true);
+		}
 	}
 	
 	/**
@@ -569,7 +622,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		if($hash = ilCalendarAuthenticationToken::lookupAuthToken($ilUser->getId(), $selection, $calendar))
 		{
-			;
+			
 		}
 		else
 		{

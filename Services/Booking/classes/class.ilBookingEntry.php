@@ -208,15 +208,47 @@ class ilBookingEntry
 	 * @param	int		$id
 	 * @return self 
 	 */
-	public static function getInstanceByCalendarEntryId($id)
+	public static function getInstanceByCalendarEntryId($a_id)
 	{
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-		$cal_entry = new ilCalendarEntry($id);
+		$cal_entry = new ilCalendarEntry($a_id);
 		$booking_id = $cal_entry->getContextId();
 		if($booking_id)
 		{
 			return new self($booking_id);
 		}
+	}
+
+	/**
+	 * Which objects are bookable?
+	 *
+	 * @param	array	$users
+	 * @return	array
+	 */
+	public static function isBookable(array $a_obj_ids)
+	{
+		global $ilDB;
+
+		if(sizeof($a_obj_ids))
+		{
+			$set = $ilDB->query('SELECT DISTINCT(obj_id) FROM booking_entry'.
+				' WHERE '.$ilDB->in('obj_id', $a_obj_ids, false, 'integer'));
+			$all = array();
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$all[] = $row['obj_id'];
+			}
+			return $all;
+		}
+	}
+
+	/**
+	 * get current number of bookings
+	 * @return
+	 */
+	public function getCurrentNumberOfBookings()
+	{
+		return ':todo:';
 	}
 }
 ?>

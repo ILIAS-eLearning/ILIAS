@@ -167,6 +167,25 @@ class ilCalendarAppointmentPanelGUI
 				
 			case ilCalendarCategory::TYPE_CH:
 				$this->tpl->setVariable('PANEL_CAL_TYPE',$this->lng->txt('cal_ch_ch'));
+
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$entry = new ilBookingEntry($a_app['event']->getContextId());
+
+				$this->tpl->setCurrentBlock('panel_booking_owner');
+				$this->tpl->setVariable('PANEL_TXT_BOOKING_OWNER', $this->lng->txt('cal_ch_booking_owner'));
+				$this->tpl->setVariable('PANEL_BOOKING_OWNER', ilObjUser::_lookupFullname($entry->getObjId()));
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock('panel_max_booking');
+				$this->tpl->setVariable('PANEL_TXT_MAX_BOOKING', $this->lng->txt('cal_ch_num_bookings'));
+				$this->tpl->setVariable('PANEL_MAX_BOOKING', $entry->getNumberOfBookings());
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock('panel_current_booking');
+				$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
+				$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings());
+				$this->tpl->parseCurrentBlock();
+
 				break;
 		}
 
