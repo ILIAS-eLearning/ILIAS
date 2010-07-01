@@ -252,5 +252,25 @@ class ilBookingEntry
 		}
 		return true;
 	}
+
+
+	/**
+	 * Remove unused booking entries
+	 */
+	public static function removeObsoleteEntries()
+    {
+		global $ilDB;
+
+		$set = $ilDB->query('SELECT DISTINCT(context_id) FROM cal_entries e'.
+			' JOIN cal_cat_assignments a ON (e.cal_id = a.cal_id)'.
+			' JOIN cal_categories c ON (a.cat_id = c.cat_id) WHERE c.type = '.$ilDB->quote(ilCalendarCategory::TYPE_CH, 'integer'));
+		$used = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$used[] = $row['context_id'];
+		}
+
+		return $ilDB->query('DELETE FROM booking_entry WHERE '.$ilDB->in('booking_id', $used, true, 'integer'));
+	}
 }
 ?>
