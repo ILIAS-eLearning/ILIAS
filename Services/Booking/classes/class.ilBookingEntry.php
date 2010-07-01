@@ -15,10 +15,6 @@ class ilBookingEntry
 	private $id = 0;
 	private $obj_id = 0;
 	
-	private $title = '';
-	private $description = '';
-	private $location = '';
-	
 	private $deadline = 0;
 	private $num_bookings = 1; 
 	
@@ -72,63 +68,6 @@ class ilBookingEntry
 	{
 		return $this->obj_id;
 	}
-
-	/**
-	 * Set title
-	 * @param object $a_title
-	 * @return 
-	 */
-	public function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-	
-	/**
-	 * get title
-	 * @return 
-	 */
-	public function getTitle()
-	{
-		return $this->title;
-	}
-	
-	/**
-	 * set description
-	 * @param object $a_des
-	 * @return 
-	 */
-	public function setDescription($a_des)
-	{
-		$this->description = $a_des;		
-	}
-	
-	/**
-	 * get description
-	 * @return 
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
-
-	/**
-	 * set location
-	 * @param object $a_location
-	 * @return 
-	 */
-	public function setLocation($a_location)
-	{
-		$this->location = $a_location;
-	}
-
-	/**
-	 * get location 
-	 * @return 
-	 */
-	public function getLocation()
-	{
-		return $this->location;
-	}
 	
 	/**
 	 * set deadline hours
@@ -177,13 +116,10 @@ class ilBookingEntry
 		global $ilDB;
 		
 		$this->setId($ilDB->nextId('booking_entry'));
-		$query = 'INSERT INTO booking_entry (booking_id,obj_id,title,description,location,deadline,num_bookings) '.
+		$query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings) '.
 			"VALUES ( ".
 			$ilDB->quote($this->getId(),'integer').', '.
 			$ilDB->quote($this->getObjId(),'integer').', '.
-			$ilDB->quote($this->getTitle(),'text').', '.
-			$ilDB->quote($this->getDescription(),'text').', '.
-			$ilDB->quote($this->getLocation(),'text').', '.
 			$ilDB->quote($this->getDeadlineHours(),'integer').', '.
 			$ilDB->quote($this->getNumberOfBookings(),'integer').
 			") ";
@@ -204,9 +140,6 @@ class ilBookingEntry
 		
 		$query = "UPDATE booking_entry SET ".
 			"SET obj_id = ".$ilDB->quote($this->getObjId(),'integer').", ".
-			" title = ".$ilDB->quote($this->getTitle(),'text').", ".
-			" description = ".$ilDB->quote($this->getDescription(),'text').", ".
-			" location = ".$ilDB->quote($this->getLocation(),'text').", ".
 			" deadline = ".$ilDB->quote($this->getDeadlineHours(),'integer').", ".
 			" num_bookings = ".$ilDB->quote($this->getNumberOfBookings(),'integer');
 		$ilDB->manipulate($query);
@@ -244,9 +177,6 @@ class ilBookingEntry
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->setObjId($row['obj_id']);
-			$this->setTitle($row['title']);
-			$this->setDescription($row['description']);
-			$this->setLocation($row['location']);
 			$this->setDeadlineHours($row['deadline']);
 			$this->setNumberOfBookings($row['num_bookings']);
 		}
@@ -271,6 +201,22 @@ class ilBookingEntry
 		}
 
 		return $ilDB->query('DELETE FROM booking_entry WHERE '.$ilDB->in('booking_id', $used, true, 'integer'));
+	}
+
+	/**
+	 * Get instance by calendar entry
+	 * @param	int		$id
+	 * @return self 
+	 */
+	public static function getInstanceByCalendarEntryId($id)
+	{
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		$cal_entry = new ilCalendarEntry($id);
+		$booking_id = $cal_entry->getContextId();
+		if($booking_id)
+		{
+			return new self($booking_id);
+		}
 	}
 }
 ?>

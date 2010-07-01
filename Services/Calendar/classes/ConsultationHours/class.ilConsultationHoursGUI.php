@@ -202,6 +202,7 @@ class ilConsultationHoursGUI
 		$nu = new ilNumberInputGUI($this->lng->txt('cal_ch_num_bookings'),'bo');
 		$nu->setSize(2);
 		$nu->setMaxLength(2);
+		$nu->setMinValue(1);
 		$nu->setRequired(true);
 		$this->form->addItem($nu);
 
@@ -381,10 +382,25 @@ class ilConsultationHoursGUI
 		if($this->form->checkInput())
 		{
 			$this->form->setValuesByPost();
+			$apps = explode(';', $_POST['apps']);
+
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+
+			// do collision-check if max bookings were reduced
+			$first = $apps;
+			$first = array_shift($apps);
+			$entry = ilBookingEntry::getInstanceByCalendarEntryId($first);
+			if($this->form->getInput('bo') < $entry->getNumberOfBookings())
+			{
+			   // :TODO:
+			   return;
+			}
+
 
 			// create new context
 			
-			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			
 			$booking = new ilBookingEntry();
 			
 			$booking->setObjId($this->getUserId());
@@ -399,13 +415,11 @@ class ilConsultationHoursGUI
 
 			// update entries
 
-			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-
 			$title = $this->form->getInput('ti');
 			$location = $this->form->getInput('lo');
 			$description = $this->form->getInput('de');
 			
-			$apps = explode(';', $_POST['apps']);
+			
 			foreach($apps as $item_id)
 			{
 				$entry = new ilCalendarEntry($item_id);
