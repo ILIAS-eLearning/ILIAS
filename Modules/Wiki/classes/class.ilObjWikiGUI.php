@@ -1121,13 +1121,13 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		$this->setContentStyleSheet();
-		
+		$this->setContentStyleSheet($tpl);
+
 		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();
 
 
 		// determine target frames for internal links
@@ -1183,14 +1183,23 @@ class ilObjWikiGUI extends ilObjectGUI
 	/**
 	* Set content style sheet
 	*/
-	function setContentStyleSheet()
+	function setContentStyleSheet($a_tpl = null)
 	{
 		global $tpl;
-		
-		$tpl->setCurrentBlock("ContentStyle");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+
+		if ($a_tpl != null)
+		{
+			$ctpl = $a_tpl;
+		}
+		else
+		{
+			$ctpl = $tpl;
+		}
+
+		$ctpl->setCurrentBlock("ContentStyle");
+		$ctpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-		$tpl->parseCurrentBlock();
+		$ctpl->parseCurrentBlock();
 
 	}
 	
