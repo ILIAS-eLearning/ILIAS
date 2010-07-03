@@ -1456,7 +1456,7 @@ return;
 	*/
 	public function showMailOptions()
 	{
-		global $ilTabs, $lng;		
+		global $ilTabs, $lng;
 		
 		$lng->loadLanguageModule('mail');
 		
@@ -1649,6 +1649,12 @@ return;
 
 		// public profile
 		$ilTabs->addSubTabTarget("public_profile", $this->ctrl->getLinkTarget($this, "showPublicProfile"));
+
+		if ($ilSetting->get('user_ext_profiles'))
+		{
+			$ilTabs->addSubTabTarget("user_ext_profile",
+				$this->ctrl->getLinkTarget($this, "showExtendedProfile"));
+		}
 
 		// password
 		if ($this->allowPasswordChange())
@@ -3000,6 +3006,35 @@ return;
 		$this->form->setValuesByPost();
 		$tpl->showGeneralSettings(true);
 	}
-	
+
+	//
+	//
+	// Extended user profile
+	//
+	//
+
+	/**
+	 * Show extended profile
+	 *
+	 * @param
+	 * @return
+	 */
+	function showExtendedProfile()
+	{
+		global $tpl, $ilTabs, $ilToolbar, $lng, $ilCtrl;
+
+		$this->__initSubTabs("showPersonalData");
+		$ilTabs->setSubTabActive("user_ext_profile");
+
+		$ilToolbar->addButton($lng->txt("user_add_tab"),
+			$ilCtrl->getLinkTarget($this, "addExtProfileTab"));
+
+		include_once("./Services/User/classes/class.ilExtendedProfileTableGUI.php");
+		$tab = new ilExtendedProfileTableGUI($this, "showExtendedProfile");
+		$tpl->setContent($tab->getHTML());
+
+		$tpl->show();
+	}
+
 }
 ?>

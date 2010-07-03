@@ -3109,7 +3109,8 @@ else
 				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
 				'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
 				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
-				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav')
+				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
+				'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
 			)
 		);
 						
@@ -3152,6 +3153,7 @@ else
 				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->form->getInput('prevent_reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
 				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
+				$ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
@@ -3200,6 +3202,11 @@ else
 		//$alph->setInfo($this->lng->txt('restrict_user_access_info'));
 		$alph->setValue(1);
 		$this->form->addItem($alph);
+
+		// extended user profiles
+		$cb = new ilCheckboxInputGUI($this->lng->txt("user_ext_profiles"), "user_ext_profiles");
+		$cb->setInfo($this->lng->txt('user_ext_profiles_desc'));
+		$this->form->addItem($cb);
 
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));
