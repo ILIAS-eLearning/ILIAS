@@ -10560,3 +10560,6 @@ wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_selected_pages#:#Selected Pages
 content#:#cont_whole_glossary#:#Whole Glossary
 content#:#cont_selected_terms#:#Selected Terms
+user#:#user_ext_profiles#:#Extended Profiles
+user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.
+user#:#user_ext_profile#:#Extended Profile

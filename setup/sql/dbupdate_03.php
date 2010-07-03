@@ -2126,3 +2126,17 @@ if($ilDB->tableColumnExists('booking_entry','location'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3092>
+<?php
+$fields = array (
+    'id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+    'user_id'   => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+	'order_nr'   => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+    'title'    => array ('type' => 'text', 'length' => 200)
+);
+
+$ilDB->createTable('usr_ext_profile_page', $fields);
+$ilDB->addPrimaryKey('usr_ext_profile_page', array('id'));
+$ilDB->createSequence("usr_ext_profile_page");
+
+?>
