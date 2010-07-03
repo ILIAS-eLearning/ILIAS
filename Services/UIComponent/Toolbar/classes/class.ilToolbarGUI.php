@@ -13,6 +13,9 @@
 class ilToolbarGUI
 {
 	var $items = array();
+	var $open_form_tag = true;
+	var $close_form_tag = true;
+	var $form_target = "";
 
 	function __construct()
 	{
@@ -24,10 +27,11 @@ class ilToolbarGUI
 	*
 	* @param	string	form action
 	*/
-	function setFormAction($a_val, $a_multipart = false)
+	function setFormAction($a_val, $a_multipart = false, $a_target = "")
 	{
 		$this->form_action = $a_val;
 		$this->multipart = $a_multipart;
+		$this->form_target = $a_target;
 	}
 	
 	/**
@@ -97,6 +101,46 @@ class ilToolbarGUI
 	function addSpacer()
 	{
 		$this->items[] = array("type" => "spacer");
+	}
+
+	/**
+	 * Set open form tag
+	 *
+	 * @param	boolean	open form tag
+	 */
+	function setOpenFormTag($a_val)
+	{
+		$this->open_form_tag = $a_val;
+	}
+
+	/**
+	 * Get open form tag
+	 *
+	 * @return	boolean	open form tag
+	 */
+	function getOpenFormTag()
+	{
+		return $this->open_form_tag;
+	}
+
+	/**
+	 * Set close form tag
+	 *
+	 * @param	boolean	close form tag
+	 */
+	function setCloseFormTag($a_val)
+	{
+		$this->close_form_tag = $a_val;
+	}
+
+	/**
+	 * Get close form tag
+	 *
+	 * @return	boolean	close form tag
+	 */
+	function getCloseFormTag()
+	{
+		return $this->close_form_tag;
 	}
 
 	/**
@@ -176,14 +220,24 @@ class ilToolbarGUI
 			// form?
 			if ($this->getFormAction() != "")
 			{
-				$tpl->setCurrentBlock("form_open");
-				$tpl->setVariable("FORMACTION", $this->getFormAction());
-				if ($this->multipart)
+				if ($this->getOpenFormTag())
 				{
-					$tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
+					$tpl->setCurrentBlock("form_open");
+					$tpl->setVariable("FORMACTION", $this->getFormAction());
+					if ($this->multipart)
+					{
+						$tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
+					}
+					if ($this->form_target != "")
+					{
+						$tpl->setVariable("TARGET", ' target="'.$this->form_target.'" ');
+					}
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->parseCurrentBlock();
-				$tpl->touchBlock("form_close");
+				if ($this->getCloseFormTag())
+				{
+					$tpl->touchBlock("form_close");
+				}
 			}
 			
 			return $tpl->get();

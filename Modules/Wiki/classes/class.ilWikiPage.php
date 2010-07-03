@@ -327,16 +327,18 @@ class ilWikiPage extends ilPageObject
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" ORDER BY title";
 		$set = $ilDB->query($query);
-		
+
+		$pg = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if (isset($pages[$rec["id"]]))
 			{
-				$pages[$rec["id"]]["title"] = $rec["title"];
+				$pg[$rec["id"]] = $pages[$rec["id"]];
+				$pg[$rec["id"]]["title"] = $rec["title"];
 			}
 		}
-		
-		return $pages;
+
+		return $pg;
 	}
 
 	/**
