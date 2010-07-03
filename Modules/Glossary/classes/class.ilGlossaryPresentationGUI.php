@@ -1193,6 +1193,140 @@ if (!false)
 		return $link;
 	}
 
+	/**
+	 * Print view selection
+	 *
+	 * @param
+	 * @return
+	 */
+	function printViewSelection()
+	{
+		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl, $ilTabs;
+
+		$this->setTabs();
+		$ilTabs->activateTab("print_view");
+
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "printView"),
+			false, "print_view");
+		$ilToolbar->addFormButton($lng->txt("cont_show_print_view"), "printView");
+		$ilToolbar->setCloseFormTag(false);
+
+		$this->initPrintViewSelectionForm();
+
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Init print view selection form.
+	 */
+	public function initPrintViewSelectionForm()
+	{
+		global $lng, $ilCtrl;
+
+		$terms = $this->glossary->getTermList();
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		// selection type
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
+		$radg->setValue("glossary");
+			//$op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
+			//$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("cont_whole_glossary")
+				." (".$lng->txt("cont_terms").": ".count($terms).")", "glossary");
+			$radg->addOption($op2);
+			$op3= new ilRadioOption($lng->txt("cont_selected_terms"), "selection");
+			$radg->addOption($op3);
+
+			include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
+			$nl = new ilNestedListInputGUI("", "obj_id");
+			$op3->addSubItem($nl);
+//var_dump($terms);
+			foreach ($terms as $t)
+			{
+				$nl->addListNode($t["id"], $t["term"], 0, false, false);
+			}
+
+		$this->form->addItem($radg);
+
+		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
+		$this->form->setCloseTag(false);
+
+		$this->form->setTitle($lng->txt("cont_print_selection"));
+	}
+
+	/**
+	 * Print View
+	 *
+	 * @param
+	 * @return
+	 */
+	function printView()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			return;
+		}
+
+		$terms = array();
+		switch ($_POST["sel_type"])
+		{
+			case "glossary":
+				$ts = $this->glossary->getTermList();
+				foreach ($ts as $t)
+				{
+					$terms[] = $t["id"];
+				}
+				break;
+
+			case "selection":
+				if (is_array($_POST["obj_id"]))
+				{
+					$terms = $_POST["obj_id"];
+				}
+				else
+				{
+					$terms = array();
+				}
+				break;
+		}
+
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+		
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$this->tpl->parseCurrentBlock();
+
+		// content style
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+
+		// determine target frames for internal links
+
+		foreach ($terms as $t_id)
+		{
+			$page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true);
+		}
+		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
+		'<script type="text/javascript" language="javascript1.2">
+		<!--
+			// Do print the page
+			if (typeof(window.print) != \'undefined\')
+			{
+				window.print();
+			}
+		//-->
+		</script>');
+		$tpl->show(false);
+		exit;
+	}
 
 	/**
 	* get tabs
@@ -1217,7 +1351,11 @@ if (!false)
 				$tabs_gui->addTab("info",
 					$lng->txt("information_abbr"),
 					$ilCtrl->getLinkTarget($this, "infoScreen"));
-	
+
+				$tabs_gui->addTab("print_view",
+					$lng->txt("cont_print_view"),
+					$ilCtrl->getLinkTarget($this, "printViewSelection"));
+
 				// glossary menu
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
