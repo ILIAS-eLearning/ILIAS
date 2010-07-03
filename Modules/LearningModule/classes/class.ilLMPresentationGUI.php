@@ -2832,7 +2832,7 @@ class ilLMPresentationGUI
 	*/
 	function showPrintViewSelection()
 	{
-		global $ilBench,$ilUser, $lng;
+		global $ilUser, $lng;
 		
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		if (!$this->lm->isActivePrintView())
@@ -2841,8 +2841,6 @@ class ilLMPresentationGUI
 		}
 		
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-
-		$ilBench->start("ContentPresentation", "PrintViewSelection");
 
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -2871,12 +2869,6 @@ class ilLMPresentationGUI
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
-		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
-		$this->tpl->setVariable("TXT_PRINT_VIEW_SELECTION", $this->lng->txt("cont_print_selection"));
-		
-		$this->tpl->setVariable("TXT_CURRENT_PAGE", $this->lng->txt("cont_current_page"));
-		$this->tpl->setVariable("TXT_CURRENT_CHAPTER", $this->lng->txt("cont_current_chapter"));
-		$this->tpl->setVariable("TXT_SELECTION", $this->lng->txt("cont_selected_pg_chap"));
 		
 		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2900,6 +2892,8 @@ class ilLMPresentationGUI
 			}
 		}
 
+		$this->initPrintViewSelectionForm();
+
 		foreach ($nodes as $node)
 		{
 
@@ -2913,122 +2907,140 @@ class ilLMPresentationGUI
 				continue;
 			}
 
-			// indentation
-			for ($i=0; $i<$node["depth"]; $i++)
-			{
-				$this->tpl->setCurrentBlock("indent");
-				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// output title
-			$this->tpl->setCurrentBlock("lm_item");
+			$text = $img_scr = $img_alt = "";
+			$disabled = false;
+			$checked = false;
 
 			switch ($node["type"])
 			{
 				// page
 				case "pg":
-					$this->tpl->setVariable("TXT_TITLE",
-					ilLMPageObject::_getPresentationTitle($node["obj_id"],
-					$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation")));
+					$text =
+						ilLMPageObject::_getPresentationTitle($node["obj_id"],
+						$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+						$this->lm_set->get("time_scheduled_page_activation"));
 					
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased)&&
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
 						{
-							$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
-							$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+							$disabled = true;
+							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg_s.gif"));
-					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("pg"));
+					$img_src = ilUtil::getImagePath("icon_pg_s.gif");
+					$img_alt = $lng->txt("icon")." ".$lng->txt("pg");
 					break;
 
 				// learning module
 				case "du":
-					$this->tpl->setVariable("TXT_TITLE", $this->lm->getTitle());
-					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_lm_s.gif"));
-					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("obj_lm"));
+					$text = $this->lm->getTitle();
+					$img_src = ilUtil::getImagePath("icon_lm_s.gif");
+					$img_alt = $lng->txt("icon")." ".$lng->txt("obj_lm");
 					break;
 
 				// chapter
 				case "st":
-					/*
-					$this->tpl->setVariable("TXT_TITLE", "<b>".
+					$text =
 						ilStructureObject::_getPresentationTitle($node["obj_id"],
-						$this->lm->getPageHeader(), $this->lm->isActiveNumbering())
-						."</b>");*/
-					$this->tpl->setVariable("TXT_TITLE",
-						ilStructureObject::_getPresentationTitle($node["obj_id"],
-						$this->lm->isActiveNumbering()));
+						$this->lm->isActiveNumbering());
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
 						{
-							$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
-							$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+							$disabled = true;
+							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st_s.gif"));
-					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("st"));
+					$img_src = ilUtil::getImagePath("icon_st_s.gif");
+					$img_alt = $lng->txt("icon")." ".$lng->txt("st");
 					break;
 			}
-			
+
 			if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $node["obj_id"]))
 			{
-				$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+				$text.= " (".$this->lng->txt("cont_no_access").")";
 			}
 
-			$this->tpl->setVariable("ITEM_ID", $node["obj_id"]);
-
-			if ($_POST["item"][$node["obj_id"]] == "y")
-			{
-//				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
-			}
-
-			$this->tpl->parseCurrentBlock();
+			$this->nl->addListNode($node["obj_id"], $text, $node["parent"], $checked, $disabled,
+					$img_src, $img_alt);
 		}
 
+		
 		// check for free page
 		if ($_GET["obj_id"] > 0 && !$this->lm_tree->isInTree($_GET["obj_id"]))
 		{
-			$this->tpl->setCurrentBlock("indent");
-			$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("indent");
-			$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("lm_item");
-			$this->tpl->setVariable("TXT_TITLE",
+			$text =
 				ilLMPageObject::_getPresentationTitle($_GET["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation")));
+				$this->lm_set->get("time_scheduled_page_activation"));
 			
 			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
 			   $this->lm_gui->object->getPublicAccessMode() == "selected")
 			{
 				if (!ilLMObject::_isPagePublic($_GET["obj_id"]))
 				{
-					$this->tpl->setVariable("DISABLED", "disabled=\"disabled\"");
-					$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+					$disabled = true;
+					$text.= " (".$this->lng->txt("cont_no_access").")";
 				}
 			}
-			$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
-			$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+			$img_src = ilUtil::getImagePath("icon_pg_s.gif");
+			$id = $_GET["obj_id"];
 
-			$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
+			$checked = true;
 
-			$this->tpl->parseCurrentBlock();
+			$this->nl->addListNode($id, $text, 0, $checked, $disabled,
+				$img_src, $img_alt);
 		}
 
-		
+		$f = $this->form->getHTML();
+
+		// submit toolbar
+		$tb = new ilToolbarGUI();
+		$tb->addFormButton($lng->txt("cont_show_print_view"), "showPrintView");
+		$this->tpl->setVariable("TOOLBAR", $tb->getHTML());
+
+		$this->tpl->setVariable("ITEM_SELECTION", $f);
 		$this->tpl->show();
 
-		$ilBench->stop("ContentPresentation", "PrintViewSelection");
+	}
+
+	/**
+	 * Init print view selection form.
+	 */
+	public function initPrintViewSelectionForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// selection type
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
+		$radg->setValue("page");
+			$op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("cont_current_chapter"), "chapter");
+			$radg->addOption($op2);
+			$op3= new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
+			$radg->addOption($op3);
+
+			include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
+			$nl = new ilNestedListInputGUI("", "obj_id");
+			$this->nl = $nl;
+			$op3->addSubItem($nl);
+
+
+		$this->form->addItem($radg);
+
+		$this->form->addCommandButton("showPrintView", $lng->txt("cont_show_print_view"));
+		$this->form->setOpenTag(false);
+		$this->form->setCloseTag(false);
+
+		$this->form->setTitle($lng->txt("cont_print_selection"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
 	/**
@@ -3053,7 +3065,7 @@ class ilLMPresentationGUI
 		// set values according to selection
 		if ($_POST["sel_type"] == "page")
 		{
-			$_POST["item"] = array($c_obj_id => "y");
+			$_POST["obj_id"][] = $c_obj_id;
 		}
 		if ($_POST["sel_type"] == "chapter" && $c_obj_id > 0)
 		{
@@ -3062,7 +3074,7 @@ class ilLMPresentationGUI
 			$chap_id = $path[1]["child"];
 			if ($chap_id > 0)
 			{
-				$_POST["item"] = array($chap_id => "y");
+				$_POST["obj_id"][] = $chap_id;
 			}
 		}
 		
@@ -3162,11 +3174,11 @@ class ilLMPresentationGUI
 		}
 
 		// add free selected pages
-		if (is_array($_POST["item"]))
+		if (is_array($_POST["obj_id"]))
 		{
-			foreach($_POST["item"] as $k => $item)
+			foreach($_POST["obj_id"] as $k => $item)
 			{
-				if ($item == "y" && $k > 0 && !$this->lm_tree->isInTree($k))
+				if ($item == "1" && $k > 0 && !$this->lm_tree->isInTree($k))
 				{
 					if (ilLMObject::_lookupType($k) == "pg")
 					{
@@ -3195,7 +3207,7 @@ class ilLMPresentationGUI
 			// has been selected
 			if ($node["depth"] <= $act_level)
 			{
-				if ($_POST["item"][$node["obj_id"]] == "y")
+				if (is_array($_POST["obj_id"]) && in_array($node["obj_id"], $_POST["obj_id"]))
 				{
 					$act_level = $node["depth"];
 					$activated = true;
@@ -3315,7 +3327,7 @@ class ilLMPresentationGUI
 						}
 						if ($nodes[$node_key + 1]["type"] == "pg" &&
 							!($nodes[$node_key + 1]["depth"] <= $act_level
-							 && $_POST["item"][$nodes[$node_key + 1]["obj_id"]] != "y"))
+							 && !in_array($nodes[$node_key + 1]["obj_id"], $_POST["obj_id"])))
 						{
 							$fcont = "";
 						}

@@ -375,9 +375,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$ilTabs->addTarget("wiki_what_links_here",
 			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
 			"whatLinksHere"), "whatLinksHere");
+		//$ilTabs->addTarget("wiki_print_view",
+		//	$this->ctrl->getLinkTargetByClass("ilobjwikigui",
+		//	"printViewSelection"), "printViewSelection");
 		$ilTabs->addTarget("wiki_print_view",
-			$this->ctrl->getLinkTargetByClass("ilobjwikigui",
-			"printView"), "printView", "", "_blank");	
+			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
+			"printViewSelection"), "printViewSelection");
 
 	}
 
@@ -474,6 +477,73 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 		$ilCtrl->redirectByClass("ilobjwikigui", "allPages");
 	}
-	
-} // END class.ilWikiPageGUI
+
+	////
+	//// Print view selection
+	////
+
+	/**
+	 * Print view selection
+	 *
+	 * @param
+	 * @return
+	 */
+	function printViewSelection()
+	{
+		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl;
+
+		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
+			false, "print_view");
+		$ilToolbar->addFormButton($lng->txt("cont_show_print_view"), "printView");
+		$ilToolbar->setCloseFormTag(false);
+
+		$this->initPrintViewSelectionForm();
+
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Init print view selection form.
+	 */
+	public function initPrintViewSelectionForm()
+	{
+		global $lng, $ilCtrl;
+
+		$pages = ilWikiPage::getAllPages(ilObject::_lookupObjId($this->getWikiRefId()));
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+//var_dump($pages);
+		// selection type
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
+		$radg->setValue("page");
+			$op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("wiki_whole_wiki")
+				." (".$lng->txt("wiki_pages").": ".count($pages).")", "wiki");
+			$radg->addOption($op2);
+			$op3= new ilRadioOption($lng->txt("wiki_selected_pages"), "selection");
+			$radg->addOption($op3);
+
+			include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
+			$nl = new ilNestedListInputGUI("", "obj_id");
+			$op3->addSubItem($nl);
+
+			foreach ($pages as $p)
+			{
+				$nl->addListNode($p["id"], $p["title"], 0, false, false,
+						ilUtil::getImagePath("icon_pg_s.gif"), $lng->txt("wiki_page"));
+			}
+
+		$this->form->addItem($radg);
+
+		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
+		//$this->form->setOpenTag(false);
+		$this->form->setCloseTag(false);
+
+		$this->form->setTitle($lng->txt("cont_print_selection"));
+		//$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+} 
 ?>
