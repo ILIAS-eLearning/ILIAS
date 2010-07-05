@@ -10566,5 +10566,5 @@ user#:#user_ext_profile#:#Extended Profile
 user#:#user_new_profile_page#:#New Profile Page
 user#:#user_add_page#:#Add Page
 user#:#user_order#:#Order
-user#:#user_shure_delete_pages#:#Are you shure that you want to delete the following pages?
-user#:#user_seleceted_pages_deleted#:#The selected pages have been deleted.
+user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?
+user#:#user_selected_pages_deleted#:#The selected pages have been deleted.

@@ -3178,7 +3178,7 @@ return;
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
-			$cgui->setHeaderText($lng->txt("user_shure_delete_pages"));
+			$cgui->setHeaderText($lng->txt("user_sure_delete_pages"));
 			$cgui->setCancel($lng->txt("cancel"), "showExtendedProfile");
 			$cgui->setConfirm($lng->txt("delete"), "deleteProfilePages");
 
@@ -3217,7 +3217,7 @@ return;
 				}
 			}
 		}
-		ilUtil::sendSuccess($lng->txt("user_seleceted_pages_deleted"), true);
+		ilUtil::sendSuccess($lng->txt("user_selected_pages_deleted"), true);
 		$ilCtrl->redirect($this, "showExtendedProfile");
 	}
 
