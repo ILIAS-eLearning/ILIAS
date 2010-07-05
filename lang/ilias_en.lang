@@ -10568,3 +10568,14 @@ user#:#user_add_page#:#Add Page
 user#:#user_order#:#Order
 user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?
 user#:#user_selected_pages_deleted#:#The selected pages have been deleted.
+dateplaner#:#cal_consultation_hours_for#:#Consultation hours for
+dateplaner#:#cal_ch_booking_owner#:#Owner
+dateplaner#:#cal_ch_current_bookings#:#Current Bookings
+dateplaner#:#cal_ch_book#:#Book Appointment
+dateplaner#:#cal_ch_cancel_booking#:#Cancel Booking
+dateplaner#:#cal_confirm_booking_info#:#Please confirm the booking for this appointment.
+dateplaner#:#cal_confirm_booking#:#Confirm Booking
+dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this booking.
+dateplaner#:#cal_cancel_booking#:#Cancel Booking
+dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.
+dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.

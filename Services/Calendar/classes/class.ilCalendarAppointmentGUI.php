@@ -1106,7 +1106,7 @@ class ilCalendarAppointmentGUI
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
 		$conf->setFormAction($this->ctrl->getFormAction($this));
-		$conf->setHeaderText($this->lng->txt('cal_confirm_booking'));
+		$conf->setHeaderText($this->lng->txt('cal_confirm_booking_info'));
 		$conf->setConfirm($this->lng->txt('cal_confirm_booking'), 'bookconfirmed');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
 		$conf->addItem('app_id', $entry->getEntryId(), $title);
@@ -1170,7 +1170,7 @@ class ilCalendarAppointmentGUI
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
 		$conf->setFormAction($this->ctrl->getFormAction($this));
-		$conf->setHeaderText($this->lng->txt('cal_cancel_booking'));
+		$conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));
 		$conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
 		$conf->addItem('app_id', $entry->getEntryId(), $title);

@@ -10505,3 +10505,14 @@ rbac#:#rbac_role_add_to_desktop_info#:#Fügt Objekt dem Persönlichen Schreibtis
 rbac#:#rbac_role_rights_copy#:#Rechte kopieren
 rbac#:#rbac_role_rights_copy_empty#:#Keine
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
+dateplaner#:#cal_consultation_hours_for#:#Sprechstunden für
+dateplaner#:#cal_ch_booking_owner#:#Inhaber
+dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer
+dateplaner#:#cal_ch_book#:#Sprechstunde buchen
+dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
+dateplaner#:#cal_confirm_booking_info#:#Bitte bestätigen Sie die Buchung der Sprechstunde.
+dateplaner#:#cal_confirm_booking#:#Sprechstunde buchen
+dateplaner#:#cal_cancel_booking_info#:#Bitte bestätigen Sie Stornierung der Buchung.
+dateplaner#:#cal_cancel_booking#:#Buchung stornieren
+dateplaner#:#cal_booking_confirmed#:#DerTermin wurde erfolgreich gebucht.
+dateplaner#:#cal_cancel_booking_confirmed#:#Die Buchung wurde erfolgreich storniert.
