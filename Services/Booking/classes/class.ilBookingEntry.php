@@ -255,28 +255,66 @@ class ilBookingEntry
 
 	/**
 	 * get current number of bookings
-	 * @param	int		$entry_id
-	 * @param	bool	$check_current_user
+	 * @param	int		$a_entry_id
+	 * @param	int		$a_user_id
 	 * @return
 	 */
-	public function isBookedOut($entry_id, $check_current_user = false)
+	public function hasBooked($a_entry_id, $a_user_id = false)
+	{
+		global $ilUser;
+
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		return false;
+	}
+
+	/**
+	 * get current number of bookings
+	 * @param	int		$a_entry_id
+	 * @param	bool	$a_check_current_user
+	 * @return
+	 */
+	public function isBookedOut($a_entry_id, $a_check_current_user = false)
 	{
 		global $ilUser;
 		
-		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($entry_id))
+		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($a_entry_id))
 		{
-			// :TODO: check if current user is part of bookings
-			if(!$check_current_user)
+			// check if current user is part of bookings
+			if($a_check_current_user && $this->hasBooked($a_entry_id))
 			{
-				
-			}
-			else
-			{
-				
+				return false;
 			}
 			return true;
 		}
 		return false;
 	}
+
+	/**
+	 * book calendar entry for user
+	 * @param	int	$a_entry_id
+	 * @param	int	$a_user_id
+	 */
+	public function book($a_entry_id, $a_user_id = false)
+	{
+		global $ilUser, $ilDB;
+		
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		if(!$this->hasBooked($a_entry_id, $a_user_id))
+		{
+			$ilDB->query('INSERT INTO booking_user (entry_id, user_id, tstamp)'.
+				' VALUES ('.$ilDB->quote($a_entry_id, 'integer').','.
+				$ilDB->quote($a_user_id, 'integer').','.$ilDB->quote(time(), 'integer').')');
+		}
+		return true;
+	}
 }
+
 ?>

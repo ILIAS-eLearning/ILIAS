@@ -2148,3 +2148,27 @@ $ilDB->createSequence("usr_ext_profile_page");
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3095>
+<?php
+if(!$ilDB->tableExists('booking_user'))
+{
+	$ilDB->createTable('booking_user',array(
+		'entry_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'tstamp'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('booking_user', array('entry_id', 'user_id'));
+}
+?>
