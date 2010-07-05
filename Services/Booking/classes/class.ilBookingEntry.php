@@ -244,12 +244,39 @@ class ilBookingEntry
 
 	/**
 	 * get current number of bookings
+	 * @param	int	$entry_id
 	 * @return
 	 */
-	public function getCurrentNumberOfBookings()
+	public function getCurrentNumberOfBookings($entry_id)
 	{
 		// :TODO:
 		return 0;
+	}
+
+	/**
+	 * get current number of bookings
+	 * @param	int		$entry_id
+	 * @param	bool	$check_current_user
+	 * @return
+	 */
+	public function isBookedOut($entry_id, $check_current_user = false)
+	{
+		global $ilUser;
+		
+		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($entry_id))
+		{
+			// :TODO: check if current user is part of bookings
+			if(!$check_current_user)
+			{
+				
+			}
+			else
+			{
+				
+			}
+			return true;
+		}
+		return false;
 	}
 }
 ?>

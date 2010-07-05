@@ -283,9 +283,19 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$a_tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,false));
 			$a_tpl->parseCurrentBlock();
 		}
-		
+
+		if(isset($_GET["bkid"]))
+		{
+			$user_id = $_GET["bkid"];
+			$disable_empty = true;
+		}
+		else
+		{
+			$user_id = $ilUser->getId();
+			$disable_empty = false;
+		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		
@@ -295,16 +305,40 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$counter++;
-			//$this->showEvents($date);
-			
-			
-			$a_tpl->setCurrentBlock('month_col');
-			
-			if(count($this->scheduler->getByDay($date,$ilUser->getTimeZone())))
+
+			$has_events = (bool)count($this->scheduler->getByDay($date,$ilUser->getTimeZone()));
+			if($has_events || !$disable_empty)
 			{
-				$a_tpl->setVariable('DAY_CLASS','calminiapp');
-				#$a_tpl->setVariable('TD_CLASS','calminiapp');
+				$a_tpl->setCurrentBlock('month_col_link');
 			}
+			else
+			{
+				$a_tpl->setCurrentBlock('month_col_no_link');
+			}
+
+			if($has_events)
+			{
+				$week_has_events = true;
+				$a_tpl->setVariable('DAY_CLASS','calminiapp');
+			}
+			
+			$day = $date->get(IL_CAL_FKT_DATE,'j');
+			$month = $date->get(IL_CAL_FKT_DATE,'n');
+			
+			$month_day = $day;
+			
+			$ilCtrl->clearParametersByClass('ilcalendardaygui');
+			$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
+			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendardaygui',''));
+			$ilCtrl->clearParametersByClass('ilcalendardaygui');
+			
+			$a_tpl->setVariable('MONTH_DAY',$month_day);
+
+			$a_tpl->parseCurrentBlock();
+
+
+			$a_tpl->setCurrentBlock('month_col');
+
 			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 			if(ilCalendarUtil::_isToday($date))
 			{
@@ -327,37 +361,32 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$a_tpl->setVariable('TD_CLASS','calmininext');
 			}
 			
-			$day = $date->get(IL_CAL_FKT_DATE,'j');
-			$month = $date->get(IL_CAL_FKT_DATE,'n');
-			
-			$month_day = $day;
-			
-			$ilCtrl->clearParametersByClass('ilcalendardaygui');
-			$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
-			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendardaygui',''));
-			$ilCtrl->clearParametersByClass('ilcalendardaygui');
-			
-			$a_tpl->setVariable('MONTH_DAY',$month_day);
-			//$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
-			//$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
-			//$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			//$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
-			//$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-			
-			//$this->tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.gif','calendar'));
 			$a_tpl->parseCurrentBlock();
+
 			
 			if($counter and !($counter % 7))
 			{
-				$a_tpl->setCurrentBlock('month_row');
-				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
-				$ilCtrl->setParameterByClass('ilcalendarweekgui','seed',$date->get(IL_CAL_DATE));
-				$a_tpl->setVariable('OPEN_WEEK_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarweekgui',''));
-				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
-				$a_tpl->setVariable('TD_CLASS','calminiweek');
+				if(!$disable_empty || $week_has_events)
+				{
+					$a_tpl->setCurrentBlock('month_row_link');
+					$ilCtrl->clearParametersByClass('ilcalendarweekgui');
+					$ilCtrl->setParameterByClass('ilcalendarweekgui','seed',$date->get(IL_CAL_DATE));
+					$a_tpl->setVariable('OPEN_WEEK_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarweekgui',''));
+					$ilCtrl->clearParametersByClass('ilcalendarweekgui');
+				}
+				else
+				{
+					$a_tpl->setCurrentBlock('month_row_no_link');
+				}
 				$a_tpl->setVariable('WEEK',
 					$date->get(IL_CAL_FKT_DATE,'W'));
+			    $a_tpl->parseCurrentBlock();
+
+				$a_tpl->setCurrentBlock('month_row');
+				$a_tpl->setVariable('TD_CLASS','calminiweek');
 				$a_tpl->parseCurrentBlock();
+
+				$week_has_events = false;
 			}
 		}
 		$a_tpl->setCurrentBlock('mini_month');

@@ -52,6 +52,7 @@ class ilCalendarSchedule
 	protected $type = 0;
 	
 	protected $subitems_enabled = false;
+	protected $filter_bookings = false;
 	
 	protected $start = null;
 	protected $end = null;
@@ -68,7 +69,7 @@ class ilCalendarSchedule
 	 * @param int user_id
 	 * 
 	 */
-	public function __construct(ilDate $seed,$a_type,$a_user_id = 0)
+	public function __construct(ilDate $seed,$a_type,$a_user_id = 0,$filter_bookings=false)
 	{
 	 	global $ilUser,$ilDB;
 	 	
@@ -76,14 +77,19 @@ class ilCalendarSchedule
 
 		$this->type = $a_type;
 		$this->initPeriod($seed);
-	 	
-	 	if(!$a_user_id)
+
+	 	if(!$a_user_id || $a_user_id == $ilUser->getId())
 	 	{
 	 		$this->user = $ilUser;
 	 	}
+		else
+		{
+			$this->user = new ilObjUser($a_user_id);
+		}
+		$this->filter_bookings = $filter_bookings;
 	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	 	$this->weekstart = $this->user_settings->getWeekStart();
-	 	$this->timezone = $ilUser->getTimeZone();
+	 	$this->timezone = $this->user->getTimeZone();
 	 	
 	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
 	}
@@ -238,11 +244,11 @@ class ilCalendarSchedule
 	 */
 	public function getChangedEvents($a_include_subitem_calendars = false)
 	{
-		global $ilUser,$ilDB;
+		global $ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($a_include_subitem_calendars);
-		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($ilUser->getId())->getCategoriesInfo());
+		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($a_include_subitem_calendars);
+		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
 		
 		if(!count($cats))
 		{
@@ -277,11 +283,11 @@ class ilCalendarSchedule
 	 */
 	public function getEvents()
 	{
-		global $ilUser,$ilDB;
+		global $ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($this->enabledSubitemCalendars());
-		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($ilUser->getId())->getCategoriesInfo());
+		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
+		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
 		
 		if(!count($cats))
 		{
@@ -311,12 +317,26 @@ class ilCalendarSchedule
 		$res = $this->db->query($query);
 		
 		$events = array();
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
 			{
-				$events[] = new ilCalendarEntry($row->cal_id);
+				$event = new ilCalendarEntry($row->cal_id);
+				if(!$this->filter_bookings)
+				{
+					$events[] = $event;
+				}
+				else
+				{
+					$booking = new ilBookingEntry($event->getContextId());
+					if(!$booking->isBookedOut($row->cal_id, true))
+					{
+						$events[] = $event;
+					}
+				}
 			}
+		
 		}
 		/*
 		foreach($events as $event)

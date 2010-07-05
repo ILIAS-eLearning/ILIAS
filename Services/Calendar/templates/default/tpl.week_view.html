@@ -68,14 +68,22 @@
 			<th class="calstd">{TXT_TIME}</th>
 			<!-- BEGIN day_header_row -->
 			<th class="calstd" width="13%" colspan="{DAY_COLSPAN}">
+				    <!-- BEGIN day_view1_link -->
 					<a class="callink" href="{DAY_VIEW_LINK}">
 						<font class="small">{HEADER_DATE}</font>
 					</a>
-					<a href="{NEW_APP_LINK}"><img style="vertical-align: middle" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: middle" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
+					<!-- END day_view1_link -->
+					<!-- BEGIN day_view1_no_link -->
+					<font class="small">{HEADER_DATE}</font>
+					<!-- END day_view1_no_link -->
+				    <!-- BEGIN new_app --><a href="{NEW_APP_LINK}"><img style="vertical-align: middle" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><!-- END new_app --><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: middle" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
 					<br />
-					<a class="callink" href="{DAY_VIEW_LINK}">
-							{DAYNAME}
-					</a>
+					<!-- BEGIN day_view2_link -->
+					<a class="callink" href="{DAY_VIEW_LINK}">{DAYNAME}</a>
+					<!-- END day_view2_link -->
+					<!-- BEGIN day_view2_no_link -->
+					{DAYNAME}
+					<!-- END day_view_no2_link -->
 			</th>
 			<!-- END day_header_row -->
 		</tr>
