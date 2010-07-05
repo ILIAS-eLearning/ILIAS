@@ -25,7 +25,7 @@ class ilExtPublicProfilePage extends ilPageObject
 	}
 
 	/**
-	 * Set Title.
+	 * Set Title
 	 *
 	 * @param	string	$a_title	Title
 	 */

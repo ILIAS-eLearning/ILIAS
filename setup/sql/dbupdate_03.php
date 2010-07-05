@@ -2144,3 +2144,7 @@ $ilDB->createSequence("usr_ext_profile_page");
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3094>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
@@ -105,8 +86,16 @@ class ilMailFolderGUI
 
 			case 'ilpublicuserprofilegui':
 				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$this->tpl->setTitle($this->lng->txt("mail"));
+				$this->ctrl->saveParameter($this, "mail_id");
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, "showMail"));
 				$ret = $this->ctrl->forwardCommand($profile_gui);
+				if ($ret != "")
+				{
+					$this->tpl->setContent($ret);
+					$this->tpl->show();
+				}
 				break;
 
 			default:
@@ -195,7 +184,7 @@ class ilMailFolderGUI
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		
 		$this->tpl->setTitle($this->lng->txt("mail"));
-		$ilToolbar->addButton($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showMail"));
+		//$ilToolbar->addButton($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showMail"));
 		
 		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".
 			ilObjUser::_lookupLogin($_GET["user"]));
@@ -204,6 +193,7 @@ class ilMailFolderGUI
 		
 		include_once './Services/User/classes/class.ilPublicUserProfileGUI.php';		
 		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+		$profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, "showMail"));
 		$this->tpl->setContent($ilCtrl->getHTML($profile_gui));
 		$this->tpl->show();
 		

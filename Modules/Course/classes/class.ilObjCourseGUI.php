@@ -4432,10 +4432,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilpublicuserprofilegui':
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
+				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
+				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
 

@@ -2,13 +2,15 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* GUI class for public user profile presentation.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesUser
-*/
+ * GUI class for public user profile presentation.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilPublicUserProfileGUI: ilExtPublicProfilePageGUI
+ *
+ * @ingroup ServicesUser
+ */
 class ilPublicUserProfileGUI
 {
 	/**
@@ -18,11 +20,11 @@ class ilPublicUserProfileGUI
 	*/
 	function __construct($a_user_id = 0)
 	{
-		global $ilCtrl, $lng;
-		
+		global $ilCtrl, $lng, $ilTabs;
+
 		$lng->loadLanguageModule("user");
 		$this->setUserId($a_user_id);
-		$ilCtrl->saveParameter($this, "user_id");
+		$ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
 		if ($_GET["back_url"] != "")
 		{
 			$this->setBackUrl($_GET["back_url"]);
@@ -119,8 +121,8 @@ class ilPublicUserProfileGUI
 		global $ilCtrl;
 		
 		$cmd = $ilCtrl->getCmd();
-
-		return $this->$cmd();
+		$ret = $this->$cmd();
+		return $ret;
 	}
 	
 	/**
@@ -131,7 +133,9 @@ class ilPublicUserProfileGUI
 	*/
 	function getHTML()
 	{
-		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting;
+		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
+
+		$this->setTabs("profile");
 		
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
@@ -146,10 +150,10 @@ class ilPublicUserProfileGUI
 		// Back Link
 		if ($this->getBackUrl() != "")
 		{
-			$tpl->setCurrentBlock("back_url");
-			$tpl->setVariable("TXT_BACK", $lng->txt("back"));
-			$tpl->setVariable("HREF_BACK", $this->getBackUrl());
-			$tpl->parseCurrentBlock();
+//			$tpl->setCurrentBlock("back_url");
+//			$tpl->setVariable("TXT_BACK", $lng->txt("back"));
+//			$tpl->setVariable("HREF_BACK", $this->getBackUrl());
+//			$tpl->parseCurrentBlock();
 		}
 		
 		if (!$this->getAsRows())
@@ -520,6 +524,77 @@ class ilPublicUserProfileGUI
 		$tpl->setContent($this->getHTML());
 		$tpl->show();
 	}
+
+	/**
+	 * Show user page
+	 *
+	 * @return	string	user page html
+	 */
+	function showUserPage()
+	{
+		global $ilUser, $tpl;
+
+		$this->setTabs("user_page_".$_GET["user_page"]);
+
+		include_once("./Services/User/classes/class.ilExtPublicProfilePageGUI.php");
+		$page_gui = new ilExtPublicProfilePageGUI($_GET["user_page"]);
+		if ($page_gui->getPageObject()->getUserId() == $ilUser->getId())
+		{
+			$tpl->setCurrentBlock("ContentStyle");
+			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+			$tpl->parseCurrentBlock();
+			
+			return $page_gui->preview();
+		}
+	}
+
+	/**
+	 * Set tabs
+	 *
+	 * @param	string		back url
+	 */
+	function setTabs($a_active)
+	{
+		global $ilTabs, $ilUser, $lng, $ilCtrl, $tpl;
+
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
+		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
+
+		$back = ($this->getBackUrl() != "")
+			? $this->getBackUrl()
+			: $_GET["back_url"];
+
+
+		if ($back != "")
+		{
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget($lng->txt("back"),
+				$back);
+		}
+
+		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
+		$pages = ilExtPublicProfilePage::getPagesOfUser($this->getUserId());
+		if (count($pages) > 0)
+		{
+			$ilTabs->addTab("profile",
+				$lng->txt("profile"),
+				$ilCtrl->getLinkTarget($this, "getHTML"));
+		}
+
+		foreach ($pages as $p)
+		{
+			$ilCtrl->setParameter($this, "user_page", $p["id"]);
+			$ilTabs->addTab("user_page_".$p["id"],
+				$p["title"],
+				$ilCtrl->getLinkTarget($this, "showUserPage"));
+		}
+
+		$ilTabs->activateTab($a_active);
+
+	}
+
 }
 
 ?>
