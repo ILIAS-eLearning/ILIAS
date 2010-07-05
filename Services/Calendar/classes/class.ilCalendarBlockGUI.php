@@ -78,7 +78,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$title = $lng->txt("consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
+			$title = $lng->txt("cal_consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
 		}
 				
 		$this->setTitle($title);
@@ -469,7 +469,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 						$this->addBlockCommand(
 							$ilCtrl->getLinkTargetByClass("ilCalendarMonthGUI",
 								""),
-							$lng->txt("consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)."<br/>");
+							$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)."<br/>");
 					}
 				}
 			}
