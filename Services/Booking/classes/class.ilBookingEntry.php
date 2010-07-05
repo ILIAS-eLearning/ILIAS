@@ -248,7 +248,8 @@ class ilBookingEntry
 	 */
 	public function getCurrentNumberOfBookings()
 	{
-		return ':todo:';
+		// :TODO:
+		return 0;
 	}
 }
 ?>
