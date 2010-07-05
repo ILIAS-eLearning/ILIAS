@@ -126,13 +126,33 @@ class ilTabsGUI
 		{
 			if($this->target[$i]['id'] == $a_id)
 			{
-				$this->target = array_slice($this->target, $i - 1, 1);
+				unset($this->target[$i]);
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Remove a tab identified by its id.
+	 *
+	 * @param 	string	$a_id	Id of tab to remove
+	 * @return bool	false if tab wasn't found
+	 * @access public
+	 */
+	public function removeSubTab($a_id)
+	{
+		for($i = 0; $i < count($this->sub_target); $i++)
+		{
+			if($this->sub_target[$i]['id'] == $a_id)
+			{
+				unset($this->sub_target[$i]);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Replace a tab.
 	 * In contrast to a combination of removeTab and addTab, the position is kept. 

@@ -51,6 +51,16 @@ class ilUIHookPluginGUI
 	}
 
 	/**
+	 * Modify user interface, paramters contain classes that can be modified
+	 *
+	 * @param
+	 * @return
+	 */
+	function modifyGUI($a_comp, $a_part, $a_par = array())
+	{
+	}
+
+	/**
 	 * Modify HTML based on default html and plugin response
 	 *
 	 * @param	string	default html
