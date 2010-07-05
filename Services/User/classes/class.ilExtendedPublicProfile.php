@@ -11,25 +11,5 @@
  */
 class ilExtendedPublicProfile
 {
-	/**
-	 * Get tabs of user
-	 *
-	 * @param	int		user id
-	 * @return
-	 */
-	static function getTabsOfUser($a_user_id)
-	{
-		global $ilDB;
-
-		$set = $ilDB->query("SELECT * FROM usr_ext_profile_page WHERE ".
-			" user_id = ".$ilDB->quote($a_user_id, "integer").
-			" ORDER BY order_nr");
-		$tabs = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$tabs[] = $rec;
-		}
-		return $tabs;
-	}
 }
 ?>

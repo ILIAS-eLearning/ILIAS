@@ -10563,3 +10563,8 @@ content#:#cont_selected_terms#:#Selected Terms
 user#:#user_ext_profiles#:#Extended Profiles
 user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.
 user#:#user_ext_profile#:#Extended Profile
+user#:#user_new_profile_page#:#New Profile Page
+user#:#user_add_page#:#Add Page
+user#:#user_order#:#Order
+user#:#user_shure_delete_pages#:#Are you shure that you want to delete the following pages?
+user#:#user_seleceted_pages_deleted#:#The selected pages have been deleted.

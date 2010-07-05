@@ -2140,3 +2140,7 @@ $ilDB->addPrimaryKey('usr_ext_profile_page', array('id'));
 $ilDB->createSequence("usr_ext_profile_page");
 
 ?>
+<#3093>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
