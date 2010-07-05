@@ -68,7 +68,10 @@ class ilPersonalProfileGUI
 					$ilCtrl->getLinkTarget($this, "showExtendedProfile"));
 				include_once("./Services/User/classes/class.ilExtPublicProfilePageGUI.php");
 				$page_gui = new ilExtPublicProfilePageGUI($_GET["user_page"]);
-//				$this->setContentStyleSheet();
+				$tpl->setCurrentBlock("ContentStyle");
+				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$tpl->parseCurrentBlock();
 				$ret = $this->ctrl->forwardCommand($page_gui);
 				if ($ret != "")
 				{
