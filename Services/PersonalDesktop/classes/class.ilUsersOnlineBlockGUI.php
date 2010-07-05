@@ -58,6 +58,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 
+		if ($ilCtrl->getCmdClass() == "ilpublicuserprofilegui")
+		{
+			return IL_SCREEN_FULL;
+		}
+
 		switch($ilCtrl->getCmd())
 		{
 			case "showUserProfile":
@@ -75,7 +80,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $tpl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -86,7 +91,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			case "ilpublicuserprofilegui":
 				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$return = $ilCtrl->forwardCommand($profile_gui);
+				return $ilCtrl->forwardCommand($profile_gui);
 				break;
 				
 			default:
