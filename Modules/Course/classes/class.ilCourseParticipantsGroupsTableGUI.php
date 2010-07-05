@@ -47,9 +47,13 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox("usrs");
 
 		$this->initGroups();
+
+		if($this->groups)
+		{
+			$this->addMultiItemSelectionButton("grp_id", $this->groups, "add", $this->lng->txt("crs_add_to_group"));
+			$this->initFilter();
+		}
 		
-		$this->addMultiItemSelectionButton("grp_id", $this->groups, "add", $this->lng->txt("crs_add_to_group"));
-		$this->initFilter();
 	    $this->getItems();
 	}
 
@@ -62,7 +66,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		
 		$parent_node = $tree->getNodeData($this->ref_id);
 		$groups = $tree->getSubTree($parent_node, true, "grp");
-		if(sizeof($groups))
+		if(is_array($groups) && sizeof($groups))
 		{
 			include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 			$this->participants = $this->groups = $this->groups_rights = array();
