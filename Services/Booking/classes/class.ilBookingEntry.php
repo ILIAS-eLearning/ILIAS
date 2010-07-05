@@ -288,7 +288,7 @@ class ilBookingEntry
 	public function isBookedOut($a_entry_id, $a_check_current_user = false)
 	{
 		global $ilUser;
-		
+
 		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($a_entry_id))
 		{
 			// check if current user is part of bookings
@@ -298,6 +298,17 @@ class ilBookingEntry
 			}
 			return true;
 		}
+
+		$deadline = $this->getDeadlineHours();
+		if($deadline)
+		{
+			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+			$entry = new ilCalendarEntry($a_entry_id);
+			if(time()+$deadline > $entry->getStart()->get(IL_CAL_UNIX))
+			{
+				return true;
+			}
+		}	
 		return false;
 	}
 
