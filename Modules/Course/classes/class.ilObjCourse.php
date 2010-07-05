@@ -23,6 +23,7 @@
 
 require_once "./Services/Container/classes/class.ilContainer.php";
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
+include_once './Services/Membership/interfaces/interface.ilMembershipRegistrationCodes.php';
 
 /**
 * Class ilObjCourse
@@ -31,8 +32,9 @@ include_once './Modules/Course/classes/class.ilCourseConstants.php';
 * @version $Id$
 * 
 */
-class ilObjCourse extends ilContainer
+class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 {
+
 	const CAL_REG_START = 1;
 	const CAL_REG_END = 2;
 	const CAL_ACTIVATION_START = 3;
@@ -51,6 +53,9 @@ class ilObjCourse extends ilContainer
 	private $session_limit = 0;
 	private $session_prev = -1;
 	private $session_next = -1;
+	
+	private $reg_access_code = '';
+	private $reg_access_code_enabled = false;
 
 	/**
 	* Constructor
@@ -90,6 +95,44 @@ class ilObjCourse extends ilContainer
 		{
 
 		}
+	}
+	
+	/**
+	 * get access code
+	 * @return 
+	 */
+	public function getRegistrationAccessCode()
+	{
+		return $this->reg_access_code;
+	}
+	
+	/**
+	 * Set refistration access code
+	 * @param string $a_code
+	 * @return 
+	 */
+	public function setRegistrationAccessCode($a_code)
+	{
+		$this->reg_access_code = $a_code;
+	}
+	
+	/**
+	 * Check if access code is enabled
+	 * @return 
+	 */
+	public function isRegistrationAccessCodeEnabled()
+	{
+		return (bool) $this->reg_access_code_enabled;
+	}
+	
+	/**
+	 * En/disable registration access code
+	 * @param object $a_status
+	 * @return 
+	 */
+	public function enableRegistrationAccessCode($a_status)
+	{
+		$this->reg_access_code_enabled = $a_status;
 	}
 
 	function getImportantInformation()
@@ -1011,6 +1054,13 @@ class ilObjCourse extends ilContainer
 		{
 			$this->__createDefaultSettings();
 		}
+		
+		// Create default access code
+		if(!$this->getRegistrationAccessCode())
+		{
+			include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+			$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		}
 
 		$query = "UPDATE crs_settings SET ".
 			"syllabus = ".$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1044,7 +1094,9 @@ class ilObjCourse extends ilContainer
 			"enable_course_map = ".$ilDB->quote((int) $this->getEnableCourseMap() ,'integer').", ".
 			'session_limit = '.$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
 			'session_prev = '.$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
-			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').' '.
+			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').', '.
+			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
+			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->manipulate($query);
@@ -1088,19 +1140,27 @@ class ilObjCourse extends ilContainer
 		$new_obj->enableSessionLimit($this->isSessionLimitEnabled());
 		$new_obj->setNumberOfPreviousSessions($this->getNumberOfPreviousSessions());
 		$new_obj->setNumberOfNextSessions($this->getNumberOfNextSessions());
+		
+		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		
 		$new_obj->update();
 	}
 
 	function __createDefaultSettings()
 	{
 		global $ilDB;
+		
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+		$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 
 		$query = "INSERT INTO crs_settings (obj_id,syllabus,contact_name,contact_responsibility,".
 			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
-			"session_limit,session_prev,session_next ) ".
+			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1134,7 +1194,9 @@ class ilObjCourse extends ilContainer
 			"1,".
 			$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
-			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').' '.
+			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
+			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
+			$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
 			")";
 			
 		$res = $ilDB->manipulate($query);
@@ -1188,7 +1250,10 @@ class ilObjCourse extends ilContainer
 			$this->enableSessionLimit($row->session_limit);
 			$this->setNumberOfPreviousSessions($row->session_prev);
 			$this->setNumberOfNextSessions($row->session_next);
+			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
+			$this->setRegistrationAccessCode($row->reg_ac);
 		}
+		
 		return true;
 	}
 
@@ -1791,5 +1856,73 @@ class ilObjCourse extends ilContainer
 		}
 	}
 	
+	###### Interface ilMembershipRegistrationCodes
+	/**
+	 * @see interface.ilMembershipRegistrationCodes
+	 * @return array obj ids
+	 */
+	public static function lookupObjectsByCode($a_code)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM crs_settings ".
+			"WHERE reg_ac_enabled = ".$ilDB->quote(1,'integer')." ".
+			"AND reg_ac = ".$ilDB->quote($a_code,'text');
+		$res = $ilDB->query($query);
+		
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids;
+	}
+	
+	/**
+	 * @see ilMembershipRegistrationCodes::register()
+	 * @param int user_id
+	 * @param int role
+	 * @param bool force registration and do not check registration constraints.
+	 */
+	public function register($a_user_id,$a_role = ilCourseConstants::CRS_MEMBER, $a_force_registration = false)
+	{
+		include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
+		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
+		$part = ilCourseParticipants::_getInstanceByObjId($this->getId());
+
+		if($part->isAssigned($a_user_id))
+		{
+			return true;
+		}
+		
+		if(!$a_force_registration)
+		{
+			// Availability
+			if(!self::_registrationEnabled($this->getId()))
+			{
+				$this->lng->loadLanguageModule('crs');
+				throw new ilMembershipRegistrationException($this->lng->txt('crs_info_reg_deactivated'),$this->getRefId());
+			}
+			// Max members
+			if($this->isSubscriptionMembershipLimited())
+			{
+				$free = max(0,$this->getSubscriptionMaxMembers() - $part->getCountMembers());
+				include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+				$waiting_list = new ilCourseWaitingList($this->getId());
+				if($this->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
+				{
+					throw new ilMembershipRegistrationException('',$this->getRefId());
+				}
+			}
+		}
+		
+		$part->add($a_user_id,$a_role);
+		$part->sendNotification($part->NOTIFY_ACCEPT_USER, $a_user_id);
+		
+		include_once './Modules/Forum/classes/class.ilForumNotification.php';
+		ilForumNotification::checkForumsExistsInsert($this->getRefId(), $a_user_id);
+		
+		return true;
+	}
 } //END class.ilObjCourse
 ?>

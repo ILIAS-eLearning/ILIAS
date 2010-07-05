@@ -156,7 +156,14 @@ class ilObjGroupAccess extends ilObjectAccess
 	*/
 	function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $ilAccess,$ilUser;
+		
+		// registration codes
+		if(substr($t_arr[2],0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			return true;
+		}
+		
 		
 		$t_arr = explode("_", $a_target);
 
@@ -172,6 +179,50 @@ class ilObjGroupAccess extends ilObjectAccess
 		}
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @return 
+	 * @param object $a_obj_id
+	 */
+	public static function _registrationEnabled($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM grp_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+
+		$res = $ilDB->query($query);
+		
+		$enabled = $unlimited = false;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$enabled = $row->registration_enabled;
+			$unlimited = $row->registration_unlimited;
+			$start = $row->registration_start;
+			$end = $row->registration_end;
+		}
+
+		if(!$enabled)
+		{
+			return false;
+		}
+		if($unlimited)
+		{
+			return true;
+		}
+		
+		if(!$unlimited)
+		{
+			$start = new ilDateTime($start,IL_CAL_DATETIME,'UTC');
+			$end = new ilDateTime($end,IL_CAL_DATETIME,'UTC');
+			$time = new ilDateTime(time(),IL_CAL_UNIX);
+			
+			return ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end); 
+		}
+		return false;
+	}
+	
 
 }
 ?>

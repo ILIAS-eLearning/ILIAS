@@ -1074,6 +1074,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionEnd($subscription_end->get(IL_CAL_UNIX));
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
+		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
 		$this->object->setViewMode((int) $_POST['view_mode']);
@@ -1339,7 +1340,28 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->form->addItem($reg_proc);
 		
+		// Registration codes
+		$reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'),'reg_code_enabled');
+		$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
+		$reg_code->setValue(1);
+		$reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
 		
+		/*
+		$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
+		$code->setValue($this->object->getRegistrationAccessCode());
+		$reg_code->addSubItem($code);
+		*/
+		
+		$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
+		include_once './classes/class.ilLink.php';
+		$link->setValue(
+			ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()));
+		$reg_code->addSubItem($link);
+		
+		$this->form->addItem($reg_code);
+		
+		
+		// Max members
 		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
 		$lim->setValue(1);
 		$lim->setOptionTitle($this->lng->txt('crs_subscription_max_members'));
@@ -1362,6 +1384,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$lim->addSubItem($wait);
 		
 		$this->form->addItem($lim);
+	
 		
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
@@ -4744,8 +4767,19 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function _goto($a_target, $a_add = "")
 	{
-		global $ilAccess, $ilErr, $lng;
-
+		global $ilAccess, $ilErr, $lng,$ilUser;
+		
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+		if(substr($a_add,0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			// Redirects to target location after assigning user to course
+			ilMembershipRegistrationCodeUtils::handleCode(
+				$a_target,
+				ilObject::_lookupType(ilObject::_lookupObjId($a_target)),
+				substr($a_add,5)
+			);
+		}
+		
 		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
 		{
 //echo "1";

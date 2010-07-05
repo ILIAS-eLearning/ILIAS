@@ -46,9 +46,9 @@ define('IL_CRS_ARCHIVE_NONE',0);
 
 class ilCourseConstants
 {
-	const CRS_MEMBER = 1;
-	const CRS_TUTOR = 2;
-	const CRS_ADMIN = 3;
+	const CRS_ADMIN = 1;
+	const CRS_MEMBER = 2;
+	const CRS_TUTOR = 3;
 }
 
 ?>

@@ -26,7 +26,7 @@
 
 require_once "./Services/Container/classes/class.ilContainer.php";
 include_once('./Services/Calendar/classes/class.ilDateTime.php');
-
+include_once './Services/Membership/interfaces/interface.ilMembershipRegistrationCodes.php';
 
 define('GRP_REGISTRATION_DEACTIVATED',-1);
 define('GRP_REGISTRATION_DIRECT',0);
@@ -51,7 +51,7 @@ define('GRP_TYPE_PUBLIC',3);
 *
 * @extends ilObject
 */
-class ilObjGroup extends ilContainer
+class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 {
 	const CAL_REG_START = 1;
 	const CAL_REG_END 	= 2;
@@ -83,6 +83,10 @@ class ilObjGroup extends ilContainer
 	private $longitude = '';
 	private $locationzoom = 0;
 	private $enablemap = 0;
+	
+	private $reg_access_code = '';
+	private $reg_access_code_enabled = false;
+	
 	
 	
 	public $members_obj;
@@ -477,6 +481,46 @@ class ilObjGroup extends ilContainer
 		return (bool) $this->enablemap;
 	}
 	
+		/**
+	 * get access code
+	 * @return 
+	 */
+	public function getRegistrationAccessCode()
+	{
+		return $this->reg_access_code;
+	}
+	
+	/**
+	 * Set refistration access code
+	 * @param string $a_code
+	 * @return 
+	 */
+	public function setRegistrationAccessCode($a_code)
+	{
+		$this->reg_access_code = $a_code;
+	}
+	
+	/**
+	 * Check if access code is enabled
+	 * @return 
+	 */
+	public function isRegistrationAccessCodeEnabled()
+	{
+		return (bool) $this->reg_access_code_enabled;
+	}
+	
+	/**
+	 * En/disable registration access code
+	 * @param object $a_status
+	 * @return 
+	 */
+	public function enableRegistrationAccessCode($a_status)
+	{
+		$this->reg_access_code_enabled = $a_status;
+	}
+
+	
+	
 	/**
 	 * validate group settings
 	 *
@@ -545,7 +589,9 @@ class ilObjGroup extends ilContainer
 			$ilDB->quote($this->getLatitude() ,'text').", ".
 			$ilDB->quote($this->getLongitude() ,'text').", ".
 			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer')." ".
+			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
+			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
+			$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -569,6 +615,14 @@ class ilObjGroup extends ilContainer
 		{
 			return false;
 		}
+		
+		// Create default access code
+		if(!$this->getRegistrationAccessCode())
+		{
+			include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+			$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		}
+		
 
 		$query = "UPDATE grp_settings ".
 			"SET information = ".$ilDB->quote($this->getInformation() ,'text').", ".
@@ -586,7 +640,9 @@ class ilObjGroup extends ilContainer
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
 			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer')." ".
+			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
+			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
+			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -663,6 +719,8 @@ class ilObjGroup extends ilContainer
 			$this->setLongitude($row->longitude);
 			$this->setLocationZoom($row->location_zoom);
 			$this->setEnableGroupMap($row->enablemap);
+			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
+			$this->setRegistrationAccessCode($row->reg_ac);
 		}
 		$this->initParticipants();
 		
@@ -703,6 +761,10 @@ class ilObjGroup extends ilContainer
 		$new_obj->setLongitude($this->getLongitude());
 		$new_obj->setLocationZoom($this->getLocationZoom());
 		$new_obj->setEnableGroupMap($this->getEnableGroupMap());
+		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		
 		$new_obj->update();
 
 		global $ilLog;
@@ -1833,6 +1895,71 @@ class ilObjGroup extends ilContainer
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$this->members_obj = ilGroupParticipants::_getInstanceByObjId($this->getId());
 	}
+	
+	/**
+	 * @see interface.ilMembershipRegistrationCodes
+	 * @return array obj ids
+	 */
+	public static function lookupObjectsByCode($a_code)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM grp_settings ".
+			"WHERE reg_ac_enabled = ".$ilDB->quote(1,'integer')." ".
+			"AND reg_ac = ".$ilDB->quote($a_code,'text');
+		$res = $ilDB->query($query);
+		
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids;
+	}
+	
+	/**
+	 * @see ilMembershipRegistrationCodes::register()
+	 * @param int user_id
+	 * @param int role
+	 * @param bool force registration and do not check registration constraints.
+	 */
+	public function register($a_user_id,$a_role = IL_GRP_MEMBER, $a_force_registration = false)
+	{
+		include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
+		include_once "./Modules/Group/classes/class.ilGroupParticipants.php";
+		$part = ilGroupParticipants::_getInstanceByObjId($this->getId());
+
+		if($part->isAssigned($a_user_id))
+		{
+			return true;
+		}
+		
+		if(!$a_force_registration)
+		{
+			// Availability
+			include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
+			if(!ilObjGroupAccess::_registrationEnabled($this->getId()))
+			{
+				$this->lng->loadLanguageModule('crs');
+				throw new ilMembershipRegistrationException('456',$this->getRefId());
+			}
+			// Max members
+			if(!$this->isRegistrationUnlimited())
+			{
+				$free = max(0,$this->getMaxMembers() - $part->getCountMembers());
+				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+				$waiting_list = new ilGroupWaitingList($this->getId());
+				if($this->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
+				{
+					throw new ilMembershipRegistrationException('123',$this->getRefId());
+				}
+			}
+		}
+		
+		$part->add($a_user_id,$a_role);
+		$part->sendNotification($part->TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
+		return true;
+	}	
 	
 } //END class.ilObjGroup
 ?>

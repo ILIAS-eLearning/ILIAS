@@ -2148,6 +2148,7 @@ $ilDB->createSequence("usr_ext_profile_page");
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
 <#3095>
 <?php
 if(!$ilDB->tableExists('booking_user'))
@@ -2171,4 +2172,33 @@ if(!$ilDB->tableExists('booking_user'))
 	));
 	$ilDB->addPrimaryKey('booking_user', array('entry_id', 'user_id'));
 }
+?>
+<#3096>
+<?php
+	$ilDB->addTableColumn('crs_settings','reg_ac_enabled',array(
+		'type'		=> 'integer',
+		'notnull'	=> true,
+		'length'	=> 1
+	));
+
+	$ilDB->addTableColumn('crs_settings','reg_ac',array(
+		'type'		=> 'text',
+		'notnull'	=> false,
+		'length'	=> 32
+	));
+?>
+
+<#3097>
+<?php
+	$ilDB->addTableColumn('grp_settings','reg_ac_enabled',array(
+		'type'		=> 'integer',
+		'notnull'	=> true,
+		'length'	=> 1
+	));
+
+	$ilDB->addTableColumn('grp_settings','reg_ac',array(
+		'type'		=> 'text',
+		'notnull'	=> false,
+		'length'	=> 32
+	));
 ?>
