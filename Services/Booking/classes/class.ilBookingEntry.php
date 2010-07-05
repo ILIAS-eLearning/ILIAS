@@ -244,13 +244,17 @@ class ilBookingEntry
 
 	/**
 	 * get current number of bookings
-	 * @param	int	$entry_id
+	 * @param	int	$a_entry_id
 	 * @return
 	 */
-	public function getCurrentNumberOfBookings($entry_id)
+	public function getCurrentNumberOfBookings($a_entry_id)
 	{
-		// :TODO:
-		return 0;
+		global $ilDB;
+
+		$set = $ilDB->query('SELECT COUNT(*) AS counter FROM booking_user'.
+			' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer'));
+		$row = $ilDB->fetchAssoc($set);
+		return (int)$row['counter'];
 	}
 
 	/**
@@ -261,14 +265,18 @@ class ilBookingEntry
 	 */
 	public function hasBooked($a_entry_id, $a_user_id = false)
 	{
-		global $ilUser;
+		global $ilUser, $ilDB;
 
 		if(!$a_user_id)
 		{
 			$a_user_id = $ilUser->getId();
 		}
 
-		return false;
+		$set = $ilDB->query('SELECT COUNT(*) AS counter FROM booking_user'.
+			' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer').
+			' AND user_id = '.$ilDB->quote($a_user_id, 'integer'));
+	    $row = $ilDB->fetchAssoc($set);
+		return (bool)$row['counter'];
 	}
 
 	/**

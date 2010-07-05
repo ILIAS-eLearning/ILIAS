@@ -1118,7 +1118,7 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilUser;
 
-		$entry = (int)$_GET['app_id'];
+		$entry = (int)$_POST['app_id'];
 		$user = (int)$_GET['bkid'];
 
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';

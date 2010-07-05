@@ -2165,7 +2165,7 @@ if(!$ilDB->tableExists('booking_user'))
 		),
 		'tstamp'	=> array(
 			'type'	=> 'integer',
-			'length'=> 1,
+			'length'=> 4,
 			'notnull' => true
 		)
 	));
