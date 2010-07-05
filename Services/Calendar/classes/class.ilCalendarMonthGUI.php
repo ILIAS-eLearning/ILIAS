@@ -119,7 +119,7 @@ class ilCalendarMonthGUI
 	 */
 	public function show()
 	{
-		global $tpl;
+		global $tpl, $ilUser;
 
 		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
 		
@@ -136,33 +136,88 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
+		if(isset($_GET["bkid"]))
+		{
+			$user_id = $_GET["bkid"];
+			$disable_empty = true;
+			$no_add = true;
+		}
+		else
+		{
+			$user_id = $ilUser->getId();
+			$disable_empty = false;
+			$no_add = false;
+		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user_id,$disable_empty);
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
-		
+
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),
 			$this->seed->get(IL_CAL_FKT_DATE,'Y'),
 			$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$counter++;
-			$this->showEvents($date);
-			
-			if ($settings->getEnableGroupMilestones())
+			$has_events = (bool)$this->showEvents($date);
+
+			if(!$no_add)
 			{
+				if ($settings->getEnableGroupMilestones())
+				{
+					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+					$this->tpl->setCurrentBlock("new_ms");
+					$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
+					$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
+					$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+					$this->tpl->parseCurrentBlock();
+				}
+			
+				$this->tpl->setCurrentBlock("new_app");
+				#$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
+				$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.gif'));
+				$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
-				$this->tpl->setCurrentBlock("new_ms");
-				$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
-				$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
-				$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+				$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 				$this->tpl->parseCurrentBlock();
 			}
+
+			
+			$day = $date->get(IL_CAL_FKT_DATE,'j');
+			$month = $date->get(IL_CAL_FKT_DATE,'n');
+
+			if($day == 1)
+			{
+				$month_day = '1 '.ilCalendarUtil::_numericMonthToString($month,false);
+			}
+			else
+			{
+				$month_day = $day;
+			}
+
+			if(!$disable_empty || $has_events)
+			{
+				$this->tpl->setCurrentBlock('month_day_link');
+				$this->ctrl->clearParametersByClass('ilcalendardaygui');
+				$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
+				$this->tpl->setVariable('OPEN_DAY_VIEW',$this->ctrl->getLinkTargetByClass('ilcalendardaygui',''));
+				$this->ctrl->clearParametersByClass('ilcalendardaygui');
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('month_day_no_link');
+			}
+
+			$this->tpl->setVariable('MONTH_DAY',$month_day);
+
+			$this->tpl->parseCurrentBlock();
+			
 			
 			$this->tpl->setCurrentBlock('month_col');
 
@@ -187,33 +242,7 @@ class ilCalendarMonthGUI
 			{
 				$this->tpl->setVariable('TD_CLASS','calnext');
 			}
-			
-			$day = $date->get(IL_CAL_FKT_DATE,'j');
-			$month = $date->get(IL_CAL_FKT_DATE,'n');
-			
-			if($day == 1)
-			{
-				$month_day = '1 '.ilCalendarUtil::_numericMonthToString($month,false);
-			}
-			else
-			{
-				$month_day = $day;
-			}
-			
-			$this->ctrl->clearParametersByClass('ilcalendardaygui');
-			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
-			$this->tpl->setVariable('OPEN_DAY_VIEW',$this->ctrl->getLinkTargetByClass('ilcalendardaygui',''));
-			$this->ctrl->clearParametersByClass('ilcalendardaygui');
-			
-			$this->tpl->setVariable('MONTH_DAY',$month_day);
-			#$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
-			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.gif'));
-			$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
-			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
-			$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-			
-			$this->tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.gif','calendar'));
+
 			$this->tpl->parseCurrentBlock();
 			
 			
@@ -235,6 +264,7 @@ class ilCalendarMonthGUI
 	{
 		global $tree, $ilUser;
 
+		$count = 0;
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
 			// booking
@@ -245,17 +275,9 @@ class ilCalendarMonthGUI
 				$entry = new ilBookingEntry($item['event']->getContextId());
 				if($entry)
 				{
-					$current = (int)$entry->getCurrentNumberOfBookings();
+					$current = (int)$entry->getCurrentNumberOfBookings($item['event']->getEntryId());
 					$max = (int)$entry->getNumberOfBookings();
-
-					if($current < $max || $entry->getObjId() == $ilUser->getId())
-					{
-						$booking_subtitle = ' '.$item['event']->getTitle().' ('.$current.'/'.$max.')';
-					}
-					else
-					{
-						continue;
-					}
+					$booking_subtitle = ' '.$item['event']->getTitle().' ('.$current.'/'.$max.')';
 				}
 			}
 
@@ -322,7 +344,9 @@ class ilCalendarMonthGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->num_appointments++;
+			$count++;
 		}
+		return $count;
 	}
 	
 }

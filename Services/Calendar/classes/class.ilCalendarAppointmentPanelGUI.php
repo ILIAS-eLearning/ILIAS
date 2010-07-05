@@ -183,10 +183,10 @@ class ilCalendarAppointmentPanelGUI
 
 				$this->tpl->setCurrentBlock('panel_current_booking');
 				$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
-				$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings());
+				$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId()));
 				$this->tpl->parseCurrentBlock();
 
-				if($entry->getCurrentNumberOfBookings() < $entry->getNumberOfBookings())
+				if($entry->getCurrentNumberOfBookings($a_app['event']->getEntryId()) < $entry->getNumberOfBookings())
 				{
 					$this->tpl->setCurrentBlock('panel_book_link');
 					$this->tpl->setVariable('TXT_PANEL_BOOK', $this->lng->txt('cal_ch_book'));

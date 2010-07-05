@@ -123,9 +123,19 @@ class ilCalendarDayGUI
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initPanel();
-		
+
+		if(isset($_GET["bkid"]))
+		{
+			$user_id = $_GET["bkid"];
+			$no_add = true;
+		}
+		else
+		{
+			$user_id = $ilUser->getId();
+			$no_add = false;
+		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY,$user_id);
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
@@ -143,12 +153,22 @@ class ilCalendarDayGUI
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
 
-		if ($settings->getEnableGroupMilestones())
+		if(!$no_add)
 		{
-			$this->tpl->setCurrentBlock("new_ms");
-			$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
-			$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
-			$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+			if ($settings->getEnableGroupMilestones())
+			{
+				$this->tpl->setCurrentBlock("new_ms");
+				$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
+				$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
+				$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+		    $this->tpl->setCurrentBlock("new_app1");
+			$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+			$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+			$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -157,13 +177,6 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('HEADER_DATE',$this->seed_info['mday'].' '.ilCalendarUtil::_numericMonthToString($this->seed_info['mon'],false));
 		$this->tpl->setVariable('HEADER_DAY',ilCalendarUtil::_numericDayToString($this->seed_info['wday'],true));
 		$this->tpl->setVariable('HCOLSPAN',$colspan - 1);
-		
-		$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
-		$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-		
-		$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-		
 		
 		$this->tpl->setVariable('TXT_TIME', $lng->txt("time"));
 
@@ -184,14 +197,17 @@ class ilCalendarDayGUI
 		// parse the hour rows
 		foreach($hours as $numeric => $hour)
 		{
-			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
-			$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-			
-			$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
-			$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-			
+			if(!$no_add)
+			{
+				$this->tpl->setCurrentBlock("new_app2");
+				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
+				$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+				$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			foreach($hour['apps_start'] as $app)
 			{
@@ -317,7 +333,24 @@ class ilCalendarDayGUI
 					break;
 			}
 		}
-		$title .= (' '.$a_app['event']->getPresentationTitle());
+
+
+		// booking
+		if(isset($_GET['bkid']))
+		{
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			$entry = new ilBookingEntry($a_app['event']->getContextId());
+			if($entry)
+			{
+				$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
+				$max = (int)$entry->getNumberOfBookings();
+				$title .= ' '.$a_app['event']->getTitle().' ('.$current.'/'.$max.')';
+			}
+		}
+		else
+		{
+			$title .= (' '.$a_app['event']->getPresentationTitle());
+		}
 
 		$this->tpl->setVariable('APP_TITLE',$title);
 

@@ -130,9 +130,21 @@ class ilCalendarWeekGUI
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
-		
+
+		if(isset($_GET["bkid"]))
+		{
+			$user_id = $_GET["bkid"];
+			$disable_empty = true;
+			$no_add = true;
+		}
+		else
+		{
+			$user_id = $ilUser->getId();
+			$disable_empty = false;
+			$no_add = false;
+		}
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user_id,$disable_empty);
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		
@@ -147,11 +159,13 @@ class ilCalendarWeekGUI
 				$this->user_settings->getDayEnd()
 			);
 			$this->weekdays[] = $date;
+
+			$num_apps[$date->get(IL_CAL_DATE)] = count($daily_apps);
 			
 			$all_fullday[] = $daily_apps;
 			$counter++;
 		}
-		
+
 		$colspans = $this->calculateColspans($hours);
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
@@ -165,29 +179,59 @@ class ilCalendarWeekGUI
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
 
-			if ($settings->getEnableGroupMilestones())
+			if(!$no_add)
 			{
-				$this->tpl->setCurrentBlock("new_ms");
-				$this->tpl->setVariable('H_NEW_MS_SRC', ilUtil::getImagePath('ms_add.gif'));
-				$this->tpl->setVariable('H_NEW_MS_ALT', $this->lng->txt('cal_new_ms'));
-				$this->tpl->setVariable('NEW_MS_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+				if ($settings->getEnableGroupMilestones())
+				{
+					$this->tpl->setCurrentBlock("new_ms");
+					$this->tpl->setVariable('H_NEW_MS_SRC', ilUtil::getImagePath('ms_add.gif'));
+					$this->tpl->setVariable('H_NEW_MS_ALT', $this->lng->txt('cal_new_ms'));
+					$this->tpl->setVariable('NEW_MS_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+					$this->tpl->parseCurrentBlock();
+				}
+
+
+				$this->tpl->setCurrentBlock("new_app");
+				$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+				$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
+			$dayname = ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),true);
+			$daydate = $date_info['mday'].' '.ilCalendarUtil::_numericMonthToString($date_info['mon'],false);
+
+			if(!$disable_empty || $num_apps[$date->get(IL_CAL_DATE)] > 0)
+			{
+				$link = $this->ctrl->getLinkTargetByClass('ilcalendardaygui','');
+				$this->ctrl->clearParametersByClass('ilcalendardaygui');
+
+				$this->tpl->setCurrentBlock("day_view1_link");
+				$this->tpl->setVariable('HEADER_DATE',$daydate);
+				$this->tpl->setVariable('DAY_VIEW_LINK',$link);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("day_view2_link");
+				$this->tpl->setVariable('DAYNAME',$dayname);
+				$this->tpl->setVariable('DAY_VIEW_LINK',$link);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("day_view1_no_link");
+				$this->tpl->setVariable('HEADER_DATE',$daydate);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("day_view2_no_link");
+				$this->tpl->setVariable('DAYNAME',$dayname);
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock('day_header_row');
-			$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-			$this->tpl->setVariable('DAY_VIEW_LINK',$this->ctrl->getLinkTargetByClass('ilcalendardaygui',''));
-			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			$this->ctrl->clearParametersByClass('ilcalendardaygui');
-
-			$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
-			$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-
 			$this->tpl->setVariable('DAY_COLSPAN',max($colspans[$counter],1));
-		
-			$this->tpl->setVariable('HEADER_DATE',$date_info['mday'].' '.ilCalendarUtil::_numericMonthToString($date_info['mon'],false));
-			$this->tpl->setVariable('DAYNAME',ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),true));
 			$this->tpl->parseCurrentBlock();
+			
 			$counter++;
 		}
 	
@@ -237,7 +281,7 @@ class ilCalendarWeekGUI
 				
 				
 				// Show new apointment link
-				if(!$hour['apps_num'] && !$ilUser->prefs["screen_reader_optimization"])
+				if(!$hour['apps_num'] && !$ilUser->prefs["screen_reader_optimization"] && !$no_add)
 				{
 					$this->tpl->setCurrentBlock('new_app_link');
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->weekdays[$num_day]->get(IL_CAL_DATE));
@@ -363,7 +407,7 @@ class ilCalendarWeekGUI
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-		
+
 		if($a_app['event']->isFullDay())
 		{
 			$title = $a_app['event']->getPresentationTitle();
@@ -395,8 +439,22 @@ class ilCalendarWeekGUI
 				}
 			}
 
-			
-			$title .= (' '.$a_app['event']->getPresentationTitle());
+			// booking
+			if(isset($_GET['bkid']))
+			{
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$entry = new ilBookingEntry($a_app['event']->getContextId());
+				if($entry)
+				{
+					$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
+					$max = (int)$entry->getNumberOfBookings();
+					$title .= ' '.$a_app['event']->getTitle().' ('.$current.'/'.$max.')';
+				}
+			}
+		    else
+			{
+				$title .= (' '.$a_app['event']->getPresentationTitle());
+			}
 		}
 		
 		$this->tpl->setVariable('APP_TITLE',$title);

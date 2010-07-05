@@ -13,11 +13,25 @@
 	<!-- BEGIN month_row -->
 	<tr class="calmini">
 		<th class="{TD_CLASS}" width="12.5%">
-			<div class="il_calmini_monthday"><a href="{OPEN_WEEK_VIEW}">{WEEK}</a></div>
+			<div class="il_calmini_monthday">
+			<!-- BEGIN month_row_link -->
+			<a href="{OPEN_WEEK_VIEW}">{WEEK}</a></div>
+			<!-- END month_row_link -->
+			<!-- BEGIN month_row_no_link -->
+			{WEEK}
+			<!-- END month_row_no_link -->
+			</div>
 		</th>
 		<!-- BEGIN month_col -->
 		<td class="{TD_CLASS}" width="12.5%">
-			<div class="il_calmini_monthday"><a class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a></div>
+			<div class="il_calmini_monthday">
+			<!-- BEGIN month_col_link -->
+			<a class="{DAY_CLASS}" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a>
+			<!-- END month_col_link -->
+			<!-- BEGIN month_col_no_link -->
+			<span class="{DAY_CLASS}">{MONTH_DAY}</span>
+			<!-- END month_col_no_link -->
+			</div>
 		</td>
 		<!-- END month_col -->
 	</tr>

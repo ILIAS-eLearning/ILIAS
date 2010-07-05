@@ -48,11 +48,18 @@
 		<!-- BEGIN month_col -->
 		<td class="{TD_CLASS}" >
 			<div style="float:left">
-				<p class="il_cal_monthday"><a class="callink" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a></p>
+				<p class="il_cal_monthday">
+				<!-- BEGIN month_day_link -->
+				<a class="callink" href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a>
+				<!-- END month_day_link -->
+				<!-- BEGIN month_day_no_link -->
+				{MONTH_DAY}
+				<!-- END month_day_no_link -->
+				</p>
 			</div>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-					<a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: bottom" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
+					<!-- BEGIN new_app --><a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a><!-- END new_app --><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: bottom" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
 				</p>
 			</div>
 			<div style="clear:both" />
