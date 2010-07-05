@@ -3450,6 +3450,12 @@ class ilObjUserGUI extends ilObjectGUI
 	function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng, $ilNavigationHistory;
+
+		if (substr($a_target, 0, 1) == "n")
+		{
+			$a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
+		}
+
 		$_GET["cmd"] = "view";
 		$_GET["user_id"] = (int) $a_target;
 		$_GET["baseClass"] = "ilPublicUserProfileGUI";
