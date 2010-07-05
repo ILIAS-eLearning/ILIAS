@@ -422,6 +422,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		if($this->mode == ilCalendarCategories::MODE_REPOSITORY)
 		{
 			global $ilObjDataCache;
+
+			include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 			$obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
 			$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
 			$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
