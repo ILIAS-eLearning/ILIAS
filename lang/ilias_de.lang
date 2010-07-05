@@ -10505,6 +10505,15 @@ rbac#:#rbac_role_add_to_desktop_info#:#Fügt Objekt dem Persönlichen Schreibtis
 rbac#:#rbac_role_rights_copy#:#Rechte kopieren
 rbac#:#rbac_role_rights_copy_empty#:#Keine
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
+crs#:#crs_reg_code#:#Anmeldung mit Zugangsschlüssel
+crs#:#crs_reg_code_link#:#Registrierungslink
+crs#:#crs_reg_code_value#:#Zugangsschlüssel
+crs#:#crs_reg_code_enabled_info#:#Wählen Sie diese Option, um zusätzlich zu dem ausgewählten Beitrittsverfahren, eine automatische Anmeldung durch Aufruf eines Registrierungslinks zu ermöglichen.
+grp#:#grp_reg_code#:#Anmeldung mit Zugangsschlüssel
+grp#:#grp_reg_code_link#:#Registrierungslink
+grp#:#grp_reg_code_value#:#Zugangsschlüssel
+grp#:#grp_reg_code_enabled_info#:#Wählen Sie diese Option, um zusätzlich zu dem ausgewählten Beitrittsverfahren, eine automatische Anmeldung durch Aufruf eines Registrierungslinks zu ermöglichen.
+rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
 dateplaner#:#cal_consultation_hours_for#:#Sprechstunden für
 dateplaner#:#cal_ch_booking_owner#:#Inhaber
 dateplaner#:#cal_ch_current_bookings#:#Aktuelle Teilnehmer

@@ -120,7 +120,7 @@ class ilSessionControl
 						'Services/Authentication', 'expiredSessionDetected', array()
 					);
 
-					ilUtil::redirect('login.php?expired=true');
+					ilUtil::redirect('login.php?expired=true'.'&target='.$_GET['target']);
 				}
 			}
 		}

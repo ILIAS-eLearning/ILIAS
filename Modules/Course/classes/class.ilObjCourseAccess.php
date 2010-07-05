@@ -194,9 +194,16 @@ class ilObjCourseAccess extends ilObjectAccess
 	*/
 	function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $ilAccess,$ilUser;
 		
 		$t_arr = explode("_", $a_target);
+		
+		// registration codes
+		if(substr($t_arr[2],0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			return true;
+		}
+		
 
 		if ($t_arr[0] != "crs" || ((int) $t_arr[1]) <= 0)
 		{

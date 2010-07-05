@@ -2546,7 +2546,18 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	function _goto($a_target, $a_add = "")
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $ilErr, $lng,$ilUser;
+
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+		if(substr($a_add,0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			// Redirects to target location after assigning user to course
+			ilMembershipRegistrationCodeUtils::handleCode(
+				$a_target,
+				ilObject::_lookupType(ilObject::_lookupObjId($a_target)),
+				substr($a_add,5)
+			);
+		}
 
 		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
 		{
@@ -2610,7 +2621,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('60%');
+		#$this->form->setTableWidth('60%');
 		
 		switch($a_mode)
 		{
@@ -2685,6 +2696,27 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$opt_deact = new ilRadioOption($this->lng->txt('grp_reg_disabled'),GRP_REGISTRATION_DEACTIVATED,$this->lng->txt('grp_reg_disabled_info'));
 		$reg_type->addOption($opt_deact);
+		
+		// Registration codes
+		$reg_code = new ilCheckboxInputGUI($this->lng->txt('grp_reg_code'),'reg_code_enabled');
+		$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
+		$reg_code->setValue(1);
+		$reg_code->setInfo($this->lng->txt('grp_reg_code_enabled_info'));
+		
+		/*
+		$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
+		$code->setValue($this->object->getRegistrationAccessCode());
+		$reg_code->addSubItem($code);
+		*/
+		
+		$link = new ilNonEditableValueGUI($this->lng->txt('grp_reg_code_link'));
+		include_once './classes/class.ilLink.php';
+		$link->setValue(
+			ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()));
+		$reg_code->addSubItem($link);
+		$opt_public->addSubItem($reg_code);		
+
+		
 
 		// CLOSED GROUP
 		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
@@ -2856,6 +2888,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
 		$this->object->setMaxMembers((int) $_POST['registration_max_members']);
 		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
+		$this->object->enableRegistrationAccessCode((bool) $_POST['reg_code_enabled']);
 		
 		return true;
 	}

@@ -71,7 +71,7 @@ abstract class ilAuthBase
 		$this->setLogoutCallback(array($this,'logoutObserver'));
 		
 		include_once('Services/Authentication/classes/class.ilAuthLogObserver.php');
-		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_DEBUG));
+		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_INFO));
 		$this->enableLogging = true;
 		
 	}
@@ -91,9 +91,9 @@ abstract class ilAuthBase
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
 		{
 			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
-				array("user_name" => $a_username));
+				array("username" => $a_auth->getUsername()));
 			
-			$ilLog->write(__METHOD__.': logged in as '.$a_username.
+			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
 				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 				);
