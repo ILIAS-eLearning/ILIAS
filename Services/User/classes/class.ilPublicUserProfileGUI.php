@@ -118,11 +118,34 @@ class ilPublicUserProfileGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $tpl, $ilUser;
 		
-		$cmd = $ilCtrl->getCmd();
-		$ret = $this->$cmd();
-		return $ret;
+
+		if ($_GET["baseClass"] != "ilPublicUserProfileGUI")
+		{
+			$cmd = $ilCtrl->getCmd();
+			$ret = $this->$cmd();
+			return $ret;
+		}
+		else
+		{
+			$user_id = (int) $_GET["user_id"];
+			$this->setUserId($user_id);
+			if (ilObject::_lookupType($user_id) != "usr")
+			{
+				return;
+			}
+			$user = new ilObjUser($user_id);
+			if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
+			{
+				return;
+			}
+			$cmd = $ilCtrl->getCmd();
+			$ret = $this->$cmd();
+			$tpl->getStandardTemplate();
+			$tpl->setContent($ret);
+			$tpl->show();
+		}
 	}
 	
 	/**
