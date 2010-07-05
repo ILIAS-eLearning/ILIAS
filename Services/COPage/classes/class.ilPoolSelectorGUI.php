@@ -28,6 +28,13 @@ class ilPoolSelectorGUI extends ilExplorer
 		$this->ctrl =& $ilCtrl;
 		parent::ilExplorer($a_target);
 		$this->setFrameTarget("");
+
+		$this->force_open_path = array();
+		if ($_GET["ref_id"] > 0)
+		{
+			$this->force_open_path = $tree->getPathId($_GET["ref_id"]);
+		}
+
 	}
 
 	/**
@@ -136,5 +143,18 @@ class ilPoolSelectorGUI extends ilExplorer
 		$tpl->touchBlock("element");
 		
 	}
+
+	/**
+	 * force expansion of node
+	 */
+	function forceExpanded($a_obj_id)
+	{
+		if (in_array($a_obj_id, $this->force_open_path))
+		{
+			return true;
+		}
+		return false;
+	}
+
 } // END class ilLMMenuObjectSelector
 ?>

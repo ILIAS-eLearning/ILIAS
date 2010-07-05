@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Select file for being added into file lists
@@ -46,6 +27,13 @@ class ilFileSelectorGUI extends ilExplorer
 		$this->ctrl =& $ilCtrl;
 		$this->parent_class = $a_par_class;
 		parent::ilExplorer($a_target);
+
+		$this->force_open_path = array();
+		if ($_GET["ref_id"] > 0)
+		{
+			$this->force_open_path = $tree->getPathId($_GET["ref_id"]);
+		}
+
 	}
 
 	function setSelectableTypes($a_types)
@@ -134,5 +122,18 @@ class ilFileSelectorGUI extends ilExplorer
 		$tpl->touchBlock("element");
 		
 	}
-} // END class ilFileSelectorGUI
+
+	/**
+	 * force expansion of node
+	 */
+	function forceExpanded($a_obj_id)
+	{
+		if (in_array($a_obj_id, $this->force_open_path))
+		{
+			return true;
+		}
+		return false;
+	}
+
+}
 ?>

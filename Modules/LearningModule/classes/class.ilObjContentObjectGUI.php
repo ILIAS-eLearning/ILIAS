@@ -2524,7 +2524,8 @@ return;
 		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
 		$a_cur_page = 0)
 	{
-		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem;
+		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem, $ilPluginAdmin;
+
 		
 		if ($a_as_subtabs)
 		{
@@ -2694,6 +2695,18 @@ return;
 				}
 			}
 		}
+
+		// user interface hook [uihk]
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		$plugin_html = false;
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			$resp = $gui_class->modifyGUI("Modules/LearningModule", "lm_menu_tabs",
+				array("lm_menu_tabs" => $tabs_gui));
+		}
+
 
 		return $tabs_gui->$getcmd();
 	}
