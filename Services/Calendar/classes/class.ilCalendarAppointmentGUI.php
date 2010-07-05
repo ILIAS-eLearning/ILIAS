@@ -1072,7 +1072,7 @@ class ilCalendarAppointmentGUI
 	}
 
 	
-	
+
 	public function book()
     {
 		global $ilUser, $tpl;
@@ -1126,13 +1126,73 @@ class ilCalendarAppointmentGUI
 		$entry = new ilCalendarEntry($entry);
 		$booking = new ilBookingEntry($entry->getContextId());
         $booking->book($entry->getEntryId());
-		
+
+		ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
 	}
 
 	public function cancelBooking()
 	{
+		global $ilUser, $tpl;
 
+		$entry = (int)$_GET['app_id'];
+		$user = (int)$_GET['bkid'];
+
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		$entry = new ilCalendarEntry($entry);
+		$booking = new ilBookingEntry($entry->getContextId());
+
+		if(!$booking->hasBooked($entry->getEntryId()))
+		{
+		    $this->ctrl->returnToParent($this);
+			return false;
+		}
+
+		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+		$timezone = $ilUser->getTimeZone();
+		switch($user_settings->getTimeFormat())
+		{
+			case ilCalendarSettings::TIME_FORMAT_24:
+				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
+				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$timezone);
+				break;
+
+			case ilCalendarSettings::TIME_FORMAT_12:
+				$title = $entry->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
+				$title .= "-".$entry->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$timezone);
+				break;
+		}
+
+		$title .= ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
+
+
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI;
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt('cal_cancel_booking'));
+		$conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
+		$conf->addItem('app_id', $entry->getEntryId(), $title);
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	public function cancelconfirmed()
+	{
+		global $ilUser;
+
+		$entry = (int)$_POST['app_id'];
+		$user = (int)$_GET['bkid'];
+
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		$entry = new ilCalendarEntry($entry);
+		$booking = new ilBookingEntry($entry->getContextId());
+        $booking->cancelBooking($entry->getEntryId());
+
+		ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'),true);
+		$this->ctrl->returnToParent($this);
 	}
 }
 ?>

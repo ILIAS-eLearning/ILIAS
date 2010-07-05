@@ -189,6 +189,7 @@ class ilCalendarAppointmentPanelGUI
 				if($entry->hasBooked($a_app['event']->getEntryId()))
 				{
 					$this->tpl->setCurrentBlock('panel_cancel_book_link');
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 					$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
 					$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
 					$this->tpl->parseCurrentBlock();
@@ -196,6 +197,7 @@ class ilCalendarAppointmentPanelGUI
 				else if(!$entry->isBookedOut($a_app['event']->getEntryId()))
 				{
 					$this->tpl->setCurrentBlock('panel_book_link');
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 					$this->tpl->setVariable('TXT_PANEL_BOOK', $this->lng->txt('cal_ch_book'));
 					$this->tpl->setVariable('PANEL_BOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','book'));
 					$this->tpl->parseCurrentBlock();

@@ -323,6 +323,29 @@ class ilBookingEntry
 		}
 		return true;
 	}
+
+	/**
+	 * cancel calendar booking for user
+	 * @param	int	$a_entry_id
+	 * @param	int	$a_user_id
+	 */
+	public function cancelBooking($a_entry_id, $a_user_id = false)
+	{
+		global $ilUser, $ilDB;
+
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		if($this->hasBooked($a_entry_id, $a_user_id))
+		{
+			$ilDB->query('DELETE FROM booking_user'.
+				' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer').
+				' AND user_id = '.$ilDB->quote($a_user_id, 'integer'));
+		}
+		return true;
+	}
 }
 
 ?>
