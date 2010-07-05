@@ -360,7 +360,12 @@ class ilPersonalDesktopGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
 		$this->initColumn($column_gui);
-		
+
+		if ($column_gui->getScreenMode() == IL_SCREEN_FULL)
+		{
+			return "";
+		}
+
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
 			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
@@ -388,7 +393,12 @@ class ilPersonalDesktopGUI
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
 		$this->initColumn($column_gui);
-		
+
+		if ($column_gui->getScreenMode() == IL_SCREEN_FULL)
+		{
+			return "";
+		}
+
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_LEFT &&
 			$column_gui->getScreenMode() == IL_SCREEN_SIDE)

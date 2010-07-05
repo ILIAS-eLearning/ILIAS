@@ -135,6 +135,7 @@ class ilObjForumGUI extends ilObjectGUI
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
+				$this->tpl->setContent($ret);
 				break;
 				
 			case 'ilobjectcopygui':
@@ -2913,13 +2914,14 @@ class ilObjForumGUI extends ilObjectGUI
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$profile_gui = new ilPublicUserProfileGUI($_GET['user']);
 		$profile_gui->setAdditional($add);
+		$profile_gui->setBackUrl($_GET['backurl']);
 		$tpl->setVariable("USR_PROFILE", $profile_gui->getHTML());
 		
-		if ($_GET['backurl'])
-		{
-			global $ilToolbar;
-			$ilToolbar->addButton($this->lng->txt('back'), urldecode($_GET['backurl']));
-		}
+//		if ($_GET['backurl'])
+//		{
+//			global $ilToolbar;
+//			$ilToolbar->addButton($this->lng->txt('back'), urldecode($_GET['backurl']));
+//		}
 				
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
 		

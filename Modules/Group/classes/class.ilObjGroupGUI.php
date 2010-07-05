@@ -161,11 +161,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilpublicuserprofilegui':
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
-				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "membersGallery"));
+				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);
 				break;
 

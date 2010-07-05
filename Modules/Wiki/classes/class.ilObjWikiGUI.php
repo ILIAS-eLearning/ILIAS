@@ -414,7 +414,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
 		{
-			$this->setSideBlock();
+//			$this->setSideBlock();
 		}
 	}
 	
