@@ -72,6 +72,8 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ID',$row['id']);
 		$this->tpl->setVariable('TITLE',$row['title']);
 		$this->tpl->setVariable('START',$row['start_p']);
+		$this->tpl->setVariable('NUM_BOOKINGS',$row['num_bookings']);
+		$this->tpl->setVariable('BOOKINGS',implode(', ', $row['bookings']));
 	}
 	
 	/**
@@ -82,6 +84,8 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	{
 		global $ilDB;
 
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+
 		$data = array();
 		$counter = 0;
 		foreach(ilConsultationHourAppointments::getAppointments($this->getUserId()) as $app)
@@ -91,6 +95,15 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 			$data[$counter]['description'] = $app->getDescription();
 			$data[$counter]['start'] = $app->getStart()->get(IL_CAL_UNIX);
 			$data[$counter]['start_p'] = ilDatePresentation::formatDate($app->getStart());
+
+			$booking = new ilBookingEntry($app->getContextId());
+			$users = array();
+			foreach($booking->getCurrentBookings($app->getEntryId()) as $user_id)
+			{
+				$users[] = ilObjUser::_lookupFullname($user_id);
+			}
+			$data[$counter]['num_bookings'] = sizeof($users);
+			$data[$counter]['bookings'] = $users;
 			
 			$counter++;
 		}
