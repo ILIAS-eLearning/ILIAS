@@ -45,8 +45,8 @@ class ilForum
 	* @var object ilias
 	* @access public
 	*/
-	var $ilias;
-	var $lng;
+	public $ilias;
+	public $lng;
 	
 	/**
 	* database table name
@@ -54,14 +54,14 @@ class ilForum
 	* @see setDbTable(), getDbTable()
 	* @access private
 	*/
-	var $dbTable;
+	private $dbTable;
 	
 	/**
 	* class name
 	* @var string class name
 	* @access private
 	*/
-	var $className="ilForum";
+	private $className="ilForum";
 	
 	/**
 	* database table field for sorting the results
@@ -69,22 +69,22 @@ class ilForum
 	* @see setOrderField()
 	* @access private
 	*/
-	var $orderField;
+	private $orderField;
 	
-	var $mdb2Query;
-	var $mdb2DataValue;
-	var $mdb2DataType;
+	private $mdb2Query;
+	private $mdb2DataValue;
+	private $mdb2DataType;
 	
-	var $txtQuote1 = "[quote]"; 
-	var $txtQuote2 = "[/quote]"; 
-	var $replQuote1 = '<blockquote class="ilForumQuote">'; 
-	var $replQuote2 = '</blockquote>'; 
+	private $txtQuote1 = "[quote]";
+	private $txtQuote2 = "[/quote]";
+	private $replQuote1 = '<blockquote class="ilForumQuote">';
+	private $replQuote2 = '</blockquote>';
 	
 	// max. datasets per page
-	var $pageHits = 30;
+	private $pageHits = 30;
 
 	// object id
-	var $id;
+	private $id;
 	
 	private $threads = array();
 	
@@ -92,7 +92,7 @@ class ilForum
 	* Constructor
 	* @access	public
 	*/
-	function ilForum()
+	public function ilForum()
 	{
 		global $ilias,$lng;
 
@@ -100,7 +100,7 @@ class ilForum
 		$this->lng =& $lng;
 	}
 
-	function setLanguage($lng)
+	public function setLanguage($lng)
 	{
 		$this->lng =& $lng;
 	}
@@ -136,7 +136,7 @@ class ilForum
 	* @param	integer	object id
 	* @access	public
 	*/
-	function setForumId($a_obj_id)
+	public function setForumId($a_obj_id)
 	{
 
 		if (!isset($a_obj_id))
@@ -153,7 +153,7 @@ class ilForum
 	* @param	integer	object id
 	* @access	public
 	*/
-	function setForumRefId($a_ref_id)
+	public function setForumRefId($a_ref_id)
 	{
 		if (!isset($a_ref_id))
 		{
@@ -169,7 +169,7 @@ class ilForum
 	* @access	public
 	* @return	integer	object id of forum
 	*/
-	function getForumId()
+	public function getForumId()
 	{
 		return $this->id;
 	}
@@ -179,7 +179,7 @@ class ilForum
 	* @access	public
 	* @return	integer	reference id of forum
 	*/
-	function getForumRefId()
+	public function getForumRefId()
 	{
 		return $this->ref_id;
 	}
@@ -190,7 +190,7 @@ class ilForum
 	* @see				$orderField
 	* @access	private
 	*/
-	function setOrderField($orderField)
+	private function setOrderField($orderField)
 	{
 		if ($orderField == "")
 		{
@@ -208,7 +208,7 @@ class ilForum
 	* @see				$orderField
 	* @access	public
 	*/
-	function getOrderField()
+	public function getOrderField()
 	{
 		return $this->orderField;
 	}
@@ -219,7 +219,7 @@ class ilForum
 	* @see				$dbTable
 	* @access	public
 	*/
-	function setDbTable($dbTable)
+	public function setDbTable($dbTable)
 	{
 		if ($dbTable == "")
 		{
@@ -237,7 +237,7 @@ class ilForum
 	* @see				$dbTable
 	* @access	public
 	*/
-	function getDbTable()
+	public function getDbTable()
 	{
 		return $this->dbTable;
 	}
@@ -252,7 +252,7 @@ class ilForum
 	 * 
 	 */	
 	
-	function setMDB2WhereCondition($query_string, $data_type, $data_value)
+	public function setMDB2WhereCondition($query_string, $data_type, $data_value)
 	{
 		
 		$this->mdb2Query = $query_string;
@@ -269,7 +269,7 @@ class ilForum
 	 *
 	 * @return string 
 	 */	
-	function getMDB2Query()
+	public function getMDB2Query()
 	{
 		if($this->mdb2Query != '')
 		{
@@ -283,7 +283,7 @@ class ilForum
 	 *
 	 * @return array 
 	 */		
-	function getMDB2DataValue()
+	public function getMDB2DataValue()
 	{
 		if($this->mdb2DataValue != '')
 		{
@@ -296,7 +296,7 @@ class ilForum
 	 *
 	 * @return array 
 	 */	
-	function getMDB2DataType()
+	public function getMDB2DataType()
 	{
 		if($this->mdb2DataType != '')
 		{
@@ -310,7 +310,7 @@ class ilForum
 	* @see				$pageHits
 	* @access	public
 	*/
-	function setPageHits($pageHits)
+	public function setPageHits($pageHits)
 	{
 		if ($pageHits < 1)
 		{
@@ -329,7 +329,7 @@ class ilForum
 	* @see				$pageHits
 	* @access	public
 	*/
-	function getPageHits()
+	public function getPageHits()
 	{
 		return $this->pageHits;
 	}
@@ -341,7 +341,7 @@ class ilForum
 	* @return	array	$res dataset 
 	* @access	public
 	*/
-	function getOneDataset()
+	public function getOneDataset()
 	{	
 		global $ilDB;
 		
@@ -375,7 +375,7 @@ class ilForum
 			$res = $ilDB->query($query);
 			
 		}
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($res);
 		
 		return $row;
 
@@ -386,7 +386,7 @@ class ilForum
 	* @return	array	$result dataset of the topic
 	* @access	public
 	*/
-	function getOneTopic()
+	public function getOneTopic()
 	{
 		global $ilDB;
 		
@@ -432,7 +432,7 @@ class ilForum
 	* In some rare cases the thread number in frm_data is incorrect.
 	* This function fixes this. (called in ilObjForumGUI->showThreadsObject())
 	*/
-	function fixThreadNumber($a_top_pk, $a_num_threads)
+	public function fixThreadNumber($a_top_pk, $a_num_threads)
 	{
 		global $ilDB;
 		
@@ -451,7 +451,7 @@ class ilForum
 	/**
 	* lookup forum data
 	*/
-	function _lookupForumData($a_obj_id)
+	public function _lookupForumData($a_obj_id)
 	{
 		global $ilDB;
 
@@ -472,7 +472,7 @@ class ilForum
 	* @return	array	$result dataset of the thread
 	* @access	public
 	*/
-	function getOneThread()
+	public function getOneThread()
 	{	
 		global $ilDB;
 			
@@ -501,7 +501,7 @@ class ilForum
 	* @return	array result dataset of the post
 	* @access	public
 	*/
-	function getOnePost($post)
+	public function getOnePost($post)
 	{
 		global $ilDB;
 
@@ -520,7 +520,7 @@ class ilForum
 		return $row;
 	}
 
-	function getPostById($a_id)
+	public function getPostById($a_id)
 	{
 		global $ilDB;
 
@@ -529,14 +529,14 @@ class ilForum
 			WHERE pos_pk = %s',
 			array('integer'), array($a_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			return $row;
 		}
 		return array();
 	}
 
-	function _lookupPostMessage($a_id)
+	public function _lookupPostMessage($a_id)
 	{
 		global $ilDB;
 
@@ -544,7 +544,7 @@ class ilForum
 			SELECT * FROM frm_posts WHERE pos_pk = %s',
 			array('integer'), array($a_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->pos_message;
 		}
@@ -566,7 +566,7 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
+	public function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
 	{
 		global $ilUser, $ilDB;
 	
@@ -689,7 +689,7 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
+	public function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
 	{	
 		global $ilDB;
 
@@ -738,7 +738,7 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function updatePost($message, $pos_pk,$notify,$subject,$thr_pk=0)
+	public function updatePost($message, $pos_pk,$notify,$subject,$thr_pk=0)
 	{	
 		global $ilDB;
 
@@ -793,7 +793,7 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function updateThread($thr_pk,$subject)
+	public function updateThread($thr_pk,$subject)
 	{	
 		global $ilDB;
 
@@ -975,7 +975,7 @@ class ilForum
 	* @return	boolean
 	* @access	public
 	*/
-	function postCensorship($message, $pos_pk, $cens = 0)
+	public function postCensorship($message, $pos_pk, $cens = 0)
 	{		
 		global $ilDB;
 
@@ -1028,7 +1028,7 @@ class ilForum
 	* @access	public
 	* @return	integer	0 or thread-ID
 	*/
-	function deletePost($post)
+	public function deletePost($post)
 	{
 		global $ilDB;
 
@@ -1253,7 +1253,7 @@ class ilForum
 	* @return	array	this->threads array ob thread objects
 	* @access	public
 	*/
-	function getAllThreads($a_topic_id, $is_moderator = false)
+	public function getAllThreads($a_topic_id, $is_moderator = false)
 	{
 		global $ilDB, $ilUser;
 
@@ -1304,7 +1304,7 @@ class ilForum
 	* @return	object	res result identifier for use with fetchRow
 	* @access	public
 	*/
-	function getPostList($topic, $thread)
+	public function getPostList($topic, $thread)
 	{
 		global $ilDB;
 		
@@ -1410,7 +1410,7 @@ class ilForum
 	* @return	array	$result 
 	* @access	public
 	*/
-	function getLastPost($lastPost)
+	public function getLastPost($lastPost)
 	{
 		$data = explode('#', $lastPost);
 		
@@ -1445,7 +1445,7 @@ class ilForum
 	* @return	object	user object 
 	* @access	public
    	*/
-	function getUser($a_user_id)
+	public function getUser($a_user_id)
 	{
 		global $lng;
 		
@@ -1466,7 +1466,7 @@ class ilForum
 	* @return	array	user_ids
 	* @access	public
    	*/
-	function getModerators()
+	public function getModerators()
 	{
 		global $rbacreview;
 
@@ -1521,7 +1521,7 @@ class ilForum
 	* @return	integer
 	* @access	public
    	*/
-	function countUserArticles($a_user_id)
+	public function countUserArticles($a_user_id)
 	{
 		global $ilDB;
 
@@ -1562,7 +1562,7 @@ class ilForum
 	* @return	string
 	* @access	public
    	*/
-	function getForumPath($a_ref_id)
+	public function getForumPath($a_ref_id)
 	{
 		global $tree;		
 		
@@ -1589,7 +1589,7 @@ class ilForum
     * @return	string	formatted datetime
     * @access	public
     */
-    function convertDate($date)
+   public  function convertDate($date)
     {
         global $lng;
         
@@ -1603,7 +1603,7 @@ class ilForum
 	* @return	boolean		true on success
 	* @access	public
 	*/
-	function addPostTree($a_tree_id, $a_node_id = -1, $a_date = '')
+	public function addPostTree($a_tree_id, $a_node_id = -1, $a_date = '')
 	{
 		global $ilDB;
 		
@@ -1641,7 +1641,7 @@ class ilForum
 	* @param	integer		tree_id
 	* @param	integer		parent_id (optional)
 	*/
-	function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_date = '')
+	public function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_date = '')
 	{		
 		global $ilDB;
 
@@ -1715,7 +1715,7 @@ class ilForum
 	* @param	integer		node_id of parent's node parent_id
 	* @return	integer		depth of node
 	*/
-	function getPostDepth($a_node_id, $tree_id)
+	public function getPostDepth($a_node_id, $tree_id)
 	{
 		global $ilDB;
 
@@ -1745,7 +1745,7 @@ class ilForum
 	* @param	array		node_data
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
-	function getPostTree($a_node)
+	public function getPostTree($a_node)
 	{
 		global $ilDB;
 
@@ -1789,7 +1789,7 @@ class ilForum
 	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
 	* @return	array		with node data of all childs or empty array
 	*/
-	function getPostChilds($a_node_id, $a_thr_id)
+	public function getPostChilds($a_node_id, $a_thr_id)
 	{
 		global $ilDB;
 		
@@ -1833,7 +1833,7 @@ class ilForum
 	* @param	integer		tree id	
 	* @return	object		db result object
 	*/
-	function getFirstPostNode($tree_id)
+	public function getFirstPostNode($tree_id)
 	{
 		global $ilDB;
 
@@ -1856,7 +1856,7 @@ class ilForum
 	* @param	integer		post_id	
 	* @return	object		db result object
 	*/
-	function getPostNode($post_id)
+	public function getPostNode($post_id)
 	{
 		global $ilDB;
 
@@ -1878,7 +1878,7 @@ class ilForum
  	* @param	object	db	db result object containing node_data
 	* @return	array		2-dim (int/str) node_data
 	*/
-	function fetchPostNodeData($a_row)
+	public function fetchPostNodeData($a_row)
 	{
 		global $lng;
 
@@ -1932,7 +1932,7 @@ class ilForum
 	* @access	public
 	* @return	integer	max depth level of tree
 	*/
-	function getPostMaximumDepth($a_thr_id)
+	public function getPostMaximumDepth($a_thr_id)
 	{
 		global $ilDB;
 
@@ -1953,7 +1953,7 @@ class ilForum
 	* @param	array	node_data of a node
 	* @return	array	ID's of deleted posts
 	*/
-	function deletePostTree($a_node)
+	public function deletePostTree($a_node)
 	{
 		global $ilDB;
 		
@@ -2024,7 +2024,7 @@ class ilForum
 	* @access	public
 	* @param	integer	
 	*/
-	function updateVisits($ID)
+	public function updateVisits($ID)
 	{
 
 		global $ilDB;
@@ -2058,7 +2058,7 @@ class ilForum
 	* @param	integer
 	* @return	string
 	*/
-	function prepareText($text, $edit=0, $quote_user = '', $type = '')
+	public function prepareText($text, $edit=0, $quote_user = '', $type = '')
 	{
 		global $lng; 
 		
@@ -2147,7 +2147,7 @@ class ilForum
 	* @return	array result dataset of the post
 	* @access	public
 	*/
-	function getModeratorFromPost($pos_pk)
+	public function getModeratorFromPost($pos_pk)
 	{
 		global $ilDB;
 

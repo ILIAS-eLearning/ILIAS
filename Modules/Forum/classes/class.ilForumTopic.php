@@ -25,7 +25,7 @@ require_once './Modules/Forum/classes/class.ilForumPost.php';
 
 /**
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @version $Id:$
 *
 * @ingroup ModulesForum
 */
@@ -1127,6 +1127,16 @@ class ilForumTopic
 		}
 		
 		return '';
+	}
+
+	public function updateThreadTitle()
+	{
+		global $ilDB;
+
+		$ilDB->update('frm_threads',
+			array('thr_subject' => array('text',$this->getSubject())),
+			array('thr_pk'=> array('integer', $this->getId()))
+		);
 	}
 }
 ?>

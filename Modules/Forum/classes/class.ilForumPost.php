@@ -337,12 +337,10 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$statement = $this->db->manipulateF('
-				UPDATE frm_posts SET pos_status = %s 
-				WHERE pos_pk = %s',
-				array('integer', 'integer'),
-				array('1', $this->id));
-			
+			$ilDB->update('frm_posts',
+					array('pos_status'	=>	array('integer', 1)),
+					array('pos_pk'		=>	array('integer', $this->id)));
+
 			$this->activateParentPosts();
 			
 			return true;
@@ -368,12 +366,9 @@ class ilForumPost
 
 			while($row = $this->db->fetchAssoc($result))
 			{
-				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
-				$this->db->manipulateF(
-					$query,
-					array('integer', 'integer'),
-					array(1, $row['pos_pk'])
-				);
+				$this->db->update('frm_posts',
+					array('pos_status'	=>	array('integer', 1)),
+					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
 			}
 			
 			$this->activateParentPosts();
@@ -399,12 +394,9 @@ class ilForumPost
 			
 			while($row = $this->db->fetchAssoc($result))
 			{
-				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
-				$this->db->manipulateF(
-					$query,
-					array('integer', 'integer'),
-					array(1, $row['pos_pk'])
-				);
+				$this->db->update('frm_posts',
+					array('pos_status'	=>	array('integer', 1)),
+					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
 			}
 			
 			return true;
@@ -430,12 +422,9 @@ class ilForumPost
 			
 			while($row = $this->db->fetchAssoc($result))
 			{
-				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
-				$this->db->manipulateF(
-					$query,
-					array('integer', 'integer'),
-					array(0, $row['pos_pk'])
-				);
+				$this->db->update('frm_posts',
+					array('pos_status'	=>	array('integer', 0)),
+					array('pos_pk'		=>	array('integer', $row['pos_pk'])));
 			}
 			
 			return true;
