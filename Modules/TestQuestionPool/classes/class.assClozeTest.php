@@ -180,7 +180,7 @@ class assClozeTest extends assQuestion
 			$this->setOwner($data["owner"]);
 			$this->setQuestion($this->cleanQuestiontext($data["question_text"]));
 			$this->setFixedTextLength($data["fixed_textlen"]);
-			$this->setIdenticalScoring($data["identical_scoring"]);
+			$this->setIdenticalScoring(($data['tstamp'] == 0) ? true : $data["identical_scoring"]);
 			// replacement of old syntax with new syntax
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
