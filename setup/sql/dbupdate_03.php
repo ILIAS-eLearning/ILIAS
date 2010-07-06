@@ -2202,3 +2202,18 @@ if(!$ilDB->tableExists('booking_user'))
 		'length'	=> 32
 	));
 ?>
+<#3098>
+<?php
+	if($ilDB->tableColumnExists("frm_settings", "new_post_title"))
+	{
+		$ilDB->renameTableColumn('frm_settings', 'new_post_title', 'preset_subject');
+	}
+?>
+<#3099>
+<?php
+		$ilDB->addTableColumn("frm_settings", "add_re_subject", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+?>

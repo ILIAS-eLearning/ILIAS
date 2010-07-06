@@ -10365,8 +10365,8 @@ common#:#delete_inactive_user_accounts_interval#:#Häufigkeit
 common#:#delete_inactive_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
 mail#:#mail_prevent_smtp_globally#:#Versand von externen E-Mails (via SMTP) global verhindern.
 forum#:#post_reply#:#Re:
-forum#:#force_new_post_title#:#Neue Titel für Beiträge erzwingen
-forum#:#force_new_post_title_info#:#Wenn diese Option eingeschaltet ist, muss der Benutzer bei Beiträgen einen neuen Titel eingeben.
+forum#:#preset_subject#:#Titel für Beiträge vordefinieren
+forum#:#preset_subject_info#:#Wenn diese Option ausgeschaltet ist, muss der Benutzer bei Beiträgen einen neuen Titel eingeben.
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Globale Foreneinstellungen
 administration#:#forum_settings#:#Foreneinstellungen
@@ -10525,3 +10525,6 @@ dateplaner#:#cal_cancel_booking_info#:#Bitte bestätigen Sie Stornierung der Buc
 dateplaner#:#cal_cancel_booking#:#Buchung stornieren
 dateplaner#:#cal_booking_confirmed#:#DerTermin wurde erfolgreich gebucht.
 dateplaner#:#cal_cancel_booking_confirmed#:#Die Buchung wurde erfolgreich storniert.
+forum#:#add_re_subject#:#'Re: ' dem Beitragstitel hinzufügen
+forum#:#add_re_subject_info#:#Wenn diese Option aktiviert ist, wird dem Beitragstitel der Zusatz 'Re:' hinzugefügt.
+forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein

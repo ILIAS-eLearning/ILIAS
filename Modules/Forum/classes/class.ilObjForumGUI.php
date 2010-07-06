@@ -79,7 +79,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
-		$exclude_cmds = array('showExplorer', 'viewThread', 'markPostUnread','markPostRead',
+		$exclude_cmds = array('showExplorer', 'viewThread', 'markPostUnread','markPostRead',#'editThread',
 							  'showThreadNotification',
 					     	  'cancelPostActivation', 'cancelPostDeactivation',
 					     	  'performPostActivation', 'performPostDeactivation', 'performPostAndChildPostsActivation',
@@ -149,7 +149,7 @@ class ilObjForumGUI extends ilObjectGUI
 			default:
 				if($_POST['selected_cmd'] != null)
 				{
-					$member_cmd = array('enableAdminForceNoti','disableAdminForceNoti','enableHideUserToggleNoti','disableHideUserToggleNoti');
+						$member_cmd = array('enableAdminForceNoti','disableAdminForceNoti','enableHideUserToggleNoti','disableHideUserToggleNoti');
 
 					in_array($_POST['selected_cmd'], $member_cmd)
 					? $cmd = $_POST['selected_cmd']
@@ -169,7 +169,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return true;
 	}
-	
+
 	public function updateObject()
 	{
 		global $ilAccess, $ilSetting;
@@ -192,8 +192,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
 		}
 		$this->objProperties->setPostActivation((int) $_POST['post_activation']);
-
-		$this->objProperties->setNewPostTitle((int) $_POST['new_post_title']);
+		$this->objProperties->setPresetSubject((int) $_POST['preset_subject']);
+		$this->objProperties->setAddReSubject((int) $_POST['add_re_subject']);
 
 		if (strlen(trim($_POST['title'])))
 		{			
@@ -268,16 +268,56 @@ class ilObjForumGUI extends ilObjectGUI
 		$cb_prop->setChecked($this->objProperties->isPostActivationEnabled() ? 1 : 0);
 		$form->addItem($cb_prop);		
 
-		$frm_new_post_title = new ilCheckboxInputGUI($this->lng->txt('force_new_post_title'), 'new_post_title');
-		$frm_new_post_title->setValue('1');
-		$frm_new_post_title->setInfo($this->lng->txt('force_new_post_title_info'));
-		$frm_new_post_title->setChecked($this->objProperties->getNewPostTitle() ? 1 : 0);
-		$form->addItem($frm_new_post_title);
+		//_force_new_post_titles
+		$frm_preset_subject = new ilCheckboxInputGUI($this->lng->txt('preset_subject'), 'preset_subject');
+		$frm_preset_subject->setValue('1');
+		$frm_preset_subject->setInfo($this->lng->txt('preset_subject_info'));
+		$frm_preset_subject->setChecked($this->objProperties->getPresetSubject() ? 1 : 0);
+		$form->addItem($frm_preset_subject);
 
+		$frm_add_re = new ilCheckboxInputGUI($this->lng->txt('add_re_to_subject'), 'add_re_to_subject');
+		$frm_add_re->setValue('0');
+		$frm_add_re->setInfo($this->lng->txt('add_re_to_subject_info'));
+		$frm_add_re->setChecked($this->objProperties->getAddReSubject() ? 1 : 0);
+
+		$frm_preset_subject->addSubItem($frm_add_re);
+		
 		$form->addCommandButton('update', $this->lng->txt('save'));
 		
 		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
 	}	
+
+	public function editThreadObject($a_thread_id)
+	{		$this->ctrl->setParameter($this,'thr_pk', $a_thread_id);
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Modules/Forum');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'updateThread'));
+
+		$ti_prop = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$ti_prop->setValue(ilForumTopic::_lookupTitle($a_thread_id));
+		$form->addItem($ti_prop);
+
+		$form->addCommandButton('updateThread', $this->lng->txt('save'));
+		$form->addCommandButton('showThreads', $this->lng->txt('cancel'));
+
+		$this->tpl->setVariable('FORM1', $form->getHTML());
+		return true;
+	}
+
+	public function updateThreadObject()
+	{
+
+
+		if(isset($_POST['title']))
+		{
+			$this->objCurrentTopic->setSubject($_POST['title']);
+			//$this->objCurrentTopic->setId($_GET['thr_pk']);
+
+			$this->objCurrentTopic->updateThreadTitle();
+		}
+		$this->showThreadsObject();
+		return true;
+	}
 
 	function markAllReadObject()
 	{
@@ -603,6 +643,7 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 				{
+					$tbl->addMultiCommand('editThread', $this->lng->txt('edit'));
 					$tbl->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
 					$tbl->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
 					$tbl->addMultiCommand('close', $this->lng->txt('close_topics'));
@@ -1519,6 +1560,10 @@ class ilObjForumGUI extends ilObjectGUI
 		$oSubjectGUI->setMaxLength(64);
 		$oSubjectGUI->setRequired(true);
 		
+		
+		if($this->objProperties->getPresetSubject() == 0)
+		$oSubjectGUI->setInfo($this->lng->txt('enter_new_subject'));
+		
 		$this->replyEditForm->addItem($oSubjectGUI);
 		
 		// post
@@ -1641,7 +1686,7 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $ilUser, $ilAccess, $lng;
 
-		$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = NULL;
+		$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = 0;
 		if(!is_array($_POST['del_file'])) $_POST['del_file'] = array();
 		
 		if($this->objCurrentTopic->isClosed())
@@ -1827,7 +1872,8 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 				ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
 				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());				
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+				$this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
 			}	
 		}
 		else
@@ -1966,13 +2012,25 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 
-		if(!isset($_SESSION['viewmode']) || isset($_GET['viewmode']))
-			$_SESSION['viewmode'] = $_GET['viewmode'];
-		else $_SESSION['viewmode'] = 'answers';
-
- 		if ($_SESSION['viewmode'] == 'answers')
+		if(isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode'])
 		{
+			$_SESSION['viewmode'] = $_GET['viewmode'];
+		}
+
+		if( (isset($_GET['action']) &&  $_SESSION['viewmode'] != 'date')
+			||($_SESSION['viewmode'] == 'answers')
+			|| !isset($_SESSION['viewmode']))
+		{
+			if(isset($_GET['action']))
+			{
+				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = 0;
+			}
+			$_SESSION['viewmode'] = 'answers';
 			$tpl->setLeftContent($this->getForumExplorer());
+		}
+		else
+		{
+			$_SESSION['viewmode'] = 'date';
 		}
 
 		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
@@ -2284,7 +2342,21 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('REPLY_ANKER', $this->objCurrentPost->getId());
 								$oEditReplyForm = $this->getReplyEditForm();
 
-								$this->objProperties->getNewPostTitle() ? $subject = NULL : $subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject();
+
+								$this->objProperties->getPresetSubject() ? $subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject() : $subject = NULL;
+								if($this->objProperties->getPresetSubject() == 0)	
+								{
+									if($this->objProperties->getAddReSubject() == 1)
+									{
+										//add_re_subject 'Re: '
+										$subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject();
+									}
+									else
+										$subject = $this->objCurrentPost->getSubject();
+								}
+								else
+									$subject = NULL;
+								
 
 								switch($_GET['action'])
 								{
@@ -2941,7 +3013,6 @@ class ilObjForumGUI extends ilObjectGUI
 
 		if (is_array($_POST['thread_ids']))
 		{
-
 			if ($_POST['selected_cmd'] == 'move')
 			{
 				if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
@@ -3043,7 +3114,27 @@ class ilObjForumGUI extends ilObjectGUI
 	
 				$this->ctrl->redirect($this, 'showThreads');
 			}
-			
+
+			else if($_POST['selected_cmd'] == 'editThread')
+			{
+				if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+				{
+					$count = count($_POST['thread_ids']);
+					if($count != 1)
+					{
+						ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
+						$this->ctrl->redirect($this, 'showThreads');
+					}
+					else
+					{	foreach($_POST['thread_ids'] as $thread_id);
+						{
+							return $this->editThreadObject($thread_id);
+						}
+					}
+				}
+
+				$this->ctrl->redirect($this, 'showThreads');
+			}
 			else if ($_POST['selected_cmd'] == 'html')
 			{
 				$this->ctrl->setCmd('exportHTML');
@@ -3060,6 +3151,7 @@ class ilObjForumGUI extends ilObjectGUI
 				ilUtil::sendInfo($this->lng->txt('topics_please_select_one_action'), true);
 				$this->ctrl->redirect($this, 'showThreads');
 			}
+
 		}
 		else
 		{

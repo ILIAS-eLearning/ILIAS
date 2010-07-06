@@ -87,10 +87,21 @@ class ilForumProperties
 	private $thread_ratings_allowed = false;
 	
 	/**
-	 * Forced new post title
+	 * Preset subject on reply.
+	 * If deactivated, user is forced to enter a new subject
+	 *
 	 * @access	private
 	 */
-	private $new_post_title = 0;
+	private $preset_subject = 1;
+
+	/**
+	 * Add 'Re: ' to subject on reply
+	 *
+	 * @access	private
+	 */
+	private $add_re_subject = 0;
+
+
 
 	/**
 	 * DB Object
@@ -142,9 +153,10 @@ class ilForumProperties
 				$this->post_activation_enabled = $row->post_activation ;// == 1 ? true : false;
 				$this->admin_force_noti = $row->admin_force_noti == 1 ? true : false;
 				$this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
-				$this->new_post_title = $row->new_post_title;// == 1 ? true : false;
+				$this->preset_subject = $row->preset_subject;
+				$this->add_re_subject = $row->add_re_subject;
 
-				 $this->notification_type = $row->notification_type;
+				$this->notification_type = $row->notification_type;
 
 				return true;
 			}
@@ -167,7 +179,8 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title),
+					'preset_subject'	=> array('integer', $this->preset_subject),
+					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type))
 			);
 
@@ -188,22 +201,11 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title),
+					'preset_subject'	=> array('integer', $this->preset_subject),
+					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type)),
 			array(	'obj_id'			=> array('integer', $this->obj_id))
 			);
-
-/*			$statement = $this->db->manipulateF('UPDATE frm_settings
-				SET default_view = %s, 
-					anonymized = %s, 
-					statistics_enabled = %s, 
-					post_activation  = %s,
-					admin_force_noti = %s,
-					user_toggle_noti = %s
-				WHERE obj_id = %s', 
-				array ('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-				array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->admin_force_noti, $this->user_toggle_noti, $this->obj_id));
-*/
 			return true;
 		}		
 		return false;		
@@ -221,7 +223,8 @@ class ilForumProperties
 					'post_activation'	=> array('integer', $this->post_activation_enabled),
 					'admin_force_noti'	=> array('integer', $this->admin_force_noti),
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
-					'new_post_title'	=> array('integer', $this->new_post_title),
+					'preset_subject'	=> array('integer', $this->preset_subject),
+					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type))
 			);
 			return true;
@@ -348,14 +351,21 @@ class ilForumProperties
 		return $this;
 	}
 
-	public function setNewPostTitle($a_post_title)
+	public function setPresetSubject($a_preset_subject)
 	{
-		$this->new_post_title = $a_post_title;
+		$this->preset_subject = $a_preset_subject;
 	}
-
-	public function getNewPostTitle()
+	public function getPresetSubject()
 	{
-		return $this->new_post_title;
+		return $this->preset_subject;
+	}
+	public function setAddReSubject($a_add_re_subject)
+	{
+		$this->add_re_subject = $a_add_re_subject;
+	}
+	public function getAddReSubject()
+	{
+		return $this->add_re_subject;
 	}
 
 	public function setNotificationType($a_notification_type)
