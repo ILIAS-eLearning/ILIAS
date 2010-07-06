@@ -357,6 +357,13 @@ class ilBookingEntry
 			$ilDB->query('INSERT INTO booking_user (entry_id, user_id, tstamp)'.
 				' VALUES ('.$ilDB->quote($a_entry_id, 'integer').','.
 				$ilDB->quote($a_user_id, 'integer').','.$ilDB->quote(time(), 'integer').')');
+
+			include_once 'Services/Calendar/classes/class.ilCalendarMailNotification.php';
+			$mail = new ilCalendarMailNotification();
+			$mail->setAppointmentId($a_entry_id);
+			$mail->setRecipients(array($a_user_id));
+			$mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CONFIRMATION);
+			$mail->send();
 		}
 		return true;
 	}
@@ -377,6 +384,13 @@ class ilBookingEntry
 
 		if($this->hasBooked($a_entry_id, $a_user_id))
 		{
+			include_once 'Services/Calendar/classes/class.ilCalendarMailNotification.php';
+			$mail = new ilCalendarMailNotification();
+			$mail->setAppointmentId($a_entry_id);
+			$mail->setRecipients(array($a_user_id));
+			$mail->setType(ilCalendarMailNotification::TYPE_BOOKING_CANCELLATION);
+			$mail->send();
+
 			$ilDB->query('DELETE FROM booking_user'.
 				' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer').
 				' AND user_id = '.$ilDB->quote($a_user_id, 'integer'));
