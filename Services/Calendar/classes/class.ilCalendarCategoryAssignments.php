@@ -90,28 +90,26 @@ class ilCalendarCategoryAssignments
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * lookup appointment ids by calendar
+	 * lookup calendars for appointment ids
 	 *
 	 * @access public
-	 * @param array calendar category id(s)
-	 * @return array int cal entry ids
+	 * @param	array	$a_cal_ids
 	 * @static
 	 */
-	public static function _getAssignedAppointments($a_cat_id)
+	public static function _getAppointmentCalendars($a_cal_ids)
 	{
 		global $ilDB;
 		
 		$query = "SELECT * FROM cal_cat_assignments ".
-			"WHERE ".$ilDB->in('cat_id',$a_cat_id,false,'integer');
-			
+			"WHERE ".$ilDB->in('cal_id',$a_cal_ids,false,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$cal_ids[] = $row->cal_id;
+			$map[$row->cal_id] = $row->cat_id;
 		}
-		return $cal_ids ? $cal_ids : array();
+		return $map ? $map : array();
 	}
 	
 	/**

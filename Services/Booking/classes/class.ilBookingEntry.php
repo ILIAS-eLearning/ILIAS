@@ -291,10 +291,17 @@ class ilBookingEntry
 
 		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($a_entry_id))
 		{
-			// check if current user is part of bookings
-			if($a_check_current_user && $this->hasBooked($a_entry_id))
+			// check against current user
+			if($a_check_current_user)
 			{
-				return false;
+				if($this->hasBooked($a_entry_id))
+				{
+					return false;
+				}
+		        if($ilUser->getId() == $this->getObjId())
+				{
+					return false;
+				}
 			}
 			return true;
 		}

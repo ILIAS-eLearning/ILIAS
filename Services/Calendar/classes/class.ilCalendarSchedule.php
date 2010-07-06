@@ -167,8 +167,28 @@ class ilCalendarSchedule
 	 */
 	public function calculate()
 	{
+		global $ilDB;
+
+		$events = $this->getEvents();
+
+		// we need category type for booking handling
+		$ids = array();
+		foreach($events as $event)
+		{
+			$ids[] = $event->getEntryId();
+		}
+		include_once('Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		$cat_map = ilCalendarCategoryAssignments::_getAppointmentCalendars($ids);
+		include_once('Services/Calendar/classes/class.ilCalendarCategory.php');
+		$cat_types = array();
+		foreach(array_unique($cat_map) as $cat_id)
+		{
+			$cat = new ilCalendarCategory($cat_id);
+			$cat_types[$cat_id] = $cat->getType();
+		}
+
 		$counter = 0;
-		foreach($this->getEvents() as $event)
+		foreach($events as $event)
 		{
 			// Calculdate recurring events
 			include_once('Services/Calendar/classes/class.ilCalendarRecurrences.php');
@@ -184,6 +204,8 @@ class ilCalendarSchedule
 						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
 						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration;
 						$this->schedule[$counter]['fullday'] = $event->isFullday();
+						$this->schedule[$counter]['category_id'] = $cat_map[$event->getEntryId()];
+						$this->schedule[$counter]['category_type'] = $cat_types[$cat_map[$event->getEntryId()]];
 						
 						switch($this->type)
 						{
@@ -210,6 +232,8 @@ class ilCalendarSchedule
 				$this->schedule[$counter]['dstart'] = $event->getStart()->get(IL_CAL_UNIX);
 				$this->schedule[$counter]['dend'] = $event->getEnd()->get(IL_CAL_UNIX);
 				$this->schedule[$counter]['fullday'] = $event->isFullday();
+				$this->schedule[$counter]['category_id'] = $cat_map[$event->getEntryId()];
+				$this->schedule[$counter]['category_type'] = $cat_types[$cat_map[$event->getEntryId()]];
 				
 				if(!$event->isFullday())
 				{

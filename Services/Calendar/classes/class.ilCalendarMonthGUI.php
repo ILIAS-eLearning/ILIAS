@@ -269,7 +269,7 @@ class ilCalendarMonthGUI
 		{
 			// booking
 			$booking_subtitle = false;
-			if(isset($_GET['bkid']))
+			if($item['category_type'] == ilCalendarCategory::TYPE_CH)
 			{
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 				$entry = new ilBookingEntry($item['event']->getContextId());

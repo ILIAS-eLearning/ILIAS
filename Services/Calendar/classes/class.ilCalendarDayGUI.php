@@ -116,7 +116,7 @@ class ilCalendarDayGUI
 	 */
 	protected function show()
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
 		$this->tpl = new ilTemplate('tpl.day_view.html',true,true,'Services/Calendar');
 		
@@ -336,7 +336,7 @@ class ilCalendarDayGUI
 
 
 		// booking
-		if(isset($_GET['bkid']))
+		if($a_app['category_type'] == ilCalendarCategory::TYPE_CH)
 		{
 			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 			$entry = new ilBookingEntry($a_app['event']->getContextId());
