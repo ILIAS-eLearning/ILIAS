@@ -1229,7 +1229,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
-		$this->form->setTableWidth('75%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
 		
 		// title
@@ -1352,10 +1351,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$reg_code->addSubItem($code);
 		*/
 		
-		$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
+		#$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
+		
+		$link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
 		include_once './classes/class.ilLink.php';
-		$link->setValue(
-			ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()));
+		$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
+		$link->setHTML('<font class="small">'.$val.'</font>');
 		$reg_code->addSubItem($link);
 		
 		$this->form->addItem($reg_code);
