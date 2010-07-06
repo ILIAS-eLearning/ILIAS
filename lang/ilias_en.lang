@@ -10579,6 +10579,14 @@ dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this b
 dateplaner#:#cal_cancel_booking#:#Cancel Booking
 dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.
 dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.
+crs#:#crs_reg_code#:#Registration Code
+crs#:#crs_reg_code_link#:#Registration Link
+crs#:#crs_reg_code_value#:#Code
+crs#:#crs_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.
+grp#:#grp_reg_code#:#Registration Code
+grp#:#grp_reg_code_link#:#Registration Link
+grp#:#grp_reg_code_value#:#Code
+grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.
 forum#:#add_re_subject#:#Add 'Re: ' to subject on reply
 forum#:#add_re_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
 forum#:#enter_new_subject#:#Please enter a new subject
