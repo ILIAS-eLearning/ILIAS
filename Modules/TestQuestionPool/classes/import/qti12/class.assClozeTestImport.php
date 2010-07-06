@@ -256,6 +256,7 @@ class assClozeTestImport extends assQuestionImport
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$textgap_rating = $item->getMetadataEntry("textgaprating");
 		$this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
+		$this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
 		if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
 		$this->object->setTextgapRating($textgap_rating);
 		$gaptext = array();
