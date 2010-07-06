@@ -245,7 +245,7 @@ class ilBookingEntry
 	/**
 	 * get current number of bookings
 	 * @param	int	$a_entry_id
-	 * @return
+	 * @return	int
 	 */
 	public function getCurrentNumberOfBookings($a_entry_id)
 	{
@@ -258,10 +258,29 @@ class ilBookingEntry
 	}
 
 	/**
+	 * get current bookings
+	 * @param	int	$a_entry_id
+	 * @return	array
+	 */
+	public function getCurrentBookings($a_entry_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query('SELECT user_id FROM booking_user'.
+			' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer'));
+	    $res = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row['user_id'];
+		}
+		return $res;
+	}
+
+	/**
 	 * get current number of bookings
 	 * @param	int		$a_entry_id
 	 * @param	int		$a_user_id
-	 * @return
+	 * @return	int
 	 */
 	public function hasBooked($a_entry_id, $a_user_id = false)
 	{
@@ -283,7 +302,7 @@ class ilBookingEntry
 	 * get current number of bookings
 	 * @param	int		$a_entry_id
 	 * @param	bool	$a_check_current_user
-	 * @return
+	 * @return	bool
 	 */
 	public function isBookedOut($a_entry_id, $a_check_current_user = false)
 	{

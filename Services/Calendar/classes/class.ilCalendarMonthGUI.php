@@ -300,7 +300,6 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($item));
 			$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
-
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));

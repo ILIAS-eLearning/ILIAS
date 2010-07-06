@@ -80,7 +80,7 @@ class ilCalendarAppointmentPanelGUI
 	 */
 	public function getHTML($a_app)
 	{
-		global $tree,$lng;
+		global $tree,$lng,$ilUser;
 		
 		self::$counter++;
 		
@@ -181,25 +181,40 @@ class ilCalendarAppointmentPanelGUI
 				$this->tpl->setVariable('PANEL_MAX_BOOKING', $entry->getNumberOfBookings());
 				$this->tpl->parseCurrentBlock();
 
-				$this->tpl->setCurrentBlock('panel_current_booking');
-				$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
-				$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId()));
-				$this->tpl->parseCurrentBlock();
-
-				if($entry->hasBooked($a_app['event']->getEntryId()))
+				if($entry->getObjId() != $ilUser->getId())
 				{
-					$this->tpl->setCurrentBlock('panel_cancel_book_link');
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-					$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
-					$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
+					if($entry->hasBooked($a_app['event']->getEntryId()))
+					{
+						$this->tpl->setCurrentBlock('panel_cancel_book_link');
+						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+						$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
+						$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
+						$this->tpl->parseCurrentBlock();
+					}
+					else if(!$entry->isBookedOut($a_app['event']->getEntryId()))
+					{
+						$this->tpl->setCurrentBlock('panel_book_link');
+						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+						$this->tpl->setVariable('TXT_PANEL_BOOK', $this->lng->txt('cal_ch_book'));
+						$this->tpl->setVariable('PANEL_BOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','book'));
+						$this->tpl->parseCurrentBlock();
+					}
+
+					$this->tpl->setCurrentBlock('panel_current_booking');
+					$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
+					$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId()));
 					$this->tpl->parseCurrentBlock();
 				}
-				else if(!$entry->isBookedOut($a_app['event']->getEntryId()))
+				else
 				{
-					$this->tpl->setCurrentBlock('panel_book_link');
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-					$this->tpl->setVariable('TXT_PANEL_BOOK', $this->lng->txt('cal_ch_book'));
-					$this->tpl->setVariable('PANEL_BOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','book'));
+					$bookings = array();
+					foreach($entry->getCurrentBookings($a_app['event']->getEntryId()) as $user_id)
+					{
+						$bookings[] = ilObjUser::_lookupFullname($user_id);
+					}
+					$this->tpl->setCurrentBlock('panel_current_booking');
+					$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
+					$this->tpl->setVariable('PANEL_CURRENT_BOOKING', implode('<br />', $bookings));
 					$this->tpl->parseCurrentBlock();
 				}
 				break;
