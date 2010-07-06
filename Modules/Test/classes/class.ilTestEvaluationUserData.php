@@ -456,6 +456,7 @@ class ilTestEvaluationUserData
 			$reached = $this->passes[$pass]->getReachedPoints();
 		}
 		$reached = ($reached < 0) ? 0 : $reached;
+		$reached = round($reached, 2);
 		return $reached;
 	}
 
@@ -465,6 +466,7 @@ class ilTestEvaluationUserData
 		if (!is_object($this->passes[$pass])) $pass = 0;
 		if (!is_object($this->passes[$pass])) return 0;
 		$available = $this->passes[$pass]->getMaxPoints();
+		$available = round($available, 2);
 		return $available;
 	}
 
