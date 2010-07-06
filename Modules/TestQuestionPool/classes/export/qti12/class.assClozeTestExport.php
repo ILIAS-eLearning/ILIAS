@@ -89,6 +89,10 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "fixedTextLength");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getFixedTextLength());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "identicalScoring");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getIdenticalScoring());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 		
