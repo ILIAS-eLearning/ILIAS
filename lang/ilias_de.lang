@@ -10527,3 +10527,10 @@ dateplaner#:#cal_cancel_booking_confirmed#:#Die Buchung wurde erfolgreich storni
 forum#:#add_re_subject#:#'Re: ' dem Beitragstitel hinzufügen
 forum#:#add_re_subject_info#:#Wenn diese Option aktiviert ist, wird dem Beitragstitel der Zusatz 'Re:' hinzugefügt.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
+dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
+dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
+dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
+dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an User:
+dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
+dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
+dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an User:

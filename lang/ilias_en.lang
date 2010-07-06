@@ -10590,3 +10590,10 @@ grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possi
 forum#:#add_re_subject#:#Add 'Re: ' to subject on reply
 forum#:#add_re_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
 forum#:#enter_new_subject#:#Please enter a new subject
+dateplaner#:#cal_booking_confirmation_subject#:#The appointment "%s" has been booked
+dateplaner#:#cal_booking_confirmation_body#:#your appointment with %s has been booked.
+dateplaner#:#cal_booking_confirmation_link#:#Link to the appointment:
+dateplaner#:#cal_booking_confirmation_user#:#This is a copy from the original mail to user:
+dateplaner#:#cal_booking_cancellation_subject#:#The appointment "%s" has been cancelled
+dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
+dateplaner#:#cal_booking_cancellation_user#:#This is a copy from the original mail to user:
