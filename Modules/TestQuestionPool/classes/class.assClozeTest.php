@@ -367,8 +367,8 @@ class assClozeTest extends assQuestion
 								$item->getPoints(),
 								$item->getOrder(),
 								$gap->getType(),
-								($eval->e($item->getLowerBound() !== FALSE) && strlen($item->getLowerBound()) > 0) ? $item->getLowerBound() : "0",
-								($eval->e($item->getUpperBound() !== FALSE)  && strlen($item->getUpperBound()) > 0) ? $item->getUpperBound() : "0"
+								($eval->e($item->getLowerBound() !== FALSE) && strlen($item->getLowerBound()) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
+								($eval->e($item->getUpperBound() !== FALSE)  && strlen($item->getUpperBound()) > 0) ? $item->getUpperBound() : $item->getAnswertext()
 							)
 						);
 						break;
