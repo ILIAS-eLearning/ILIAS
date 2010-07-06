@@ -50,7 +50,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacreview, $rbacsystem;
+		global $rbacreview, $rbacsystem,$ilAccess;
 
 		if(!$tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_role->getType() != 'role')
 		{
@@ -58,8 +58,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		$rolf_id = end($rolf_ids = $rbacreview->getFoldersAssignedToRole($role_id,true));
-		if(!$rbacsystem->checkAccess('delete',$rolf_id))
+
+		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
 		{
 			return $this->__raiseError('Check access failed. No permission to delete role','Server');
 		}
@@ -75,6 +76,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 
 		// set parent id (role folder id) of role
+		$rolf_id = end($rolf_ids = $rbacreview->getFoldersAssignedToRole($role_id,true));
 		$tmp_role->setParent($rolf_id);
 		$tmp_role->delete();
 
@@ -91,7 +93,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacadmin;
+		global $rbacadmin,$rbacreview,$ilAccess;
 
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id) and $tmp_user->getType() != 'usr')
 		{
@@ -104,6 +106,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
+		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
+		{
+			return $this->__raiseError('Check access failed. No permission to assign users','Server');
+		}
+		
 		if(!$rbacadmin->assignUser($role_id,$user_id))
 		{
 			return $this->__raiseError('Error rbacadmin->assignUser()',
@@ -121,7 +129,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacadmin;
+		global $rbacadmin,$ilAccess,$rbacreview;
 
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false) and $tmp_user->getType() != 'usr')
 		{
@@ -132,6 +140,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError('No valid role id given. Please choose an existing id of an ILIAS role',
 									   'Client');
+		}
+
+		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
+		{
+			return $this->__raiseError('Check access failed. No permission to deassign users','Server');
 		}
 
 		if(!$rbacadmin->deassignUser($role_id,$user_id))
@@ -174,7 +188,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacadmin;
+		global $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -192,6 +206,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
+		if(!$ilAccess->checkAccess('edit_permission','',$ref_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to revoke permissions','Server');
+		}
+		
 		$rbacadmin->revokePermission($ref_id,$role_id);
 
 		return true;
@@ -206,7 +225,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacadmin;
+		global $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
@@ -218,6 +237,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid role id given. Please choose an existing id of an ILIAS role',
 									   'Client');
 		}
+		
+		if(!$ilAccess->checkAccess('edit_permission','',$ref_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to grant permissions','Server');
+		}
+		
 		
 		// mjansen@databay.de: dirty fix
 		if(isset($permissions['item']))
@@ -247,13 +272,19 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacreview;
+		global $rbacreview,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
 		{
 			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
+
+		if(!$ilAccess->checkAccess('edit_permission','',$ref_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to access role information','Server');
+		}
+
 
 		$role_folder = $rbacreview->getRoleFolderOfObject($ref_id);
 
@@ -330,7 +361,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacreview, $objDefinition, $rbacsystem;
+		global $rbacreview, $objDefinition, $rbacsystem,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -342,7 +373,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
 		}
-
+		
+		if(!$ilAccess->checkAccess('edit_permission','',$target_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to create roles','Server');
+		}
+		
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
 		$xml_parser =& new ilObjectXMLParser($role_xml);
@@ -400,7 +436,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		global $rbacreview, $objDefinition, $rbacsystem, $rbacadmin;
+		global $rbacreview, $objDefinition, $rbacsystem, $rbacadmin,$ilAccess;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -418,6 +454,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
 		}
+		
+		if(!$ilAccess->checkAccess('edit_permission','',$target_id))
+		{
+			return $this->__raiseError('Check access failed. No permission to create roles','Server');
+		}
+		
 
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
@@ -516,14 +558,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 
 		// check visible for all upper tree entries
-		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'visible','view',$tmp_obj->getRefId()))
+		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'visible','',$tmp_obj->getRefId()))
 		{
 			return array();
 		}
 		$op_data = $rbacreview->getOperation(2);
 		$ops_data[] = $op_data;
 
-		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'read','view',$tmp_obj->getRefId()))
+		if(!$ilAccess->checkAccessOfUser($tmp_user->getId(),'read','',$tmp_obj->getRefId()))
 		{
 			return $ops_data;
 		}
