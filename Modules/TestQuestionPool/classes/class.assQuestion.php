@@ -752,7 +752,7 @@ class assQuestion
 	*/
 	function getReachedPoints($active_id, $pass = NULL)
 	{
-		return $this->_getReachedPoints($active_id, $this->getId(), $pass);
+		return round($this->_getReachedPoints($active_id, $this->getId(), $pass), 2);
 	}
 	
 	/**

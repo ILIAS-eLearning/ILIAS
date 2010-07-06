@@ -4158,8 +4158,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$data = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($row['title']),
-				"max" => $row['points'],
-				"reached" => $arrResults[$row['question_id']]['reached'],
+				"max" => round($row['points'], 2),
+				"reached" => round($arrResults[$row['question_id']]['reached'],2),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
 				"solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
 				"type" => $row["type_tag"],
@@ -4167,8 +4167,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"original_id" => $row["original_id"],
 				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0
 			);
-			$pass_max += $row['points'];
-			$pass_reached += $arrResults[$row['question_id']]['reached'];
+			$pass_max += round($row['points'], 2);
+			$pass_reached += round($arrResults[$row['question_id']]['reached'], 2);
 			array_push($found, $data);
 			$key++;
 		}
