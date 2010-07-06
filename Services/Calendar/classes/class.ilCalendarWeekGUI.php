@@ -440,7 +440,7 @@ class ilCalendarWeekGUI
 			}
 
 			// booking
-			if(isset($_GET['bkid']))
+			if($a_app['category_type'] == ilCalendarCategory::TYPE_CH)
 			{
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 				$entry = new ilBookingEntry($a_app['event']->getContextId());
