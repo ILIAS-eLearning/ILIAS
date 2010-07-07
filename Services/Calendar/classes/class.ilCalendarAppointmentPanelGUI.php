@@ -207,10 +207,11 @@ class ilCalendarAppointmentPanelGUI
 				}
 				else
 				{
+					include_once 'classes/class.ilLink.php';
 					$bookings = array();
 					foreach($entry->getCurrentBookings($a_app['event']->getEntryId()) as $user_id)
 					{
-						$bookings[] = ilObjUser::_lookupFullname($user_id);
+						$bookings[] = '<a href="'.ilLink::_getLink($user_id, 'usr').'">'.ilObjUser::_lookupFullname($user_id);
 					}
 					$this->tpl->setCurrentBlock('panel_current_booking');
 					$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
