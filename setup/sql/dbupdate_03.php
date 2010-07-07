@@ -2217,3 +2217,7 @@ if(!$ilDB->tableExists('booking_user'))
 		"length" => 1,
 		"default" => 0));
 ?>
+<#3100>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

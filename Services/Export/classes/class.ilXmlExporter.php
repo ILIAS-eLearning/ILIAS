@@ -19,7 +19,7 @@ abstract class ilXmlExporter
 	 * @param
 	 * @return
 	 */
-	function __construct()
+	public function __construct()
 	{
 
 	}
@@ -54,7 +54,7 @@ abstract class ilXmlExporter
 	 *
 	 * @return	string	relative directory
 	 */
-	function getRelativeExportDirectory()
+	public function getRelativeExportDirectory()
 	{
 		return $this->dir_relative;
 	}
@@ -64,7 +64,7 @@ abstract class ilXmlExporter
 	 *
 	 * @return	string	absolute directory
 	 */
-	function getAbsoluteExportDirectory()
+	public function getAbsoluteExportDirectory()
 	{
 		return $this->dir_absolute;
 	}
@@ -119,7 +119,7 @@ abstract class ilXmlExporter
 	 * @param
 	 * @return
 	 */
-	final function determineSchemaVersion($a_entity, $a_target_release)
+	public final function determineSchemaVersion($a_entity, $a_target_release)
 	{
 		$svs = $this->getValidSchemaVersions($a_entity);
 		$found = false;
@@ -139,6 +139,5 @@ abstract class ilXmlExporter
 
 		return $rsv;
 	}
-
 }
 ?>

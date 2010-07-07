@@ -180,6 +180,54 @@ class ilObjLinkResource extends ilObject
 	 	return $new_obj;
 	}
 
+	/**
+	 * Write webresource xml
+	 * @param ilXmlWriter $writer
+	 * @return 
+	 */
+	public function toXML(ilXmlWriter $writer)
+	{
+		$attribs = array("obj_id" => "il_".IL_INST_ID."_webr_".$this->getId());
+
+		$writer->xmlStartTag('WebLinks',$attribs);
+				
+		// LOM MetaData
+		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
+		$md2xml = new ilMD2XML($this->getId(),$this->getId(),'webr');
+		$md2xml->startExport();
+		$writer->appendXML($md2xml->getXML());
+
+		// Sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		switch(ilContainerSortingSettings::_lookupSortMode($this->getId()))
+		{
+			case ilContainer::SORT_MANUAL:
+				$writer->xmlElement(
+					'Sorting',
+					array('type'	=> 'Manual')
+				);
+				break;
+			
+			case ilContainer::SORT_TITLE:
+			default:
+				$writer->xmlElement(
+					'Sorting',
+					array('type'	=> 'Title')
+				);
+				break;
+		}
+		
+		// All links
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		$links = new ilLinkResourceItems($this->getId());
+		$links->toXML($writer);
+		
+		
+		$writer->xmlEndTag('WebLinks');
+		return true;		
+	}
+
+
 	// PRIVATE
 
 
