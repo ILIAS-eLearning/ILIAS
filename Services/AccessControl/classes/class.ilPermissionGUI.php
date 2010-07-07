@@ -383,7 +383,7 @@ class ilPermissionGUI
 		}
 
 		// Sort ids
-		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
+		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type DESC,title','obj_id');
 
 		// Sort roles by title
 		$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
