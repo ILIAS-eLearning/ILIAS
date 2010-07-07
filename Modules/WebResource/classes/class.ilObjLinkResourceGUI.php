@@ -13,6 +13,7 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI
 * 
 *
 * @ingroup ModulesWebResource
@@ -94,6 +95,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('webr');
 				$this->ctrl->forwardCommand($cp);
+				break;
+				
+			case 'ilexportgui':
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
 				break;
 				
 			default:
@@ -1300,12 +1309,22 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 				$this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'));
 		}
 
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilTabs->addTab(
+				'export',
+				$this->lng->txt('export'),
+				$this->ctrl->getLinkTargetByClass('ilexportgui','')
+			);
+		}
+
 		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
 			$ilTabs->addTab("id_permissions",
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
+		
 	}
 
 	// PRIVATE

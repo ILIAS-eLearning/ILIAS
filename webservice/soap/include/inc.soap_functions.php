@@ -900,7 +900,30 @@ class ilSoapFunctions {
 
 		return $sua->getUserIdBySid($sid);
 	}
+	
+	public static function readWebLink($sid,$ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapWebLinkAdministration.php';
+		
+		$swa = new ilSoapWebLinkAdministration();
+		return $swa->readWebLink($sid, $ref_id);
+	}
 
+	public static function createWebLink($sid,$ref_id,$xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapWebLinkAdministration.php';
+		
+		$swa = new ilSoapWebLinkAdministration();
+		return $swa->createWebLink($sid, $ref_id,$xml);
+	}
+
+	public static function updateWebLink($sid,$ref_id,$xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapWebLinkAdministration.php';
+		
+		$swa = new ilSoapWebLinkAdministration();
+		return $swa->updateWebLink($sid, $ref_id,$xml);
+	}
 }
 
 /*	function  ilClone($sid,$copy_identifier)

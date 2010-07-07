@@ -24,6 +24,7 @@
 define("LINKS_USER_ID",1);
 define("LINKS_SESSION_ID",2);
 define("LINKS_LOGIN",3);
+define('LINKS_MATRICULATION',4);
 
 // Errors
 define("LINKS_ERR_NO_NAME",1);
@@ -56,6 +57,27 @@ class ilParameterAppender
 
 		$this->webr_id = $webr_id;
 		$this->db =& $ilDB;
+	}
+	
+	/**
+	 * Get Parameter ids of link
+	 * @param int $a_webr_id
+	 * @param int $a_link_id
+	 * @return 
+	 */
+	public static function getParameterIds($a_webr_id,$a_link_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM webr_params ".
+			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer')." ".
+			"AND link_id = ".$ilDB->quote($a_link_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$params[] = $row['param_id'];
+		}
+		return (array) $params;
 	}
 
 	function getErrorCode()
@@ -196,6 +218,10 @@ class ilParameterAppender
 					case LINKS_USER_ID:
 						$a_link_data['target'] .= ($ilUser->getId());
 						break;
+						
+					case LINKS_MATRICULATION:
+						$a_link_data['target'] .= ($ilUser->getMatriculation());
+						break;
 				}
 			}
 		}
@@ -242,6 +268,9 @@ class ilParameterAppender
 				
 			case LINKS_LOGIN:
 				return $info.'=LOGIN';
+				
+			case LINKS_MATRICULATION:
+				return $info.'=MATRICULATION';
 		}
 		return '';
 	}
@@ -268,7 +297,9 @@ class ilParameterAppender
 		return array(0 => $lng->txt('links_select_one'),
 					 LINKS_USER_ID => $lng->txt('links_user_id'),
 					 LINKS_LOGIN => $lng->txt('links_user_name'),
-					 LINKS_SESSION_ID => $lng->txt('links_session_id'));
+					 LINKS_SESSION_ID => $lng->txt('links_session_id'),
+					 LINKS_MATRICULATION => $lng->txt('matriculation')
+		);
 	}
 }
 ?>
