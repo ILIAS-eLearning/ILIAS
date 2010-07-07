@@ -113,6 +113,28 @@ class ilCalendarCategoryAssignments
 	}
 	
 	/**
+	 * Get assigned apointments
+	 *
+	 * @access public
+	 * @param	array	$a_cat_id
+	 * @static
+	 */
+	public static function _getAssignedAppointments($a_cat_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM cal_cat_assignments ".
+			"WHERE ".$ilDB->in('cat_id',$a_cat_id,false,'integer');
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cal_ids[] = $row->cal_id;
+		}
+		return $cal_ids ? $cal_ids : array();
+	}
+
+	/**
 	 * get automatic generated appointments of category
 	 *
 	 * @access public
