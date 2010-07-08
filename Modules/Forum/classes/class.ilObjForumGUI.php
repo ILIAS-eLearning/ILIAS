@@ -517,7 +517,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->ctrl->getLinkTarget($this, 'viewThread').
 								"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];
 						}						
-						
+					
 						// get author data
 						if($thread->getUserId())
 						{										
@@ -2012,6 +2012,20 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 
+		// quick and dirty: check for treeview
+		if(!isset($_SESSION['thread_control']['old']))
+		{
+			$_SESSION['thread_control']['old'] = $_GET['thr_pk'];
+			$_SESSION['thread_control']['new'] = $_GET['thr_pk'];
+		}
+		else
+		if(isset($_SESSION['thread_control']['old']) && $_GET['thr_pk'] != $_SESSION['thread_control']['old'])
+		{
+			$_SESSION['thread_control']['new'] = $_GET['thr_pk'];
+			$_SESSION['viewmode'] = 'answers';
+			$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = 0;
+		}
+
 		if(isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode'])
 		{
 			$_SESSION['viewmode'] = $_GET['viewmode'];
@@ -2021,10 +2035,6 @@ class ilObjForumGUI extends ilObjectGUI
 			||($_SESSION['viewmode'] == 'answers')
 			|| !isset($_SESSION['viewmode']))
 		{
-			if(isset($_GET['action']))
-			{
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = 0;
-			}
 			$_SESSION['viewmode'] = 'answers';
 			$tpl->setLeftContent($this->getForumExplorer());
 		}

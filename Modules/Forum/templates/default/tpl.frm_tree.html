@@ -101,7 +101,7 @@
 	//the tree won't show up until you draw (render) it:
 	tree.draw();
 
-	if ({THR_OPEN_NODES}.length == 0)
+	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
 		tree.expandAll();
 	else
 		tree.expandCertainNodes({THR_OPEN_NODES});

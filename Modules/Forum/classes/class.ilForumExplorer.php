@@ -135,6 +135,9 @@ class ilForumExplorer
 				}
 				$title .= ", ".$this->forum->convertDate($object['date'])."</div>";
 
+				$this->tpl->setVariable('OLD_THR_ID', $_SESSION['thread_control']['old']);
+				$this->tpl->setVariable('NEW_THR_ID', $_SESSION['thread_control']['new']);
+
 				if($object['child'] == $this->root_id)
 				{
 					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_VARIABLE', 'frmNode'.$object['child']);
@@ -155,6 +158,8 @@ class ilForumExplorer
 				$this->setOutput($object['child'], $a_depth);
 			} //foreach
 		} //if
+
+		 $_SESSION['thread_control']['old']  = $_SESSION['thread_control']['new'];
 	} //function
 
 	private function __readThreadSubject()
