@@ -5326,7 +5326,7 @@ content#:#cont_position#:#Position
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
-content#:#cont_previous_rev#:#Letzte Änderung
+content#:#cont_previous_rev#:#Vorherige Änderung
 content#:#cont_print_no_page_selected#:#Bitte wählen Sie mindestens eine Seite aus.
 content#:#cont_print_selection#:#Auswahl Druckansicht
 content#:#cont_print_view#:#Druckansicht
@@ -5548,7 +5548,7 @@ content#:#cont_year#:#Jahr
 content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei '%s'.
 content#:#content_current#:#Aktuell
 content#:#content_last#:#Letzte
-content#:#content_page_history#:#Seitenverlauf
+content#:#content_page_history#:#Verlauf der Seite
 content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
 content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_definition_abbr#:#Def.
