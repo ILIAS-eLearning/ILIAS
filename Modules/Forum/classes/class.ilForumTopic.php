@@ -211,7 +211,7 @@ class ilForumTopic
 				$this->forum_id = $row->thr_top_fk;
 				$this->user_id = $row->thr_usr_id;
 				$this->user_alias = $row->thr_usr_alias;	
-				$this->subject = $row->thr_subject;
+				$this->subject = html_entity_decode($row->thr_subject);
 				$this->createdate = $row->thr_date;	
 				$this->changedate = $row->thr_update;
 				$this->import_name = $row->import_name;
