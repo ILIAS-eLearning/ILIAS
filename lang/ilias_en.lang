@@ -10597,3 +10597,4 @@ dateplaner#:#cal_booking_confirmation_user#:#This is a copy from the original ma
 dateplaner#:#cal_booking_cancellation_subject#:#The appointment "%s" has been cancelled
 dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
 dateplaner#:#cal_booking_cancellation_user#:#This is a copy from the original mail to user:
+webr#:#webr_imort#:#Import Weblink

@@ -140,8 +140,82 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
 		
 	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-		
+
+		$this->initImportForm("webr");
+		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
 	}
+
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("webr");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('60%');
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	protected function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $this->object->getRefId(), $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt('no_create_permission'),$ilErr->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			include_once './Services/Export/classes/class.ilImport.php';
+			$imp = new ilImport();
+			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->ctrl->returnToParent($this);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
 	
 	/**
 	 * Save new object
@@ -1236,7 +1310,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 					{
 						$this->ctrl->setParameter($this,'switch_mode',self::VIEW_MODE_SORT);
 						$ilTabs->addSubTab('id_content_ordering',
-							'cntr_ordering',
+							$this->lng->txt('cntr_ordering'),
 							$this->ctrl->getLinkTarget($this,'switchViewMode')
 						);
 					}
