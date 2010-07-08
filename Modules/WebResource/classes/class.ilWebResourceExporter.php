@@ -50,7 +50,7 @@ class ilWebResourceExporter extends ilXmlExporter
 			$this->writer = new ilWebLinkXmlWriter(false);
 			$this->writer->setObjId($a_id);
 			$this->writer->write();
-			return $this->writer->xmlDumpMem(true);
+			return $this->writer->xmlDumpMem(false);
 			
 		}
 		catch(UnexpectedValueException $e) 
