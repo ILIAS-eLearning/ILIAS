@@ -233,7 +233,22 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$tpl->setContent($form->getHTML());
 	}
 
-	function initTypeForm($a_mode = "create")
+	/**
+	 *
+	 *
+	 */
+	function editTypeObject()
+    {
+		global $tpl, $ilCtrl;
+
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+
+		$form = $this->initTypeForm('edit', (int)$_GET['type_id']);
+		$tpl->setContent($form->getHTML());
+	}
+
+	function initTypeForm($a_mode = "create", $id = NULL)
 	{
 		global $lng, $ilCtrl;
 
@@ -249,8 +264,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		if ($a_mode == "edit")
 		{
+			$item = new ilHiddenInputGUI('type_id');
+			$item->setValue($id);
+			$form_gui->addItem($item);
+			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+			$type = new ilBookingType($id);
+
 			$form_gui->setTitle($lng->txt("book_edit_type"));
-			$title->setValue($this->object->getTitle());
+			$title->setValue($type->getTitle());
 			$form_gui->addCommandButton("updateType", $lng->txt("save"));
 		}
 		else
@@ -270,7 +291,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function saveTypeObject()
 	{
-		global $rbacadmin, $ilUser, $tpl;
+		global $rbacadmin, $ilUser, $tpl, $ilObjDataCache;
 
 		$form = $this->initTypeForm();
 		if($form->checkInput())
@@ -278,9 +299,37 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
 			$obj = new ilBookingType;
 			$obj->setTitle($form->getInput("title"));
+			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
 			$obj->save();
 
 			ilUtil::sendSuccess($this->lng->txt("book_type_added"));
+			$this->renderObject();
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHTML());
+		}
+	}
+
+	/**
+	* save object
+	* @access	public
+	*/
+	function updateTypeObject()
+	{
+		global $rbacadmin, $ilUser, $tpl, $ilObjDataCache;
+
+		$form = $this->initTypeForm('edit', (int)$_POST['type_id']);
+		if($form->checkInput())
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+			$obj = new ilBookingType((int)$_POST['type_id']);
+			$obj->setTitle($form->getInput("title"));
+			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
+			$obj->update();
+
+			ilUtil::sendSuccess($this->lng->txt("book_type_updated"));
 			$this->renderObject();
 		}
 		else

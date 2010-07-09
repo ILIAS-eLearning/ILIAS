@@ -20,24 +20,27 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
+		$this->ref_id = $a_ref_id;
 		$this->setId("bktp");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 		
-		if ($ilAccess->checkAccess('write', '', $a_ref_id))
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$this->addCommandButton('addType', $this->lng->txt('book_add_type'));
 		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("book_no_of_objects"));
+		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_type_row.html", "Modules/BookingManager");
 		// $this->initFilter($a_parent_obj->getObjId());
 
-		$this->getItems($ilObjDataCache->lookupObjId($a_ref_id), $this->getCurrentFilter());
+		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
 	}
 
 	/**
@@ -83,10 +86,27 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilAccess, $ilCtrl;
 
-	    $this->tpl->setVariable("TITLE_TXT", $a_set["title"]);
+	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 
+		$ilCtrl->setParameter($this->parent_obj, 'type_id', $a_set['booking_type_id']);
+
+		$this->tpl->setCurrentBlock('item_command');
+		$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+		$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
+		$this->tpl->parseCurrentBlock();
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'listItems'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'editType'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 ?>
