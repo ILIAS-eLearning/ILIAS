@@ -10344,7 +10344,7 @@ rep#:#rep_object_to_delete#:#To Delete###29 03 2010 new variable
 rep#:#rep_dependent_object#:#Ressource with dependence###29 03 2010 new variable
 rep#:#rep_dependency#:#Dependency###29 03 2010 new variable
 content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###29 03 2010 new variable
-content#:#glo_presentation_view#:#Presentation View###29 03 2010 new variable
+content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_add_new_term#:#Add New Term###29 03 2010 new variable
 content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.###29 03 2010 new variable
 content#:#glo_list_usages#:#List Usages###29 03 2010 new variable
