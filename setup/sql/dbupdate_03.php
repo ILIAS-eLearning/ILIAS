@@ -2221,7 +2221,6 @@ if(!$ilDB->tableExists('booking_user'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
 <#3101>
 <?php
 	$ilDB->addTableColumn('il_object_def','export', array(
@@ -2231,3 +2230,27 @@ if(!$ilDB->tableExists('booking_user'))
 		'default' => 0
 	));
 ?>
+<#3102>
+<?php
+if(!$ilDB->tableExists('booking_type'))
+{
+	$ilDB->createTable('booking_type',array(
+		'booking_type_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 255,
+			'notnull' => true
+		),
+		'pool_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('booking_type', array('booking_type_id'));
+	$ilDB->createSequence('booking_type');
+}
