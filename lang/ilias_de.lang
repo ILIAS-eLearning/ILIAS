@@ -10535,3 +10535,7 @@ dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an User:
 webr#:#webr_import#:#Weblinksammlung importieren
+news#:#finish_publishing_date#:#Veröffentlichung endet:
+news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
+news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
+news#:#show_news_end_date#:#Enddatum

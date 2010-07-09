@@ -22,6 +22,8 @@ class ilNewsItemGUIGen
 	protected $context_sub_obj_id;
 	protected $context_sub_obj_type;
 	protected $form_edit_mode;
+	protected $start_date;
+	protected $end_date;
 
 	/**
 	* Constructor.
@@ -196,7 +198,24 @@ class ilNewsItemGUIGen
 	{
 		return $this->form_edit_mode;
 	}
+	public function setStartDate($a_start_date)
+	{
+		$this->start_date = $a_start_date;
+	}
+	public function getStartDate()
+	{
+		return $this->start_date;
+	}
 
+	public function setEndDate($a_end_date)
+	{
+		$this->end_date = $a_end_date;
+	}
+
+	public function getEndDate()
+	{
+		return $this->end_date;
+	}
 	/**
 	* FORM NewsItem: Create NewsItem.
 	*
@@ -234,6 +253,32 @@ class ilNewsItemGUIGen
 			$this->news_item->setContent($this->form_gui->getInput("news_content"));
 			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
 			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
+			if($this->form_gui->getInput('c_show_news_from_date') == '1')
+			{
+				$start_date = implode(' ',$_POST['news_start_date']);
+				$this->news_item->setStartDate($start_date);
+			}
+			else $this->news_item->setStartDate(NULL);
+
+			if($this->form_gui->getInput('c_show_news_until_date') == '1')
+			{
+				$start_date = implode(' ',$_POST['news_start_date']);
+				$this->news_item->setStartDate($start_date);
+
+				$end_date = implode(' ',$_POST['news_end_date']);
+				$this->news_item->setEndDate($end_date);
+			}
+			else $this->news_item->setEndDate(NULL);
+
+			if($this->form_gui->getInput('c_show_news_from_date') == '1' && $this->form_gui->getInput('c_show_news_until_date') == '1')
+			{
+				if($_POST['news_start_date'] > $_POST['news_end_date'])
+				{
+					$this->form_gui->setValuesByPost();
+					ilUtil::sendInfo($lng->txt("invalid_enddate"));
+					return $this->form_gui->getHtml();
+				}
+			}
 			$this->prepareSaveNewsItem($this->news_item);
 			$this->news_item->create();
 			$this->exitSaveNewsItem();
@@ -260,6 +305,20 @@ class ilNewsItemGUIGen
 			$this->news_item->setContent($this->form_gui->getInput("news_content"));
 			$this->news_item->setVisibility($this->form_gui->getInput("news_visibility"));
 			$this->news_item->setContentLong($this->form_gui->getInput("news_content_long"));
+			if($this->form_gui->getInput('c_show_news_from_date') == '1')
+			{
+				$start_date = implode(' ',$_POST['news_start_date']);
+				$this->news_item->setStartDate($start_date);
+			}
+			else $this->news_item->setStartDate(NULL);
+
+			if($this->form_gui->getInput('c_show_news_until_date') == '1')
+			{
+				$end_date = implode(' ',$_POST['news_end_date']);
+				$this->news_item->setEndDate($end_date);
+			}
+			else $this->news_item->setEndDate(NULL);
+
 			$this->news_item->update();
 			$this->exitUpdateNewsItem();
 		}
@@ -320,7 +379,38 @@ class ilNewsItemGUIGen
 		$text_area->setUseRte(true);
 		$this->form_gui->addItem($text_area);
 		
-		
+		// Property date from
+		$hnpd = new ilCheckboxInputGUI($lng->txt("show_news_from_date"),"c_show_news_from_date");
+		$hnpd->setInfo($lng->txt("show_news_from_date_info"));
+		$hnpd->setChecked($c_show_news_from_date);
+
+		$dt_prop = new ilDateTimeInputGUI($lng->txt("show_news_start_date"),"news_start_date");
+		if ($news_start_date != "")
+		{
+			$dt_prop->setDate(new ilDateTime($news_start_date[0].' '.$news_start_date[1],IL_CAL_DATETIME));
+
+		}
+
+		$dt_prop->setShowTime(true);
+		$hnpd->addSubItem($dt_prop);
+		$this->form_gui->addItem($hnpd);
+
+		// Property date until
+		$hnpd = new ilCheckboxInputGUI($lng->txt("show_news_until_date"),"c_show_news_until_date");
+		$hnpd->setInfo($lng->txt("show_news_until_date_info"));
+		$hnpd->setChecked($c_show_news_until_date);
+
+		$dt_prop_2 = new ilDateTimeInputGUI($lng->txt("show_news_end_date"),"news_end_date");
+
+		if ($news_end_date != "")
+		{
+			$dt_pro_2->setDate(new ilDateTime($news_end_date[0].' '.$news_end_date[1],IL_CAL_DATETIME));
+		}
+
+		$dt_prop_2->setShowTime(true);
+		$hnpd->addSubItem($dt_prop_2);
+		$this->form_gui->addItem($hnpd);
+
 		// save and cancel commands
 		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
 		{
@@ -352,7 +442,38 @@ class ilNewsItemGUIGen
 		$values["news_content"] = $this->news_item->getContent();
 		$values["news_visibility"] = $this->news_item->getVisibility();
 		$values["news_content_long"] = $this->news_item->getContentLong();
-		
+ 		if($this->news_item->getStartDate() == NULL)
+ 		{
+			$values["c_show_news_from_date"] = '0';
+ 			$start_dt = date('Y-m-d', time());
+ 		}
+ 		else
+ 		{
+ 			$values["c_show_news_from_date"] = '1';
+ 			$start_dt = $this->news_item->getStartDate();
+ 		}
+
+
+ 		if( $this->news_item->getEndDate() == NULL)
+	 	{
+			$values["c_show_news_until_date"] = '0';
+	 		$end_dt  = date('Y-m-d', time());
+ 		}
+ 		else
+ 		{
+ 			$values["c_show_news_until_date"] = '1';
+ 			$end_dt = $this->news_item->getEndDate();
+ 		}
+
+ 		$news_start_date = explode(' ',$start_dt);
+		$news_end_date = explode(' ',$end_dt);
+
+		$values["news_start_date"]["date"] = $news_start_date[0];
+		$values["news_start_date"]["time"] = $news_start_date[1];
+
+		$values["news_end_date"]["date"] = $news_end_date[0];
+		$values["news_end_date"]["time"] = $news_end_date[1];
+
 		$this->form_gui->setValuesByArray($values);
 
 	}
@@ -506,6 +627,8 @@ class ilNewsItemGUIGen
 		$a_news_item->setContextObjType($this->getContextObjType());
 		$a_news_item->setContextSubObjId($this->getContextSubObjId());
 		$a_news_item->setContextSubObjType($this->getContextSubObjType());
+		$a_news_item->setStartDate($this->getStartDate());
+		$a_news_item->setEndDate($this->getEndDate());
 
 	}
 
