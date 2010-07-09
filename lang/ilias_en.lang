@@ -10587,8 +10587,8 @@ grp#:#grp_reg_code#:#Registration Code
 grp#:#grp_reg_code_link#:#Registration Link
 grp#:#grp_reg_code_value#:#Code
 grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.
-forum#:#add_re_subject#:#Add 'Re: ' to subject on reply
-forum#:#add_re_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
+forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply
+forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.
 forum#:#enter_new_subject#:#Please enter a new subject
 dateplaner#:#cal_booking_confirmation_subject#:#The appointment "%s" has been booked
 dateplaner#:#cal_booking_confirmation_body#:#your appointment with %s has been booked.
