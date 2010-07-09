@@ -2221,3 +2221,13 @@ if(!$ilDB->tableExists('booking_user'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#3101>
+<?php
+	$ilDB->addTableColumn('il_object_def','export', array(
+		'type'	=> 'integer',
+		'notnull' => true,
+		'length' => 1,
+		'default' => 0
+	));
+?>

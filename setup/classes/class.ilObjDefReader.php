@@ -99,10 +99,10 @@ class ilObjDefReader extends ilSaxParser
 			case 'object':
 				$this->current_object = $a_attribs["id"];
 				$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system) VALUES ".
-					"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system,export) VALUES ".
+					"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 					array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-						"integer","integer","integer","integer", "text", "integer"),
+						"integer","integer","integer","integer", "text", "integer",'integer'),
 					array(
 						$a_attribs["id"],
 						$a_attribs["class_name"],
@@ -119,7 +119,8 @@ class ilObjDefReader extends ilSaxParser
 						(int) $a_attribs["default_pres_pos"],
 						(int) $a_attribs["sideblock"],
 						$a_attribs["group"],
-						(int) $a_attribs["system"]));
+						(int) $a_attribs["system"],
+						(int) $a_attribs['export']));
 				break;
 			
 			case "subobj":
