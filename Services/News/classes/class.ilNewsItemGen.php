@@ -55,6 +55,8 @@ class ilNewsItemGen
 	protected $content_is_lang_var = 0;
 	protected $mob_id;
 	protected $playtime;
+	protected $start_date;
+	protected $end_date;
 
 	/**
 	* Constructor.
@@ -410,6 +412,25 @@ class ilNewsItemGen
 	{
 		return $this->playtime;
 	}
+	public function setStartDate($a_start_date)
+	{
+		$this->start_date = $a_start_date;
+	}
+
+	public function getStartDate()
+	{
+		return $this->start_date;
+	}
+
+	public function setEndDate($a_end_date)
+	{
+		$this->end_date = $a_end_date;
+	}
+
+	public function getEndDate()
+	{
+		return $this->end_date;
+	}
 
 	/**
 	* Create new item.
@@ -437,7 +458,9 @@ class ilNewsItemGen
 			"priority" => array("integer", $this->getPriority()),
 			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
 			"mob_id" => array("integer", $this->getMobId()),
-			"playtime" => array("text", $this->getPlaytime())
+			"playtime" => array("text", $this->getPlaytime()),
+			"start_date" => array('timestamp', $this->getStartDate()),
+			"end_date" => array('timestamp', $this->getEndDate()),
 		));
 	}
 
@@ -470,6 +493,8 @@ class ilNewsItemGen
 		$this->setContentIsLangVar($rec["content_is_lang_var"]);
 		$this->setMobId($rec["mob_id"]);
 		$this->setPlaytime($rec["playtime"]);
+		$this->setStartDate($rec["start_date"]);
+		$this->setEndDate($rec["end_date"]);
 
 	}
 
@@ -496,7 +521,9 @@ class ilNewsItemGen
 			"priority" => array("integer", $this->getPriority()),
 			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
 			"mob_id" => array("integer", $this->getMobId()),
-			"playtime" => array("text", $this->getPlaytime())
+			"playtime" => array("text", $this->getPlaytime()),
+			'start_date'  => array("timestamp", $this->getStartDate()),
+			'end_date'  => array("timestamp", $this->getEndDate()),
 			), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -526,14 +553,14 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime, start_date, end_date ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
 				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
 				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
-				" ORDER BY creation_date DESC ".
+				" ORDER BY start_date DESC ".
 				"";
 		$set = $ilDB->query($query);
 		$result = array();
@@ -554,7 +581,7 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
+		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime, start_date, end_date ".
 			"FROM il_news_item ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
@@ -562,7 +589,7 @@ class ilNewsItemGen
 				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
 				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
 				" AND visibility = ".$ilDB->quote($this->getVisibility(), "text").
-				" ORDER BY creation_date DESC ".
+				" ORDER BY start_date DESC ".
 				"";
 				
 		$set = $ilDB->query($query);

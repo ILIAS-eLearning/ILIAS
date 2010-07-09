@@ -24,6 +24,7 @@ class ilNewsItem extends ilNewsItemGen
 
 	private static $privFeedId = false;
 	private $limitation;
+	private $ignorePeriod = false;
 	
 	/**
 	* Constructor.
@@ -36,6 +37,16 @@ class ilNewsItem extends ilNewsItemGen
 		$this->limitation = true;
 	}
 
+	public function ignorePeriod($a_status = null)
+	{
+		if(null === $a_status)
+		{
+			return $this->ignorePeriod;
+		}
+
+		$this->ignorePeriod = $a_status;
+		return $this;
+	}
 	
 	/**
 	* Set Limitation for number of items.
@@ -98,7 +109,8 @@ class ilNewsItem extends ilNewsItemGen
 						" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 						" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
 						" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
-						" ORDER BY creation_date ASC";
+#						" ORDER BY creation_date ASC";
+						" ORDER BY start_date ASC";
 	
 				$ilDB->setLimit($rec["cnt"] - $max_items);
 				$del_set = $ilDB->query($query);
@@ -181,7 +193,7 @@ class ilNewsItem extends ilNewsItemGen
 			$data = ilNewsItem::mergeNews($data, $news);
 		}
 
-		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		$data = ilUtil::sortArray($data, "start_date", "desc", false, true);
 
 		return $data;
 	}
@@ -197,42 +209,54 @@ class ilNewsItem extends ilNewsItemGen
 		$obj_type = ilObject::_lookupType($obj_id);
 		
 		// get starting date
-		$starting_date = "";
+		$starting_date = '';
+		$ending_date = '';
 		if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat")
 		{
 			include_once("./Services/Block/classes/class.ilBlockSetting.php");
 			$hide_news_per_date = ilBlockSetting::_lookup("news", "hide_news_per_date",
 				0, $obj_id);
+
+			$hide_news_until_date = ilBlockSetting::_lookup("news", "hide_news_until_date",
+				0, $obj_id);
+
 			if ($hide_news_per_date && !$a_ignore_date_filter)
 			{
 				$starting_date = ilBlockSetting::_lookup("news", "hide_news_date",
 					0, $obj_id);
 			}
+			if ($hide_news_until_date)
+			{
+				$ending_date = ilBlockSetting::_lookup("news", "hide_news_date_end",
+					0, $obj_id);
+			}
 		}
-		
+		if(!$a_time_period) $this->ignorePeriod(true);
+
 		if ($obj_type == "cat" && !$a_stopnesting)
 		{
 			$news = $this->getAggregatedChildNewsData($a_ref_id, $a_only_public, $a_time_period,
-				$a_prevent_aggregation, $starting_date, $a_no_auto_generated);
+				$a_prevent_aggregation, $starting_date,$a_no_auto_generated, $ending_date);
 		}
 		else if (($obj_type == "grp" || $obj_type == "crs") &&
 			!$a_stopnesting)
 		{
 			$news = $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period,
-				$a_prevent_aggregation, $starting_date, $a_no_auto_generated);
+				$a_prevent_aggregation, $starting_date, $a_no_auto_generated,$ending_date);
 		}
 		else
 		{
 			$news_item = new ilNewsItem();
 			$news_item->setContextObjId($obj_id);
 			$news_item->setContextObjType($obj_type);
+			if(!$a_time_period) $news_item->ignorePeriod(true);
 			$news = $news_item->queryNewsForContext($a_only_public, $a_time_period,
-				$starting_date, $a_no_auto_generated);
+				$starting_date, $a_no_auto_generated, $ending_date, $news_item->ignorePeriod());
 			$unset = array();
 			foreach ($news as $k => $v)
 			{
 				if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
-					($v["priority"] == 0 &&
+					($v["priority"] == 0 && !$acc &&
 						ilBlockSetting::_lookup("news", "public_notifications",
 						0, $obj_id)))
 				{
@@ -265,7 +289,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get news aggregation (e.g. for courses, groups)
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
-		$a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false)
+		$a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false, $a_ending_date = '')
 	{
 		global $tree, $ilAccess, $ilObjDataCache;
 		
@@ -301,7 +325,7 @@ class ilNewsItem extends ilNewsItemGen
 		}
 		
 		// no check, for which of the objects any news are available
-		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
+		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date, $a_ending_date, $this->ignorePeriod());
 		//$news_obj_ids = $obj_ids;
 		
 		// get news for all subtree nodes
@@ -331,16 +355,26 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// sort and return
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
-			$a_starting_date, $a_no_auto_generated);
+			$a_starting_date, $a_no_auto_generated, $a_ending_date, $this->ignorePeriod());
 				
 		$to_del = array();
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
+			$now = ilUtil::now();
+			if(
+				($news[$k]['start_date'] == NULL && $news[$k]['end_date'] == NULL)
+				|| ($news[$k]['start_date'] != NULL && $news[$k]['start_date'] <= $now && $news[$k]['end_date'] == NULL )
+				|| ($news[$k]['start_date'] != NULL && $news[$k]['start_date'] <= $now && $news[$k]['end_date'] >= $now)
+				|| ($news[$k]['start_date'] == NULL && $news[$k]['end_date'] >= $now )
+			)
+			{
+				$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
+			}
 		}
 		
 		$data = ilNewsItem::mergeNews($data, $news);
-		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		$data = ilUtil::sortArray($data, "start_date", "desc", false, true);
 		
 		if (!$a_prevent_aggregation)
 		{
@@ -437,7 +471,7 @@ class ilNewsItem extends ilNewsItemGen
 	*/
 	function getAggregatedChildNewsData($a_ref_id, $a_only_public = false,
 		$a_time_period = 0, $a_prevent_aggregation = false, $a_starting_date = "",
-		$a_no_auto_generated = false)
+		$a_no_auto_generated = false, $a_ending_date = '')
 	{
 		global $tree, $ilAccess;
 		
@@ -458,7 +492,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$obj_ids[] = $node["obj_id"];
 		}
-		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
+		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date, $a_ending_date, $this->ignorePeriod());
 		//$news_obj_ids = $obj_ids;
 
 		// get news for all subtree nodes
@@ -481,7 +515,7 @@ class ilNewsItem extends ilNewsItemGen
 		}
 		
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
-			$a_starting_date, $a_no_auto_generated);
+			$a_starting_date, $a_no_auto_generated, $a_ending_date);
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
@@ -489,7 +523,7 @@ class ilNewsItem extends ilNewsItemGen
 		$data = ilNewsItem::mergeNews($data, $news);
 		
 		// sort and return
-		$data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+		$data = ilUtil::sortArray($data, "start_date", "desc", false, true);
 		
 		if (!$a_prevent_aggregation)
 		{
@@ -517,13 +551,50 @@ class ilNewsItem extends ilNewsItemGen
 	 * @param	int			time period in seconds
 	 * @param	string		startind date
 	 * @param	boolean		do not include auto generated news items
+	 * @param	string		ending date
+	 * @param	boolean		ignore_time period
 	 */
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
-		$a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false)
+		$a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false, $a_ending_date = "", $ignore_period = false)
 	{
 		global $ilDB, $ilUser, $lng;
-		
+
 		$and = "";
+
+		if(!$ignore_period)
+		{
+			if ($a_time_period > 0)
+			{
+				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+				#$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+				$now = ilUtil::now();
+				$and .= " AND (( start_date >= ".$ilDB->quote($limit_ts, "timestamp").")
+					OR start_date IS NULL )";
+			}
+			if ($a_starting_date != "")
+			{
+				$and.= " AND ((start_date <= ".$ilDB->quote($now, "timestamp")."
+					AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+					OR start_date IS NULL)";
+			}
+		}
+		else
+		{
+			if($a_starting_date != '')
+			{
+				$and .= " AND ((start_date <=  ".$ilDB->quote($now, "timestamp")."
+						AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+						OR start_date IS NULL) ";
+			}
+			if($a_ending_date != '')
+			{
+				$and .= " AND ((end_date >= ".$ilDB->quote($now, "timestamp")." 
+					AND end_date <= ".$ilDB->quote($a_ending_date,"timestamp").")
+					OR end_date IS NULL) ";
+			}
+		}
+
+/*		//org
 		if ($a_time_period > 0)
 		{
 			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
@@ -534,7 +605,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date, "timestamp")." ";
 		}
-		
+/**/
 		if ($a_no_auto_generated)
 		{
 			$and.= " AND priority = 1 AND content_type = ".$ilDB->quote("text", "text")." ";
@@ -548,8 +619,8 @@ class ilNewsItem extends ilNewsItemGen
 		}
 
 		$ordering = ($a_oldest_first)
-			? " creation_date ASC, id ASC "
-			: " creation_date DESC, id DESC ";
+			? " start_date ASC, id ASC "
+			: " start_date DESC, id DESC ";
 
 		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
 		{
@@ -611,10 +682,47 @@ class ilNewsItem extends ilNewsItemGen
 	* @param	array	$a_contexts		array of array("obj_id", "obj_type")
 	*/
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false,
-		$a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false)
+		$a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false, $a_ending_date = '', $ignore_period = false)
 	{
 		global $ilDB, $ilUser, $lng, $ilCtrl;
-		
+
+		$and = "";
+
+		if(!$ignore_period)
+		{
+			if ($a_time_period > 0)
+			{
+				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+				#$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+				$now = ilUtil::now();
+				$and .= " AND (( start_date >= ".$ilDB->quote($limit_ts, "timestamp").")
+					OR start_date IS NULL )";
+			}
+			if ($a_starting_date != "")
+			{
+				$and.= " AND ((start_date <= ".$ilDB->quote($now, "timestamp")."
+					AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+					OR start_date IS NULL)";
+			}
+		}
+		else
+		{
+			if($a_starting_date != '')
+			{
+				$and .= " AND ((start_date <=  ".$ilDB->quote($now, "timestamp")."
+						AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+						OR start_date IS NULL) ";
+			}
+			if($a_ending_date != '')
+			{
+				$and .= " AND ((end_date >= ".$ilDB->quote($now, "timestamp")."
+					AND end_date <= ".$ilDB->quote($a_ending_date,"timestamp").")
+					OR end_date IS NULL) ";
+			}
+		}
+
+
+/* //org
 		$and = "";
 		if ($a_time_period > 0)
 		{
@@ -626,7 +734,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date, "timestamp")." ";
 		}
-
+*/
 		if ($a_no_auto_generated)
 		{
 			$and.= " AND priority = 1 AND content_type = ".$ilDB->quote("text", "text")." ";
@@ -647,7 +755,7 @@ class ilNewsItem extends ilNewsItemGen
 				" WHERE ".
 					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
-					" ORDER BY creation_date DESC ";
+					" ORDER BY start_date DESC ";
 		}
 		elseif (ilNewsItem::getPrivateFeedId() != false) 
 		{
@@ -659,7 +767,7 @@ class ilNewsItem extends ilNewsItemGen
 				" WHERE ".
 					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
-					" ORDER BY creation_date DESC ";		
+					" ORDER BY start_date DESC ";
 		}		
 		else
 		{
@@ -671,7 +779,7 @@ class ilNewsItem extends ilNewsItemGen
 				" WHERE ".
 					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
-					" ORDER BY creation_date DESC ";
+					" ORDER BY start_date DESC ";
 		}
 
 		$set = $ilDB->query($query);
@@ -895,26 +1003,61 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Checks whether news are available for
 	*/
-	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "")
+	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "",$a_ending_date = '', $ignore_period = false)
 	{
 		global $ilDB;
-		
+
+		$and = "";
+
+		if(!$ignore_period)
+		{
+			if ($a_time_period > 0)
+			{
+				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+				#$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+				$now = ilUtil::now();
+				$and .= " AND (( start_date >= ".$ilDB->quote($limit_ts, "timestamp").")
+					OR start_date IS NULL )";
+			}
+			if ($a_starting_date != "")
+			{
+				$and.= " AND ((start_date <= ".$ilDB->quote($now, "timestamp")."
+					AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+					OR start_date IS NULL)";
+			}
+		}
+		else
+		{
+			if($a_starting_date != '')
+			{
+				$and .= " AND ((start_date <=  ".$ilDB->quote($now, "timestamp")."
+						AND start_date >= ".$ilDB->quote($a_starting_date, "timestamp").")
+						OR start_date IS NULL) ";
+			}
+			if($a_ending_date != '')
+			{
+				$and .= " AND ((end_date >= ".$ilDB->quote($now, "timestamp")."
+					AND end_date <= ".$ilDB->quote($a_ending_date,"timestamp").")
+					OR end_date IS NULL) ";
+			}
+		}
+
+/* // org
 		$and = "";
 		if ($a_time_period > 0)
 		{
 			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
 			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
 		}
-
 		if ($a_starting_date != "")
 		{
 			$and.= " AND creation_date >= ".$ilDB->quote($a_starting_date, "timestamp");
 		}
-
+*/
 		$query = "SELECT DISTINCT(context_obj_id) AS obj_id FROM il_news_item".
 			" WHERE ".$ilDB->in("context_obj_id", $a_obj_ids, false, "integer")." ".$and;
 			//" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
-
+// +	" WHERE context_obj_id IN (".implode(",",ilUtil::quoteArray($a_obj_ids)).")".$and;
 		$set = $ilDB->query($query);
 		$objs = array();
 		while($rec = $ilDB->fetchAssoc($set))

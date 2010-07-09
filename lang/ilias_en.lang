@@ -10598,3 +10598,7 @@ dateplaner#:#cal_booking_cancellation_subject#:#The appointment "%s" has been ca
 dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
 dateplaner#:#cal_booking_cancellation_user#:#This is a copy from the original mail to user:
 webr#:#webr_imort#:#Import Weblink
+news#:#finish_publishing_date#:#Finish Publishing:
+news#:#news_hide_news_until_date#:#Show News Until
+news#:#news_hide_news_until_date_info#:#Only news that has not reached a certain date will be displayed.
+news#:#show_news_end_date#:#Ending Date
