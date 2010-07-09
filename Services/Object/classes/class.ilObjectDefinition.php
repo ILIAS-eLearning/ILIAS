@@ -100,7 +100,8 @@ class ilObjectDefinition extends ilSaxParser
 				"group" => $rec["grp"],
 				"system" => $rec["system"],
 				"default_pos" => $rec["default_pos"],
-				"sideblock" => $rec["sideblock"]);
+				"sideblock" => $rec["sideblock"],
+				'export'	=> $rec['export']);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
             $defIds[] = $rec["id"];
@@ -378,6 +379,11 @@ class ilObjectDefinition extends ilSaxParser
 	public function allowCopy($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
+	}
+	
+	public function allowExport($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]['export'];
 	}
 	
 	/**
