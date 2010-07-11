@@ -6681,7 +6681,7 @@ exercise#:#exc_notgraded#:#Nicht bewertet
 exercise#:#exc_passed#:#Bestanden
 exercise#:#exc_send_mail#:#Nachricht versenden
 exercise#:#exc_your_submission#:#Ihre Einreichung
-export#:#export_create#:#Erstellen
+export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_export_date#:#Exportdatum
 export#:#export_last_export#:#Letzter Export
@@ -10539,3 +10539,5 @@ news#:#finish_publishing_date#:#Veröffentlichung endet:
 news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
 news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
 news#:#show_news_end_date#:#Enddatum
+export#:#export_existing#:#Wieder verwenden
+export#:#export_save_selection#:#Export starten

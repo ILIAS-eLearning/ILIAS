@@ -2254,3 +2254,76 @@ if(!$ilDB->tableExists('booking_type'))
 	$ilDB->addPrimaryKey('booking_type', array('booking_type_id'));
 	$ilDB->createSequence('booking_type');
 }
+?>
+<#3103>
+<?php
+if(!$ilDB->tableExists('export_file_info'))
+{
+	$ilDB->createTable('export_file_info',array(
+		'obj_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'export_type'	=> array(
+			'type'	=> 'text',
+			'length'=> 32,
+			'notnull' => false
+		),
+		'file_name'	=> array(
+			'type'	=> 'text',
+			'length'=> 64,
+			'notnull' => false
+		),
+		'version'	=> array(
+			'type'	=> 'text',
+			'length'=> 16,
+			'notnull' => false
+		),
+		'create_date'	=> array(
+			'type'	=> 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('export_file_info', array('obj_id','export_type','file_name'));
+	$ilDB->addIndex('export_file_info',array('create_date'),'i1');
+}
+?>
+<#3104>
+<?php
+if(!$ilDB->tableExists('export_options'))
+{
+	$ilDB->createTable('export_options',array(
+		'export_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 2,
+			'notnull' => true
+		),
+		'keyword'	=> array(
+			'type'	=> 'integer',
+			'length'=> 2,
+			'notnull' => true
+		),
+		'ref_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'obj_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'value'	=> array(
+			'type'	=> 'text',
+			'length' => 32,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('export_options', array('export_id','keyword','ref_id'));
+}
+?>
+<#3105>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

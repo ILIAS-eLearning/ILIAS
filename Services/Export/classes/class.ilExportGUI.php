@@ -17,6 +17,8 @@ class ilExportGUI
 	protected $custom_columns = array();
 	protected $custom_multi_commands = array();
 	
+	private $parent_gui = null;
+	
 	/**
 	 * Constuctor
 	 *
@@ -25,11 +27,21 @@ class ilExportGUI
 	 */
 	function __construct($a_parent_gui)
 	{
-		global $lng;
+		global $lng,$tpl;
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->obj = $a_parent_gui->object;
 		$lng->loadLanguageModule("exp");
+		$this->tpl = $tpl;
+	}
+	
+	/**
+	 * get parent gui
+	 * @return 
+	 */
+	protected function getParentGUI()
+	{
+		return $this->parent_gui;
 	}
 	
 	/**
@@ -212,12 +224,15 @@ class ilExportGUI
 				{
 					$f["call_obj"]->$f["call_func"]();
 				}
+				elseif($this->getParentGUI() instanceof ilContainerGUI)
+				{
+					return $this->showItemSelection();
+				}
 				else if ($format == "xml")		// standard procedure
 				{
 					include_once("./Services/Export/classes/class.ilExport.php");
 					$exp = new ilExport();
-					$exp->exportObject($this->obj->getType(),
-						$this->obj->getId(), "4.1.0");
+					$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.1.0");
 				}
 			}
 		}
@@ -280,6 +295,11 @@ class ilExportGUI
 			{
 				ilUtil::delDir($exp_dir);
 			}
+			
+			// delete entry in database
+			include_once './Services/Export/classes/class.ilExportFileInfo.php';
+			$info = new ilExportFileInfo($this->obj->getId(),$file[0],$file[1]);
+			$info->delete();
 		}
 		$ilCtrl->redirect($this, "listExportFiles");
 	}
@@ -330,4 +350,28 @@ class ilExportGUI
 			}
 		}
 	}
+	
+	/**
+	 * Show container item selection table
+	 * @return 
+	 */
+	protected function showItemSelection()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
+		$tpl->setVariable('BODY_ATTRIBUTES','onload="ilDisableChilds(\'cmd\');"');
+
+		include_once './Services/Export/classes/class.ilExportSelectionTableGUI.php';
+		$table = new ilExportSelectionTableGUI($this,'listExportFiles');
+		$table->parseContainer($this->getParentGUI()->object->getRefId());
+		$this->tpl->setContent($table->getHTML());
+	}
+
+	protected function saveItemSelection()
+	{
+		
+	}
+
 }
+?>
