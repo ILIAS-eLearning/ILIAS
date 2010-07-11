@@ -299,9 +299,14 @@ class ilExport
 		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 		$this->manifest_writer = new ilXmlWriter();
 		$this->manifest_writer->xmlHeader();
-		$this->manifest_writer->xmlStartTag('Manifest',
-			array("MainEntity" => $a_type, "Title" => ilObject::_lookupTitle($a_id), "TargetRelease" => $a_target_release,
-				"InstallationId" => IL_INST_ID, "InstallationUrl" => ILIAS_HTTP_PATH));
+		$this->manifest_writer->xmlStartTag(
+			'Manifest',
+			array(
+				"MainEntity" => $a_type, 
+				"Title" => ilObject::_lookupTitle($a_id), 
+				"TargetRelease" => $a_target_release,
+				"InstallationId" => IL_INST_ID, 
+				"InstallationUrl" => ILIAS_HTTP_PATH));
 
 		// get export class
 		ilExport::_createExportDirectory($a_id, "xml", $a_type);
@@ -325,6 +330,20 @@ class ilExport
 		// zip the file
 		ilUtil::zip($this->export_run_dir, $export_dir."/".$sub_dir.".zip");
 		ilUtil::delDir($this->export_run_dir);
+
+		$new_file = $sub_dir.'.zip';
+		
+		// Store info about export
+		if($success)
+		{
+			include_once './Services/Export/classes/class.ilExportFileInfo.php';
+			$exp = new ilExportFileInfo($a_id);
+			$exp->setVersion($a_target_release);
+			$exp->setCreationDate(new ilDateTime($ts,IL_CAL_UNIX));
+			$exp->setExportType('xml');
+			$exp->setFilename($new_file);
+			$exp->create();
+		}
 //exit;
 		return array(
 			"success" => $success,
@@ -453,3 +472,4 @@ echo "1-not found:".$export_class_file."-"; exit;
 		return $success;
 	}
 }
+?>

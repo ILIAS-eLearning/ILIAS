@@ -17,7 +17,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI
 *
 * 
 * @extends ilContainerGUI
@@ -3362,6 +3362,16 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "",
 								 "ilmdeditorgui");
 		}
+		
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
+				'export',
+				'ilexportgui'
+			);
+		}
 
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
 		{
@@ -4528,6 +4538,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$this->ctrl->forwardCommand($cmg_gui);
+				break;
+				
+			case 'ilexportgui':
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
 				break;
 
 			default:
