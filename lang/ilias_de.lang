@@ -6690,7 +6690,7 @@ export#:#export_last_file#:#Letzte Datei
 export#:#export_omit#:#Auslassen
 export#:#export_omit_resource#:#Ressource auslassen
 export#:#export_resource#:#Ressource
-export#:#export_select_resources#:#Materialien Auswählen
+export#:#export_select_resources#:#Materialien auswählen
 feed#:#block_feed_block_feed_url#:#URL des Webfeeds
 feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/iosbb/rss.php
 feed#:#block_feed_block_head#:#Externer Webfeed
@@ -10539,5 +10539,5 @@ news#:#finish_publishing_date#:#Veröffentlichung endet:
 news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
 news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
 news#:#show_news_end_date#:#Enddatum
-export#:#export_existing#:#Wieder verwenden
+export#:#export_existing#:#Wiederverwenden
 export#:#export_save_selection#:#Export starten

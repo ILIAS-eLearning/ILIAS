@@ -19,6 +19,7 @@ class ilExportOptions
 	const EXPORT_OMIT = 3;
 	
 	const KEY_INIT = 1;
+	const KEY_ITEM_MODE = 2;
 	
 	private $export_id = 0;
 	private $ref_options = array();
@@ -67,14 +68,13 @@ class ilExportOptions
 		
 		// get last export id
 		$query = 'SELECT MAX(export_id) exp FROM export_options '.
-			'GROUP BY (keyword,ref_id) ';
+			'GROUP BY export_id ';
 		$res = $ilDB->query($query);
 		$exp_id = 1;
-		while($row = $res>fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$exp_id = $row->exp + 1;
 		}
-		
 		$query = 'INSERT INTO export_options (export_id,keyword,ref_id,obj_id,value) '.
 			'VALUES( '.
 			$ilDB->quote($exp_id,'integer').', '.
@@ -86,6 +86,29 @@ class ilExportOptions
 		$ilDB->manipulate($query);
 
 		return $exp_id; 
+	}
+	
+	/**
+	 * Get all subitems with mode <code>ilExportOptions::EXPORT_BUILD</code>
+	 * @param int ref_id of source 
+	 * @return 
+	 */
+	public function getSubitemsForCreation($a_source_id)
+	{
+		$refs = array();
+
+		foreach($this->ref_options[self::KEY_ITEM_MODE] as $ref_id => $mode)
+		{
+			if($a_source_id == $ref_id)
+			{
+				continue;				
+			}
+			if($mode == self::EXPORT_BUILD)
+			{
+				$refs[] = $ref_id;
+			}
+		}
+		return $refs;
 	}
 	
 	/**
@@ -143,14 +166,32 @@ class ilExportOptions
 	{
 		return isset($this->ref_options[$a_keyword][$a_ref_id]) ? $this->ref_options[$a_keyword][$a_ref_id] : null;
 	}
+	
+	/**
+	 * Delete by export id
+	 * @return 
+	 */
+	public function delete()
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM export_options ".
+			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
 
 	/**
 	 * Read entries
 	 * @return 
 	 */
-	protected function read()
+	public function read()
 	{
 		global $ilDB;
+		
+		$this->options = array();
+		$this->obj_options = array();
+		$this->ref_options = array(); 
 		
 		$query = "SELECT * FROM export_options ".
 			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer');
@@ -174,3 +215,4 @@ class ilExportOptions
 		return true;
 	}
 }
+?>

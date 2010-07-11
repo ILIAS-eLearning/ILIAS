@@ -49,7 +49,7 @@ class ilExportFileInfo
 		$query = "SELECT * FROM export_file_info ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer').' '.
 			"AND export_type = ".$ilDB->quote($a_type,'text').' '.
-			"ORDER BY create_date";
+			"ORDER BY create_date DESC";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

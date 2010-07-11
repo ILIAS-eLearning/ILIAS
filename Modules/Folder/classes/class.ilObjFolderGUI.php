@@ -32,7 +32,8 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
-* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilCourseItemAdministrationGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI
 *
 * @extends ilObjectGUI
 */
@@ -175,6 +176,16 @@ class ilObjFolderGUI extends ilContainerGUI
 			case "ilobjstylesheetgui":
 				$this->forwardToStyleSheet();
 				break;
+				
+			case 'ilexportgui':
+				$this->prepareOutput();
+					
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
+				break;
 
 			default:
 
@@ -216,7 +227,83 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		$this->tpl->setVariable('NEW_FOLDER',$this->form->getHTML());
 		$this->fillCloneTemplate('DUPLICATE', 'fold');
+		
+		$this->initImportForm("fold");
+		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
+		
 	}
+
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	protected function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET['ref_id'], $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt('no_create_permission'),$ilErr->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			include_once './Services/Export/classes/class.ilImport.php';
+			$imp = new ilImport();
+			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->ctrl->returnToParent($this);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("fold");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('60%');
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
 	
 	/**
 	 * Init creation form
@@ -505,7 +592,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $ilUser, $lng, $ilCtrl;
+		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
@@ -543,6 +630,17 @@ class ilObjFolderGUI extends ilContainerGUI
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+		
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
+				'export',
+				'ilexportgui'
+			);
+		}
+		
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{

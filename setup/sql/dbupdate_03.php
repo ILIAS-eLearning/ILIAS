@@ -2327,3 +2327,7 @@ if(!$ilDB->tableExists('export_options'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3106>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

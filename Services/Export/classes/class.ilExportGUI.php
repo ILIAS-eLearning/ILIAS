@@ -368,10 +368,83 @@ class ilExportGUI
 		$this->tpl->setContent($table->getHTML());
 	}
 
+	/**
+	 * Save selection of subitems
+	 * @return 
+	 */
 	protected function saveItemSelection()
 	{
-		
-	}
+		global $tree,$objDefinition, $ilAccess, $ilCtrl;
 
+		include_once './Services/Export/classes/class.ilExportOptions.php';
+		$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
+		
+		$items_selected = false;
+		foreach($tree->getSubTree($root = $tree->getNodeData($this->getParentGUI()->object->getRefId())) as $node)
+		{
+			if($node['type'] == 'rolf')
+			{
+				continue;
+			}
+			if($node['ref_id'] == $this->getParentGUI()->object->getRefId())
+			{
+				$eo->addOption(
+					ilExportOptions::KEY_ITEM_MODE,
+					$node['ref_id'],
+					$node['obj_id'],
+					ilExportOptions::EXPORT_BUILD
+				);
+				continue;
+			}
+			// no export available or no access
+			if(!$objDefinition->allowExport($node['type']) or !$ilAccess->checkAccess('write','',$node['ref_id']))
+			{
+			
+				$eo->addOption(
+					ilExportOptions::KEY_ITEM_MODE,
+					$node['ref_id'],
+					$node['obj_id'],
+					ilExportOptions::EXPORT_OMIT
+				);
+				continue;
+			}
+			
+			$mode = isset($_POST['cp_options'][$node['ref_id']]['type']) ? 
+				$_POST['cp_options'][$node['ref_id']]['type'] : 
+				ilExportOptions::EXPORT_OMIT;
+			$eo->addOption(
+				ilExportOptions::KEY_ITEM_MODE,
+				$node['ref_id'],
+				$node['obj_id'],
+				$mode
+			);
+			if($mode != ilExportOptions::EXPORT_OMIT)
+			{
+				$items_selected = true;
+			}
+		}
+		
+		include_once("./Services/Export/classes/class.ilExport.php");
+		if($items_selected)
+		{
+			// TODO: move this to background soap
+			$eo->read();
+			$exp = new ilExport();
+			foreach($eo->getSubitemsForCreation($this->obj->getRefId()) as $ref_id)
+			{
+				$obj_id = ilObject::_lookupObjId($ref_id);
+				$type = ilObject::_lookupType($obj_id);
+				$exp->exportObject($type,$obj_id,'4.1.0');
+			}
+			// Export container
+			return $this->showItemSelection();
+		}
+		else
+		{
+			$exp = new ilExport();
+			$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.1.0");
+			$ilCtrl->redirect($this, "listExportFiles");
+		}
+	}
 }
 ?>
