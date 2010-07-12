@@ -10631,9 +10631,13 @@ survey#:#conjunction_and#:#if each constraint is fulfilled
 survey#:#conjunction_or#:#if one constraint is fulfilled
 survey#:#conjunction_and_title#:#Fulfill each of the following constraints
 survey#:#conjunction_or_title#:#Fulfill one of the following constraints
-survey#:#err_external_rcp_no_email#:#The import data must a least contain an 'email' field
+survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field
 survey#:#err_no_selection#:#You made no selection.
 survey#:#external_recipients_deleted#:#Deleted external recipient(s)
+survey#:#external_recipients_imported#:#External recipients have been imported.
+survey#:#external_mails_import#:#Import external recipients of survey keys
+survey#:#externalmails#:#Import file
+survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_date_booked#:#booked
