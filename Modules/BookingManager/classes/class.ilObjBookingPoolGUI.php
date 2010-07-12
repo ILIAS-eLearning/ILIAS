@@ -338,6 +338,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$tpl->setContent($form->getHTML());
 		}
 	}
+
+	/**
+	 *
+	 *
+	 */
+	function listItemsObject()
+	{
+		global $tpl;
+
+		$this->tabs_gui->setTabActive('render');
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
+		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id);
+		$tpl->setContent($table->getHTML());
+	}
 }
 
 ?>

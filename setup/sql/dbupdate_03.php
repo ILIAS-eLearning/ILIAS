@@ -2481,3 +2481,28 @@ if(!$ilDB->tableExists('export_options'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3129>
+<?php
+if(!$ilDB->tableExists('booking_object'))
+{
+	$ilDB->createTable('booking_object',array(
+		'booking_object_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 255,
+			'notnull' => true
+		),
+		'type_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('booking_object', array('booking_object_id'));
+	$ilDB->createSequence('booking_object');
+}
+?>
