@@ -275,9 +275,28 @@ class ilCalendarMonthGUI
 				$entry = new ilBookingEntry($item['event']->getContextId());
 				if($entry)
 				{
-					$current = (int)$entry->getCurrentNumberOfBookings($item['event']->getEntryId());
-					$max = (int)$entry->getNumberOfBookings();
-					$booking_subtitle = ' '.$item['event']->getTitle().' ('.$current.'/'.$max.')';
+					$booking_subtitle = ' '.$item['event']->getTitle();
+					if($entry->getObjId() == $ilUser->getId())
+					{
+						$max = (int)$entry->getNumberOfBookings();
+						$current = (int)$entry->getCurrentNumberOfBookings($item['event']->getEntryId());
+						if($max > 1)
+						{
+							$booking_subtitle .= ' ('.$current.'/'.$max.')';
+						}
+						else if($current == $max)
+						{
+							$booking_subtitle .= ' ('.$this->lng->txt('cal_booked_out').')';
+						}
+						else
+						{
+							$booking_subtitle .= ' ('.$this->lng->txt('cal_book_free').')';
+						}
+					}
+					else if($entry->hasBooked($item['event']->getEntryId()))
+					{
+						$booking_subtitle .= ' ('.$this->lng->txt('cal_date_booked').')';
+					}
 				}
 			}
 

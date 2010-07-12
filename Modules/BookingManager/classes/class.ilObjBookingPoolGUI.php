@@ -345,9 +345,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function listItemsObject()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 
-		$this->tabs_gui->setTabActive('render');
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
 		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id);

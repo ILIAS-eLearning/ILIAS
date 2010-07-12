@@ -342,9 +342,28 @@ class ilCalendarDayGUI
 			$entry = new ilBookingEntry($a_app['event']->getContextId());
 			if($entry)
 			{
-				$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
-				$max = (int)$entry->getNumberOfBookings();
-				$title .= ' '.$a_app['event']->getTitle().' ('.$current.'/'.$max.')';
+				$title .= ' '.$a_app['event']->getTitle();
+				if($entry->getObjId() == $ilUser->getId())
+				{
+					$max = (int)$entry->getNumberOfBookings();
+					$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());
+					if($max > 1)
+					{
+						$title .= ' ('.$current.'/'.$max.')';
+					}
+					else if($current == $max)
+					{
+						$title .= ' ('.$this->lng->txt('cal_booked_out').')';
+					}
+					else
+					{
+						$title .= ' ('.$this->lng->txt('cal_book_free').')';
+					}
+				}
+				else if($entry->hasBooked($a_app['event']->getEntryId()))
+				{
+					$title .= ' ('.$this->lng->txt('cal_date_booked').')';
+				}
 			}
 		}
 		else

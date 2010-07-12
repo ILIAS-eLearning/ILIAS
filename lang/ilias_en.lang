@@ -10634,3 +10634,8 @@ survey#:#conjunction_or_title#:#Fulfill one of the following constraints
 survey#:#err_external_rcp_no_email#:#The import data must a least contain an 'email' field
 survey#:#err_no_selection#:#You made no selection.
 survey#:#external_recipients_deleted#:#Deleted external recipient(s)
+dateplaner#:#cal_booked_out#:#booked up
+dateplaner#:#cal_book_free#:#available
+dateplaner#:#cal_date_booked#:#booked
+dateplaner#:#cal_ch_bookings#:#Participants
+trac#:#trac_matrix#:#Matrix View
