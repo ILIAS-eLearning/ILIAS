@@ -43,7 +43,13 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$this->addColumn($labels[$c]["txt"], $labels[$c]["id"]);
+			$title = $labels[$c]["txt"];
+			if(isset($labels[$c]["icon"]))
+			{
+				$alt = $lng->txt($labels[$c]["type"]);
+				$title = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" title="'.$alt.'" /> '.$title;
+			}
+			$this->addColumn($title, $labels[$c]["id"]);
 		}
 	}
 
@@ -78,9 +84,10 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				else
 				{
 					$title = $ilObjDataCache->lookupTitle($obj_id);
+					$type = $ilObjDataCache->lookupType($obj_id);
+					$icon = ilUtil::getTypeIconPath($type, $obj_id, "small");
 					if(!$title)
 					{
-						$type = $ilObjDataCache->lookupType($obj_id);
 						if($type == "sess")
 						{
 							include_once "Modules/Session/classes/class.ilObjSession.php";
@@ -88,7 +95,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 							$title = $sess->getPresentationTitle();
 						}
 					}
-					$columns["obj_".$obj_id] = array("txt" => $title);
+					$columns["obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type);
 				}
 			}
 			if(sizeof($this->objective_ids))
