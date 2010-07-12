@@ -439,18 +439,64 @@ class ilConsultationHoursGUI
 	}
 
 	/**
-	 *
-	 *
-	 *
+	 * confirm delete for multiple entries
 	 */
-	public function delete()
+	public function confirmDelete()
 	{
+		global $tpl;
+		
 		if(!isset($_POST['apps']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $this->appointmentList();
 		}
 
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+
+		$this->ctrl->saveParameter($this,array('seed','app_id','dt'));
+
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
+		$confirm->setCancel($this->lng->txt('cancel'),'cancel');
+
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		foreach($_POST['apps'] as $entry_id)
+		{
+			$entry = new ilCalendarEntry($entry_id);
+			$confirm->addItem('apps[]', $entry_id, ilDatePresentation::formatDate($entry->getStart()).', '.$entry->getTitle());
+		}
+
+		$confirm->setConfirm($this->lng->txt('delete'),'delete');
+		$confirm->setCancel($this->lng->txt('cancel'),'appointmentList');
+		
+		$tpl->setContent($confirm->getHTML());
+	}
+
+	/**
+	 * delete multiple entries
+	 */
+	public function delete()
+	{
+		global $tpl;
+
+		if(!isset($_POST['apps']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->appointmentList();
+		}
+
+		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		foreach($_POST['apps'] as $entry_id)
+		{
+			$entry = new ilCalendarEntry($entry_id);
+			$entry->delete();
+
+			// :TODO: notifications
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
+		$this->ctrl->redirect($this, 'appointmentList');
 	}
 }
 ?>
