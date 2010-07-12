@@ -21,7 +21,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
 		$this->ref_id = $a_ref_id;
-		$this->setId("bktp");
+		$this->setId("bkobj");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);

@@ -271,3 +271,7 @@ td.calminiweek, th.calminiweek {
 	vertical-align:middle;
 }
 
+span.calminiinactive {
+	color: #CCCCCC;
+}
+

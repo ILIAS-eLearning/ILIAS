@@ -306,7 +306,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			$counter++;
 
-			$has_events = (bool)count($this->scheduler->getByDay($date,$ilUser->getTimeZone()));
+			$events = $this->scheduler->getByDay($date,$ilUser->getTimeZone());
+			$has_events = (bool)count($events);
 			if($has_events || !$disable_empty)
 			{
 				$a_tpl->setCurrentBlock('month_col_link');
@@ -316,11 +317,33 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$a_tpl->setCurrentBlock('month_col_no_link');
 			}
 
-			if($has_events)
+			if($disable_empty)
+			{
+				if(!$has_events)
+				{
+					$a_tpl->setVariable('DAY_CLASS','calminiinactive');
+				}
+				else
+				{
+					$week_has_events = true;
+					include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+					foreach($events as $event)
+					{
+						$booking = new ilBookingEntry($event['event']->getContextId());
+						if($booking->hasBooked($event['event']->getEntryId()))
+						{
+							$a_tpl->setVariable('DAY_CLASS','calminiapp');
+							break;
+						}
+					}
+				}
+			}
+			elseif($has_events)
 			{
 				$week_has_events = true;
 				$a_tpl->setVariable('DAY_CLASS','calminiapp');
 			}
+			
 			
 			$day = $date->get(IL_CAL_FKT_DATE,'j');
 			$month = $date->get(IL_CAL_FKT_DATE,'n');
@@ -377,6 +400,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				else
 				{
 					$a_tpl->setCurrentBlock('month_row_no_link');
+					$a_tpl->setVariable('WEEK_CLASS', 'calminiinactive');
 				}
 				$a_tpl->setVariable('WEEK',
 					$date->get(IL_CAL_FKT_DATE,'W'));

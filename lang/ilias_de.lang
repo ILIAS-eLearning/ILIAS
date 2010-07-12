@@ -10567,3 +10567,8 @@ survey#:#conjunction_and#:#wenn jede Vorbedingung erfüllt wird
 survey#:#conjunction_or#:#wenn eine Vorbedingung erfüllt wird
 survey#:#conjunction_and_title#:#Jede der folgenden Vorbedingungen erfüllen
 survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
+dateplaner#:#cal_booked_out#:#ausgebucht
+dateplaner#:#cal_book_free#:#frei
+dateplaner#:#cal_date_booked#:#gebucht
+dateplaner#:#cal_ch_bookings#:#Teilnehmer
+trac#:#trac_matrix#:#Matrixansicht
