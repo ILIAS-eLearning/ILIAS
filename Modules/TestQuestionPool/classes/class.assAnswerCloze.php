@@ -76,15 +76,15 @@ class assAnswerCloze extends ASS_AnswerSimple
 	function setLowerBound($bound)
 	{
 		$bound = str_replace(",", ".", $bound);
-		if ($bound > $this->getAnswertext()) $bound = $this->getAnswertext();
-		$this->lowerBound = is_numeric($bound) ? $bound : NULL;
+		if ($bound > $this->getAnswertext() || strlen($bound) == 0) $bound = $this->getAnswertext();
+		$this->lowerBound = is_numeric($bound) ? $bound : $this->getAnswertext();
 	}
 	
 	function setUpperBound($bound)
 	{
 		$bound = str_replace(",", ".", $bound);
-		if ($bound < $this->getAnswertext()) $bound = $this->getAnswertext();
-		$this->upperBound = is_numeric($bound) ? $bound : NULL;
+		if ($bound < $this->getAnswertext() || strlen($bound) == 0) $bound = $this->getAnswertext();
+		$this->upperBound = is_numeric($bound) ? $bound : $this->getAnswertext();
 	}
 	
 	function getLowerBound()
