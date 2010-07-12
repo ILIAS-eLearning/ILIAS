@@ -192,26 +192,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$online->setChecked($this->object->getOnline());
 		$form->addItem($online);
 
-		$qplSetting = new ilSetting("spl");
-		$tablecols = new ilCustomInputGUI($this->lng->txt('spl_browsercolumns'), 'browsercolumn');
-		$tablecols->setInfo($this->lng->txt("spl_browsercolumns_description"));
-		$description = new ilCheckboxInputGUI($this->lng->txt("description"), "description");
-		$description->setChecked($qplSetting->get("description", 1) ? true : false);
-		$type = new ilCheckboxInputGUI($this->lng->txt("question_type"), "type");
-		$type->setChecked($qplSetting->get("type", 1) ? true : false);
-		$author = new ilCheckboxInputGUI($this->lng->txt("author"), "author");
-		$author->setChecked($qplSetting->get("author", 1) ? true : false);
-		$created = new ilCheckboxInputGUI($this->lng->txt("create_date"), "created");
-		$created->setChecked($qplSetting->get("created", 1) ? true : false);
-		$updated = new ilCheckboxInputGUI($this->lng->txt("last_update"), "updated");
-		$updated->setChecked($qplSetting->get("updated", 1) ? true : false);
-		$tablecols->addSubitem($description);
-		$tablecols->addSubitem($type);
-		$tablecols->addSubitem($author);
-		$tablecols->addSubitem($created);
-		$tablecols->addSubitem($updated);
-		$form->addItem($tablecols);
-
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
 		if ($save)
@@ -230,13 +210,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
-		
-		$qplSetting = new ilSetting("spl");
-		$qplSetting->set('description', ($_POST["description"]) ? 1 : 0);
-		$qplSetting->set('type', ($_POST["type"]) ? 1 : 0);
-		$qplSetting->set('author', ($_POST["author"]) ? 1 : 0);
-		$qplSetting->set('created', ($_POST["created"]) ? 1 : 0);
-		$qplSetting->set('updated', ($_POST["updated"]) ? 1 : 0);
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
