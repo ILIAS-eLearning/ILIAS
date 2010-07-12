@@ -10,7 +10,8 @@
 */
 class ilYuiUtil
 {
-	private static $ver = "2_7_0b";
+	//private static $ver = "2_7_0b";
+	private static $ver = "2_8_1";
 	
 	/**
 	* Init YUI Connection module
