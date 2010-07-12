@@ -1,6 +1,6 @@
 function cleanElements(rootel)
 {
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rootel);
+	var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rootel);
 	for (i = 0; i < textinputs.length; i++) textinputs[i].value = '';
 }
 
@@ -30,7 +30,7 @@ function removeAllListeners(rootel)
 
 function reindexRows(rootel, postvar)
 {
-	rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
 	for (i = 0; i < rows.length; i++)
 	{
 		// set row class
@@ -44,7 +44,7 @@ function reindexRows(rootel, postvar)
 		if (add.length > 0) YAHOO.util.Dom.addClass(rows[i], add);
 
 		// change id and name of text fields
-		textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rows[i]);
+		var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < textinputs.length; j++)
 		{
 			if (textinputs[j].id.indexOf('[answer]') >= 0)
@@ -60,38 +60,21 @@ function reindexRows(rootel, postvar)
 			}
 		}
 
-		neutral = YAHOO.util.Dom.get('answers_neutral_scale');
-		if (neutral)
-		{
-			neutral.value = rows.length + 1;
-		}
-
-		// change id and name of checkboxes
-		textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'checkbox') ? true : false; }, 'input', rows[i]);
-		for (j = 0; j < textinputs.length; j++)
-		{
-			if (textinputs[j].id.indexOf('[other]') >= 0)
-			{
-				textinputs[j].id = postvar + '[other][' + i + ']';
-				textinputs[j].name = postvar + '[other][' + i + ']';
-			} 
-		}
-
-		addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rows[i]);
+		var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < addbuttons.length; j++)
 		{
 			addbuttons[j].id = 'add_' + postvar + '[' + i + ']';
 			addbuttons[j].name = 'cmd[add' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(addbuttons[j], 'click', addRow);
 		}
-		removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rows[i]);
+		var removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_remove') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < removebuttons.length; j++)
 		{
 			removebuttons[j].id = 'remove_' + postvar + '[' + i + ']';
 			removebuttons[j].name = 'cmd[remove' + postvar + '][' + i + ']';
 			YAHOO.util.Event.addListener(removebuttons[j], 'click', removeRow);
 		}
-		upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rows[i]);
+		var upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_up') ? true : false; }, 'input', rows[i]);
 		if (upbuttons.length > 0)
 		{
 			for (j = 0; j < upbuttons.length; j++)
@@ -101,7 +84,7 @@ function reindexRows(rootel, postvar)
 				YAHOO.util.Event.addListener(upbuttons[j], 'click', moveRowUp);
 			}
 		}
-		downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rows[i]);
+		var downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_down') ? true : false; }, 'input', rows[i]);
 		if (downbuttons.length > 0)
 		{
 			for (j = 0; j < downbuttons.length; j++)
@@ -120,10 +103,10 @@ function addRow(e, obj)
 	var tbody = row.parentNode;
 	
 	removeAllListeners(tbody);
-	rowclone = row.cloneNode(true);
+	var rowclone = row.cloneNode(true);
 	cleanElements(rowclone);
 	
-	trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
 	parentindex = 0;
 	for (i = 0; i < trs.length; i++)
 	{
@@ -138,7 +121,7 @@ function addRow(e, obj)
 		tbody.insertBefore(rowclone, trs[parentindex]);
 	}
 	reindexRows(tbody, tbody.parentNode.parentNode.id);
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rowclone);
+	var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rowclone);
 	textinputs[0].focus();
 	return false;
 }
@@ -147,7 +130,7 @@ function removeRow(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
 	if (trs.length == 1)
 	{
 		cleanElements(trs[0]);
@@ -164,7 +147,7 @@ function moveRowUp(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
 	foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
@@ -194,7 +177,7 @@ function moveRowDown(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
 	foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
@@ -222,25 +205,25 @@ function moveRowDown(e, obj)
 
 function categorywizardEvents(e)
 {
-	addbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_add');
+	var addbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_add');
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		button = addbuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', addRow);
 	}
-	removebuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_remove');
+	var removebuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_remove');
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		button = removebuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', removeRow);
 	}
-	upbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_up');
+	var upbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_up');
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		button = upbuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', moveRowUp);
 	}
-	downbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_down');
+	var downbuttons = YAHOO.util.Dom.getElementsByClassName('categorywizard_down');
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		button = downbuttons[i];

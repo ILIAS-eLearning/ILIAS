@@ -26,13 +26,14 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
+* @version $Id: class.ilSurveyCodesTableGUI.php 20638 2009-07-19 08:14:34Z hschottm $
 *
-* @ingroup ModulesSurveyQuestionPool
+* @ingroup ModulesSurvey
 */
 
-class ilSurveyPhrasesTableGUI extends ilTable2GUI
+class ilSurveyCodesMailTableGUI extends ilTable2GUI
 {
+	protected $counter;
 	protected $confirmdelete;
 	
 	/**
@@ -50,33 +51,35 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
+		$this->counter = 1;
 		$this->confirmdelete = $confirmdelete;
-	
-		$this->setFormName('phrases');
+		
+		$this->setFormName('codesform');
 		$this->setStyle('table', 'fullwidth');
+
 		if (!$confirmdelete)
 		{
 			$this->addColumn('','f','1%');
 		}
-		$this->addColumn($this->lng->txt("phrase"),'phrase', '');
-		$this->addColumn($this->lng->txt("answers"),'answers', '');
+		$this->addColumn($this->lng->txt("email"),'email', '');
+	
+		$this->setRowTemplate("tpl.il_svy_svy_codes_mail_row.html", "Modules/Survey");
 
 		if ($confirmdelete)
 		{
-			$this->addCommandButton('confirmDeletePhrase', $this->lng->txt('confirm'));
-			$this->addCommandButton('cancelDeletePhrase', $this->lng->txt('cancel'));
+			$this->addCommandButton('deleteExternalMailRecipients', $this->lng->txt('confirm'));
+			$this->addCommandButton('cancelDeleteExternalMailRecipients', $this->lng->txt('cancel'));
 		}
 		else
 		{
-			$this->addMultiCommand('editPhrase', $this->lng->txt('edit'));
-			$this->addMultiCommand('deletePhrase', $this->lng->txt('delete'));
-			$this->addCommandButton('newPhrase', $this->lng->txt('phrase_new'));
+			$this->addMultiCommand('deleteInternalMailRecipient', $this->lng->txt('delete'));
+			$this->addCommandButton('addInternalMailRecipient', $this->lng->txt('add'));
+			$this->addCommandButton('importExternalMailRecipients', $this->lng->txt('import'));
 		}
 
-		$this->setRowTemplate("tpl.il_svy_qpl_phrase_row.html", "Modules/SurveyQuestionPool");
-
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		$this->setDefaultOrderField("phrase");
+
+		$this->setDefaultOrderField("code");
 		$this->setDefaultOrderDirection("asc");
 		
 		if ($confirmdelete)
@@ -86,14 +89,14 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->setPrefix('phrase');
-			$this->setSelectAllCheckbox('phrase');
+			$this->setPrefix('chb_ext');
+			$this->setSelectAllCheckbox('chb_ext');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}
 		$this->enable('header');
 	}
-
+	
 	/**
 	 * fill row 
 	 *
@@ -103,21 +106,23 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		global $lng;
+		
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
-			$this->tpl->setVariable('CB_PHRASE_ID', $data["phrase_id"]);
+			$this->tpl->setVariable('CB_CODE', $data['code']);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('hidden');
-			$this->tpl->setVariable('HIDDEN_PHRASE_ID', $data["phrase_id"]);
+			$this->tpl->setVariable('HIDDEN_CODE', $data["code"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable('PHRASE_ID', $data["phrase_id"]);
-		$this->tpl->setVariable("PHRASE", $data["phrase"]);
-		$this->tpl->setVariable("ANSWERS", $data["answers"]);
+
+		$this->tpl->setVariable('EMAIL', $data['email']);
+		$this->tpl->setVariable('CB_CODE', $data['code']);
 	}
 }
 ?>

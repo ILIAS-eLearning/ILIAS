@@ -839,7 +839,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["preview"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "preview");
 	}
-
+	
 	public function addLocatorItems()
 	{
 		global $ilLocator;
@@ -923,7 +923,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// manage phrases
 			$tabs_gui->addTarget("manage_phrases",
 				 $this->ctrl->getLinkTargetByClass("ilsurveyphrasesgui", "phrases"),
-				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase"),
+				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase", "editPhrase", "newPhrase", "saveEditPhrase", "phraseEditor"),
 				 "ilsurveyphrasesgui", "");
 				 
 			// meta data

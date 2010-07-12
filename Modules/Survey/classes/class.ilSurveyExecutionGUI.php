@@ -309,11 +309,20 @@ class ilSurveyExecutionGUI
 		{
 			while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
 			{
-				$constraint_true = 1;
+				$constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
 				foreach ($page[0]["constraints"] as $constraint)
 				{
 					$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"]);
-					$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+					if ($constraint['conjunction'] == 0)
+					{
+						// and
+						$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+					}
+					else
+					{
+						// or
+						$constraint_true = $constraint_true | $this->object->checkConstraint($constraint, $working_data);
+					}
 				}
 				if ($constraint_true == 0)
 				{
@@ -335,6 +344,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
+			$required = false;
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
 
 			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)))
@@ -392,7 +402,15 @@ class ilSurveyExecutionGUI
 				$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 				$this->ctrl->setParameter($this, "qid", $data["question_id"]);
 				$this->tpl->parse("survey_content");
+				if ($data["obligatory"]) $required = true;
 			}
+			if ($required)
+			{
+				$this->tpl->setCurrentBlock("required");
+				$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->outNavigationButtons("bottom", $page);
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}

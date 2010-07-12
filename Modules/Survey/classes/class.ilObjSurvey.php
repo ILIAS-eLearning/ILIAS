@@ -147,6 +147,10 @@ class ilObjSurvey extends ilObject
 	 * @var boolean
 	 **/
 	var $surveyCodeSecurity;
+	
+	var $mailnotification;
+	var $mailaddresses;
+	var $mailparticipantdata;
 
 	/**
 	* Constructor
@@ -174,6 +178,7 @@ class ilObjSurvey extends ilObject
 		$this->anonymize = ANONYMIZE_OFF;
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
+		$this->mailnotification = false;
 	}
 
 	/**
@@ -705,6 +710,9 @@ class ilObjSurvey extends ilObject
 				"created" => array("integer", time()),
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
+				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
+				"mailaddresses" => array('text', $this->getMailAddresses()),
+				"mailparticipantdata" => array('text', $this->getMailParticipantData()),
 				"tstamp" => array("integer", time())
 			));
 			$this->setSurveyId($next_id);
@@ -724,6 +732,9 @@ class ilObjSurvey extends ilObject
 				"complete" => array("text", $this->isComplete()),
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
+				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
+				"mailaddresses" => array('text', $this->getMailAddresses()),
+				"mailparticipantdata" => array('text', $this->getMailParticipantData()),
 				"tstamp" => array("integer", time())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
@@ -937,6 +948,9 @@ class ilObjSurvey extends ilObject
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
 			$this->setStatus($data["status"]);
+			$this->setMailNotification($data['mailnotification']);
+			$this->setMailAddresses($data['mailaddresses']);
+			$this->setMailParticipantData($data['mailparticipantdata']);
 		}
 	}
 
@@ -1783,7 +1797,7 @@ class ilObjSurvey extends ilObject
 					if ($constraint["question"] == $next_question_id)
 					{
 						// constraint concerning a question that follows -> delete constraint
-						$this->deleteConstraint($constraint["id"], $question_id);
+						$this->deleteConstraint($constraint["id"]);
 					}
 				}
 			}
@@ -2076,21 +2090,19 @@ class ilObjSurvey extends ilObject
 	function deleteConstraints($question_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT * FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
+		$result = $ilDB->queryF("SELECT constraint_fi FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 			array('integer','integer'),
 			array($question_id, $this->getSurveyId())
 		);
+		$constraints = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_id = %s",
-				array('integer'),
-				array($row["constraint_fi"])
-			);
+			array_push($constraints, $row["constraint_fi"]);
 		}
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
-			array('integer','integer'),
-			array($question_id, $this->getSurveyId())
-		);
+		foreach ($constraints as $constraint_id)
+		{
+			$this->deleteConstraint($constraint_id);
+		}
 	}
 
 /**
@@ -2100,17 +2112,16 @@ class ilObjSurvey extends ilObject
 * @param integer $question_id The database id of the question
 * @access public
 */
-	function deleteConstraint($constraint_id, $question_id)
+	function deleteConstraint($constraint_id)
 	{
 		global $ilDB;
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_id = %s",
 			array('integer'),
 			array($constraint_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_constraint WHERE constraint_fi = %s " .
-			"AND question_fi = %s AND survey_fi = %s",
-			array('integer', 'integer', 'integer'),
-			array($constraint_id, $question_id, $this->getSurveyId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_constraint WHERE constraint_fi = %s",
+			array('integer'),
+			array($constraint_id)
 		);
 	}
 
@@ -2477,7 +2488,7 @@ class ilObjSurvey extends ilObject
 			$question = new $question_type();
 			$question->loadFromDb($row["question_fi"]);
 			$valueoutput = $question->getPreconditionValueOutput($row["value"]);
-			array_push($result_array, array("id" => $row["constraint_id"], "question" => $row["question_fi"], "short" => $row["shortname"], "long" => $row["longname"], "value" => $row["value"], "valueoutput" => $valueoutput));
+			array_push($result_array, array("id" => $row["constraint_id"], "question" => $row["question_fi"], "short" => $row["shortname"], "long" => $row["longname"], "value" => $row["value"], "conjunction" => $row["conjunction"], "valueoutput" => $valueoutput));
 		}
 		return $result_array;
 	}
@@ -2499,7 +2510,7 @@ class ilObjSurvey extends ilObject
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{		
-			array_push($result_array, array("id" => $row["constraint_id"], "for_question" => $row["for_question"], "question" => $row["question_fi"], "short" => $row["shortname"], "long" => $row["longname"], "relation_id" => $row["relation_id"], "value" => $row["value"]));
+			array_push($result_array, array("id" => $row["constraint_id"], "for_question" => $row["for_question"], "question" => $row["question_fi"], "short" => $row["shortname"], "long" => $row["longname"], "relation_id" => $row["relation_id"], "value" => $row["value"], 'conjunction' => $row['conjunction']));
 		}
 		return $result_array;
 	}
@@ -2528,35 +2539,51 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 	
+	/**
+	* Adds a constraint
+	*
+	* @param integer $if_question_id The question id of the question which defines a precondition
+	* @param integer $relation The database id of the relation
+	* @param mixed $value The value compared with the relation
+	* @access public
+	*/
+	function addConstraint($if_question_id, $relation, $value, $conjunction)
+	{
+		global $ilDB;
+
+		$next_id = $ilDB->nextId('svy_constraint');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_constraint (constraint_id, question_fi, relation_fi, value, conjunction) VALUES ".
+			"(%s, %s, %s, %s, %s)",
+			array('integer','integer','integer','float', 'integer'),
+			array($next_id, $if_question_id, $relation, $value, $conjunction)
+		);
+		if ($affectedRows)
+		{
+			return $next_id;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
 /**
 * Adds a constraint to a question
 *
 * @param integer $to_question_id The question id of the question where to add the constraint
-* @param integer $if_question_id The question id of the question which defines a precondition
-* @param integer $relation The database id of the relation
-* @param mixed $value The value compared with the relation
-* @access public
+* @param integer $constraint_id The id of the constraint
 */
-	function addConstraint($to_question_id, $if_question_id, $relation, $value)
+	public function addConstraintToQuestion($to_question_id, $constraint_id)
 	{
 		global $ilDB;
 		
-		$next_id = $ilDB->nextId('svy_constraint');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_constraint (constraint_id, question_fi, relation_fi, value) VALUES ".
-			"(%s, %s, %s, %s)",
-			array('integer','integer','integer','float'),
-			array($next_id, $if_question_id, $relation, $value)
+		$next_id = $ilDB->nextId('svy_qst_constraint');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_constraint (question_constraint_id, survey_fi, question_fi, ".
+			"constraint_fi) VALUES (%s, %s, %s, %s)",
+			array('integer','integer','integer','integer'),
+			array($next_id, $this->getSurveyId(), $to_question_id, $constraint_id)
 		);
-		if ($affectedRows)
-		{
-			$constraint_id = $next_id;
-			$next_id = $ilDB->nextId('svy_qst_constraint');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_constraint (question_constraint_id, survey_fi, question_fi, ".
-				"constraint_fi) VALUES (%s, %s, %s, %s)",
-				array('integer','integer','integer','integer'),
-				array($next_id, $this->getSurveyId(), $to_question_id, $constraint_id)
-			);
-		}
 	}
 	
 	/**
@@ -2569,23 +2596,28 @@ class ilObjSurvey extends ilObject
 	* @param mixed $value The value compared with the relation
 	* @access public
 	*/
-		function updateConstraint($to_question_id, $if_question_id, $relation, $value)
+	function updateConstraint($precondition_id, $if_question_id, $relation, $value, $conjunction)
+	{
+		global $ilDB;
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_constraint SET question_fi = %s, relation_fi = %s, value = %s, conjunction = %s ".
+			"WHERE constraint_id = %s",
+			array('integer','integer','float','integer','integer'),
+			array($if_question_id, $relation, $value, $conjunction, $precondition_id)
+		);
+	}
+		
+	public function updateConjunctionForQuestions($questions, $conjunction)
+	{
+		global $ilDB;
+		foreach ($questions as $question_id)
 		{
-			global $ilDB;
-			$result = $ilDB->queryF("SELECT constraint_fi FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_constraint SET conjunction = %s ".
+				"WHERE constraint_id IN (SELECT constraint_fi FROM svy_qst_constraint WHERE svy_qst_constraint.question_fi = %s)",
 				array('integer','integer'),
-				array($to_question_id, $this->getSurveyId())
+				array($conjunction, $question_id)
 			);
-			if ($result->numRows())
-			{
-				$row = $ilDB->fetchAssoc($result);
-				$affectedRows = $ilDB->manipulateF("UPDATE svy_constraint SET question_fi = %s, relation_fi = %s, value = %s ".
-					"WHERE constraint_id = %s",
-					array('integer','integer','float','integer'),
-					array($if_question_id, $relation, $value, $row["constraint_fi"])
-				);
-			}
 		}
+	}
 
 /**
 * Returns all available relations
@@ -2885,6 +2917,42 @@ class ilObjSurvey extends ilObject
 				array('text','integer','integer','integer'),
 				array(1, time(), $this->getSurveyId(), $user_id)
 			);
+		}
+		if ($this->getMailNotification())
+		{
+			$this->sendNotificationMail($user_id, $anonymize_id);
+		}
+	}
+	
+	function sendNotificationMail($user_id, $anonymize_id)
+	{
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($this->getOwner());
+
+		$res = $mail->sendMail(
+			ilObjUser::_lookupLogin($this->getOwner()), // to
+			"", // cc
+			"", // bcc
+			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
+			$message->get(), // message
+			array(), // attachments
+			array('normal') // type
+		);	
+		global $ilLog; $ilLog->write("sending mail: " . $res);
+	}
+
+	function getDetailedParticipantResultsAsText()
+	{
+		$counter = 0;
+		$questions =& $this->getSurveyQuestions();
+		$counter++;
+		foreach ($questions as $data)
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
+
+			$eval = $this->getCumulatedResults($question);
+//			$question->setExportDetailsXLS($, $eval, $_POST['export_label']);
 		}
 	}
 	
@@ -3874,9 +3942,15 @@ class ilObjSurvey extends ilObject
 		
 		// clone the constraints
 		$constraints = ilObjSurvey::_getConstraints($this->getSurveyId());
+		$newConstraints = array();
 		foreach ($constraints as $key => $constraint)
 		{
-			$newObj->addConstraint($question_pointer[$constraint["for_question"]], $question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"]);
+			if (!array_key_exists($constraints['id'], $newConstraints))
+			{
+				$constraint_id = $newObj->addConstraint($question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"], $constraint['conjunction']);
+				$newConstraints[$constraints['id']] = $constraint_id;
+			}
+			$newObj->addConstraintToQuestion($question_pointer[$constraint["for_question"]], $newConstraints[$constraints['id']]);
 		}
 		
 		// clone the obligatory states
@@ -4296,6 +4370,38 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
+	function createSurveyCodesForExternalData($data)
+	{
+		global $ilDB;
+		foreach ($data as $dataset)
+		{
+			$anonymize_key = $this->createNewAccessCode();
+			$next_id = $ilDB->nextId('svy_anonymous');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, externaldata, tstamp) ".
+				"VALUES (%s, %s, %s, %s, %s)",
+				array('integer','text','integer','text','integer'),
+				array($next_id, $anonymize_key, $this->getSurveyId(), serialize($dataset), time())
+			);
+		}
+	}
+
+	function getExternalCodeRecipients()
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT survey_key code, externaldata FROM svy_anonymous WHERE survey_fi = %s AND externaldata IS NOT NULL",
+			array('integer'),
+			array($this->getSurveyId())
+		);
+		$res = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$externaldata = unserialize($row['externaldata']);
+			$externaldata['code'] = $row['code'];
+			array_push($res, $externaldata);
+		}
+		return $res;
+	}
+	
 	/**
 	* Deletes a given survey access code
 	*
@@ -4705,6 +4811,36 @@ class ilObjSurvey extends ilObject
 			$result[$obj_id] = array("obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
 		}
 		return $result;
+	}
+	
+	function getMailNotification()
+	{
+		return $this->mailnotification;
+	}
+	
+	function setMailNotification($a_notification)
+	{
+		$this->mailnotification = ($a_notification) ? true : false;
+	}
+	
+	function getMailAddresses()
+	{
+		return $this->mailaddresses;
+	}
+	
+	function setMailAddresses($a_addresses)
+	{
+		$this->mailaddresses = $a_addresses;
+	}
+	
+	function getMailParticipantData()
+	{
+		return $this->mailparticipantdata;
+	}
+	
+	function setMailParticipantData($a_data)
+	{
+		$this->mailparticipantdata = $a_data;
 	}
 } // END class.ilObjSurvey
 ?>

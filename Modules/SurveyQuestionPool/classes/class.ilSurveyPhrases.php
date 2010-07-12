@@ -33,11 +33,14 @@
 */
 class ilSurveyPhrases 
 {
+	protected $arrData;
+	
 	/**
 	* ilSurveyPhrases constructor
 	*/
 	function __construct()
 	{
+		$this->arrData = array();
 	}
 	
 	/**
@@ -126,6 +129,114 @@ class ilSurveyPhrases
 		{
 			$affectedRows = $ilDB->manipulate("DELETE FROM svy_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
 			$affectedRows = $ilDB->manipulate("DELETE FROM svy_phrase_cat WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
+		}
+	}
+	
+	/**
+	* Saves a set of categories to a default phrase
+	*
+	* @param array $phrases The database ids of the seleted phrases
+	* @param string $title The title of the default phrase
+	* @access public
+	*/
+	function updatePhrase($phrase_id)
+	{
+		global $ilUser;
+		global $ilDB;
+
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_phrase SET title = %s, tstamp = %s WHERE phrase_id = %s",
+			array('text','integer','integer'),
+			array($this->title, time(), $phrase_id)
+		);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_phrase_cat WHERE phrase_fi = %s",
+			array('integer'),
+			array($phrase_id)
+		);
+
+		$counter = 1;
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) 
+		{
+			$cat = $this->categories->getCategory($i);
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer'),
+				array($next_id, $cat->title, 1, $ilUser->getId(), time())
+			);
+			$category_id = $next_id;
+			$next_id = $ilDB->nextId('svy_phrase_cat');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
+				array('integer', 'integer', 'integer','integer'),
+				array($next_id, $phrase_id, $category_id, $counter)
+			);
+			$counter++;
+		}
+	}
+	
+	/**
+	* Saves a set of categories to a default phrase
+	*/
+	public function savePhrase()
+	{
+		global $ilUser;
+		global $ilDB;
+
+		$next_id = $ilDB->nextId('svy_phrase');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			array('integer','text','text','integer','integer'),
+			array($next_id, $this->title, 1, $ilUser->getId(), time())
+		);
+		$phrase_id = $next_id;
+
+		$counter = 1;
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) 
+		{
+			$cat = $this->categories->getCategory($i);
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer'),
+				array($next_id, $cat->title, 1, $ilUser->getId(), time())
+			);
+			$category_id = $next_id;
+			$next_id = $ilDB->nextId('svy_phrase_cat');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
+				array('integer', 'integer', 'integer','integer'),
+				array($next_id, $phrase_id, $category_id, $counter)
+			);
+			$counter++;
+		}
+	}
+	
+	/**
+	* Object getter
+	*/
+	public function __get($value)
+	{
+		switch ($value)
+		{
+			default:
+				if (array_key_exists($value, $this->arrData))
+				{
+					return $this->arrData[$value];
+				}
+				else
+				{
+					return null;
+				}
+				break;
+		}
+	}
+
+	/**
+	* Object setter
+	*/
+	public function __set($key, $value)
+	{
+		switch ($key)
+		{
+			default:
+				$this->arrData[$key] = $value;
+				break;
 		}
 	}
 }

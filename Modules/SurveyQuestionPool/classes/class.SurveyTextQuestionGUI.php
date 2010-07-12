@@ -72,6 +72,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		if (!$hasErrors)
 		{
 			$this->object->setTitle($_POST["title"]);
+			$this->object->label = $_POST['label'];
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setDescription($_POST["description"]);
 			$questiontext = $_POST["question"];
@@ -111,6 +112,13 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$title->setRequired(TRUE);
 		$form->addItem($title);
 		
+		// label
+		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
+		$label->setValue($this->object->label);
+		$label->setInfo($this->lng->txt("label_info"));
+		$label->setRequired(false);
+		$form->addItem($label);
+
 		// author
 		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
 		$author->setValue($this->object->getAuthor());
@@ -262,12 +270,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if ($show_questiontext)
 		{
-			$questiontext = $this->object->getQuestiontext();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		if (! $this->object->getObligatory($survey_id))
-		{
-			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$this->outQuestionText($template);
 		}
 		if ($question_title)
 		{

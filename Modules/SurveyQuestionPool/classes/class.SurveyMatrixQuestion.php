@@ -41,13 +41,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * @var array
 */
   var $columns;
-
-/**
-* Neutral column
-*
-* @var string
-*/
-	var $neutralColumn;
 	
 /**
 * Rows contained in this question
@@ -173,8 +166,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->subtype = 0;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->columns = new SurveyCategories();
-		$this->rows = array();
-		$this->neutralColumn = "";
+		$this->rows = new SurveyCategories();
 		$this->bipolar_adjective1 = "";
 		$this->bipolar_adjective2 = "";
 		$this->rowSeparators = 0;
@@ -182,49 +174,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$this->neutralColumnSeparator = 1;
 	}
 	
-/**
-* Returns the text of the neutral column
-*
-* @return string The text of the neutral column
-* @access public
-* @see $neutralColumn
-*/
-	function getNeutralColumn() 
-	{
-		return $this->neutralColumn;
-	}
-	
-	/**
-	* Returns the index of the neutral column
-	*
-	* @return integer The index of the neutral column
-	* @access public
-	* @see $neutralColumn
-	*/
-	function getNeutralColumnIndex()
-	{
-		if (strlen($this->getNeutralColumn()))
-		{
-			return $this->getColumnCount();
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	
-/**
-* Sets the text of the neutral column
-*
-* @param string $a_text The text of the neutral column
-* @access public
-* @see $neutralColumn
-*/
-	function setNeutralColumn($a_text) 
-	{
-		$this->neutralColumn = $a_text;
-	}
-
 /**
 * Returns the number of columns
 *
@@ -235,44 +184,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	function getColumnCount() 
 	{
 		return $this->columns->getCategoryCount();
-	}
-
-/**
-* Adds a column at a given position
-*
-* @param string $columnname The name of the column
-* @param integer $position The position of the column (starting with index 0)
-* @access public
-* @see $columns
-*/
-	function addColumnAtPosition($columnname, $position) 
-	{
-		$this->columns->addCategoryAtPosition($columnname, $position);
-	}
-
-/**
-* Adds a column
-*
-* @param integer $columnname The name of the column
-* @param integer $neutral Indicates if the column is a neutral column
-* @access public
-* @see $columns
-*/
-	function addColumn($columnname) 
-	{
-		$this->columns->addCategory($columnname);
-	}
-	
-/**
-* Adds a column array
-*
-* @param array $columns An array with columns
-* @access public
-* @see $columns
-*/
-	function addColumnArray($columns) 
-	{
-		$this->columns->addCategoryArray($columns);
 	}
 	
 /**
@@ -364,7 +275,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function getRowCount()
 	{
-		return count($this->rows);
+		return $this->rows->getCategoryCount();
 	}
 
 /**
@@ -372,9 +283,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 *
 * @param string $a_text The text of the row
 */
-	function addRow($a_text)
+	function addRow($a_text, $a_other, $a_label)
 	{
-		array_push($this->rows, $a_text);
+		$this->rows->addCategory($a_text, $a_other, 0, $a_label);
 	}
 	
 	/**
@@ -383,18 +294,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @param string $a_text The text of the row
 	* @param integer $a_position The row position
 	*/
-	function addRowAtPosition($a_text, $a_position)
+	function addRowAtPosition($a_text, $a_other, $a_position)
 	{
-		if (array_key_exists($a_position, $this->rows))
-		{
-			$head = array_slice($this->rows, 0, $a_position);
-			$tail = array_slice($this->rows, $a_position);
-			$this->rows = array_merge($head, array($a_text), $tail);
-		}
-		else
-		{
-			array_push($this->rows, $a_text);
-		}
+		$this->rows->addCategoryAtPosition($a_text, $a_position, $a_other);
 	}
 
 /**
@@ -405,7 +307,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function flushRows() 
 	{
-		$this->rows = array();
+		$this->rows = new SurveyCategories();
 	}
 	
 /**
@@ -416,31 +318,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function getRow($a_index)
 	{
-		if (array_key_exists($a_index, $this->rows))
-		{
-			return $this->rows[$a_index];
-		}
-		return "";
+		return $this->rows->getCategory($a_index);
 	}
 
 	function moveRowUp($index)
 	{
-		if ($index > 0)
-		{
-			$temp = $this->rows[$index-1];
-			$this->rows[$index - 1] = $this->rows[$index];
-			$this->rows[$index] = $temp;
-		}
+		$this->rows->moveCategoryUp($index);
 	}
 	
 	function moveRowDown($index)
 	{
-		if ($index < (count($this->rows)-1))
-		{
-			$temp = $this->rows[$index+1];
-			$this->rows[$index + 1] = $this->rows[$index];
-			$this->rows[$index] = $temp;
-		}
+		$this->rows->moveCategoryDown($index);
 	}
 	
 /**
@@ -452,11 +340,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function removeRows($array)
 	{
-		foreach ($array as $index)
-		{
-			unset($this->rows[$index]);
-		}
-		$this->rows = array_values($this->rows);
+		$this->rows->removeCategories($array);
 	}
 
 	/**
@@ -466,8 +350,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*/
 	public function removeRow($index)
 	{
-		unset($this->rows[$index]);
-		$this->rows = array_values($this->rows);
+		$this->rows->removeCategory($index);
 	}
 
 /**
@@ -532,11 +415,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($row["defaultvalue"] == 1) && ($row["owner_fi"] == 0))
 			{
-				$this->addColumn($this->lng->txt($row["title"]));
+				$this->columns->addCategory($this->lng->txt($row["title"]));
 			}
 			else
 			{
-				$this->addColumn($row["title"]);
+				$this->columns->addCategory($row["title"]);
 			}
 		}
 	}
@@ -584,6 +467,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($data["question_id"]);
 			$this->setTitle($data["title"]);
+			$this->label = $data['label'];
 			$this->setDescription($data["description"]);
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
@@ -619,14 +503,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			{
 				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					if ($data["neutral"] == 0)
-					{
-						$this->addColumn($data["title"]);
-					}
-					else
-					{
-						$this->setNeutralColumn($data["title"]);
-					}
+					$this->columns->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
 				}
 			}
 			
@@ -636,7 +513,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			);
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$this->addRow($row["title"]);
+				$this->addRow($row["title"], $row['other'], $row['label']);
 			}
 		}
 		parent::loadFromDb($id);
@@ -798,20 +675,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
 			$cat = $this->getColumn($i);
-			$column_id = $this->saveColumnToDb($cat);
+			$column_id = $this->saveColumnToDb($cat->title, $cat->neutral);
 			$next_id = $ilDB->nextId('svy_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','float','float','integer','integer'),
-				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
-			);
-		}
-		if (strlen($this->getNeutralColumn()))
-		{
-			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
-			$next_id = $ilDB->nextId('svy_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','float','float','integer','integer'),
-				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, other, sequence, scale, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
+				array($next_id, $column_id, $question_id, ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
 			);
 		}
 		$this->saveCompletionStatus($original_id);
@@ -827,7 +695,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$question_id = $original_id;
 		}
-		
+
 		// delete existing rows
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_matrixrows WHERE question_fi = %s",
 			array('integer'),
@@ -838,9 +706,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$row = $this->getRow($i);
 			$next_id = $ilDB->nextId('svy_qst_matrixrows');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_matrixrows (id_svy_qst_matrixrows, title, sequence, question_fi) VALUES (%s, %s, %s, %s)",
-				array('integer','text','integer','integer'),
-				array($next_id, $row, $i, $question_id)
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_matrixrows (id_svy_qst_matrixrows, title, label, other, sequence, question_fi) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer','integer'),
+				array($next_id, $row->title, $row->label, ($row->other) ? 1 : 0, $i, $question_id)
 			);
 		}
 		$this->saveCompletionStatus($original_id);
@@ -899,8 +767,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$attrs = array(
 				"id" => $i
 			);
+			if (strlen($this->getRow($i)->label))
+			{
+				$attrs['label'] = $this->getRow($i)->label;
+			}
+			if ($this->getRow($i)->other)
+			{
+				$attrs['other'] = 1;
+			}
 			$a_xml_writer->xmlStartTag("matrixrow", $attrs);
-			$this->addMaterialTag($a_xml_writer, $this->getRow($i));
+			$this->addMaterialTag($a_xml_writer, $this->getRow($i)->title);
 			$a_xml_writer->xmlEndTag("matrixrow");
 		}
 		$a_xml_writer->xmlEndTag("matrixrows");
@@ -924,6 +800,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$attrs = array(
 				"id" => $i
 			);
+			if ($this->getColumn($i)->neutral)
+			{
+				$attrs['label'] = 'neutral';
+			}
 			switch ($this->getSubtype())
 			{
 				case 0:
@@ -933,33 +813,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
 					break;
 			}
-			$this->addMaterialTag($a_xml_writer, $this->getColumn($i));
-			switch ($this->getSubtype())
-			{
-				case 0:
-					$a_xml_writer->xmlEndTag("response_single");
-					break;
-				case 1:
-					$a_xml_writer->xmlEndTag("response_multiple");
-					break;
-			}
-		}
-		if (strlen($this->getNeutralColumn()))
-		{
-			$attrs = array(
-				"id" => $this->getColumnCount(),
-				"label" => "neutral"
-			);
-			switch ($this->getSubtype())
-			{
-				case 0:
-					$a_xml_writer->xmlStartTag("response_single", $attrs);
-					break;
-				case 1:
-					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
-					break;
-			}
-			$this->addMaterialTag($a_xml_writer, $this->getNeutralColumn());
+			$this->addMaterialTag($a_xml_writer, $this->getColumn($i)->title);
 			switch ($this->getSubtype())
 			{
 				case 0:
@@ -1040,7 +894,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		for ($i = $lower_limit; $i <= $upper_limit; $i++)
 		{
-			$this->addColumn($i);
+			$this->columns->addCategory($i);
 		}
 	}
 
@@ -1123,12 +977,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							foreach ($value as $val)
 							{
-								array_push($data, array("value" => $val, "rowvalue" => $matches[1]));
+								array_push($data, array("value" => $val, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
 							}
 						}
 						else
 						{
-							array_push($data, array("value" => $value, "rowvalue" => $matches[1]));
+							array_push($data, array("value" => $value, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
 						}
 					}
 					break;
@@ -1139,12 +993,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							foreach ($value as $val)
 							{
-								array_push($data, array("value" => $val, "rowvalue" => $matches[1]));
+								array_push($data, array("value" => $val, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
 							}
 						}
 						else
 						{
-							array_push($data, array("value" => $value, "rowvalue" => $matches[1]));
+							array_push($data, array("value" => $value, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
 						}
 					}
 					break;
@@ -1173,6 +1027,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
+						if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]]) == 0)
+						{
+							return $this->lng->txt("question_mr_no_other_answer");
+						}
 						$counter++;
 					}
 				}
@@ -1184,6 +1042,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
+						if (array_key_exists('matrix_other_' . $this->getId() . "_" . $matches[1], $post_data) && strlen($post_data['matrix_other_' . $this->getId() . "_" . $matches[1]]) == 0)
+						{
+							return $this->lng->txt("question_mr_no_other_answer");
+						}
 						$counter++;
 						if ((!is_array($value)) || (count($value) < 1))
 						{
@@ -1205,7 +1067,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	public function saveRandomData($active_id)
 	{
 		global $ilDB;
-		$columncount = ($this->hasNeutralColumn()) ? $this->getColumnCount()+1 : $this->getColumnCount();
+		$columncount = $this->getColumnCount();
 		for ($row = 0; $row < $this->getRowCount(); $row++)
 		{
 			if ($this->getSubType() == 1)
@@ -1248,9 +1110,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
 						$next_id = $ilDB->nextId('svy_answer');
+						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;
 						$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 							array('integer','integer','integer','float','text','integer','integer'),
-							array($next_id, $this->getId(), $active_id, $value, NULL, $matches[1], time())
+							array($next_id, $this->getId(), $active_id, $value, $other_value, $matches[1], time())
 						);
 					}
 				}
@@ -1260,6 +1123,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
+						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;
 						foreach ($value as $checked)
 						{
 							if (strlen($checked))
@@ -1267,7 +1131,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$next_id = $ilDB->nextId('svy_answer');
 								$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 									array('integer','integer','integer','float','text','integer','integer'),
-									array($next_id, $this->getId(), $active_id, $checked, NULL, $matches[1], time())
+									array($next_id, $this->getId(), $active_id, $checked, $other_value, $matches[1], time())
 								);
 							}
 						}
@@ -1361,7 +1225,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$prefix = (key($cumulated)+1) . " - ";
 		}
 		$cat = $this->getColumn(key($cumulated));
-		$result_array["MODE"] =  $prefix . $cat;
+		$result_array["MODE"] =  $prefix . $cat->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
@@ -1372,16 +1236,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
 			$cat = $this->getColumn($key);
-			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
-		}
-		if ($this->hasNeutralColumn())
-		{
-			$percentage = 0;
-			if ($numrows > 0)
-			{
-				$percentage = (float)((int)$cumulated[$this->getNeutralColumnIndex()]/$numrows);
-			}
-			$result_array["variables"][$this->getNeutralColumnIndex()] = array("title" => $this->getNeutralColumn(), "selected" => (int)$cumulated[$this->getNeutralColumnIndex()], "percentage" => $percentage);
+			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
@@ -1403,7 +1258,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					$cat = $this->getColumn((int)floor($median_value)-1);
 					$cat2 = $this->getColumn((int)ceil($median_value)-1);
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
 				}
 			}
 			else
@@ -1418,7 +1273,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array["ARITHMETIC_MEAN"] = "";
 		$result_array["MEDIAN"] = $median_value;
 		$result_array["QUESTION_TYPE"] = "SurveyMatrixQuestion";
-		$result_array["ROW"] = $this->getRow($rowindex);
+		$result_array["ROW"] = $this->getRow($rowindex)->title;
 		return $result_array;
 	}
 
@@ -1465,7 +1320,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$prefix = (key($cumulated)+1) . " - ";
 		}
 		$cat = $this->getColumn(key($cumulated));
-		$result_array["MODE"] =  $prefix . $cat;
+		$result_array["MODE"] =  $prefix . $cat->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
@@ -1476,16 +1331,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$percentage = (float)((int)$cumulated[$key]/$numrows);
 			}
 			$cat = $this->getColumn($key);
-			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
-		}
-		if ($this->hasNeutralColumn())
-		{
-			$percentage = 0;
-			if ($numrows > 0)
-			{
-				$percentage = (float)((int)$cumulated[$this->getNeutralColumnIndex()]/$numrows);
-			}
-			$result_array["variables"][$this->getNeutralColumnIndex()] = array("title" => $this->getNeutralColumn(), "selected" => (int)$cumulated[$this->getNeutralColumnIndex()], "percentage" => $percentage);
+			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
@@ -1507,7 +1353,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					$cat = $this->getColumn((int)floor($median_value)-1);
 					$cat2 = $this->getColumn((int)ceil($median_value)-1);
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2 . ")";
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
 				}
 			}
 			else
@@ -1625,21 +1471,42 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @param array $eval_data Cumulated evaluation data
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet =& $workbook->addWorksheet();
-		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
-		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
-		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
-		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
-		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write(3, 1, $eval_data["TOTAL"]["USERS_ANSWERED"]);
-		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write(4, 1, $eval_data["TOTAL"]["USERS_SKIPPED"]);
-		$rowcounter = 5;
+		$rowcounter = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->label));
+				break;
+			case 'title_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+			default:
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$rowcounter++;
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+		}
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["TOTAL"]["USERS_ANSWERED"]);
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["TOTAL"]["USERS_SKIPPED"]);
+		$rowcounter++;
 
 		preg_match("/(.*?)\s+-\s+(.*)/", $eval_data["TOTAL"]["MODE"], $matches);
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
@@ -1744,7 +1611,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		parent::addUserSpecificResultsExportTitles($a_array);
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
-			array_push($a_array, $this->getRow($i));
+			array_push($a_array, $this->getRow($i)->title);
 			switch ($this->getSubtype())
 			{
 				case 0:
@@ -1753,11 +1620,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					for ($index = 0; $index < $this->getColumnCount(); $index++)
 					{
 						$col = $this->getColumn($index);
-						array_push($a_array, ($index+1) . " - $col");
-					}
-					if (strlen($this->getNeutralColumn()))
-					{
-						array_push($a_array, ($this->getColumnCount()+1) . " - " . $this->getNeutralColumn());
+						array_push($a_array, ($index+1) . " - " . $col->title);
 					}
 					break;
 			}
@@ -1835,24 +1698,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								}
 							}
 						}
-						if (strlen($this->getNeutralColumn()))
-						{
-							if (!$checked)
-							{
-								array_push($a_array, "");
-							}
-							else
-							{
-								if (in_array($this->getColumnCount()+1, $checked_values))
-								{
-									array_push($a_array, 1);
-								}
-								else
-								{
-									array_push($a_array, 0);
-								}
-							}
-						}
 					}
 					break;
 			}
@@ -1869,10 +1714,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						break;
 					case 1:
 						for ($index = 0; $index < $this->getColumnCount(); $index++)
-						{
-							array_push($a_array, "");
-						}
-						if (strlen($this->getNeutralColumn()))
 						{
 							array_push($a_array, "");
 						}
@@ -1904,7 +1745,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$column = $this->getColumn($row["value"]);
 			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();
-			array_push($answers[$row["active_fi"]], $this->getRow($row["rowvalue"]) . ": " . ($row["value"] + 1) . " - " . $column);
+			$rowobj = $this->getRow($row["rowvalue"]);
+			array_push($answers[$row["active_fi"]], $rowobj->title . (($rowobj->other) ? (" " . $row["textanswer"]) : "") . ": " . ($row["value"] + 1) . " - " . $column->title);
 		}
 		foreach ($answers as $key => $value)
 		{
@@ -2105,7 +1947,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		foreach ($a_data as $row)
 		{
-			$this->addRow($row);
+			$this->addRow($row['title'], $row['other'], $row['label']);
 		}
 	}
 	
@@ -2124,14 +1966,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			{
 				$column .= $material["text"];
 			}
-			if (strcmp($data["label"], "neutral") == 0)
-			{
-				$this->setNeutralColumn($column);
-			}
-			else
-			{
-				$this->addColumn($column);
-			}
+			$this->columns->addCategory($column, null, (strcmp($data["label"], "neutral") == 0) ? true : false);
 		}
 	}
 
@@ -2184,7 +2019,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					$this->cumulated["variables"][$key][$key2] = utf8_decode($value2);
 				}
 			}
-			$title = preg_replace("/\<[^>]+?>/ims", "", $this->getRow($type));
+			$title = preg_replace("/\<[^>]+?>/ims", "", $this->getRow($type)->title);
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
 			$b1 = new SurveyChart("bars", 400, 250, utf8_decode($title),utf8_decode($this->lng->txt("answers")), utf8_decode($this->lng->txt("users_answered")), $this->cumulated[$type]["variables"]);
 		}
@@ -2300,14 +2135,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	 **/
 	function hasNeutralColumn()
 	{
-		if (strlen($this->getNeutralColumn()))
+		foreach ($this->columns as $column)
 		{
-			return TRUE;
+			if ($column->neutral && strlen($column->title)) return true;
 		}
-		else
-		{
-			return FALSE;
-		}
+		return FALSE;
 	}
 	
 	/**
@@ -2458,9 +2290,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (is_numeric($key))
 			{
+				$val = $value["ROW"]->title;
+				if ($value["ROW"]->other)
+				{
+				}
 				$row = array(
 					'title' => '',
-					'question' => ($key+1) . ". " . $value["ROW"],
+					'question' => ($key+1) . ". " . $val,
 					'users_answered' => $value['USERS_ANSWERED'],
 					'users_skipped' => $value['USERS_SKIPPED'],
 					'question_type' => '',

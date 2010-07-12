@@ -9801,7 +9801,6 @@ survey#:#qpl_unfold_select_none#:#Please select at least one question block if y
 survey#:#question_contains_no_categories#:#There are no answers defined for this question
 survey#:#question_has_constraints#:#Preconditions
 survey#:#question_icon#:#Question Icon
-survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
 survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!
 survey#:#question_not_checked#:#Please check one of the offered answers!
 survey#:#question_obligatory#:#The question is obligatory!
@@ -9952,7 +9951,6 @@ survey#:#use_anonymous_id#:#Show survey code
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.
 survey#:#use_google_chart_api#:#Use Google Chart API
-survey#:#use_other_answer#:#Open answer
 survey#:#used#:#used
 survey#:#users_answered#:#Users Answered
 survey#:#users_invited#:#%s users have been invited
@@ -10604,3 +10602,35 @@ news#:#news_hide_news_until_date_info#:#Only news that has not reached a certain
 news#:#show_news_end_date#:#Ending Date
 export#:#export_existing#:#Reuse
 export#:#export_save_selection#:#Start Export
+survey#:#use_other_answer#:#Open answer
+survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
+survey#:#use_min_answers#:#Answer selections
+survey#:#use_min_answers_option#:#Use minimum number of answer selections
+survey#:#nr_min_answers#:#Number
+survey#:#err_no_min_answers#:#Please check at least %s answers.
+survey#:#label#:#Label
+survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
+survey#:#export_label_only#:#Export label only
+survey#:#export_title_only#:#Export title only
+survey#:#export_title_label#:#Export title and label
+survey#:#mailnotification#:#Email notification
+survey#:#mailaddresses#:#Recipient addresses
+survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
+survey#:#mailparticipantdata#:#Additional participant data
+survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
+survey#:#table_fields#:#Definition of field names for external mails
+survey#:#tablefields#:#Field names
+survey#:#tablefields_info#:#Please enter a comma separated list of field names for external mails.
+survey#:#externalRecipients#:#External code recipients
+survey#:#edit_phrase#:#Edit phrase
+survey#:#phrase_new#:#Create new phrase
+survey#:#no_phrase_selected#:#Nothing selected.
+survey#:#other_answer#:#Other answer
+survey#:#constraint_fulfilled#:#Show page
+survey#:#conjunction_and#:#if each constraint is fulfilled
+survey#:#conjunction_or#:#if one constraint is fulfilled
+survey#:#conjunction_and_title#:#Fulfill each of the following constraints
+survey#:#conjunction_or_title#:#Fulfill one of the following constraints
+survey#:#err_external_rcp_no_email#:#The import data must a least contain an 'email' field
+survey#:#err_no_selection#:#You made no selection.
+survey#:#external_recipients_deleted#:#Deleted external recipient(s)

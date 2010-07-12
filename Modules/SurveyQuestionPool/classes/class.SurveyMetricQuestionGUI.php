@@ -77,6 +77,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$this->object->setQuestiontext($questiontext);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
 			$this->object->setOrientation($_POST["orientation"]);
+			$this->object->label = $_POST['label'];
 
 			$this->object->setSubtype($_POST["type"]);
 			$this->object->setMinimum($_POST["minimum"]);
@@ -111,6 +112,13 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$title->setValue($this->object->getTitle());
 		$title->setRequired(TRUE);
 		$form->addItem($title);
+
+		// label
+		$label = new ilTextInputGUI($this->lng->txt("label"), "label");
+		$label->setValue($this->object->label);
+		$label->setInfo($this->lng->txt("label_info"));
+		$label->setRequired(false);
+		$form->addItem($label);
 		
 		// author
 		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
@@ -263,12 +271,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($show_questiontext)
 		{
-			$questiontext = $this->object->getQuestiontext();
-			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		}
-		if (! $this->object->getObligatory($survey_id))
-		{
-			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
+			$this->outQuestionText($template);
 		}
 		if ($question_title)
 		{

@@ -272,6 +272,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->setAnonymize($anonymize);
 			}
 			$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
+			$this->object->setMailNotification($_POST['mailnotification']);
+			if ($_POST['mailnotification'])
+			{
+				$this->object->setMailAddresses($_POST['mailaddresses']);
+				$this->object->setMailParticipantData($_POST['mailparticipantdata']);
+			}
 			$this->object->saveToDb();
 			if (strcmp($_SESSION["info"], "") != 0)
 			{
@@ -391,15 +397,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$anonymization->addSubItem($anonymization_options);
 		$form->addItem($anonymization);
 
-		// evaluation access
-		$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
-		$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
-		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), EVALUATION_ACCESS_OFF, ''));
-		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), EVALUATION_ACCESS_ALL, ''));
-		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), EVALUATION_ACCESS_PARTICIPANTS, ''));
-		$evaluation_access->setValue($this->object->getEvaluationAccess());
-		$form->addItem($evaluation_access);
-
 		// show question titles
 		$show_question_titles = new ilCheckboxInputGUI('', "show_question_titles");
 		$show_question_titles->setOptionTitle($this->lng->txt("svy_show_questiontitles"));
@@ -419,6 +416,44 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->addPlugin("pastelatex");
 		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey");
 		$form->addItem($finalstatement);
+
+		// results properties
+		$results = new ilFormSectionHeaderGUI();
+		$results->setTitle($this->lng->txt("results"));
+		$form->addItem($results);
+
+		// evaluation access
+		$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+		$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), EVALUATION_ACCESS_OFF, ''));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), EVALUATION_ACCESS_ALL, ''));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), EVALUATION_ACCESS_PARTICIPANTS, ''));
+		$evaluation_access->setValue($this->object->getEvaluationAccess());
+		$form->addItem($evaluation_access);
+
+		// mail notification
+		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("mailnotification"), "mailnotification");
+		$mailnotification->setOptionTitle($this->lng->txt("activate"));
+		$mailnotification->setValue(1);
+		$mailnotification->setChecked($this->object->getMailNotification());
+
+		// addresses
+		$mailaddresses = new ilTextInputGUI($this->lng->txt("mailaddresses"), "mailaddresses");
+		$mailaddresses->setValue($this->object->getMailAddresses());
+		$mailaddresses->setInfo($this->lng->txt('mailaddresses_info'));
+		$mailaddresses->setRequired(true);
+
+		// participant data
+		$participantdata = new ilTextAreaInputGUI($this->lng->txt("mailparticipantdata"), "mailparticipantdata");
+		$participantdata->setValue($this->object->getMailParticipantData());
+		$participantdata->setRows(6);
+		$participantdata->setCols(80);
+		$participantdata->setUseRte(false);
+		$participantdata->setInfo($this->lng->txt('mailparticipantdata_info'));
+
+		$mailnotification->addSubItem($mailaddresses);
+		$mailnotification->addSubItem($participantdata);
+		$form->addItem($mailnotification);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		$errors = false;
@@ -2288,7 +2323,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	public function codesObject()
 	{
 		$this->handleWriteAccess();
-
+		$this->setCodesSubtabs();
 		global $ilUser;
 		if ($this->object->getAnonymize() != 1)
 		{
@@ -2370,109 +2405,123 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, 'codes');
 	}
-
-	/**
-	* Display the form to add preconditions for survey questions
-	*/
-	public function addConstraintForm($step, $postvalues, &$survey_questions, $questions = FALSE)
-	{
-		$this->ctrl->saveParameter($this, "preid");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", "Modules/Survey");
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		if (is_array($questions))
-		{
-			foreach ($questions as $question)
-			{
-				$this->tpl->setCurrentBlock("option_q");
-				$this->tpl->setVariable("OPTION_VALUE", $question["question_id"]);
-				$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . SurveyQuestion::_getQuestionTypeName($question["type_tag"]) . ")");
-				if ($question["question_id"] == $postvalues["q"])
-				{
-					$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		if ($step > 1)
-		{
-			$relations = $this->object->getAllRelations();
-			foreach ($relations as $rel_id => $relation)
-			{
-				if (in_array($relation["short"], $survey_questions[$postvalues["q"]]["availableRelations"]))
-				{
-					$this->tpl->setCurrentBlock("option_r");
-					$this->tpl->setVariable("OPTION_VALUE", $rel_id);
-					$this->tpl->setVariable("OPTION_TEXT", $relation["short"]);
-					if ($rel_id == $postvalues["r"])
-					{
-						$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			$this->tpl->setCurrentBlock("select_relation");
-			$this->tpl->setVariable("SELECT_RELATION", $this->lng->txt("step") . " 2: " . $this->lng->txt("select_relation"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if ($step > 2)
-		{
-			$variables =& $this->object->getVariables($postvalues["q"]);
-			$question_type = $survey_questions[$postvalues["q"]]["type_tag"];
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			SurveyQuestion::_includeClass($question_type);
-			$question = new $question_type();
-			$question->loadFromDb($postvalues["q"]);
-			$select_value = $question->getPreconditionSelectValue($postvalues["v"]);
-			$this->tpl->setCurrentBlock("select_value");
-			$this->tpl->setVariable("SELECT_VALUE", $select_value);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("buttons");
-		$this->tpl->setVariable("BTN_CONTINUE", $this->lng->txt("continue"));
-		switch ($step)
-		{
-			case 1:
-				$this->tpl->setVariable("COMMAND", "constraintStep2");
-				$this->tpl->setVariable("COMMAND_BACK", "constraints");
-				break;
-			case 2:
-				$this->tpl->setVariable("COMMAND", "constraintStep3");
-				$this->tpl->setVariable("COMMAND_BACK", "constraintStep1");
-				break;
-			case 3:
-				$this->tpl->setVariable("COMMAND", "constraintsAdd");
-				$this->tpl->setVariable("COMMAND_BACK", "constraintStep2");
-				break;
-		}
-		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$title = "";
-		if ($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_id"] > 0)
-		{
-			$title = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_title"];
-		}
-		else
-		{
-			$title = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["type_tag"]) . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["title"];
-		}
-		$this->tpl->setVariable("CONSTRAINT_QUESTION_TEXT", $title);
-		$this->tpl->setVariable("SELECT_PRIOR_QUESTION", $this->lng->txt("step") . " 1: " . $this->lng->txt("select_prior_question"));
-		if (strlen($_GET["start"])) $this->ctrl->setParameter($this, "start", $_GET["start"]);
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "constraintsAdd"));
-		$this->tpl->parseCurrentBlock();
-	}
 	
 	/**
-	* Add a precondition for a survey question or question block
-	*
-	* Add a precondition for a survey question or question block
-	*
-	* @access private
+	* Sending access codes via email
 	*/
-	function constraintsAddObject()
+	public function codesMailObject($checkonly = false)
+	{
+		global $ilAccess;
+		
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
+		$savefields = (strcmp($this->ctrl->getCmd(), "saveMailTableFields") == 0) ? TRUE : FALSE;
+
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesMailTableGUI.php";
+		$data = $this->object->getExternalCodeRecipients();
+		$table_gui = new ilSurveyCodesMailTableGUI($this, 'codesMail');
+		$table_gui->setData($data);
+		$table_gui->setTitle($this->lng->txt('externalRecipients'));
+		$tabledata = $table_gui->getHTML();	
+		
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $tabledata);
+		return $errors;
+	}
+
+	public function deleteInternalMailRecipientObject()
+	{
+		if (!is_array($_POST['chb_ext']) || count(is_array($_POST['chb_ext'])) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("err_no_selection"), true);
+			$this->ctrl->redirect($this, 'codesMail');
+		}
+		foreach ($_POST['chb_ext'] as $code)
+		{
+			$this->object->deleteSurveyCode($code);
+		}
+		ilUtil::sendSuccess($this->lng->txt('external_recipients_deleted'), true);
+		$this->ctrl->redirect($this, 'codesMail');
+	}
+
+	function importExternalRecipientsFromFileObject()
+	{
+		$hasErrors = $this->importExternalMailRecipientsObject(true);
+		if (!$hasErrors)
+		{
+			include_once "./Services/Utilities/classes/class.ilCSVReader.php";
+			$reader = new ilCSVReader();
+			$reader->open($_FILES['externalmails']['tmp_name']);
+			$data = $reader->getDataArrayFromCSVFile();
+			$fields = array_shift($data);
+			if (!in_array('email', $fields))
+			{
+				$reader->close();
+				ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email'), true);
+				$this->ctrl->redirect($this, 'codesMail');
+			}
+			$founddata = array();
+			foreach ($data as $row)
+			{
+				$dataset = array();
+				foreach ($fields as $idx => $fieldname)
+				{
+					$dataset[$fieldname] = $row[$idx];
+				}
+				array_push($founddata, $dataset);
+			}
+			$reader->close();
+			$this->object->createSurveyCodesForExternalData($founddata);
+			ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+			$this->ctrl->redirect($this, 'codesMail');
+		}
+	}
+
+	function importExternalMailRecipientsObject($checkonly = false)
+	{
+		global $ilAccess;
+		
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
+		$savefields = (strcmp($this->ctrl->getCmd(), "importExternalRecipientsFromFile") == 0) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("codes_import_file");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("external_mails_import"));
+		$form->addItem($header);
+		
+		// fields
+		$externalmails = new ilFileInputGUI($this->lng->txt("externalmails"), "externalmails");
+		$externalmails->setInfo($this->lng->txt('externalmails_info'));
+		$externalmails->setRequired(true);
+		$form->addItem($externalmails);
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("importExternalRecipientsFromFile", $this->lng->txt("import"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("codesMail", $this->lng->txt("cancel"));
+		$errors = false;
+		
+		if ($savefields)
+		{
+			$errors = !$form->checkInput();
+			$form->setValuesByPost();
+			if ($errors) $checkonly = false;
+		}
+		
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+
+	/**
+	* Add a precondition for a survey question or question block
+	*/
+	public function constraintsAddObject()
 	{
 		if (strlen($_POST["v"]) == 0)
 		{
@@ -2486,16 +2535,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if (is_array($structure[$elementCounter]))
 			{
-				foreach ($structure[$elementCounter] as $key => $question_id)
+				if (strlen($_GET["precondition"]))
 				{
-					if (strlen($_GET["preid"]))
+					$this->object->updateConstraint($_GET['precondition'], $_POST["q"], $_POST["r"], $_POST["v"], $_POST['c']);
+				}
+				else
+				{
+					$constraint_id = $this->object->addConstraint($_POST["q"], $_POST["r"], $_POST["v"], $_POST['c']);
+					foreach ($structure[$elementCounter] as $key => $question_id)
 					{
-						$this->object->updateConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
+						$this->object->addConstraintToQuestion($question_id, $constraint_id);
 					}
-					else
-					{
-						$this->object->addConstraint($question_id, $_POST["q"], $_POST["r"], $_POST["v"]);
-					}
+				}
+				if (count($structure[$elementCounter]) > 1)
+				{
+					$this->object->updateConjunctionForQuestions($structure[$elementCounter], $_POST['c']);
 				}
 			}
 		}
@@ -2505,58 +2559,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	/**
-	* Handles the third step of the precondition add action
-	*
-	* Handles the third step of the precondition add action
-	*
-	* @access private
-	*/
-	function constraintStep3Object()
-	{
-		$survey_questions =& $this->object->getSurveyQuestions();
-		$option_questions = array();
-		if (strlen($_GET["precondition"]))
-		{
-			$pc = $this->object->getPrecondition($_GET["precondition"]);
-			$postvalues = array(
-				"q" => $pc["question_fi"],
-				"r" => $pc["relation_id"],
-				"v" => $pc["value"]
-			);
-			$this->ctrl->setParameter($this, "preid", $_GET["precondition"]);
-			array_push($option_questions, array("question_id" => $pc["question_fi"], "title" => $survey_questions[$pc["question_fi"]]["title"], "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]));
-			$this->addConstraintForm(3, $postvalues, $survey_questions, $option_questions);
-		}
-		else
-		{
-			array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-			$this->addConstraintForm(3, $_POST, $survey_questions, $option_questions);
-		}
-	}
-	
-	/**
-	* Handles the second step of the precondition add action
-	*
-	* Handles the second step of the precondition add action
-	*
-	* @access private
-	*/
-	function constraintStep2Object()
-	{
-		$survey_questions =& $this->object->getSurveyQuestions();
-		$option_questions = array();
-		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-		$this->addConstraintForm(2, $_POST, $survey_questions, $option_questions);
-	}
-	
-	/**
 	* Handles the first step of the precondition add action
-	*
-	* Handles the first step of the precondition add action
-	*
-	* @access private
 	*/
-	function constraintStep1Object()
+	public function constraintStep1Object()
 	{
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$structure =& $_SESSION["constraintstructure"];
@@ -2582,17 +2587,146 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
 			$this->ctrl->redirect($this, "constraints");
 		}
-		$this->addConstraintForm(1, $_POST, $survey_questions, $option_questions);
+		$this->constraintForm(1, $_POST, $survey_questions, $option_questions);
 	}
 	
 	/**
-	* Delete constraints of a survey
-	*
-	* Delete constraints of a survey
-	*
-	* @access private
+	* Handles the second step of the precondition add action
 	*/
-	function deleteConstraintsObject()
+	public function constraintStep2Object()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$option_questions = array();
+		array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
+		$this->constraintForm(2, $_POST, $survey_questions, $option_questions);
+	}
+	
+	/**
+	* Handles the third step of the precondition add action
+	*/
+	public function constraintStep3Object()
+	{
+		$survey_questions =& $this->object->getSurveyQuestions();
+		$option_questions = array();
+		if (strlen($_GET["precondition"]))
+		{
+			$pc = $this->object->getPrecondition($_GET["precondition"]);
+			$postvalues = array(
+				"c" => $pc["conjunction"],
+				"q" => $pc["question_fi"],
+				"r" => $pc["relation_id"],
+				"v" => $pc["value"]
+			);
+			array_push($option_questions, array("question_id" => $pc["question_fi"], "title" => $survey_questions[$pc["question_fi"]]["title"], "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]));
+			$this->constraintForm(3, $postvalues, $survey_questions, $option_questions);
+		}
+		else
+		{
+			array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
+			$this->constraintForm(3, $_POST, $survey_questions, $option_questions);
+		}
+	}
+	
+	public function constraintForm($step, $postvalues, &$survey_questions, $questions = FALSE)
+	{
+		if (strlen($_GET["start"])) $this->ctrl->setParameter($this, "start", $_GET["start"]);
+		$this->ctrl->saveParameter($this, "precondition");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("constraintsForm");
+
+		$title = "";
+		if ($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_id"] > 0)
+		{
+			$title = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_title"];
+		}
+		else
+		{
+			$title = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["type_tag"]) . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["title"];
+		}
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($title);
+		$form->addItem($header);
+		
+		$fulfilled = new ilRadioGroupInputGUI($this->lng->txt("constraint_fulfilled"), "c");
+		$fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_and"), '0', ''));
+		$fulfilled->addOption(new ilRadioOption($this->lng->txt("conjunction_or"), '1', ''));
+		$fulfilled->setValue((strlen($postvalues['c'])) ? $postvalues['c'] : 0);
+		$form->addItem($fulfilled);
+
+		$step1 = new ilSelectInputGUI($this->lng->txt("step") . " 1: " . $this->lng->txt("select_prior_question"), "q");
+		$options = array();
+		if (is_array($questions))
+		{
+			foreach ($questions as $question)
+			{
+				$options[$question["question_id"]] = $question["title"] . " (" . SurveyQuestion::_getQuestionTypeName($question["type_tag"]) . ")";
+			}
+		}
+		$step1->setOptions($options);
+		$step1->setValue($postvalues["q"]);
+		$form->addItem($step1);
+
+		if ($step > 1)
+		{
+			$relations = $this->object->getAllRelations();
+			$step2 = new ilSelectInputGUI($this->lng->txt("step") . " 2: " . $this->lng->txt("select_relation"), "r");
+			$options = array();
+			foreach ($relations as $rel_id => $relation)
+			{
+				if (in_array($relation["short"], $survey_questions[$postvalues["q"]]["availableRelations"]))
+				{
+					$options[$rel_id] = $relation['short'];
+				}
+			}
+			$step2->setOptions($options);
+			$step2->setValue($postvalues["r"]);
+			$form->addItem($step2);
+		}
+		
+		if ($step > 2)
+		{
+			$variables =& $this->object->getVariables($postvalues["q"]);
+			$question_type = $survey_questions[$postvalues["q"]]["type_tag"];
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			SurveyQuestion::_includeClass($question_type);
+			$question = new $question_type();
+			$question->loadFromDb($postvalues["q"]);
+
+			$step3 = new ilSelectInputGUI($this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"), "v");
+			$options = $question->getPreconditionOptions();
+			$step3->setOptions($options);
+			$step3->setValue($postvalues["v"]);
+			$form->addItem($step3);
+		}
+
+		switch ($step)
+		{
+			case 1:
+				$cmd_continue = "constraintStep2";
+				$cmd_back = "constraints";
+				break;
+			case 2:
+				$cmd_continue = "constraintStep3";
+				$cmd_back = "constraintStep1";
+				break;
+			case 3:
+				$cmd_continue = "constraintsAdd";
+				$cmd_back = "constraintStep2";
+				break;
+		}
+		$form->addCommandButton($cmd_back, $this->lng->txt("back"));
+		$form->addCommandButton($cmd_continue, $this->lng->txt("continue"));
+
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+
+	/**
+	* Delete constraints of a survey
+	*/
+	public function deleteConstraintsObject()
 	{
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$structure =& $_SESSION["constraintstructure"];
@@ -2600,10 +2734,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if (preg_match("/^constraint_(\d+)_(\d+)/", $key, $matches)) 
 			{
-				foreach ($structure[$matches[1]] as $key => $question_id)
-				{
-					$this->object->deleteConstraint($matches[2], $question_id);
-				}
+				$this->object->deleteConstraint($matches[2]);
 			}
 		}
 
@@ -2637,12 +2768,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	/**
 	* Administration page for survey constraints
-	*
-	* Administration page for survey constraints
-	*
-	* @access public
 	*/
-	function constraintsObject()
+	public function constraintsObject()
 	{
 		$this->handleWriteAccess();
 
@@ -2724,6 +2851,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$this->tpl->setVariable("EDIT_PRECONDITION", $this->ctrl->getLinkTarget($this, "editPrecondition"));
 							$this->ctrl->setParameter($this, "precondition", "");
 							$this->ctrl->setParameter($this, "start", "");
+							$this->tpl->parseCurrentBlock();
+						}
+						if (count($constraints) > 1)
+						{
+							$this->tpl->setCurrentBlock("conjunction");
+							$this->tpl->setVariable("TEXT_CONJUNCTION", ($constraints[0]['conjunction']) ? $this->lng->txt('conjunction_or_title') : $this->lng->txt('conjunction_and_title'));
 							$this->tpl->parseCurrentBlock();
 						}
 					}
@@ -3121,9 +3254,35 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tabs_gui->addSubTabTarget("print_view", $this->ctrl->getLinkTarget($this, "printView"),
 											"", "", "", $printview);
 	}
+	
 	/**
-	* Set the tabs for the evaluation output
+	* Set the tabs for the access codes section
 	*
+	* @access private
+	*/
+	function setCodesSubtabs()
+	{
+		global $ilTabs;
+		global $ilAccess;
+
+		$ilTabs->addSubTabTarget
+		(
+			"codes", 
+			$this->ctrl->getLinkTarget($this,'codes'),
+			array("codes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes"),
+			""
+		);
+
+		$ilTabs->addSubTabTarget
+		(
+			"mail", 
+			$this->ctrl->getLinkTarget($this, "codesMail"), 
+			array("codesMail", "saveMailTableFields", "importExternalMailRecipients"),	
+			""
+		);
+	}
+
+	/**
 	* Set the tabs for the evaluation output
 	*
 	* @access private
@@ -3284,7 +3443,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// code
 				$tabs_gui->addTarget("codes",
 					 $this->ctrl->getLinkTarget($this,'codes'),
-					 array("codes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes"),
+					 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients'),
 					 "");
 			}
 		}
