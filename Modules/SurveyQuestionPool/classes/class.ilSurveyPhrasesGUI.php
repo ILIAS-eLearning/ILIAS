@@ -60,6 +60,7 @@ class ilSurveyPhrasesGUI
 		$this->object = new ilSurveyPhrases();
 		$this->tree =& $tree;
 		$this->ref_id = $a_object->ref_id;
+		$this->ctrl->saveParameter($this, "p_id");
 	}
 	
 	/**
@@ -157,6 +158,42 @@ class ilSurveyPhrasesGUI
 		ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
 		$this->ctrl->redirect($this, "phrases");
 	}
+
+	protected function getCategoriesForPhrase($phrase_id)
+	{
+		global $ilDB;
+		
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
+		$categories = new SurveyCategories();
+		$result = $ilDB->queryF("SELECT svy_category.title, svy_category.neutral, svy_phrase_cat.sequence FROM svy_phrase_cat, svy_category WHERE svy_phrase_cat.phrase_fi = %s AND svy_phrase_cat.category_fi = svy_category.category_id ORDER BY svy_phrase_cat.sequence ASC",
+			array('integer'),
+			array($phrase_id)
+		);
+		if ($result->numRows() > 0) 
+		{
+			while ($data = $ilDB->fetchAssoc($result)) 
+			{
+				$categories->addCategory($data["title"], 0, $data["neutral"], null, $data['sequence']);
+			}
+		}
+		return $categories;
+	}
+	
+	protected function getPhraseTitle($phrase_id)
+	{
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT svy_phrase.title FROM svy_phrase WHERE svy_phrase.phrase_id = %s",
+			array('integer'),
+			array($phrase_id)
+		);
+		if ($result->numRows() > 0) 
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row['title'];
+		}
+		return null;
+	}
 	
 	/**
 	* Creates a confirmation form to delete personal phases from the database
@@ -178,5 +215,144 @@ class ilSurveyPhrasesGUI
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
+	
+	public function cancelEditPhrase()
+	{
+		$this->ctrl->redirect($this, 'phrases');
+	}
+	
+	public function saveEditPhrase()
+	{
+		$result = $this->writePostData();
+		if ($result == 0)
+		{
+			if ($_GET['p_id'])
+			{
+				$this->object->updatePhrase($_GET['p_id']);
+				ilUtil::sendSuccess($this->lng->txt('phrase_saved'), true);
+			}
+			else
+			{
+				$this->object->savePhrase();
+				ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+			}
+			$this->ctrl->redirect($this, 'phrases');
+		}
+	}
+
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
+	{
+		global $ilDB;
+		$hasErrors = (!$always) ? $this->phraseEditor(true) : false;
+		if (!$hasErrors)
+		{
+			$this->object->title = $_POST["title"];
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
+			$categories = new SurveyCategories();
+			foreach ($_POST['answers']['answer'] as $key => $value) 
+			{
+				if (strlen($value)) $categories->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
+			}
+			if (strlen($_POST['answers']['neutral']))
+			{
+				$categories->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+			}
+			$this->object->categories = $categories;
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	
+	public function newPhrase()
+	{
+		$this->ctrl->redirect($this, 'phraseEditor');
+	}
+	
+	public function editPhrase()
+	{
+		if (!array_key_exists('phrase', $_POST))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_phrase_selected'), true);
+			$this->ctrl->redirect($this, 'phrases');
+		}
+		if ((array_key_exists('phrase', $_POST)) && count($_POST['phrase']) > 1)
+		{
+			ilUtil::sendFailure($this->lng->txt('select_max_one_item'), true);
+			$this->ctrl->redirect($this, 'phrases');
+		}
+		$phrase_id = (array_key_exists('phrase', $_POST)) ? $_POST['phrase'][key($_POST['phrase'])] : null;
+		if ($phrase_id)
+		{
+			$this->ctrl->setParameter($this, 'p_id', $phrase_id);
+		}
+		$this->ctrl->redirect($this, 'phraseEditor');
+	}
+
+	public function phraseEditor($checkonly = FALSE)
+	{
+		$save = (strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'phraseEditor'));
+		$form->setTitle($this->lng->txt('edit_phrase'));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("phraseeditor");
+
+		$phrase_id = $_GET['p_id'];
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->getPhraseTitle($phrase_id));
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+
+		// Answers
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
+		$answers = new ilCategoryWizardInputGUI($this->lng->txt("answers"), "answers");
+		$answers->setRequired(true);
+		$answers->setAllowMove(true);
+		$answers->setShowWizard(false );
+		$answers->setShowSavePhrase(false);
+		$answers->setUseOtherAnswer(false);
+		$answers->setShowNeutralCategory(true);
+		$answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
+		$categories =& $this->getCategoriesForPhrase($phrase_id);
+		if (!$categories->getCategoryCount())
+		{
+			$categories->addCategory("");
+		}
+		$answers->setValues($categories);
+		$answers->setDisabledScale(true);
+		$form->addItem($answers);
+
+		$form->addCommandButton("saveEditPhrase", $this->lng->txt("save"));
+		$form->addCommandButton("cancelEditPhrase", $this->lng->txt("cancel"));
+
+		$errors = false;
+
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			if ($errors) $checkonly = false;
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+
 }
 ?>

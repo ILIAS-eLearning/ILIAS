@@ -25,19 +25,17 @@
 * This class represents a survey question category wizard property in a property form.
 *
 * @author Helmut Schottmüller <ilias@aurealis.de> 
-* @version $Id$
+* @version $Id: class.ilMatrixRowWizardInputGUI.php 23642 2010-04-26 12:31:50Z hschottm $
 * @ingroup	ServicesForm
 */
-class ilCategoryWizardInputGUI extends ilTextInputGUI
+class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 {
 	protected $values = array();
 	protected $allowMove = false;
-	protected $disabled_scale = true;
 	protected $show_wizard = false;
 	protected $show_save_phrase = false;
 	protected $categorytext;
-	protected $show_neutral_category = false;
-	protected $neutral_category_title;
+	protected $labeltext;
 	protected $use_other_answer;
 	
 	/**
@@ -66,44 +64,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		$this->use_other_answer = ($a_value) ? true : false;
 	}
 	
-	protected function calcNeutralCategoryScale()
-	{
-		if (is_object($this->values))
-		{
-			$scale = 0;
-			for ($i = 0; $i < $this->values->getCategoryCount(); $i++)
-			{
-				$cat = $this->values->getCategory($i);
-				if ($cat->neutral == 0) $scale += 1;
-			}
-			return $scale+1;
-		}
-		else
-		{
-			return 99;
-		}
-	}
-	
-	public function setShowNeutralCategory($a_value)
-	{
-		$this->show_neutral_category = $a_value;
-	}
-	
-	public function getShowNeutralCategory()
-	{
-		return $this->show_neutral_category;
-	}
-	
-	public function setNeutralCategoryTitle($a_title)
-	{
-		$this->neutral_category_title = $a_title;
-	}
-	
-	public function getNeutralCategoryTitle()
-	{
-		return $this->neutral_category_title;
-	}
-
 	/**
 	* Set Value.
 	*
@@ -122,10 +82,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 					$this->values->addCategory($value, $a_value['other'][$index]);
 				}
 			}
-		}
-		if (array_key_exists('neutral', $a_value))
-		{
-			$this->values->addCategory($a_value['neutral'], 0, 1);
 		}
 	}
 
@@ -189,6 +145,16 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		return $this->categorytext;
 	}
 	
+	public function setLabelText($a_text)
+	{
+		$this->labeltext = $a_text;
+	}
+	
+	public function getLabelText()
+	{
+		return $this->labeltext;
+	}
+	
 	function setShowSavePhrase($a_value)
 	{
 		$this->show_save_phrase = $a_value;
@@ -199,16 +165,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		return $this->show_save_phrase;
 	}
 	
-	function getDisabledScale()
-	{
-		return $this->disabled_scale;
-	}
-	
-	function setDisabledScale($a_value)
-	{
-		$this->disabled_scale = $a_value;
-	}
-
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
@@ -233,34 +189,13 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 					}
 				}
 			}
-			// check neutral column
-			if (array_key_exists('neutral', $foundvalues))
-			{
-				if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired))
-				{
-					$this->setAlert($lng->txt("msg_input_is_required"));
-					return false;
-				}
-			}
-			/*
-			if (is_array($foundvalues['scale']))
-			{
-				foreach ($foundvalues['scale'] as $scale)
-				{
-					if ((strlen($scale)) == 0) 
-					{
-						$this->setAlert($lng->txt("msg_input_is_required"));
-						return FALSE;
-					}
-				}
-			}
-			*/
 		}
 		else
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return FALSE;
 		}
+		
 		return $this->checkSubItemsInput();
 	}
 
@@ -273,77 +208,66 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
-		$neutral_category = null;
-		$tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
+		$tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
 		$i = 0;
 		if (is_object($this->values))
 		{
 			for ($i = 0; $i < $this->values->getCategoryCount(); $i++)
 			{
 				$cat = $this->values->getCategory($i);
-				if (!$cat->neutral)
+				$tpl->setCurrentBlock("prop_text_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($cat->title));
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("prop_label_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($cat->label));
+				$tpl->parseCurrentBlock();
+
+				if ($this->getUseOtherAnswer())
 				{
-					$tpl->setCurrentBlock("prop_text_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($cat->title));
-					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("prop_scale_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getScale($i)));
-					$tpl->parseCurrentBlock();
-
-					if ($this->getUseOtherAnswer())
-					{
-						$tpl->setCurrentBlock("other_answer_checkbox");
-						$tpl->setVariable("POST_VAR", $this->getPostVar());
-						$tpl->setVariable("OTHER_ID", $this->getPostVar() . "[other][$i]");
-						$tpl->setVariable("ROW_NUMBER", $i);
-						if ($cat->other)
-						{
-							$tpl->setVariable("CHECKED_OTHER", ' checked="checked"');
-						}
-						$tpl->parseCurrentBlock();
-					}
-
-					if ($this->getAllowMove())
-					{
-						$tpl->setCurrentBlock("move");
-						$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-						$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
-						$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-						$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
-						$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
-						$tpl->parseCurrentBlock();
-					}
-					$tpl->setCurrentBlock("row");
-					$class = ($i % 2 == 0) ? "even" : "odd";
-					if ($i == 0) $class .= " first";
-					if ($i == $this->values->getCategoryCount()-1) $class .= " last";
-					$tpl->setVariable("ROW_CLASS", $class);
+					$tpl->setCurrentBlock("other_answer_checkbox");
 					$tpl->setVariable("POST_VAR", $this->getPostVar());
+					$tpl->setVariable("OTHER_ID", $this->getPostVar() . "[other][$i]");
 					$tpl->setVariable("ROW_NUMBER", $i);
-					$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-					$tpl->setVariable("SIZE", $this->getSize());
-					$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-					if ($this->getDisabled())
+					if ($cat->other)
 					{
-						$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+						$tpl->setVariable("CHECKED_OTHER", ' checked="checked"');
 					}
-
-					$tpl->setVariable("SCALE_ID", $this->getPostVar() . "[scale][$i]");
-					if ($this->getDisabledScale())
-					{
-						$tpl->setVariable("DISABLED_SCALE", " disabled=\"disabled\"");
-					}
-
-					$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-					$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-					$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-					$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
 					$tpl->parseCurrentBlock();
 				}
-				else
+
+				if ($this->getAllowMove())
 				{
-					$neutral_category = $cat;
+					$tpl->setCurrentBlock("move");
+					$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
+					$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
+					$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
+					$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
+					$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
+					$tpl->parseCurrentBlock();
 				}
+				$tpl->setCurrentBlock("row");
+				$class = ($i % 2 == 0) ? "even" : "odd";
+				if ($i == 0) $class .= " first";
+				if ($i == $this->values->getCategoryCount()-1) $class .= " last";
+				$tpl->setVariable("ROW_CLASS", $class);
+				$tpl->setVariable("POST_VAR", $this->getPostVar());
+				$tpl->setVariable("ROW_NUMBER", $i);
+				$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
+				$tpl->setVariable("ID_LABEL", $this->getPostVar() . "[label][$i]");
+				$tpl->setVariable("SIZE", $this->getSize());
+				$tpl->setVariable("SIZE_LABEL", 15);
+				$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+				if ($this->getDisabled())
+				{
+					$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+					$tpl->setVariable("DISABLED_LABEL", " disabled=\"disabled\"");
+				}
+
+				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+				$tpl->parseCurrentBlock();
 			}
 		}
 
@@ -364,47 +288,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		if ($this->getShowNeutralCategory())
-		{
-			if (is_object($neutral_category) && strlen($neutral_category->title))
-			{
-				$tpl->setCurrentBlock("prop_text_neutral_propval");
-				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($neutral_category->title));
-				$tpl->parseCurrentBlock();
-			}
-			if (strlen($this->getNeutralCategoryTitle()))
-			{
-				$tpl->setCurrentBlock("neutral_category_title");
-				$tpl->setVariable("CATEGORY_TITLE", ilUtil::prepareFormOutput($this->getNeutralCategoryTitle()));
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("prop_scale_neutral_propval");
-			$scale = ($neutral_category->scale > 0) ? $neutral_category->scale : $this->calcNeutralCategoryScale();
-			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
-			$tpl->parseCurrentBlock();
-
-			if ($this->getUseOtherAnswer())
-			{
-				$tpl->touchBlock('other_answer_neutral');
-			}
-
-			$tpl->setCurrentBlock('neutral_row');
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
-			$tpl->setVariable("ID", $this->getPostVar() . "_neutral");
-			$tpl->setVariable("SIZE", $this->getSize());
-			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-			if ($this->getDisabled())
-			{
-				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-			}
-			$tpl->setVariable("SCALE_ID", $this->getPostVar() . "_neutral_scale");
-			if ($this->getDisabledScale())
-			{
-				$tpl->setVariable("DISABLED_SCALE", " disabled=\"disabled\"");
-			}
-			$tpl->parseCurrentBlock();
-		}
-
 		if ($this->getUseOtherAnswer())
 		{
 			$tpl->setCurrentBlock('other_answer_title');
@@ -414,7 +297,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
-		$tpl->setVariable("SCALE_TEXT", $lng->txt('scale'));
+		$tpl->setVariable("LABEL_TEXT", $this->getLabelText());
 		$tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
@@ -424,6 +307,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		global $tpl;
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript("./Modules/SurveyQuestionPool/templates/default/categorywizard.js");
+		$tpl->addJavascript("./Modules/SurveyQuestionPool/templates/default/matrixrowwizard.js");
 	}
 }

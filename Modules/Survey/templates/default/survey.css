@@ -92,11 +92,11 @@ td.bipolar {
 	border-width: 1px;
 }
 
-table.categorywizard tr {
+table.categorywizard tr, table.matrixrowwizard tr {
 	vertical-align: top;
 }
 
-table.categorywizard th {
+table.categorywizard th, table.matrixrowwizard th {
 	font-size: 90%;
 	font-weight: bold;
 	text-align: center;
@@ -114,4 +114,15 @@ td.neutral {
 	margin-left: 2em;
 }
 
+div.required {
+	padding-bottom: 2em;
+}
+
+.questionTitle {
+	padding-top: 8px;
+	padding-bottom: 4px;
+	font-weight: bold;
+	font-size: 110%;
+	border-bottom: 1px #aaa solid;
+}
 }

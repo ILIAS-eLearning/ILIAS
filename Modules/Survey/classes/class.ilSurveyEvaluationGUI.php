@@ -261,7 +261,7 @@ class ilSurveyEvaluationGUI
 				switch ($_POST["export_format"])
 				{
 					case TYPE_XLS:
-						$question->setExportDetailsXLS($workbook, $format_title, $format_bold, $eval);
+						$question->setExportDetailsXLS($workbook, $format_title, $format_bold, $eval, $_POST['export_label']);
 						break;
 				}
 			}
@@ -659,6 +659,19 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
+		$labeldata = array(
+			array("title" => $this->lng->txt('export_label_only'), 'value' => 'label_only'),
+			array("title" => $this->lng->txt('export_title_only'), 'value' => 'title_only'),
+			array("title" => $this->lng->txt('export_title_label'), 'value' => 'title_label')
+		);
+		foreach ($labeldata as $label)
+		{
+			$this->tpl->setCurrentBlock("label_option");
+			$this->tpl->setVariable("LABEL_VALUE", $label['value']);
+			$this->tpl->setVariable("LABEL_TEXT", ilUtil::prepareFormOutput($label['title']));
+//			$this->tpl->setVariable("LABEL_SELECTED", "");
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));

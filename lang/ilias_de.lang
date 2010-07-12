@@ -9703,7 +9703,6 @@ survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
 survey#:#question_icon#:#Fragensymbol
-survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
 survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
@@ -9854,7 +9853,6 @@ survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Ben
 survey#:#use_browser_print_function#:#Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers
 survey#:#use_google_chart_api#:#Google Chart API verwenden
 survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn Sie die <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a> für die Darstellung der Diagramme in den detaillierten kumulierten Ergebnissen der Umfragestatistik aktivieren wollen. Bitte beachten Sie, dass für die Verwendung der Google Chart API eine permanente Internetverbindung notwendig ist.
-survey#:#use_other_answer#:#Freitext
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
 survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
@@ -10350,7 +10348,6 @@ content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modu
 content#:#glo_list_usages#:#List Usages###29 03 2010 new variable
 exp#:#exp_create_xml_file#:#Create Export Package (XML)###29 03 2010 new variable
 common#:#option#:#Option###29 03 2010 new variable
-survey#:#other_answer#:#Other answer###29 03 2010 new variable
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.###29 03 2010 new variable
 survey#:#other_answer_label#:#Label of other answer (optional)###29 03 2010 new variable
 style#:#sty_glo_char#:#Glossary###29 03 2010 new variable
@@ -10541,3 +10538,32 @@ news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem b
 news#:#show_news_end_date#:#Enddatum
 export#:#export_existing#:#Wiederverwenden
 export#:#export_save_selection#:#Export starten
+survey#:#use_other_answer#:#Freitext
+survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
+survey#:#use_min_answers#:#Antwortanzahl
+survey#:#use_min_answers_option#:#Minimale Anzahl von Antworten festlegen
+survey#:#nr_min_answers#:#Anzahl
+survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antworten aus.
+survey#:#label#:#Label
+survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
+survey#:#export_label_only#:#Nur Labels exportieren
+survey#:#export_title_only#:#Nur Titel exportieren
+survey#:#export_title_label#:#Titel und Label exportieren
+survey#:#mailnotification#:#E-Mail-Benachrichtigung
+survey#:#mailaddresses#:#Empfängeradressen
+survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
+survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
+survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. Sie dürfen dabei Platzhalter mit Datenbankfeldern der Benutzerdaten verwenden, z.B. [matriculation], [email], [firstname]. Bei personalisierten Umfragen werden diese Platzhalter durch die entsprechenden Benutzerdaten ersetzt.
+survey#:#table_fields#:#Definition von Feldnamen für externe E-Mails
+survey#:#tablefields#:#Feldnamen
+survey#:#tablefields_info#:#Geben Sie eine kommagetrennte Liste von Feldnamen an, die Sie für den externen Mailversand verwenden möchten.
+survey#:#externalRecipients#:#Externe Empfänger von Zugangsschlüsseln
+survey#:#edit_phrase#:#Phrase bearbeiten
+survey#:#phrase_new#:#Neue Phrase erstellen
+survey#:#no_phrase_selected#:#Sie haben keine Phrase ausgewählt.
+survey#:#other_answer#:#Andere Antwort
+survey#:#constraint_fulfilled#:#Seite anzeigen
+survey#:#conjunction_and#:#wenn jede Vorbedingung erfüllt wird
+survey#:#conjunction_or#:#wenn eine Vorbedingung erfüllt wird
+survey#:#conjunction_and_title#:#Jede der folgenden Vorbedingungen erfüllen
+survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen

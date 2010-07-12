@@ -804,6 +804,7 @@ class SurveyQuestion
 				"obj_fi" => array("integer", $this->getObjId()),
 				"owner_fi" => array("integer", $this->getOwner()),
 				"title" => array("text", $this->getTitle()),
+				"label" => array("text", (strlen($this->label)) ? $this->label : null),
 				"description" => array("text", $this->getDescription()),
 				"author" => array("text", $this->getAuthor()),
 				"questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
@@ -820,6 +821,7 @@ class SurveyQuestion
 			// update existing dataset
 			$affectedRows = $ilDB->update("svy_question", array(
 				"title" => array("text", $this->getTitle()),
+				"label" => array("text", (strlen($this->label)) ? $this->label : null),
 				"description" => array("text", $this->getDescription()),
 				"author" => array("text", $this->getAuthor()),
 				"questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
@@ -1837,7 +1839,7 @@ class SurveyQuestion
 	* @return string XML material tag
 	* @access public
 	*/
-	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE)
+	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE, $a_attrs = null)
 	{
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -1849,6 +1851,10 @@ class SurveyQuestion
 		if ($this->isHTML($a_material))
 		{
 			$attrs["type"] = "text/xhtml";
+		}
+		if (is_array($a_attrs))
+		{
+			$attrs = array_merge($attrs, $a_attrs);
 		}
 		$a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
 
@@ -2052,7 +2058,7 @@ class SurveyQuestion
 	* @param array $eval_data Cumulated evaluation data
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
 	{
 		// overwrite in inherited classes
 	}
@@ -2082,12 +2088,11 @@ class SurveyQuestion
 	}
 
 	/**
-	* Creates a value selection for preconditions
+	* Returns the options for preconditions
 	*
-	* @return The HTML code for the precondition value selection
-	* @access public
+	* @return array
 	*/
-	function getPreconditionSelectValue($default = "")
+	public function getPreconditionOptions()
 	{
 		// overwrite in inherited classes
 	}

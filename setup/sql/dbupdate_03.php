@@ -1967,6 +1967,7 @@ if(!$ilDB->tableExists('notification'))
 <?php
 
 // new permission
+$new_ops_id = $ilDB->nextId('rbac_operations');
 $query = "INSERT INTO rbac_operations (operation,description,class,op_order) ".
 	"VALUES( ".
 	$ilDB->quote('add_consultation_hours','text').', '.
@@ -1975,7 +1976,6 @@ $query = "INSERT INTO rbac_operations (operation,description,class,op_order) ".
 	$ilDB->quote(300,'integer').
 	")";
 $res = $ilDB->query($query);
-$new_ops_id = $ilDB->getLastInsertId();
 
 // Calendar settings
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cals' ";
@@ -2328,6 +2328,156 @@ if(!$ilDB->tableExists('export_options'))
 	$ilCtrlStructureReader->getStructure();
 ?>
 <#3106>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3107>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+	{
+	  $ilDB->addTableColumn("svy_qst_mc", "use_other_answer", array("type" => "integer", "length" => 2, "notnull" => false));
+	  $ilDB->addTableColumn("svy_qst_mc", "other_answer_label", array("type" => "text", "length" => 255, "notnull" => false, "default" => null));
+	}
+?>
+<#3108>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+	{
+	  $ilDB->addTableColumn("svy_qst_sc", "use_other_answer", array("type" => "integer", "length" => 2, "notnull" => false));
+	  $ilDB->addTableColumn("svy_qst_sc", "other_answer_label", array("type" => "text", "length" => 255, "notnull" => false, "default" => null));
+	}
+?>
+<#3109>
+<?php
+	if(!$ilDB->tableColumnExists('svy_category','scale'))
+	{
+	  $ilDB->addTableColumn("svy_category", "scale", array("type" => "integer", "length" => 4, "notnull" => false, "default" => null));
+	}
+?>
+<#3110>
+<?php
+	if(!$ilDB->tableColumnExists('svy_category','other'))
+	{
+	  $ilDB->addTableColumn("svy_category", "other", array("type" => "integer", "length" => 2, "notnull" => true, "default" => 0));
+	}
+?>
+<#3111>
+<?php
+	if($ilDB->tableColumnExists('svy_qst_mc','other_answer_label'))
+	{
+		$ilDB->dropTableColumn('svy_qst_mc', 'other_answer_label');
+	}
+?>
+<#3112>
+<?php
+	if($ilDB->tableColumnExists('svy_qst_sc','other_answer_label'))
+	{
+		$ilDB->dropTableColumn('svy_qst_sc', 'other_answer_label');
+	}
+?>
+<#3113>
+<?php
+	$ilDB->addIndex('svy_category',array('other'),'i2');
+?>
+<#3114>
+<?php
+	$ilDB->dropIndex('svy_category', 'i2');
+?>
+<#3115>
+<?php
+	if($ilDB->tableColumnExists('svy_category','scale'))
+	{
+		$ilDB->dropTableColumn('svy_category', 'scale');
+	}
+?>
+<#3116>
+<?php
+	if($ilDB->tableColumnExists('svy_category','other'))
+	{
+		$ilDB->dropTableColumn('svy_category', 'other');
+	}
+?>
+<#3117>
+<?php
+	if(!$ilDB->tableColumnExists('svy_variable','other'))
+	{
+	  $ilDB->addTableColumn("svy_variable", "other", array("type" => "integer", "length" => 2, "notnull" => true, "default" => 0));
+	}
+?>
+<#3118>
+<?php
+	if($ilDB->tableColumnExists('svy_qst_mc','use_other_answer'))
+	{
+		$ilDB->dropTableColumn('svy_qst_mc', 'use_other_answer');
+	}
+?>
+<#3119>
+<?php
+	if($ilDB->tableColumnExists('svy_qst_sc','use_other_answer'))
+	{
+		$ilDB->dropTableColumn('svy_qst_sc', 'use_other_answer');
+	}
+?>
+<#3120>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_mc','use_min_answers'))
+	{
+		$ilDB->addTableColumn("svy_qst_mc", "use_min_answers", array("type" => "integer", "length" => 1, "notnull" => true, "default" => 0));
+		$ilDB->addTableColumn("svy_qst_mc", "nr_min_answers", array("type" => "integer", "length" => 2, "notnull" => false));
+	}
+?>
+<#3121>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_matrixrows','other'))
+	{
+		$ilDB->addTableColumn("svy_qst_matrixrows", "other", array("type" => "integer", "length" => 1, "notnull" => true, "default" => 0));
+	}
+?>
+<#3122>
+<?php
+	if(!$ilDB->tableColumnExists('svy_question','label'))
+	{
+		$ilDB->addTableColumn("svy_question", "label", array("type" => "text", "length" => 255, "notnull" => false));
+	}
+?>
+<#3123>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_matrixrows','label'))
+	{
+		$ilDB->addTableColumn("svy_qst_matrixrows", "label", array("type" => "text", "length" => 255, "notnull" => false));
+	}
+?>
+<#3124>
+<?php
+	if(!$ilDB->tableColumnExists('svy_variable','scale'))
+	{
+		$ilDB->addTableColumn("svy_variable", "scale", array("type" => "integer", "length" => 3, "notnull" => false));
+	}
+?>
+<#3125>
+<?php
+	if(!$ilDB->tableColumnExists('svy_svy','mailnotification'))
+	{
+		$ilDB->addTableColumn("svy_svy", "mailnotification", array("type" => "integer", "length" => 1, "notnull" => false));
+		$ilDB->addTableColumn("svy_svy", "mailaddresses", array("type" => "text", "length" => 2000, "notnull" => true));
+		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => true));
+	}
+?>
+<#3126>
+<?php
+	if(!$ilDB->tableColumnExists('svy_anonymous','externaldata'))
+	{
+		$ilDB->addTableColumn("svy_anonymous", "externaldata", array("type" => "text", "length" => 4000, "notnull" => false));
+	}
+?>
+<#3127>
+<?php
+	if(!$ilDB->tableColumnExists('svy_constraint','conjunction'))
+	{
+		$ilDB->addTableColumn("svy_constraint", "conjunction", array("type" => "integer", "length" => 2, "default" => 0, "notnull" => true));
+	}
+?>
+<#3128>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>

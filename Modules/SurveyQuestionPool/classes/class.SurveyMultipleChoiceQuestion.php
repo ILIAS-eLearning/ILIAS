@@ -112,6 +112,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($data["question_id"]);
 			$this->setTitle($data["title"]);
+			$this->label = $data['label'];
 			$this->setDescription($data["description"]);
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
@@ -122,6 +123,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$this->setComplete($data["complete"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setOrientation($data["orientation"]);
+			$this->use_min_answers = ($data['use_min_answers']) ? true : false;
+			$this->nr_min_answers = $data['nr_min_answers'];
 
 			$this->categories->flushCategories();
 			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
@@ -132,7 +135,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			{
 				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					$this->categories->addCategory($data["title"], $data["other"], $data["neutral"]);
+					$this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
 				}
 			}
 		}
@@ -173,11 +176,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				array('integer'),
 				array($this->getId())
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation) VALUES (%s, %s)",
-				array('integer', 'text'),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation, use_min_answers, nr_min_answers) VALUES (%s, %s, %s, %s)",
+				array('integer', 'text', 'integer', 'integer'),
 				array(
 					$this->getId(), 
-					$this->getOrientation()
+					$this->getOrientation(),
+					($this->use_min_answers) ? 1 : 0,
+					($this->nr_min_answers > 0) ? $this->nr_min_answers : null
 				)
 			);
 
@@ -201,9 +206,9 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$cat = $this->categories->getCategory($i);
 			$category_id = $this->saveCategoryToDb($cat->title, $cat->neutral);
 			$next_id = $ilDB->nextId('svy_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, other, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','float','integer','integer', 'integer'),
-				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, other, sequence, scale, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','integer','integer', 'integer','integer'),
+				array($next_id, $category_id, $this->getId(), ($i + 1), $cat->other, $i, ($cat->scale > 0) ? $cat->scale : null, time())
 			);
 		}
 		$this->saveCompletionStatus();
@@ -250,7 +255,17 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		
 		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
-		$a_xml_writer->xmlStartTag("questiontext");
+		if (strlen($this->label))
+		{
+			$attrs = array(
+				"label" => $this->label,
+			);
+		}
+		else
+		{
+			$attrs = array();
+		}
+		$a_xml_writer->xmlStartTag("questiontext", $attrs);
 		$this->addMaterialTag($a_xml_writer, $this->getQuestiontext());
 		$a_xml_writer->xmlEndTag("questiontext");
 
@@ -356,12 +371,16 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		{
 			return $this->lng->txt("question_mr_not_checked");
 		}
+		if ($this->use_min_answers && count($entered_value) < $this->nr_min_answers)
+		{
+			return sprintf($this->lng->txt("err_no_min_answers"), $this->nr_min_answers);
+		}
 		foreach ($entered_value as $id)
 		{
 			$cat = $this->categories->getCategory($id);
 			if ($cat->other)
 			{
-				if (!strlen($post_data[$this->getId() . "_" . $id . "_other"]))
+				if (array_key_exists($this->getId() . "_" . $id . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $id . "_other"]))
 				{
 					return $this->lng->txt("question_mr_no_other_answer");
 				}
@@ -456,7 +475,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$category = $this->categories->getCategory(key($cumulated));
+		$category = $this->categories->getCategoryForScale(key($cumulated)+1);
 		$result_array["MODE"] =  $prefix . $category->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
@@ -464,20 +483,21 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		$maxvalues = 0;
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
 		{
-			$maxvalues += $cumulated[$key];
+			$cat = $this->categories->getCategory($key);
+			$maxvalues += $cumulated[$cat->scale-1];
 		}
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
 		{
+			$cat = $this->categories->getCategory($key);
 			$percentage = 0;
 			if ($numrows > 0)
 			{
 				if ($maxvalues > 0)
 				{
-					$percentage = ($result_array["USERS_ANSWERED"] > 0) ? (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]) : 0;
+					$percentage = ($maxvalues > 0) ? (float)((int)$cumulated[$cat->scale-1]/$maxvalues) : 0;
 				}
 			}
-			$category = $this->categories->getCategory($key);
-			$result_array["variables"][$key] = array("title" => $category->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$cat->scale-1], "percentage" => $percentage);
 		}
 		return $result_array;
 	}
@@ -491,21 +511,42 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	* @param array $eval_data Cumulated evaluation data
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet =& $workbook->addWorksheet();
-		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
-		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
-		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
-		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
-		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
-		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
-		$rowcounter = 5;
+		$rowcounter = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->label));
+				break;
+			case 'title_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+			default:
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$rowcounter++;
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+		}
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["USERS_ANSWERED"]);
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["USERS_SKIPPED"]);
+		$rowcounter++;
 
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
 		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
@@ -605,7 +646,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$category = $this->categories->getCategory($row["value"]);
+			$category = $this->categories->getCategoryForScale($row["value"]+1);
 			if (!is_array($answers[$row["active_fi"]]))
 			{
 				$answers[$row["active_fi"]] = array();
@@ -716,7 +757,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	*/
 	function getPreconditionValueOutput($value)
 	{
-		$category = $this->categories->getCategory($i);
+		$category = $this->categories->getCategory($value);
 		return ($value + 1) . " - " . ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
 	}
 

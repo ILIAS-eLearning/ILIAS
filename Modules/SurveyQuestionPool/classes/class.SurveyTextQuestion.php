@@ -107,6 +107,7 @@ class SurveyTextQuestion extends SurveyQuestion
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($data["question_id"]);
 			$this->setTitle($data["title"]);
+			$this->label = $data['label'];
 			$this->setDescription($data["description"]);
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
@@ -229,7 +230,17 @@ class SurveyTextQuestion extends SurveyQuestion
 		
 		$a_xml_writer->xmlElement("description", NULL, $this->getDescription());
 		$a_xml_writer->xmlElement("author", NULL, $this->getAuthor());
-		$a_xml_writer->xmlStartTag("questiontext");
+		if (strlen($this->label))
+		{
+			$attrs = array(
+				"label" => $this->label,
+			);
+		}
+		else
+		{
+			$attrs = array();
+		}
+		$a_xml_writer->xmlStartTag("questiontext", $attrs);
 		$this->addMaterialTag($a_xml_writer, $this->getQuestiontext());
 		$a_xml_writer->xmlEndTag("questiontext");
 
@@ -436,21 +447,42 @@ class SurveyTextQuestion extends SurveyQuestion
 	* @param array $eval_data Cumulated evaluation data
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data)
+	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$worksheet =& $workbook->addWorksheet();
-		$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-		$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
-		$worksheet->writeString(1, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
-		$worksheet->writeString(1, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$worksheet->writeString(2, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
-		$worksheet->writeString(2, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
-		$worksheet->writeString(3, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write(3, 1, $eval_data["USERS_ANSWERED"]);
-		$worksheet->writeString(4, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write(4, 1, $eval_data["USERS_SKIPPED"]);
-		$rowcounter = 5;
+		$rowcounter = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->label));
+				break;
+			case 'title_only':
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+			default:
+				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$rowcounter++;
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+		}
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
+		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["USERS_ANSWERED"]);
+		$rowcounter++;
+		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
+		$worksheet->write($rowcounter, 1, $eval_data["USERS_SKIPPED"]);
+		$rowcounter++;
 
 		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("given_answers")), $format_bold);
 		$textvalues = "";

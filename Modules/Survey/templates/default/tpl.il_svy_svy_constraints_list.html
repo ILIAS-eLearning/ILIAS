@@ -14,6 +14,9 @@
 	<td width="25"><label for="{QUESTION_NR}"><img src="{ICON_HREF}" alt="{ICON_ALT}" /></label></td>
 	<td><label for="{QUESTION_NR}">{TYPE}{TITLE}</label></td>
 	<td>
+		<!-- BEGIN conjunction -->
+		<div>{TEXT_CONJUNCTION}:</div>
+		<!-- END conjunction -->
 		<!-- BEGIN constraint -->
 		<input type="checkbox" name="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" id="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}" value="1" /> 
 		<label for="constraint_{SEQUENCE_ID}_{CONSTRAINT_ID}">{CONSTRAINT_TEXT}</label>

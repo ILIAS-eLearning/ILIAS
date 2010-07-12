@@ -78,17 +78,17 @@ class SurveyCategories
 * @access public
 * @see $categories
 */
-	function addCategoryAtPosition($categoryname, $position, $other = 0, $neutral = 0) 
+	function addCategoryAtPosition($categoryname, $position, $other = 0, $neutral = 0, $label = null) 
 	{
 		if (array_key_exists($position, $this->categories))
 		{
 			$head = array_slice($this->categories, 0, $position);
 			$tail = array_slice($this->categories, $position);
-			$this->categories = array_merge($head, array(new ilSurveyCategory($categoryname, $other, $neutral)), $tail);
+			$this->categories = array_merge($head, array(new ilSurveyCategory($categoryname, $other, $neutral, $label)), $tail);
 		}
 		else
 		{
-			array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral));
+			array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral, $label));
 		}
 	}
 	
@@ -121,9 +121,9 @@ class SurveyCategories
 * @access public
 * @see $categories
 */
-	function addCategory($categoryname, $other = 0, $neutral = 0) 
+	function addCategory($categoryname, $other = 0, $neutral = 0, $label = null, $scale = null) 
 	{
-		array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral));
+		array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral, $label, $scale));
 	}
 	
 /**
@@ -216,6 +216,21 @@ class SurveyCategories
 		}
 	}
 
+	/**
+	* Returns the name of a category for a given index
+	*
+	* @param integer $scale The scale of the category
+	* @return string Category object
+	*/
+		public function getCategoryForScale($scale)
+		{
+			foreach ($this->categories as $cat)
+			{
+				if ($cat->scale == $scale) return $cat;
+			}
+			return null;
+		}
+
 /**
 * Returns the index of a category with a given name.
 *
@@ -239,7 +254,15 @@ class SurveyCategories
 	
 	function getScale($index)
 	{
-		return $index + 1;
+		$obj = $this->categories[$index];
+		if (is_object($obj) && $obj->scale > 0)
+		{
+			return $obj->scale;
+		}
+		else
+		{
+			return $index + 1;
+		}
 	}
 	
 /**
