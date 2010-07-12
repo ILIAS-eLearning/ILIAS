@@ -44,6 +44,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $outputmode = '')
 	{
+		$this->setId("qpl_print");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -55,11 +56,14 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		$this->setFormName('printviewform');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn($this->lng->txt("title"),'title', '');
-		$this->addColumn($this->lng->txt("description"),'description', '');
-		$this->addColumn($this->lng->txt("author"),'author', '');
-		$this->addColumn($this->lng->txt("question_type"),'ttype', '');
-		$this->addColumn($this->lng->txt("create_date"),'created', '');
-		$this->addColumn($this->lng->txt("last_update"),'updated', '');
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
+			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
+			if (strcmp($c, 'ttype') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
+			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
+			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
+		}
 
 		$this->addCommandButton('print', $this->lng->txt('print'), "javascript:window.print();return false;");
 
@@ -76,6 +80,32 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		$this->disable('select_all');
 	}
 
+	function getSelectableColumns()
+	{
+		global $lng;
+		$cols["description"] = array(
+			"txt" => $lng->txt("description"),
+			"default" => true
+		);
+		$cols["author"] = array(
+			"txt" => $lng->txt("author"),
+			"default" => true
+		);
+		$cols["ttype"] = array(
+			"txt" => $lng->txt("question_type"),
+			"default" => true
+		);
+		$cols["created"] = array(
+			"txt" => $lng->txt("create_date"),
+			"default" => true
+		);
+		$cols["updated"] = array(
+			"txt" => $lng->txt("last_update"),
+			"default" => true
+		);
+		return $cols;
+	}
+
 	/**
 	 * fill row 
 	 *
@@ -86,11 +116,39 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 	public function fillRow($data)
 	{
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-		$this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
-		$this->tpl->setVariable("AUTHOR", ilUtil::prepareFormOutput($data['author']));
-		$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['ttype']));
-		$this->tpl->setVariable("CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
-		$this->tpl->setVariable("UPDATED", ilDatePresentation::formatDate(new ilDate($data['tstamp'],IL_CAL_UNIX)));
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if (strcmp($c, 'description') == 0)
+			{
+				$this->tpl->setCurrentBlock('description');
+				$this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'author') == 0)
+			{
+				$this->tpl->setCurrentBlock('author');
+				$this->tpl->setVariable("AUTHOR", ilUtil::prepareFormOutput($data['author']));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'ttype') == 0)
+			{
+				$this->tpl->setCurrentBlock('ttype');
+				$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['ttype']));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'created') == 0)
+			{
+				$this->tpl->setCurrentBlock('created');
+				$this->tpl->setVariable("CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'updated') == 0)
+			{
+				$this->tpl->setCurrentBlock('updated');
+				$this->tpl->setVariable("UPDATED", ilDatePresentation::formatDate(new ilDate($data['tstamp'],IL_CAL_UNIX)));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 		if ((strcmp($this->outputmode, "detailed") == 0) || (strcmp($this->outputmode, "detailed_printview") == 0))
 		{
 			$this->tpl->setCurrentBlock("overview_row_detail");

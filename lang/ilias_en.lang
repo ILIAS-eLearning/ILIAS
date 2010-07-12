@@ -593,8 +593,6 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
-assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
-assessment#:#qpl_browsercolumns#:#Customized question list
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
@@ -9856,8 +9854,6 @@ survey#:#show_questiontext_description#:#If this checkbox is selected, for every
 survey#:#show_questiontext#:#Display the Question Text
 survey#:#skipped#:#skipped
 survey#:#specialusers#:#Special Users
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
-survey#:#spl_browsercolumns#:#Customized question list
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#General Properties

@@ -73,7 +73,7 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addMultiCommand('deleteInternalMailRecipient', $this->lng->txt('delete'));
-			$this->addCommandButton('addInternalMailRecipient', $this->lng->txt('add'));
+//			$this->addCommandButton('addInternalMailRecipient', $this->lng->txt('add'));
 			$this->addCommandButton('importExternalMailRecipients', $this->lng->txt('import'));
 		}
 
