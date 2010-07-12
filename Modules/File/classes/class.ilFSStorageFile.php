@@ -65,7 +65,7 @@ class ilFSStorageFile extends ilFileSystemStorage
 	 */
 	protected function getPathPrefix()
 	{
-	 	return 'ilFiles';
+	 	return 'ilFile';
 	}
 }
 ?>
