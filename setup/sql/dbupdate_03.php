@@ -2506,3 +2506,16 @@ if(!$ilDB->tableExists('booking_object'))
 	$ilDB->createSequence('booking_object');
 }
 ?>
+
+<#3130>
+<?php
+	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFiles',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile');
+	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile');
+	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile'.DIRECTORY_SEPARATOR.'export');
+?>
+<#3131>
+<?php
+	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilEvents',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilSession');
+	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilSession');
+	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile'.DIRECTORY_SEPARATOR.'ilSession');
+?>

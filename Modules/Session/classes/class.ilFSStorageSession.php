@@ -68,7 +68,7 @@ class ilFSStorageSession extends ilFileSystemStorage
 	 */
 	protected function getPathPostfix()
 	{
-	 	return 'event';
+	 	return 'sess';
 	}
 	
 	/**
@@ -79,7 +79,7 @@ class ilFSStorageSession extends ilFileSystemStorage
 	 */
 	protected function getPathPrefix()
 	{
-	 	return 'ilEvents';
+	 	return 'ilSession';
 	}
 }
 
