@@ -10567,6 +10567,10 @@ survey#:#conjunction_and#:#wenn jede Vorbedingung erfüllt wird
 survey#:#conjunction_or#:#wenn eine Vorbedingung erfüllt wird
 survey#:#conjunction_and_title#:#Jede der folgenden Vorbedingungen erfüllen
 survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
+survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
+survey#:#external_mails_import#:#Externe Empfänger von Zugangsschlüsseln importieren
+survey#:#externalmails#:#Importdatei
+survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_date_booked#:#gebucht

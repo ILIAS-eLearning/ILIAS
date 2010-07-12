@@ -97,6 +97,20 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 		$this->enable('header');
 	}
 	
+	public function completeColumns()
+	{
+		if (is_array($this->row_data))
+		{
+			foreach ($this->row_data[0] as $key => $value)
+			{
+				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0)
+				{
+					$this->addColumn($key,$key,'');
+				}
+			}
+		}
+	}
+	
 	/**
 	 * fill row 
 	 *
@@ -123,6 +137,15 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('EMAIL', $data['email']);
 		$this->tpl->setVariable('CB_CODE', $data['code']);
+		foreach ($data as $key => $value)
+		{
+			if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0)
+			{
+				$this->tpl->setCurrentBlock('column');
+				$this->tpl->setVariable('COLUMN', $value);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 ?>

@@ -2423,6 +2423,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$table_gui = new ilSurveyCodesMailTableGUI($this, 'codesMail');
 		$table_gui->setData($data);
 		$table_gui->setTitle($this->lng->txt('externalRecipients'));
+		$table_gui->completeColumns();
 		$tabledata = $table_gui->getHTML();	
 		
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $tabledata);
@@ -2460,13 +2461,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 				ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email'), true);
 				$this->ctrl->redirect($this, 'codesMail');
 			}
+			$existingdata = $this->object->getExternalCodeRecipients();
+			$existingcolumns = array();
+			if (count($existingdata))
+			{
+				$first = array_shift($existingdata);
+				foreach ($first as $key => $value)
+				{
+					array_push($existingcolumns, $key);
+				}
+			}
 			$founddata = array();
 			foreach ($data as $row)
 			{
 				$dataset = array();
 				foreach ($fields as $idx => $fieldname)
 				{
-					$dataset[$fieldname] = $row[$idx];
+					if (count($existingcolumns))
+					{
+						if (in_array($idx, $existingcolumns))
+						{
+							$dataset[$fieldname] = $row[$idx];
+						}
+					}
+					else
+					{
+						$dataset[$fieldname] = $row[$idx];
+					}
 				}
 				array_push($founddata, $dataset);
 			}
