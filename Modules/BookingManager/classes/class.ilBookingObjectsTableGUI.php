@@ -11,7 +11,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  *
  * @ingroup ModulesBookingManager
  */
-class ilBookingTypesTableGUI extends ilTable2GUI
+class ilBookingObjectsTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
@@ -28,16 +28,16 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->addCommandButton('addType', $this->lng->txt('book_add_type'));
+			$this->addCommandButton('addObject', $this->lng->txt('book_add_object'));
 		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("book_no_of_objects"));
+		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		$this->setRowTemplate("tpl.booking_type_row.html", "Modules/BookingManager");
+		$this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
 		$this->initFilter();
 
 		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
@@ -76,8 +76,8 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$data = ilBookingType::getList($object_id);
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$data = ilBookingObject::getList($object_id);
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
@@ -92,21 +92,16 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 
-		$ilCtrl->setParameter($this->parent_obj, 'type_id', $a_set['booking_type_id']);
-
-		$this->tpl->setCurrentBlock('item_command');
-		$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-		$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
-		$this->tpl->parseCurrentBlock();
+		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'listItems'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'delete'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'editType'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'block'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('block'));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
