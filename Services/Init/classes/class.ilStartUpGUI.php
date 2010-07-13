@@ -912,9 +912,14 @@ class ilStartUpGUI
 				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
 				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "showLogin")."\">Login page</a>"
 				//				);
+				//$data[] = array(
+				//				$client->getName(),
+				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
+				//				"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
+				//				);
 				$data[] = array(
 								$client->getName(),
-								"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
+								"<a href=\""."repository.php?client_id=".urlencode($key)."\">Start page</a>",
 								"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
 								);
 			}
@@ -947,6 +952,7 @@ class ilStartUpGUI
 
 		$tbl->disable("icon");
 		$tbl->disable("numinfo");
+		$tbl->disable("sort");
 
 		// render table
 		$tbl->render();
