@@ -160,10 +160,14 @@ class ilObjectDefinition extends ilSaxParser
 					"default_pos" => "2000",
 					"sideblock" => "0");
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
+
+				$this->obj_data["crs"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
+				$this->obj_data["grp"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
+				$this->obj_data["cat"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
+				$this->obj_data["root"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
 			}
 		}
-//var_dump($this->obj_data);
-//var_dump($this->obj_data["root"]);
+//var_dump($this->obj_data["root"]["subobjects"]);
 //var_dump($this->obj_data2["root"]);
 
 	}
