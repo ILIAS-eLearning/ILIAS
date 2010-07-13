@@ -99,8 +99,6 @@ class ilExportContainer extends ilExport
 	 */
 	protected function addSubitems($a_id,$a_type,$a_target_release)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Adding subitems');
-		
 		$set_number = 1;
 		foreach($this->eo->getSubitemsForExport() as $ref_id)
 		{
@@ -133,6 +131,16 @@ class ilExportContainer extends ilExport
 				$exp_dir.DIRECTORY_SEPARATOR.$expi->getBasename(),
 				$new_path_abs
 			);
+			
+			// Delete latest container xml of source
+			if($a_id == $obj_id)
+			{
+				$expi->delete();
+				if(file_exists($exp_full))
+				{
+					unlink($exp_full);
+				}
+			}
 			
 			$this->cont_manifest_writer->xmlElement(
 				'ExportSet',
