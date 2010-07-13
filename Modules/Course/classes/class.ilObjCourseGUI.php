@@ -164,29 +164,81 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('desc'));
 
+		$this->initCreateForm();
+		$this->tpl->setVariable('CRS_NEW',$this->form_gui->getHTML());
 
-		// IMPORT
-		$this->tpl->setVariable("TXT_IMPORT_CRS", $this->lng->txt("import_crs"));
-		$this->tpl->setVariable("TXT_CRS_FILE", $this->lng->txt("file"));
-		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-
-		// get the value for the maximal uploadable filesize from the php.ini (if available)
-		$umf=get_cfg_var("upload_max_filesize");
-		// get the value for the maximal post data from the php.ini (if available)
-		$pms=get_cfg_var("post_max_size");
-
-		// use the smaller one as limit
-		$max_filesize=min($umf, $pms);
-		if (!$max_filesize) 
-			$max_filesize=max($umf, $pms);
-	
-		// gives out the limit as a littel notice :)
-		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
+		$this->initImportForm("crs");
+		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
 
 		$this->fillCloneTemplate('DUPLICATE','crs');
 
 		return true;
 	}
+	
+	// Creation form
+	public function initCreateForm()
+	{
+		global $lng,$ilCtrl;
+		
+		$lng->loadLanguageModule("form");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setTableWidth("60%");
+		$this->form_gui->setTitle($lng->txt("crs_new"));
+		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_crs.gif"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+
+		
+		// on creation: Type
+		$type_input = new ilHiddenInputGUI("new_type");
+		$type_input->setValue("crs");
+		$this->form_gui->addItem($type_input);
+		
+		// Title
+		$title_input = new ilTextInputGUI($lng->txt("title"), "title");
+		$title_input->setRequired(true);
+		$title_input->setMaxLength(128);
+		$this->form_gui->addItem($title_input);
+		
+		// Description
+		$desc_input = new ilTextAreaInputGUI($lng->txt("desc"), "desc");
+		$this->form_gui->addItem($desc_input);
+		
+
+		$this->form_gui->addCommandButton("save", $lng->txt("save"));
+		$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+	}
+	
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("crs");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('60%');
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
 
 	function importFileObject()
 	{
@@ -1881,16 +1933,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacadmin,$ilUser;
 		
-		if(!$_POST['Fobject']['title'])
+		if(!$_POST['title'])
 		{
 			ilUtil::sendFailure($this->lng->txt('title_required'));
 			$this->createObject();
 			return false;
 		}
 		$newObj =& parent::saveObject();
+		$newObj->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$newObj->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$newObj->initCourseMemberObject();
 		$newObj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
 		$newObj->members_obj->updateNotification($ilUser->getId(),1);
+		$newObj->update();
+		
 		
 		// BEGIN ChangeEvent: Record write event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
