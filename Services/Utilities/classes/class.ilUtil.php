@@ -1604,7 +1604,7 @@ class ilUtil
 	* @param	string	$a_file		full path/filename
 	* @param	boolean	$overwrite	pass true to overwrite existing files
 	*/
-	function unzip($a_file, $overwrite = false, $a_flat = false)
+	public static function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
 		if (!is_file($a_file))
 		{
@@ -1698,7 +1698,7 @@ class ilUtil
 	/**
 	*	zips given directory/file into given zip.file
 	*/
-	function zip($a_dir, $a_file, $compress_content = false)
+	public static function zip($a_dir, $a_file, $compress_content = false)
 	{
 		$cdir = getcwd();
 
@@ -1763,7 +1763,7 @@ class ilUtil
 		
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
-		$file = $pathinfo["basename"];
+		$file = $pathinfo["basename"];	$zipcmd = "-r ".ilUtil::escapeShellArg($a_file)." ".$source;
 
 		$mkisofs = PATH_TO_MKISOFS;
 		if(!$mkisofs)
@@ -2248,7 +2248,7 @@ class ilUtil
 	* @param	string	dir to delete
 	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
 	*/
-	function delDir($a_dir, $a_clean_only = false)
+	public static function delDir($a_dir, $a_clean_only = false)
 	{
 		if (!is_dir($a_dir) || is_int(strpos($a_dir, "..")))
 		{

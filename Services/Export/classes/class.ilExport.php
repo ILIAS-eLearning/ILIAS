@@ -20,6 +20,17 @@ class ilExport
 	// file type short (this is a workaround, for resource types,
 	// that used the wrong file type string in the past
 	static $file_type_str = array("tst" => "test_");
+	
+	
+	/**
+	 * Default constructor
+	 * @return 
+	 */
+	public function __construct()
+	{
+		
+	}
+	
 
 	/**
 	* Get file type string
@@ -385,7 +396,7 @@ class ilExport
 	 */
 	public function exportContainer($a_type, $a_id, $a_target_release)
 	{
-		// get export class
+		// Create base export directory
 		ilExport::_createExportDirectory($a_id, "xml", $a_type);
 		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
 		$ts = time();
@@ -393,8 +404,7 @@ class ilExport
 		$this->export_run_dir = $export_dir."/".$sub_dir;
 		ilUtil::makeDirParents($this->export_run_dir);
 		
-		$GLOBALS['ilLog']->write($this->export_run_dir);
-		
+		$GLOBALS['ilLog']->write(__METHOD__.'Using base directory: '.$this->export_run_dir);
 	}
 
 	/**
