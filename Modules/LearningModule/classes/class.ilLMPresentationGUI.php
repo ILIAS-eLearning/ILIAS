@@ -2446,7 +2446,7 @@ class ilLMPresentationGUI
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation"));
-			$succ_title = ilUtil::shortenText($succ_title,50,true);
+			$succ_title = ilUtil::shortenText($succ_title, 50, true);
 			$succ_img =
 				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode());
 			if (!$this->lm->cleanFrames())
