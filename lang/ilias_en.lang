@@ -10640,3 +10640,4 @@ dateplaner#:#cal_date_booked#:#booked
 dateplaner#:#cal_ch_bookings#:#Participants
 trac#:#trac_matrix#:#Matrix View
 dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments
+exp#:#export_created#:#A new export file has been created. 

@@ -374,7 +374,7 @@ class ilExportGUI
 	 */
 	protected function saveItemSelection()
 	{
-		global $tree,$objDefinition, $ilAccess, $ilCtrl;
+		global $tree,$objDefinition, $ilAccess, $ilCtrl,$lng;
 
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
@@ -442,14 +442,15 @@ class ilExportGUI
 			include_once './Services/Export/classes/class.ilExportContainer.php';
 			$cexp = new ilExportContainer($eo);
 			$cexp->exportObject($this->obj->getType(),$this->obj->getId(),'4.1.0');
-			$this->showItemSelection();
 		}
 		else
 		{
 			$exp = new ilExport();
 			$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.1.0");
-			$ilCtrl->redirect($this, "listExportFiles");
 		}
+
+		ilUtil::sendSuccess($lng->txt('export_created'),true);
+		$ilCtrl->redirect($this, "listExportFiles");
 	}
 }
 ?>
