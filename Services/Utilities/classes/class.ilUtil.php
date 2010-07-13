@@ -1330,7 +1330,8 @@ class ilUtil
 	* @param	truncate at first blank after $a_len characters
 	* @return	string 	shortended string
 	*/
-	public static function shortenText($a_str, $a_len, $a_dots = false, $a_next_blank = false)
+	public static function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false,
+		$a_keep_extension = false)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if (ilStr::strLen($a_str) > $a_len)
@@ -1348,7 +1349,10 @@ class ilUtil
 			//             Workaround for Windows WebDAV Client:
 			//             Use the unicode ellipsis symbol for shortening instead of
 			//             three full stop characters.
-			$p = strrpos($a_str, '.');
+			if ($a_keep_extension)
+			{
+				$p = strrpos($a_str, '.');	// this messes up normal shortening, see bug #6190
+			}
 			if ($p === false || $p == 0 || strlen($a_str) - $p > $a_len)
 			{
 				$a_str = ilStr::subStr($a_str,0,$len);
