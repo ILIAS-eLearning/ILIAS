@@ -180,27 +180,30 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 		
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('mcst_file_extension_settings'));
+		$form->setTitle($this->lng->txt('settings'));
 		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
-		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) 
+
+		//Default Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("mcst_default_visibility"), "defaultaccess");
+		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_users"), "users");
+		$radio_group->addOption($radio_option);
+		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("mcst_news_item_visibility_info"));
+		$radio_group->setRequired(false);
+		$radio_group->setValue($this->settings->getDefaultAccess());
+		#$ch->addSubItem($radio_group);
+		$form->addItem($radio_group);
+
+
+		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes)
 		{
 			$text = new ilTextInputGUI($lng->txt("mcst_".strtolower($purpose)."_settings_title"),$purpose);
 			$text->setValue(implode(",",$filetypes));
 			$text->setInfo($lng->txt("mcst_".strtolower($purpose)."_settings_info"));
 			$form->addItem($text);
 		}
-		//Default Visibility
-		$radio_group = new ilRadioGroupInputGUI($lng->txt("mcst_default_visibility"), "defaultaccess");
-		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_users"), "users");
-		$radio_group->addOption($radio_option);					
-		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_public"), "public");
-		$radio_group->addOption($radio_option);
-		$radio_group->setInfo($lng->txt("mcst_news_item_visibility_info"));
-		$radio_group->setRequired(false);			
-		$radio_group->setValue($this->settings->getDefaultAccess());			
-		#$ch->addSubItem($radio_group);
-		$form->addItem($radio_group);
 		
 		$text = new ilTextAreaInputGUI($lng->txt("mcst_mimetypes"), "mimetypes");
 		$text->setInfo($lng->txt("mcst_mimetypes_info"));
