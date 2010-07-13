@@ -2568,4 +2568,10 @@ dirRek($dir);
 	}
 ?>
 
+<#3135>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+
 
