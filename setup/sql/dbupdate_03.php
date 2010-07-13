@@ -2549,6 +2549,23 @@ dirRek($dir);
 	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourses',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourse');
 ?>
 
-
+<#3134>
+<?php
+	$set = $ilDB->query("SELECT obj_id FROM bookmark_data WHERE ".
+		" obj_id = ".$ilDB->quote(1, "integer"));
+	$rec = $ilDB->fetchAssoc($set);
+	if ($rec["obj_id"] != 1)
+	{
+		$ilDB->manipulate("INSERT INTO bookmark_data ".
+			"(obj_id, user_id, title, description, target, type) VALUES (".
+			$ilDB->quote(1, "integer").",".
+			$ilDB->quote(0, "integer").",".
+			$ilDB->quote("dummy_folder", "text").",".
+			$ilDB->quote("", "text").",".
+			$ilDB->quote("", "text").",".
+			$ilDB->quote("bmf", "text").
+			")");
+	}
+?>
 
 

@@ -93,10 +93,13 @@ class ilBookmark
 	function delete()
 	{
 		global $ilDB;
-		
-		$q = "DELETE FROM bookmark_data WHERE obj_id = ".
-			$ilDB->quote($this->getId(), "integer");
-		$ilDB->manipulate($q);
+
+		if ($this->getId() != 1)
+		{
+			$q = "DELETE FROM bookmark_data WHERE obj_id = ".
+				$ilDB->quote($this->getId(), "integer");
+			$ilDB->manipulate($q);
+		}
 	}
 
 
