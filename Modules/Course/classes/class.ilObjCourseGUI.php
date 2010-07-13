@@ -4511,8 +4511,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			// container page editing
 			case "ilpageobjectgui":
-				//$this->prepareOutput(false);
-				$this->checkPermission("write");
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")
 				{
