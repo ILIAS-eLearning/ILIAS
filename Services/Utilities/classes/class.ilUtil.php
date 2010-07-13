@@ -2175,7 +2175,7 @@ class ilUtil
 	* @param string $a_dir The directory name to be created
 	* @access public
 	*/
-	function makeDirParents($a_dir)
+	public static function makeDirParents($a_dir)
 	{
 		$dirs = array($a_dir);
 		$a_dir = dirname($a_dir);

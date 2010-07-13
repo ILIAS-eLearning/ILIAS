@@ -311,7 +311,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 */
 	protected function getPathPostfix()
 	{
-	 	return 'course';
+	 	return 'crs';
 	}
 	
 	/**
@@ -322,7 +322,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 */
 	protected function getPathPrefix()
 	{
-	 	return 'ilCourses';
+	 	return 'ilCourse';
 	}
 	
 }
