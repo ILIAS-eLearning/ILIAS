@@ -503,6 +503,11 @@ class ilInitialisation
 		{
 			$cookie_path = '/';
 		}
+		elseif ($GLOBALS['COOKIE_PATH'])
+		{
+			// use a predefined cookie path from WebAccessChecker
+	        $cookie_path = $GLOBALS['COOKIE_PATH'];
+	    }
 		else
 		{
 			$cookie_path = dirname( $_SERVER['PHP_SELF'] );

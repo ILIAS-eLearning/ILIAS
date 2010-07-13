@@ -2,17 +2,22 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Web Access Checker (delivery as attachment)
+* Web Access Checker script for delivery via virtual().
 *
 * Checks the access rights of a directly requested content file.
 * Called from a web server redirection rule.
 *
 * - determines the related learning module and checks the permission
-* - either delivers the accessed file (as HTTP attachment)
+* - either delivers the accessed file (by apache)
 * - or prints an error message (if too less rights)
 *
+* This method needs additional settings on the server:
+*
+* - a symbolic link in the ILIAS directory: virtual-data -> data
+* - specific directory settings in Apache for data and virtual-data
+*
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
-* @version $Id: web_access_checker.php 13944 2007-05-22 08:02:47Z akill $
+* @version $Id: $
 */
 
 // Change to ILIAS main directory
@@ -22,11 +27,10 @@ chdir("../..");
 require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
 
 $checker = new ilWebAccessChecker();
-$checker->setDisposition("attachment");
 
 if ($checker->checkAccess())
 {
-	$checker->sendFile();
+	$checker->sendFileVirtual();
 }
 else
 {
