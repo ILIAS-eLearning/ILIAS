@@ -1,31 +1,29 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+// Prevent a general redirect to the login screen for anonymous users.
+// This should only be done if access is not granted to anonymous.
+// (see ilInitialisation::InitILIAS() for details)
+$_GET["baseClass"] = "ilStartUpGUI";
+
+// Define a pseudo module to get a correct ILIAS_HTTP_PATH 
+// (needed for links on the error page).
+// "data" is assumed to be the ILIAS_WEB_DIR
+// (see ilInitialisation::buildHTTPPath() for details)
+define("ILIAS_MODULE", substr($_SERVER['PHP_SELF'],
+					   strpos($_SERVER['PHP_SELF'], "/data/") + 6));
+
+// Define the cookie path to prevent a different session created for web access
+// (see ilInitialisation::setCookieParams() for details)
+$GLOBALS['COOKIE_PATH'] = substr($_SERVER['PHP_SELF'], 0,
+						  strpos($_SERVER['PHP_SELF'], "/data/"));
+
+// Now the ILIAS header can be included
 require_once "./include/inc.header.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./classes/class.ilObject.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
-//var_dump($_SESSION);
 
 /**
 * Class ilWebAccessChecker
@@ -45,7 +43,6 @@ class ilWebAccessChecker
 {
 	var $lng;
 	var $ilAccess;
-	var $checked_list;
 	
 	/**
 	* relative file path from ilias directory (without leading /)
@@ -106,12 +103,19 @@ class ilWebAccessChecker
 	*/
 	function ilWebAccessChecker()
 	{
-		global $ilAccess, $lng, $ilLog;
+		global $ilUser, $ilAccess, $lng, $ilLog;
 
 		$this->lng =& $lng;
 		$this->ilAccess =& $ilAccess;
-		$this->checked_list = & $_SESSION["WebAccessChecked"];
 		$this->params = array();
+
+		// set the anonymous user if no user is set
+		if (!$_SESSION["AccountId"])
+		{
+	        $_SESSION["AccountId"] = ANONYMOUS_USER_ID;
+			$ilUser->setId(ANONYMOUS_USER_ID);
+			$ilUser->read();
+		}
 
 		// get the requested file and its type
 		$uri = parse_url($_SERVER["REQUEST_URI"]);
@@ -120,6 +124,9 @@ class ilWebAccessChecker
 		$pattern = ILIAS_WEB_DIR . "/" . CLIENT_ID;
 		$this->subpath = urldecode(substr($uri["path"], strpos($uri["path"], $pattern)));
 		$this->file = realpath(ILIAS_ABSOLUTE_PATH . "/". $this->subpath);
+		
+		// build url path for virtual function
+		$this->virtual_path = str_replace($pattern, "virtual-" . $pattern, $uri["path"]);
 		
 		/* debugging
 		echo "<pre>";
@@ -143,7 +150,6 @@ class ilWebAccessChecker
 
 		if (file_exists($this->file))
 		{
-			//$this->mimetype = ilObjMediaObject::getMimeType($this->file);
 			$this->mimetype = $this->getMimeType();
 		}
 		else
@@ -158,9 +164,17 @@ class ilWebAccessChecker
 	* Check access rights of the requested file
 	* @access	public
 	*/
-	function checkAccess()
+	public function checkAccess()
 	{
 		global $ilLog, $ilUser, $ilObjDataCache;
+
+		// an error already occurred at class initialisation
+		if ($this->errorcode)
+		{
+	        return false;
+	    }
+
+		// check for type by subdirectory
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
 		
@@ -182,17 +196,27 @@ class ilWebAccessChecker
 		}
 		
 		if (!$obj_id || $type == 'none')
+		{
+			$this->errorcode = 404;
+			$this->errortext = $this->lng->txt("obj_not_found");
 			return false;
+		}
 			
 		switch($type)
 		{
 			case 'lm':
-				return $this->checkAccessLM($obj_id, 'lm');
+				if ($this->checkAccessLM($obj_id, 'lm'))
+				{
+					return true;
+				}
 				break;
+
 			case 'mob':
 				$usages = ilObjMediaObject::lookupUsages($obj_id);
 				foreach($usages as $usage)
 				{
+	                //echo $usage;
+
 					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
 					switch($usage['type'])
 					{
@@ -200,7 +224,9 @@ class ilWebAccessChecker
 							if ($oid > 0)
 							{
 								if ($this->checkAccessLM($oid, 'lm', $usage['id']))
+								{
 									return true;
+								}
 							}
 							break;
 						case 'news':
@@ -221,30 +247,55 @@ class ilWebAccessChecker
 								return true;
 							}
 							break;
-						default:
-							$ref_ids  = ilObject::_getAllReferences($oid);
-							$obj_type = ilObject::_lookupType($oid);
-							foreach($ref_ids as $ref_id)
+
+						case 'qpl:pg':
+						case 'qpl:html':
+							// test questions
+							if ($this->checkAccessTestQuestion($oid, $usage['id']))
 							{
-								if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $oid))
-									return true;
+								return true;
+							}
+							break;
+
+						case 'gdf:pg':
+							// special check for glossary terms
+							if ($this->checkAccessGlossaryTerm($oid, $usage['id']))
+							{
+	                            return true;
+							}
+							break;
+
+						default:
+							// standard object check
+							if ($this->checkAccessObject($oid))
+							{
+								return true;
 							}
 							break;
 					}
 				}
 				break;
 		}
+
+		// none of the checks above gives access
+		$this->errorcode = 403;
+		$this->errortext = $this->lng->txt('msg_no_perm_read');
+		return false;
 	}
 	
 	private function checkAccessLM($obj_id, $obj_type, $page = 0)
 	{
+	    global $lng;
+
 		//if (!$page)
 		//{
 			$ref_ids  = ilObject::_getAllReferences($obj_id);
 			foreach($ref_ids as $ref_id)
 			{
 				if ($this->ilAccess->checkAccess("read", "", $ref_id))
+				{
 					return true;
+				}
 			}
 			return false;
 		//}	
@@ -266,11 +317,132 @@ class ilWebAccessChecker
 	}
 	
 	/**
+	* Check access rights for an object by its object id
+	*
+	* @param    int     	object id
+	* @return   boolean     access given (true/false)
+	*/
+	private function checkAccessObject($obj_id, $obj_type = '')
+	{
+	    global $ilAccess;
+
+		if (!$obj_type)
+		{
+			$obj_type = ilObject::_lookupType($obj_id);
+		}
+		$ref_ids  = ilObject::_getAllReferences($obj_id);
+		foreach($ref_ids as $ref_id)
+		{
+			if ($ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	/**
+	* Check access rights for a test question
+	* This checks also tests with random selection of questions
+	*
+	* @param    int     	object id (question pool or test)
+	* @param    int         usage id (not yet used)
+	* @return   boolean     access given (true/false)
+	*/
+	private function checkAccessTestQuestion($obj_id, $usage_id = 0)
+	{
+	    global $ilAccess;
+
+		// give access if direct usage is readable
+	    if ($this->checkAccessObject($obj_id))
+		{
+	        return true;
+	    }
+
+		$obj_type = ilObject::_lookupType($obj_id);
+		if ($obj_type == 'qpl')
+		{
+			// give access if question pool is used by readable test
+			// for random selection of questions
+			include_once('./Modules/Test/classes/class.ilObjTestAccess.php');
+			$tests = ilObjTestAccess::_getRandomTestsForQuestionPool($obj_id);
+			foreach ($tests as $test_id)
+			{
+	            if ($this->checkAccessObject($test_id, 'tst'))
+				{
+	                return true;
+	            }
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	* Check access rights for glossary terms
+	* This checks also learning modules linking the term
+	*
+	* @param    int     	object id (glossary)
+	* @param    int         page id (definition)
+	* @return   boolean     access given (true/false)
+	*/
+	private function checkAccessGlossaryTerm($obj_id, $page_id)
+	{
+        // give access if glossary is readable
+	    if ($this->checkAccessObject($obj_id))
+		{
+	    	return true;
+	    }
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+		$term_id = ilGlossaryDefinition::_lookupTermId($page_id);
+
+		include_once('./Services/COPage/classes/class.ilInternalLink.php');
+		$sources = ilInternalLink::_getSourcesOfTarget('git',$term_id, 0);
+
+		if ($sources)
+		{
+			foreach ($sources as $src)
+			{
+				switch ($src['type'])
+				{
+	                // Give access if term is linked by a learning module with read access.
+					// The term including media is shown by the learning module presentation!
+	                case 'lm:pg':
+						include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+						$src_obj_id = ilLMObject::_lookupContObjID($src['id']);
+						if ($this->checkAccessObject($src_obj_id, 'lm'))
+						{
+	                        return true;
+						}
+						break;
+
+					// Don't yet give access if the term is linked by another glossary
+					// The link will lead to the origin glossary which is already checked
+					/*
+					case 'gdf:pg':
+						$src_term_id = ilGlossaryDefinition::_lookupTermId($src['id']);
+						$src_obj_id = ilGlossaryTerm::_lookGlossaryID($src_term_id);
+ 						if ($this->checkAccessObject($src_obj_id, 'glo'))
+						{
+	                        return true;
+						}
+						break;
+					*/
+				}
+			}
+		}
+	}
+
+
+	/**
 	* Set the delivery mode for the file
 	* @param    string      "inline" or "attachment"
 	* @access	public
 	*/
-	function setDisposition($a_disposition = "inline")
+	public function setDisposition($a_disposition = "inline")
 	{
 		$this->disposition = $a_disposition;
 	}
@@ -280,7 +452,7 @@ class ilWebAccessChecker
 	* @return   string      "inline" or "attachment"
 	* @access	public
 	*/
-	function getDisposition()
+	public function getDisposition()
 	{
 		return $this->disposition;
 	}
@@ -290,7 +462,7 @@ class ilWebAccessChecker
 	* Send the requested file as if directly delivered from the web server
 	* @access	public
 	*/
-	function sendFile()
+	public function sendFile()
 	{
 		//$system_use_xsendfile = true;
 		$xsendfile_available = false;
@@ -348,24 +520,94 @@ class ilWebAccessChecker
 	}
 	
 	/**
+	* Send the requested file by apache web server via virtual function
+	*
+	* The ILIAS "data" directory must have a "virtual-data" symbolic link
+	* Access to "virtual-data" should be protected by "Allow from env=ILIAS_CHECKED"
+	* The auto-generated headers should be unset by Apache for the WebAccessChecker directory
+	*
+	* @access	public
+	*/
+	public function sendFileVirtual()
+	{
+		header('Last-Modified: '. date ("D, j M Y H:i:s", filemtime($this->file)). " GMT");
+		header('ETag: "'. md5(filemtime($this->file).filesize($this->file)).'"');
+		header('Accept-Ranges: bytes');
+		header("Content-Length: ".(string)(filesize($this->file)));
+		header("Content-Type: " . $this->mimetype);
+
+		apache_setenv('ILIAS_CHECKED','1');
+		virtual($this->virtual_path);
+		exit;
+	}
+	
+	
+	/**
 	* Send an error response for the requested file
 	* @access	public
 	*/
-	function sendError()
+	public function sendError()
 	{
+		global $ilSetting, $ilUser, $tpl, $lng, $tree;
+
 		switch ($this->errorcode)
 		{
 			case 404:
-				header("HTTP/1.0: 404 Not Found");
+				header("HTTP/1.0 404 Not Found");
 				break;
 			case 403:
 			default:
-				header("HTTP/1.0: 403 Forbidden");
+				header("HTTP/1.0 403 Forbidden");
 				break;
 		}
-		exit($this->errortext);
+
+		// set the page base to the ILIAS directory
+		// to get correct references for images and css files
+		$tpl->setCurrentBlock("HeadBaseTag");
+		$tpl->setVariable('BASE', ILIAS_HTTP_PATH . '/error.php');
+		$tpl->parseCurrentBlock();
+        $tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
+
+		// Check if user is logged in
+		$anonymous = ($ilUser->getId() == ANONYMOUS_USER_ID);
+
+		if ($anonymous)
+		{
+			// Provide a link to the login screen for anonymous users
+
+			$tpl->SetCurrentBlock("ErrorLink");
+			$tpl->SetVariable("TXT_LINK", $lng->txt('login'));
+			$tpl->SetVariable("LINK", ILIAS_HTTP_PATH. '/login.php?cmd=force_login&client_id='.CLIENT_ID);
+			$tpl->ParseCurrentBlock();
+		}
+		else
+		{
+			// Provide a link to the repository for authentified users
+
+			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$txt = $nd['title'] == 'ILIAS' ? $lng->txt('repository') : $nd['title'];
+
+			$tpl->SetCurrentBlock("ErrorLink");
+			$tpl->SetVariable("TXT_LINK", $txt);
+			$tpl->SetVariable("LINK", ILIAS_HTTP_PATH. '/repository.php?client_id='.CLIENT_ID);
+			$tpl->ParseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("content");
+		$tpl->setVariable("ERROR_MESSAGE",($this->errortext));
+		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->show();
+		exit;
 	}
 	
+	/**
+	* Get the mime type of the requested file requested file
+	* @param    string      default type
+	* @return   string      mime type
+	* @access	public
+	*/
 	public function getMimeType($default = 'application/octet-stream')
 	{
 		$mime = '';
@@ -380,7 +622,9 @@ class ilWebAccessChecker
 			}
 		}
 		else
+		{
 			$mime = ilObjMediaObject::getMimeType($this->file);
+		}
 		
 		$this->mimetype = $mime ? $mime : $default;
 	}

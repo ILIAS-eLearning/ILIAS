@@ -541,6 +541,36 @@ function _getQuestionCount($test_id)
 	return $num;
 }
 	
+	/**
+	* Get all tests using a question pool for random selection
+	*
+	* @param    int     question pool id
+	* @return 	array 	list if test obj ids
+	* @access	public
+	*/
+	function _getRandomTestsForQuestionPool($qpl_id)
+	{
+		global $ilDB;
+	
+		$query = 'SELECT DISTINCT t.obj_fi '
+				.'FROM tst_tests t '
+				.'INNER JOIN tst_test_random r '
+				.'ON t.test_id = r.test_fi '
+				.'WHERE r.questionpool_fi = '
+				. $ilDB->quote($qpl_id, 'integer');
+	
+		$result = $ilDB->query($query);
+	
+		$tests = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+		    $tests[] = $row['obj_fi'];
+		}
+	
+		return $tests;
+	}
+	// fim.
+	
 /**
 * Checks if a user is allowd to run an online exam
 *
