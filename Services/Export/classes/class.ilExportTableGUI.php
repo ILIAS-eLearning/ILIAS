@@ -35,7 +35,7 @@ class ilExportTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("date"), "timestamp");
 		
 		$this->setDefaultOrderField("timestamp");
-		$this->setDefaultOrderDirection("asc");
+		$this->setDefaultOrderDirection("desc");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
