@@ -138,10 +138,15 @@ class ilMainMenuGUI
 				$selection->setListTitle($lng->txt("language"));
 				$selection->setItemLinkClass("small");
 				$languages = $lng->getInstalledLanguages();
+		//var_dump($_SERVER);
 				foreach ($languages as $lang_key)
 				{
+					$base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
+					$base = str_replace("lang=", "", $base);
+					$link = ilUtil::appendUrlParameterString($base,
+						"lang=".$lang_key);
 					$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
-						$lang_key, "?lang=".$lang_key, "", "", "_top");
+						$lang_key, $link, "", "", "_top");
 				}
 				if (count($languages) > 0)
 				{
