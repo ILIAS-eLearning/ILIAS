@@ -14,9 +14,8 @@ class ilObjBookingPool extends ilObject
 {
 	/**
 	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	* @param	int		$a_id					reference_id or object_id
+	* @param	bool	$a_call_by_reference	treat the id as reference_id (true) or object_id (false)
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
@@ -26,8 +25,6 @@ class ilObjBookingPool extends ilObject
 
 	/**
 	* update object data
-	*
-	* @access	public
 	* @return	boolean
 	*/
 	function update()
@@ -44,10 +41,8 @@ class ilObjBookingPool extends ilObject
 
 	/**
 	 * Clone
-	 *
-	 * @access public
-	 * @param int target id
-	 * @param int copy id
+	 * @param	int	$a_target_id
+	 * @param	int	$a_copy_id
 	 * 
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
@@ -64,8 +59,6 @@ class ilObjBookingPool extends ilObject
 
 	/**
 	* delete object and all related data	
-	*
-	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
@@ -86,8 +79,7 @@ class ilObjBookingPool extends ilObject
 	* 
 	* If your module does not require any default roles, delete this method 
 	* (For an example how this method is used, look at ilObjForum)
-	* 
-	* @access	public
+	*
 	* @return	array	object IDs of created local roles.
 	*/
 	function initDefaultRoles()
@@ -114,7 +106,6 @@ class ilObjBookingPool extends ilObject
 	* If you are not required to handle any events related to your module, just delete this method.
 	* (For an example how this method is used, look at ilObjGroup)
 	*
-	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
 	* @param	array	passes optional parameters if required

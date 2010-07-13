@@ -35,7 +35,6 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 {
 	/**
 	* constructor
-	*
 	*/
 	function __construct()
 	{

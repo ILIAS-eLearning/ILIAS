@@ -4,7 +4,7 @@
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
- * name table
+ * List booking types (for booking pool)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
  * @version $Id$
@@ -15,6 +15,9 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
+	 * @param	object	$a_parent_obj
+	 * @param	string	$a_parent_cmd
+	 * @param	int		$a_ref_id
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
 	{
@@ -28,7 +31,7 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->addCommandButton('addType', $this->lng->txt('book_add_type'));
+			$this->addCommandButton('create', $this->lng->txt('book_add_type'));
 		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -41,6 +44,18 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$this->initFilter();
 
 		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
+
+		// remove items which cannot be booked for "normal" users
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			foreach($this->row_data as $idx => $row)
+			{
+				if($row['counter'] == 0)
+			    {
+					unset($this->row_data[$idx]);
+				}
+			}
+		}
 	}
 
 	/**
@@ -57,8 +72,8 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	}
 
 	/**
-	 *
-	 *
+	 * Get current filter settings
+	 * @return	array
 	 */
 	function getCurrentFilter()
 	{
@@ -68,16 +83,12 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	/**
 	 * Build summary item rows for given object and filter(s)
 	 *
-	 * @param	array	&$rows
-	 * @param	int		$object_id
-	 * @param	array	$filter
+	 * @param	int	$a_pool_id (aka parent obj id)
 	 */
-	function getItems($object_id, array $filter = NULL)
+	function getItems($a_pool_id)
 	{
-		global $lng;
-
 		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$data = ilBookingType::getList($object_id);
+		$data = ilBookingType::getList($a_pool_id);
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
@@ -85,27 +96,37 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 
 	/**
 	 * Fill table row
+	 * @param	array	$a_set
 	 */
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilAccess, $ilCtrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+	    $this->tpl->setVariable("VALUE_OBJECTS_NO", $a_set["counter"]);
 
 		$ilCtrl->setParameter($this->parent_obj, 'type_id', $a_set['booking_type_id']);
+		$ilCtrl->setParameterByClass('ilBookingObjectGUI', 'type_id', $a_set['booking_type_id']);
 
 		$this->tpl->setCurrentBlock('item_command');
-		$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-		$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
-		$this->tpl->parseCurrentBlock();
+		if($a_set["counter"] > 0)
+		{
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'listItems'));
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'editType'));
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
 		}
