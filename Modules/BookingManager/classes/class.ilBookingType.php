@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * name table
+ * Booking category
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
@@ -11,36 +11,62 @@
  */
 class ilBookingType
 {
-	protected $id; 
-	protected $title;
-	protected $pool_id;
-	
+	protected $id;		// int
+	protected $title;	// string
+	protected $pool_id;	// id
+
+	/**
+	 * Constructor
+	 *
+	 * if id is given will read dataset from db
+	 *
+	 * @param	int	$a_id
+	 */
 	function __construct($a_id = NULL)
 	{
 		$this->id = (int)$a_id;
 		$this->read();
 	}
 
+	/**
+	 * Set title
+	 * @param	string	$a_title
+	 */
 	function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
 
+	/**
+	 * Get title
+	 * @return	string
+	 */
 	function getTitle()
 	{
 		return $this->title;
 	}
 
+	/**
+	 * Set booking pool id (aka parent obj ref id)
+	 * @param	int	$a_type_id
+	 */
 	function setPoolId($a_pool_id)
 	{
 		$this->pool_id = $a_pool_id;
 	}
 
+	/**
+	 * Get booking pool id
+	 * @return	int
+	 */
 	function getPoolId()
 	{
 		return $this->pool_id;
 	}
 
+	/**
+	 * Get dataset from db
+	 */
 	protected function read()
 	{
 		global $ilDB;
@@ -56,6 +82,10 @@ class ilBookingType
 		}
 	}
 
+	/**
+	 * Create new entry in db
+	 * @return	bool
+	 */
 	function save()
 	{
 		global $ilDB;
@@ -67,6 +97,10 @@ class ilBookingType
 			','.$ilDB->quote($this->getPoolId(), 'integer').')');
 	}
 
+	/**
+	 * Update entry in db
+	 * @return	bool
+	 */
 	function update()
 	{
 		global $ilDB;
@@ -77,13 +111,22 @@ class ilBookingType
 			' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
 	}
 
+	/**
+	 * Get list of booking types for given pool
+	 * @param	int	$a_pool_id
+	 * @return	array
+	 */
 	static function getList($a_pool_id)
 	{
 		global $ilDB;
 
-		$set = $ilDB->query('SELECT * FROM booking_type'.
+		$set = $ilDB->query('SELECT booking_type.title, booking_type_id,'.
+			' CASE WHEN type_id IS NULL THEN 0 ELSE COUNT(*) END AS counter'.
+			' FROM booking_type'.
+			' LEFT JOIN booking_object ON (type_id = booking_type_id)'.
 			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer').
-			' ORDER BY title');
+			' GROUP BY booking_type_id,booking_type.title,type_id'.
+			' ORDER BY booking_type.title');
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{

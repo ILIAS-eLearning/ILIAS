@@ -9,14 +9,14 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-	* @access public
+
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
@@ -24,32 +24,58 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
+	/**
+	 * main switch
+	 */
 	function executeCommand()
 	{
 		global $tpl, $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		
+		if(!$next_class && $this->ctrl->getCmd() == 'render')
+		{
+			$this->ctrl->setCmdClass('ilBookingTypeGUI');
+			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		$this->prepareOutput();
+
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-				$this->prepareOutput();
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+
+			case 'ilbookingtypegui':
+				$this->tabs_gui->setTabActive('render');
+				include_once("Modules/BookingManager/classes/class.ilBookingTypeGUI.php");
+				$type_gui =& new ilBookingTypeGUI($this);
+				$ret =& $this->ctrl->forwardCommand($type_gui);
+				break;
+
+			case 'ilbookingobjectgui':
+				$this->tabs_gui->setTabActive('render');
+				include_once("Modules/BookingManager/classes/class.ilBookingObjectGUI.php");
+				$object_gui =& new ilBookingObjectGUI($this);
+				$ret =& $this->ctrl->forwardCommand($object_gui);
+				break;
 			
 			default:
-				$this->prepareOutput();
-				$cmd = $this->ctrl->getCmd("view");
-				$cmd .= "Object";
+				$cmd = $this->ctrl->getCmd();
+				$cmd .= 'Object';
 				$this->$cmd();
 				break;
 		}
 		return true;
 	}
 
+	/**
+	 * Display creation form
+	 */
 	function createObject()
 	{
 		global $tpl;
@@ -58,6 +84,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	/**
+	 * Display update form
+	 */
 	function editObject()
 	{
 		global $tpl;
@@ -69,17 +98,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* Init creation form
+	* Init property form
+	* @return	object
 	*/
 	function initForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
-
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$form_gui = new ilPropertyFormGUI();
 
-		$title = new ilTextInputGUI($lng->txt("title"), "standard_title");
+		$title = new ilTextInputGUI($this->lng->txt("title"), "standard_title");
 		$title->setRequired(true);
 		$title->setSize(40);
 		$title->setMaxLength(120);
@@ -87,25 +115,24 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if ($a_mode == "edit")
 		{
-			$form_gui->setTitle($lng->txt("settings"));
+			$form_gui->setTitle($this->lng->txt("settings"));
 			$title->setValue($this->object->getTitle());
-			$form_gui->addCommandButton("update", $lng->txt("save"));
-			$form_gui->addCommandButton("render", $lng->txt("cancel"));
+			$form_gui->addCommandButton("update", $this->lng->txt("save"));
+			$form_gui->addCommandButton("render", $this->lng->txt("cancel"));
 		}
 		else
 		{
-			$form_gui->setTitle($lng->txt("book_create_title"));
-			$form_gui->addCommandButton("save", $lng->txt("save"));
-			$form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+			$form_gui->setTitle($this->lng->txt("book_create_title"));
+			$form_gui->addCommandButton("save", $this->lng->txt("save"));
+			$form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
 		}
-		$form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$form_gui->setFormAction($this->ctrl->getFormAction($this));
 
 		return $form_gui;
 	}
 	
 	/**
-	* save object
-	* @access	public
+	* create new dataset
 	*/
 	function saveObject()
 	{
@@ -142,8 +169,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 	
 	/**
-	* update object
-	* @access	public
+	* update dataset
 	*/
 	function updateObject()
 	{
@@ -173,186 +199,33 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	/**
 	* get tabs
-	* @access	public
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilCtrl, $ilTabs, $lng;
+		global $ilAccess;
 		
-		if (in_array($ilCtrl->getCmd(), array("create", "save")))
+		if (in_array($this->ctrl->getCmd(), array("create", "save")))
 		{
 			return;
 		}
 
-		$ilTabs->addTab("render",
-				$lng->txt("book_booking_list"),
+		$this->tabs_gui->addTab("render",
+				$this->lng->txt("book_booking_list"),
 				$this->ctrl->getLinkTarget($this, "render"));
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
-			$ilTabs->addTab("edit",
-				$lng->txt("settings"),
+			$this->tabs_gui->addTab("edit",
+				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}
 
 		if($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
-			$ilTabs->addTab("perm_settings",
-				$lng->txt("perm_settings"),
+			$this->tabs_gui->addTab("perm_settings",
+				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
-	}
-
-	/**
-	 *
-	 *
-	 */
-	function renderObject()
-	{
-		global $tpl;
-		
-		$this->tabs_gui->setTabActive('render');
-
-		include_once 'Modules/BookingManager/classes/class.ilBookingTypesTableGUI.php';
-		$table = new ilBookingTypesTableGUI($this, 'render', $this->ref_id);
-		$tpl->setContent($table->getHTML());
-	}
-
-	/**
-	 *
-	 *
-	 */
-	function addTypeObject()
-    {
-		global $tpl, $ilCtrl;
-
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
-
-		$form = $this->initTypeForm();
-		$tpl->setContent($form->getHTML());
-	}
-
-	/**
-	 *
-	 *
-	 */
-	function editTypeObject()
-    {
-		global $tpl, $ilCtrl;
-
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
-
-		$form = $this->initTypeForm('edit', (int)$_GET['type_id']);
-		$tpl->setContent($form->getHTML());
-	}
-
-	function initTypeForm($a_mode = "create", $id = NULL)
-	{
-		global $lng, $ilCtrl;
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
-		$form_gui = new ilPropertyFormGUI();
-
-		$title = new ilTextInputGUI($lng->txt("title"), "title");
-		$title->setRequired(true);
-		$title->setSize(40);
-		$title->setMaxLength(120);
-		$form_gui->addItem($title);
-
-		if ($a_mode == "edit")
-		{
-			$item = new ilHiddenInputGUI('type_id');
-			$item->setValue($id);
-			$form_gui->addItem($item);
-			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-			$type = new ilBookingType($id);
-
-			$form_gui->setTitle($lng->txt("book_edit_type"));
-			$title->setValue($type->getTitle());
-			$form_gui->addCommandButton("updateType", $lng->txt("save"));
-		}
-		else
-		{
-			$form_gui->setTitle($lng->txt("book_add_type"));
-			$form_gui->addCommandButton("saveType", $lng->txt("save"));
-			$form_gui->addCommandButton("render", $lng->txt("cancel"));
-		}
-		$form_gui->setFormAction($ilCtrl->getFormAction($this));
-
-		return $form_gui;
-	}
-
-   /**
-	* save object
-	* @access	public
-	*/
-	function saveTypeObject()
-	{
-		global $rbacadmin, $ilUser, $tpl, $ilObjDataCache;
-
-		$form = $this->initTypeForm();
-		if($form->checkInput())
-		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-			$obj = new ilBookingType;
-			$obj->setTitle($form->getInput("title"));
-			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
-			$obj->save();
-
-			ilUtil::sendSuccess($this->lng->txt("book_type_added"));
-			$this->renderObject();
-		}
-		else
-		{
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-		}
-	}
-
-	/**
-	* save object
-	* @access	public
-	*/
-	function updateTypeObject()
-	{
-		global $rbacadmin, $ilUser, $tpl, $ilObjDataCache;
-
-		$form = $this->initTypeForm('edit', (int)$_POST['type_id']);
-		if($form->checkInput())
-		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-			$obj = new ilBookingType((int)$_POST['type_id']);
-			$obj->setTitle($form->getInput("title"));
-			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
-			$obj->update();
-
-			ilUtil::sendSuccess($this->lng->txt("book_type_updated"));
-			$this->renderObject();
-		}
-		else
-		{
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-		}
-	}
-
-	/**
-	 *
-	 *
-	 */
-	function listItemsObject()
-	{
-		global $tpl, $ilCtrl;
-
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
-
-		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
-		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id);
-		$tpl->setContent($table->getHTML());
 	}
 }
 
