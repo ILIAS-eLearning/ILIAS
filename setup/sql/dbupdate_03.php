@@ -2510,12 +2510,45 @@ if(!$ilDB->tableExists('booking_object'))
 <#3130>
 <?php
 	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFiles',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile');
-	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile');
-	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile'.DIRECTORY_SEPARATOR.'export');
 ?>
 <#3131>
 <?php
 	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilEvents',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilSession');
-	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilSession');
-	@mkdir(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilFile'.DIRECTORY_SEPARATOR.'ilSession');
 ?>
+
+<#3132>
+<?php
+function dirRek($dir)
+{
+	$dp = @opendir($dir);
+	while($file = @readdir($dp))
+	{
+		if($file == '.' or $file == '..')
+		{
+			continue;
+		}
+		if(substr($file,0,7) == 'course_')
+		{
+			$parts = explode('_',$file);
+			@rename($dir.$file,$dir.'crs_'.$parts[1]);
+			continue;
+		}
+		if(is_dir($dir.$file))
+		{
+			dirRek($dir.$file.DIRECTORY_SEPARATOR);
+		}
+	}
+	closedir($dp);
+}
+
+$dir = CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourses'.DIRECTORY_SEPARATOR;
+dirRek($dir);
+?>
+<#3133>
+<?php
+	@rename(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourses',CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourse');
+?>
+
+
+
+

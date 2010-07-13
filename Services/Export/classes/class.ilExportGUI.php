@@ -437,7 +437,8 @@ class ilExportGUI
 				$exp->exportObject($type,$obj_id,'4.1.0');
 			}
 			// Export container
-			return $this->showItemSelection();
+			$exp->exportContainer($this->obj->getType(),$this->obj->getId(),'4.1.0');
+			$this->showItemSelection();
 		}
 		else
 		{

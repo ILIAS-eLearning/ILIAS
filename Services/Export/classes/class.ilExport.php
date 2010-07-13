@@ -12,6 +12,8 @@
 */
 class ilExport
 {
+	public static $new_file_structure = array('exc','crs','sess','file');
+	
 	// this should be part of module.xml and be parsed in the future
 	static $export_implementer = array("tst", "lm", "glo");
 	
@@ -95,11 +97,25 @@ class ilExport
 	* @param	string		Export Type ("xml", "html", ...)
 	* @param	string		Object Type
 	*/
-	function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "")
+	public static function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "")
 	{
+		global $objDefinition;
+		
 		if ($a_obj_type == "")
 		{
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
+		}
+
+
+		if(in_array($a_obj_type, self::$new_file_structure))
+		{
+			include_once './Services/FileSystemStorage/classes/class.ilFileSystemStorage.php';
+			$dir = ilUtil::getDataDir().DIRECTORY_SEPARATOR;
+			$dir .= 'il'.$objDefinition->getClassName($a_obj_type).DIRECTORY_SEPARATOR;
+			$dir .= ilFileSystemStorage::_createPathFromId($a_obj_id, $a_obj_type).DIRECTORY_SEPARATOR;
+			$dir .= ($a_type == 'xml' ? 'export' : 'export_'.$a_type);
+			return $dir;
+			
 		}
 
 		if ($a_type !=  "xml")
@@ -190,6 +206,14 @@ class ilExport
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
 
+		if(in_array($a_obj_type, self::$new_file_structure))
+		{
+			$edir = ilExport::_getExportDirectory($a_obj_id,$a_export_type,$a_obj_type);
+			ilUtil::makeDirParents($edir);
+			return true;
+			
+		}
+	
 		$data_dir = ilUtil::getDataDir()."/".$a_obj_type."_data";
 		ilUtil::makeDir($data_dir);
 		if(!is_writable($data_dir))
@@ -280,7 +304,6 @@ class ilExport
 	 *    
 	 * 
 	 */
-	
 	/**
 	 * Export an ILIAS object (the object type must be known by objDefinition)
 	 *
@@ -350,6 +373,28 @@ class ilExport
 			"file" => $filename,
 			"directory" => $directory
 			);
+	}
+	
+	/**
+	 * Export a container
+	 * 
+	 * @param object $a_type
+	 * @param object $a_obj_id
+	 * @param object $a_target_release
+	 * @return 
+	 */
+	public function exportContainer($a_type, $a_id, $a_target_release)
+	{
+		// get export class
+		ilExport::_createExportDirectory($a_id, "xml", $a_type);
+		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
+		$ts = time();
+		$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+		$this->export_run_dir = $export_dir."/".$sub_dir;
+		ilUtil::makeDirParents($this->export_run_dir);
+		
+		$GLOBALS['ilLog']->write($this->export_run_dir);
+		
 	}
 
 	/**
