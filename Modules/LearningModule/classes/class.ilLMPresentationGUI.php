@@ -3974,7 +3974,7 @@ class ilLMPresentationGUI
 					{
 						$this->ctrl->setParameter($this, "obj_type", $a_type);
 					}
-					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
+					$link = $this->ctrl->getLinkTarget($this, $a_cmd, $a_anchor);
 //					$link = str_replace("&", "&amp;", $link);
 					
 					$this->ctrl->setParameter($this, "frame", "");
