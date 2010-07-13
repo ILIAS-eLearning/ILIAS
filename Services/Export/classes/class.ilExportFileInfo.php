@@ -115,6 +115,11 @@ class ilExportFileInfo
 		return $this->file_name;
 	}
 	
+	public function getBasename($a_ext = '.zip')
+	{
+		return basename($this->getFilename(),$a_ext);
+	}
+	
 	/**
 	 * Set obj id
 	 * @param object $a_id

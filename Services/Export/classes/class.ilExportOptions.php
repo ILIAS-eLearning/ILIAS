@@ -99,11 +99,24 @@ class ilExportOptions
 
 		foreach($this->ref_options[self::KEY_ITEM_MODE] as $ref_id => $mode)
 		{
-			if($a_source_id == $ref_id)
-			{
-				continue;				
-			}
 			if($mode == self::EXPORT_BUILD)
+			{
+				$refs[] = $ref_id;
+			}
+		}
+		return $refs;
+	}
+	
+	/**
+	 * Get all subitems with mode != self::EXPORT_OMIT
+	 * @return array ref ids
+	 */
+	public function getSubitemsForExport()
+	{
+		$refs = array();
+		foreach($this->ref_options[self::KEY_ITEM_MODE] as $ref_id => $mode)
+		{
+			if($mode != self::EXPORT_OMIT)
 			{
 				$refs[] = $ref_id;
 			}

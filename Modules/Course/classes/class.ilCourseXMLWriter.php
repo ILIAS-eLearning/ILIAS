@@ -38,11 +38,17 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 */
 class ilCourseXMLWriter extends ilXmlWriter
 {
+	const MODE_SOAP = 1;
+	const MODE_EXPORT = 2;
+	
+	private $mode = self::MODE_SOAP;
+
+
 	private  $ilias;
 
 	private  $xml;
 	private  $course_obj;
-	private $attach_users = true;
+	private  $attach_users = true;
 	
 
 	/**
@@ -63,26 +69,49 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->ilias =& $ilias;
 		$this->course_obj =& $course_obj;
 	}
+	
+	public function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+	
+	public function getMode()
+	{
+		return $this->mode;
+	}
 
 	function start()
 	{
-		$this->__buildHeader();
-		$this->__buildMetaData();
-		$this->__buildAdvancedMetaData();
-		if ($this->attach_users) 
+		if($this->getMode() == self::MODE_SOAP)
 		{
-			$this->__buildAdmin();
-			$this->__buildTutor();
-			$this->__buildMember();
+			
+			$this->__buildHeader();
+			$this->__buildCourseStart();
+			$this->__buildMetaData();
+			$this->__buildAdvancedMetaData();
+			if ($this->attach_users) 
+			{
+				$this->__buildAdmin();
+				$this->__buildTutor();
+				$this->__buildMember();
+			}
+			$this->__buildSubscriber();
+			$this->__buildWaitingList();
+			
+			$this->__buildSetting();
+	
+			#$this->__buildObject($this->course_obj->getRefId());
+			
+			$this->__buildFooter();
 		}
-		$this->__buildSubscriber();
-		$this->__buildWaitingList();
-		
-		$this->__buildSetting();
-
-		#$this->__buildObject($this->course_obj->getRefId());
-		
-		$this->__buildFooter();
+		elseif($this->getMode() == self::MODE_EXPORT)
+		{
+			$this->__buildCourseStart();
+			$this->__buildMetaData();
+			$this->__buildAdvancedMetaData();
+			$this->__buildSetting();
+			$this->__buildFooter();
+		}
 	}
 
 	function getXML()
@@ -109,13 +138,18 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->xmlSetGenCmt("Export of ILIAS course ". $this->course_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
+
+		return true;
+	}
+	
+	function __buildCourseStart()
+	{
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
 		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_crs_'.$this->course_obj->getId();
 		$attrs['showMembers'] = ($this->course_obj->getShowMembers() ? 'Yes' : 'No');
 		$this->xmlStartTag("Course", $attrs);
-
-		return true;
 	}
+	
 	function __buildMetaData()
 	{
 		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
