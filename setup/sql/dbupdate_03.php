@@ -2538,7 +2538,7 @@ function dirRek($dir)
 			dirRek($dir.$file.DIRECTORY_SEPARATOR);
 		}
 	}
-	closedir($dp);
+	@closedir($dp);
 }
 
 $dir = CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'ilCourses'.DIRECTORY_SEPARATOR;
