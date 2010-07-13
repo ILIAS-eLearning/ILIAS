@@ -132,23 +132,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 				// container page editing
 			case "ilpageobjectgui":
-				$this->checkPermission("write");
 				$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")
 				{
 					$this->tpl->setContent($ret);
 				}
-
-				/*$this->tpl->getStandardTemplate();
-				$this->setLocator();
-				ilUtil::sendInfo();
-				ilUtil::infoPanel();
-				//$this->prepareOutput(false);
-				$ret = $this->forwardToPageObject();
-				$this->setTitleAndDescription();
-				$this->setPageEditorTabs();
-				return $ret;*/
 				break;
 
 			case 'ilpermissiongui':

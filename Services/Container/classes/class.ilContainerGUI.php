@@ -124,6 +124,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function &forwardToPageObject()
 	{
 		global $lng, $ilTabs, $ilCtrl;
+
+		$cmd = $ilCtrl->getCmd();
+
+		if (in_array($cmd, array("displayMediaFullscreen")))
+		{
+			$this->checkPermission("read");
+		}
+		else
+		{
+			$this->checkPermission("write");
+		}
 		
 		$ilTabs->clearTargets();
 

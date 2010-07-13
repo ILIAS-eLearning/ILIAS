@@ -181,8 +181,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			// container page editing
 			case "ilpageobjectgui":
-				$this->checkPermission("write");
-				//$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
 				if ($ret != "")
 				{
