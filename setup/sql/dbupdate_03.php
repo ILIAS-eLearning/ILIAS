@@ -2572,6 +2572,129 @@ dirRek($dir);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3136>
+<?php
+	$setting = new ilSetting();
+	$se_db = (int) $setting->get("se_db");
 
+	if($se_db <= 101)
+	{
+		$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+		while ($rec = $ilDB->fetchAssoc($set))	// all styles
+		{
+			$ast = array(
+				array("tag" => "a", "type" => "link", "class" => "FileLink",
+					"par" => array(
+						array("name" => "text-decoration", "value" => "undeline"),
+						array("name" => "font-weight", "value" => "normal"),
+						array("name" => "color", "value" => "blue")
+						)),
+				array("tag" => "div", "type" => "glo_overlay", "class" => "GlossaryOverlay",
+					"par" => array(
+						array("name" => "background-color", "value" => "#FFFFFF"),
+						array("name" => "border-color", "value" => "#A0A0A0"),
+						array("name" => "border-style", "value" => "solid"),
+						array("name" => "border-width", "value" => "2px"),
+						array("name" => "padding-top", "value" => "5px"),
+						array("name" => "padding-bottom", "value" => "5px"),
+						array("name" => "padding-left", "value" => "5px"),
+						array("name" => "padding-right", "value" => "5px")
+						))
+				);
 
+			foreach($ast as $st)
+			{
+				$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+					"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+					"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
+					"type = ".$ilDB->quote($st["type"], "text"));
+				if (!$ilDB->fetchAssoc($set2))
+				{
+					$q = "INSERT INTO style_char (style_id, type, characteristic, hide)".
+						" VALUES (".
+						$ilDB->quote($rec["obj_id"], "integer").",".
+						$ilDB->quote($st["type"], "text").",".
+						$ilDB->quote($st["class"], "text").",".
+						$ilDB->quote(0, "integer").")";
+//echo "<br>-$q-";
+					$ilDB->manipulate($q);
+					foreach ($st["par"] as $par)
+					{
+						$spid = $ilDB->nextId("style_parameter");
+						$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+							" VALUES (".
+							$ilDB->quote($spid, "integer").",".
+							$ilDB->quote($rec["obj_id"], "integer").",".
+							$ilDB->quote($st["type"], "text").",".
+							$ilDB->quote($st["class"], "text").",".
+							$ilDB->quote($st["tag"], "text").",".
+							$ilDB->quote($par["name"], "text").",".
+							$ilDB->quote($par["value"], "text").
+							")";
+//echo "<br>-$q-";
+					$ilDB->manipulate($q);
+					}
+				}
+			}
+		}
+	}
 
+?>
+
+<#3137>
+<?php
+	$setting = new ilSetting();
+	$se_db = (int) $setting->get("se_db");
+
+	if($se_db <= 102)
+	{
+		include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+		ilDBUpdate3136::copyStyleClass("IntLink", "GlossaryLink", "link", "a");
+	}
+
+?>
+
+<#3138>
+<?php
+	$setting = new ilSetting();
+	$se_db = (int) $setting->get("se_db");
+
+	if($se_db <= 103)
+	{
+		include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+		ilDBUpdate3136::addStyleClass("GlossaryOvTitle", "glo_ovtitle", "h1",
+					array("font-size" => "120%",
+						  "margin-bottom" => "10px",
+						  "margin-top" => "10px",
+						  "font-weight" => "normal"
+						  ));
+	}
+?>
+
+<#3139>
+<?php
+	$setting = new ilSetting();
+	$se_db = (int) $setting->get("se_db");
+
+	if($se_db <= 104)
+	{
+		include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+		ilDBUpdate3136::addStyleClass("GlossaryOvCloseLink", "glo_ovclink", "a",
+					array("text-decoration" => "underline",
+						  "font-weight" => "normal",
+						  "color" => "blue"
+						  ));
+		ilDBUpdate3136::addStyleClass("GlossaryOvUnitGloLink", "glo_ovuglink", "a",
+					array("text-decoration" => "underline",
+						  "font-weight" => "normal",
+						  "color" => "blue"
+						  ));
+		ilDBUpdate3136::addStyleClass("GlossaryOvUGListLink", "glo_ovuglistlink", "a",
+					array("text-decoration" => "underline",
+						  "font-weight" => "normal",
+						  "color" => "blue"
+						  ));
+
+	}
+
+?>

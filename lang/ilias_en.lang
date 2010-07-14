@@ -10643,3 +10643,6 @@ trac#:#trac_matrix#:#Matrix View
 dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments
 exp#:#export_created#:#A new export file has been created.
 crs#:#crs_import#:#Kurs importieren
+style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link
+style#:#sty_type_glo_ovuglink#:#Unit Glossary Link
+style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link
