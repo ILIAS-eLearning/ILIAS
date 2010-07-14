@@ -9,14 +9,14 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-
+	*
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
@@ -62,6 +62,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				include_once("Modules/BookingManager/classes/class.ilBookingObjectGUI.php");
 				$object_gui =& new ilBookingObjectGUI($this);
 				$ret =& $this->ctrl->forwardCommand($object_gui);
+				break;
+
+			case 'ilbookingschedulegui':
+				$this->tabs_gui->setTabActive('schedules');
+				include_once("Modules/BookingManager/classes/class.ilBookingScheduleGUI.php");
+				$schedule_gui =& new ilBookingScheduleGUI($this);
+				$ret =& $this->ctrl->forwardCommand($schedule_gui);
 				break;
 			
 			default:
@@ -215,6 +222,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
+			$this->tabs_gui->addTab("schedules",
+				$this->lng->txt("book_schedules"),
+				$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
+
 			$this->tabs_gui->addTab("edit",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
