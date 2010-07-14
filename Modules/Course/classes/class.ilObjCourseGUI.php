@@ -240,7 +240,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 
-	function importFileObject()
+	function importFileObject2()
 	{
 		global $_FILES, $rbacsystem, $ilDB;
 
