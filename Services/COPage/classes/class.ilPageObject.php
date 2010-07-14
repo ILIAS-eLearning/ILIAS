@@ -1239,6 +1239,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		if ($a_xml == "")
 		{
 			$xpc = xpath_new_context($this->dom);
+			$doc = $this->dom;
 			$path = "//FileItem/Identifier";
 			$res =& xpath_eval($xpc, $path);
 		}
@@ -1256,7 +1257,22 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$file_id = $id_arr[count($id_arr) - 1];
 			$file_ids[$file_id] = $file_id;
 		}
-
+		
+		// file items in download links
+		$xpc = xpath_new_context($doc);
+		$path = "//IntLink[@Type='File']";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$t = $res->nodeset[$i]->get_attribute("Target");
+			if (substr($t, 0, 9) == "il__dfile")
+			{
+				$id_arr = explode("_", $t);
+				$file_id = $id_arr[count($id_arr) - 1];
+				$file_ids[$file_id] = $file_id;
+			}
+		}		
+//var_dump($file_ids); exit;
 		return $file_ids;
 	}
 

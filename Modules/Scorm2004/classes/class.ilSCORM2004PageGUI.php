@@ -59,7 +59,10 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		$this->setEnabledMaps(false);
 		$this->setPreventHTMLUnmasking(false);
 		// $this->setEnabledInternalLinks(false);
-		$this->setEnabledInternalLinks(true);
+		if ($this->glo_id > 0)
+		{
+			$this->setEnabledInternalLinks(true);
+		}
 		$this->setEnabledSelfAssessment(true);
 		$this->setEnabledPCTabs(true);
 		
@@ -269,6 +272,22 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						$onclick = 'OnClick="return false;"';
 						$anc_par = 'Anchor=""';
 						$targetframe = "Glossary";
+						break;
+					
+					case "File":
+						if ($this->getOutputMode() == "offline")
+						{
+							$href = "./files/file_".$target_id;
+						}
+						else
+						{
+							$href = str_replace("&", "&amp;", $this->determineFileDownloadLink())."&amp;file_id=il__file_".$target_id;
+//echo htmlentities($href);
+						}
+						
+						$anc_par = 'Anchor=""';
+						$targetframe = "None"; //???
+						$ltarget = "";
 						break;
 
 				}

@@ -467,7 +467,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$newObj = new ilObjGlossary();
 			$newObj->setType("glo");
 			$newObj->setTitle($_POST["title"]);
-			$newObj->setDescription($_POST["desc"]);
+			$newObj->setDescription($_POST["description"]);
 			$newObj->setVirtualMode("none");
 			$newObj->create();
 			$newObj->createReference();
