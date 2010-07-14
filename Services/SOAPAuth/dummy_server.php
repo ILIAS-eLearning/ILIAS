@@ -24,12 +24,12 @@
 exit;
 
 /**
-* dummy soap authentication server
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * dummy soap authentication server
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ */
 chdir('../..');
 
 global $HTTP_RAW_POST_DATA;
