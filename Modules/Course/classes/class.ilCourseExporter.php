@@ -35,6 +35,33 @@ class ilCourseExporter extends ilXmlExporter
 	}
 	
 	/**
+	 * Get head dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		include_once './Services/Export/classes/class.ilExportOptions.php';
+		$eo = ilExportOptions::getInstance();
+		
+		if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
+		{
+			return array(
+				array(
+					'component'		=> 'Services/Container',
+					'entity'		=> 'struct',
+					'ids'			=> $a_ids
+				)
+			);
+		}
+		return array();		
+	}
+	
+	
+	/**
 	 * Get xml
 	 * @param object $a_entity
 	 * @param object $a_target_release

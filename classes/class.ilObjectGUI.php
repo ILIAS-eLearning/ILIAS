@@ -1081,29 +1081,12 @@ class ilObjectGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					$subobj[] = $row["name"];
-/* deprecated
-					if ($row["import"] == "1")	// import allowed?
-					{
-						$import = true;
-					}
-*/
 				}
 			}
 		}
 
 		if (is_array($subobj))
 		{
-			// show import button if at least one
-			// object type can be imported
-/* deprecated
-			if ($import)
-			{
-				$this->tpl->setCurrentBlock("import_object");
-				$this->tpl->setVariable("BTN_IMP", "import");
-				$this->tpl->setVariable("TXT_IMP", $this->lng->txt("import"));
-				$this->tpl->parseCurrentBlock();
-			}
-*/
 
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);

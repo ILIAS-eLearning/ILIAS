@@ -2956,5 +2956,45 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		exit;
 	}
 	
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	protected function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET['ref_id'], $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt('no_create_permission'),$ilErr->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			include_once './Services/Export/classes/class.ilImport.php';
+			$imp = new ilImport();
+			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				$this->ctrl->returnToParent($this);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
 }
 ?>

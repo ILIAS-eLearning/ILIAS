@@ -2193,7 +2193,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	// IMPORT FUNCTIONS
 
-	function importFileObject()
+	function importFileObject2()
 	{
 		if(!is_array($_FILES['xmldoc']))
 		{

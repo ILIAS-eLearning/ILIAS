@@ -385,27 +385,6 @@ class ilExport
 			"directory" => $directory
 			);
 	}
-	
-	/**
-	 * Export a container
-	 * 
-	 * @param object $a_type
-	 * @param object $a_obj_id
-	 * @param object $a_target_release
-	 * @return 
-	 */
-	public function exportContainer($a_type, $a_id, $a_target_release)
-	{
-		// Create base export directory
-		ilExport::_createExportDirectory($a_id, "xml", $a_type);
-		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
-		$ts = time();
-		$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
-		$this->export_run_dir = $export_dir."/".$sub_dir;
-		ilUtil::makeDirParents($this->export_run_dir);
-		
-		$GLOBALS['ilLog']->write(__METHOD__.'Using base directory: '.$this->export_run_dir);
-	}
 
 	/**
 	 * Process exporter
