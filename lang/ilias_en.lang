@@ -5613,6 +5613,7 @@ content#:#scplayer_expandtree#:#Expand All
 content#:#scplayer_hidetree#:#Hide Tree
 content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE
 content#:#scplayer_previous#:#Previous
+content#:#scplayer_next#:#Next
 content#:#scplayer_showtree#:#Show Tree
 content#:#scplayer_start#:#Start
 content#:#scplayer_suspendall#:#Suspend All

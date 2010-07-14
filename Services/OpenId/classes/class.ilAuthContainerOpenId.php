@@ -55,7 +55,7 @@ class ilAuthContainerOpenId extends Auth_Container
 				$openid = $response->getDisplayIdentifier();
 		        $esc_identity = htmlentities($openid);
 				$ilLog->write(__METHOD__.': Auth success with identity '.$esc_identity);
-
+				
 		        if($response->endpoint->canonicalID) 
 				{
             		$escaped_canonicalID = htmlentities($response->endpoint->canonicalID);
@@ -63,10 +63,32 @@ class ilAuthContainerOpenId extends Auth_Container
 
         		}
 				include_once 'Auth/OpenID/SReg.php';
-				$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
-		        $this->response_data = $sreg_resp->contents();
 
-				$ilLog->write(__METHOD__.' auth data: '.print_r($this->response_data,true));
+				// Check if simple registration is supported
+				if(Auth_OpenID_supportsSReg($response->endpoint))
+				{
+					$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response,true);
+			        $this->response_data = $sreg_resp->contents();
+
+
+					$ilLog->write(__METHOD__.' auth data: '.print_r($this->response_data,true));
+					return true;
+				}
+				else
+				{
+					// Try to fetch response values
+					foreach($response->message->args->keys as $key => $mapping)
+					{
+						if($mapping[1] == 'sreg.nickname')
+						{
+							$this->response_data['nickname'] = $response->message->args->values[$key];							
+						}
+						if($mapping[1] == 'sreg.email')
+						{
+							$this->response_data['email'] = $response->message->args->values[$key];							
+						}
+					}
+				}
 				return true;
 
 		}
