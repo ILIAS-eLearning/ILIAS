@@ -183,24 +183,27 @@ class ilOverlayGUI
 	 * @param
 	 * @return
 	 */
-	function getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false)
+	function getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false,
+								  $a_ov_corner = "tl", $a_anch_corner = "bl")
 	{
 		$center = ($a_center) ? "true" : "false";
 		return 'ilOverlay.addTrigger("'.$a_tr_id.'","'.$a_tr_event.'","'.$this->overlay_el_id.'","'.
-			$a_anchor_el_id.'", '.$center.'); ';	
+			$a_anchor_el_id.'", '.$center.',"'.$a_ov_corner.'","'.$a_anch_corner.'"); ';
 	}
 	
 	/**
 	 * Add trigger
 	 */
-	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false)
+	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false,
+						$a_ov_corner = "tl", $a_anch_corner = "bl")
 	{
 		global $tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 //echo "-".$a_tr_id."-".$a_tr_event."-".$a_anchor_el_id."-";
 		ilYuiUtil::initOverlay();
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
-		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center)); 
+		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center,
+				$a_ov_corner, $a_anch_corner)); 
 	}
 	
 	

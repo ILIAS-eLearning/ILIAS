@@ -1552,6 +1552,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilBench;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+        $this->exportXMLMetaData($a_xml_writer);
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1561,16 +1562,43 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportPDFPrepareXmlNFiles($a_inst, $sco_folder, &$expLog, $a_xml_writer);
+			$node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, $a_xml_writer);
 		}
+        if($this->getAssignedGlossary()!=0)
+        {
+            ilUtil::makeDir($a_target_dir."/glossary");
+            include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+            include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
+            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+            $glos_export = new ilGlossaryExport($glos,"xml");
+            $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", &$expLog);
+        }
 		$a_xml_writer->xmlEndTag("ContentObject");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+        //die(htmlentities($a_xml_writer->xmlDumpMem()));
 		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
 		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
 		$xml2FO->transform();
 		$fo_string = $xml2FO->getFOString();
+        $fo_xml = simplexml_load_string($fo_string);
+        $fo_ext = $fo_xml->xpath("//fo:declarations");
+        $fo_ext = $fo_ext[0];
+        $results = array();
+        include_once "./Services/Utilities/classes/class.ilFileUtils.php";
+        ilFileUtils::recursive_dirscan($a_target_dir."/objects", $results);
+        if (is_array($results["file"]))
+		{
+            foreach ($results["file"] as $key => $value)
+            {
+                $e = $fo_ext->addChild("fox:embedded-file","","http://xml.apache.org/fop/extensions");
+                $e->addAttribute("src",$results[path][$key].$value);
+                $e->addAttribute("name",$value);
+                $e->addAttribute("desc","");
+            }
+        }
+        $fo_string = $fo_xml->asXML(); 
 		//die(htmlentities($fo_string));
 		$a_xml_writer->_XmlWriter;
 		return $fo_string;

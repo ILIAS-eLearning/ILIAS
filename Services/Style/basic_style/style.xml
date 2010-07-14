@@ -28,6 +28,11 @@
 	<StyleParameter Name="font-weight" Value="normal"/>
 	<StyleParameter Name="color" Value="blue"/>
 </Style>
+<Style Tag="a" Type="link" Class="GlossaryLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
 
 <!-- List Item -->
 <Style Tag="li" Type="list_item" Class="StandardListItem">
@@ -244,6 +249,21 @@
 	<StyleParameter Name="margin-bottom" Value="10px"/>
 	<StyleParameter Name="margin-top" Value="10px"/>
 	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="a" Type="glo_ovclink" Class="GlossaryOvCloseLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="glo_ovuglink" Class="GlossaryOvUnitGloLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="glo_ovuglistlink" Class="GlossaryOvUGListLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
 </Style>
 
 

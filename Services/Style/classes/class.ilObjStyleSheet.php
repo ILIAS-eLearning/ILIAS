@@ -251,7 +251,7 @@ class ilObjStyleSheet extends ilObject
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
-		"glo" => array("glo_overlay", "glo_ovtitle"),
+		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
 		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt")
 		);
 
@@ -284,6 +284,9 @@ class ilObjStyleSheet extends ilObject
 		"media_caption" => "div",
 		"glo_overlay" => "div",
 		"glo_ovtitle" => "h1",
+		"glo_ovclink" => "a",
+		"glo_ovuglink" => "a",
+		"glo_ovuglistlink" => "a",
 		"sco_title" => "div",
 		"sco_keyw" => "div",
 		"sco_desc" => "div",
@@ -368,6 +371,9 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "page_title", "class" => "PageTitle"),
 			array("type" => "glo_overlay", "class" => "GlossaryOverlay"),
 			array("type" => "glo_ovtitle", "class" => "GlossaryOvTitle"),
+			array("type" => "glo_ovclink", "class" => "GlossaryOvCloseLink"),
+			array("type" => "glo_ovuglink", "class" => "GlossaryOvUnitGloLink"),
+			array("type" => "glo_ovuglistlink", "class" => "GlossaryOvUGListLink"),
 			array("type" => "sco_title", "class" => "Title"),
 			array("type" => "sco_desc", "class" => "Description"),
 			array("type" => "sco_desct", "class" => "DescriptionTop"),

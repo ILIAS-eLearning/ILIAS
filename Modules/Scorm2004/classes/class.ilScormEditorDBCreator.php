@@ -186,6 +186,28 @@ class ilScormEditorDBCreator
 			
 			$ilSetting->set("se_db", 104);
 		}
+
+		if($se_db <= 104)
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilScormEditorDBMigrationUtil.php");
+			ilScormEditorDBMigrationUtil::addStyleClass("GlossaryOvCloseLink", "glo_ovclink", "a",
+						array("text-decoration" => "underline",
+							  "font-weight" => "normal",
+							  "color" => "blue"
+							  ));
+			ilScormEditorDBMigrationUtil::addStyleClass("GlossaryOvUnitGloLink", "glo_ovuglink", "a",
+						array("text-decoration" => "underline",
+							  "font-weight" => "normal",
+							  "color" => "blue"
+							  ));
+			ilScormEditorDBMigrationUtil::addStyleClass("GlossaryOvUGListLink", "glo_ovuglistlink", "a",
+						array("text-decoration" => "underline",
+							  "font-weight" => "normal",
+							  "color" => "blue"
+							  ));
+			
+			$ilSetting->set("se_db", 105);
+		}
 		
 		// keep this line at the end of the method
 		$this->finalProcessing();

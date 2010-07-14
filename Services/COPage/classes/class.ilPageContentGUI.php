@@ -103,6 +103,26 @@ class ilPageContentGUI
 	{
 		return $this->enable_internal_links;
 	}
+
+	/**
+	 * Set enable keywords handling
+	 *
+	 * @param	boolean	keywords handling
+	 */
+	function setEnableKeywords($a_val)
+	{
+		$this->enable_keywords = $a_val;
+	}
+	
+	/**
+	 * Get enable keywords handling
+	 *
+	 * @return	boolean	keywords handling
+	 */
+	function getEnableKeywords()
+	{
+		return $this->enable_keywords;
+	}
 	
 	/**
 	* Get style object
@@ -225,6 +245,10 @@ class ilPageContentGUI
 			$btpl->setVariable("BB_LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$btpl->parseCurrentBlock();
+		}
+		
+		if ($this->getEnableKeywords())
+		{
 			$btpl->touchBlock("bb_kw_button");
 			$btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
 		}
