@@ -64,6 +64,7 @@ class ilPageObjectGUI
 	var $enabledcontentincludes = false;
 	var $compare_mode = false;
 	var $page_config = null;
+	var $enable_keywords = false;
 	
 	/**
 	* Constructor
@@ -363,6 +364,26 @@ class ilPageObjectGUI
 	function getFullscreenLink()
 	{
 		return $this->fullscreen_link;
+	}
+
+	/**
+	 * Set enable keywords handling
+	 *
+	 * @param	boolean	keywords handling
+	 */
+	function setEnableKeywords($a_val)
+	{
+		$this->enable_keywords = $a_val;
+	}
+	
+	/**
+	 * Get enable keywords handling
+	 *
+	 * @return	boolean	keywords handling
+	 */
+	function getEnableKeywords()
+	{
+		return $this->enable_keywords;
 	}
 
 	function setIntLinkHelpDefault($a_type, $a_id)
@@ -1053,6 +1074,7 @@ class ilPageObjectGUI
 				$page_editor->setHeader($this->getHeader());
 				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
+				$page_editor->setEnableKeywords($this->getEnableKeywords());
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
 				$page_editor->setIntLinkReturn($this->int_link_return);

@@ -1,6 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format" version="1.0">
+<?xml version="1.0"?>
+<xsl:stylesheet
+  version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:fox="http://xml.apache.org/fop/extensions">
+
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 
 	<xsl:template match="*">
@@ -13,27 +17,64 @@
 	<xsl:param name="target_dir"/>
 	
 	<!-- ContentObject -->
-	<xsl:template match="ContentObject">
-		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	<xsl:template match="ContentObject[@Type='SCORM2004SCO']">
+        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"  xmlns:fox="http://xml.apache.org/fop/extensions">
 			<fo:layout-master-set>
 				<fo:simple-page-master master-name="Master">
 					<fo:region-body margin="10mm" />
 				</fo:simple-page-master>
 			</fo:layout-master-set>
+            <fo:declarations>
+            </fo:declarations>
+			<fo:page-sequence master-reference="Master">
+                <xsl:attribute name="id"><xsl:value-of select="MetaData/General/Identifier/@Entry" /></xsl:attribute>
+                <fo:title>
+                    <xsl:value-of select="MetaData/General/Title"></xsl:value-of>
+                </fo:title>
+                <fo:flow flow-name="xsl-region-body">
+                    <fo:block text-align="center" font-weight="bold" font-size="24pt" line-height="27pt" space-after="18pt">
+                        <xsl:value-of select="MetaData/General/Title"></xsl:value-of>
+                    </fo:block>
+                    <fo:block font-size="14pt" line-height="17pt" space-after="12pt">
+                        <xsl:value-of select="MetaData/General/Description"></xsl:value-of>
+                    </fo:block>
+                </fo:flow>
+            </fo:page-sequence>
 			<xsl:apply-templates />
 		</fo:root>
 	</xsl:template>
 
+    <xsl:template match="ContentObject[@Type='Glossary']">
+        <fo:page-sequence master-reference="Master">
+            <xsl:attribute name="id"><xsl:value-of select="MetaData/General/Identifier/@Entry" /></xsl:attribute>
+            <fo:title>
+                <xsl:value-of select="MetaData/General/Title"></xsl:value-of>
+            </fo:title>
+            <fo:flow flow-name="xsl-region-body">
+                <fo:block font-size="1.5em" space-before="5mm" space-after="5mm" font-weight="bold">
+                    <xsl:value-of select="MetaData/General/Title"></xsl:value-of>
+                </fo:block>
+                <xsl:for-each select="Glossary/GlossaryItem">
+                    <xsl:call-template name="GlossaryItemTpl"></xsl:call-template>
+                </xsl:for-each>
+            </fo:flow>
+        </fo:page-sequence>
+    </xsl:template>
+    
 	<xsl:template match="MetaData" />
 	<xsl:template match="PlaceHolder" />
 
 	<!-- PageObject -->
 	<xsl:template match="PageObject">
 		<fo:page-sequence master-reference="Master">
+            <xsl:attribute name="id"><xsl:value-of select="MetaData/General/Identifier/@Entry" /></xsl:attribute>
 			<fo:title>
 				<xsl:value-of select="MetaData/General/Title"></xsl:value-of>
 			</fo:title>
 			<fo:flow flow-name="xsl-region-body">
+                <fo:block font-size="1.5em" space-before="5mm" space-after="5mm" font-weight="bold">
+                    <xsl:value-of select="MetaData/General/Title"></xsl:value-of>
+                </fo:block>
 				<xsl:apply-templates />
 			</fo:flow>
 		</fo:page-sequence>
@@ -287,6 +328,15 @@
 		</fo:basic-link>
 	</xsl:template>
 	
+    <xsl:template match="IntLink">
+        <xsl:value-of select="."/>
+        <xsl:if test="@Type='GlossaryItem'">
+            <fo:inline font-size="8pt" vertical-align="super">
+                <fo:basic-link color="black"><xsl:attribute name="internal-destination"><xsl:value-of select="@Target"/></xsl:attribute>*</fo:basic-link>
+            </fo:inline>
+        </xsl:if>
+    </xsl:template>
+    	
 	<xsl:template match="MediaObject">
 		<xsl:if test="name(parent::node())!='ContentObject'">
 				<xsl:variable name="cmobid" select="MediaAlias/@OriginId" />
@@ -374,4 +424,19 @@
 		</fo:list-block>
 	</xsl:template>
 
+    <xsl:template name="GlossaryItemTpl">   
+           <fo:block>
+                <xsl:attribute name="id">
+                      <xsl:value-of select="@Id"/>
+                </xsl:attribute> 
+                <fo:inline font-weight="bold">
+                    <xsl:value-of select="GlossaryTerm"/>
+                </fo:inline>            
+                <fo:block start-indent="15pt">
+                    <xsl:for-each select="Definition">
+                    <xsl:apply-templates />   
+                </xsl:for-each>
+                </fo:block> 
+           </fo:block> 
+    </xsl:template>
 </xsl:stylesheet>

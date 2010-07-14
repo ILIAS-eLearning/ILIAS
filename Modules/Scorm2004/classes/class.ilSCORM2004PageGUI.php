@@ -325,7 +325,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		if ($this->getGlossaryOverviewId() != "")
 		{
 			$ovov = $overlays[$this->getGlossaryOverviewId()] = new ilOverlayGUI($this->getGlossaryOverviewId());
-			$ovov->setFixedCenter(true);
+//			$ovov->setFixedCenter(true);
 			$ovov->setAutoHide(false);
 			$ovov->setCloseElementId("glo_ov_close");
 			if ($this->getGlossaryOverviewId() != "")
@@ -406,18 +406,19 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						if ($this->scorm_mode != "export" ||
 							$this->getOutputMode() == IL_PAGE_PREVIEW)
 						{
-							$overlays[$this->getGlossaryOverviewId()]->addTrigger
-								($glov_id, "click", null);
-							$overlays[$ov_id]->addTrigger("glo_ov_t".$term_id, "click", null, true);
+							//$overlays[$this->getGlossaryOverviewId()]->addTrigger($glov_id, "click", null);
+							$overlays[$this->getGlossaryOverviewId()]->addTrigger($glov_id, "click", $ov_id, false, "tl", "tl");
+							//$overlays[$ov_id]->addTrigger("glo_ov_t".$term_id, "click", null, true);
+							$overlays[$ov_id]->addTrigger("glo_ov_t".$term_id, "click", $this->getGlossaryOverviewId(), false, "tl", "tl");
 						}
 						else
 						{
 							$tpl->setVariable("SCRIPT2",
 								"ilAddOnLoad(function () {".
-								$overlays[$this->getGlossaryOverviewId()]->getTriggerOnLoadCode($glov_id, "click", null, true)."});");
+								$overlays[$this->getGlossaryOverviewId()]->getTriggerOnLoadCode($glov_id, "click", $ov_id, false, "tl", "tl")."});");
 							$tpl->setVariable("SCRIPT3",
 								"ilAddOnLoad(function () {".
-								$overlays[$ov_id]->getTriggerOnLoadCode("glo_ov_t".$term_id, "click", null, true)."});");
+								$overlays[$ov_id]->getTriggerOnLoadCode("glo_ov_t".$term_id, "click", $this->getGlossaryOverviewId(), false, "tl", "tl")."});");
 						}
 					}
 					

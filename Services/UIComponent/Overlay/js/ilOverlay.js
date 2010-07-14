@@ -35,7 +35,7 @@ ilOverlayFunc.prototype =
 		if (cfg.trigger)
 		{
 			this.addTrigger(cfg.trigger, cfg.trigger_event, id, cfg.anchor_id,
-							cfg.fixed_center);
+							cfg.fixed_center, 'tl', 'bl');
 			//YAHOO.util.Event.addListener(trigger, "click",
 			//	function(event) {ilOverlay.toggle(event, id); return false;});
 		}
@@ -43,12 +43,13 @@ ilOverlayFunc.prototype =
 		this.fixPosition(id);
 	},
 	
-	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center)
+	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center, ov_corner, anch_corner)
 	{
 		if (typeof(ilOverlayFunc.prototype.trigger[tr_id]) == "undefined")
 		{
 			ilOverlayFunc.prototype.trigger[tr_id] =
-				{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center};
+				{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center,
+				ov_corner: ov_corner, anch_corner: anch_corner};
 			var trigger = document.getElementById(tr_id);
 			YAHOO.util.Event.addListener(trigger, "click",
 				function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
@@ -74,11 +75,13 @@ ilOverlayFunc.prototype =
 		var ov_id = ilOverlayFunc.prototype.trigger[tr_id].overlay_id;
 		var anchor_id = ilOverlayFunc.prototype.trigger[tr_id].anchor_id;
 		var center = ilOverlayFunc.prototype.trigger[tr_id].center;
-		this.toggle(e, ov_id, anchor_id, center)
+		var ov_corner = ilOverlayFunc.prototype.trigger[tr_id].ov_corner;
+		var anch_corner = ilOverlayFunc.prototype.trigger[tr_id].anch_corner;
+		this.toggle(e, ov_id, anchor_id, center, ov_corner, anch_corner)
 	},
 	
 	// toggle overlay	
-	toggle: function (e, id, anchor_id, center)
+	toggle: function (e, id, anchor_id, center, ov_corner, anch_corner)
 	{
 		if (ilOverlayFunc.prototype.overlays[id].cfg.getProperty('visible'))
 		{
@@ -86,7 +89,7 @@ ilOverlayFunc.prototype =
 		}
 		else
 		{
-			this.show(e, id, anchor_id, center);
+			this.show(e, id, anchor_id, center, ov_corner, anch_corner);
 		}
 	},
 
@@ -113,7 +116,7 @@ ilOverlayFunc.prototype =
 	},
 	
 	// show the overlay
-	show: function(e, id, anchor_id, center)
+	show: function(e, id, anchor_id, center, ov_corner, anch_corner)
 	{
 		// hide all other overlays (currently the standard procedure)
 		ilOverlay.hideAllOverlays(e, true);
@@ -124,7 +127,7 @@ ilOverlayFunc.prototype =
 //console.log(anchor_id);
 		if (anchor_id != null && anchor_id != '')
 		{
-			this.overlays[id].cfg.setProperty("context", [anchor_id, "tl", "bl"]);
+			this.overlays[id].cfg.setProperty("context", [anchor_id, ov_corner, anch_corner]);
 			this.overlays[id].cfg.setProperty("fixedcenter", false);
 		}
 		else if (center)

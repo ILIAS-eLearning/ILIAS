@@ -39,6 +39,7 @@ class ilPageEditorGUI
 	var $header;
 	var $tabs;
 	var $cont_obj;
+	var $enable_keywords;
 
 	/**
 	* Constructor
@@ -137,6 +138,26 @@ class ilPageEditorGUI
 	function getEnableInternalLinks()
 	{
 		return $this->enable_internal_links;
+	}
+
+	/**
+	 * Set enable keywords handling
+	 *
+	 * @param	boolean	keywords handling
+	 */
+	function setEnableKeywords($a_val)
+	{
+		$this->enable_keywords = $a_val;
+	}
+	
+	/**
+	 * Get enable keywords handling
+	 *
+	 * @return	boolean	keywords handling
+	 */
+	function getEnableKeywords()
+	{
+		return $this->enable_keywords;
 	}
 
 	/**
@@ -404,6 +425,7 @@ class ilPageEditorGUI
 				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
 				$par_gui->setStyleId($this->page_gui->getStyleId());
 				$par_gui->setEnableInternalLinks($this->getEnableInternalLinks());
+				$par_gui->setEnableKeywords($this->getEnableKeywords());
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 

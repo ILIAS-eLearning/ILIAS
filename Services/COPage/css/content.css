@@ -565,6 +565,15 @@ div.ilc_glo_ovtitle_GlossaryOvTitle
 	font-size: 120%;
 }
 
+a.ilc_glo_ovclink_GlossaryOvCloseLink,
+a.ilc_glo_ovuglink_GlossaryOvUnitGloLink,
+a.ilc_glo_ovuglistlink_GlossaryOvUGListLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
 /* SCOs */
 div.ilc_sco_title_Title
 {

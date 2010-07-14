@@ -569,7 +569,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$page_obj = new ilSCORM2004Page($page["obj_id"]);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
 			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
-			$page_obj->exportXMLMetaData($a_xml_writer);
+			//$page_obj->exportXMLMetaData($a_xml_writer);
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
@@ -613,7 +613,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		
+        include_once("./Modules/File/classes/class.ilObjFile.php");
 		$linked_mobs = array();
 		if(is_array($this->mob_ids ))
 		{
@@ -643,6 +643,14 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				}
 			}
 		}
+        if(is_array($this->file_ids))
+            foreach ($this->file_ids as $file_id)
+            {
+                $expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
+                $file_obj = new ilObjFile($file_id, false);
+                $file_obj->export($a_target_dir);
+                unset($file_obj);
+            }
 
 	}
 
