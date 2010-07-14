@@ -52,7 +52,7 @@ class ilBookingObject
 	 */
 	function setTypeId($a_type_id)
 	{
-		$this->type_id = $a_type_id;
+		$this->type_id = (int)$a_type_id;
 	}
 
 	/**

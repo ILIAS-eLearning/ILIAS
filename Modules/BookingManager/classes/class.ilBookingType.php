@@ -52,7 +52,7 @@ class ilBookingType
 	 */
 	function setPoolId($a_pool_id)
 	{
-		$this->pool_id = $a_pool_id;
+		$this->pool_id = (int)$a_pool_id;
 	}
 
 	/**
