@@ -454,6 +454,9 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			foreach($mob_ids as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
+				$media_obj = new ilObjMediaObject($mob_id);
+				if($media_obj->hasFullscreenItem())
+					$media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
 			}
 			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 
@@ -539,7 +542,8 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$media_obj = new ilObjMediaObject($matches[1]);
 		if($media_obj->hasFullscreenItem())
 		{	
-			return "href=\"./objects/il_".IL_INST_ID."_mob_".$matches[1]."/".$media_obj->getMediaItem("Fullscreen")->getLocation()."\"";
+			return "href=\"./objects/il_".IL_INST_ID."_mob_".$matches[1]."/fullscreen.html\"";
+			//return "href=\"./objects/il_".IL_INST_ID."_mob_".$matches[1]."/".$media_obj->getMediaItem("Fullscreen")->getLocation()."\"";
 		}
 	}
 	

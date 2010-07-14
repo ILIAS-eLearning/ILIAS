@@ -783,6 +783,61 @@ class ilObjMediaObject extends ilObject
 //echo "from:$mobdir:to:".$a_target_dir."/objects/".$subdir.":<br>";
 	}
 
+	function exportMediaFullscreen($a_target_dir, $pg_obj)
+	{
+		$subdir = "il_".IL_INST_ID."_mob_".$this->getId();
+		$a_target_dir = $a_target_dir."/objects/".$subdir;
+		ilUtil::makeDir($a_target_dir);
+		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl->setCurrentBlock("ilMedia");
+
+		//$int_links = $page_object->getInternalLinks();
+		$med_links = ilMediaItem::_getMapAreasIntLinks($this->getId());
+
+		// @todo
+		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		//$media_obj = new ilObjMediaObject($_GET["mob_id"]);
+		require_once("./Services/COPage/classes/class.ilPageObject.php");
+
+		$xml = "<dummy>";
+		// todo: we get always the first alias now (problem if mob is used multiple
+		// times in page)
+		$xml.= $pg_obj->getMediaAliasElement($this->getId());
+		$xml.= $this->getXML(IL_MODE_OUTPUT);
+		//$xml.= $link_xml;
+		$xml.="</dummy>";
+		
+		//die(htmlspecialchars($xml));
+
+		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		//echo "<b>XML:</b>".htmlentities($xml);
+		// determine target frames for internal links
+		$wb_path = "";
+		$enlarge_path = "";
+		$params = array ('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
+			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
+			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		//echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../../css/style.css");
+		$tpl->setVariable("LOCATION_STYLESHEET", "../../css/system.css");
+		$tpl->setVariable("MEDIA_CONTENT", $output);
+		$output = $tpl->get();
+		$output = preg_replace("/\/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
+		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","../../players",$output);
+		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","../../players",$output);
+		$output = preg_replace("/file=..\/..\/..\//i","file=../objects/".$subdir."/",$output);
+		//die(htmlspecialchars($output));
+		fwrite(fopen($a_target_dir.'/fullscreen.html','w'), $output );
+	}
 
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)
 	{
