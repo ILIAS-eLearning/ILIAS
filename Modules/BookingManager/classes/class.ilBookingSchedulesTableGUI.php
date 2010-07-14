@@ -4,14 +4,14 @@
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
- * List booking types (for booking pool)
+ * List booking schedules (for booking pool)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
  * @version $Id$
  *
  * @ingroup ModulesBookingManager
  */
-class ilBookingTypesTableGUI extends ilTable2GUI
+class ilBookingSchedulesTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
@@ -24,14 +24,14 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
 		$this->ref_id = $a_ref_id;
-		$this->setId("bktp");
+		$this->setId("bksd");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->addCommandButton('create', $this->lng->txt('book_add_type'));
+			$this->addCommandButton('create', $this->lng->txt('book_add_schedule'));
 		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
@@ -40,22 +40,10 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		$this->setRowTemplate("tpl.booking_type_row.html", "Modules/BookingManager");
+		$this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
 		$this->initFilter();
 
 		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
-
-		// remove items which cannot be booked for "normal" users
-		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			foreach($this->row_data as $idx => $row)
-			{
-				if($row['counter'] == 0)
-			    {
-					unset($this->row_data[$idx]);
-				}
-			}
-		}
 	}
 
 	/**
@@ -81,14 +69,14 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * Build item rows for given object and filter(s)
+	 * Build summary item rows for given object and filter(s)
 	 *
 	 * @param	int	$a_pool_id (aka parent obj id)
 	 */
 	function getItems($a_pool_id)
 	{
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$data = ilBookingType::getList($a_pool_id);
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$data = ilBookingSchedule::getList($a_pool_id);
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
@@ -105,22 +93,11 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("VALUE_OBJECTS_NO", $a_set["counter"]);
 
-		$ilCtrl->setParameter($this->parent_obj, 'type_id', $a_set['booking_type_id']);
-		$ilCtrl->setParameterByClass('ilBookingObjectGUI', 'type_id', $a_set['booking_type_id']);
-
-		$this->tpl->setCurrentBlock('item_command');
-		if($a_set["counter"] > 0)
-		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
-			$this->tpl->parseCurrentBlock();
-		}
-
+		$ilCtrl->setParameter($this->parent_obj, 'schedule_id', $a_set['booking_schedule_id']);
+	
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock('item_command');
 
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));

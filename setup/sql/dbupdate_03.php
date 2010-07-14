@@ -2698,3 +2698,59 @@ dirRek($dir);
 	}
 
 ?>
+<#3140>
+<?php
+if(!$ilDB->tableExists('booking_schedule'))
+{
+	$ilDB->createTable('booking_schedule',array(
+		'booking_schedule_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 255,
+			'notnull' => true
+		),
+		'pool_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'deadline'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'rent_min'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'rent_max'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'raster'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'auto_break'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'definition'	=> array(
+			'type'	=> 'text',
+			'length' => 500,
+			'notnull' => true,
+			'fixed' => false
+		)
+	));
+	$ilDB->addPrimaryKey('booking_schedule', array('booking_schedule_id'));
+	$ilDB->createSequence('booking_schedule');
+}
+?>
