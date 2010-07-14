@@ -63,6 +63,7 @@ class ilObjUser extends ilObject
 	var $city;
 	var $zipcode;
 	var $country;
+	var $sel_country;
 	var $phone_office;
 	var $phone_home;
 	var $phone_mobile;
@@ -303,6 +304,7 @@ class ilObjUser extends ilObject
 		$this->setCity($a_data["city"]);
 		$this->setZipcode($a_data["zipcode"]);
 		$this->setCountry($a_data["country"]);
+		$this->setSelectedCountry($a_data["sel_country"]);
 		$this->setPhoneOffice($a_data["phone_office"]);
 		$this->setPhoneHome($a_data["phone_home"]);
 		$this->setPhoneMobile($a_data["phone_mobile"]);
@@ -410,6 +412,7 @@ class ilObjUser extends ilObject
 			"city" => array("text", $this->city),
 			"zipcode" => array("text", $this->zipcode),
 			"country" => array("text", $this->country),
+			"sel_country" => array("text", $this->sel_country),
 			"phone_office" => array("text", $this->phone_office),
 			"phone_home" => array("text", $this->phone_home),
 			"phone_mobile" => array("text", $this->phone_mobile),
@@ -491,6 +494,7 @@ class ilObjUser extends ilObject
 			"city" => array("text", $this->city),
 			"zipcode" => array("text", $this->zipcode),
 			"country" => array("text", $this->country),
+			"sel_country" => array("text", $this->sel_country),
 			"phone_office" => array("text", $this->phone_office),
 			"phone_home" => array("text", $this->phone_home),
 			"phone_mobile" => array("text", $this->phone_mobile),
@@ -1786,22 +1790,44 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* set country
-	* @access	public
-	* @param	string	country
-	*/
+	 * Set country (free text)
+	 *
+	 * @access	public
+	 * @param	string	country
+	 */
 	function setCountry($a_str)
 	{
 		$this->country = $a_str;
 	}
 
 	/**
-	* get country
-	* @access	public
-	*/
+	 * Get country (free text)
+	 *
+	 * @access	public
+	 */
 	function getCountry()
 	{
 		return $this->country;
+	}
+
+	/**
+	 * Set selected country (selection drop down)
+	 *
+	 * @param	string	selected country
+	 */
+	function setSelectedCountry($a_val)
+	{
+		$this->sel_country = $a_val;
+	}
+
+	/**
+	 * Get selected country (selection drop down)
+	 *
+	 * @return	string	selected country
+	 */
+	function getSelectedCountry()
+	{
+		return $this->sel_country;
 	}
 
 	/**
@@ -4119,6 +4145,10 @@ class ilObjUser extends ilObject
 		if(strlen($this->getCountry()))
 		{
 			$body .= ($language->txt("country").": ".$this->getCountry()."\n");
+		}
+		if(strlen($this->getSelectedCountry()))
+		{
+			$body .= ($language->txt("sel_country").": ".$this->getSelectedCountry()."\n");
 		}
 		if(strlen($this->getPhoneOffice()))
 		{

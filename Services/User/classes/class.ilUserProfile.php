@@ -158,6 +158,10 @@ class ilUserProfile
 						"size" => 40,
 						"method" => "getCountry",
 						"group" => "contact_data"),
+		"sel_country" => array(
+						"input" => "sel_country",
+						"method" => "getSelectedCountry",
+						"group" => "contact_data"),
 		"phone_office" => array(
 						"input" => "text",
 						"maxlength" => 40,
@@ -488,6 +492,21 @@ class ilUserProfile
 							$ti->setRequired(true);
 						}
 						$a_form->addItem($ti);
+					}
+					break;
+
+				case "sel_country":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						include_once("./Services/Form/classes/class.ilCountrySelectInputGUI.php");
+						$ci = new ilCountrySelectInputGUI($lng->txt($lv), "usr_".$f);
+						if($a_user)
+						{
+							$ci->setValue($a_user->$m());
+						}
+						$ci->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						$ci->setRequired($ilSetting->get("require_".$f));
+						$a_form->addItem($ci);
 					}
 					break;
 
