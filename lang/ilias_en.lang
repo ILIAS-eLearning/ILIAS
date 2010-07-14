@@ -10646,3 +10646,16 @@ crs#:#crs_import#:#Kurs importieren
 style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link
 style#:#sty_type_glo_ovuglink#:#Unit Glossary Link
 style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link
+form#:#form_please_select#:#Please Select
+meta#:#meta_c_AX#:#Åland Islands
+meta#:#meta_c_BL#:#Saint Barthélemy
+meta#:#meta_c_GG#:#Guernsey
+meta#:#meta_c_HK#:#Hong Kong
+meta#:#meta_c_IM#:#Isle of Man
+meta#:#meta_c_JE#:#Jersey
+meta#:#meta_c_ME#:#Montenegro
+meta#:#meta_c_MF#:#Saint Martin (French part)
+meta#:#meta_c_PS#:#Palestinian Territories (Occupied)
+meta#:#meta_c_RS#:#Serbia
+meta#:#meta_c_TL#:#Timor-Leste
+common#:#sel_country#:#Country

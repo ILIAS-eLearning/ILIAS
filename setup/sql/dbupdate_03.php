@@ -2754,3 +2754,14 @@ if(!$ilDB->tableExists('booking_schedule'))
 	$ilDB->createSequence('booking_schedule');
 }
 ?>
+<#3141>
+<?php
+
+	$ilDB->addTableColumn("usr_data", "sel_country", array(
+		"type" => "text",
+		"notnull" => false,
+		"default" => "",
+		"length" => 2
+		));
+
+?>
