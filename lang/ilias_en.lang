@@ -10704,3 +10704,4 @@ book#:#book_object_deleted#:#The booking object has been deleted.
 book#:#book_schedule_added#:#A booking schedule has been added.
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_deleted#:#The booking schedule has been deleted.
+book#:#book_confirm_delete#:#Do you really want to delete the following items?

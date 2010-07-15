@@ -107,10 +107,18 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("TXT_CURRENT_USER", ":TODO:");
 
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
+		
+		$this->tpl->setCurrentBlock('item_command');
+
+		if ($a_set["schedule_id"])
+		{
+			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock('item_command');
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();

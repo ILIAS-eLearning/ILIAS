@@ -109,19 +109,23 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass('ilBookingObjectGUI', 'type_id', $a_set['booking_type_id']);
 
 		$this->tpl->setCurrentBlock('item_command');
-		if($a_set["counter"] > 0)
+
+		if($a_set["schedule_id"] && $a_set["counter"] > 0)
 		{
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		if ($ilAccess->checkAccess('write', '', $this->ref_id) || !$a_set["schedule_id"])
 		{
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
 			$this->tpl->parseCurrentBlock();
+		}
 
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
 			if($a_set["counter"] == 0)
 			{
 				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));

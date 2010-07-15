@@ -363,6 +363,42 @@ class ilBookingScheduleGUI
 		return str_pad($hours, 2, "0", STR_PAD_LEFT).":".
 			str_pad($min, 2, "0", STR_PAD_LEFT);
 	}
+
+	/**
+	 * Confirm delete
+	 */
+	function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl, $ilTabs;
+
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('book_confirm_delete'));
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$type = new ilBookingSchedule((int)$_GET['schedule_id']);
+		$conf->addItem('schedule_id', (int)$_GET['schedule_id'], $type->getTitle());
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'render');
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * Delete schedule
+	 */
+	function delete()
+	{
+		global $ilCtrl, $lng;
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$obj = new ilBookingSchedule((int)$_POST['schedule_id']);
+		$obj->delete();
+
+		ilUtil::sendSuccess($lng->txt('book_schedule_deleted'), true);
+		$ilCtrl->redirect($this, 'render');
+	}
 }
 
 ?>

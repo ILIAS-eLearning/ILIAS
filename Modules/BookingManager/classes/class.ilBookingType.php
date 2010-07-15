@@ -154,12 +154,12 @@ class ilBookingType
 	{
 		global $ilDB;
 
-		$set = $ilDB->query('SELECT booking_type.title, booking_type_id,'.
+		$set = $ilDB->query('SELECT booking_type.title, booking_type_id,booking_type.schedule_id,'.
 			' CASE WHEN type_id IS NULL THEN 0 ELSE COUNT(*) END AS counter'.
 			' FROM booking_type'.
 			' LEFT JOIN booking_object ON (type_id = booking_type_id)'.
 			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer').
-			' GROUP BY booking_type_id,booking_type.title,type_id'.
+			' GROUP BY booking_type_id,booking_type.title,type_id,booking_type.schedule_id'.
 			' ORDER BY booking_type.title');
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
@@ -167,6 +167,21 @@ class ilBookingType
 			$res[] = $row;
 		}
 		return $res;
+	}
+
+	/**
+	 * Delete single entry
+	 * @return bool
+	 */
+	function delete()
+	{
+		global $ilDB;
+		
+		if($this->id)
+		{
+			return $ilDB->query('DELETE FROM booking_type'.
+				' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
+		}
 	}
 }
 

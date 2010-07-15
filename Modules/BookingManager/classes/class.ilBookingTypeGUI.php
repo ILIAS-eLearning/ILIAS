@@ -218,6 +218,42 @@ class ilBookingTypeGUI
 			$tpl->setContent($form->getHTML());
 		}
 	}
+
+	/**
+	 * Confirm delete
+	 */
+	function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('book_confirm_delete'));
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		$type = new ilBookingType((int)$_GET['type_id']);
+		$conf->addItem('type_id', (int)$_GET['type_id'], $type->getTitle());
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'render');
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * Delete type
+	 */
+	function delete()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		$type = new ilBookingType((int)$_POST['type_id']);
+		$type->delete();
+
+		ilUtil::sendSuccess($lng->txt('book_type_deleted'), true);
+		$ilCtrl->redirect($this, 'render');
+	}
 }
 
 ?>

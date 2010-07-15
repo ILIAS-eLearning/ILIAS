@@ -218,15 +218,46 @@ class ilBookingObjectGUI
 	}
 
 	/**
-	 * First step of booking process
+	 * Confirm delete
 	 */
-	function book()
+	function confirmDelete()
 	{
-		global $ilCtrl, $ilTabs, $lng;
-		
+		global $ilCtrl, $lng, $tpl, $ilTabs;
+
+		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
+
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('book_confirm_delete'));
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$type = new ilBookingObject((int)$_GET['object_id']);
+		$conf->addItem('object_id', (int)$_GET['object_id'], $type->getTitle());
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'render');
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * Delete object
+	 */
+	function delete()
+	{
+		global $ilCtrl, $lng;
+
+		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject((int)$_POST['object_id']);
+		$obj->delete();
+
+		ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
+		$ilCtrl->redirect($this, 'render');
 	}
 }
 
