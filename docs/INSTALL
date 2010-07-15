@@ -414,7 +414,7 @@ components:
     you have to set utf8 as character set and an appropriate collation for the
     whole database, e.g.:
     
-        mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
+        mysql> CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_unicode_ci
 
 
 (b) Apache
@@ -504,11 +504,11 @@ components:
         cd /opt/ilias/www/htdocs/
         tar -xzf /opt/ilias/src/tarballs/ilias-4.0.2.tar.gz
 
-    Please make sure your webserver has write permission to the ILIAS3 web space
+    Please make sure your webserver has write permission to the ILIAS web space
     and data directories and all their subdirectories. If your webserver daemon
     user is 'wwwrun' you can use these commands:
 
-        chown -R wwwrun /opt/ilias/www/htdocs/ilias3
+        chown -R wwwrun /opt/ilias/www/htdocs/ilias
         chown -R wwwrun /opt/ilias/data
 
 
@@ -516,7 +516,7 @@ components:
 
     Open the ILIAS setup script in your web browser:
 
-        http://www.yourserver.com/ilias3/setup/setup.php
+        http://www.yourserver.com/ilias/setup/setup.php
 
     If all 'preliminaries' are fulfilled you may click on the [Installation]
     link at the end of the page and follow the instructions. The Path to the
@@ -530,7 +530,7 @@ components:
     After all steps are passed you may proceed to the ILIAS login,
     either using the [login] link or by accessing
 
-        http://www.yourserver.com/ilias3/login.php
+        http://www.yourserver.com/ilias/login.php
 
     Please use the ILIAS superuser account for your first login:
 
@@ -643,7 +643,9 @@ that is worth to be saved in one of these directories please take all necessary
 precautions. This is especially important if you have modified parts of the
 ILIAS source code, the language files in ./lang/, any template files in
 the templates/ subdirectories and your user agreement files in the agreement
-directory. It is also recommended to save the files ilias.ini.php located in the
+directory.
+
+It is also recommended to save the files ilias.ini.php located in the
 main ILIAS directory which contains individual settings of your ILIAS
 installation and chat/chatserver/server.ini which stores the setting for the
 ilias chat server. After installing the new ILIAS release you may easily restore
@@ -672,11 +674,11 @@ Example:
     cd /tmp
     tar -xzf /opt/ilias/src/tarballs/ilias-4.0.2.tar.gz
 
-After extracting the files you will find a newly created subdirectory 'ilias3' in
+After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
 copy various files and directories to your ILIAS web directory:
 
-    cd /tmp/ilias3
+    cd /tmp/ilias
     cp -p * /opt/ilias/www/htdocs/ilias/
     cp -rp classes cron docs include lang /opt/ilias/www/htdocs/ilias/
     cp -rp Modules payment Services setup templates /opt/ilias/www/htdocs/ilias/
@@ -686,6 +688,9 @@ Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
 
 Copy your saved ilias.ini.php file to /opt/ilias/www/htdocs/ilias/.
+
+Make sure that the apache user is the owner of all files using chown, e.g.
+'chown -R wwwrun /opt/ilias/www/htdocs/ilias/'.
 
 After installing a new ILIAS release you must run the setup script
 'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
