@@ -2481,6 +2481,7 @@ span.ilToolbarSeparator
 div.ilContainerListItemOuter
 {
 	padding: 15px;
+	zoom: 1;
 }
 
 td.ilContainerListFooter
@@ -2492,6 +2493,7 @@ div.ilContainerListItemOuterHighlight
 {
 	padding: 15px;
 	background-color: #FFFFD9;
+	zoom: 1;
 }
 
 .ilCLIRow1, .ilCLIRow2 {
