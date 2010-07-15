@@ -340,7 +340,7 @@ class ilGroupXMLParser extends ilSaxParser
 			if($this->group_obj->getGroupStatus() != $grp_status)
 			{
 				$this->group_obj->setGroupType($grp_status);
-				$this->group_obj->updateGroupType();
+				#$this->group_obj->updateGroupType();
 			}
 		}
 

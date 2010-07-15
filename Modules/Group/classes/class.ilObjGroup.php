@@ -572,7 +572,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
-			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap) ".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".

@@ -134,21 +134,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-		
-		$xml = file_get_contents('container.xml');
-		#var_dump($xml);
-		$container = simplexml_load_string($xml);
-		foreach($container->Item as $item)
-		{
-			foreach($item->Item as $subitem)
-			{
-				$ref_id = (string) $subitem['RefId'];
-				var_dump($ref_id);
-			}
-			$ref_id = (string) $item['RefId'];
-			var_dump($ref_id);
-		}
-		
+
 				
 		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->setCategoryId(6);
@@ -230,6 +216,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->useCache((bool) $_POST['cache']);	
 		$this->settings->enableNotification((bool) $_POST['cn']);
 		$this->settings->enableConsultationHours((bool) $_POST['ch']);
+		$this->settings->enableCGRegistration((bool) $_POST['cgr']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -408,6 +395,18 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$cgn->setChecked($this->settings->isNotificationEnabled());
 		$cgn->setInfo($this->lng->txt('cal_adm_notification_info'));
 		$this->form->addItem($cgn);
+		
+		// Registration
+		$book = new ilFormSectionHeaderGUI();
+		$book->setTitle($this->lng->txt('cal_registrations'));
+		$this->form->addItem($book);
+		
+		$cgn = new ilCheckboxInputGUI($this->lng->txt('cal_cg_registrations'),'cgr');
+		$cgn->setValue(1);
+		$cgn->setChecked($this->settings->isCGRegistrationEnabled());
+		$cgn->setInfo($this->lng->txt('cal_cg_registration_info'));
+		$this->form->addItem($cgn);
+		
 	}
 }
 ?>
