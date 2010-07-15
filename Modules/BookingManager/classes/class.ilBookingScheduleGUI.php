@@ -114,37 +114,38 @@ class ilBookingScheduleGUI
 		$flex->setInfo($lng->txt("book_schedule_type_flex_info"));
 		$type->addOption($flex);
 
-		$raster = new ilNumberInputGUI($lng->txt("book_raster"), "raster");
+		$raster = new ilNumberInputGUI($lng->txt("book_schedule_raster"), "raster");
 		$raster->setRequired(true);
-		$raster->setInfo($lng->txt("book_raster_info"));
+		$raster->setInfo($lng->txt("book_schedule_raster_info"));
 		$raster->setMinValue(1);
 		$raster->setSize(3);
 		$raster->setMaxLength(3);
 		$raster->setSuffix($lng->txt("book_minutes"));
 		$flex->addSubItem($raster);
 
-		$rent_min = new ilNumberInputGUI($lng->txt("book_rent_min"), "rent_min");
-		$rent_min->setInfo($lng->txt("book_rent_info"));
+		$rent_min = new ilNumberInputGUI($lng->txt("book_schedule_rent_min"), "rent_min");
+		$rent_min->setInfo($lng->txt("book_schedule_rent_info"));
 		$rent_min->setMinValue(1);
 		$rent_min->setSize(3);
 		$rent_min->setMaxLength(3);
 		$flex->addSubItem($rent_min);
 
-		$rent_max = new ilNumberInputGUI($lng->txt("book_rent_max"), "rent_max");
-		$rent_max->setInfo($lng->txt("book_rent_info"));
+		$rent_max = new ilNumberInputGUI($lng->txt("book_schedule_rent_max"), "rent_max");
+		$rent_max->setInfo($lng->txt("book_schedule_rent_info"));
 		$rent_max->setMinValue(1);
 		$rent_max->setSize(3);
 		$rent_max->setMaxLength(3);
 		$flex->addSubItem($rent_max);
 
-		$break = new ilNumberInputGUI($lng->txt("book_break"), "break");
-		$break->setInfo($lng->txt("book_break_info"));
+		$break = new ilNumberInputGUI($lng->txt("book_schedule_break"), "break");
+		$break->setInfo($lng->txt("book_schedule_break_info"));
 		$break->setMinValue(1);
 		$break->setSize(3);
 		$break->setMaxLength(3);
 		$flex->addSubItem($break);
 
-		$definition = new ilCheckboxGroupInputGUI($lng->txt("book_days"), "days");
+		$definition = new ilCheckboxGroupInputGUI($lng->txt("book_schedule_days"), "days");
+		$definition->setInfo($lng->txt("book_schedule_days_info"));
 		$definition->setRequired(true);
 		$form_gui->addItem($definition);
 
@@ -156,7 +157,7 @@ class ilBookingScheduleGUI
 			
 			for($loop = 1; $loop < 5; $loop++)
 		    {
-				$hours[$day_id][$loop] = new ilTextInputGUI($lng->txt("book_slot")." ".$loop, $day_id."_slot[]");
+				$hours[$day_id][$loop] = new ilTextInputGUI($lng->txt("book_schedule_slot")." ".$loop, $day_id."_slot[]");
 				$hours[$day_id][$loop]->setSize(14);
 				$hours[$day_id][$loop]->setMaxLength(14);
 				$day->addSubItem($hours[$day_id][$loop]);

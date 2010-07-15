@@ -11,9 +11,10 @@
  */
 class ilBookingType
 {
-	protected $id;		// int
-	protected $title;	// string
-	protected $pool_id;	// id
+	protected $id;			// int
+	protected $title;		// string
+	protected $pool_id;		// int
+	protected $schedule_id; // int
 
 	/**
 	 * Constructor
@@ -65,6 +66,24 @@ class ilBookingType
 	}
 
 	/**
+	 * Set booking schedule id
+	 * @param	int	$a_schedule_id
+	 */
+	function setScheduleId($a_schedule_id)
+	{
+		$this->schedule_id = (int)$a_schedule_id;
+	}
+
+	/**
+	 * Get booking schedule id
+	 * @return	int
+	 */
+	function getScheduleId()
+	{
+		return $this->schedule_id;
+	}
+
+	/**
 	 * Get dataset from db
 	 */
 	protected function read()
@@ -73,12 +92,13 @@ class ilBookingType
 		
 		if($this->id)
 		{
-			$set = $ilDB->query('SELECT title,pool_id'.
+			$set = $ilDB->query('SELECT title,pool_id,schedule_id'.
 				' FROM booking_type'.
 				' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setTitle($row['title']);
 			$this->setPoolId($row['pool_id']);
+			$this->setScheduleId($row['schedule_id']);
 		}
 	}
 
@@ -92,9 +112,9 @@ class ilBookingType
 
 		$id = $ilDB->nextId('booking_type');
 
-		return $ilDB->query('INSERT INTO booking_type (booking_type_id,title,pool_id)'.
-			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
-			','.$ilDB->quote($this->getPoolId(), 'integer').')');
+		return $ilDB->query('INSERT INTO booking_type (booking_type_id,title,pool_id,'.
+			'schedule_id) VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
+			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
 	}
 
 	/**
@@ -108,6 +128,7 @@ class ilBookingType
 		return $ilDB->query('UPDATE booking_type'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').
+			', schedule_id = '.$ilDB->quote($this->getScheduleId(), 'integer').
 			' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
 	}
 
