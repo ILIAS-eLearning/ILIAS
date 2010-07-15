@@ -136,6 +136,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$points->setRequired(TRUE);
 		$points->setSize(3);
 		$points->setMinValue(0.0);
+		$points->setMinvalueShouldBeGreater(true);
 		$form->addItem($points);
 
 		$this->addQuestionFormCommandButtons($form);
@@ -286,7 +287,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -353,7 +354,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		}
 		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 		$template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
