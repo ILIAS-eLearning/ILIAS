@@ -174,7 +174,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 				$info = new ilInfoScreenGUI($this);
 				$info->enablePrivateNotes();
-				//$info->enableLearningProgress();
+				$info->enableLearningProgress();
 		
 				$info->enableNews();
 				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
