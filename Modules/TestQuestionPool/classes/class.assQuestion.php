@@ -1750,7 +1750,7 @@ class assQuestion
 			$affectedRows = $ilDB->insert("qpl_questions", array(
 				"question_id" => array("integer", $next_id),
 				"question_type_fi" => array("integer", $this->getQuestionTypeID()),
-				"obj_fi" => array("integer", $this->getObjId()),
+				"obj_fi" => array("integer", $obj_id),
 				"title" => array("text", NULL),
 				"description" => array("text", NULL),
 				"author" => array("text", $this->getAuthor()),
