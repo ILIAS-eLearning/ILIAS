@@ -115,11 +115,21 @@ class ilExternalFeedDataSet extends ilDataSet
 			case "feed":
 
 				include_once("./Modules/ExternalFeed/classes/class.ilObjExternalFeed.php");
-				$newObj = new ilObjExternalFeed();
-				$newObj->setType("feed");
+
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjExternalFeed();
+					$newObj->setType("feed");
+					$newObj->create(true);
+				}
+
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Url"]);
-				$newObj->create();
+				$newObj->update();
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/ExternalFeed", "feed", $a_rec["Id"], $newObj->getId());
 

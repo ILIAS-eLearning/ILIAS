@@ -20,17 +20,24 @@ class ilFileImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-//var_dump($a_xml);
-
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$newObj = new ilObjFile();
+		include_once './Modules/File/classes/class.ilObjFile.php';
+		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
+		{
+			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+		}
+		else
+		{
+			$newObj = new ilObjFile();
+			$newObj->create(true);
+		}
 
 		include_once("./Modules/File/classes/class.ilFileXMLParser.php");
 		$parser = new ilFileXMLParser($newObj, $a_xml);
 		$parser->setImportDirectory($this->getImportDirectory());
 		$parser->startParsing();
-		$newObj->setType("file");
-		$newObj->create(false, true);
+
+		$newObj->createProperties(false,false);
+		
 		$parser->setFileContents();
 		$this->current_obj = $newObj;
 
