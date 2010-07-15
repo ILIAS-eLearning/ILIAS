@@ -72,7 +72,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			if (strcmp($c, 'statistics') == 0) $this->addColumn('','statistics', '');
 			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
 			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
-			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
+			if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 		}
 
 		$this->setPrefix('q_id');
@@ -135,7 +135,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			"txt" => $lng->txt("create_date"),
 			"default" => true
 		);
-		$cols["updated"] = array(
+		$cols["tstamp"] = array(
 			"txt" => $lng->txt("last_update"),
 			"default" => true
 		);
@@ -284,7 +284,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 				$this->tpl->parseCurrentBlock();
 			}
-			if (strcmp($c, 'updated') == 0)
+			if (strcmp($c, 'tstamp') == 0)
 			{
 				$this->tpl->setCurrentBlock('updated');
 				$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
