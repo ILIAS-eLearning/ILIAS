@@ -189,14 +189,24 @@ class ilExerciseDataSet extends ilDataSet
 		{
 			case "exc":
 				include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
-				$newObj = new ilObjExercise();
-				$newObj->setType("exc");
+				
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjExercise();
+					$newObj->setType("exc");
+					$newObj->create(true);
+				}
+				
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setPassMode($a_rec["PassMode"]);
 				$newObj->setPassNr($a_rec["PassNr"]);
 				$newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
-				$newObj->create();
+				$newObj->update();
 				$newObj->saveData();
 //var_dump($a_rec);
 				$this->current_exc = $newObj;
