@@ -35,7 +35,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("book_no_of_objects"));
+		$this->addColumn($this->lng->txt("book_is_used"));
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setEnableHeader(true);
@@ -91,7 +91,15 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 		global $lng, $ilAccess, $ilCtrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-	    $this->tpl->setVariable("VALUE_OBJECTS_NO", $a_set["counter"]);
+
+		if($a_set["is_used"])
+		{
+			$this->tpl->setVariable("TXT_IS_USED", $lng->txt("yes"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_IS_USED", $lng->txt("no"));
+		}
 
 		$ilCtrl->setParameter($this->parent_obj, 'schedule_id', $a_set['booking_schedule_id']);
 	
@@ -99,9 +107,12 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock('item_command');
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
+			if(!$a_set["is_used"])
+			{
+				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));

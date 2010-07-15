@@ -122,9 +122,12 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
+			if($a_set["counter"] == 0)
+			{
+				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));

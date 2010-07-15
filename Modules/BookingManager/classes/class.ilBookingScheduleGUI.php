@@ -111,7 +111,7 @@ class ilBookingScheduleGUI
 		$fix->setInfo($lng->txt("book_schedule_type_fix_info"));
 		$type->addOption($fix);
 		$flex = new ilRadioOption($lng->txt("book_schedule_type_flexible"), "flexible");
-		$flex->setInfo($lng->txt("book_schedule_type_flex_info"));
+		$flex->setInfo($lng->txt("book_schedule_type_flexible_info"));
 		$type->addOption($flex);
 
 		$raster = new ilNumberInputGUI($lng->txt("book_schedule_raster"), "raster");
