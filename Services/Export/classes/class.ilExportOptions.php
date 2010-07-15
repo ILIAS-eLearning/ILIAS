@@ -20,6 +20,7 @@ class ilExportOptions
 	
 	const KEY_INIT = 1;
 	const KEY_ITEM_MODE = 2;
+	const KEY_ROOT = 3;
 	
 	private $export_id = 0;
 	private $ref_options = array();

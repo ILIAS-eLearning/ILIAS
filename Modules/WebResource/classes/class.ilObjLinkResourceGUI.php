@@ -196,7 +196,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		if ($this->form->checkInput())
 		{
 			include_once './Services/Export/classes/class.ilImport.php';
-			$imp = new ilImport();
+			$imp = new ilImport((int) $_GET['ref_id']);
 			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
 
 			// put new object id into tree

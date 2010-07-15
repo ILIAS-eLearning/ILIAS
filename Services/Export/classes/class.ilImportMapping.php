@@ -13,6 +13,8 @@ class ilImportMapping
 	var $mappings;
 	var $install_id;
 	var $install_url;
+	
+	protected $target_id = 0;
 
 	/**
 	 * Constructor
@@ -63,6 +65,25 @@ class ilImportMapping
 	final function getInstallUrl()
 	{
 		return $this->install_url;
+	}
+	
+	/**
+	 * set target id
+	 * @param object $a_target_id
+	 * @return 
+	 */
+	public final function setTagetId($a_target_id)
+	{
+		$this->target_id = $a_target_id;
+	}
+	
+	/**
+	 * get target id
+	 * @return 
+	 */
+	public final function getTargetId()
+	{
+		return $this->target_id;
 	}
 
 	/**
