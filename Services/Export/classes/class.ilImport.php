@@ -14,17 +14,31 @@ class ilImport
 	protected $install_url = "";
 	protected $entities = "";
 
+	protected $mapping = null;
+
 	/**
 	 * Constructor
 	 *
-	 * @param
+	 * @param int id of parent container
 	 * @return
 	 */
-	function __construct()
+	function __construct($a_target_id = 0)
 	{
 		include_once("./Services/Export/classes/class.ilImportMapping.php");
 		$this->mapping = new ilImportMapping();
+		$this->mapping->setTagetId($a_target_id);
 	}
+	
+	/**
+	 * Get mapping object
+	 * @return object ilImportMapping 
+	 */
+	public function getMapping()
+	{
+		return $this->mapping;
+	}
+	
+	
 
 	/**
 	 * Set entity types
@@ -90,7 +104,31 @@ class ilImport
 	 *
 	 * @param	string		absolute filename of temporary upload file
 	 */
-	final function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type)
+	final public function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type)
+	{
+		// create temporary directory
+		$tmpdir = ilUtil::ilTempnam();
+		ilUtil::makeDir($tmpdir);
+		ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
+		ilUtil::unzip($tmpdir."/".$a_filename);
+		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
+		$new_id = $this->doImportObject($dir, $a_type);
+		
+		// delete temporary directory
+		ilUtil::delDir($tmpdir);
+		
+		return $new_id;
+	}
+	
+	
+	/**
+	 * Import repository object export file
+	 *
+	 * @param	string		absolute filename of temporary upload file
+	 */
+	protected function doImportObject($dir,$a_type)
 	{
 		global $objDefinition, $tpl;
 
@@ -102,19 +140,6 @@ class ilImport
 		// get import class
 		$success = true;
 		
-		// create temporary directory
-		$tmpdir = ilUtil::ilTempnam();
-		ilUtil::makeDir($tmpdir);
-
-		// move import file into temporary directory
-//$a_filename = basename($a_tmp_file);
-//copy($a_tmp_file, $tmpdir."/".$a_filename);
-		ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
-
-		// unzip file
-		ilUtil::unzip($tmpdir."/".$a_filename);
-		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
-
 		// process manifest file
 		include_once("./Services/Export/classes/class.ilManifestParser.php");
 		$parser = new ilManifestParser($dir."/manifest.xml");
@@ -150,8 +175,6 @@ class ilImport
 		// we should only get on mapping here
 		$top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
 		$new_id = (int) current($top_mapping);
-		// delete temporary directory
-		ilUtil::delDir($tmpdir);
 //echo "end of ilImport::importObject()."; exit;
 		return $new_id;
 	}

@@ -435,7 +435,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		{
 			// todo: make some check on manifest file
 			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport();
+			$imp = new ilImport((int) $_GET['ref_id']);
 			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
 				$_FILES["importfile"]["name"], $new_type);
 

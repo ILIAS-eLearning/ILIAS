@@ -378,6 +378,7 @@ class ilExportGUI
 
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
+		$eo->addOption(ilExportOptions::KEY_ROOT,0,0,$this->obj->getId());
 		
 		$items_selected = false;
 		foreach($tree->getSubTree($root = $tree->getNodeData($this->getParentGUI()->object->getRefId())) as $node)

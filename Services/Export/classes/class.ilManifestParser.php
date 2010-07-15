@@ -13,6 +13,7 @@ include_once("./classes/class.ilSaxParser.php");
 class ilManifestParser extends ilSaxParser
 {
 	protected $expfiles = array();
+	protected $expsets = array();
 	
 	/**
 	 * Constructor
@@ -136,6 +137,11 @@ class ilManifestParser extends ilSaxParser
 		return $this->expfiles;
 	}
 	
+	public function getExportSets()
+	{
+		return $this->expsets;
+	}
+	
 	/**
 	 * Set event handlers
 	 *
@@ -176,6 +182,13 @@ class ilManifestParser extends ilSaxParser
 			case "ExportFile":
 				$this->expfiles[] = array("component" => $a_attribs["Component"],
 					"path" => $a_attribs["Path"]);
+				break;
+				
+			case "ExportSet":
+				$this->expsets[] = array(
+					'path'		=> $a_attribs['Path'],
+					'type'		=> $a_attribs['Type']
+				);
 				break;
 		}
 	}

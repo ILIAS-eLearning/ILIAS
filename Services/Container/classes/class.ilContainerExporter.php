@@ -46,7 +46,7 @@ class ilContainerExporter extends ilXmlExporter
 		$GLOBALS['ilLog']->write(__METHOD__.': Received id = '.$a_id);
 		$writer = new ilContainerXmlWriter(end(ilObject::_getAllReferences($a_id)));
 		$writer->write();
-		return $writer->xmlDumpMem(true);
+		return $writer->xmlDumpMem(false);
 	}
 	
 	/**

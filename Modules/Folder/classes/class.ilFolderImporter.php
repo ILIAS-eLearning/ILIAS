@@ -19,11 +19,6 @@ class ilFolderImporter extends ilXmlImporter
 
 	public function init()
 	{
-		include_once './Modules/Folder/classes/class.ilObjFolder.php';
-
-		$this->folder = new ilObjFolder();
-		$this->folder->setTitle('XML Import');
-		$this->folder->create(true);
 	}
 	
 	/**
@@ -34,9 +29,20 @@ class ilFolderImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		include_once './Modules/Folder/classes/class.ilFolderXmlParser.php';
+		include_once './Modules/Folder/classes/class.ilObjFolder.php';
+		
+		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
+		{
+			$this->folder = ilObjectFactory::getInstanceByObjId($new_id,false);
+		}
+		elseif(!$this->folder instanceof ilObjFolder)
+		{
+			$this->folder = new ilObjFolder();
+			$this->folder->create(true);
+		}
 
-		$GLOBALS['ilLog']->write($a_xml);
+		include_once './Modules/Folder/classes/class.ilFolderXmlParser.php';
+		#$GLOBALS['ilLog']->write($a_xml);
 
 		try 
 		{

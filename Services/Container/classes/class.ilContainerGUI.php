@@ -2976,17 +2976,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->initImportForm($new_type);
 		if ($this->form->checkInput())
 		{
-			include_once './Services/Export/classes/class.ilImport.php';
-			$imp = new ilImport();
+			include_once './Services/Export/classes/class.ilImportContainer.php';
+			$imp = new ilImportContainer((int) $_GET['ref_id']);
 			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
 
 			// put new object id into tree
 			if ($new_id > 0)
 			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
+				#$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				#$newObj->createReference();
+				#$newObj->putInTree($_GET["ref_id"]);
+				#$newObj->setPermissions($_GET["ref_id"]);
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 				$this->ctrl->returnToParent($this);
 			}
