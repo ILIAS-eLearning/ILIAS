@@ -40,7 +40,9 @@ define ('SOAP_SERVER_ERROR', 2);
 
 class ilSoapAdministration
 {
-
+	protected $soap_check = true;
+	
+	
 	/*
 	 * object which handles php's authentication
 	 * @var object
@@ -125,8 +127,17 @@ class ilSoapAdministration
 			$this->__setMessageCode('Server');
 			return false;
 		}
-		
-		// Check Soap enabled
+
+		global $ilSetting;
+
+		if($this->soap_check)
+		{
+			$set = new ilSetting();
+			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
+			$this->__setMessageCode('Server');
+			return ($set->get("soap_user_administration") == 1);
+		}		
+
 		return true;
 	}
 
