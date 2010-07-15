@@ -10659,3 +10659,48 @@ meta#:#meta_c_PS#:#Palestinian Territories (Occupied)
 meta#:#meta_c_RS#:#Serbia
 meta#:#meta_c_TL#:#Timor-Leste
 common#:#sel_country#:#Country
+book#:#book_booking_types#:#Types
+book#:#book_schedules#:#Schedules
+book#:#book_no_of_objects#:#No. of Objects
+book#:#book_book#:#Book
+book#:#book_list_items#:#List Objects
+book#:#book_add_type#:#Add Type
+book#:#book_back_to_list#:#Back to List
+book#:#book_edit_type#:#Edit Type
+book#:#book_group_objects#:#Group objects
+book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.
+book#:#book_schedule#:#Schedule
+book#:#book_objects_list#:#Objects of Type:
+book#:#book_current_user#:#Booked by
+book#:#book_add_object#:#Add Object
+book#:#book_edit_object#:#Edit Object
+book#:#book_is_used#:#Is Used
+book#:#book_add_schedule#:#Add Schedule
+book#:#book_edit_schedule#:#Edit Schedule
+book#:#book_schedule_type#:#Type
+book#:#book_schedule_type_fix#:#Fix
+book#:#book_schedule_type_fix_info#:#Can only be booked in given time slots
+book#:#book_schedule_type_flexible#:#Flexible
+book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours
+book#:#book_schedule_raster#:#Time raster
+book#:#book_schedule_raster_info#:#Minimum time entity
+book#:#book_schedule_rent_min#:#Minimum booking time
+book#:#book_schedule_rent_max#:#Maximum booking time
+book#:#book_schedule_rent_info#:#Given in multiples of time raster
+book#:#book_schedule_break#:#Auto-Break between Bookings
+book#:#book_schedule_break_info#:#Given in multiples of time raster
+book#:#book_schedule_days#:#Weekdays
+book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
+book#:#book_schedule_slot#:#Slot
+book#:#book_deadline#:#Deadline
+book#:#book_minutes#:#Minutes
+book#:#book_deadline_info#:#Minimum time between booking and booked period
+book#:#book_type_added#:#A booking type has been added.
+book#:#book_type_updated#:#The booking type has been updated.
+book#:#book_type_deleted#:#The booking type has been deleted.
+book#:#book_object_added#:#A booking object has been added.
+book#:#book_object_updated#:#The booking object has been updated.
+book#:#book_object_deleted#:#The booking object has been deleted.
+book#:#book_schedule_added#:#A booking schedule has been added.
+book#:#book_schedule_updated#:#The booking schedule has been updated.
+book#:#book_schedule_deleted#:#The booking schedule has been deleted.

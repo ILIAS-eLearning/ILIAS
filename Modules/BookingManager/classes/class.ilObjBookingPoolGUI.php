@@ -22,6 +22,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		$this->type = "booking";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->lng->loadLanguageModule("book");
 	}
 
 	/**
@@ -217,7 +218,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 
 		$this->tabs_gui->addTab("render",
-				$this->lng->txt("book_booking_list"),
+				$this->lng->txt("book_booking_types"),
 				$this->ctrl->getLinkTarget($this, "render"));
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))

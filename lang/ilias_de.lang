@@ -10576,3 +10576,48 @@ trac#:#trac_matrix#:#Matrixansicht
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
 crs#:#crs_import#:#Kurs importieren
+book#:#book_booking_types#:#Typen
+book#:#book_schedules#:#Zeitpläne
+book#:#book_no_of_objects#:#Anzahl Objekte
+book#:#book_book#:#Buchen
+book#:#book_list_items#:#Objekte listen
+book#:#book_add_type#:#Typ hinzufügen
+book#:#book_back_to_list#:#Zurück zur Liste
+book#:#book_edit_type#:#Typ ändern
+book#:#book_group_objects#:#Objekte gruppieren
+book#:#book_group_objects_info#:#Objekte eines Typs werden als Gruppe behandelt und nur intern unterschieden.
+book#:#book_schedule#:#Zeitplan
+book#:#book_objects_list#:#Objekte vom Typ:
+book#:#book_current_user#:#Gebucht von
+book#:#book_add_object#:#Objekt hinzufügen
+book#:#book_edit_object#:#Objekt ändern
+book#:#book_is_used#:#In Benutzung
+book#:#book_add_schedule#:#Zeitplan hinzufügen
+book#:#book_edit_schedule#:#Zeitplan editieren
+book#:#book_schedule_type#:#Typ
+book#:#book_schedule_type_fix#:#Fix
+book#:#book_schedule_type_fix_info#:#Es kann nur in bestimmten Zeiträumen gebucht werden.
+book#:#book_schedule_type_flexible#:#Flexibel
+book#:#book_schedule_type_flexible_info#:#Es kann frei zu bestimmten Tagen und Zeiten gebucht werden.
+book#:#book_schedule_raster#:#Zeitraster
+book#:#book_schedule_raster_info#:#Kleinste Zeiteinheit
+book#:#book_schedule_rent_min#:#Minimale Buchungszeit
+book#:#book_schedule_rent_max#:#Maximale Buchungszeit
+book#:#book_schedule_rent_info#:#Als Mehrfaches des Raster angeben
+book#:#book_schedule_break#:#Pause zwischen Buchungen
+book#:#book_schedule_break_info#:#Als Mehrfaches des Raster angeben
+book#:#book_schedule_days#:#Wochentage
+book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
+book#:#book_schedule_slot#:#Zeitraum
+book#:#book_deadline#:#Zeitspanne
+book#:#book_minutes#:#Minuten
+book#:#book_deadline_info#:#Minimale Zeit zwischen Buchung und Buchungszeitraum
+book#:#book_type_added#:#Ein Buchungstyp wurde hinzugefügt.
+book#:#book_type_updated#:#Der Buchungstyp wurde geändert.
+book#:#book_type_deleted#:#Der Buchungstyp wurde gelöscht.
+book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
+book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
+book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
+book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
+book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
+book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
