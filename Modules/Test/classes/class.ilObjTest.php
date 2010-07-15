@@ -4148,6 +4148,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
 		$found = array();
+		$unordered = array();
 		$key = 1;
 		$pass_max = 0;
 		$pass_reached = 0;
@@ -4169,9 +4170,17 @@ function loadQuestions($active_id = "", $pass = NULL)
 			);
 			$pass_max += round($row['points'], 2);
 			$pass_reached += round($arrResults[$row['question_id']]['reached'], 2);
-			array_push($found, $data);
+			$unordered[$row['question_id']] = $data;
 			$key++;
 		}
+		$key = 1;
+		foreach ($sequence as $qid)
+		{
+			$unordered[$qid]['nr'] = $key;
+			array_push($found, $unordered[$qid]);
+			$key++;
+		}
+		$unordered = null;
 		if ($this->getScoreCutting() == 1)
 		{
 			if ($results['reached_points'] < 0)

@@ -589,7 +589,7 @@ class ilTestExport
 							$selectedanswer = "x";
 							foreach ($objQuestion->getAnswers() as $id => $answer)
 							{
-								if ($id == $solution[0]["value1"])
+								if (strlen($solution[0]["value1"]) && $id == $solution[0]["value1"])
 								{
 									$selectedanswer = $answer->getAnswertext();
 								}
