@@ -99,7 +99,7 @@ class ilBookingObjectGUI
 	 */
 	function initForm($a_mode = "create", $id = NULL)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilObjDataCache;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
@@ -111,16 +111,40 @@ class ilBookingObjectGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		$type = new ilBookingType((int)$_REQUEST['type_id']);
+		if(!$type->getScheduleId())
+		{
+			$options = array();
+			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+			foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
+			{
+				$options[$schedule["booking_schedule_id"]] = $schedule["title"];
+			}
+
+			$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
+			$schedule->setRequired(true);
+			$schedule->setOptions($options);
+			$form_gui->addItem($schedule);
+		}
+
 		if ($a_mode == "edit")
 		{
+			$form_gui->setTitle($lng->txt("book_edit_object"));
+
 			$item = new ilHiddenInputGUI('object_id');
 			$item->setValue($id);
 			$form_gui->addItem($item);
+
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 			$type = new ilBookingObject($id);
-
-			$form_gui->setTitle($lng->txt("book_edit_object"));
 			$title->setValue($type->getTitle());
+			
+			if(isset($schedule))
+			{
+				$schedule->setValue($type->getScheduleId());
+			}
+			
 			$form_gui->addCommandButton("update", $lng->txt("save"));
 		}
 		else
@@ -148,6 +172,7 @@ class ilBookingObjectGUI
 			$obj = new ilBookingObject;
 			$obj->setTitle($form->getInput("title"));
 			$obj->setTypeId((int)$_REQUEST["type_id"]);
+			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->save();
 
 			ilUtil::sendSuccess($lng->txt("book_object_added"));
@@ -179,6 +204,7 @@ class ilBookingObjectGUI
 			$obj = new ilBookingObject((int)$_POST['object_id']);
 			$obj->setTitle($form->getInput("title"));
 			$obj->setTypeId((int)$_REQUEST['type_id']);
+			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->update();
 
 			ilUtil::sendSuccess($lng->txt("book_object_updated"));

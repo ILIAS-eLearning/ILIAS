@@ -125,6 +125,19 @@ class ilBookingType
 	{
 		global $ilDB;
 
+		$set = $ilDB->query('SELECT schedule_id'.
+				' FROM booking_type'.
+				' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
+	    $schedule = $ilDB->fetchAssoc($set);
+		$schedule = $schedule["schedule_id"];
+
+		if(($this->getScheduleId() && !$schedule) ||
+			(!$this->getScheduleId() && $schedule))
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+			ilBookingObject::updateSchedule($this->id, $schedule);
+		}
+
 		return $ilDB->query('UPDATE booking_type'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').

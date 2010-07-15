@@ -11,9 +11,10 @@
  */
 class ilBookingObject
 {
-	protected $id;		// int
-	protected $title;	// string
-	protected $type_id;	// id
+	protected $id;			// int
+	protected $title;		// string
+	protected $type_id;		// int
+	protected $schedule_id; // int
 
 	/**
 	 * Constructor
@@ -65,6 +66,24 @@ class ilBookingObject
 	}
 
 	/**
+	 * Set booking schedule id
+	 * @param	int	$a_schedule_id
+	 */
+	function setScheduleId($a_schedule_id)
+	{
+		$this->schedule_id = (int)$a_schedule_id;
+	}
+
+	/**
+	 * Get booking schedule id
+	 * @return	int
+	 */
+	function getScheduleId()
+	{
+		return $this->schedule_id;
+	}
+
+	/**
 	 * Get dataset from db
 	 */
 	protected function read()
@@ -73,12 +92,13 @@ class ilBookingObject
 		
 		if($this->id)
 		{
-			$set = $ilDB->query('SELECT title,type_id'.
+			$set = $ilDB->query('SELECT title,type_id,schedule_id'.
 				' FROM booking_object'.
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setTitle($row['title']);
 			$this->setTypeId($row['type_id']);
+			$this->setScheduleId($row['schedule_id']);
 		}
 	}
 
@@ -98,9 +118,9 @@ class ilBookingObject
 		$id = $ilDB->nextId('booking_object');
 
 		return $ilDB->query('INSERT INTO booking_object'.
-			' (booking_object_id,title,type_id)'.
+			' (booking_object_id,title,type_id,schedule_id)'.
 			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
-			','.$ilDB->quote($this->getTypeId(), 'integer').')');
+			','.$ilDB->quote($this->getTypeId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
 	}
 
 	/**
@@ -119,6 +139,7 @@ class ilBookingObject
 		return $ilDB->query('UPDATE booking_object'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', type_id = '.$ilDB->quote($this->getTypeId(), 'integer').
+			', schedule_id = '.$ilDB->quote($this->getScheduleId(), 'integer').
 			' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 	}
 
@@ -141,6 +162,21 @@ class ilBookingObject
 			$res[] = $row;
 		}
 		return $res;
+	}
+
+	/**
+	 * Remove/Update schedule for objects of given type
+	 * @param	int	$a_type_id
+	 * @return	bool
+	 */
+	static function updateSchedule($a_type_id, $a_schedule_id = 0)
+	{
+		global $ilDB;
+
+		return $ilDB->query('UPDATE booking_object'.
+			' SET schedule_id = '.$ilDB->quote($a_schedule_id, 'integer').
+			' WHERE type_id = '.$ilDB->quote($a_type_id, 'integer').
+			' ORDER BY title');
 	}
 }
 

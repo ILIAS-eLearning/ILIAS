@@ -165,10 +165,12 @@ class ilBookingTypeGUI
 			$obj = new ilBookingType;
 			$obj->setTitle($form->getInput("title"));
 			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
+
 			if($form->getInput("group"))
 			{
 				$obj->setScheduleId($form->getInput("schedule"));
 			}
+			
 			$obj->save();
 
 			ilUtil::sendSuccess($lng->txt("book_type_added"));
@@ -195,6 +197,7 @@ class ilBookingTypeGUI
 			$obj = new ilBookingType((int)$_POST['type_id']);
 			$obj->setTitle($form->getInput("title"));
 			$obj->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
+
 			if($form->getInput("group"))
 			{
 				$obj->setScheduleId($form->getInput("schedule"));
@@ -203,6 +206,7 @@ class ilBookingTypeGUI
 			{
 				$obj->setScheduleId(NULL);
 			}
+			
 			$obj->update();
 
 			ilUtil::sendSuccess($lng->txt("book_type_updated"));
