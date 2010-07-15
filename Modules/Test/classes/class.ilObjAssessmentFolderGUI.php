@@ -265,7 +265,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$title = $this->lng->txt("assessment_log_question") . ": " . $title;
 			}
 			$csvrow = array();
-			$date = new ilDate($log['tstamp'],IL_CAL_UNIX);
+			$date = new ilDateTime($log['tstamp'],IL_CAL_UNIX);
 			array_push($csvrow, $date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
 			array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
 			array_push($csvrow, trim($log["logtext"]));
