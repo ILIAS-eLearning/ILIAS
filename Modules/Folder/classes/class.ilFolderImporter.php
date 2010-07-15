@@ -30,7 +30,6 @@ class ilFolderImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once './Modules/Folder/classes/class.ilObjFolder.php';
-		
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$this->folder = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -48,7 +47,7 @@ class ilFolderImporter extends ilXmlImporter
 		{
 			$parser = new ilFolderXmlParser($this->folder,$a_xml);
 			$parser->start();
-			$a_mapping->addMapping('Modules/Folder','fold',$a_rec['Id'],$this->folder->getId());
+			$a_mapping->addMapping('Modules/Folder','fold',$a_id,$this->folder->getId());
 		}
 		catch(ilSaxParserException $e)
 		{
