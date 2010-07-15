@@ -168,13 +168,24 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			case "mep":
 				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-				$newObj = new ilObjMediaPool();
-				$newObj->setType("mep");
+
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjMediaPool();
+					$newObj->setType("mep");
+					$newObj->create(true);
+				}
+				
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setDefaultWidth($a_rec["DefaultWidth"]);
 				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-				$newObj->create();
+				$newObj->update();
+				
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
 				break;

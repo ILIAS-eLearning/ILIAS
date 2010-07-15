@@ -110,6 +110,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 	 */
 	function getXmlRecord($a_entity, $a_version, $a_set)
 	{
+				include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
 		$lm = new ilObjFileBasedLM($a_set["Id"], false);
 		$dir = $lm->getDataDirectory();
 		$a_set["Dir"] = $dir;
@@ -131,13 +132,23 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "htlm":
+				
 				include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
-				$newObj = new ilObjFileBasedLM();
-				$newObj->setType("htlm");
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjFileBasedLM();
+					$newObj->setType("htlm");
+					$newObj->create(true);
+				}
+					
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setStartFile($a_rec["StartFile"]);
-				$newObj->create(true);
+				$newObj->update();
 				$this->current_obj = $newObj;
 
 				$dir = str_replace("..", "", $a_rec["Dir"]);
