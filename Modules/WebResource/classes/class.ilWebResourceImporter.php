@@ -19,11 +19,6 @@ class ilWebResourceImporter extends ilXmlImporter
 
 	public function init()
 	{
-		include_once './Modules/WebResource/classes/class.ilObjLinkResource.php';
-
-		$this->webl = new ilObjLinkResource();
-		$this->webl->setTitle('XML Import');
-		$this->webl->create(true);
 	}
 	
 	/**
@@ -34,16 +29,24 @@ class ilWebResourceImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
-
-		$GLOBALS['ilLog']->write($a_xml);
+		include_once './Modules/Folder/classes/class.ilObjFolder.php';
+		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
+		{
+			$this->link = ilObjectFactory::getInstanceByObjId($new_id,false);
+		}
+		else
+		{
+			$this->link = new ilObjLinkResource();
+			$this->link->setType('webr');
+			$this->link->create(true);
+		}
 
 		try 
 		{
-			$parser = new ilWebLinkXmlParser($this->webl,$a_xml);
+			$parser = new ilWebLinkXmlParser($this->link,$a_xml);
 			$parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
 			$parser->start();
-			$a_mapping->addMapping('Modules/WebResource','webr',$a_rec['Id'],$this->webl->getId());
+			$a_mapping->addMapping('Modules/WebResource','webr',$a_id,$this->link->getId());
 		}
 		catch(ilSaxParserException $e)
 		{

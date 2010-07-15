@@ -118,14 +118,24 @@ class ilMediaCastDataSet extends ilDataSet
 		{
 			case "mcst":
 				include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
-				$newObj = new ilObjMediaCast();
-				$newObj->setType("mcst");
+				
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjMediaCast();
+					$newObj->setType("mcst");
+					$newObj->create(true);
+				}
+				
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setDefaultAccess($a_rec["DefaultAccess"]);
 				$newObj->setDownloadable($a_rec["Downloadable"]);
 				$newObj->setPublicFiles($a_rec["PublicFiles"]);
-				$newObj->create(true);
+				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
 				$a_mapping->addMapping("Services/News", "news_context",

@@ -157,16 +157,26 @@ class ilWikiDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "wiki":
+				
 				include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
-				$newObj = new ilObjWiki();
-				$newObj->setType("wiki");
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjWiki();
+					$newObj->setType("wiki");
+					$newObj->create(true);
+				}
+					
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setShortTitle($a_rec["Short"]);
 				$newObj->setStartPage($a_rec["StartPage"]);
 				$newObj->setRating($a_rec["Rating"]);
 				$newObj->setIntroduction($a_rec["Introduction"]);
-				$newObj->create(true);
+				$newObj->update();
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
 				break;
