@@ -2765,3 +2765,23 @@ if(!$ilDB->tableExists('booking_schedule'))
 		));
 
 ?>
+<#3142>
+<?php
+
+	$ilDB->addTableColumn("booking_type", "schedule_id", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4
+		));
+
+?>
+<#3143>
+<?php
+
+	$ilDB->addTableColumn("booking_object", "schedule_id", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4
+		));
+
+?>
