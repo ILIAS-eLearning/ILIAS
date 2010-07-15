@@ -72,6 +72,8 @@ class ilCalendarSettings
 	private $sync_cache_minutes = 10;
 	
 	private $notification = false;
+	
+	private $cg_registration = false;
 
 	/**
 	 * singleton contructor
@@ -400,6 +402,21 @@ class ilCalendarSettings
 	}
 	
 	/**
+	 * Enable optional registration for courses and groups
+	 * @param bool $a_status
+	 * @return 
+	 */
+	public function enableCGRegistration($a_status)
+	{
+		$this->cg_registration = $a_status;
+	}
+	
+	public function isCGRegistrationEnabled()
+	{
+		return $this->cg_registration;
+	}
+	
+	/**
 	 * save 
 	 *
 	 * @access public
@@ -420,6 +437,7 @@ class ilCalendarSettings
 		$this->storage->set('cache_enabled',(int) $this->isCacheUsed());
 		$this->storage->set('notification',(int) $this->isNotificationEnabled());
 		$this->storage->set('consultation_hours',(int) $this->areConsultationHoursEnabled());
+		$this->storage->set('cg_registration',(int) $this->isCGRegistrationEnabled());
 	}
 
 	/**
@@ -445,6 +463,7 @@ class ilCalendarSettings
 		$this->setSynchronisationCacheMinutes($this->storage->get('sync_cache_minutes',self::DEFAULT_SYNC_CACHE_MINUTES));
 		$this->enableNotification($this->storage->get('notification',$this->isNotificationEnabled()));
 		$this->enableConsultationHours($this->storage->get('consultation_hours',$this->areConsultationHoursEnabled()));
+		$this->enableCGRegistration($this->storage->get('cg_registration',$this->isCGRegistrationEnabled()));
 	}
 	
 	/**

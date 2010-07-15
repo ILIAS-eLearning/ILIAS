@@ -35,6 +35,12 @@ include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 */
 class ilGroupXMLWriter extends ilXmlWriter
 {
+	const MODE_SOAP = 1;
+	const MODE_EXPORT = 2;
+	
+	private $mode = self::MODE_SOAP;
+
+
 	private $ilias;
 
 	private $xml;
@@ -48,7 +54,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilGroupXMLWriter(&$group_obj)
+	function ilGroupXMLWriter($group_obj)
 	{
 		global $ilias;
 
@@ -62,17 +68,38 @@ class ilGroupXMLWriter extends ilXmlWriter
 		
 	}
 
+	public function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+	
+	public function getMode()
+	{
+		return $this->mode;
+	}
+
 	function start()
 	{
-		$this->__buildHeader();
-		$this->__buildTitleDescription();
-		$this->__buildRegistration();
-		if ($this->attach_users) 
+		if($this->getMode() == self::MODE_SOAP)
 		{
-			$this->__buildAdmin();
-			$this->__buildMember();
+			$this->__buildHeader();
+			$this->__buildGroup();
+			$this->__buildTitleDescription();
+			$this->__buildRegistration();
+			if ($this->attach_users) 
+			{
+				$this->__buildAdmin();
+				$this->__buildMember();
+			}
+			$this->__buildFooter();
 		}
-		$this->__buildFooter();
+		elseif($this->getMode() == self::MODE_EXPORT)
+		{
+			$this->__buildGroup();
+			$this->__buildTitleDescription();
+			$this->__buildRegistration();
+			$this->__buildFooter();
+		}
 		
 	}
 
@@ -88,6 +115,16 @@ class ilGroupXMLWriter extends ilXmlWriter
 		$this->xmlSetGenCmt("Export of ILIAS group ". $this->group_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
+
+		return true;
+	}
+	
+	/**
+	 * Group start
+	 * @return 
+	 */
+	public function __buildGroup()
+	{
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
 		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_grp_'.$this->group_obj->getId();
 		
@@ -104,8 +141,6 @@ class ilGroupXMLWriter extends ilXmlWriter
 		}
 		
 		$this->xmlStartTag("group", $attrs);
-
-		return true;
 	}
 
 	function __buildTitleDescription()

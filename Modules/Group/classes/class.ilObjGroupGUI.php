@@ -16,7 +16,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI
 * 
 *
 * @extends ilObjectGUI
@@ -214,6 +214,15 @@ class ilObjGroupGUI extends ilContainerGUI
 				$agreement = new ilMemberAgreementGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($agreement);
 				break;
+
+			case 'ilexportgui':
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
+				break;
+				
 
 			default:
 			
@@ -1657,177 +1666,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	
 
 
-	function listExportFilesObject()
-	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setTabActive('export');
-
-		$this->lng->loadLanguageModule('content');
-
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
-
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$this->__exportMenu();
-
-		$this->object->__initFileObject();
-		$export_files = $this->object->file_obj->getExportFiles();
-		
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_export_file_row.html");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("cont_export_files"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
-			$this->lng->txt("cont_file"),
-			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
-
-		$cols = array("", "type", "file", "size", "date");
-		$header_params = array("ref_id" => $_GET["ref_id"],
-							   "cmd" => "listExportFiles", "cmdClass" => strtolower(get_class($this)));
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "40%", "25%", "25%"));
-		
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		$tbl->disable("sort");
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
-
-		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$this->tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-		$tbl->render();
-		foreach($export_files as $exp_file)
-		{
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-			
-			$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-
-			$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-			$this->tpl->setVariable("TXT_TYPE", $exp_file["type"]);
-			$this->tpl->setVariable("CHECKBOX_ID",$exp_file["file"]);
-
-			$file_arr = explode("__", $exp_file["file"]);
-			$this->tpl->setVariable('TXT_DATE',ilDatePresentation::formatDate(new ilDateTime($file_arr[0],IL_CAL_UNIX)));
-
-
-			$this->tpl->parseCurrentBlock();
-		}
-		if(!count($export_files))
-		{
-			$tbl->disable('footer');
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 4);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function __exportMenu()
-	{
-		// create xml export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportXML"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function exportXMLObject()
-	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
-
-		$this->object->exportXML();
-		
-		$this->listExportFilesObject();
-
-		return true;
-	}
-
-	function confirmDeleteExportFileObject()
-	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
-
-		if(!count($_POST['file']))
-		{
-			ilUtil::sendFailure($this->lng->txt('grp_select_one_file'));
-		}
-		else
-		{
-			$this->object->deleteExportFiles($_POST['file']);
-			ilUtil::sendSuccess($this->lng->txt('grp_deleted_export_files'));
-		}
-
-		$this->listExportFilesObject();
-
-		return true;
-	}
-
-	function downloadExportFileObject()
-	{
-		if(!count($_POST['file']))
-		{
-			ilUtil::sendFailure($this->lng->txt('grp_select_one_file'));
-			$this->listExportFilesObject();
-			return false;
-		}
-		if(count($_POST['file']) > 1)
-		{
-			ilUtil::sendFailure($this->lng->txt('grp_select_one_file_only'));
-			$this->listExportFilesObject();
-			return false;
-		}
-		
-		$this->object->downloadExportFile(ilUtil::stripSlashes($_POST['file'][0]));
-		
-		// If file wasn't sent
-		ilUtil::sendFailure($this->lng->txt('grp_error_sending_file'));
-		
-		return true;
-	}
-			
-
 
 
 	/**
@@ -2147,14 +1985,30 @@ class ilObjGroupGUI extends ilContainerGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
+
+
+
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
+				'export',
+				'ilexportgui'
+			);
+		}
+
+		/*
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
+			
+			
 			$tabs_gui->addTarget('export',
 								 $this->ctrl->getLinkTarget($this,'listExportFiles'),
 								 array('listExportFiles','exportXML','confirmDeleteExportFile','downloadExportFile'),
 								 get_class($this));
 		}
-		
+		*/
 		// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs($tabs_gui);
 
@@ -2707,14 +2561,16 @@ class ilObjGroupGUI extends ilContainerGUI
 		$reg_code->addSubItem($code);
 		*/
 		
-		$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
-		include_once './classes/class.ilLink.php';
-		$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
-		$link->setHTML('<font class="small">'.$val.'</font>');
-		$reg_code->addSubItem($link);
+		if($this->object->getRegistrationAccessCode())
+		{
+			$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
+			include_once './classes/class.ilLink.php';
+			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
+			$link->setHTML('<font class="small">'.$val.'</font>');
+			$reg_code->addSubItem($link);
+		}
 		$opt_public->addSubItem($reg_code);		
-
-		
+	
 
 		// CLOSED GROUP
 		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
