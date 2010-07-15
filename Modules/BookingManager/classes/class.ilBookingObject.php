@@ -152,7 +152,7 @@ class ilBookingObject
 	{
 		global $ilDB;
 
-		$set = $ilDB->query('SELECT booking_object_id,title'.
+		$set = $ilDB->query('SELECT booking_object_id,title,schedule_id'.
 			' FROM booking_object'.
 			' WHERE type_id = '.$ilDB->quote($a_type_id, 'integer').
 			' ORDER BY title');
@@ -177,6 +177,21 @@ class ilBookingObject
 			' SET schedule_id = '.$ilDB->quote($a_schedule_id, 'integer').
 			' WHERE type_id = '.$ilDB->quote($a_type_id, 'integer').
 			' ORDER BY title');
+	}
+
+	/**
+	 * Delete single entry
+	 * @return bool
+	 */
+	function delete()
+	{
+		global $ilDB;
+
+		if($this->id)
+		{
+			return $ilDB->query('DELETE FROM booking_object'.
+				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
+		}
 	}
 }
 

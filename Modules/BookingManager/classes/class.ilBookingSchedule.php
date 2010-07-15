@@ -287,6 +287,21 @@ class ilBookingSchedule
 		}
 		return $res;
 	}
+
+	/**
+	 * Delete single entry
+	 * @return bool
+	 */
+	function delete()
+	{
+		global $ilDB;
+
+		if($this->id)
+		{
+			return $ilDB->query('DELETE FROM booking_schedule'.
+				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
+		}
+	}
 }
 
 ?>
