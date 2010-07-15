@@ -19,11 +19,6 @@ class ilCourseImporter extends ilXmlImporter
 
 	public function init()
 	{
-		include_once './Modules/Course/classes/class.ilObjCourse.php';
-
-		$this->course = new ilObjCourse();
-		$this->course->setTitle('XML Import');
-		$this->course->create(true);
 	}
 	
 	/**
@@ -35,15 +30,24 @@ class ilCourseImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once './Modules/Course/classes/class.ilCourseXMLParser.php';
+		include_once './Modules/Course/classes/class.ilObjCourse.php';
 
-		$GLOBALS['ilLog']->write($a_xml);
+		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
+		{
+			$this->course = ilObjectFactory::getInstanceByObjId($new_id,false);
+		}
+		elseif(!$this->course instanceof ilObjCourse)
+		{
+			$this->course = new ilObjCourse();
+			$this->course->create(true);
+		}
 
 		try 
 		{
 			$parser = new ilCourseXMLParser($this->course);
 			$parser->setXMLContent($a_xml);
 			$parser->startParsing();
-			$a_mapping->addMapping('Modules/Course','course',$a_rec['Id'],$this->course->getId());
+			$a_mapping->addMapping('Modules/Course','crs',$a_id,$this->course->getId());
 		}
 		catch(ilSaxParserException $e)
 		{

@@ -40,6 +40,7 @@ class ilImportContainer extends ilImport
 		if(!$parser->getExportSets())
 		{
 			$new_id = parent::doImportObject($dir,$type);
+			
 			if($newObj = ilObjectFactory::getInstanceByObjId($new_id,false))
 			{
 				$newObj->createReference();

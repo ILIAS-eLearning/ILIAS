@@ -239,66 +239,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 	
-
-	function importFileObject2()
+	/**
+	 * import file
+	 * @return 
+	 */
+	public function importFileObject()
 	{
-		global $_FILES, $rbacsystem, $ilDB;
-
-		// check if file was uploaded
-		if($_FILES['xmldoc']['tmp_name'] == 'none' or !$_FILES['xmldoc']['tmp_name'])
-		{
-			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		// check correct file type
-		$info = pathinfo($_FILES["xmldoc"]["name"]);
-		if (strtolower($info["extension"]) != "zip")
-		{
-			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		// Create new object
-		include_once("Modules/Course/classes/class.ilObjCourse.php");
-
-		$newObj = new ilObjCourse();
-		$newObj->setType('crs');
-		$newObj->setTitle($_FILES["xmldoc"]["name"]);
-		$newObj->setDescription("");
-		$newObj->create(true); // true for upload
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-
-		// Copy xml file
-		include_once 'Modules/Course/classes/class.ilFileDataCourse.php';
-
-		$course_files = new ilFileDataCourse($newObj->getId());
-
-		$course_files->createImportFile($_FILES["xmldoc"]["tmp_name"],$_FILES['xmldoc']['name']);
-		$course_files->unpackImportFile();
-		$course_files->validateImportFile();
-
-		include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
-
-		$xml_parser = new ilCourseXMLParser($newObj,$course_files->getImportFile());
-
-		$xml_parser->startParsing();
-
-		// Update title description
-		$newObj->MDUpdateListener('General');
+		global $lng;
 		
-		// delete import file
-		#$course_files->deleteImportFile();
-
-		ilUtil::sendSuccess($this->lng->txt('crs_added'),true);
-	   	
-		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
-		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTarget($this, "edit")));
-
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-
+		if($new_id = parent::importFileObject())
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->ctrl->returnToParent($this);
+		}
 	}
+
 
 	function renderObject()
 	{

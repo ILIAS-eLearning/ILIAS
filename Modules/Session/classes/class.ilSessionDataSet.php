@@ -196,8 +196,17 @@ class ilSessionDataSet extends ilDataSet
 			case "sess":
 				include_once("./Modules/Session/classes/class.ilObjSession.php");
 				include_once("./Modules/Session/classes/class.ilSessionAppointment.php");
-				$newObj = new ilObjSession();
-				$newObj->setType("sess");
+
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjSession();
+					$newObj->setType("sess");
+					$newObj->create(true);
+				}
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setLocation($a_rec["Location"]);
@@ -206,7 +215,7 @@ class ilSessionDataSet extends ilDataSet
 				$newObj->setEmail($a_rec["TutorEmail"]);
 				$newObj->setDetails($a_rec["Details"]);
 				$newObj->enableRegistration($a_rec["Registration"]);
-				$newObj->create();
+				$newObj->update();
 
 				$start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");
 				$end = new ilDateTime($a_rec["EventEnd"], IL_CAL_DATETIME, "UTC");

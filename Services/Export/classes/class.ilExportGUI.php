@@ -450,6 +450,9 @@ class ilExportGUI
 			$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.1.0");
 		}
 
+		// Delete export options
+		$eo->delete();
+
 		ilUtil::sendSuccess($lng->txt('export_created'),true);
 		$ilCtrl->redirect($this, "listExportFiles");
 	}

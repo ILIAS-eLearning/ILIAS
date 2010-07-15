@@ -294,6 +294,21 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 	
 	/**
+	 * Import object
+	 * @return 
+	 */
+	public function importFileObject()
+	{
+		global $lng;
+		
+		if(parent::importFileObject())
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->ctrl->returnToParent($this);
+		}
+	}
+	
+	/**
 	 * Save object
 	 * @return 
 	 */

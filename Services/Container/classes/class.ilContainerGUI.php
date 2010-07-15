@@ -2961,7 +2961,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 *
 	 * @access	public
 	 */
-	protected function importFileObject()
+	public function importFileObject()
 	{
 		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
 
@@ -2983,18 +2983,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// put new object id into tree
 			if ($new_id > 0)
 			{
-				#$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				#$newObj->createReference();
-				#$newObj->putInTree($_GET["ref_id"]);
-				#$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				$this->ctrl->returnToParent($this);
+				return $new_id;
 			}
-			return;
+			return false;
 		}
 
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
+		return false;
 	}
 }
 ?>
