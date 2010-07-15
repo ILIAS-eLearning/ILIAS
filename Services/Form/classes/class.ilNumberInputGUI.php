@@ -35,7 +35,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $size = 40;
 	protected $suffix;
 	protected $minvalue = false;
+	protected $minvalueShouldBeGreater = false;
 	protected $maxvalue = false;
+	protected $maxvalueShouldBeLess = false;
 	
 	/**
 	* Constructor
@@ -108,6 +110,46 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		return $this->maxlength;
 	}
 
+	/**
+	* Set minvalueShouldBeGreater
+	*
+	* @param	boolean	$a_bool	true if the minimum value should be greater than minvalue
+	*/
+	function setMinvalueShouldBeGreater($a_bool)
+	{
+		$this->minvalueShouldBeGreater = $a_bool;
+	}
+	
+	/**
+	* Get minvalueShouldBeGreater
+	*
+	* @return	boolean	true if the minimum value should be greater than minvalue
+	*/
+	function minvalueShouldBeGreater()
+	{
+		return $this->minvalueShouldBeGreater;
+	}
+
+	/**
+	* Set maxvalueShouldBeLess
+	*
+	* @param	boolean	$a_bool	true if the maximum value should be less than maxvalue
+	*/
+	function setMaxvalueShouldBeLess($a_bool)
+	{
+		$this->maxvalueShouldBeLess = $a_bool;
+	}
+	
+	/**
+	* Get maxvalueShouldBeLess
+	*
+	* @return	boolean	true if the maximum value should be less than maxvalue
+	*/
+	function maxvalueShouldBeLess()
+	{
+		return $this->maxvalueShouldBeLess;
+	}
+	
 	/**
 	* Set Size.
 	*
@@ -223,22 +265,50 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 			return false;
 		}
 
-		if (trim($_POST[$this->getPostVar()]) != "" &&
-			$this->getMinValue() !== false &&
-			$_POST[$this->getPostVar()] < $this->getMinValue())
+		if ($this->minvalueShouldBeGreater())
 		{
-			$this->setAlert($lng->txt("form_msg_value_too_low"));
+			if (trim($_POST[$this->getPostVar()]) != "" &&
+				$this->getMinValue() !== false &&
+				$_POST[$this->getPostVar()] <= $this->getMinValue())
+			{
+				$this->setAlert($lng->txt("form_msg_value_too_low"));
 
-			return false;
+				return false;
+			}
+		}
+		else
+		{
+			if (trim($_POST[$this->getPostVar()]) != "" &&
+				$this->getMinValue() !== false &&
+				$_POST[$this->getPostVar()] < $this->getMinValue())
+			{
+				$this->setAlert($lng->txt("form_msg_value_too_low"));
+
+				return false;
+			}
 		}
 
-		if (trim($_POST[$this->getPostVar()]) != "" &&
-			$this->getMaxValue() !== false &&
-			$_POST[$this->getPostVar()] > $this->getMaxValue())
+		if ($this->maxvalueShouldBeLess())
 		{
-			$this->setAlert($lng->txt("form_msg_value_too_high"));
+			if (trim($_POST[$this->getPostVar()]) != "" &&
+				$this->getMaxValue() !== false &&
+				$_POST[$this->getPostVar()] >= $this->getMaxValue())
+			{
+				$this->setAlert($lng->txt("form_msg_value_too_high"));
 
-			return false;
+				return false;
+			}
+		}
+		else
+		{
+			if (trim($_POST[$this->getPostVar()]) != "" &&
+				$this->getMaxValue() !== false &&
+				$_POST[$this->getPostVar()] > $this->getMaxValue())
+			{
+				$this->setAlert($lng->txt("form_msg_value_too_high"));
+
+				return false;
+			}
 		}
 		
 		return $this->checkSubItemsInput();
@@ -294,12 +364,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		if ($this->getMinValue() !== false)
 		{
-			$constraints.= $delim.$lng->txt("form_min_value").": ".$this->getMinValue();
+			$constraints.= $delim.$lng->txt("form_min_value").": ".(($this->minvalueShouldBeGreater()) ? "&gt; " : "").$this->getMinValue();
 			$delim = ", ";
 		}
 		if ($this->getMaxValue() !== false)
 		{
-			$constraints.= $delim.$lng->txt("form_max_value").": ".$this->getMaxValue();
+			$constraints.= $delim.$lng->txt("form_max_value").": ".(($this->maxvalueShouldBeLess()) ? "&lt; " : "").$this->getMaxValue();
 			$delim = ", ";
 		}
 		if ($constraints != "")

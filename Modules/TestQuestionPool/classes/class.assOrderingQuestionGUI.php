@@ -293,7 +293,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$points->setValue($this->object->getPoints());
 		$points->setRequired(TRUE);
 		$points->setSize(3);
-		$points->setMinValue(0.0);
+		$points->setMinValue(0);
+		$points->setMinvalueShouldBeGreater(true);
 		$form->addItem($points);
 		
 		$this->addQuestionFormCommandButtons($form);
