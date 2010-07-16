@@ -10289,7 +10289,7 @@ auth#:#auth_openid_uncontrolled_selection#:#Freie Anbieterauswahl
 auth#:#auth_openid_uncontrolled_selection_info#:#Wenn aktiviert, können beliebige OpenID-Anbieter zur Authentifizierung genutzt werden. Ansonsten werden nur Anbieter aus einer vorgegebenen Liste zugelassen.
 auth#:#auth_openid_login_info_a#:#Bitte geben Sie Ihren OpenID-Benutzernamen ein und wählen Sie den zugehörigen Anbieter aus.
 content#:#cont_localfile#:#Lokale Datei
-common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
+common#:#no_mkisofs_configured#:#Sie müssen das mkisofs Tool im ILIAS setup konfigurieren, um den ISO Export ausführen zu können.
 exp#:#exp_export_files#:#Exportdateien
 mep#:#mep_create#:#Neuen Medienpool anlegen
 mep#:#mep_clone#:#Bestehenden Medienpool kopieren
@@ -10304,7 +10304,7 @@ exp#:#exp_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
 common#:#hide_filter#:#Filter ausblenden
 content#:#cont_glo_create#:#Neues Glossar anlegen
 content#:#cont_glo_assign#:#Glossar zuweisen
-content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
+content#:#cont_glo_detach#:#Glossarzuweisung aufheben
 content#:#glo_usages#:#Glossar wird verwendet in...
 common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das Setup!
 common#:#session_config#:#Session-Einstellungen
@@ -10329,24 +10329,24 @@ survey#:#svy_search_users#:#NutzerInnen suchen
 payment#:#have_existing_account#:#Besitzen Sie bereits ein Benutzerkonto? Dann geben Sie bitte nun ihren Benutzernamen und ihr Passwort ein.
 payment#:#have_no_existing_account#:#Falls Sie noch kein Benutzerkonto besitzen, wurde soeben ein Account erstellt(Benutzername: %s  Passwort: %s ).
 payment#:#please_use_account#:#Bitte melden Sie sich bei zukünftigen Käufen mit ihren Benutzerdaten an.
-content#:#cont_lk_file#:#File/Document###29 03 2010 new variable
-content#:#cont_select_file#:#Select File###29 03 2010 new variable
-content#:#cont_create_link#:#Create Link###29 03 2010 new variable
-rep#:#rep_dependencies#:#Dependencies###29 03 2010 new variable
-rep#:#rep_object_to_delete#:#To Delete###29 03 2010 new variable
-rep#:#rep_dependent_object#:#Ressource with dependence###29 03 2010 new variable
-rep#:#rep_dependency#:#Dependency###29 03 2010 new variable
+content#:#cont_lk_file#:#Datei/Dokument
+content#:#cont_select_file#:#Datei auswählen
+content#:#cont_create_link#:#Link erzeugen
+rep#:#rep_dependencies#:#Abhängigkeiten
+rep#:#rep_object_to_delete#:#Zu löschen
+rep#:#rep_dependent_object#:#Abhängiges Objekt
+rep#:#rep_dependency#:#Abhängigkeit
 content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###29 03 2010 new variable
 content#:#glo_presentation_view#:#Präsentationsansicht
-content#:#glo_add_new_term#:#Add New Term###29 03 2010 new variable
-content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.###29 03 2010 new variable
-content#:#glo_list_usages#:#List Usages###29 03 2010 new variable
-exp#:#exp_create_xml_file#:#Create Export Package (XML)###29 03 2010 new variable
-common#:#option#:#Option###29 03 2010 new variable
+content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
+content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
+content#:#glo_list_usages#:#Nutzung
+exp#:#exp_create_xml_file#:#Exportpaket erstellen (XML)
+common#:#option#:#Option
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.###29 03 2010 new variable
 survey#:#other_answer_label#:#Label of other answer (optional)###29 03 2010 new variable
-style#:#sty_glo_char#:#Glossary###29 03 2010 new variable
-style#:#sty_type_glo_overlay#:#Glossary Overlay###29 03 2010 new variable
+style#:#sty_glo_char#:#Glossar
+style#:#sty_type_glo_overlay#:#Glossar Popup
 common#:#delete_inactive_user_accounts#:#Benutzerzugänge löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
@@ -10624,7 +10624,7 @@ content#:#cont_sco_glossary#:#Glossar
 content#:#glo_quick_navigation#:#Schnellzugriff
 content#:#glo_presentation_mode#:#Präsentationsansicht
 content#:#glo_table_form#:#Tabellarisch
-content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
+content#:#glo_table_form_info#:#Begriffe und Definitionen werden zunächst in einer zweispaltigen Übersicht angezeigt. Beim Anklicken eines Begriffes wird der Begriff mit den dazugehördenden Definitionen angezeigt.
 content#:#glo_text_snippet_length#:#Länge des Definitionsausschnitts
 content#:#glo_text_snippet_length_info#:#Textlänge, nach der Definitionen in der Übersicht abgeschnitten werden.
 content#:#glo_full_definitions#:#Komplette Definitionen
@@ -10647,13 +10647,13 @@ style#:#sty_overwrite#:#Überschreiben
 style#:#sty_keep_existing#:#Bestehnde Klasse erhalten
 style#:#sty_paste_characteristics#:#Styleklassen einfügen
 style#:#sty_style_classes_copied#:#Styleklassen wurden kopiert.
-news#:#news_attached_to#:#Attached to###16 07 2010 new variable
+news#:#news_attached_to#:#Zugeordnet zu
 news#:#news_add_news#:#Nachricht hinzufügen
 news#:#news_rss_title_format#:#RSS Titelformat
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
-content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
+content#:#cont_edit_shape_whole_picture#:#Umriss (gesamtes Bild) bearbeiten
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
 content#:#cont_alignment#:#Ausrichtung
 content#:#cont_set_alignment#:#Ausrichtung setzen
@@ -10666,8 +10666,8 @@ administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabell
 administration#:#adm_nr_statements#:#Anzahl Aufrufe
 administration#:#adm_table#:#Tabelle
 wiki#:#wiki_import#:#Wiki importieren
-mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
-feed#:#feed_import#:#Import Feed###16 07 2010 new variable
+mcst#:#mcst_import#:#Mediacast importieren
+feed#:#feed_import#:#Webfeed importieren
 sess#:#sess_import#:#Sitzung importieren
 exc#:#exc_import#:#Übung importieren
 content#:#cont_users_answered#:#Benutzerantworten
@@ -10693,13 +10693,13 @@ user#:#user_new_profile_page#:#Neue Profilseite
 user#:#user_add_page#:#Seite hinzufügen
 user#:#user_order#:#Reihenfolge
 user#:#user_sure_delete_pages#:#Wollen Sie die folgenden Seiten wirklich löschen?
-user#:#user_selected_pages_deleted#:#The selected pages have been deleted.###16 07 2010 new variable
-webr#:#webr_imort#:#Import Weblink###16 07 2010 new variable
+user#:#user_selected_pages_deleted#:#Die ausgewählten Seiten wurde gelöscht.
+webr#:#webr_imort#:#Weblink importieren
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
 survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
 style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
-style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
-style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglink#:#Begriffslink
+style#:#sty_type_glo_ovuglistlink#:#Link in Begriffsliste
 form#:#form_please_select#:#Bitte auswählen
 meta#:#meta_c_AX#:#Åland
 meta#:#meta_c_BL#:#Saint-Barthélemy
