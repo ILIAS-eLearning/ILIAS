@@ -117,7 +117,7 @@ class ilBookingObject
 
 		$id = $ilDB->nextId('booking_object');
 
-		return $ilDB->query('INSERT INTO booking_object'.
+		return $ilDB->manipulate('INSERT INTO booking_object'.
 			' (booking_object_id,title,type_id,schedule_id)'.
 			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
 			','.$ilDB->quote($this->getTypeId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
@@ -136,7 +136,7 @@ class ilBookingObject
 			return false;
 		}
 
-		return $ilDB->query('UPDATE booking_object'.
+		return $ilDB->manipulate('UPDATE booking_object'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', type_id = '.$ilDB->quote($this->getTypeId(), 'integer').
 			', schedule_id = '.$ilDB->quote($this->getScheduleId(), 'integer').
@@ -173,7 +173,7 @@ class ilBookingObject
 	{
 		global $ilDB;
 
-		return $ilDB->query('UPDATE booking_object'.
+		return $ilDB->manipulate('UPDATE booking_object'.
 			' SET schedule_id = '.$ilDB->quote($a_schedule_id, 'integer').
 			' WHERE type_id = '.$ilDB->quote($a_type_id, 'integer').
 			' ORDER BY title');
@@ -189,7 +189,7 @@ class ilBookingObject
 
 		if($this->id)
 		{
-			return $ilDB->query('DELETE FROM booking_object'.
+			return $ilDB->manipulate('DELETE FROM booking_object'.
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}
