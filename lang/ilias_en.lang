@@ -10725,3 +10725,15 @@ dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this re
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#Your booking has failed.
+book#:#book_reservation_status_1#:#Reserved
+book#:#book_reservation_status_2#:#In Use
+book#:#book_reservation_status_3#:#Overdue
+book#:#book_reservation_status_4#:#Returned
+book#:#book_reservation_status_5#:#Cancelled
+book#:#book_reservation_status_6#:#Blocked
+book#:#book_period#:#Period
+book#:#book_change_status#:#Change Status
+book#:#book_reservation_cancel#:#Cancel
+book#:#book_reservation_block#:#Block
+book#:#book_log#:#Log
+book#:#book_reservations_list#:#Reservations

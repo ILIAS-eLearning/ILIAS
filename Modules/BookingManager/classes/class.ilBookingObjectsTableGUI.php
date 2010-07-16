@@ -38,14 +38,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		$this->setLimit(9999);
 		
+		$this->addColumn($this->lng->txt("title"), "title");
+
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$this->addCommandButton('create', $this->lng->txt('book_add_object'));
-		}
 
-		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("status"));
-		$this->addColumn($this->lng->txt("current_user"));
+			$this->addColumn($this->lng->txt("status"));
+			$this->addColumn($this->lng->txt("book_current_user"));
+			$this->addColumn($this->lng->txt("book_period"));
+		}
+		
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setEnableHeader(true);
@@ -103,8 +106,23 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 
-	    $this->tpl->setVariable("TXT_STATUS", ":TODO:");
-	    $this->tpl->setVariable("TXT_CURRENT_USER", ":TODO:");
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$this->tpl->setCurrentBlock('details');
+			
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+			$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
+			if($reservation)
+			{
+				$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
+				$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
+				$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$reservation['status']));
+				$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
+				$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
