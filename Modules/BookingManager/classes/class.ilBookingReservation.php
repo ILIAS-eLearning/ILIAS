@@ -136,7 +136,7 @@ class ilBookingReservation
 	 * @param	int	$a_status
 	 * @return	bool
 	 */
-	function isValidStatus($a_status)
+	static function isValidStatus($a_status)
 	{
 		if(in_array($a_status, array(self::STATUS_RESERVED, self::STATUS_IN_USE,
 			self::STATUS_OVERDUE, self::STATUS_RETURNED, self::STATUS_CANCELLED,
@@ -229,21 +229,21 @@ class ilBookingReservation
 
 	/**
 	 * Check if any of given objects are bookable
-	 * @param	array	$ids
-	 * @param	int		$from
-	 * @param	int		$to
+	 * @param	array	$a_ids
+	 * @param	int		$a_from
+	 * @param	int		$a_to
 	 * @return	int
 	 */
-	static function getAvailableObject(array $ids, $from, $to)
+	static function getAvailableObject(array $a_ids, $a_from, $a_to)
 	{
 		global $ilDB;
 
-		$from = $ilDB->quote($from, 'integer');
-		$to = $ilDB->quote($to, 'integer');
+		$from = $ilDB->quote($a_from, 'integer');
+		$to = $ilDB->quote($a_to, 'integer');
 		
 		$set = $ilDB->query('SELECT object_id'.
 			' FROM booking_reservation'.
-			' WHERE '.$ilDB->in('object_id', $ids, '', 'integer').
+			' WHERE '.$ilDB->in('object_id', $a_ids, '', 'integer').
 			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
 			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
 			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
@@ -253,7 +253,7 @@ class ilBookingReservation
 		{
 			$blocked[] = $row['object_id'];
 		}
-		$available = array_diff($ids, $blocked);
+		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
 		{
 			return array_shift($available);
@@ -262,10 +262,10 @@ class ilBookingReservation
 
 	/**
 	 * Get details about object reservation
-	 * @param	int	$object_id
+	 * @param	int	$a_object_id
 	 * @return	array
 	 */
-	static function getCurrentOrUpcomingReservation($object_id)
+	static function getCurrentOrUpcomingReservation($a_object_id)
     {
 		global $ilDB;
 
@@ -277,6 +277,7 @@ class ilBookingReservation
 			' WHERE ((date_from <= '.$now.' AND date_to >= '.$now.')'.
 			' OR date_from > '.$now.')'.
 			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' AND object_id = '.$ilDB->quote($a_object_id, 'integer').
 			' ORDER BY date_from');
 		$row = $ilDB->fetchAssoc($set);
 		return $row;
@@ -284,15 +285,15 @@ class ilBookingReservation
 
 	/**
 	 * List all reservations
-	 * @param	int	$limit
-	 * @param	int	$offset
+	 * @param	int	$a_limit
+	 * @param	int	$a_offset
 	 * @return	array
 	 */
-	static function getList($limit = 10, $offset = 0)
+	static function getList($a_limit = 10, $a_offset = 0)
 	{
 		global $ilDB;
 
-		$ilDB->setLimit($limit, $offset);
+		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query('SELECT r.*,o.title'.
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
@@ -302,6 +303,25 @@ class ilBookingReservation
 			$res[] = $row;
 		}
 		return $res;
+	}
+
+	/**
+	 * Batch update reservation status
+	 * @param	array	$a_ids
+	 * @param	int		$a_status
+	 * @return	bool
+	 */
+	static function changeStatus(array $a_ids, $a_status)
+	{
+		global $ilDB;
+
+		if(self::isValidStatus($a_status))
+		{
+			return $ilDB->manipulate('UPDATE booking_reservation'.
+				' SET status = '.$ilDB->quote($a_status, 'integer').
+				' WHERE '.$ilDB->in('booking_reservation_id', $a_ids, '', 'integer'));
+
+		}
 	}
 }
 

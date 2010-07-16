@@ -33,18 +33,24 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->setLimit(9999);
 		
+		$this->addColumn("", "", "1%");
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("user"));
 		$this->addColumn($this->lng->txt("book_period"));
 		
-		$this->addColumn($this->lng->txt("actions"));
-
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager");
 		$this->initFilter();
+
+		$options = array();
+		for($loop = 1; $loop < 7; $loop++)
+	    {
+			$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+		}
+		$this->addMultiItemSelectionButton('tstatus', $options, 'changeStatus', $this->lng->txt('book_change_status'));
 
 		$this->getItems($this->type_id, $this->getCurrentFilter());
 	}
@@ -94,24 +100,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		global $lng, $ilAccess, $ilCtrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+	    $this->tpl->setVariable("RESERVATION_ID", $a_set["booking_reservation_id"]);
 
 		$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
 		$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
 		$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
 		$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($a_set['user_id']));
 		$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
-		
-		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
-		
-		$this->tpl->setCurrentBlock('item_command');
-
-		$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'changeStatus'));
-		$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_reservation_cancel'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'changeStatus'));
-		$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_reservation_block'));
-		$this->tpl->parseCurrentBlock();
 	}
 }
 
