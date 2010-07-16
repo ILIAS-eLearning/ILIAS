@@ -10622,3 +10622,7 @@ book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
 book#:#book_confirm_delete#:#Wollen Sie wirklich die nachfolgende Objekte löschen?
+common#:#obj_book#:#Buchungspool
+common#:#objs_book#:#Buchungspools
+book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
+book#:#book_create_title#:#Buchungspool hinzufügen

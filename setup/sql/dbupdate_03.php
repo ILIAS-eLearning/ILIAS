@@ -2785,3 +2785,30 @@ if(!$ilDB->tableExists('booking_schedule'))
 		));
 
 ?>
+<#3144>
+<?php
+
+$id = $ilDB->nextId('object_data');
+
+// register new object type 'book' for booking manager
+$query = "INSERT INTO object_data (obj_id,type, title, description, owner, create_date, last_update) ".
+		"VALUES ('".$id."','typ', 'book', 'Booking Manager', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'book'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations for booking object
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+?>

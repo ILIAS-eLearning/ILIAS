@@ -20,7 +20,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		$this->type = "booking";
+		$this->type = "book";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->lng->loadLanguageModule("book");
 	}
@@ -33,11 +33,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		global $tpl, $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 		
-		if(!$next_class && $this->ctrl->getCmd() == 'render')
+		if(!$next_class && $cmd == 'render')
 		{
 			$this->ctrl->setCmdClass('ilBookingTypeGUI');
 			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		if(substr($cmd, 0, 4) == 'book')
+		{
+			$next_class = '';
 		}
 
 		$this->prepareOutput();
@@ -149,7 +155,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$form = $this->initForm();
 		if($form->checkInput())
 		{
-			$_POST["new_type"] = "booking";
+			$_POST["new_type"] = "book";
 			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
 
 			// always call parent method first to create an object_data entry & a reference
@@ -238,6 +244,46 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
+	}
+
+	/**
+	 * First step in booking process
+	 */
+	function bookObject()
+	{
+		$this->tabs_gui->setTabActive('render');
+
+		if(isset($_GET['object_id']))
+		{
+			$this->renderBookingByObject($_GET['object_id']);
+		}
+		else
+		{
+			$this->renderBookingByType($_GET['type_id']);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 */
+	protected function renderBookingByObject($a_object_id)
+    {
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		$obj = new ilBookingObject($a_object_id);
+
+	}
+
+	/**
+	 *
+	 *
+	 */
+	protected function renderBookingByType($a_type_id)
+    {
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		$type = new ilBookingType($a_type_id);
+		
 	}
 }
 
