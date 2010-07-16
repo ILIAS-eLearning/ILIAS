@@ -198,6 +198,15 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 		$lv = ($a_set["lang_var"] == "")
 			? $a_set["key"]
 			: $a_set["lang_var"];
+		if ($a_set["key"] == "country")
+		{
+			$lv = "country_free_text";
+		}
+		if ($a_set["key"] == "sel_country")
+		{
+			$lv = "country_selection";
+		}
+
 		$this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
 	}
 	

@@ -258,13 +258,25 @@ class ilPublicUserProfileGUI
 			$tpl->setCurrentBlock("address");
 			$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
 			$val_arr = array ("getStreet" => "street",
-			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country");
+			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country", "getSelectedCountry" => "sel_country");
 			foreach ($val_arr as $key => $value)
 			{
 				// if value "y" show information
 				if ($user->getPref("public_".$value) == "y")
 				{
-					$tpl->setVariable(strtoupper($value), $user->$key());
+					if ($user->$key() != "")
+					{
+						if ($value == "sel_country")
+						{
+							$lng->loadLanguageModule("meta");
+							$tpl->setVariable("COUNTRY",
+								$lng->txt("meta_c_".$user->$key()));
+						}
+						else
+						{
+							$tpl->setVariable(strtoupper($value), $user->$key());
+						}
+					}
 				}
 			}
 			$tpl->parseCurrentBlock();

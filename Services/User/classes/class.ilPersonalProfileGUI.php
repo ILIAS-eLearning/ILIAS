@@ -1800,7 +1800,7 @@ class ilPersonalProfileGUI
 
 			// if check on Institute
 			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
-				"zipcode", "city", "country", "phone_office", "phone_home", "phone_mobile",
+				"zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
 				"fax", "email", "hobby", "matriculation");
 	
 			// set public profile preferences

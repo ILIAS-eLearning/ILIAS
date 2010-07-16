@@ -260,7 +260,56 @@ class ilAccountRegistrationGUI
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
 		$up->setMode(ilUserProfile::MODE_REGISTRATION);
-		$up->setUserFromFields($this->form, $this->userObj);
+
+		$map = array();
+		$up->skipGroup("preferences");
+		$up->skipGroup("settings");
+		$up->skipGroup("instant_messengers");
+		$up->skipField("password");
+		$up->skipField("birthday");
+		$up->skipField("upload");
+		foreach ($up->getStandardFields() as $k => $v)
+		{
+			if ($k != "username")
+			{
+				$k = "usr_".$k;
+			}
+			$method = "set".substr($v["method"], 3);
+
+			$field_obj = $this->form->getItemByPostVar($k);
+			if($field_obj)
+			{
+				$this->userObj->$method($this->form->getInput($k));
+			}
+
+		}
+
+		$this->userObj->setFullName();
+
+		$birthday_obj = $this->form->getItemByPostVar("usr_birthday");
+		if ($birthday_obj)
+		{
+			$birthday = $this->form->getInput("usr_birthday");
+			$birthday = $birthday["date"];
+
+			// when birthday was not set, array will not be substituted with string by ilBirthdayInputGui
+			if(!is_array($birthday))
+			{
+				$this->userObj->setBirthday($birthday);
+			}
+		}
+
+		// messenger
+		$map = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");
+		foreach($map as $client)
+		{
+			$field = "usr_im_".$client;
+			$field_obj = $this->form->getItemByPostVar($field);
+			if($field_obj)
+			{
+				$this->userObj->setInstantMessengerId($client, $this->form->getInput($field));
+			}
+		}
 		
 		$this->userObj->setTitle($this->userObj->getFullname());
 		$this->userObj->setDescription($this->userObj->getEmail());

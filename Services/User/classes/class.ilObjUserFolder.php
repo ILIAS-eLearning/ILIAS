@@ -761,54 +761,24 @@ class ilObjUserFolder extends ilObject
 	}
 
 	
-/*
-		DEPRECATED, USE:
-		
-		include_once("./Services/User/classes/class.ilUserProfile.php");
-		$up = new ilUserProfile();
-		$up->hideGroup("preferences");
-		$up->getStandardUserFields();
-
-*/
 	/**
-	 * get Profile fields
+	 * Get profile fields (DEPRECATED, use ilUserProfile() instead)
 	 *
 	 * @return array of fieldnames
 	 */
 	static function &getProfileFields()
 	{
-		$profile_fields = array(
-			"gender",
-			"firstname",
-			"lastname",
-			"title",
-			"birthday",
-			"password",
-			"institution",
-			"department",
-			"street",
-			"zipcode",
-			"city",
-			"country",
-			"phone_office",
-			"phone_home",
-			"phone_mobile",
-			"fax",
-			"email",
-			"hobby",
-			"referral_comment",
-			"matriculation",
-			"delicious",
-			"upload",
-			"language",
-			"skin_style",
-			"hits_per_page",
-			"show_users_online",
-			"instant_messengers",
-			"hide_own_online_status",
-			"mail_incoming_mail"
-		);
-		
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipField("username");
+		$up->skipField("roles");
+		$up->skipGroup("preferences");
+		$fds = $up->getStandardFields();
+		foreach ($fds as $k => $f)
+		{
+			$profile_fields[] = $k;
+		}
+
 		return $profile_fields;
 	}
 
