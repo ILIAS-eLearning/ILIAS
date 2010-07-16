@@ -1070,7 +1070,86 @@ class ilCalendarAppointmentGUI
 		$cat->setObjId($ilUser->getId());
 		return $cat->add();
 	}
+	
+	/**
+	 * Register to an appointment
+	 * @return 
+	 */
+	protected function confirmRegister()
+	{
+		global $tpl;
+		
+		$entry = new ilCalendarEntry((int) $_GET['app_id']);
+		$start = ilDatePresentation::formatDate(
+			new ilDateTime($_GET['dstart'],IL_CAL_UNIX),
+			new ilDateTime($_GET['dend'],IL_CAL_UNIX)
+		);
+			
+		
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI;
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt('cal_confirm_reg_info'));
+		$conf->setConfirm($this->lng->txt('cal_reg_register'), 'register');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
+		$conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle().' ('.$start.')');
+		
+		$tpl->setContent($conf->getHTML());
+	}
+	
+	/**
+	 * Register
+	 * @return 
+	 */
+	protected function register()
+	{
+		global $ilUser;
+		
+		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
+		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
+		$reg->register($ilUser->getId());
 
+		ilUtil::sendSuccess($this->lng->txt('cal_reg_registered'),true);
+		$this->ctrl->returnToParent($this);
+	}
+	
+	public function confirmUnregister()
+	{
+		global $tpl;
+		
+		$entry = new ilCalendarEntry((int) $_GET['app_id']);
+		$start = ilDatePresentation::formatDate(
+			new ilDateTime($_GET['dstart'],IL_CAL_UNIX),
+			new ilDateTime($_GET['dend'],IL_CAL_UNIX)
+		);
+			
+		
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI;
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt('cal_confirm_unreg_info'));
+		$conf->setConfirm($this->lng->txt('cal_reg_unregister'), 'unregister');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
+		$conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle().' ('.$start.')');
+		
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * Register
+	 * @return 
+	 */
+	protected function unregister()
+	{
+		global $ilUser;
+		
+		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
+		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
+		$reg->unregister($ilUser->getId());
+
+		ilUtil::sendSuccess($this->lng->txt('cal_reg_unregistered'),true);
+		$this->ctrl->returnToParent($this);
+	}
 	
 
 	public function book()

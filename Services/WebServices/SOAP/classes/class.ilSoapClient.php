@@ -101,7 +101,7 @@ class ilSoapClient
 
 	function init()
 	{
-		$this->client = new soap_client($this->getServer(),
+		$this->client = new nusoap_client($this->getServer(),
 										$this->enabledWSDL(),
 										false, // no proxy support in the moment
 										false,

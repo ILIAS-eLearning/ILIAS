@@ -2825,3 +2825,22 @@ $this->db->query($query);
 	$setting->set("usr_settings_changeable_lua_sel_country" ,0);
 ?>
 
+<#3146>
+<?php
+if(!$ilDB->tableExists('cal_registrations'))
+{
+	$ilDB->createTable('cal_registrations',array(
+		'cal_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'usr_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('cal_registrations', array('cal_id', 'usr_id'));
+}
+?>

@@ -10719,3 +10719,11 @@ book#:#book_hours#:#Stunden
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
 book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_confirm_booking#:#Buchung vornehmen
+dateplaner#:#cal_reg_register#:#Anmelden
+dateplaner#:#cal_reg_unregister#:#Abmelden
+dateplaner#:#cal_registrations#:#Terminanmeldung
+dateplaner#:#cal_cg_registrations#:#Anmeldung für Kurs/Gruppentermine
+dateplaner#:#cal_cg_registration_info#:#Wenn aktiviert, können sich Benutzer für Kurs- und Gruppentermine anmelden.
+dateplaner#:#cal_reg_registered_users#:#Angemeldete Benutzer
+dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von diesen Termin.
+dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
