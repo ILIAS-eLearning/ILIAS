@@ -213,7 +213,6 @@ assessment#:#add_answer_yn#:#Odpovědi ano/ne
 assessment#:#add_applet_parameter#:#Přidat parametr apletu
 assessment#:#add_area#:#Přidat plochu
 assessment#:#add_circle#:#Přidat kruhovou plochu
-assessment#:#add_flash_parameter#:#Přidat parametr Flash
 assessment#:#add_gap#:#Přidat text mezery
 assessment#:#add_imagemap#:#Přidat mapu obrázku
 assessment#:#add_matching_pair#:#Přidat odpovídající pár
@@ -252,7 +251,6 @@ assessment#:#assClozeTest#:#Otázka s doplňováním textu
 assessment#:#assErrorText#:#Chyba textu
 assessment#:#assessment_eval_settings#:#Ukaž následující pole Hodnocení všem uživatelům
 assessment#:#assFileUpload#:#Soubor uložených otázek
-assessment#:#assFlashApp#:#Aplikace Flash
 assessment#:#assFlashQuestion#:#Flash otázka
 assessment#:#assImagemapQuestion#:#Otázka s mapou obrázku
 assessment#:#assJavaApplet#:#Otázka s Java apletem
@@ -281,83 +279,6 @@ assessment#:#cannot_export_test#:#Nemáte oprávnění k exportování testu!
 assessment#:#cannot_maintain_test#:#Nemáte oprávnění k vytváření testu!
 assessment#:#cannot_read_questionpool#:#Nemáte oprávnění ke čtení dat zásobníku otázek!
 assessment#:#cannot_save_metaobject#:#Nemáte oprávnění k ukládání metadat!
-assessment#:#certificate#:#Certifikát
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Obrázek pozadí
-assessment#:#certificate_bottom#:#Nahoře
-assessment#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
-assessment#:#certificate_custom#:#Vlastní formát...
-assessment#:#certificate_delete#:#Smazat certifikát
-assessment#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
-assessment#:#certificate_error_import#:#Během importu certifikátu se vyskytla chyba!
-assessment#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
-assessment#:#certificate_export#:#Export certifikátu
-assessment#:#certificate_failed#:#selhalo
-assessment#:#certificate_left#:#Levý
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Okraje hlavní části
-assessment#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
-assessment#:#certificate_padding_top#:#Souběh horního okraje
-assessment#:#certificate_page_format#:#Formát stránky
-assessment#:#certificate_pageheight#:#Výška stránky
-assessment#:#certificate_pagewidth#:#Šířka stránky
-assessment#:#certificate_passed#:#předán
-assessment#:#certificate_ph_city#:#Město adresy uživatele
-assessment#:#certificate_ph_country#:#Země adresy uživatele
-assessment#:#certificate_ph_date#:#Aktuální datum
-assessment#:#certificate_ph_datetime#:#Aktuální datum a čas
-assessment#:#certificate_ph_department#:#Katedra uživatele
-assessment#:#certificate_ph_firstname#:#Křestní jméno uživatele
-assessment#:#certificate_ph_fullname#:#Celé jméno uživatelé (titul, jméno a příjmení)
-assessment#:#certificate_ph_institution#:#Instituce uživatele
-assessment#:#certificate_ph_introduction#:#Následující rezervovaná místa lze využít
-assessment#:#certificate_ph_lastname#:#Příjmení uživatele
-assessment#:#certificate_ph_marklong#:#Známka uživatele (oficiální verze)
-assessment#:#certificate_ph_markshort#:#Známka uživatele (zkrácená verze)
-assessment#:#certificate_ph_maxpoints#:#Maximum dosažitelných bodů
-assessment#:#certificate_ph_passed#:#"prospěl" nebo "neprospěl", v závislosti na výsledcích testu
-assessment#:#certificate_ph_resultpercent#:#Dosažená procenta uživatele
-assessment#:#certificate_ph_resultpoints#:#Dosažené body uživatele
-assessment#:#certificate_ph_street#:#Ulice adresy uživatele
-assessment#:#certificate_ph_testtitle#:#Název testu
-assessment#:#certificate_ph_title#:#Titul uživatele
-assessment#:#certificate_ph_zipcode#:#PSČ adresy uživatele
-assessment#:#certificate_preview#:#Zobrazit náhled certifikátu
-assessment#:#certificate_right#:#Pravý
-assessment#:#certificate_show#:#Zobrazit certifikát
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
-assessment#:#certificate_status_incomplete#:#Certifikát není hotový
-assessment#:#certificate_text#:#Text certifikátu
-assessment#:#certificate_top#:#Vrchol
-assessment#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Výborně-mínus
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#Prospěl
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Praha
-assessment#:#certificate_var_user_country#:#Česká republika
-assessment#:#certificate_var_user_department#:#Katedra uživatelské podpory
-assessment#:#certificate_var_user_firstname#:#Jan
-assessment#:#certificate_var_user_fullname#:#Ing. Jan Novák
-assessment#:#certificate_var_user_institution#:#Univerzita ILIAS
-assessment#:#certificate_var_user_lastname#:#Novák
-assessment#:#certificate_var_user_street#:#Hlavní třída 100
-assessment#:#certificate_var_user_title#:#Ing.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Viditelnost
-assessment#:#certificate_visibility_always#:#Vždy viditelné
-assessment#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
-assessment#:#certificate_visibility_never#:#Neviditelné
-assessment#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
-assessment#:#certificate_wrong_unit#:#Vložil(a) jste chybné jednotky
-assessment#:#certificate_wrong_units#:#Vložil(a) jste chybnou sadu jednotek
 assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z namátkového testu na nenamátkový test. Informace o již přidaných zásobnících otázek do namátkového testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenamátkového testu na namátkový test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro namátkový test. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_solution#:#Změna doporučeného řešení
@@ -527,8 +448,6 @@ assessment#:#final_statement#:#Závěrečné sdělení
 assessment#:#final_statement_show#:#Zobrazit závěrečné sdělení
 assessment#:#final_statement_show_desc#:#Je-li vybráno, pak závěrečné sdělení bude zobrazeno přímo po ukončení testu, ještě před prezentací výsledků tohoto testu.
 assessment#:#fixed_participants_hint#:#Tento test je dostupný skupině stálých účastníků zobrazených níže. Toto nastavení můžete změnit deaktivací zaškrtávacího políčka stálých účastníků v tabulce %s.
-assessment#:#flash_attributes#:#Atributy Flash
-assessment#:#flash_parameters#:#Parametry Flash
 assessment#:#flashfile#:#Soubor Flash
 assessment#:#forcejs#:#Vynutit výstup JavaScript pro otázky testu
 assessment#:#forcejs_desc#:#Pokud je zaškrtnuto, pro otázky testu bude vybrán výstup JavaScriptu, pokud výstup JavaScriptu a havarijní řešení existuje.
@@ -696,8 +615,6 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Pro vybranou otázku ne
 assessment#:#qpl_assessment_of_questions#:#Hodnocení otázek
 assessment#:#qpl_assessment_total_of_answers#:#Souhrn odpovědí
 assessment#:#qpl_assessment_total_of_right_answers#:#Souhrn procent správných odpovědí (procent z maxima bodů)
-assessment#:#qpl_browsercolumns#:#Přizpůsobený seznam otázek
-assessment#:#qpl_browsercolumns_description#:#Vyberte datové sloupce otázek, které jsou zobrazeny v seznamu otázek zásobníku otázek. Toto nastavení bude použito pro každý dosažitelný zásobník otázek.
 assessment#:#qpl_confirm_delete_questions#:#Jste si jist(a), že chcete smazat následující otázky?
 assessment#:#qpl_copy_insert_clipboard#:#Vybrané otázky jsou zkopírovány do schránky
 assessment#:#qpl_copy_select_none#:#Označte alespoň jednu otázku ke zkopírování do schránky
@@ -1762,8 +1679,6 @@ common#:#adopt_perm_from_template#:#Zkopírovat nastavení oprávnění
 common#:#advanced_editing_allow_html_tags#:#Povolit vybrané HTML značky pro editaci textu
 common#:#advanced_editing_allow_javascript_editor#:#Zapnout Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#HTML značky pro testy a nástroje hodnocení ILIAS povoleny
-common#:#advanced_editing_cat_page_editing#:#Zapnout úpravu obsahu pro stránky kategorií
-common#:#advanced_editing_cat_page_editing_desc#:#Zapíná úpravu obsahu stránek kategorií. Pokud je vypnuto, kategorie jsou zobrazeny jako sada seznamů položek.
 common#:#advanced_editing_frm_post_settings#:#Nastavení pošty fóra
 common#:#advanced_editing_lm_js_editing#:#Zapnout plochu HTML pro úpravu obsahu
 common#:#advanced_editing_lm_js_editing_desc#:#Zapnuty plocha HTML a podpora JavaScriptu pro editaci stránek ve výukových modulech a rejstřících.
@@ -1776,7 +1691,6 @@ common#:#advanced_editing_settings#:#Rozšířená nastavení editace
 common#:#advanced_editing_survey_settings#:#Povolení značky HTML pro nástroje dozoru ILIAS
 common#:#advanced_editing_tinymce#:#zapnutý
 common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
-common#:#adve_cat_settings#:#Nastavení kategorií
 common#:#adve_edit_permission#:#Změna nastavení práv
 common#:#adve_frm_post_settings#:#Pošta fóra
 common#:#adve_general_settings#:#Obecná nastavení
@@ -2368,7 +2282,6 @@ common#:#dbk_new#:#Nová digitální kniha
 common#:#dbk_read#:#Právo číst na digitální knihu
 common#:#dbk_visible#:#Digitální kniha je viditelná
 common#:#dbk_write#:#Upravit digitální knihu
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Nastavit neaktivní
 common#:#decrease_attempts#:#Pokusy - 1
@@ -3327,7 +3240,6 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
-common#:#learning_module#:#Learning Module
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -3508,7 +3420,6 @@ common#:#mcst_visible#:#MediaCast je viditelný
 common#:#mcst_write#:#Upravit MediaCast
 common#:#mem_add_to_wl#:#Přidat do seznamu čekatelů
 common#:#mem_alert_no_places#:#Zde není žádné volné místo.
-common#:#mem_already_on_list#:#Již jste zařazen(a) na seznam čekatelů.
 common#:#mem_end#:#Konec registrace:
 common#:#mem_free_places#:#Volná místa:
 common#:#mem_max_users#:#Maximum uživatelů:
@@ -5686,7 +5597,6 @@ content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Následující zdroje připojené k tomuto termínu
 content#:#glo_usages#:#Glossary is used in...
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#HTML Export
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -6191,7 +6101,6 @@ crs#:#crs_unblocked#:#Volný vstup
 crs#:#crs_unblocked_member#:#Status v kurzu "%s"
 crs#:#crs_unblocked_member_body#:#Vaše členství v kurzu "%s" bylo obnoveno.
 crs#:#crs_unlimited#:#Neomezeno
-crs#:#crs_unsubscribe#:#Vyškrtnout
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Chcete se vyškrtnout z tohoto kurzu?
@@ -7074,7 +6983,6 @@ grp#:#crs_grouping_select_one#:#Označte prosím jedno omezení členství.
 grp#:#crs_grp_added_grouping#:#Nové omezení členství přidáno.
 grp#:#crs_grp_assign_crs#:#Zařazení skupin
 grp#:#crs_grp_enter_title#:#Vyplňte prosím všechna požadovaná pole.
-grp#:#crs_grp_info_reg#:#Můžete se zaregistrovat do jedné z těchto skupin:
 grp#:#crs_grp_no_courses_assigned#:#Žádná zařazená skupina
 grp#:#crs_grp_table_assigned_courses#:#Zařazené skupiny
 grp#:#grouping_change_assignment#:#Změnit zařazení
@@ -7083,7 +6991,6 @@ grp#:#grp_accept_subscriber_body#:#Byl(a) jste přijat(a) do skupiny "%1$s".\n\n
 grp#:#grp_added_to_list#:#Byl(a) jste zařazen(a) na seznam čekatelů. Jste zařazen(a) v pořadí %s.
 grp#:#grp_admins#:#Správci
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
-grp#:#grp_btn_unsubscribe#:#Zrušit příslušnost ke skupině
 grp#:#grp_cancel_subscr_request#:#Smazat požadavek členství
 grp#:#grp_change_type#:#Změnit typ skupiny
 grp#:#grp_closed#:#Skupina uzavřena
@@ -7130,8 +7037,6 @@ grp#:#grp_map_location#:#Umístění mapy skupiny
 grp#:#grp_map_settings#:#Nastavení mapy
 grp#:#grp_members#:#Příslušníci
 grp#:#grp_members_map#:#Mapa členů skupiny
-grp#:#grp_membership_request_body#:#%1$s %2$s požádal o členství ve skupině "%5$s".\n\nAkceptujte prosím, nebo zamítněte tento požadavek na stránce "Požadavky zařazení" do skupiny.\n\nSkupina: %5$s", %6$s\n\nŽadatel: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubjekt:\n%7$s
-grp#:#grp_membership_request_subject#:#%1$s %2$s žádá o zařazení do skupiny "%3$s".
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
@@ -7167,8 +7072,6 @@ grp#:#grp_reg_request_info#:#Zájemci mohou poslat žádost/zprávu správci sku
 grp#:#grp_reg_start#:#Registrace začíná:
 grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Neomezené období registrace
-grp#:#grp_reject_subscriber#:#Zamítnuto pro skupinu "%s"
-grp#:#grp_reject_subscriber_body#:#Váš požadavek o zařazení do skupiny "%s" byl zamíthut.
 grp#:#grp_search_users#:#Search User
 grp#:#grp_select_one_file#:#Vyberte prosím jeden soubor.
 grp#:#grp_selected_users#:#Vybraní účastníci
@@ -8237,8 +8140,6 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#1 soubor byl přídán.
 news#:#news_1_file_updated#:#1 soubor byl aktualizován.
 news#:#news_1_postings#:#1 příspěvek byl přídán.
-news#:#news_acc_cache#:#Kontrolovat oprávnění (Minuty)
-news#:#news_acc_cache_info#:#Kontrolovat oprávnění číst pro položky zpráv každé x minuty (pouze osobní pracovní plocha). '0' znamená stále. Vyšší hodnoty zlepšují výkon, ale zprávy mohou být spojeny s nedostupnými položkami.
 news#:#news_all_items#:#Všechny položky
 news#:#news_allow_longer_periods#:#Umožnit delší periody
 news#:#news_allow_longer_periods_info#:#Uživatelé mohou vybrat delší periody zpráv na osobní pracovní ploše.
@@ -8822,7 +8723,6 @@ ps#:#ps_account_security_mode#:#Bezpečnost účtu
 ps#:#ps_account_security_mode_customized#:#Volitelná bezpečnost účtu
 ps#:#ps_account_security_mode_default#:#Standardní bezpečnost účtu Ilias
 ps#:#ps_agreement_accepted#:#Uživatelské ujednání akceptováno
-ps#:#ps_agreement_req_info#:#Pro získání přístupu k obsahu kurzu potvrďte prosím uživatelské ujednání.
 ps#:#ps_auto_https#:#Autodetekce HTTPS
 ps#:#ps_auto_https_description#:#Je-li zapnuto, ILIAS zkouší zjistit status HTTPs analyzováním hodnoty hlavičky specifikované níže.
 ps#:#ps_auto_https_header_name#:#Název hlavičky
@@ -8833,7 +8733,6 @@ ps#:#ps_cdf_added_field#:#Přidán nový rámeček výběru.
 ps#:#ps_cdf_delete_sure#:#Určitě chcete smazat tato uživatelská pole?
 ps#:#ps_cdf_deleted#:#Smazaná uživatelská pole
 ps#:#ps_cdf_deleted_field#:#Smazaná hodnota
-ps#:#ps_cdf_info#:#Další data specifického kurzu:
 ps#:#ps_cdf_name#:#Jméno
 ps#:#ps_cdf_no_fields#:#Žádné uživatelské pole nedefinováno.
 ps#:#ps_cdf_no_name_given#:#Vložte prosím jméno
@@ -8854,7 +8753,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#Minimální délka hesla nem
 ps#:#ps_error_message_password_max_less_min#:#Maximální délka hesla nemůže být menší než minimální délka hesla.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimální délka hesla nemůže být menší než 2 pokud heslo má obsahovat písmena a číslice.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimální délka hesla nemůže být menší než 3 pokud heslo má obsahovat písmena, číslice a speciální znaky.
 ps#:#ps_export_admin#:#Administrátoři
 ps#:#ps_export_confirm#:#Schválení uživatele při vstupu do kurzu
 ps#:#ps_export_course#:#Rozšířený export dat uživatelského profilu v kurzech
@@ -8891,7 +8789,6 @@ ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#Je-li zapnuto, simultánní přihlášení se stejným přihlášením z různých počítačů nejsou možná.
 ps#:#ps_privacy_protection#:#Privátní nastavení
 ps#:#ps_profile_export#:#Ochrana dat uživatelského profilu
-ps#:#ps_required_info#:#Pro přístup k obsahu kurzu jsou vyžadovány další pole specifikovaného kurzu.
 ps#:#ps_security_protection#:#Nastavení bezpečnosti
 ps#:#ps_select_one#:#Vyberte prosím jeden soubor k exportu
 ps#:#ps_show_crs_access#:#Zobrazit čas posledního přístupu účastníků kurzu
@@ -9039,7 +8936,6 @@ rbac#:#root_create_svy#:#Vytvořit anketu
 rbac#:#root_create_tst#:#Vytvořit test
 rbac#:#root_create_webr#:#Vytvořit webový odkaz
 rbac#:#root_create_wiki#:#Vytvořit Wiki
-rbac#:#sess_copy#:#Kopírovat lekci
 rbac#:#sess_delete#:#Smazat schůzku
 rbac#:#sess_edit_event#:#Upravit události kalendáře
 rbac#:#sess_edit_permission#:#Změnit nastavení oprávnění
@@ -9849,11 +9745,8 @@ survey#:#no_questions_available#:#Zde nejsou dostupné žádné otázky!
 survey#:#no_search_results#:#Není žádný výsledek hledání!
 survey#:#no_target_selected_for_move#:#Musíte vybrat cílové umístění!
 survey#:#no_user_invited#:#Žádný pozvaný uživatel neobdržel odpovídající oprávnění spustit anketu. Žádný uživatel nebyl pozván.
-survey#:#no_user_of_group_invited#:#Žádný uživatel vybrané skupiny nevlastní odpovídající oprávnění spustit anketu. Žádný uživatel nebyl pozván.
-survey#:#no_user_of_role_invited#:#Všichni uživatelé vybrané role(í) nedostali odpovídající oprávnění ke spuštění ankety. Žádný uživatel nebyl pozván.
 survey#:#no_user_or_group_selected#:#Vyberte prosím volbu, co hledáte (uživatelé a/nebo skupiny)!
 survey#:#no_user_phrases_defined#:#Žádné uživatelsky definované fráze nejsou dostupné!
-survey#:#nominal_question_mr_not_checked#:#Zvolte prosím alespoň jednu z nabízených odpovědí!
 survey#:#nominal_question_not_checked#:#Zvolte prosím jednu z nabízených odpovědí!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#nepoužito
@@ -9863,7 +9756,6 @@ survey#:#offline#:#offline (neaktivován)
 survey#:#on#:#Zapnuto
 survey#:#on_additional#:#Zapnuto, a další
 survey#:#or#:#nebo
-survey#:#ordinal_question_not_checked#:#Vyberte prosím jednu z nabízených odpovědí!
 survey#:#orientation#:#Orientace
 survey#:#outro#:#Závěrečná značka
 survey#:#percentage_of_entered_values#:#Procento uživatelů, kteří vložili tuto hodnotu
@@ -9949,8 +9841,6 @@ survey#:#show_questiontext#:#Zobrazit text otázky
 survey#:#show_questiontext_description#:#Je-li toto zaškrtávací pole vybráno, pro každou otázku v bloku otázek bude zobrazen text otázky. Není-li toto zaškrtávací pole vybráno, text otázky u každé otázky v bloku otázek bude skrytý.
 survey#:#skipped#:#přeskočeno
 survey#:#specialusers#:#Zvláštní uživatelé
-survey#:#spl_browsercolumns#:#Přizpůsobený seznam otázek
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#Obecné vlastnosti
@@ -10000,8 +9890,6 @@ survey#:#survey_use_start_button#:#Musíte vložit anketu použitím startovací
 survey#:#SurveyMatrixQuestion#:#Maticová otázka
 survey#:#SurveyMetricQuestion#:#Metrická otázka
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Nominální otázka
-survey#:#SurveyOrdinalQuestion#:#Ordinální otázka
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Textová otázka
 survey#:#svy_all_user_data_deleted#:#Všechna uživatelská data této ankety byly smazány!
@@ -10404,3 +10292,444 @@ wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_wiki_page#:#Stránka Wiki
 wiki#:#wiki_wiki_search#:#Hledání ve Wiki
+common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
+common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
+common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
+common#:#optional_filters#:#Optional Filters###16 07 2010 new variable
+common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
+common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
+content#:#cont_LocalFile#:#Local File###16 07 2010 new variable
+content#:#scplayer_next#:#Next###16 07 2010 new variable
+dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
+dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
+dateplaner#:#cal_def_date_format#:#Default Date Input Format###16 07 2010 new variable
+dateplaner#:#cal_user_date_format#:#Date Input Format###16 07 2010 new variable
+ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###16 07 2010 new variable
+ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.###16 07 2010 new variable
+ps#:#crs_ps_cdf_info#:#Further Course-Specific Data:###16 07 2010 new variable
+ps#:#grp_ps_cdf_info#:#Further Group-Specific Data:###16 07 2010 new variable
+ps#:#ps_grp_user_fields#:#Group-Specific User Fields###16 07 2010 new variable
+ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups###16 07 2010 new variable
+ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups###16 07 2010 new variable
+ps#:#crs_ps_required_info#:#Further Course-Specific fields are required for accessing the course content.###16 07 2010 new variable
+ps#:#grp_ps_required_info#:#Further Group-Specific fields are required for accessing the group content.###16 07 2010 new variable
+registration#:#registration_user_new_account_mail#:#Edit New Account Mail###16 07 2010 new variable
+registration#:#registration_tab_settings#:#Registration Settings###16 07 2010 new variable
+registration#:#registration_tab_codes#:#Registration Codes###16 07 2010 new variable
+registration#:#registration_reg_type_codes#:#Registration with Codes###16 07 2010 new variable
+registration#:#registration_reg_type_codes_info#:#This type allows self-registration of users but requires a valid code.###16 07 2010 new variable
+registration#:#registration_codes_add#:#Add Codes###16 07 2010 new variable
+registration#:#registration_codes_export#:#Export Codes###16 07 2010 new variable
+registration#:#registration_codes_edit_header#:#Add Codes###16 07 2010 new variable
+registration#:#registration_codes_number#:#Number Of Codes###16 07 2010 new variable
+registration#:#registration_codes_roles#:#Role For New Accounts###16 07 2010 new variable
+registration#:#registration_code#:#Code###16 07 2010 new variable
+registration#:#registration_generated#:#Date Of Generation###16 07 2010 new variable
+registration#:#registration_used#:#Date Of Usage###16 07 2010 new variable
+registration#:#registration_roles_all#:#All Roles###16 07 2010 new variable
+registration#:#registration_generated_all#:#All Dates###16 07 2010 new variable
+registration#:#registration_export_codes_no_data#:#No codes to export were selected.###16 07 2010 new variable
+registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.###16 07 2010 new variable
+common#:#session_config#:#Session Settings###16 07 2010 new variable
+common#:#session_config_maintenance_enabled#:#Maintenance by client allowed###16 07 2010 new variable
+common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed###16 07 2010 new variable
+common#:#session_max_count#:#Max active sessions###16 07 2010 new variable
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
+common#:#session_min_idle#:#Min session idle (in minutes)###16 07 2010 new variable
+common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+common#:#session_max_idle#:#Max session idle (in minutes)###16 07 2010 new variable
+common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
+common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
+common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
+forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
+common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
+common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
+common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
+payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
+assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
+survey#:#svy_search_users#:#Search for participants###16 07 2010 new variable
+trac#:#trac_first_access#:#First Access###16 07 2010 new variable
+trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
+trac#:#trac_spent_seconds#:#Time Spent###16 07 2010 new variable
+trac#:#trac_percentage#:#Percentage###16 07 2010 new variable
+payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.###16 07 2010 new variable
+payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).###16 07 2010 new variable
+payment#:#please_use_account#:#For further purchases please login with use your account.###16 07 2010 new variable
+content#:#cont_lk_file#:#File/Document###16 07 2010 new variable
+content#:#cont_select_file#:#Select File###16 07 2010 new variable
+content#:#cont_create_link#:#Create Link###16 07 2010 new variable
+rep#:#rep_dependencies#:#Dependencies###16 07 2010 new variable
+rep#:#rep_object_to_delete#:#To Delete###16 07 2010 new variable
+rep#:#rep_dependent_object#:#Ressource with dependence###16 07 2010 new variable
+rep#:#rep_dependency#:#Dependency###16 07 2010 new variable
+content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###16 07 2010 new variable
+content#:#glo_presentation_view#:#Presentation View###16 07 2010 new variable
+content#:#glo_add_new_term#:#Add New Term###16 07 2010 new variable
+content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.###16 07 2010 new variable
+content#:#glo_list_usages#:#List Usages###16 07 2010 new variable
+exp#:#exp_create_xml_file#:#Create Export Package (XML)###16 07 2010 new variable
+survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.###16 07 2010 new variable
+survey#:#other_answer_label#:#Label of other answer (optional)###16 07 2010 new variable
+style#:#sty_glo_char#:#Glossary###16 07 2010 new variable
+style#:#sty_type_glo_overlay#:#Glossary Overlay###16 07 2010 new variable
+style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
+content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
+common#:#delete_inactive_user_accounts#:#Delete user accounts###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_period#:#Days past since the last login###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the last login.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_include_roles#:#Included roles###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_interval#:#Frequency###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###16 07 2010 new variable
+mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)###16 07 2010 new variable
+content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
+forum#:#post_reply#:#Re:###16 07 2010 new variable
+forum#:#preset_subject#:#Preset subject on reply###16 07 2010 new variable
+forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.###16 07 2010 new variable
+administration#:#obj_frma#:#Forum###16 07 2010 new variable
+administration#:#obj_frma_desc#:#Global Forumsettings###16 07 2010 new variable
+administration#:#forum_settings#:#Forumsettings###16 07 2010 new variable
+administration#:#show_topics_overview#:#Topic Overview###16 07 2010 new variable
+administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown###16 07 2010 new variable
+common#:#show_system_messages#:#System Messages###16 07 2010 new variable
+content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
+content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
+content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
+content#:#glo_text_snippet_length#:#Definition Snippet Length###16 07 2010 new variable
+content#:#glo_text_snippet_length_info#:#Length of the text snippet of the definition that is shown in the overview.###16 07 2010 new variable
+content#:#glo_full_definitions#:#Full Definitions###16 07 2010 new variable
+content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.###16 07 2010 new variable
+content#:#glo_editing_view#:#Editing View###16 07 2010 new variable
+administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr#:#Container Only###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
+administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
+cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
+tbl#:#tbl_templates#:#View###16 07 2010 new variable
+tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
+tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
+tbl#:#tbl_template_created#:#The current view has been saved.###16 07 2010 new variable
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.###16 07 2010 new variable
+style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?###16 07 2010 new variable
+style#:#sty_delete_other_selected#:#Continue###16 07 2010 new variable
+style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.###16 07 2010 new variable
+style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".###16 07 2010 new variable
+style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_if_style_class_already_exists#:#If style class already exists...###16 07 2010 new variable
+style#:#sty_overwrite#:#Overwrite###16 07 2010 new variable
+style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
+style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
+news#:#news_attached_to#:#Attached to###16 07 2010 new variable
+news#:#news_add_news#:#Add News###16 07 2010 new variable
+news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new variable
+news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
+news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
+trac#:#trac_learners#:#Learners ###16 07 2010 new variable
+trac#:#trac_summary#:#Summary ###16 07 2010 new variable
+trac#:#trac_learners_back#:#Back To Learners###16 07 2010 new variable
+trac#:#trac_user_objects#:#Learning Objects for User###16 07 2010 new variable
+content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
+content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
+common#:#settings_for_all_members#:#Global Setting for all Course/Group Members###16 07 2010 new variable
+common#:#settings_per_users#:#Settings per Course/Group Members###16 07 2010 new variable
+user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
+user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
+user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
+user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
+common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
+common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
+common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
+common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
+content#:#cont_alignment#:#Alignment###16 07 2010 new variable
+content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
+rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
+administration#:#adm_db_benchmark#:#DB Benchmark###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark#:#Activate Benchmark###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###16 07 2010 new variable
+administration#:#adm_db_benchmark_user#:#User Account Name###16 07 2010 new variable
+administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.###16 07 2010 new variable
+administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
+administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
+administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
+administration#:#adm_sql#:#SQL###16 07 2010 new variable
+administration#:#adm_time#:#Time###16 07 2010 new variable
+administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
+administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
+administration#:#adm_table#:#Table###16 07 2010 new variable
+trac#:#trac_subitems#:#Show Sub-Items###16 07 2010 new variable
+trac#:#trac_participants#:#Show Participants###16 07 2010 new variable
+trac#:#trac_title#:#Title###16 07 2010 new variable
+dateplaner#:#cal_grp_new_notification_sub#:#New Appointment in Group "%s"###16 07 2010 new variable
+dateplaner#:#cal_grp_notification_sub#:#Changed Appointment in Group "%s"###16 07 2010 new variable
+dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
+dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Course "%s"###16 07 2010 new variable
+grp#:#grp_notification_salutation#:#Dear group participant,###16 07 2010 new variable
+crs#:#crs_notification_salutation#:#Dear course participant,###16 07 2010 new variable
+dateplaner#:#cal_grp_new_notification_body#:#a new appointment has been created in group "%s".###16 07 2010 new variable
+dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".###16 07 2010 new variable
+dateplaner#:#cal_grp_notification_body#:#an appointment has been changed in group "%s".###16 07 2010 new variable
+dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in course "%s".###16 07 2010 new variable
+dateplaner#:#cal_notification#:#Mail Notification###16 07 2010 new variable
+dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.###16 07 2010 new variable
+dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.###16 07 2010 new variable
+rbac#:#rbac_add_new_local_role#:#Add New Local Role###16 07 2010 new variable
+search#:#search_item_filter#:#Search by Type###16 07 2010 new variable
+search#:#search_item_filter_form#:#Search by Type###16 07 2010 new variable
+search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.###16 07 2010 new variable
+chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar###16 07 2010 new variable
+administration#:#group_export#:#Visible in Groups###16 07 2010 new variable
+tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
+tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
+crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
+grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
+assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
+crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
+crs#:#crs_groups_nr#:#Number of Groups###16 07 2010 new variable
+crs#:#crs_add_to_group#:#Add to Group###16 07 2010 new variable
+wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
+mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
+exc#:#exc_submission_notification#:#Email Notification on Submissions###16 07 2010 new variable
+exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded.###16 07 2010 new variable
+exc#:#exc_submission_notification_body#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
+exc#:#exc_submission_notification_link#:#Link to Exercise: %s###16 07 2010 new variable
+exc#:#exc_submission_notification_subject#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
+wiki#:#wiki_edit_notification#:#Email Notification on Change###16 07 2010 new variable
+wiki#:#wiki_edit_notification_info#:#You will be notified when any page is edited.###16 07 2010 new variable
+wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_body_update#:#In wiki "%s" the page "%s" was updated.###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#In wiki "%s" the page "%s" was deleted.###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_link#:#Link to wiki page: %s###16 07 2010 new variable
+wiki#:#wiki_change_notification_body_new#:#In wiki "%s" the page "%s" was created.###16 07 2010 new variable
+wiki#:#wiki_change_notification_link#:#Link to wiki: %s###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_info#:#Change Notification###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_wiki_activate#:#Activate for Wiki###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_wiki_deactivate#:#Deactivate for Wiki###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_page_activate#:#Activate for Page###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_page_deactivate#:#Deactivate for Page###16 07 2010 new variable
+feed#:#feed_import#:#Import Feed###16 07 2010 new variable
+dateplaner#:#cal_repeat_until#:#Repeat until###16 07 2010 new variable
+dateplaner#:#cal_upcoming_events_header#:#Upcoming Events###16 07 2010 new variable
+sess#:#sess_import#:#Import Session###16 07 2010 new variable
+exc#:#exc_import#:#Import Exercise###16 07 2010 new variable
+dateplaner#:#cal_back_to_list#:#Back to List###16 07 2010 new variable
+dateplaner#:#cal_back_to_search#:#Back to Search###16 07 2010 new variable
+dateplaner#:#cal_unshare#:#Cancel Sharing###16 07 2010 new variable
+dateplaner#:#cal_manage#:#Manage###16 07 2010 new variable
+dateplaner#:#cal_delete_single#:#Delete only this appointment###16 07 2010 new variable
+dateplaner#:#cal_delete_recurrences#:#Delete all recurrences###16 07 2010 new variable
+dateplaner#:#cal_back_to_cal#:#Back to Calendar###16 07 2010 new variable
+rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar###16 07 2010 new variable
+dateplaner#:#cal_ch_form_header#:#Consultation Hours###16 07 2010 new variable
+dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. ###16 07 2010 new variable
+dateplaner#:#cal_ch_form#:#Enable Consultation Hours###16 07 2010 new variable
+dateplaner#:#app_consultation_hours#:#Consultation Hours###16 07 2010 new variable
+rbac#:#log#:#Log###16 07 2010 new variable
+rbac#:#rbac_log#:#Log###16 07 2010 new variable
+rbac#:#rbac_changes#:#Changes###16 07 2010 new variable
+rbac#:#rbac_log_operation_add#:#Added Operation for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_source_object#:#Source object###16 07 2010 new variable
+rbac#:#rbac_log_edit_permissions#:#Edit Permissions###16 07 2010 new variable
+rbac#:#rbac_log_move_object#:#Move Object###16 07 2010 new variable
+rbac#:#rbac_log_link_object#:#Link Object###16 07 2010 new variable
+rbac#:#rbac_log_copy_object#:#Copy Object###16 07 2010 new variable
+rbac#:#rbac_log_create_object#:#Create Object###16 07 2010 new variable
+rbac#:#rbac_log_edit_template#:#Edit Role Template###16 07 2010 new variable
+rbac#:#rbac_log_edit_template_existing#:#Use Role Template for Existing Objects###16 07 2010 new variable
+ps#:#rbac_log#:#Permission Log###16 07 2010 new variable
+ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
+rbac#:#rbac_log_change_owner#:#Change Owner of Object###16 07 2010 new variable
+rbac#:#rbac_log_changed_owner#:#Changed Owner to###16 07 2010 new variable
+dateplaner#:#cal_ch_add_sequence#:#Add Consultation Hours Sequence###16 07 2010 new variable
+dateplaner#:#cal_ch_duration#:#Duration###16 07 2010 new variable
+dateplaner#:#cal_ch_num_appointments#:#Number of Appointments###16 07 2010 new variable
+dateplaner#:#cal_ch_num_bookings#:#Booking per Appointment###16 07 2010 new variable
+dateplaner#:#cal_ch_deadline#:#Latest Registration###16 07 2010 new variable
+dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the registration is blocked.###16 07 2010 new variable
+dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.###16 07 2010 new variable
+dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours###16 07 2010 new variable
+dateplaner#:#cal_ch_ch#:#Consultation Hours###16 07 2010 new variable
+ps#:#rbac_log_age#:#Keep Log Entries ###16 07 2010 new variable
+ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new variable
+rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop###16 07 2010 new variable
+rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy#:#Copy Permissions###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy_empty#:#None###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects###16 07 2010 new variable
+content#:#cont_users_answered#:#Users Answered###16 07 2010 new variable
+content#:#cont_correct_after_first#:#First Try Correct###16 07 2010 new variable
+content#:#cont_second#:#Second###16 07 2010 new variable
+content#:#cont_third_and_more#:#Third or More###16 07 2010 new variable
+content#:#cont_never#:#Never###16 07 2010 new variable
+user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
+form#:#form_alphabet_all#:#All###16 07 2010 new variable
+content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable
+content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
+content#:#cont_no_download_file_available#:#There is currently no public download file available.###16 07 2010 new variable
+content#:#htlm_import#:#Import HTML Learning Module###16 07 2010 new variable
+content#:#cont_selection#:#Selection###16 07 2010 new variable
+wiki#:#wiki_whole_wiki#:#Whole Wiki###16 07 2010 new variable
+wiki#:#wiki_selected_pages#:#Selected Pages###16 07 2010 new variable
+content#:#cont_whole_glossary#:#Whole Glossary###16 07 2010 new variable
+content#:#cont_selected_terms#:#Selected Terms###16 07 2010 new variable
+user#:#user_ext_profiles#:#Extended Profiles###16 07 2010 new variable
+user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.###16 07 2010 new variable
+user#:#user_ext_profile#:#Extended Profile###16 07 2010 new variable
+user#:#user_new_profile_page#:#New Profile Page###16 07 2010 new variable
+user#:#user_add_page#:#Add Page###16 07 2010 new variable
+user#:#user_order#:#Order###16 07 2010 new variable
+user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?###16 07 2010 new variable
+user#:#user_selected_pages_deleted#:#The selected pages have been deleted.###16 07 2010 new variable
+dateplaner#:#cal_consultation_hours_for#:#Consultation hours for###16 07 2010 new variable
+dateplaner#:#cal_ch_booking_owner#:#Owner###16 07 2010 new variable
+dateplaner#:#cal_ch_current_bookings#:#Current Bookings###16 07 2010 new variable
+dateplaner#:#cal_ch_book#:#Book Appointment###16 07 2010 new variable
+dateplaner#:#cal_ch_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_confirm_booking_info#:#Please confirm the booking for this appointment.###16 07 2010 new variable
+dateplaner#:#cal_confirm_booking#:#Confirm Booking###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this booking.###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.###16 07 2010 new variable
+crs#:#crs_reg_code#:#Registration Code###16 07 2010 new variable
+crs#:#crs_reg_code_link#:#Registration Link###16 07 2010 new variable
+crs#:#crs_reg_code_value#:#Code###16 07 2010 new variable
+crs#:#crs_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+grp#:#grp_reg_code#:#Registration Code###16 07 2010 new variable
+grp#:#grp_reg_code_link#:#Registration Link###16 07 2010 new variable
+grp#:#grp_reg_code_value#:#Code###16 07 2010 new variable
+grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply###16 07 2010 new variable
+forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.###16 07 2010 new variable
+forum#:#enter_new_subject#:#Please enter a new subject###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_subject#:#The appointment "%s" has been booked###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_body#:#your appointment with %s has been booked.###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_link#:#Link to the appointment:###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_user#:#This is a copy from the original mail to user:###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_subject#:#The appointment "%s" has been cancelled###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_user#:#This is a copy from the original mail to user:###16 07 2010 new variable
+webr#:#webr_imort#:#Import Weblink###16 07 2010 new variable
+news#:#finish_publishing_date#:#Finish Publishing:###16 07 2010 new variable
+news#:#news_hide_news_until_date#:#Show News Until###16 07 2010 new variable
+news#:#news_hide_news_until_date_info#:#Only news that has not reached a certain date will be displayed.###16 07 2010 new variable
+news#:#show_news_end_date#:#Ending Date###16 07 2010 new variable
+export#:#export_existing#:#Reuse###16 07 2010 new variable
+export#:#export_save_selection#:#Start Export###16 07 2010 new variable
+survey#:#use_min_answers#:#Answer selections###16 07 2010 new variable
+survey#:#use_min_answers_option#:#Use minimum number of answer selections###16 07 2010 new variable
+survey#:#nr_min_answers#:#Number###16 07 2010 new variable
+survey#:#err_no_min_answers#:#Please check at least %s answers.###16 07 2010 new variable
+survey#:#label#:#Label###16 07 2010 new variable
+survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)###16 07 2010 new variable
+survey#:#export_label_only#:#Export label only###16 07 2010 new variable
+survey#:#export_title_only#:#Export title only###16 07 2010 new variable
+survey#:#export_title_label#:#Export title and label###16 07 2010 new variable
+survey#:#mailnotification#:#Email notification###16 07 2010 new variable
+survey#:#mailaddresses#:#Recipient addresses###16 07 2010 new variable
+survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.###16 07 2010 new variable
+survey#:#mailparticipantdata#:#Additional participant data###16 07 2010 new variable
+survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.###16 07 2010 new variable
+survey#:#table_fields#:#Definition of field names for external mails###16 07 2010 new variable
+survey#:#tablefields#:#Field names###16 07 2010 new variable
+survey#:#tablefields_info#:#Please enter a comma separated list of field names for external mails.###16 07 2010 new variable
+survey#:#externalRecipients#:#External code recipients###16 07 2010 new variable
+survey#:#edit_phrase#:#Edit phrase###16 07 2010 new variable
+survey#:#phrase_new#:#Create new phrase###16 07 2010 new variable
+survey#:#no_phrase_selected#:#Nothing selected.###16 07 2010 new variable
+survey#:#other_answer#:#Other answer###16 07 2010 new variable
+survey#:#constraint_fulfilled#:#Show page###16 07 2010 new variable
+survey#:#conjunction_and#:#if each constraint is fulfilled###16 07 2010 new variable
+survey#:#conjunction_or#:#if one constraint is fulfilled###16 07 2010 new variable
+survey#:#conjunction_and_title#:#Fulfill each of the following constraints###16 07 2010 new variable
+survey#:#conjunction_or_title#:#Fulfill one of the following constraints###16 07 2010 new variable
+survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
+survey#:#err_no_selection#:#You made no selection.###16 07 2010 new variable
+survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
+survey#:#external_recipients_imported#:#External recipients have been imported.###16 07 2010 new variable
+survey#:#external_mails_import#:#Import external recipients of survey keys###16 07 2010 new variable
+survey#:#externalmails#:#Import file###16 07 2010 new variable
+survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.###16 07 2010 new variable
+dateplaner#:#cal_booked_out#:#booked up###16 07 2010 new variable
+dateplaner#:#cal_book_free#:#available###16 07 2010 new variable
+dateplaner#:#cal_date_booked#:#booked###16 07 2010 new variable
+dateplaner#:#cal_ch_bookings#:#Participants###16 07 2010 new variable
+trac#:#trac_matrix#:#Matrix View###16 07 2010 new variable
+dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments###16 07 2010 new variable
+exp#:#export_created#:#A new export file has been created.###16 07 2010 new variable
+crs#:#crs_import#:#Kurs importieren###16 07 2010 new variable
+style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
+form#:#form_please_select#:#Please Select###16 07 2010 new variable
+meta#:#meta_c_AX#:#Åland Islands###16 07 2010 new variable
+meta#:#meta_c_BL#:#Saint Barthélemy###16 07 2010 new variable
+meta#:#meta_c_GG#:#Guernsey###16 07 2010 new variable
+meta#:#meta_c_HK#:#Hong Kong###16 07 2010 new variable
+meta#:#meta_c_IM#:#Isle of Man###16 07 2010 new variable
+meta#:#meta_c_JE#:#Jersey###16 07 2010 new variable
+meta#:#meta_c_ME#:#Montenegro###16 07 2010 new variable
+meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
+meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
+meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
+meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
+common#:#sel_country#:#Country###16 07 2010 new variable
+book#:#book_booking_types#:#Types###16 07 2010 new variable
+book#:#book_schedules#:#Schedules###16 07 2010 new variable
+book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
+book#:#book_book#:#Book###16 07 2010 new variable
+book#:#book_list_items#:#List Objects###16 07 2010 new variable
+book#:#book_add_type#:#Add Type###16 07 2010 new variable
+book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
+book#:#book_edit_type#:#Edit Type###16 07 2010 new variable
+book#:#book_group_objects#:#Group objects###16 07 2010 new variable
+book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.###16 07 2010 new variable
+book#:#book_schedule#:#Schedule###16 07 2010 new variable
+book#:#book_objects_list#:#Objects of Type:###16 07 2010 new variable
+book#:#book_current_user#:#Booked by###16 07 2010 new variable
+book#:#book_add_object#:#Add Object###16 07 2010 new variable
+book#:#book_edit_object#:#Edit Object###16 07 2010 new variable
+book#:#book_is_used#:#Is Used###16 07 2010 new variable
+book#:#book_add_schedule#:#Add Schedule###16 07 2010 new variable
+book#:#book_edit_schedule#:#Edit Schedule###16 07 2010 new variable
+book#:#book_schedule_type#:#Type###16 07 2010 new variable
+book#:#book_schedule_type_fix#:#Fix###16 07 2010 new variable
+book#:#book_schedule_type_fix_info#:#Can only be booked in given time slots###16 07 2010 new variable
+book#:#book_schedule_type_flexible#:#Flexible###16 07 2010 new variable
+book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours###16 07 2010 new variable
+book#:#book_schedule_raster#:#Time raster###16 07 2010 new variable
+book#:#book_schedule_raster_info#:#Minimum time entity###16 07 2010 new variable
+book#:#book_schedule_rent_min#:#Minimum booking time###16 07 2010 new variable
+book#:#book_schedule_rent_max#:#Maximum booking time###16 07 2010 new variable
+book#:#book_schedule_rent_info#:#Given in multiples of time raster###16 07 2010 new variable
+book#:#book_schedule_break#:#Auto-Break between Bookings###16 07 2010 new variable
+book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010 new variable
+book#:#book_schedule_days#:#Weekdays###16 07 2010 new variable
+book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)###16 07 2010 new variable
+book#:#book_schedule_slot#:#Slot###16 07 2010 new variable
+book#:#book_deadline#:#Deadline###16 07 2010 new variable
+book#:#book_minutes#:#Minutes###16 07 2010 new variable
+book#:#book_deadline_info#:#Minimum time between booking and booked period###16 07 2010 new variable
+book#:#book_type_added#:#A booking type has been added.###16 07 2010 new variable
+book#:#book_type_updated#:#The booking type has been updated.###16 07 2010 new variable
+book#:#book_type_deleted#:#The booking type has been deleted.###16 07 2010 new variable
+book#:#book_object_added#:#A booking object has been added.###16 07 2010 new variable
+book#:#book_object_updated#:#The booking object has been updated.###16 07 2010 new variable
+book#:#book_object_deleted#:#The booking object has been deleted.###16 07 2010 new variable
+book#:#book_schedule_added#:#A booking schedule has been added.###16 07 2010 new variable
+book#:#book_schedule_updated#:#The booking schedule has been updated.###16 07 2010 new variable
+book#:#book_schedule_deleted#:#The booking schedule has been deleted.###16 07 2010 new variable
+book#:#book_confirm_delete#:#Do you really want to delete the following items?###16 07 2010 new variable
+common#:#obj_book#:#Booking Pool###16 07 2010 new variable
+common#:#objs_book#:#Booking Pools###16 07 2010 new variable
+book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variable
+book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
+common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
+common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
