@@ -2785,6 +2785,8 @@ if(!$ilDB->tableExists('booking_schedule'))
 		));
 
 ?>
+
+
 <#3144>
 <?php
 
@@ -2812,3 +2814,14 @@ $this->db->query($query);
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 $this->db->query($query);
 ?>
+
+<#3145>
+<?php
+	$setting = new ilSetting();
+	$setting->set("usr_settings_hide_sel_country", 1);
+	$setting->set("usr_settings_disable_sel_country", 1);
+	$setting->set("usr_settings_visib_reg_sel_country" ,0);
+	$setting->set("usr_settings_visib_lua_sel_country" ,0);
+	$setting->set("usr_settings_changeable_lua_sel_country" ,0);
+?>
+
