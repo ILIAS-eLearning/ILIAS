@@ -10705,3 +10705,7 @@ book#:#book_schedule_added#:#A booking schedule has been added.
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_deleted#:#The booking schedule has been deleted.
 book#:#book_confirm_delete#:#Do you really want to delete the following items?
+common#:#obj_book#:#Booking Pool
+common#:#objs_book#:#Booking Pools
+book#:#book_pool_added#:#A booking pool has been added.
+book#:#book_create_title#:#Add Booking Pool
