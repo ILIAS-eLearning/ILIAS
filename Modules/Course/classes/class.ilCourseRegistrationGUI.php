@@ -429,7 +429,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				return false;
 			}
 		}
-		if(!$this->validateCourseDefinedFields())
+		if(!$this->validateCustomFields())
 		{
 			$this->join_error = $this->lng->txt('fill_out_all_required_fields');
 			return false;

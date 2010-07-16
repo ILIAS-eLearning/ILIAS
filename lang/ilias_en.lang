@@ -10705,13 +10705,21 @@ book#:#book_schedule_added#:#A booking schedule has been added.
 book#:#book_schedule_updated#:#The booking schedule has been updated.
 book#:#book_schedule_deleted#:#The booking schedule has been deleted.
 book#:#book_confirm_delete#:#Do you really want to delete the following items?
+dateplaner#:#cal_registrations#:#Appointment Registrations
+dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments
+dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to course and group appointments.
 common#:#obj_book#:#Booking Pool
 common#:#objs_book#:#Booking Pools
 book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_create_title#:#Add Booking Pool
+dateplaner#:#cal_reg_register#:#Register
+dateplaner#:#cal_reg_unregister#:#Unregister
 common#:#country_selection#:#Country (Drop Down Selection)
 common#:#country_free_text#:#Country (Free Text Input)
 book#:#book_hours#:#Hours
 book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
 book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_confirm_booking#:#Confirm Booking
+dateplaner#:#cal_reg_registered_users#:#Registered Users
+dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this registration.
+dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.
