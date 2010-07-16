@@ -229,6 +229,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
+			$this->tabs_gui->addTab("log",
+				$this->lng->txt("book_log"),
+				$this->ctrl->getLinkTarget($this, "log"));
+			
 			$this->tabs_gui->addTab("schedules",
 				$this->lng->txt("book_schedules"),
 				$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
@@ -464,6 +468,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
 			$this->ctrl->redirect($this, 'book');
 		}
+	}
+
+	/**
+	 *  List reservations
+	 */
+	function logObject()
+	{
+		global $tpl;
+
+		$this->tabs_gui->setTabActive('log');
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$tpl->setContent($table->getHTML());
 	}
 }
 

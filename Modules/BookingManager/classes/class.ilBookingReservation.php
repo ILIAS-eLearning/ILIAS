@@ -260,6 +260,49 @@ class ilBookingReservation
 		}
 	}
 
+	/**
+	 * Get details about object reservation
+	 * @param	int	$object_id
+	 * @return	array
+	 */
+	static function getCurrentOrUpcomingReservation($object_id)
+    {
+		global $ilDB;
+
+		$now = $ilDB->quote(time(), 'integer');
+
+		$ilDB->setLimit(1);
+		$set = $ilDB->query('SELECT user_id, status, date_from, date_to'.
+			' FROM booking_reservation'.
+			' WHERE ((date_from <= '.$now.' AND date_to >= '.$now.')'.
+			' OR date_from > '.$now.')'.
+			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' ORDER BY date_from');
+		$row = $ilDB->fetchAssoc($set);
+		return $row;
+	}
+
+	/**
+	 * List all reservations
+	 * @param	int	$limit
+	 * @param	int	$offset
+	 * @return	array
+	 */
+	static function getList($limit = 10, $offset = 0)
+	{
+		global $ilDB;
+
+		$ilDB->setLimit($limit, $offset);
+		$set = $ilDB->query('SELECT r.*,o.title'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
+			' ORDER BY date_from DESC');
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		return $res;
+	}
 }
 
 ?>
