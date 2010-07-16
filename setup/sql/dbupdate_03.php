@@ -2885,3 +2885,22 @@ if(!$ilDB->tableExists('booking_reservation'))
 	$ilDB->createSequence('booking_reservation');
 }
 ?>
+<#3148>
+<?php
+	$ilDB->addTableColumn("cal_registrations", "dstart", array(
+		"type" => "integer",
+		"notnull" => true,
+		"default" => 0,
+		"length" => 4
+		));
+	
+	$ilDB->addTableColumn("cal_registrations", "dend", array(
+		"type" => "integer",
+		"notnull" => true,
+		"default" => 0,
+		"length" => 4
+		));
+		
+	$ilDB->dropPrimaryKey('cal_registrations');
+	$ilDB->addPrimaryKey('cal_registrations', array('cal_id', 'usr_id','dstart','dend'));
+?>

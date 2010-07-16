@@ -177,7 +177,7 @@ class ilCalendarAppointmentPanelGUI
 						include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
 						$reg = new ilCalendarRegistration($a_app['event']->getEntryId());
 						
-						if($reg->isRegistered($ilUser->getId()))
+						if($reg->isRegistered($ilUser->getId(),new ilDateTime($a_app['dstart'],IL_CAL_UNIX),new ilDateTime($a_app['dend'],IL_CAL_UNIX)))
 						{
 							$this->tpl->setCurrentBlock('panel_cancel_book_link');
 							$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
@@ -203,8 +203,9 @@ class ilCalendarAppointmentPanelGUI
 						{
 							include_once 'classes/class.ilLink.php';
 							$registrations = array();
-							foreach($reg->getRegisteredUsers() as $usr_id)
+							foreach($reg->getRegisteredUsers() as $usr_data)
 							{
+								$usr_id = $usr_data['usr_id'];
 								$registrations[] = '<a href="'.ilLink::_getLink($usr_id, 'usr').'">'.ilObjUser::_lookupFullname($usr_id);
 							}
 							$this->tpl->setCurrentBlock('panel_current_booking');

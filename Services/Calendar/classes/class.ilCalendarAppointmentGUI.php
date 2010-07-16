@@ -1088,6 +1088,10 @@ class ilCalendarAppointmentGUI
 		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
+		
+		$this->ctrl->setParameter($this,'dstart',(int) $_REQUEST['dstart']);
+		$this->ctrl->setParameter($this,'dend',(int) $_REQUEST['dend']);
+		
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('cal_confirm_reg_info'));
 		$conf->setConfirm($this->lng->txt('cal_reg_register'), 'register');
@@ -1107,7 +1111,11 @@ class ilCalendarAppointmentGUI
 		
 		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
 		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
-		$reg->register($ilUser->getId());
+		$reg->register(
+			$ilUser->getId(),
+			new ilDateTime((int) $_REQUEST['dstart'],IL_CAL_UNIX),
+			new ilDateTime((int) $_REQUEST['dend'],IL_CAL_UNIX)
+		);
 
 		ilUtil::sendSuccess($this->lng->txt('cal_reg_registered'),true);
 		$this->ctrl->returnToParent($this);
@@ -1117,15 +1125,20 @@ class ilCalendarAppointmentGUI
 	{
 		global $tpl;
 		
+		
 		$entry = new ilCalendarEntry((int) $_GET['app_id']);
 		$start = ilDatePresentation::formatDate(
-			new ilDateTime($_GET['dstart'],IL_CAL_UNIX),
-			new ilDateTime($_GET['dend'],IL_CAL_UNIX)
+			$dstart = new ilDateTime($_GET['dstart'],IL_CAL_UNIX),
+			$dend = new ilDateTime($_GET['dend'],IL_CAL_UNIX)
 		);
 			
 		
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
+		
+		$this->ctrl->setParameter($this,'dstart',(int) $_REQUEST['dstart']);
+		$this->ctrl->setParameter($this,'dend',(int) $_REQUEST['dend']);
+		
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('cal_confirm_unreg_info'));
 		$conf->setConfirm($this->lng->txt('cal_reg_unregister'), 'unregister');
@@ -1145,7 +1158,11 @@ class ilCalendarAppointmentGUI
 		
 		include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
 		$reg = new ilCalendarRegistration((int) $_POST['app_id']);
-		$reg->unregister($ilUser->getId());
+		$reg->unregister(
+			$ilUser->getId(),
+			new ilDateTime((int) $_REQUEST['dstart'],IL_CAL_UNIX),
+			new ilDateTime((int) $_REQUEST['dend'],IL_CAL_UNIX)
+		);
 
 		ilUtil::sendSuccess($this->lng->txt('cal_reg_unregistered'),true);
 		$this->ctrl->returnToParent($this);
