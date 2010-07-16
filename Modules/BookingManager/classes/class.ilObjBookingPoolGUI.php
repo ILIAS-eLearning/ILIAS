@@ -300,7 +300,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$type = new ilBookingType($a_type_id);
 		$schedule = new ilBookingSchedule($type->getScheduleId());
-		$object_ids = ilBookingObject::getList($a_type_id);
+		$object_ids = array();
+		foreach(ilBookingObject::getList($a_type_id) as $item)
+		{
+			$object_ids[] = $item['booking_object_id'];
+		}
 
 		$tpl->setContent($this->renderList($schedule, $object_ids, $type->getTitle()));
 	}
@@ -435,7 +439,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		else
 		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-			$ids = ilBookingObject::getList((int)$_GET['type_id']);
+			$ids = array();
+			foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
+			{
+				$ids[] = $item['booking_object_id'];
+			}
 			$object_id = ilBookingReservation::getAvailableObject($ids, $fromto[0], $fromto[1]);
 		}
 
@@ -446,6 +454,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$reservation->setUserId($ilUser->getID());
 			$reservation->setFrom($fromto[0]);
 			$reservation->setTo($fromto[1]);
+			$reservation->setStatus(ilBookingReservation::STATUS_RESERVED);
 			$reservation->save();
 
 			ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
