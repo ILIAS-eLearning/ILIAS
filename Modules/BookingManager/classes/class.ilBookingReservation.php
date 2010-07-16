@@ -21,7 +21,9 @@ class ilBookingReservation
 	const STATUS_RESERVED = 1;
 	const STATUS_IN_USE = 2;
 	const STATUS_OVERDUE = 3;
-	const STATUS_BLOCKED = 4;
+	const STATUS_RETURNED = 4;
+	const STATUS_CANCELLED = 5;
+	const STATUS_BLOCKED = 6;
 
 	/**
 	 * Constructor
@@ -33,7 +35,6 @@ class ilBookingReservation
 	function __construct($a_id = NULL)
 	{
 		$this->id = (int)$a_id;
-		$this->setStatus(self::STATUS_RESERVED);
 		$this->read();
 	}
 
@@ -115,7 +116,7 @@ class ilBookingReservation
 	 */
 	function setStatus($a_status)
 	{
-		if($this->isValidStatus((int)$status))
+		if($this->isValidStatus((int)$a_status))
 		{
 			$this->status = (int)$a_status;
 		}
@@ -138,7 +139,8 @@ class ilBookingReservation
 	function isValidStatus($a_status)
 	{
 		if(in_array($a_status, array(self::STATUS_RESERVED, self::STATUS_IN_USE,
-			self::STATUS_OVERDUE, self::STATUS_BLOCKED)))
+			self::STATUS_OVERDUE, self::STATUS_RETURNED, self::STATUS_CANCELLED,
+			self::STATUS_BLOCKED)))
 		{
 			return true;
 		}
@@ -226,16 +228,38 @@ class ilBookingReservation
 	}
 
 	/**
-	 *
-	 * @param array $ids
-	 * @param <type> $from
-	 * @param <type> $to
-	 * 
+	 * Check if any of given objects are bookable
+	 * @param	array	$ids
+	 * @param	int		$from
+	 * @param	int		$to
+	 * @return	int
 	 */
 	static function getAvailableObject(array $ids, $from, $to)
 	{
-		return array_pop($ids);
+		global $ilDB;
+
+		$from = $ilDB->quote($from, 'integer');
+		$to = $ilDB->quote($to, 'integer');
+		
+		$set = $ilDB->query('SELECT object_id'.
+			' FROM booking_reservation'.
+			' WHERE '.$ilDB->in('object_id', $ids, '', 'integer').
+			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
+			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
+			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');
+		$blocked = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$blocked[] = $row['object_id'];
+		}
+		$available = array_diff($ids, $blocked);
+		if(sizeof($available))
+		{
+			return array_shift($available);
+		}
 	}
+
 }
 
 ?>
