@@ -103,7 +103,7 @@ class ilPaymentObject
 	{
 		$this->vat_id = $a_vat_id;
 	}
-		
+
 	function getVat($a_amount = 0, $type = 'CALCULATION')
 	{		
 		$oVAT = new ilShopVats($this->getVatId());
@@ -125,29 +125,16 @@ class ilPaymentObject
 	public function add()
 	{	
 		$next_id = $this->db->nextId('payment_objects');
-		$statement = $this->db->manipulateF(
-			'INSERT INTO payment_objects
-			 (	pobject_id,
-			 	ref_id,
-				 status,
-				 pay_method,
-				 vendor_id,
-				 pt_topic_fk,
-				 vat_id
-			) 
-			VALUES
-			(%s, %s, %s, %s, %s, %s, %s)', 
-			array('integer','integer', 'integer', 'integer', 'integer', 'integer','integer'),
-			array(	$next_id,
-					$this->getRefId(), 
-					$this->getStatus(),
-					$this->getPayMethod(),
-					$this->getVendorId(),
-					$this->getTopicId(),
-					$this->getVatId()
-				)
-			);
-		
+
+		$this->db->insert('payment_objects',array(
+			'pobject_id'	=> array('integer', $next_id),
+			'ref_id'		=> array('integer', $this->getRefId()),
+			'status'		=> array('integer', $this->getStatus()),
+			'pay_method'	=> array('integer', $this->getPayMethod()),
+			'vendor_id'		=> array('integer', $this->getVendorId()),
+			'pt_topic_fk'	=> array('integer', $this->getTopicId()),
+			'vat_id'		=> array('integer', $this->getVatId())
+		));
 		return $next_id;
 	}
 	
@@ -173,26 +160,16 @@ class ilPaymentObject
 	{
 		if((int)$this->getPobjectId())
 		{		
-			$statement = $this->db->manipulateF(
-				'UPDATE payment_objects
-				 SET
-				 ref_id = %s,
-				 status = %s,
-				 pay_method = %s,
-				 vendor_id = %s,
-				 pt_topic_fk = %s,
-				 vat_id = %s
-				 WHERE pobject_id = %s', 
-				array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-				array($this->getRefId(), 
-						  $this->getStatus(),
-						  $this->getPayMethod(),
-						  $this->getVendorId(),
-						  $this->getTopicId(),
-						  $this->getVatId(),
-						  $this->getPobjectId()
-				));
-	
+			$this->db->update('payment_objects',array(
+				'ref_id'		=> array('integer', $this->getRefId()),
+				'status'		=> array('integer', $this->getStatus()),
+				'pay_method'	=> array('integer', $this->getPayMethod()),
+				'vendor_id'		=> array('integer', $this->getVendorId()),
+				'pt_topic_fk'	=> array('integer', $this->getTopicId()),
+				'vat_id'		=> array('integer', $this->getVatId())
+			),
+			array('pobject_id'	=> array('integer', $this->getPobjectId())));
+
 			return true;
 		}
 		else
@@ -301,7 +278,7 @@ class ilPaymentObject
 		$res= $ilDB->queryf($query, $data_types, $data_values);
 		
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
 			$objects[$row->pobject_id]['ref_id'] = $row->ref_id;
@@ -393,7 +370,7 @@ class ilPaymentObject
 
 		$res = $ilDB->queryf($query, $data_types, $data_values);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
 			$objects[$row->pobject_id]['ref_id'] = $row->ref_id;
@@ -401,7 +378,7 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
-			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;			
+			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;
 		}
 		return $objects ? $objects : array();
 	}
@@ -417,7 +394,8 @@ class ilPaymentObject
 			
 		if (is_object($res))
 		{
-			return $res->fetchRow(DB_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($res);
+
 		}
 
 		return false;
@@ -480,30 +458,39 @@ class ilPaymentObject
 	function _hasAccess($a_ref_id, $a_transaction = 0)
 	{
 		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+		include_once './Services/Payment/classes/class.ilPaymentTrustees.php';
+		include_once './Services/Payment/classes/class.ilPaymentVendors.php';
 
-		global $rbacsystem,$ilDB;
+		global $rbacsystem,$ilDB, $ilUser;
 
 		// check write access
 		if($rbacsystem->checkAccess('write', $a_ref_id))
 		{
 			return true;
 		}
+		// check if user is vendor/trustee
+		$vendors_of_trustee = ilPaymentTrustees::_getVendorIdsByTrustee($ilUser->getId());
 		
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
 		{
 			return true;
 		}
-		
-		$res = $ilDB->queryf('
-			SELECT * FROM payment_objects 
-			WHERE ref_id = %s
-			AND (status = %s OR status = %s)',
-			array('integer', 'integer', 'integer'),
-			array($a_ref_id, '1', '2'));		
-	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+
+			$result = $ilDB->queryf('
+				SELECT * FROM payment_objects
+				WHERE ref_id = %s
+				AND (status = %s OR status = %s)
+				OR (vendor_id = %s)',
+				array('integer', 'integer', 'integer','integer'),
+				array($a_ref_id, '1', '2',$ilUser->getId()));
+		while($row = $ilDB->fetchObject($result))
 		{
+			if($row->vendor_id == $ilUser->getId() || in_array($row->vendor_id, $vendors_of_trustee))
+			{
+				return true;
+			}
+			else
 			if(!ilPaymentBookings::_hasAccess($row->pobject_id, '', $a_transaction))
 			{
 				return false;
@@ -526,31 +513,30 @@ class ilPaymentObject
 			array('integer', 'integer', 'integer'),
 			array($a_ref_id, '1', '2'));
 		
- 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+ 		$row = $ilDB->fetchObject($res);
 		return ilPaymentBookings::_getActivation($row->pobject_id);
 	}
 	
 	public static function _isBuyable($a_ref_id)
 	{
 		global $ilDB;
-		
+
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
 		{
 			return false;
 		}
-		
-		$result = $ilDB->queryf('
-			SELECT * FROM payment_objects
-			WHERE ref_id = %s AND (status = %s or status = %s)',
-	        array('integer', 'integer', 'integer'),
-	        array($a_ref_id, '1', '2'));   
-	        
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+
+			$result = $ilDB->queryf('
+				SELECT * FROM payment_objects
+				WHERE ref_id = %s AND (status = %s or status = %s)',
+				array('integer', 'integer', 'integer'),
+				array($a_ref_id, '1', '2'));
+
+		while($row = $ilDB->fetchObject($result))
 		{
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -585,7 +571,6 @@ class ilPaymentObject
 				AND po.pobject_id = psc.pobject_id',
 		        array('integer', 'text'),
 		        array($a_ref_id, session_id()));
-			
 		}
 		else
 		{
@@ -597,7 +582,7 @@ class ilPaymentObject
 		        array('integer', 'integer'),
 		        array($a_ref_id, $ilUser->getId()));
 		}
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($result))
 		{
 			return true;
 		}
@@ -612,7 +597,7 @@ class ilPaymentObject
 			$result = $this->db->queryf('SELECT * FROM payment_objects WHERE pobject_id = %s',
 		        	 	 	array('integer'), array($this->getPobjectId()));
 			
-			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $this->db->fetchObject($result))
 			{
 				$this->setRefId($row->ref_id);
 				$this->setStatus($row->status);
