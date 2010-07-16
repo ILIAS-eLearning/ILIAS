@@ -73,9 +73,18 @@ class ilCalendarRegistration
 	 * @param object $a_usr_id
 	 * @return bool
 	 */
-	public function isRegistered($a_usr_id)
+	public function isRegistered($a_usr_id,ilDateTime $start, ilDateTime $end)
 	{
-		return in_array($a_usr_id, (array) $this->registered);
+		foreach($this->registered as $reg_data)
+		{
+			if($reg_data['usr_id'] == $a_usr_id)
+			{
+				if($reg_data['dstart'] == $start->get(IL_CAL_UNIX) and $reg_data['dend'] == $end->get(IL_CAL_UNIX))
+				{
+					return true;
+				}
+			}			
+		}
 	}
 	
 	/**
@@ -83,16 +92,18 @@ class ilCalendarRegistration
 	 * @param int $a_usr_id
 	 * @return 
 	 */
-	public function register($a_usr_id)
+	public function register($a_usr_id,ilDateTime $start, ilDateTime $end)
 	{
 		global $ilDB;
 		
-		$this->unregister($a_usr_id);
+		$this->unregister($a_usr_id,$start,$end);
 		
-		$query = "INSERT INTO cal_registrations (cal_id,usr_id) ".
+		$query = "INSERT INTO cal_registrations (cal_id,usr_id,dstart,dend) ".
 			"VALUES ( ".
 			$ilDB->quote($this->getAppointmentId(),'integer').", ".
-			$ilDB->quote($a_usr_id,'integer').
+			$ilDB->quote($a_usr_id,'integer').", ".
+			$ilDB->quote($start->get(IL_CAL_UNIX),'integer').", ".
+			$ilDB->quote($end->get(IL_CAL_UNIX),'integer').
 			")";
 		$ilDB->manipulate($query);
 		
@@ -105,13 +116,15 @@ class ilCalendarRegistration
 	 * @param int $a_usr_id
 	 * @return 
 	 */
-	public function unregister($a_usr_id)
+	public function unregister($a_usr_id,ilDateTime $start, ilDateTime $end)
 	{
 		global $ilDB;
 		
 		$query = "DELETE FROM cal_registrations ".
 			"WHERE cal_id = ".$ilDB->quote($this->getAppointmentId(),'integer').' '.
-			"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
+			"AND usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
+			"AND dstart = ".$ilDB->quote($start->get(IL_CAL_UNIX),'integer').' '.
+			"AND dend = ".$ilDB->quote($end->get(IL_CAL_UNIX),'integer');
 		$res = $ilDB->manipulate($query);
 	}
 	
@@ -133,7 +146,11 @@ class ilCalendarRegistration
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->registered[] = $row->usr_id;
+			$this->registered[] = array(
+				'usr_id'=> $row->usr_id,
+				'dstart' =>$row->dstart,
+				'dend'	=> $row->dend
+			); 
 		}
 	}
 }
