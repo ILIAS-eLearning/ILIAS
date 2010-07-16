@@ -10715,3 +10715,7 @@ meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
 common#:#sel_country#:#Country###16 07 2010 new variable
 common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
 common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+book#:#book_hours#:#Stunden
+book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
+book#:#book_reservation_title#:#Buchungsanfrage für
+book#:#book_confirm_booking#:#Buchung vornehmen

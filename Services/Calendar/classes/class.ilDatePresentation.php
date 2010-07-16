@@ -219,7 +219,7 @@ class ilDatePresentation
 							
 						case ilCalendarSettings::TIME_FORMAT_12:
 							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone()).' - '.
-								$end->get(IL_CAL_FKT_DATE,'g:i a',$ilUser->getTimeZone());
+								$end->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
 					}
 				}
 			}

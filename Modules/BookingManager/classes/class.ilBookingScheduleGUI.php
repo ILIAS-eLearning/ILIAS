@@ -104,6 +104,7 @@ class ilBookingScheduleGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
+		/*
 		$type = new ilRadioGroupInputGUI($lng->txt("book_schedule_type"), "type");
 		$type->setRequired(true);
 		$form_gui->addItem($type);
@@ -143,6 +144,7 @@ class ilBookingScheduleGUI
 		$break->setSize(3);
 		$break->setMaxLength(3);
 		$flex->addSubItem($break);
+		*/
 
 		$definition = new ilCheckboxGroupInputGUI($lng->txt("book_schedule_days"), "days");
 		$definition->setInfo($lng->txt("book_schedule_days_info"));
@@ -166,7 +168,7 @@ class ilBookingScheduleGUI
 
 		$deadline = new ilNumberInputGUI($lng->txt("book_deadline"), "deadline");
 		$deadline->setInfo($lng->txt("book_deadline_info"));
-		$deadline->setSuffix($lng->txt("book_minutes"));
+		$deadline->setSuffix($lng->txt("book_hours"));
 		$deadline->setMinValue(0);
 		$deadline->setSize(3);
 		$deadline->setMaxLength(3);
@@ -184,6 +186,8 @@ class ilBookingScheduleGUI
 			$schedule = new ilBookingSchedule($id);
 			$title->setValue($schedule->getTitle());
 			$deadline->setValue($schedule->getDeadline());
+
+			/*
 			if($schedule->getRaster())
 			{
 				$type->setValue("flexible");
@@ -196,6 +200,7 @@ class ilBookingScheduleGUI
 			{
 				$type->setValue("fix");
 			}
+			*/
 
 			$def = $schedule->getDefinition();
 			$definition->setValue(array_keys($def));
@@ -283,6 +288,7 @@ class ilBookingScheduleGUI
 		$schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
 		$schedule->setDeadline($form->getInput("deadline"));
 
+		/*
 		if($form->getInput("type") == "flexible")
 		{
 			$schedule->setRaster($form->getInput("raster"));
@@ -297,6 +303,7 @@ class ilBookingScheduleGUI
 			$schedule->setMaxRental(NULL);
 			$schedule->setAutoBreak(NULL);
 		}
+		*/
 
 		$definition = array();
 		foreach($form->getInput("days") as $day_id)
