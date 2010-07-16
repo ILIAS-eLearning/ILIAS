@@ -483,6 +483,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
 		$tpl->setContent($table->getHTML());
 	}
+
+	/**
+	 * Change status of given reservations
+	 */
+	function changeStatusObject()
+	{
+		$this->tabs_gui->setTabActive('log');
+		
+		if(!$_POST['reservation_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->logObject();
+		}
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		ilBookingReservation::changeStatus($_POST['reservation_id'], (int)$_POST['tstatus']);
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		return $this->ctrl->redirect($this, 'log');
+	}
 }
 
 ?>
