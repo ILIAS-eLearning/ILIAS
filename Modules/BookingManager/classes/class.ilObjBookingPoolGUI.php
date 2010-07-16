@@ -251,15 +251,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function bookObject()
 	{
-		$this->tabs_gui->setTabActive('render');
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
 		if(isset($_GET['object_id']))
 		{
-			$this->renderBookingByObject($_GET['object_id']);
+			$this->ctrl->setParameter($this, 'object_id', (int)$_GET['object_id']);
+			$this->renderBookingByObject((int)$_GET['object_id']);
 		}
 		else
 		{
-			$this->renderBookingByType($_GET['type_id']);
+			$this->ctrl->setParameter($this, 'type_id', (int)$_GET['type_id']);
+			$this->renderBookingByType((int)$_GET['type_id']);
 		}
 	}
 
@@ -281,9 +284,121 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	protected function renderBookingByType($a_type_id)
     {
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$type = new ilBookingType($a_type_id);
+		global $tpl;
+
+		$this->lng->loadLanguageModule("dateplaner");
 		
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$type = new ilBookingType($a_type_id);
+		$schedule = new ilBookingSchedule($type->getScheduleId());
+		
+		// fix
+		if(!$schedule->getRaster())
+		{
+			$mytpl = new ilTemplate('tpl.booking_reservation_fix.html', true, true, 'Modules/BookingManager');
+
+			$mytpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this));
+			$mytpl->setVariable('TXT_TITLE', $this->lng->txt('book_reservation_title'));
+			$mytpl->setVariable('TXT_INFO', $this->lng->txt('book_reservation_fix_info'));
+			$mytpl->setVariable('TXT_OBJECT', $type->getTitle());
+			$mytpl->setVariable('TXT_CMD_BOOK', $this->lng->txt('book_confirm_booking'));
+			$mytpl->setVariable('TXT_CMD_CANCEL', $this->lng->txt('cancel'));
+
+			$mytpl->setCurrentBlock('dates');
+			foreach($this->slotsToDates($schedule->getDefinition(), $schedule->getDeadline()) as $idx => $date)
+			{
+				$range = $this->lng->txt(ucfirst($date['day']).'_short').', '.ilDatePresentation::formatPeriod(
+					new ilDateTime($date['from'], IL_CAL_UNIX),
+					new ilDateTime($date['to'], IL_CAL_UNIX)).'<br />';
+
+				if($idx%2)
+				{
+					$mytpl->setVariable('CSS_ROW', 'tblrow1');
+				}
+				else
+				{
+					$mytpl->setVariable('CSS_ROW', 'tblrow2');
+				}
+
+				$mytpl->setVariable('TXT_DATE', $range);
+				$mytpl->setVariable('VALUE_DATE', $date['from'].'_'.$date['to']);
+				$mytpl->parseCurrentBlock();
+			}
+		}
+		// flexible
+		else
+		{
+			// :TODO: inactive for now
+		}
+
+		$tpl->setContent($mytpl->get());
+	}
+
+	/**
+	 * Convert schedule definition to timestamps for given number of weeks
+	 * @param	array	$definition
+	 * @param	int		$deadline
+	 * @param	int		$weeks
+	 * @return	array
+	 */
+	protected function slotsToDates(array $definition, $deadline = NULL, $weeks = 4)
+    {
+		$map = array('mo'=>'monday', 'tu'=>'tuesday', 'we'=>'wednesday',
+				'th'=>'thursday', 'fr'=>'friday', 'sa'=>'saturday', 'su'=>'sunday');
+	    $res = array();
+		for($offset = 0; $offset < $weeks; $offset++)
+		{
+			foreach($definition as $weekday => $slots)
+			{
+				foreach($slots as $slot)
+				{
+					$slot = explode('-', $slot);
+					$from = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[0]);
+					$to = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[1]);
+
+					// check deadline
+					if($deadline)
+					{
+
+						
+					}
+
+					$res[] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
+				}
+			}
+		}
+
+		return $res;
+	}
+
+	/**
+	 *
+	 *
+	 */
+	function confirmedBookingObject()
+	{
+		if(!isset($_POST['date']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->bookObject();
+		}
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		if(isset($_GET['object_id']))
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+
+		}
+		else
+		{
+			$type = new ilBookingType((int)$_GET['type_id']);
+			
+
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
+		$this->ctrl->redirect($this, 'render');
 	}
 }
 

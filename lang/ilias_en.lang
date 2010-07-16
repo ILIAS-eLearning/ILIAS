@@ -10711,3 +10711,7 @@ book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_create_title#:#Add Booking Pool
 common#:#country_selection#:#Country (Drop Down Selection)
 common#:#country_free_text#:#Country (Free Text Input)
+book#:#book_hours#:#Hours
+book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
+book#:#book_reservation_title#:#Booking Reservation for
+book#:#book_confirm_booking#:#Confirm Booking

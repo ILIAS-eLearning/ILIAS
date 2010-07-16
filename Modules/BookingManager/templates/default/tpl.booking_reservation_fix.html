@@ -1,0 +1,29 @@
+<div class="std small" style="margin-bottom:10px">
+	{TXT_INFO}
+</div>
+<form method="post" action="{FORM_ACTION}" id="reservation_form">
+<div class="ilTableOuter">
+	<table class="fullwidth">
+		<tr class="tblheader">
+			<th class="std">{TXT_TITLE}: {TXT_OBJECT}</th>
+		</tr>
+		<!-- BEGIN dates -->
+		<tr class="{CSS_ROW}">
+			<td class="std">
+				<input type="radio" name="date" value="{VALUE_DATE}" /> {TXT_DATE}
+			</td>
+		</tr>
+		<!-- END dates -->
+	</table>
+	<div class="ilTableCommandRow">
+		<div style="float:left;">
+		</div>
+		<div style="text-align:right;">
+			<input class="submit" type="submit" name="cmd[confirmedbooking]" value="{TXT_CMD_BOOK}" />
+			<input class="submit" type="submit" name="cmd[render]" value="{TXT_CMD_CANCEL}" />
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+</div>
+</form>
+
