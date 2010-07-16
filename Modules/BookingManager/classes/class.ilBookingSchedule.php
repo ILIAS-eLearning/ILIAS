@@ -220,7 +220,7 @@ class ilBookingSchedule
 
 		$id = $ilDB->nextId('booking_schedule');
 
-		return $ilDB->query('INSERT INTO booking_schedule'.
+		return $ilDB->manipulate('INSERT INTO booking_schedule'.
 			' (booking_schedule_id,title,pool_id,raster,rent_min,rent_max,auto_break,'.
 			'deadline,definition)'.
 			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
@@ -243,7 +243,7 @@ class ilBookingSchedule
 			return false;
 		}
 
-		return $ilDB->query('UPDATE booking_schedule'.
+		return $ilDB->manipulate('UPDATE booking_schedule'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').
 			', raster = '.$ilDB->quote($this->getRaster(), 'integer').
@@ -298,7 +298,7 @@ class ilBookingSchedule
 
 		if($this->id)
 		{
-			return $ilDB->query('DELETE FROM booking_schedule'.
+			return $ilDB->manipulate('DELETE FROM booking_schedule'.
 				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}

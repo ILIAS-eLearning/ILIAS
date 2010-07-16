@@ -187,7 +187,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacadmin, $ilUser, $tpl;
+		global $rbacadmin, $ilUser, $tpl, $ilCtrl;
 
 		$form = $this->initForm("edit");
 		if($form->checkInput())
@@ -196,7 +196,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			parent::updateObject();
 
-			$this->renderObject();
+			$ilCtrl->redirect($this, "render");
 		}
 		else
 		{

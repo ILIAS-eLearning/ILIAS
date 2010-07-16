@@ -112,7 +112,7 @@ class ilBookingType
 
 		$id = $ilDB->nextId('booking_type');
 
-		return $ilDB->query('INSERT INTO booking_type (booking_type_id,title,pool_id,'.
+		return $ilDB->manipulate('INSERT INTO booking_type (booking_type_id,title,pool_id,'.
 			'schedule_id) VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
 			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
 	}
@@ -138,7 +138,7 @@ class ilBookingType
 			ilBookingObject::updateSchedule($this->id, $schedule);
 		}
 
-		return $ilDB->query('UPDATE booking_type'.
+		return $ilDB->manipulate('UPDATE booking_type'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').
 			', schedule_id = '.$ilDB->quote($this->getScheduleId(), 'integer').
@@ -179,7 +179,7 @@ class ilBookingType
 		
 		if($this->id)
 		{
-			return $ilDB->query('DELETE FROM booking_type'.
+			return $ilDB->manipulate('DELETE FROM booking_type'.
 				' WHERE booking_type_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}
