@@ -10613,108 +10613,108 @@ common#:#obj_book#:#Buchungspool
 common#:#objs_book#:#Buchungspools
 book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
 book#:#book_create_title#:#Buchungspool hinzufügen
-content#:#scplayer_next#:#Next###16 07 2010 new variable
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups###16 07 2010 new variable
-trac#:#trac_first_access#:#First Access###16 07 2010 new variable
-trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
-trac#:#trac_spent_seconds#:#Time Spent###16 07 2010 new variable
-trac#:#trac_percentage#:#Percentage###16 07 2010 new variable
-style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
-content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
-content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
-content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
-content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
+content#:#scplayer_next#:#Vor
+ps#:#ps_export_groups#:#Sichtbarkeit von Benutzerdaten in Gruppen
+trac#:#trac_first_access#:#Erster Zugriff
+trac#:#trac_read_count#:#Anzahl Zugriffe
+trac#:#trac_spent_seconds#:#Zeit
+trac#:#trac_percentage#:#Prozent
+style#:#sty_type_glo_ovtitle#:#Begriff/Titel (Popup)
+content#:#cont_sco_glossary#:#Glossar
+content#:#glo_quick_navigation#:#Schnellzugriff
+content#:#glo_presentation_mode#:#Präsentationsansicht
+content#:#glo_table_form#:#Tabellarisch
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
-content#:#glo_text_snippet_length#:#Definition Snippet Length###16 07 2010 new variable
-content#:#glo_text_snippet_length_info#:#Length of the text snippet of the definition that is shown in the overview.###16 07 2010 new variable
-content#:#glo_full_definitions#:#Full Definitions###16 07 2010 new variable
-content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.###16 07 2010 new variable
-content#:#glo_editing_view#:#Editing View###16 07 2010 new variable
-administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation###16 07 2010 new variable
-administration#:#adm_rep_tree_only_cntr#:#Container Only###16 07 2010 new variable
-administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.###16 07 2010 new variable
-administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
-administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
-administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
-cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
-style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?###16 07 2010 new variable
-style#:#sty_delete_other_selected#:#Continue###16 07 2010 new variable
-style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.###16 07 2010 new variable
-style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".###16 07 2010 new variable
-style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
-style#:#sty_if_style_class_already_exists#:#If style class already exists...###16 07 2010 new variable
-style#:#sty_overwrite#:#Overwrite###16 07 2010 new variable
-style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
-style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variable
-style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
+content#:#glo_text_snippet_length#:#Länge des Definitionsausschnitts
+content#:#glo_text_snippet_length_info#:#Textlänge, nach der Definitionen in der Übersicht abgeschnitten werden.
+content#:#glo_full_definitions#:#Komplette Definitionen
+content#:#glo_full_definitions_info#:#Begriffe und Definitionen werden komplett in der Hauptansicht angezeigt.
+content#:#glo_editing_view#:#Bearbeitungsansicht
+administration#:#adm_rep_tree_presentation#:#Präsentation des Magazinbaums
+administration#:#adm_rep_tree_only_cntr#:#Nur Container
+administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
+administration#:#adm_rep_tree_all_types#:#Alle Objekte
+administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
+administration#:#adm_rep_tree_limit_grp_crs#:#Baum innerhalb von Kursen und Gruppen auf den jeweiligen Kontext beschränken.
+cmps#:#cmps_configure#:#Konfigurieren
+style#:#sty_some_styles_obligatory_delete_rest#:#Die folgenden Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden. Möchten Sie fortfahren und die verbleibenden Styleklassen löschen?
+style#:#sty_delete_other_selected#:#Fortfahren
+style#:#sty_all_styles_obligatory#:#Alle ausgewählten Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden.
+style#:#sty_copied_please_select_target#:#Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen "Styleklassen einfügen".
+style#:#sty_paste_style_classes#:#Styleklassen einfügen
+style#:#sty_if_style_class_already_exists#:#Wie soll verfahren werden, wenn die Styleklasse bereits existiert?
+style#:#sty_overwrite#:#Überschreiben
+style#:#sty_keep_existing#:#Bestehnde Klasse erhalten
+style#:#sty_paste_characteristics#:#Styleklassen einfügen
+style#:#sty_style_classes_copied#:#Styleklassen wurden kopiert.
 news#:#news_attached_to#:#Attached to###16 07 2010 new variable
-news#:#news_add_news#:#Add News###16 07 2010 new variable
-news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new variable
-news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
-news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
-content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
+news#:#news_add_news#:#Nachricht hinzufügen
+news#:#news_rss_title_format#:#RSS Titelformat
+news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
+news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
+content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
-content#:#cont_alignment#:#Alignment###16 07 2010 new variable
-content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
-administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
-administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
-administration#:#adm_sql#:#SQL###16 07 2010 new variable
-administration#:#adm_time#:#Time###16 07 2010 new variable
-administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
-administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
-administration#:#adm_table#:#Table###16 07 2010 new variable
-wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
+content#:#cont_alignment#:#Ausrichtung
+content#:#cont_set_alignment#:#Ausrichtung setzen
+administration#:#adm_db_bench_chronological#:#Chronologisch
+administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
+administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
+administration#:#adm_sql#:#SQL
+administration#:#adm_time#:#Zeit
+administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
+administration#:#adm_nr_statements#:#Anzahl Aufrufe
+administration#:#adm_table#:#Tabelle
+wiki#:#wiki_import#:#Wiki importieren
 mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
 feed#:#feed_import#:#Import Feed###16 07 2010 new variable
-sess#:#sess_import#:#Import Session###16 07 2010 new variable
-exc#:#exc_import#:#Import Exercise###16 07 2010 new variable
-content#:#cont_users_answered#:#Users Answered###16 07 2010 new variable
-content#:#cont_correct_after_first#:#First Try Correct###16 07 2010 new variable
-content#:#cont_second#:#Second###16 07 2010 new variable
-content#:#cont_third_and_more#:#Third or More###16 07 2010 new variable
-content#:#cont_never#:#Never###16 07 2010 new variable
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
-form#:#form_alphabet_all#:#All###16 07 2010 new variable
-content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable
-content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
-content#:#cont_no_download_file_available#:#There is currently no public download file available.###16 07 2010 new variable
-content#:#htlm_import#:#Import HTML Learning Module###16 07 2010 new variable
-content#:#cont_selection#:#Selection###16 07 2010 new variable
-wiki#:#wiki_whole_wiki#:#Whole Wiki###16 07 2010 new variable
-wiki#:#wiki_selected_pages#:#Selected Pages###16 07 2010 new variable
-content#:#cont_whole_glossary#:#Whole Glossary###16 07 2010 new variable
-content#:#cont_selected_terms#:#Selected Terms###16 07 2010 new variable
-user#:#user_ext_profiles#:#Extended Profiles###16 07 2010 new variable
-user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.###16 07 2010 new variable
-user#:#user_ext_profile#:#Extended Profile###16 07 2010 new variable
-user#:#user_new_profile_page#:#New Profile Page###16 07 2010 new variable
-user#:#user_add_page#:#Add Page###16 07 2010 new variable
-user#:#user_order#:#Order###16 07 2010 new variable
-user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?###16 07 2010 new variable
+sess#:#sess_import#:#Sitzung importieren
+exc#:#exc_import#:#Übung importieren
+content#:#cont_users_answered#:#Benutzerantworten
+content#:#cont_correct_after_first#:#Erste Antwort korrekt
+content#:#cont_second#:#Zweite
+content#:#cont_third_and_more#:#Dritte oder später
+content#:#cont_never#:#Nie
+user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation in der Benutzeradministration
+form#:#form_alphabet_all#:#Alle
+content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
+content#:#cont_download_no_download#:#Die Downloadfunktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
+content#:#cont_no_download_file_available#:#Zur Zeit ist keine öffentliche Downloaddatei verfügbar.
+content#:#htlm_import#:#HTML Lernmodul importieren
+content#:#cont_selection#:#Auswahl
+wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
+wiki#:#wiki_selected_pages#:#Ausgewählte Seiten
+content#:#cont_whole_glossary#:#Gesamtes Glossar
+content#:#cont_selected_terms#:#Ausgewählte Begriffe
+user#:#user_ext_profiles#:#Erweiterte Profile
+user#:#user_ext_profiles_desc#:#Erlaubt den Benutzern neue Register zu ihren Profilen hinzuzufügen.
+user#:#user_ext_profile#:#Erweitertes Profil
+user#:#user_new_profile_page#:#Neue Profilseite
+user#:#user_add_page#:#Seite hinzufügen
+user#:#user_order#:#Reihenfolge
+user#:#user_sure_delete_pages#:#Wollen Sie die folgenden Seiten wirklich löschen?
 user#:#user_selected_pages_deleted#:#The selected pages have been deleted.###16 07 2010 new variable
 webr#:#webr_imort#:#Import Weblink###16 07 2010 new variable
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
 survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
-style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
+style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
 style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
 style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
-form#:#form_please_select#:#Please Select###16 07 2010 new variable
-meta#:#meta_c_AX#:#Åland Islands###16 07 2010 new variable
-meta#:#meta_c_BL#:#Saint Barthélemy###16 07 2010 new variable
-meta#:#meta_c_GG#:#Guernsey###16 07 2010 new variable
-meta#:#meta_c_HK#:#Hong Kong###16 07 2010 new variable
-meta#:#meta_c_IM#:#Isle of Man###16 07 2010 new variable
-meta#:#meta_c_JE#:#Jersey###16 07 2010 new variable
-meta#:#meta_c_ME#:#Montenegro###16 07 2010 new variable
-meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
-meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
-meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
-meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
-common#:#sel_country#:#Country###16 07 2010 new variable
-common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
-common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+form#:#form_please_select#:#Bitte auswählen
+meta#:#meta_c_AX#:#Åland
+meta#:#meta_c_BL#:#Saint-Barthélemy
+meta#:#meta_c_GG#:#Guernsey (Kanalinsel)
+meta#:#meta_c_HK#:#Hong Kong
+meta#:#meta_c_IM#:#Insel Man
+meta#:#meta_c_JE#:#Jersey (Kanalinsel)
+meta#:#meta_c_ME#:#Montenegro
+meta#:#meta_c_MF#:#Saint-Martin (franz. Teil)
+meta#:#meta_c_PS#:#Palästinensische Autonomiegebiete
+meta#:#meta_c_RS#:#Serbien
+meta#:#meta_c_TL#:#Osttimor
+common#:#sel_country#:#Land
+common#:#country_selection#:#Land (Selektionsliste)
+common#:#country_free_text#:#Land (Freitext)
 book#:#book_hours#:#Stunden
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
 book#:#book_reservation_title#:#Buchungsanfrage für
