@@ -10727,3 +10727,5 @@ dateplaner#:#cal_cg_registration_info#:#Wenn aktiviert, können sich Benutzer f�
 dateplaner#:#cal_reg_registered_users#:#Angemeldete Benutzer
 dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von diesen Termin.
 dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
+book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
+book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.

@@ -10723,3 +10723,5 @@ book#:#book_confirm_booking#:#Confirm Booking
 dateplaner#:#cal_reg_registered_users#:#Registered Users
 dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this registration.
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.
+book#:#book_reservation_confirmed#:#Your booking has been confirmed.
+book#:#book_reservation_failed#:#Your booking has failed.
