@@ -2844,3 +2844,44 @@ if(!$ilDB->tableExists('cal_registrations'))
 	$ilDB->addPrimaryKey('cal_registrations', array('cal_id', 'usr_id'));
 }
 ?>
+
+<#3147>
+<?php
+if(!$ilDB->tableExists('booking_reservation'))
+{
+	$ilDB->createTable('booking_reservation',array(
+		'booking_reservation_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'object_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'date_from'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'date_to'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'status'	=> array(
+			'type'	=> 'integer',
+			'length'=> 2,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('booking_reservation', array('booking_reservation_id'));
+	$ilDB->createSequence('booking_reservation');
+}
+?>

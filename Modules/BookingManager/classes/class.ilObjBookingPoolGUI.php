@@ -267,20 +267,27 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	 *
-	 *
+	 * Render list of available dates for object
+	 * @param	int	$a_object_id
 	 */
 	protected function renderBookingByObject($a_object_id)
     {
-		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$obj = new ilBookingObject($a_object_id);
+		global $tpl;
 
+		$this->lng->loadLanguageModule("dateplaner");
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$obj = new ilBookingObject($a_object_id);
+		$schedule = new ilBookingSchedule($obj->getScheduleId());
+		$object_ids = ilBookingObject::getList(array($a_object_id));
+
+		$tpl->setContent($this->renderList($schedule, $object_ids, $obj->getTitle()));
 	}
 
 	/**
-	 *
-	 *
+	 * Render list of available dates for type
+	 * @param	int	$a_type_id
 	 */
 	protected function renderBookingByType($a_type_id)
     {
@@ -290,9 +297,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$type = new ilBookingType($a_type_id);
 		$schedule = new ilBookingSchedule($type->getScheduleId());
-		
+		$object_ids = ilBookingObject::getList($a_type_id);
+
+		$tpl->setContent($this->renderList($schedule, $object_ids, $type->getTitle()));
+	}
+
+	protected function renderList(ilBookingSchedule $schedule, array $object_ids, $title)
+	{
 		// fix
 		if(!$schedule->getRaster())
 		{
@@ -301,16 +315,31 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$mytpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this));
 			$mytpl->setVariable('TXT_TITLE', $this->lng->txt('book_reservation_title'));
 			$mytpl->setVariable('TXT_INFO', $this->lng->txt('book_reservation_fix_info'));
-			$mytpl->setVariable('TXT_OBJECT', $type->getTitle());
+			$mytpl->setVariable('TXT_OBJECT', $title);
 			$mytpl->setVariable('TXT_CMD_BOOK', $this->lng->txt('book_confirm_booking'));
 			$mytpl->setVariable('TXT_CMD_CANCEL', $this->lng->txt('cancel'));
 
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			$mytpl->setCurrentBlock('dates');
+			$counter = 0;
 			foreach($this->slotsToDates($schedule->getDefinition(), $schedule->getDeadline()) as $idx => $date)
 			{
-				$range = $this->lng->txt(ucfirst($date['day']).'_short').', '.ilDatePresentation::formatPeriod(
+				if(!ilBookingReservation::getAvailableObject($object_ids, $date['from'], $date['to']))
+				{
+					continue;
+				}
+				if($counter > 15)
+				{
+					break;
+				}
+
+				$range = ilDatePresentation::formatPeriod(
 					new ilDateTime($date['from'], IL_CAL_UNIX),
 					new ilDateTime($date['to'], IL_CAL_UNIX)).'<br />';
+			    if(is_numeric(substr($range, 0, 2)))
+				{
+					$range = $this->lng->txt(ucfirst($date['day']).'_short').', '.$range;
+				}
 
 				if($idx%2)
 				{
@@ -324,6 +353,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$mytpl->setVariable('TXT_DATE', $range);
 				$mytpl->setVariable('VALUE_DATE', $date['from'].'_'.$date['to']);
 				$mytpl->parseCurrentBlock();
+
+				$counter++;
 			}
 		}
 		// flexible
@@ -332,7 +363,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			// :TODO: inactive for now
 		}
 
-		$tpl->setContent($mytpl->get());
+		return $mytpl->get();
 	}
 
 	/**
@@ -342,63 +373,89 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * @param	int		$weeks
 	 * @return	array
 	 */
-	protected function slotsToDates(array $definition, $deadline = NULL, $weeks = 4)
+	protected function slotsToDates(array $definition, $deadline = NULL)
     {
 		$map = array('mo'=>'monday', 'tu'=>'tuesday', 'we'=>'wednesday',
 				'th'=>'thursday', 'fr'=>'friday', 'sa'=>'saturday', 'su'=>'sunday');
+	    $map_num = array_flip(array_keys($map));
 	    $res = array();
-		for($offset = 0; $offset < $weeks; $offset++)
+		for($offset = -1; $offset < 10; $offset++)
 		{
 			foreach($definition as $weekday => $slots)
 			{
 				foreach($slots as $slot)
 				{
 					$slot = explode('-', $slot);
-					$from = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[0]);
-					$to = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[1]);
 
-					// check deadline
-					if($deadline)
+					// special case today
+					if($offset == -1 && strtolower(date('l')) == $map[$weekday])
 					{
-
-						
+						$from = strtotime('today '.$slot[0]);
+						$to = strtotime('today '.$slot[1]);
+					}
+					// in first week start after today
+					else if($offset > -1 || date('N') < ($map_num[$weekday])+1)
+					{
+						$from = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[0]);
+						$to = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[1]);
 					}
 
-					$res[] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
+					// check deadline
+					if($from > time() && !$deadline || $from > time()+$deadline*60*60)
+					{
+						$res[] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
+					}
 				}
 			}
 		}
-
 		return $res;
 	}
 
 	/**
-	 *
-	 *
+	 * Book object - either of type or specific - for given dates
 	 */
 	function confirmedBookingObject()
 	{
+		global $ilUser;
+		
 		if(!isset($_POST['date']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->bookObject();
+			return $this->bookObject();
 		}
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$fromto = explode('_', $_POST['date']);
+
 		if(isset($_GET['object_id']))
 		{
+			$object_id = (int)$_GET['object_id'];
+		}
+		// choose object of type
+		else
+		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+			$ids = ilBookingObject::getList((int)$_GET['type_id']);
+			$object_id = ilBookingReservation::getAvailableObject($ids, $fromto[0], $fromto[1]);
+		}
 
+		if($object_id)
+		{
+			$reservation = new ilBookingReservation();
+			$reservation->setObjectId($object_id);
+			$reservation->setUserId($ilUser->getID());
+			$reservation->setFrom($fromto[0]);
+			$reservation->setTo($fromto[1]);
+			$reservation->save();
+
+			ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
+			$this->ctrl->redirect($this, 'render');
 		}
 		else
 		{
-			$type = new ilBookingType((int)$_GET['type_id']);
-			
-
+			ilUtil::sendFailure($this->lng->txt('book_reservation_failed'), true);
+			$this->ctrl->redirect($this, 'book');
 		}
-
-		ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
-		$this->ctrl->redirect($this, 'render');
 	}
 }
 
