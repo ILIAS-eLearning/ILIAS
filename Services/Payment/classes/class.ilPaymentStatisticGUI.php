@@ -512,6 +512,9 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');	
 		
 		$this->ctrl->setParameter($this,'booking_id',(int) $_GET['booking_id']);
+		$this->__initBookingObject();
+		$bookings = $this->booking_obj->getBookings();
+		$booking = $bookings[(int) $_GET['booking_id']];
 
 		// confirm delete
 		if($a_show_confirm_delete)
@@ -523,14 +526,16 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_stat"));
 			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "editStatistic");
 			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");			
-		
+
+			$pObj = new ilPaymentObject($this->user_obj, $booking['pobject_id']);
+			$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($pObj->getRefId()));
+
+			$oConfirmationGUI->addItem('booking_id', $_GET['booking_id'], $tmp_obj);
+			
 			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
 			return true;
 		}
 		
-		$this->__initBookingObject();
-		$bookings = $this->booking_obj->getBookings();
-		$booking = $bookings[(int) $_GET['booking_id']];
 
 		// get customer_obj
 		$tmp_user = ilObjectFactory::getInstanceByObjId($booking['customer_id'], false);
@@ -717,7 +722,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 			return true;
 		}
-		ilUtil::sendInfo($this->lng->txt('paya_sure_delete_stat'));
 
 		$this->editStatistic(true);
 

@@ -34,7 +34,7 @@ class ilShopVats
 		$this->db = $ilDB;
 		$this->lng = $lng;
 		
-		if((int)$a_vat_id)
+		if((int)$a_vat_id && $a_vat_id > 0)
 		{
 			$this->id = $a_vat_id;
 			$this->read();

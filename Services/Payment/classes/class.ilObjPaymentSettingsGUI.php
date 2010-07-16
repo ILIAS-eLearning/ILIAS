@@ -1276,6 +1276,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		unset($_POST['customer']);
 		unset($_POST['pay_method']);
 		unset($_POST['updateView']);
+		unset($_POST["adm_filter_title_id"]);
 		ilUtil::sendInfo($this->lng->txt('paya_filter_reseted'));
 
 		return $this->statisticObject();
@@ -1283,7 +1284,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function statisticObject()
 	{
-		global $rbacsystem, $ilToolbar;
+		global $rbacsystem, $ilToolbar,$ilObjDataCache;
 
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 				
@@ -1303,7 +1304,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_SESSION['pay_statistics']['from_check'] = $_POST['from_check'];
 			$_SESSION['pay_statistics']['transaction_type'] = isset($_POST['transaction_type']) ? $_POST['transaction_type'] : '' ;
 			$_SESSION['pay_statistics']['transaction_value'] = isset($_POST['transaction_value']) ?  $_POST['transaction_value'] : '';
-			
+			$_SESSION['pay_statistics']['adm_filter_title_id'] = (int)$_POST['adm_filter_title_id'];
+
 			if($_SESSION['pay_statistics']['from_check'] == '1')
 			{
 				$_SESSION['pay_statistics']['from']['date']['d'] = $_POST['from']['date']['d'];
@@ -1335,6 +1337,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_SESSION['pay_statistics']['pay_method'] = $_POST['pay_method'];
 			$_SESSION['pay_statistics']['customer'] = isset ($_POST['customer']) ? $_POST['customer'] : '';
 			$_SESSION['pay_statistics']['vendor'] = isset ($_POST['vendor']) ? $_POST['vendor']: '';
+
 		}
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
@@ -1411,6 +1414,26 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$o_until_check->addSubItem($o_date_until);
 		$o_hide_check->addSubItem($o_until_check);	
+
+		// title filter
+		$this->__initBookingObject();
+		$title_options['all']=$this->lng->txt('pay_all');
+		$unique_titles = $this->booking_obj->getUniqueTitles();
+
+		if(is_array($unique_titles) && count($unique_titles))
+		{
+			foreach($unique_titles as $ref_id)
+			{
+				$title_options[$ref_id] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($ref_id));
+			}
+		}
+
+		$o_object_title = new ilSelectInputGUI();
+		$o_object_title->setTitle($this->lng->txt('title'));
+		$o_object_title->setOptions($title_options);
+		$o_object_title->setValue($_SESSION["pay_statistics"]["adm_filter_title_id"]);
+		$o_object_title->setPostVar('adm_filter_title_id');
+		$o_hide_check->addSubItem($o_object_title);
 		
 		$o_payed = new ilSelectInputGUI();
 		$payed_option = array('all'=>$this->lng->txt('pay_all'),'1'=>$this->lng->txt('yes'),'0'=>$this->lng->txt('no'));

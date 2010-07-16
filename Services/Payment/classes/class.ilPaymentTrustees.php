@@ -332,7 +332,7 @@ class ilPaymentTrustees
 		return $vendors ? $vendors : array();
 	}
 
-	public static function _getVendorsforStatisticsByTrusteeId($a_trustee_id)
+	public static function _getVendorsForStatisticsByTrusteeId($a_trustee_id)
 	{
 		global $ilDB;
 

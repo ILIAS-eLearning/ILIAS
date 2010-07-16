@@ -859,6 +859,7 @@ class ilPaymentBookings
 		{
 
 			$vendors = $this->__getVendorIds();
+
 			if (is_array($vendors) &&
 				count($vendors) > 1)
 			{
@@ -927,9 +928,9 @@ class ilPaymentBookings
 			$vendors[] = $this->user_id;
 		}
 
-// TODO: check this	->	# why objects??
-//if($vend = ilPaymentTrustees::_getVendorsForObjects($this->user_id))
-		if($vend = ilPaymentTrustees::_getVendorsForStatisticsByTrusteeId($this->user_id))
+		$vend = ilPaymentTrustees::_getVendorsForStatisticsByTrusteeId($this->user_id)	;
+	
+		if(isset ($vend))
 		{
 			foreach($vend as $v)
 			{

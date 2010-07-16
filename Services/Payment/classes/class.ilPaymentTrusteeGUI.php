@@ -341,7 +341,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 		
 		// checks passed => add trustee
 		$this->trustee_obj->setTrusteeId($user_id);
-		$this->trustee_obj->toggleObjectPermission(false);
+		$this->trustee_obj->toggleObjectPermission(true);
 		$this->trustee_obj->toggleStatisticPermission(true);
 		$this->trustee_obj->toggleCouponsPermission(true);
 		$this->trustee_obj->add();
