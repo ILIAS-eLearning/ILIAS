@@ -659,6 +659,11 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$user->setCountry($this->form_gui->getInput('country'));
 		}
+		// Selected Country
+		if($this->isSettingChangeable('sel_country'))
+		{
+			$user->setSelectedCountry($this->form_gui->getInput('sel_country'));
+		}
 		// Phone Office
 		if($this->isSettingChangeable('phone_office'))
 		{
@@ -979,6 +984,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["city"] = $this->object->getCity();
 		$data["zipcode"] = $this->object->getZipcode();
 		$data["country"] = $this->object->getCountry();
+		$data["sel_country"] = $this->object->getSelectedCountry();
 		$data["phone_office"] = $this->object->getPhoneOffice();
 		$data["phone_home"] = $this->object->getPhoneHome();
 		$data["phone_mobile"] = $this->object->getPhoneMobile();
@@ -1319,6 +1325,7 @@ class ilObjUserGUI extends ilObjectGUI
 			array("city", 40, 40),
 			array("zipcode", 10, 10),
 			array("country", 40, 40),
+			array("sel_country"),
 			array("phone_office", 30, 30),
 			array("phone_home", 30, 30),
 			array("phone_mobile", 30, 30),
@@ -1327,7 +1334,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$counter = 0;
 		foreach ($fields as $field)
 		{
-			if(!$counter++ and $this->isSettingChangeable( $field[0]))
+			if(!$counter++ and $this->isSettingChangeable($field[0]))
 			{
 				// contact data
 				$sec_cd = new ilFormSectionHeaderGUI();
@@ -1336,12 +1343,24 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			if($this->isSettingChangeable($field[0]))
 			{
-				$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
-				$inp->setSize($field[1]);
-				$inp->setMaxLength($field[2]);
-				$inp->setRequired(isset($settings["require_".$field[0]]) &&
-					$settings["require_".$field[0]]);
-				$this->form_gui->addItem($inp);
+				if ($field[0] != "sel_country")
+				{
+					$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
+					$inp->setSize($field[1]);
+					$inp->setMaxLength($field[2]);
+					$inp->setRequired(isset($settings["require_".$field[0]]) &&
+						$settings["require_".$field[0]]);
+					$this->form_gui->addItem($inp);
+				}
+				else
+				{
+					// country selection
+					include_once("./Services/Form/classes/class.ilCountrySelectInputGUI.php");
+					$cs = new ilCountrySelectInputGUI($lng->txt($field[0]), $field[0]);
+					$cs->setRequired(isset($settings["require_".$field[0]]) &&
+						$settings["require_".$field[0]]);
+					$this->form_gui->addItem($cs);
+				}
 			}
 		}
 
@@ -1698,6 +1717,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["city"] = $this->object->getCity();
 		$data["fields"]["zipcode"] = $this->object->getZipcode();
 		$data["fields"]["country"] = $this->object->getCountry();
+		$data["fields"]["sel_country"] = $this->object->getSelectedCountry();
 		$data["fields"]["phone_office"] = $this->object->getPhoneOffice();
 		$data["fields"]["phone_home"] = $this->object->getPhoneHome();
 		$data["fields"]["phone_mobile"] = $this->object->getPhoneMobile();

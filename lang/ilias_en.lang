@@ -10709,3 +10709,5 @@ common#:#obj_book#:#Booking Pool
 common#:#objs_book#:#Booking Pools
 book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_create_title#:#Add Booking Pool
+common#:#country_selection#:#Country (Drop Down Selection)
+common#:#country_free_text#:#Country (Free Text Input)
