@@ -8652,7 +8652,6 @@ ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
 ps#:#ps_export_confirm_group#:#Aktiviere Nutzungsvereinbarung für Gruppenmitglieder
 ps#:#ps_export_course#:#Zugriff auf persönliche Daten im Kurs erlauben
-ps#:#ps_export_group#:#Zugriff auf persönliche Daten in Gruppen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_member#:#Teilnehmer
@@ -10411,16 +10410,6 @@ tbl#:#tbl_export_csv#:#.csv exportieren
 tbl#:#tbl_export_excel#:#.xls exportieren
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
-ps#:#ps_cdf_data_fields#:#Datenfelder
-ps#:#ps_cdf_edit_field#:#Datenfeld bearbeiten
-ps#:#ps_cdf_values#:#Werte
-grp#:#grp_agree#:#Zustimmung
-grp#:#grp_agreement_header#:#Nutzungsvereinbarung
-grp#:#grp_agreement_required#:#Sie können dieser Gruppe nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
-grp#:#grp_user_agreement#:#Freigegebene Daten
-grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
-grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
-grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 crs#:#crs_members_groups#:#Kursteilnehmer-Gruppen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
@@ -10445,7 +10434,6 @@ wiki#:#wiki_notification_toggle_page_activate#:#Für Seite aktivieren
 wiki#:#wiki_notification_toggle_page_deactivate#:#Für Seite deaktivieren
 dateplaner#:#cal_repeat_until#:#Wiederholen bis zum
 administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_download_log#:#Log herunterladen
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_db_benchmark_user#:#Benutzer Login
@@ -10527,7 +10515,6 @@ dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Use
 dateplaner#:#cal_booking_cancellation_subject#:#Der Termin "%s" wurde abgesagt
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an User:
-webr#:#webr_import#:#Weblinksammlung importieren
 news#:#finish_publishing_date#:#Veröffentlichung endet:
 news#:#news_hide_news_until_date#:#Nachrichten bis Datum anzeigen
 news#:#news_hide_news_until_date_info#:#Es werden nur Nachrichten bis zu einem bestimmten Datum angezeigt.
@@ -10626,3 +10613,105 @@ common#:#obj_book#:#Buchungspool
 common#:#objs_book#:#Buchungspools
 book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
 book#:#book_create_title#:#Buchungspool hinzufügen
+content#:#scplayer_next#:#Next###16 07 2010 new variable
+ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups###16 07 2010 new variable
+trac#:#trac_first_access#:#First Access###16 07 2010 new variable
+trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
+trac#:#trac_spent_seconds#:#Time Spent###16 07 2010 new variable
+trac#:#trac_percentage#:#Percentage###16 07 2010 new variable
+style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
+content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
+content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
+content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
+content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
+content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
+content#:#glo_text_snippet_length#:#Definition Snippet Length###16 07 2010 new variable
+content#:#glo_text_snippet_length_info#:#Length of the text snippet of the definition that is shown in the overview.###16 07 2010 new variable
+content#:#glo_full_definitions#:#Full Definitions###16 07 2010 new variable
+content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.###16 07 2010 new variable
+content#:#glo_editing_view#:#Editing View###16 07 2010 new variable
+administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr#:#Container Only###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
+administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
+cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
+style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?###16 07 2010 new variable
+style#:#sty_delete_other_selected#:#Continue###16 07 2010 new variable
+style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.###16 07 2010 new variable
+style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".###16 07 2010 new variable
+style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_if_style_class_already_exists#:#If style class already exists...###16 07 2010 new variable
+style#:#sty_overwrite#:#Overwrite###16 07 2010 new variable
+style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
+style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
+news#:#news_attached_to#:#Attached to###16 07 2010 new variable
+news#:#news_add_news#:#Add News###16 07 2010 new variable
+news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new variable
+news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
+news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
+content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
+content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
+common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
+content#:#cont_alignment#:#Alignment###16 07 2010 new variable
+content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
+administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
+administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
+administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
+administration#:#adm_sql#:#SQL###16 07 2010 new variable
+administration#:#adm_time#:#Time###16 07 2010 new variable
+administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
+administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
+administration#:#adm_table#:#Table###16 07 2010 new variable
+wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
+mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
+feed#:#feed_import#:#Import Feed###16 07 2010 new variable
+sess#:#sess_import#:#Import Session###16 07 2010 new variable
+exc#:#exc_import#:#Import Exercise###16 07 2010 new variable
+content#:#cont_users_answered#:#Users Answered###16 07 2010 new variable
+content#:#cont_correct_after_first#:#First Try Correct###16 07 2010 new variable
+content#:#cont_second#:#Second###16 07 2010 new variable
+content#:#cont_third_and_more#:#Third or More###16 07 2010 new variable
+content#:#cont_never#:#Never###16 07 2010 new variable
+user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
+form#:#form_alphabet_all#:#All###16 07 2010 new variable
+content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable
+content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
+content#:#cont_no_download_file_available#:#There is currently no public download file available.###16 07 2010 new variable
+content#:#htlm_import#:#Import HTML Learning Module###16 07 2010 new variable
+content#:#cont_selection#:#Selection###16 07 2010 new variable
+wiki#:#wiki_whole_wiki#:#Whole Wiki###16 07 2010 new variable
+wiki#:#wiki_selected_pages#:#Selected Pages###16 07 2010 new variable
+content#:#cont_whole_glossary#:#Whole Glossary###16 07 2010 new variable
+content#:#cont_selected_terms#:#Selected Terms###16 07 2010 new variable
+user#:#user_ext_profiles#:#Extended Profiles###16 07 2010 new variable
+user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.###16 07 2010 new variable
+user#:#user_ext_profile#:#Extended Profile###16 07 2010 new variable
+user#:#user_new_profile_page#:#New Profile Page###16 07 2010 new variable
+user#:#user_add_page#:#Add Page###16 07 2010 new variable
+user#:#user_order#:#Order###16 07 2010 new variable
+user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?###16 07 2010 new variable
+user#:#user_selected_pages_deleted#:#The selected pages have been deleted.###16 07 2010 new variable
+webr#:#webr_imort#:#Import Weblink###16 07 2010 new variable
+survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
+survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
+style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
+form#:#form_please_select#:#Please Select###16 07 2010 new variable
+meta#:#meta_c_AX#:#Åland Islands###16 07 2010 new variable
+meta#:#meta_c_BL#:#Saint Barthélemy###16 07 2010 new variable
+meta#:#meta_c_GG#:#Guernsey###16 07 2010 new variable
+meta#:#meta_c_HK#:#Hong Kong###16 07 2010 new variable
+meta#:#meta_c_IM#:#Isle of Man###16 07 2010 new variable
+meta#:#meta_c_JE#:#Jersey###16 07 2010 new variable
+meta#:#meta_c_ME#:#Montenegro###16 07 2010 new variable
+meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
+meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
+meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
+meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
+common#:#sel_country#:#Country###16 07 2010 new variable
+common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
+common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable

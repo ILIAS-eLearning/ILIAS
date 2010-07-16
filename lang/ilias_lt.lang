@@ -6982,10 +6982,7 @@ ps#:#ps_files_deleted#:#Export Files Deleted###25 02 2007 new variable
 ps#:#ps_agreement_accepted#:#User Agreement Accepted###25 02 2007 new variable
 ps#:#ps_not_accepted#:#Not Accepted###25 02 2007 new variable
 ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements.###25 02 2007 new variable
-ps#:#ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###25 02 2007 new variable
-ps#:#ps_cdf_info#:#Further Course-Specific Data:###25 02 2007 new variable
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###25 02 2007 new variable
-ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.###25 02 2007 new variable
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.###25 02 2007 new variable
 mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
 mail#:#mail_my_entries#:#My Entries###25 02 2007 new variable
@@ -9481,8 +9478,6 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members 
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 common#:#mem_add_to_wl#:#Add to Waiting List###26 06 2009 new variable
 common#:#event_assign_files#:#File Assignment###26 06 2009 new variable
-assessment#:#qpl_browsercolumns#:#Customized question list###26 06 2009 new variable
-assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###26 06 2009 new variable
 chat#:#chat_export_status#:#Required export permissions###26 06 2009 new variable
 chat#:#chat_export_all#:#No restrictions (all users with access may export)###26 06 2009 new variable
 chat#:#chat_export_moderator#:#Moderators only###26 06 2009 new variable
@@ -9704,8 +9699,6 @@ survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
 survey#:#row_text#:#Row Text###24 07 2009 new variable
 common#:#header_visible_registration#:#Visible in Registration###24 07 2009 new variable
 common#:#visible_registration#:#Visible in Registration###24 07 2009 new variable
-survey#:#spl_browsercolumns#:#Customized question list###24 07 2009 new variable
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###24 07 2009 new variable
 survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###24 07 2009 new variable
 survey#:#spl_move_select_none#:#Please check at least one question to select it for moving###24 07 2009 new variable
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###24 07 2009 new variable
@@ -10296,3 +10289,443 @@ auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
 auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
 common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
+common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
+common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
+common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
+common#:#optional_filters#:#Optional Filters###16 07 2010 new variable
+common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
+common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
+content#:#scplayer_next#:#Next###16 07 2010 new variable
+dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
+dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
+dateplaner#:#cal_def_date_format#:#Default Date Input Format###16 07 2010 new variable
+dateplaner#:#cal_user_date_format#:#Date Input Format###16 07 2010 new variable
+ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###16 07 2010 new variable
+ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.###16 07 2010 new variable
+ps#:#crs_ps_cdf_info#:#Further Course-Specific Data:###16 07 2010 new variable
+ps#:#grp_ps_cdf_info#:#Further Group-Specific Data:###16 07 2010 new variable
+ps#:#ps_grp_user_fields#:#Group-Specific User Fields###16 07 2010 new variable
+ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups###16 07 2010 new variable
+ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups###16 07 2010 new variable
+ps#:#crs_ps_required_info#:#Further Course-Specific fields are required for accessing the course content.###16 07 2010 new variable
+ps#:#grp_ps_required_info#:#Further Group-Specific fields are required for accessing the group content.###16 07 2010 new variable
+registration#:#registration_user_new_account_mail#:#Edit New Account Mail###16 07 2010 new variable
+registration#:#registration_tab_settings#:#Registration Settings###16 07 2010 new variable
+registration#:#registration_tab_codes#:#Registration Codes###16 07 2010 new variable
+registration#:#registration_reg_type_codes#:#Registration with Codes###16 07 2010 new variable
+registration#:#registration_reg_type_codes_info#:#This type allows self-registration of users but requires a valid code.###16 07 2010 new variable
+registration#:#registration_codes_add#:#Add Codes###16 07 2010 new variable
+registration#:#registration_codes_export#:#Export Codes###16 07 2010 new variable
+registration#:#registration_codes_edit_header#:#Add Codes###16 07 2010 new variable
+registration#:#registration_codes_number#:#Number Of Codes###16 07 2010 new variable
+registration#:#registration_codes_roles#:#Role For New Accounts###16 07 2010 new variable
+registration#:#registration_code#:#Code###16 07 2010 new variable
+registration#:#registration_generated#:#Date Of Generation###16 07 2010 new variable
+registration#:#registration_used#:#Date Of Usage###16 07 2010 new variable
+registration#:#registration_roles_all#:#All Roles###16 07 2010 new variable
+registration#:#registration_generated_all#:#All Dates###16 07 2010 new variable
+registration#:#registration_export_codes_no_data#:#No codes to export were selected.###16 07 2010 new variable
+registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.###16 07 2010 new variable
+common#:#session_config#:#Session Settings###16 07 2010 new variable
+common#:#session_config_maintenance_enabled#:#Maintenance by client allowed###16 07 2010 new variable
+common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed###16 07 2010 new variable
+common#:#session_max_count#:#Max active sessions###16 07 2010 new variable
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
+common#:#session_min_idle#:#Min session idle (in minutes)###16 07 2010 new variable
+common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+common#:#session_max_idle#:#Max session idle (in minutes)###16 07 2010 new variable
+common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
+common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
+common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
+forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
+common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
+common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
+common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
+payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
+assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
+survey#:#svy_search_users#:#Search for participants###16 07 2010 new variable
+trac#:#trac_first_access#:#First Access###16 07 2010 new variable
+trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
+trac#:#trac_spent_seconds#:#Time Spent###16 07 2010 new variable
+trac#:#trac_percentage#:#Percentage###16 07 2010 new variable
+payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.###16 07 2010 new variable
+payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).###16 07 2010 new variable
+payment#:#please_use_account#:#For further purchases please login with use your account.###16 07 2010 new variable
+content#:#cont_lk_file#:#File/Document###16 07 2010 new variable
+content#:#cont_select_file#:#Select File###16 07 2010 new variable
+content#:#cont_create_link#:#Create Link###16 07 2010 new variable
+rep#:#rep_dependencies#:#Dependencies###16 07 2010 new variable
+rep#:#rep_object_to_delete#:#To Delete###16 07 2010 new variable
+rep#:#rep_dependent_object#:#Ressource with dependence###16 07 2010 new variable
+rep#:#rep_dependency#:#Dependency###16 07 2010 new variable
+content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###16 07 2010 new variable
+content#:#glo_presentation_view#:#Presentation View###16 07 2010 new variable
+content#:#glo_add_new_term#:#Add New Term###16 07 2010 new variable
+content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.###16 07 2010 new variable
+content#:#glo_list_usages#:#List Usages###16 07 2010 new variable
+exp#:#exp_create_xml_file#:#Create Export Package (XML)###16 07 2010 new variable
+survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.###16 07 2010 new variable
+survey#:#other_answer_label#:#Label of other answer (optional)###16 07 2010 new variable
+style#:#sty_glo_char#:#Glossary###16 07 2010 new variable
+style#:#sty_type_glo_overlay#:#Glossary Overlay###16 07 2010 new variable
+style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
+content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
+common#:#delete_inactive_user_accounts#:#Delete user accounts###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_period#:#Days past since the last login###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the last login.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_include_roles#:#Included roles###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_interval#:#Frequency###16 07 2010 new variable
+common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###16 07 2010 new variable
+mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)###16 07 2010 new variable
+content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
+forum#:#post_reply#:#Re:###16 07 2010 new variable
+forum#:#preset_subject#:#Preset subject on reply###16 07 2010 new variable
+forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.###16 07 2010 new variable
+administration#:#obj_frma#:#Forum###16 07 2010 new variable
+administration#:#obj_frma_desc#:#Global Forumsettings###16 07 2010 new variable
+administration#:#forum_settings#:#Forumsettings###16 07 2010 new variable
+administration#:#show_topics_overview#:#Topic Overview###16 07 2010 new variable
+administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown###16 07 2010 new variable
+common#:#show_system_messages#:#System Messages###16 07 2010 new variable
+content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
+content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
+content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
+content#:#glo_text_snippet_length#:#Definition Snippet Length###16 07 2010 new variable
+content#:#glo_text_snippet_length_info#:#Length of the text snippet of the definition that is shown in the overview.###16 07 2010 new variable
+content#:#glo_full_definitions#:#Full Definitions###16 07 2010 new variable
+content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.###16 07 2010 new variable
+content#:#glo_editing_view#:#Editing View###16 07 2010 new variable
+administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr#:#Container Only###16 07 2010 new variable
+administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
+administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
+administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
+cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
+tbl#:#tbl_templates#:#View###16 07 2010 new variable
+tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
+tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
+tbl#:#tbl_template_created#:#The current view has been saved.###16 07 2010 new variable
+tbl#:#tbl_template_deleted#:#The saved view has been deleted.###16 07 2010 new variable
+style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?###16 07 2010 new variable
+style#:#sty_delete_other_selected#:#Continue###16 07 2010 new variable
+style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.###16 07 2010 new variable
+style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".###16 07 2010 new variable
+style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_if_style_class_already_exists#:#If style class already exists...###16 07 2010 new variable
+style#:#sty_overwrite#:#Overwrite###16 07 2010 new variable
+style#:#sty_keep_existing#:#Keep Existing###16 07 2010 new variable
+style#:#sty_paste_characteristics#:#Paste Style Classes###16 07 2010 new variable
+style#:#sty_style_classes_copied#:#Style classes have been copied.###16 07 2010 new variable
+news#:#news_attached_to#:#Attached to###16 07 2010 new variable
+news#:#news_add_news#:#Add News###16 07 2010 new variable
+news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new variable
+news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
+news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
+trac#:#trac_learners#:#Learners ###16 07 2010 new variable
+trac#:#trac_summary#:#Summary ###16 07 2010 new variable
+trac#:#trac_learners_back#:#Back To Learners###16 07 2010 new variable
+trac#:#trac_user_objects#:#Learning Objects for User###16 07 2010 new variable
+content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
+content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
+common#:#settings_for_all_members#:#Global Setting for all Course/Group Members###16 07 2010 new variable
+common#:#settings_per_users#:#Settings per Course/Group Members###16 07 2010 new variable
+user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
+user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
+user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
+user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
+common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
+common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
+common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
+common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
+content#:#cont_alignment#:#Alignment###16 07 2010 new variable
+content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
+rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
+administration#:#adm_db_benchmark#:#DB Benchmark###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark#:#Activate Benchmark###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###16 07 2010 new variable
+administration#:#adm_db_benchmark_user#:#User Account Name###16 07 2010 new variable
+administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.###16 07 2010 new variable
+administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
+administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
+administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
+administration#:#adm_sql#:#SQL###16 07 2010 new variable
+administration#:#adm_time#:#Time###16 07 2010 new variable
+administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
+administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
+administration#:#adm_table#:#Table###16 07 2010 new variable
+trac#:#trac_subitems#:#Show Sub-Items###16 07 2010 new variable
+trac#:#trac_participants#:#Show Participants###16 07 2010 new variable
+trac#:#trac_title#:#Title###16 07 2010 new variable
+dateplaner#:#cal_grp_new_notification_sub#:#New Appointment in Group "%s"###16 07 2010 new variable
+dateplaner#:#cal_grp_notification_sub#:#Changed Appointment in Group "%s"###16 07 2010 new variable
+dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
+dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Course "%s"###16 07 2010 new variable
+grp#:#grp_notification_salutation#:#Dear group participant,###16 07 2010 new variable
+crs#:#crs_notification_salutation#:#Dear course participant,###16 07 2010 new variable
+dateplaner#:#cal_grp_new_notification_body#:#a new appointment has been created in group "%s".###16 07 2010 new variable
+dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".###16 07 2010 new variable
+dateplaner#:#cal_grp_notification_body#:#an appointment has been changed in group "%s".###16 07 2010 new variable
+dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in course "%s".###16 07 2010 new variable
+dateplaner#:#cal_notification#:#Mail Notification###16 07 2010 new variable
+dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.###16 07 2010 new variable
+dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.###16 07 2010 new variable
+rbac#:#rbac_add_new_local_role#:#Add New Local Role###16 07 2010 new variable
+search#:#search_item_filter#:#Search by Type###16 07 2010 new variable
+search#:#search_item_filter_form#:#Search by Type###16 07 2010 new variable
+search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.###16 07 2010 new variable
+chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar###16 07 2010 new variable
+administration#:#group_export#:#Visible in Groups###16 07 2010 new variable
+tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
+tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
+crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
+grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
+assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
+crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
+crs#:#crs_groups_nr#:#Number of Groups###16 07 2010 new variable
+crs#:#crs_add_to_group#:#Add to Group###16 07 2010 new variable
+wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
+mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
+exc#:#exc_submission_notification#:#Email Notification on Submissions###16 07 2010 new variable
+exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded.###16 07 2010 new variable
+exc#:#exc_submission_notification_body#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
+exc#:#exc_submission_notification_link#:#Link to Exercise: %s###16 07 2010 new variable
+exc#:#exc_submission_notification_subject#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
+wiki#:#wiki_edit_notification#:#Email Notification on Change###16 07 2010 new variable
+wiki#:#wiki_edit_notification_info#:#You will be notified when any page is edited.###16 07 2010 new variable
+wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_body_update#:#In wiki "%s" the page "%s" was updated.###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#In wiki "%s" the page "%s" was deleted.###16 07 2010 new variable
+wiki#:#wiki_change_notification_page_link#:#Link to wiki page: %s###16 07 2010 new variable
+wiki#:#wiki_change_notification_body_new#:#In wiki "%s" the page "%s" was created.###16 07 2010 new variable
+wiki#:#wiki_change_notification_link#:#Link to wiki: %s###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_info#:#Change Notification###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_wiki_activate#:#Activate for Wiki###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_wiki_deactivate#:#Deactivate for Wiki###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_page_activate#:#Activate for Page###16 07 2010 new variable
+wiki#:#wiki_notification_toggle_page_deactivate#:#Deactivate for Page###16 07 2010 new variable
+feed#:#feed_import#:#Import Feed###16 07 2010 new variable
+dateplaner#:#cal_repeat_until#:#Repeat until###16 07 2010 new variable
+dateplaner#:#cal_upcoming_events_header#:#Upcoming Events###16 07 2010 new variable
+sess#:#sess_import#:#Import Session###16 07 2010 new variable
+exc#:#exc_import#:#Import Exercise###16 07 2010 new variable
+dateplaner#:#cal_back_to_list#:#Back to List###16 07 2010 new variable
+dateplaner#:#cal_back_to_search#:#Back to Search###16 07 2010 new variable
+dateplaner#:#cal_unshare#:#Cancel Sharing###16 07 2010 new variable
+dateplaner#:#cal_manage#:#Manage###16 07 2010 new variable
+dateplaner#:#cal_delete_single#:#Delete only this appointment###16 07 2010 new variable
+dateplaner#:#cal_delete_recurrences#:#Delete all recurrences###16 07 2010 new variable
+dateplaner#:#cal_back_to_cal#:#Back to Calendar###16 07 2010 new variable
+rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar###16 07 2010 new variable
+dateplaner#:#cal_ch_form_header#:#Consultation Hours###16 07 2010 new variable
+dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. ###16 07 2010 new variable
+dateplaner#:#cal_ch_form#:#Enable Consultation Hours###16 07 2010 new variable
+dateplaner#:#app_consultation_hours#:#Consultation Hours###16 07 2010 new variable
+rbac#:#log#:#Log###16 07 2010 new variable
+rbac#:#rbac_log#:#Log###16 07 2010 new variable
+rbac#:#rbac_changes#:#Changes###16 07 2010 new variable
+rbac#:#rbac_log_operation_add#:#Added Operation for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_inheritance_add#:#Stopped Inheritance for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_inheritance_rmv#:#Allowed Inheritance for "%s"###16 07 2010 new variable
+rbac#:#rbac_log_source_object#:#Source object###16 07 2010 new variable
+rbac#:#rbac_log_edit_permissions#:#Edit Permissions###16 07 2010 new variable
+rbac#:#rbac_log_move_object#:#Move Object###16 07 2010 new variable
+rbac#:#rbac_log_link_object#:#Link Object###16 07 2010 new variable
+rbac#:#rbac_log_copy_object#:#Copy Object###16 07 2010 new variable
+rbac#:#rbac_log_create_object#:#Create Object###16 07 2010 new variable
+rbac#:#rbac_log_edit_template#:#Edit Role Template###16 07 2010 new variable
+rbac#:#rbac_log_edit_template_existing#:#Use Role Template for Existing Objects###16 07 2010 new variable
+ps#:#rbac_log#:#Permission Log###16 07 2010 new variable
+ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07 2010 new variable
+rbac#:#rbac_log_change_owner#:#Change Owner of Object###16 07 2010 new variable
+rbac#:#rbac_log_changed_owner#:#Changed Owner to###16 07 2010 new variable
+dateplaner#:#cal_ch_add_sequence#:#Add Consultation Hours Sequence###16 07 2010 new variable
+dateplaner#:#cal_ch_duration#:#Duration###16 07 2010 new variable
+dateplaner#:#cal_ch_num_appointments#:#Number of Appointments###16 07 2010 new variable
+dateplaner#:#cal_ch_num_bookings#:#Booking per Appointment###16 07 2010 new variable
+dateplaner#:#cal_ch_deadline#:#Latest Registration###16 07 2010 new variable
+dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the registration is blocked.###16 07 2010 new variable
+dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.###16 07 2010 new variable
+dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours###16 07 2010 new variable
+dateplaner#:#cal_ch_ch#:#Consultation Hours###16 07 2010 new variable
+ps#:#rbac_log_age#:#Keep Log Entries ###16 07 2010 new variable
+ps#:#rbac_log_age_info#:#Maximum age of log entries in month###16 07 2010 new variable
+rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop###16 07 2010 new variable
+rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy#:#Copy Permissions###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy_empty#:#None###16 07 2010 new variable
+rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects###16 07 2010 new variable
+content#:#cont_users_answered#:#Users Answered###16 07 2010 new variable
+content#:#cont_correct_after_first#:#First Try Correct###16 07 2010 new variable
+content#:#cont_second#:#Second###16 07 2010 new variable
+content#:#cont_third_and_more#:#Third or More###16 07 2010 new variable
+content#:#cont_never#:#Never###16 07 2010 new variable
+user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
+form#:#form_alphabet_all#:#All###16 07 2010 new variable
+content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable
+content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
+content#:#cont_no_download_file_available#:#There is currently no public download file available.###16 07 2010 new variable
+content#:#htlm_import#:#Import HTML Learning Module###16 07 2010 new variable
+content#:#cont_selection#:#Selection###16 07 2010 new variable
+wiki#:#wiki_whole_wiki#:#Whole Wiki###16 07 2010 new variable
+wiki#:#wiki_selected_pages#:#Selected Pages###16 07 2010 new variable
+content#:#cont_whole_glossary#:#Whole Glossary###16 07 2010 new variable
+content#:#cont_selected_terms#:#Selected Terms###16 07 2010 new variable
+user#:#user_ext_profiles#:#Extended Profiles###16 07 2010 new variable
+user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.###16 07 2010 new variable
+user#:#user_ext_profile#:#Extended Profile###16 07 2010 new variable
+user#:#user_new_profile_page#:#New Profile Page###16 07 2010 new variable
+user#:#user_add_page#:#Add Page###16 07 2010 new variable
+user#:#user_order#:#Order###16 07 2010 new variable
+user#:#user_sure_delete_pages#:#Are you sure that you want to delete the following pages?###16 07 2010 new variable
+user#:#user_selected_pages_deleted#:#The selected pages have been deleted.###16 07 2010 new variable
+dateplaner#:#cal_consultation_hours_for#:#Consultation hours for###16 07 2010 new variable
+dateplaner#:#cal_ch_booking_owner#:#Owner###16 07 2010 new variable
+dateplaner#:#cal_ch_current_bookings#:#Current Bookings###16 07 2010 new variable
+dateplaner#:#cal_ch_book#:#Book Appointment###16 07 2010 new variable
+dateplaner#:#cal_ch_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_confirm_booking_info#:#Please confirm the booking for this appointment.###16 07 2010 new variable
+dateplaner#:#cal_confirm_booking#:#Confirm Booking###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this booking.###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.###16 07 2010 new variable
+crs#:#crs_reg_code#:#Registration Code###16 07 2010 new variable
+crs#:#crs_reg_code_link#:#Registration Link###16 07 2010 new variable
+crs#:#crs_reg_code_value#:#Code###16 07 2010 new variable
+crs#:#crs_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+grp#:#grp_reg_code#:#Registration Code###16 07 2010 new variable
+grp#:#grp_reg_code_link#:#Registration Link###16 07 2010 new variable
+grp#:#grp_reg_code_value#:#Code###16 07 2010 new variable
+grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply###16 07 2010 new variable
+forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.###16 07 2010 new variable
+forum#:#enter_new_subject#:#Please enter a new subject###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_subject#:#The appointment "%s" has been booked###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_body#:#your appointment with %s has been booked.###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_link#:#Link to the appointment:###16 07 2010 new variable
+dateplaner#:#cal_booking_confirmation_user#:#This is a copy from the original mail to user:###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_subject#:#The appointment "%s" has been cancelled###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.###16 07 2010 new variable
+dateplaner#:#cal_booking_cancellation_user#:#This is a copy from the original mail to user:###16 07 2010 new variable
+webr#:#webr_imort#:#Import Weblink###16 07 2010 new variable
+news#:#finish_publishing_date#:#Finish Publishing:###16 07 2010 new variable
+news#:#news_hide_news_until_date#:#Show News Until###16 07 2010 new variable
+news#:#news_hide_news_until_date_info#:#Only news that has not reached a certain date will be displayed.###16 07 2010 new variable
+news#:#show_news_end_date#:#Ending Date###16 07 2010 new variable
+export#:#export_existing#:#Reuse###16 07 2010 new variable
+export#:#export_save_selection#:#Start Export###16 07 2010 new variable
+survey#:#use_min_answers#:#Answer selections###16 07 2010 new variable
+survey#:#use_min_answers_option#:#Use minimum number of answer selections###16 07 2010 new variable
+survey#:#nr_min_answers#:#Number###16 07 2010 new variable
+survey#:#err_no_min_answers#:#Please check at least %s answers.###16 07 2010 new variable
+survey#:#label#:#Label###16 07 2010 new variable
+survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)###16 07 2010 new variable
+survey#:#export_label_only#:#Export label only###16 07 2010 new variable
+survey#:#export_title_only#:#Export title only###16 07 2010 new variable
+survey#:#export_title_label#:#Export title and label###16 07 2010 new variable
+survey#:#mailnotification#:#Email notification###16 07 2010 new variable
+survey#:#mailaddresses#:#Recipient addresses###16 07 2010 new variable
+survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.###16 07 2010 new variable
+survey#:#mailparticipantdata#:#Additional participant data###16 07 2010 new variable
+survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.###16 07 2010 new variable
+survey#:#table_fields#:#Definition of field names for external mails###16 07 2010 new variable
+survey#:#tablefields#:#Field names###16 07 2010 new variable
+survey#:#tablefields_info#:#Please enter a comma separated list of field names for external mails.###16 07 2010 new variable
+survey#:#externalRecipients#:#External code recipients###16 07 2010 new variable
+survey#:#edit_phrase#:#Edit phrase###16 07 2010 new variable
+survey#:#phrase_new#:#Create new phrase###16 07 2010 new variable
+survey#:#no_phrase_selected#:#Nothing selected.###16 07 2010 new variable
+survey#:#other_answer#:#Other answer###16 07 2010 new variable
+survey#:#constraint_fulfilled#:#Show page###16 07 2010 new variable
+survey#:#conjunction_and#:#if each constraint is fulfilled###16 07 2010 new variable
+survey#:#conjunction_or#:#if one constraint is fulfilled###16 07 2010 new variable
+survey#:#conjunction_and_title#:#Fulfill each of the following constraints###16 07 2010 new variable
+survey#:#conjunction_or_title#:#Fulfill one of the following constraints###16 07 2010 new variable
+survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
+survey#:#err_no_selection#:#You made no selection.###16 07 2010 new variable
+survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
+survey#:#external_recipients_imported#:#External recipients have been imported.###16 07 2010 new variable
+survey#:#external_mails_import#:#Import external recipients of survey keys###16 07 2010 new variable
+survey#:#externalmails#:#Import file###16 07 2010 new variable
+survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.###16 07 2010 new variable
+dateplaner#:#cal_booked_out#:#booked up###16 07 2010 new variable
+dateplaner#:#cal_book_free#:#available###16 07 2010 new variable
+dateplaner#:#cal_date_booked#:#booked###16 07 2010 new variable
+dateplaner#:#cal_ch_bookings#:#Participants###16 07 2010 new variable
+trac#:#trac_matrix#:#Matrix View###16 07 2010 new variable
+dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments###16 07 2010 new variable
+exp#:#export_created#:#A new export file has been created.###16 07 2010 new variable
+crs#:#crs_import#:#Kurs importieren###16 07 2010 new variable
+style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
+style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
+form#:#form_please_select#:#Please Select###16 07 2010 new variable
+meta#:#meta_c_AX#:#Åland Islands###16 07 2010 new variable
+meta#:#meta_c_BL#:#Saint Barthélemy###16 07 2010 new variable
+meta#:#meta_c_GG#:#Guernsey###16 07 2010 new variable
+meta#:#meta_c_HK#:#Hong Kong###16 07 2010 new variable
+meta#:#meta_c_IM#:#Isle of Man###16 07 2010 new variable
+meta#:#meta_c_JE#:#Jersey###16 07 2010 new variable
+meta#:#meta_c_ME#:#Montenegro###16 07 2010 new variable
+meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
+meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
+meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
+meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
+common#:#sel_country#:#Country###16 07 2010 new variable
+book#:#book_booking_types#:#Types###16 07 2010 new variable
+book#:#book_schedules#:#Schedules###16 07 2010 new variable
+book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
+book#:#book_book#:#Book###16 07 2010 new variable
+book#:#book_list_items#:#List Objects###16 07 2010 new variable
+book#:#book_add_type#:#Add Type###16 07 2010 new variable
+book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
+book#:#book_edit_type#:#Edit Type###16 07 2010 new variable
+book#:#book_group_objects#:#Group objects###16 07 2010 new variable
+book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.###16 07 2010 new variable
+book#:#book_schedule#:#Schedule###16 07 2010 new variable
+book#:#book_objects_list#:#Objects of Type:###16 07 2010 new variable
+book#:#book_current_user#:#Booked by###16 07 2010 new variable
+book#:#book_add_object#:#Add Object###16 07 2010 new variable
+book#:#book_edit_object#:#Edit Object###16 07 2010 new variable
+book#:#book_is_used#:#Is Used###16 07 2010 new variable
+book#:#book_add_schedule#:#Add Schedule###16 07 2010 new variable
+book#:#book_edit_schedule#:#Edit Schedule###16 07 2010 new variable
+book#:#book_schedule_type#:#Type###16 07 2010 new variable
+book#:#book_schedule_type_fix#:#Fix###16 07 2010 new variable
+book#:#book_schedule_type_fix_info#:#Can only be booked in given time slots###16 07 2010 new variable
+book#:#book_schedule_type_flexible#:#Flexible###16 07 2010 new variable
+book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours###16 07 2010 new variable
+book#:#book_schedule_raster#:#Time raster###16 07 2010 new variable
+book#:#book_schedule_raster_info#:#Minimum time entity###16 07 2010 new variable
+book#:#book_schedule_rent_min#:#Minimum booking time###16 07 2010 new variable
+book#:#book_schedule_rent_max#:#Maximum booking time###16 07 2010 new variable
+book#:#book_schedule_rent_info#:#Given in multiples of time raster###16 07 2010 new variable
+book#:#book_schedule_break#:#Auto-Break between Bookings###16 07 2010 new variable
+book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010 new variable
+book#:#book_schedule_days#:#Weekdays###16 07 2010 new variable
+book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)###16 07 2010 new variable
+book#:#book_schedule_slot#:#Slot###16 07 2010 new variable
+book#:#book_deadline#:#Deadline###16 07 2010 new variable
+book#:#book_minutes#:#Minutes###16 07 2010 new variable
+book#:#book_deadline_info#:#Minimum time between booking and booked period###16 07 2010 new variable
+book#:#book_type_added#:#A booking type has been added.###16 07 2010 new variable
+book#:#book_type_updated#:#The booking type has been updated.###16 07 2010 new variable
+book#:#book_type_deleted#:#The booking type has been deleted.###16 07 2010 new variable
+book#:#book_object_added#:#A booking object has been added.###16 07 2010 new variable
+book#:#book_object_updated#:#The booking object has been updated.###16 07 2010 new variable
+book#:#book_object_deleted#:#The booking object has been deleted.###16 07 2010 new variable
+book#:#book_schedule_added#:#A booking schedule has been added.###16 07 2010 new variable
+book#:#book_schedule_updated#:#The booking schedule has been updated.###16 07 2010 new variable
+book#:#book_schedule_deleted#:#The booking schedule has been deleted.###16 07 2010 new variable
+book#:#book_confirm_delete#:#Do you really want to delete the following items?###16 07 2010 new variable
+common#:#obj_book#:#Booking Pool###16 07 2010 new variable
+common#:#objs_book#:#Booking Pools###16 07 2010 new variable
+book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variable
+book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
+common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
+common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable

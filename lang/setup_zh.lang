@@ -529,3 +529,20 @@ available_hotfixes#:#Available Hotfixes###26 03 2010 new variable
 apply_hotfixes#:#Apply Hotfixes###26 03 2010 new variable
 hotfix_available#:#Hotfix Available###26 03 2010 new variable
 hotfix_applied#:#Hotfix Applie###26 03 2010 new variable
+session_management#:#Session Management###16 07 2010 new variable
+step_sess#:#Session Management###16 07 2010 new variable
+session_management_not_configured#:#not configured###16 07 2010 new variable
+session_management_configured#:#configured###16 07 2010 new variable
+setup_sessions#:#Session Management###16 07 2010 new variable
+setup_process_step_sess#:#Session Management###16 07 2010 new variable
+sess_sessions#:#Settings###16 07 2010 new variable
+sess_max_session_count#:#Max session count###16 07 2010 new variable
+sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
+sess_min_session_idle#:#Min session idle (in minutes)###16 07 2010 new variable
+sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+sess_max_session_idle#:#Max session idle (in minutes)###16 07 2010 new variable
+sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
+sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
+sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
+sess_allow_client_maintenance#:#Allow maintenance by client###16 07 2010 new variable
+sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not###16 07 2010 new variable
