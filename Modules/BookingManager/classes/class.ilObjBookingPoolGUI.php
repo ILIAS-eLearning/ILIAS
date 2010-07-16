@@ -280,9 +280,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		$obj = new ilBookingObject($a_object_id);
 		$schedule = new ilBookingSchedule($obj->getScheduleId());
-		$object_ids = ilBookingObject::getList(array($a_object_id));
-
-		$tpl->setContent($this->renderList($schedule, $object_ids, $obj->getTitle()));
+		
+		$tpl->setContent($this->renderList($schedule, array($a_object_id), $obj->getTitle()));
 	}
 
 	/**
