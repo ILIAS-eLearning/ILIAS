@@ -2926,13 +2926,14 @@ class ilObjSurvey extends ilObject
 	
 	function sendNotificationMail($user_id, $anonymize_id)
 	{
+		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
 		{
-			$messagetext = $mailparticipantdata;
-			$data = ilUser::_getUserData(array($user_id));
+			$messagetext = $this->mailparticipantdata;
+			$data = ilObjUser::_getUserData(array($user_id));
 			foreach ($data as $key => $value)
 			{
 				if ($this->getAnonymize())
