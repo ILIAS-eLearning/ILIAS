@@ -4385,10 +4385,46 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
+	function sendCodes($mail_type, $not_sent, $subject, $message)
+	{
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		$user_id = ($mail_type[0] == 'system') ? ANONYMOUS_USER_ID : $this->getOwner();
+		$mail = new ilMail($user_id);
+		$recipients = $this->getExternalCodeRecipients();
+		foreach ($recipients as $data)
+		{
+			$messagetext = $message;
+			$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$data["code"];
+			$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
+			foreach ($data as $key => $value)
+			{
+				$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+			}
+			if (($not_sent[0] != 1) || $data['sent'] == 0)
+			{
+				$res = $mail->sendMail(
+					$data['email'], // to
+					"", // cc
+					"", // bcc
+					$subject, // subject
+					$messagetext, // message
+					array(), // attachments
+					array('normal') // type
+				);	
+			}
+		}
+
+		global $ilDB;
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_anonymous SET sent = %s WHERE survey_fi = %s AND externaldata IS NOT NULL",
+			array('integer','integer'),
+			array(1, $this->getSurveyId())
+		);
+	}
+
 	function getExternalCodeRecipients()
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT survey_key code, externaldata FROM svy_anonymous WHERE survey_fi = %s AND externaldata IS NOT NULL",
+		$result = $ilDB->queryF("SELECT survey_key code, externaldata, sent FROM svy_anonymous WHERE survey_fi = %s AND externaldata IS NOT NULL",
 			array('integer'),
 			array($this->getSurveyId())
 		);
@@ -4397,6 +4433,7 @@ class ilObjSurvey extends ilObject
 		{
 			$externaldata = unserialize($row['externaldata']);
 			$externaldata['code'] = $row['code'];
+			$externaldata['sent'] = $row['sent'];
 			array_push($res, $externaldata);
 		}
 		return $res;
