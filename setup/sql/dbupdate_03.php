@@ -2796,24 +2796,30 @@ $id = $ilDB->nextId('object_data');
 
 // register new object type 'book' for booking manager
 $query = "INSERT INTO object_data (obj_id,type, title, description, owner, create_date, last_update) ".
-		"VALUES ('".$id."','typ', 'book', 'Booking Manager', -1, now(), now())";
+		"VALUES (".$ilDB->quote($id, 'integer').",".$ilDB->quote('typ', 'text').
+		", ".$ilDB->quote('book', 'text').", ".$ilDB->quote('Booking Manager', 'text').
+		", ".$ilDB->quote(-1, 'integer').", ".$ilDB->now().", ".$ilDB->now().")";
 $this->db->query($query);
 
-$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
-	" AND title = 'book'";
+$query = "SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote('typ', 'text').
+	" AND title = ".$ilDB->quote('book', 'text');
 $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add rbac operations for booking object
 // 1: edit_permissions, 2: visible, 3: read, 4:write
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$ilDB->quote($typ_id, 'integer').
+	",".$ilDB->quote(1, 'integer').")";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$ilDB->quote($typ_id, 'integer').
+	",".$ilDB->quote(2, 'integer').")";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$ilDB->quote($typ_id, 'integer').
+	",".$ilDB->quote(3, 'integer').")";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES (".$ilDB->quote($typ_id, 'integer').
+	",".$ilDB->quote(4, 'integer').")";
 $this->db->query($query);
 ?>
 
