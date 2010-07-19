@@ -647,8 +647,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
-			$this->categories_info[$row->cat_id]['editable'] = ($user_id == $this->user_id ? true: false);
-			$this->categories_info[$row->cat_id]['accepted'] = true;
+			$this->categories_info[$row->cat_id]['editable'] = false;
+			$this->categories_info[$row->cat_id]['accepted'] = false;
 		}
 	}
 
@@ -679,7 +679,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = false;
-			$this->categories_info[$row->cat_id]['accepted'] = true;
+			$this->categories_info[$row->cat_id]['accepted'] = false;
 		}
 	}
 	

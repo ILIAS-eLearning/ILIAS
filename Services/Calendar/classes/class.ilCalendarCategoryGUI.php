@@ -217,12 +217,15 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		$this->checkVisible();
 
-		include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
-		$toolbar = new ilToolbarGui();
-		$toolbar->addButton($this->lng->txt("cal_add_appointment"), $this->ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
-	
 		$category = new ilCalendarCategory((int) $_GET['category_id']);
-
+		if(!in_array($category->getType(), array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
+		{
+			include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
+			$toolbar = new ilToolbarGui();
+			$toolbar->addButton($this->lng->txt("cal_add_appointment"), $this->ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
+			$toolbar = $toolbar->getHTML();
+		}
+		
 		// Non editable category
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -251,7 +254,7 @@ class ilCalendarCategoryGUI
 
 		}
 
-		$tpl->setContent($toolbar->getHTML().$info->getHTML().$this->showAssignedAppointments());
+		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
 	}
 	
 	/**
@@ -1174,7 +1177,8 @@ class ilCalendarCategoryGUI
 					}
 				}
 				break;
-			
+
+			case ilCalendarCategory::TYPE_BOOK:
 			case ilCalendarCategory::TYPE_CH:
 				$this->editable = $ilUser->getId() == $cat->getCategoryID();
 				$this->visible = true;
