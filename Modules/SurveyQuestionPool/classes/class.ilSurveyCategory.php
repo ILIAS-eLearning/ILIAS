@@ -41,13 +41,17 @@ class ilSurveyCategory
 	(
 		$title = null,
 		$other = 0,
-		$neutral = 0
+		$neutral = 0,
+		$label = null,
+		$scale = null
 	)
 	{
 		$this->arrData = array(
 			"title" => $title,
 			"other" => $other,
-			"neutral" => $neutral
+			"neutral" => $neutral,
+			"label" => $label,
+			"scale" => $scale
 		);
 	}
 	
