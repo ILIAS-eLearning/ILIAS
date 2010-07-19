@@ -1232,16 +1232,30 @@ class ilCalendarAppointmentGUI
 		global $ilUser, $tpl;
 
 		$entry = (int)$_GET['app_id'];
-		$user = (int)$_GET['bkid'];
-
+	
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$entry = new ilCalendarEntry($entry);
-		$booking = new ilBookingEntry($entry->getContextId());
+		$category = $this->calendarEntryToCategory($entry);
 
-		if(!$booking->hasBooked($entry->getEntryId()))
+		if($category->getType() == ilCalendarCategory::TYPE_CH)
 		{
-		    $this->ctrl->returnToParent($this);
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			$booking = new ilBookingEntry($entry->getContextId());
+			if(!$booking->hasBooked($entry->getEntryId()))
+			{
+				$this->ctrl->returnToParent($this);
+				return false;
+			}
+
+			$entry_title = ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
+		}
+		else if($category->getType() == ilCalendarCategory::TYPE_BOOK)
+		{
+			$entry_title = ' '.$entry->getTitle();
+		}
+		else
+		{
+			$this->ctrl->returnToParent($this);
 			return false;
 		}
 
@@ -1260,21 +1274,18 @@ class ilCalendarAppointmentGUI
 				break;
 		}
 
-		$title .= ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
-
-
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));
 		$conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancel');
-		$conf->addItem('app_id', $entry->getEntryId(), $title);
+		$conf->addItem('app_id', $entry->getEntryId(), $title.' - '.$entry_title);
 
 		$tpl->setContent($conf->getHTML());
 	}
 
-	public function cancelconfirmed()
+	public function cancelConfirmed()
 	{
 		global $ilUser;
 
@@ -1289,6 +1300,15 @@ class ilCalendarAppointmentGUI
 
 		ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
+	}
+
+	protected function calendarEntryToCategory(ilCalendarEntry $entry);
+	{
+		include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
+		$assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
+		$assignment = $assignment->getFirstAssignment();
+		return new ilCalendarCategory($assignment);
 	}
 }
 ?>
