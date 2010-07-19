@@ -19,7 +19,7 @@ if(!$ilDB->tableExists('payment_paymethods'))
   );
   $ilDB->createTable('payment_paymethods', $fields);
   $ilDB->addPrimaryKey('payment_paymethods', array('pm_id'));
-  $ilDB->addIndex('payment_paymethods',array('pm_id'),'i1');
+//  $ilDB->addIndex('payment_paymethods',array('pm_id'),'i1');
   $ilDB->createSequence("payment_paymethods");
 }
 ?>
