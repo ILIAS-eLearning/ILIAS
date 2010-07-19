@@ -2904,3 +2904,16 @@ if(!$ilDB->tableExists('booking_reservation'))
 	$ilDB->dropPrimaryKey('cal_registrations');
 	$ilDB->addPrimaryKey('cal_registrations', array('cal_id', 'usr_id','dstart','dend'));
 ?>
+<#3149>
+<?php
+	$ilDB->addTableColumn("svy_anonymous", "sent", array(
+		"type" => "integer",
+		"notnull" => true,
+		"default" => 0,
+		"length" => 2
+		));
+?>
+<#3150>
+<?php
+	$ilDB->addIndex('svy_anonymous',array('sent'),'i3');
+?>
