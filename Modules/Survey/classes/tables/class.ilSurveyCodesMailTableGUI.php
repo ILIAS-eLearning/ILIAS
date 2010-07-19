@@ -62,6 +62,7 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 			$this->addColumn('','f','1%');
 		}
 		$this->addColumn($this->lng->txt("email"),'email', '');
+		$this->addColumn($this->lng->txt("mail_sent_short"),'sent', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_codes_mail_row.html", "Modules/Survey");
 
@@ -103,7 +104,7 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 		{
 			foreach ($this->row_data[0] as $key => $value)
 			{
-				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0)
+				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
 				{
 					$this->addColumn($key,$key,'');
 				}
@@ -136,10 +137,11 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 		}
 
 		$this->tpl->setVariable('EMAIL', $data['email']);
+		$this->tpl->setVariable('SENT', ($data['sent']) ? '&#10003;' : '');
 		$this->tpl->setVariable('CB_CODE', $data['code']);
 		foreach ($data as $key => $value)
 		{
-			if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0)
+			if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
 			{
 				$this->tpl->setCurrentBlock('column');
 				$this->tpl->setVariable('COLUMN', $value);

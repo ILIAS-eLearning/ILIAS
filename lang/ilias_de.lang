@@ -10564,6 +10564,7 @@ survey#:#default_codes_mail_message#:#Ihr Zugangsschlüssel für die Umfrage lau
 survey#:#please_enter_mail_subject#:#Bitte geben Sie einen Betreff ein.
 survey#:#please_enter_mail_message#:#Bitte geben Sie einen Nachrichteninhalt ein.
 survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
+survey#:#mail_sent_short#:#Versendet
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_date_booked#:#gebucht

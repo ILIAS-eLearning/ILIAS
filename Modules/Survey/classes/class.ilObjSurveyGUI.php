@@ -2446,6 +2446,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
 		$mailData['m_message'] = (array_key_exists('m_message', $_POST)) ? $_POST['m_message'] : $this->lng->txt('default_codes_mail_message');
+		$mailData['m_type'] = (array_key_exists('m_type', $_POST)) ? $_POST['m_type'] : array();
+		$mailData['m_notsent'] = (array_key_exists('m_notsent', $_POST)) ? $_POST['m_notsent'] : array(1);
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form_gui = new ilPropertyFormGUI();
@@ -2516,6 +2518,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
+			$this->object->sendCodes($_POST['m_type'], $_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message']);
+			ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
 			$this->ctrl->redirect($this, 'codesMail');
 		}
 	}
