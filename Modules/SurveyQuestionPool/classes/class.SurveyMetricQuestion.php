@@ -844,29 +844,17 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates a value selection for preconditions
+	* Creates a form property for the precondition value
 	*
-	* @return The HTML code for the precondition value selection
+	* @return The ILIAS form element
 	* @access public
 	*/
-	function getPreconditionSelectValue($default = "")
+	public function getPreconditionSelectValue($default = "", $title, $variable)
 	{
-		global $lng;
-		
-		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_svy_svy_precondition_select_value_textfield.html", TRUE, TRUE, "Modules/Survey");
-		if (strlen($default))
-		{
-			$template->setCurrentBlock("textfield");
-			$template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilUtil::prepareFormOutput($default) . "\"");
-			$template->parseCurrentBlock();
-		}
-		else
-		{
-			$template->touchBlock("textfield");
-		}
-		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("enter_value"));
-		return $template->get();
+		include_once "./Services/Form/classes/class.ilNumberInputGUI.php";
+		$step3 = new ilNumberInputGUI($title, $variable);
+		$step3->setValue($default);
+		return $step3;
 	}
 
 /**

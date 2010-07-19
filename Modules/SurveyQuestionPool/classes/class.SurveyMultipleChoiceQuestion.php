@@ -721,31 +721,37 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Creates a value selection for preconditions
+	* Returns the options for preconditions
 	*
-	* @return The HTML code for the precondition value selection
-	* @access public
+	* @return array
 	*/
-	function getPreconditionSelectValue($default = "")
+	public function getPreconditionOptions()
 	{
 		global $lng;
 		
-		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_svy_svy_precondition_select_value_combobox.html", TRUE, TRUE, "Modules/Survey");
+		$options = array();
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
-			$template->setCurrentBlock("option_v");
-			$template->setVariable("OPTION_VALUE", $i);
 			$category = $this->categories->getCategory($i);
-			$template->setVariable("OPTION_TEXT", ($i+1) . " - " . $category->title);
-			if ($i == $default)
-			{
-				$template->setVariable("OPTION_CHECKED", " selected=\"selected\"");
-			}
-			$template->parseCurrentBlock();
+			$options[$i] = ($i+1) . " - " . $category->title;
 		}
-		$template->setVariable("SELECT_VALUE", $lng->txt("step") . " 3: " . $lng->txt("select_value"));
-		return $template->get();
+		return $options;
+	}
+
+	/**
+	* Creates a form property for the precondition value
+	*
+	* @return The ILIAS form element
+	* @access public
+	*/
+	public function getPreconditionSelectValue($default = "", $title, $variable)
+	{
+		include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
+		$step3 = new ilSelectInputGUI($title, $variable);
+		$options = $this->getPreconditionOptions();
+		$step3->setOptions($options);
+		$step3->setValue($default);
+		return $step3;
 	}
 
 	/**

@@ -1992,6 +1992,22 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		return $value;
 	}
+
+	/**
+	* Creates a form property for the precondition value
+	*
+	* @return The ILIAS form element
+	* @access public
+	*/
+	public function getPreconditionSelectValue($default = "", $title, $variable)
+	{
+		include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
+		$step3 = new ilSelectInputGUI($title, $variable);
+		$options = $this->getPreconditionOptions();
+		$step3->setOptions($options);
+		$step3->setValue($default);
+		return $step3;
+	}
 	
 /**
 * Creates an image visualising the results of the question

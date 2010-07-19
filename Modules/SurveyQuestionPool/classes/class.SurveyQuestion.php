@@ -2110,6 +2110,18 @@ class SurveyQuestion
 		return $value;
 	}
 
+	/**
+	* Creates a form property for the precondition value
+	*
+	* @return The ILIAS form element
+	* @access public
+	*/
+	public function getPreconditionSelectValue($default = "", $title, $variable)
+	{
+		// overwrite in inherited classes
+		return null;
+	}
+
 /**
 * Creates an image visualising the results of the question
 *

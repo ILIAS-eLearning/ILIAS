@@ -9848,7 +9848,7 @@ survey#:#select_relation#:#Select a Relation
 survey#:#select_svy_option#:#--- Please select a survey ---
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_target_position_for_move#:#Please select a target position to move the answers and press one of the insert buttons!
-survey#:#select_value#:#Select a Value
+survey#:#select_value#:#Enter a Value
 survey#:#selection#:#Selection
 survey#:#set_filter#:#Set Filter
 survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden.

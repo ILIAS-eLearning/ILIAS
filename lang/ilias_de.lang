@@ -9748,7 +9748,7 @@ survey#:#select_relation#:#Relation auswählen
 survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
-survey#:#select_value#:#Wert auswählen
+survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
 survey#:#set_filter#:#Filter setzen
 survey#:#show_questiontext#:#Fragentext anzeigen
