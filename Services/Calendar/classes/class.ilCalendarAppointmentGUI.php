@@ -1120,7 +1120,10 @@ class ilCalendarAppointmentGUI
 		ilUtil::sendSuccess($this->lng->txt('cal_reg_registered'),true);
 		$this->ctrl->returnToParent($this);
 	}
-	
+
+	/**
+	 * Confirmation screen to unregister calendar
+	 */
 	public function confirmUnregister()
 	{
 		global $tpl;
@@ -1149,7 +1152,7 @@ class ilCalendarAppointmentGUI
 	}
 
 	/**
-	 * Register
+	 * Unregister calendar, was confirmed
 	 * @return 
 	 */
 	protected function unregister()
@@ -1168,7 +1171,9 @@ class ilCalendarAppointmentGUI
 		$this->ctrl->returnToParent($this);
 	}
 	
-
+	/**
+	 * Confirmation screen for booking of consultation appointment
+	 */
 	public function book()
     {
 		global $ilUser, $tpl;
@@ -1198,7 +1203,6 @@ class ilCalendarAppointmentGUI
 
 		$title .= ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
 
-
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI;
 		$conf->setFormAction($this->ctrl->getFormAction($this));
@@ -1210,6 +1214,9 @@ class ilCalendarAppointmentGUI
 		$tpl->setContent($conf->getHTML());
 	}
 
+	/**
+	 * Book consultation appointment, was confirmed
+	 */
 	public function bookconfirmed()
 	{
 		global $ilUser;
@@ -1227,6 +1234,10 @@ class ilCalendarAppointmentGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	/**
+	 * Confirmation screen to cancel consultation appointment or ressource booking
+	 * depends on calendar category
+	 */
 	public function cancelBooking()
 	{
 		global $ilUser, $tpl;
@@ -1235,8 +1246,8 @@ class ilCalendarAppointmentGUI
 	
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
 		$entry = new ilCalendarEntry($entry);
-		$category = $this->calendarEntryToCategory($entry);
 
+		$category = $this->calendarEntryToCategory($entry);
 		if($category->getType() == ilCalendarCategory::TYPE_CH)
 		{
 			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
@@ -1285,6 +1296,10 @@ class ilCalendarAppointmentGUI
 		$tpl->setContent($conf->getHTML());
 	}
 
+	/**
+	 * Cancel consultation appointment or ressource booking, was confirmed
+	 * This will delete the calendar entry
+	 */
 	public function cancelConfirmed()
 	{
 		global $ilUser;
@@ -1293,16 +1308,35 @@ class ilCalendarAppointmentGUI
 		$user = (int)$_GET['bkid'];
 
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$entry = new ilCalendarEntry($entry);
-		$booking = new ilBookingEntry($entry->getContextId());
-        $booking->cancelBooking($entry->getEntryId());
+		
+		$category = $this->calendarEntryToCategory($entry);
+		if($category->getType() == ilCalendarCategory::TYPE_CH)
+		{
+			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+			$booking = new ilBookingEntry($entry->getContextId());
+			$booking->cancelBooking($entry->getEntryId());
+		}
+		else if($category->getType() == ilCalendarCategory::TYPE_BOOK)
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+			$booking = new ilBookingReservation($entry->getContextId());
+			$booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
+			$booking->update();
+		}
 
+		$entry->delete();
+		
 		ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
 	}
 
-	protected function calendarEntryToCategory(ilCalendarEntry $entry);
+	/**
+	 * Get category object of given calendar entry
+	 * @param ilCalendarEntry $entry
+	 * @return ilCalendarCategory
+	 */
+	protected function calendarEntryToCategory(ilCalendarEntry $entry)
 	{
 		include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
