@@ -460,6 +460,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$reservation->setStatus(ilBookingReservation::STATUS_RESERVED);
 			$reservation->save();
 
+			$this->lng->loadLanguageModule('dateplaner');
+			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+			include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
+			$def_cat = ilCalendarUtil::initDefaultCalendarByType(ilCalendarCategory::TYPE_BOOK,$ilUser->getId(),$this->lng->txt('cal_ch_personal_book'),true);
+
+			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+			$object = new ilBookingObject($object_id);
+
+			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+			$entry = new ilCalendarEntry;
+			$entry->setStart(new ilDateTime($fromto[0], IL_CAL_UNIX));
+			$entry->setEnd(new ilDateTime($fromto[1], IL_CAL_UNIX));
+			$entry->setTitle($this->lng->txt('book_cal_entry').' '.$object->getTitle());
+			$entry->setContextId($reservation->getId());
+			$entry->save();
+
+			include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+			$assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
+			$assignment->addAssignment($def_cat->getCategoryId());
+
 			ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
 			$this->ctrl->redirect($this, 'render');
 		}

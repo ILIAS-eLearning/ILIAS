@@ -271,6 +271,16 @@ class ilCalendarAppointmentPanelGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				break;
+
+			case ilCalendarCategory::TYPE_BOOK:
+				$this->tpl->setVariable('PANEL_CAL_TYPE',$this->lng->txt('cal_ch_booking'));
+
+				$this->tpl->setCurrentBlock('panel_cancel_book_link');
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+				$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
+				$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
+				$this->tpl->parseCurrentBlock();
+				break;
 		}
 
 		$this->tpl->setVariable('PANEL_TXT_CAL_NAME',$this->lng->txt('cal_calendar_name'));

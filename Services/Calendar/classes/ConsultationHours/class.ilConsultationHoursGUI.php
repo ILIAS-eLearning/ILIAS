@@ -273,8 +273,8 @@ class ilConsultationHoursGUI
 				$start = new ilDateTime($start->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes()),IL_CAL_UNIX));
 		}
 		
-		include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourUtils.php';
-		$def_cat = ilConsultationHourUtils::initDefaultCalendar($this->getUserId(),true);
+		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
+		$def_cat = ilCalendarUtil::initDefaultCalendarByType(ilCalendarCategory::TYPE_CH,$this->getUserId(),$this->lng->txt('cal_ch_personal_ch'),true);
 		
 		// Add calendar appointment for each 
 		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';

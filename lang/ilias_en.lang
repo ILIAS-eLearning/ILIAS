@@ -10746,3 +10746,6 @@ book#:#book_reservation_cancel#:#Cancel
 book#:#book_reservation_block#:#Block
 book#:#book_log#:#Log
 book#:#book_reservations_list#:#Reservations
+book#:#book_cal_entry#:#Booking of:
+dateplaner#:#cal_ch_booking#:#Ressource Booking
+dateplaner#:#cal_ch_personal_book#:#Personal Bookings
