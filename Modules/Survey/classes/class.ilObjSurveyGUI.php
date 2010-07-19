@@ -2426,8 +2426,103 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$table_gui->completeColumns();
 		$tabledata = $table_gui->getHTML();	
 		
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $tabledata);
+		if (!$checkonly)
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes_mail.html", true);
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codesMail"));
+			$this->tpl->setVariable("MAIL_CODES", $this->lng->txt("mail_survey_codes"));
+			$this->tpl->setVariable('TABLE', $tabledata);	
+		}
 		return $errors;
+	}
+	
+	public function mailCodesObject()
+	{
+		global $ilAccess;
+		
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
+		$mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
+		$mailData['m_message'] = (array_key_exists('m_message', $_POST)) ? $_POST['m_message'] : $this->lng->txt('default_codes_mail_message');
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setFormAction($this->ctrl->getFormAction($this));
+		$form_gui->setTitle($this->lng->txt('compose'));
+
+		// SUBJECT
+		$inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
+		$inp->setSize(50);
+		$inp->setRequired(true);
+		$inp->setValue(ilUtil::htmlencodePlainString($mailData["m_subject"], false));
+		$form_gui->addItem($inp);
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type[]');
+		$chb->setOptionTitle($this->lng->txt('system_message'));
+		$chb->setValue('system');
+		$chb->setChecked(false);
+		if(is_array($mailData["m_type"]) and in_array('system',$mailData["m_type"]))
+		{
+			$chb->setChecked(true);
+		}
+		$form_gui->addItem($chb);
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt('recipients'), 'm_notsent[]');
+		$chb->setOptionTitle($this->lng->txt('not_sent_only'));
+		$chb->setValue(1);
+		$chb->setChecked(false);
+		if(is_array($mailData["m_notsent"]) and in_array(1, $mailData["m_notsent"]))
+		{
+			$chb->setChecked(true);
+		}
+		$form_gui->addItem($chb);
+
+		$existingdata = $this->object->getExternalCodeRecipients();
+		$existingcolumns = array();
+		if (count($existingdata))
+		{
+			$first = array_shift($existingdata);
+			foreach ($first as $key => $value)
+			{
+				if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0) array_push($existingcolumns, '[' . $key . ']');
+			}
+		}
+
+		// MESSAGE
+		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
+		$inp->setValue($mailData["m_message"]);
+		$inp->setRequired(true);
+		$inp->setCols(60);
+		$inp->setRows(10);
+		$inp->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
+		$form_gui->addItem($inp);
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("sendCodesMail", $this->lng->txt("send"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("cancelCodesMail", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
+	}
+	
+	public function sendCodesMailObject()
+	{
+		$code_exists = strpos($_POST['m_message'], '[code]') !== FALSE;
+		if (!$_POST['m_subject'] || !$_POST['m_message'] || !$code_exists)
+		{
+			if (!$_POST['m_subject']) ilUtil::sendFailure($this->lng->txt('please_enter_mail_subject'));
+			if (!$_POST['m_message']) ilUtil::sendFailure($this->lng->txt('please_enter_mail_message'));
+			if (!$code_exists) ilUtil::sendFailure($this->lng->txt('please_enter_mail_code'));
+			$this->mailCodesObject();
+		}
+		else
+		{
+			$this->ctrl->redirect($this, 'codesMail');
+		}
+	}
+	
+	public function cancelCodesMailObject()
+	{
+		$this->ctrl->redirect($this, 'codesMail');
 	}
 
 	public function deleteInternalMailRecipientObject()
@@ -3298,7 +3393,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		(
 			"mail", 
 			$this->ctrl->getLinkTarget($this, "codesMail"), 
-			array("codesMail", "saveMailTableFields", "importExternalMailRecipients"),	
+			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 'mailCodes', 'sendCodesMail'),	
 			""
 		);
 	}
@@ -3464,7 +3559,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// code
 				$tabs_gui->addTarget("codes",
 					 $this->ctrl->getLinkTarget($this,'codes'),
-					 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients'),
+					 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients',
+						'mailCodes', 'sendCodesMail'),
 					 "");
 			}
 		}
