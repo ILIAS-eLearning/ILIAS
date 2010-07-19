@@ -442,6 +442,7 @@ class ilCalendarCategories
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
 		$this->readConsultationHoursCalendar();
+		$this->readBookingCalendar();
 		
 		include_once('./Services/Membership/classes/class.ilParticipants.php');
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
@@ -463,6 +464,7 @@ class ilCalendarCategories
 	 	$this->readPublicCalendars();
 	 	$this->readPrivateCalendars();
 		$this->readConsultationHoursCalendar();
+		$this->readBookingCalendar();
 
 		$obj_ids = array();
 		
@@ -513,7 +515,7 @@ class ilCalendarCategories
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
 		$this->readConsultationHoursCalendar();
-		
+
 		$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
 			"JOIN object_reference obr ON t1.child = obr.ref_id ".
 			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
@@ -649,9 +651,38 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['accepted'] = true;
 		}
 	}
+
+	/**
+	 * Read booking manager calendar
+	 * @param	int	$user_id
+	 * @return
+	 */
+	public function readBookingCalendar($user_id = NULL)
+	{
+		global $ilDB;
+
+		if(!$user_id)
+		{
+			$user_id = $this->user_id;
+		}
+
+		$query = "SELECT *  FROM cal_categories ".
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_BOOK,'integer').' '.
+			"AND obj_id = ".$ilDB->quote($user_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->categories[] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
+			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['title'] = $row->title;
+			$this->categories_info[$row->cat_id]['color'] = $row->color;
+			$this->categories_info[$row->cat_id]['type'] = $row->type;
+			$this->categories_info[$row->cat_id]['editable'] = false;
+			$this->categories_info[$row->cat_id]['accepted'] = true;
+		}
+	}
 	
-
-
 	/**
 	 * read selected categories
 	 *

@@ -39,6 +39,15 @@ class ilBookingReservation
 	}
 
 	/**
+	 * Get id
+	 * @return	int
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * Set object id
 	 * @param	int	$a_object_id
 	 */
@@ -181,11 +190,11 @@ class ilBookingReservation
 			return false;
 		}
 
-		$id = $ilDB->nextId('booking_reservation');
-
+		$this->id = $ilDB->nextId('booking_reservation');
+		
 		return $ilDB->manipulate('INSERT INTO booking_reservation'.
 			' (booking_reservation_id,user_id,object_id,date_from,date_to,status)'.
-			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getUserId(), 'integer').
+			' VALUES ('.$ilDB->quote($this->id, 'integer').','.$ilDB->quote($this->getUserId(), 'integer').
 			','.$ilDB->quote($this->getObjectId(), 'integer').','.$ilDB->quote($this->getFrom(), 'integer').
 			','.$ilDB->quote($this->getTo(), 'integer').','.$ilDB->quote($this->getStatus(), 'integer').')');
 	}

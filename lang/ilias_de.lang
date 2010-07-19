@@ -10750,3 +10750,6 @@ book#:#book_reservation_cancel#:#Stornieren
 book#:#book_reservation_block#:#Blockieren
 book#:#book_log#:#Log
 book#:#book_reservations_list#:#Buchungen
+book#:#book_cal_entry#:#Buchung von:
+dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
+dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen

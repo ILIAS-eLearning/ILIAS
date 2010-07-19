@@ -34,13 +34,11 @@ class ilCalendarCategory
 {
 	const DEFAULT_COLOR = '#04427e';
 	
-	const TYPE_USR = 1;
-	const TYPE_OBJ = 2;
-	const TYPE_GLOBAL = 3;
-	/**
-	 * Consultation hours calendar
-	 */
-	const TYPE_CH = 4;  
+	const TYPE_USR = 1;		// user
+	const TYPE_OBJ = 2;		// object
+	const TYPE_GLOBAL = 3;	// global
+	const TYPE_CH = 4;		// consultation hours
+	const TYPE_BOOK = 5;	// booking manager
 	
 	protected $cat_id;
 	protected $color;
