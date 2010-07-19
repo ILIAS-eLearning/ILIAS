@@ -10553,8 +10553,17 @@ survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
 survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
 survey#:#external_mails_import#:#Externe Empfänger von Zugangsschlüsseln importieren
 survey#:#externalmails#:#Importdatei
+survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
 survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
+survey#:#recipients#:#Empfänger
+survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
+survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#err_no_selection#:#Keine Auswahl.
+survey#:#default_codes_mail_subject#:#Ihr Zugangsschlüssel für die Umfrage %s
+survey#:#default_codes_mail_message#:#Ihr Zugangsschlüssel für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der der URL [url] erreichen.
+survey#:#please_enter_mail_subject#:#Bitte geben Sie einen Betreff ein.
+survey#:#please_enter_mail_message#:#Bitte geben Sie einen Nachrichteninhalt ein.
+survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_date_booked#:#gebucht

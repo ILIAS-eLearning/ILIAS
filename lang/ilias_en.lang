@@ -10634,7 +10634,16 @@ survey#:#external_recipients_deleted#:#Deleted external recipient(s)
 survey#:#external_recipients_imported#:#External recipients have been imported.
 survey#:#external_mails_import#:#Import external recipients of survey keys
 survey#:#externalmails#:#Import file
+survey#:#mail_survey_codes#:#Mail access codes
 survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.
+survey#:#recipients#:#Recipients
+survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)
+survey#:#message_content_info#:#Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.
+survey#:#default_codes_mail_subject#:#Your access code for %s
+survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
+survey#:#please_enter_mail_subject#:#Please enter a mail subject
+survey#:#please_enter_mail_message#:#Please enter a mail message
+survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_date_booked#:#booked
