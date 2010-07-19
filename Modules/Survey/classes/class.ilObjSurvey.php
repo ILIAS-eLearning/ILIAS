@@ -2927,18 +2927,36 @@ class ilObjSurvey extends ilObject
 	function sendNotificationMail($user_id, $anonymize_id)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($this->getOwner());
-
-		$res = $mail->sendMail(
-			ilObjUser::_lookupLogin($this->getOwner()), // to
-			"", // cc
-			"", // bcc
-			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
-			$message->get(), // message
-			array(), // attachments
-			array('normal') // type
-		);	
-		global $ilLog; $ilLog->write("sending mail: " . $res);
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		$recipients = preg_split('/,/', $this->mailaddresses);
+		foreach ($recipients as $recipient)
+		{
+			$messagetext = $mailparticipantdata;
+			$data = ilUser::_getUserData(array($user_id));
+			foreach ($data as $key => $value)
+			{
+				if ($this->getAnonymize())
+				{
+					$messagetext = str_replace('[' . $key . ']', '', $messagetext);
+				}
+				else
+				{
+					$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+				}
+			}
+			if (($not_sent[0] != 1) || $data['sent'] == 0)
+			{
+				$res = $mail->sendMail(
+					$recipient, // to
+					"", // cc
+					"", // bcc
+					$this->lng->txt('finished_mail_subject'), // subject
+					$messagetext, // message
+					array(), // attachments
+					array('normal') // type
+				);	
+			}
+		}
 	}
 
 	function getDetailedParticipantResultsAsText()
@@ -2952,7 +2970,6 @@ class ilObjSurvey extends ilObject
 			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
 
 			$eval = $this->getCumulatedResults($question);
-//			$question->setExportDetailsXLS($, $eval, $_POST['export_label']);
 		}
 	}
 	

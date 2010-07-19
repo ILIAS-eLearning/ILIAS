@@ -10645,6 +10645,7 @@ survey#:#please_enter_mail_subject#:#Please enter a mail subject
 survey#:#please_enter_mail_message#:#Please enter a mail message
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#mail_sent_short#:#Sent
+survey#:#finished_mail_subject#:#The survey was finished
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_date_booked#:#booked
