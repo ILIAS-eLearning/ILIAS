@@ -500,11 +500,11 @@ abstract class ilDB extends PEAR
 	}
 	
 	/**
-	* Drop a table
-	*
-	* @param	string		table name
-	* @param	boolean		raise an error, if table not exists
-	*/
+	 * Drop a table
+	 *
+	 * @param	string		table name
+	 * @param	boolean		raise an error, if table not exists
+	 */
 	function dropTable($a_name, $a_error_if_not_existing = true)
 	{
 		if (!$a_error_if_not_existing)
@@ -517,6 +517,37 @@ abstract class ilDB extends PEAR
 		}
 		
 		$manager = $this->db->loadModule('Manager');
+		
+		// drop table constraints
+		$constraints = $manager->listTableConstraints($a_name);
+		$this->handleError($constraints, "dropTable(".$a_name."), listTableConstraints");
+		foreach ($constraints as $c)
+		{
+			if (substr($c, 0, 4) != "sys_")
+			{
+				$r = $manager->dropConstraint($a_name, $c);
+				$this->handleError($r, "dropTable(".$a_name."), dropConstraint");
+			}
+		}
+
+		// drop table indexes
+		$indexes = $manager->listTableIndexes($a_name);
+		$this->handleError($indexes, "dropTable(".$a_name."), listTableIndexes");
+		foreach ($indexes as $i)
+		{
+			$r = $manager->dropIndex($a_name, $i);
+			$this->handleError($r, "dropTable(".$a_name."), dropIndex");
+		}
+
+		// drop sequence
+		$seqs = $manager->listSequences();
+		if (in_array($a_name, $seqs))
+		{
+			$r = $manager->dropSequence($a_name);
+			$this->handleError($r, "dropTable(".$a_name."), dropSequence");
+		}
+		
+		// drop table
 		$r = $manager->dropTable($a_name);
 
 		return $this->handleError($r, "dropTable(".$a_name.")");
