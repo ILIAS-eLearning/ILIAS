@@ -3170,48 +3170,74 @@ class ilObjSurvey extends ilObject
 		{
 			return 0;
 		}
-		
-		foreach ($working_data as $data)
+		switch ($constraint_data["short"])
 		{
-			switch ($constraint_data["short"])
-			{
-				case "<":
-					if ($data["value"] < $constraint_data["value"])
+			case "<":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] < $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-				case "<=":
-					if ($data["value"] <= $constraint_data["value"])
+				}
+				if ($all) return 1;
+				break;
+			case "<=":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] <= $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-				case "=":
-					if ($data["value"] == $constraint_data["value"])
+				}
+				if ($all) return 1;
+				break;
+			case "=":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] == $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-				case "<>":
-					if ($data["value"] != $constraint_data["value"])
+				}
+				if ($all) return 1;
+				break;
+			case "<>":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] <> $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-				case ">=":
-					if ($data["value"] >= $constraint_data["value"])
+				}
+				if ($all) return 1;
+				break;
+			case ">=":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] >= $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-				case ">":
-					if ($data["value"] > $constraint_data["value"])
+				}
+				if ($all) return 1;
+				break;
+			case ">":
+				$all = true;
+				foreach ($working_data as $data)
+				{
+					if (!($data["value"] > $constraint_data["value"]))
 					{
-						return 1;
+						$all = false;
 					}
-					break;
-			}
+				}
+				if ($all) return 1;
+				break;
 		}
 		return 0;
 	}
