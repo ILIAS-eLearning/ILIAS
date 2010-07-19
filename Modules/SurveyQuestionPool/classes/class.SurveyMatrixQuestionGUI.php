@@ -781,7 +781,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 							$tplrow->setCurrentBlock("neutral_radiobutton");
 							$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 							$tplrow->setVariable("ROW", $i);
-							$tplrow->setVariable("VALUE", $cat->scale);
+							$tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
 							if (is_array($working_data))
 							{
 								foreach ($working_data as $data)
@@ -799,7 +799,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 							$tplrow->setCurrentBlock("radiobutton");
 							$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 							$tplrow->setVariable("ROW", $i);
-							$tplrow->setVariable("VALUE", $cat->scale);
+							$tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
 							if (is_array($working_data))
 							{
 								foreach ($working_data as $data)
@@ -819,7 +819,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 							$tplrow->setCurrentBlock("neutral_checkbox");
 							$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 							$tplrow->setVariable("ROW", $i);
-							$tplrow->setVariable("VALUE", $cat->scale);
+							$tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
 							if (is_array($working_data))
 							{
 								foreach ($working_data as $data)
@@ -837,7 +837,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 							$tplrow->setCurrentBlock("checkbox");
 							$tplrow->setVariable("QUESTION_ID", $this->object->getId());
 							$tplrow->setVariable("ROW", $i);
-							$tplrow->setVariable("VALUE", $cat->scale);
+							$tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
 							if (is_array($working_data))
 							{
 								foreach ($working_data as $data)
