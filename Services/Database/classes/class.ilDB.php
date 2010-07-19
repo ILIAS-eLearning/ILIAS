@@ -1242,9 +1242,15 @@ abstract class ilDB extends PEAR
 	{
 		global $ilBench;
 
-		$ilBench->startDbBench($sql);
+		if (is_object($ilBench))
+		{
+			$ilBench->startDbBench($sql);
+		}
 		$r = $this->db->query($sql);
-		$ilBench->stopDbBench();
+		if (is_object($ilBench))
+		{
+			$ilBench->stopDbBench();
+		}
 		
 		if ($a_handle_error)
 		{
