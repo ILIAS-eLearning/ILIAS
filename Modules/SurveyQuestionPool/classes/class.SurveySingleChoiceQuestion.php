@@ -777,6 +777,22 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	}
 
 	/**
+	* Creates a form property for the precondition value
+	*
+	* @return The ILIAS form element
+	* @access public
+	*/
+	public function getPreconditionSelectValue($default = "", $title, $variable)
+	{
+		include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
+		$step3 = new ilSelectInputGUI($title, $variable);
+		$options = $this->getPreconditionOptions();
+		$step3->setOptions($options);
+		$step3->setValue($default);
+		return $step3;
+	}
+
+	/**
 	* Returns the output for a precondition value
 	*
 	* @param string $value The precondition value

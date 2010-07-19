@@ -2815,10 +2815,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$question = new $question_type();
 			$question->loadFromDb($postvalues["q"]);
 
-			$step3 = new ilSelectInputGUI($this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"), "v");
-			$options = $question->getPreconditionOptions();
-			$step3->setOptions($options);
-			$step3->setValue($postvalues["v"]);
+			$step3 = $question->getPreconditionSelectValue($postvalues["v"], $this->lng->txt("step") . " 3: " . $this->lng->txt("select_value"), "v");
 			$form->addItem($step3);
 		}
 
