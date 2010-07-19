@@ -19,6 +19,8 @@ if(!$ilDB->tableExists('payment_paymethods'))
   );
   $ilDB->createTable('payment_paymethods', $fields);
   $ilDB->addPrimaryKey('payment_paymethods', array('pm_id'));
+// this is not necessary and triggers an error under oracle, since the index
+// is already created with the primary key: (alex, 19.7.2010)
 //  $ilDB->addIndex('payment_paymethods',array('pm_id'),'i1');
   $ilDB->createSequence("payment_paymethods");
 }
