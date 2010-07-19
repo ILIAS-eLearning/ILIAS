@@ -96,7 +96,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
 
 		// repository calendars cannot be edited
-		if($a_set['editable'] && $a_set['type'] != ilCalendarCategory::TYPE_OBJ)
+		if($a_set['editable'] && !in_array($a_set['type'], array(ilCalendarCategory::TYPE_OBJ, ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
 			$current_selection_list->addItem($this->lng->txt('edit'), '', $url);

@@ -108,10 +108,14 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock('details');
-			
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
+		}
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$this->tpl->setCurrentBlock('details');
+
 			if($reservation)
 			{
 				$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
@@ -137,9 +141,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-			$this->tpl->parseCurrentBlock();
+			if(!$reservation)
+			{
+				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
