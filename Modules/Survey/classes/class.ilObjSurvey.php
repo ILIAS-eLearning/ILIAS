@@ -2934,7 +2934,7 @@ class ilObjSurvey extends ilObject
 		{
 			$messagetext = $this->mailparticipantdata;
 			$data = ilObjUser::_getUserData(array($user_id));
-			foreach ($data as $key => $value)
+			foreach ($data[0] as $key => $value)
 			{
 				if ($this->getAnonymize())
 				{
@@ -2945,19 +2945,47 @@ class ilObjSurvey extends ilObject
 					$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
 				}
 			}
+			$active_id = $this->getActiveID($user_id, $anonymize_id);
+			$messagetext .= "\n\n\n" . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
 			if (($not_sent[0] != 1) || $data['sent'] == 0)
 			{
 				$res = $mail->sendMail(
 					$recipient, // to
 					"", // cc
 					"", // bcc
-					$this->lng->txt('finished_mail_subject'), // subject
+					$this->lng->txt('finished_mail_subject') . ': ' . $this->getTitle(), // subject
 					$messagetext, // message
 					array(), // attachments
 					array('normal') // type
 				);	
 			}
 		}
+	}
+
+	protected function getParticipantTextResults($active_id)
+	{
+		$textresult = "";
+		$userResults =& $this->getUserSpecificResults();
+		$questions =& $this->getSurveyQuestions(true);
+		$questioncounter = 1;
+		foreach ($questions as $question_id => $question_data)
+		{
+			$textresult .= $questioncounter++ . ". " . $question_data["title"] . "\n";
+			$found = $userResults[$question_id][$active_id];
+			$text = "";
+			if (is_array($found))
+			{
+				$text = implode("\n", $found);
+			}
+			else
+			{
+				$text = $found;
+			}
+			if (strlen($text) == 0) $text = $this->lng->txt("skipped");
+			$text = str_replace("<br />", "\n", $text);
+			$textresult .= $text . "\n\n";
+		}
+		return $textresult;
 	}
 
 	function getDetailedParticipantResultsAsText()
@@ -3049,6 +3077,52 @@ class ilObjSurvey extends ilObject
 			$row = $ilDB->fetchAssoc($result);
 			$_SESSION["finished_id"] = $row["finished_id"];
 			return (int)$row["state"];
+		}
+	}
+
+	/**
+	* Checks if a user already started a survey
+	*
+	* @param integer $user_id The database id of the user
+	* @return mixed false, if the user has not started the survey, 0 if the user has started the survey but not finished it, 1 if the user has finished the survey
+	* @access public
+	*/
+	function getActiveID($user_id, $anonymize_id)
+	{
+		global $ilDB;
+
+		if ($this->getAnonymize())
+		{
+			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
+			{
+				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
+					array('integer','integer'),
+					array($this->getSurveyId(), $user_id)
+				);
+			}
+			else
+			{
+				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
+					array('integer','text'),
+					array($this->getSurveyId(), $anonymize_id)
+				);
+			}
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
+				array('integer','integer'),
+				array($this->getSurveyId(), $user_id)
+			);
+		}
+		if ($result->numRows() == 0)
+		{
+			return false;
+		}			
+		else
+		{
+			$row = $ilDB->fetchAssoc($result);
+			return $row["finished_id"];
 		}
 	}
 	
