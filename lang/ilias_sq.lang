@@ -10729,3 +10729,43 @@ book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variabl
 book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
 common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
 common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+survey#:#mail_survey_codes#:#Mail access codes###19 07 2010 new variable
+survey#:#recipients#:#Recipients###19 07 2010 new variable
+survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)###19 07 2010 new variable
+survey#:#message_content_info#:#Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.###19 07 2010 new variable
+survey#:#default_codes_mail_subject#:#Your access code for %s###19 07 2010 new variable
+survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]###19 07 2010 new variable
+survey#:#please_enter_mail_subject#:#Please enter a mail subject###19 07 2010 new variable
+survey#:#please_enter_mail_message#:#Please enter a mail message###19 07 2010 new variable
+survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]###19 07 2010 new variable
+survey#:#mail_sent_short#:#Sent###19 07 2010 new variable
+survey#:#finished_mail_subject#:#The survey was finished###19 07 2010 new variable
+dateplaner#:#cal_registrations#:#Appointment Registrations###19 07 2010 new variable
+dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments###19 07 2010 new variable
+dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to course and group appointments.###19 07 2010 new variable
+dateplaner#:#cal_reg_register#:#Register###19 07 2010 new variable
+dateplaner#:#cal_reg_unregister#:#Unregister###19 07 2010 new variable
+book#:#book_hours#:#Hours###19 07 2010 new variable
+book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.###19 07 2010 new variable
+book#:#book_reservation_title#:#Booking Reservation for###19 07 2010 new variable
+book#:#book_confirm_booking#:#Confirm Booking###19 07 2010 new variable
+dateplaner#:#cal_reg_registered_users#:#Registered Users###19 07 2010 new variable
+dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this registration.###19 07 2010 new variable
+dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.###19 07 2010 new variable
+book#:#book_reservation_confirmed#:#Your booking has been confirmed.###19 07 2010 new variable
+book#:#book_reservation_failed#:#Your booking has failed.###19 07 2010 new variable
+book#:#book_reservation_status_1#:#Reserved###19 07 2010 new variable
+book#:#book_reservation_status_2#:#In Use###19 07 2010 new variable
+book#:#book_reservation_status_3#:#Overdue###19 07 2010 new variable
+book#:#book_reservation_status_4#:#Returned###19 07 2010 new variable
+book#:#book_reservation_status_5#:#Cancelled###19 07 2010 new variable
+book#:#book_reservation_status_6#:#Blocked###19 07 2010 new variable
+book#:#book_period#:#Period###19 07 2010 new variable
+book#:#book_change_status#:#Change Status###19 07 2010 new variable
+book#:#book_reservation_cancel#:#Cancel###19 07 2010 new variable
+book#:#book_reservation_block#:#Block###19 07 2010 new variable
+book#:#book_log#:#Log###19 07 2010 new variable
+book#:#book_reservations_list#:#Reservations###19 07 2010 new variable
+book#:#book_cal_entry#:#Booking of:###19 07 2010 new variable
+dateplaner#:#cal_ch_booking#:#Ressource Booking###19 07 2010 new variable
+dateplaner#:#cal_ch_personal_book#:#Personal Booking###19 07 2010 new variable
