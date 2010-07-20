@@ -1708,12 +1708,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 		
 		$this->checkPermission('write');
-		/*
-		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
-		*/
+
 		//save custom icons
 		if ($this->ilias->getSetting("custom_icons"))
 		{
@@ -1865,7 +1860,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function removeSmallIconObject()
 	{
 		$this->object->removeSmallIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
+		$this->ctrl->redirect($this,'editCourseIcons');		
 	}
 
 	/**
@@ -1876,7 +1871,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function removeBigIconObject()
 	{
 		$this->object->removeBigIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
+		$this->ctrl->redirect($this,'editCourseIcons');		
 	}
 
 
@@ -1888,7 +1883,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function removeTinyIconObject()
 	{
 		$this->object->removeTinyIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editCourseIcons"));
+		$this->ctrl->redirect($this,'editCourseIcons');		
 	}
 
 	/**
