@@ -10751,3 +10751,5 @@ book#:#book_reservations_list#:#Reservations
 book#:#book_cal_entry#:#Booking of:
 dateplaner#:#cal_ch_booking#:#Ressource Booking
 dateplaner#:#cal_ch_personal_book#:#Personal Bookings
+ps#:#ps_cdf_data_fields#:#Available User Fields
+ps#:#ps_cdf_edit_field#:#Edit Data Field
