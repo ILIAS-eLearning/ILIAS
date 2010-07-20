@@ -1082,6 +1082,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
+		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
 		$this->object->setViewMode((int) $_POST['view_mode']);
@@ -1359,6 +1360,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		*/
 		
 		#$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
+		// Create default access code
+		if(!$this->object->getRegistrationAccessCode())
+		{
+			include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+			$this->object->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		}
+		$reg_link = new ilHiddenInputGUI('reg_code');
+		$reg_link->setValue($this->object->getRegistrationAccessCode());
+		$this->form->addItem($reg_link);
+		
 		
 		$link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
 		include_once './classes/class.ilLink.php';

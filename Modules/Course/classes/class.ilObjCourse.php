@@ -1055,13 +1055,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->__createDefaultSettings();
 		}
 		
-		// Create default access code
-		if(!$this->getRegistrationAccessCode())
-		{
-			include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
-			$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
-		}
-
 		$query = "UPDATE crs_settings SET ".
 			"syllabus = ".$ilDB->quote($this->getSyllabus() ,'text').", ".
 			"contact_name = ".$ilDB->quote($this->getContactName() ,'text').", ".
