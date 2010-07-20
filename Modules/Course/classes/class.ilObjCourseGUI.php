@@ -937,7 +937,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->form->setMultipart(true);
 		$this->form->setTitle($this->lng->txt('crs_general_info'));
 		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
 		$area->setValue($this->object->getImportantInformation());
