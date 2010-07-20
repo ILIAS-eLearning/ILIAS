@@ -604,7 +604,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function removeSmallIconObject()
 	{
 		$this->object->removeSmallIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editGroupIcons"));
+		$this->ctrl->redirect($this, "editGroupIcons");
 	}
 
 	/**
@@ -615,7 +615,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function removeBigIconObject()
 	{
 		$this->object->removeBigIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editGroupIcons"));
+		$this->ctrl->redirect($this, "editGroupIcons");
 	}
 	
 	/**
@@ -626,7 +626,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function removeTinyIconObject()
 	{
 		$this->object->removeTinyIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editGroupIcons"));
+		$this->ctrl->redirect($this, "editGroupIcons");
 	}
 	
 	/**

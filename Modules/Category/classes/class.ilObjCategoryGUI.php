@@ -938,7 +938,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeBigIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+		$this->ctrl->redirect($this, $_GET["mode"]);
 	}
 	
 	/**
@@ -951,7 +951,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeSmallIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+		$this->ctrl->redirect($this, $_GET["mode"]);
 	}
 
 	/**
@@ -964,7 +964,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeTinyIcon();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+		$this->ctrl->redirect($this, $_GET["mode"]);
 	}
 
 	/**
