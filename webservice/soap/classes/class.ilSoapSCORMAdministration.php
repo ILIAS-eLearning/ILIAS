@@ -150,10 +150,14 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
 	public function getSCORMCompletionStatus($sid, $a_usr_id, $a_ref_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+		
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
+
 		if(!strlen($a_ref_id))
 		{
 			return $this->__raiseError('No ref_id given. Aborting!', 'Client');

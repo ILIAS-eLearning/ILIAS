@@ -103,7 +103,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		{
 			if(method_exists($object, 'getRefId'))
 			{
-				if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccess('read','',$object->getRefId()))
+				if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser($this->getUserId(),'read','',$object->getRefId()))
 				{
 					continue;
 				}
