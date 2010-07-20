@@ -75,7 +75,7 @@ class ilSOAPAuth extends Auth
 			$uri.= "/".$server_uri;
 		}
 
-		$soap_client = new soap_client($uri);
+		$soap_client = new nusoap_client($uri);
 		if ($err = $soap_client->getError()) 
 		{
 			return "SOAP Authentication Initialisation Error: ".$err;

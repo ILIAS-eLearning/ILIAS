@@ -81,7 +81,7 @@ class ilAuthContainerSOAP extends Auth_Container
 		{
 			$this->uri .= ('/'.$this->server_uri);
 		}
-		$this->client = new soap_client($this->uri);
+		$this->client = new nusoap_client($this->uri);
 	}
 	
 	/**
