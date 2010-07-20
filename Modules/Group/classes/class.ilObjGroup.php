@@ -615,14 +615,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			return false;
 		}
-		
-		// Create default access code
-		if(!$this->getRegistrationAccessCode())
-		{
-			include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
-			$this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
-		}
-		
 
 		$query = "UPDATE grp_settings ".
 			"SET information = ".$ilDB->quote($this->getInformation() ,'text').", ".
