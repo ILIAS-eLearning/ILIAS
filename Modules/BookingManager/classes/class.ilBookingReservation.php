@@ -294,19 +294,45 @@ class ilBookingReservation
 
 	/**
 	 * List all reservations
-	 * @param	int	$a_limit
-	 * @param	int	$a_offset
+	 * @param	int		$a_limit
+	 * @param	int		$a_offset
+	 * @param	array	$a_offset
 	 * @return	array
 	 */
-	static function getList($a_limit = 10, $a_offset = 0)
+	static function getList($a_limit = 10, $a_offset = 0, array $filter)
 	{
 		global $ilDB;
 
-		$ilDB->setLimit($a_limit, $a_offset);
-		$set = $ilDB->query('SELECT r.*,o.title'.
+		$sql = 'SELECT r.*,o.title'.
 			' FROM booking_reservation r'.
-			' JOIN booking_object o ON (o.booking_object_id = r.object_id)'.
-			' ORDER BY date_from DESC');
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
+
+		$where = array();
+		if($filter['type'])
+		{
+			$where[] = 'type_id = '.$ilDB->quote($filter['type'], 'integer');
+		}
+		if($filter['status'])
+		{
+			$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
+		}
+		if($filter['from'])
+		{
+			$where[] = 'date_from >= '.$ilDB->quote($filter['from'], 'integer');
+		}
+		if($filter['to'])
+		{
+			$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
+		}
+		if(sizeof($where))
+		{
+			$sql .= ' WHERE '.implode(' AND ', $where);
+		}
+
+		$sql .= ' ORDER BY date_from DESC';
+
+		$ilDB->setLimit($a_limit, $a_offset);
+		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row;

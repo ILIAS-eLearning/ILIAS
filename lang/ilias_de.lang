@@ -10750,10 +10750,14 @@ book#:#book_period#:#Dauer
 book#:#book_change_status#:#Status ändern
 book#:#book_reservation_cancel#:#Stornieren
 book#:#book_reservation_block#:#Blockieren
-book#:#book_log#:#Log
+book#:#book_log#:#Buchungen
 book#:#book_reservations_list#:#Buchungen
 book#:#book_cal_entry#:#Buchung von:
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 ps#:#ps_cdf_data_fields#:#Verfügbare Datenfelder
 ps#:#ps_cdf_edit_field#:#Datenfeld bearbeiten
+book#:#book_public_log#:#Öffentliche Buchungen
+book#:#book_public_log_info#:#Die Liste der Buchungen kann von allen Usern eingesehen werden.
+book#:#book_fromto#:#Datumsbereich
+book#:#book_all#:#Alle anzeigen

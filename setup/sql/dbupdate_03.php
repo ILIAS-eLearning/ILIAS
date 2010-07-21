@@ -2925,3 +2925,28 @@ if(!$ilDB->tableExists('booking_reservation'))
 <?php
 	$ilDB->addIndex('svy_anonymous',array('sent'),'i3');
 ?>
+
+<#3151>
+<?php
+if(!$ilDB->tableExists('booking_settings'))
+{
+	$ilDB->createTable('booking_settings',array(
+		'booking_pool_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'public_log'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => false
+		),
+		'pool_offline'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('booking_settings', array('booking_pool_id'));
+}
+?>

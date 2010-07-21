@@ -126,11 +126,25 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$title->setSize(40);
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
+
+		$desc = new ilTextInputGUI($this->lng->txt("description"), "description");
+		$desc->setSize(40);
+		$desc->setMaxLength(120);
+		$form_gui->addItem($desc);
+
+		$offline = new ilCheckboxInputGUI($this->lng->txt("offline"), "offline");
+		$form_gui->addItem($offline);
+
+		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
+		$public->setInfo($this->lng->txt("book_public_log_info"));
+		$form_gui->addItem($public);
 		
 		if ($a_mode == "edit")
 		{
 			$form_gui->setTitle($this->lng->txt("settings"));
 			$title->setValue($this->object->getTitle());
+			$offline->setChecked($this->object->isOffline());
+			$public->setChecked($this->object->hasPublicLog());
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
 			$form_gui->addCommandButton("render", $this->lng->txt("cancel"));
 		}
@@ -161,6 +175,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			// always call parent method first to create an object_data entry & a reference
 			$newObj = parent::saveObject();
 
+			$newObj->setOffline($form->getInput('offline'));
+			$newObj->setPublicLog($form->getInput('public'));
+			$newObj->update();
+			
 			// always send a message
 			ilUtil::sendSuccess($this->lng->txt("book_pool_added"),true);
 
@@ -194,6 +212,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
 
+			$this->object->setOffline($form->getInput('offline'));
+			$this->object->setPublicLog($form->getInput('public'));
+
 			parent::updateObject();
 
 			$ilCtrl->redirect($this, "render");
@@ -226,13 +247,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->tabs_gui->addTab("render",
 				$this->lng->txt("book_booking_types"),
 				$this->ctrl->getLinkTarget($this, "render"));
-		
-		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
+
+		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
+			$this->object->hasPublicLog())
 		{
 			$this->tabs_gui->addTab("log",
 				$this->lng->txt("book_log"),
 				$this->ctrl->getLinkTarget($this, "log"));
-			
+		}
+		
+		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
 			$this->tabs_gui->addTab("schedules",
 				$this->lng->txt("book_schedules"),
 				$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
@@ -509,6 +534,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function changeStatusObject()
 	{
+		global $ilAccess;
+		
 		$this->tabs_gui->setTabActive('log');
 		
 		if(!$_POST['reservation_id'])
@@ -517,11 +544,38 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			return $this->logObject();
 		}
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		ilBookingReservation::changeStatus($_POST['reservation_id'], (int)$_POST['tstatus']);
+		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+			ilBookingReservation::changeStatus($_POST['reservation_id'], (int)$_POST['tstatus']);
+		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		return $this->ctrl->redirect($this, 'log');
+	}
+
+	/**
+	 * Apply filter from reservations table gui
+	 */
+	function applyLogFilterObject()
+	{
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		$this->logObject();
+	}
+
+	/**
+	 * Reset filter in reservations table gui
+	 */
+	function resetLogFilterObject()
+	{
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$table->resetOffset();
+		$table->resetFilter();
+		$this->logObject();
 	}
 }
 
