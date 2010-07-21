@@ -143,6 +143,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$form_gui->setTitle($this->lng->txt("settings"));
 			$title->setValue($this->object->getTitle());
+			$desc->setValue($this->object->getDescription());
 			$offline->setChecked($this->object->isOffline());
 			$public->setChecked($this->object->hasPublicLog());
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
@@ -171,6 +172,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$_POST["new_type"] = "book";
 			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
+			$_POST["Fobject"]["desc"] = $form->getInput("description");
 
 			// always call parent method first to create an object_data entry & a reference
 			$newObj = parent::saveObject();
@@ -211,6 +213,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		if($form->checkInput())
 		{
 			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
+			$_POST["Fobject"]["desc"] = $form->getInput("description");
 
 			$this->object->setOffline($form->getInput('offline'));
 			$this->object->setPublicLog($form->getInput('public'));
