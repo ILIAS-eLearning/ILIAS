@@ -76,6 +76,34 @@ class ilObjBookingPoolAccess extends ilObjectAccess
 		}
 		return false;
 	}
+
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		global $ilUser, $rbacsystem;
+
+		if ($a_user_id == "")
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		// add no access info item and return false if access is not granted
+		// $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
+		//
+		// for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
+		// $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
+
+		if($a_permission == "visible" && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+		{
+			include_once "Modules/BookingManager/classes/class.ilObjBookingPool.php";
+			$pool = new ilObjBookingPool($a_ref_id);
+			if($pool->isOffline())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
 
 ?>

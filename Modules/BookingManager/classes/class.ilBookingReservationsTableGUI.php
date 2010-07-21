@@ -13,6 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
+	protected $ref_id;	// int
+	protected $filter;	// array
+	protected $pool;	// object
+
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
@@ -24,6 +28,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
+		$this->pool = $a_parent_obj->object;
 		$this->ref_id = $a_ref_id;
 		$this->setId("bkrsv");
 
@@ -43,16 +48,22 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager");
+		$this->setResetCommand("resetLogFilter");
+		$this->setFilterCommand("applyLogFilter");
+
 		$this->initFilter();
 
-		$options = array();
-		for($loop = 1; $loop < 7; $loop++)
-	    {
-			$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$options = array();
+			for($loop = 1; $loop < 7; $loop++)
+			{
+				$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+			}
+			$this->addMultiItemSelectionButton('tstatus', $options, 'changeStatus', $this->lng->txt('book_change_status'));
 		}
-		$this->addMultiItemSelectionButton('tstatus', $options, 'changeStatus', $this->lng->txt('book_change_status'));
 
-		$this->getItems($this->type_id, $this->getCurrentFilter());
+		$this->getItems($this->getCurrentFilter());
 	}
 
 	/**
@@ -60,12 +71,27 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng;
+		include_once "Modules/BookingManager/classes/class.ilBookingType.php";
+		$options = array(""=>$this->lng->txt('book_all'));
+		foreach(ilBookingType::getList($this->pool->getId()) as $item)
+		{
+			$options[$item["booking_type_id"]] = $item["title"];
+		}
+		$item = $this->addFilterItemByMetaType("type", ilTable2GUI::FILTER_SELECT);
+		$item->setOptions($options);
+		$this->filter["type"] = $item->getValue();
 
-		/*
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
-		 */
+		$options = array(""=>$this->lng->txt('book_all'));
+		for($loop = 1; $loop < 7; $loop++)
+	    {
+			$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+		}
+		$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT);
+		$item->setOptions($options);
+		$this->filter["status"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
+		$this->filter["fromto"] = $item->getDate();
 	}
 
 	/**
@@ -74,18 +100,39 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function getCurrentFilter()
 	{
-
+		$filter = array();
+		if($this->filter["type"])
+		{
+			$filter["type"] = $this->filter["type"];
+		}
+		if($this->filter["status"])
+		{
+			$filter["status"] = $this->filter["status"];
+		}
+		if($this->filter["fromto"]["from"] || $this->filter["fromto"]["to"])
+		{
+			if($this->filter["fromto"]["from"])
+			{
+				$filter["from"] = $this->filter["fromto"]["from"]->get(IL_CAL_UNIX);
+			}
+			if($this->filter["fromto"]["to"])
+			{
+				$filter["to"] = $this->filter["fromto"]["to"]->get(IL_CAL_UNIX);
+			}
+		}
+		return $filter;
 	}
 	
 	/**
 	 * Gather data and build rows
+	 * @param	array	$filter
 	 */
-	function getItems()
+	function getItems(array $filter)
 	{
 		global $lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$data = ilBookingReservation::getList($this->getLimit(), $this->getOffset());
+		$data = ilBookingReservation::getList($this->getLimit(), $this->getOffset(), $filter);
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);

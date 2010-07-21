@@ -12,6 +12,9 @@ require_once "./classes/class.ilObject.php";
 */
 class ilObjBookingPool extends ilObject
 {
+	protected $offline;	   // bool
+	protected $public_log; // bool
+	
 	/**
 	* Constructor
 	* @param	int		$a_id					reference_id or object_id
@@ -23,38 +26,63 @@ class ilObjBookingPool extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+
+	/**
+	* create object
+	* @return	integer
+	*/
+	function create()
+	{
+		global $ilDB;
+		
+		$new_id = parent::create();
+
+		$ilDB->manipulate('INSERT INTO booking_settings (booking_pool_id)'.
+			' VALUES ('.$ilDB->quote($new_id, 'integer').')');
+
+		return $new_id;
+	}
+
 	/**
 	* update object data
 	* @return	boolean
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		if (!parent::update())
 		{			
 			return false;
 		}
 
 		// put here object specific stuff
+		if($this->getId())
+		{
+			$ilDB->manipulate('UPDATE booking_settings'.
+				' SET pool_offline = '.$ilDB->quote($this->isOffline(), 'integer').
+				', public_log = '.$ilDB->quote($this->hasPublicLog(), 'integer').
+				' WHERE booking_pool_id = '.$ilDB->quote($this->getId(), 'integer'));
+		}
 
 		return true;
 	}
 
-	/**
-	 * Clone
-	 * @param	int	$a_target_id
-	 * @param	int	$a_copy_id
-	 * 
-	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	function read()
 	{
-		global $ilDB, $ilLog;
+		global $ilDB;
 		
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-
+		parent::read();
 
 		// put here object specific stuff
-
-	 	return $new_obj;
+		if($this->getId())
+		{
+			$set = $ilDB->query('SELECT * FROM booking_settings'.
+				' WHERE booking_pool_id = '.$ilDB->quote($this->getId(), 'integer'));
+			$row = $ilDB->fetchAssoc($set);
+			$this->setOffline($row['pool_offline']);
+			$this->setPublicLog($row['public_log']);
+		}
 	}
 
 	/**
@@ -62,7 +90,11 @@ class ilObjBookingPool extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
+		global $ilDB;
+
+		$id = $this->getId();
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -70,7 +102,9 @@ class ilObjBookingPool extends ilObject
 		}
 		
 		// put here your module specific stuff
-		
+		$ilDB->manipulate('DELETE FROM booking_settings'.
+				' WHERE booking_pool_id = '.$ilDB->quote($id, 'integer'));
+
 		return true;
 	}
 	
@@ -164,6 +198,41 @@ class ilObjBookingPool extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+	/**
+	 * Toggle offline property
+	 * @param bool $a_value
+	 */
+	function setOffline($a_value = true)
+    {
+		$this->offline = (bool)$a_value;
+	}
+
+	/**
+	 * Get offline property
+	 * @return bool
+	 */
+	function isOffline()
+	{
+		return (bool)$this->offline;
+	}
+
+	/**
+	 * Toggle public log property
+	 * @param bool $a_value
+	 */
+	function setPublicLog($a_value = true)
+    {
+		$this->public_log = (bool)$a_value;
+	}
+
+	/**
+	 * Get public log property
+	 * @return bool
+	 */
+	function hasPublicLog()
+	{
+		return (bool)$this->public_log;
+	}
 }
 
 ?>
