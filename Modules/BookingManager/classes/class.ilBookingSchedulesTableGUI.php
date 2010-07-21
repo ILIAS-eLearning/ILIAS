@@ -41,33 +41,10 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
-		$this->initFilter();
-
-		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
-	}
-
-	/**
-	* Init filter
-	*/
-	function initFilter()
-	{
-		global $lng;
-
-		/*
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
-		 */
-	}
-
-	/**
-	 * Get current filter settings
-	 * @return	array
-	 */
-	function getCurrentFilter()
-	{
-
-	}
 	
+		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id));
+	}
+
 	/**
 	 * Build summary item rows for given object and filter(s)
 	 *

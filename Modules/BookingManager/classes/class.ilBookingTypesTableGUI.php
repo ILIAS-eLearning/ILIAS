@@ -41,9 +41,8 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_type_row.html", "Modules/BookingManager");
-		$this->initFilter();
-
-		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id), $this->getCurrentFilter());
+		
+		$this->getItems($ilObjDataCache->lookupObjId($this->ref_id));
 
 		// remove items which cannot be booked for "normal" users
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
@@ -58,28 +57,6 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		}
 	}
 
-	/**
-	* Init filter
-	*/
-	function initFilter()
-	{
-		global $lng;
-
-		/*
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
-		 */
-	}
-
-	/**
-	 * Get current filter settings
-	 * @return	array
-	 */
-	function getCurrentFilter()
-	{
-
-	}
-	
 	/**
 	 * Build item rows for given object and filter(s)
 	 *
@@ -108,35 +85,33 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, 'type_id', $a_set['booking_type_id']);
 		$ilCtrl->setParameterByClass('ilBookingObjectGUI', 'type_id', $a_set['booking_type_id']);
 
-		$this->tpl->setCurrentBlock('item_command');
+
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$alist = new ilAdvancedSelectionListGUI();
+		$alist->setId($a_set['booking_type_id']);
+		$alist->setListTitle($lng->txt("actions"));
 
 		if($a_set["schedule_id"] && $a_set["counter"] > 0)
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('book_book'), 'book', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id) || !$a_set["schedule_id"])
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_list_items'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('book_list_items'), 'list', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			if($a_set["counter"] == 0)
 			{
-				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-				$this->tpl->parseCurrentBlock();
+				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
+
+		$this->tpl->setVariable("LAYER", $alist->getHTML());
 	}
 }
 ?>

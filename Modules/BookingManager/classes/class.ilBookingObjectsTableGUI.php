@@ -54,33 +54,10 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
-		$this->initFilter();
-
-		$this->getItems($this->type_id, $this->getCurrentFilter());
+		
+		$this->getItems($this->type_id);
 	}
 
-	/**
-	* Init filter
-	*/
-	function initFilter()
-	{
-		global $lng;
-
-		/*
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
-		 */
-	}
-
-	/**
-	 * Get current filter settings
-	 * @return	array
-	 */
-	function getCurrentFilter()
-	{
-
-	}
-	
 	/**
 	 * Gather data and build rows
 	 * @param	int	$a_type_id
@@ -128,30 +105,29 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$alist = new ilAdvancedSelectionListGUI();
+		$alist->setId($a_set['booking_object_id']);
+		$alist->setListTitle($lng->txt("actions"));
+		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
-		$this->tpl->setCurrentBlock('item_command');
-
 		if ($a_set["schedule_id"])
 		{
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('book_book'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('book_book'), 'book', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			if(!$reservation)
 			{
-				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-				$this->tpl->parseCurrentBlock();
+				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
+
+		$this->tpl->setVariable("LAYER", $alist->getHTML());
 	}
 }
 
