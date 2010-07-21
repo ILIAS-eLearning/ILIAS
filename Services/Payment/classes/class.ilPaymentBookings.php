@@ -863,16 +863,7 @@ class ilPaymentBookings
 			if (is_array($vendors) &&
 				count($vendors) > 1)
 			{
-				foreach($vendors as $vendor)
-				{
-					$arr_data[] = '%s';
-					$data[] = $vendor;
-					$data_types[] = 'integer';
-				}
-				$str_data = implode(',',$arr_data);
-
-				$query .= 'AND ps.b_vendor_id IN ('.$str_data.') ';
-
+                $query .= ' AND '.$this->db->in('ps.b_vendor_id', $vendors, false, 'integer').' ';
 			}
 			else if(is_array($vendors) && count($vendors) == 1)
 			{
