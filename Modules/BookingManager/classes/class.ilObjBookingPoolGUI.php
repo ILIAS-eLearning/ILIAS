@@ -342,6 +342,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	protected function renderList(ilBookingSchedule $schedule, array $object_ids, $title)
 	{
+		global $ilUser;
+		
 		// fix
 		if(!$schedule->getRaster())
 		{
@@ -353,6 +355,43 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$mytpl->setVariable('TXT_OBJECT', $title);
 			$mytpl->setVariable('TXT_CMD_BOOK', $this->lng->txt('book_confirm_booking'));
 			$mytpl->setVariable('TXT_CMD_CANCEL', $this->lng->txt('cancel'));
+
+			include_once 'Services/Calendar/classes/class.ilCalendarUserSettings.php';
+			
+			$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+
+			$morning_aggr = $user_settings->getDayStart();
+			$evening_aggr = $user_settings->getDayEnd();
+			$hours = array();
+			for($i = $morning_aggr;$i <= $evening_aggr;$i++)
+			{
+				switch($user_settings->getTimeFormat())
+				{
+					case ilCalendarSettings::TIME_FORMAT_24:
+						if ($morning_aggr > 0 && $i == $morning_aggr)
+						{
+							$hours[$i] = sprintf('%02d:00',0)."-";
+						}
+						$hours[$i].= sprintf('%02d:00',$i);
+						if ($evening_aggr < 23 && $i == $evening_aggr)
+						{
+							$hours[$i].= "-".sprintf('%02d:00',23);
+						}
+						break;
+
+					case ilCalendarSettings::TIME_FORMAT_12:
+						if ($morning_aggr > 0 && $i == $morning_aggr)
+						{
+							$hours[$i] = date('h a',mktime(0,0,0,1,1,2000))."-";
+						}
+						$hours[$i].= date('h a',mktime($i,0,0,1,1,2000));
+						if ($evening_aggr < 23 && $i == $evening_aggr)
+						{
+							$hours[$i].= "-".date('h a',mktime(23,0,0,1,1,2000));
+						}
+						break;
+				}
+			}
 
 			$offset = 0;
 			if(isset($_GET['ost']))
@@ -377,37 +416,127 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			}
 			$this->ctrl->setParameter($this, 'ost', '');
 
+			$seed = new ilDate(strtotime('+ '.$offset.' weeks'), IL_CAL_UNIX);
+
+			$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
+			$definition = $schedule->getDefinition();
+
+			$dates = array();
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-			$mytpl->setCurrentBlock('dates');
-			$counter = $valid = 0;
-			$per_page = 10;
-			foreach($this->slotsToDates($schedule->getDefinition(), $schedule->getDeadline()) as $idx => $date)
+			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+			foreach(ilCalendarUtil::_buildWeekDayList($seed,$user_settings->getWeekStart())->get() as $date)
 			{
-				if(!ilBookingReservation::getAvailableObject($object_ids, $date['from'], $date['to']))
+				$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+
+				$mytpl->setCurrentBlock('weekdays');
+				$mytpl->setVariable('TXT_WEEKDAY', $date_info['weekday']);
+				$mytpl->setVariable('TXT_DATE', $date_info['mday'].' '.$date_info['month']);
+				$mytpl->parseCurrentBlock();
+
+				$slots = array();
+                if(isset($definition[$map[$date_info['isoday']-1]]))
 				{
-					continue;
+					$slots = array();
+					foreach($definition[$map[$date_info['isoday']-1]] as $slot)
+					{
+						$slot = explode('-', $slot);
+						$slots[] = array('from'=>str_replace(':', '', $slot[0]),
+							'to'=>str_replace(':', '', $slot[1]));
+					}
 				}
 				
-				$valid++;
-				if($valid <= $offset*$per_page)
+				$old  = 0;
+				$last = array_pop(array_keys($hours));
+				$in = false;
+				foreach($hours as $hour => $period)
 				{
-					continue;
+					$dates[$hour][0] = $period;
+
+					$compare = $hour.'59';
+					if(sizeof($slots))
+					{
+						foreach($slots as $slot)
+						{
+							$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
+							$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
+							
+							if(!ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
+							{
+								continue;
+							}
+
+							if(($slot['to'] <= $compare && $slot['to'] > $old) || ($slot['to'] > $compare && $hour == $last))
+							{
+								// $dates[$hour][$date_info['isoday']]['to'] = $slot['to'];
+								$in = false;
+							}
+							if(($slot['from'] <= $compare && $slot['from'] > $old) || ($slot['from'] < $compare && !$old))
+							{
+								$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
+								$from = array_pop(explode(' ', $from));
+								$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
+								$to = array_pop(explode(' ', $to));
+								
+								$dates[$hour][$date_info['isoday']]['caption'] = $from.'-'.$to;
+								$dates[$hour][$date_info['isoday']]['id'] = $slot_from.'_'.$slot_to;
+								$in = true;
+							}
+						}
+						if($in)
+						{
+							$dates[$hour][$date_info['isoday']]['in_slot'] = $in;
+						}
+					}
+					$old = $compare;
 				}
-				if($counter >= $per_page)
-				{
-					break;
-				}
-				$counter++;
-				
-				$range = ilDatePresentation::formatPeriod(
-					new ilDateTime($date['from'], IL_CAL_UNIX),
-					new ilDateTime($date['to'], IL_CAL_UNIX)).'<br />';
-			    if(is_numeric(substr($range, 0, 2)))
-				{
-					$range = $this->lng->txt(ucfirst($date['day']).'_short').', '.$range;
+			}
+
+			$counter = 0;
+			foreach($dates as $hour => $days)
+			{
+				$caption = $days;
+				$caption = array_shift($caption);
+
+				for($loop = 1; $loop < 8; $loop++)
+			    {
+					if(!isset($days[$loop]))
+					{
+						$mytpl->setCurrentBlock('dates');
+						$mytpl->setVariable('DUMMY', '&nbsp;');
+						$mytpl->parseCurrentBlock();
+					}
+					else
+					{
+						if(isset($days[$loop]['caption']))
+						{
+							$mytpl->setCurrentBlock('choice');
+							$mytpl->setVariable('TXT_DATE', $days[$loop]['caption']);
+							$mytpl->setVariable('VALUE_DATE', $days[$loop]['id']);
+							$mytpl->setVariable('DATE_COLOR', 'background-color:#cdc;');
+							$mytpl->parseCurrentBlock();
+
+							$mytpl->setCurrentBlock('dates');
+							$mytpl->setVariable('DUMMY', '');
+							$mytpl->parseCurrentBlock();
+						}
+						else if(isset($days[$loop]['in_slot']))
+						{
+							$mytpl->setCurrentBlock('dates');
+							$mytpl->setVariable('DATE_COLOR', 'background-color:#cdc;');
+							$mytpl->parseCurrentBlock();
+						}
+						else
+						{
+							$mytpl->setCurrentBlock('dates');
+							$mytpl->setVariable('DUMMY', '&nbsp;');
+							$mytpl->parseCurrentBlock();
+						}
+					}
 				}
 
-				if($idx%2)
+				$mytpl->setCurrentBlock('slots');
+				$mytpl->setVariable('TXT_HOUR', $caption);
+				if($counter%2)
 				{
 					$mytpl->setVariable('CSS_ROW', 'tblrow1');
 				}
@@ -415,11 +544,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				{
 					$mytpl->setVariable('CSS_ROW', 'tblrow2');
 				}
-
-				$mytpl->setVariable('TXT_DATE', $range);
-				$mytpl->setVariable('VALUE_DATE', $date['from'].'_'.$date['to']);
 				$mytpl->parseCurrentBlock();
 
+				$counter++;
 			}
 		}
 		// flexible
