@@ -10757,3 +10757,5 @@ book#:#book_public_log#:#Public Reservations
 book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
 book#:#book_fromto#:#Date Range
 book#:#book_all#:#Show all
+book#:#book_earlier#:#Earlier
+book#:#book_later#:#Later

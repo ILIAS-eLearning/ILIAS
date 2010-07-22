@@ -354,20 +354,51 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$mytpl->setVariable('TXT_CMD_BOOK', $this->lng->txt('book_confirm_booking'));
 			$mytpl->setVariable('TXT_CMD_CANCEL', $this->lng->txt('cancel'));
 
+			$offset = 0;
+			if(isset($_GET['ost']))
+			{
+				$offset = (int)$_GET['ost'];
+			}
+			if($offset > 0)
+			{
+				$mytpl->setCurrentBlock('earlier');
+				$mytpl->setVariable('TXT_EARLIER', $this->lng->txt('book_earlier'));
+				$this->ctrl->setParameter($this, 'ost', $offset-1);
+				$mytpl->setVariable('URL_EARLIER', $this->ctrl->getLinkTarget($this, 'book'));
+				$mytpl->parseCurrentBlock();
+			}
+			if($offset < 52)
+			{
+				$mytpl->setCurrentBlock('later');
+				$mytpl->setVariable('TXT_LATER', $this->lng->txt('book_later'));
+				$this->ctrl->setParameter($this, 'ost', $offset+1);
+				$mytpl->setVariable('URL_LATER', $this->ctrl->getLinkTarget($this, 'book'));
+				$mytpl->parseCurrentBlock();
+			}
+			$this->ctrl->setParameter($this, 'ost', '');
+
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			$mytpl->setCurrentBlock('dates');
-			$counter = 0;
+			$counter = $valid = 0;
+			$per_page = 10;
 			foreach($this->slotsToDates($schedule->getDefinition(), $schedule->getDeadline()) as $idx => $date)
 			{
 				if(!ilBookingReservation::getAvailableObject($object_ids, $date['from'], $date['to']))
 				{
 					continue;
 				}
-				if($counter > 15)
+				
+				$valid++;
+				if($valid <= $offset*$per_page)
+				{
+					continue;
+				}
+				if($counter >= $per_page)
 				{
 					break;
 				}
-
+				$counter++;
+				
 				$range = ilDatePresentation::formatPeriod(
 					new ilDateTime($date['from'], IL_CAL_UNIX),
 					new ilDateTime($date['to'], IL_CAL_UNIX)).'<br />';
@@ -389,7 +420,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$mytpl->setVariable('VALUE_DATE', $date['from'].'_'.$date['to']);
 				$mytpl->parseCurrentBlock();
 
-				$counter++;
 			}
 		}
 		// flexible
@@ -405,7 +435,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * Convert schedule definition to timestamps for given number of weeks
 	 * @param	array	$definition
 	 * @param	int		$deadline
-	 * @param	int		$weeks
+	 * @param	int		$offset
 	 * @return	array
 	 */
 	protected function slotsToDates(array $definition, $deadline = NULL)
@@ -414,7 +444,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				'th'=>'thursday', 'fr'=>'friday', 'sa'=>'saturday', 'su'=>'sunday');
 	    $map_num = array_flip(array_keys($map));
 	    $res = array();
-		for($offset = -1; $offset < 10; $offset++)
+		for($week = -1; $week < 100; $week++)
 		{
 			foreach($definition as $weekday => $slots)
 			{
@@ -423,27 +453,28 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					$slot = explode('-', $slot);
 
 					// special case today
-					if($offset == -1 && strtolower(date('l')) == $map[$weekday])
+					if($week == 0 && strtolower(date('l')) == $map[$weekday])
 					{
 						$from = strtotime('today '.$slot[0]);
 						$to = strtotime('today '.$slot[1]);
 					}
 					// in first week start after today
-					else if($offset > -1 || date('N') < ($map_num[$weekday])+1)
+					else if($week > 0 || date('N') < ($map_num[$weekday])+1)
 					{
-						$from = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[0]);
-						$to = strtotime('next '.$map[$weekday].' + '.$offset.' weeks '.$slot[1]);
+						$from = strtotime('next '.$map[$weekday].' + '.$week.' weeks '.$slot[0]);
+						$to = strtotime('next '.$map[$weekday].' + '.$week.' weeks '.$slot[1]);
 					}
 
 					// check deadline
 					if($from > time() && !$deadline || $from > time()+$deadline*60*60)
 					{
-						$res[] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
+						$res[$from] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
 					}
 				}
 			}
 		}
-		return $res;
+		ksort($res);
+		return array_values($res);
 	}
 
 	/**
