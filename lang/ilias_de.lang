@@ -10761,3 +10761,5 @@ book#:#book_public_log#:#Öffentliche Buchungen
 book#:#book_public_log_info#:#Die Liste der Buchungen kann von allen Usern eingesehen werden.
 book#:#book_fromto#:#Datumsbereich
 book#:#book_all#:#Alle anzeigen
+book#:#book_earlier#:#Früher
+book#:#book_later#:#Später
