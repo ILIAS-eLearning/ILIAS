@@ -161,6 +161,7 @@ class assTextQuestionImport extends assQuestionImport
 		{
 			$this->object->setTextRating($textrating);
 		}
+		$this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
 		$keywords = $item->getMetadataEntry("keywords");
 		if (strlen($keywords))
 		{

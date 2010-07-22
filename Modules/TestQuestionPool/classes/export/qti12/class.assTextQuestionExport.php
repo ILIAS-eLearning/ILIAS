@@ -86,6 +86,10 @@ class assTextQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "keywords");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getKeywords());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "matchcondition");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->matchcondition);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
