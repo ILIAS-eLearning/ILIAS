@@ -2950,3 +2950,12 @@ if(!$ilDB->tableExists('booking_settings'))
 	$ilDB->addPrimaryKey('booking_settings', array('booking_pool_id'));
 }
 ?>
+<#3152>
+<?php
+	$ilDB->addTableColumn("qpl_qst_essay", "matchcondition", array(
+		"type" => "integer",
+		"notnull" => true,
+		"default" => 0,
+		"length" => 2
+		));
+?>

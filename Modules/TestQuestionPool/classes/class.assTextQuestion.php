@@ -59,6 +59,9 @@ class assTextQuestion extends assQuestion
 	* @var string
 	*/
 	var $text_rating;
+	
+	/* method for automatic string matching */
+	private $matchcondition;
 
 	/**
 	* assTextQuestion constructor
@@ -85,6 +88,7 @@ class assTextQuestion extends assQuestion
 		$this->maxNumOfChars = 0;
 		$this->points = 0;
 		$this->keywords = "";
+		$this->matchcondition = 0;
 	}
 
 	/**
@@ -123,13 +127,14 @@ class assTextQuestion extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
-			array("integer", "integer", "text", "text"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating, matchcondition) VALUES (%s, %s, %s, %s, %s)",
+			array("integer", "integer", "text", "text", 'integer'),
 			array(
 				$this->getId(),
 				$this->getMaxNumOfChars(),
 				(strlen($this->getKeywords())) ? $this->getKeywords() : NULL,
-				$this->getTextRating()
+				$this->getTextRating(),
+				$this->matchcondition
 			)
 		);
 
@@ -169,6 +174,7 @@ class assTextQuestion extends assQuestion
 			$this->setMaxNumOfChars($data["maxnumofchars"]);
 			$this->setKeywords($data["keywords"]);
 			$this->setTextRating($data["textgap_rating"]);
+			$this->matchcondition = $data['matchcondition'];
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 		parent::loadFromDb($question_id);
@@ -424,14 +430,25 @@ class assTextQuestion extends assQuestion
 				$keywords =& $this->getKeywordList();
 				if (count($keywords))
 				{
-					$foundkeyword = false;
+					if ($this->matchcondition == 0)
+					{
+						$foundkeyword = false;
+					}
+					else
+					{
+						$foundkeyword = true;
+					}
 					foreach ($keywords as $keyword)
 					{
-						if (!$foundkeyword)
-						{
-							if ($this->isKeywordMatching($row["value1"], $keyword)) 
+							if ($this->matchcondition == 0)
 							{
-								$foundkeyword = true;
+								// OR: only one keyword needs to match
+								$foundkeyword = $foundkeyword | $this->isKeywordMatching($row["value1"], $keyword);
+							}
+							else
+							{
+								// AND: all keywords needs to match
+								$foundkeyword = $foundkeyword & $this->isKeywordMatching($row["value1"], $keyword);
 							}
 						}
 					}
