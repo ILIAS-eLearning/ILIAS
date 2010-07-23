@@ -34,6 +34,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $selectable_columns = array();
 	protected $selected_column = array();
 	protected $show_templates = false;
+	protected $show_rows_selector = true;
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -2047,7 +2048,7 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("COLUMN_SELECTOR", $column_selector);
 				
 				// row selector
-				if (is_object($ilUser))
+				if ($this->getShowRowsSelector() && is_object($ilUser))
 				{
 					include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 					$alist = new ilAdvancedSelectionListGUI();
@@ -2528,6 +2529,26 @@ class ilTable2GUI extends ilTableGUI
 	public function getContext()
 	{
 		return $this->context;
+	}
+
+	/**
+	 * Toggle rows-per-page selector
+	 *
+	 * @param	bool	$a_value
+	 */
+	public function setShowRowsSelector($a_value)
+	{
+		$this->show_rows_selector = (bool)$a_value;
+	}
+
+	/**
+	 * Get rows-per-page selector state
+	 *
+	 * @return	bool
+	 */
+	public function getShowRowsSelector()
+	{
+		return $this->show_rows_selector;
 	}
 
 	/**
