@@ -60,21 +60,37 @@ class ilLicense
 	{
 		global $ilDB;
 		
-		// get the operation id
+		// get the operation id for read access
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array('read'));
 
-		$query = 'SELECT COUNT(DISTINCT(ua.usr_id)) accesses '
-		       . 'FROM rbac_ua ua '
-			   . 'INNER JOIN rbac_pa pa ON pa.rol_id = ua.rol_id '
-			   . 'INNER JOIN object_reference ob ON ob.ref_id = pa.ref_id '
-			   . 'LEFT JOIN read_event re ON re.usr_id = ua.usr_id '
-			   . 'WHERE '.$ilDB->like('pa.ops_id', 'text', '%%i:'.$ops_ids[0].';%%').' ' 
-			   . 'AND ob.obj_id = %s '
-			   . 'AND (re.usr_id IS NULL OR re.obj_id <> %s)';
-		$result = $ilDB->queryF($query,
-			array('integer', 'integer'),
-			array($this->obj_id, $this->obj_id));
+		// first get all roles with read access
+		$role_ids = array();
+		$query = 'SELECT DISTINCT pa.rol_id'
+		       	. ' FROM rbac_pa pa'
+				. ' INNER JOIN object_reference ob ON ob.ref_id = pa.ref_id'
+			   	. ' WHERE '.$ilDB->like('pa.ops_id', 'text', '%%i:'.$ops_ids[0].';%%')
+			   	. ' AND ob.obj_id = ' . $ilDB->quote($this->obj_id, 'integer');
 
+		$result = $ilDB->query($query);
+		while ($row = $ilDB->fetchObject($result))
+		{
+	        $role_ids[] = $row->rol_id;
+		}
+
+		if (!count($role_ids))
+		{
+	        return 0;
+	    }
+
+		// then count all users of these roles without read events
+		$query = 'SELECT COUNT(DISTINCT(usr_id)) accesses '
+		       	. ' FROM rbac_ua'
+				. ' WHERE '. $ilDB->in('rol_id', $role_ids, false, 'integer')
+				. ' AND usr_id NOT IN'
+				. ' (SELECT usr_id FROM read_event'
+				. '  WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer') . ')';
+
+		$result = $ilDB->query($query);
 		$row = $ilDB->fetchObject($result);
 		return $row->accesses;
 	}
