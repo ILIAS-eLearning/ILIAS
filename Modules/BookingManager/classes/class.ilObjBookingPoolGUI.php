@@ -418,13 +418,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			$seed = new ilDate(strtotime('+ '.$offset.' weeks'), IL_CAL_UNIX);
 
-			$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
+			$week_start = $user_settings->getWeekStart();
+			if($week_start)
+			{
+				$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
+			}
+			else
+			{
+				$map = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
+			}
 			$definition = $schedule->getDefinition();
 
 			$dates = array();
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
-			foreach(ilCalendarUtil::_buildWeekDayList($seed,$user_settings->getWeekStart())->get() as $date)
+			foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 			{
 				$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 
@@ -459,15 +467,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						{
 							$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
 							$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
-							
-							if(!ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
+
+							// check deadline
+							if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
 							{
 								continue;
 							}
 
 							if(($slot['to'] <= $compare && $slot['to'] > $old) || ($slot['to'] > $compare && $hour == $last))
 							{
-								// $dates[$hour][$date_info['isoday']]['to'] = $slot['to'];
 								$in = false;
 							}
 							if(($slot['from'] <= $compare && $slot['from'] > $old) || ($slot['from'] < $compare && !$old))
@@ -479,7 +487,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								
 								$dates[$hour][$date_info['isoday']]['caption'] = $from.'-'.$to;
 								$dates[$hour][$date_info['isoday']]['id'] = $slot_from.'_'.$slot_to;
-								$in = true;
+								$in = $slot_from.'_'.$slot_to;
 							}
 						}
 						if($in)
@@ -491,6 +499,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				}
 			}
 
+			include_once 'Services/Calendar/classes/class.ilCalendarAppointmentColors.php';
+			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+			$color = array();
+			$all = ilCalendarAppointmentColors::_getColorsByType('crs');
+			for($loop = 0; $loop < 7; $loop++)
+		    {
+				$col = $all[$loop];
+				$fnt = ilCalendarUtil::calculateFontColor($col);
+				$color[$loop] = 'border-bottom: 1px solid '.$col.'; background-color: '.$col.'; color: '.$fnt;
+			}
+			
 			$counter = 0;
 			foreach($dates as $hour => $days)
 			{
@@ -509,10 +528,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					{
 						if(isset($days[$loop]['caption']))
 						{
+							
 							$mytpl->setCurrentBlock('choice');
 							$mytpl->setVariable('TXT_DATE', $days[$loop]['caption']);
 							$mytpl->setVariable('VALUE_DATE', $days[$loop]['id']);
-							$mytpl->setVariable('DATE_COLOR', 'background-color:#cdc;');
+							$mytpl->setVariable('DATE_COLOR', $color[$loop]);
 							$mytpl->parseCurrentBlock();
 
 							$mytpl->setCurrentBlock('dates');
@@ -522,7 +542,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						else if(isset($days[$loop]['in_slot']))
 						{
 							$mytpl->setCurrentBlock('dates');
-							$mytpl->setVariable('DATE_COLOR', 'background-color:#cdc;');
+							$mytpl->setVariable('DATE_COLOR', $color[$loop]);
 							$mytpl->parseCurrentBlock();
 						}
 						else
@@ -556,52 +576,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 
 		return $mytpl->get();
-	}
-
-	/**
-	 * Convert schedule definition to timestamps for given number of weeks
-	 * @param	array	$definition
-	 * @param	int		$deadline
-	 * @param	int		$offset
-	 * @return	array
-	 */
-	protected function slotsToDates(array $definition, $deadline = NULL)
-    {
-		$map = array('mo'=>'monday', 'tu'=>'tuesday', 'we'=>'wednesday',
-				'th'=>'thursday', 'fr'=>'friday', 'sa'=>'saturday', 'su'=>'sunday');
-	    $map_num = array_flip(array_keys($map));
-	    $res = array();
-		for($week = -1; $week < 100; $week++)
-		{
-			foreach($definition as $weekday => $slots)
-			{
-				foreach($slots as $slot)
-				{
-					$slot = explode('-', $slot);
-
-					// special case today
-					if($week == 0 && strtolower(date('l')) == $map[$weekday])
-					{
-						$from = strtotime('today '.$slot[0]);
-						$to = strtotime('today '.$slot[1]);
-					}
-					// in first week start after today
-					else if($week > 0 || date('N') < ($map_num[$weekday])+1)
-					{
-						$from = strtotime('next '.$map[$weekday].' + '.$week.' weeks '.$slot[0]);
-						$to = strtotime('next '.$map[$weekday].' + '.$week.' weeks '.$slot[1]);
-					}
-
-					// check deadline
-					if($from > time() && !$deadline || $from > time()+$deadline*60*60)
-					{
-						$res[$from] = array('from'=>$from, 'to'=>$to, 'day'=>$weekday);
-					}
-				}
-			}
-		}
-		ksort($res);
-		return array_values($res);
 	}
 
 	/**
