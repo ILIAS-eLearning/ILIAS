@@ -393,30 +393,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				}
 			}
 
-			$offset = 0;
-			if(isset($_GET['ost']))
+			if(isset($_GET['seed']))
 			{
-				$offset = (int)$_GET['ost'];
+				$seed = new ilDate($_GET['seed'], IL_CAL_DATE);
 			}
-			if($offset > 0)
+			else
 			{
-				$mytpl->setCurrentBlock('earlier');
-				$mytpl->setVariable('TXT_EARLIER', $this->lng->txt('book_earlier'));
-				$this->ctrl->setParameter($this, 'ost', $offset-1);
-				$mytpl->setVariable('URL_EARLIER', $this->ctrl->getLinkTarget($this, 'book'));
-				$mytpl->parseCurrentBlock();
+				$seed = new ilDate(time(), IL_CAL_UNIX);
 			}
-			if($offset < 52)
-			{
-				$mytpl->setCurrentBlock('later');
-				$mytpl->setVariable('TXT_LATER', $this->lng->txt('book_later'));
-				$this->ctrl->setParameter($this, 'ost', $offset+1);
-				$mytpl->setVariable('URL_LATER', $this->ctrl->getLinkTarget($this, 'book'));
-				$mytpl->parseCurrentBlock();
-			}
-			$this->ctrl->setParameter($this, 'ost', '');
-
-			$seed = new ilDate(strtotime('+ '.$offset.' weeks'), IL_CAL_UNIX);
+			include_once 'Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php';
+			$navigation = new ilCalendarHeaderNavigationGUI($this,$seed,ilDateTime::WEEK,'book');
+			$mytpl->setVariable('NAVIGATION', $navigation->getHTML());
 
 			$week_start = $user_settings->getWeekStart();
 			if($week_start)
@@ -427,11 +414,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			{
 				$map = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
 			}
-			$definition = $schedule->getDefinition();
-
-			$dates = array();
+			
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+			$definition = $schedule->getDefinition();
+			$dates = array();
 			foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 			{
 				$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');

@@ -36,6 +36,7 @@ include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
 class ilCalendarHeaderNavigationGUI
 {
 	protected $cmdClass = null;
+	protected $cmd = null;
 	protected $seed = null;
 	protected $increment = '';
 	
@@ -51,7 +52,7 @@ class ilCalendarHeaderNavigationGUI
 	 * @parame string type MONTH WEEK DAY 
 	 * 
 	 */
-	public function __construct($cmdClass,ilDate $seed,$a_increment)
+	public function __construct($cmdClass,ilDate $seed,$a_increment,$cmd = '')
 	{
 		global $lng,$ilCtrl;
 		
@@ -61,6 +62,7 @@ class ilCalendarHeaderNavigationGUI
 		$this->cmdClass = $cmdClass;
 		$this->seed = clone $seed;
 		$this->increment = $a_increment;
+		$this->cmd = $cmd;
 	}
 	
 	/**
@@ -103,8 +105,9 @@ class ilCalendarHeaderNavigationGUI
 					break;
 			}
 			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
-			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,''));
-			$this->ctrl->clearParametersByClass(get_class($this->cmdClass));
+			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
+			// $this->ctrl->clearParametersByClass(get_class($this->cmdClass));
+			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
 			$this->seed->increment($this->increment,1);
 		} while($num < 6);
 
