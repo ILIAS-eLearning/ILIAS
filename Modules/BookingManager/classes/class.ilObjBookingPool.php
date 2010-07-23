@@ -94,16 +94,51 @@ class ilObjBookingPool extends ilObject
 		global $ilDB;
 
 		$id = $this->getId();
-		
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-		
+
 		// put here your module specific stuff
+		
 		$ilDB->manipulate('DELETE FROM booking_settings'.
 				' WHERE booking_pool_id = '.$ilDB->quote($id, 'integer'));
+
+		$ilDB->manipulate('DELETE FROM booking_schedule'.
+				' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
+
+		$types = array();
+		$set = $ilDB->query('SELECT booking_type_id FROM booking_type'.
+			' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
+	    while($row = $ilDB->fetchAssoc($set))
+		{
+			$types[] = $row['booking_type_id'];
+		}
+
+		if(sizeof($types))
+		{
+			$objects = array();
+			$set = $ilDB->query('SELECT booking_object_id FROM booking_object'.
+				' WHERE '.$ilDB->in('type_id', $types, '', 'integer'));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$objects[] = $row['booking_object_id'];
+			}
+
+			if(sizeof($objects))
+			{
+				$ilDB->manipulate('DELETE FROM booking_reservation'.
+						' WHERE '.$ilDB->in('object_id', $objects, '', 'integer'));
+			}
+
+			$ilDB->manipulate('DELETE FROM booking_object'.
+					' WHERE '.$ilDB->in('type_id', $types, '', 'integer'));
+
+			$ilDB->manipulate('DELETE FROM booking_type'.
+					' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
+		}
 
 		return true;
 	}

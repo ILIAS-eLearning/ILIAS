@@ -101,6 +101,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
 				$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 			}
+			else
+			{
+				$this->tpl->setVariable("TXT_STATUS", "");
+				$this->tpl->setVariable("TXT_CURRENT_USER", "");
+				$this->tpl->setVariable("VALUE_DATE", "");
+			}
 
 			$this->tpl->parseCurrentBlock();
 		}

@@ -78,6 +78,11 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 		}
 
 		$ilCtrl->setParameter($this->parent_obj, 'schedule_id', $a_set['booking_schedule_id']);
+
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$alist = new ilAdvancedSelectionListGUI();
+		$alist->setId($a_set['booking_schedule_id']);
+		$alist->setListTitle($lng->txt("actions"));
 	
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -85,15 +90,13 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
 			if(!$a_set["is_used"])
 			{
-				$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-				$this->tpl->setVariable('TXT_COMMAND', $lng->txt('delete'));
-				$this->tpl->parseCurrentBlock();
+				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
 
-			$this->tpl->setVariable('HREF_COMMAND', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
-			$this->tpl->setVariable('TXT_COMMAND', $lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
+
+		$this->tpl->setVariable("LAYER", $alist->getHTML());
 	}
 }
 ?>

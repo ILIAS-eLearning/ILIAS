@@ -21,6 +21,7 @@ class ilBookingTypeGUI
 	function __construct($a_parent_obj)
 	{
 		$this->ref_id = $a_parent_obj->ref_id;
+		$this->obj_id = $a_parent_obj->object->getId();
 	}
 
 	/**
@@ -104,21 +105,30 @@ class ilBookingTypeGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		$schedules = ilBookingSchedule::getList($this->obj_id);
+	
 		$group = new ilCheckboxInputGUI($lng->txt("book_group_objects"), "group");
 		$group->setInfo($lng->txt("book_group_objects_info"));
 		$form_gui->addItem($group);
 
-		$options = array();
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
+		if(sizeof($schedules))
 		{
-			$options[$schedule["booking_schedule_id"]] = $schedule["title"];
+			$options = array();
+			foreach($schedules as $schedule)
+			{
+				$options[$schedule["booking_schedule_id"]] = $schedule["title"];
+			}
+
+			$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
+			$schedule->setRequired(true);
+			$schedule->setOptions($options);
+			$group->addSubItem($schedule);
 		}
-		
-		$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
-		$schedule->setRequired(true);
-		$schedule->setOptions($options);
-		$group->addSubItem($schedule);
+		else
+		{
+			$group->setDisabled(true);
+		}
 
 		if ($a_mode == "edit")
 		{
