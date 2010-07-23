@@ -585,7 +585,7 @@ class ilCalendarCategories
 		// First read private calendars of user
 		$query = "SELECT cat_id FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
-			"AND obj_id = ".$this->db->quote($this->user_id ,'integer')." ";
+			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
