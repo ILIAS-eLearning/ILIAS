@@ -311,8 +311,11 @@ class ilCalendarSchedule
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
-		$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
-		
+		if(!$this->filter_bookings)
+		{
+			$cats = $this->hidden_cat->filterHidden($cats,ilCalendarCategories::_getInstance($this->user->getId())->getCategoriesInfo());
+		}
+	
 		if(!count($cats))
 		{
 			return array();
@@ -344,7 +347,7 @@ class ilCalendarSchedule
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
+			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id) || $this->filter_bookings)
 			{
 				$event = new ilCalendarEntry($row->cal_id);
 				if(!$this->filter_bookings)
