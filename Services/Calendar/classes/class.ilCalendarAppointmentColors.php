@@ -148,7 +148,7 @@ class ilCalendarAppointmentColors
 	}
 	
 	/**
-	 * get selectable colors
+	 * get random color entry for type
 	 *
 	 * @access public
 	 * @param
@@ -178,6 +178,19 @@ class ilCalendarAppointmentColors
 		{
 			echo '<font color="'.$color.'">HALLO</font><br/>';
 		}
+	}
+
+	/**
+	 * get selectable colors
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _getColorsByType($a_type)
+	{
+		return self::$colors[$a_type];
 	}
 }
 ?>
