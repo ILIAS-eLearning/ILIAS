@@ -36,8 +36,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->setTitle($lng->txt("book_reservations_list"));
 
-		$this->setLimit(9999);
-		
 		$this->addColumn("", "", "1%");
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("status"));
@@ -131,11 +129,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
+		$this->determineOffsetAndOrder();
+
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$data = ilBookingReservation::getList($this->getLimit(), $this->getOffset(), $filter);
 		
-		$this->setMaxCount(sizeof($data));
-		$this->setData($data);
+		$this->setMaxCount($data['counter']);
+		$this->setData($data['data']);
 	}
 
 	/**

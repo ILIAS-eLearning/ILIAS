@@ -307,6 +307,10 @@ class ilBookingReservation
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
+		$count_sql = 'SELECT COUNT(*) AS counter'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
+
 		$where = array();
 		if($filter['type'])
 		{
@@ -327,17 +331,23 @@ class ilBookingReservation
 		if(sizeof($where))
 		{
 			$sql .= ' WHERE '.implode(' AND ', $where);
+			$count_sql .= ' WHERE '.implode(' AND ', $where);
 		}
 
-		$sql .= ' ORDER BY date_from DESC';
+		$set = $ilDB->query($count_sql);
+		$row = $ilDB->fetchAssoc($set);
+		$counter = $row['counter'];
 
+		$sql .= ' ORDER BY date_from DESC';
+		
 		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row;
 		}
-		return $res;
+
+		return array('data'=>$res, 'counter'=>$counter);
 	}
 
 	/**

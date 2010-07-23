@@ -27,7 +27,6 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$this->setId("bktp");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setLimit(9999);
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
