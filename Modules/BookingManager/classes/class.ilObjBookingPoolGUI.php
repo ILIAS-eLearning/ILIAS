@@ -151,6 +151,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 		else
 		{
+			$offline->setChecked(true);
 			$form_gui->setTitle($this->lng->txt("book_create_title"));
 			$form_gui->addCommandButton("save", $this->lng->txt("save"));
 			$form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -242,7 +243,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
-		if (in_array($this->ctrl->getCmd(), array("create", "save")))
+		if (in_array($this->ctrl->getCmd(), array("create", "save")) && !$this->ctrl->getNextClass())
 		{
 			return;
 		}
