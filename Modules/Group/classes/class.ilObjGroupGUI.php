@@ -2561,14 +2561,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$reg_code->addSubItem($code);
 		*/
 		
-		if($this->object->getRegistrationAccessCode())
-		{
-			$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
-			include_once './classes/class.ilLink.php';
-			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
-			$link->setHTML('<font class="small">'.$val.'</font>');
-			$reg_code->addSubItem($link);
-		}
 		// Create default access code
 		if(!$this->object->getRegistrationAccessCode())
 		{
