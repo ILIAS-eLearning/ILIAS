@@ -3559,7 +3559,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					if(isset($progress[$member_id]['ts']) and $progress[$member_id]['ts'])
 					{
-						$print_member[$member_id]['access'] = ilFormat::formatDate($progress[$member_id]['ts'],'datetime',true); 
+						ilDatePresentation::setUseRelativeDates(false);
+						$print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'],IL_CAL_UNIX));
+						ilDatePresentation::setUseRelativeDates(true);
 					}
 					else
 					{

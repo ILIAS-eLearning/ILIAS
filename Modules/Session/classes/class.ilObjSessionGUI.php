@@ -523,10 +523,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->saveObject(false);
 		
+		/*
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
 		$target = $this->ctrl->getLinkTarget($this,'materials');
 		$target = str_replace('new_type=','nt=',$target);
-		ilUtil::redirect($target);
+		*/
+		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
+		$this->ctrl->redirect($this,'materials');
 	}
 	
 	

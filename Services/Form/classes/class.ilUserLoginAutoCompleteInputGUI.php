@@ -36,7 +36,7 @@ class ilUserLoginAutoCompleteInputGUI extends ilTextInputGUI
 		$dsSchema = array("resultsList" => 'response.results',
 			"fields" => array('login', 'firstname', 'lastname'));
 		$this->setDataSourceResultFormat("ilUserAutoComplete");
-		$this->setDataSource($ilCtrl->getLinkTargetByClass($a_class, $a_autocomplete_cmd));
+		$this->setDataSource($ilCtrl->getLinkTargetByClass($a_class, $a_autocomplete_cmd,'',true));
 		$this->setDataSourceSchema($dsSchema);
 
 	}

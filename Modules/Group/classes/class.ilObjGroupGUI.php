@@ -424,7 +424,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		
 		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);
-		$this->redirectToRefId($_GET["ref_id"]);
+		
+		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
+		$this->ctrl->redirect($this);
 	}
 	
 	/**
@@ -539,10 +541,20 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if($modified)
 		{
-			ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'),true);
-			$this->ctrl->setParameter($this,'group_type_changed',1);
-			$this->ctrl->redirect($this,'edit');
-			return false;			
+			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+			ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'));
+			$confirm = new ilConfirmationGUI();
+			$confirm->setFormAction($this->ctrl->getFormAction($this));
+			$confirm->addItem(
+				'grp_type',
+				$this->object->getGroupType(),
+				$this->lng->txt('grp_info_new_grp_type').': '.($this->object->getGroupType() == GRP_TYPE_CLOSED ? $this->lng->txt('il_grp_status_open') : $this->lng->txt('il_grp_status_closed'))
+			);
+			$confirm->addButton($this->lng->txt('grp_change_type'), 'updateGroupType');
+			$confirm->setCancel($this->lng->txt('cancel'), 'edit');
+			
+			$this->tpl->setContent($confirm->getHTML());
+			return true;
 		}
 		else
 		{
@@ -1761,7 +1773,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		unset($_SESSION["saved_post"]);
 
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		$this->ctrl->redirect($this,'members');
 	}
 
 	/**
@@ -1834,7 +1846,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		unset($_SESSION['grp_usr_search_result']);
 
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		$this->ctrl->redirect($this,'members');
 	}
 
 	/**
@@ -1937,7 +1949,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_removed"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		$this->ctrl->redirect($this,'members');
 	}
 
 	// get tabs

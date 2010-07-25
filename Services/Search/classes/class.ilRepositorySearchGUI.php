@@ -298,7 +298,11 @@ class ilRepositorySearchGUI
 		}
 		else
 		{
-			$this->search_results = $this->result_obj->getResults();
+			$this->search_results = array();
+			foreach((array) $this->result_obj->getResults() as $res)
+			{
+				$this->search_results[] = $res['obj_id'];
+			}
 		}
 
 		if(!count($this->search_results))
