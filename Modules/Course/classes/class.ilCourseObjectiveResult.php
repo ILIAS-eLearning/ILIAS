@@ -166,7 +166,7 @@ class ilCourseObjectiveResult
 			$res = $ilDB->manipulate($query);
 		}
 
-		include_once("./Services/Tracking/classes/class.ilTracking2.php");
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
 		
 		return true;

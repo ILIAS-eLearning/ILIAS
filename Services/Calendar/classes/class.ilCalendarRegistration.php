@@ -65,6 +65,16 @@ class ilCalendarRegistration
 	 */
 	public function getRegisteredUsers()
 	{
+		foreach($this->registered as $reg_data)
+		{
+			if($reg_data['usr_id'] == $a_usr_id)
+			{
+				if($reg_data['dstart'] == $start->get(IL_CAL_UNIX) and $reg_data['dend'] == $end->get(IL_CAL_UNIX))
+				{
+					return true;
+				}
+			}			
+		}
 		return (array) $this->registered;
 	}
 	

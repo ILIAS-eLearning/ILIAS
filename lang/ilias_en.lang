@@ -10753,9 +10753,16 @@ dateplaner#:#cal_ch_booking#:#Ressource Booking
 dateplaner#:#cal_ch_personal_book#:#Personal Bookings
 ps#:#ps_cdf_data_fields#:#Available User Fields
 ps#:#ps_cdf_edit_field#:#Edit Data Field
+rbac#:#perm_global_role#:#Global Role
+rbac#:#perm_protected_global_role#:#Protected Global Role
+rbac#:#perm_protected_local_role#:#Protected Local Role
+rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"
+rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"
 book#:#book_public_log#:#Public Reservations
 book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
 book#:#book_fromto#:#Date Range
 book#:#book_all#:#Show all
 book#:#book_earlier#:#Earlier
 book#:#book_later#:#Later
+grp#:#grp_info_new_grp_type#:#New Group Type
+grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators

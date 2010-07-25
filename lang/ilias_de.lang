@@ -10757,9 +10757,16 @@ dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
 dateplaner#:#cal_ch_personal_book#:#Persönliche Buchungen
 ps#:#ps_cdf_data_fields#:#Verfügbare Datenfelder
 ps#:#ps_cdf_edit_field#:#Datenfeld bearbeiten
+rbac#:#perm_global_role#:#Globale Rolle
+rbac#:#perm_protected_global_role#:#Geschützte globale Rolle
+rbac#:#perm_protected_local_role#:#Geschützte lokale Rolle
+rbac#:#perm_role_path_info_created#:#angelegt in %1$s "%2$s"
+rbac#:#perm_role_path_info_inheritance#:#verwendet lokale Zugriffsregelung aus %1$s "%2$s"
 book#:#book_public_log#:#Öffentliche Buchungen
 book#:#book_public_log_info#:#Die Liste der Buchungen kann von allen Usern eingesehen werden.
 book#:#book_fromto#:#Datumsbereich
 book#:#book_all#:#Alle anzeigen
 book#:#book_earlier#:#Früher
 book#:#book_later#:#Später
+grp#:#grp_info_new_grp_type#:#Neue Gruppenart
+grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten

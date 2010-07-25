@@ -391,6 +391,16 @@ class ilObjectDefinition extends ilSaxParser
 	}
 	
 	/**
+	 * Check whether the creation of local roles is allowed
+	 * Currently disabled for type "root" and "adm"
+	 * @return 
+	 */
+	public function hasLocalRoles($a_obj_type)
+	{
+		return isset($this->obj_data[$a_obj_type]['subobjects']['rolf']);
+	}
+	
+	/**
 	* get all subobjects by type
 	*
 	* @param	string	object type

@@ -198,16 +198,16 @@ class ilCalendarAppointmentPanelGUI
 							$this->tpl->setVariable('PANEL_BOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','confirmRegister'));
 							$this->tpl->parseCurrentBlock();
 						}
-						
-						if(count($reg->getRegisteredUsers()))
+											
+						include_once 'classes/class.ilLink.php';
+						$registrations = array();
+						foreach($reg->getRegisteredUsers(new ilDateTime($a_app['dstart'],IL_CAL_UNIX),new ilDateTime($a_app['dend'],IL_CAL_UNIX)) as $usr_data)
 						{
-							include_once 'classes/class.ilLink.php';
-							$registrations = array();
-							foreach($reg->getRegisteredUsers() as $usr_data)
-							{
-								$usr_id = $usr_data['usr_id'];
-								$registrations[] = '<a href="'.ilLink::_getLink($usr_id, 'usr').'">'.ilObjUser::_lookupFullname($usr_id);
-							}
+							$usr_id = $usr_data['usr_id'];
+							$registrations[] = '<a href="'.ilLink::_getLink($usr_id, 'usr').'">'.ilObjUser::_lookupFullname($usr_id);
+						}
+						if(count($registrations))
+						{
 							$this->tpl->setCurrentBlock('panel_current_booking');
 							$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_reg_registered_users'));
 							$this->tpl->setVariable('PANEL_CURRENT_BOOKING', implode('<br />', $registrations));
