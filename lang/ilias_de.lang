@@ -1510,8 +1510,8 @@ cmps#:#cmps_edit_settings#:#Einstellungen
 cmps#:#cmps_file_version#:#Dateiversion aktualisieren
 cmps#:#cmps_group#:#Gruppe
 cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS-Version
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS-Version
+cmps#:#cmps_ilias_max_version#:#Maximale ILIAS-Version
+cmps#:#cmps_ilias_min_version#:#Minimale ILIAS-Version
 cmps#:#cmps_inactive#:#Inaktiv
 cmps#:#cmps_lang_files#:#Sprachdatei
 cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
@@ -2484,7 +2484,7 @@ common#:#extt_ilinc_registrar_login#:#Benutzername ID
 common#:#extt_ilinc_registrar_passwd#:#Passwort
 common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
-common#:#extt_ilinc_timeout#:#Max. Wartezeit auf Serverantwort
+common#:#extt_ilinc_timeout#:#Maximale Wartezeit auf Serverantwort
 common#:#extt_name#:#Software/Dienst
 common#:#extt_read#:#Lesezugriff auf Software von Drittanbietern
 common#:#extt_remark#:#Die oben aufgeführten Softwareprogramme oder Dienste sind nicht Bestandteil von ILIAS und es gelten ggf. andere Lizenzbestimmungen.
@@ -3329,11 +3329,11 @@ common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Mail
-common#:#mail_maxsize_attach#:#Max. Größe des Mail-Anhangs
-common#:#mail_maxsize_box#:#Max. Mailbox-Größe
-common#:#mail_maxsize_mail#:#Max. Mail-Größe
-common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Anhänge
-common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
+common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
+common#:#mail_maxsize_box#:#Maximale Mailbox-Größe
+common#:#mail_maxsize_mail#:#Maximale Mail-Größe
+common#:#mail_maxtime_attach#:#Maximale Aufbewahrungszeit für Anhänge
+common#:#mail_maxtime_mail#:#Maximale Aufbewahrungszeit für Mails
 common#:#mail_members#:#Mail an Mitglieder
 common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse ein, da ILIAS mehrere Empfänger gefunden hat.
 common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
@@ -5380,7 +5380,7 @@ content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_auto_review#:#Nach Abschluss Lesson-Modus auf 'review' setzen.
 content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
 content#:#cont_sc_less_mode_normal#:#Normal
-content#:#cont_sc_max_attempt#:#Max. Anzahl von Versuchen
+content#:#cont_sc_max_attempt#:#Maximale Anzahl von Versuchen
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl von Versuchen für dieses Modul wurde erreicht.
 content#:#cont_sc_new_version#:#Neue Version hochladen
 content#:#cont_sc_preview#:#Vorschau
@@ -10100,7 +10100,7 @@ trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
 trac#:#trac_user_activities#:#Benutzeraktivitäten
 trac#:#trac_user_data#:#Benutzerdaten
 trac#:#trac_usr_list#:#Benutzer
-trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
+trac#:#trac_valid_request#:#Maximale Zeit zwischen Anfragen
 trac#:#trac_view_crs#:#Zur Kursübersicht
 trac#:#trac_view_list#:#Zur Übersicht
 trac#:#trac_visits#:#Anzahl der Besuche
