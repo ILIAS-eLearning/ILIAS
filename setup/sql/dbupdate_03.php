@@ -2959,3 +2959,12 @@ if(!$ilDB->tableExists('booking_settings'))
 		"length" => 2
 		));
 ?>
+<#3153>
+<?php
+	$ilDB->addTableColumn("booking_settings", "slots_no", array(
+		"type" => "integer",
+		"notnull" => false,
+		"default" => 0,
+		"length" => 2
+		));
+?>

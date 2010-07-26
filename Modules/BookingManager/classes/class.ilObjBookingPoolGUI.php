@@ -138,6 +138,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
 		$form_gui->addItem($public);
+
+		$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
+		$slots->setRequired(true);
+		$slots->setSize(4);
+		$slots->setMinValue(1);
+		$slots->setMaxValue(24);
+		$slots->setInfo($this->lng->txt("book_slots_no_info"));
+		$form_gui->addItem($slots);
 		
 		if ($a_mode == "edit")
 		{
@@ -146,12 +154,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$desc->setValue($this->object->getDescription());
 			$offline->setChecked($this->object->isOffline());
 			$public->setChecked($this->object->hasPublicLog());
+			$slots->setValue($this->object->getNumberOfSlots());
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
 			$form_gui->addCommandButton("render", $this->lng->txt("cancel"));
 		}
 		else
 		{
 			$offline->setChecked(true);
+			$slots->setValue(4);
 			$form_gui->setTitle($this->lng->txt("book_create_title"));
 			$form_gui->addCommandButton("save", $this->lng->txt("save"));
 			$form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -180,6 +190,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			$newObj->setOffline($form->getInput('offline'));
 			$newObj->setPublicLog($form->getInput('public'));
+			$newObj->setNumberOfSlots($form->getInput('slots'));
 			$newObj->update();
 			
 			// always send a message
@@ -218,6 +229,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			$this->object->setOffline($form->getInput('offline'));
 			$this->object->setPublicLog($form->getInput('public'));
+			$this->object->setNumberOfSlots($form->getInput('slots'));
 
 			parent::updateObject();
 

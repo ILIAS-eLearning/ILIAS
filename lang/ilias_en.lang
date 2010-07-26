@@ -10766,3 +10766,5 @@ book#:#book_earlier#:#Earlier
 book#:#book_later#:#Later
 grp#:#grp_info_new_grp_type#:#New Group Type
 grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators
+book#:#book_slots_no#:#Number of slots
+book#:#book_slots_no_info#:#Available number of slots per day in schedule
