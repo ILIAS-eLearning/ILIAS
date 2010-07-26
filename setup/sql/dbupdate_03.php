@@ -3001,3 +3001,22 @@ if(!$ilDB->tableExists('booking_settings'))
 		$ilDB->manipulate($query);
 	}
 ?>
+<#3155>
+<?php
+	if($ilDB->tableColumnExists('svy_svy','mailaddresses'))
+	{
+		$ilDB->dropTableColumn('svy_svy', 'mailaddresses');
+	}
+	if($ilDB->tableColumnExists('svy_svy','mailparticipantdata'))
+	{
+		$ilDB->dropTableColumn('svy_svy', 'mailparticipantdata');
+	}
+?>
+<#3156>
+<?php
+	if(!$ilDB->tableColumnExists('svy_svy','mailaddresses'))
+	{
+		$ilDB->addTableColumn("svy_svy", "mailaddresses", array("type" => "text", "length" => 2000, "notnull" => false));
+		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => false));
+	}
+?>
