@@ -10583,7 +10583,7 @@ book#:#book_add_type#:#Typ hinzufügen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_edit_type#:#Typ ändern
 book#:#book_group_objects#:#Objekte gruppieren
-book#:#book_group_objects_info#:#Objekte eines Typs werden als Gruppe behandelt und nur intern unterschieden.
+book#:#book_group_objects_info#:#Objekte eines Typs werden als Gruppe behandelt und nur intern unterschieden. Für dieses Feature muss mindestens 1 Zeitplan vorhanden sein.
 book#:#book_schedule#:#Zeitplan
 book#:#book_objects_list#:#Objekte vom Typ:
 book#:#book_current_user#:#Gebucht von
