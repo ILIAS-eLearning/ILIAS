@@ -72,7 +72,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory,$ilCtrl;
-		
+
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
 			global $ilias;
@@ -87,11 +87,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$cmd = $this->ctrl->getCmd("properties");
+
+		// workaround for bug #6288, needs better solution
+		if ($cmd == "saveTags")
+		{
+			$ilCtrl->setCmdClass("ilinfoscreengui");
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
 		$this->prepareOutput();
-
 		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
 		switch($next_class)
 		{
