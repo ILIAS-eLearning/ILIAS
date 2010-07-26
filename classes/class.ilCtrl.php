@@ -923,6 +923,12 @@ class ilCtrl
 			}
 			
 			$this->verified_cmd = $cmd;
+			if($cmd == "" && isset($_POST["table_top_cmd"]))		// selected command in multi-list (table2)
+			{
+				$cmd = @key($_POST["table_top_cmd"]);
+				$this->verified_cmd = $cmd;
+				$_POST[$_POST["cmd_sv"][$cmd]] = $_POST[$_POST["cmd_sv"][$cmd]."_2"];
+			}
 			if($cmd == "" && isset($_POST["select_cmd2"]))		// selected command in multi-list (table2)
 			{
 				$cmd = $_POST["selected_cmd2"];

@@ -1058,6 +1058,7 @@ class ilTable2GUI extends ilTableGUI
 	public function addMultiItemSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
 	{
 		$this->mi_sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
+		$this->addHiddenInput("cmd_sv[".$a_cmd."]", $a_sel_var);
 	}
 	
 	
@@ -2335,7 +2336,7 @@ class ilTable2GUI extends ilTableGUI
 				{
 					$this->tpl->setCurrentBlock("mi_top_sel_button");
 					$this->tpl->setVariable("MI_BUTTON_SELECT", 
-						ilUtil::formSelect($button["selected"], $button["sel_var"],
+						ilUtil::formSelect($button["selected"], $button["sel_var"]."_2",
 							$button["options"], false, true));
 					$this->tpl->setVariable("MI_BTN_NAME", $button["cmd"]);
 					$this->tpl->setVariable("MI_BTN_VALUE", $button["text"]);
