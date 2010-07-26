@@ -2959,6 +2959,7 @@ if(!$ilDB->tableExists('booking_settings'))
 		"length" => 2
 		));
 ?>
+
 <#3153>
 <?php
 	$ilDB->addTableColumn("booking_settings", "slots_no", array(
@@ -2967,4 +2968,36 @@ if(!$ilDB->tableExists('booking_settings'))
 		"default" => 0,
 		"length" => 2
 		));
+?>
+<#3154>
+<?php
+	
+	$permission_ordering = array(
+		'visible'		=> 1000,
+		'join'			=> 1200,
+		'leave'			=> 1400,
+		'read'			=> 2000,
+		'edit_content'	=> 3000,
+		'add_thread'	=> 3100,
+		'edit_event'	=> 3600,
+		'moderate'		=> 3700,
+		'moderate_frm'	=> 3750,
+		'edit_learning_progress' => 3600,
+		'copy'			=> 4000,
+		'write'			=> 6000,
+		'read_users'	=> 7000,
+		'cat_administrate_users' => 7050,
+		'invite'			=> 7200,
+		'tst_statistics'	=> 7100, 
+		'delete'		=> 8000,
+		'edit_permission' => 10000
+	);
+	
+	foreach($permission_ordering as $op => $order)
+	{
+		$query = "UPDATE rbac_operations SET ".
+			'op_order = '.$ilDB->quote($order,'integer').' '.
+			'WHERE operation = '.$ilDB->quote($op,'text').' ';
+		$ilDB->manipulate($query);
+	}
 ?>
