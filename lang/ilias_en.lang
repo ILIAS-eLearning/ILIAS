@@ -10679,7 +10679,7 @@ book#:#book_add_type#:#Add Type
 book#:#book_back_to_list#:#Back to List
 book#:#book_edit_type#:#Edit Type
 book#:#book_group_objects#:#Group objects
-book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.
+book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally. Please create at least 1 schedule to use this feature.
 book#:#book_schedule#:#Schedule
 book#:#book_objects_list#:#Objects of Type:
 book#:#book_current_user#:#Booked by
