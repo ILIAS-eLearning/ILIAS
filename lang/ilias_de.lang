@@ -10770,3 +10770,5 @@ book#:#book_earlier#:#Früher
 book#:#book_later#:#Später
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
+book#:#book_slots_no#:#Anzahl Zeiträume
+book#:#book_slots_no_info#:#Mögliche Anzahl Zeiträume pro Tag im Zeitplan

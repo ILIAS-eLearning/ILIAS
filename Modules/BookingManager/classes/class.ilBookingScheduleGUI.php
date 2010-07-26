@@ -19,6 +19,7 @@ class ilBookingScheduleGUI
 	function __construct($a_parent_obj)
 	{
 		$this->ref_id = $a_parent_obj->ref_id;
+		$this->slots_no = $a_parent_obj->object->getNumberOfSlots();
 	}
 
 	/**
@@ -156,8 +157,8 @@ class ilBookingScheduleGUI
 		{
 			$day = new ilCheckboxOption($lng->txt(ucfirst($day_id)."_long"), $day_id);
 			$definition->addOption($day);
-			
-			for($loop = 1; $loop < 5; $loop++)
+
+			for($loop = 1; $loop <= $this->slots_no; $loop++)
 		    {
 				$hours[$day_id][$loop] = new ilTextInputGUI($lng->txt("book_schedule_slot")." ".$loop, $day_id."_slot[]");
 				$hours[$day_id][$loop]->setSize(14);
@@ -208,7 +209,10 @@ class ilBookingScheduleGUI
 			{
 				foreach($slots as $idx => $slot)
 				{
-					$hours[$day_id][$idx+1]->setValue($slot);
+					if(isset($hours[$day_id][$idx+1]))
+					{
+						$hours[$day_id][$idx+1]->setValue($slot);
+					}
 				}
 			}
 
@@ -351,7 +355,7 @@ class ilBookingScheduleGUI
 		}
 		if($colon = strpos($raw, ':'))
 		{
-			$min = (int)substr($raw, $colon);
+			$min = (int)substr($raw, $colon+1);
 			$raw = substr($raw, 0, $colon);
 		}
 		$hours = (int)$raw;

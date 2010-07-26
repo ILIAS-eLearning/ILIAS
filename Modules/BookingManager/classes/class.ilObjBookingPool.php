@@ -14,6 +14,7 @@ class ilObjBookingPool extends ilObject
 {
 	protected $offline;	   // bool
 	protected $public_log; // bool
+	protected $slots_no;   // int
 	
 	/**
 	* Constructor
@@ -62,6 +63,7 @@ class ilObjBookingPool extends ilObject
 			$ilDB->manipulate('UPDATE booking_settings'.
 				' SET pool_offline = '.$ilDB->quote($this->isOffline(), 'integer').
 				', public_log = '.$ilDB->quote($this->hasPublicLog(), 'integer').
+				', slots_no = '.$ilDB->quote($this->getNumberOfSlots(), 'integer').
 				' WHERE booking_pool_id = '.$ilDB->quote($this->getId(), 'integer'));
 		}
 
@@ -82,6 +84,7 @@ class ilObjBookingPool extends ilObject
 			$row = $ilDB->fetchAssoc($set);
 			$this->setOffline($row['pool_offline']);
 			$this->setPublicLog($row['public_log']);
+			$this->setNumberOfSlots($row['slots_no']);
 		}
 	}
 
@@ -267,6 +270,24 @@ class ilObjBookingPool extends ilObject
 	function hasPublicLog()
 	{
 		return (bool)$this->public_log;
+	}
+
+	/**
+	 * Set number of slots in schedules
+	 * @param bool $a_value
+	 */
+	function setNumberOfSlots($a_value = true)
+    {
+		$this->slots_no = (int)$a_value;
+	}
+
+	/**
+	 * Get number of slots in schedules
+	 * @return int
+	 */
+	function getNumberOfSlots()
+	{
+		return (int)$this->slots_no;
 	}
 }
 
