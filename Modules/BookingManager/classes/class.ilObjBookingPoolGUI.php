@@ -131,28 +131,28 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
-		$desc = new ilTextInputGUI($this->lng->txt("description"), "description");
-		$desc->setSize(40);
-		$desc->setMaxLength(120);
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
+		$desc->setCols(37);
+		$desc->setRows(2);
 		$form_gui->addItem($desc);
 
-		$offline = new ilCheckboxInputGUI($this->lng->txt("offline"), "offline");
-		$form_gui->addItem($offline);
-
-		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
-		$public->setInfo($this->lng->txt("book_public_log_info"));
-		$form_gui->addItem($public);
-
-		$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
-		$slots->setRequired(true);
-		$slots->setSize(4);
-		$slots->setMinValue(1);
-		$slots->setMaxValue(24);
-		$slots->setInfo($this->lng->txt("book_slots_no_info"));
-		$form_gui->addItem($slots);
-		
 		if ($a_mode == "edit")
 		{
+			$offline = new ilCheckboxInputGUI($this->lng->txt("offline"), "offline");
+			$form_gui->addItem($offline);
+
+			$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
+			$public->setInfo($this->lng->txt("book_public_log_info"));
+			$form_gui->addItem($public);
+
+			$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
+			$slots->setRequired(true);
+			$slots->setSize(4);
+			$slots->setMinValue(1);
+			$slots->setMaxValue(24);
+			$slots->setInfo($this->lng->txt("book_slots_no_info"));
+			$form_gui->addItem($slots);
+
 			$form_gui->setTitle($this->lng->txt("settings"));
 			$title->setValue($this->object->getTitle());
 			$desc->setValue($this->object->getDescription());
@@ -164,8 +164,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-			$offline->setChecked(true);
-			$slots->setValue(4);
 			$form_gui->setTitle($this->lng->txt("book_create_title"));
 			$form_gui->addCommandButton("save", $this->lng->txt("save"));
 			$form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -180,7 +178,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $ilUser, $tpl;
+		global $rbacadmin, $ilUser, $tpl, $ilCtrl;
 
 		$form = $this->initForm();
 		if($form->checkInput())
@@ -192,9 +190,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			// always call parent method first to create an object_data entry & a reference
 			$newObj = parent::saveObject();
 
-			$newObj->setOffline($form->getInput('offline'));
-			$newObj->setPublicLog($form->getInput('public'));
-			$newObj->setNumberOfSlots($form->getInput('slots'));
+			$newObj->setOffline(true);
+			$newObj->setNumberOfSlots(4);
 			$newObj->update();
 			
 			// always send a message
@@ -209,7 +206,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			}
 			// END ChangeEvent: Record object creation
 
-			$this->redirectToRefId($_GET["ref_id"]);
+			$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+			$this->ctrl->redirect($this, "edit");
 		}
 		else
 		{
