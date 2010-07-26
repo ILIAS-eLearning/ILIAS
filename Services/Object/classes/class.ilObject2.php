@@ -106,7 +106,7 @@ abstract class ilObject2 extends ilObject
 	final function deleteMetaData() { return parent::deleteMetaData(); }
 	final function updateOwner() { return parent::updateOwner(); }
 	final function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
-	final function _getAllReferences($a_id) { return parent::_getAllReferences($a_id); }
+	static final function _getAllReferences($a_id) { return parent::_getAllReferences($a_id); }
 	final static function _lookupTitle($a_id) { return parent::_lookupTitle($a_id); }
 	final function _lookupOwner($a_id) { return parent::_lookupOwner($a_id); }
 	final static function _getIdsForTitle($title, $type = '', $partialmatch = false) { return parent::_getIdsForTitle($title, $type, $partialmatch); }
