@@ -9,7 +9,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI, ilInfoScreenGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
@@ -76,6 +76,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				include_once("Modules/BookingManager/classes/class.ilBookingScheduleGUI.php");
 				$schedule_gui =& new ilBookingScheduleGUI($this);
 				$ret =& $this->ctrl->forwardCommand($schedule_gui);
+				break;
+
+			case 'ilinfoscreengui':
+				$this->infoScreen();
 				break;
 			
 			default:
@@ -263,6 +267,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->tabs_gui->addTab("render",
 				$this->lng->txt("book_booking_types"),
 				$this->ctrl->getLinkTarget($this, "render"));
+
+		$this->tabs_gui->addTab("info",
+				$this->lng->txt("info_short"),
+				$this->ctrl->getLinkTarget($this, "infoscreen"));
 
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()) ||
 			$this->object->hasPublicLog())
@@ -711,6 +719,89 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->logObject();
+	}
+
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng;
+
+		if ($ilAccess->checkAccess("read", "", $a_target))
+		{
+			$_GET["cmd"] = "render";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	function infoScreen()
+	{
+		global $ilAccess, $ilCtrl;
+
+		$this->tabs_gui->setTabActive('info');
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+				$info->setBlockProperty("news", "public_notifications_option", true);
+			}
+		}
+
+		// forward the command
+		if ($ilCtrl->getNextClass() == "ilinfoscreengui")
+		{
+			$ilCtrl->forwardCommand($info);
+		}
+		else
+		{
+			return $ilCtrl->getHTML($info);
+		}
 	}
 }
 
