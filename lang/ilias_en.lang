@@ -10766,5 +10766,5 @@ book#:#book_slots_no#:#Number of slots
 book#:#book_slots_no_info#:#Available number of slots per day in schedule
 book#:#book_set_in_use#:#Is in Use
 book#:#book_set_not_in_use#:#Not in Use
-book#:#book_set_cancel#:#Cancel
+book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_not_cancel#:#Undo Cancel

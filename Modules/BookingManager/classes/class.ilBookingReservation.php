@@ -121,6 +121,10 @@ class ilBookingReservation
 	 */
 	function setStatus($a_status)
 	{
+		if($a_status === NULL)
+		{
+			$this->status = NULL;
+		}
 		if($this->isValidStatus((int)$a_status))
 		{
 			$this->status = (int)$a_status;
@@ -206,6 +210,15 @@ class ilBookingReservation
 			return false;
 		}
 
+		// there can only be 1
+		if($this->getStatus() == self::STATUS_IN_USE)
+		{
+			$ilDB->manipulate('UPDATE booking_reservation'.
+			' SET status = '.$ilDB->quote(NULL, 'integer').
+			' WHERE object_id = '.$ilDB->quote($this->getObjectId(), 'integer').
+			' AND status = '.$ilDB->quote(self::STATUS_IN_USE, 'integer'));
+		}
+
 		return $ilDB->manipulate('UPDATE booking_reservation'.
 			' SET object_id = '.$ilDB->quote($this->getObjectId(), 'text').
 			', user_id = '.$ilDB->quote($this->getUserId(), 'integer').
@@ -247,7 +260,7 @@ class ilBookingReservation
 		$set = $ilDB->query('SELECT object_id'.
 			' FROM booking_reservation'.
 			' WHERE '.$ilDB->in('object_id', $a_ids, '', 'integer').
-			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
 			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
 			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
 			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');
@@ -332,7 +345,7 @@ class ilBookingReservation
 		$row = $ilDB->fetchAssoc($set);
 		$counter = $row['counter'];
 
-		$sql .= ' ORDER BY date_from DESC';
+		$sql .= ' ORDER BY date_from DESC, booking_reservation_id DESC';
 		
 		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query($sql);

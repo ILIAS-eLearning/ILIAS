@@ -800,6 +800,62 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			return $ilCtrl->getHTML($info);
 		}
 	}
+
+	function rsvCancelObject()
+	{
+		$this->tabs_gui->setTabActive('log');
+
+		$id = (int)$_GET['reservation_id'];
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$obj = new ilBookingReservation($id);
+		$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
+		$obj->update();
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->logObject();
+	}
+
+	function rsvUncancelObject()
+	{
+		$this->tabs_gui->setTabActive('log');
+
+		$id = (int)$_GET['reservation_id'];
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$obj = new ilBookingReservation($id);
+		$obj->setStatus(NULL);
+		$obj->update();
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->logObject();
+	}
+
+	function rsvInUseObject()
+	{
+		$this->tabs_gui->setTabActive('log');
+
+		$id = (int)$_GET['reservation_id'];
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$obj = new ilBookingReservation($id);
+		$obj->setStatus(ilBookingReservation::STATUS_IN_USE);
+		$obj->update();
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->logObject();
+	}
+
+	function rsvNotInUseObject()
+	{
+		$this->tabs_gui->setTabActive('log');
+
+		$id = (int)$_GET['reservation_id'];
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$obj = new ilBookingReservation($id);
+		$obj->setStatus(NULL);
+		$obj->update();
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->logObject();
+	}
 }
 
 ?>
