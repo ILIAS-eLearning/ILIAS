@@ -10602,9 +10602,13 @@ export#:#export_save_selection#:#Start Export
 survey#:#use_other_answer#:#Open answer
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
 survey#:#use_min_answers#:#Answer selections
-survey#:#use_min_answers_option#:#Use minimum number of answer selections
-survey#:#nr_min_answers#:#Number
+survey#:#use_min_answers_option#:#Set a number of answer selections
+survey#:#nr_min_answers#:#Minimum
+survey#:#nr_max_answers#:#Maximum
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater than the minimum value and less or equal than the maximum number of answers.
+survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.
 survey#:#err_no_min_answers#:#Please check at least %s answers.
+survey#:#err_no_max_answers#:#Please check at most %s answers.
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
 survey#:#export_label_only#:#Export label only

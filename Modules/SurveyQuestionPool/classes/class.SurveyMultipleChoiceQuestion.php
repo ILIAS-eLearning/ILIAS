@@ -125,6 +125,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$this->setOrientation($data["orientation"]);
 			$this->use_min_answers = ($data['use_min_answers']) ? true : false;
 			$this->nr_min_answers = $data['nr_min_answers'];
+			$this->nr_max_answers = $data['nr_max_answers'];
 
 			$this->categories->flushCategories();
 			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
@@ -176,13 +177,14 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				array('integer'),
 				array($this->getId())
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation, use_min_answers, nr_min_answers) VALUES (%s, %s, %s, %s)",
-				array('integer', 'text', 'integer', 'integer'),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation, use_min_answers, nr_min_answers, nr_max_answers) VALUES (%s, %s, %s, %s, %s)",
+				array('integer', 'text', 'integer', 'integer', 'integer'),
 				array(
 					$this->getId(), 
 					$this->getOrientation(),
 					($this->use_min_answers) ? 1 : 0,
-					($this->nr_min_answers > 0) ? $this->nr_min_answers : null
+					($this->nr_min_answers > 0) ? $this->nr_min_answers : null,
+					($this->nr_max_answers > 0) ? $this->nr_max_answers : null
 				)
 			);
 
@@ -306,6 +308,18 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "orientation");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getOrientation());
 		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_min_answers");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->use_min_answers);
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_min_answers");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->nr_min_answers);
+		$a_xml_writer->xmlEndTag("metadatafield");
+		$a_xml_writer->xmlStartTag("metadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "nr_max_answers");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->nr_max_answers);
+		$a_xml_writer->xmlEndTag("metadatafield");
 		$a_xml_writer->xmlEndTag("metadata");
 
 		$a_xml_writer->xmlEndTag("question");
@@ -371,9 +385,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		{
 			return $this->lng->txt("question_mr_not_checked");
 		}
-		if ($this->use_min_answers && count($entered_value) < $this->nr_min_answers)
+		if ($this->use_min_answers && $this->nr_min_answers > 0 && count($entered_value) < $this->nr_min_answers)
 		{
 			return sprintf($this->lng->txt("err_no_min_answers"), $this->nr_min_answers);
+		}
+		if ($this->use_min_answers && $this->nr_max_answers > 0 && count($entered_value) > $this->nr_max_answers)
+		{
+			return sprintf($this->lng->txt("err_no_max_answers"), $this->nr_max_answers);
 		}
 		foreach ($entered_value as $id)
 		{
@@ -674,6 +692,15 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			{
 				case "orientation":
 					$this->setOrientation($value["entry"]);
+					break;
+				case "use_min_answers":
+					$this->use_min_answers = $value["entry"];
+					break;
+				case "nr_min_answers":
+					$this->nr_min_answers = $value["entry"];
+					break;
+				case "nr_max_answers":
+					$this->nr_max_answers = $value["entry"];
 					break;
 			}
 		}
