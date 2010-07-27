@@ -440,16 +440,15 @@ class assTextQuestion extends assQuestion
 					}
 					foreach ($keywords as $keyword)
 					{
-							if ($this->matchcondition == 0)
-							{
-								// OR: only one keyword needs to match
-								$foundkeyword = $foundkeyword | $this->isKeywordMatching($row["value1"], $keyword);
-							}
-							else
-							{
-								// AND: all keywords needs to match
-								$foundkeyword = $foundkeyword & $this->isKeywordMatching($row["value1"], $keyword);
-							}
+						if ($this->matchcondition == 0)
+						{
+							// OR: only one keyword needs to match
+							$foundkeyword = $foundkeyword | $this->isKeywordMatching($row["value1"], $keyword);
+						}
+						else
+						{
+							// AND: all keywords needs to match
+							$foundkeyword = $foundkeyword & $this->isKeywordMatching($row["value1"], $keyword);
 						}
 					}
 					if ($foundkeyword) $points = $this->getMaximumPoints();
