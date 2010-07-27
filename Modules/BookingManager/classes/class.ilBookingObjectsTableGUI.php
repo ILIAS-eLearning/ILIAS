@@ -28,8 +28,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->type_id = $a_type_id;
 		$this->setId("bkobj");
 
-		$ilCtrl->setParameter($a_parent_obj, 'type_id', $this->type_id);
-
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
@@ -42,8 +40,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->addCommandButton('create', $this->lng->txt('book_add_object'));
-
 			$this->addColumn($this->lng->txt("status"));
 			$this->addColumn($this->lng->txt("book_current_user"));
 			$this->addColumn($this->lng->txt("book_period"));
@@ -97,7 +93,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			{
 				$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
 				$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
-				$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$reservation['status']));
+
+				if(in_array($reservation['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+				{
+					$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$reservation['status']));
+				}
 				$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
 				$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 			}

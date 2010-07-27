@@ -50,11 +50,19 @@ class ilBookingTypeGUI
 	 */
 	function render()
 	{
-		global $tpl;
+		global $tpl, $lng, $ilCtrl, $ilAccess;
 
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$bar = new ilToolbarGUI;
+			$bar->addButton($lng->txt('book_add_type'), $ilCtrl->getLinkTarget($this, 'create'));
+			$bar = $bar->getHTML();
+		}
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingTypesTableGUI.php';
 		$table = new ilBookingTypesTableGUI($this, 'render', $this->ref_id);
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($bar.$table->getHTML());
 	}
 
 	/**

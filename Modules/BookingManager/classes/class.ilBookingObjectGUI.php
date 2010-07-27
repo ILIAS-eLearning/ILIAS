@@ -49,14 +49,24 @@ class ilBookingObjectGUI
 	 */
 	function render()
 	{
-		global $tpl, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilCtrl, $ilTabs, $lng, $ilAccess;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTargetByClass('ilBookingTypeGUI', 'render'));
 
+		$ilCtrl->setParameter($this, 'type_id', (int)$_GET['type_id']);
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$bar = new ilToolbarGUI;
+			$bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
+			$bar = $bar->getHTML();
+		}
+
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
 		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, (int)$_GET['type_id']);
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($bar.$table->getHTML());
 	}
 
 	/**

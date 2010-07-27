@@ -48,11 +48,19 @@ class ilBookingScheduleGUI
 	 */
 	function render()
 	{
-		global $tpl;
+		global $tpl, $lng, $ilCtrl, $ilAccess;
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$bar = new ilToolbarGUI;
+			$bar->addButton($lng->txt('book_add_schedule'), $ilCtrl->getLinkTarget($this, 'create'));
+			$bar = $bar->getHTML();
+		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php';
 		$table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($bar.$table->getHTML());
 	}
 
 	/**

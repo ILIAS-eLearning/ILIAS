@@ -28,11 +28,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			$this->addCommandButton('create', $this->lng->txt('book_add_schedule'));
-		}
-
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("book_is_used"));
 		$this->addColumn($this->lng->txt("actions"));
