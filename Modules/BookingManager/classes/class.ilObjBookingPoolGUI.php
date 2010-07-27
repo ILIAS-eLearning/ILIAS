@@ -623,7 +623,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$reservation->setUserId($ilUser->getID());
 			$reservation->setFrom($fromto[0]);
 			$reservation->setTo($fromto[1]);
-			$reservation->setStatus(ilBookingReservation::STATUS_RESERVED);
 			$reservation->save();
 
 			$this->lng->loadLanguageModule('dateplaner');

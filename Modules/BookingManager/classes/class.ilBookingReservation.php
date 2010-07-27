@@ -18,12 +18,8 @@ class ilBookingReservation
 	protected $to;			// timestamp
 	protected $status;		// status
 
-	const STATUS_RESERVED = 1;
 	const STATUS_IN_USE = 2;
-	const STATUS_OVERDUE = 3;
-	const STATUS_RETURNED = 4;
 	const STATUS_CANCELLED = 5;
-	const STATUS_BLOCKED = 6;
 
 	/**
 	 * Constructor
@@ -147,9 +143,7 @@ class ilBookingReservation
 	 */
 	static function isValidStatus($a_status)
 	{
-		if(in_array($a_status, array(self::STATUS_RESERVED, self::STATUS_IN_USE,
-			self::STATUS_OVERDUE, self::STATUS_RETURNED, self::STATUS_CANCELLED,
-			self::STATUS_BLOCKED)))
+		if(in_array($a_status, array(self::STATUS_IN_USE, self::STATUS_CANCELLED)))
 		{
 			return true;
 		}

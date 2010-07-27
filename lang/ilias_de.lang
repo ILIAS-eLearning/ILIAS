@@ -10740,12 +10740,8 @@ dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von di
 dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
-book#:#book_reservation_status_1#:#Reserviert
 book#:#book_reservation_status_2#:#In Benutzung
-book#:#book_reservation_status_3#:#Überfällig
-book#:#book_reservation_status_4#:#Abgeschlossen
 book#:#book_reservation_status_5#:#Storniert
-book#:#book_reservation_status_6#:#Blockiert
 book#:#book_period#:#Dauer
 book#:#book_change_status#:#Status ändern
 book#:#book_reservation_cancel#:#Stornieren
@@ -10772,3 +10768,7 @@ grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
 book#:#book_slots_no#:#Anzahl Zeiträume
 book#:#book_slots_no_info#:#Mögliche Anzahl Zeiträume pro Tag im Zeitplan
+book#:#book_set_in_use#:#Ist in Benutzung
+book#:#book_set_not_in_use#:#Nicht in Benutzung
+book#:#book_set_cancel#:#Stornieren
+book#:#book_set_not_cancel#:#Stornierung aufheben
