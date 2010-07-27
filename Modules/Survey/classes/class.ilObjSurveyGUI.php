@@ -279,11 +279,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
 			$this->object->setMailNotification($_POST['mailnotification']);
-			if ($_POST['mailnotification'])
-			{
-				$this->object->setMailAddresses($_POST['mailaddresses']);
-				$this->object->setMailParticipantData($_POST['mailparticipantdata']);
-			}
+			$this->object->setMailAddresses($_POST['mailaddresses']);
+			$this->object->setMailParticipantData($_POST['mailparticipantdata']);
 			$this->object->saveToDb();
 			if (strcmp($_SESSION["info"], "") != 0)
 			{
@@ -446,8 +443,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// addresses
 		$mailaddresses = new ilTextInputGUI($this->lng->txt("mailaddresses"), "mailaddresses");
 		$mailaddresses->setValue($this->object->getMailAddresses());
+		$mailaddresses->setSize(80);
 		$mailaddresses->setInfo($this->lng->txt('mailaddresses_info'));
 		$mailaddresses->setRequired(true);
+		if (($save) && !$_POST['mailnotification'])
+		{
+			$mailaddresses->setRequired(false);
+		}
 
 		// participant data
 		$participantdata = new ilTextAreaInputGUI($this->lng->txt("mailparticipantdata"), "mailparticipantdata");
@@ -479,6 +481,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if ($errors) $checkonly = false;
 		}
+		$mailaddresses->setRequired(true);
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		return $errors;
 	}
@@ -3527,7 +3530,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				: false;
 			$tabs_gui->addTarget("settings",
 				 $this->ctrl->getLinkTarget($this,'properties'),
-				 array("properties", "save", "cancel"), "",
+				 array("properties", "save", "cancel", 'saveProperties'), "",
 				 "", $force_active);
 		}
 
