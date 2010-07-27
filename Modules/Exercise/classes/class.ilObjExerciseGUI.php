@@ -507,7 +507,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if($success)
 		{
-			$this->sendNotifications();
+			$this->sendNotifications((int)$_GET["ass_id"]);
 		}
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
@@ -526,7 +526,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if($this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false,
 				(int) $_GET["ass_id"]))
 			{
-				$this->sendNotifications();
+				$this->sendNotifications((int)$_GET["ass_id"]);
 			}
 		}
 
@@ -2419,45 +2419,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	/**
 	 * Send submission notifications
+	 * @param	int	$assignment_id
 	 */
-    protected function sendNotifications()
+    protected function sendNotifications($assignment_id)
 	{
-		global $ilUser, $lng;
-		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->object->getId());
 
-		if(sizeof($users))
-		{
-			include_once "./Services/Mail/classes/class.ilMail.php";
-			include_once "./Services/User/classes/class.ilObjUser.php";
-			include_once "./classes/class.ilLink.php";
-
-			$subject = sprintf($lng->txt('exc_submission_notification_subject'), $this->object->getTitle());
-
-			$message = sprintf($this->lng->txt('exc_submission_notification_body'), $this->object->getTitle())."\n\n";
-
-			$message .= "------------------------------------------------------------\n";
-
-			$message .= sprintf($this->lng->txt('exc_submission_notification_link'),
-				ilLink::_getLink($this->object->getRefId()));
-
-
-			foreach($users as $idx => $user_id)
-		    {
-				if($user_id != $ilUser->getId())
-				{
-					$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-					$mail_obj->appendInstallationSignature(true);
-					$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-						"", "", $subject, $message, array(), array("system"));
-				}
-				else
-				{
-					unset($users[$idx]);
-				}
-			}
-		}
+		include_once "./Modules/Exercise/classes/class.ilExerciseMailNotification.php";
+		$not = new ilExerciseMailNotification();
+		$not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
+		$not->setAssignmentId($assignment_id);
+		$not->setRefId($this->ref_id);
+		$not->setRecipients($users);
+		$not->send();
 	}
 }
 

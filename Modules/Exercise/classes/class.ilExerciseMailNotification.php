@@ -12,6 +12,7 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
 class ilExerciseMailNotification extends ilMailNotification
 {
 	const TYPE_FEEDBACK_FILE_ADDED = 20;
+	const TYPE_SUBMISSION_UPLOAD = 30;
 
 	/**
 	 *
@@ -47,6 +48,8 @@ class ilExerciseMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		global $ilUser;
+		
 		parent::send();
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
@@ -80,6 +83,37 @@ class ilExerciseMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
+					$this->sendMail(array($rcp),array('system'));
+				}
+				break;
+
+			case self::TYPE_SUBMISSION_UPLOAD:
+
+				foreach($this->getRecipients() as $rcp)
+				{
+					$this->initLanguage($rcp);
+					$this->initMail();
+					$this->setSubject(
+						sprintf($this->getLanguageText('exc_submission_notification_subject'),
+							$this->getObjectTitle(true))
+					);
+					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+					$this->appendBody("\n\n");
+					$this->appendBody(
+						sprintf($this->getLanguageText('exc_submission_notification_body'), $this->getObjectTitle(true)));
+					$this->appendBody("\n");
+					$this->appendBody(
+						$this->getLanguageText('exc_assignment').": ".
+						ilExAssignment::lookupTitle($this->getAssignmentId()));
+					$this->appendBody("\n");
+					$this->appendBody(
+						$this->getLanguageText('user').": ".
+						$ilUser->getFullName());
+					$this->appendBody("\n\n");
+					$this->appendBody(sprintf($this->getLanguageText('exc_submission_notification_link'),
+						$this->createPermanentLink()));
+					$this->getMail()->appendInstallationSignature(true);
+
 					$this->sendMail(array($rcp),array('system'));
 				}
 				break;
