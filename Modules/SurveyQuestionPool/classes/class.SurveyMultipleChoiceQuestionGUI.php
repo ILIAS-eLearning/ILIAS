@@ -83,6 +83,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 			$this->object->other_answer_label = ($this->object->use_other_answer) ? $_POST['other_answer_label'] : null;
 			$this->object->use_min_answers = ($_POST['use_min_answers']) ? true : false;
 			$this->object->nr_min_answers = ($_POST['nr_min_answers'] > 0) ? $_POST['nr_min_answers'] : null;
+			$this->object->nr_max_answers = ($_POST['nr_max_answers'] > 0) ? $_POST['nr_max_answers'] : null;
 			$this->object->label = $_POST['label'];
 
 	    $this->object->categories->flushCategories();
@@ -189,6 +190,13 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$nranswers->setMinValue(1);
 		$nranswers->setValue($this->object->nr_min_answers);
 		$minanswers->addSubItem($nranswers);
+		$nrmaxanswers = new ilNumberInputGUI($this->lng->txt("nr_max_answers"), "nr_max_answers");
+		$nrmaxanswers->setSize(5);
+		$nrmaxanswers->setDecimals(0);
+		$nrmaxanswers->setRequired(false);
+		$nrmaxanswers->setMinValue(1);
+		$nrmaxanswers->setValue($this->object->nr_max_answers);
+		$minanswers->addSubItem($nrmaxanswers);
 		$form->addItem($minanswers);
 
 		// Answers
@@ -218,6 +226,24 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+			if ($nranswers->getValue() > $this->object->getCategories()->getCategoryCount())
+			{
+				$nrmaxanswers->setAlert($this->lng->txt('err_minvalueganswers'));
+				if (!$errors)
+				{
+					ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				}
+				$errors = true;
+			}
+			if ($nrmaxanswers->getValue() > 0 && ($nrmaxanswers->getValue() > $this->object->getCategories()->getCategoryCount() || $nrmaxanswers->getValue() < $nranswers->getValue()))
+			{
+				$nrmaxanswers->setAlert($this->lng->txt('err_maxvaluegeminvalue'));
+				if (!$errors)
+				{
+					ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				}
+				$errors = true;
+			}
 			if ($errors) $checkonly = false;
 		}
 
