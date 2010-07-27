@@ -157,9 +157,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		
 		$solutions = array();
-		if (preg_match("/<values>(.*?)<\\/values>/is", $solution, $matches))
+		if (preg_match("/<values>(.*?)<\/values>/is", $solution, $matches))
 		{
-			if (preg_match_all("/<value>(.*?)<\\/value><value>(.*?)<\\/value><points>(.*?)<\\/points>/is", $solution, $matches, PREG_SET_ORDER))
+			if (preg_match_all("/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is", $solution, $matches, PREG_SET_ORDER))
 			{
 				foreach ($matches as $match)
 				{
@@ -196,9 +196,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				"solution_id" => array("integer", $next_id),
 				"active_fi" => array("integer", $active_id),
 				"question_fi" => array("integer", $question_id),
-				"value1" => array("clob", $solution[$i]),
-				"value2" => array("clob", $solution[$i+1]),
-				"points" => array("float", $solution[$i+2]),
+				"value1" => array("clob", $solutions[$i]),
+				"value2" => array("clob", $solutions[$i+1]),
+				"points" => array("float", $solutions[$i+2]),
 				"pass" => array("integer", $pass),
 				"tstamp" => array("integer", time())
 			));
