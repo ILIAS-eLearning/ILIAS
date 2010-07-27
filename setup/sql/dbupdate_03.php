@@ -3020,3 +3020,10 @@ if(!$ilDB->tableExists('booking_settings'))
 		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => false));
 	}
 ?>
+<#3157>
+<?php
+	if(!$ilDB->tableColumnExists('svy_qst_mc','nr_max_answers'))
+	{
+		$ilDB->addTableColumn("svy_qst_mc", "nr_max_answers", array("type" => "integer", "length" => 2, "notnull" => false));
+	}
+?>
