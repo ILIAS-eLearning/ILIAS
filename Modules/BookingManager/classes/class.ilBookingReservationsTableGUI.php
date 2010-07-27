@@ -36,11 +36,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->setTitle($lng->txt("book_reservations_list"));
 
-		$this->addColumn("", "", "1%");
 		$this->addColumn($this->lng->txt("title"));
-		$this->addColumn($this->lng->txt("status"));
-		$this->addColumn($this->lng->txt("user"));
 		$this->addColumn($this->lng->txt("book_period"));
+		$this->addColumn($this->lng->txt("user"));
+		$this->addColumn($this->lng->txt("status"));
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$this->addColumn($this->lng->txt("actions"));
+		}
 		
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -48,18 +52,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager");
 		$this->setResetCommand("resetLogFilter");
 		$this->setFilterCommand("applyLogFilter");
+		$this->setDisableFilterHiding(true);
+
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 
 		$this->initFilter();
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			$options = array();
-			for($loop = 1; $loop < 7; $loop++)
-			{
-				$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
-			}
-			$this->addMultiItemSelectionButton('tstatus', $options, 'changeStatus', $this->lng->txt('book_change_status'));
-		}
 
 		$this->getItems($this->getCurrentFilter());
 	}
@@ -80,7 +78,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->filter["type"] = $item->getValue();
 
 		$options = array(""=>$this->lng->txt('book_all'));
-		for($loop = 1; $loop < 7; $loop++)
+		foreach(array(ilBookingReservation::STATUS_IN_USE, ilBookingReservation::STATUS_CANCELLED) as $loop)
 	    {
 			$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
 		}
@@ -131,7 +129,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->determineOffsetAndOrder();
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$data = ilBookingReservation::getList($this->getLimit(), $this->getOffset(), $filter);
 		
 		$this->setMaxCount($data['counter']);
@@ -149,11 +146,50 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("RESERVATION_ID", $a_set["booking_reservation_id"]);
 
+
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			
+		}
+
 		$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
 		$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-		$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
+
+		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+		{
+			$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
+		}
+		
 		$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($a_set['user_id']));
 		$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+		
+		if ($date_from->get(IL_CAL_UNIX) > time() && $ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$alist = new ilAdvancedSelectionListGUI();
+			$alist->setId($a_set['booking_reservation_id']);
+			$alist->setListTitle($lng->txt("actions"));
+
+			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
+
+			if($a_set['status'] == ilBookingReservation::STATUS_CANCELLED)
+			{
+				$alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsv_not_cancel'));
+			}
+			else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
+			{
+				$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsv_in_use'));
+				$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsv_cancel'));
+			}
+			else 
+			{
+				$alist->addItem($lng->txt('book_set_not_in_use'), 'not_in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsv_not_in_use'));
+			}
+
+			$this->tpl->setCurrentBlock('actions');
+			$this->tpl->setVariable('LAYER', $alist->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 

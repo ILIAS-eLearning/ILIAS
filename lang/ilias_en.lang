@@ -10736,12 +10736,8 @@ dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this re
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.
 book#:#book_reservation_failed#:#Your booking has failed.
-book#:#book_reservation_status_1#:#Reserved
 book#:#book_reservation_status_2#:#In Use
-book#:#book_reservation_status_3#:#Overdue
-book#:#book_reservation_status_4#:#Returned
 book#:#book_reservation_status_5#:#Cancelled
-book#:#book_reservation_status_6#:#Blocked
 book#:#book_period#:#Period
 book#:#book_change_status#:#Change Status
 book#:#book_reservation_cancel#:#Cancel
@@ -10768,3 +10764,7 @@ grp#:#grp_info_new_grp_type#:#New Group Type
 grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators
 book#:#book_slots_no#:#Number of slots
 book#:#book_slots_no_info#:#Available number of slots per day in schedule
+book#:#book_set_in_use#:#Is in Use
+book#:#book_set_not_in_use#:#Not in Use
+book#:#book_set_cancel#:#Cancel
+book#:#book_set_not_cancel#:#Undo Cancel
