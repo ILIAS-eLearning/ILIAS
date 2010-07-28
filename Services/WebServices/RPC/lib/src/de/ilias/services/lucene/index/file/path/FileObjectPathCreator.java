@@ -39,7 +39,8 @@ import de.ilias.services.settings.LocalSettings;
  * @version $Id$
  */
 public class FileObjectPathCreator implements PathCreator {
-
+	
+	protected String basePath = "ilFiles";
 
 	/**
 	 * Default constructor
@@ -47,7 +48,31 @@ public class FileObjectPathCreator implements PathCreator {
 	public FileObjectPathCreator() {
 
 	}
+	
+	/**
+	 * Set bas path
+	 * @param bp
+	 * @return 
+	 */
+	public void setBasePath(String bp) {
+		
+		this.basePath = bp;
+	}
+	
 
+	/**
+	 * Get base path
+	 * ILIAS version <= 4.0 (ilFiles)
+	 * ILIAS version >= 4.1 (ilFile) 
+	 * 
+	 * @return String basePath
+	 */
+	public String getBasePath() {
+		
+		return this.basePath;
+	}
+	
+	
 	/**
 	 * @see de.ilias.services.lucene.index.file.path.PathCreator#buildPath(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
 	 */
@@ -65,7 +90,7 @@ public class FileObjectPathCreator implements PathCreator {
 			fullPath.append(System.getProperty("file.separator"));
 			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getClient());
 			fullPath.append(System.getProperty("file.separator"));
-			fullPath.append("ilFiles");
+			fullPath.append(getBasePath());
 			fullPath.append(System.getProperty("file.separator"));
 			fullPath.append(PathUtils.buildSplittedPathFromId(objId,"file"));
 			

@@ -44,6 +44,12 @@ public class PathCreatorFactory {
 		if(name.equalsIgnoreCase("FileListPathCreator")) {
 			return (PathCreator) new FileListPathCreator();
 		}
+		if(name.equalsIgnoreCase("FileObjectPathCreator41")) {
+			return (PathCreator) new FileObjectPathCreator41();
+		}
+		if(name.equalsIgnoreCase("FileListPathCreator41")) {
+			return (PathCreator) new FileListPathCreator41();
+		}
 		if(name.equalsIgnoreCase("HTLMObjectPathCreator")) {
 			return (PathCreator) new HTLMObjectPathCreator();
 		}
