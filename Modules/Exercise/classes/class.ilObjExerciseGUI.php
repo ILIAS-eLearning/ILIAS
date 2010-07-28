@@ -2346,7 +2346,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->checkPermission("read");
 		
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'exc');
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
+			$this->object->getRefId(), 'exc');
 		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");

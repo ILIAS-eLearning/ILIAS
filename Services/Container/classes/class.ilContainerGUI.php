@@ -2105,7 +2105,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$old_parent_data = $tree->getParentNodeData($ref_id);
 					$newNode_data = $tree->getNodeData($newRef);
-					ilChangeEvent::_recordReadEvent($oldNode_data['obj_id'], $ilUser->getId());
+					ilChangeEvent::_recordReadEvent($oldNode_data['type'], $ref_id,
+						$oldNode_data['obj_id'], $ilUser->getId());
 					ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add', 
 						$this->object->getId());
 					ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());

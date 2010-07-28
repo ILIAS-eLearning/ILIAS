@@ -987,7 +987,10 @@ class ilObjectGUI
 		if (ilChangeEvent::_isActive())
 		{
 			global $ilUser;
-			ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+			ilChangeEvent::_recordReadEvent(
+				$this->object->getType(),
+				$this->object->getRefId(),
+				$this->object->getId(), $ilUser->getId());
 		}
 		// END ChangeEvent: record read event.
 

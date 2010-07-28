@@ -399,7 +399,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		// store read event
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-		ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+		ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
+			$this->object->getId(), $ilUser->getId());
 	}
 	
 	/**

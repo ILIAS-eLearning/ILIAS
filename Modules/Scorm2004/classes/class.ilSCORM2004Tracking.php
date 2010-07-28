@@ -382,7 +382,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param
 	 * @return
 	 */
-	function _syncReadEvent($a_obj_id, $a_user_id)
+	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -443,7 +443,8 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		}
 
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
+		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id,
+			$a_obj_id, $a_user_id, false, $attempts, $time);
 	}
 
 

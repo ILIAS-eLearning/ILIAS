@@ -808,11 +808,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		// Note license usage
 		include_once "Services/License/classes/class.ilLicense.php";
-		ilLicense::_noteAccess($this->object->getId());
+		ilLicense::_noteAccess($this->object->getId(), $this->object->Type(),
+			$this->object->getRefId());
 
 		// Track access
 		include_once "Services/Tracking/classes/class.ilTracking.php";
-		ilTracking::_trackAccess($this->object->getId(),'htlm');
+		ilTracking::_trackAccess($this->object->getId(),$this->object->getRefId(),'htlm');
 		
 		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
 		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());

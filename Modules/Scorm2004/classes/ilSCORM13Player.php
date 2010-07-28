@@ -148,6 +148,7 @@ class ilSCORM13Player
 		$this->ctrl =& $ilCtrl;
 				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+		$this->ref_id = $_GET['ref_id'];
 		$this->userId=$ilUser->getID();
 	
 		if ($_GET['envEditor'] != null) {
@@ -773,7 +774,7 @@ class ilSCORM13Player
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$ilLog->write("Got data:". file_get_contents('php://input'));
 
-		$return = $this->setCMIData($this->userId, $this->packageId, $data);
+		$return = $this->setCMIData($this->userId, $this->packageId, $data, $this->ref_id);
 		
 		if ($this->jsMode) 
 		{
@@ -1017,7 +1018,7 @@ class ilSCORM13Player
 
 	}
 	
-	private function setCMIData($userId, $packageId, $data) 
+	private function setCMIData($userId, $packageId, $data, $a_ref_id)
 	{
 		global $ilDB, $ilLog;	
 	
@@ -1229,7 +1230,7 @@ class ilSCORM13Player
 
 		// sync access number and time in read event table
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId);
+		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
 		return $result;
 	}

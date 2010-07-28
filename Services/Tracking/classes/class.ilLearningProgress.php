@@ -45,12 +45,12 @@ class ilLearningProgress
 	}
 
 	// Static
-	function _tracProgress($a_user_id,$a_obj_id, $a_obj_type = '')
+	function _tracProgress($a_user_id, $a_obj_id, $a_ref_id, $a_obj_type = '')
 	{
 		global $ilDB;
 
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id);
+		ilChangeEvent::_recordReadEvent($a_obj_type, $a_ref_id, $a_obj_id, $a_user_id);
 		
 		require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 		ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
@@ -118,10 +118,13 @@ class ilLearningProgress
 		return $progress ? $progress : array();
 	}
 
+/*	deprecated
 	function _updateProgress($data)
 	{
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-		ilChangeEvent::_recordReadEvent($data['obj_id'], $data['usr_id']);
+		ilChangeEvent::_recordReadEvent($data['type'], $data['ref_id'],
+			$data['obj_id'], $data['usr_id']);
 	}
+ */
 }
 ?>

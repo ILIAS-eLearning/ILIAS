@@ -79,7 +79,7 @@ die ("class ilTracking is deprecated");
 	* @param	string		$a_sub_type			subobject type (e.g. "pg")
 	* @param	string		$a_action_type		"read", "write", ...
 	*/
-	function _trackAccess($a_obj_id, $a_obj_type,$a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
+	function _trackAccess($a_obj_id, $a_ref_id, $a_obj_type, $a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
 	{
 		global $ilUser, $ilDB;
 
@@ -90,7 +90,7 @@ die ("class ilTracking is deprecated");
 		}
 
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		ilLearningProgress::_tracProgress($ilUser->getId(),$a_obj_id,$a_obj_type);
+		ilLearningProgress::_tracProgress($ilUser->getId(),$a_obj_id, $a_ref_id, $a_obj_type);
 
 		if (ilObjUserTracking::_enabledUserRelatedData())
 		{

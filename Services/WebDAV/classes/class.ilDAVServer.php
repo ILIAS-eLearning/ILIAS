@@ -330,7 +330,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if (ilChangeEvent::_isActive())
 		{
 			global $ilUser;
-			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId(), false);
+			ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
+				$objDAV->getObjectId(), $ilUser->getId(), false);
 		}
 		// ok, all done
 		$this->writelog('PROPFIND():true options='.var_export($options, true).' files='.var_export($files,true));
@@ -553,7 +554,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Record read event and catch up write events
 		if (ilChangeEvent::_isActive())
 		{
-			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId());
+			ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
+				$objDAV->getObjectId(), $ilUser->getId());
 		}
 		$this->writelog('GET:'.var_export($options, true));
 
@@ -1290,7 +1292,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Record write event
 		if (ilChangeEvent::_isActive())
 		{
-			ilChangeEvent::_recordReadEvent($srcDAV->getObjectId(), $ilUser->getId());
+			ilChangeEvent::_recordReadEvent($srcDAV->getILIASType(), $srcDAV->getRefId(),
+				$srcDAV->getObjectId(), $ilUser->getId());
 			ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'create', $dstParentDAV->getObjectId());
 		}
 

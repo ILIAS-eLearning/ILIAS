@@ -59,7 +59,8 @@ class ilObjSCORMTracking
 	function store($obj_id=0, $sahs_id=0, $extractData=1)
 	{
 		global $ilDB, $ilUser;
-		
+
+		$ref_id = $_GET["ref_id"];
 		if (empty($obj_id))
 		{
 			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
@@ -162,7 +163,7 @@ class ilObjSCORMTracking
 		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
 		
 		// update time and numbers of attempts in change event
-		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id);
+		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
 	}
 	
 	/**
@@ -171,7 +172,7 @@ class ilObjSCORMTracking
 	 * @param
 	 * @return
 	 */
-	function _syncReadEvent($a_obj_id, $a_user_id)
+	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -213,7 +214,7 @@ class ilObjSCORMTracking
 		}
 		
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
-		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
+		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $a_user_id, false, $attempts, $time);
 	}
 
 	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
