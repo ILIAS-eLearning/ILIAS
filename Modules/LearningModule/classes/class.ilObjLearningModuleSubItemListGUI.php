@@ -54,8 +54,9 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setCurrentBlock('subitem');
 
 			$this->tpl->setVariable('SEPERATOR',':');
-
-			switch(ilLMObject::_lookupType($sub_item))
+			
+			
+			switch(ilLMObject::_lookupType($sub_item,$this->getObjId()))
 			{
 				case 'pg':
 					$this->getItemListGUI()->setChildId($sub_item);
@@ -81,11 +82,17 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 					break;
 
 				default:
+
+					if(ilObject::_lookupType($sub_item) != 'file')
+					{
+						return '';
+					}
+					
 					$this->getItemListGUI()->setChildId('il__file_'.$sub_item);
 					$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_file'));
 					$link = $this->getItemListGUI()->getCommandLink('downloadFile');
 					$this->tpl->setVariable('LINK',$link);
-					$this->tpl->setVariable('TITLE',ilObject::_lookupTitle($sub_item));			
+					$this->tpl->setVariable('TITLE',ilObject::_lookupTitle($sub_item));
 					break;
 			}
 			

@@ -262,14 +262,19 @@ class ilLMObject
 	/**
 	* Lookup type
 	*
-	* @param	int		lm object id
+	* @param	int		id of pg st
+	* @param	int		id of lm object [optional]
 	*/
-	static function _lookupType($a_obj_id)
+	static function _lookupType($a_obj_id, $a_lm_id = 0)
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
-			$ilDB->quote($a_obj_id, "integer");
+		if($a_lm_id)
+		{
+			$and = ' AND lm_id = '.$ilDB->quote($a_lm_id,'integer');
+		}
+
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").$and;
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
