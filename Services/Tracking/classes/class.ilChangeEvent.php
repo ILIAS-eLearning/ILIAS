@@ -104,7 +104,7 @@ class ilChangeEvent
 	function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
 		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
-		global $ilDB;
+		global $ilDB, $tree;
 		
 		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
 		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();		
@@ -115,22 +115,24 @@ class ilChangeEvent
 			$ilDB->quote($obj_id,'integer'),
 			$ilDB->quote($usr_id,'integer'));
 		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
 
 		// read counter
 		if ($a_ext_rc !== false)
 		{
 			$read_count = 'read_count = '.$ilDB->quote($a_ext_rc, "integer").", ";
 			$read_count_init = max(1, (int) $a_ext_rc);
+			$read_count_diff = max(1, (int) $a_ext_rc) - $row->read_count;
 		}
 		else
 		{
 			$read_count = 'read_count = read_count + 1, ';
 			$read_count_init = 1;
+			$read_count_diff = 1;
 		}
 		
-		if($res->numRows())
+		if ($row)
 		{
-			$row = $ilDB->fetchObject($res);
 			
 			if ($a_ext_time !== false)
 			{
@@ -142,6 +144,7 @@ class ilChangeEvent
 							 ? $row->spent_seconds + time() - $row->last_access
 							 : $row->spent_seconds,'integer');
 			}
+			$time_diff = $time - (int) $row->spent_seconds;
 			
 			// Update
 			$query = sprintf('UPDATE read_event SET '.
@@ -167,6 +170,8 @@ class ilChangeEvent
 				$time = 0;
 			}
 
+			$time_diff = $time - (int) $row->spent_seconds;
+
 			$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
 				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().') ',
 				$ilDB->quote($obj_id,'integer'),
@@ -182,10 +187,64 @@ class ilChangeEvent
 		{
 			ilChangeEvent::_catchupWriteEvents($obj_id, $usr_id);
 		}
-		
+
+		// update parents (no categories or root)
+		if (!in_array($a_type, array("cat", "root", "crs")))
+		{
+			if ($tree->isInTree($a_ref_id))
+			{
+				$path = $tree->getPathId($a_ref_id);
+
+				foreach ($path as $p)
+				{
+					$obj2_id = ilObject::_lookupObjId($p);
+					$obj2_type = ilObject::_lookupType($obj2_id);
+//echo "<br>1-$obj2_type-$p-$obj2_id-";
+					if (($p != $a_ref_id) && (in_array($obj2_type, array("crs", "fold", "grp"))))
+					{
+						$query = sprintf('SELECT * FROM read_event '.
+							'WHERE obj_id = %s '.
+							'AND usr_id = %s ',
+							$ilDB->quote($obj2_id, 'integer'),
+							$ilDB->quote($usr_id, 'integer'));
+						$res2 = $ilDB->query($query);
+						if ($row2 = $ilDB->fetchAssoc($res2))
+						{
+//echo "<br>2";
+							// update read count and spent seconds
+							$query = sprintf('UPDATE read_event SET '.
+								'childs_read_count = childs_read_count + %s ,'.
+								'childs_spent_seconds = childs_spent_seconds + %s '.
+								'WHERE obj_id = %s '.
+								'AND usr_id = %s ',
+								$ilDB->quote((int) $read_count_diff,'integer'),
+								$ilDB->quote((int) $time_diff,'integer'),
+								$ilDB->quote($obj2_id,'integer'),
+								$ilDB->quote($usr_id,'integer'));
+							$aff = $ilDB->manipulate($query);
+						}
+						else
+						{
+//echo "<br>3";
+							$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access,'.
+								'childs_read_count, childs_spent_seconds) '.
+								'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().', %s, %s) ',
+								$ilDB->quote($obj2_id,'integer'),
+								$ilDB->quote($usr_id,'integer'),
+								$ilDB->quote(time(),'integer'),
+								$ilDB->quote(1,'integer'),
+								$ilDB->quote($time,'integer'),
+								$ilDB->quote((int) $read_count_diff,'integer'),
+								$ilDB->quote((int) $time_diff,'integer')
+								);
+							$aff = $ilDB->manipulate($query);
+						}
+					}
+				}
+			}
+		}
+
 		// @todo:
-		// - use ref id instead of obj id in _recordReadEvent as parameter
-		//   (table read_event sill holds object ids)
 		// - calculate diff of spent_seconds and read_count
 		// - use ref id to get parents of types grp, crs, fold
 		// - add diffs to childs_spent_seconds and childs_read_count
