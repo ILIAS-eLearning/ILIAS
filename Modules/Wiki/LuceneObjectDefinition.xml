@@ -31,7 +31,7 @@
 				<Transformer name="FilenameExtractor" />
 			</Field>
 			<DataSource type="File" action="append">
-				<PathCreator name="FileListPathCreator" />
+				<PathCreator name="FileListPathCreator41" />
 				<Field store="YES" index="ANALYZED" name="content">
 					<Transformer name="LinefeedSanitizer" />
 				</Field>

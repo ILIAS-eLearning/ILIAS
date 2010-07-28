@@ -10774,6 +10774,10 @@ book#:#book_earlier#:#Früher
 book#:#book_later#:#Später
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
+rbac#:#read_users#:#Lesezugriff auf lokale Benutzerkonten
+rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
+rbac#:#edit_permission#:#Rechteeinstellungen ändern
+rbac#:#edit_event#:#Kalender bearbeiten
 book#:#book_slots_no#:#Anzahl Zeiträume
 book#:#book_slots_no_info#:#Mögliche Anzahl Zeiträume pro Tag im Zeitplan
 book#:#book_set_in_use#:#Ist in Benutzung

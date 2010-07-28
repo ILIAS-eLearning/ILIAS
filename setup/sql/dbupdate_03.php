@@ -2990,7 +2990,7 @@ if(!$ilDB->tableExists('booking_settings'))
 		'invite'			=> 7200,
 		'tst_statistics'	=> 7100, 
 		'delete'		=> 8000,
-		'edit_permission' => 10000
+		'edit_permission' => 9000
 	);
 	
 	foreach($permission_ordering as $op => $order)
@@ -3001,6 +3001,7 @@ if(!$ilDB->tableExists('booking_settings'))
 		$ilDB->manipulate($query);
 	}
 ?>
+
 <#3155>
 <?php
 	if($ilDB->tableColumnExists('svy_svy','mailaddresses'))
@@ -3020,6 +3021,7 @@ if(!$ilDB->tableExists('booking_settings'))
 		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => false));
 	}
 ?>
+
 <#3157>
 <?php
 	if(!$ilDB->tableColumnExists('svy_qst_mc','nr_max_answers'))
@@ -3050,4 +3052,10 @@ if(!$ilDB->tableExists('svy_times'))
 	));
 	$ilDB->addIndex('svy_times',array('finished_fi'),'i1');
 }
+?>
+
+<#3159>
+<?php
+	$query = 'UPDATE rbac_operations SET op_order = '.$ilDB->quote(9999,'integer').' WHERE class = '.$ilDB->quote('create','text');
+	$ilDB->manipulate($query);
 ?>
