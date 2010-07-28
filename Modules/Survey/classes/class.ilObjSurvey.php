@@ -5029,5 +5029,22 @@ class ilObjSurvey extends ilObject
 		unset($_SESSION['svy_entered_page']);
 	}
 	
+	function getWorkingtimeForParticipant($finished_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT * FROM svy_times WHERE finished_fi = %s",
+			array('integer'),
+			array($finished_id)
+		);
+		$total = 0;
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row['left_page'] > 0 && $row['entered_page'] > 0)
+				$total += $row['left_page'] - $row['entered_page'];
+		}
+		return $total;
+	}
+	
 } // END class.ilObjSurvey
 ?>
