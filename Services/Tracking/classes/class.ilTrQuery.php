@@ -562,12 +562,14 @@ class ilTrQuery
 			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 			self::buildFilters($where, $a_filters);
 
+		$fields[] = 'COUNT(usr_data.usr_id) AS user_count';
+
 		$queries = array();
-		$queries[] = array("fields"=>$fields, "query"=>$query." GROUP BY read_event.obj_id", "count"=>"*");
+		$queries[] = array("fields"=>$fields, "query"=>$query, "count"=>"*");
 
 		$result = self::executeQueries($queries);
-		$users_no = $result["cnt"];
 		$result = $result["set"][0];
+		$users_no = $result["user_count"];
 		if($users_no && (!isset($a_filters["user_total"]) || ($users_no >= $a_filters["user_total"]["from"] && $users_no <= $a_filters["user_total"]["to"])))
 		{
 			$result["country"] = self::getSummaryPercentages("country", $query);
@@ -631,7 +633,13 @@ class ilTrQuery
 			case "crs":
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$a_users = $member_obj->getParticipants();
+				$a_users = $member_obj->getMembers();
+				break;
+
+			case "grp":
+				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+				$member_obj = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+				$a_users = $member_obj->getMembers();
 				break;
 
 			case "sahs":

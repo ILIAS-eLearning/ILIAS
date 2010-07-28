@@ -268,9 +268,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			case "first_access":
 			case "create_date":
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
+				break;
 
 			case "last_access":
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
+				break;
 
 			case "spent_seconds":
 				if(in_array($type, array("exc")))
