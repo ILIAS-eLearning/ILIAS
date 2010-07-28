@@ -64,6 +64,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		}
 		$this->addColumn($this->lng->txt("question"),'question', '');
 		$this->addColumn($this->lng->txt("results"),'results', '');
+		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_user_row.html", "Modules/Survey");
 
@@ -72,6 +73,22 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->disable('sort');
 		$this->disable('select_all');
+	}
+	
+	protected function formatTime($timeinseconds)
+	{
+		if (is_null($timeinseconds))
+		{
+			return " ";
+		}
+		else if ($timeinseconds == 0)
+		{
+			return $this->lng->txt('not_available');
+		}
+		else
+		{
+			return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
+		}
 	}
 
 	/**
@@ -90,8 +107,9 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("USERNAME", $data['username']);
-		$this->tpl->setVariable("QUESTION", print_r($data['question'], true));
-		$this->tpl->setVariable("RESULTS", print_r($data['results'], true));
+		$this->tpl->setVariable("QUESTION", $data['question']);
+		$this->tpl->setVariable("RESULTS", $data['results']);
+		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
 	}
 }
 ?>
