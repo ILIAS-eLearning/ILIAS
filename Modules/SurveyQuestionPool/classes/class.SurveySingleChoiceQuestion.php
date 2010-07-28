@@ -580,7 +580,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1) . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1) . ")";
+					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $this->categories->getCategory((int)floor($median_value)-1)->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $this->categories->getCategory((int)ceil($median_value)-1)->title . ")";
 				}
 			}
 			else

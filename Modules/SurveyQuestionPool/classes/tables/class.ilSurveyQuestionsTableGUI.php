@@ -181,7 +181,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		);
 		return $cols;
 	}
-		
+
 	/**
 	 * fill row 
 	 *

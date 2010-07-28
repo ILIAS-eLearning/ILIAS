@@ -42,6 +42,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $detail)
 	{
+		$this->setId("svy_cum");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -54,14 +55,17 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn($this->lng->txt("title"),'title', '');
-		$this->addColumn($this->lng->txt("question"),'question', '');
-		$this->addColumn($this->lng->txt("question_type"),'question_type', '');
-		$this->addColumn($this->lng->txt("users_answered"),'users_answered', '');
-		$this->addColumn($this->lng->txt("users_skipped"),'users_skipped', '');
-		$this->addColumn($this->lng->txt("mode"),'mode', '');
-		$this->addColumn($this->lng->txt("mode_nr_of_selections"),'mode_nr_of_selections', '');
-		$this->addColumn($this->lng->txt("median"),'median', '');
-		$this->addColumn($this->lng->txt("arithmetic_mean"),'arithmetic_mean', '');
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if (strcmp($c, 'question') == 0) $this->addColumn($this->lng->txt("question"),'question', '');
+			if (strcmp($c, 'question_type') == 0) $this->addColumn($this->lng->txt("question_type"),'question_type', '');
+			if (strcmp($c, 'users_answered') == 0) $this->addColumn($this->lng->txt("users_answered"),'users_answered', '');
+			if (strcmp($c, 'users_skipped') == 0) $this->addColumn($this->lng->txt("users_skipped"),'users_skipped', '');
+			if (strcmp($c, 'mode') == 0) $this->addColumn($this->lng->txt("mode"),'mode', '');
+			if (strcmp($c, 'mode_nr_of_selections') == 0) $this->addColumn($this->lng->txt("mode_nr_of_selections"),'mode_nr_of_selections', '');
+			if (strcmp($c, 'median') == 0) $this->addColumn($this->lng->txt("median"),'median', '');
+			if (strcmp($c, 'arithmetic_mean') == 0) $this->addColumn($this->lng->txt("arithmetic_mean"),'arithmetic_mean', '');
+		}
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_cumulated_row.html", "Modules/Survey");
 
@@ -86,6 +90,44 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->disable('select_all');
 	}
 
+	function getSelectableColumns()
+	{
+		global $lng;
+		$cols["question"] = array(
+			"txt" => $lng->txt("question"),
+			"default" => true
+		);
+		$cols["question_type"] = array(
+			"txt" => $lng->txt("question_type"),
+			"default" => true
+		);
+		$cols["users_answered"] = array(
+			"txt" => $lng->txt("users_answered"),
+			"default" => true
+		);
+		$cols["users_skipped"] = array(
+			"txt" => $lng->txt("users_skipped"),
+			"default" => true
+		);
+		$cols["mode"] = array(
+			"txt" => $lng->txt("mode"),
+			"default" => true
+		);
+		$cols["mode_nr_of_selections"] = array(
+			"txt" => $lng->txt("mode_nr_of_selections"),
+			"default" => true
+		);
+		$cols["median"] = array(
+			"txt" => $lng->txt("median"),
+			"default" => true
+		);
+		$cols["arithmetic_mean"] = array(
+			"txt" => $lng->txt("arithmetic_mean"),
+			"default" => true
+		);
+		return $cols;
+	}
+
 	/**
 	 * fill row 
 	 *
@@ -102,14 +144,57 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("TITLE", $data['title']);
-		$this->tpl->setVariable("QUESTION", $data['question']);
-		$this->tpl->setVariable("QUESTION_TYPE", $data['question_type']);
-		$this->tpl->setVariable("USERS_ANSWERED", $data['users_answered']);
-		$this->tpl->setVariable("USERS_SKIPPED", $data['users_skipped']);
-		$this->tpl->setVariable("MODE", $data['mode']);
-		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $data['mode_nr_of_selections']);
-		$this->tpl->setVariable("MEDIAN", $data['median']);
-		$this->tpl->setVariable("ARITHMETIC_MEAN", $data['arithmetic_mean']);
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if (strcmp($c, 'question') == 0)
+			{
+				$this->tpl->setCurrentBlock('question');
+				$this->tpl->setVariable("QUESTION", $data['question']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'question_type') == 0)
+			{
+				$this->tpl->setCurrentBlock('question_type');
+				$this->tpl->setVariable("QUESTION_TYPE", $data['question_type']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'users_answered') == 0)
+			{
+				$this->tpl->setCurrentBlock('users_answered');
+				$this->tpl->setVariable("USERS_ANSWERED", $data['users_answered']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'users_skipped') == 0)
+			{
+				$this->tpl->setCurrentBlock('users_skipped');
+				$this->tpl->setVariable("USERS_SKIPPED", $data['users_skipped']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'mode') == 0)
+			{
+				$this->tpl->setCurrentBlock('mode');
+				$this->tpl->setVariable("MODE", $data['mode']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'mode_nr_of_selections') == 0)
+			{
+				$this->tpl->setCurrentBlock('mode_nr_of_selections');
+				$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $data['mode_nr_of_selections']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'median') == 0)
+			{
+				$this->tpl->setCurrentBlock('median');
+				$this->tpl->setVariable("MEDIAN", $data['median']);
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'arithmetic_mean') == 0)
+			{
+				$this->tpl->setCurrentBlock('arithmetic_mean');
+				$this->tpl->setVariable("ARITHMETIC_MEAN", $data['arithmetic_mean']);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 ?>
