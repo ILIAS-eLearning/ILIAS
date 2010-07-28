@@ -162,9 +162,11 @@ public class IniFileParser {
 			
 		} 
 		catch (IOException e) {
+			logger.error("Caught IOException when trying to parse client data: " + e.getMessage());
 			throw new ConfigurationException(e);
 		} 
 		catch (ConfigurationException e) {
+			logger.error("Caught ConfigurationException when trying to parse client data.");
 			throw e;
 		}
 		
@@ -219,10 +221,11 @@ public class IniFileParser {
 			return new StringReader(output);
 		} 
 		catch (FileNotFoundException e) {
-			logger.fatal("Cannot find ini file.");
+			logger.fatal("Cannot find ini file: " + e.getMessage());
 			throw new ConfigurationException(e);
 		} 
 		catch (IOException e) {
+			logger.error("Caught IOException when trying to convert ini file: " + e.getMessage());
 			throw new ConfigurationException(e);
 		}
 	}
