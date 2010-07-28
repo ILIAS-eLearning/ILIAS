@@ -83,7 +83,10 @@ abstract class ilContainerContentGUI
 		{
 			global $ilUser;
 			$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
-			ilChangeEvent::_recordReadEvent($obj_id, $ilUser->getId());
+			ilChangeEvent::_recordReadEvent(
+				$this->getContainerObject()->getType(),
+				$this->getContainerObject()->getRefId(),
+				$obj_id, $ilUser->getId());
 		}
 		// END ChangeEvent: record read event.
 		

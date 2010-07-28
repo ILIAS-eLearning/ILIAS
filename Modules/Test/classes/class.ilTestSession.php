@@ -87,11 +87,32 @@ class ilTestSession
 		$this->submitted = FALSE;
 		$this->submittedTimestamp = "";
 		$this->pass = 0;
+		$this->ref_id = 0;
 		$this->tstamp = 0;
 		if ($active_id > 0)
 		{
 			$this->loadFromDb($active_id);
 		}
+	}
+
+	/**
+	 * Set Ref id
+	 *
+	 * @param	integer	Ref id
+	 */
+	function setRefId($a_val)
+	{
+		$this->ref_id = $a_val;
+	}
+
+	/**
+	 * Get Ref id
+	 *
+	 * @return	integer	Ref id
+	 */
+	function getRefId()
+	{
+		return $this->ref_id;
 	}
 	
 	function increaseTestPass()
@@ -212,6 +233,7 @@ class ilTestSession
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($this->getUserId(),
 										  ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
+										  $this->getRefId(),
 										  'tst');
 	}
 	

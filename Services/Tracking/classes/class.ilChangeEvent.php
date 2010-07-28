@@ -101,8 +101,8 @@ class ilChangeEvent
 	 * @param $catchupWriteEvents boolean If true, this function catches up with
 	 * 	write events.
 	 */
-	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true, $a_ext_rc = false,
-							  $a_ext_time = false)
+	function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
+		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
 		global $ilDB;
 		

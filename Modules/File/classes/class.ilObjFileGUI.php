@@ -729,7 +729,8 @@ class ilObjFileGUI extends ilObjectGUI
 			{
 				global $ilUser;
 				// Record read event and catchup with write events
-				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
+				ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
+					$this->object->getId(), $ilUser->getId());
 			}
 			// END ChangeEvent: Record read event.
 

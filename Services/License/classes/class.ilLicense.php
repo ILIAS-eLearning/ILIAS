@@ -206,7 +206,7 @@ class ilLicense
 	* @access   static
 	* @param    int     	object id (not reference)
 	*/
-	function _noteAccess($a_obj_id)
+	function _noteAccess($a_obj_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilUser, $ilSetting;
 		
@@ -234,7 +234,7 @@ class ilLicense
 		{
 			// note access
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			ilChangeEvent::_recordReadEvent($a_obj_id, $ilUser->getId());
+			ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $ilUser->getId());
 
 			if (self::_isLicensed($a_obj_id))
 			{

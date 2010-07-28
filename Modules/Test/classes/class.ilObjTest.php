@@ -9482,6 +9482,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once "./Modules/Test/classes/class.ilTestSession.php";
 		$testSession = FALSE;
 		$testSession = new ilTestSession();
+		$testSession->setRefId($this->getRefId());
 		$testSession->setTestId($this->getTestId());
 		$testSession->setUserId($ilUser->getId());
 		$testSession->setAnonymousId($_SESSION["tst_access_code"][$this->getTestId()]);
@@ -9518,10 +9519,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($active_id > 0)
 		{
 			$testSession = new ilTestSession($active_id);
+			$testSession->setRefId($this->getRefId());
 		}
 		else
 		{
 			$testSession = new ilTestSession();
+			$testSession->setRefId($this->getRefId());
 			$testSession->loadTestSession($this->getTestId(), $ilUser->getId(), $_SESSION["tst_access_code"][$this->getTestId()]);
 		}
 		$this->testSession =& $testSession;
@@ -10021,6 +10024,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 					include_once "./Modules/Test/classes/class.ilTestSession.php";
 					$testSession = FALSE;
 					$testSession = new ilTestSession();
+					$testSession->setRefId($this->getRefId());
 					$testSession->setTestId($this->getTestId());
 					$testSession->setUserId($user_id);
 					$testSession->saveToDb();

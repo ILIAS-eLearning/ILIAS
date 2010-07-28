@@ -313,7 +313,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// Trac access
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'crs');
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
+			$this->object->getRefId(),'crs');
 		
 		if(!$this->checkAgreement())
 		{

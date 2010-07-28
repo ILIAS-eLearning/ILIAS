@@ -263,7 +263,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $tree,$rbacsystem,$ilUser;
 
 		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),'grp');
+		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
+			$this->object->getRefId(),'grp');
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
