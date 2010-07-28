@@ -575,66 +575,17 @@ class ilSurveyEvaluationGUI
 		$userResults =& $this->object->getUserSpecificResults();
 		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
-		$counter = 0;
-		$classes = array("tblrow1top", "tblrow2top");
 		$questions =& $this->object->getSurveyQuestions(true);
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
-		$this->tpl->parseCurrentBlock();
-		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("question"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("results"));
-		$this->tpl->parseCurrentBlock();
-
-		$cellcounter = 1;
 		$participants =& $this->object->getSurveyParticipants();
+		$tabledata = array();
 		foreach ($participants as $data)
 		{
-			$this->tpl->setCurrentBlock("bodycell");
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $data["sortname"]);
-			$this->tpl->parseCurrentBlock();
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-			{
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $data["gender"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			$intro = TRUE;
 			$questioncounter = 1;
+			$question = "";
+			$results = "";
+			$first = true;
 			foreach ($questions as $question_id => $question_data)
 			{
-				if ($intro)
-				{
-					$intro = FALSE;
-				}
-				else
-				{
-					if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-					{
-						$this->tpl->setCurrentBlock("bodycell");
-						$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("bodycell");
-					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $questioncounter++ . ". " . $question_data["title"]);
-				$this->tpl->parseCurrentBlock();
-				
 				$found = $userResults[$question_id][$data["active_id"]];
 				$text = "";
 				if (is_array($found))
@@ -646,14 +597,26 @@ class ilSurveyEvaluationGUI
 					$text = $found;
 				}
 				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $text);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->parse("row");
+				if ($first)
+				{
+					array_push($tabledata, array(
+							'username' => $data["sortname"],
+							'gender' => $data["gender"],
+							'question' => $questioncounter++ . ". " . $question_data["title"],
+							'results' => $text
+						));
+					$first = false;
+				}
+				else
+				{
+					array_push($tabledata, array(
+							'username' => " ",
+							'gender' => " ",
+							'question' => $questioncounter++ . ". " . $question_data["title"],
+							'results' => $text
+						));
+				}
 			}
-			$counter++;
 		}
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
@@ -669,7 +632,6 @@ class ilSurveyEvaluationGUI
 			$this->tpl->setCurrentBlock("label_option");
 			$this->tpl->setVariable("LABEL_VALUE", $label['value']);
 			$this->tpl->setVariable("LABEL_TEXT", ilUtil::prepareFormOutput($label['title']));
-//			$this->tpl->setVariable("LABEL_SELECTED", "");
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
@@ -681,6 +643,10 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
 		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
+		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->getAnonymize());
+		$table_gui->setData($tabledata);
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 		$this->tpl->parseCurrentBlock();
 	}
 	
