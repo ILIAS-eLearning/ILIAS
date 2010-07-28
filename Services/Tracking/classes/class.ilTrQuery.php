@@ -877,8 +877,8 @@ class ilTrQuery
 			$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
 			if($mode == LP_MODE_SCORM)
 			{
-				include_once "Services/Tracking/classes/class.ilLPStatusScorm.php";
-				$status_scorm = new ilLPStatusScorm($a_parent_obj_id);
+				include_once "Services/Tracking/classes/class.ilLPStatusSCORM.php";
+				$status_scorm = new ilLPStatusSCORM($a_parent_obj_id);
 				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
 			}
 			else if($mode != LP_MODE_OBJECTIVES)
