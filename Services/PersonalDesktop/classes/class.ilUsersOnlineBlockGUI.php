@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
+require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
 * BlockGUI class for Personal Desktop Users Online block
@@ -29,6 +30,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$this->setImage(ilUtil::getImagePath("icon_grp_s.gif"));
 		$this->setTitle($lng->txt("users_online"));
 		$this->setAvailableDetailLevels(3);
+
+        // mjansen: Used for mail referer link (@see fillRow). I don't want to create a new instance in each fillRow call.
+        $this->topGuiObj = new ilPersonalDesktopGUI();
 	}
 	
 	/**
@@ -243,8 +247,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 //				$a_set["id"], $a_set['login'], $a_set['firstname'], $a_set['lastname']
 //			);
 			
-			#$mail_to = urlencode($mail_to);
-			$a_set["mail_to"] = $a_set['login'];
+			#$mail_to = urlencode($mail_to);            
+			$a_set['mail_url'] = ilMailFormCall::_getLinkTarget($this->topGuiObj, '', array(), array('type' => 'new', 'rcp_to' => urlencode($a_set['login'])));
 		}
 		
 		// check for profile
@@ -255,11 +259,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		// user image
 		if ($this->getCurrentDetailLevel() > 2)
 		{
-			if ($a_set["mail_to"] != "")
+			if ($a_set["mail_url"] != "")
 			{
 				$this->tpl->setCurrentBlock("mailto_link");
 				$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
-				$this->tpl->setVariable("MAIL_USR_LOGIN", urlencode($a_set["mail_to"]));
+				$this->tpl->setVariable("MAIL_URL", $a_set["mail_url"]);
 				$this->tpl->parseCurrentBlock();
 			}
 	

@@ -293,8 +293,17 @@ class ilAdministrationGUI
 			{
 				$this->ctrl->setParameter($this, "ref_id", SYSTEM_FOLDER_ID);
 				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+
+                if($_GET['fr'])
+                {
+                    $fs_gui->setMainFrameSource(
+                        base64_decode(rawurldecode($_GET['fr'])));
+                }
+                else
+                {
+                    $fs_gui->setMainFrameSource(
+                        $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+                }
 			}
 			$this->ctrl->setParameter($this, "expand", "1");
 			$fs_gui->setSideFrameSource(

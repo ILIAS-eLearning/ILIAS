@@ -129,7 +129,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 			$this->lng->txt("crs_mem_send_mail").
 			"\" title=\"".$this->lng->txt("crs_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		
-		
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		foreach($this->trustee_obj->getTrustees() as $trustee)
 		{
 			// GET USER OBJ
@@ -161,9 +161,10 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 															 true);
 
 #				$link_mail = "<a target=\"_blank\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
-#					$tmp_obj->getLogin()."\"".$img_mail."</a>";
-				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
-					$tmp_obj->getLogin()."\">".$this->lng->txt("mail")."</a></div>";
+#					$tmp_obj->getLogin()."\"".$img_mail."</a>";                
+                $url_mail = ilMailFormCall::_getLinkTarget($this, '', array(), array('type' => 'new', 'rcp_to' => urlencode($tmp_obj->getLogin())));
+				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".
+					$url_mail."\">".$this->lng->txt("mail")."</a></div>";
 				
 				$f_result[$counter]['options']	= $link_mail;
 

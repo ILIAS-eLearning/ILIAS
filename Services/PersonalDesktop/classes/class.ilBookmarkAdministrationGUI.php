@@ -781,7 +781,9 @@ return;
 						 '','','','','',
 						 '',
 						 '', 0);
-		ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=attach');
+
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, '', array(), array('type' => 'attach')));
 	}
 	/**
 	* display deletion conformation screen

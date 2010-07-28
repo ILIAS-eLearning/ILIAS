@@ -212,7 +212,8 @@ class ilPublicUserProfileGUI
 			$mail_to)
 		);
 		*/
-		$tpl->setVariable('MAIL_USR_LOGIN',urlencode($user->getLogin()));
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
 
 		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
 		$tpl->setVariable("FIRSTNAME", $user->getUTitle()." ".$user->getFirstName());

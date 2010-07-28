@@ -1497,7 +1497,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		ilUtil::redirect("ilias.php?baseClass=ilmailgui&type=new&rcp_to=".implode(',',$rcps));
+
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => implode(',',$rcps))));
 		return true;
 	}
 	
@@ -1864,7 +1866,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 
-		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilMailGUI&type=role');
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));

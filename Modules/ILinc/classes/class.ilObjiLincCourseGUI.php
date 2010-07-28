@@ -744,9 +744,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$counter = 0;
 		$result_set = array();
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		foreach($members as $mem)
-		{
-			$link_contact = 'ilias.php?baseClass=ilMailGUI&type=new&rcp_to='.$mem['login'];
+		{            
+            $link_contact = ilMailFormCall::_getLinkTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => $mem['login']));
 			$link_change = $this->ctrl->getLinkTarget($this, 'changeMember').'&mem_id='.$mem['id'];		
 			if(($mem['id'] == $ilUser->getId() && $access_leave) || $access_delete)
 			{
@@ -1631,7 +1632,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$link_data = $this->object->_getLinkToObject( $this->object->getRefId() );
 		$link_to_seminar = ILIAS_HTTP_PATH.'/'.$link_data[0];
 
-		$this->tpl->setVariable('MAILACTION', 'ilias.php?baseClass=ilMailGUI&type=role');
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
 		$this->tpl->setVariable('ADDITIONAL_MESSAGE_TEXT', $link_to_seminar);		
 		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable('OK', $this->lng->txt('ok'));
