@@ -1700,10 +1700,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$val_leave_desc = $this->lng->txt("role_user_deassign");
 		$counter = 0;
 
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		foreach ($assigned_users as $user)
-		{
-			$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($user["login"]);
-			
+		{           
+            $link_contact = ilMailFormCall::_getLinkTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => urlencode($user["login"])));
+
 			if ($_GET["admin_mode"] == "settings"
 				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
 			{
@@ -2627,7 +2628,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		{		
 			$_SESSION['mail_roles'][] = $rbacreview->getRoleMailboxAddress($this->object->getId());
 		}
-		$script = 'ilias.php?baseClass=ilMailGUI&type=role';
+
+        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+        $script = ilMailFormCall::_getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
 		ilUtil::redirect($script);
 	}
 	

@@ -22,6 +22,7 @@
 */
 
 require_once "Services/Mail/classes/class.ilMail.php";
+require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
 * @author Jens Conze
@@ -94,16 +95,19 @@ class ilMailGUI
 
 		if ($_GET["type"] == "attach")
 		{
+            ilMailFormCall::_storeReferer($_GET);
+
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailAttachment");
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}
 
 		if ($_GET["type"] == "new")
 		{
-			$_SESSION['rcp_to'] = $_GET['rcp_to'];
-			
+			$_SESSION['rcp_to'] = $_GET['rcp_to'];			
 			$_SESSION['rcp_cc'] = $_GET['rcp_cc'];
 			$_SESSION['rcp_bcc'] = $_GET['rcp_bcc'];
+
+            ilMailFormCall::_storeReferer($_GET);
 			
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailUser");
 			$this->ctrl->redirectByClass("ilmailformgui");
@@ -147,6 +151,9 @@ class ilMailGUI
 			{
 				$_SESSION['mail_roles'] = array($_GET["role"]);
 			}
+
+            ilMailFormCall::_storeReferer($_GET);
+
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "mailRole");
 			$this->ctrl->redirectByClass("ilmailformgui");
 		}

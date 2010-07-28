@@ -25,6 +25,7 @@ require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
 require_once 'classes/class.ilFileDataMail.php';
+require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
 * @author Jens Conze
@@ -167,7 +168,14 @@ class ilMailFormGUI
 			
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
-			$this->ctrl->redirectByClass('ilmailgui');
+
+            if(ilMailFormCall::_isRefererStored())
+            {
+                ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
+                ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+            }
+            else
+               $this->ctrl->redirectByClass('ilmailgui');
 		}
 
 		$this->showForm();
@@ -212,7 +220,11 @@ class ilMailFormGUI
 			
 			unset($_SESSION["draft"]);
 			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
-			$this->ctrl->redirectByClass("ilmailfoldergui");
+			
+            if(ilMailFormCall::_isRefererStored())
+                ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+            else
+               $this->ctrl->redirectByClass("ilmailfoldergui");
 		}
 		else
 		{
@@ -233,7 +245,11 @@ class ilMailFormGUI
 			{
 				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
 				#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
-				$this->ctrl->redirectByClass("ilmailfoldergui");
+
+                if(ilMailFormCall::_isRefererStored())
+                    ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+                else
+                   $this->ctrl->redirectByClass("ilmailfoldergui");
 			}
 			else
 			{
@@ -818,7 +834,9 @@ class ilMailFormGUI
 		$form_gui->addItem($chb);
 
 		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send'));
-		$form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));
+		$form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));       
+        if(ilMailFormCall::_isRefererStored())
+            $form_gui->addCommandButton('cancelMail', $this->lng->txt('cancel'));
 
 		$this->tpl->parseCurrentBlock();
 
@@ -851,5 +869,13 @@ class ilMailFormGUI
 		echo ilJsonUtil::encode($result);
 		exit;
 	}
+
+    public function cancelMail()
+    {
+        if(ilMailFormCall::_isRefererStored())
+            ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+        else
+            return $this->showForm();
+    }
 }
 ?>

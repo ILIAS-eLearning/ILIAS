@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 
 /**
 * TableGUI class for role administration
@@ -48,6 +49,9 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand("deassignUser", $lng->txt("delete"));
 		$this->getItems();
+
+        // mjansen: Used for mail referer link (@see fillRow). I don't want to create a new instance in each fillRow call.
+        $this->topGuiObj = new ilAdministrationGUI();
 	}
 	
 	/**
@@ -121,8 +125,12 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		
 		$actions->setListTitle($lng->txt('actions'));
 		$actions->setId($user['usr_id']);
-
-		$link_contact = "ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".urlencode($user["login"]);
+        
+		$link_contact = ilMailFormCall::_getLinkTarget(
+            $this->topGuiObj, 'frameset',
+            array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
+            array('type' => 'new', 'rcp_to' => urlencode($user['login']))
+        );
 		$actions->addItem(
 			$lng->txt('message'),
 			'',
