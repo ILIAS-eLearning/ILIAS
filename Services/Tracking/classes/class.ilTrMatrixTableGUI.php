@@ -40,16 +40,28 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn($this->lng->txt("login"), "login");
 
+
 		$labels = $this->getSelectableColumns();
-		foreach ($this->getSelectedColumns() as $c)
+		$selected = $this->getSelectedColumns();
+		foreach ($selected as $c)
 		{
 			$title = $labels[$c]["txt"];
+			$tooltip = "";
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
-				$title = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" title="'.$alt.'" /> '.$title;
+				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" title="'.$alt.'" />';
+				if(sizeof($selected) > 5)
+				{
+					$tooltip = $title;
+					$title = $icon;
+				}
+				else
+				{
+					$title = $icon.' '.$title;
+				}
 			}
-			$this->addColumn($title, $labels[$c]["id"]);
+			$this->addColumn($title, $labels[$c]["id"], "", false, "", $tooltip);
 		}
 	}
 
@@ -73,12 +85,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		}
 		if($this->obj_ids)
 		{
-			
 			foreach($this->obj_ids as $obj_id)
 			{
 				if($obj_id == $this->obj_id)
 				{
-					$columns["obj_".$obj_id] = array("txt" => $this->lng->txt("status"),
+					$parent = array("txt" => $this->lng->txt("status"),
 						"default" => true);
 				}
 				else
@@ -95,24 +106,29 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 							$title = $sess->getPresentationTitle();
 						}
 					}
-					$columns["obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type);
+					$columns["obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true);
 				}
 			}
 			if(sizeof($this->objective_ids))
 			{
 				foreach($this->objective_ids as $obj_id => $title)
 				{
-					$columns["objtv_".$obj_id] = array("txt" => $title);
+					$columns["objtv_".$obj_id] = array("txt" => $title, "default" => true);
 				}
+			}
+
+			if($parent)
+			{
+				$columns["obj_".$this->obj_id] = $parent;
 			}
 		}
 
 		$columns["last_access"] = array("txt" => $this->lng->txt("last_access"), 
 			"id" => "last_access",
-			"default" => true);
+			"default" => false);
 		$columns["spent_seconds"] = array("txt" => $this->lng->txt("trac_spent_seconds"), 
 			"id" => "spent_seconds",
-			"default" => true);
+			"default" => false);
 		
 		return $columns;
 	}
