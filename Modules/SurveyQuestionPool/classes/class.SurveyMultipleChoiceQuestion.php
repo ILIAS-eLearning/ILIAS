@@ -381,10 +381,6 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		$entered_value = $post_data[$this->getId() . "_value"];
 		if (!$this->getObligatory($survey_id)) return "";
 
-		if (!is_array($entered_value))
-		{
-			return $this->lng->txt("question_mr_not_checked");
-		}
 		if ($this->use_min_answers && $this->nr_min_answers > 0 && count($entered_value) < $this->nr_min_answers)
 		{
 			return sprintf($this->lng->txt("err_no_min_answers"), $this->nr_min_answers);
@@ -392,6 +388,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		if ($this->use_min_answers && $this->nr_max_answers > 0 && count($entered_value) > $this->nr_max_answers)
 		{
 			return sprintf($this->lng->txt("err_no_max_answers"), $this->nr_max_answers);
+		}
+		if (!is_array($entered_value))
+		{
+			return $this->lng->txt("question_mr_not_checked");
 		}
 		foreach ($entered_value as $id)
 		{

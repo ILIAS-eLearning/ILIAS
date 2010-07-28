@@ -414,6 +414,7 @@ class ilSurveyExecutionGUI
 			$this->outNavigationButtons("bottom", $page);
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
+		$this->object->setStartTime($_SESSION["finished_id"]);
 	}
 	
 	/**
@@ -432,6 +433,7 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->object->setEndTime($_SESSION["finished_id"]);
 		// check users input when it is a metric question
 		unset($_SESSION["svy_errors"]);
 		$_SESSION["postdata"] = $_POST;
