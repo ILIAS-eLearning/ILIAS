@@ -28,11 +28,6 @@
 	<StyleParameter Name="font-weight" Value="normal"/>
 	<StyleParameter Name="color" Value="blue"/>
 </Style>
-<Style Tag="a" Type="link" Class="GlossaryLink">
-	<StyleParameter Name="text-decoration" Value="underline"/>
-	<StyleParameter Name="font-weight" Value="normal"/>
-	<StyleParameter Name="color" Value="blue"/>
-</Style>
 
 <!-- List Item -->
 <Style Tag="li" Type="list_item" Class="StandardListItem">
