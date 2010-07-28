@@ -3027,3 +3027,27 @@ if(!$ilDB->tableExists('booking_settings'))
 		$ilDB->addTableColumn("svy_qst_mc", "nr_max_answers", array("type" => "integer", "length" => 2, "notnull" => false));
 	}
 ?>
+<#3158>
+<?php
+if(!$ilDB->tableExists('svy_times'))
+{
+	$ilDB->createTable('svy_times',array(
+		'finished_fi'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'entered_page'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		),
+		'left_page'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => false
+		)
+	));
+	$ilDB->addIndex('svy_times',array('finished_fi'),'i1');
+}
+?>

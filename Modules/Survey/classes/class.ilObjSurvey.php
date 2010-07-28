@@ -374,6 +374,10 @@ class ilObjSurvey extends ilObject
 				array('integer'),
 				array($active_fi)
 			);
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_times WHERE finished_fi = %s",
+				array('integer'),
+				array($active_fi)
+			);
 		}
 	}
 	
@@ -402,6 +406,11 @@ class ilObjSurvey extends ilObject
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_finished WHERE finished_id = %s",
 				array('integer'),
 				array($finished_id)
+			);
+
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_times WHERE finished_fi = %s",
+				array('integer'),
+				array($row["finished_id"])
 			);
 		}
 	}
@@ -4997,5 +5006,28 @@ class ilObjSurvey extends ilObject
 	{
 		$this->mailparticipantdata = $a_data;
 	}
+	
+	function setStartTime($finished_id)
+	{
+		global $ilDB;
+		$time = time();
+		$_SESSION['svy_entered_page'] = $time;
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_times (finished_fi, entered_page, left_page) VALUES (%s, %s, %s)",
+			array('integer', 'integer', 'integer'),
+			array($finished_id, $time, NULL)
+		);
+	}
+	
+	function setEndTime($finished_id)
+	{
+		global $ilDB;
+		$time = time();
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_times SET left_page = %s WHERE finished_fi = %s AND entered_page = %s",
+			array('integer', 'integer', 'integer'),
+			array($time, $finished_id, $_SESSION['svy_entered_page'])
+		);
+		unset($_SESSION['svy_entered_page']);
+	}
+	
 } // END class.ilObjSurvey
 ?>
