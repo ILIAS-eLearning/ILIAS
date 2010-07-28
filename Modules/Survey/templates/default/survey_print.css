@@ -182,6 +182,11 @@ table.freefield_bottom {
 	border-width: 1px;
 }
 
+.surveyhint {
+	font-size: 80%;
+	font-style: italic;
+}
+
 .surveySheet {
 	/* page-break-after: always;*/
 }

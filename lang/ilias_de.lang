@@ -10570,6 +10570,9 @@ survey#:#please_enter_mail_message#:#Bitte geben Sie einen Nachrichteninhalt ein
 survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
 survey#:#mail_sent_short#:#Versendet
 survey#:#finished_mail_subject#:#Die Umfrage wurde beendet
+survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antworten
+survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten
+survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_date_booked#:#gebucht

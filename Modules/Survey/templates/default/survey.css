@@ -32,6 +32,15 @@
 	border: none;
 }
 
+.matrixother {
+	width: 100%;
+}
+
+.surveyhint {
+	font-size: 80%;
+	font-style: italic;
+}
+
 table.matrix
 {
 	border: none;

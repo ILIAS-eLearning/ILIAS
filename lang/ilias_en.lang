@@ -10650,6 +10650,9 @@ survey#:#please_enter_mail_message#:#Please enter a mail message
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey was finished
+survey#:#msg_min_nr_answers#:#Please select at least %s answers
+survey#:#msg_max_nr_answers#:#Please select at most %s answers
+survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_date_booked#:#booked
