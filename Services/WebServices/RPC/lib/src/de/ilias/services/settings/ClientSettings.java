@@ -80,6 +80,7 @@ public class ClientSettings {
 		}
 		int posUnderscore;
 		if((posUnderscore = clientKey.lastIndexOf("_")) == -1) {
+			logger.error("Cannot parse client key: " + clientKey);
 			throw new ConfigurationException("Cannot parse client key: " + clientKey);
 		}
 		
@@ -156,8 +157,8 @@ public class ClientSettings {
 		logger.debug("ILIAS data directory: " + dataDirectory);
 		this.dataDirectory = new File(dataDirectory);
 		if(!this.dataDirectory.canRead()) {
-			logger.error("Error reading ILIAS ini file.");
-			throw new ConfigurationException("Cannot read ILIAS data directory");
+			logger.error("Cannot read ILIAS data directory: " + this.dataDirectory.getAbsolutePath());
+			throw new ConfigurationException("Error reading ILIAS data directory.");
 		}
 	}
 	
@@ -177,8 +178,8 @@ public class ClientSettings {
 		logger.debug("ILIAS absolute path: " + absolutePath);
 		this.absolutePath = new File(absolutePath);
 		if(!this.absolutePath.canRead()) {
-			logger.error("Error reading absolute path.");
-			throw new ConfigurationException("Cannot read ILIAS absolute path.");
+			logger.error("Cannot read ILIAS absolute path: " + this.absolutePath.getAbsolutePath());
+			throw new ConfigurationException("Error reading ILIAS absolute path.");
 		}
 	}
 
@@ -200,8 +201,8 @@ public class ClientSettings {
 		logger.debug("ILIAS client ini path: " + clientIniFile.getAbsolutePath());
 		
 		if(!clientIniFile.canRead()) {
-			logger.error("Error reading client ini file.");
-			throw new ConfigurationException("Cannot read ILIAS absolute path.");
+			logger.error("Error reading client ini file: " + clientIniFile.getAbsolutePath());
+			throw new ConfigurationException("Cannot read ILIAS client ini file.");
 		}
 	}
 
@@ -214,12 +215,15 @@ public class ClientSettings {
 		this.iliasIniFile = new File(iliasIniFile);
 
 		if (!this.iliasIniFile.isAbsolute()) {
+			logger.error("Absolute path required: " + iliasIniFile);
 			throw new ConfigurationException("Absolute path required: " + iliasIniFile);
 		}
 		if (!this.iliasIniFile.canWrite()) {
+			logger.error("Path not writable: " + iliasIniFile);
 			throw new ConfigurationException("Path not writable: " + iliasIniFile);
 		}
 		if (this.iliasIniFile.isDirectory()) {
+			logger.error("Directory name given: " + iliasIniFile);
 			throw new ConfigurationException("Directory name given: " + iliasIniFile);
 		}
 	}
