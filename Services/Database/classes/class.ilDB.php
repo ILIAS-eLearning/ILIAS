@@ -2024,7 +2024,7 @@ abstract class ilDB extends PEAR
 		}
 		// Performance fix
 
-		if($a_type == 'integer')
+		if($a_type == 'integer' && !is_null($a_query))
 		{
 			return (int) $a_query;
 		}
