@@ -751,6 +751,11 @@ class ilTable2GUI extends ilTableGUI
 				{
 					$this->selected_filter[$k] = true;
 				}
+				else
+				{
+					$item->setValue(NULL);
+					$item->writeToSession();
+				}
 			}
 			else if ($stored)	// take stored values
 			{
