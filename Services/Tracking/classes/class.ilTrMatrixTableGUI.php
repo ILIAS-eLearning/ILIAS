@@ -40,7 +40,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn($this->lng->txt("login"), "login");
 
-
 		$labels = $this->getSelectableColumns();
 		$selected = $this->getSelectedColumns();
 		foreach ($selected as $c)
@@ -50,7 +49,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
-				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" title="'.$alt.'" />';
+				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
 				if(sizeof($selected) > 5)
 				{
 					$tooltip = $title;
@@ -63,6 +62,8 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			}
 			$this->addColumn($title, $labels[$c]["id"], "", false, "", $tooltip);
 		}
+		
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 	}
 
 	function initFilter()
