@@ -346,7 +346,7 @@ class ilObjectCustomUserFieldsGUI
 		$ty->addOption($ty_se);
 		
 		//			Select Type Values
-		$ty_se_mu = new ilTextWizardInputGUI($this->lng->txt('ps_cdf_values'),'va');
+		$ty_se_mu = new ilTextWizardInputGUI($this->lng->txt('ps_cdf_value'),'va');
 		$ty_se_mu->setRequired(true);
 		$ty_se_mu->setSize(32);
 		$ty_se_mu->setMaxLength(128);

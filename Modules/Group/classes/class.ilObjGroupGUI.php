@@ -202,7 +202,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilobjectcustomuserfieldsgui':
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
-				$this->setSubTabs('properties');
+				$this->setSubTabs('settings');
 				$this->tabs_gui->setTabActive('settings');
 				$this->ctrl->forwardCommand($cdf_gui);
 				break;
