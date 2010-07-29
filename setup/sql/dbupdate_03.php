@@ -3059,3 +3059,32 @@ if(!$ilDB->tableExists('svy_times'))
 	$query = 'UPDATE rbac_operations SET op_order = '.$ilDB->quote(9999,'integer').' WHERE class = '.$ilDB->quote('create','text');
 	$ilDB->manipulate($query);
 ?>
+
+<#3160>
+<?php
+
+// add create operation for booking pools
+
+$ops_id = $ilDB->nextId('rbac_operations');
+
+$query = 'INSERT INTO rbac_operations (ops_id, operation, class, description, op_order)'.
+	' VALUES ('.$ilDB->quote($ops_id,'integer').','.$ilDB->quote('create_book','text').
+	','.$ilDB->quote('create','text').','.$ilDB->quote('create booking pool','text').
+	','.$ilDB->quote(9999,'integer').')';
+$ilDB->query($query);
+
+// add create booking pool for root,crs,cat,fold and grp
+foreach(array('cat', 'crs', 'grp', 'fold', 'root') as $type)
+{
+	$query = 'SELECT obj_id FROM object_data WHERE type='.$ilDB->quote('typ','text').
+		' AND title='.$ilDB->quote($type,'text');
+	$res = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($res);
+	$typ_id = $row['obj_id'];
+
+	$query = 'INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('.$ilDB->quote($typ_id,'integer').
+		','.$ilDB->quote($ops_id,'integer').')';
+	$ilDB->query($query);
+}
+
+?>
