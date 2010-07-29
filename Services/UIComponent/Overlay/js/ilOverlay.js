@@ -10,8 +10,9 @@ ilOverlayFunc.prototype =
 	widthFixed: {},
 	trigger: {},
 	closeCnt: {},
+	closeProcessRunning: {},
 	toggle: {},
-	waitMouseOut: 10,
+	waitMouseOut: 20,
 	waitAfterClicked: 20,
 	
 	add: function (id, cfg)
@@ -102,6 +103,7 @@ ilOverlayFunc.prototype =
 			YAHOO.util.Event.preventDefault(e);
 		}
 		this.closeCnt[id] = -1;
+		this.closeProcessRunning[id] = false;
 
 		var toggle_el = this.getCfg(id, 'toggle_el');
 		var toggle_class_on = this.getCfg(id, 'toggle_class_on');
@@ -258,13 +260,17 @@ ilOverlayFunc.prototype =
 		if (this.getCfg(id, 'auto_hide'))
 		{
 			this.closeCnt[id] = this.waitMouseOut;
-			this.closeProcess(id);
+			if (!this.closeProcessRunning[id])
+			{
+//console.log("Starting Process");
+				this.closeProcess(id);
+			}
 		}
 	},
 	
 	closeProcess: function (id)
 	{
-//console.log(this.closeCnt);
+//console.log(this.closeCnt[id]);
 		if (this.closeCnt[id] > -1) 
 		{
 			this.closeCnt[id]--;
@@ -276,6 +282,11 @@ ilOverlayFunc.prototype =
 		if (this.closeCnt[id] > -1)
 		{
 			setTimeout("ilOverlay.closeProcess('" + id + "')", 200);
+			this.closeProcessRunning[id] = true;
+		}
+		else
+		{
+			this.closeProcessRunning[id] = false;
 		}
 	},
 
