@@ -1775,10 +1775,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 				// only show if export permission is granted
-				$privacy = ilPrivacySettings::_getInstance();
-				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
-					($privacy->enabledCourseExport() or
-						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
+				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId()))
 				{
 					$this->tabs_gui->addSubTabTarget('crs_custom_user_fields',
 													$this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
@@ -1839,10 +1836,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
-				$privacy = ilPrivacySettings::_getInstance();
-				// only show export tab when write AND export permission pis granted
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()) 
-					&& $privacy->enabledCourseExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
+				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('export_members',
 													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'),
@@ -4503,7 +4497,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilmemberexportgui':
-				include_once('./Modules/Course/classes/Export/class.ilMemberExportGUI.php');
+				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
 				
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
