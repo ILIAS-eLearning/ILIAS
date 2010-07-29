@@ -10799,3 +10799,8 @@ grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratore
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
 grp#:#grp_user_agreement#:#Freigegebene Daten
 grp#:#grp_agree#:#Zustimmung
+trac#:#registration_filter#:#Registrierungsdatum
+trac#:#user_total#:#Anzahl Benutzer
+trac#:#create_date_min#:#Früheste Registrierung
+trac#:#create_date_max#:#Späteste Registrierung
+trac#:#read_count_avg#:#Durchschnitt Seitenaufrufe

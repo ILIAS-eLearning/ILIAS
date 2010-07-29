@@ -10795,3 +10795,8 @@ grp#:#grp_info_agreement#:#The following data types are visible for group admini
 grp#:#grp_agreement_header#:#User Agreement
 grp#:#grp_user_agreement#:#Released Data Types
 grp#:#grp_agree#:#Acceptance
+trac#:#registration_filter#:#Date of Registration
+trac#:#user_total#:#User Total
+trac#:#create_date_min#:#Earliest Registration
+trac#:#create_date_max#:#Latest Registration
+trac#:#read_count_avg#:#Average page views
