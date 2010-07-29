@@ -10784,3 +10784,12 @@ book#:#book_set_in_use#:#Ist in Benutzung
 book#:#book_set_not_in_use#:#Nicht in Benutzung
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_not_cancel#:#Stornierung aufheben
+common#:#book_edit_permission#:#Rechteeinstellungen ändern
+common#:#book_visible#:#Buchungspool sichtbar
+common#:#book_read#:#Lesezugriff auf Buchungspool
+common#:#book_write#:#Buchungspool bearbeiten
+rbac#:#cat_create_book#:#Buchungspool anlegen
+rbac#:#grp_create_book#:#Buchungspool anlegen
+rbac#:#fold_create_book#:#Buchungspool anlegen
+rbac#:#crs_create_book#:#Buchungspool anlegen
+rbac#:#root_create_book#:#Buchungspool anlegen
