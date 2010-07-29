@@ -2881,10 +2881,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 				include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 				// only show if export permission is granted
-				$privacy = ilPrivacySettings::_getInstance();
-				if($rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()) and
-					($privacy->enabledCourseExport() or
-						ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())))
+				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId()))
 				{
 					$this->tabs_gui->addSubTabTarget('grp_custom_user_fields',
 													$this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
