@@ -1688,7 +1688,7 @@ class ilTable2GUI extends ilTableGUI
 			$cb_over->setFormCmd($this->getParentCmd());
 			$cb_over->setFieldVar("tblff".$this->getId());
 			$cb_over->setHiddenVar("tblfsf".$this->getId());
-			
+
 			$cb_over->setSelectionHeaderClass("ilTableMenuItem");
 			$this->tpl->setCurrentBlock("filter_select");
 			$this->tpl->setVariable("FILTER_SELECTOR", $cb_over->getHTML());
@@ -1696,7 +1696,7 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		// if any filter
-		if($ccnt > 0)
+		if($ccnt > 0 || count($opt_filter) > 0)
 		{
 			if ($ccnt < $this->getFilterCols())
 			{

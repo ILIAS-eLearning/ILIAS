@@ -171,7 +171,7 @@ class ilObjFileListGUI extends ilObjectListGUI
                 // the filename extension is missing
 		if (! preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title))
 			{
-				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
 					"value" => $lng->txt("filename_extension_missing"),
 					'propertyNameVisible' => false);
 			} 
