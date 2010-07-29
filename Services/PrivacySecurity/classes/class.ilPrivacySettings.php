@@ -98,25 +98,24 @@ class ilPrivacySettings
 	}
 	
 	/**
+	 * Check if a user has the permission to access approved user profile fields, course related user data and custom user data
 	 * @todo rename
 	 * @param object $a_ref_id
 	 * @return 
 	 */
-	public function checkExportAccess($a_ref_id)
+	public function checkExportAccess($a_ref_id,$a_user_id = 0)
 	{
 		global $ilUser,$ilAccess,$rbacsystem;
 		
+		$user_id = $a_user_id ? $a_user_id : $ilUser->getId();
+		
 		if(ilObject::_lookupObjId(ilObject::_lookupType($a_ref_id)) == 'crs')
 		{
-			return $this->enabledCourseExport() and 
-				!$this->courseConfirmationRequired() or 
-				($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+			return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id,'write','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
 		}
 		else
 		{
-			return $this->enabledGroupExport() and 
-				!$this->groupConfirmationRequired() or 
-				($ilAccess->checkAccess('write','',$a_ref_id) and $rbacsystem->checkAccess('export_member_data',$this->getPrivacySettingsRefId()));
+			return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id,'write','',$a_ref_id) and $rbacsystem->checkAccessOfUser($user_id,'export_member_data',$this->getPrivacySettingsRefId());
 		}		
 	}
 
