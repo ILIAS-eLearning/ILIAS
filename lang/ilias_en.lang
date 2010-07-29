@@ -10789,6 +10789,7 @@ rbac#:#grp_create_book#:#Create Booking Pool
 rbac#:#fold_create_book#:#Create Booking Pool
 rbac#:#crs_create_book#:#Create Booking Pool
 rbac#:#root_create_book#:#Create Booking Pool
+common#:#optional_filter_hint#:#Please activate one of the optional filters.
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:
 grp#:#grp_agreement_header#:#User Agreement
