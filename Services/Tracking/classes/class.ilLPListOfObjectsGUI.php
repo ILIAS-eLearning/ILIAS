@@ -182,6 +182,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function __showUsersList()
 	{
+		if($this->isAnonymized())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
+			return;
+		}
+
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
@@ -194,6 +200,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	function userDetails()
 	{
 		global $ilObjDataCache;
+
+		if($this->isAnonymized())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
+			return;
+		}
 
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
@@ -297,6 +309,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	function showUserObjectMatrix()
 	{
 		global $tpl;
+
+		if($this->isAnonymized())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
+			return;
+		}
 
 		include_once("./Services/Tracking/classes/class.ilTrMatrixTableGUI.php");
 		$table = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->getRefId());
