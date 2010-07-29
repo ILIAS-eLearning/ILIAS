@@ -208,9 +208,12 @@ class ilLearningProgressBaseGUI
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
 
-					$this->tabs_gui->addSubTabTarget("trac_matrix",
-													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-													"", "", "", $a_active == LP_ACTIVE_MATRIX);
+					if(!$this->isAnonymized())
+					{
+						$this->tabs_gui->addSubTabTarget("trac_matrix",
+														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
+														"", "", "", $a_active == LP_ACTIVE_MATRIX);
+					}
 
 					$this->tabs_gui->addSubTabTarget("trac_summary",
 													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
