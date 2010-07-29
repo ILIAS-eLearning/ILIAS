@@ -42,6 +42,7 @@ class ilMemberExportGUI
 {
 	private $ref_id;
 	private $obj_id;
+	private $type;
 	private $ctrl;
 	private $tpl;
 	private $lng;
@@ -65,6 +66,7 @@ class ilMemberExportGUI
 		$this->lng->loadLanguageModule('ps');
 	 	$this->ref_id = $a_ref_id;
 	 	$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+		$this->type = ilObject::_lookupType($this->obj_id);
 	 	
 	 	$this->fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
 	}
@@ -81,8 +83,9 @@ class ilMemberExportGUI
 		global $ilAccess,$rbacsystem;
 
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-		if(ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
+		if(!ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
 		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		
@@ -152,7 +155,7 @@ class ilMemberExportGUI
 		}
 		
 		$udf = ilUserDefinedFields::_getInstance();
-		foreach($course_exp = $udf->getCourseExportableFields() as $field_id => $udf_data)
+		foreach($exp = $udf->getExportableFields($this->obj_id) as $field_id => $udf_data)
 		{
 			$this->tpl->setCurrentBlock('user_data_row');
 			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled('udf_'.$field_id),
@@ -175,7 +178,7 @@ class ilMemberExportGUI
 		if(count($cdf_fields))
 		{
 			$this->tpl->setCurrentBlock('cdf_fields');
-			$this->tpl->setVariable('TXT_CDF_SELECTION',$this->lng->txt('ps_crs_user_fields'));
+			$this->tpl->setVariable('TXT_CDF_SELECTION',$this->lng->txt('ps_'.$this->type.'_user_fields'));
 			$this->tpl->parseCurrentBlock();
 		}
 		
