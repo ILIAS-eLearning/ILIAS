@@ -205,6 +205,25 @@ class ilUserDefinedFields
 		}
 		return $cexp_definition ? $cexp_definition : array();
 	}
+	
+	/**
+	 * Get exportable field
+	 * @param int $a_obj_id
+	 * @return 
+	 */
+	public function getExportableFields($a_obj_id)
+	{
+		if(ilObject::_lookupType($a_obj_id) == 'crs')
+		{
+			return $this->getCourseExportableFields();
+		}
+		if(ilObject::_lookupType($a_obj_id) == 'grp')
+		{
+			return $this->getGroupExportableFields();
+		}
+		return array();
+	}
+	
 
 	function setFieldName($a_name)
 	{
