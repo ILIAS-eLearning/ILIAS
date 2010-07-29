@@ -55,6 +55,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
+
 		$this->initFilter();
 
 		$this->getItems();

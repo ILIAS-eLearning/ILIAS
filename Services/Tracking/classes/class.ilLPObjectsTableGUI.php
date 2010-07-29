@@ -60,6 +60,8 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$this->setSelectAllCheckbox("item_id");
 
 		$this->addMultiCommand("hideSelected", $lng->txt("trac_hide_selected"));
+
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 		
 		$this->getItems();
 	}

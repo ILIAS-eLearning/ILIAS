@@ -215,17 +215,21 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$user_id = (int)$_GET["user_id"];
 		$this->ctrl->setParameter($this, "user_id", $user_id);
 
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
+
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($this->ctrl->getFormAction($this));
 		$this->__showObjectDetails($info, $this->details_obj_id);
 		$this->__appendUserInfo($info, $user_id);
 		// $this->__appendLPDetails($info,$this->details_obj_id,$user_id);
+		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 
 		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
 		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", $user_id,
 			$this->details_obj_id, $this->details_id);
-		$this->tpl->setContent($info->getHTML().$table->getHTML());
+		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
+		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 	}
 
 	function show()
@@ -271,6 +275,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$lp_table = new ilLPObjectsTableGUI($this, "");
 		
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
+		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 	}
 
 	function __initDetails($a_details_id)
@@ -316,9 +321,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			return;
 		}
 
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($this->ctrl->getFormAction($this));
+		$this->__showObjectDetails($info, $this->details_obj_id);
+		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
+
 		include_once("./Services/Tracking/classes/class.ilTrMatrixTableGUI.php");
 		$table = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->getRefId());
-		$tpl->setContent($table->getHTML());
+		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
+		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 	}
 }
 ?>
