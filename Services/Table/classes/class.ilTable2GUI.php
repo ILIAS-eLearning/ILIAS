@@ -1698,23 +1698,33 @@ class ilTable2GUI extends ilTableGUI
 		// if any filter
 		if($ccnt > 0 || count($opt_filter) > 0)
 		{
-			if ($ccnt < $this->getFilterCols())
-			{
-				for($i = $ccnt; $i<=$this->getFilterCols(); $i++)
-				{
-					$this->tpl->touchBlock("filter_empty_cell");
-				}
-			}
-			$this->tpl->setCurrentBlock("filter_row");
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("filter_buttons");
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
-			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
-			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
-			$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
-			$this->tpl->setVariable("TXT_RESET", $lng->txt("reset_filter"));
+			
+			if($ccnt > 0)
+			{
+				if ($ccnt < $this->getFilterCols())
+				{
+					for($i = $ccnt; $i<=$this->getFilterCols(); $i++)
+					{
+						$this->tpl->touchBlock("filter_empty_cell");
+					}
+				}
+				$this->tpl->setCurrentBlock("filter_row");
+				$this->tpl->parseCurrentBlock();
 
+				$this->tpl->setCurrentBlock("filter_buttons");				
+				$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
+				$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
+				$this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
+				$this->tpl->setVariable("TXT_RESET", $lng->txt("reset_filter"));
+			}
+			else if(count($opt_filter) > 0)
+			{
+				$this->tpl->setCurrentBlock("optional_filter_hint");
+				$this->tpl->setVariable('TXT_OPT_HINT', $lng->txt('optional_filter_hint'));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("filter_section");
 			$this->tpl->setVariable("FIL_ID", $this->getId());
 			$this->tpl->parseCurrentBlock();

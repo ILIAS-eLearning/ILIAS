@@ -10793,6 +10793,7 @@ rbac#:#grp_create_book#:#Buchungspool anlegen
 rbac#:#fold_create_book#:#Buchungspool anlegen
 rbac#:#crs_create_book#:#Buchungspool anlegen
 rbac#:#root_create_book#:#Buchungspool anlegen
+common#:#optional_filter_hint#:#Bitte aktivieren Sie einen der optionalen Filter.
 grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
 grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
