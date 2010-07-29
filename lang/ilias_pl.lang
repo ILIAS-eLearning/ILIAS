@@ -10758,12 +10758,8 @@ dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this re
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.###19 07 2010 new variable
 book#:#book_reservation_confirmed#:#Your booking has been confirmed.###19 07 2010 new variable
 book#:#book_reservation_failed#:#Your booking has failed.###19 07 2010 new variable
-book#:#book_reservation_status_1#:#Reserved###19 07 2010 new variable
 book#:#book_reservation_status_2#:#In Use###19 07 2010 new variable
-book#:#book_reservation_status_3#:#Overdue###19 07 2010 new variable
-book#:#book_reservation_status_4#:#Returned###19 07 2010 new variable
 book#:#book_reservation_status_5#:#Cancelled###19 07 2010 new variable
-book#:#book_reservation_status_6#:#Blocked###19 07 2010 new variable
 book#:#book_period#:#Period###19 07 2010 new variable
 book#:#book_change_status#:#Change Status###19 07 2010 new variable
 book#:#book_reservation_cancel#:#Cancel###19 07 2010 new variable
@@ -10773,3 +10769,36 @@ book#:#book_reservations_list#:#Reservations###19 07 2010 new variable
 book#:#book_cal_entry#:#Booking of:###19 07 2010 new variable
 dateplaner#:#cal_ch_booking#:#Ressource Booking###19 07 2010 new variable
 dateplaner#:#cal_ch_personal_book#:#Personal Booking###19 07 2010 new variable
+survey#:#nr_max_answers#:#Maximum###28 07 2010 new variable
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater than the minimum value and less or equal than the maximum number of answers.###28 07 2010 new variable
+survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.###28 07 2010 new variable
+survey#:#err_no_max_answers#:#Please check at most %s answers.###28 07 2010 new variable
+survey#:#msg_min_nr_answers#:#Please select at least %s answers###28 07 2010 new variable
+survey#:#msg_max_nr_answers#:#Please select at most %s answers###28 07 2010 new variable
+survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers###28 07 2010 new variable
+survey#:#workingtime#:#Working time###28 07 2010 new variable
+ps#:#ps_cdf_data_fields#:#Available User Fields###28 07 2010 new variable
+ps#:#ps_cdf_edit_field#:#Edit Data Field###28 07 2010 new variable
+rbac#:#perm_global_role#:#Global Role###28 07 2010 new variable
+rbac#:#perm_protected_global_role#:#Protected Global Role###28 07 2010 new variable
+rbac#:#perm_protected_local_role#:#Protected Local Role###28 07 2010 new variable
+rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"###28 07 2010 new variable
+rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"###28 07 2010 new variable
+book#:#book_public_log#:#Public Reservations###28 07 2010 new variable
+book#:#book_public_log_info#:#The list of reservations can be viewed by all users.###28 07 2010 new variable
+book#:#book_fromto#:#Date Range###28 07 2010 new variable
+book#:#book_all#:#Show all###28 07 2010 new variable
+book#:#book_earlier#:#Earlier###28 07 2010 new variable
+book#:#book_later#:#Later###28 07 2010 new variable
+grp#:#grp_info_new_grp_type#:#New Group Type###28 07 2010 new variable
+grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators###28 07 2010 new variable
+rbac#:#read_users#:#Read Access to Local User Accounts###28 07 2010 new variable
+rbac#:#cat_administrate_users#:#Administrate Local User Accounts###28 07 2010 new variable
+rbac#:#edit_permission#:#Change Permissions###28 07 2010 new variable
+rbac#:#edit_event#:#Edit Calendar###28 07 2010 new variable
+book#:#book_slots_no#:#Number of slots###28 07 2010 new variable
+book#:#book_slots_no_info#:#Available number of slots per day in schedule###28 07 2010 new variable
+book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
+book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
+book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
+book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable

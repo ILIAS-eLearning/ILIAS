@@ -130,7 +130,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
 				if(ilPaymentObject::_isBuyable($this->ref_id) && 
 				   !ilPaymentObject::_hasAccess($this->ref_id))
-				{					
+				{
 					$frame = '';
 				}
 				else
