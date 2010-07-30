@@ -343,5 +343,70 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
 	}
 
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		$worksheet->write($a_row, 0, $this->lng->txt("login"));
+
+		$labels = $this->getSelectableColumns();
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
+			$cnt++;
+		}
+	}
+
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		$worksheet->write($a_row, 0, $a_set["login"]);
+
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if($c != 'status')
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+			}
+			else
+			{
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
+			}
+			$worksheet->write($a_row, $cnt, $val);
+			$cnt++;
+		}
+	}
+
+	protected function fillHeaderCSV($a_csv)
+	{
+		$a_csv->addColumn($this->lng->txt("login"));
+
+		$labels = $this->getSelectableColumns();
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			$a_csv->addColumn($labels[$c]["txt"]);
+		}
+
+		$a_csv->addRow();
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($a_set["login"]);
+
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if($c != 'status')
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+			}
+			else
+			{
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
+			}
+			$a_csv->addColumn($val);
+		}
+		
+		$a_csv->addRow();
+	}
 }
 ?>

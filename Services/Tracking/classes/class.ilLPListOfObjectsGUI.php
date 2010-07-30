@@ -320,6 +320,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			return;
 		}
+		
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 

@@ -2732,25 +2732,33 @@ class ilTable2GUI extends ilTableGUI
 					$workbook = $adapter->getWorkbook();
 					$worksheet = $workbook->addWorksheet();
 					$row = 0;
+					
+					ob_start();
 					$this->fillHeaderExcel($worksheet, $row);
 					foreach($this->row_data as $set)
 					{
 						$row++;
 						$this->fillRowExcel($worksheet, $row, $set);
 					}
-					$workbook->close();
+					ob_end_clean();
+
+					$workbook->close();					
 					break;
 
 				case self::EXPORT_CSV:
 					include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
 				    $csv = new ilCSVWriter();
 					$csv->setSeparator(";");
+
+					ob_start();
 					$this->fillHeaderCSV($csv);
 					foreach($this->row_data as $set)
 					{
 						$row++;
 						$this->fillRowCSV($csv, $set);
 					}
+					ob_end_clean();
+
 					if($send)
 					{
 						$filename .= ".csv";
@@ -2789,7 +2797,7 @@ class ilTable2GUI extends ilTableGUI
 		foreach ($this->column as $column)
 		{
 			$col++;
-			$worksheet->write($a_row, $col, $column["text"]);
+			$worksheet->write($a_row, $col, strip_tags($column["text"]));
 		}
 		$a_row++;
 	}
@@ -2808,7 +2816,11 @@ class ilTable2GUI extends ilTableGUI
 		foreach ($a_set as $key => $value)
 		{
 			$col++;
-			$a_worksheet->write($a_row, $col, $value);
+			if(is_array($value))
+			{
+				$value = implode(', ', $value);
+			}
+			$a_worksheet->write($a_row, $col, strip_tags($value));
 		}
 	}
 
@@ -2822,7 +2834,7 @@ class ilTable2GUI extends ilTableGUI
 	{
 		foreach ($this->column as $column)
 		{
-			$a_csv->addColumn($column["text"]);
+			$a_csv->addColumn(strip_tags($column["text"]));
 		}
 		$a_csv->addRow();
 	}
@@ -2838,7 +2850,11 @@ class ilTable2GUI extends ilTableGUI
 	{
 		foreach ($a_set as $key => $value)
 		{
-			$a_csv->addColumn($value);
+			if(is_array($value))
+			{
+				$value = implode(', ', $value);
+			}
+			$a_csv->addColumn(strip_tags($value));
 		}
 		$a_csv->addRow();
 	}

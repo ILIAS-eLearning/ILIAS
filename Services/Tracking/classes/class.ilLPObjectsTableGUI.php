@@ -130,6 +130,80 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		$worksheet->write($a_row, 0, $this->lng->txt("type"));
+		$worksheet->write($a_row, 1, $this->lng->txt("trac_title"));
+		$worksheet->write($a_row, 2, ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_NOT_ATTEMPTED_NUM));
+		$worksheet->write($a_row, 3, ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_IN_PROGRESS_NUM));
+		$worksheet->write($a_row, 4, ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_COMPLETED_NUM));
+		$worksheet->write($a_row, 5, ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_FAILED_NUM));
+		// $worksheet->write($a_row, 6, $this->lng->txt("path"));
+	}
+
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		$worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
+		$worksheet->write($a_row, 1, $a_set["title"]);
+		$worksheet->write($a_row, 2, $a_set["status_not_attempted"]);
+		$worksheet->write($a_row, 3, $a_set["status_in_progress"]);
+		$worksheet->write($a_row, 4, $a_set["status_completed"]);
+		$worksheet->write($a_row, 5, $a_set["status_failed"]);
+		
+		/*
+		// path
+		$path = $this->buildPath($a_set["ref_ids"]);
+		if($path)
+		{
+			$col = 6;
+			foreach($path as $path_item)
+			{
+				$worksheet->write($a_row, $col, strip_tags($path_item));
+				$col++;
+			}
+		}
+		*/
+
+	}
+
+	protected function fillHeaderCSV($a_csv)
+	{
+		$a_csv->addColumn($this->lng->txt("type"));
+		$a_csv->addColumn($this->lng->txt("trac_title"));
+		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_NOT_ATTEMPTED_NUM));
+		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_IN_PROGRESS_NUM));
+		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_COMPLETED_NUM));
+		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText(LP_STATUS_FAILED_NUM));
+		// $a_csv->addColumn($this->lng->txt("path"));
+		$a_csv->addRow();
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($this->lng->txt($a_set["type"]));
+		$a_csv->addColumn($a_set["title"]);
+		$a_csv->addColumn($a_set["status_not_attempted"]);
+		$a_csv->addColumn($a_set["status_in_progress"]);
+		$a_csv->addColumn($a_set["status_completed"]);
+		$a_csv->addColumn($a_set["status_failed"]);
+
+		/*
+		// path
+		$path = $this->buildPath($a_set["ref_ids"]);
+		if($path)
+		{
+			$col = 6;
+			foreach($path as $path_item)
+			{
+				$a_csv->addColumn(strip_tags($path_item));
+				$col++;
+			}
+		}
+		*/
+
+		$a_csv->addRow();
+	}
 }
 
 ?>

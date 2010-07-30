@@ -229,6 +229,106 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			}
 		}
 	}
+
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		global $ilObjDataCache;
+		
+		$worksheet->write($a_row, 0, $this->lng->txt("login"));
+
+		$labels = $this->getSelectableColumns();
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(substr($c, 0, 4) == "obj_")
+			{
+				$obj_id = substr($c, 4);
+				$type = $ilObjDataCache->lookupType($obj_id);
+				$worksheet->write($a_row, $cnt, "(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
+			}
+			else
+			{
+				$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
+			}
+			$cnt++;
+		}
+	}
+
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		$worksheet->write($a_row, 0, $a_set["login"]);
+
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(in_array($c, array('last_access', 'spent_seconds')))
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+			}
+			else if(substr($c, 0, 4) == "obj_")
+			{
+				$obj_id = substr($c, 4);
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+			}
+			else
+			{
+				$obj_id = substr($c, 6);
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+			}
+			$worksheet->write($a_row, $cnt, $val);
+			$cnt++;
+		}
+	}
+
+	protected function fillHeaderCSV($a_csv)
+	{
+		global $ilObjDataCache;
+		
+		$a_csv->addColumn($this->lng->txt("login"));
+
+		$labels = $this->getSelectableColumns();
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(substr($c, 0, 4) == "obj_")
+			{
+				$obj_id = substr($c, 4);
+				$type = $ilObjDataCache->lookupType($obj_id);
+				$a_csv->addColumn("(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
+			}
+			else
+			{
+				$a_csv->addColumn($labels[$c]["txt"]);
+			}
+		}
+
+		$a_csv->addRow();
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($a_set["login"]);
+
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(in_array($c, array('last_access', 'spent_seconds')))
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+			}
+			else if(substr($c, 0, 4) == "obj_")
+			{
+				$obj_id = substr($c, 4);
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+			}
+			else
+			{
+				$obj_id = substr($c, 6);
+				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+			}
+			$a_csv->addColumn($val);
+		}
+
+		$a_csv->addRow();
+	}
 }
 
 ?>
