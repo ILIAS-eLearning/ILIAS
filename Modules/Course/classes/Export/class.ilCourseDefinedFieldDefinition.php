@@ -454,6 +454,4 @@ class ilCourseDefinedFieldDefinition
 		$this->enableRequired($row->field_required);
 	}
 }
-
-
 ?>

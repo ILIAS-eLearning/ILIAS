@@ -3088,3 +3088,7 @@ foreach(array('cat', 'crs', 'grp', 'fold', 'root') as $type)
 }
 
 ?>
+<#3161>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
