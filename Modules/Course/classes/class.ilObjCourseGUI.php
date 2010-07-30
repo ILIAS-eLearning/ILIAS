@@ -596,7 +596,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->addSection($this->lng->txt('crs_user_agreement_info'));
 			$info->addProperty($this->lng->txt('ps_export_data'),$field_info->exportableFieldsToInfoString());
 			
-			if(count($fields = ilCourseDefinedFieldDefinition::_fieldsToInfoString($this->object->getId())))
+			if($fields = ilCourseDefinedFieldDefinition::_fieldsToInfoString($this->object->getId()))
 			{
 				$info->addProperty($this->lng->txt('ps_crs_user_fields'),$fields);
 			}

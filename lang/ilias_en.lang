@@ -10803,3 +10803,4 @@ trac#:#read_count_avg#:#Average page views
 grp#:#grp_export_members#:#Export Participants
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_subscriber#:#Subscriber
+grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.
