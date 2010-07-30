@@ -301,12 +301,15 @@ abstract class ilRegistrationGUI
 
 		$this->showCustomFields();
 
-		// Checkbox agreement				
-		$agreement = new ilCheckboxInputGUI($this->lng->txt($this->type.'_agree'),'agreement');
-		$agreement->setRequired(true);
-		$agreement->setOptionTitle($this->lng->txt($this->type.'_info_agree'));
-		$agreement->setValue(1);
-		$this->form->addItem($agreement);
+		// Checkbox agreement		
+		if($this->privacy->confirmationRequired($this-type))
+		{		
+			$agreement = new ilCheckboxInputGUI($this->lng->txt($this->type.'_agree'),'agreement');
+			$agreement->setRequired(true);
+			$agreement->setOptionTitle($this->lng->txt($this->type.'_info_agree'));
+			$agreement->setValue(1);
+			$this->form->addItem($agreement);
+		}
 		
 		return true;
 	}
@@ -384,7 +387,7 @@ abstract class ilRegistrationGUI
 	 		return true;
 	 	}
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-		if(!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
+		if(!$this->privacy->confirmationRequired($this->type))
 		{
 			return true;
 		}
