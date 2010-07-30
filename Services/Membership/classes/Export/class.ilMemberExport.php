@@ -150,7 +150,7 @@ class ilMemberExport
 			switch($field)
 			{
 				case 'role':
-					$this->csv->addColumn($this->lng->txt('crs_role_status'));
+					$this->csv->addColumn($this->lng->txt($this->getType().'_role_status'));
 					break;
 				case 'agreement':
 					$this->csv->addColumn($this->lng->txt('ps_agreement_accepted'));
@@ -213,8 +213,16 @@ class ilMemberExport
 								$this->csv->addColumn($this->lng->txt('crs_member'));
 								break;
 								
+							case IL_GRP_ADMIN:
+								$this->csv->addColumn($this->lng->txt('il_grp_admin'));
+								break;
+								
+							case IL_GRP_MEMBER:
+								$this->csv->addColumn($this->lng->txt('il_grp_member'));
+								break;
+								
 							case 'subscriber':
-								$this->csv->addColumn($this->lng->txt('crs_subscriber'));
+								$this->csv->addColumn($this->lng->txt($this->getType().'_subscriber'));
 								break;
 							
 							default:
@@ -328,7 +336,7 @@ class ilMemberExport
 	 		// Read course related data
 	 		if($this->members->isAdmin($user_id))
 	 		{
-	 			$this->user_course_data[$user_id]['role'] = IL_CRS_ADMIN;
+	 			$this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? IL_CRS_ADMIN : IL_GRP_ADMIN;
 	 		}
 	 		elseif($this->members->isTutor($user_id))
 	 		{
@@ -336,7 +344,7 @@ class ilMemberExport
 	 		}
 	 		elseif($this->members->isMember($user_id))
 	 		{
-	 			$this->user_course_data[$user_id]['role'] = IL_CRS_MEMBER;
+	 			$this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? IL_CRS_MEMBER : IL_GRP_MEMBER;
 	 		}
 	 		else
 	 		{

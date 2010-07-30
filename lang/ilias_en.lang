@@ -10800,3 +10800,6 @@ trac#:#user_total#:#User Total
 trac#:#create_date_min#:#Earliest Registration
 trac#:#create_date_max#:#Latest Registration
 trac#:#read_count_avg#:#Average page views
+grp#:#grp_export_members#:#Export Participants
+grp#:#grp_role_status#:#Role/Status
+grp#:#grp_subscriber#:#Subscriber

@@ -24,8 +24,8 @@
 include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
 include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('./Services/Membership/classes/Export/class.ilMemberExport.php');
-include_once('Modules/Course/classes/class.ilFileDataCourse.php');
 include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
+include_once('Modules/Group/classes/class.ilFSStorageGroup.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
@@ -48,6 +48,7 @@ class ilMemberExportGUI
 	private $lng;
 	
 	private $fields_info;
+	private $fss_export = null;
 
 	/**
 	 * Constructor
@@ -69,6 +70,7 @@ class ilMemberExportGUI
 		$this->type = ilObject::_lookupType($this->obj_id);
 	 	
 	 	$this->fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
+		$this->initFileSystemStorage();
 	}
 	
 	/**
@@ -120,7 +122,6 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TXT_EXPORT_SETTINGS',$this->lng->txt('ps_export_settings'));
 		$this->tpl->setVariable('TXT_USER_SELECTION',$this->lng->txt('ps_user_selection'));
 		$this->tpl->setVariable('TXT_EXPORT_ADMIN',$this->lng->txt('ps_export_admin'));
-		$this->tpl->setVariable('TXT_EXPORT_TUTOR',$this->lng->txt('ps_export_tutor'));
 		$this->tpl->setVariable('TXT_EXPORT_MEMBER',$this->lng->txt('ps_export_member'));
 		$this->tpl->setVariable('TXT_EXPORT_WAIT',$this->lng->txt('ps_export_wait'));
 		$this->tpl->setVariable('TXT_EXPORT_SUB',$this->lng->txt('ps_export_sub'));
@@ -129,7 +130,11 @@ class ilMemberExportGUI
 	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
 		
 	 	$this->tpl->setVariable('CHECK_EXPORT_ADMIN',ilUtil::formCheckbox($this->exportSettings->enabled('admin'),'export_members[admin]',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_TUTOR',ilUtil::formCheckbox($this->exportSettings->enabled('tutor'),'export_members[tutor]',1));
+		if($this->type == 'crs')
+		{
+	 		$this->tpl->setVariable('CHECK_EXPORT_TUTOR',ilUtil::formCheckbox($this->exportSettings->enabled('tutor'),'export_members[tutor]',1));
+			$this->tpl->setVariable('TXT_EXPORT_TUTOR',$this->lng->txt('ps_export_tutor'));
+		}
 	 	$this->tpl->setVariable('CHECK_EXPORT_MEMBER',ilUtil::formCheckbox($this->exportSettings->enabled('member'),'export_members[member]',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_SUB',ilUtil::formCheckbox($this->exportSettings->enabled('subscribers'),'export_members[subscribers]',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_WAIT',ilUtil::formCheckbox($this->exportSettings->enabled('waiting_list'),'export_members[waiting_list]',1));
@@ -198,8 +203,6 @@ class ilMemberExportGUI
 	 */
 	public function deliverData()
 	{
-		$this->fss_export = new ilFSStorageCourse($this->obj_id); 
-		
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if($file['name'] == $_SESSION['member_export_filename'])
@@ -223,7 +226,6 @@ class ilMemberExportGUI
 	{
 		global $ilUser;
 		
-		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		if(!count($files = $this->fss_export->getMemberExportFiles()))
 		{
 			return false;
@@ -319,7 +321,6 @@ class ilMemberExportGUI
 	 		$this->show();
 	 		return true;
 	 	}
-		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if(!in_array($file['timest'],$_POST['files']))
@@ -362,7 +363,6 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TEXT',$this->lng->txt('ps_delete_export_files'));
 		
 		
-		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		$counter = 0;
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
@@ -402,7 +402,6 @@ class ilMemberExportGUI
 	 		$this->show();
 	 		return false;
 	 	}
-		$this->fss_export = new ilFSStorageCourse($this->obj_id);
 		$counter = 0;
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
@@ -437,7 +436,6 @@ class ilMemberExportGUI
 		$this->export = new ilMemberExport($this->ref_id);
 		$this->export->create();
 	 	
-	 	$this->fss_export = new ilFSStorageCourse($this->obj_id);
 	 	$filename = time().'_participant_export_csv_'.$this->obj_id.'.csv';
 		$this->fss_export->addMemberExportFile($this->export->getCSVString(),$filename);
 
@@ -446,5 +444,22 @@ class ilMemberExportGUI
 	 	$this->show(true);
 	}
 	
+	
+	/**
+	 * Init file object
+	 * @return 
+	 */
+	protected function initFileSystemStorage()
+	{
+		if($this->type == 'crs')
+		{
+			$this->fss_export = new ilFSStorageCourse($this->obj_id);
+		}
+		if($this->type == 'grp')
+		{
+			$this->fss_export = new ilFSStorageGroup($this->obj_id);
+		}
+		
+	}
 }
 ?>

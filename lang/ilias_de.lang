@@ -10804,3 +10804,6 @@ trac#:#user_total#:#Anzahl Benutzer
 trac#:#create_date_min#:#Früheste Registrierung
 trac#:#create_date_max#:#Späteste Registrierung
 trac#:#read_count_avg#:#Durchschnitt Seitenaufrufe
+grp#:#grp_export_members#:#Teilnehmerexport
+grp#:#grp_role_status#:#Rolle/Status
+grp#:#grp_subscriber#:#Aufnahmeantrag gestellt

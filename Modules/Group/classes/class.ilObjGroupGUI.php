@@ -16,7 +16,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * 
 *
 * @extends ilObjectGUI
@@ -222,6 +222,17 @@ class ilObjGroupGUI extends ilContainerGUI
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
 				break;
+				
+			case 'ilmemberexportgui':
+				include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
+				
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('export_members');
+				$export = new ilMemberExportGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($export);
+				break;
+				
 				
 
 			default:
@@ -2835,6 +2846,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),
 				"mailMembers", get_class($this));
+				
+				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget('grp_export_members',
+													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'),
+													"", 'ilmemberexportgui');
+				}
 
 				break;
 
