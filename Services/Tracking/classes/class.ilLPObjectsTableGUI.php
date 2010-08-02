@@ -54,6 +54,7 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$this->setEnableHeader(true);
 		$this->setEnableNumInfo(true);
 		$this->setEnableTitle(true);
+		$this->setShowTemplates(true);
 		
 		$this->initFilter();
 

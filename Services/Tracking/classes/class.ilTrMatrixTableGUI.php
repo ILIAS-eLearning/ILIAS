@@ -37,6 +37,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->setRowTemplate("tpl.user_object_matrix_row.html", "Services/Tracking");
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
+		$this->setShowTemplates(true);
 
 		$this->addColumn($this->lng->txt("login"), "login");
 
