@@ -555,7 +555,7 @@ class ilObjForum extends ilObject
 			'top_num_posts' => array('integer', $topData['top_num_posts']),
 			'top_num_threads' => array('integer', $topData['top_num_threads']),
 			'top_last_post' => array('text', $topData['top_last_post']),
-			'top_mods'		=> array('integer', $topData['top_mods']),
+			'top_mods'		=> array('integer', !is_numeric($topData['top_mods']) ? 0 : $topData['top_mods']),
 			'top_date'		=> array('timestamp', $topData['top_date']),
 			'visits'		=> array('integer', $topData['visits']),
 			'top_update'	=> array('timestamp', $topData['top_update']),
@@ -836,7 +836,7 @@ class ilObjForum extends ilObject
             'top_num_posts'     => 0,
             'top_num_threads'   => 0,
             'top_last_post'     => NULL,
-			'top_mods'      	=> $a_roles[0],
+			'top_mods'      	=> !is_numeric($a_roles[0]) ? 0 : $a_roles[0],
 			'top_usr_id'      	=> $ilUser->getId(),
             'top_date' 			=> ilUtil::now()
         );       

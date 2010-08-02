@@ -837,7 +837,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());	
 			if(!$a_prevent_redirect)
 			{
-				ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread'));
+				ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 			}
 		}
 		else
