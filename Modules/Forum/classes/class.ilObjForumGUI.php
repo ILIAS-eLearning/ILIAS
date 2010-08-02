@@ -826,10 +826,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$forumObj->createSettings();
 	
 			// ...finally assign moderator role to creator of forum object
-			$rbacadmin->assignUser(ilObjForum::_lookupModeratorRole($forumObj->getRefId()), $forumObj->getOwner(), 'n');
+            $roles = array();
+            $roles[0] = ilObjForum::_lookupModeratorRole($forumObj->getRefId());
+
+			$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
 			
 			// insert new forum as new topic into frm_data
-			$forumObj->saveData($roles);        
+			$forumObj->saveData($roles);
 			
 			// always send a message
 			ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
