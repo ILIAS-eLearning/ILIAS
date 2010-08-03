@@ -123,7 +123,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => implode(',',$rcps))));
+		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', 
+			array(), 
+			array(
+				'type' => 'new', 
+				'rcp_to' => implode(',',$rcps),
+				'sig'	=> $this->createMailSignature()
+		)));
 	}
 	
 	/**
@@ -481,7 +487,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::_getLinkTarget($info, 'showSummary', array(), array('type' => 'new', 'rcp_to' => $email)));
+                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::_getLinkTarget($info, 'showSummary', array(), 
+					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
 			}
@@ -4227,11 +4234,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('mail_members');
 		
-		//$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Modules/Course');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 
+
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
@@ -5363,6 +5370,20 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		parent::prepareOutput();
+	}
+	
+	/**
+	 * Create a course mail signature
+	 * @return 
+	 */
+	protected function createMailSignature()
+	{
+		$link = chr(13).chr(10).chr(13).chr(10);
+		$link .= $this->lng->txt('crs_mail_permanent_link');
+		$link .= chr(13).chr(10).chr(13).chr(10);
+		include_once './classes/class.ilLink.php';
+		$link .= ilLink::_getLink($this->object->getRefId());
+		return rawurlencode(base64_encode($link));
 	}
 	
 	

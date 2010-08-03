@@ -666,9 +666,14 @@ class ilMailFormGUI
 				{
 					$mailData["rcp_bcc"] = $_SESSION['rcp_bcc'];
 				}
-				
-				
-				$mailData["m_message"] = $this->umail->appendSignature();
+				$mailData['m_message'] = '';
+				if(strlen($sig = ilMailFormCall::_getSignature()))
+				{
+					$mailData['m_message'] = $sig;
+					$mailData['m_message'] .= chr(13).chr(10).chr(13).chr(10);
+				}
+				$mailData['m_message'] .= $this->umail->appendSignature();
+
 				$_SESSION['rcp_to'] = '';
 				$_SESSION['rcp_cc'] = '';
 				$_SESSION['rcp_bcc'] = '';
@@ -685,8 +690,15 @@ class ilMailFormGUI
 				{
 					$mailData['rcp_to'] = ilUtil::securePlainString(implode(',', $_SESSION['mail_roles']));
 				}
+
+				$mailData['m_message'] = '';
+				if(strlen($sig = ilMailFormCall::_getSignature()))
+				{
+					$mailData['m_message'] = $sig;
+					$mailData['m_message'] .= chr(13).chr(10).chr(13).chr(10);
+				}
 		
-				$mailData['m_message'] = $_POST["additional_message_text"].chr(13).chr(10).$this->umail->appendSignature();
+				$mailData['m_message'] .= $_POST["additional_message_text"].chr(13).chr(10).$this->umail->appendSignature();
 				$_POST["additional_message_text"] = "";
 				$_SESSION['mail_roles'] = "";
 				break;

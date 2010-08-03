@@ -2,6 +2,7 @@
 class ilMailFormCall
 {
     const REFERER_KEY = 'r';
+	const SIGNATURE_KEY = 'sig';
 
     public static function _getLinkTarget($gui, $cmd, $gui_params = array(), $mail_params = array())
     {       
@@ -62,10 +63,29 @@ class ilMailFormCall
     public static function _storeReferer($request_params)
     {
         if(isset($request_params[self::REFERER_KEY]))
+		{
             $_SESSION[self::REFERER_KEY] = base64_decode(rawurldecode($request_params[self::REFERER_KEY]));
+			$_SESSION[self::SIGNATURE_KEY] = base64_decode(rawurldecode($request_params[self::SIGNATURE_KEY]));
+		}
         else
+		{
             unset($_SESSION[self::REFERER_KEY]);
+			unset($_SESSION[self::SIGNATURE_KEY]);
+		}
     }
+	
+	/**
+	 * Get preset signature
+	 * @return string signature
+	 */
+	public static function _getSignature()
+	{
+		$sig = $_SESSION[self::SIGNATURE_KEY];
+		
+		unset($_SESSION[self::SIGNATURE_KEY]);
+		
+		return $sig;
+	}
 
     public static function _getRefererRedirectUrl()
     {
