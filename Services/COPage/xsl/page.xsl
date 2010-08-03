@@ -947,7 +947,7 @@
 				<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
 				<xsl:choose>
 					<xsl:when test="$mode = 'offline'" >
-							<xsl:variable name="href" select="concat($webspace_path,'/codefiles/',$pg_id,'/',$p_id,'/',$downloadtitle)"/>
+							<xsl:variable name="href" select="concat($webspace_path,'codefiles/',$pg_id,'/',$p_id,'/',$downloadtitle)"/>
 							<xsl:call-template name="DownloadLink">
 								<xsl:with-param name="p_id" select="$p_id"/>
 								<xsl:with-param name="downloadtitle" select="$downloadtitle"/>
@@ -1178,7 +1178,7 @@
 			<!-- determine location -->
 			<xsl:variable name="data">
 				<xsl:if test="$curType = 'LocalFile'">
-					<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
 				</xsl:if>
 				<xsl:if test="$curType = 'Reference'">
 					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
@@ -2066,7 +2066,7 @@
 					<xsl:choose>
 						<xsl:when test="$location_mode = 'curpurpose'">
 							<xsl:if test="$curType = 'LocalFile'">
-								<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+								<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
 							</xsl:if>
 							<xsl:if test="$curType = 'Reference'">
 								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
@@ -2074,7 +2074,7 @@
 						</xsl:when>
 						<xsl:when test="$location_mode = 'standard'">
 							<xsl:if test="$curType = 'LocalFile'">
-								<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+								<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
 							</xsl:if>
 							<xsl:if test="$curType = 'Reference'">
 								<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
@@ -2402,7 +2402,7 @@
 					<xsl:when test="$location_mode = 'curpurpose'">
 						<xsl:if test="$curType = 'LocalFile'">
 							<xsl:attribute name="code"><xsl:value-of select="substring-before(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location,'.')"/></xsl:attribute>
-							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="$curType = 'Reference'">
 							<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
@@ -2411,7 +2411,7 @@
 					<xsl:when test="$location_mode = 'standard'">
 						<xsl:if test="$curType = 'LocalFile'">
 							<xsl:attribute name="code"><xsl:value-of select="substring-before(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location,'.')"/></xsl:attribute>
-							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="$curType = 'Reference'">
 							<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
@@ -2431,7 +2431,7 @@
 					<xsl:when test="$location_mode = 'curpurpose'">
 						<xsl:if test="$curType = 'LocalFile'">
 							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
-							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="$curType = 'Reference'">
 							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
@@ -2440,7 +2440,7 @@
 					<xsl:when test="$location_mode = 'standard'">
 						<xsl:if test="$curType = 'LocalFile'">
 							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="$curType = 'Reference'">
 							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>

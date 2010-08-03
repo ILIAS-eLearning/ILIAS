@@ -1596,12 +1596,12 @@ class ilPageObjectGUI
 		if ($this->getOutputMode() != "offline")
 		{
 			$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-			$wb_path = ilUtil::getWebspaceDir("output");
+			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
 		{
 			$enlarge_path = "images/enlarge.gif";
-			$wb_path = ".";
+			$wb_path = "";
 		}
 		$pg_title_class = ($this->getOutputMode() == "print")
 			? "ilc_PrintPageTitle"
@@ -2002,7 +2002,7 @@ class ilPageObjectGUI
 
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
-		$wb_path = ilUtil::getWebspaceDir("output");
+		$wb_path = ilUtil::getWebspaceDir("output")."/";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
@@ -2278,7 +2278,7 @@ class ilPageObjectGUI
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
-		$wb_path = ilUtil::getWebspaceDir("output");
+		$wb_path = ilUtil::getWebspaceDir("output")."/";
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$mode = "fullscreen";
 		$params = array ('mode' => $mode, 'webspace_path' => $wb_path);
@@ -2714,7 +2714,8 @@ class ilPageObjectGUI
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 
-			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW)
+			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
+				&& $this->getOutputMode() != "offline")
 			{
 				$tpl->addJavaScript("./Services/COPage/js/ilCOPageQuestionHandler.js");
 				$url = $ilCtrl->getLinkTarget($this, "processAnswer", "", true, false);

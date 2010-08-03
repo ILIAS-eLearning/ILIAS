@@ -43,8 +43,8 @@ class ilExportTableGUI extends ilTable2GUI
 		//$this->disable("footer");
 		//$this->setEnableTitle(true);
 
-		$this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
 		$this->addMultiCommand("download", $lng->txt("download"));
+		$this->addMultiCommand("confirmDeletion", $lng->txt("delete"));
 	}
 
 	/**
