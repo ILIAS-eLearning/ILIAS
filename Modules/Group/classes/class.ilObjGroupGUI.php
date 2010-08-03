@@ -1511,7 +1511,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => implode(',',$rcps))));
+		ilUtil::redirect(ilMailFormCall::_getRedirectTarget(
+			$this, 
+			'members',
+			array(), 
+			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
 		return true;
 	}
 	
@@ -1879,7 +1883,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role','sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
@@ -2984,6 +2988,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		parent::prepareOutput();
 	}
+	
+	/**
+	 * Create a course mail signature
+	 * @return 
+	 */
+	protected function createMailSignature()
+	{
+		$link = chr(13).chr(10).chr(13).chr(10);
+		$link .= $this->lng->txt('grp_mail_permanent_link');
+		$link .= chr(13).chr(10).chr(13).chr(10);
+		include_once './classes/class.ilLink.php';
+		$link .= ilLink::_getLink($this->object->getRefId());
+		return rawurlencode(base64_encode($link));
+	}
+	
 
 } // END class.ilObjGroupGUI
 ?>

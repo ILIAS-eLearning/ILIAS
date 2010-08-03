@@ -2814,7 +2814,7 @@ common#:#grp_mail_subj_new_subscription#:#New subscription
 common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
 common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_leave#:#Dismiss member from group
-common#:#grp_mem_send_mail#:#Send member a message
+common#:#grp_mem_send_mail#:#Send Participants a Message
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
