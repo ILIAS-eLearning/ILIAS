@@ -991,7 +991,7 @@ return true;
 		$ilCtrl->setParameter($this, "hier_id", $a_hier_id);
 		$ilCtrl->setParameterByClass("ilEditClipboardGUI", "returnCommand",
 			rawurlencode($ilCtrl->getLinkTarget($this,
-			"insertFromClipboard")));
+			"insertFromClipboard", "", false, false)));
 //echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
 		$ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
 	}
