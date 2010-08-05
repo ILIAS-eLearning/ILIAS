@@ -94,7 +94,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
-		if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
+		if ($this->ctrl->getNextClass() == "ilpageobjectgui")
 		{
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.gif"));
 		}
@@ -120,7 +120,7 @@ class ilTermDefinitionEditorGUI
 				}
 			
 				// not so nice, to do: revise locator handling
-				if ($this->ctrl->getCmdClass() == "ilpageobjectgui"
+				if ($this->ctrl->getNextClass() == "ilpageobjectgui"
 					|| $this->ctrl->getCmdClass() == "ileditclipboardgui")
 				{
 					$gloss_loc->display();

@@ -760,181 +760,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
 		$tab = new ilTermListTableGUI($this, "listTerms");
 		$tpl->setContent($tab->getHTML());
-return;
-		
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-		// glossary term list template
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_list.html", true);
-
-
-
-		// load template for table
-		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_row.html", true);
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("cont_terms"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_term"),
-			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
-
-		$cols = array("", "term", "language", "definitions", "id");
-		// get all ilCtrl parameters to feed the table urls
-		$header_params = $this->ctrl->getParameterArrayByClass("ilobjglossarygui", "listTerms");
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%","24%","15%","60%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->disable("sort");
-		
-		$term_list = $this->object->getTermList();
-		$tbl->setMaxCount(count($term_list));
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// sorting array
-		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
-		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
-
-		// render table
-		$tbl->render();
-
-		if (count($term_list) > 0)
-		{
-			$this->tpl->setVariable("COLUMN_COUNTS", 4);
-			$this->showActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
-
-			$i=1;
-			foreach($term_list as $key => $term)
-			{
-				$css_row = ilUtil::switchColor(++$i,"tblrow1","tblrow2");
-				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-				for($j=0; $j<count($defs); $j++)
-				{
-					$def = $defs[$j];
-
-					// up
-					if ($j > 0)
-					{
-						$this->tpl->setCurrentBlock("move_up");
-						$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
-						$this->ctrl->setParameter($this, "term_id", $term["id"]);
-						$this->ctrl->setParameter($this, "def", $def["id"]);
-						$this->tpl->setVariable("LINK_UP",
-							$this->ctrl->getLinkTarget($this, "moveDefinitionUp"));
-						$this->tpl->parseCurrentBlock();
-					}
-
-					// down
-					if ($j+1 < count($defs))
-					{
-						$this->tpl->setCurrentBlock("move_down");
-						$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
-						$this->ctrl->setParameter($this, "term_id", $term["id"]);
-						$this->ctrl->setParameter($this, "def", $def["id"]);
-						$this->tpl->setVariable("LINK_DOWN",
-							$this->ctrl->getLinkTarget($this, "moveDefinitionDown"));
-						$this->tpl->parseCurrentBlock();
-					}
-
-					// delete
-					$this->tpl->setCurrentBlock("delete");
-					$this->ctrl->setParameter($this, "term_id", $term["id"]);
-					$this->ctrl->setParameter($this, "def", $def["id"]);
-					$this->tpl->setVariable("LINK_DELETE",
-						$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));
-					$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					$this->tpl->parseCurrentBlock();
-
-					// edit
-					$this->tpl->setCurrentBlock("edit");
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
-					$this->tpl->setVariable("LINK_EDIT",
-						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
-						"iltermdefinitioneditorgui",
-						"ilpageobjectgui"), "edit"));
-					$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-					$this->tpl->parseCurrentBlock();
-
-					// text
-					$this->tpl->setCurrentBlock("definition");
-					$short_str = $def["short_text"];
-					
-					// replace tex
-					// if a tex end tag is missing a tex end tag
-					$ltexs = strrpos($short_str, "[tex]");
-					$ltexe = strrpos($short_str, "[/tex]");
-					if ($ltexs > $ltexe)
-					{
-						$page =& new ilPageObject("gdf", $def["id"]);
-						$page->buildDom();
-						$short_str = $page->getFirstParagraphText();
-						$short_str = strip_tags($short_str, "<br>");
-						$ltexe = strpos($short_str, "[/tex]", $ltexs);
-						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
-					}
-					$short_str = ilUtil::insertLatexImages($short_str);
-					$short_str = ilPCParagraph::xml2output($short_str);
-					$this->tpl->setVariable("DEF_SHORT", $short_str);
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("definition_row");
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("check_col");
-				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-
-				// edit term link
-				$this->tpl->setCurrentBlock("edit_term");
-				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->ctrl->setParameter($this, "term_id", $term["id"]);
-				$this->tpl->setVariable("LINK_EDIT_TERM",
-					$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-				$this->tpl->setVariable("TXT_EDIT_TERM", $this->lng->txt("edit"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("tbl_content");
-
-				// output term and language
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->parseCurrentBlock();
-			}
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
-		/**
-	* show possible action (form buttons)
-	*
-	* @access	public
-	*/
+	/**
+	 * show possible action (form buttons)
+	 *
+	 * @access	public
+	 */
 	function showActions($a_actions)
 	{
 		foreach ($a_actions as $name => $lng)
@@ -1483,11 +1315,12 @@ return;
 	function confirmTermDeletion()
 	{
 		global $ilCtrl, $lng;
-		
+
 		//$this->prepareOutput();
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listTerms");
 		}
 
 		// save values to
