@@ -476,14 +476,23 @@ class ilAdvancedSelectionListGUI
 				if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
 				{
+//var_dump($item);
 					if ($item["prevent_background_click"])
 					{
 						$tpl->setVariable("ONCLICK_ITEM",'');
 					}
 					else
 					{
-						$tpl->setVariable("ONCLICK_ITEM",
-							'onclick="parent.location='."'".$item["link"]."';".'"');
+						if ($item["frame"] == "_top")
+						{
+							$tpl->setVariable("ONCLICK_ITEM",
+								'onclick="parent.location='."'".$item["link"]."';".'"');
+						}
+						else
+						{
+							$tpl->setVariable("ONCLICK_ITEM",
+								'onclick="location='."'".$item["link"]."';".'"');
+						}
 					}
 
 					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
