@@ -455,14 +455,13 @@ class ilForumPost
 	{
 		if ($this->id && $this->rgt && $this->lft)
 		{
-
 			$res = $this->db->queryf('
 				SELECT * FROM frm_posts_tree			  		 
 		  	 	WHERE lft > %s AND rgt < %s
 		  	  	AND thr_fk = %s',
 				array('integer', 'integer', 'integer'),
-				array($this->lft, $this->rgt, $this->id));
-			
+				array($this->lft, $this->rgt, $this->thread_id));
+
 			return $res->numRows() ? true : false;
 		}
 		
