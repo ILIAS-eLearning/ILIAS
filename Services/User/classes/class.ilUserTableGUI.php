@@ -48,7 +48,8 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('context'),'time_limit_owner');
 			$this->addColumn($this->lng->txt('role_assignment'));
 		}
-		
+
+		$this->setShowRowsSelector(true);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);

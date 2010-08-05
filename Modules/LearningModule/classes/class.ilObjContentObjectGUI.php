@@ -3523,7 +3523,7 @@ return;
 	*/
 	function insertChapter()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -3545,7 +3545,7 @@ return;
 		{
 			$chap = new ilStructureObject($this->object);
 			$chap->setType("st");
-			$chap->setTitle("");
+			$chap->setTitle($lng->txt("cont_new_chap"));
 			$chap->setLMId($this->object->getId());
 			$chap->create();
 			ilLMObject::putInTree($chap, $parent_id, $target);

@@ -1051,7 +1051,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertChapter($a_as_sub = false)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -1088,7 +1088,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			$chap = new ilStructureObject($this->content_object);
 			$chap->setType("st");
-			$chap->setTitle("");
+			$chap->setTitle($lng->txt("cont_new_chap"));
 			$chap->setLMId($this->content_object->getId());
 			$chap->create();
 			ilLMObject::putInTree($chap, $parent_id, $target);
@@ -1211,7 +1211,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertPage()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -1233,7 +1233,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			$page = new ilLMPageObject($this->content_object);
 			$page->setType("pg");
-			$page->setTitle("");
+			$page->setTitle($lng->txt("cont_new_page"));
 			$page->setLMId($this->content_object->getId());
 			$page->create();
 			ilLMObject::putInTree($page, $parent_id, $target);

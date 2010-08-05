@@ -34,7 +34,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $selectable_columns = array();
 	protected $selected_column = array();
 	protected $show_templates = false;
-	protected $show_rows_selector = true;
+	protected $show_rows_selector = false;
 
 	protected $nav_determined= false;
 	protected $limit_determined = false;
@@ -116,6 +116,7 @@ class ilTable2GUI extends ilTableGUI
 		{
 			$this->storeProperty("rows", $_GET[$this->prefix."_trows"]);
 			$limit = $_GET[$this->prefix."_trows"];
+			$this->resetOffset();
 		}
 
 		if ($limit == 0)
