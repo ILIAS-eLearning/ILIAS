@@ -81,8 +81,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 	
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock('item_command');
-
 			if(!$a_set["is_used"])
 			{
 				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
