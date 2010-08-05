@@ -1745,7 +1745,7 @@ return;
 		{
 			$force_active = true;
 		}
-		$tabs_gui->addTarget("information_abbr",
+		$tabs_gui->addTarget("info_short",
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilInfoScreenGUI", "", $force_active);
 

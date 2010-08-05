@@ -1349,7 +1349,7 @@ if (!false)
 				}
 	
 				$tabs_gui->addTab("info",
-					$lng->txt("information_abbr"),
+					$lng->txt("info_short"),
 					$ilCtrl->getLinkTarget($this, "infoScreen"));
 
 				$tabs_gui->addTab("print_view",
