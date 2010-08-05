@@ -165,7 +165,7 @@ class ilBookmarkAdministrationGUI
 		$exp->highlightNode($this->id);
 		$output = $exp->getOutput();
 
-		$etpl->setCurrentBlock("adm_tree_content");
+//		$etpl->setCurrentBlock("adm_tree_content");
 		$etpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
 		$this->ctrl->setParameter($this, "bmf_id", 1);
 
