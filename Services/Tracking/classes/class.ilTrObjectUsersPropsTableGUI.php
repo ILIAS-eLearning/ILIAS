@@ -325,11 +325,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		$this->tpl->setCurrentBlock("checkb");
-		$this->tpl->setVariable("ID", $data["usr_id"]);
-		$this->tpl->parseCurrentBlock();
-		
+				
 		$this->tpl->setVariable("VAL_LOGIN", $data["login"]);
 		
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
