@@ -526,19 +526,22 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias,$ilTabs;
 
-		$sthtml = $ilTabs->getSubTabHTML();
-		$thtml = $ilTabs->getHTML((trim($sthtml) == ""));
-
-		$this->touchBlock("tabs_outer_start");
-		$this->touchBlock("tabs_outer_end");
-		$this->touchBlock("tabs_inner_start");
-		$this->touchBlock("tabs_inner_end");
-
-		if ($thtml != "")
+		if ($this->blockExists("tabs_outer_start"))
 		{
-			$this->setVariable("TABS",$thtml);
+			$sthtml = $ilTabs->getSubTabHTML();
+			$thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+
+			if ($thtml != "")
+			{
+				$this->setVariable("TABS",$thtml);
+			}
+			$this->setVariable("SUB_TABS", $sthtml);
 		}
-		$this->setVariable("SUB_TABS", $sthtml);
 	}
 	
 	/**
@@ -1366,7 +1369,7 @@ class ilTemplate extends ilTemplateX
 	
 	function fillBodyClass()
 	{
-		if ($this->body_class != "")
+		if ($this->body_class != "" && $this->blockExists("body_class"))
 		{
 			$this->setCurrentBlock("body_class");
 			$this->setVariable("BODY_CLASS", $this->body_class);
@@ -1492,7 +1495,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTabs($a_tabs_html)
 	{
-		if ($a_tabs_html != "")
+		if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start"))
 		{
 			$this->touchBlock("tabs_outer_start");
 			$this->touchBlock("tabs_outer_end");
