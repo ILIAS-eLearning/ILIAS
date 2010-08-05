@@ -544,6 +544,7 @@ class ilGlossaryDefinition
 		$md_creator->setDescriptionLanguage($lang);
 		$md_creator->setKeywordLanguage($lang);
 		$md_creator->setLanguage($lang);
+//echo "-".$this->getTitle()."-"; exit;
 		$md_creator->create();
 
 		return true;

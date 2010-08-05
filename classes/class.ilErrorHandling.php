@@ -77,7 +77,7 @@ class ilErrorHandling extends PEAR
 
 		$this->error_obj =& $a_error_obj;
 //echo "-".$_SESSION["referer"]."-";
-		if ($_SESSION["failure"])
+		if ($_SESSION["failure"] && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block")
 		{
 			$m = "Fatal Error: Called raise error two times.<br>".
 				"First error: ".$_SESSION["failure"].'<br>'.
@@ -88,10 +88,44 @@ class ilErrorHandling extends PEAR
 			die ($m);
 		}
 
+		if (substr($a_error_obj->getMessage(), 0, 22) == "Cannot find this block")
+		{
+			if (DEVMODE == 1)
+			{
+				echo "<b>DEVMODE</b><br><br>";
+				echo "<b>Template Block not found.</b><br>";
+				echo "You used a template block in your code that is not available.<br>";
+				echo "Native Messge: <b>".$a_error_obj->getMessage()."</b><br>";
+				if (is_array($a_error_obj->backtrace))
+				{
+					echo "Backtrace:<br>";
+					foreach ($a_error_obj->backtrace as $b)
+					{
+						if ($b["function"] == "setCurrentBlock" &&
+							basename($b["file"]) != "class.ilTemplate.php")
+						{
+							echo "<b>";
+						}
+						echo "File: ".$b["file"].", ";
+						echo "Line: ".$b["line"].", ";
+						echo $b["function"]."()<br>";
+						if ($b["function"] == "setCurrentBlock" &&
+							basename($b["file"]) != "class.ilTemplate.php")
+						{
+							echo "</b>";
+						}
+					}
+				}
+				exit;
+			}
+			return;
+		}
+
 		if (is_object($log) and $log->enabled == true)
 		{
 			$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
+
 //echo $a_error_obj->getCode().":"; exit;
 		if ($a_error_obj->getCode() == $this->FATAL)
 		{
