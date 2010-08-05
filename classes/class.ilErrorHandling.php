@@ -90,7 +90,7 @@ class ilErrorHandling extends PEAR
 
 		if (substr($a_error_obj->getMessage(), 0, 22) == "Cannot find this block")
 		{
-			if (DEVMODE == 1)
+			if (DEVMODE == 1 && false)
 			{
 				echo "<b>DEVMODE</b><br><br>";
 				echo "<b>Template Block not found.</b><br>";
