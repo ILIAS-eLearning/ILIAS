@@ -201,7 +201,7 @@ class ilTaggingGUI
 		$ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
 		$tags = ilTagging::getTagsForObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type);
-			
+
 		$max = 1;
 		foreach ($tags as $tag)
 		{
@@ -210,7 +210,7 @@ class ilTaggingGUI
 		reset($tags);
 		foreach ($tags as $tag)
 		{
-			if (!$this->isForbidden($tag))
+			if (!$this->isForbidden($tag["tag"]))
 			{
 				$ttpl->setCurrentBlock("unlinked_tag");
 				$ttpl->setVariable("FONT_SIZE", ilTagging::calculateFontSize($tag["cnt"], $max)."%");
