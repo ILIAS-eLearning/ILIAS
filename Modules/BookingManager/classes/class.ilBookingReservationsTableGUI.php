@@ -40,11 +40,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("book_period"));
 		$this->addColumn($this->lng->txt("user"));
 		$this->addColumn($this->lng->txt("status"));
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			$this->addColumn($this->lng->txt("actions"));
-		}
+		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -78,9 +74,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->filter["type"] = $item->getValue();
 
 		$options = array(""=>$this->lng->txt('book_all'));
-		foreach(array(ilBookingReservation::STATUS_IN_USE, ilBookingReservation::STATUS_CANCELLED) as $loop)
+		foreach(array(ilBookingReservation::STATUS_IN_USE, ilBookingReservation::STATUS_CANCELLED, -ilBookingReservation::STATUS_IN_USE, -ilBookingReservation::STATUS_CANCELLED) as $loop)
 	    {
-			$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+			if($loop > 0)
+			{
+				$options[$loop] = $this->lng->txt('book_reservation_status_'.$loop);
+			}
+			else
+			{
+				$options[$loop] = $this->lng->txt('book_not').' '.$this->lng->txt('book_reservation_status_'.-$loop);
+			}
 		}
 		$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT);
 		$item->setOptions($options);
@@ -129,7 +132,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 		$this->determineOffsetAndOrder();
 
-		$data = ilBookingReservation::getList($this->getLimit(), $this->getOffset(), $filter);
+		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
+		$data = ilBookingReservation::getList(ilBookingObject::getByPoolId($this->pool->getId()), $this->getLimit(), $this->getOffset(), $filter);
 		
 		$this->setMaxCount($data['counter']);
 		$this->setData($data['data']);
@@ -141,16 +145,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilAccess, $ilCtrl;
+		global $lng, $ilAccess, $ilCtrl, $ilUser;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("RESERVATION_ID", $a_set["booking_reservation_id"]);
-
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			
-		}
 
 		$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
 		$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
@@ -161,9 +159,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($a_set['user_id']));
+
+		$ilCtrl->setParameter($this->parent_obj, 'user_id', $a_set['user_id']);
+		$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
+		$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
+
 		$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 		
-		if ($date_from->get(IL_CAL_UNIX) > time() && $ilAccess->checkAccess('write', '', $this->ref_id))
+		if ($date_from->get(IL_CAL_UNIX) > time())
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
@@ -172,27 +175,32 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
 
-			if($a_set['status'] == ilBookingReservation::STATUS_CANCELLED)
+			if($ilAccess->checkAccess('write', '', $this->ref_id))
 			{
-				// can be uncancelled?
-				if(ilBookingReservation::getAvailableObject(array($a_set['object_id']), $date_from->get(IL_CAL_UNIX), $date_to->get(IL_CAL_UNIX)))
+				if($a_set['status'] == ilBookingReservation::STATUS_CANCELLED)
 				{
-					$alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvUncancel'));
+					// can be uncancelled?
+					if(ilBookingReservation::getAvailableObject(array($a_set['object_id']), $date_from->get(IL_CAL_UNIX), $date_to->get(IL_CAL_UNIX)))
+					{
+						$alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvUncancel'));
+					}
+				}
+				else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
+				{
+					$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
+					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancel'));
+				}
+				else
+				{
+					$alist->addItem($lng->txt('book_set_not_in_use'), 'not_in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvNotInUse'));
 				}
 			}
-			else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
+			else if($a_set['user_id'] == $ilUser->getId() && $a_set['status'] != ilBookingReservation::STATUS_CANCELLED)
 			{
-				$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
 				$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancel'));
 			}
-			else 
-			{
-				$alist->addItem($lng->txt('book_set_not_in_use'), 'not_in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvNotInUse'));
-			}
 
-			$this->tpl->setCurrentBlock('actions');
 			$this->tpl->setVariable('LAYER', $alist->getHTML());
-			$this->tpl->parseCurrentBlock();
 		}
 	}
 }

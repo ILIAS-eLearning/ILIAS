@@ -301,12 +301,13 @@ class ilBookingReservation
 
 	/**
 	 * List all reservations
+	 * @param	array	$a_object_ids
 	 * @param	int		$a_limit
 	 * @param	int		$a_offset
 	 * @param	array	$a_offset
 	 * @return	array
 	 */
-	static function getList($a_limit = 10, $a_offset = 0, array $filter)
+	static function getList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter)
 	{
 		global $ilDB;
 
@@ -318,14 +319,21 @@ class ilBookingReservation
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
-		$where = array();
+		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));
 		if($filter['type'])
 		{
 			$where[] = 'type_id = '.$ilDB->quote($filter['type'], 'integer');
 		}
 		if($filter['status'])
 		{
-			$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
+			if($filter['status'] > 0)
+			{
+				$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
+			}
+			else
+			{
+				$where[] = 'status != '.$ilDB->quote(-$filter['status'], 'integer');
+			}
 		}
 		if($filter['from'])
 		{

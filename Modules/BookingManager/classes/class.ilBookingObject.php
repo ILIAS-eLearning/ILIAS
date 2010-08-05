@@ -193,6 +193,29 @@ class ilBookingObject
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}
+
+
+	/**
+	 * Get all objects for given pool
+	 * @param int $a_pool_id
+	 * @return array
+	 */
+	function getByPoolId($a_pool_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query('SELECT booking_object_id'.
+			' FROM booking_object o'.
+			' JOIN booking_type t ON (o.type_id = t.booking_type_id)'.
+			' WHERE t.pool_id = '.$ilDB->quote($a_pool_id, 'integer'));
+	    $ids = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $row['booking_object_id'];
+		}
+
+		return $ids;
+	}
 }
 
 ?>

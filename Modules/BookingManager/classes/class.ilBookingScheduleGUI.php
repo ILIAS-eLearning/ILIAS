@@ -330,7 +330,10 @@ class ilBookingScheduleGUI
 					{
 						$from = $this->parseTime($fromto[0]);
 						$to = $this->parseTime($fromto[1]);
-						$definition[$day_id][] = $from."-".$to;
+						if($from && $to)
+						{
+							$definition[$day_id][] = $from."-".$to;
+						}
 					}
 				}
 			}
@@ -339,6 +342,31 @@ class ilBookingScheduleGUI
 				$definition[$day_id] = array("00:00-23:59");
 			}
 		}
+
+		// slots may not overlap
+		foreach($definition as $day_id => $slots)
+		{
+			$old = 0;
+			sort($slots);
+			foreach($slots as $idx => $slot)
+			{
+				$slot = explode('-', $slot);
+				$from = $slot[0];
+				$to = $slot[1];
+				if($from < $old)
+				{
+					$from = $old;
+					$slots[$idx] = $from.'-'.$to;
+					if($to < $from)
+					{
+						unset($slots[$idx]);
+					}
+				}
+				$old = $to;
+			}
+			$definition[$day_id] = $slots;
+		}
+		
 		$schedule->setDefinition($definition);
 	}
 
@@ -356,7 +384,7 @@ class ilBookingScheduleGUI
 			$pm = true;
 			$raw = substr($raw, 0, -2);
 		}
-		if(substr($raw, -2) == 'am')
+		else if(substr($raw, -2) == 'am')
 		{
 			$am = true;
 			$raw = substr($raw, 0, -2);
@@ -378,6 +406,10 @@ class ilBookingScheduleGUI
 		else if($am && $hours == 12)
 		{
 			$hours -= 12;
+		}
+		if($hours > 23 || $min > 59)
+		{
+			return false;
 		}
 		return str_pad($hours, 2, "0", STR_PAD_LEFT).":".
 			str_pad($min, 2, "0", STR_PAD_LEFT);

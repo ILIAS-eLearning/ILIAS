@@ -9,7 +9,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
@@ -76,6 +76,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				include_once("Modules/BookingManager/classes/class.ilBookingScheduleGUI.php");
 				$schedule_gui =& new ilBookingScheduleGUI($this);
 				$ret =& $this->ctrl->forwardCommand($schedule_gui);
+				break;
+
+			case 'ilpublicuserprofilegui':
+				$this->tabs_gui->setTabActive('schedules');
+				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$profile =& new ilPublicUserProfileGUI((int)$_GET["user"]);
+				$ret =& $this->ctrl->forwardCommand($profile);
 				break;
 
 			case 'ilinfoscreengui':
@@ -803,11 +810,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function rsvCancelObject()
 	{
+		global $ilAccess, $ilUser;
+		
 		$this->tabs_gui->setTabActive('log');
 
 		$id = (int)$_GET['reservation_id'];
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$obj = new ilBookingReservation($id);
+
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id) && $obj->getUserId() != $ilUser->getId())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this, 'log');
+		}
+
 		$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
 		$obj->update();
 
@@ -817,7 +833,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function rsvUncancelObject()
 	{
+		global $ilAccess;
+
 		$this->tabs_gui->setTabActive('log');
+
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this, 'log');
+		}
 
 		$id = (int)$_GET['reservation_id'];
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
@@ -831,7 +855,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function rsvInUseObject()
 	{
+		global $ilAccess;
+
 		$this->tabs_gui->setTabActive('log');
+
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this, 'log');
+		}
 
 		$id = (int)$_GET['reservation_id'];
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
@@ -845,7 +877,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function rsvNotInUseObject()
 	{
+		global $ilAccess;
+		
 		$this->tabs_gui->setTabActive('log');
+
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->ctrl->redirect($this, 'log');
+		}
 
 		$id = (int)$_GET['reservation_id'];
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
@@ -855,6 +895,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->logObject();
+	}
+
+	function showProfileObject()
+	{
+		global $tpl;
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'log'));
+
+		$user_id = (int)$_GET['user_id'];
+
+		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
+		$profile = new ilPublicUserProfileGUI($user_id);
+		$tpl->setContent($profile->getHTML());
 	}
 }
 
