@@ -30,7 +30,11 @@ HTTP_Request		1.4.4
 	Net_URL			>= 1.0.12
 	Net_Socket		>= 1.0.7		 
 
- Mail:				1.2.0
+Mail:				1.2.0
+
+OLE:				1.0 RC1
+ 
+Spreadsheet:		0.9.2
 
 Patches:
 
