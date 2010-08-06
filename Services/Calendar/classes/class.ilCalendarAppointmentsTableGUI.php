@@ -162,17 +162,57 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 */
 	public function setAppointments($a_apps)
 	{
+		global $ilUser;
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+
+		$cat = new ilCalendarCategory($this->cat_id);
 			
 		foreach($a_apps as $cal_entry_id)
 		{
 			$entry = new ilCalendarEntry($cal_entry_id);
  			$rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
+
+			// booking
+			if($cat->getType() == ilCalendarCategory::TYPE_CH)
+			{
+				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+				$book = new ilBookingEntry($entry->getContextId());
+				if($book)
+				{
+					$title = $entry->getTitle();
+					if($book->getObjId() == $ilUser->getId())
+					{
+						$max = (int)$book->getNumberOfBookings();
+						$current = (int)$book->getCurrentNumberOfBookings($entry->getEntryId());
+						if($max > 1)
+						{
+							$title .= ' ('.$current.'/'.$max.')';
+						}
+						else if($current == $max)
+						{
+							$title .= ' ('.$this->lng->txt('cal_booked_out').')';
+						}
+						else
+						{
+							$title .= ' ('.$this->lng->txt('cal_book_free').')';
+						}
+					}
+					else if($book->hasBooked($entry->getEntryId()))
+					{
+						$title .= ' ('.$this->lng->txt('cal_date_booked').')';
+					}
+				}
+			}
+		    else
+			{
+				$title = $entry>getPresentationTitle();
+			}
 			
 			$tmp_arr['id'] = $entry->getEntryId();
-			$tmp_arr['title'] = $entry->getPresentationTitle();
+			$tmp_arr['title'] = $title;
 			$tmp_arr['description'] = $entry->getDescription();
 			$tmp_arr['fullday'] = $entry->isFullday();
  			$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
