@@ -10817,3 +10817,30 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
+common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
+rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
+rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
+rbac#:#crs_create_book#:#Create Booking Pool###06 08 2010 new variable
+rbac#:#root_create_book#:#Create Booking Pool###06 08 2010 new variable
+common#:#optional_filter_hint#:#Please activate one of the optional filters.###06 08 2010 new variable
+grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.###06 08 2010 new variable
+grp#:#grp_info_agreement#:#The following data types are visible for group administrators:###06 08 2010 new variable
+grp#:#grp_agreement_header#:#User Agreement###06 08 2010 new variable
+grp#:#grp_user_agreement#:#Released Data Types###06 08 2010 new variable
+grp#:#grp_agree#:#Acceptance###06 08 2010 new variable
+trac#:#registration_filter#:#Date of Registration###06 08 2010 new variable
+trac#:#user_total#:#User Total###06 08 2010 new variable
+trac#:#create_date_min#:#Earliest Registration###06 08 2010 new variable
+trac#:#create_date_max#:#Latest Registration###06 08 2010 new variable
+trac#:#read_count_avg#:#Average page views###06 08 2010 new variable
+grp#:#grp_export_members#:#Export Participants###06 08 2010 new variable
+grp#:#grp_role_status#:#Role/Status###06 08 2010 new variable
+grp#:#grp_subscriber#:#Subscriber###06 08 2010 new variable
+grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.###06 08 2010 new variable
+content#:#cont_new_page#:#New Page###06 08 2010 new variable
+content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
+book#:#book_not#:#No###06 08 2010 new variable
