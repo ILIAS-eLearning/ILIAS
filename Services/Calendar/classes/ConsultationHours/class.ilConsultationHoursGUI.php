@@ -487,10 +487,13 @@ class ilConsultationHoursGUI
 		}
 
 		include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+		include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		foreach($_POST['apps'] as $entry_id)
 		{
 			$entry = new ilCalendarEntry($entry_id);
 			$entry->delete();
+
+			ilCalendarCategoryAssignments::_deleteByAppointmentId($entry_id);
 
 			// :TODO: notifications
 		}

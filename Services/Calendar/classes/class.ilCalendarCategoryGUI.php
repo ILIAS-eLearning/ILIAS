@@ -252,6 +252,10 @@ class ilCalendarCategoryGUI
 				$info->addProperty($this->lng->txt('perma_link'),$this->addReferenceLinks($category->getObjId()));
 				break;
 
+			case ilCalendarCategory::TYPE_CH:
+			case ilCalendarCategory::TYPE_BOOK:
+				// nothing to do
+				break;
 		}
 
 		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
@@ -965,7 +969,7 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php');
 		
-		$table_gui = new ilCalendarAppointmentsTableGUI($this,(int) $_GET['category_id']);
+		$table_gui = new ilCalendarAppointmentsTableGUI($this, 'details', (int)$_GET['category_id']);
 		$table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
 		$table_gui->setAppointments(
 			ilCalendarCategoryAssignments::_getAssignedAppointments(

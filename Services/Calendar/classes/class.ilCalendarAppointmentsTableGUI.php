@@ -42,7 +42,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_category_id)
+	public function __construct($a_parent_obj,$a_parent_cmd,$a_category_id)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -55,7 +55,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
 	 	
-		parent::__construct($a_parent_obj,'upcoming');
+		parent::__construct($a_parent_obj,$a_parent_cmd);
 		$this->setFormName('appointments');
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"50%");
