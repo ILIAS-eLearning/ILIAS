@@ -4323,7 +4323,7 @@ common#:#shib_lastname#:#Attribut für Nachnamen
 common#:#shib_login#:#Eindeutiges Shibboleth Attribut
 common#:#shib_login_button#:#Pfad zum Shibboleth-Login-Button
 common#:#shib_login_embedded_wayf#:#Anmeldebereich selber gestalten
-common#:#shib_login_embedded_wayf_description#:#Diese Einstellung erlaubt es beliebigen HTML Code im Textfeld für Anmeldeanweisungen anzugeben. Damit kann man beispielsweise einen eigenen JavaScript Embedded WAYF/Discovery Service verwenden oder den Anmeldebereich beliebig selber gestalten.
+common#:#shib_login_embedded_wayf_description#:#Diese Einstellung erlaubt es beliebigen HTML-Code im Textfeld für Anmeldeanweisungen anzugeben. Damit kann man beispielsweise einen eigenen JavaScript Embedded WAYF/Discovery Service verwenden oder den Anmeldebereich beliebig selber gestalten.
 common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
 common#:#shib_login_internal_wayf#:#Den ILIAS-WAYF-Dienst benutzen
 common#:#shib_login_type#:#Auswahl der Organisation
@@ -4939,9 +4939,9 @@ content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
-content#:#cont_credit_off#:#Kein Credit
-content#:#cont_credit_on#:#Credit
+content#:#cont_credit_mode#:#Bewertung / Steuerung der Lerneraktivitäten
+content#:#cont_credit_off#:#Ohne Bewertung
+content#:#cont_credit_on#:#Mit Bewertung (bestanden | nicht bestanden)
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_current_chapter#:#Aktuelles Kapitel
@@ -4958,7 +4958,7 @@ content#:#cont_debug#:#Debug-Menü anzeigen
 content#:#cont_debugpw#:#Zugangspasswort
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
-content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
+content#:#cont_def_lesson_mode#:#Modus für SCO-Nutzung
 content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
 content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
@@ -5377,11 +5377,11 @@ content#:#cont_save_spans#:#Zellenverbünde speichern
 content#:#cont_save_widths#:#Breiten speichern
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
-content#:#cont_sc_auto_review#:#Nach Abschluss Lesson-Modus auf 'review' setzen.
-content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
-content#:#cont_sc_less_mode_normal#:#Normal
+content#:#cont_sc_auto_review#:#Modus nach Bearbeitung des SCOs auf <i>Review</i> setzen
+content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
+content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
 content#:#cont_sc_max_attempt#:#Maximale Anzahl von Versuchen
-content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl von Versuchen für dieses Modul wurde erreicht.
+content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
 content#:#cont_sc_new_version#:#Neue Version hochladen
 content#:#cont_sc_preview#:#Vorschau
 content#:#cont_sc_stat_browsed#:#Besucht
@@ -5393,7 +5393,7 @@ content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Session-Timeout deaktivieren
-content#:#cont_sc_version#:#Modulversion
+content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_school#:#Schule
 content#:#cont_score#:#Punkte
@@ -10699,7 +10699,7 @@ form#:#form_alphabet_all#:#Alle
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_download#:#Die Downloadfunktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_no_download_file_available#:#Zur Zeit ist keine öffentliche Downloaddatei verfügbar.
-content#:#htlm_import#:#HTML Lernmodul importieren
+content#:#htlm_import#:#HTML-Lernmodul importieren
 content#:#cont_selection#:#Auswahl
 wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_selected_pages#:#Ausgewählte Seiten
