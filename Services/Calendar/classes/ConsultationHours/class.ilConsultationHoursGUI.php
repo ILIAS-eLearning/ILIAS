@@ -498,5 +498,29 @@ class ilConsultationHoursGUI
 		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
 		$this->ctrl->redirect($this, 'appointmentList');
 	}
+
+	/**
+	 * show public profile of given user
+	 */
+	public function showProfile()
+	{
+		global $tpl, $ilTabs, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		if(isset($_GET['panel']))
+		{
+			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilCalendarPresentationGUI'));
+		}
+		else
+		{
+			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'appointmentList'));
+		}
+
+		$user_id = (int)$_GET['user'];
+
+		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
+		$profile = new ilPublicUserProfileGUI($user_id);
+		$tpl->setContent($profile->getHTML());
+	}
 }
 ?>
