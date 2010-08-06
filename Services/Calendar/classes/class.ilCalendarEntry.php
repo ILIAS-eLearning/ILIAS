@@ -58,7 +58,14 @@ class ilCalendarEntry implements ilDatePeriod
 			$this->read();
 		}
 	}
-	
+
+	/**
+	 * clone instance
+	 */
+	public function __clone()
+	{
+		$this->entry_id = NULL;
+	}
 	
 	/**
 	 * delete entry

@@ -1230,6 +1230,16 @@ class ilCalendarAppointmentGUI
 		$booking = new ilBookingEntry($entry->getContextId());
         $booking->book($entry->getEntryId());
 
+		// create user calendar/appointment
+		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
+		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+		$user_entry = clone $entry;
+		$user_entry->save();
+		$def_cat = ilCalendarUtil::initDefaultCalendarByType(ilCalendarCategory::TYPE_CH,$ilUser->getId(),$this->lng->txt('cal_ch_personal_ch'),true);
+		$assign = new ilCalendarCategoryAssignments($user_entry->getEntryId());
+		$assign->addAssignment($def_cat->getCategoryID());
+
 		ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
 	}

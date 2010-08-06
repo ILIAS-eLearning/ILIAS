@@ -49,6 +49,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField('start');
 		$this->setSelectAllCheckbox('apps');
+		$this->setShowRowsSelector(true); 
 
 		$this->addMultiCommand('edit', $this->lng->txt('edit'));
 		$this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
