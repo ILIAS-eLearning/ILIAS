@@ -204,7 +204,9 @@ class ilCalendarAppointmentPanelGUI
 						foreach($reg->getRegisteredUsers(new ilDateTime($a_app['dstart'],IL_CAL_UNIX),new ilDateTime($a_app['dend'],IL_CAL_UNIX)) as $usr_data)
 						{
 							$usr_id = $usr_data['usr_id'];
-							$registrations[] = '<a href="'.ilLink::_getLink($usr_id, 'usr').'">'.ilObjUser::_lookupFullname($usr_id);
+							$this->ctrl->setParameterByClass('ilconsultationhoursgui','user',$usr_id);
+							$registrations[] = '<a href="'.$this->ctrl->getLinkTargetByClass('ilconsultationhoursgui', 'showprofile').'">'.ilObjUser::_lookupFullname($usr_id);
+							$this->ctrl->setParameterByClass('ilconsultationhoursgui','user','');
 						}
 						if(count($registrations))
 						{
@@ -261,10 +263,14 @@ class ilCalendarAppointmentPanelGUI
 				{
 					include_once 'classes/class.ilLink.php';
 					$bookings = array();
+					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel',1);
 					foreach($entry->getCurrentBookings($a_app['event']->getEntryId()) as $user_id)
 					{
-						$bookings[] = '<a href="'.ilLink::_getLink($user_id, 'usr').'">'.ilObjUser::_lookupFullname($user_id);
+						$this->ctrl->setParameterByClass('ilconsultationhoursgui','user',$user_id);
+						$bookings[] = '<a href="'.$this->ctrl->getLinkTargetByClass('ilconsultationhoursgui', 'showprofile').'">'.ilObjUser::_lookupFullname($user_id);
+						$this->ctrl->setParameterByClass('ilconsultationhoursgui','user','');
 					}
+					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel','');
 					$this->tpl->setCurrentBlock('panel_current_booking');
 					$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
 					$this->tpl->setVariable('PANEL_CURRENT_BOOKING', implode('<br />', $bookings));

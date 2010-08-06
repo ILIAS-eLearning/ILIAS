@@ -69,10 +69,26 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
+		global $ilCtrl;
+		
 		$this->tpl->setVariable('VAL_ID',$row['id']);
 		$this->tpl->setVariable('TITLE',$row['title']);
 		$this->tpl->setVariable('START',$row['start_p']);
 		$this->tpl->setVariable('NUM_BOOKINGS',$row['num_bookings']);
+
+		if($row['bookings'])
+		{
+			$this->tpl->setCurrentBlock('bookings');
+			foreach($row['bookings'] as $user_id => $name)
+			{
+				$ilCtrl->setParameter($this->getParentObject(), 'user', $user_id);
+				$this->tpl->setVariable('URL_BOOKING', $ilCtrl->getLinkTarget($this->getParentObject(), 'showprofile'));
+				$ilCtrl->setParameter($this->getParentObject(), 'user', '');
+				$this->tpl->setVariable('TXT_BOOKING', $name);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
 		$this->tpl->setVariable('BOOKINGS',implode(', ', $row['bookings']));
 	}
 	
@@ -100,7 +116,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 			$users = array();
 			foreach($booking->getCurrentBookings($app->getEntryId()) as $user_id)
 			{
-				$users[] = ilObjUser::_lookupFullname($user_id);
+				$users[$user_id] = ilObjUser::_lookupFullname($user_id);
 			}
 			$data[$counter]['num_bookings'] = sizeof($users);
 			$data[$counter]['bookings'] = $users;
