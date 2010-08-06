@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ALL ^ E_NOTICE);
+#error_reporting(E_ALL ^ E_NOTICE);
 
 //
 // hack by Vangelis Haniotakis to handle the absence of $_SERVER['REQUEST_URI'] in IIS
