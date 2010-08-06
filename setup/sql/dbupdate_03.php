@@ -3092,3 +3092,10 @@ foreach(array('cat', 'crs', 'grp', 'fold', 'root') as $type)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3162>
+<?php
+	$ilDB->manipulate("UPDATE ut_lp_marks SET ".
+		" status_dirty = ".$ilDB->quote(1, "integer")
+		);
+?>
+
