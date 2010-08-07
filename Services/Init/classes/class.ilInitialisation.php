@@ -497,9 +497,10 @@ class ilInitialisation
 	/**
 	* set session cookie params for path, domain, etc.
 	*/
-	function setCookieParams($context)
+	function setCookieParams()
 	{
-		if($context == 'webdav')
+		include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+		if(ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) 
 		{
 			$cookie_path = '/';
 		}
@@ -1018,7 +1019,7 @@ class ilInitialisation
 		umask(0117);
 		
 		// set cookie params
-		$this->setCookieParams($context);
+		$this->setCookieParams();
 
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
@@ -1337,23 +1338,7 @@ class ilInitialisation
 					and $this->script != "confirmReg.php"
 				)
 		{
-			//
-			// AUTHENTICATION FAILED
-			//
 				
-			// If ILIAS is accessed by a WebDAV client,
-			// request login again.
-			if ($context == "webdav") 
-			{
-				$ilLog->write(__METHOD__.': Current Auth Class: '. get_class($ilAuth));
-				$ilAuth->logout();
-				$ilAuth->start();
-
-				// $lng initialisation, in case authentication succeeds 
-				$this->initLanguage();
-				
-				return;
-			}
 			// authentication failed due to inactive user?
 			if ($ilAuth->getAuth() && !$ilUser->isCurrentUserActive())
 			{

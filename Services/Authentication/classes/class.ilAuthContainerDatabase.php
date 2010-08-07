@@ -26,14 +26,14 @@ require_once 'Auth/Container/MDB2.php';
  */
 class ilAuthContainerDatabase extends Auth_Container_MDB2
 {
-        /**
-         * If this variable is set to true, function fetchData calls
-         * function loginObserver on a successful login and function 
-         * failedLoginObserver on a failed login.
-         * 
-         * @var boolean
-         */
-        private $isObserversEnabled;
+	/**
+	 * If this variable is set to true, function fetchData calls
+	 * function loginObserver on a successful login and function 
+	 * failedLoginObserver on a failed login.
+	 * 
+	 * @var boolean
+	 */
+	private $isObserversEnabled;
         
 	function ilAuthContainerDatabase($dsn)
 	{
@@ -111,7 +111,7 @@ class ilAuthContainerDatabase extends Auth_Container_MDB2
 	 */
 	public function loginObserver($a_username)
 	{
-                global $ilLog;
+		global $ilLog;
 		$ilLog->write(__METHOD__.': logged in as '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
@@ -125,7 +125,7 @@ class ilAuthContainerDatabase extends Auth_Container_MDB2
 	 */
 	public function failedLoginObserver()
 	{
-                global $ilLog;
+		global $ilLog;
 		$ilLog->write(__METHOD__.': login failed'.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']

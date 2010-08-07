@@ -105,7 +105,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * The WebDAVServer prints lots of log messages to the ilias log, if this
 	 * variable is set to true.
 	 */
-	private $isDebug = false;
+	private $isDebug = true;
 
 	/**
 	* Constructor
@@ -174,6 +174,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// die quickly if plugin is deactivated
 		if (!self::_isActive())
 		{
+			$this->writelog(__METHOD__.' WebDAV disabled. Aborting');
 			$this->http_status('403 Forbidden');
 			echo '<html><body><h1>Sorry</h1>'.
 				'<p><b>Please enable the WebDAV plugin in the ILIAS Administration panel.</b></p>'.

@@ -52,7 +52,7 @@ abstract class ilAuthContainerBase
 	 */
 	public function failedLoginObserver($a_username,$a_auth)
 	{
-		
+		return false;
 	}
 	
 	/** 
@@ -80,3 +80,4 @@ abstract class ilAuthContainerBase
 	}
 	
 }
+?>

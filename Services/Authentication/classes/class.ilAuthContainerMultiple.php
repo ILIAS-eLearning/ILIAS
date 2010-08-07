@@ -56,6 +56,7 @@ class ilAuthContainerMultiple extends Auth_Container
     public function failedLoginObserver($a_username, $a_auth)
     {
         $this->log('Auth_Container_Multiple: All containers rejected user credentials.', AUTH_LOG_DEBUG);
+		return false;
     }
     
     /**

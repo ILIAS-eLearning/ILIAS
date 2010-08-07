@@ -122,7 +122,7 @@ class HTTP_WebDAV_Server
      * @param  void
      * @return void
      */
-    function ServeRequest() 
+    function serveRequest() 
     {
         // default uri is the complete request uri
         $uri = (@$_SERVER["HTTPS"] === "on" ? "https:" : "http:");
@@ -138,6 +138,8 @@ class HTTP_WebDAV_Server
             header("X-Dav-Powered-By: ".$this->dav_powered_by );
         }
 
+		$this->writelog(__METHOD__.': Using uri: '.$this->uri);
+
         // check authentication
         if (!$this->_check_auth()) {
             // RFC2518 says we must use Digest instead of Basic
@@ -149,12 +151,14 @@ class HTTP_WebDAV_Server
             // Windows seems to require this being the last header sent
             // (changed according to PECL bug #3138)
             $this->http_status('401 Unauthorized');
+			$this->writelog('Check auth failed');
 
             return;
         }
         
         // check 
         if(! $this->_check_if_header_conditions()) {
+        	$this->writelog(__METHOD__.': Precondition failed.');
             $this->http_status("412 Precondition failed");
             return;
         }
@@ -163,8 +167,8 @@ class HTTP_WebDAV_Server
         $this->path = $this->_urldecode($_SERVER["PATH_INFO"]);
         if (!strlen($this->path)) {
             header("Location: ".$this->base_uri."/");
- 		//$this->writelog('HTTP_WebDAV_Server.ServeRequest() missing path info');
-		$this->path = '/';
+ 			$this->writelog('HTTP_WebDAV_Server.ServeRequest() missing path info');
+			$this->path = '/';
             //exit;
         }
 	// BEGIN WebDAV: Don't strip backslashes. Backslashes are a valid part of a unix filename!
@@ -178,18 +182,31 @@ class HTTP_WebDAV_Server
         // detect requested method names
         $method = strtolower($_SERVER["REQUEST_METHOD"]);
         $wrapper = "http_".$method;
+		
+		$this->writelog(__METHOD__.': Using request method: '.$method);
         
         // activate HEAD emulation by GET if no HEAD method found
-        if ($method == "head" && !method_exists($this, "head")) {
+        if ($method == "head" && !method_exists($this, "head")) 
+		{
             $method = "get";
+			$this->writelog(__METHOD__.': Using head emulation by get.');
         }
         
-        if (method_exists($this, $wrapper) && ($method == "options" || method_exists($this, $method))) {
-            $this->$wrapper();  // call method by name
-        } else { // method not found/implemented
-            if ($_SERVER["REQUEST_METHOD"] == "LOCK") {
+        if (method_exists($this, $wrapper) && ($method == "options" || method_exists($this, $method))) 
+		{
+            $this->writelog(__METHOD__.': Calling wrapper: '.$wrapper);
+			$this->$wrapper();  // call method by name
+        } 
+		else 
+		{ // method not found/implemented
+            if ($_SERVER["REQUEST_METHOD"] == "LOCK") 
+			{
+				$this->writelog(__METHOD__.': Method not found/implemented. Sending 412');
                 $this->http_status("412 Precondition failed");
-            } else {
+            } 
+			else 
+			{
+				$this->writelog(__METHOD__.': Method not found/implemented. Sending allowd methods');
                 $this->http_status("405 Method not allowed");
                 header("Allow: ".join(", ", $this->_allow()));  // tell client what's allowed
             }
@@ -476,7 +493,7 @@ class HTTP_WebDAV_Server
         $this->http_status("200 OK");
         header("DAV: "  .join("," , $dav));
         header("Allow: ".join(", ", $allow));
-//$this->writelog('http_Options(): dav='.var_export($dav,true).' allow='.var_export($allow,true));
+		$this->writelog(__METHOD__.': dav='.var_export($dav,true).' allow='.var_export($allow,true));
         header("Content-length: 0");
     }
 
@@ -1993,9 +2010,10 @@ class HTTP_WebDAV_Server
          */
 	private function writelog($message) 
 	{
-		global $log, $ilias;
+		global $log, $ilUser;
+		
 		$log->write(
-			$ilias->account->getLogin()
+			$ilUser->getLogin()
 			.' DAV Server.'.str_replace("\n",";",$message)
 		);
 		/*
