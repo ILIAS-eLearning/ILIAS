@@ -85,6 +85,8 @@ class ilConditionHandler
 	var $validation;
 
 	var $conditions;
+	static $cond_for_target_cache = array();
+	static $cond_target_rows = array();
 
 
 	/**
@@ -561,47 +563,93 @@ class ilConditionHandler
 	{
 		global $ilDB, $ilBench;
 
-		$ilBench->start("ilConditionHandler", "getConditionsOfTarget");
-
+		// get type if no type given
 		if ($a_target_type == "")
 		{
 			$a_target_type = ilObject::_lookupType($a_target_obj_id);
 		}
 
-		$query = "SELECT * FROM conditions ".
-			"WHERE target_obj_id = ".$ilDB->quote($a_target_obj_id,'integer')." ".
-			" AND target_type = ".$ilDB->quote($a_target_type,'text');
-
-		$res = $ilDB->query($query);
-		$conditions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		// check conditions for target cache
+		if (isset(self::$cond_for_target_cache[$a_target_ref_id.":".$a_target_obj_id.":".
+			$a_target_type]))
 		{
-			if($row->ref_handling == self::UNIQUE_CONDITIONS)
+			return self::$cond_for_target_cache[$a_target_ref_id.":".$a_target_obj_id.":".
+				$a_target_type];
+		}
+
+		// check rows cache
+		if (isset(self::$cond_target_rows[$a_target_type.":".$a_target_obj_id]))
+		{
+			$rows = self::$cond_target_rows[$a_target_type.":".$a_target_obj_id];
+		}
+		else
+		{
+			// query data from db
+			$query = "SELECT * FROM conditions ".
+				"WHERE target_obj_id = ".$ilDB->quote($a_target_obj_id,'integer')." ".
+				" AND target_type = ".$ilDB->quote($a_target_type,'text');
+
+			$res = $ilDB->query($query);
+			$rows = array();
+			while ($row = $ilDB->fetchAssoc($res))
 			{
-				if($row->target_ref_id != $a_target_ref_id)
+				$rows[] = $row;
+			}
+		}
+
+		reset($rows);
+		$conditions = array();
+		foreach ($rows as $row)
+		{
+			if ($row["ref_handling"] == self::UNIQUE_CONDITIONS)
+			{
+				if ($row["target_ref_id"] != $a_target_ref_id)
 				{
 					continue;
 				}
 			}
 			
-			$tmp_array['id']			= $row->condition_id;
-			$tmp_array['target_ref_id'] = $row->target_ref_id;
-			$tmp_array['target_obj_id'] = $row->target_obj_id;
-			$tmp_array['target_type']	= $row->target_type;
-			$tmp_array['trigger_ref_id'] = $row->trigger_ref_id;
-			$tmp_array['trigger_obj_id'] = $row->trigger_obj_id;
-			$tmp_array['trigger_type']	= $row->trigger_type;
-			$tmp_array['operator']		= $row->operator;
-			$tmp_array['value']			= $row->value;
-			$tmp_array['ref_handling']  = $row->ref_handling;
-
-			$conditions[] = $tmp_array;
-			unset($tmp_array);
+			$row["id"] = $row["condition_id"];
+			$conditions[] = $row;
 		}
 
-		$ilBench->stop("ilConditionHandler", "getConditionsOfTarget");
+		// write conditions for target cache
+		self::$cond_for_target_cache[$a_target_ref_id.":".$a_target_obj_id.":".
+			$a_target_type] = $conditions;
 
 		return $conditions;
+	}
+
+	/**
+	 * Preload conditions for target records
+	 *
+	 * @param
+	 * @return
+	 */
+	function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
+	{
+		global $ilDB;
+
+		if (is_array($a_obj_ids) && count($a_obj_ids) > 0)
+		{
+			$res = $ilDB->query("SELECT * FROM conditions ".
+				"WHERE ".$ilDB->in("target_obj_id", $a_obj_ids, false, "integer").
+				" AND target_type = ".$ilDB->quote($a_type,'text'));
+			$rows = array();
+			while ($row = $ilDB->fetchAssoc($res))
+			{
+				self::$cond_target_rows[$a_type.":".$row["target_obj_id"]][]
+					= $row;
+			}
+			// init obj ids without any record
+			foreach ($a_obj_ids as $obj_id)
+			{
+				if (!is_array(self::$cond_target_rows[$a_type.":".$obj_id]))
+				{
+					self::$cond_target_rows[$a_type.":".$obj_id] = array();
+				}
+			}
+		}
 	}
 
 	function _getCondition($a_id)
