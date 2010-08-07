@@ -3098,4 +3098,8 @@ foreach(array('cat', 'crs', 'grp', 'fold', 'root') as $type)
 		" status_dirty = ".$ilDB->quote(1, "integer")
 		);
 ?>
+<#3163>
+<?php
+	$ilDB->addIndex("conditions", array("target_obj_id", "target_type"), "tot");
+?>
 
