@@ -156,6 +156,7 @@ class ilAuthContainerECS extends Auth_Container
 	public function failedLoginObserver()
 	{
 		$this->log->write(__METHOD__.': Login failed');
+		return false;
 	}
 	
 	

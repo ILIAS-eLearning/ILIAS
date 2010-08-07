@@ -52,7 +52,7 @@ class ilAuthHTTP extends Auth_HTTP
 	 * @param object Auth_ContainerBase
 	 * @param array	further options Not used in the moment
      */
-    function __construct($container, $a_options = array())
+    public function __construct($container, $a_options = array())
     {
 		$a_options['sessionSharing'] = false;
 
@@ -62,6 +62,24 @@ class ilAuthHTTP extends Auth_HTTP
 
 		$this->initAuth();
     }
+	
+	/**
+	 * Failed login. => Draw login (HTTP 401)
+	 * @param object $a_username
+	 * @param object $a_auth
+	 * @return 
+	 */
+	protected function failedLoginObserver($a_username, $a_auth)
+	{
+		// First, call parent observer and
+		if(!parent::failedLoginObserver($a_username,$a_auth))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': HTTP authentication failed. Sending status 401');
+			$this->drawLogin($a_username);
+			return false;
+		}
+		return false;
+	}
 }
 
 ?>

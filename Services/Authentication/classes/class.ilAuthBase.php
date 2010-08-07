@@ -71,7 +71,7 @@ abstract class ilAuthBase
 		$this->setLogoutCallback(array($this,'logoutObserver'));
 		
 		include_once('Services/Authentication/classes/class.ilAuthLogObserver.php');
-		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_INFO));
+		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_DEBUG));
 		$this->enableLogging = true;
 		
 	}
@@ -112,11 +112,11 @@ abstract class ilAuthBase
 	{
 		global $ilLog;
 
-		$this->getContainer()->failedLoginObserver($a_username,$a_auth);
 		$ilLog->write(__METHOD__.': login failed for user '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 		);
+		return $this->getContainer()->failedLoginObserver($a_username,$a_auth);
 	}
 
 	/**

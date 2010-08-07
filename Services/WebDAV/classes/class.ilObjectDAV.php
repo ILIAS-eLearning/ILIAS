@@ -328,6 +328,8 @@ if (false)		// old implementation deactivated
 }
 else 		// this one fixes bug #5367
 {
+		$GLOBALS['ilLog']->write('Checking permission for ref_id: '.$this->getRefId());
+		
 		global $ilAccess;
 		$operations = explode(",",$operations."");
 		foreach ($operations as $operation)
