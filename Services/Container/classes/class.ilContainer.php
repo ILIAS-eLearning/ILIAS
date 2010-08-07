@@ -56,6 +56,8 @@ class ilContainer extends ilObject
 	const SORT_MANUAL = 1;
 	const SORT_ACTIVATION = 2;
 	const SORT_INHERIT = 3;
+
+	static $data_preloaded = false;
 	
 	/**
 	* Constructor
@@ -596,6 +598,7 @@ class ilContainer extends ilObject
 			$this->addAdditionalSubItemInformation($object);
 			
 			$this->items[$type][$key] = $object;
+			$obj_ids_of_type[$type][] = $object["obj_id"];
 			$this->items["_all"][$key] = $object;
 			if ($object["type"] != "sess")
 			{
@@ -605,6 +608,22 @@ class ilContainer extends ilObject
 
 		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
 			= $sort->sortItems($this->items);
+
+		// data preloader
+		if (!self::$data_preloaded && is_array($this->items))
+		{
+			foreach ($this->items as $t => $items)
+			{
+				if (!in_array($t, array("_all", "_non_sess")) && !is_numeric($t))
+				{
+					// condition handler: preload conditions
+					include_once("./classes/class.ilConditionHandler.php");
+					ilConditionHandler::preloadConditionsForTargetRecords($t,
+						$obj_ids_of_type[$t]);
+				}
+			}
+			self::$data_preloaded = true;
+		}
 
 		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 	}
