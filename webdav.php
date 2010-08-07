@@ -21,11 +21,11 @@ $client_id = $path_info_components[1];
 
 // For all requests, except for GET-Requests for files, we enforce HTTP 
 // authentication for the WebDAV protocol.
-if ($_SERVER['REQUEST_METHOD'] != 'GET' || 
-	count($path_info_components) < 3 ||
-	substr($path_info_components[2],0,5) != 'file_') {
-	define ('WebDAV_Authentication', 'HTTP');
-}
+#if ($_SERVER['REQUEST_METHOD'] != 'GET' || 
+#	count($path_info_components) < 3 ||
+#	substr($path_info_components[2],0,5) != 'file_') {
+#	define ('WebDAV_Authentication', 'HTTP');
+#}
 define ('WebDAV_Authentication', 'HTTP');
 
 // Set context for authentication
