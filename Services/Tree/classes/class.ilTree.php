@@ -2197,8 +2197,8 @@ class ilTree
 //echo "<br>issavedhit";
 			return $this->is_saved_cache[$a_node_id];
 		}
-		
-		$query = 'SELECT * FROM '.$this->table_tree.' '.
+
+		$query = 'SELECT '.$this->tree_pk.' FROM '.$this->table_tree.' '.
 			'WHERE child = %s ';
 		$res = $ilDB->queryF($query,array('integer'),array($a_node_id));
 		$row = $ilDB->fetchAssoc($res);
@@ -2221,6 +2221,43 @@ class ilTree
 		}
 	}
 
+	/**
+	 * Preload deleted information
+	 *
+	 * @param
+	 * @return
+	 */
+	function preloadDeleted($a_node_ids)
+	{
+		global $ilDB;
+
+		if (!is_array($a_node_ids) || !$this->isCacheUsed())
+		{
+			return;
+		}
+
+		$query = 'SELECT '.$this->tree_pk.', child FROM '.$this->table_tree.' '.
+			'WHERE '.$ilDB->in("child", $a_node_ids, false, "integer");
+
+		$res = $ilDB->query($query);
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			if ($row[$this->tree_pk] < 0)
+			{
+				if($this->__isMainTree())
+				{
+					$this->is_saved_cache[$row["child"]] = true;
+				}
+			}
+			else
+			{
+				if($this->__isMainTree())
+				{
+					$this->is_saved_cache[$row["child"]] = false;
+				}
+			}
+		}
+	}
 
 
 	/**
