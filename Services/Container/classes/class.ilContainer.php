@@ -598,7 +598,11 @@ class ilContainer extends ilObject
 			$this->addAdditionalSubItemInformation($object);
 			
 			$this->items[$type][$key] = $object;
+
 			$obj_ids_of_type[$type][] = $object["obj_id"];
+			$ref_ids_of_type[$type][] = $object["child"];
+			$all_ref_ids[] = $object["child"];
+
 			$this->items["_all"][$key] = $object;
 			if ($object["type"] != "sess")
 			{
@@ -612,6 +616,7 @@ class ilContainer extends ilObject
 		// data preloader
 		if (!self::$data_preloaded && is_array($this->items))
 		{
+			// type specific preloads
 			foreach ($this->items as $t => $items)
 			{
 				if (!in_array($t, array("_all", "_non_sess")) && !is_numeric($t))
@@ -622,6 +627,10 @@ class ilContainer extends ilObject
 						$obj_ids_of_type[$t]);
 				}
 			}
+
+			// tree deleted info preload
+			$tree->preloadDeleted($all_ref_ids);
+
 			self::$data_preloaded = true;
 		}
 
