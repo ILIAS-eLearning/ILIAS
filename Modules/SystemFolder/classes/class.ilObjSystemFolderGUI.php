@@ -2094,11 +2094,19 @@ return $this->showServerInfoObject();
 			// limit tree in courses and groups
 			$cb = new ilCheckboxInputGUI($lng->txt("adm_rep_tree_limit_grp_crs"), "rep_tree_limit_grp_crs");
 			$cb->setChecked($ilSetting->get("rep_tree_limit_grp_crs"));
+			$cb->setInfo($lng->txt("adm_rep_tree_limit_grp_crs_info"));
 			$op2->addSubItem($cb);
 
 		$radg->addOption($op2);
 
 		$this->form->addItem($radg);
+
+		// synchronize repository tree with main view
+		$cb = new ilCheckboxInputGUI($lng->txt("adm_synchronize_rep_tree"), "rep_tree_synchronize");
+		$cb->setInfo($lng->txt("adm_synchronize_rep_tree_info"));
+		$cb->setChecked($ilSetting->get("rep_tree_synchronize"));
+		$this->form->addItem($cb);
+
 		
 		// repository access check
 		$options = array(
@@ -2338,7 +2346,17 @@ return $this->showServerInfoObject();
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
+			if ($_POST["rep_tree_limit_grp_crs"] && !$ilSetting->get("rep_tree_limit_grp_crs"))
+			{
+				$_POST["rep_tree_synchronize"] = true;
+			}
+			else if (!$_POST["rep_tree_synchronize"] && $ilSetting->get("rep_tree_synchronize"))
+			{
+				$_POST["rep_tree_limit_grp_crs"] = false;
+			}
+
 			$ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
+			$ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);
 			
 			$global_profiles = ($_POST["pub_section"])
 				? (int)$_POST['enable_global_profiles']

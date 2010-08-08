@@ -10807,3 +10807,6 @@ grp#:#grp_agreement_required#:#You have to accept the user agreement, if you wan
 content#:#cont_new_page#:#New Page
 content#:#cont_new_chap#:#New Chapter
 book#:#book_not#:#Not
+administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.
+administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View
+administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.

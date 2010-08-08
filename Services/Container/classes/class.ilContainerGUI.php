@@ -468,7 +468,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function renderObject()
 	{
-		global $ilDB, $tpl, $ilTabs, $ilCtrl;
+		global $ilDB, $tpl, $ilTabs, $ilCtrl, $ilSetting;
 
 		switch ($this->object->getViewMode())
 		{
@@ -529,7 +529,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->showPermanentLink($tpl);
 
 		// add tree updater javascript
-		if ((int) $_GET["ref_id"] > 1)
+		if ((int) $_GET["ref_id"] > 1 && $ilSetting->get("rep_tree_synchronize"))
 		{
 			$ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
 			$tpl->addOnloadCode("
