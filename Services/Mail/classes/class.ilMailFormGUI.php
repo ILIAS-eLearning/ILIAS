@@ -560,12 +560,15 @@ class ilMailFormGUI
 
 	public function showForm()
 	{
-		global $rbacsystem, $ilUser, $ilCtrl, $lng;
+		global $rbacsystem, $ilUser, $ilCtrl, $lng, $ilTabs;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
 		$this->lng->loadLanguageModule("crs");
+
+        if(ilMailFormCall::_isRefererStored())
+            $ilTabs->setBackTarget($lng->txt('back'), $ilCtrl->getLinkTarget($this, 'cancelMail'));
 
 		switch($_GET["type"])
 		{
