@@ -1,4 +1,5 @@
 <script type="text/javascript">
+<!--
 var maxinput = -1;
 
 function createTextInput(name, size)
@@ -94,5 +95,5 @@ function flashWizardEvents_{POST_VAR}(e)
 }
 
 YAHOO.util.Event.onDOMReady(flashWizardEvents_{POST_VAR});
-
+//-->
 </script>

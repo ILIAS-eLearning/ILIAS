@@ -2480,15 +2480,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$form_gui->addItem($chb);
 
-		$chb = new ilCheckboxInputGUI($this->lng->txt('recipients'), 'm_notsent[]');
-		$chb->setOptionTitle($this->lng->txt('not_sent_only'));
-		$chb->setValue(1);
-		$chb->setChecked(false);
-		if(is_array($mailData["m_notsent"]) and in_array(1, $mailData["m_notsent"]))
+		$sendtype = new ilRadioGroupInputGUI($this->lng->txt('recipients'), "m_notsent[]");
+//		$sendtype->setInfo($this->lng->txt(''));
+		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), 0, ''));
+		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), 1, ''));
+		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
+		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_unanswered"), 3, ''));
+		if(is_array($mailData["m_notsent"]))
 		{
-			$chb->setChecked(true);
+			$sendtype->setValue($mailData["m_notsent"][0]);
 		}
-		$form_gui->addItem($chb);
+		else
+		{
+			$sendtype->setValue(1);
+		}
+		$form_gui->addItem($sendtype);
 
 		$existingdata = $this->object->getExternalCodeRecipients();
 		$existingcolumns = array();
@@ -2552,10 +2558,92 @@ class ilObjSurveyGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('external_recipients_deleted'), true);
 		$this->ctrl->redirect($this, 'codesMail');
 	}
-
-	function importExternalRecipientsFromFileObject()
+	
+	public function importExternalRecipientsFromDatasetObject()
 	{
-		$hasErrors = $this->importExternalMailRecipientsObject(true);
+		$hasErrors = $this->importExternalMailRecipientsObject(true, 2);
+		if (!$hasErrors)
+		{
+			$data = array();
+			$existingdata = $this->object->getExternalCodeRecipients();
+			if (count($existingdata))
+			{
+				$first = array_shift($existingdata);
+				foreach ($first as $key => $value)
+				{
+					if (strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
+					{
+						$data[$key] = $_POST[$key];
+					}
+				}
+			}
+			if (count($data))
+			{
+				$this->object->createSurveyCodesForExternalData(array($data));
+				ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+			}
+			$this->ctrl->redirect($this, 'codesMail');
+		}
+	}
+
+	public function importExternalRecipientsFromTextObject()
+	{
+		$hasErrors = $this->importExternalMailRecipientsObject(true, 1);
+		if (!$hasErrors)
+		{
+			$data = preg_split("/[\n\r]/", $_POST['externaltext']);
+			$fields = preg_split("/;/", array_shift($data));
+			if (!in_array('email', $fields))
+			{
+				ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email'), true);
+				$this->ctrl->redirect($this, 'codesMail');
+			}
+			$existingdata = $this->object->getExternalCodeRecipients();
+			$existingcolumns = array();
+			if (count($existingdata))
+			{
+				$first = array_shift($existingdata);
+				foreach ($first as $key => $value)
+				{
+					array_push($existingcolumns, $key);
+				}
+			}
+			$founddata = array();
+			foreach ($data as $datarow)
+			{
+				$row = preg_split("/;/", $datarow);
+				if (count($row) == count($fields))
+				{
+					$dataset = array();
+					foreach ($fields as $idx => $fieldname)
+					{
+						if (count($existingcolumns))
+						{
+							if (array_key_exists($idx, $existingcolumns))
+							{
+								$dataset[$fieldname] = $row[$idx];
+							}
+						}
+						else
+						{
+							$dataset[$fieldname] = $row[$idx];
+						}
+					}
+					if (strlen($dataset['email']))
+					{
+						array_push($founddata, $dataset);
+					}
+				}
+			}
+			$this->object->createSurveyCodesForExternalData($founddata);
+			ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
+			$this->ctrl->redirect($this, 'codesMail');
+		}
+	}
+
+	public function importExternalRecipientsFromFileObject()
+	{
+		$hasErrors = $this->importExternalMailRecipientsObject(true, 0);
 		if (!$hasErrors)
 		{
 			include_once "./Services/Utilities/classes/class.ilCSVReader.php";
@@ -2582,22 +2670,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$founddata = array();
 			foreach ($data as $row)
 			{
-				$dataset = array();
-				foreach ($fields as $idx => $fieldname)
+				if (count($row) == count($fields))
 				{
-					if (count($existingcolumns))
+					$dataset = array();
+					foreach ($fields as $idx => $fieldname)
 					{
-						if (in_array($idx, $existingcolumns))
+						if (count($existingcolumns))
+						{
+							if (array_key_exists($idx, $existingcolumns))
+							{
+								$dataset[$fieldname] = $row[$idx];
+							}
+						}
+						else
 						{
 							$dataset[$fieldname] = $row[$idx];
 						}
 					}
-					else
+					if (strlen($dataset['email']))
 					{
-						$dataset[$fieldname] = $row[$idx];
+						array_push($founddata, $dataset);
 					}
 				}
-				array_push($founddata, $dataset);
 			}
 			$reader->close();
 			$this->object->createSurveyCodesForExternalData($founddata);
@@ -2606,44 +2700,132 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 
-	function importExternalMailRecipientsObject($checkonly = false)
+	function importExternalMailRecipientsObject($checkonly = false, $formindex = -1)
 	{
 		global $ilAccess;
 		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
-		$savefields = (strcmp($this->ctrl->getCmd(), "importExternalRecipientsFromFile") == 0) ? TRUE : FALSE;
+		$savefields = (
+			strcmp($this->ctrl->getCmd(), "importExternalRecipientsFromFile") == 0 || 
+			strcmp($this->ctrl->getCmd(), "importExternalRecipientsFromText") == 0 ||
+			strcmp($this->ctrl->getCmd(), "importExternalRecipientsFromDataset") == 0
+		) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTableWidth("100%");
-		$form->setId("codes_import_file");
+		$form_import_file = new ilPropertyFormGUI();
+		$form_import_file->setFormAction($this->ctrl->getFormAction($this));
+		$form_import_file->setTableWidth("100%");
+		$form_import_file->setId("codes_import_file");
 
-		// general properties
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("external_mails_import"));
-		$form->addItem($header);
+		$headerfile = new ilFormSectionHeaderGUI();
+		$headerfile->setTitle($this->lng->txt("import_from_file"));
+		$form_import_file->addItem($headerfile);
 		
-		// fields
 		$externalmails = new ilFileInputGUI($this->lng->txt("externalmails"), "externalmails");
 		$externalmails->setInfo($this->lng->txt('externalmails_info'));
 		$externalmails->setRequired(true);
-		$form->addItem($externalmails);
+		$form_import_file->addItem($externalmails);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_file->addCommandButton("importExternalRecipientsFromFile", $this->lng->txt("import"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_file->addCommandButton("codesMail", $this->lng->txt("cancel"));
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("importExternalRecipientsFromFile", $this->lng->txt("import"));
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("codesMail", $this->lng->txt("cancel"));
+		// import text
+
+		$form_import_text = new ilPropertyFormGUI();
+		$form_import_text->setFormAction($this->ctrl->getFormAction($this));
+		$form_import_text->setTableWidth("100%");
+		$form_import_text->setId("codes_import_text");
+
+		$headertext = new ilFormSectionHeaderGUI();
+		$headertext->setTitle($this->lng->txt("import_from_text"));
+		$form_import_text->addItem($headertext);
+
+		$inp = new ilTextAreaInputGUI($this->lng->txt('externaltext'), 'externaltext');
+		$inp->setValue("email\n");
+		$inp->setRequired(true);
+		$inp->setCols(80);
+		$inp->setRows(10);
+		$inp->setInfo($this->lng->txt('externaltext_info'));
+		$form_import_text->addItem($inp);
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_text->addCommandButton("importExternalRecipientsFromText", $this->lng->txt("import"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_text->addCommandButton("codesMail", $this->lng->txt("cancel"));
+
+		// import dataset
+		
+		$form_import_dataset = new ilPropertyFormGUI();
+		$form_import_dataset->setFormAction($this->ctrl->getFormAction($this));
+		$form_import_dataset->setTableWidth("100%");
+		$form_import_dataset->setId("codes_import_dataset");
+
+		$headerfile = new ilFormSectionHeaderGUI();
+		$headerfile->setTitle($this->lng->txt("import_from_dataset"));
+		$form_import_dataset->addItem($headerfile);
+		
+		$existingdata = $this->object->getExternalCodeRecipients();
+		$existingcolumns = array('email');
+		if (count($existingdata))
+		{
+			$first = array_shift($existingdata);
+			foreach ($first as $key => $value)
+			{
+				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
+				{
+					array_push($existingcolumns, $key);
+				}
+			}
+		}
+		
+		foreach ($existingcolumns as $column)
+		{
+			$inp = new ilTextInputGUI($column, $column);
+			$inp->setSize(50);
+			if (strcmp($column, 'email') == 0)
+			{
+				$inp->setRequired(true);
+			}
+			else
+			{
+				$inp->setRequired(false);
+			}
+			$form_import_dataset->addItem($inp);
+		}
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_dataset->addCommandButton("importExternalRecipientsFromDataset", $this->lng->txt("import"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_dataset->addCommandButton("codesMail", $this->lng->txt("cancel"));
+
 		$errors = false;
 		
 		if ($savefields)
 		{
-			$errors = !$form->checkInput();
-			$form->setValuesByPost();
-			if ($errors) $checkonly = false;
+			switch ($formindex)
+			{
+				case 0:
+					$errors = !$form_import_file->checkInput();
+					$form_import_file->setValuesByPost();
+					if ($errors) $checkonly = false;
+					break;
+				case 1:
+					$errors = !$form_import_text->checkInput();
+					$form_import_text->setValuesByPost();
+					if ($errors) $checkonly = false;
+					break;
+				case 2:
+					$errors = !$form_import_dataset->checkInput();
+					$form_import_dataset->setValuesByPost();
+					if ($errors) $checkonly = false;
+					break;
+			}
 		}
-		
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		if (!$checkonly) 
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_external_mail.html", "Modules/Survey");
+			$this->tpl->setVariable("HEADLINE", $this->lng->txt("external_mails_import"));
+			$this->tpl->setVariable("FORM1", $form_import_file->getHTML());
+			$this->tpl->setVariable("FORM2", $form_import_text->getHTML());
+			$this->tpl->setVariable("FORM3", $form_import_dataset->getHTML());
+		}
 		return $errors;
 	}
 
@@ -3403,7 +3585,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		(
 			"mail", 
 			$this->ctrl->getLinkTarget($this, "codesMail"), 
-			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 'mailCodes', 'sendCodesMail'),	
+			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 'mailCodes', 
+			'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
+			'importExternalRecipientsFromDataset'),	
 			""
 		);
 	}
@@ -3570,7 +3754,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$tabs_gui->addTarget("codes",
 					 $this->ctrl->getLinkTarget($this,'codes'),
 					 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients',
-						'mailCodes', 'sendCodesMail'),
+						'mailCodes', 'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
+						'importExternalRecipientsFromDataset'),
 					 "");
 			}
 		}
