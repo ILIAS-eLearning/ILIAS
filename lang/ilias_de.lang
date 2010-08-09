@@ -10557,10 +10557,18 @@ survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
 survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
 survey#:#external_mails_import#:#Externe Empfänger von Zugangsschlüsseln importieren
 survey#:#externalmails#:#Importdatei
-survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
+survey#:#mail_survey_codes#:#Zugangsschlüssel oder Nachrichten versenden
 survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
+survey#:#externaltext#:#Importtext
+survey#:#externaltext_info#:#Der Importtext muss in Zeilen und Spalten aufgebaut sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Der Text muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
+survey#:#import_from_file#:#Aus einer Datei importieren
+survey#:#import_from_text#:#Aus einem Text importieren
+survey#:#import_from_dataset#:#Einen Datensatz importieren
 survey#:#recipients#:#Empfänger
+survey#:#send_to_all#:#An alle Empfänger versenden
 survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
+survey#:#send_to_answered#:#Nur an Empfänger versenden, welche die Umfrage abgeschlossen haben
+survey#:#send_to_unanswered#:#Nur an Empfänger versenden, welche die Umfrage nicht abgeschlossen haben
 survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#err_no_selection#:#Keine Auswahl.
 survey#:#default_codes_mail_subject#:#Ihr Zugangsschlüssel für die Umfrage %s
