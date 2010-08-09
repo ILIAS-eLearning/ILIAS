@@ -260,15 +260,33 @@ function ilChatActiveUsersRoom()
 	this.hide = function ()
 	{
 		div_body.style.display = "none";
-		div_show_hide.innerHTML = '<img src="templates/default/images/icon_open2_s.gif" alt="'+chatLanguage.getTxt('show');+'"/>';
+
+        while(div_show_hide.hasChildNodes()){
+            div_show_hide.removeChild(div_show_hide.lastChild);
+        }
+
+        var e = document.createElement('img');
+        e.setAttribute('src', 'templates/default/images/icon_open2_s.gif');
+        e.setAttribute('alt', chatLanguage.getTxt('show'));
+        div_show_hide.appendChild(e);
+
 		div_show_hide.onclick = me.show;
 	};
 
 	this.show = function ()
 	{
 		div_body.style.display = "block";
-		div_show_hide.innerHTML = '<img src="templates/default/images/icon_close2_s.gif" alt="'+chatLanguage.getTxt('hide');+'"/>';
+
+		while(div_show_hide.hasChildNodes()){
+			div_show_hide.removeChild(div_show_hide.lastChild);
+        }
+
+        var e = document.createElement('img');
+        e.setAttribute('src', 'templates/default/images/icon_close2_s.gif');
+        e.setAttribute('alt', chatLanguage.getTxt('hide'));
+        div_show_hide.appendChild(e);
+
 		div_show_hide.onclick = me.hide;
-	};	
+	};
 };
 
