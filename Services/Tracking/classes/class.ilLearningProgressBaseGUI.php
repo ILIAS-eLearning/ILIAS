@@ -208,7 +208,7 @@ class ilLearningProgressBaseGUI
 														 "","","",$a_active == LP_ACTIVE_LM_STATISTICS);
 					}
 
-					if(!$this->isAnonymized())
+					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'lm', 'htlm')))
 					{
 						$this->tabs_gui->addSubTabTarget("trac_matrix",
 														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
