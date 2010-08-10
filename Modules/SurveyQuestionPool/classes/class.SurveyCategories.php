@@ -252,6 +252,19 @@ class SurveyCategories
 		return null;
 	}
 	
+	public function getNewScale()
+	{
+		$max = 0;
+		foreach ($this->categories as $index => $category)
+		{
+			if (is_object($category) && $category->scale > 0)
+			{
+				if ($category->scale > $max) $max = $category->scale;
+			}
+		}
+		return $max+1;
+	}
+	
 	function getScale($index)
 	{
 		$obj = $this->categories[$index];
@@ -261,7 +274,8 @@ class SurveyCategories
 		}
 		else
 		{
-			return $index + 1;
+			$obj->scale = $this->getNewScale();
+			return $obj->scale;
 		}
 	}
 	

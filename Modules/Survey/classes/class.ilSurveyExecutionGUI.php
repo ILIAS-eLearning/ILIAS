@@ -331,6 +331,7 @@ class ilSurveyExecutionGUI
 			}
 		}
 
+		$first_question = -1;
 		if ($page === 0)
 		{
 			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
@@ -382,6 +383,7 @@ class ilSurveyExecutionGUI
 				{
 					$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
 				}
+				if ($first_question == -1) $first_question = $data["question_id"];
 				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 				if (is_array($_SESSION["svy_errors"]))
 				{
@@ -414,7 +416,7 @@ class ilSurveyExecutionGUI
 			$this->outNavigationButtons("bottom", $page);
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
-		$this->object->setStartTime($_SESSION["finished_id"]);
+		$this->object->setStartTime($_SESSION["finished_id"], $first_question);
 	}
 	
 	/**

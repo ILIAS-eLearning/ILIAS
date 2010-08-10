@@ -31,6 +31,8 @@ function removeAllListeners(rootel)
 function reindexRows(rootel, postvar)
 {
 	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
+	var max = 0;
+
 	for (i = 0; i < rows.length; i++)
 	{
 		// set row class
@@ -56,8 +58,31 @@ function reindexRows(rootel, postvar)
 			{
 				textinputs[j].id = postvar + '[scale][' + i + ']';
 				textinputs[j].name = postvar + '[scale][' + i + ']';
-				textinputs[j].value = i + 1;
+				if (!isNaN(textinputs[j].value) && parseInt(textinputs[j].value) > max) {max = parseInt(textinputs[j].value);}
 			}
+		}
+		for (j = 0; j < textinputs.length; j++)
+		{
+			if (textinputs[j].id.indexOf('[scale]') >= 0)
+			{
+				if (textinputs[j].value.length == 0)
+				{
+					textinputs[j].value = max+1;
+					max = max+1;
+				}
+			}
+		}
+
+
+		// change id and name of checkboxes
+		var checkboxes = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'checkbox') ? true : false; }, 'input', rows[i]);
+		for (j = 0; j < checkboxes.length; j++)
+		{
+			if (checkboxes[j].id.indexOf('[other]') >= 0)
+			{
+				checkboxes[j].id = postvar + '[other][' + i + ']';
+				checkboxes[j].name = postvar + '[other][' + i + ']';
+			} 
 		}
 
 		var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'categorywizard_add') ? true : false; }, 'input', rows[i]);
@@ -94,6 +119,11 @@ function reindexRows(rootel, postvar)
 				YAHOO.util.Event.addListener(downbuttons[j], 'click', moveRowDown);
 			}
 		}
+	}
+	var neutral = YAHOO.util.Dom.get(postvar + '_neutral_scale');
+	if (neutral != null)
+	{
+		if (parseInt(neutral.value) <= max) neutral.value = max+1;
 	}
 }
 

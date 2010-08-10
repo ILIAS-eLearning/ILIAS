@@ -652,7 +652,7 @@ class SurveyQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($this->object->getObligatory($survey_id))
 		{
-			$template->setVariable("OBLIGATORY_TEXT", '*');
+			$template->setVariable("OBLIGATORY_TEXT", ' *');
 		}
 	}
 }

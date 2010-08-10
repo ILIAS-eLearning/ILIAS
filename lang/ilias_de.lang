@@ -10581,6 +10581,7 @@ survey#:#finished_mail_subject#:#Die Umfrage wurde beendet
 survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antworten
 survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten
 survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten
+survey#:#msg_duplicate_scale#:#Bitte geben Sie eindeutige Skalen-Werte an
 survey#:#workingtime#:#Bearbeitungsdauer
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
