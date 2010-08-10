@@ -20,7 +20,7 @@ class ilConsultationHourAppointments
 	 * @param object $a_user_id
 	 * @return 
 	 */
-	public static function getAppointmentIds($a_user_id)
+	public static function getAppointmentIds($a_user_id, $a_context_id = NULL, $a_start = NULL)
 	{
 		global $ilDB;
 		
@@ -29,6 +29,16 @@ class ilConsultationHourAppointments
 			"JOIN cal_categories cc ON cca.cat_id = cc.cat_id ".
 			"WHERE obj_id = ".$ilDB->quote($a_user_id,'integer')." ".
 			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH);
+
+		if($a_context_id)
+		{
+			$query .= " AND context_id = ".$ilDB->quote($a_context_id, 'integer');
+		}
+		if($a_start)
+		{
+			$query .= " AND starta = ".$ilDB->quote($a_start->get(IL_CAL_DATETIME, '', 'UTC'), 'text');
+		}
+
 		$res = $ilDB->query($query);
 		$entries = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

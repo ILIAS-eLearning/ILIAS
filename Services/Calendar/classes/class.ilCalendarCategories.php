@@ -104,10 +104,10 @@ class ilCalendarCategories
 	public static function _lookupCategoryIdByObjId($a_obj_id)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT cat_id FROM cal_categories  ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ";
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ,'integer')." ";
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
