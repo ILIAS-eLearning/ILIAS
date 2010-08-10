@@ -817,7 +817,9 @@ class ilLMPresentationGUI
 	$this->tpl->fillJavaScriptFiles();
 	$this->tpl->fillScreenReaderFocus();
 
-	$this->tpl->fillCssFiles();
+	// :TEMP: in DEVMODE this will die because of missing template blocks
+	// $this->tpl->fillCssFiles();
+	
 	$this->tpl->fillBodyClass();
 
 		if ($doShow)
