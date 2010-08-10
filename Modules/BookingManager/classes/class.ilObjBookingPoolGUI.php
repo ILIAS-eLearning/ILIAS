@@ -827,6 +827,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
 		$obj->update();
 
+		// remove user calendar entry
+		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
+		include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+		$apps = ilConsultationHourAppointments::getAppointmentIds($obj->getUserId(), $obj->getId(), NULL, ilCalendarCategory::TYPE_BOOK);
+		if($apps)
+		{
+			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+			$entry = new ilCalendarEntry($apps[0]);
+			$entry->delete();
+		}
+
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->logObject();
 	}

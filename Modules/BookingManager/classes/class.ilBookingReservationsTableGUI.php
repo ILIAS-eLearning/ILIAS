@@ -179,11 +179,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			{
 				if($a_set['status'] == ilBookingReservation::STATUS_CANCELLED)
 				{
+					/*
 					// can be uncancelled?
 					if(ilBookingReservation::getAvailableObject(array($a_set['object_id']), $date_from->get(IL_CAL_UNIX), $date_to->get(IL_CAL_UNIX)))
 					{
 						$alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvUncancel'));
 					}
+					*/
 				}
 				else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
 				{
