@@ -1944,7 +1944,7 @@ common#:#cat_create_write#:#Neues Wiki anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
-common#:#cat_new#:#Neue Kategorie
+common#:#cat_new#:#Neue Kategorie anlegen
 common#:#cat_pages#:#Kategorienseiten
 common#:#cat_pages_clear#:#Kategorienseite geleert
 common#:#cat_pages_not_created#:#Kategorienseite wurde noch nicht erzeugt.
@@ -2018,7 +2018,7 @@ common#:#chat_invite_public_room#:#Öffentl. Chat
 common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
 common#:#chat_link_to_this_chat#:#Link zu diesem Chat
 common#:#chat_moderate#:#Chat moderieren
-common#:#chat_new#:#Neuer Chat
+common#:#chat_new#:#Neuen Chat anlegen
 common#:#chat_read#:#Lese/Schreibzugriff auf Chat
 common#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
@@ -2182,7 +2182,7 @@ common#:#crs_management_system#:#Kursmanagementsystem
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
 common#:#crs_members_gallery#:#Mitgliedergalerie
-common#:#crs_new#:#Neuer Kurs
+common#:#crs_new#:#Neuen Kurs anlegen
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
 common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses "%s" ausgetragen.
@@ -2235,7 +2235,7 @@ common#:#dbk_create#:#Neues Digilib-Buch anlegen
 common#:#dbk_delete#:#Digilib-Buch löschen
 common#:#dbk_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#dbk_edit_permission#:#Rechteeinstellungen ändern
-common#:#dbk_new#:#Neues Digilib-Buch
+common#:#dbk_new#:#Neues Digilib-Buch anlegen
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
@@ -2422,7 +2422,7 @@ common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
-common#:#exc_new#:#Neue Übung
+common#:#exc_new#:#Neue Übung anlegen
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
@@ -2520,7 +2520,7 @@ common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_lock_unlock_file#:#Datei sperren/entsperren
 common#:#file_locked_by#:#Datei gesperrt von
-common#:#file_new#:#Neue Datei
+common#:#file_new#:#Neue Datei anlegen
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die folgende Uploadgrenze: 
@@ -2589,7 +2589,7 @@ common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
-common#:#fold_new#:#Neuer Ordner
+common#:#fold_new#:#Neuen Ordner anlegen
 common#:#fold_read#:#Lesezugriff auf Ordner
 common#:#fold_visible#:#Ordner ist sichtbar
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
@@ -2644,7 +2644,7 @@ common#:#frm_edit_permission#:#Rechteeinstellungen ändern
 common#:#frm_edit_post#:#Forenbeiträge anlegen
 common#:#frm_latest_postings#:#Letzte Beiträge
 common#:#frm_moderate_frm#:#Forenbeiträge löschen und zensieren
-common#:#frm_new#:#Neues Forum
+common#:#frm_new#:#Neues Forum anlegen
 common#:#frm_read#:#Forum lesen
 common#:#frm_statistics_ranking#:#Rangliste
 common#:#frm_status_new#:#Status 'Neu'
@@ -2677,7 +2677,7 @@ common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Gl
 common#:#glo_mode_level#:#virtuell (nur diese Ebene)
 common#:#glo_mode_normal#:#Normal
 common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
-common#:#glo_new#:#Neues Glossar
+common#:#glo_new#:#Neues Glossar anlegen
 common#:#glo_read#:#Glossar lesen
 common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
@@ -2802,7 +2802,7 @@ common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfern
 common#:#grp_msg_member_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
-common#:#grp_new#:#Neue Gruppe
+common#:#grp_new#:#Neue Gruppe anlegen
 common#:#grp_new_search#:#Neue Suche
 common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
@@ -2889,7 +2889,7 @@ common#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
 common#:#htlm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
-common#:#htlm_new#:#Neues HTML-Lernmodul
+common#:#htlm_new#:#Neues HTML-Lernmodul anlegen
 common#:#htlm_read#:#HTML-Lernmodul ansehen
 common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
 common#:#htlm_write#:#HTML-Lernmodul bearbeiten
@@ -2903,7 +2903,7 @@ common#:#icla#:#LearnLinc-Seminarraum
 common#:#icla_add#:#LearnLinc-Seminarraum anlegen
 common#:#icla_deleted#:#LearnLinc-Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc-Seminarraum bearbeiten
-common#:#icla_new#:#Neuer LearnLinc-Seminarraum
+common#:#icla_new#:#Neuen LearnLinc-Seminarraum anlegen
 common#:#icon#:#Symbol
 common#:#icon_settings#:#Icon
 common#:#icons_in_header#:#Kopfleiste
@@ -2921,7 +2921,7 @@ common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
 common#:#icrs_join#:#Benutzer kann LearnLinc-Seminar beitreten
 common#:#icrs_leave#:#Benutzer kann LearnLinc-Seminar verlassen
 common#:#icrs_members_gallery#:#Mitgliedergalerie
-common#:#icrs_new#:#Neues LearnLinc-Seminar
+common#:#icrs_new#:#Neues LearnLinc-Seminar anlegen
 common#:#icrs_read#:#Lesezugriff auf LearnLinc-Seminar
 common#:#icrs_visible#:#LearnLinc-Seminar ist sichtbar
 common#:#icrs_write#:#LearnLinc-Seminar bearbeiten
@@ -3253,7 +3253,7 @@ common#:#lm_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
-common#:#lm_new#:#Neues ILIAS-Lernmodul
+common#:#lm_new#:#Neues ILIAS-Lernmodul anlegen
 common#:#lm_read#:#ILIAS-Lernmodul lesen
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
@@ -3372,7 +3372,7 @@ common#:#mcst_add#:#Mediacast hinzufügen
 common#:#mcst_copy#:#Mediacast kopieren
 common#:#mcst_delete#:#Mediacast löschen
 common#:#mcst_edit_permission#:#Rechteeinstellung ändern
-common#:#mcst_new#:#Neuer Mediacast
+common#:#mcst_new#:#Neuen Mediacast anlegen
 common#:#mcst_read#:#Mediacast lesen
 common#:#mcst_visible#:#Mediacast ist sichtbar
 common#:#mcst_write#:#Mediacast bearbeiten
@@ -3405,7 +3405,7 @@ common#:#mep_added#:#Medienpool hinzugefügt
 common#:#mep_delete#:#Medienpool gelöscht
 common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
 common#:#mep_edit_permission#:#Rechteeinstellungen ändern
-common#:#mep_new#:#Neuer Medienpool
+common#:#mep_new#:#Neuen Medienpool anlegen
 common#:#mep_not_insert_already_exist#:#Die folgenden Objekte wurden nicht hinzugefügt, da sie bereits im Medienpool enthalten sind.
 common#:#mep_read#:#Inhalt des Medienpools lesen
 common#:#mep_visible#:#Medienpool ist sichtbar
@@ -4229,7 +4229,7 @@ common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
 common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
 common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
 common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
-common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
+common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
 common#:#search_engine#:#Suchmaschinen
@@ -4442,7 +4442,7 @@ common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Statistik
 common#:#svy_finished#:#Sie haben bereits an dieser Umfrage teilgenommen
 common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
-common#:#svy_new#:#Neue Umfrage
+common#:#svy_new#:#Neue Umfrage anlegen
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
 common#:#svy_not_finished#:#Sie haben diese Umfrage begonnen, aber noch nicht abgeschlossen
 common#:#svy_not_started#:#Sie haben an dieser Umfrage noch nicht teilgenommen
@@ -4552,7 +4552,7 @@ common#:#tst_copy#:#Test kopieren
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
-common#:#tst_new#:#Neuer Test
+common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_run#:#Ausführen
@@ -4812,7 +4812,7 @@ common#:#wiki_copy#:#Wiki kopieren
 common#:#wiki_delete#:#Wiki löschen
 common#:#wiki_edit_content#:#Wiki-Seiten bearbeiten
 common#:#wiki_edit_permission#:#Rechteeinstellungen ändern
-common#:#wiki_new#:#Neues Wiki
+common#:#wiki_new#:#Neues Wiki anlegen
 common#:#wiki_read#:#Wiki-Inhalte lesen
 common#:#wiki_visible#:#Wiki ist sichtbar
 common#:#wiki_write#:#Wiki-Einstellungen ändern, Lerner bewerten
@@ -10557,18 +10557,10 @@ survey#:#conjunction_or_title#:#Eine der folgenden Vorbedingungen erfüllen
 survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
 survey#:#external_mails_import#:#Externe Empfänger von Zugangsschlüsseln importieren
 survey#:#externalmails#:#Importdatei
-survey#:#mail_survey_codes#:#Zugangsschlüssel oder Nachrichten versenden
+survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
 survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
-survey#:#externaltext#:#Importtext
-survey#:#externaltext_info#:#Der Importtext muss in Zeilen und Spalten aufgebaut sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Der Text muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
-survey#:#import_from_file#:#Aus einer Datei importieren
-survey#:#import_from_text#:#Aus einem Text importieren
-survey#:#import_from_dataset#:#Einen Datensatz importieren
 survey#:#recipients#:#Empfänger
-survey#:#send_to_all#:#An alle Empfänger versenden
 survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
-survey#:#send_to_answered#:#Nur an Empfänger versenden, welche die Umfrage abgeschlossen haben
-survey#:#send_to_unanswered#:#Nur an Empfänger versenden, welche die Umfrage nicht abgeschlossen haben
 survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#err_no_selection#:#Keine Auswahl.
 survey#:#default_codes_mail_subject#:#Ihr Zugangsschlüssel für die Umfrage %s
@@ -10581,7 +10573,6 @@ survey#:#finished_mail_subject#:#Die Umfrage wurde beendet
 survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antworten
 survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten
 survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten
-survey#:#msg_duplicate_scale#:#Bitte geben Sie eindeutige Skalen-Werte an
 survey#:#workingtime#:#Bearbeitungsdauer
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
