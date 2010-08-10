@@ -15,6 +15,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 {
 	protected $obj_ids = NULL;
 	protected $objective_ids = NULL;
+	protected $sco_ids = NULL;
 
 	/**
 	 * Constructor
@@ -98,15 +99,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				{
 					$title = $ilObjDataCache->lookupTitle($obj_id);
 					$type = $ilObjDataCache->lookupType($obj_id);
-					$icon = ilUtil::getTypeIconPath($type, $obj_id, "small");
-					if(!$title)
+					$icon = ilUtil::getTypeIconPath($type, $obj_id, "tiny");
+					if($type == "sess")
 					{
-						if($type == "sess")
-						{
-							include_once "Modules/Session/classes/class.ilObjSession.php";
-							$sess = new ilObjSession($obj_id, false);
-							$title = $sess->getPresentationTitle();
-						}
+						include_once "Modules/Session/classes/class.ilObjSession.php";
+						$sess = new ilObjSession($obj_id, false);
+						$title = $sess->getPresentationTitle();
 					}
 					$columns["obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true);
 				}
@@ -116,6 +114,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				foreach($this->objective_ids as $obj_id => $title)
 				{
 					$columns["objtv_".$obj_id] = array("txt" => $title, "default" => true);
+				}
+			}
+			if(sizeof($this->sco_ids))
+			{
+				foreach($this->sco_ids as $obj_id => $title)
+				{
+					$icon = ilUtil::getTypeIconPath("sco", $obj_id, "tiny");
+					$columns["objsco_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
 				}
 			}
 
@@ -152,6 +158,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				$objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
 				if($objectives["cnt"])
 				{
+					$this->objective_ids = array();
 					$objective_columns = array();
 					foreach($objectives["set"] as $row)
 					{
@@ -165,6 +172,38 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 								$this->objective_ids[$obj_id] = $row["title"];
 							}
 						}
+					}
+				}
+			}
+
+			if($collection["scorm"])
+			{
+				$this->sco_ids = array();
+				foreach(array_keys($data["set"]) as $user_id)
+				{
+					foreach($collection["scorm"]["scos"] as $sco)
+					{
+						if(!in_array($sco, $this->sco_ids))
+						{
+							$this->sco_ids[$sco] = $collection["scorm"]["scos_title"][$sco];
+						}
+
+						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+						if(in_array($user_id, $collection["scorm"]["completed"][$sco]))
+						{
+							$status = LP_STATUS_COMPLETED_NUM;
+						}
+						else if(in_array($user_id, $collection["scorm"]["failed"][$sco]))
+						{
+							$status = LP_STATUS_FAILED_NUM;
+						}
+						else if(in_array($user_id, $collection["scorm"]["in_progress"][$sco]))
+						{
+							$status = LP_STATUS_IN_PROGRESS_NUM;
+						}
+
+						$obj_id = "objsco_".$sco;
+						$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
 					}
 				}
 			}
@@ -214,7 +253,22 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 
 				case (substr($c, 0, 6) == "objtv_"):
-					$obj_id = substr($c, 6);
+					$obj_id = $c;
+					if(!isset($a_set["objects"][$obj_id]))
+					{
+						$data = array("status"=>0);
+					}
+					else
+					{
+						$data = $a_set["objects"][$obj_id];
+					}
+					$this->tpl->setCurrentBlock("objects");
+					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
+					$this->tpl->parseCurrentBlock();
+					break;
+
+				case (substr($c, 0, 7) == "objsco_"):
+					$obj_id = $c;
 					if(!isset($a_set["objects"][$obj_id]))
 					{
 						$data = array("status"=>0);

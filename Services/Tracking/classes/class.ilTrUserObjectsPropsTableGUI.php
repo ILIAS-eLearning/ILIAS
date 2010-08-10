@@ -256,7 +256,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$data["title"] = "--".$lng->txt("none")."--";
 		}
-		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "small"));
+		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
 		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 

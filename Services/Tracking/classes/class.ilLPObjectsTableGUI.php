@@ -92,7 +92,7 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		global $lng, $ilObjDataCache, $ilCtrl;
 
 		$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "small"));
+		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 

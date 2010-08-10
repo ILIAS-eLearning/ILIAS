@@ -116,7 +116,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "small"));
+		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
