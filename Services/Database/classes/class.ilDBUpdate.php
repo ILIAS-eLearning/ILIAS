@@ -455,9 +455,10 @@ class ilDBUpdate
 			{
 				if (count($php)>0)
 				{
-					if (eval(implode("\n", $php)) === false)
+					$code = implode("\n", $php);
+					if (eval($code) === false)
 					{
-						$this->error = "Parse error: ".implode("\n", $php);
+						$this->error = "Parse error: ".$code;
 						return false;
 					}
 					$php = array();
