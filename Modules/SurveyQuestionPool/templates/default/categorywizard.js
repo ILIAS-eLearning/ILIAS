@@ -32,6 +32,7 @@ function reindexRows(rootel, postvar)
 {
 	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
 	var max = 0;
+	var scales = new Array();
 
 	for (i = 0; i < rows.length; i++)
 	{
@@ -70,6 +71,12 @@ function reindexRows(rootel, postvar)
 					textinputs[j].value = max+1;
 					max = max+1;
 				}
+				if (!isNaN(scales[parseInt(textinputs[j].value)]))
+				{
+					textinputs[j].value = max+1;
+					max = max+1;
+				}
+				scales[parseInt(textinputs[j].value)] = parseInt(textinputs[j].value);
 			}
 		}
 
