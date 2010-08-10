@@ -4229,7 +4229,7 @@ common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
 common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
 common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
 common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2004 4th Edition)
-common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul anlegen
+common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
 common#:#search_engine#:#Suchmaschinen
