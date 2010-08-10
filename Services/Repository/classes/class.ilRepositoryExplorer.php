@@ -330,7 +330,7 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 
-				$query = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",$a_obj_id);
+				$query = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",$a_obj_id);
 				$res = $ilDB->query($query);
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
