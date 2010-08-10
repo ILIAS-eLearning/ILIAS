@@ -174,7 +174,7 @@ class assTextQuestion extends assQuestion
 			$this->setMaxNumOfChars($data["maxnumofchars"]);
 			$this->setKeywords($data["keywords"]);
 			$this->setTextRating($data["textgap_rating"]);
-			$this->matchcondition = $data['matchcondition'];
+			$this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 		parent::loadFromDb($question_id);
