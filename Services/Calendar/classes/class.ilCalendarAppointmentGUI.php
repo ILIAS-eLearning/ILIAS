@@ -1268,7 +1268,7 @@ class ilCalendarAppointmentGUI
 				return false;
 			}
 
-			$entry_title = ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($user).')';
+			$entry_title = ' '.$entry->getTitle()." (".ilObjUser::_lookupFullname($booking->getObjId()).')';
 		}
 		else if($category->getType() == ilCalendarCategory::TYPE_BOOK)
 		{
@@ -1323,9 +1323,20 @@ class ilCalendarAppointmentGUI
 		$category = $this->calendarEntryToCategory($entry);
 		if($category->getType() == ilCalendarCategory::TYPE_CH)
 		{
+			// find cloned calendar entry in user calendar
+			include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+			$apps = ilConsultationHourAppointments::getAppointmentIds($ilUser->getId(), $entry->getContextId(), $entry->getStart());
+			if($apps)
+			{
+				$ref_entry = new ilCalendarEntry($apps[0]);
+				$ref_entry->delete();
+			}
+			
 			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 			$booking = new ilBookingEntry($entry->getContextId());
 			$booking->cancelBooking($entry->getEntryId());
+
+			// do NOT delete original entry
 		}
 		else if($category->getType() == ilCalendarCategory::TYPE_BOOK)
 		{
@@ -1333,10 +1344,10 @@ class ilCalendarAppointmentGUI
 			$booking = new ilBookingReservation($entry->getContextId());
 			$booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
 			$booking->update();
+			
+			$entry->delete();
 		}
 
-		$entry->delete();
-		
 		ilUtil::sendSuccess($this->lng->txt('cal_cancel_booking_confirmed'),true);
 		$this->ctrl->returnToParent($this);
 	}

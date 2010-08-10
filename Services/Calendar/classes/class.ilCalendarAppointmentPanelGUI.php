@@ -225,6 +225,21 @@ class ilCalendarAppointmentPanelGUI
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 				$entry = new ilBookingEntry($a_app['event']->getContextId());
 
+				$is_owner = ($entry->getObjId() == $ilUser->getId());
+				$user_entry = ($cat_info['obj_id'] == $ilUser->getId());
+
+				if($user_entry)
+				{
+					// find source calendar entry in owner calendar
+					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+					$apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
+					$ref_event = $apps[0];
+				}
+				else
+				{
+					$ref_event = $a_app['event']->getEntryId();
+				}
+
 				$this->tpl->setCurrentBlock('panel_booking_owner');
 				$this->tpl->setVariable('PANEL_TXT_BOOKING_OWNER', $this->lng->txt('cal_ch_booking_owner'));
 				$this->tpl->setVariable('PANEL_BOOKING_OWNER', ilObjUser::_lookupFullname($entry->getObjId()));
@@ -235,20 +250,20 @@ class ilCalendarAppointmentPanelGUI
 				$this->tpl->setVariable('PANEL_MAX_BOOKING', $entry->getNumberOfBookings());
 				$this->tpl->parseCurrentBlock();
 
-				if($entry->getObjId() != $ilUser->getId())
+				if(!$is_owner)
 				{
-					if($entry->hasBooked($a_app['event']->getEntryId()))
+					if($entry->hasBooked($ref_event))
 					{
 						$this->tpl->setCurrentBlock('panel_cancel_book_link');
-						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
 						$this->tpl->setVariable('TXT_PANEL_CANCELBOOK', $this->lng->txt('cal_ch_cancel_booking'));
 						$this->tpl->setVariable('PANEL_CANCELBOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
 						$this->tpl->parseCurrentBlock();
 					}
-					else if(!$entry->isBookedOut($a_app['event']->getEntryId()))
+					else if(!$entry->isBookedOut($ref_event))
 					{
 						$this->tpl->setCurrentBlock('panel_book_link');
-						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+						$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$ref_event);
 						$this->tpl->setVariable('TXT_PANEL_BOOK', $this->lng->txt('cal_ch_book'));
 						$this->tpl->setVariable('PANEL_BOOK_HREF', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','book'));
 						$this->tpl->parseCurrentBlock();
@@ -256,7 +271,7 @@ class ilCalendarAppointmentPanelGUI
 
 					$this->tpl->setCurrentBlock('panel_current_booking');
 					$this->tpl->setVariable('PANEL_TXT_CURRENT_BOOKING', $this->lng->txt('cal_ch_current_bookings'));
-					$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings($a_app['event']->getEntryId()));
+					$this->tpl->setVariable('PANEL_CURRENT_BOOKING', $entry->getCurrentNumberOfBookings($ref_event));
 					$this->tpl->parseCurrentBlock();
 				}
 				else
