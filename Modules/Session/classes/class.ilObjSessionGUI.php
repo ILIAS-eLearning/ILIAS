@@ -575,15 +575,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
 		$this->object->getFirstAppointment()->create();
 
-
-		/*
-		foreach($this->files as $file_obj)
-		{
-			$file_obj->setSessionId($this->object->getEventId());
-			$file_obj->create();
-		}
-		*/
-		
 		$this->handleFileUpload();
 		
 		$this->createRecurringSessions();
@@ -782,12 +773,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Update event
 		$this->object->update();
 		$this->object->getFirstAppointment()->update();
-		
-		foreach($this->files as $file_obj)
-		{
-			$file_obj->setSessionId($this->object->getEventId());
-			$file_obj->create();
-		}
 		
 		$this->handleFileUpload();
 		
@@ -1821,30 +1806,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$end_dt['minutes'] = (int) $_POST['event']['end']['time']['m'];
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 			$this->object->getFirstAppointment()->setEnd($end);
-		}
-
-		$counter = 1;
-		$this->files = array();
-		
-		foreach($_FILES as $name => $data)
-		{
-			if(!strlen($data['tmp_name']))
-			{
-				++$counter;
-				continue;
-			}
-			$filename = strlen($_POST['file_name'.$counter]) ?
-				$_POST['file_name'.$counter] : 
-				$data['name'];
-			
-			$file = new ilSessionFile();
-			$file->setFileName($filename);
-			$file->setFileSize($data['size']);
-			$file->setFileType($data['type']);
-			$file->setTemporaryName($data['tmp_name']);
-			$file->setErrorCode($data['error']);
-			$this->files[] = $file;
-			++$counter;
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
