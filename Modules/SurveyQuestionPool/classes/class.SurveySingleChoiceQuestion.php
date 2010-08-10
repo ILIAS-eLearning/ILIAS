@@ -451,7 +451,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$data = array();
 		if (strlen($entered_value))
 		{
-			array_push($data, array("value" => $entered_value));
+			array_push($data, array("value" => $entered_value, "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other']));
 		}
 		return $data;
 	}

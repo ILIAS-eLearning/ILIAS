@@ -361,7 +361,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		{
 			foreach ($entered_value as $idx => $value)
 			{
-				array_push($data, array("value" => $value));
+				array_push($data, array("value" => $value, "textanswer" => $post_data[$this->getId() . '_' . $value . '_other']));
 			}
 		}
 		return $data;

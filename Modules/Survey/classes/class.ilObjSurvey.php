@@ -5007,14 +5007,31 @@ class ilObjSurvey extends ilObject
 		$this->mailparticipantdata = $a_data;
 	}
 	
-	function setStartTime($finished_id)
+	public function getSurveyTimes()
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT * FROM svy_times, svy_finished WHERE svy_finished.survey_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+		$times = array();;
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if (strlen($row['left_page']) && strlen($row['entered_page']))
+				$times[$row['finished_fi']] += ($row['left_page']-$row['entered_page']);
+		}
+		return $times;
+	}
+	
+	function setStartTime($finished_id, $first_question)
 	{
 		global $ilDB;
 		$time = time();
 		$_SESSION['svy_entered_page'] = $time;
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_times (finished_fi, entered_page, left_page) VALUES (%s, %s, %s)",
-			array('integer', 'integer', 'integer'),
-			array($finished_id, $time, NULL)
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_times (finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s)",
+			array('integer', 'integer', 'integer', 'integer'),
+			array($finished_id, $time, NULL, $first_question)
 		);
 	}
 	

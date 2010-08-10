@@ -2306,13 +2306,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (is_numeric($key))
 			{
-				$val = $value["ROW"]->title;
-				if ($value["ROW"]->other)
-				{
-				}
 				$row = array(
 					'title' => '',
-					'question' => ($key+1) . ". " . $val,
+					'question' => ($key+1) . ". " . $value['ROW'],
 					'users_answered' => $value['USERS_ANSWERED'],
 					'users_skipped' => $value['USERS_SKIPPED'],
 					'question_type' => '',

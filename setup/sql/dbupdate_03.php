@@ -3102,4 +3102,10 @@ foreach(array('cat', 'crs', 'grp', 'fold', 'root') as $type)
 <?php
 	$ilDB->addIndex("conditions", array("target_obj_id", "target_type"), "tot");
 ?>
-
+<#3164>
+<?php
+if($ilDB->tableExists('svy_times'))
+{
+	$ilDB->addTableColumn("svy_times", "first_question", array("type" => "integer", "length" => 4, "notnull" => false));
+}
+?>

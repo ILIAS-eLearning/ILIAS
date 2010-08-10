@@ -10661,6 +10661,7 @@ survey#:#finished_mail_subject#:#The survey was finished
 survey#:#msg_min_nr_answers#:#Please select at least %s answers
 survey#:#msg_max_nr_answers#:#Please select at most %s answers
 survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers
+survey#:#msg_duplicate_scale#:#Please enter unique scale values
 survey#:#workingtime#:#Working time
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available

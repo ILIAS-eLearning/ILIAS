@@ -119,13 +119,13 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($a_value['answer'] as $index => $value)
 				{
-					$this->values->addCategory($value, $a_value['other'][$index]);
+					$this->values->addCategory($value, $a_value['other'][$index], null, null, $a_value['scale'][$index]);
 				}
 			}
 		}
 		if (array_key_exists('neutral', $a_value))
 		{
-			$this->values->addCategory($a_value['neutral'], 0, 1);
+			$this->values->addCategory($a_value['neutral'], 0, 1, null, $_POST[$this->postvar . '_neutral_scale']);
 		}
 	}
 
@@ -242,7 +242,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 					return false;
 				}
 			}
-			/*
+			// check scales
 			if (is_array($foundvalues['scale']))
 			{
 				foreach ($foundvalues['scale'] as $scale)
@@ -254,7 +254,27 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 					}
 				}
 			}
-			*/
+			// check scales
+			if (is_array($foundvalues['scale']))
+			{
+				if (count(array_unique($foundvalues['scale'])) != count($foundvalues['scale']))
+				{
+					$this->setAlert($lng->txt("msg_duplicate_scale"));
+					return FALSE;
+				}
+			}
+			// check neutral column scale
+			if (strlen($_POST[$this->postvar . '_neutral_scale']))
+			{
+				if (is_array($foundvalues['scale']))
+				{
+					if (in_array($_POST[$this->postvar . '_neutral_scale'], $foundvalues['scale']))
+					{
+						$this->setAlert($lng->txt("msg_duplicate_scale"));
+						return FALSE;
+					}
+				}
+			}
 		}
 		else
 		{
@@ -379,7 +399,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("prop_scale_neutral_propval");
-			$scale = ($neutral_category->scale > 0) ? $neutral_category->scale : $this->calcNeutralCategoryScale();
+			$scale = ($neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
 			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
 			$tpl->parseCurrentBlock();
 

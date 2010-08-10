@@ -523,7 +523,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1)
+									if ($value["value"] == $cat->scale-1 && strlen($value['textanswer']))
 									{
 										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
 										$template->setVariable("CHECKED_SC", " checked=\"checked\"");
@@ -594,7 +594,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1)
+									if ($value["value"] == $cat->scale-1 && strlen($value['textanswer']))
 									{
 										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
 									}
