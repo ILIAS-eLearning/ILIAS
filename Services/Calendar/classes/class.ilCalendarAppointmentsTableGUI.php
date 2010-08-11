@@ -95,9 +95,6 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilUser;
-		
-		
 		if($a_set['deletable'])
 		{
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
@@ -161,9 +158,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 * @return
 	 */
 	public function setAppointments($a_apps)
-	{
-		global $ilUser;
-		
+	{		
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -183,7 +178,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 				if($book)
 				{
 					$title = $entry->getTitle();
-					if($book->getObjId() == $ilUser->getId())
+					if($book->isOwner())
 					{
 						$max = (int)$book->getNumberOfBookings();
 						$current = (int)$book->getCurrentNumberOfBookings($entry->getEntryId());

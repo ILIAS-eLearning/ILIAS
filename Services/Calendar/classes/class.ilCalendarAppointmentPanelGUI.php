@@ -225,10 +225,10 @@ class ilCalendarAppointmentPanelGUI
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 				$entry = new ilBookingEntry($a_app['event']->getContextId());
 
-				$is_owner = ($entry->getObjId() == $ilUser->getId());
+				$is_owner = $entry->isOwner();
 				$user_entry = ($cat_info['obj_id'] == $ilUser->getId());
 
-				if($user_entry)
+				if($user_entry && !$is_owner)
 				{
 					// find source calendar entry in owner calendar
 					include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';

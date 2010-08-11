@@ -276,7 +276,7 @@ class ilCalendarMonthGUI
 				if($entry)
 				{
 					$booking_subtitle = ' '.$item['event']->getTitle();
-					if($entry->getObjId() == $ilUser->getId())
+					if($entry->isOwner())
 					{
 						$max = (int)$entry->getNumberOfBookings();
 						$current = (int)$entry->getCurrentNumberOfBookings($item['event']->getEntryId());
