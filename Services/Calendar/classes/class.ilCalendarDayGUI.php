@@ -343,7 +343,7 @@ class ilCalendarDayGUI
 			if($entry)
 			{
 				$title .= ' '.$a_app['event']->getTitle();
-				if($entry->getObjId() == $ilUser->getId())
+				if($entry->isOwner())
 				{
 					$max = (int)$entry->getNumberOfBookings();
 					$current = (int)$entry->getCurrentNumberOfBookings($a_app['event']->getEntryId());

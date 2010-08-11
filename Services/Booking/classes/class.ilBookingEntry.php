@@ -183,6 +183,26 @@ class ilBookingEntry
 		return true;
 	}
 
+	/**
+	 * check if current (or given) user is entry owner
+	 * @param	int		$a_user_id
+	 * @return	bool
+	 */
+	public function isOwner($a_user_id = NULL)
+	{
+		global $ilUser;
+
+		if(!$a_user_id)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		if($this->getObjId() == $a_user_id)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Remove unused booking entries
@@ -280,9 +300,9 @@ class ilBookingEntry
 	 * get current number of bookings
 	 * @param	int		$a_entry_id
 	 * @param	int		$a_user_id
-	 * @return	int
+	 * @return	bool
 	 */
-	public function hasBooked($a_entry_id, $a_user_id = false)
+	public function hasBooked($a_entry_id, $a_user_id = NULL)
 	{
 		global $ilUser, $ilDB;
 
