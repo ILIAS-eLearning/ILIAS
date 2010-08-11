@@ -33,6 +33,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 {
+	private $totalcount;
 	/**
 	 * Constructor
 	 *
@@ -50,6 +51,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->counter = 1;
+		$this->totalcount = 0;
 		
 		$this->setFormName('invitegroups');
 		$this->setStyle('table', 'fullwidth');
@@ -69,18 +71,6 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_cumulated_row.html", "Modules/Survey");
 
-		$data = array(
-			"excel" => $lng->txt('exp_type_excel'),
-			"csv" => $lng->txt('exp_type_csv')
-		);
-		if ($detail)
-		{
-			$this->addSelectionButton('export_format', $data, 'exportDetailData', $this->lng->txt("export"));
-		}
-		else
-		{
-			$this->addSelectionButton('export_format', $data, 'exportData', $this->lng->txt("export"));
-		}
 		$this->addCommandButton('printEvaluation', $this->lng->txt('print'), 'javascript:window.print();');
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -142,8 +132,10 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('counter');
 			$this->tpl->setVariable("COUNTER", $data['counter']);
 			$this->tpl->parseCurrentBlock();
+			$this->totalcount++;
 		}
 		$this->tpl->setVariable("TITLE", $data['title']);
+		$this->tpl->setVariable("CSS_ROW", ($this->totalcount % 2 == 1) ? 'tblrow1' : 'tblrow2');
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'question') == 0)
@@ -179,7 +171,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			if (strcmp($c, 'mode_nr_of_selections') == 0)
 			{
 				$this->tpl->setCurrentBlock('mode_nr_of_selections');
-				$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $data['mode_nr_of_selections']);
+				$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", strlen($data['mode_nr_of_selections']) ? $data['mode_nr_of_selections'] : 0);
 				$this->tpl->parseCurrentBlock();
 			}
 			if (strcmp($c, 'median') == 0)
