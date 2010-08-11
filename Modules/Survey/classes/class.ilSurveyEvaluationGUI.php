@@ -389,11 +389,34 @@ class ilSurveyEvaluationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+
+		$exporttypes = array(
+			"excel" => $this->lng->txt('exp_type_excel'),
+			"csv" => $this->lng->txt('exp_type_csv')
+		);
+		foreach ($exporttypes as $key => $value)
+		{
+			$this->tpl->setCurrentBlock('exportoption');
+			$this->tpl->setVariable('OPTION_VALUE', $key);
+			$this->tpl->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($value));
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($details)
+		{
+			$this->tpl->setVariable('SUBMIT_CMD', 'exportDetailData');
+		}
+		else
+		{
+			$this->tpl->setVariable('SUBMIT_CMD', 'exportData');
+		}
+		$this->tpl->setVariable('SUBMIT_VALUE', $this->lng->txt("export"));
+
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $detail);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));
 	}
 	
 	/**
