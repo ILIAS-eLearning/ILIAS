@@ -133,7 +133,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function filterEvaluation()
 	{
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', array());
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation');
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
@@ -141,7 +141,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function resetfilterEvaluation()
 	{
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', array());
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation');
 		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
@@ -162,20 +162,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		if (!$this->object->getAnonymity())
-		{
-			$additionalFields = $this->object->getEvaluationAdditionalFields();
-		}
-		else
-		{
-			$additionalFields = array();
-		}
-		if ($this->object->ects_output)
-		{
-			array_push($additionalFields, 'ects_grade');
-		}
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $additionalFields, $this->object->getAnonymity());
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $this->object->getAnonymity());
 		$data = array();
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
@@ -771,60 +759,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 	}
 	
-	function saveEvalSettings()
-	{
-		$results = $_POST;
-		$additionalFields = array();
-		foreach ($results as $key => $value)
-		{
-			if (preg_match("/cb_(\w+)/", $key, $matches) && ($value == 1))
-			{
-				array_push($additionalFields, $matches[1]);
-			}
-		}
-		$this->object->setEvaluationAdditionalFields($additionalFields);
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
-		$this->ctrl->redirect($this, "evalSettings");
-	}
-	
-	function evalSettings()
-	{
-		global $ilAccess;
-
-		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
-		{
-			// allow only evaluation access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, "saveEvalSettings"));
-		$form->setTitle($this->lng->txt("assessment_eval_settings"));
-		
-		// Additional User fields
-		$fields = array("gender", "email", "institution", "street", "city", "zipcode", "country", "department", "matriculation");
-		$additionalFields = $this->object->getEvaluationAdditionalFields();
-		
-		foreach ($fields as $dbfield)
-		{
-			$checkbox = new ilCheckboxInputGUI($this->lng->txt($dbfield), "cb_" . $dbfield);
-			if ($this->object->getAnonymity()) 
-			{
-				$checkbox->setDisabled(TRUE);
-			}
-			else
-			{
-				if (in_array($dbfield, $additionalFields)) $checkbox->setChecked(TRUE);
-			}
-			$form->addItem($checkbox);
-		}
-		$form->addCommandButton("saveEvalSettings", $this->lng->txt("save"));
-		
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-	}
-
 	/**
 	* Output of the pass details of an existing test pass for the test statistics
 	*
