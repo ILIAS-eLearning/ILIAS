@@ -10561,6 +10561,9 @@ survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
 survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
 survey#:#recipients#:#Empfänger
 survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
+survey#:#send_to_all#:#An alle eingetragenen externen Empfänger von Zugangsschlüsseln
+survey#:#send_to_answered#:#An alle Empfänger, welche die Umfrage bereits beendet haben
+survey#:#send_to_unanswered#:#An alle Empfänger, welche die Umfrage noch nicht beendet haben
 survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#err_no_selection#:#Keine Auswahl.
 survey#:#default_codes_mail_subject#:#Ihr Zugangsschlüssel für die Umfrage %s
