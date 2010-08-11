@@ -34,64 +34,46 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
-	protected $specialcolumns;
 	protected $anonymity;
 
-	public function __construct($a_parent_obj, $a_parent_cmd, $special_columns, $anonymity = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity = false)
 	{
 		global $ilCtrl, $lng;
 		
+		$this->setId("tst_eval_all");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
-		$this->setSpecialColumns($special_columns);
 		$this->setFormName('evaluation_all');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn($lng->txt("name"), "name", "");
 		$this->addColumn($lng->txt("login"), "login", "");
 		$this->anonymity = $anonymity;
-		if ($this->hasSpecialColumn('gender'))
+
+		if (!$this->anonymity)
 		{
-			$this->addColumn($lng->txt("gender"), "gender", "");
-		}
-		if ($this->hasSpecialColumn('email'))
-		{
-			$this->addColumn($lng->txt("email"), "email", "");
-		}
-		if ($this->hasSpecialColumn('institution'))
-		{
-			$this->addColumn($lng->txt("institution"), "institution", "");
-		}
-		if ($this->hasSpecialColumn('street'))
-		{
-			$this->addColumn($lng->txt("street"), "street", "");
-		}
-		if ($this->hasSpecialColumn('city'))
-		{
-			$this->addColumn($lng->txt("city"), "city", "");
-		}
-		if ($this->hasSpecialColumn('zipcode'))
-		{
-			$this->addColumn($lng->txt("zipcode"), "zipcode", "");
-		}
-		if ($this->hasSpecialColumn('country'))
-		{
-			$this->addColumn($lng->txt("country"), "country", "");
-		}
-		if ($this->hasSpecialColumn('department'))
-		{
-			$this->addColumn($lng->txt("department"), "department", "");
-		}
-		if ($this->hasSpecialColumn('matriculation'))
-		{
-			$this->addColumn($lng->txt("matriculation"), "matriculation", "");
+			foreach ($this->getSelectedColumns() as $c)
+			{
+				if (strcmp($c, 'gender') == 0) $this->addColumn($this->lng->txt("gender"),'gender', '');
+				if (strcmp($c, 'email') == 0) $this->addColumn($this->lng->txt("email"),'email', '');
+				if (strcmp($c, 'institution') == 0) $this->addColumn($this->lng->txt("institution"),'institution', '');
+				if (strcmp($c, 'street') == 0) $this->addColumn($this->lng->txt("street"),'street', '');
+				if (strcmp($c, 'city') == 0) $this->addColumn($this->lng->txt("city"),'city', '');
+				if (strcmp($c, 'zipcode') == 0) $this->addColumn($this->lng->txt("zipcode"),'zipcode', '');
+				if (strcmp($c, 'country') == 0) $this->addColumn($this->lng->txt("country"),'country', '');
+				if (strcmp($c, 'department') == 0) $this->addColumn($this->lng->txt("department"),'department', '');
+				if (strcmp($c, 'matriculation') == 0) $this->addColumn($this->lng->txt("matriculation"),'matriculation', '');
+			}
 		}
 		$this->addColumn($lng->txt("tst_reached_points"), "reached", "");
 		$this->addColumn($lng->txt("tst_mark"), "tst_mark", "");
-		if ($this->hasSpecialColumn('ects_grade'))
+		if ($this->parent_obj->object->ects_output)
 		{
-			$this->addColumn($lng->txt("ects_grade"), "ects_grade", "");
+			foreach ($this->getSelectedColumns() as $c)
+			{
+				if (strcmp($c, 'ects_grade') == 0) $this->addColumn($this->lng->txt("ects_grade"),'ects_grade', '');
+			}
 		}
 		$this->addColumn($lng->txt("tst_answered_questions"), "answered", "");
 		$this->addColumn($lng->txt("working_time"), "working_time", "");
@@ -134,6 +116,58 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		}
 	}
 	
+	function getSelectableColumns()
+	{
+		global $lng;
+		if (!$this->anonymity)
+		{
+			$cols["gender"] = array(
+				"txt" => $lng->txt("gender"),
+				"default" => false
+			);
+			$cols["email"] = array(
+				"txt" => $lng->txt("email"),
+				"default" => false
+			);
+			$cols["institution"] = array(
+				"txt" => $lng->txt("institution"),
+				"default" => false
+			);
+			$cols["street"] = array(
+				"txt" => $lng->txt("street"),
+				"default" => false
+			);
+			$cols["city"] = array(
+				"txt" => $lng->txt("city"),
+				"default" => false
+			);
+			$cols["zipcode"] = array(
+				"txt" => $lng->txt("zipcode"),
+				"default" => false
+			);
+			$cols["country"] = array(
+				"txt" => $lng->txt("country"),
+				"default" => false
+			);
+			$cols["department"] = array(
+				"txt" => $lng->txt("department"),
+				"default" => false
+			);
+			$cols["matriculation"] = array(
+				"txt" => $lng->txt("matriculation"),
+				"default" => false
+			);
+		}
+		if ($this->parent_obj->object->ects_output)
+		{
+			$cols["ects_grade"] = array(
+				"txt" => $lng->txt("ects_grade"),
+				"default" => false
+			);
+		}
+		return $cols;
+	}
+
 	/**
 	* Init filter
 	*/
@@ -183,82 +217,80 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable("NAME", $data['name']);
 		$this->tpl->setVariable("LOGIN", $data['login']);
-		if ($this->hasSpecialColumn('gender'))
+		foreach ($this->getSelectedColumns() as $c)
 		{
-			$this->tpl->setCurrentBlock('gender');
-			$this->tpl->setVariable("GENDER", $this->lng->txt('gender_' . $data['gender']));
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('email'))
-		{
-			$this->tpl->setCurrentBlock('email');
-			$this->tpl->setVariable("EMAIL", strlen($data['email']) ? $data['email'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('institution'))
-		{
-			$this->tpl->setCurrentBlock('institution');
-			$this->tpl->setVariable("INSTITUTION", strlen($data['institution']) ? $data['institution'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('street'))
-		{
-			$this->tpl->setCurrentBlock('street');
-			$this->tpl->setVariable("STREET", strlen($data['street']) ? $data['street'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('city'))
-		{
-			$this->tpl->setCurrentBlock('city');
-			$this->tpl->setVariable("CITY", strlen($data['city']) ? $data['city'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('zipcode'))
-		{
-			$this->tpl->setCurrentBlock('zipcode');
-			$this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('country'))
-		{
-			$this->tpl->setCurrentBlock('country');
-			$this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('department'))
-		{
-			$this->tpl->setCurrentBlock('department');
-			$this->tpl->setVariable("DEPARTMENT", strlen($data['department']) ? $data['department'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->hasSpecialColumn('matriculation'))
-		{
-			$this->tpl->setCurrentBlock('matriculation');
-			$this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
-			$this->tpl->parseCurrentBlock();
+			if (!$this->anonymity)
+			{
+				if (strcmp($c, 'gender') == 0)
+				{
+					$this->tpl->setCurrentBlock('gender');
+					$this->tpl->setVariable("GENDER", $this->lng->txt('gender_' . $data['gender']));
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'email') == 0)
+				{
+					$this->tpl->setCurrentBlock('email');
+					$this->tpl->setVariable("EMAIL", strlen($data['email']) ? $data['email'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'institution') == 0)
+				{
+					$this->tpl->setCurrentBlock('institution');
+					$this->tpl->setVariable("INSTITUTION", strlen($data['institution']) ? $data['institution'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'street') == 0)
+				{
+					$this->tpl->setCurrentBlock('street');
+					$this->tpl->setVariable("STREET", strlen($data['street']) ? $data['street'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'city') == 0)
+				{
+					$this->tpl->setCurrentBlock('city');
+					$this->tpl->setVariable("CITY", strlen($data['city']) ? $data['city'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'zipcode') == 0)
+				{
+					$this->tpl->setCurrentBlock('zipcode');
+					$this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'country') == 0)
+				{
+					$this->tpl->setCurrentBlock('country');
+					$this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'department') == 0)
+				{
+					$this->tpl->setCurrentBlock('department');
+					$this->tpl->setVariable("DEPARTMENT", strlen($data['department']) ? $data['department'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'matriculation') == 0)
+				{
+					$this->tpl->setCurrentBlock('matriculation');
+					$this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			if ($this->parent_obj->object->ects_output)
+			{
+				if (strcmp($c, 'ects_grade') == 0)
+				{
+					$this->tpl->setCurrentBlock('ects_grade');
+					$this->tpl->setVariable("ECTS_GRADE", $data['ects_grade']);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
 		}
 		$this->tpl->setVariable("REACHED", $data['reached']);
 		$this->tpl->setVariable("MARK", $data['mark']);
-		if ($this->hasSpecialColumn('ects_grade'))
-		{
-			$this->tpl->setCurrentBlock('ects_grade');
-			$this->tpl->setVariable("ECTS_GRADE", $data['ects_grade']);
-			$this->tpl->parseCurrentBlock();
-		}
 		$this->tpl->setVariable("ANSWERED", $data['answered']);
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
 		$this->tpl->setVariable("DETAILED", $data['details']);
 	}
-	
-	public function hasSpecialColumn($name)
-	{
-		return in_array($name, $this->specialcolumns);
-	}
-	
-	public function setSpecialColumns($arr)
-	{
-		$this->specialcolumns = $arr;
-	}
-
 }
 ?>

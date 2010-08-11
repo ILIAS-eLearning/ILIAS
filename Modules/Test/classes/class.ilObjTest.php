@@ -9681,31 +9681,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 	}
 	
-	/**
-	 * Sets additional user fields that should be shown in the user evaluation
-	 *
-	 * @param array $fields Array of database fields that should be shown in the evaluation
-	 */
-	function setEvaluationAdditionalFields($fields)
-	{
-		$assessmentSetting = new ilSetting("assessment");
-		$assessmentSetting->set("evalFields_" . $this->getId(), serialize($fields));
-	}
-	
-	/**
-	 * Gets additional user fields that should be shown in the user evaluation
-	 *
-	 * @return array An array containing the database fields that should be shown in the evaluation
-	 */
-	function getEvaluationAdditionalFields()
-	{
-			$assessmentSetting = new ilSetting("assessment");
-			$found = $assessmentSetting->get("evalFields_" . $this->getId());
-			$fields = array();
-			if (strlen($found)) $fields = unserialize($found);
-			if (is_array($fields)) return $fields; else return array();
-	}
-	
 	protected function getPassed($active_id)
 	{
 		global $ilDB;
