@@ -3143,3 +3143,7 @@ if(!$ilDB->tableExists('svy_settings'))
 	$ilDB->addIndex('svy_settings',array('usr_id'),'i1');
 }
 ?>
+<#3166>
+<?php
+	$ilDB->createSequence('svy_settings');
+?>

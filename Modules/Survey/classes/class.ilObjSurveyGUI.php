@@ -2506,6 +2506,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0) array_push($existingcolumns, '[' . $key . ']');
 			}
 		}
+		
+		global $ilUser;
+		$settings = $this->object->getUserSettings($ilUser->getId(), 'savemessage');
+		if (count($settings))
+		{
+			$options = array(0 => $this->lng->txt('please_select'));
+			foreach ($settings as $setting)
+			{
+				$options[$setting['settings_id']] = $setting['title'];
+			}
+			$savedmessages = new ilSelectInputGUI($this->lng->txt("saved_messages"), "savedmessage");
+			$savedmessages->setOptions($options);
+
+			$form_gui->addItem($savedmessages);
+		}
 
 		// MESSAGE
 		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');

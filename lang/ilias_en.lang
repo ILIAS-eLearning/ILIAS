@@ -10665,6 +10665,7 @@ survey#:#msg_duplicate_scale#:#Please enter unique scale values
 survey#:#workingtime#:#Working time
 survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
+survey#:#saved_messages#:#Available messages
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_date_booked#:#booked
