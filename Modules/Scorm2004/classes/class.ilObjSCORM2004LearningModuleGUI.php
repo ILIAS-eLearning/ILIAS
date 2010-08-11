@@ -1488,7 +1488,7 @@ function showTrackingItem()
 		*/
 		
 		// objective alignment
-		$tabs_gui->addTarget("sahs_objective_alignment",
+		$tabs_gui->addTarget("sahs_objectives_alignment",
 		$this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"), "showLearningObjectivesAlignment",
 		get_class($this));
 
