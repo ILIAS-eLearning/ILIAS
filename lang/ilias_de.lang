@@ -10722,6 +10722,12 @@ survey#:#external_recipients_deleted#:#Externe Empfänger gelöscht
 survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
 survey#:#save_reuse_title#:#Titel des Nachrichteninhaltes
 survey#:#saved_messages#:#Verfügbare Nachrichtentexte
+survey#:#insert_saved_message#:#Nachrichtentext einfügen
+survey#:#delete_saved_message#:#Nachrichtentext löschen
+survey#:#msg_message_inserted#:#Nachrichtentext eingefügt
+survey#:#msg_no_message_inserted#:#Bitte wählen Sie einen Nachrichtentext zum Einfügen aus
+survey#:#msg_message_deleted#:#Nachrichtentext gelöscht
+survey#:#msg_no_message_deleted#:#Bitte wählen Sie einen gespeicherten Nachrichtentext zum Löschen aus
 style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
 style#:#sty_type_glo_ovuglink#:#Begriffslink
 style#:#sty_type_glo_ovuglistlink#:#Link in Begriffsliste

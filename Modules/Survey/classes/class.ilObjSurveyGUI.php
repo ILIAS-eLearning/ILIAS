@@ -2446,129 +2446,112 @@ class ilObjSurveyGUI extends ilObjectGUI
 		return $errors;
 	}
 	
+	public function insertSavedMessageObject()
+	{
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
+		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
+		$form_gui = new FormMailCodesGUI($this);
+		$form_gui->setValuesByPost();
+		try
+		{
+			if ($form_gui->getSavedMessages()->getValue() > 0)
+			{
+				global $ilUser;
+				$settings = $this->object->getUserSettings($ilUser->getId(), 'savemessage');
+				$form_gui->getMailMessage()->setValue($settings[$form_gui->getSavedMessages()->getValue()]['value']);
+				ilUtil::sendSuccess($this->lng->txt('msg_message_inserted'));
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('msg_no_message_inserted'));
+			}
+		}
+		catch (Exception $e)
+		{
+			global $ilLog;
+			$ilLog->write('Error: ' + $e->getMessage());
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
+	}
+
+	public function deleteSavedMessageObject()
+	{
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
+		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
+		$form_gui = new FormMailCodesGUI($this);
+		$form_gui->setValuesByPost();
+		try
+		{
+			if ($form_gui->getSavedMessages()->getValue() > 0)
+			{
+				$this->object->deleteUserSettings($form_gui->getSavedMessages()->getValue());
+				$form_gui = new FormMailCodesGUI($this);
+				$form_gui->setValuesByPost();
+				ilUtil::sendSuccess($this->lng->txt('msg_message_deleted'));
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('msg_no_message_deleted'));
+			}
+		}
+		catch (Exception $e)
+		{
+			global $ilLog;
+			$ilLog->write('Error: ' + $e->getMessage());
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
+	}
+	
 	public function mailCodesObject()
 	{
-		global $ilAccess;
-		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
 		$mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
 		$mailData['m_message'] = (array_key_exists('m_message', $_POST)) ? $_POST['m_message'] : $this->lng->txt('default_codes_mail_message');
-		$mailData['m_type'] = (array_key_exists('m_type', $_POST)) ? $_POST['m_type'] : array();
-		$mailData['m_notsent'] = (array_key_exists('m_notsent', $_POST)) ? $_POST['m_notsent'] : array(1);
+		$mailData['m_type'] = (array_key_exists('m_type', $_POST)) ? $_POST['m_type'] : '';
+		$mailData['m_notsent'] = (array_key_exists('m_notsent', $_POST)) ? $_POST['m_notsent'] : '1';
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form_gui = new ilPropertyFormGUI();
-		$form_gui->setFormAction($this->ctrl->getFormAction($this));
-		$form_gui->setTitle($this->lng->txt('compose'));
-
-		// SUBJECT
-		$inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
-		$inp->setSize(50);
-		$inp->setRequired(true);
-		$inp->setValue(ilUtil::htmlencodePlainString($mailData["m_subject"], false));
-		$form_gui->addItem($inp);
-
-		$chb = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type[]');
-		$chb->setOptionTitle($this->lng->txt('system_message'));
-		$chb->setValue('system');
-		$chb->setChecked(false);
-		if(is_array($mailData["m_type"]) and in_array('system',$mailData["m_type"]))
-		{
-			$chb->setChecked(true);
-		}
-		$form_gui->addItem($chb);
-
-		$sendtype = new ilRadioGroupInputGUI($this->lng->txt('recipients'), "m_notsent[]");
-//		$sendtype->setInfo($this->lng->txt(''));
-		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), 0, ''));
-		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), 1, ''));
-		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
-		$sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_unanswered"), 3, ''));
-		if(is_array($mailData["m_notsent"]))
-		{
-			$sendtype->setValue($mailData["m_notsent"][0]);
-		}
-		else
-		{
-			$sendtype->setValue(1);
-		}
-		$form_gui->addItem($sendtype);
-
-		$existingdata = $this->object->getExternalCodeRecipients();
-		$existingcolumns = array();
-		if (count($existingdata))
-		{
-			$first = array_shift($existingdata);
-			foreach ($first as $key => $value)
-			{
-				if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0) array_push($existingcolumns, '[' . $key . ']');
-			}
-		}
-		
-		global $ilUser;
-		$settings = $this->object->getUserSettings($ilUser->getId(), 'savemessage');
-		if (count($settings))
-		{
-			$options = array(0 => $this->lng->txt('please_select'));
-			foreach ($settings as $setting)
-			{
-				$options[$setting['settings_id']] = $setting['title'];
-			}
-			$savedmessages = new ilSelectInputGUI($this->lng->txt("saved_messages"), "savedmessage");
-			$savedmessages->setOptions($options);
-
-			$form_gui->addItem($savedmessages);
-		}
-
-		// MESSAGE
-		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
-		$inp->setValue($mailData["m_message"]);
-		$inp->setRequired(true);
-		$inp->setCols(80);
-		$inp->setRows(10);
-		$inp->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
-		$form_gui->addItem($inp);
-
-		// save message
-		$savemessage = new ilCheckboxInputGUI('', "savemessage");
-		$savemessage->setOptionTitle($this->lng->txt("save_reuse_message"));
-		$savemessage->setValue(1);
-
-		$inp = new ilTextInputGUI($this->lng->txt('save_reuse_title'), 'savemessagetitle');
-		$inp->setSize(60);
-		$savemessage->addSubItem($inp);
-
-		$form_gui->addItem($savemessage);
-
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("sendCodesMail", $this->lng->txt("send"));
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("cancelCodesMail", $this->lng->txt("cancel"));
+		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
+		$form_gui = new FormMailCodesGUI($this);
+		$form_gui->setValuesByArray($mailData);
 		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
 	}
 	
 	public function sendCodesMailObject()
 	{
-		$code_exists = strpos($_POST['m_message'], '[code]') !== FALSE;
-		if (!$_POST['m_subject'] || !$_POST['m_message'] || !$code_exists)
+		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
+		$form_gui = new FormMailCodesGUI($this);
+		if ($form_gui->checkInput())
 		{
-			if (!$_POST['m_subject']) ilUtil::sendFailure($this->lng->txt('please_enter_mail_subject'));
-			if (!$_POST['m_message']) ilUtil::sendFailure($this->lng->txt('please_enter_mail_message'));
-			if (!$code_exists) ilUtil::sendFailure($this->lng->txt('please_enter_mail_code'));
-			$this->mailCodesObject();
+			$code_exists = strpos($_POST['m_message'], '[code]') !== FALSE;
+			if (!$code_exists)
+			{
+				if (!$code_exists) ilUtil::sendFailure($this->lng->txt('please_enter_mail_code'));
+				$form_gui->setValuesByPost();
+			}
+			else
+			{
+				if ($_POST['savemessage'] == 1)
+				{
+					global $ilUser;
+					$title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
+					$this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
+				}
+				$this->object->sendCodes($_POST['m_type'], $_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message']);
+				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
+				$this->ctrl->redirect($this, 'codesMail');
+			}
 		}
 		else
 		{
-			if ($_POST['savemessage'] == 1)
-			{
-				global $ilUser;
-				$title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
-				$this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
-			}
-			$this->object->sendCodes($_POST['m_type'], $_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message']);
-			ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
-			$this->ctrl->redirect($this, 'codesMail');
+			$form_gui->setValuesByPost();
 		}
+		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
 	}
 	
 	public function cancelCodesMailObject()
@@ -3619,7 +3602,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "codesMail"), 
 			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 'mailCodes', 
 			'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
-			'importExternalRecipientsFromDataset'),	
+			'importExternalRecipientsFromDataset', 'insertSavedMessage', 'deleteSavedMessage'),	
 			""
 		);
 	}
@@ -3787,7 +3770,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					 $this->ctrl->getLinkTarget($this,'codes'),
 					 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients',
 						'mailCodes', 'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
-						'importExternalRecipientsFromDataset'),
+						'importExternalRecipientsFromDataset', 'insertSavedMessage', 'deleteSavedMessage'),
 					 "");
 			}
 		}

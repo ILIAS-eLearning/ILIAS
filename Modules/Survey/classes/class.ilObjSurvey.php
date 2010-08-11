@@ -728,7 +728,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				array_push($found, $row);
+				$found[$row['settings_id']] = $row;
 			}
 		}
 		return $found;
@@ -3000,7 +3000,7 @@ class ilObjSurvey extends ilObject
 			}
 			$active_id = $this->getActiveID($user_id, $anonymize_id);
 			$messagetext .= "\n\n\n" . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
-			if (($not_sent[0] != 1) || $data['sent'] == 0)
+			if (($not_sent != 1) || $data['sent'] == 0)
 			{
 				$res = $mail->sendMail(
 					$recipient, // to
@@ -4559,7 +4559,7 @@ class ilObjSurvey extends ilObject
 	function sendCodes($mail_type, $not_sent, $subject, $message)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		$user_id = ($mail_type[0] == 'system') ? ANONYMOUS_USER_ID : $this->getOwner();
+		$user_id = ($mail_type == 'system') ? ANONYMOUS_USER_ID : $this->getOwner();
 		$mail = new ilMail($user_id);
 		$recipients = $this->getExternalCodeRecipients();
 		foreach ($recipients as $data)
@@ -4571,7 +4571,7 @@ class ilObjSurvey extends ilObject
 			{
 				$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
 			}
-			if (($not_sent[0] != 1) || $data['sent'] == 0)
+			if (($not_sent != 1) || $data['sent'] == 0)
 			{
 				$res = $mail->sendMail(
 					$data['email'], // to
