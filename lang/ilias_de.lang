@@ -10714,8 +10714,10 @@ user#:#user_order#:#Reihenfolge
 user#:#user_sure_delete_pages#:#Wollen Sie die folgenden Seiten wirklich löschen?
 user#:#user_selected_pages_deleted#:#Die ausgewählten Seiten wurde gelöscht.
 webr#:#webr_imort#:#Weblink importieren
-survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field###16 07 2010 new variable
-survey#:#external_recipients_deleted#:#Deleted external recipient(s)###16 07 2010 new variable
+survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Feld beinhalten
+survey#:#external_recipients_deleted#:#Externe Empfänger gelöscht
+survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
+survey#:#save_reuse_title#:#Titel des Nachrichteninhaltes
 style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
 style#:#sty_type_glo_ovuglink#:#Begriffslink
 style#:#sty_type_glo_ovuglistlink#:#Link in Begriffsliste

@@ -2511,10 +2511,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
 		$inp->setValue($mailData["m_message"]);
 		$inp->setRequired(true);
-		$inp->setCols(60);
+		$inp->setCols(80);
 		$inp->setRows(10);
 		$inp->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
 		$form_gui->addItem($inp);
+
+		// save message
+		$savemessage = new ilCheckboxInputGUI('', "savemessage");
+		$savemessage->setOptionTitle($this->lng->txt("save_reuse_message"));
+		$savemessage->setValue(1);
+
+		$inp = new ilTextInputGUI($this->lng->txt('save_reuse_title'), 'savemessagetitle');
+		$inp->setSize(60);
+		$savemessage->addSubItem($inp);
+
+		$form_gui->addItem($savemessage);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("sendCodesMail", $this->lng->txt("send"));
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_gui->addCommandButton("cancelCodesMail", $this->lng->txt("cancel"));
@@ -2533,6 +2544,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
+			if ($_POST['savemessage'] == 1)
+			{
+				global $ilUser;
+				$title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
+				$this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
+			}
 			$this->object->sendCodes($_POST['m_type'], $_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message']);
 			ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
 			$this->ctrl->redirect($this, 'codesMail');

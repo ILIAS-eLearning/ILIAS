@@ -3109,3 +3109,37 @@ if($ilDB->tableExists('svy_times'))
 	$ilDB->addTableColumn("svy_times", "first_question", array("type" => "integer", "length" => 4, "notnull" => false));
 }
 ?>
+<#3165>
+<?php
+if(!$ilDB->tableExists('svy_settings'))
+{
+	$ilDB->createTable('svy_settings',array(
+		'settings_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'usr_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'keyword'	=> array(
+			'type'	=> 'text',
+			'length'=> 40,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 400,
+			'notnull' => false
+		),
+		'value'	=> array(
+			'type'	=> 'clob',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('svy_settings', array('settings_id'));
+	$ilDB->addIndex('svy_settings',array('usr_id'),'i1');
+}
+?>
