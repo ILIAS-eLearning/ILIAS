@@ -689,6 +689,50 @@ class ilObjSurvey extends ilObject
 		ilRTE::_cleanupMediaObjectUsage($completecontent, $this->getType() . ":html",
 			$this->getId());
 	}
+	
+	public function saveUserSettings($usr_id, $key, $title, $value)
+	{
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('svy_settings');
+		$affectedRows = $ilDB->insert("svy_settings", array(
+			"settings_id" => array("integer", $next_id),
+			"usr_id" => array("integer", $usr_id),
+			"keyword" => array("text", $key),
+			"title" => array("text", $title),
+			"value" => array("clob", $value)
+		));
+	}
+	
+	public function deleteUserSettings($id)
+	{
+		global $ilDB;
+		
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_settings WHERE settings_id = %s",
+			array('integer'),
+			array($id)
+		);
+		return $affectedRows;
+	}
+	
+	public function getUserSettings($usr_id, $key)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT * FROM svy_settings WHERE usr_id = %s AND keyword = %s",
+			array('integer', 'text'),
+			array($usr_id, $key)
+		);
+		$found = array();
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				array_push($found, $row);
+			}
+		}
+		return $found;
+	}
 
 /**
 * Saves a survey object to a database
