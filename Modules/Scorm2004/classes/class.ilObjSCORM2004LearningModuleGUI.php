@@ -1455,6 +1455,11 @@ function showTrackingItem()
 			return parent::getTabs($tabs_gui);
 		}
 
+		// organization
+		$tabs_gui->addTarget("sahs_organization",
+		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
+		get_class($this));
+
 		// info screen
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
 		? true
@@ -1474,11 +1479,6 @@ function showTrackingItem()
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 			get_class($this));
 			*/
-
-		// organization
-		$tabs_gui->addTarget("sahs_organization",
-		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
-		get_class($this));
 
 		/*
 		// sequencing
