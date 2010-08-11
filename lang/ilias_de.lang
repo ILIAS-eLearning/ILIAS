@@ -10718,6 +10718,7 @@ survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'ema
 survey#:#external_recipients_deleted#:#Externe Empfänger gelöscht
 survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
 survey#:#save_reuse_title#:#Titel des Nachrichteninhaltes
+survey#:#saved_messages#:#Verfügbare Nachrichtentexte
 style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
 style#:#sty_type_glo_ovuglink#:#Begriffslink
 style#:#sty_type_glo_ovuglistlink#:#Link in Begriffsliste
