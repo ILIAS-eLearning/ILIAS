@@ -23,6 +23,7 @@
 
 include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
 include_once './Services/Booking/classes/class.ilBookingEntry.php';
+include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
 
 /**
  * Consultation hours editor
@@ -43,11 +44,26 @@ class ilConsultationHoursGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct($a_user_id)
+	public function __construct()
 	{
-		global $lng,$ilCtrl,$tpl;
-		
-		$this->user_id = $a_user_id;
+		global $lng, $ilCtrl, $tpl, $ilUser;
+
+		$user_id = (int)$_GET['user_id'];
+		if($user_id)
+		{
+			if(in_array($user_id, array_keys(ilConsultationHourAppointments::getManagedUsers())))
+			{
+				$this->user_id = $user_id;
+			}
+			else
+			{
+				$user_id = false;
+			}
+		}
+		if(!$user_id)
+		{
+			$this->user_id = $ilUser->getId();
+		}
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -60,7 +76,14 @@ class ilConsultationHoursGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilUser, $ilCtrl;
+		
 		$this->setTabs();
+
+		if($ilUser->getId() != $this->user_id)
+		{
+			$ilCtrl->setParameter($this, 'user_id', $this->user_id);
+		}
 		
 		switch($this->ctrl->getNextClass())
 		{
@@ -214,6 +237,11 @@ class ilConsultationHoursGUI
 		$dead->setShowDays(true);
 		$this->form->addItem($dead);
 
+		// Target Object
+		$tgt = new ilTextInputGUI($this->lng->txt('cal_ch_target_object'),'tgt');
+		$tgt->setInfo($this->lng->txt('cal_ch_target_object_info'));
+		$this->form->addItem($tgt);
+
 		// Location
 		$lo = new ilTextInputGUI($this->lng->txt('cal_where'),'lo');
 		$lo->setSize(32);
@@ -245,6 +273,8 @@ class ilConsultationHoursGUI
 			$deadline = $this->form->getInput('dead');
 			$deadline = $deadline['dd']*24+$deadline['hh'];
 			$booking->setDeadlineHours($deadline);
+
+			$booking->setTargetObjId($this->form->getInput('tgt'));
 
 			$booking->save();
 			
@@ -326,13 +356,19 @@ class ilConsultationHoursGUI
 	 */
 	protected function setTabs()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilUser, $ilCtrl;
 
-		$ilTabs->addTab('consultation_hours_'.$this->getUserId(), $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+		$ilTabs->addTab('consultation_hours_'.$ilUser->getId(), $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+
+		foreach(ilConsultationHourAppointments::getManagedUsers() as $user_id => $login)
+		{
+			$ilCtrl->setParameter($this, 'user_id', $user_id);
+			$ilTabs->addTab('consultation_hours_'.$user_id, $this->lng->txt('cal_ch_ch').': '.$login, $this->ctrl->getLinkTarget($this,'appointmentList'));
+			$ilCtrl->setParameter($this, 'user_id', '');
+		}
 
 		$ilTabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this,'settings'));
 
-		// :TODO:
 		$ilTabs->activateTab('consultation_hours_'.$this->getUserId());
 	}
 
@@ -363,11 +399,12 @@ class ilConsultationHoursGUI
 		$this->form->getItemByPostVar('ti')->setValue($entry->getTitle());
 		$this->form->getItemByPostVar('lo')->setValue($entry->getLocation());
 		$this->form->getItemByPostVar('de')->setValue($entry->getDescription());
-
+		
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 		$booking = new ilBookingEntry($entry->getContextId());
 
 		$this->form->getItemByPostVar('bo')->setValue($booking->getNumberOfBookings());
+		$this->form->getItemByPostVar('tgt')->setValue($booking->getTargetObjId());
 
 		$deadline = $booking->getDeadlineHours();
 		$this->form->getItemByPostVar('dead')->setDays(floor($deadline/24));
@@ -553,7 +590,6 @@ class ilConsultationHoursGUI
 		global $ilDB, $ilUser;
 
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -580,8 +616,6 @@ class ilConsultationHoursGUI
 		$form = $this->initSettingsForm();
 		if($form->checkInput())
 		{
-			include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-
 			$mng = $form->getInput('mng');
 			if(ilConsultationHourAppointments::setManager($mng))
 			{
