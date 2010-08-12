@@ -237,11 +237,6 @@ class ilConsultationHoursGUI
 		$dead->setShowDays(true);
 		$this->form->addItem($dead);
 
-		// Target Object
-		$tgt = new ilTextInputGUI($this->lng->txt('cal_ch_target_object'),'tgt');
-		$tgt->setInfo($this->lng->txt('cal_ch_target_object_info'));
-		$this->form->addItem($tgt);
-
 		// Location
 		$lo = new ilTextInputGUI($this->lng->txt('cal_where'),'lo');
 		$lo->setSize(32);
@@ -253,6 +248,12 @@ class ilConsultationHoursGUI
 		$de->setRows(10);
 		$de->setCols(60);
 		$this->form->addItem($de);
+
+		// Target Object
+		$tgt = new ilNumberInputGUI($this->lng->txt('cal_ch_target_object'),'tgt');
+		$tgt->setInfo($this->lng->txt('cal_ch_target_object_info'));
+		$tgt->setSize(6);
+		$this->form->addItem($tgt);
 	}
 	
 	/**
@@ -261,11 +262,14 @@ class ilConsultationHoursGUI
 	 */
 	protected function saveSequence()
 	{
+		global $ilObjDataCache;
+		
 		$this->initFormSequence(self::MODE_CREATE);
 
 		if($this->form->checkInput())
 		{
 			$this->form->setValuesByPost();
+			
 			$booking = new ilBookingEntry();
 			$booking->setObjId($this->getUserId());
 			$booking->setNumberOfBookings($this->form->getInput('bo'));
@@ -274,17 +278,32 @@ class ilConsultationHoursGUI
 			$deadline = $deadline['dd']*24+$deadline['hh'];
 			$booking->setDeadlineHours($deadline);
 
-			$booking->setTargetObjId($this->form->getInput('tgt'));
-
+			$tgt = $this->form->getInput('tgt');
+			if($tgt)
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($tgt);
+				if(!$obj_id)
+				{
+					ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'));
+					$this->tpl->setContent($this->form->getHTML());
+					return;
+				}
+				
+				$booking->setTargetObjId($obj_id);
+			}
+			
 			$booking->save();
 			
 			$this->createAppointments($booking);
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-			$this->createSequence();
 			$this->ctrl->redirect($this,'appointmentList');
 		}
-		$this->tpl->setContent($this->form->getHTML());
+		else
+		{
+			$this->form->setValuesByPost();
+			$this->tpl->setContent($this->form->getHTML());
+		}
 	}
 	
 	/**
