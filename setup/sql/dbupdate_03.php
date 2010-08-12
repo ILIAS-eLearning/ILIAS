@@ -3177,3 +3177,25 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3170>
+<?php
+	
+	$permission_ordering = array(
+		'add_post'		=> 3050,
+		'edit_roleassignment' => 2500,
+		'push_desktop_items'			=> 2400,
+		'search'			=> 300,
+		'export_memberdata'			=> 400,
+		'edit_userasignment'	=> 2600,
+	);
+	
+	foreach($permission_ordering as $op => $order)
+	{
+		$query = "UPDATE rbac_operations SET ".
+			'op_order = '.$ilDB->quote($order,'integer').' '.
+			'WHERE operation = '.$ilDB->quote($op,'text').' ';
+		$ilDB->manipulate($query);
+	}
+?>
+
+

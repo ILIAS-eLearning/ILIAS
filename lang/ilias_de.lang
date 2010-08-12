@@ -10834,3 +10834,9 @@ dateplaner#:#cal_ch_manager_info#:#Der Login des Benutzers, der Ihre Sprechstund
 dateplaner#:#cal_ch_unknown_user#:#Dieser Login entspricht keinem bekannten Benutzer.
 dateplaner#:#cal_ch_target_object#:#Magazin-Objekt
 dateplaner#:#cal_ch_target_object_info#:#Termine nur für dieses Objekt anbieten.
+rbac#:#push_desktop_items#:#ILIAS-Objekte auf den Persönlichen Schreibtisch legen
+rbac#:#smtp_mail#:#E-Mail verschicken
+rbac#:#mail_to_global_roles#:#Mail an global Rollen
+rbac#:#add_post#:#Forenbeitrag anlegen
+rbac#:#add_thread#:#Forumthema anlegen
+rbac#:#moderate_frm#:#Forum moderieren
