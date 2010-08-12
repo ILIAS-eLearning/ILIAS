@@ -70,5 +70,58 @@ class ilConsultationHourAppointments
 		}
 		return $entries;
 	}
+
+	/**
+	 * Get consultation hour manager for current user
+	 * @param	string	$a_as_name
+	 * @return	int | string
+	 */
+	public static function getManager($a_as_name = false)
+	{
+		global $ilDB, $ilUser;
+		
+		$set = $ilDB->query('SELECT admin_id FROM cal_ch_settings WHERE user_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
+		$row = $ilDB->fetchAssoc($set);
+		if($row && $row['admin_id'])
+		{
+			if($a_as_name)
+			{
+				return ilObjUser::_lookupLogin($row['admin_id']);
+			}
+			return (int)$row['admin_id'];
+		}
+	}
+
+	/**
+	 * Set consultation hour manager for current user
+	 * @param	string	$a_user_name
+	 * @return bool
+	 */
+	public static function setManager($a_user_name)
+	{
+		global $ilDB, $ilUser;
+
+		$user_id = false;
+		if($a_user_name)
+		{
+			$user_id = ilObjUser::_loginExists($a_user_name);
+			if(!$user_id)
+			{
+				return false;
+			}
+		}
+
+		$ilDB->manipulate('DELETE FROM cal_ch_settings'.
+				' WHERE user_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
+		
+		if($user_id && $user_id != $ilUser->getId())
+		{
+			$ilDB->manipulate('INSERT INTO cal_ch_settings (user_id, admin_id)'.
+					' VALUES ('.$ilDB->quote($ilUser->getId(), 'integer').','.
+					$ilDB->quote($user_id, 'integer').')');
+		}
+
+		return true;
+	}
 }
 ?>

@@ -88,7 +88,7 @@ class ilConsultationHoursGUI
 	protected function appointmentList()
 	{
 		global $ilToolbar;
-		
+
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		$ilToolbar->addButton($this->lng->txt('cal_ch_add_sequence'),$this->ctrl->getLinkTarget($this,'createSequence'));
 		
@@ -327,8 +327,13 @@ class ilConsultationHoursGUI
 	protected function setTabs()
 	{
 		global $ilTabs;
-		
-		$ilTabs->addTab('consultation_hours', $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+
+		$ilTabs->addTab('consultation_hours_'.$this->getUserId(), $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
+
+		$ilTabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this,'settings'));
+
+		// :TODO:
+		$ilTabs->activateTab('consultation_hours_'.$this->getUserId());
 	}
 
 	/**
@@ -524,6 +529,76 @@ class ilConsultationHoursGUI
 		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
 		$profile = new ilPublicUserProfileGUI($user_id);
 		$tpl->setContent($profile->getHTML());
+	}
+
+	/**
+	 * display settings gui
+	 */
+	public function settings()
+	{
+		global $tpl, $ilTabs;
+
+		$ilTabs->activateTab('settings');
+		
+		$form = $this->initSettingsForm();
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * build settings form
+	 * @return object
+	 */
+	protected function initSettingsForm()
+	{
+		global $ilDB, $ilUser;
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		$mng = new ilTextInputGUI($this->lng->txt('cal_ch_manager'), 'mng');
+		$mng->setInfo($this->lng->txt('cal_ch_manager_info'));
+		$form->addItem($mng);
+
+		$mng->setValue(ilConsultationHourAppointments::getManager(true));
+
+		$form->setTitle($this->lng->txt('settings'));
+		$form->addCommandButton('updateSettings', $this->lng->txt('save'));
+		// $form->addCommandButton('appointmentList', $this->lng->txt('cancel'));
+		return $form;
+	}
+
+	/**
+	 * save settings
+	 */
+	public function updateSettings()
+	{
+		global $ilDB, $ilCtrl, $ilUser, $tpl, $ilTabs;
+		
+		$form = $this->initSettingsForm();
+		if($form->checkInput())
+		{
+			include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+
+			$mng = $form->getInput('mng');
+			if(ilConsultationHourAppointments::setManager($mng))
+			{
+				ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+				$ilCtrl->redirect($this, 'appointmentList');
+			}
+			else
+			{
+				$ilTabs->activateTab('settings');
+
+				ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_user'));
+				$field = $form->getItemByPostVar('mng');
+				$field->setValue($mng);
+				$tpl->setContent($form->getHTML());
+				return;
+			}
+		}
 	}
 }
 ?>
