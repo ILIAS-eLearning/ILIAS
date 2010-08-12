@@ -10834,9 +10834,14 @@ rbac#:#role_block_role#:#Block Role
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
 rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
-administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
 dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
+rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
+rbac#:#smtp_mail#:#Send Mail
+rbac#:#mail_to_global_roles#:#Mail to Global Roles
+rbac#:#add_post#:#Add Post
+rbac#:#add_thread#:#Add Thread
+rbac#:#moderate_frm#:#Moderate
