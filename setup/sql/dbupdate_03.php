@@ -3147,3 +3147,22 @@ if(!$ilDB->tableExists('svy_settings'))
 <?php
 	$ilDB->createSequence('svy_settings');
 ?>
+<#3167>
+<?php
+if(!$ilDB->tableExists('cal_ch_settings'))
+{
+	$ilDB->createTable('cal_ch_settings',array(
+		'user_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'admin_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+	));
+	$ilDB->addPrimaryKey('cal_ch_settings', array('user_id', 'admin_id'));
+}
+?>
