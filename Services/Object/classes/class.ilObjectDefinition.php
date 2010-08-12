@@ -421,7 +421,6 @@ class ilObjectDefinition extends ilSaxParser
 			{
 				$this->__filterObjects($subobjects);
 			}
-
 			foreach ($subobjects as $data => $sub)
 			{
 				if ($sub["module"] != "n")
@@ -440,7 +439,7 @@ class ilObjectDefinition extends ilSaxParser
 			}
 
 			$subs2 = ilUtil::sortArray($subs, "pos", ASC, true, true);
-
+			
 			return $subs2;
 		}
 		

@@ -10823,6 +10823,12 @@ grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen,
 book#:#book_not#:#Nicht
 content#:#cont_new_page#:#New Page###06 08 2010 new variable
 content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
+rbac#:#write#:#Einstellungen bearbeiten
+rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
+rbac#:#role_block_role#:#Zugriff sperren
+rbac#:#role_block_role_desc#:#Die Zugriffsrechte auf dieses und alle untergeordneten Objekte werden vollständig entzogen.
+rbac#:#role_confirm_block_role_info#:#Die folgenden Aktionen werden durchgeführt:<br /><br />- den unten aufgeführten Rollen werden alle Rechte an diesem und allen untergeordneten Objekten entfernt.<br />- die neuen Rechteeinstellungen werden geschützt.
+rbac#:#role_confirm_block_role_header#:#Sind Sie sicher, dass der Zugriff für die folgenden Rollen gesperrt werden soll?
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
 dateplaner#:#cal_ch_manager_info#:#Der Login des Benutzers, der Ihre Sprechstunden verwalten soll.
 dateplaner#:#cal_ch_unknown_user#:#Dieser Login entspricht keinem bekannten Benutzer.

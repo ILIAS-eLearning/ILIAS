@@ -523,73 +523,6 @@ class ilRbacReview
 		}
 		return false;
 	}
-	
-	/**
-	 * get parent roles (NEW implementation)
-	 *
-	 * @access protected
-	 * @param 
-	 * @return
-	 */
-	protected function getParentRoles($a_path,$a_templates,$a_keep_protected)
-	{
-		global $log,$ilDB,$tree;
-		
-		$parent_roles = array();
-		$role_hierarchy = array();
-
-		$node = $tree->getNodeData($a_path);
-		$lft = $node['lft'];
-		$rgt = $node['rgt'];
-
-
-		// Role folder id		
-		$relevant_rolfs[] = ROLE_FOLDER_ID;
-		
-		// Role folder of current object
-		if($rolf = $this->getRoleFolderIdOfObject($a_path))
-		{
-			$relevant_rolfs[] = $rolf;
-		}
-		
-		// role folder of objects in path
-		$query = "SELECT * FROM tree ".
-			"JOIN object_reference obr ON child = ref_id ".
-			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
-			"WHERE type = 'rolf' ".
-			"AND lft < ".$ilDB->quote($lft,'integer')." ".
-			"AND rgt > ".$ilDB->quote($rgt,'integer');
-	
-	
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$relevant_rolfs[] = $row->child;
-		}
-		foreach($relevant_rolfs as $rolf)
-		{
-			$roles = $this->getRoleListByObject($rolf,$a_templates);
-			
-			foreach ($roles as $role)
-			{
-				$id = $role["obj_id"];
-				$role["parent"] = $rolf;
-				$parent_roles[$id] = $role;
-				
-				if (!array_key_exists($role['obj_id'],$role_hierarchy))
-				{
-					$role_hierarchy[$id] = $rolf;
-				}
-			}
-		}
-		
-		if (!$a_keep_protected)
-		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$a_path);
-		}
-		return $parent_roles;
-	}
-	
 
 	/**
     * Note: This function performs faster than the new getParentRoles function,
@@ -629,6 +562,7 @@ class ilRbacReview
 
         $r = $this->ilDB->query($q);
 		
+		
 		// Sort by path (Administration -> Rolefolder is first element)
 		$role_rows = array();
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -638,6 +572,7 @@ class ilRbacReview
 			$role_rows[$depth]['child'] = $row->child;
 		}
 		ksort($role_rows,SORT_NUMERIC);
+
 		foreach($role_rows as $row)
 		{
 			$roles = $this->getRoleListByObject($row['child'],$a_templates);
@@ -655,7 +590,7 @@ class ilRbacReview
         }
 		if (!$a_keep_protected)
 		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,end($a_path));
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,reset($a_path));
 		}
 		return $parent_roles;
 	}
@@ -1333,6 +1268,28 @@ class ilRbacReview
 		return (array) $ops_arr;
 	}
 	
+	/**
+	 * Get active operations for a role
+	 * @param object $a_ref_id
+	 * @param object $a_role_id
+	 * @return 
+	 */
+	public function getActiveOperationsOfRole($a_ref_id, $a_role_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM rbac_pa '.
+			'WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer').' '.
+			'AND rol_id = '.$ilDB->quote($a_role_id,'integer').' ';
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return unserialize($row['ops_id']);
+		}
+		return array();
+	}
+	
 
 	/**
 	* get all possible operations of a specific role
@@ -1411,7 +1368,12 @@ class ilRbacReview
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$query = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id,'integer');
+		#$query = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id,'integer');
+		
+		$query = 'SELECT * FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id '.
+			'WHERE typ_id = '.$ilDB->quote($a_typ_id,'integer').' '.
+			'ORDER BY op_order';
+		
 		$res = $ilDB->query($query);
 
 		while($row = $ilDB->fetchObject($res))
@@ -1433,6 +1395,7 @@ class ilRbacReview
 		global $ilDB;
 
 		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type ,'text')." ";
+			
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1441,6 +1404,45 @@ class ilRbacReview
 		}
 		return false;
 	}
+	
+	/**
+	 * Get operations by type and class
+	 * @param string $a_type Type is "object" or 
+	 * @param string $a_class
+	 * @return 
+	 */
+	public function getOperationsByTypeAndClass($a_type,$a_class)
+	{
+		global $ilDB;
+		
+		if($a_class != 'create')
+		{
+			$condition = "AND class != ".$ilDB->quote('create','text');
+		}
+		else
+		{
+			$condition = "AND class = ".$ilDB->quote('create','text');
+		}
+		
+		$query = "SELECT ro.ops_id FROM rbac_operations ro ".
+			"JOIN rbac_ta rt ON  ro.ops_id = rt.ops_id ".
+			"JOIN object_data od ON rt.typ_id = od.obj_id ".
+			"WHERE type = ".$ilDB->quote('typ','text')." ".
+			"AND title = ".$ilDB->quote($a_type,'text')." ".
+			$condition." ".
+			"ORDER BY op_order ";
+			
+		$res = $ilDB->query($query);
+		
+		$ops = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ops[] = $row->ops_id;
+		}
+		return $ops; 
+	}
+	
+	
 	/**
 	* get all objects in which the inheritance of role with role_id was stopped
 	* the function returns all reference ids of objects containing a role folder.
@@ -1604,7 +1606,7 @@ class ilRbacReview
 	* @param	array	string name of operation. see rbac_operations
 	* @return	array   integer ops_id's
 	*/
-	function _getOperationIdsByName($operations)
+	public static function _getOperationIdsByName($operations)
 	{
 		global $ilDB;
 
@@ -1659,6 +1661,42 @@ class ilRbacReview
         }
         return null;
 	}
+	
+	/**
+	 * Lookup operation ids
+	 * @param array $a_type_arr e.g array('cat','crs','grp'). The operation name (e.g. 'create_cat') is generated automatically
+	 * @return array int Array with operation ids
+	 */
+	public static function lookupCreateOperationIds($a_type_arr)
+	{
+		global $ilDB;
+		
+		$operations = array();
+		foreach($a_type_arr as $type)
+		{
+			$operations[] = ('create_'.$type);
+		}
+		
+		if(!count($operations))
+		{
+			return array();
+		}
+		
+		$query = 'SELECT ops_id, operation FROM rbac_operations '.
+			'WHERE '.$ilDB->in('operation',$operations,false,'text');
+			
+		$res = $ilDB->query($query);
+	
+		$ops_ids = array();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$type_arr = explode('_', $row->operation);
+			$type = $type_arr[1];
+			
+			$ops_ids[$type] = $row->ops_id;
+		}
+		return $ops_ids;
+	}
 
 
 	/**
@@ -1711,6 +1749,8 @@ class ilRbacReview
 	// and current postion in the hierarchy.
 	function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
 	{
+		#vd('refId',$a_ref_id,'parent roles',$a_parent_roles,'role-hierarchy',$a_role_hierarchy);
+		
 		global $rbacsystem,$ilUser,$log;
 		
 		if (in_array(SYSTEM_ROLE_ID,$this->assignedRoles($ilUser->getId())))
@@ -1721,13 +1761,11 @@ class ilRbacReview
 		{
 			$leveladmin = false;
 		}
-		
-		//var_dump($a_role_hierarchy);
-		
+		#vd("RoleHierarchy",$a_role_hierarchy);
 		foreach ($a_role_hierarchy as $role_id => $rolf_id)
 		{
 			//$log->write("ilRBACreview::__setProtectedStatus(), 0");	
-			//echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
+			#echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
 			//var_dump($leveladmin,$a_parent_roles[$role_id]['protected']);
 
 			if ($leveladmin == true)
@@ -1740,15 +1778,19 @@ class ilRbacReview
 			{
 				$arr_lvl_roles_user = array_intersect($this->assignedRoles($ilUser->getId()),array_keys($a_role_hierarchy,$rolf_id));
 				
+				#vd("intersection",$arr_lvl_roles_user);
+				
 				foreach ($arr_lvl_roles_user as $lvl_role_id)
 				{
-					//echo "<br/>level_role: ".$lvl_role_id;
-					//echo "<br/>a_ref_id: ".$a_ref_id;
+					#echo "<br/>level_role: ".$lvl_role_id;
+					#echo "<br/>a_ref_id: ".$a_ref_id;
 					
 					//$log->write("ilRBACreview::__setProtectedStatus(), 1");
 					// check if role grants 'edit_permission' to parent
+					
 					if ($rbacsystem->checkPermission($a_ref_id,$lvl_role_id,'edit_permission'))
 					{
+						#echo "<br />Permission granted";
 						//$log->write("ilRBACreview::__setProtectedStatus(), 2");
 						// user may change permissions of that higher-ranked role
 						$a_parent_roles[$role_id]['protected'] = false;
