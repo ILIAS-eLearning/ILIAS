@@ -224,6 +224,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('BLOCK_ROLE_ID',$role_info['obj_id']);
 				$this->tpl->setVariable('TXT_BLOCK',$this->lng->txt('role_block_role'));
 				$this->tpl->setVariable('BLOCK_LONG',$this->lng->txt('role_block_role_desc'));
+				if($role_info['protected'] == 'y')
+				{
+					$this->tpl->setVariable('BLOCK_DISABLED','disabled="disabled');
+				}
+				
 				$this->tpl->parseCurrentBlock();
 			}
 			return true;
