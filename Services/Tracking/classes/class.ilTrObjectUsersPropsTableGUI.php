@@ -38,7 +38,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
 
-		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs");
+		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs", true);
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
