@@ -36,6 +36,7 @@ class ilWebResourceImporter extends ilXmlImporter
 		}
 		else
 		{
+			include_once './Modules/WebResource/classes/class.ilObjLinkResource.php';
 			$this->link = new ilObjLinkResource();
 			$this->link->setType('webr');
 			$this->link->create(true);
@@ -43,6 +44,7 @@ class ilWebResourceImporter extends ilXmlImporter
 
 		try 
 		{
+			include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
 			$parser = new ilWebLinkXmlParser($this->link,$a_xml);
 			$parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
 			$parser->start();
