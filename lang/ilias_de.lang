@@ -10841,3 +10841,4 @@ rbac#:#add_post#:#Forenbeitrag anlegen
 rbac#:#add_thread#:#Forumthema anlegen
 rbac#:#moderate_frm#:#Forum moderieren
 dateplaner#:#cal_ch_unknown_repository_object#:#Die Ref-Id des Magazin-Objekts ist ungültig.
+webr#:#webr_import#:#Weblinksammlung importieren
