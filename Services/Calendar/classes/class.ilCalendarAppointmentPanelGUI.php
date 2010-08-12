@@ -276,6 +276,17 @@ class ilCalendarAppointmentPanelGUI
 				}
 				else
 				{
+					$target = $entry->getTargetObjId();
+					if($target)
+					{
+						global $ilObjDataCache;
+						
+						$this->tpl->setCurrentBlock('panel_booking_target');
+						$this->tpl->setVariable('PANEL_TXT_BOOKING_TARGET', $this->lng->txt('cal_ch_target_object'));
+						$this->tpl->setVariable('PANEL_BOOKING_TARGET', $ilObjDataCache->lookupTitle($target));
+						$this->tpl->parseCurrentBlock();
+					}
+
 					include_once 'classes/class.ilLink.php';
 					$bookings = array();
 					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel',1);

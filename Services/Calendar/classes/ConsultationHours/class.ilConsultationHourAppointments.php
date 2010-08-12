@@ -32,20 +32,22 @@ class ilConsultationHourAppointments
 			include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 			$a_type = ilCalendarCategory::TYPE_CH;
 		}
-		
-		$query = "SELECT ce.cal_id FROM cal_entries ce ".
-			"JOIN cal_cat_assignments cca ON ce.cal_id = cca.cal_id ".
-			"JOIN cal_categories cc ON cca.cat_id = cc.cat_id ".
-			"WHERE obj_id = ".$ilDB->quote($a_user_id,'integer')." ".
-			"AND type = ".$ilDB->quote($a_type);
+
+		$query = "SELECT ce.cal_id FROM cal_entries ce".
+			" JOIN cal_cat_assignments cca ON ce.cal_id = cca.cal_id".
+			" JOIN cal_categories cc ON cca.cat_id = cc.cat_id".
+			" JOIN booking_entry be ON ce.context_id  = be.booking_id".
+			" WHERE cc.obj_id = ".$ilDB->quote($a_user_id,'integer').
+			" AND be.obj_id = ".$ilDB->quote($a_user_id,'integer').
+			" AND cc.type = ".$ilDB->quote($a_type,'integer');
 
 		if($a_context_id)
 		{
-			$query .= " AND context_id = ".$ilDB->quote($a_context_id, 'integer');
+			$query .= " AND ce.context_id = ".$ilDB->quote($a_context_id, 'integer');
 		}
 		if($a_start)
 		{
-			$query .= " AND starta = ".$ilDB->quote($a_start->get(IL_CAL_DATETIME, '', 'UTC'), 'text');
+			$query .= " AND ce.starta = ".$ilDB->quote($a_start->get(IL_CAL_DATETIME, '', 'UTC'), 'text');
 		}
 
 		$res = $ilDB->query($query);
@@ -80,7 +82,8 @@ class ilConsultationHourAppointments
 	{
 		global $ilDB, $ilUser;
 		
-		$set = $ilDB->query('SELECT admin_id FROM cal_ch_settings WHERE user_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
+		$set = $ilDB->query('SELECT admin_id FROM cal_ch_settings'.
+			' WHERE user_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
 		$row = $ilDB->fetchAssoc($set);
 		if($row && $row['admin_id'])
 		{
@@ -122,6 +125,24 @@ class ilConsultationHourAppointments
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get all managed consultation hours users for current users
+	 * @return array
+	 */
+	public static function getManagedUsers()
+	{
+		global $ilDB, $ilUser;
+
+		$all = array();
+		$set = $ilDB->query('SELECT user_id FROM cal_ch_settings'.
+			' WHERE admin_id = '.$ilDB->quote($ilUser->getId(), 'integer'));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$all[$row['user_id']] = ilObjUser::_lookupLogin($row['user_id']);
+		}
+		return $all;
 	}
 }
 ?>

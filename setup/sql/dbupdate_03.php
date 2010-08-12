@@ -3166,3 +3166,10 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 	$ilDB->addPrimaryKey('cal_ch_settings', array('user_id', 'admin_id'));
 }
 ?>
+<#3168>
+<?php
+	if(!$ilDB->tableColumnExists('booking_entry','target_obj_id'))
+	{
+		$ilDB->addTableColumn("booking_entry", "target_obj_id", array("type" => "integer", "length" => 4, "notnull" => false));
+	}
+?>

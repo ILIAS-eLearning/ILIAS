@@ -116,7 +116,7 @@ class ilCalendarPresentationGUI
 				);
 
 				include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php';
-				$gui = new ilConsultationHoursGUI($ilUser->getId());
+				$gui = new ilConsultationHoursGUI();
 				$this->ctrl->forwardCommand($gui);
 				return true;
 			

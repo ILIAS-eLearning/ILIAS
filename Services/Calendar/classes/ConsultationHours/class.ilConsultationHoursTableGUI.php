@@ -37,6 +37,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('cal_start'),'start');
 		$this->addColumn($this->lng->txt('cal_ch_num_bookings'),'num_bookings');
 		$this->addColumn($this->lng->txt('cal_ch_bookings'));
+		$this->addColumn($this->lng->txt('cal_ch_target_object'));
 		$this->addColumn('');
 		
 		$this->setRowTemplate('tpl.ch_upcoming_row.html','Services/Calendar');
@@ -76,6 +77,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TITLE',$row['title']);
 		$this->tpl->setVariable('START',$row['start_p']);
 		$this->tpl->setVariable('NUM_BOOKINGS',$row['num_bookings']);
+		$this->tpl->setVariable('TARGET', $row['target']);
 
 		if($row['bookings'])
 		{
@@ -99,7 +101,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $ilDB;
+		global $ilDB, $ilObjDataCache;
 
 		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 
@@ -121,6 +123,12 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 			}
 			$data[$counter]['num_bookings'] = sizeof($users);
 			$data[$counter]['bookings'] = $users;
+
+			$target = $booking->getTargetObjId();
+			if($target)
+			{
+				$data[$counter]['target'] = $ilObjDataCache->lookupTitle($target);
+			}
 			
 			$counter++;
 		}

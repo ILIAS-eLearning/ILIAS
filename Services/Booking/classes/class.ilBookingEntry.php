@@ -16,7 +16,8 @@ class ilBookingEntry
 	private $obj_id = 0;
 	
 	private $deadline = 0;
-	private $num_bookings = 1; 
+	private $num_bookings = 1;
+	private $target_obj_id = NULL;
 	
 	
 	/**
@@ -33,12 +34,12 @@ class ilBookingEntry
 	
 	/**
 	 * Set id
-	 * @param object $a_id
+	 * @param int $a_id
 	 * @return 
 	 */
 	protected function setId($a_id)
 	{
-		$this->id = $a_id;
+		$this->id = (int)$a_id;
 	} 
 	
 	/**
@@ -52,12 +53,12 @@ class ilBookingEntry
 	
 	/**
 	 * Set obj id
-	 * @param object $a_id
+	 * @param int $a_id
 	 * @return 
 	 */
 	public function setObjId($a_id)
 	{
-		$this->obj_id = $a_id;
+		$this->obj_id = (int)$a_id;
 	}
 	
 	/**
@@ -71,12 +72,12 @@ class ilBookingEntry
 	
 	/**
 	 * set deadline hours
-	 * @param object $a_hours
+	 * @param int $a_hours
 	 * @return 
 	 */
 	public function setDeadlineHours($a_hours)
 	{
-		$this->deadline = $a_hours;
+		$this->deadline = (int)$a_hours;
 	}
 	
 	/**
@@ -90,12 +91,12 @@ class ilBookingEntry
 	
 	/**
 	 * set number of bookings
-	 * @param object $a_num
+	 * @param int $a_num
 	 * @return 
 	 */
 	public function setNumberOfBookings($a_num)
 	{
-		$this->num_bookings = $a_num;
+		$this->num_bookings = (int)$a_num;
 	}
 	
 	/**
@@ -105,6 +106,25 @@ class ilBookingEntry
 	public function getNumberOfBookings()
 	{
 		return $this->num_bookings;
+	}
+
+	/**
+	 * set target object id
+	 * @param int $a_obj_id
+	 * @return
+	 */
+	public function setTargetObjId($a_obj_id)
+	{
+		$this->target_obj_id = (int)$a_obj_id;
+	}
+
+	/**
+	 * get target object id
+	 * @return int
+	 */
+	public function getTargetObjId()
+	{
+		return $this->target_obj_id;
 	}
 	
 	/**
@@ -116,12 +136,13 @@ class ilBookingEntry
 		global $ilDB;
 		
 		$this->setId($ilDB->nextId('booking_entry'));
-		$query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings) '.
+		$query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings,target_obj_id) '.
 			"VALUES ( ".
 			$ilDB->quote($this->getId(),'integer').', '.
 			$ilDB->quote($this->getObjId(),'integer').', '.
 			$ilDB->quote($this->getDeadlineHours(),'integer').', '.
-			$ilDB->quote($this->getNumberOfBookings(),'integer').
+			$ilDB->quote($this->getNumberOfBookings(),'integer').','.
+			$ilDB->quote($this->getTargetObjId(),'integer').
 			") ";
 		$ilDB->manipulate($query);
 		return true;
@@ -141,6 +162,7 @@ class ilBookingEntry
 		$query = "UPDATE booking_entry SET ".
 			"SET obj_id = ".$ilDB->quote($this->getObjId(),'integer').", ".
 			" deadline = ".$ilDB->quote($this->getDeadlineHours(),'integer').", ".
+			" target_obj_id = ".$ilDB->quote($this->getTargetObjId(),'integer').", ".
 			" num_bookings = ".$ilDB->quote($this->getNumberOfBookings(),'integer');
 		$ilDB->manipulate($query);
 		return true;
@@ -179,6 +201,7 @@ class ilBookingEntry
 			$this->setObjId($row['obj_id']);
 			$this->setDeadlineHours($row['deadline']);
 			$this->setNumberOfBookings($row['num_bookings']);
+			$this->setTargetObjId($row['target_obj_id']);
 		}
 		return true;
 	}
@@ -242,17 +265,23 @@ class ilBookingEntry
 	/**
 	 * Which objects are bookable?
 	 *
-	 * @param	array	$users
+	 * @param	array	$a_obj_ids
+	 * @param	int		$a_target_obj_id
 	 * @return	array
 	 */
-	public static function isBookable(array $a_obj_ids)
+	public static function isBookable(array $a_obj_ids, $a_target_obj_id = NULL)
 	{
 		global $ilDB;
 
 		if(sizeof($a_obj_ids))
 		{
-			$set = $ilDB->query('SELECT DISTINCT(obj_id) FROM booking_entry'.
-				' WHERE '.$ilDB->in('obj_id', $a_obj_ids, false, 'integer'));
+			$query = 'SELECT DISTINCT(obj_id) FROM booking_entry'.
+				' WHERE '.$ilDB->in('obj_id', $a_obj_ids, false, 'integer');
+			if($a_target_obj_id)
+			{
+				$query .= ' AND target_obj_id = '.$ilDB->quote($a_target_obj_id, 'integer');
+			}
+			$set = $ilDB->query($query);
 			$all = array();
 			while($row = $ilDB->fetchAssoc($set))
 			{

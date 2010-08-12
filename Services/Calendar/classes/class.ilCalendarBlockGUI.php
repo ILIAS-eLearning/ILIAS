@@ -482,7 +482,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
 
 			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-			$users = ilBookingEntry::isBookable($users);
+			$users = ilBookingEntry::isBookable($users, $obj_id);
 			if($users)
 			{
 				foreach($users as $user_id)

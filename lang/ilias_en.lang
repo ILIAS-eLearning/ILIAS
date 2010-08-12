@@ -10831,3 +10831,5 @@ administration#:#adm_synchronize_rep_tree_info#:#This highlights the current pos
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
+dateplaner#:#cal_ch_target_object#:#Repository Object
+dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
