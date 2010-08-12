@@ -2667,7 +2667,7 @@ class ilTree
 	* @return	mixed false if item is not in tree, 
 	* 				  int (object ref_id) > 0 if path container course, int 0 if pathc does not contain the object type 
 	*/
-	function checkForParentType($a_ref_id,$a_type)
+	function checkForParentType($a_ref_id,$a_type,$a_exclude_source_check = false)
 	{
 		// Try to return a cached result
 		if ($this->isCacheUsed() &&
@@ -2686,7 +2686,10 @@ class ilTree
 		$path = array_reverse($this->getPathFull($a_ref_id));
 
 		// remove first path entry as it is requested node
-		array_shift($path);
+		if($a_exclude_source_check)
+		{
+			array_shift($path);
+		}
 
 		foreach($path as $node)
 		{
