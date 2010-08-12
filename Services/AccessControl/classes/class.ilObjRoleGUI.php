@@ -1115,7 +1115,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$output["adopt"][$key]["check_adopt"] = $radio;
 				$output["adopt"][$key]["role_id"] = $par["obj_id"];
 				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-				$output["adopt"][$key]["role_name"] = $par["title"];
+				$output["adopt"][$key]["role_name"] = ilObjRole::_getTranslation($par["title"]);
 				$output["adopt"][$key]["role_desc"] = $par["desc"];
 				$key++;
 			}
