@@ -64,7 +64,7 @@ class ilRbacLog
 		$result = array();
 
 		// roles
-	    foreach($a_old["ops"] as $role_id => $ops)
+	    foreach((array) $a_old["ops"] as $role_id => $ops)
 		{
 			$diff = array_diff($ops, $a_new["ops"][$role_id]);
 			if(sizeof($diff))

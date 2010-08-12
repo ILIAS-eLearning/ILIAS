@@ -444,6 +444,62 @@ class ilRbacAdmin
 
 		return true;
 	}
+	
+	/**
+	 * Revoke subtree permissions
+	 * @param object $a_ref_id
+	 * @param object $a_role_id
+	 * @return 
+	 */
+	public function revokeSubtreePermissions($a_ref_id,$a_role_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM rbac_pa ".
+			"WHERE ref_id IN ".
+			"(SELECT child FROM tree WHERE ".
+				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
+				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
+			") ".
+			"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
+		
+		$ilDB->manipulate($query);
+		return true;
+	}
+	
+	/**
+	 * Delete all template permissions of subtree nodes
+	 * @param object $a_ref_id
+	 * @param object $a_rol_id
+	 * @return 
+	 */
+	public function deleteSubtreeTemplates($a_ref_id,$a_rol_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM rbac_templates ".
+			"WHERE parent IN ".
+			"(SELECT child FROM tree WHERE ".
+				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
+				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
+			") ".
+			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
+		
+		$ilDB->manipulate($query);
+
+		$query = "DELETE FROM rbac_fa ".
+			"WHERE parent IN ".
+			"(SELECT child FROM tree WHERE ".
+				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
+				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
+			") ".
+			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
+			
+		
+		$ilDB->manipulate($query);
+
+		return true;
+	}
 
 	/**
 	* Revokes permissions of a LIST of objects of ONE role. Update of table rbac_pa.

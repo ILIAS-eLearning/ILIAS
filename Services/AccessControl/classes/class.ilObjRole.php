@@ -19,7 +19,6 @@ class ilObjRole extends ilObject
 	const MODE_UNPROTECTED_DELETE_LOCAL_POLICIES = 3;
 	const MODE_UNPROTECTED_KEEP_LOCAL_POLICIES = 4;
 	
-	
 	/**
 	* reference id of parent object
 	* this is _only_ neccessary for non RBAC protected objects

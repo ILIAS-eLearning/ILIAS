@@ -1189,13 +1189,13 @@ class ilTable2GUI extends ilTableGUI
 		global $lng;
 		
 		$allcolumnswithwidth = true;
-		foreach ($this->column as $column)
+		foreach ((array) $this->column as $column)
 		{
 			if (!strlen($column["width"])) $allcolumnswithwidth = false;
 		}
 		if ($allcolumnswithwidth)
 		{
-			foreach ($this->column as $column)
+			foreach ((array) $this->column as $column)
 			{
 				$this->tpl->setCurrentBlock("tbl_colgroup_column");
 				$this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", $column["width"]);
@@ -1203,7 +1203,7 @@ class ilTable2GUI extends ilTableGUI
 			}
 		}
 		$ccnt = 0;
-		foreach ($this->column as $column)
+		foreach ((array) $this->column as $column)
 		{
 			$ccnt++;
 			

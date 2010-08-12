@@ -3173,3 +3173,7 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 		$ilDB->addTableColumn("booking_entry", "target_obj_id", array("type" => "integer", "length" => 4, "notnull" => false));
 	}
 ?>
+<#3169>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

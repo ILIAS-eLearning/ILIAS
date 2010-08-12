@@ -4176,7 +4176,7 @@ common#:#role_no_results_found#:#No results found
 common#:#role_no_roles_selected#:#Please select a role
 common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.
-common#:#role_protect_permissions#:#Protect permissions
+common#:#role_protect_permissions#:#Protect Permissions
 common#:#role_search_enter_search_string#:#Please enter a search string
 common#:#role_search_users#:#User search
 common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.
@@ -8886,7 +8886,7 @@ rbac#:#perm_class_object#:#Special operations
 rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
 rbac#:#perm_class_rbac#:#Permission settings
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
-rbac#:#perm_local_role#:#Local role
+rbac#:#perm_local_role#:#Local Role
 rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define different default permission settings for the current object.
 rbac#:#perm_use_local_policy#:#Use local policy
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"
@@ -10827,6 +10827,13 @@ content#:#cont_new_chap#:#New Chapter
 book#:#book_not#:#Not
 administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.
 administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View
+administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.
+rbac#:#write#:#Edit Settings
+rbac#:#rbac_local_policy#:#Local Policy
+rbac#:#role_block_role#:#Block Role
+rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
+rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
 administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
