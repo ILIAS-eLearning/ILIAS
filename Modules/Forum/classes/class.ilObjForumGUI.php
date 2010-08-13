@@ -17,7 +17,7 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilObjectCopyGUI, ilExportGUI
 *
 * @ingroup ModulesForum
 */
@@ -144,7 +144,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$cp->setType('frm');
 				$this->ctrl->forwardCommand($cp);
 				break;
-				
+
+			case "ilexportgui":
+				$this->tabs_gui->setTabActive("export");
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
+				break;
 
 			default:
 				if($_POST['selected_cmd'] != null)
@@ -285,7 +292,51 @@ class ilObjForumGUI extends ilObjectGUI
 		$form->addCommandButton('update', $this->lng->txt('save'));
 		
 		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
-	}	
+	}
+	
+	/**
+	 * Import
+	 *
+	 * @access	public
+	 */
+	public function importFileObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initImportForm($new_type);
+		if ($this->form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport((int) $_GET['ref_id']);
+			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+				$newObj->createReference();
+				$newObj->putInTree($_GET["ref_id"]);
+				$newObj->setPermissions($_GET["ref_id"]);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				//$this->afterSave($newObj);
+				$this->ctrl->returnToParent($this);
+			}
+			return;
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
 
 	public function editThreadObject($a_thread_id)
 	{		$this->ctrl->setParameter($this,'thr_pk', $a_thread_id);
@@ -670,6 +721,7 @@ class ilObjForumGUI extends ilObjectGUI
 	private function initForumCreateForm($object_type)
 	{
 		$this->create_form_gui = new ilPropertyFormGUI();
+		$this->create_form_gui->setTableWidth('600px');
 		
 		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
 		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
@@ -762,8 +814,43 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable('CREATE_FORM', $this->create_form_gui->getHTML());
 
 		$this->fillCloneTemplate('DUPLICATE','frm');
+		
+		$this->initImportForm("frm");
+		$this->tpl->setVariable("IMPORT", $this->form->getHTML());
+		
 		return true;
 	}
+	
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("frm");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('600px');
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
 
 	/**
 	* cancel action and go back to previous page
@@ -895,7 +982,8 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$force_active = ($_GET['cmd'] == 'edit') ? true	: false;
 			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
-}
+			
+		}
 		
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
@@ -909,6 +997,11 @@ class ilObjForumGUI extends ilObjectGUI
 			$tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
 		}
 
+		if ($ilAccess->checkAccess("write", '', $this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""), "", "ilexportgui");
+		}
 
 		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{

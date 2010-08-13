@@ -10847,6 +10847,7 @@ rbac#:#add_post#:#Add Post
 rbac#:#add_thread#:#Add Thread
 rbac#:#moderate_frm#:#Moderate
 webr#:#webr_import#:#Import Weblink
+frm#:#frm_import#:#Import Forum
 registration#:#reg_confirmation_hash_life_time#:#Lifetime
 registration#:#reg_allow_codes#:#Allow Codes
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.

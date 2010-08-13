@@ -3197,5 +3197,9 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 		$ilDB->manipulate($query);
 	}
 ?>
+<#3171>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
 

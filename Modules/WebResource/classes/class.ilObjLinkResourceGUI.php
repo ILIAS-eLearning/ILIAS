@@ -158,7 +158,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		$this->form->setTarget("_top");
 
 		// Import file
@@ -704,7 +704,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 				// Header
 				$this->ctrl->setParameter($this,'new_type','webr');
 				$this->form->setTitle($this->lng->txt('webr_new_link'));
-				$this->form->setTableWidth('60%');
+				$this->form->setTableWidth('600px');
 
 				// Buttons
 				$this->form->addCommandButton('save', $this->lng->txt('webr_add'));

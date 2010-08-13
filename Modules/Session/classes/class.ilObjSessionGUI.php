@@ -1599,7 +1599,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setMultipart(true);
-		$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setMultipart(true);
 		

@@ -246,7 +246,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		$this->form->setTarget("_top");
 
 		// Import file
@@ -276,7 +276,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
-		$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		$this->form->setTitle($this->lng->txt($this->type.'_new'));
 		
 		// Title
