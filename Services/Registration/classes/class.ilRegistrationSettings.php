@@ -46,9 +46,9 @@ class ilRegistrationSettings
 {
 	const ERR_UNKNOWN_RCP = 1;
 	const ERR_MISSING_RCP = 2;
-	
-	
+
 	private $reg_hash_life_time = 0;
+	private $reg_allow_codes = false;
 	
 	function ilRegistrationSettings()
 	{
@@ -162,6 +162,18 @@ class ilRegistrationSettings
 	{
 		return $this->reg_hash_life_time;
 	}
+
+	public function setAllowCodes($a_allow_codes)
+	{
+		$this->reg_allow_codes = (bool)$a_allow_codes;
+
+		return $this;
+	}
+
+	public function getAllowCodes()
+	{
+		return $this->reg_allow_codes;
+	}
 	
 	function validate()
 	{
@@ -210,6 +222,7 @@ class ilRegistrationSettings
 		$ilias->setSetting('approve_recipient',addslashes(serialize($this->approve_recipient_ids)));
 		$ilias->setSetting('reg_access_limitation',$this->access_limitation);
 		$ilias->setSetting('reg_hash_life_time',$this->reg_hash_life_time);
+		$ilias->setSetting('reg_allow_codes',$this->reg_allow_codes);
 
 		return true;
 	}
@@ -223,6 +236,7 @@ class ilRegistrationSettings
 		$this->password_generation_enabled = $ilias->getSetting('passwd_reg_auto_generate');
 		$this->access_limitation = $ilias->getSetting('reg_access_limitation');
 		$this->reg_hash_life_time = $ilias->getSetting('reg_hash_life_time');
+		$this->reg_allow_codes = $ilias->getSetting('reg_allow_codes');
 		
 		$this->approve_recipient_ids = unserialize(stripslashes($ilias->getSetting('approve_recipient')));
 		$this->approve_recipient_ids = $this->approve_recipient_ids ? 

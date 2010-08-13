@@ -103,18 +103,27 @@ class ilRegistrationSettingsGUI
 			$reg_type->addOption(new ilRadioOption($this->lng->txt('reg_disabled'), IL_REG_DISABLED));
 			$option = new ilRadioOption($this->lng->txt('reg_direct'), IL_REG_DIRECT);
 			$option->setInfo($this->lng->txt('reg_direct_info'));
+				$cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'), 'reg_codes_'.IL_REG_DIRECT);
+				$cd->setInfo($this->lng->txt('reg_allow_codes_info'));
+				$option->addSubItem($cd);
 			$reg_type->addOption($option);
 			$option = new ilRadioOption($this->lng->txt('reg_approve'), IL_REG_APPROVE);
 			$option->setInfo($this->lng->txt('reg_approve_info'));
+				$cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'), 'reg_codes_'.IL_REG_APPROVE);
+				$cd->setInfo($this->lng->txt('reg_allow_codes_info'));
+				$option->addSubItem($cd);
 			$reg_type->addOption($option);
 			$option = new ilRadioOption($this->lng->txt('reg_type_confirmation'), IL_REG_ACTIVATION);
 			$option->setInfo($this->lng->txt('reg_type_confirmation_info'));
-				$lt = new ilNumberInputGUI('', 'reg_hash_life_time');
+				$lt = new ilNumberInputGUI($this->lng->txt('reg_confirmation_hash_life_time'), 'reg_hash_life_time');
 				$lt->setSize(5);
 				$lt->setMaxLength(5);
 				$lt->setMinValue(60);
 				$lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
 				$option->addSubItem($lt);
+				$cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'), 'reg_codes_'.IL_REG_ACTIVATION);
+				$cd->setInfo($this->lng->txt('reg_allow_codes_info'));
+				$option->addSubItem($cd);
 			$reg_type->addOption($option);
 			$option = new ilRadioOption($this->lng->txt('registration_reg_type_codes'), IL_REG_CODES);
 			$option->setInfo($this->lng->txt('registration_reg_type_codes_info'));
@@ -169,14 +178,23 @@ class ilRegistrationSettingsGUI
 			$role_type = IL_REG_ROLES_EMAIL;
 		}
 
-		$this->form_gui->setValuesByArray(array(
+		$values = array(
 			'reg_type' => $this->registration_settings->getRegistrationType(),
 			'reg_hash_life_time' => (int)$this->registration_settings->getRegistrationHashLifetime(),
 			'reg_pwd' => $this->registration_settings->passwordGenerationEnabled(),
 			'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
 			'reg_role_type' => $role_type,
 			'reg_access_limitation' => $this->registration_settings->getAccessLimitation()
-		));
+			);
+
+		$allow_codes = $this->registration_settings->getAllowCodes();
+		$reg_type = $this->registration_settings->getRegistrationType();
+		if($allow_codes && in_array($reg_type, array(IL_REG_DIRECT, IL_REG_APPROVE, IL_REG_ACTIVATION)))
+		{
+			$values['reg_codes_'.$reg_type] = true;
+		}
+
+		$this->form_gui->setValuesByArray($values);
 	}
 	
 	function view()
@@ -215,6 +233,13 @@ class ilRegistrationSettingsGUI
 		$this->registration_settings->setApproveRecipientLogins(ilUtil::stripSlashes($_POST['reg_approver']));
 		$this->registration_settings->setRoleType((int) $_POST['reg_role_type']);
 		$this->registration_settings->setAccessLimitation((int) $_POST['reg_access_limitation']);
+		
+		$allow_codes = false;
+		if(in_array((int)$_POST['reg_type'], array(IL_REG_DIRECT, IL_REG_APPROVE, IL_REG_ACTIVATION)))
+		{
+			$allow_codes = (bool)$_POST['reg_codes_'.(int)$_POST['reg_type']];
+		}
+		$this->registration_settings->setAllowCodes($allow_codes);
 		
 		if(!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (int)$_POST['reg_hash_life_time']))
 			$this->registration_settings->setRegistrationHashLifetime(0);
@@ -798,6 +823,8 @@ class ilRegistrationSettingsGUI
 	
 	function initAddCodesForm()
 	{
+		global $rbacreview, $ilObjDataCache;
+		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 		$this->form_gui = new ilPropertyFormGUI();
@@ -811,12 +838,15 @@ class ilRegistrationSettingsGUI
 		$count->setMaxValue(1000);
 		$count->setRequired(true);
 		$this->form_gui->addItem($count);
-		
+
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$options = array();
-		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		foreach($rbacreview->getGlobalRoles() as $role_id)
 		{
-			$options[$role['id']] = $role['title'];
+			if(!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID)))
+			{
+				$options[$role_id] = $ilObjDataCache->lookupTitle($role_id);
+			}
 		}
 		$roles = new ilSelectInputGUI($this->lng->txt("registration_codes_roles"), "reg_codes_role");
 		$roles->setOptions($options);
