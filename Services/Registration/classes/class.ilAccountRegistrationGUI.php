@@ -24,6 +24,8 @@ class ilAccountRegistrationGUI
 	var $tpl;
 	var $profile_incomplete; // ?!
 
+	protected $code_was_used = false;
+
 	public function __construct()
 	{
 		global $ilCtrl,$tpl,$lng;
@@ -197,15 +199,19 @@ class ilAccountRegistrationGUI
 			}
 
 			// validate registration code
-			if($this->registration_settings->registrationCodeRequired())
+			if($this->registration_settings->registrationCodeRequired() ||
+				$this->registration_settings->getAllowCodes())
 			{
-				$code_obj = $this->form->getItemByPostVar('usr_registration_code');
 				$code = $this->form->getInput("usr_registration_code");
-				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-				if(!ilRegistrationCode::isUnusedCode($code))
+				if($code || $this->registration_settings->registrationCodeRequired())
 				{
-					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
-					$form_valid = false;
+					include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+					if(!ilRegistrationCode::isUnusedCode($code))
+					{
+						$code_obj = $this->form->getItemByPostVar('usr_registration_code');
+						$code_obj->setAlert($lng->txt('registration_code_not_valid'));
+						$form_valid = false;
+					}
 				}
 			}
 			
@@ -341,30 +347,41 @@ class ilAccountRegistrationGUI
 		}
 		$this->userObj->setUserDefinedData($udf);
 
-
 		$this->userObj->setTimeLimitOwner(7);
-		
+
+
 		$default_role = false;
+		if ($this->registration_settings->roleSelectionEnabled())
+		{
+			$default_role = $this->form->getInput('usr_roles');
+		}
+		else
+		{
+			// Assign by email
+			include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
+			$registration_role_assignments = new ilRegistrationRoleAssignments();
+			$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
+		}
+		
+		// get role from code / set code to used
+		$code = $this->form->getInput('usr_registration_code');
+		$this->code_was_used = false;
+		if($this->registration_settings->getRegistrationType() == IL_REG_CODES ||
+			($code && $this->registration_settings->getAllowCodes()))
+		{
+			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+			ilRegistrationCode::useCode($code);
+			$default_role = ilRegistrationCode::getCodeRole($code);
+			$this->code_was_used = true;
+		}
+
+
 		if ($this->registration_settings->getAccessLimitation())
 		{
 			include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
-
 			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
 
-			if ($this->registration_settings->roleSelectionEnabled())
-			{
-				$default_role = $this->form->getInput('usr_roles');
-			}
-			else
-			{
-				// Assign by email
-				include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
-				$registration_role_assignments = new ilRegistrationRoleAssignments();
-				$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
-			}
-
 			$access_limit_mode = $access_limitations_obj->getMode($default_role);
-
 			if ($access_limit_mode == 'absolute')
 			{
 				$access_limit = $access_limitations_obj->getAbsolute($default_role);
@@ -397,8 +414,10 @@ class ilAccountRegistrationGUI
 
 		$this->userObj->create();
 
+		
 		if($this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
-			$this->registration_settings->getRegistrationType() == IL_REG_CODES)
+			$this->registration_settings->getRegistrationType() == IL_REG_CODES ||
+			$this->code_was_used)
 		{
 			$this->userObj->setActive(1);
 		}
@@ -409,13 +428,6 @@ class ilAccountRegistrationGUI
 		else
 		{
 			$this->userObj->setActive(0,0);
-		}
-
-		// set code to used
-		if($this->registration_settings->getRegistrationType() == IL_REG_CODES)
-		{
-			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-			ilRegistrationCode::useCode($this->form->getInput('usr_registration_code'));
 		}
 
 		$this->userObj->updateOwner();
@@ -478,7 +490,7 @@ class ilAccountRegistrationGUI
 		include_once './Services/Registration/classes/class.ilRegistrationMailNotification.php';
 
 		// Always send mail to approvers
-		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+		if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE && !$this->code_was_used)
 		{
 			$mail = new ilRegistrationMailNotification();
 			$mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
@@ -498,7 +510,7 @@ class ilAccountRegistrationGUI
 		// Send mail to new user
 		
 		// Registration with confirmation link ist enabled		
-		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION && !$this->code_was_used)
 		{			
 			include_once 'Services/Mail/classes/class.ilMail.php';
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
@@ -566,7 +578,7 @@ class ilAccountRegistrationGUI
 				$body.= "\n";
 	
 				// Info about necessary approvement
-				if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+				if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE && !$this->code_was_used)
 				{
 					$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
 				}			
@@ -594,7 +606,8 @@ class ilAccountRegistrationGUI
 		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
 
 		if (($this->registration_settings->getRegistrationType() == IL_REG_DIRECT or
-				$this->registration_settings->getRegistrationType() == IL_REG_CODES) and
+				$this->registration_settings->getRegistrationType() == IL_REG_CODES or
+				$this->code_was_used) and
 			!$this->registration_settings->passwordGenerationEnabled())
 		{
 			$this->tpl->setCurrentBlock("activation");

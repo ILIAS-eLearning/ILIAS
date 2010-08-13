@@ -181,5 +181,17 @@ class ilRegistrationCode
 
 		return (bool)$ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
 	}
+
+	public static function getCodeRole($code)
+    {
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT role FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
+		$row = $ilDB->fetchAssoc($set);
+		if(isset($row["role"]))
+		{
+			return $row["role"];
+		}
+	}
 }
 ?>

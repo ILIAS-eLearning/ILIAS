@@ -390,14 +390,15 @@ class ilUserProfile
 			self::$user_field["roles"]["group"] = "settings";
 			
 			// add code field if required
-			if($registration_settings->registrationCodeRequired())
+			if($registration_settings->registrationCodeRequired() ||
+				$registration_settings->getAllowCodes())
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
 				$code = array(
 					"input" => "text",
 					"maxlength" => ilRegistrationCode::CODE_LENGTH,
 					"size" => 40,
-					"required" => true,
+					"required" => (bool)$registration_settings->registrationCodeRequired(),
 					"group" => "login_data"
 				);
  				self::$user_field = array_merge(array("registration_code"=>$code), self::$user_field);
@@ -486,10 +487,13 @@ class ilUserProfile
 						$ti->setMaxLength($p["maxlength"]);
 						$ti->setSize($p["size"]);
 						$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
-						$ti->setRequired($ilSetting->get("require_".$f));
 						if($f == "registration_code")
 						{
-							$ti->setRequired(true);
+							$ti->setRequired($p['required']);
+						}
+						else
+						{
+							$ti->setRequired($ilSetting->get("require_".$f));
 						}
 						$a_form->addItem($ti);
 					}

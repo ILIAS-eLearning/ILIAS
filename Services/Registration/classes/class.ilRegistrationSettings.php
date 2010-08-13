@@ -236,7 +236,7 @@ class ilRegistrationSettings
 		$this->password_generation_enabled = $ilias->getSetting('passwd_reg_auto_generate');
 		$this->access_limitation = $ilias->getSetting('reg_access_limitation');
 		$this->reg_hash_life_time = $ilias->getSetting('reg_hash_life_time');
-		$this->reg_allow_codes = $ilias->getSetting('reg_allow_codes');
+		$this->reg_allow_codes = (bool)$ilias->getSetting('reg_allow_codes');
 		
 		$this->approve_recipient_ids = unserialize(stripslashes($ilias->getSetting('approve_recipient')));
 		$this->approve_recipient_ids = $this->approve_recipient_ids ? 
