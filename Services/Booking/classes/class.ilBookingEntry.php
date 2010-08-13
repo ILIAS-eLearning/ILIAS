@@ -279,7 +279,8 @@ class ilBookingEntry
 				' WHERE '.$ilDB->in('obj_id', $a_obj_ids, false, 'integer');
 			if($a_target_obj_id)
 			{
-				$query .= ' AND target_obj_id = '.$ilDB->quote($a_target_obj_id, 'integer');
+				$query .= ' AND (target_obj_id = '.$ilDB->quote($a_target_obj_id, 'integer').
+					' OR target_obj_id IS NULL)';
 			}
 			$set = $ilDB->query($query);
 			$all = array();
