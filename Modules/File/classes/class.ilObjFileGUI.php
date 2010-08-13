@@ -294,7 +294,7 @@ class ilObjFileGUI extends ilObjectGUI
 			//$this->single_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
 		
-		$this->single_form_gui->setTableWidth("60%");
+		$this->single_form_gui->setTableWidth("600px");
 		$this->single_form_gui->setTarget($this->getTargetFrame("save"));
 		$this->single_form_gui->setTitle($this->lng->txt($this->type."_new"));
 		$this->single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
@@ -342,7 +342,7 @@ class ilObjFileGUI extends ilObjectGUI
 			//$this->zip_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
 		
-		$this->zip_form_gui->setTableWidth("60%");
+		$this->zip_form_gui->setTableWidth("600px");
 		$this->zip_form_gui->setTarget($this->getTargetFrame("save"));
 		$this->zip_form_gui->setTitle($this->lng->txt("header_zip"));
 		$this->zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));

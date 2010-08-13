@@ -190,7 +190,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$lng->loadLanguageModule("form");
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setTableWidth("60%");
+		$this->form_gui->setTableWidth("600px");
 		$this->form_gui->setTitle($lng->txt("crs_new"));
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_crs.gif"));
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
@@ -229,7 +229,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		$this->form->setTarget("_top");
 
 		// Import file

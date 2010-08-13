@@ -727,7 +727,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$lng->loadLanguageModule("form");
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setTableWidth("60%");
+		$this->form_gui->setTableWidth("600px");
 		if ($a_mode == "edit")
 		{
 			$this->form_gui->setTitle($lng->txt("exc_edit_exercise"));
@@ -1988,7 +1988,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$lng->loadLanguageModule("form");
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth("60%");
+		$this->form->setTableWidth("600px");
 		if ($a_mode == "edit")
 		{
 			$this->form->setTitle($lng->txt("exc_edit_assignment"));

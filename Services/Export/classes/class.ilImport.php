@@ -148,6 +148,7 @@ class ilImport
 
 		// process export files
 		$expfiles = $parser->getExportFiles();
+		
 		include_once("./Services/Export/classes/class.ilExportFileParser.php");
 		$all_importers = array();
 		foreach ($expfiles as $expfile)
@@ -188,6 +189,8 @@ class ilImport
 	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,
 		$a_install_id, $a_install_url)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$a_entity);
+		
 		$this->importer->setInstallId($a_install_id);
 		$this->importer->setInstallUrl($a_install_url);
 		$this->importer->setSchemaVersion($a_schema_version);

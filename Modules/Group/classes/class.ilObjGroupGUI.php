@@ -2504,7 +2504,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->form = new ilPropertyFormGUI();
-		#$this->form->setTableWidth('60%');
+		$this->form->setTableWidth('600px');
 		
 		switch($a_mode)
 		{
