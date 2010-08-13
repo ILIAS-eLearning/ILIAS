@@ -10823,3 +10823,6 @@ grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen,
 book#:#book_not#:#Nicht
 content#:#cont_new_page#:#New Page###06 08 2010 new variable
 content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
+registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
+registration#:#reg_allow_codes#:#Codes erlauben
+registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Codes registrieren.
