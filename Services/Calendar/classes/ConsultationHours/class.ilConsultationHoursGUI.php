@@ -438,29 +438,29 @@ class ilConsultationHoursGUI
 	 */
 	protected function updateMulti()
 	{
+		global $ilObjDataCache;
+		
 		$this->initFormSequence(self::MODE_MULTI);
 
 		if($this->form->checkInput())
 		{
 			$this->form->setValuesByPost();
 			$apps = explode(';', $_POST['apps']);
-
+			
 			include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 			include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
 
 			// do collision-check if max bookings were reduced
 			$first = $apps;
-			$first = array_shift($apps);
+			$first = array_shift($first);
 			$entry = ilBookingEntry::getInstanceByCalendarEntryId($first);
 			if($this->form->getInput('bo') < $entry->getNumberOfBookings())
 			{
-			   // :TODO:
+			   $this->ctrl->redirect($this, 'edit');
 			   return;
 			}
 
-
 			// create new context
-			
 			
 			$booking = new ilBookingEntry();
 			
@@ -470,6 +470,19 @@ class ilConsultationHoursGUI
 			$deadline = $this->form->getInput('dead');
 			$deadline = $deadline['dd']*24+$deadline['hh'];
 			$booking->setDeadlineHours($deadline);
+
+			$tgt = $this->form->getInput('tgt');
+			if($tgt)
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($tgt);
+				if(!$obj_id)
+				{
+					ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'), true);
+					$this->ctrl->redirect($this, 'edit');
+					return;
+				}
+				$booking->setTargetObjId($obj_id);
+			}
 			
 			$booking->save();
 
@@ -479,7 +492,6 @@ class ilConsultationHoursGUI
 			$title = $this->form->getInput('ti');
 			$location = $this->form->getInput('lo');
 			$description = $this->form->getInput('de');
-			
 			
 			foreach($apps as $item_id)
 			{
@@ -556,7 +568,7 @@ class ilConsultationHoursGUI
 
 			ilCalendarCategoryAssignments::_deleteByAppointmentId($entry_id);
 
-			// :TODO: notifications
+			ilBookingEntry::removeObsoleteEntries();
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
