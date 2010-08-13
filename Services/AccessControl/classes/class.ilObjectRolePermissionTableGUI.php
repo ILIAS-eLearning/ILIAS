@@ -250,7 +250,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		}
 
 		// Object permissions
-		if(isset($row['show_start_info']))
+		if(isset($row['show_start_info']) and 0)
 		{
 			$this->tpl->setCurrentBlock('section_info');
 			$this->tpl->setVariable('SECTION_TITLE',$this->lng->txt('perm_class_object'));
