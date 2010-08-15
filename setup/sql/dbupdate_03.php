@@ -3201,5 +3201,42 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3172>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		// test sequence
+		if (!$ilDB->tableColumnExists('svy_category', 'title_tmp'))
+		{
+			$ilDB->addTableColumn("svy_category", "title_tmp", array(
+			"type" => "text",
+			"length" => 1000,
+			"notnull" => false,
+			"default" => null));
+		}
+	}
+?>
+<#3173>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		$ilDB->manipulate('UPDATE svy_category SET title_tmp = title');
+	}
+?>
+<#3174>
+<?php
+	if($ilDB->getDBType() == 'oracle')
+	{
+		if ($ilDB->tableColumnExists('svy_category', 'title'))
+			$ilDB->dropTableColumn('svy_category', 'title');
 
-
+		$ilDB->renameTableColumn("svy_category", "title_tmp", "title");
+	}
+?>
+<#3175>
+<?php
+	if($ilDB->getDBType() == 'mysql')
+	{
+		$ilDB->modifyTableColumn('svy_category','title', array("type" => "text", "length" => 1000, "default" => null, "notnull" => false));
+	}
+?>
