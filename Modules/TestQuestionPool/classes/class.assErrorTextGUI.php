@@ -144,7 +144,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$textsize->setRequired(true);
 		$form->addItem($textsize);
 		
-		if (count($this->object->getErrorData()))
+		if (count($this->object->getErrorData()) || $checkonly)
 		{
 			$header = new ilFormSectionHeaderGUI();
 			$header->setTitle($this->lng->txt("errors_section"));
