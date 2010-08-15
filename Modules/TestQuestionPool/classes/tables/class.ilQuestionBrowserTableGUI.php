@@ -1,25 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
@@ -36,6 +16,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	protected $editable = true;
 	protected $writeAccess = false;
 	protected $totalPoints = 0;
+	protected $confirmdelete;
 	
 	/**
 	 * Constructor
@@ -44,7 +25,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false)
 	{
 		$this->setId("qpl");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -54,41 +35,63 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 	
+		$this->confirmdelete = $confirmdelete;
 		$this->setWriteAccess($a_write_access);
 
 		$qplSetting = new ilSetting("qpl");
 			
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
-		$this->addColumn('','f','1%');
-		$this->addColumn($this->lng->txt("title"),'title', '');
-		$this->addColumn('','edit', '');
-		$this->addColumn('','preview', '');
-		foreach ($this->getSelectedColumns() as $c)
+		if (!$confirmdelete)
 		{
-			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
-			if (strcmp($c, 'type') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
-			if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
-			if (strcmp($c, 'statistics') == 0) $this->addColumn('','statistics', '');
-			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
-			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
-			if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
+			$this->addColumn('','f','1%');
+			$this->addColumn($this->lng->txt("title"),'title', '');
+			$this->addColumn('','edit', '');
+			$this->addColumn('','preview', '');
+			foreach ($this->getSelectedColumns() as $c)
+			{
+				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
+				if (strcmp($c, 'type') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
+				if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
+				if (strcmp($c, 'statistics') == 0) $this->addColumn('','statistics', '');
+				if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
+				if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
+				if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
+			}
+
+			$this->setPrefix('q_id');
+			$this->setSelectAllCheckbox('q_id');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt("title"),'title', '');
+			$this->addColumn('','f','1%');
+			foreach ($this->getSelectedColumns() as $c)
+			{
+				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
+				if (strcmp($c, 'type') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
+			}
 		}
 
-		$this->setPrefix('q_id');
-		$this->setSelectAllCheckbox('q_id');
-		
 		if ($this->getWriteAccess())
 		{
-			$this->addMultiCommand('copy', $this->lng->txt('copy'));
-			$this->addMultiCommand('move', $this->lng->txt('move'));
-			$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
-			$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
-
-			$this->addCommandButton('importQuestions', $this->lng->txt('import'));
-			if (array_key_exists("qpl_clipboard", $_SESSION))
+			if ($confirmdelete)
 			{
-				$this->addCommandButton('paste', $this->lng->txt('paste'));
+				$this->addCommandButton('confirmDeleteQuestions', $this->lng->txt('confirm'));
+				$this->addCommandButton('cancelDeleteQuestions', $this->lng->txt('cancel'));
+			}
+			else
+			{
+				$this->addMultiCommand('copy', $this->lng->txt('copy'));
+				$this->addMultiCommand('move', $this->lng->txt('move'));
+				$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
+				$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
+
+				$this->addCommandButton('importQuestions', $this->lng->txt('import'));
+				if (array_key_exists("qpl_clipboard", $_SESSION))
+				{
+					$this->addCommandButton('paste', $this->lng->txt('paste'));
+				}
 			}
 		}
 
@@ -99,13 +102,21 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
-		$this->enable('sort');
-		$this->enable('header');
-		$this->enable('select_all');
-		$this->setFilterCommand('filterQuestionBrowser');
-		$this->setResetCommand('resetQuestionBrowser');
+		if ($confirmdelete)
+		{
+			$this->disable('sort');
+			$this->disable('select_all');
+		}
+		else
+		{
+			$this->enable('sort');
+			$this->enable('header');
+			$this->enable('select_all');
+			$this->setFilterCommand('filterQuestionBrowser');
+			$this->setResetCommand('resetQuestionBrowser');
+			$this->initFilter();
+		}
 		
-		$this->initFilter();
 	}
 
 	function getSelectableColumns()
@@ -119,26 +130,29 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			"txt" => $lng->txt("question_type"),
 			"default" => true
 		);
-		$cols["points"] = array(
-			"txt" => $lng->txt("points"),
-			"default" => true
-		);
-		$cols["statistics"] = array(
-			"txt" => $lng->txt("statistics"),
-			"default" => true
-		);
-		$cols["author"] = array(
-			"txt" => $lng->txt("author"),
-			"default" => true
-		);
-		$cols["created"] = array(
-			"txt" => $lng->txt("create_date"),
-			"default" => true
-		);
-		$cols["tstamp"] = array(
-			"txt" => $lng->txt("last_update"),
-			"default" => true
-		);
+		if (!$this->confirmdelete)
+		{
+			$cols["points"] = array(
+				"txt" => $lng->txt("points"),
+				"default" => true
+			);
+			$cols["statistics"] = array(
+				"txt" => $lng->txt("statistics"),
+				"default" => true
+			);
+			$cols["author"] = array(
+				"txt" => $lng->txt("author"),
+				"default" => true
+			);
+			$cols["created"] = array(
+				"txt" => $lng->txt("create_date"),
+				"default" => true
+			);
+			$cols["tstamp"] = array(
+				"txt" => $lng->txt("last_update"),
+				"default" => true
+			);
+		}
 		return $cols;
 	}
 
@@ -166,14 +180,16 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$ti->readFromSession();
 		$this->filter["description"] = $ti->getValue();
 		
-		// author
-		$ti = new ilTextInputGUI($lng->txt("author"), "author");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["author"] = $ti->getValue();
-		
+		if (!$this->confirmdelete)
+		{
+			// author
+			$ti = new ilTextInputGUI($lng->txt("author"), "author");
+			$ti->setMaxLength(64);
+			$ti->setSize(20);
+			$this->addFilterItem($ti);
+			$ti->readFromSession();
+			$this->filter["author"] = $ti->getValue();
+		}
 		// questiontype
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
@@ -221,26 +237,82 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
 		$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 		$points = 0;
-		if ($this->getEditable())
+
+		if (!$this->confirmdelete)
 		{
-			$this->tpl->setCurrentBlock("edit_link");
-			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
+			$this->tpl->setCurrentBlock('checkbox');
+			$this->tpl->setVariable('CB_QUESTION_ID', $data["question_id"]);
 			$this->tpl->parseCurrentBlock();
-		}
-		if ($data["complete"] == 0)
-		{
-			$this->tpl->setCurrentBlock("qpl_warning");
-			$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
-			$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-			$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+
+			if ($this->getEditable())
+			{
+				$this->tpl->setCurrentBlock("edit_link");
+				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($data["complete"] == 0)
+			{
+				$this->tpl->setCurrentBlock("qpl_warning");
+				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
+				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
+				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$points = $data["points"];
+			}
+			$this->totalPoints += $points;
+
+			foreach ($this->getSelectedColumns() as $c)
+			{
+				if (strcmp($c, 'points') == 0)
+				{
+					$this->tpl->setCurrentBlock('points');
+					$this->tpl->setVariable("QUESTION_POINTS", $points);
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'statistics') == 0)
+				{
+					$this->tpl->setCurrentBlock('statistics');
+					$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
+					$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
+					include_once "./Services/Utilities/classes/class.ilUtil.php";
+					$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'author') == 0)
+				{
+					$this->tpl->setCurrentBlock('author');
+					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				include_once "./classes/class.ilFormat.php";
+				if (strcmp($c, 'created') == 0)
+				{
+					$this->tpl->setCurrentBlock('created');
+					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
+					$this->tpl->parseCurrentBlock();
+				}
+				if (strcmp($c, 'tstamp') == 0)
+				{
+					$this->tpl->setCurrentBlock('updated');
+					$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock('preview');
+			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
+			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$points = $data["points"];
+			$this->tpl->setCurrentBlock('hidden');
+			$this->tpl->setVariable('HIDDEN_QUESTION_ID', $data["question_id"]);
+			$this->tpl->parseCurrentBlock();
 		}
-		$this->totalPoints += $points;
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -256,46 +328,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 				$this->tpl->parseCurrentBlock();
 			}
-			if (strcmp($c, 'points') == 0)
-			{
-				$this->tpl->setCurrentBlock('points');
-				$this->tpl->setVariable("QUESTION_POINTS", $points);
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($c, 'statistics') == 0)
-			{
-				$this->tpl->setCurrentBlock('statistics');
-				$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
-				$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($c, 'author') == 0)
-			{
-				$this->tpl->setCurrentBlock('author');
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			include_once "./classes/class.ilFormat.php";
-			if (strcmp($c, 'created') == 0)
-			{
-				$this->tpl->setCurrentBlock('created');
-				$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
-				$this->tpl->parseCurrentBlock();
-			}
-			if (strcmp($c, 'tstamp') == 0)
-			{
-				$this->tpl->setCurrentBlock('updated');
-				$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
-				$this->tpl->parseCurrentBlock();
-			}
 		}
 		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
 		$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-
-		$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-		$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
 	}
 	
 	public function setEditable($value)

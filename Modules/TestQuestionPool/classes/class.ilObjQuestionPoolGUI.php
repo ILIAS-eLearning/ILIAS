@@ -748,74 +748,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function deleteQuestionsObject()
 	{
+		global $rbacsystem;
+		
 		if (count($_POST["q_id"]) < 1)
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
-		global $ilLog;
-		$ilLog->write("getQuestionDetails");
-		$checked_questions =& $this->object->getQuestionDetails($_POST["q_id"]);
-		$ilLog->write("getDeleteableQuestionDetails");
-		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
-		$ilLog->write("getUsedQuestionDetails");
-		$used_questions =& $this->object->getUsedQuestionDetails($_POST["q_id"]);
-		$ilLog->write("done");
-		$_SESSION["ass_q_id"] = $deleteable_questions;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", "Modules/TestQuestionPool");
-
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		if (count($deleteable_questions) > 0)
-		{
-			foreach ($deleteable_questions as $question)
-			{
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("TXT_TITLE", $question["title"]);
-				$this->tpl->setVariable("TXT_DESCRIPTION", $question["comment"]);
-				$this->tpl->setVariable("TXT_TYPE", assQuestion::_getQuestionTypeName($question["type_tag"]));
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-				
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "id_" . $question["question_id"]);
-				$this->tpl->setVariable("HIDDEN_VALUE", "1");
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("emptyrow");
-			$this->tpl->setVariable("TEXT_EMPTY_ROW", $this->lng->txt("qpl_delete_no_deleteable_questions"));
-			$this->tpl->parseCurrentBlock();
-		}
 		
-		if (count($used_questions))
-		{
-			foreach ($used_questions as $question)
-			{
-				$this->tpl->setCurrentBlock("undeleteable_row");
-				$this->tpl->setVariable("QUESTION_TITLE", $question["title"]); 
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("undeleteable_questions");
-			$this->tpl->setVariable("TEXT_UNDELETEABLE_QUESTIONS", $this->lng->txt("qpl_delete_describe_undeleteable_questions"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
-		$this->tpl->setVariable("TXT_LOCKED", $this->lng->txt("locked"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("qpl_confirm_delete_questions"));
-		$this->tpl->parseCurrentBlock();
+		ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
+		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)), true);
+		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
+		$table_gui->setData($deleteable_questions);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 
@@ -825,11 +772,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
-		if (count($_SESSION["ass_q_id"])) ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
-		foreach ($_SESSION["ass_q_id"] as $key => $value)
+		foreach ($_POST["q_id"] as $key => $value)
 		{
-			$this->object->deleteQuestion($value["question_id"]);
+			$this->object->deleteQuestion($value);
 		}
+		if (count($_POST["q_id"])) ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
 		$this->ctrl->redirect($this, "questions");
 	}
 	

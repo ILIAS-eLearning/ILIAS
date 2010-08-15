@@ -1277,35 +1277,6 @@ class ilObjQuestionPool extends ilObject
 		return $result;
 	}
 
-/**
-* Returns an array containing the qpl_question and qpl_qst_type fields
-* of questions which are used in a random test for an array of question ids
-*
-* @param array $question_ids An array containing the question ids
-* @return array An array containing the details of the requested questions
-* @access public
-*/
-	function &getUsedQuestionDetails($question_ids)
-	{
-		global $ilDB;
-		
-		$result = array();
-		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
-		if ($query_result->numRows())
-		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			while ($row = $ilDB->fetchAssoc($query_result))
-			{
-				if (assQuestion::_isUsedInRandomTest($row["question_id"]))
-				{
-					array_push($result, $row);
-				}
-			}
-		}
-		return $result;
-	}
-
-
 	/**
 	* Retrieves the full path to a question pool with a given reference id
 	*
