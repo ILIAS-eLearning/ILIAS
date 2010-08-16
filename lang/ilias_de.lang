@@ -6070,7 +6070,7 @@ crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 crs#:#crs_view_archive#:#Archivansicht
-crs#:#crs_view_info_objective#:#Wählen Sie Darstellung, um eine für Lernziele optimierte Ansicht anzubieten.
+crs#:#crs_view_info_objective#:#Wählen Sie diese Kursansicht, wenn die Kursinhalte entsprechend der zugrundeliegenden Lernziele und der beim jeweiligen Lerner vorhandenen Kompetenzen angezeigt werden sollen..
 crs#:#crs_view_info_timing#:#Ansicht für Lernplanung
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
