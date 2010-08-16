@@ -405,6 +405,11 @@ class ilConsultationHoursGUI
 		}
 
 		$this->initFormSequence(self::MODE_MULTI);
+		
+		if($_POST['apps'] && !is_array($_POST['apps']))
+		{
+			$_POST['apps'] = explode(';', $_POST['apps']);
+		}
 
 		$hidden = new ilHiddenInputGUI('apps');
 		$hidden->setValue(implode(';', $_POST['apps']));
@@ -456,7 +461,7 @@ class ilConsultationHoursGUI
 			$entry = ilBookingEntry::getInstanceByCalendarEntryId($first);
 			if($this->form->getInput('bo') < $entry->getNumberOfBookings())
 			{
-			   $this->ctrl->redirect($this, 'edit');
+			   $this->edit();
 			   return;
 			}
 
@@ -474,14 +479,22 @@ class ilConsultationHoursGUI
 			$tgt = $this->form->getInput('tgt');
 			if($tgt)
 			{
-				$obj_id = $ilObjDataCache->lookupObjId($tgt);
-				if(!$obj_id)
+				// if value was not changed, we already have an object id
+				if($tgt != $entry->getTargetObjId())
 				{
-					ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'), true);
-					$this->ctrl->redirect($this, 'edit');
-					return;
+					$obj_id = $ilObjDataCache->lookupObjId($tgt);
+					if(!$obj_id)
+					{
+						ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'), true);
+						$this->edit();
+						return;
+					}
+					$booking->setTargetObjId($obj_id);
 				}
-				$booking->setTargetObjId($obj_id);
+				else
+				{
+					$booking->setTargetObjId($tgt);
+				}
 			}
 			
 			$booking->save();
