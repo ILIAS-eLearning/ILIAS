@@ -1463,9 +1463,9 @@ chat#:#chat_show_textformat#:#Format text
 chat#:#chat_silver#:#silver
 chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.
 chat#:#chat_smiley_image#:#Smiley Image
-chat#:#chat_smiley_keyword#:#Smiley Keyword
+chat#:#chat_smiley_keyword#:#Smiley Shortcut
 chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.
-chat#:#chat_smiley_keywords#:#Smiley Keyword
+chat#:#chat_smiley_keywords#:#Smiley Shortcuts
 chat#:#chat_smilies_activate#:#Activate Smileys
 chat#:#chat_smilies_deactivate#:#Deactivate Smileys
 chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smileys as further actions are needed.
@@ -10678,7 +10678,7 @@ dateplaner#:#cal_ch_bookings#:#Participants
 trac#:#trac_matrix#:#Matrix View
 dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments
 exp#:#export_created#:#A new export file has been created.
-crs#:#crs_import#:#Kurs importieren
+crs#:#crs_import#:#Import Course
 style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link
 style#:#sty_type_glo_ovuglink#:#Unit Glossary Link
 style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link
