@@ -6076,10 +6076,10 @@ crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility#:#Verfügbarkeit
-crs#:#crs_visibility_limitless#:#Unbegrenzt
-crs#:#crs_visibility_until#:#Zeitlich begrenzt
+crs#:#crs_visibility_limitless#:#Unbegrenzt (Online)
+crs#:#crs_visibility_until#:#Zeitlich begrenzt (Online)
 crs#:#crs_visibility_unvisible#:#Nicht verfügbar (Offline)
-crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
+crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Kursleitung angenommen oder abgelehnt wurde.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Kursleitung angenommen oder abgelehnt wurde.
