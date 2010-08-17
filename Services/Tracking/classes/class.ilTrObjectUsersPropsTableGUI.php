@@ -38,8 +38,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
 
-		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs", true);
-
+		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs");
+	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($this->lng->txt("login"), "login");
@@ -139,7 +139,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			// other user profile fields
 			foreach ($ufs as $f => $fd)
 			{
-				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"] && ($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
+				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"])
 				{
 					$cols[$f] = array(
 						"txt" => $lng->txt($f),
@@ -280,6 +280,21 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 					$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
 					$this->filter["gender"] = $item->getValue();
+					break;
+
+				case "sel_country":
+					$item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
+
+					$options = array("" => $lng->txt("all"));
+					include_once("./Services/Utilities/classes/class.ilCountry.php");
+					foreach (ilCountry::getCountryCodes() as $c)
+					{
+						$options[$c] = $lng->txt("meta_c_".$c);
+					}
+					asort($options);
+					$item->setOptions($options);
+
+					$this->filter["sel_country"] = $item->getValue();
 					break;
 
 				case "status":

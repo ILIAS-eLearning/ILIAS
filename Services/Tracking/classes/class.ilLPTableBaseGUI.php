@@ -16,12 +16,19 @@ class ilLPTableBaseGUI extends ilTable2GUI
 {
 	protected $filter; // array
 
+	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+	{
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+		// country names
+		$this->lng->loadLanguageModule("meta");
+	}
+
 	public function executeCommand()
 	{
 		global $ilCtrl;
 
 		$this->determineSelectedFilters();
-
 
 		if(!$ilCtrl->getNextClass($this))
 		{
@@ -352,6 +359,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			case "language":
 				$value = $lng->txt("lang_".$value);
 				break;
+
+			case "sel_country":
+				$value = $lng->txt("meta_c_".$value);
+				break;
 		}
 
 		return $value;
@@ -396,6 +407,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "email":
 				case "matriculation":
 				case "status":
+				case "sel_country":
 					if($value)
 					{
 						$result[$id] = $value;

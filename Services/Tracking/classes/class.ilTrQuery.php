@@ -708,6 +708,7 @@ class ilTrQuery
 					case "zipcode":
 					case "email":
 					case "matriculation":
+					case "sel_country":
 						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
