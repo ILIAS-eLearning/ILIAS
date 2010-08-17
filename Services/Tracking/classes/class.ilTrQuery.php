@@ -735,7 +735,14 @@ class ilTrQuery
 						}
 						// fallthrough
 
-					case "create_date":
+					case "registration":
+						if($id == "registration")
+						{
+							$id = "create_date";
+						}
+						// fallthrough
+						
+				    case "create_date":
 					case "first_access":
 					case "birthday":
 						if($value["from"])
