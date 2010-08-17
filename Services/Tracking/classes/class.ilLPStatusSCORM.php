@@ -194,6 +194,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		
 		// Which sco's determine the status
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 		$scos = ilLPCollectionCache::_getItems($a_obj_id);
 		$completed = true;
 		$failed = false;		
@@ -244,6 +245,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		$scos = ilLPCollectionCache::_getItems($a_obj_id);
 		$reqscos = count($scos);
 
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
 		
 		if ($subtype != "scorm2004")
