@@ -334,10 +334,10 @@ class ilForumPost
 	}
 
 	public function activatePost()
-	{
+	{		
 		if ($this->id)
 		{
-			$ilDB->update('frm_posts',
+			$this->db->update('frm_posts',
 					array('pos_status'	=>	array('integer', 1)),
 					array('pos_pk'		=>	array('integer', $this->id)));
 
