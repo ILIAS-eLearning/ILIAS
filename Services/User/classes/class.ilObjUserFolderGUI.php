@@ -3408,7 +3408,7 @@ else
 				$ilias->deleteSetting("usr_settings_course_export_".$field);
 			}
 			// Group export/visibility
-			if ($_POST["chb"]["course_export_" . $field])
+			if ($_POST["chb"]["group_export_" . $field])
 			{
 				$ilias->setSetting("usr_settings_group_export_".$field, "1");
 			}
