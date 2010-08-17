@@ -413,6 +413,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 					break;
 
 				 case "registration":
+				 case "create_date":
 				 case "first_access":
 				 case "last_access":
 				 case "birthday":
