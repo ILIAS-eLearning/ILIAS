@@ -139,7 +139,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			// other user profile fields
 			foreach ($ufs as $f => $fd)
 			{
-				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"])
+				if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]  && ($fd["course_export_fix_value"] || $ilSetting->get("usr_settings_course_export_".$f)))
 				{
 					$cols[$f] = array(
 						"txt" => $lng->txt($f),
