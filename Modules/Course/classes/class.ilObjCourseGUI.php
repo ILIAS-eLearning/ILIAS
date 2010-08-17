@@ -1358,10 +1358,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->form->addItem($reg_proc);
 		
 		// Registration codes
-		$reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'),'reg_code_enabled');
+		$reg_code = new ilCheckboxInputGUI('','reg_code_enabled');
 		$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
 		$reg_code->setValue(1);
 		$reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
+		$reg_code->setOptionTitle($this->lng->txt('crs_reg_code'));
 		
 		/*
 		$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
