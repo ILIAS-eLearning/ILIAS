@@ -5930,7 +5930,7 @@ crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Zeit für Beitritte hat noch nicht begonnen
-crs#:#crs_reg_type_info#:#Diese Einstellung ist nur wirksam, wenn die Anmeldung nicht deaktiviert ist.
+crs#:#crs_reg_type_info#:#Einstellungen zum Beitrittsverfahren sind nur wirksam, wenn die Anmeldung nicht ausgeschaltet ist.
 crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
