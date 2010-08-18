@@ -173,6 +173,8 @@ class ilLPStatus
 	 * -- ilObjAICCLearningModule->delete()
 	 * -- ilSCORMItem->delete()
 	 * -- ilLPStatusWrapper->update()
+	 * -- ilLPListOfSettingsGUI->assign()
+	 * -- ilLPListOfSettingsGUI->deassign()
 	 *
 	 * - external time/access values for read events
 	 *   ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
