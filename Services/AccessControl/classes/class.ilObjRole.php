@@ -583,7 +583,7 @@ class ilObjRole extends ilObject
 	 * @param array filter Filter of object types (array('all') => change all objects
 	 * @return
 	 */
-	public function changeExistingObjects($a_start_node,$a_mode,$a_filter)
+	public function changeExistingObjects($a_start_node,$a_mode,$a_filter,$a_exclusion_filter = array())
 	{
 		global $tree,$rbacreview;
 		
@@ -615,7 +615,7 @@ class ilObjRole extends ilObject
 				#$local_policies = array($a_start_node == ROOT_FOLDER_ID ? SYSTEM_FOLDER_ID : $a_start_node);
 				break;
 		}
-		$this->adjustPermissions($a_mode,$nodes,$local_policies,$a_filter);
+		$this->adjustPermissions($a_mode,$nodes,$local_policies,$a_filter,$a_exclusion_filter);
 		
 		#var_dump(memory_get_peak_usage());
 		#var_dump(memory_get_usage());
@@ -657,9 +657,10 @@ class ilObjRole extends ilObject
 	 * @param int $a_mode
 	 * @param array $a_nodes array of nodes
 	 * @param array $a_policies array of object ref ids 
+	 * @param array $a_exclusion_filter of object types.
 	 * @return 
 	 */
-	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter)
+	protected function adjustPermissions($a_mode,$a_nodes,$a_policies,$a_filter,$a_exclusion_filter = array())
 	{
 		global $rbacadmin, $rbacreview;
 		
@@ -705,7 +706,7 @@ class ilObjRole extends ilObject
 			// Start node => set permissions and continue
 			if($node['child'] == $start_node['child'])
 			{
-				if($this->isHandledObjectType($a_filter,$node['type']))
+				if($this->isHandledObjectType($a_filter,$a_exclusion_filter,$node['type']))
 				{
 					if($rbac_log_active)
 					{
@@ -744,7 +745,7 @@ class ilObjRole extends ilObject
 			}
 			
 			// Continue if this object type is in filter
-			if(!$this->isHandledObjectType($a_filter,$node['type']))
+			if(!$this->isHandledObjectType($a_filter,$a_exclusion_filter,$node['type']))
 			{
 				continue;
 			}
@@ -817,8 +818,13 @@ class ilObjRole extends ilObject
 	 * @param string $a_type
 	 * @return 
 	 */
-	protected function isHandledObjectType($a_filter,$a_type)
+	protected function isHandledObjectType($a_filter,$a_exclusion_filter,$a_type)
 	{
+		if(in_array($a_type,$a_exclusion_filter))
+		{
+			return false;
+		}
+		
 		if(in_array('all',$a_filter))
 		{
 			return true;
