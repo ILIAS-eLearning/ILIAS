@@ -431,6 +431,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		foreach($objects as $type => $info)
 		{
 			$ops_id = $ops_ids[$type];
+			
+			if(!$ops_id)
+			{
+				continue;
+			}
+			
 			$this->addActiveOperation($ops_id);
 			$creation_operations[] = $ops_id;
 			
