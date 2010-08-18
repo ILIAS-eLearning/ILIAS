@@ -18,15 +18,18 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	private $role_id = null;
 	private $rolf_id = null;
 
+	private $show_admin_permissions = true;
+
 	/**
 	 * Constructor
 	 * @return 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd, $a_rolf_id,$a_role_id)
+	public function __construct($a_parent_obj,$a_parent_cmd, $a_rolf_id,$a_role_id,$a_show_admin_permissions = false)
 	{
 		global $ilCtrl,$rbacreview,$tpl;
 
 		$this->tpl_type = $a_type;
+		$this->show_admin_permissions = $a_show_admin_permissions;
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
@@ -82,7 +85,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	{
 		global $rbacreview;
 		
-		if(isset($row['recursive']))
+		if(isset($row['recursive']) and !$this->show_admin_permissions)
 		{
 			$this->tpl->setCurrentBlock('recursive');
 			$this->tpl->setVariable('TXT_RECURSIVE',$this->lng->txt('change_existing_objects'));

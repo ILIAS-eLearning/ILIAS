@@ -900,7 +900,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				'perm',
 				$this->getParentRefId(),
 				$this->object->getId(),
-				$subtype
+				$subtype,
+				$a_show_admin_permissions
 			);
 			$tbl->parse();
 			
@@ -915,7 +916,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this,
 			'perm',
 			$this->rolf_ref_id,
-			$this->object->getId()
+			$this->object->getId(),
+			$a_show_admin_permissions
 		);
 		$options->addMultiCommand(
 			$a_show_admin_permissions ? 'adminPermSave' : 'permSave',
@@ -1491,6 +1493,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 		}
 		
+		if($a_show_admin_permissions)
+		{
+			$_POST['recursive'] = true;
+		}
+		
 		// Redirect if Change existing objects is not chosen
 		if(!$_POST['recursive'] and !is_array($_POST['recursive_list']))
 		{
@@ -1523,7 +1530,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->object->changeExistingObjects(
 				$start,
 				ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
-				array('all')
+				array('all'),
+				$a_show_admin_permissions ? array('adm') : array()
 			);
 		}
 		else
@@ -1531,7 +1539,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->object->changeExistingObjects(
 				$start,
 				ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
-				array('all')
+				array('all'),
+				$a_show_admin_permissions ? array('adm') : array()
 			);
 		}
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);

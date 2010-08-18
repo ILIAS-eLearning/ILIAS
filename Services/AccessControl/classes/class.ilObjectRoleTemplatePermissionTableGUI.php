@@ -21,17 +21,21 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	
 	private $tpl_type = '';
 	
+	private $show_admin_permissions = false;
+	
 	private static $template_permissions = NULL;
+	
 
 	/**
 	 * Constructor
 	 * @return 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id,$a_role_id,$a_type)
+	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id,$a_role_id,$a_type,$a_show_admin_permissions = false)
 	{
 		global $ilCtrl,$rbacreview,$tpl;
 
 		$this->tpl_type = $a_type;
+		$this->show_admin_permissions = $a_show_admin_permissions;
 
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
@@ -244,6 +248,11 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		{
 			$ops_id = $ops_ids[$type];
 			
+			if(!$ops_id)
+			{
+				continue;
+			}
+			
 			$perm['ops_id'] = $ops_id;
 			$perm['set'] = in_array($ops_id,$operations);
 			$perm['name'] = 'create_'.$info['name']; 
@@ -251,7 +260,10 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$rows[] = $perm;
 		}
 
-		$rows[] = array('show_ce' => 1);
+		if(!$this->show_admin_permissions)
+		{
+			$rows[] = array('show_ce' => 1);
+		}
 
 		$this->setData($rows);
 	}
