@@ -4,9 +4,9 @@
  * @param {Object} a_varname
  * @param {Object} a_elements
  */
-function setCheckboxes(a_form, a_varname, a_elements)
+function setCheckboxes(a_form, a_varname,a_type, a_elements)
 {
-	if (document.forms[a_form].elements['select_' + a_varname].checked == false)
+	if (document.forms[a_form].elements['select_' + a_varname + '_' + a_type].checked == false)
 		check = false;
 	else
 		check = true;

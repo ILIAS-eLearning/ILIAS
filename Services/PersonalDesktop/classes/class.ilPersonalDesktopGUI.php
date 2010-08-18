@@ -104,7 +104,6 @@ class ilPersonalDesktopGUI
 			$next_class = '';
 			ilUtil::sendFailure($this->lng->txt('no_permission'));
 		}
-
 		switch($next_class)
 		{
 			//Feedback

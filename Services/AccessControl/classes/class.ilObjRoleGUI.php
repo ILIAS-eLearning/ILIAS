@@ -38,6 +38,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	var $rolf_ref_id;
 	
 	protected $obj_ref_id = 0;
+	protected $obj_obj_id = 0;
+	protected $obj_obj_type = '';
 	protected $container_type = '';
 
 
@@ -66,6 +68,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		// Add ref_id of object that contains this role folder
 		$this->obj_ref_id = $tree->getParentId($this->rolf_ref_id);
+		$this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
+		$this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
+		
 		$this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
 
 		$this->type = "role";
@@ -115,6 +120,33 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Get ref id of current object (not role folder id)
+	 * @return 
+	 */
+	public function getParentRefId()
+	{
+		return $this->obj_ref_id;
+	}
+	
+	/**
+	 * Get obj_id of current object
+	 * @return 
+	 */
+	public function getParentObjId()
+	{
+		return $this->obj_obj_id;
+	}
+	
+	/**
+	 * get type of current object (not role folder)
+	 * @return 
+	 */
+	public function getParentType()
+	{
+		return $this->obj_obj_type;
 	}
 	
 	/**
@@ -753,7 +785,151 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setContent($this->form->getHTML());
 		return false;
 	}
+	
+	/**
+	 * Show template permissions
+	 * @return void
+	 */
+	protected function perm2Object($a_show_admin_permissions = false)
+	{
+		global $ilTabs, $ilErr, $ilToolbar, $objDefinition,$rbacreview;
+		
+		$ilTabs->setTabActive('default_perm_settings');
+		
+		$this->setSubTabs('default_perm_settings');
+		
+		if($a_show_admin_permissions)
+		{
+			$ilTabs->setSubTabActive('rbac_admin_permissions');
+		}
+		else
+		{
+			$ilTabs->setSubTabActive('rbac_repository_permissions');	
+		}
+		
+		if(!$this->checkAccess('write','edit_permission'))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->MESSAGE);
+			return true;
+		}
+		
+		// Show copy role button
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		$ilToolbar->addButton(
+			$this->lng->txt("adopt_perm_from_template"),
+			$this->ctrl->getLinkTarget($this,'adoptPerm')
+		);
+		if($rbacreview->isDeleteable($this->object->getId(), $this->rolf_ref_id))
+		{
+			$ilToolbar->addButton(
+				$this->lng->txt('rbac_delete_role'),
+				$this->ctrl->getLinkTarget($this,'performDeleteRole')
+			);
+		}
+		
+		$this->tpl->addBlockFile(
+			'ADM_CONTENT',
+			'adm_content',
+			'tpl.rbac_template_permissions.html',
+			'Services/AccessControl'
+		);
+		
+		$this->tpl->setVariable('PERM_ACTION',$this->ctrl->getFormAction($this));
+		
+		include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
+		$acc = new ilAccordionGUI();
+		$acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
+		$acc->setId('template_perm_'.$this->getParentRefId());
+		
+		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			if($a_show_admin_permissions)
+			{
+				$subs = $objDefinition->getSubObjectsRecursively('adm',true,true);
+			}
+			else
+			{
+				$subs = $objDefinition->getSubObjectsRecursively('root',true,$a_show_admin_permissions);
+			}
+		}
+		else
+		{
+			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,$a_show_admin_permissions);
+		}
+		
+		$sorted = array();
+		foreach($subs as $subtype => $def)
+		{
+			if($objDefinition->isPlugin($subtype))
+			{
+				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+			}
+			elseif($objDefinition->isSystemObject($subtype))
+			{
+				$translation = $this->lng->txt("obj_".$subtype);
+			}
+			else
+			{
+				$translation = $this->lng->txt('objs_'.$subtype);
+			}
+			
+			$sorted[$subtype] = $def;
+			$sorted[$subtype]['translation'] = $translation;
+		}
+		
+		
+		$sorted = ilUtil::sortArray($sorted, 'translation','asc',true,true);
+		foreach($sorted as $subtype => $def)
+		{
+			if($objDefinition->isPlugin($subtype))
+			{
+				$translation = ilPlugin::lookupTxt("rep_robj", $subtype,"obj_".$subtype);
+			}
+			elseif($objDefinition->isSystemObject($subtype))
+			{
+				$translation = $this->lng->txt("obj_".$subtype);
+			}
+			else
+			{
+				$translation = $this->lng->txt('objs_'.$subtype);
+			}
 
+			include_once 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php';
+			$tbl = new ilObjectRoleTemplatePermissionTableGUI(
+				$this,
+				'perm2',
+				$this->getParentRefId(),
+				$this->object->getId(),
+				$subtype
+			);
+			$tbl->parse();
+			
+			$acc->addItem($translation, $tbl->getHTML());
+		}
+
+		$this->tpl->setVariable('ACCORDION',$acc->getHTML());
+		
+		// Add options table
+		include_once './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php';
+		$options = new ilObjectRoleTemplateOptionsTableGUI(
+			$this,
+			'perm2',
+			$this->rolf_ref_id,
+			$this->object->getId()
+		);
+		$options->parse();
+		$this->tpl->setVariable('OPTIONS_TABLE',$options->getHTML());
+	}
+	
+	/**
+	 * Show administration permissions
+	 * @return 
+	 */
+	protected function adminPermObject()
+	{
+		return $this->perm2Object(true);
+	}
+	
 
 	
 
@@ -801,7 +977,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$parent_data = $this->tree->getParentNodeData($this->rolf_ref_id);
 			// get allowed subobjects of object recursively
 			$subobj_data = $this->objDefinition->getSubObjectsRecursively($parent_data["type"]);
-
+			
 			// remove not allowed object types from array but keep the type definition of object itself
 			foreach ($rbac_objects as $key => $obj_data)
 			{
@@ -1224,7 +1400,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* 
 	* @access	public
 	*/
-	function permSaveObject()
+	function permSaveObject($a_show_admin_permissions = false)
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
@@ -1254,8 +1430,21 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbac_log_old = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
 		}
 
-		// delete all template entries
-		$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
+		// delete all template entries of enabled types
+		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			$subs = $objDefinition->getSubObjectsRecursively('root',true,$a_show_admin_permissions);
+		}
+		else
+		{
+			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,$a_show_admin_permissions);
+		}
+		
+		foreach($subs as $subtype => $def)
+		{
+			// Delete per object type
+			$rbacadmin->deleteRolePermission($this->object->getId(),$this->rolf_ref_id,$subtype);
+		}
 
 		if (empty($_POST["template_perm"]))
 		{
@@ -2598,6 +2787,14 @@ class ilObjRoleGUI extends ilObjectGUI
 				"", $force_active);
 		}
 
+		if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
+		{
+			$tabs_gui->addTarget(
+				"default_perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm2"), array(),get_class($this)
+			);
+		}
+
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("user_assignment",
@@ -2761,6 +2958,34 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'perm');
+	}
+	
+	/**
+	 * Set sub tabs
+	 * @param object $a_tab
+	 * @return 
+	 */
+	protected function setSubTabs($a_tab)
+	{
+		global $ilTabs;
+		
+		switch($a_tab)
+		{
+			case 'default_perm_settings':
+				if($this->rolf_ref_id != ROLE_FOLDER_ID)
+				{
+					return true;
+				}
+				$ilTabs->addSubTabTarget(
+					'rbac_repository_permissions',
+					$this->ctrl->getLinkTarget($this,'perm2')
+				);
+				$ilTabs->addSubTabTarget(
+					'rbac_admin_permissions',
+					$this->ctrl->getLinkTarget($this,'adminPerm')
+				);
+		}
+		return true;
 	}
 	
 	

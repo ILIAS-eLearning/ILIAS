@@ -431,6 +431,5 @@ class ilPermissionGUI extends ilPermission2GUI
 		
 		return $objDefinition->isContainer($a_type) and $a_type != 'root' and $a_type != 'adm' and $a_type != 'rolf';
 	}
-	
 }
 ?>
