@@ -790,7 +790,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 * Show template permissions
 	 * @return void
 	 */
-	protected function perm2Object($a_show_admin_permissions = false)
+	protected function permObject($a_show_admin_permissions = false)
 	{
 		global $ilTabs, $ilErr, $ilToolbar, $objDefinition,$rbacreview;
 		
@@ -897,7 +897,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			include_once 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php';
 			$tbl = new ilObjectRoleTemplatePermissionTableGUI(
 				$this,
-				'perm2',
+				'perm',
 				$this->getParentRefId(),
 				$this->object->getId(),
 				$subtype
@@ -913,7 +913,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		include_once './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php';
 		$options = new ilObjectRoleTemplateOptionsTableGUI(
 			$this,
-			'perm2',
+			'perm',
 			$this->rolf_ref_id,
 			$this->object->getId()
 		);
@@ -927,7 +927,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function adminPermObject()
 	{
-		return $this->perm2Object(true);
+		return $this->permObject(true);
 	}
 	
 
@@ -938,7 +938,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function permObject()
+	function perm2Object()
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree,$ilTabs, $ilToolbar;
 
@@ -2775,7 +2775,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
-
+/*
 		if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
 		{
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
@@ -2786,12 +2786,12 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this),
 				"", $force_active);
 		}
-
+*/
 		if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
 		{
 			$tabs_gui->addTarget(
 				"default_perm_settings",
-				$this->ctrl->getLinkTarget($this, "perm2"), array(),get_class($this)
+				$this->ctrl->getLinkTarget($this, "perm"), array(),get_class($this)
 			);
 		}
 
@@ -2978,7 +2978,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 				$ilTabs->addSubTabTarget(
 					'rbac_repository_permissions',
-					$this->ctrl->getLinkTarget($this,'perm2')
+					$this->ctrl->getLinkTarget($this,'perm')
 				);
 				$ilTabs->addSubTabTarget(
 					'rbac_admin_permissions',
