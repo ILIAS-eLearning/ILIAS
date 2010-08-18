@@ -917,6 +917,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->rolf_ref_id,
 			$this->object->getId()
 		);
+		$options->addMultiCommand(
+			$a_show_admin_permissions ? 'adminPermSave' : 'permSave',
+			$this->lng->txt('save')
+		);
+
 		$options->parse();
 		$this->tpl->setVariable('OPTIONS_TABLE',$options->getHTML());
 	}
@@ -930,8 +935,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		return $this->permObject(true);
 	}
 	
-
-	
+	/**
+	 * Save admin permissions
+	 * @return 
+	 */
+	protected function adminPermSaveObject()
+	{
+		return $this->permSaveObject(true);
+	}
 
 	/**
 	* display permission settings template
@@ -1433,11 +1444,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		// delete all template entries of enabled types
 		if($this->rolf_ref_id == ROLE_FOLDER_ID)
 		{
-			$subs = $objDefinition->getSubObjectsRecursively('root',true,$a_show_admin_permissions);
+			if($a_show_admin_permissions)
+			{
+				$subs = $objDefinition->getSubObjectsRecursively('adm',true,true);
+			}
+			else
+			{
+				$subs = $objDefinition->getSubObjectsRecursively('root',true,false);
+			}
 		}
 		else
 		{
-			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,$a_show_admin_permissions);
+			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,false);
 		}
 		
 		foreach($subs as $subtype => $def)
@@ -1481,13 +1499,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// New implementation
-		if($this->isChangeExistingObjectsConfirmationRequired())
+		if($this->isChangeExistingObjectsConfirmationRequired() and !$a_show_admin_permissions)
 		{
 			$this->showChangeExistingObjectsConfirmation();
 			return true;
 		}
 		
 		$start = ($this->rolf_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->rolf_ref_id));
+		if($a_show_admin_permissions)
+		{
+			$start = $tree->getParentId($this->rolf_ref_id);
+		}
+
 		if($_POST['protected'])
 		{
 			$this->object->changeExistingObjects(
@@ -1505,7 +1528,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			);
 		}
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
-		$this->ctrl->redirect($this,'perm');
+		
+		if($a_show_admin_permissions)
+		{
+			$this->ctrl->redirect($this,'adminPerm');
+		}
+		else
+		{
+			$this->ctrl->redirect($this,'perm');
+		}
 		return true;
 	}
 

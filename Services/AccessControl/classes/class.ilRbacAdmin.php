@@ -724,6 +724,7 @@ class ilRbacAdmin
 			 'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer').' '.
 			 'AND parent = '.$ilDB->quote($a_ref_id,'integer').' '.
 			 $and_type;
+			 
 		$res = $ilDB->manipulate($query);
 
 		return true;

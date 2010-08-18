@@ -51,7 +51,6 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 		$this->addColumn('','','0');
 		$this->addColumn('','','100%');
 		
-		$this->addMultiCommand('permSave', $this->lng->txt('save'));
 		$this->setTopCommands(false);
 	}
 	
