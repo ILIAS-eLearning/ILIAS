@@ -1495,7 +1495,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(!$_POST['recursive'] and !is_array($_POST['recursive_list']))
 		{
 			ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
-			$this->ctrl->redirect($this, "perm");
+			if($a_show_admin_permissions)
+			{
+				$this->ctrl->redirect($this,'adminPerm');
+			}
+			else
+			{
+				$this->ctrl->redirect($this,'perm');
+			}
 		}
 
 		// New implementation
