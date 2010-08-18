@@ -129,6 +129,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$points->setRequired(TRUE);
 			$points->setSize(3);
 			$points->setMinValue(0.0);
+			$points->setMinvalueShouldBeGreater(true);
 			$form->addItem($points);
 	
 			$header = new ilFormSectionHeaderGUI();
