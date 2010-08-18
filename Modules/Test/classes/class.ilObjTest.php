@@ -392,6 +392,7 @@ class ilObjTest extends ilObject
 	private $_customStyle;
 	
 	protected $mailnotification;
+	protected $mailnottype;
 	protected $random_questionpool_data;
 
 	/**
@@ -428,6 +429,7 @@ class ilObjTest extends ilObject
 		$this->ects_fx = NULL;
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
+		$this->mailnottype = 0;
 		$this->show_summary = 8;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
@@ -1126,10 +1128,10 @@ class ilObjTest extends ilObject
 				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
-				"shuffle_questions, results_presentation, show_summary, password, allowedusers, " .
+				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, " .
 				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1137,7 +1139,7 @@ class ilObjTest extends ilObject
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
-					'text', 'integer', 'integer', 'text', 'integer',
+					'text', 'integer', 'integer', 'text', 'integer', 'integer',
 					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
@@ -1188,6 +1190,7 @@ class ilObjTest extends ilObject
 					$this->getListOfQuestionsSettings(), 
 					$this->getPassword(),
 					$this->getAllowedUsers(),
+					$this->getMailNotificationType(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
@@ -1224,7 +1227,7 @@ class ilObjTest extends ilObject
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
-				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, " . 
+				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, " . 
 				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1233,7 +1236,7 @@ class ilObjTest extends ilObject
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
-					'text', 'integer', 'integer', 'text', 'integer',
+					'text', 'integer', 'integer', 'text', 'integer','integer',
 					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
@@ -1282,6 +1285,7 @@ class ilObjTest extends ilObject
 					$this->getListOfQuestionsSettings(), 
 					$this->getPassword(),
 					$this->getAllowedUsers(),
+					$this->getMailNotificationType(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
@@ -2031,6 +2035,7 @@ class ilObjTest extends ilObject
 			$this->setCountSystem($data->count_system);
 			$this->setMCScoring($data->mc_scoring);
 			$this->setMailNotification($data->mailnotification);
+			$this->setMailNotificationType($data->mailnottype);
 			$this->setScoreCutting($data->score_cutting);
 			$this->setPassword($data->password);
 			$this->setAllowedUsers($data->allowedusers);
@@ -5779,6 +5784,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "mailnotification":
 					$this->setMailNotification($metadata["entry"]);
 					break;
+				case "mailnottype":
+					$this->setMailNotificationType($metadata["entry"]);
+					break;
 				case "score_cutting":
 					$this->setScoreCutting($metadata["entry"]);
 					break;
@@ -6080,6 +6088,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "mailnotification");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMailNotification());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// mail notification type
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "mailnottype");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMailNotificationType());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// force JavaScript
@@ -6698,6 +6712,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
 		$newObj->setMCScoring($this->getMCScoring());
 		$newObj->setMailNotification($this->getMailNotification());
+		$newObj->setMailNotificationType($this->getMailNotificationType());
 		$newObj->setNrOfTries($this->getNrOfTries());
 		$newObj->setPassScoring($this->getPassScoring());
 		$newObj->setPassword($this->getPassword());
@@ -9190,6 +9205,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"CountSystem" => $this->getCountSystem(),
 			"MCScoring" => $this->getMCScoring(),
 			"mailnotification" => $this->getMailNotification(),
+			"mailnottype" => $this->getMailNotificationType(),
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9251,6 +9267,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setCountSystem($testsettings["CountSystem"]);
 			$this->setMCScoring($testsettings["MCScoring"]);
 			$this->setMailNotification($testsettings["mailnotification"]);
+			$this->setMailNotificationType($testsettings["mailnottype"]);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
 			$this->saveToDb();
 			$result = TRUE;
@@ -9938,6 +9955,19 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilLog; $ilLog->write("sending mail: " . $res);
 	}
 	
+	/**
+	 * Gets additional user fields that should be shown in the user evaluation
+	 *
+	 * @return array An array containing the database fields that should be shown in the evaluation
+	 */
+	function getEvaluationAdditionalFields()
+	{
+		include_once "./Modules/Test/classes/class.ilObjTestGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
+		$table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI(), 'outEvaluation');
+		return $table_gui->getSelectedColumns();
+	}
+
 	public function sendAdvancedNotification($active_id)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
@@ -10060,6 +10090,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $row;
 		
 	}
+	
+	public function getMailNotificationType()
+	{
+		if ($this->mailnottype == 1)
+		{
+			return $this->mailnottype;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	public function setMailNotificationType($a_type)
+	{
+		if ($a_type == 1)
+		{
+			$this->mailnottype = 1;
+		}
+		else
+		{
+			$this->mailnottype = 0;
+		}
+	}
+	
 } // END class.ilObjTest
 
 ?>

@@ -627,8 +627,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Called when a user answered a question to perform a redirect after POST
-*
 * Called when a user answered a question to perform a redirect after POST.
 * This is called for security reasons to prevent users sending a form twice.
 *
@@ -804,8 +802,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 /**
-* Calculates the sequence to determine the next question
-*
 * Calculates the sequence to determine the next question
 *
 * @access public
@@ -1132,6 +1128,18 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (!$_SESSION['tst_pass_finish'])
 		{
 			if (!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
+			if ($this->object->getMailNotificationType() == 1)
+			{
+				switch ($this->object->getMailNotification())
+				{
+					case 1:
+						$this->object->sendSimpleNotification($active_id);
+						break;
+					case 2:
+						$this->object->sendAdvancedNotification($active_id);
+						break;
+				}
+			}
 			$this->object->getTestSession()->increaseTestPass();
 		}
 		$this->redirectBack();

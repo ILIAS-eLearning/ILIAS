@@ -10826,5 +10826,6 @@ content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
 registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
 registration#:#reg_allow_codes#:#Codes erlauben
 registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Codes registrieren.
+assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_admin_permissions#:#Administrationsrechte

@@ -10850,5 +10850,6 @@ frm#:#frm_import#:#Import Forum
 registration#:#reg_confirmation_hash_life_time#:#Lifetime
 registration#:#reg_allow_codes#:#Allow Codes
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.
+assessment#:#mailnottype#:#Send notification even when a user finishes a test pass
 rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_admin_permissions#:#Administration Permissions

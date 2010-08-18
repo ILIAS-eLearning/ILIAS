@@ -3240,3 +3240,32 @@ if(!$ilDB->tableExists('cal_ch_settings'))
 		$ilDB->modifyTableColumn('svy_category','title', array("type" => "text", "length" => 1000, "default" => null, "notnull" => false));
 	}
 ?>
+<#3176>
+<?php
+if (!$ilDB->tableColumnExists('qpl_qst_ordering', 'scoring_type'))
+{
+	$ilDB->addTableColumn("qpl_qst_ordering", "scoring_type", array(
+		"type" => "integer",
+		"length" => 3,
+		"notnull" => true,
+		"default" => 0)
+	);
+	$ilDB->addTableColumn("qpl_qst_ordering", "reduced_points", array(
+		"type" => "float",
+		"notnull" => true,
+		"default" => 0)
+	);
+}
+?>
+<#3177>
+<?php
+if (!$ilDB->tableColumnExists('tst_tests', 'mailnottype'))
+{
+	$ilDB->addTableColumn("tst_tests", "mailnottype", array(
+		"type" => "integer",
+		"length" => 2,
+		"notnull" => true,
+		"default" => 0)
+	);
+}
+?>
