@@ -79,15 +79,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	function getSelectableColumns()
 	{
 		global $ilObjDataCache;
-		
-		$columns = array();
 
+		$columns = array();
+		
 		if($this->obj_ids === NULL)
 		{
 			$this->obj_ids = $this->getItems();
 		}
 		if($this->obj_ids)
 		{
+			$tmp_cols = array();
 			foreach($this->obj_ids as $obj_id)
 			{
 				if($obj_id == $this->obj_id)
@@ -106,14 +107,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$sess = new ilObjSession($obj_id, false);
 						$title = $sess->getPresentationTitle();
 					}
-					$columns["obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true);
+					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true);
 				}
 			}
 			if(sizeof($this->objective_ids))
 			{
 				foreach($this->objective_ids as $obj_id => $title)
 				{
-					$columns["objtv_".$obj_id] = array("txt" => $title, "default" => true);
+					$tmp_cols[strtolower($title)."#~#objtv_".$obj_id] = array("txt" => $title, "default" => true);
 				}
 			}
 			if(sizeof($this->sco_ids))
@@ -121,9 +122,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				foreach($this->sco_ids as $obj_id => $title)
 				{
 					$icon = ilUtil::getTypeIconPath("sco", $obj_id, "tiny");
-					$columns["objsco_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
+					$tmp_cols[strtolower($title)."#~#objsco_".$obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
 				}
 			}
+
+			ksort($tmp_cols);
+			foreach($tmp_cols as $id => $def)
+			{
+				$id = explode('#~#', $id);
+				$columns[$id[1]] = $def;
+			}
+			unset($tmp_cols);
 
 			if($parent)
 			{
