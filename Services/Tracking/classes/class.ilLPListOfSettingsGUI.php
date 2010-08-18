@@ -114,6 +114,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			{
 				$lp_collections->add($ref_id);
 			}
+
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());
 		}
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'));
 		$this->show();
@@ -135,6 +139,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			{
 				$lp_collections->delete($ref_id);
 			}
+
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());
 		}
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'));
 		$this->show();
