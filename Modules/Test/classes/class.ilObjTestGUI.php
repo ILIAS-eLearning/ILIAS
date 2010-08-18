@@ -1298,6 +1298,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$mailnotification->setValue($this->object->getMailNotification());
 		$form->addItem($mailnotification);
 
+		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
+		$mailnottype->setValue(1);
+		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
+		$mailnottype->setChecked($this->object->getMailNotificationType());
+		$form->addItem($mailnottype);
+
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		$errors = false;
 		
@@ -1408,6 +1414,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setListOfQuestionsDescription(0);
 			}
 			$this->object->setMailNotification($_POST["mailnotification"]);
+			$this->object->setMailNotificationType($_POST["mailnottype"]);
 			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
 			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
