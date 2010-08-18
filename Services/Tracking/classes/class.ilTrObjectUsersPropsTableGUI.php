@@ -341,11 +341,23 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			}
 			else	
 			{
+			    if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
+				{
+					include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
+					if(ilCourseItems::_hasCollectionTimings($this->ref_id) && ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
+					{
+						$this->tpl->setCurrentBlock('warning_img');
+						$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
+						$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+
 				$this->tpl->setCurrentBlock("user_field");
 				$val = $this->parseValue($c, $data[$c], "user");
 				$this->tpl->setVariable("VAL_UF", $val);
 			}
-			
+
 			$this->tpl->parseCurrentBlock();
 		}
 				
