@@ -155,13 +155,27 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
+		global $ilToolbar;
+
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
 		// Show back button
 		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP or
 		   $this->getMode() == LP_MODE_ADMINISTRATION)
 		{
+			$print_view = false;
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
+		}
+		else
+		{
+			$print_view = (bool)$_GET['prt'];
+			if(!$print_view)
+			{
+				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+				$this->ctrl->setParameter($this, 'prt', 1);
+				$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'details'), '_blank');
+				$this->ctrl->setParameter($this, 'prt', '');
+			}
 		}
 
 		/*
@@ -177,10 +191,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->__showObjectDetails($info, $this->details_obj_id);
 		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
 
-		$this->__showUsersList();
+		$this->__showUsersList($print_view);
 	}
 
-	function __showUsersList()
+	function __showUsersList($a_print_view = false)
 	{
 		if($this->isAnonymized())
 		{
@@ -191,10 +205,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
 		include_once "Services/Tracking/classes/class.ilTrObjectUsersPropsTableGUI.php";
-		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
+		$gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id, $a_print_view);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
+
+		if($a_print_view)
+		{
+			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
+			exit();
+		}
 	}
 
 	function userDetails()
@@ -301,11 +321,29 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	 */
 	function showObjectSummary()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar;
+
+		$print_view = (bool)$_GET['prt'];
+		if(!$print_view)
+		{
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			$this->ctrl->setParameter($this, 'prt', 1);
+			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'showObjectSummary'), '_blank');
+			$this->ctrl->setParameter($this, 'prt', '');
+		}
 
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
-		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId());
-		$tpl->setContent($table->getHTML());
+		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), $print_view);
+		if(!$print_view)
+		{
+			$tpl->setContent($table->getHTML());
+		}
+		else
+		{
+			$tpl->setVariable("ADM_CONTENT", $table->getHTML());
+			echo $tpl->get("DEFAULT", false, false, false, false, false, false);
+			exit();
+		}
 	}
 
 	/**

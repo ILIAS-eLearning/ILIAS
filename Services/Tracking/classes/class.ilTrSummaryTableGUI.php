@@ -16,13 +16,19 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
 		$this->setId("trsmy");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		if($a_print_mode)
+		{
+			$this->setPrintMode(true);
+		}
+
 		// $this->setTitle($lng->txt("tr_summary"));
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
@@ -41,7 +47,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		$this->initFilter($a_parent_obj->getObjId());
 
-		$this->getItems($a_parent_obj->getObjId(), $ref_id, $this->getCurrentFilter());
+		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
 	}
 
 	function getSelectableColumns()
@@ -112,19 +118,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	/**
 	 * Build summary item rows for given object and filter(s
 	 *
-	 * @param	array	&$rows
-	 * @param	int		$object_id
-	 * @param	array	$filter
+	 * @param	int		$a_object_id
+	 * @param	int		$a_ref_id
 	 */
-	function getItems($object_id, $ref_id, array $filter = NULL)
+	function getItems($a_object_id, $a_ref_id)
 	{
 		global $lng;
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
 		$data = ilTrQuery::getObjectsSummaryForObject(
-				$object_id,
-				$ref_id,
+				$a_object_id,
+				$a_ref_id,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),

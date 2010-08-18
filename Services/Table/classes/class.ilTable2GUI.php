@@ -43,6 +43,7 @@ class ilTable2GUI extends ilTableGUI
 
 	protected $export_formats;
 	protected $export_mode;
+	protected $print_mode;
 
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
@@ -1456,30 +1457,34 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($no_items_text));
 			$this->tpl->parseCurrentBlock();			
 		}
-		
-		// set form action		
-		if ($this->form_action != "")
+
+
+		if(!$this->getPrintMode())
 		{
-			$hash = "";
-			if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
+			// set form action
+			if ($this->form_action != "")
 			{
-				$hash = "#".$this->getTopAnchor();
+				$hash = "";
+				if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
+				{
+					$hash = "#".$this->getTopAnchor();
+				}
+
+				$this->tpl->setCurrentBlock("tbl_form_header");
+				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
+				$this->tpl->setVariable("FORMNAME", $this->getFormName());
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("tbl_form_footer");
 			}
 
-			$this->tpl->setCurrentBlock("tbl_form_header");
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
-			$this->tpl->setVariable("FORMNAME", $this->getFormName());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->touchBlock("tbl_form_footer");
-		}
-		
-		$this->fillFooter();
-				
-		$this->fillHiddenRow();
-				
-		$this->fillActionRow();
+			$this->fillFooter();
 
-		$this->storeNavParameter();
+			$this->fillHiddenRow();
+
+			$this->fillActionRow();
+
+			$this->storeNavParameter();
+		}
 		
 		return $this->render();
 	}
@@ -1516,8 +1521,11 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("TBL_DESCRIPTION", $this->getDescription());
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		$this->renderFilter();
+
+		if(!$this->getPrintMode())
+		{
+			$this->renderFilter();
+		}
 		
 		if ($this->getDisplayAsBlock())
 		{
@@ -1543,28 +1551,31 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			foreach($this->header_commands as $command)
+			if(!$this->getPrintMode())
 			{
-				if ($command["img"] != "")
+				foreach($this->header_commands as $command)
 				{
-					$this->tpl->setCurrentBlock("tbl_header_img_link");
-					if ($command["target"] != "")
+					if ($command["img"] != "")
 					{
-						$this->tpl->setVariable("TARGET_IMG_LINK",
-							'target="'.$command["target"].'"');
+						$this->tpl->setCurrentBlock("tbl_header_img_link");
+						if ($command["target"] != "")
+						{
+							$this->tpl->setVariable("TARGET_IMG_LINK",
+								'target="'.$command["target"].'"');
+						}
+						$this->tpl->setVariable("ALT_IMG_LINK", $command["text"]);
+						$this->tpl->setVariable("HREF_IMG_LINK", $command["href"]);
+						$this->tpl->setVariable("SRC_IMG_LINK",
+							$command["img"]);
+						$this->tpl->parseCurrentBlock();
 					}
-					$this->tpl->setVariable("ALT_IMG_LINK", $command["text"]);
-					$this->tpl->setVariable("HREF_IMG_LINK", $command["href"]);
-					$this->tpl->setVariable("SRC_IMG_LINK",
-						$command["img"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("head_cmd");
-					$this->tpl->setVariable("TXT_HEAD_CMD", $command["text"]);
-					$this->tpl->setVariable("HREF_HEAD_CMD", $command["href"]);
-					$this->tpl->parseCurrentBlock();
+					else
+					{
+						$this->tpl->setCurrentBlock("head_cmd");
+						$this->tpl->setVariable("TXT_HEAD_CMD", $command["text"]);
+						$this->tpl->setVariable("HREF_HEAD_CMD", $command["href"]);
+						$this->tpl->parseCurrentBlock();
+					}
 				}
 			}
 			
@@ -2666,7 +2677,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function getLimit()
 	{
-		if($this->getExportMode())
+		if($this->getExportMode() || $this->getPrintMode())
 		{
 			return 9999;
 		}
@@ -2678,7 +2689,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function getOffset()
 	{
-		if($this->getExportMode())
+		if($this->getExportMode() || $this->getPrintMode())
 		{
 			return 0;
 		}
@@ -2701,6 +2712,24 @@ class ilTable2GUI extends ilTableGUI
 				$this->export_formats[] = $format;
 		   }
 		}
+	}
+
+	/**
+	 * Toogle print mode
+	 * @param	bool	$a_value
+	 */
+	public function setPrintMode($a_value = false)
+    {
+		$this->print_mode = (bool)$a_value;
+	}
+
+	/**
+	 * Get print mode
+	 * @return	bool	$a_value
+	 */
+	public function getPrintMode()
+    {
+		return $this->print_mode;
 	}
 
 	/**
