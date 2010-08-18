@@ -2006,9 +2006,9 @@ common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
 common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
 common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
-common#:#change_existing_objects#:#Change existing Objects
+common#:#change_existing_objects#:#Change Existing Objects
 common#:#change_existing_prefix_single#:#Change
-common#:#change_existing_prefix#:#Change existing
+common#:#change_existing_prefix#:#Change Existing
 common#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_existing_suffix#:#&nbsp;
 common#:#change_header_title#:#Edit Header Title
@@ -10850,3 +10850,5 @@ frm#:#frm_import#:#Import Forum
 registration#:#reg_confirmation_hash_life_time#:#Lifetime
 registration#:#reg_allow_codes#:#Allow Codes
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.
+rbac#:#rbac_repository_permissions#:#Repository Permissions
+rbac#:#rbac_admin_permissions#:#Administration Permissions

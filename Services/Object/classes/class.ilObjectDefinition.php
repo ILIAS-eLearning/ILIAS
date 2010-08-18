@@ -459,8 +459,10 @@ class ilObjectDefinition extends ilSaxParser
 	* @access	public
 	* @return	array	list of allowed object types
 	*/
-	function getSubObjectsRecursively($a_obj_type)
+	function getSubObjectsRecursively($a_obj_type,$a_include_source_obj = true, $a_add_admin_objects = false)
 	{
+		global $ilSetting;
+		
 		// This associative array is used to collect all subobject types.
 		// key=>type, value=data
 		$recursivesubs = array();
@@ -479,9 +481,41 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			$type = array_pop($to_do);
 			$done[] = $type;
-			$subs = $this->getSubObjects($type);
+			
+			// no recovery folder subitems
+			if($type == 'recf')
+			{
+				continue;
+			}
+			
+			// Hide administration if desired
+			if(!$a_add_admin_objects and $type == 'adm')
+			{
+				$subs = array();
+			}
+			else
+			{
+				$subs = $this->getSubObjects($type);
+			}
+			#vd('xxxxxxxxxxxxx'.$type);
 			foreach ($subs as $subtype => $data)
 			{
+				#vd('------------------------->'.$subtype);
+				
+				// Hide role templates and folder from view
+				if($this->getDevMode($subtype) or !$this->isRBACObject($subtype))
+				{
+					continue;
+				}
+				if($subtype == 'rolf' or $subtype == 'rolt')
+				{
+					continue;
+				}
+				if(!$a_add_admin_objects and $subtype == 'adm')
+				{
+					continue;
+				}
+				
 				$recursivesubs[$subtype] = $data;
 				if (! in_array($subtype, $done)
 				&& ! in_array($subtype, $to_do))
@@ -490,9 +524,21 @@ class ilObjectDefinition extends ilSaxParser
 				}
 			}
 		}
-
-		return $recursivesubs;
+		
+		if($a_include_source_obj)
+		{
+			if(!isset($recursivesubs[$a_obj_type]))
+			{
+				$recursivesubs[$a_obj_type]['name'] = $a_obj_type;
+				$recursivesubs[$a_obj_type]['lng'] = $a_obj_type;
+				$recursivesubs[$a_obj_type]['max'] = 0;
+				$recursivesubs[$a_obj_type]['pos'] = -1;
+			}
+		}
+		
+		return ilUtil::sortArray($recursivesubs, "pos", ASC, true, true);
 	}
+	
 
 	/**
 	* get all subjects except (rolf) of the adm object

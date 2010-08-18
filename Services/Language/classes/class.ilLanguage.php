@@ -247,6 +247,16 @@ class ilLanguage
 		}
 	}
 	
+	/**
+	 * Check if language entry exists
+	 * @param object $a_topic
+	 * @return 
+	 */
+	public function exists($a_topic)
+	{
+		return isset($this->text[$a_topic]);
+	}
+	
 	function loadLanguageModule ($a_module)
 	{
 		global $ilDB;

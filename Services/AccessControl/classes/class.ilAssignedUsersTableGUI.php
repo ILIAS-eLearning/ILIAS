@@ -51,7 +51,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$this->getItems();
 
         // mjansen: Used for mail referer link (@see fillRow). I don't want to create a new instance in each fillRow call.
-        $this->topGuiObj = new ilAdministrationGUI();
+		include_once './Services/Administration/classes/class.ilAdministrationGUI.php';
+        #$this->topGuiObj = new ilAdministrationGUI();
 	}
 	
 	/**
@@ -126,11 +127,11 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$actions->setListTitle($lng->txt('actions'));
 		$actions->setId($user['usr_id']);
         
-		$link_contact = ilMailFormCall::_getLinkTarget(
-            $this->topGuiObj, 'frameset',
-            array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
-            array('type' => 'new', 'rcp_to' => urlencode($user['login']))
-        );
+		#$link_contact = ilMailFormCall::_getLinkTarget(
+        #    $this->topGuiObj, 'frameset',
+        #    array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
+        #    array('type' => 'new', 'rcp_to' => urlencode($user['login']))
+        #);
 		$actions->addItem(
 			$lng->txt('message'),
 			'',

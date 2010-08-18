@@ -1261,6 +1261,7 @@ class ilRbacReview
 			"WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".
 			"AND parent = ".$ilDB->quote($a_parent,'integer');
 		$res = $ilDB->query($query);
+
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$ops_arr[$row->type][] = $row->ops_id;
@@ -1985,6 +1986,29 @@ class ilRbacReview
 			$non_empty[] = $row->parent;
 		}
 		return $non_empty ? $non_empty : array();
+	}
+	
+	/**
+	 * Check if role is deleteableat a specific position
+	 * @param object $a_role_id
+	 * @param int rolf_id
+	 * @return 
+	 */
+	public function isDeleteable($a_role_id, $a_rolf_id)
+	{
+		if(!$this->isAssignable($a_role_id, $a_rolf_id))
+		{
+			return false;
+		}
+		if($a_role_id == SYSTEM_ROLE_ID or $a_role_id == ANONYMOUS_ROLE_ID)
+		{
+			return false;
+		}
+		if(substr(ilObject::_lookupTitle($a_role_id),0,3) == 'il_')
+		{
+			return false;
+		}
+		return true;
 	}
 } // END class.ilRbacReview
 ?>

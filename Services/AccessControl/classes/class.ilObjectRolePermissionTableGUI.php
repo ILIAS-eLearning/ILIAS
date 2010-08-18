@@ -241,7 +241,8 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock('role_select_all');
 				$this->tpl->setVariable('JS_ROLE_ID',$role['obj_id']);
-				$this->tpl->setVariable('JS_ALL_PERMS',"['".implode("','",$this->getActiveOperations())."']");
+				$this->tpl->setVariable('JS_SUBID',$row['subtype']);
+				$this->tpl->setVariable('JS_ALL_PERMS',"['".implode("','",$row['ops'])."']");
 				$this->tpl->setVariable('JS_FORM_NAME',$this->getFormName());
 				$this->tpl->setVariable('TXT_SEL_ALL',$this->lng->txt('select_all'));
 				$this->tpl->parseCurrentBlock();
@@ -250,7 +251,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		}
 
 		// Object permissions
-		if(isset($row['show_start_info']) and 0)
+		if(isset($row['show_start_info']))
 		{
 			$this->tpl->setCurrentBlock('section_info');
 			$this->tpl->setVariable('SECTION_TITLE',$this->lng->txt('perm_class_object'));
@@ -327,14 +328,65 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		{
 			$operations[$role_data['obj_id']] = $rbacreview->getActiveOperationsOfRole($this->getRefId(), $role_data['obj_id']);
 		}
+		
+		$counter = 0;
+		
+		$rolf = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
 
-		$perms[$counter++]['show_start_info'] = true;
+		// Local policy
+		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
+		{
+			$roles = array();
+			$local_roles = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
+			$local_roles = $rbacreview->getRolesOfRoleFolder($local_roles);
+			foreach($this->getVisibleRoles() as $role_id => $role_data)
+			{
+				$roles[$role_data['obj_id']] = array(
+					'protected' => $role_data['protected'],
+					'local_policy' => in_array($role_data['obj_id'],$local_roles),
+					'isLocal' => ($rolf == $role_data['parent']) && $role_data['assign'] == 'y'
+				);				
+			}
+			$perms[$counter]['roles'] = $roles;
+			$perms[$counter]['show_local_policy_row'] = 1;
+			
+			$counter++;
+		}
+		
+		// Protect permissions
+		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
+		{
+			$roles = array();
+			foreach($this->getVisibleRoles() as $role_id => $role_data)
+			{
+				$roles[$role_data['obj_id']] = array(
+					'protected_allowed' => $rbacreview->isAssignable($role_data['obj_id'],$rolf),
+					'protected_status' => $rbacreview->isProtected($role_data['parent'], $role_data['obj_id'])
+				);
+			}
+			$perms[$counter]['roles'] = $roles;
+			$perms[$counter]['show_protected_row'] = 1;
+			
+			$counter++;
+		}
+		// Block role
+		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
+		{
+			$perms[$counter++]['show_block_row'] = 1;	
+		}
+		
+
+		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
+		{
+			$perms[$counter++]['show_start_info'] = true;
+		}
 
 		// no creation permissions
-		$counter++;
+		$no_creation_operations = array();
 		foreach($rbacreview->getOperationsByTypeAndClass($this->getObjType(),'object') as $operation)
 		{
 			$this->addActiveOperation($operation);
+			$no_creation_operations[] = $operation;
 
 			$roles = array();
 			foreach($this->getVisibleRoles() as $role_data)
@@ -355,6 +407,18 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			
 		}
 		
+		/*
+		 * Select all
+		 */
+		if($no_creation_operations)
+		{
+			$perms[$counter]['show_select_all'] = 1;
+			$perms[$counter]['ops'] = $no_creation_operations;
+			$perms[$counter]['subtype'] = 'nocreation';
+			$counter++;
+		}
+		
+		
 		if($objDefinition->isContainer($this->getObjType()))
 		{
 			$perms[$counter++]['show_create_info'] = true;
@@ -363,11 +427,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		// Get creatable objects
 		$objects = $objDefinition->getCreatableSubObjects($this->getObjType());
 		$ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
-
+		$creation_operations = array();
 		foreach($objects as $type => $info)
 		{
 			$ops_id = $ops_ids[$type];
 			$this->addActiveOperation($ops_id);
+			$creation_operations[] = $ops_id;
 			
 			$roles = array();
 			foreach($this->getVisibleRoles() as $role_data)
@@ -387,56 +452,16 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			
 		}
 	
-		$rolf = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-
-		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
-		{
-			// Local policy
-			$roles = array();
-			$local_roles = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-			$local_roles = $rbacreview->getRolesOfRoleFolder($local_roles);
-			foreach($this->getVisibleRoles() as $role_id => $role_data)
-			{
-				$roles[$role_data['obj_id']] = array(
-					'protected' => $role_data['protected'],
-					'local_policy' => in_array($role_data['obj_id'],$local_roles),
-					'isLocal' => ($rolf == $role_data['parent']) && $role_data['assign'] == 'y'
-				);				
-			}
-			$perms[$counter]['roles'] = $roles;
-			$perms[$counter]['show_local_policy_row'] = 1;
-			
-			$counter++;
-		}
 		
-		// Protect permissions
-		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
-		if($objDefinition->isContainer($this->getObjType()))
-		{
-			$roles = array();
-			foreach($this->getVisibleRoles() as $role_id => $role_data)
-			{
-				$roles[$role_data['obj_id']] = array(
-					'protected_allowed' => $rbacreview->isAssignable($role_data['obj_id'],$rolf),
-					'protected_status' => $rbacreview->isProtected($role_data['parent'], $role_data['obj_id'])
-				);
-			}
-			$perms[$counter]['roles'] = $roles;
-			$perms[$counter]['show_protected_row'] = 1;
-			
-			$counter++;
-		}
-		
-		// Block role
-		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
-		{
-			$perms[$counter]['show_block_row'] = 1;	
-		}
-		
-		$counter++;
 		
 		// Select all
-		$perms[$counter]['show_select_all'] = 1;
+		if(count($creation_operations))
+		{
+			$perms[$counter]['show_select_all'] = 1;
+			$perms[$counter]['ops'] = $creation_operations;
+			$perms[$counter]['subtype'] = 'creation';
+			$counter++;
+		}
 
 		$this->setData($perms);
 	}
@@ -454,7 +479,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			$roles,
 			$this->getFilterItemByPostVar('role')->getValue()
 		);
-		
+
 		if(count($roles))
 		{
 			$column_width = 100/count($roles);
