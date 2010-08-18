@@ -17,7 +17,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, $a_obj_id, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
@@ -27,6 +27,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		if($a_print_view)
+		{
+			$this->setPrintMode(true);
+		}
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		
@@ -44,7 +49,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt($l), $c);
 		}
 
-		$this->addColumn($this->lng->txt("actions"), "");
+		if(!$this->getPrintMode())
+		{
+			$this->addColumn($this->lng->txt("actions"), "");
+		}
 
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -260,7 +268,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
 		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 
-		if(!in_array($data["type"], array("sco", "lobj")))
+		if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
         {
 			$this->tpl->setCurrentBlock("item_command");
 			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);

@@ -1424,6 +1424,11 @@ class ilTable2GUI extends ilTableGUI
 		// fill rows
 		if($this->dataExists())
 		{
+			if($this->getPrintMode())
+			{
+				ilDatePresentation::setUseRelativeDates(false);
+			}
+
 			$this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", $this->row_template,
 				$this->row_template_dir);
 	

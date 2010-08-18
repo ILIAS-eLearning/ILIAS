@@ -219,7 +219,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function userDetails()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache, $ilToolbar;
 
 		if($this->isAnonymized())
 		{
@@ -229,11 +229,22 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		$this->ctrl->setParameter($this, "details_id", $this->details_id);
 
-		// Show back button
-		$this->__showButton($this->ctrl->getLinkTarget($this,'details'), $this->lng->txt('trac_view_list'));
+		$print_view = (bool)$_GET['prt'];
+		if(!$print_view)
+		{
+			// Show back button
+			$ilToolbar->addButton($this->lng->txt('trac_view_list'), $this->ctrl->getLinkTarget($this,'details'));
+		}
 
 		$user_id = (int)$_GET["user_id"];
 		$this->ctrl->setParameter($this, "user_id", $user_id);
+
+		if(!$print_view)
+		{
+			$this->ctrl->setParameter($this, 'prt', 1);
+			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'userDetails'), '_blank');
+			$this->ctrl->setParameter($this, 'prt', '');
+		};
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
@@ -247,9 +258,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 		include_once("./Services/Tracking/classes/class.ilTrUserObjectsPropsTableGUI.php");
 		$table = new ilTrUserObjectsPropsTableGUI($this, "userDetails", $user_id,
-			$this->details_obj_id, $this->details_id);
+			$this->details_obj_id, $this->details_id, $print_view);
 		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
+
+		if($print_view)
+		{
+			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
+			exit();
+		}
 	}
 
 	function show()
