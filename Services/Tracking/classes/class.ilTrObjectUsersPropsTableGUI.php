@@ -29,7 +29,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem, $tree;
 		
@@ -42,6 +42,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
+		if($a_print_view)
+		{
+			$this->setPrintMode(true);
+		}
+
 		$this->addColumn($this->lng->txt("login"), "login");
 
 		$labels = $this->getSelectableColumns();
@@ -50,7 +55,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
-		$this->addColumn($this->lng->txt("actions"), "");
+		if(!$this->getPrintMode())
+		{
+			$this->addColumn($this->lng->txt("actions"), "");
+		}
 
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -346,11 +354,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
 		
 		$this->tpl->setVariable("HREF_LOGIN", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
-	  
-		$this->tpl->setCurrentBlock("item_command");
-		$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
-		$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
-		$this->tpl->parseCurrentBlock();
+
+		if(!$this->getPrintMode())
+		{
+			$this->tpl->setCurrentBlock("item_command");
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
 	}
