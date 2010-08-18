@@ -10638,7 +10638,7 @@ book#:#book_create_title#:#Buchungspool hinzufügen
 content#:#scplayer_next#:#Vor
 ps#:#ps_export_groups#:#Sichtbarkeit von Benutzerdaten in Gruppen
 trac#:#trac_first_access#:#Erster Zugriff
-trac#:#trac_read_count#:#Anzahl Zugriffe
+trac#:#trac_read_count#:#Zugriffe
 trac#:#trac_spent_seconds#:#Zeit
 trac#:#trac_percentage#:#Prozent
 style#:#sty_type_glo_ovtitle#:#Begriff/Titel (Popup)

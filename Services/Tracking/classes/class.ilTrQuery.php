@@ -1074,6 +1074,7 @@ class ilTrQuery
 				foreach($result["set"] as $idx => $row)
 				{
 					$tmp[$row["usr_id"]]["login"] = $row["login"];
+					$tmp[$row["usr_id"]]["usr_id"] = $row["usr_id"];
 					$tmp[$row["usr_id"]]["objects"][$row["obj_id"]] = array("status"=>$row["status"],
 						"percentage"=>$row["percentage"]);
 					if($row["obj_id"] == $a_parent_obj_id)
