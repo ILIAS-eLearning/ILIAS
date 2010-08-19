@@ -94,11 +94,11 @@ class ilPersonalDesktopGUI
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($_SESSION["AccountId"]);
 		if (
-			$next_class == 'ilmailaddressbookgui' && $this->ilias->getSetting("disable_contacts") || 
+			$next_class == 'ilmailaddressbookgui' && ($this->ilias->getSetting("disable_contacts") || 
 			(
 				!$this->ilias->getSetting("disable_contacts_require_mail") &&
 				!$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())
-			)
+			))
 		) // if
 		{
 			$next_class = '';
