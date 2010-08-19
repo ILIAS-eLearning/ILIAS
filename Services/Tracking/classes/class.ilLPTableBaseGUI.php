@@ -286,7 +286,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			}
 		}
 
-		if(trim($value) == "")
+		if(trim($value) == "" && $id != "status")
 		{
 			if($id == "title")
 			{
