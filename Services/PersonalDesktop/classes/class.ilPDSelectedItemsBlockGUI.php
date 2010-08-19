@@ -121,7 +121,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function determineViewSettings()
 	{
 		global $ilSetting, $ilUser;
-		
+
 		$this->allowed_views = array();
 		
 		// determine view
@@ -149,13 +149,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$this->allowed_views[] = self::VIEW_MY_MEMBERSHIPS;
 		}
 		
-		$this->view = (int)$ilUser->getPref('pd_view');
-		if(!in_array($this->view, $this->allowed_views))
+		$this->view = $ilUser->getPref('pd_view');
+		if($this->view === false || !in_array((int)$this->view, $this->allowed_views))
 		{
-			@reset($this->allowed_views);
-			$view = (int)@current($this->allowed_views);
-			$ilUser->writePref('writePref', $view);
-			$this->view = $view;
+			$ilUser->writePref('pd_view', (int)$ilSetting->get('personal_items_default_view'));
+			$this->view = (int)$ilSetting->get('personal_items_default_view');
 		}
 	}
 	
