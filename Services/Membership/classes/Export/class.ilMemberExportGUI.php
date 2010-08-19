@@ -140,6 +140,7 @@ class ilMemberExportGUI
 	 	$this->tpl->setVariable('CHECK_EXPORT_WAIT',ilUtil::formCheckbox($this->exportSettings->enabled('waiting_list'),'export_members[waiting_list]',1));
 		
 		$this->tpl->setVariable('TXT_EXPORT',$this->lng->txt('ps_perform_export'));
+		$this->tpl->setVariable('TXT_EXPORT_EXCEL',$this->lng->txt('ps_export_excel'));
 
 		// User Data
 		$this->tpl->setVariable('TXT_USER_DATA_SELECTION',$this->lng->txt('ps_export_data'));
@@ -329,10 +330,25 @@ class ilMemberExportGUI
 			}
 			$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
 				$file['type'].'_'.$this->obj_id.'.'.$file['type']);
-			ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
-				'_member_export_'.
-				$this->obj_id.
-				'.csv','text/csv');
+				
+				
+			switch($file['type'])
+			{
+				case 'xls':
+					ilUtil::deliverData(
+						$contents,
+						date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xls',
+						'application/vnd.ms-excel'
+					);
+					
+				default:
+				case 'csv':
+					ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
+						'_member_export_'.
+						$this->obj_id.
+						'.csv','text/csv');
+					break;
+			}
 			return true;
 			
 		}
@@ -442,6 +458,28 @@ class ilMemberExportGUI
 		$_SESSION['member_export_filename'] = $filename;
 		
 	 	$this->show(true);
+	}
+	
+	public function exportExcel()
+	{
+		global $ilUser;
+		
+	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+		$this->exportSettings->set($_POST['export_members']);
+		$this->exportSettings->store();
+		
+		$filename = time().'_participant_export_xls_'.$this->obj_id.'.xls';
+		$this->fss_export->initMemberExportDirectory();
+		$filepath = $this->fss_export->getMemberExportDirectory().DIRECTORY_SEPARATOR.$filename;
+		
+		$this->export = new ilMemberExport($this->ref_id,ilMemberExport::EXPORT_EXCEL);
+		$this->export->setFilename($filepath);
+		$this->export->create();
+
+		$_SESSION['member_export_filename'] = $filename;
+		
+	 	$this->show(true);
+		
 	}
 	
 	

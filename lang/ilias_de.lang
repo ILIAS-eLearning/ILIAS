@@ -10829,3 +10829,4 @@ registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Code
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_admin_permissions#:#Administrationsrechte
+ps#:#ps_export_excel#:#Start Excel-Export
