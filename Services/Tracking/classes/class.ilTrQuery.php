@@ -128,19 +128,10 @@ class ilTrQuery
 				$view_modes[(int)$rec["obj_id"]] = (int)$rec["view_mode"];
 			}
 
-			$query = "SELECT object_data.obj_id, title, SUM(CASE WHEN status IS NULL THEN 1 ELSE 0 END) AS status_not_attempted,".
-				" SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS status_in_progress,".
-				" SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) AS status_completed,".
-				" SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) AS status_failed,".
-				// " AVG(percentage), SUM(read_count+childs_read_count) AS read_count, AVG(spent_seconds+childs_spent_seconds) AS spent_seconds,".
-				" u_mode, type".
+			$query = "SELECT object_data.obj_id, title, u_mode, type".
 				" FROM object_data".
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
-				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id)".
-				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id)".
 				" WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
-				" AND (read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)".
-				" AND (read_event.usr_id IS NULL OR ut_lp_marks.usr_id IS NULL OR read_event.usr_id = ut_lp_marks.usr_id)".
 				" AND ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
 				" GROUP BY object_data.obj_id, title, u_mode, type".
 				" ORDER BY title";
@@ -151,10 +142,11 @@ class ilTrQuery
 				$rec["ref_ids"] = $obj_refs[(int)$rec["obj_id"]];
 				$rec["status"] = (int)$rec["status"];
 				$rec["u_mode"] = (int)$rec["u_mode"];
-				$rec["status_not_attempted"] = (int)$rec["status_not_attempted"];
-				$rec["status_in_progress"] = (int)$rec["status_in_progress"];
-				$rec["status_completed"] = (int)$rec["status_completed"];
-				$rec["status_failed"] = (int)$rec["status_failed"];
+
+				$rec['status_in_progress'] = ilLPStatusWrapper::_getCountInProgress((int)$rec["obj_id"]);
+				$rec['status_completed'] = ilLPStatusWrapper::_getCountCompleted((int)$rec["obj_id"]);
+				$rec['status_failed'] = ilLPStatusWrapper::_getCountFailed((int)$rec["obj_id"]);
+				$rec['status_not_attempted'] = ilLPStatusWrapper::_getCountNotAttempted((int)$rec["obj_id"]);
 
 				// lp mode might not match object/course view mode
 				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
@@ -169,7 +161,7 @@ class ilTrQuery
 				// can be default mode
 				if($rec["u_mode"] != LP_MODE_DEACTIVATE)
 				{
-					$result[] = $rec;
+					$result[$rec["obj_id"]] = $rec;
 				}
 			}
 			return $result;

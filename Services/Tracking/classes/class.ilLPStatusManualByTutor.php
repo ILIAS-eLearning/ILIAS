@@ -70,7 +70,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getParticipants();
+				$members = $members_obj->getMembers();
 			
 				// diff in progress and completed (use stored result in LPStatusWrapper)
 				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
@@ -140,7 +140,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-		$members = $members_obj->getParticipants();
+		$members = $members_obj->getMembers();
 
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
