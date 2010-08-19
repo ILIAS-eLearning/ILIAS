@@ -371,6 +371,7 @@ class ilTrQuery
 				{
 					$session = $sessions[$item["obj_id"]];
 					$result["set"][$idx]["title"] = $session["title"];
+					$result["set"][$idx]["sort_title"] = $session["e_start"];
 					// $result["set"][$idx]["status"] = (int)$session["status"];
 				}
 

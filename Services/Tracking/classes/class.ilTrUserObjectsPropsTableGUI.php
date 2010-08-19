@@ -27,6 +27,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->setLimit(9999);
 
 		if($a_print_view)
 		{
@@ -153,7 +154,48 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		}
 
 		$this->setMaxCount($tr_data["cnt"]);
-		$this->setData($tr_data["set"]);
+		
+		if($this->getOrderField() == "title")
+		{
+			// sort alphabetically, move parent object to 1st position
+			$set = array();
+			$parent = false;
+			foreach($tr_data["set"] as $idx => $row)
+			{
+				if($row['obj_id'] == $this->obj_id)
+				{
+					$parent = $row;
+				}
+				else if(isset($row["sort_title"]))
+				{
+					$set[strtolower($row["sort_title"])."__".$idx] = $row;
+				}
+				else
+				{
+					$set[strtolower($row["title"])."__".$idx] = $row;
+				}
+			}
+			unset($tr_data["set"]);
+			if($this->getOrderDirection() == "asc")
+			{
+				ksort($set);
+			}
+			else
+			{
+				krsort($set);
+			}
+			$set = array_values($set);
+			if($parent)
+			{
+				array_unshift($set, $parent);
+			}
+
+			$this->setData($set);
+		}
+		else
+		{
+			$this->setData($tr_data["set"]);
+		}
 	}
 
 
