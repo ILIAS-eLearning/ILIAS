@@ -10853,3 +10853,4 @@ registration#:#reg_allow_codes_info#:#Users are also allowed to register via cod
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass
 rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_admin_permissions#:#Administration Permissions
+ps#:#ps_export_excel#:#Start Excel-Export
