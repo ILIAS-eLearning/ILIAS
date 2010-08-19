@@ -20,6 +20,9 @@ require_once 'Services/Mail/classes/class.ilMail.php';
 
 class ilMailFolderGUI
 {
+	private $current_select_cmd;
+	private $current_selected_cmd;
+
 	private $tpl = null;
 	private $ctrl = null;
 	private $lng = null;
@@ -59,13 +62,24 @@ class ilMailFolderGUI
 		if ($_POST["select_cmd"])
 		{
 			$_GET["cmd"] = 'editFolder';
+
+			// lower menubar execute-button
+			$this->current_select_cmd = $_POST['select_cmd'];
+			$this->current_selected_cmd = $_POST['selected_cmd'];
+		}
+		else if ($_POST["select_cmd2"])
+		{
+			// upper menubar execute-button
+			$_GET["cmd"] = 'editFolder';
+			$this->current_select_cmd = $_POST['select_cmd2'];
+			$this->current_selected_cmd = $_POST['selected_cmd2'];
 		}
 
 		/* User views mail and wants to delete it */
-		if ($_GET["selected_cmd"] == "deleteMails" && $_GET["mail_id"])
+		if ($this->current_selected_cmd == "deleteMails" && $_GET["mail_id"])
 		{
 			$_GET["cmd"] = "editFolder";
-			$_POST["selected_cmd"] = "deleteMails";
+			$this->current_selected_cmd = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
 		}		
 
@@ -220,9 +234,9 @@ class ilMailFolderGUI
 		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;		
 
 		// BEGIN CONFIRM_DELETE
-		if($_POST['selected_cmd'] == 'deleteMails' &&
+			if($this->current_selected_cmd == 'deleteMails' &&
 			!$this->errorDelete &&
-			$_POST['selected_cmd'] != 'confirm' &&
+			$this->current_selected_cmd != 'confirm' &&
 			$isTrashFolder)
 		{
 			if(isset($_REQUEST['mail_id']) && !is_array($_REQUEST['mail_id'])) $_REQUEST['mail_id'] = array($_REQUEST['mail_id']);
@@ -554,10 +568,10 @@ class ilMailFolderGUI
 	
 	public function changeFolder()
 	{
-		switch ($_POST["selected_cmd"])
+		switch ($this->current_selected_cmd)
 		{
 			default:
-				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $_POST["selected_cmd"]))
+				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $this->current_selected_cmd))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"), true);
 					$this->ctrl->redirectByClass("ilMailGUI");
@@ -576,7 +590,7 @@ class ilMailFolderGUI
 
 	public function editFolder()
 	{
-		switch ($_POST["selected_cmd"])
+		switch ($this->current_selected_cmd)
 		{
 			case 'markMailsRead':
 				if(is_array($_POST["mail_id"]))
@@ -642,7 +656,7 @@ class ilMailFolderGUI
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_select_one"));
 				}
-				else if($this->umail->moveMailsToFolder($_POST["mail_id"],$_POST["selected_cmd"]))
+				else if($this->umail->moveMailsToFolder($_POST["mail_id"],$this->current_selected_cmd))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"));
 				}
