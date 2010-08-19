@@ -1445,6 +1445,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt->setInfo($this->lng->txt('crs_view_info_timing'));
 			$view_type->addOption($opt);
 
+			/*
 			$opt = new ilRadioOption($this->lng->txt('crs_view_archive'),IL_CRS_VIEW_ARCHIVE);
 			$opt->setInfo($this->lng->txt('crs_archive_info'));
 			
@@ -1466,6 +1467,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$opt->addSubItem($end);
 				
 			$view_type->addOption($opt);
+		*/
 		$this->form->addItem($view_type);
 		
 		// sorting type
@@ -5145,13 +5147,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->addStandardContainerSubTabs(false);
 
+		/*
 		if($is_tutor)
 		{
 			$this->tabs_gui->addSubTabTarget('crs_archives',
 				$this->ctrl->getLinkTargetByClass(
 					array('ilcoursecontentgui', 'ilcoursearchivesgui'),'view'));
 		}
-
+		*/
 		return true;
 	}
 	

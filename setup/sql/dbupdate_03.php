@@ -3269,3 +3269,9 @@ if (!$ilDB->tableColumnExists('tst_tests', 'mailnottype'))
 	);
 }
 ?>
+<#3178>
+<?php
+
+	$query = "UPDATE crs_settings SET view_mode = 0 WHERE view_mode = 3";
+	$ilDB->manipulate($query);
+?>
