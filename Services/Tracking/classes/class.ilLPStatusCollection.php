@@ -53,12 +53,12 @@ class ilLPStatusCollection extends ilLPStatus
 			case 'crs':
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $member_obj->getParticipants();
+				$members = $member_obj->getMembers();
 				
 				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-				$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+				$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+				$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
 				return $users;
 
 			case 'grp':
@@ -66,9 +66,9 @@ class ilLPStatusCollection extends ilLPStatus
 				$members = ilObjGroup::_getMembers($a_obj_id);
 
 				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-				$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+				$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+				$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+				$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
 				return $users;
 				
 			case 'fold':
@@ -78,12 +78,12 @@ class ilLPStatusCollection extends ilLPStatus
 				{
 					include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 					$member_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $member_obj->getParticipants();
+					$members = $member_obj->getMembers();
 				
 					// diff in progress and completed (use stored result in LPStatusWrapper)
-					$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-					$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-					$users = array_diff((array) $users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+					$users = array_diff((array) $members,ilLPStatusWrapper::_getInProgress($a_obj_id));
+					$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+					$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
 					return $users;
 				}
 				break;
@@ -123,7 +123,7 @@ class ilLPStatusCollection extends ilLPStatus
 				// Exclude all non members
 				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getParticipants();
+				$members = $members_obj->getMembers();
 				$users = array_intersect($members,(array) $users);
 				break;
 				
@@ -140,7 +140,7 @@ class ilLPStatusCollection extends ilLPStatus
 				{
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $members_obj->getParticipants();
+					$members = $members_obj->getMembers();
 					$users = array_intersect($members,(array) $users);
 				}
 				break;
@@ -181,7 +181,7 @@ class ilLPStatusCollection extends ilLPStatus
 				// Exclude all non members
 				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$users = array_intersect($member_obj->getParticipants(),(array) $users);
+				$users = array_intersect($member_obj->getMembers(),(array) $users);
 				break;
 
 			case 'grp':
@@ -197,7 +197,7 @@ class ilLPStatusCollection extends ilLPStatus
 				{
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$users = array_intersect($members_obj->getParticipants(),(array) $users);
+					$users = array_intersect($members_obj->getMembers(),(array) $users);
 				}
 				break;
 				
@@ -227,7 +227,7 @@ class ilLPStatusCollection extends ilLPStatus
 				// Exclude all non members
 				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getParticipants();
+				$members = $members_obj->getMembers();
 		
 				$users = array_intersect($members,(array) $users);
 				break;
@@ -244,7 +244,7 @@ class ilLPStatusCollection extends ilLPStatus
 				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
 				{
 					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $members_obj->getParticipants();
+					$members = $members_obj->getMembers();
 					$users = array_intersect($members,(array) $users);
 				}
 				break;
