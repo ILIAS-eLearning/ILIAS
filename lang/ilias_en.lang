@@ -8877,11 +8877,11 @@ rbac#:#pdts_visible#:#Personal desktop settings are visible
 rbac#:#pdts_write#:#Edit personal desktop settings
 rbac#:#perm_administrate#:#Administrate
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
-rbac#:#perm_class_create#:#Create new objects
+rbac#:#perm_class_create#:#Create new Objects
 rbac#:#perm_class_general_desc#:#Common operations available for all objects. Hover the mousepointer over operation to get more information.
 rbac#:#perm_class_general#:#General operations
-rbac#:#perm_class_object_desc#:#Object-specific operations, only available to certain object types.
-rbac#:#perm_class_object#:#Special operations
+rbac#:#perm_class_object_desc#:#Object-specific operations.
+rbac#:#perm_class_object#:#Special Operations
 rbac#:#perm_class_rbac_desc#:#Access control to Permission settings (this menu) and local policy settings for automatic permission settings for new created objects.
 rbac#:#perm_class_rbac#:#Permission settings
 rbac#:#perm_local_role_desc#:#This role is locally defined at the current object and correspond to a local policy
