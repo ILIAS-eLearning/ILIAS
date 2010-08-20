@@ -5921,7 +5921,7 @@ crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Kursbeitritt
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
 crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
+crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die sich selbst registrieren können. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
 crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_period#:#Selbstregistrierung
 crs#:#crs_reg_subject#:#Nachricht
