@@ -912,7 +912,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$ilCtrl->setParameterByClass("ileditclipboardgui", "returnCommand",
 			rawurlencode($ilCtrl->getLinkTarget($this,
-			"insertFromClipboard")));
+			"insertFromClipboard", "", false, false)));
 		$ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
 	}
 	
