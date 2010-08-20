@@ -2011,7 +2011,9 @@ class ilUtil
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(filesize($a_file)));
 
-		if($_SERVER['HTTPS'])
+		include_once './classes/class.ilHTTPS.php';
+		#if($_SERVER['HTTPS'])
+		if(ilHTTPS::getInstance()->isDetected())
 		{
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
