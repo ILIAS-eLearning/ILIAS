@@ -755,7 +755,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveGradingObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$this->checkPermission("write");
 		
@@ -767,14 +767,23 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiContributor.php");
 		include_once("./Services/Tracking/classes/class.ilLPMarks.php");
+		$saved = false;
 		foreach($users as $user_id)
 		{
-			ilWikiContributor::_writeStatus($this->object->getId(), $user_id,
-				ilUtil::stripSlashes($_POST["status"][$user_id]));
-			$marks_obj = new ilLPMarks($this->object->getId(),$user_id);
-			$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$user_id]));
-			$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$user_id]));
-			$marks_obj->update();
+			if ($user_id != "")
+			{
+				ilWikiContributor::_writeStatus($this->object->getId(), $user_id,
+					ilUtil::stripSlashes($_POST["status"][$user_id]));
+				$marks_obj = new ilLPMarks($this->object->getId(),$user_id);
+				$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$user_id]));
+				$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$user_id]));
+				$marks_obj->update();
+				$saved = true;
+			}
+		}
+		if ($saved)
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
 		
 		$ilCtrl->redirect($this, "listContributors");
