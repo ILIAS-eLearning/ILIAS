@@ -808,7 +808,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		// Note license usage
 		include_once "Services/License/classes/class.ilLicense.php";
-		ilLicense::_noteAccess($this->object->getId(), $this->object->Type(),
+		ilLicense::_noteAccess($this->object->getId(), $this->object->getType(),
 			$this->object->getRefId());
 
 		// Track access
