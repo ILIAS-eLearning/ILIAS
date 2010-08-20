@@ -1071,7 +1071,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_OWN_PRESETTING",$this->lng->txt('crs_timings_planed_start'));
 		$this->tpl->setVariable("TXT_INFO_OWN_PRESETTING",$this->lng->txt('crs_timings_from_until'));
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj->getRefId(),$this->container_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 
 		foreach($items as $item)
@@ -1165,7 +1165,7 @@ class ilCourseContentGUI
 
 		$this->tpl->parseCurrentBlock();
 
-		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id'],$_GET['member_id']);
+		$sub_items_obj = new ilCourseItems($this->course_obj->getRefId(),$item['ref_id'],$_GET['member_id']);
 		foreach($sub_items_obj->getItems() as $item_data)
 		{
 			if(($item_data['timing_type'] == IL_CRS_TIMINGS_PRESETTING) or
@@ -1218,7 +1218,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj->getRefId(),$this->container_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 		
 		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
@@ -1272,7 +1272,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_sug_end'));
 
 
-		$this->items_obj = new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
+		$this->items_obj = new ilCourseItems($this->course_obj->getRefId(),$this->container_obj->getRefId());
 
 		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
 		$sorted_items = $this->__sortByStart($all_items);
@@ -1496,7 +1496,7 @@ class ilCourseContentGUI
 			return true;
 		}
 
-		$sub_items_obj = new ilCourseItems($this->course_obj,$item['ref_id']);
+		$sub_items_obj = new ilCourseItems($this->course_obj->getRefId(),$item['ref_id']);
 		foreach($sub_items_obj->getItems() as $item_data)
 		{
 			$this->__renderItem($item_data,$level+1);
@@ -1636,7 +1636,7 @@ class ilCourseContentGUI
 
 		foreach($_POST['item'] as $ref_id => $data)
 		{
-			$item_obj =& new ilCourseItems($this->course_obj,$this->container_obj->getRefId());
+			$item_obj =& new ilCourseItems($this->course_obj->getRefId(),$this->container_obj->getRefId());
 			$old_data = $item_obj->getItem($ref_id);
 
 			$item_obj->setTimingType($_POST['item_active'][$ref_id]['active'] ? IL_CRS_TIMINGS_PRESETTING : IL_CRS_TIMINGS_DEACTIVATED);

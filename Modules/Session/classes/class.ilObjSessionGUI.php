@@ -585,7 +585,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// TODO find a better solution
 		include_once './Modules/Course/classes/class.ilCourseItems.php';
 		$tmp_course = ilObjectFactory::getInstanceByRefId((int) $_GET['ref_id'],false);
-		$items = new ilCourseItems($tmp_course);
+		$items = new ilCourseItems($tmp_course->getRefId());
 
 		if($a_redirect_on_success) 
 		{

@@ -801,7 +801,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			include_once('Modules/Course/classes/class.ilCourseItems.php');
 			$course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id,false);
-			$course_items = new ilCourseItems($course_obj,$this->getRefId());
+			$course_items = new ilCourseItems($course_obj->getRefId(),$this->getRefId());
 			$course_items->cloneDependencies($a_target_id,$a_copy_id);
 		}
 
@@ -1790,7 +1790,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				include_once("./Modules/Course/classes/class.ilObjCourse.php");
 				include_once("./Modules/Course/classes/class.ilCourseItems.php");
 				$course_obj = new ilObjCourse($course_ref_id);
-				$items[$this->getRefId()] = new ilCourseItems($course_obj, $this->getRefId());
+				$items[$this->getRefId()] = new ilCourseItems($course_obj->getRefId(), $this->getRefId());
 			}
 		}
 		if(is_object($items[$this->getRefId()]))

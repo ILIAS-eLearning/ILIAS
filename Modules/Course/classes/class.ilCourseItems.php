@@ -38,7 +38,8 @@ define('IL_CRS_TIMINGS_FIXED',3);
 
 class ilCourseItems
 {
-	var $course_obj;
+	private $course_ref_id;
+
 	var $ilErr;
 	var $ilDB;
 	var $tree;
@@ -52,7 +53,7 @@ class ilCourseItems
 	var $timing_end;
 
 
-	function ilCourseItems(&$course_obj,$a_parent = 0,$user_id = 0)
+	function ilCourseItems($a_course_ref_id,$a_parent = 0,$user_id = 0)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
@@ -61,7 +62,7 @@ class ilCourseItems
 		$this->lng   =& $lng;
 		$this->tree  =& $tree;
 
-		$this->course_obj =& $course_obj;
+		$this->course_ref_id = $a_course_ref_id;
 		$this->user_id = $user_id;
 		
 		
@@ -105,7 +106,7 @@ class ilCourseItems
 			$ilLog->write(__METHOD__.': Cannot create target object.');
 	 		return false;
 	 	}
-	 	$new_items = new ilCourseItems($this->course_obj,$a_target_id);
+	 	$new_items = new ilCourseItems($this->course_ref_id,$a_target_id);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		if(!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id])
@@ -236,8 +237,7 @@ class ilCourseItems
 
 	function setParentId($a_parent = 0)
 	{
-		$this->parent = $a_parent ? $a_parent : $this->course_obj->getRefId();
-
+		$this->parent = $a_parent ? $a_parent : $this->course_ref_id;
 		$this->__read();
 		
 		return true;
@@ -536,7 +536,7 @@ class ilCourseItems
 			$res = $ilDB->manipulate($query);
 		}
 		$query = "DELETE FROM crs_items ".
-			"WHERE parent_id = ".$ilDB->quote($this->course_obj->getRefId(),'integer')." ";
+			"WHERE parent_id = ".$ilDB->quote($this->course_ref_id,'integer')." ";
 		$res = $ilDB->manipulate($query);		
 
 		return true;
@@ -866,7 +866,9 @@ class ilCourseItems
 
 	function __sort()
 	{
-		switch($this->course_obj->getOrderType())
+		include_once './Services/Container/classes/class.ilContainerSoringSettings.php';
+		$sort = ilContainerSortingSettings::_lookupSortMode(ilObject::_lookupObjId($this->course_ref_id));
+		switch($sort)
 		{
 			case ilContainer::SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
