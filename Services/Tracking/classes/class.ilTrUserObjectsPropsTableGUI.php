@@ -313,7 +313,35 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		}
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($data["type"], $data["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
-		$this->tpl->setVariable("VAL_TITLE", $data["title"]);
+		
+		if(in_array($data['type'], array('fold', 'grp')) && $data['obj_id'] != $this->obj_id)
+		{
+			if($data['type'] == 'fold')
+			{
+				$object_gui = 'ilobjfoldergui';
+			}
+			else
+			{
+				$object_gui = 'ilobjgroupgui';
+			}
+			$this->tpl->setCurrentBlock('title_linked');
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $data["ref_id"]);
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $data["ref_id"]);
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $this->user_id);
+			$url = $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', $object_gui, 'illearningprogressgui', 'illplistofobjectsgui'), 'userdetails');
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', '');
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', '');
+			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', '');
+			$this->tpl->setVariable("URL_TITLE", $url);
+			$this->tpl->setVariable("VAL_TITLE", $data["title"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock('title_plain');
+			$this->tpl->setVariable("VAL_TITLE", $data["title"]);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
         {
