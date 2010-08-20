@@ -161,9 +161,12 @@ class ilMediaItem
 		// create map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
 		{
-			$this->mapareas[$i]->setItemId($this->getId());
-			$this->mapareas[$i]->setNr($i + 1);
-			$this->mapareas[$i]->create();
+			if (is_object($this->mapareas[$i]))
+			{
+				$this->mapareas[$i]->setItemId($this->getId());
+				$this->mapareas[$i]->setNr($i + 1);
+				$this->mapareas[$i]->create();
+			}
 		}
 	}
 
