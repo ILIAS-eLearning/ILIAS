@@ -32,7 +32,7 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
-	protected $force_details = 0;
+	protected $force_details = array();
 	
 	/**
 	* Constructor
@@ -65,7 +65,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		{
 			return $_SESSION['sess']['expanded'][$a_session_id];
 		}
-		if($a_session_id == $this->force_details)
+		if(in_array($a_session_id,$this->force_details))
 		{
 			return self::DETAILS_ALL;
 		}
@@ -269,7 +269,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		}
 		elseif($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId()))
 		{
-			$this->force_details = $session;
+			$this->force_details = array($session);
 		}
 	}
 	
