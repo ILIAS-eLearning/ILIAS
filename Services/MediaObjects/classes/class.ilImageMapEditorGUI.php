@@ -350,7 +350,7 @@ class ilImageMapEditorGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("adm_content");
+//		$this->tpl->setCurrentBlock("adm_content");
 
 
 		// map properties input fields (name and link)
