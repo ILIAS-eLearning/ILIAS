@@ -43,7 +43,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		
 		switch($next_class)
 		{
 			case "ilobjusergui":
@@ -145,7 +144,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				{
 					$this->checkPermission("read");
 				}
-				
+
 				// add entry to navigation history
 				if (!$this->getCreationMode() &&
 					$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -161,6 +160,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 						ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				}
+
 //echo "-".$this->object->getStyleSheetId()."-";
 				if(!$cmd)
 				{
@@ -893,18 +893,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function addTranslationObject()
 	{
+
 		$this->checkPermission("write");
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::addTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
 		$_SESSION["translation_post"] = $_POST;
 		$this->ctrl->setParameter($this, "entry", 0);
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"], "", false, false));
 	}
 
 	/**

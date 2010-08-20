@@ -1048,7 +1048,7 @@ class ilInternalLinkGUI
 		$output = $exp->getOutput();
 //echo "<br><br><br>out:".$output.":<br>";
 
-		$tpl->setCurrentBlock("content");
+//		$tpl->setCurrentBlock("content");
 		if ($a_type == "glo")
 		{
 			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_glossary"));
