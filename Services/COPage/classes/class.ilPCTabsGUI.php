@@ -49,13 +49,16 @@ class ilPCTabsGUI extends ilPageContentGUI
 	/**
 	* Insert new tabs
 	*/
-	function insert()
+	function insert($a_omit_form_init = false)
 	{
 		global $tpl;
 		
 		$this->displayValidationError();
 
-		$this->initForm("create");
+		if (!$a_omit_form_init)
+		{
+			$this->initForm("create");
+		}
 		$html = $this->form->getHTML();
 		$tpl->setContent($html);
 	}
@@ -244,7 +247,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	{
 		global $ilDB, $lng;
 		
-		$this->initForm();
+		$this->initForm("create");
 		if ($this->form->checkInput())
 		{
 			$this->content_obj = new ilPCTabs($this->dom);
@@ -268,23 +271,29 @@ class ilPCTabsGUI extends ilPageContentGUI
 				$t = explode(":", $_POST["haccord_templ"]);
 				$this->content_obj->setTemplate($t[2]);
 			}
-		}
-		$this->updated = $this->pg_obj->update();
+			$this->updated = $this->pg_obj->update();
 
-		if ($this->updated === true)
-		{
-			$this->afterCreation();
-			//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			if ($this->updated === true)
+			{
+				$this->afterCreation();
+				//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
+			else
+			{
+				$this->insert();
+			}
 		}
 		else
 		{
-			$this->insert();
+			$this->form->setValuesByPost();
+			$this->insert(true);
+//			return $this->form->getHtml();
 		}
 	}
 	
 	/**
-	* After creation processing
-	*/
+	 * After creation processing
+	 */
 	function afterCreation()
 	{
 		global $ilCtrl;
