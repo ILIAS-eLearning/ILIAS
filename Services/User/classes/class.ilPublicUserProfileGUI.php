@@ -141,6 +141,7 @@ class ilPublicUserProfileGUI
 				return;
 			}
 			$cmd = $ilCtrl->getCmd();
+
 			$ret = $this->$cmd();
 			$tpl->getStandardTemplate();
 			$tpl->setContent($ret);
@@ -159,7 +160,7 @@ class ilPublicUserProfileGUI
 		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
 
 		$this->setTabs("profile");
-		
+
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
 		{
@@ -558,7 +559,7 @@ class ilPublicUserProfileGUI
 		}
 		$tpl->getStandardTemplate();
 		$tpl->setContent($this->getHTML());
-		$tpl->show();
+//		$tpl->show();
 	}
 
 	/**
@@ -574,7 +575,7 @@ class ilPublicUserProfileGUI
 
 		include_once("./Services/User/classes/class.ilExtPublicProfilePageGUI.php");
 		$page_gui = new ilExtPublicProfilePageGUI($_GET["user_page"]);
-		if ($page_gui->getPageObject()->getUserId() == $ilUser->getId())
+		if ($page_gui->getPageObject()->getUserId() == $this->getUserId())
 		{
 			$tpl->setCurrentBlock("ContentStyle");
 			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
