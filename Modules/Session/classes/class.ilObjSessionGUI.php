@@ -368,8 +368,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$html = '';
 		$eventItems = new ilEventItems($this->object->getId());
-		foreach($eventItems->getItems() as $item_id)
+		
+		$parent_id = $tree->getParentId($this->object->getRefId());
+		$items = new ilCourseItems($parent_id);
+		$eventItems = $items->getItemsByEvent($this->object->getId());
+		include_once './Services/Container/classes/class.ilContainerSorting.php';
+		$eventItems = ilContainerSorting::_getInstance(
+			ilObject::_lookupObjId($parent_id))->sortSubItems(
+				'sess',
+				$this->object->getId(),
+				$eventItems
+		);
+		
+		foreach($eventItems as $item)
 		{
+			$item_id = $item['ref_id'];
 			$obj_id = ilObject::_lookupObjId($item_id);
 			$type = ilObject::_lookupType($obj_id);
 			
