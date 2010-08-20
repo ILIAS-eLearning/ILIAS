@@ -119,9 +119,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$cols["spent_seconds"] = array(
 			"txt" => $lng->txt("trac_spent_seconds"),
 			"default" => true);
-		$cols["percentage"] = array(
-			"txt" => $lng->txt("trac_percentage"),
-			"default" => true);
+
+		if($this->isPercentageAvailable($this->obj_id))
+		{
+			$cols["percentage"] = array(
+				"txt" => $lng->txt("trac_percentage"),
+				"default" => true);
+		}
+	
 		$cols["status"] = array(
 			"txt" => $lng->txt("trac_status"),
 			"default" => true);

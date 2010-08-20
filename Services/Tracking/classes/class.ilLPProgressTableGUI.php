@@ -116,11 +116,19 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if(!$this->isPercentageAvailable($a_set["obj_id"]) || (int)$a_set["percentage"] === 0)
+		{
+			$this->tpl->setVariable("PERCENTAGE_VALUE", "");
+		}
+		else
+		{
+			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
+		}
+
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
-		$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
-
+		
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 

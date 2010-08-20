@@ -448,6 +448,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		return $result;
 	}
+
+	protected function isPercentageAvailable($a_obj_id)
+	{
+		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
+		$mode = ilLPObjSettings::_lookupMode($a_obj_id);
+		if(in_array($mode, array(LP_MODE_TLT, LP_MODE_VISITS, LP_MODE_OBJECTIVES, LP_MODE_SCORM,
+			LP_MODE_TEST_FINISHED, LP_MODE_TEST_PASSED)))
+		{
+			return true;
+		}
+		return false;
+	}
 }
 
 ?>

@@ -174,6 +174,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$map[""] = $map[0];
 			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $map);
 			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
+
+			if(!$this->isPercentageAvailable($result["obj_id"]))
+			{
+				$data["set"][$idx]["percentage_avg"] = NULL;
+			}
 		}
 
 		$this->setMaxCount($data["cnt"]);
@@ -342,6 +347,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					$this->renderPercentages($c, $a_set[$c]);
 					break;
 
+				case "percentage_avg":
+					if((int)$a_set[$c] === 0)
+					{
+						$this->tpl->setVariable(strtoupper($c), "");
+						break;
+					}
+					
 				default:
 					$value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
 					$this->tpl->setVariable(strtoupper($c), $value);
