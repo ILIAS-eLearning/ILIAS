@@ -245,6 +245,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	{
 		global $ilCtrl, $lng;
 
+		if(!$this->isPercentageAvailable($data["obj_id"]))
+		{
+			$data["percentage"] = NULL;
+		}
+
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock("user_field");
