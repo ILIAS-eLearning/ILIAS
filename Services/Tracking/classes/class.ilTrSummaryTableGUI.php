@@ -54,9 +54,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
-		$lng_map = array("first_access_min" => "trac_first_access", "last_access_max" => "trac_last_access",
-			"mark" => "trac_mark", "status" => "trac_status", "spent_seconds_avg" => "trac_spent_seconds",
-			"read_count_sum" => "trac_read_count", "percentage_avg" => "trac_percentage"
+		$lng_map = array("first_access_min" => "trac_first_access",
+			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
+			"spent_seconds_avg" => "trac_spent_seconds", "percentage_avg" => "trac_percentage",
+			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count"
 			);
 
 		$all = array("user_total", "country", "create_date_min", "create_date_max",
@@ -70,12 +71,26 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		foreach($all as $column)
 		{
 			$l = $column;
+			
+			$prefix = false;
+			if(substr($l, -3) == "avg")
+			{
+				$prefix = "&#216; ";
+			}
+			else if(substr($l, -3) == "sum" || $l == "user_total")
+			{
+				$prefix = "&#8721; ";
+			}
+	
 			if(isset($lng_map[$l]))
 			{
 				$l = $lng_map[$l];
 			}
+			
+			$txt = $prefix.$lng->txt($l);
+
 			$columns[$column] = array(
-				"txt" => $lng->txt($l),
+				"txt" => $txt,
 				"default" => (in_array($column, $default) ? true :false)
 			);
 		}
