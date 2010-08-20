@@ -275,6 +275,11 @@ class ilImageMapEditorGUI
 					return $this->editMapArea(true, true, true);
 				}
 				break;
+
+			// Whole picture
+			case "WholePicture":
+				return $this->editMapArea(false, false, true);
+				break;
 		}
 	}
 
