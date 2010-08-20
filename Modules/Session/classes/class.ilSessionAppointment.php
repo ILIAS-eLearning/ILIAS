@@ -70,12 +70,13 @@ class ilSessionAppointment implements ilDatePeriod
 	 *
 	 * @access public
 	 * @param
-	 * @return
+	 * @return array
 	 * @static
 	 */
 	public static function lookupNextSessionByCourse($a_ref_id)
 	{
 		global $tree,$ilDB;
+		
 		
 		$sessions = $tree->getChildsByType($a_ref_id,'sess');
 		$obj_ids = array();
@@ -87,6 +88,32 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			return false;
 		}
+
+		// Try to read the next sessions within the next 24 hours
+		$now = new ilDate(time(),IL_CAL_UNIX);
+		$tomorrow = clone $now;
+		$tomorrow->increment(IL_CAL_DAY,2);
+		
+		$query = "SELECT event_id FROM event_appointment ".
+			"WHERE e_start > ".$ilDB->quote($now->get(IL_CAL_DATE,'timestamp')).' '.
+			"AND e_start < ".$ilDB->quote($tomorrow->get(IL_CAL_DATE,'timestamp')).' '.
+			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer').' '.
+			"ORDER BY e_start ";
+			
+		$event_ids = array();
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$event_ids[] = $row->event_id;
+		}
+		
+		if(count($event_ids))
+		{
+			return $event_ids;
+		}
+		
+		// Alternativ: get next event.	
 		$query = "SELECT event_id FROM event_appointment ".
 			"WHERE e_start > ".$ilDB->now()." ".
 			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer')." ".
@@ -97,7 +124,7 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			$event_id = $row->event_id;
 		}
-		return isset($event_id) ? $event_id : 0;
+		return isset($event_id) ? array($event_id) : array();
 	}
 	
 	/**

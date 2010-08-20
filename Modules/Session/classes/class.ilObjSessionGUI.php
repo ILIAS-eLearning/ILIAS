@@ -454,6 +454,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('600px');
 		$this->form->setTarget("_top");
 
 		// Import file
