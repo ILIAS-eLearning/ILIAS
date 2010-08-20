@@ -5834,7 +5834,6 @@ crs#:#crs_objective_self_assessment#:#Initial Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Modifications mises à jour
-crs#:#crs_objective_view#:#Affichage selon les objectifs
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
@@ -10811,3 +10810,51 @@ grp#:#grp_agreement_required#:#You have to accept the user agreement, if you wan
 content#:#cont_new_page#:#New Page###06 08 2010 new variable
 content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
 book#:#book_not#:#No###06 08 2010 new variable
+survey#:#externaltext#:#Import text###20 08 2010 new variable
+survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an 'email' column containing the recipient email.###20 08 2010 new variable
+survey#:#import_from_file#:#Import from a file###20 08 2010 new variable
+survey#:#import_from_text#:#Import from a text###20 08 2010 new variable
+survey#:#import_from_dataset#:#Import from a dataset###20 08 2010 new variable
+survey#:#send_to_all#:#To all recipients###20 08 2010 new variable
+survey#:#send_to_answered#:#To all recipients who did finish the survey###20 08 2010 new variable
+survey#:#send_to_unanswered#:#To all recipients who did not finish the survey###20 08 2010 new variable
+survey#:#msg_duplicate_scale#:#Please enter unique scale values###20 08 2010 new variable
+survey#:#save_reuse_message#:#Save message text for later use###20 08 2010 new variable
+survey#:#save_reuse_title#:#Message text title###20 08 2010 new variable
+survey#:#saved_messages#:#Available messages###20 08 2010 new variable
+survey#:#insert_saved_message#:#Insert Messagetext###20 08 2010 new variable
+survey#:#delete_saved_message#:#Delete Messagetext###20 08 2010 new variable
+survey#:#msg_message_inserted#:#Messagetext inserted###20 08 2010 new variable
+survey#:#msg_no_message_inserted#:#Please select a messagetext###20 08 2010 new variable
+survey#:#msg_message_deleted#:#Messagetext deleted###20 08 2010 new variable
+survey#:#msg_no_message_deleted#:#Please select a saved messagetext###20 08 2010 new variable
+administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.###20 08 2010 new variable
+administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View###20 08 2010 new variable
+administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
+rbac#:#write#:#Edit Settings###20 08 2010 new variable
+rbac#:#rbac_local_policy#:#Local Policy###20 08 2010 new variable
+rbac#:#role_block_role#:#Block Role###20 08 2010 new variable
+rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.###20 08 2010 new variable
+rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.###20 08 2010 new variable
+rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?###20 08 2010 new variable
+dateplaner#:#cal_ch_manager#:#Consultation Hour Manager###20 08 2010 new variable
+dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.###20 08 2010 new variable
+dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.###20 08 2010 new variable
+dateplaner#:#cal_ch_target_object#:#Repository Object###20 08 2010 new variable
+dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.###20 08 2010 new variable
+dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.###20 08 2010 new variable
+rbac#:#push_desktop_items#:#Push Items on the Personal Desktop###20 08 2010 new variable
+rbac#:#smtp_mail#:#Send Mail###20 08 2010 new variable
+rbac#:#mail_to_global_roles#:#Mail to Global Roles###20 08 2010 new variable
+rbac#:#add_post#:#Add Post###20 08 2010 new variable
+rbac#:#add_thread#:#Add Thread###20 08 2010 new variable
+rbac#:#moderate_frm#:#Moderate###20 08 2010 new variable
+webr#:#webr_import#:#Import Weblink###20 08 2010 new variable
+frm#:#frm_import#:#Import Forum###20 08 2010 new variable
+registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new variable
+registration#:#reg_allow_codes#:#Allow Codes###20 08 2010 new variable
+registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.###20 08 2010 new variable
+assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
+rbac#:#rbac_repository_permissions#:#Repository Permissions###20 08 2010 new variable
+rbac#:#rbac_admin_permissions#:#Administration Permissions###20 08 2010 new variable
+ps#:#ps_export_excel#:#Start Excel-Expor###20 08 2010 new variable
