@@ -48,8 +48,8 @@ class ilCOPageImporter extends ilXmlImporter
 	{
 		$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
 		$media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
-
-		if (count($media_objects) > 0)
+		$file_objects = $a_mapping->getMappingsOfEntity("Modules/File", "file");
+		if (count($media_objects) > 0 || count($file_objects) > 0)
 		{
 			foreach ($pages as $p)
 			{
@@ -59,7 +59,10 @@ class ilCOPageImporter extends ilXmlImporter
 					include_once("./Services/COPage/classes/class.ilPageObject.php");
 					$new_page = new ilPageObject($id[0], $id[1]);
 					$new_page->buildDom();
-					if ($new_page->resolveMediaAliases($media_objects))
+					$med = $new_page->resolveMediaAliases($media_objects);
+					$fil = $new_page->resolveFileItems($file_objects);
+
+					if ($med || $fil)
 					{
 						$new_page->update(false, true);
 					}

@@ -21,11 +21,13 @@ class ilFileImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once './Modules/File/classes/class.ilObjFile.php';
+
+		// case i container
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 		}
-		else
+		else	// case ii, non container
 		{
 			$newObj = new ilObjFile();
 			$newObj->create(true);
@@ -40,6 +42,8 @@ class ilFileImporter extends ilXmlImporter
 		
 		$parser->setFileContents();
 		$this->current_obj = $newObj;
+
+		$newObj->update();		// this is necessary for case ii (e.g. wiki import)
 
 		$a_mapping->addMapping("Modules/File", "file", $a_id, $newObj->getId());
 		$a_mapping->addMapping("Services/MetaData", "md", $a_id.":0:file",
