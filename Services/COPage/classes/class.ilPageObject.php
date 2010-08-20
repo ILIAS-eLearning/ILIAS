@@ -1629,7 +1629,35 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			if ($a_mapping[$old_id] > 0)
 			{
 				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$a_mapping[$old_id]);
-//echo "<br>-"."il__mob_".$a_mapping[$old_id]."-";
+				$changed = true;
+			}
+		}
+		unset($xpc);
+
+		return $changed;
+	}
+
+	/**
+	 * Resolve file items
+	 * (after import)
+	 *
+	 * @param	array		mapping array
+	 */
+	function resolveFileItems($a_mapping)
+	{
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem/Identifier";
+		$res =& xpath_eval($xpc, $path);
+		$changed = false;
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$old_id = $res->nodeset[$i]->get_attribute("Entry");
+			$old_id = explode("_", $old_id);
+			$old_id = $old_id[count($old_id) - 1];
+			if ($a_mapping[$old_id] > 0)
+			{
+				$res->nodeset[$i]->set_attribute("Entry", "il__file_".$a_mapping[$old_id]);
 				$changed = true;
 			}
 		}
