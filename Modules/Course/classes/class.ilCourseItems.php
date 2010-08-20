@@ -866,7 +866,7 @@ class ilCourseItems
 
 	function __sort()
 	{
-		include_once './Services/Container/classes/class.ilContainerSoringSettings.php';
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 		$sort = ilContainerSortingSettings::_lookupSortMode(ilObject::_lookupObjId($this->course_ref_id));
 		switch($sort)
 		{
