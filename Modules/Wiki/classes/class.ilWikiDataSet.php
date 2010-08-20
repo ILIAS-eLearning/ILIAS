@@ -176,7 +176,7 @@ class ilWikiDataSet extends ilDataSet
 				$newObj->setStartPage($a_rec["StartPage"]);
 				$newObj->setRating($a_rec["Rating"]);
 				$newObj->setIntroduction($a_rec["Introduction"]);
-				$newObj->update();
+				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
 				break;

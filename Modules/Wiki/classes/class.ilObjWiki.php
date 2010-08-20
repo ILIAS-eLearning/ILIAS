@@ -165,7 +165,7 @@ class ilObjWiki extends ilObject
 			"rating" => array("integer", (int) $this->getRating()),
 			"introduction" => array("clob", $this->getIntroduction())
 			));
-		
+
 		// create start page
 		if ($this->getStartPage() != "" && !$a_prevent_start_page_creation)
 		{
@@ -189,7 +189,7 @@ class ilObjWiki extends ilObject
 	* @access	public
 	* @return	boolean
 	*/
-	function update()
+	function update($a_prevent_start_page_creation = false)
 	{
 		global $ilDB;
 		
@@ -210,7 +210,8 @@ class ilObjWiki extends ilObject
 
 		// check whether start page exists
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		if (!ilWikiPage::exists($this->getId(), $this->getStartPage()))
+		if (!ilWikiPage::exists($this->getId(), $this->getStartPage())
+			&& !$a_prevent_start_page_creation)
 		{
 			$start_page = new ilWikiPage();
 			$start_page->setWikiId($this->getId());

@@ -91,7 +91,7 @@ class ilCOPageExporter extends ilXmlExporter
 
 		$page_object = new ilPageObject($id[0], $id[1]);
 		$page_object->buildDom();
-		$page_object->insertInstIntoIDs($a_inst);
+		$page_object->insertInstIntoIDs(IL_INST_ID);
 		$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
 		$pxml = str_replace("&","&amp;", $pxml);
 		$xml = "<PageObject>";

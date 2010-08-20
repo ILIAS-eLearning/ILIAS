@@ -1609,6 +1609,36 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
+	 * Resolve media aliases
+	 * (after import)
+	 *
+	 * @param	array		mapping array
+	 */
+	function resolveMediaAliases($a_mapping)
+	{
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		$changed = false;
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$old_id = $res->nodeset[$i]->get_attribute("OriginId");
+			$old_id = explode("_", $old_id);
+			$old_id = $old_id[count($old_id) - 1];
+			if ($a_mapping[$old_id] > 0)
+			{
+				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$a_mapping[$old_id]);
+//echo "<br>-"."il__mob_".$a_mapping[$old_id]."-";
+				$changed = true;
+			}
+		}
+		unset($xpc);
+
+		return $changed;
+	}
+
+	/**
 	* Move internal links from one destination to another. This is used
 	* for pages and structure links. Just use IDs in "from" and "to".
 	*
@@ -2352,6 +2382,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
 		}
+		
+		return $usages;
 	}
 
 	/**
@@ -3417,7 +3449,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		unset($xpc);
 		
-		// insert inst id into 
+		// insert inst id into question references
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Question";
 		$res =& xpath_eval($xpc, $path);

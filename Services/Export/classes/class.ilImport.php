@@ -37,8 +37,6 @@ class ilImport
 	{
 		return $this->mapping;
 	}
-	
-	
 
 	/**
 	 * Set entity types
