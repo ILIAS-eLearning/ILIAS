@@ -618,6 +618,8 @@ class ilTrQuery
 	 */
 	public static function getParticipantsForObject($a_obj_id)
 	{
+		global $tree;
+		
 		$a_users = NULL;
 
 		// @todo: move this to a parent or type related class later
@@ -663,6 +665,21 @@ class ilTrQuery
 			case "tst":
 				include_once("./Services/Tracking/classes/class.ilLPStatusTestFinished.php");
 				$a_users = ilLPStatusTestFinished::getParticipants($a_obj_id);
+				break;
+
+			case "fold":
+				// walk path to find course or group object and use members of that object
+				$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+				$path = $tree->getPathId($ref_id);
+				array_pop($path);
+				foreach(array_reverse($path) as $path_ref_id)
+				{
+					$type = ilObject::_lookupType($path_ref_id, true);
+					if($type == "crs" || $type == "grp")
+					{
+						return self::getParticipantsForObject(ilObject::_lookupObjectId($path_ref_id));
+					}
+				}
 				break;
 		}
 		
