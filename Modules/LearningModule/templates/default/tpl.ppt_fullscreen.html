@@ -12,9 +12,13 @@
 	<!-- BEGIN SyntaxStyle -->
 	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
 	<!-- END SyntaxStyle -->
-    
-
-
+ 	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script>
+	<!-- END js_file -->
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
+ 
 </head>
 
 
@@ -58,23 +62,22 @@ document.onkeydown = TasteGedrueckt;
 <!-- end of inserted javascript -->
 
 <!-- BEGIN ilLMNavigation -->
-<!-- inserted DIV for switching navigation panel on and off -->
 <div id="pptnavi" title="Ein- und Ausblenden mit 1 und 2, navigieren mit Pfeil- oder Bildtasten">
-    <table width="100%" border="0" cellpadding="0" cellspacing="0"> <tr>
-        <td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
-        <!-- BEGIN ilLMNavigation_Prev -->
-        <a id="prev" href="{HREF_PREV}" {FRAME_PREV}>
-        <img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}"/>{TXT_PREV}</a>
-        <!-- END ilLMNavigation_Prev -->
-        </td>
-        <td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
-        <!-- BEGIN ilLMNavigation_Next -->
-        <a id="succ" href="{HREF_SUCC}" {FRAME_SUCC}>
-        {TXT_SUCC}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}"/></a>
-        <!-- END ilLMNavigation_Next -->
-        </td>
-    </tr>
-    </table>
+<div class="ilc_page_tnav_TopNavigation">
+	<!-- BEGIN ilLMNavigation_Prev -->
+	<div class="ilc_page_lnav_LeftNavigation">
+	<a {PREV_ACC_KEY} class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV}" {FRAME_PREV}>
+	<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="{SPACER_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}" class="ilc_page_rnavimage_RightNavigationImage" />{TXT_PREV}&nbsp;</a>
+	</div>
+	<!-- END ilLMNavigation_Prev -->
+	<!-- BEGIN ilLMNavigation_Next -->
+	<div class="ilc_page_rnav_RightNavigation">
+	<a {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
+	{TXT_SUCC}<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="{SPACER_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+	</div>
+	<!-- END ilLMNavigation_Next -->
+	<div style="clear:both;"></div>
+</div>
 </div>
 <!-- END ilLMNavigation -->
 
@@ -94,7 +97,26 @@ if ((path.indexOf("visibl=1")) != -1)
 </script>
 
 <!-- BEGIN ilPage -->
+<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0">
+<tr><td><span class="ilAccHidden"><a name="il_lm_head" id="il_lm_head"></a></span>
 {PAGE_CONTENT}
+</td></tr>
+</table>
 <!-- END ilPage -->
+<!-- BEGIN ilLMNavigation2 -->
+	<!-- BEGIN ilLMNavigation_Prev2 -->
+	<!-- END ilLMNavigation_Prev2 -->
+	<!-- BEGIN ilLMNavigation_Next2 -->
+	<!-- END ilLMNavigation_Next2 -->
+<!-- END ilLMNavigation2 -->
+
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+ilAddOnLoad(function() {
+<!-- BEGIN on_load_code_inner -->{OLCODE}
+<!-- END on_load_code_inner -->
+});
+</script>
+<!-- END on_load_code -->
 </body>
 </html>
