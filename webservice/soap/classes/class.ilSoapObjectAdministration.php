@@ -1353,7 +1353,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
 				
 				
-				$items = new ilCourseItems($crs_obj,$ref_data['parent_id']);
+				$items = new ilCourseItems($crs_obj->getRefId(),$ref_data['parent_id']);
 				$old = $items->getItem($ref_data['ref_id']);
 				
 				$items->toggleChangeable(isset($ref_data['time_target']['changeable']) ? $ref_data['time_target']['changeable'] : $old['changeable']);
@@ -1417,7 +1417,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				include_once('./Modules/Course/classes/class.ilCourseItems.php');
 				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
 				
-				$items = new ilCourseItems($crs_obj,$ref_data['parent_id']);
+				$items = new ilCourseItems($crs_obj->getRefId(),$ref_data['parent_id']);
 				
 				if(!isset($ref_data['time_target']['starting_time']))
 				{
