@@ -54,10 +54,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
-		$lng_map = array("first_access_min" => "trac_first_access",
+		$lng_map = array("user_total" => "users", "first_access_min" => "trac_first_access",
 			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
 			"spent_seconds_avg" => "trac_spent_seconds", "percentage_avg" => "trac_percentage",
-			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count"
+			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count",
 			);
 
 		$all = array("user_total", "country", "create_date_min", "create_date_max",
