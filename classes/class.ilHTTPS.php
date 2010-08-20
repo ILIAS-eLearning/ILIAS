@@ -12,6 +12,8 @@
 
 class ilHTTPS
 {
+	private static $instance = null;
+
 	var $enabled = false;
 	var $protected_scripts = array();
 
@@ -19,6 +21,10 @@ class ilHTTPS
 	var $headerName = false;
 	var $headerValue = false;
 
+	/**
+	 * @deprected use <code>ilHTTPS::getInstance()</code>
+	 * @return 
+	 */
 	function ilHTTPS()
 	{
 		global $ilSetting;
@@ -33,6 +39,19 @@ class ilHTTPS
 		    $this->headerName = $ilSetting->get("ps_auto_https_headername");
 		    $this->headerValue = $ilSetting->get("ps_auto_https_headervalue");
 		}
+	}
+	
+	/**
+	 * Get https instance
+	 * @return 
+	 */
+	public static function getInstance()
+	{
+		if(self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilHTTPS();
 	}
 
 	/**
