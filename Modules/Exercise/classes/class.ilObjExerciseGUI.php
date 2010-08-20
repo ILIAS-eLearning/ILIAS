@@ -1142,18 +1142,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($type == "crs") 
 		{
 //			$search_for_role = "il_crs_member_" . $parent_id;
-			$this->tpl->setCurrentBlock("btn_cell");
+//			$this->tpl->setCurrentBlock("btn_cell");
 		
 //			$_SESSION['rep_query']['role']['title'] = $search_for_role;
 //			$_SESSION['rep_search_type'] = 'role';
 
 			// fixed bug 5535
 			$this->ctrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_obj_id);
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','listUsers'));
+//			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','listUsers'));
 			//$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','performSearch'));
 			$this->lng->loadLanguageModule("exercise");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("exc_crs_add_members"));
-			$this->tpl->parseCurrentBlock();
+//			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("exc_crs_add_members"));
+//			$this->tpl->parseCurrentBlock();
+
+			$ilToolbar->addButton($this->lng->txt("exc_crs_add_members"),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','listUsers'));
 		}
 
 		if (count($ass) > 0)
