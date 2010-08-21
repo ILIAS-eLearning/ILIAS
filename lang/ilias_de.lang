@@ -10030,17 +10030,17 @@ trac#:#trac_lp_determination_info_sco#:#Auswahl der Materialien, anhand derer de
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Note
 trac#:#trac_marks#:#Noten
-trac#:#trac_mode#:#Modus
+trac#:#trac_mode#:#Lernfortschrittsmodus
 trac#:#trac_mode_collection#:#Automatisch durch Auswahl von Objekten
 trac#:#trac_mode_collection_info#:#Der Gesamtstatus wird automatisch anhand der ausgewählten Materialien bestimmt.
-trac#:#trac_mode_deactivated#:#Deaktiviert
+trac#:#trac_mode_deactivated#:#Lernfortschritt deaktiviert
 trac#:#trac_mode_deactivated_info#:#Es wird kein Lernfortschritt ermittelt.
 trac#:#trac_mode_event#:#Teilnahme an Sitzungen
 trac#:#trac_mode_exercise_returned#:#Übung gelöst
 trac#:#trac_mode_exercise_returned_info#:#Der Status kann nur durch Tutoren bestimmt werden.
 trac#:#trac_mode_manual#:#Manuell durch NutzerInnen
 trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutoren
-trac#:#trac_mode_manual_by_tutor_info#:#Der Gesamtstatus kann nur durch Tutoren gesetzt werden.
+trac#:#trac_mode_manual_by_tutor_info#:#Der Status 'Bearbeitet' (bzw. 'Nicht bestanden') wird von Kursadministratoren und -tutoren festgelegt..
 trac#:#trac_mode_manual_info#:#Die NutzerInnen entscheiden selbst, ob Sie den Status 'Bearbeitet' haben oder nicht.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
