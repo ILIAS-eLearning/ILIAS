@@ -10026,7 +10026,7 @@ trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_lm_statistics#:#Zugriffsstatistiken
 trac#:#trac_lp_determination#:#Ermittlung des Lernfortschritts
 trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird.
-trac#:#trac_lp_determination_info_sco#:#Auswahl der Materialien, anhand derer der Gesamtstatus der SCORM-Lernmodule ermittelt wird.
+trac#:#trac_lp_determination_info_sco#:#Auswahl der SCOx, anhand derer der Gesamtstatus des SCORM-Moduls ermittelt wird.
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Note
 trac#:#trac_marks#:#Noten
@@ -10045,7 +10045,7 @@ trac#:#trac_mode_manual_info#:#Die NutzerInnen entscheiden selbst, ob Sie den St
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_scorm#:#SCORM/AICC
-trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
+trac#:#trac_mode_scorm_aicc#:#Durch ausgewählte SCOs
 trac#:#trac_mode_scorm_info#:#Der Gesamtstatus wird durch die ausgewählten SCORM-Materialien bestimmt.
 trac#:#trac_mode_scorm_package#:#Automatisch durch SCORM-Kursstatus
 trac#:#trac_mode_scorm_package_info#:#Der Lernfortschrittsstatus wird durch den Gesamtstatus des SCORM-Moduls bestimmt.
