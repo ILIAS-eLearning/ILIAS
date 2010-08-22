@@ -529,6 +529,23 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				break;
 		}
 		
+		if ($this->object->use_min_answers)
+		{
+			$template->setCurrentBlock('min_max_msg');
+			if ($this->object->nr_min_answers > 0 && $this->object->nr_max_answers > 0)
+			{
+				$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_min_max_nr_answers'), $this->object->nr_min_answers, $this->object->nr_max_answers));
+			}
+			else if ($this->object->nr_min_answers > 0)
+			{
+				$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_min_nr_answers'), $this->object->nr_min_answers));
+			}
+			else if ($this->object->nr_max_answers > 0)
+			{
+				$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_max_nr_answers'), $this->object->nr_max_answers));
+			}
+			$template->parseCurrentBlock();
+		}
 		if ($show_questiontext)
 		{
 			$this->outQuestionText($template);
