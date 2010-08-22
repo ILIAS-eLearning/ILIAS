@@ -683,6 +683,7 @@ class ilObjUserFolder extends ilObject
 		global $log;
 		global $ilDB;
 		global $ilias;
+		global $lng;
 
 		//get Log File
 		$expDir = $this->getExportDirectory();
@@ -697,12 +698,32 @@ class ilObjUserFolder extends ilObject
 		//get data
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 		$settings =& $this->getExportSettings();
+		
+		// user languages
+		$query = "SELECT * FROM usr_pref WHERE keyword = ".$ilDB->quote('language','text');
+		$res = $ilDB->query($query);
+		$languages = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$languages[$row['usr_id']] = $row['value'];
+		}
+		
+		
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id ".
-			"AND usr_pref.keyword = ".$ilDB->quote("language", "text")." ORDER BY usr_data.lastname, usr_data.firstname";
+		$query = "SELECT usr_data.* FROM usr_data  ".
+			" ORDER BY usr_data.lastname, usr_data.firstname";
 		$result = $ilDB->query($query);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if(isset($languages[$row['usr_id']]))
+			{
+				$row['language'] = $languages[$row['usr_id']];
+			}
+			else
+			{
+				$row['language'] = $lng->getDefaultLanguage();
+			}
+			
 			if (is_array($user_data_filter))
 			{
 				if (in_array($row["usr_id"], $user_data_filter)) array_push($data, $row);
