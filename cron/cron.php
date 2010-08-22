@@ -19,7 +19,6 @@ include_once './include/inc.header.php';
 
 // Start checks here
 include_once './cron/classes/class.ilCronCheck.php';
-
 $cron_check =& new ilCronCheck();
 $cron_check->start();
 ?>
