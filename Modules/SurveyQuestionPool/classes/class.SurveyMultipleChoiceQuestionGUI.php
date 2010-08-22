@@ -485,7 +485,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->setVariable("OTHER_ANSWER", "&nbsp;");
 						$template->parseCurrentBlock();
 					}
 					else
@@ -516,7 +516,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					{
 						$template->setCurrentBlock("other_text_col");
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($this->object->other_answer_label));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->setVariable("OTHER_ANSWER", "&nbsp;");
 						$template->parseCurrentBlock();
 					}
 					else
