@@ -885,52 +885,19 @@ class ilUserImportParser extends ilSaxParser
      */
 	function detachFromRole($a_user_obj, $a_role_id)
 	{
-		require_once "./Services/AccessControl/classes/class.ilObjRole.php";
-		require_once "./Modules/Course/classes/class.ilObjCourse.php";
-		require_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-
 		global $rbacreview, $rbacadmin, $tree;
 
-		// If it is a course role, use the ilCourseMember object to assign
-		// the user to the role
-		$role_obj = $this->getRoleObject($a_role_id);
-		//print_r($role_obj->getTitle());
-
-		// No special handling for courses required anymore
-		/*
-		if (substr($role_obj->getTitle(),0,6) == 'il_crs_')
+		$rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
+		
+		if (substr(ilObject::_lookupTitle($a_role_id),0,6) == 'il_crs' or
+			substr(ilObject::_lookupTitle($a_role_id),0,6) == 'il_grp')
 		{
-			$crsmembers_obj = $this->getCourseMembersObjectForRole($a_role_id);
-			//print_r($crsmembers_obj ->getTitle());
-			switch (substr($role_obj->getTitle(),0,12))
-			{
-				case 'il_crs_membe' :
-					if ($crsmembers_obj->isMember($a_user_obj->getId()))
-					{
-						$crsmembers_obj->delete($a_user_obj->getId());
-					}
-					break;
-				case 'il_crs_admin' :
-					if ($crsmembers_obj->isAdmin($a_user_obj->getId()))
-					{
-						$crsmembers_obj->delete($a_user_obj->getId());
-					}
-					break;
-				case 'il_crs_tutor' :
-					if ($crsmembers_obj->isTutor($a_user_obj->getId()))
-					{
-						$crsmembers_obj->delete($a_user_obj->getId());
-					}
-					break;
-			}
+			$obj = $rbacreview->getObjectOfRole($a_role_id);
+			$ref = ilObject::_getAllReferences($obj);
+			$ref_id = end($ref);
+			ilObjUser::_dropDesktopItem($a_user_obj->getId(), $ref_id, ilObject::_lookupType($obj));
 		}
-		*/
-		// If it is not a course role, use RBAC to assign the user to the role
-		#else
-		{
-			$rbacadmin->deassignUser($a_role_id, $a_user_obj->getId());
-		}
-	}
+}
 
 	/**
 	* handler for end of element when in import user mode.

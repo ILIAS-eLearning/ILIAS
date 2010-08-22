@@ -103,6 +103,7 @@ class ilCronCheck
 		 * run task
 		 */
 
+
 		if($condition)
 		{
 			$task = new $classname;

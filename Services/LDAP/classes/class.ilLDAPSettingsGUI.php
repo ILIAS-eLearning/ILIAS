@@ -860,6 +860,11 @@ class ilLDAPSettingsGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
+		
+		if(!ilLDAPServer::checkLDAPLib() and  $this->server->isActive())
+		{
+			ilUtil::sendFailure('Missing LDAP libraries. Please ensure that the PHP LDAP module is installed on your server.');
+		}
 
 		$this->setSubTabs();
 		$this->tabs_gui->setSubTabActive('ldap_settings');
@@ -1142,9 +1147,11 @@ class ilLDAPSettingsGUI
 			$this->mapping->setRule('global_role', (int)$this->form_gui->getInput('global_role'), false);
 			$this->mapping->save();
 	
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-			$this->form_gui->setValuesByPost();
-			return $this->tpl->setContent($this->form_gui->getHtml());
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$this->ctrl->redirect($this,'serverList');
+			return true;
+			#$this->form_gui->setValuesByPost();
+			#return $this->tpl->setContent($this->form_gui->getHtml());
  		}		
 		
 		$this->form_gui->setValuesByPost();

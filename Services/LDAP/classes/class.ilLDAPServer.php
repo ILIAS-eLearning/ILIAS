@@ -55,6 +55,15 @@ class ilLDAPServer
 		return self::$instances[$a_server_id] = new ilLDAPServer($a_server_id);
 	}
 	
+	/**
+	 * Check if ldap module is installed
+	 * @return 
+	 */
+	public static function checkLDAPLib()
+	{
+		return function_exists('ldap_bind');
+	}
+	
 	/** 
 	 * Get active server list
 	 *
