@@ -10526,10 +10526,11 @@ survey#:#use_min_answers#:#Antwortanzahl
 survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
 survey#:#nr_min_answers#:#Minimum
 survey#:#nr_max_answers#:#Maximum
-survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer als das Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
+survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
 survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antworten aus.
 survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
+survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antworten aus.
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
 survey#:#export_label_only#:#Nur Labels exportieren
@@ -10575,6 +10576,7 @@ survey#:#finished_mail_subject#:#Die Umfrage wurde beendet
 survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antworten
 survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten
 survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten
+survey#:#msg_min_max_exact_answers#:#Bitte wählen Sie genau %s Antworten
 survey#:#workingtime#:#Bearbeitungsdauer
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_book_free#:#frei
