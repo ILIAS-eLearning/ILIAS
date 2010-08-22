@@ -1608,7 +1608,7 @@ common#:#active_roles#:#Aktive Rollen
 common#:#add#:#Hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_comments#:#Kommentare bearbeiten
-common#:#add_condition#:#Neue Verknüpfung anlegen
+common#:#add_condition#:#Neue Bedingung erstellen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
@@ -2072,14 +2072,14 @@ common#:#cond_ref_handling#:#Einstellungen für Verknüpfungen
 common#:#cond_ref_shared#:#Gleiche Vorbedingungen für alle Verknüpfungen
 common#:#cond_ref_unique#:#Unterschiedliche Vorbedingungen für Verknüpfungen
 common#:#condition#:#Bedingung
-common#:#condition_already_assigned#:#Diese Objekt wurde bereits zugeordnet.
+common#:#condition_already_assigned#:#Dieses Objekt wurde bereits zugeordnet.
 common#:#condition_circle_created#:#Diese Zuordnung ist nicht möglich, da die Objekte voneinander abhängen würden
 common#:#condition_deleted#:#Die Vorbedingung wurde gelöscht.
 common#:#condition_finished#:#Beendet
 common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
-common#:#condition_select_object#:#Bitte wählen Sie ein Objekt aus, zu dem eine neue Verknüpfung erstellt werden soll.
+common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
 common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
