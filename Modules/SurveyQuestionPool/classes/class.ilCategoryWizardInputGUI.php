@@ -66,6 +66,12 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		$this->use_other_answer = ($a_value) ? true : false;
 	}
 	
+	public function getCategoryCount()
+	{
+		if (!is_object($this->values)) return 0;
+		return $this->values->getCategoryCount();
+	}
+	
 	protected function calcNeutralCategoryScale()
 	{
 		if (is_object($this->values))

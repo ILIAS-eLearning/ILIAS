@@ -379,7 +379,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	function checkUserInput($post_data, $survey_id)
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
-		if (!$this->getObligatory($survey_id)) return "";
+		if (!$this->getObligatory($survey_id) && count($entered_value) == 0) return "";
 
 		if ($this->use_min_answers && $this->nr_min_answers > 0 && count($entered_value) < $this->nr_min_answers)
 		{
