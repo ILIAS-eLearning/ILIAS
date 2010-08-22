@@ -10604,10 +10604,11 @@ survey#:#use_min_answers#:#Answer selections
 survey#:#use_min_answers_option#:#Set a number of answer selections
 survey#:#nr_min_answers#:#Minimum
 survey#:#nr_max_answers#:#Maximum
-survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater than the minimum value and less or equal than the maximum number of answers.
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.
 survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.
 survey#:#err_no_min_answers#:#Please check at least %s answers.
 survey#:#err_no_max_answers#:#Please check at most %s answers.
+survey#:#err_no_exact_answers#:#Please check exactly %s answers.
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
 survey#:#export_label_only#:#Export label only
@@ -10657,9 +10658,10 @@ survey#:#please_enter_mail_message#:#Please enter a mail message
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey was finished
-survey#:#msg_min_nr_answers#:#Please select at least %s answers
-survey#:#msg_max_nr_answers#:#Please select at most %s answers
-survey#:#msg_min_max_nr_answers#:#Please select at least %s and at most %s answers
+survey#:#msg_min_nr_answers#:#Please check at least %s answers
+survey#:#msg_max_nr_answers#:#Please check at most %s answers
+survey#:#msg_min_max_nr_answers#:#Please check at least %s and at most %s answers
+survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers
 survey#:#msg_duplicate_scale#:#Please enter unique scale values
 survey#:#workingtime#:#Working time
 survey#:#save_reuse_message#:#Save message text for later use

@@ -435,7 +435,14 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 			$template->setCurrentBlock('min_max_msg');
 			if ($this->object->nr_min_answers > 0 && $this->object->nr_max_answers > 0)
 			{
-				$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_min_max_nr_answers'), $this->object->nr_min_answers, $this->object->nr_max_answers));
+				if ($this->object->nr_min_answers == $this->object->nr_max_answers)
+				{
+					$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_min_max_exact_answers'), $this->object->nr_min_answers));
+				}
+				else
+				{
+					$template->setVariable('MIN_MAX_MSG', sprintf($this->lng->txt('msg_min_max_nr_answers'), $this->object->nr_min_answers, $this->object->nr_max_answers));
+				}
 			}
 			else if ($this->object->nr_min_answers > 0)
 			{
