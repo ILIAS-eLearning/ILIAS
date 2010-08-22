@@ -99,6 +99,16 @@ td.bipolar {
 	padding-right: 5px;
 	border-style: inset;
 	border-width: 1px;
+	display: inline-block;
+	width: 400px;
+}
+
+.horizontal {
+	width: 80px;
+}
+
+.vertical {
+	width: 400px;
 }
 
 table.categorywizard tr, table.matrixrowwizard tr {
