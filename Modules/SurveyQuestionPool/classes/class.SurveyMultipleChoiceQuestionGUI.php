@@ -226,7 +226,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ($nranswers->getValue() > $this->object->getCategories()->getCategoryCount())
+			if ($nranswers->getValue() > $answers->getCategoryCount())
 			{
 				$nrmaxanswers->setAlert($this->lng->txt('err_minvalueganswers'));
 				if (!$errors)
@@ -235,7 +235,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				}
 				$errors = true;
 			}
-			if ($nrmaxanswers->getValue() > 0 && ($nrmaxanswers->getValue() > $this->object->getCategories()->getCategoryCount() || $nrmaxanswers->getValue() < $nranswers->getValue()))
+			if ($nrmaxanswers->getValue() > 0 && ($nrmaxanswers->getValue() > $answers->getCategoryCount() || $nrmaxanswers->getValue() < $nranswers->getValue()))
 			{
 				$nrmaxanswers->setAlert($this->lng->txt('err_maxvaluegeminvalue'));
 				if (!$errors)
