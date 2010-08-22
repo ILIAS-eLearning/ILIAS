@@ -278,8 +278,12 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$attrs = array(
 				"id" => $i
 			);
+			if (strlen($this->categories->getCategory($i)->other)) $attrs['other'] = $this->categories->getCategory($i)->other;
+			if (strlen($this->categories->getCategory($i)->neutral)) $attrs['neutral'] = $this->categories->getCategory($i)->neutral;
+			if (strlen($this->categories->getCategory($i)->label)) $attrs['label'] = $this->categories->getCategory($i)->label;
+			if (strlen($this->categories->getCategory($i)->scale)) $attrs['scale'] = $this->categories->getCategory($i)->scale;
 			$a_xml_writer->xmlStartTag("response_multiple", $attrs);
-			$this->addMaterialTag($a_xml_writer, $this->categories->getCategory($i));
+			$this->addMaterialTag($a_xml_writer, $this->categories->getCategory($i)->title);
 			$a_xml_writer->xmlEndTag("response_multiple");
 		}
 
@@ -721,7 +725,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			{
 				$categorytext .= $material["text"];
 			}
-			$this->categories->addCategory($categorytext);
+			$this->categories->addCategory(
+				$categorytext, 
+				strlen($data['other']) ? $data['other'] : 0, 
+				strlen($data['neutral']) ? $data['neutral'] : 0, 
+				strlen($data['label']) ? $data['label'] : null, 
+				strlen($data['scale']) ? $data['scale'] : null
+			);
 		}
 	}
 
