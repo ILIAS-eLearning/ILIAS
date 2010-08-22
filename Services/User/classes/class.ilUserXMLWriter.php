@@ -118,7 +118,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 	function __handleUser ($row)
 	{
-		global $ilDB;
+		global $ilDB,$lng;
 		if (!is_array ($this->settings))  {
 			include_once ('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->setSettings(ilObjUserFolder::getExportSettings());
@@ -126,7 +126,11 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$prefs = ilObjUser::_getPreferences($row["usr_id"]);
 		
-		if (strlen($row["language"]) == 0) $row["language"] = "en";
+		if (strlen($row["language"]) == 0)
+		{
+			$row["language"] = $lng->getDefaultLanguage();
+			
+		}
 
 		$attrs = array (
 			'Id' => "il_".IL_INST_ID."_usr_".$row["usr_id"],
