@@ -680,13 +680,13 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 				{
-					$tbl->addMultiCommand('editThread', $this->lng->txt('edit'));
 					$tbl->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
 					$tbl->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
 					$tbl->addMultiCommand('close', $this->lng->txt('close_topics'));
 					$tbl->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
 					$tbl->addMultiCommand('move', $this->lng->txt('move'));
 					$tbl->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
+					$tbl->addMultiCommand('editThread', $this->lng->txt('edit'));
 				}				
 		
 				$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
