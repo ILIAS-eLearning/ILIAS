@@ -10856,3 +10856,6 @@ assessment#:#mailnottype#:#Send notification even when a user finishes a test pa
 rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_admin_permissions#:#Administration Permissions
 ps#:#ps_export_excel#:#Start Excel-Export
+common#:#sess_fixed_duration#:#Fixed Session Duration
+common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
+common#:#sess_mode#:#Session Mode

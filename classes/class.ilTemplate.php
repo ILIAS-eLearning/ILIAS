@@ -675,7 +675,8 @@ class ilTemplate extends ilTemplateX
 		{
 			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
 			
-			if((int)$ilSetting->get('session_reminder_enabled') &&
+			if((int)$ilSetting->get('session_handling_type') == 0 &&
+			   (int)$ilSetting->get('session_reminder_enabled') &&
 			   $ilUser->getId() != ANONYMOUS_USER_ID &&
 			   (int)$ilUser->getPref('session_reminder_enabled'))
 			{
