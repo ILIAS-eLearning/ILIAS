@@ -10860,3 +10860,6 @@ rbac#:#add_thread#:#Add Thread###20 08 2010 new variable
 rbac#:#moderate_frm#:#Moderate###20 08 2010 new variable
 webr#:#webr_import#:#Import Weblink###20 08 2010 new variable
 frm#:#frm_import#:#Import Forum###20 08 2010 new variable
+common#:#sess_fixed_duration#:#Fixe Sitzungsdauer
+common#:#sess_load_dependent_session_handling#:#Lastabhängige Sitzungseinstellungen
+common#:#sess_mode#:#Sitzungsmodus

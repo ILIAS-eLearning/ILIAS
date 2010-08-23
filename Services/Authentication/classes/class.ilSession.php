@@ -37,9 +37,17 @@ class ilSession
 	static function _writeData($a_session_id, $a_data)
 	{
 		global $ilDB, $ilSetting;
-
-		//$expires = time() + ini_get("session.gc_maxlifetime");
-		$expires = time() + (int)($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+		
+		if( $ilSetting->get('session_handling_type', 0) ==  0)
+		{
+			// fixed session
+			$expires = time() + ini_get("session.gc_maxlifetime");	
+		}
+		else if( $ilSetting->get('session_handling_type', 0) ==  1)
+		{
+			// load dependent session settings
+			$expires = time() + (int)($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+		}	
 
 		if (ilSession::_exists($a_session_id))
 		{

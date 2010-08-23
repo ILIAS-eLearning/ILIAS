@@ -84,6 +84,10 @@ class ilSessionControl
 	public static function checkExpiredSession()
 	{
 		global $ilSetting;
+		
+		// do not check session in fixed duration mode
+		if( $ilSetting->get('session_handling_type', 0) != 1 )
+			return;
 
 		// check for expired sessions makes sense
 		// only when public section is not enabled
@@ -132,6 +136,12 @@ class ilSessionControl
 	 */
 	public static function initSession()
 	{
+		global $ilSetting;
+		
+		// do not init session type in fixed duration mode
+		if( $ilSetting->get('session_handling_type', 0) != 1 )
+			return;
+		
 		if( !isset($_SESSION['SessionType']) )
 		{
 			$_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
@@ -150,6 +160,13 @@ class ilSessionControl
 	 */
 	public static function handleLoginEvent($a_login, $a_auth)
 	{
+		global $ilSetting;
+		
+		// do not handle login event in fixed duration mode
+		if( $ilSetting->get('session_handling_type', 0) != 1 )
+			return;
+		
+		
 		$user_id = ilObjUser::_lookupId($a_login);
 
 		switch(true)
@@ -187,6 +204,12 @@ class ilSessionControl
 	 */
 	public static function handleLogoutEvent()
 	{
+		global $ilSetting;
+		
+		// do not handle logout event in fixed duration mode
+		if( $ilSetting->get('session_handling_type', 0) != 1 )
+			return;
+		
 		$_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
 		self::debug(__METHOD__." --> reset sessions type to (".$_SESSION['SessionType'].")");
 
