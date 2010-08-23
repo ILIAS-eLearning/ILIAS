@@ -52,7 +52,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			{
 				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
 				if (strcmp($c, 'type') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
-				if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
+				if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'points', '', false, 'right');
 				if (strcmp($c, 'statistics') == 0) $this->addColumn('','statistics', '');
 				if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
 				if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
