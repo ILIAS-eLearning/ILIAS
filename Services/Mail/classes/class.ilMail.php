@@ -599,44 +599,56 @@ class ilMail
 	* get all mails of a specific folder
 	* @access	public
 	* @param	integer id of folder
+    * @param    array   optional filter array
 	* @return	array	mails
 	*/
-	function getMailsOfFolder($a_folder_id)
+	function getMailsOfFolder($a_folder_id, $filter = array())
 	{
 		global $ilDB;
 
 		$this->mail_counter = array();
-		$this->mail_counter["read"] = 0;
-		$this->mail_counter["unread"] = 0;
+		$this->mail_counter['read'] = 0;
+		$this->mail_counter['unread'] = 0;
 
-		$res = $ilDB->queryf("
-			SELECT ".$this->table_mail.".* FROM ". $this->table_mail ."
+        $query = "SELECT sender_id, m_subject, mail_id, m_status, send_time FROM ". $this->table_mail ."
 			LEFT JOIN object_data ON obj_id = sender_id
 			WHERE user_id = %s
 			AND folder_id = %s
-			AND ((sender_id > 0 AND sender_id IS NOT NULL AND obj_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL))
-			ORDER BY send_time DESC",
-			array('integer', 'integer'),
-			array($this->user_id, $a_folder_id));
+			AND ((sender_id > 0 AND sender_id IS NOT NULL AND obj_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) ";
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+        if($filter['status'])
+        {
+            $query .= ' AND m_status = '.$ilDB->quote($filter['status'], 'text');
+        }
+        if($filter['type'])
+        {
+            $query .= ' AND '.$ilDB->like('m_type', 'text', '%%:"'.$filter['type'].'"%%', false);
+        }
+
+        $query .= " ORDER BY send_time DESC";
+
+		$res = $ilDB->queryf($query,
+			array('integer', 'integer'),
+			array($this->user_id, $a_folder_id));vd($res->db->last_query);
+
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$tmp = $this->fetchMailData($row);
 
-			if ($tmp["m_status"] == 'read')
+			if($tmp['m_status'] == 'read')
 			{
-				++$this->mail_counter["read"];
+				++$this->mail_counter['read'];
 			}
 
-			if ($tmp["m_status"] == 'unread')
+			if($tmp['m_status'] == 'unread')
 			{
-				++$this->mail_counter["unread"];
+				++$this->mail_counter['unread'];
 			}
 
 			$output[] = $tmp;
 		}
 
-		$this->mail_counter["total"] = count($output);
+		$this->mail_counter['total'] = count($output);
 
 		return $output ? $output : array();
 	}

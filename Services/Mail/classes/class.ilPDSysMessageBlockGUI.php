@@ -101,20 +101,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		$inbox = $mbox->getInboxFolder();
 		
 		//SHOW MAILS FOR EVERY USER
-		$mail_data = $umail->getMailsOfFolder($inbox);
-		$mail_counter = $umail->getMailCounterData();
-		$unreadmails = 0;
-	
-		$this->mails = array();
-		foreach ($mail_data as $mail)
-		{
-			//ONLY NEW MAILS WOULD BE ON THE PERONAL DESKTOP
-			if($mail["m_status"] == 'unread' &&
-				in_array('system',$mail['m_type']))
-			{
-				$this->mails[] = $mail;
-			}
-		}
+		$this->mails = $umail->getMailsOfFolder($inbox, array('status' => 'unread', 'type' => 'system'));
 	}
 
 	/**

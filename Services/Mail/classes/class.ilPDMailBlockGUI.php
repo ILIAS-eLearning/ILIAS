@@ -140,20 +140,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$inbox = $mbox->getInboxFolder();
 		
 		//SHOW MAILS FOR EVERY USER
-		$mail_data = $umail->getMailsOfFolder($inbox);
-		$mail_counter = $umail->getMailCounterData();
-		$unreadmails = 0;
-	
-		$this->mails = array();
-		foreach ($mail_data as $mail)
-		{
-			//ONLY NEW MAILS WOULD BE ON THE PERSONAL DESKTOP
-			if($mail["m_status"] == 'unread' &&
-				in_array('normal',$mail['m_type']))
-			{
-				$this->mails[] = $mail;
-			}
-		}
+		$this->mails = $umail->getMailsOfFolder($inbox, array('status' => 'unread', 'type' => 'normal'));
 	}
 	
 	/**
@@ -183,6 +170,26 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->setDataSection($this->getOverview());
 		}
 	}
+	
+	/**
+	 *
+	 * Caching method for user instances
+	 *
+	 * @access	private
+	 * @param	integer		$a_usr_id	Id of a user instance
+	 * @return	ilObjUser
+	 *
+	 */
+	protected function getUserInstance($a_usr_id)
+	{
+		static $userObjectCache = array();
+
+		if(isset($userObjectCache[$a_usr_id])) return $userObjectCache[$a_usr_id];
+
+		$userObjectCache[$a_usr_id] = new ilObjUser($a_usr_id);
+
+		return $userObjectCache[$a_usr_id];
+	}
 		
 	/**
 	* get flat bookmark list for personal desktop
@@ -192,32 +199,32 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		global $ilUser, $ilCtrl, $lng;
 
 		// GET SENDER NAME
-		$user = new ilObjUser($mail["sender_id"]);		
+		$user = $this->getUserInstance($mail['sender_id']);		
 		if ($this->getCurrentDetailLevel() > 2)
 		{
-			$this->tpl->setCurrentBlock("image");
-			$this->tpl->setVariable("IMG_SENDER", $user->getPersonalPicturePath("xxsmall"));
-			$this->tpl->setVariable("ALT_SENDER", $user->getLogin());
+			$this->tpl->setCurrentBlock('image');
+			$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
+			$this->tpl->setVariable('ALT_SENDER', $user->getLogin());
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("long");
+			$this->tpl->setCurrentBlock('long');
 			if($mail['sender_id'] != ANONYMOUS_USER_ID)
 			{
-				if (in_array(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile'), array("y", "g")))
+				if(in_array($user->getPref('public_profile'), array('y', 'g')))
 				{
 					if(!($fullname = $user->getFullname()))
 					{
-						$fullname = $lng->txt("unknown");
+						$fullname = $lng->txt('unknown');
 					}
-					$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+					$this->tpl->setVariable('NEW_MAIL_FROM', $fullname);
 				}
-				$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', $user->getLogin());
 			}
 			else
 			{
 				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());				
 			}
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'],IL_CAL_DATE)));
-			$this->tpl->setVariable("TXT_FROM", $lng->txt("from"));
+			$this->tpl->setVariable('TXT_FROM', $lng->txt('from'));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -236,12 +243,12 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			}
 		}
 		
-		$this->tpl->setVariable("NEW_MAIL_SUBJ", htmlentities($mail["m_subject"],ENT_NOQUOTES,'UTF-8'));
-		$ilCtrl->setParameter($this, "mobj_id", $inbox);
-		$ilCtrl->setParameter($this, "mail_id", $mail["mail_id"]);
-		$ilCtrl->setParameter($this, "mail_mode", $this->mail_mode);
-		$this->tpl->setVariable("NEW_MAIL_LINK_READ",
-			$ilCtrl->getLinkTarget($this, "showMail"));
+		$this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'],ENT_NOQUOTES,'UTF-8'));
+		$ilCtrl->setParameter($this, 'mobj_id', $inbox);
+		$ilCtrl->setParameter($this, 'mail_id', $mail['mail_id']);
+		$ilCtrl->setParameter($this, 'mail_mode', $this->mail_mode);
+		$this->tpl->setVariable('NEW_MAIL_LINK_READ',
+			$ilCtrl->getLinkTarget($this, 'showMail'));
 		$ilCtrl->clearParameters($this);
 	}
 
