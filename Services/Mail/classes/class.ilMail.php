@@ -629,7 +629,7 @@ class ilMail
 
 		$res = $ilDB->queryf($query,
 			array('integer', 'integer'),
-			array($this->user_id, $a_folder_id));vd($res->db->last_query);
+			array($this->user_id, $a_folder_id));
 
 		while ($row = $ilDB->fetchObject($res))
 		{
