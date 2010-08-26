@@ -10844,14 +10844,14 @@ rbac#:#write#:#Einstellungen bearbeiten
 rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
 rbac#:#role_block_role#:#Rolle sperren
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
-rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.###20 08 2010 new variable
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?###20 08 2010 new variable
-dateplaner#:#cal_ch_manager#:#Consultation Hour Manager###20 08 2010 new variable
-dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.###20 08 2010 new variable
-dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.###20 08 2010 new variable
-dateplaner#:#cal_ch_target_object#:#Repository Object###20 08 2010 new variable
-dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.###20 08 2010 new variable
-dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.###20 08 2010 new variable
+rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />- Alle Rechte für dieses Objekt und seine Unterobjekte werden entfernt.<br />- Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem 'Rolle sperren' wieder aufgehoben wird. 
+rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
+dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
+dateplaner#:#cal_ch_manager_info#:#Benutzernamen der Anwender, die ebenfalls Ihre Sprechstunden bearbeiten und betreuen dürfen.
+dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
+dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
+dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Objekte im Magazin.
+dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 rbac#:#push_desktop_items#:#Objekte auf Persönlichen Schreibtisch legen
 rbac#:#smtp_mail#:#Mail versenden
 rbac#:#mail_to_global_roles#:#Mail an globale Rollen
