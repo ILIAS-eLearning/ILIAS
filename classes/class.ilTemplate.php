@@ -613,6 +613,10 @@ class ilTemplate extends ilTemplateX
 
 	function fillCssFiles()
 	{
+		if (!$this->blockExists("css_file"))
+		{
+			return;
+		}
 		foreach($this->css_files as $css)
 		{
 			$filename = $css["file"];

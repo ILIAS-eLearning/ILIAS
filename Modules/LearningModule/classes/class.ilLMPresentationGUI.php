@@ -600,7 +600,7 @@ class ilLMPresentationGUI
 		$node = $found[0];
 
 		$ilBench->stop("ContentPresentation", "layout_getFrameNode");
-//echo "<br>layout 2";
+
 		// ProcessFrameset
 		// node is frameset, if it has cols or rows attribute
 		$attributes = $this->attrib2arr($node->attributes());
@@ -608,16 +608,13 @@ class ilLMPresentationGUI
 		$this->frames = array();
 		if((!empty($attributes["rows"])) || (!empty($attributes["cols"])))
 		{
-			$ilBench->start("ContentPresentation", "layout_processFrameset");
 			$content .= $this->buildTag("start", "frameset", $attributes);
-//echo "<br>A: reset frames"; flush();
 			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
 			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
 			$this->tpl->setVariable("PAGETITLE", "- ".$this->lm->getTitle());
 			$this->tpl->setVariable("FS_CONTENT", $content);
-			$ilBench->stop("ContentPresentation", "layout_processFrameset");
 			if (!$doshow)
 			{
 				$content = $this->tpl->get();
@@ -699,9 +696,7 @@ class ilLMPresentationGUI
 				switch ($child->node_name())
 				{
 					case "ilMainMenu":
-						$ilBench->start("ContentPresentation", "layout_mainmenu");
 						$this->ilMainMenu();
-						$ilBench->stop("ContentPresentation", "layout_mainmenu");
 						break;
 
 					case "ilTOC":
@@ -761,9 +756,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLocator":
-						$ilBench->start("ContentPresentation", "layout_locator");
 						$this->ilLocator();
-						$ilBench->stop("ContentPresentation", "layout_locator");
 						break;
 						
 					case "ilJavaScript":
@@ -772,9 +765,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMMenu":
-						$ilBench->start("ContentPresentation", "layout_lmmenu");	
 						$this->ilLMMenu();
-						$ilBench->stop("ContentPresentation", "layout_lmmenu");
 						break;
 
 					case "ilLMHead":
@@ -782,17 +773,13 @@ class ilLMPresentationGUI
 						break;
 						
 					case "ilLMSubMenu":
-						$ilBench->start("ContentPresentation", "layout_lmsubmenu");
 						$this->ilLMSubMenu();
-						$ilBench->stop("ContentPresentation", "layout_lmsubmenu");
 						break;
 						
 					case "ilLMNotes":
 						if (!$this->ilias->getSetting('disable_notes'))
 						{
-							$ilBench->start("ContentPresentation", "layout_lmnotes");
 							$this->ilLMNotes();
-							$ilBench->stop("ContentPresentation", "layout_lmnotes");
 						}
 						break;
 				}
@@ -800,27 +787,29 @@ class ilLMPresentationGUI
 			$ilBench->stop("ContentPresentation", "layout_processContentNodes");
 			
 			$ilBench->stop("ContentPresentation", "layout_processContentTag");
-		}
-		// TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
-		// Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
-		if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
-		if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
-		if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
-		
-	include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-	ilAccordionGUI::addJavaScript();
-	ilAccordionGUI::addCss();
-	
-	// from main menu
-	$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-	$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-	$this->tpl->fillJavaScriptFiles();
-	$this->tpl->fillScreenReaderFocus();
 
-	// :TEMP: in DEVMODE this will die because of missing template blocks
-	// $this->tpl->fillCssFiles();
-	
-	$this->tpl->fillBodyClass();
+			// TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
+			// Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
+			if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
+			if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
+			if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
+
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			ilAccordionGUI::addJavaScript();
+			ilAccordionGUI::addCss();
+
+			// from main menu
+			$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+			$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+			$this->tpl->fillJavaScriptFiles();
+			$this->tpl->fillScreenReaderFocus();
+
+			// :TEMP: in DEVMODE this will die because of missing template blocks
+			$this->tpl->fillCssFiles();
+
+			$this->tpl->fillBodyClass();
+
+		}
 
 		if ($doShow)
 		{
