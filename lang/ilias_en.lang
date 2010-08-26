@@ -6065,7 +6065,7 @@ crs#:#crs_timings_presetting_tbl#:#Time Target
 crs#:#crs_timings_presetting#:#Time Target Enabled
 crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_short_changeable#:#Changeable
-crs#:#crs_timings_short_limit_start_end#:#Changeable
+crs#:#crs_timings_short_limit_start_end#:#Latest End Date
 crs#:#crs_timings_short_start_end#:#Suggestion
 crs#:#crs_timings_start_end_info#:#(Start/End)
 crs#:#crs_timings_start#:#Starting Time
@@ -10855,7 +10855,7 @@ registration#:#reg_allow_codes_info#:#Users are also allowed to register via cod
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass
 rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_admin_permissions#:#Administration Permissions
-ps#:#ps_export_excel#:#Start Excel-Export
+ps#:#ps_export_excel#:#Start Excel Export
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
