@@ -3275,3 +3275,28 @@ if (!$ilDB->tableColumnExists('tst_tests', 'mailnottype'))
 	$query = "UPDATE crs_settings SET view_mode = 0 WHERE view_mode = 3";
 	$ilDB->manipulate($query);
 ?>
+<#3179>
+<?php
+
+// copy permission id
+$query = "SELECT * FROM rbac_operations WHERE operation = ".$ilDB->quote('copy','text');
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$ops_id = $row->ops_id;
+
+$all_types = array('spl','qpl');
+foreach($all_types as $type)
+{
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($type,'text');
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+	$query = "INSERT INTO rbac_ta (typ_id,ops_id) ".
+		"VALUES( ".
+		$ilDB->quote($row->obj_id,'integer').', '.
+		$ilDB->quote($ops_id,'integer').' '.
+		')';
+	$ilDB->manipulate($query);
+}
+?>
+
