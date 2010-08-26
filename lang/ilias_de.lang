@@ -10822,8 +10822,8 @@ grp#:#grp_role_status#:#Rolle/Status
 grp#:#grp_subscriber#:#Aufnahmeantrag gestellt
 grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen, wenn Sie der Nutzungsvereinbarung zustimmen.
 book#:#book_not#:#Nicht
-content#:#cont_new_page#:#New Page###06 08 2010 new variable
-content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
+content#:#cont_new_page#:#Neue Seite
+content#:#cont_new_chap#:#Neues Kapitel
 registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
 registration#:#reg_allow_codes#:#Codes erlauben
 registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Codes registrieren.
@@ -10840,10 +10840,10 @@ survey#:#msg_duplicate_scale#:#Please enter unique scale values###20 08 2010 new
 administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.###20 08 2010 new variable
 administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View###20 08 2010 new variable
 administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
-rbac#:#write#:#Edit Settings###20 08 2010 new variable
-rbac#:#rbac_local_policy#:#Local Policy###20 08 2010 new variable
-rbac#:#role_block_role#:#Block Role###20 08 2010 new variable
-rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.###20 08 2010 new variable
+rbac#:#write#:#Einstellungen bearbeiten
+rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
+rbac#:#role_block_role#:#Rolle sperren
+rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.###20 08 2010 new variable
 rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?###20 08 2010 new variable
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager###20 08 2010 new variable
@@ -10852,14 +10852,14 @@ dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.###20
 dateplaner#:#cal_ch_target_object#:#Repository Object###20 08 2010 new variable
 dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.###20 08 2010 new variable
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.###20 08 2010 new variable
-rbac#:#push_desktop_items#:#Push Items on the Personal Desktop###20 08 2010 new variable
-rbac#:#smtp_mail#:#Send Mail###20 08 2010 new variable
-rbac#:#mail_to_global_roles#:#Mail to Global Roles###20 08 2010 new variable
-rbac#:#add_post#:#Add Post###20 08 2010 new variable
-rbac#:#add_thread#:#Add Thread###20 08 2010 new variable
-rbac#:#moderate_frm#:#Moderate###20 08 2010 new variable
-webr#:#webr_import#:#Import Weblink###20 08 2010 new variable
-frm#:#frm_import#:#Import Forum###20 08 2010 new variable
+rbac#:#push_desktop_items#:#Objekte auf Persönlichen Schreibtisch legen
+rbac#:#smtp_mail#:#Mail versenden
+rbac#:#mail_to_global_roles#:#Mail an globale Rollen
+rbac#:#add_post#:#Beitrag anlegen
+rbac#:#add_thread#:#Thema anlegen
+rbac#:#moderate_frm#:#Moderieren
+webr#:#webr_import#:#Weblink importieren
+frm#:#frm_import#:#Forum importieren
 common#:#sess_fixed_duration#:#Fixe Sitzungsdauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Sitzungseinstellungen
 common#:#sess_mode#:#Sitzungsmodus
