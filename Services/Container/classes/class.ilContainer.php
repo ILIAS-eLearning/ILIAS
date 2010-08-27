@@ -531,7 +531,7 @@ class ilContainer extends ilObject
 	*/
 	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
 	{
-		global $objDefinition, $ilBench, $tree, $ilObjDataCache;
+		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem;
 
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
@@ -602,6 +602,7 @@ class ilContainer extends ilObject
 			$obj_ids_of_type[$type][] = $object["obj_id"];
 			$ref_ids_of_type[$type][] = $object["child"];
 			$all_ref_ids[] = $object["child"];
+			$all_obj_ids[] = $object["obj_id"];
 
 			$this->items["_all"][$key] = $object;
 			if ($object["type"] != "sess")
@@ -632,6 +633,8 @@ class ilContainer extends ilObject
 			$tree->preloadDeleted($all_ref_ids);
 			$tree->preloadDepthParent($all_ref_ids);
 			$ilObjDataCache->preloadReferenceCache($all_ref_ids, true);
+			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
+			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
 
 			self::$data_preloaded = true;
 		}

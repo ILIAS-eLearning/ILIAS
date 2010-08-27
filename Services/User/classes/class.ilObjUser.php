@@ -126,6 +126,9 @@ class ilObjUser extends ilObject
 	*/
 	var $ilias;
 
+	static $is_desktop_item_loaded;
+	static $is_desktop_item_cache;
+
 
 	/**
 	* Constructor
@@ -3199,7 +3202,11 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$item_set = $ilDB->queryF("SELECT * FROM desktop_item WHERE ".
+		if (self::$is_desktop_item_loaded[$a_usr_id.":".$a_item_id])
+		{
+			return self::$is_desktop_item_cache[$a_usr_id.":".$a_item_id.":".$a_type];
+		}
+		$item_set = $ilDB->queryF("SELECT item_id FROM desktop_item WHERE ".
 			"item_id = %s AND type = %s AND user_id = %s",
 			array("integer", "text", "integer"),
 			array($a_item_id, $a_type, $a_usr_id));
@@ -3211,6 +3218,39 @@ class ilObjUser extends ilObject
 		else
 		{
 			return false;
+		}
+	}
+
+	/**
+	 * Preload desktop item information
+	 *
+	 * @param
+	 * @return
+	 */
+	static function preloadIsDesktopItem($a_usr_id, $a_item_ids)
+	{
+		global $ilDB;
+
+		$item_ids = array();
+		foreach ($a_item_ids as $id)
+		{
+			if (!self::$is_desktop_item_loaded[$a_usr_id.":".$id])
+			{
+				$item_ids[] = $id;
+			}
+			self::$is_desktop_item_loaded[$a_usr_id.":".$id] = true;
+		}
+
+		if (count($item_ids) > 0)
+		{
+			$item_set = $ilDB->query("SELECT item_id, type FROM desktop_item WHERE ".
+				$ilDB->in("item_id", $item_ids, false, "integer").
+				" AND user_id = ".$ilDB->quote($a_usr_id, "integer"));
+			while ($r = $ilDB->fetchAssoc($item_set))
+			{
+				self::$is_desktop_item_cache[$a_usr_id.":".$r["item_id"].":".$r["type"]]
+					= true;
+			}
 		}
 	}
 
