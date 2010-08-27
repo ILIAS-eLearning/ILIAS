@@ -1,77 +1,24 @@
-<tr class="{CSS_ROW}">
-	<td class="std"><img src="{ICON}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TITLE}</td>
+<tr class="{CSS_ROW}" valign="top">
+	<td class="std small"><img src="{ICON}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TITLE}</td>
 	<!-- BEGIN user_total -->
-	<td class="std">{USER_TOTAL}</td>
+	<td class="std small">{USER_TOTAL}</td>
 	<!-- END user_total -->
-	<!-- BEGIN country -->
-	<td class="std">
-		<!-- BEGIN country_percentages -->
-		<ul>
-			<!-- BEGIN country_row -->
-			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
-			<!-- END country_row -->
-		</ul>
-		<!-- END country_percentages -->
-	</td>
-	<!-- END country -->
-	<!-- BEGIN create_date_min -->
-	<td class="std">{CREATE_DATE_MIN}</td>
-	<!-- END create_date_min -->
-	<!-- BEGIN create_date_max -->
-	<td class="std">{CREATE_DATE_MAX}</td>
-	<!-- END create_date_max -->
-	<!-- BEGIN gender -->
-	<td class="std">
-		<!-- BEGIN gender_percentages -->
-		<ul>
-			<!-- BEGIN gender_row -->
-			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
-			<!-- END gender_row -->
-		</ul>
-		<!-- END gender_percentages -->
-	</td>
-	<!-- END gender -->
-	<!-- BEGIN city -->
-	<td class="std">
-		<!-- BEGIN city_percentages -->
-		<ul>
-			<!-- BEGIN city_row -->
-			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
-			<!-- END city_row -->
-		</ul>
-		<!-- END city_percentages -->
-	</td>
-	<!-- END city -->
-	<!-- BEGIN language -->
-	<td class="std">
-		<!-- BEGIN language_percentages -->
-		<ul>
-			<!-- BEGIN language_row -->
-			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
-			<!-- END language_row -->
-		</ul>
-		<!-- END language_percentages -->
-	</td>
-	<!-- END language -->
 	<!-- BEGIN read_count_sum -->
-	<td class="std">{READ_COUNT_SUM}</td>
+	<td class="std small">{READ_COUNT_SUM}</td>
 	<!-- END read_count_sum -->
 	<!-- BEGIN read_count_avg -->
-	<td class="std">{READ_COUNT_AVG}</td>
+	<td class="std small">{READ_COUNT_AVG}</td>
 	<!-- END read_count_avg -->
-	<!-- BEGIN first_access_min -->
-	<td class="std">{FIRST_ACCESS_MIN}</td>
-	<!-- END first_access_min -->
-	<!-- BEGIN last_access_max -->
-	<td class="std">{LAST_ACCESS_MAX}</td>
-	<!-- END last_access_max -->
 	<!-- BEGIN spent_seconds_avg -->
-	<td class="std">{SPENT_SECONDS_AVG}</td>
+	<td class="std small">{SPENT_SECONDS_AVG}</td>
 	<!-- END spent_seconds_avg -->
+	<!-- BEGIN percentage_avg -->
+	<td class="std small">{PERCENTAGE_AVG}</td>
+	<!-- END percentage_avg -->
 	<!-- BEGIN status -->
-	<td class="std">
+	<td class="std small">
 		<!-- BEGIN status_percentages -->
-		<ul>
+		<ul style="margin:0; padding:0; padding-left: 15px;">
 			<!-- BEGIN status_row -->
 			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
 			<!-- END status_row -->
@@ -80,9 +27,9 @@
 	</td>
 	<!-- END status -->
 	<!-- BEGIN mark -->
-	<td class="std">
+	<td class="std small">
 		<!-- BEGIN mark_percentages -->
-		<ul>
+		<ul style="margin:0; padding:0; padding-left: 15px;">
 			<!-- BEGIN mark_row -->
 			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
 			<!-- END mark_row -->
@@ -90,7 +37,60 @@
 		<!-- END mark_percentages -->
 	</td>
 	<!-- END mark -->
-	<!-- BEGIN percentage_avg -->
-	<td class="std">{PERCENTAGE_AVG}</td>
-	<!-- END percentage_avg -->
+	<!-- BEGIN gender -->
+	<td class="std small">
+		<!-- BEGIN gender_percentages -->
+		<ul style="margin:0; padding:0; padding-left: 15px;">
+			<!-- BEGIN gender_row -->
+			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
+			<!-- END gender_row -->
+		</ul>
+		<!-- END gender_percentages -->
+	</td>
+	<!-- END gender -->
+	<!-- BEGIN city -->
+	<td class="std small">
+		<!-- BEGIN city_percentages -->
+		<ul style="margin:0; padding:0; padding-left: 15px;">
+			<!-- BEGIN city_row -->
+			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
+			<!-- END city_row -->
+		</ul>
+		<!-- END city_percentages -->
+	</td>
+	<!-- END city -->
+	<!-- BEGIN country -->
+	<td class="std small">
+		<!-- BEGIN country_percentages -->
+		<ul style="margin:0; padding:0; padding-left: 15px;">
+			<!-- BEGIN country_row -->
+			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
+			<!-- END country_row -->
+		</ul>
+		<!-- END country_percentages -->
+	</td>
+	<!-- END country -->
+	<!-- BEGIN language -->
+	<td class="std small">
+		<!-- BEGIN language_percentages -->
+		<ul style="margin:0; padding:0; padding-left: 15px;">
+			<!-- BEGIN language_row -->
+			<li>{CAPTION}: {ABSOLUTE} ({PERCENTAGE}%)</li>
+			<!-- END language_row -->
+		</ul>
+		<!-- END language_percentages -->
+	</td>
+	<!-- END language -->
+	<!-- BEGIN first_access_min -->
+	<td class="std small">{FIRST_ACCESS_MIN}</td>
+	<!-- END first_access_min -->
+	<!-- BEGIN last_access_max -->
+	<td class="std small">{LAST_ACCESS_MAX}</td>
+	<!-- END last_access_max -->
+	<!-- BEGIN create_date_min -->
+	<td class="std small">{CREATE_DATE_MIN}</td>
+	<!-- END create_date_min -->
+	<!-- BEGIN create_date_max -->
+	<td class="std small">{CREATE_DATE_MAX}</td>
+	<!-- END create_date_max -->
 </tr>

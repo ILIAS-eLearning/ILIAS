@@ -62,9 +62,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count",
 			);
 
-		$all = array("user_total", "country", "create_date_min", "create_date_max",
-			"gender", "city", "language","read_count_sum", "read_count_avg", "first_access_min",
-			"last_access_max", "spent_seconds_avg",	"status", "mark", "percentage_avg");
+		$all = array("user_total", "read_count_sum", "read_count_avg", "spent_seconds_avg",
+			"percentage_avg", "status", "mark", "gender", "city", "country", "language", 
+			"first_access_min", "last_access_max", "create_date_min", "create_date_max");
 		
 		$default = array("read_count_sum", "spent_seconds_avg", "status", "mark",
 			"percentage_avg");
