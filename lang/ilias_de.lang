@@ -1076,7 +1076,7 @@ auth#:#auth_radius_charset#:#Zeichenkodierung
 auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die für die Kommunikation mit dem Radius Server genutzt werden soll. Wählen Sie im Zweifelsfall UTF-8.
 barometer#:#anonymous#:#Anonym
 barometer#:#bar_create#:#Neues Barometer
-barometer#:#barometer_add#:#neues Barometer
+barometer#:#barometer_add#:#Neues Barometer
 barometer#:#barometer_conflict_anon_req#:#Anonymisierung und Typ: 'Pflicht' sind zusammen nicht möglich. Bitte wählen Sie nur eine dieser Optionen aus.
 barometer#:#barometer_title#:#Stimmungsbarometer
 barometer#:#best#:#beste
