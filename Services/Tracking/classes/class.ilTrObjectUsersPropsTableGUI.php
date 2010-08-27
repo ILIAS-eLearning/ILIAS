@@ -47,14 +47,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$this->setPrintMode(true);
 		}
 
-		$this->addColumn($this->lng->txt("login"), "login");
-
 		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
+			$first = $c;
 			$this->addColumn($labels[$c]["txt"], $c);
 		}
-
+		
 		if(!$this->getPrintMode())
 		{
 			$this->addColumn($this->lng->txt("actions"), "");
@@ -66,12 +65,15 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.object_users_props_row.html", "Services/Tracking");
 		$this->setEnableTitle(true);
-		$this->setDefaultOrderField("login");
-		$this->setDefaultOrderDirection("asc");
 		$this->setShowTemplates(true);
-
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
+		if($first)
+		{
+			$this->setDefaultOrderField($c);
+			$this->setDefaultOrderDirection("asc");
+		}
+		
 		$this->initFilter();
 
 		$this->getItems();
@@ -100,6 +102,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		// default fields
 		$cols = array();
+		$cols["login"] = array(
+			"txt" => $lng->txt("login"),
+			"default" => true);
 		$cols["firstname"] = array(
 			"txt" => $lng->txt("firstname"),
 			"default" => true);
@@ -250,9 +255,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
-		$item = $this->addFilterItemByMetaType("login", ilTable2GUI::FILTER_TEXT);
-	    $this->filter["login"] = $item->getValue();
-		
 		foreach($this->getSelectableColumns() as $column => $meta)
 		{
 			// no udf!
@@ -271,6 +273,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				case "country":
 				case "email":
 				case "matriculation":
+				case "login":
 					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_TEXT, true, $meta["txt"]);
 					$this->filter[$column] = $item->getValue();
 					break;
@@ -339,43 +342,35 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if (in_array($c, array("firstname", "lastname")))
+			if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
 			{
-				$this->tpl->setCurrentBlock($c);
-				$this->tpl->setVariable("VAL_".strtoupper($c), $data[$c]);
-			}
-			else	
-			{
-			    if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
+				include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
+				if(ilCourseItems::_hasCollectionTimings($this->ref_id) && ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
 				{
-					include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-					if(ilCourseItems::_hasCollectionTimings($this->ref_id) && ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
-					{
-						$this->tpl->setCurrentBlock('warning_img');
-						$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
-						$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
-						$this->tpl->parseCurrentBlock();
-					}
+					$this->tpl->setCurrentBlock('warning_img');
+					$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
+					$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+					$this->tpl->parseCurrentBlock();
 				}
-
-				$this->tpl->setCurrentBlock("user_field");
-				$val = $this->parseValue($c, $data[$c], "user");
-				$this->tpl->setVariable("VAL_UF", $val);
 			}
 
+			$this->tpl->setCurrentBlock("user_field");
+			$val = $this->parseValue($c, $data[$c], "user");
+			$this->tpl->setVariable("VAL_UF", $val);
 			$this->tpl->parseCurrentBlock();
 		}
-				
-		$this->tpl->setVariable("VAL_LOGIN", $data["login"]);
 		
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
 		
-		$this->tpl->setVariable("HREF_LOGIN", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
-
 		if(!$this->getPrintMode())
 		{
 			$this->tpl->setCurrentBlock("item_command");
-			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
+			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('details'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("item_command");
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
 			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -385,10 +380,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 	protected function fillHeaderExcel($worksheet, &$a_row)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt("login"));
-
 		$labels = $this->getSelectableColumns();
-		$cnt = 1;
+		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
@@ -398,9 +391,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 	protected function fillRowExcel($worksheet, &$a_row, $a_set)
 	{
-		$worksheet->write($a_row, 0, $a_set["login"]);
-
-		$cnt = 1;
+		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if($c != 'status')
@@ -418,8 +409,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 	protected function fillHeaderCSV($a_csv)
 	{
-		$a_csv->addColumn($this->lng->txt("login"));
-
 		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -431,8 +420,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 	protected function fillRowCSV($a_csv, $a_set)
 	{
-		$a_csv->addColumn($a_set["login"]);
-
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if($c != 'status')
