@@ -24,7 +24,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
-		$this->setId("trsmtx");
+		$this->setId("trsmtx_".$ref_id);
 		$this->ref_id = $ref_id;
 		$this->obj_id = ilObject::_lookupObjId($ref_id);
 
