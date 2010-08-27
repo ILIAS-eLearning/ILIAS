@@ -17,7 +17,7 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI, ilLPListOfObjectsGUI
+ * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI
  * @ingroup ServicesTracking
  */
 class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI

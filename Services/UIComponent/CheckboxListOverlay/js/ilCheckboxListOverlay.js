@@ -8,8 +8,8 @@ ilCheckboxListOverlayFunc.prototype =
 			success: function(o) {},
 			failure: function(o) {}
 		};
-console.log(url);
-console.log(chb);
+// console.log(url);
+// console.log(chb);
 //		var request = YAHOO.util.Connect.asyncRequest('GET', url, callb);
 		
 		return false;
