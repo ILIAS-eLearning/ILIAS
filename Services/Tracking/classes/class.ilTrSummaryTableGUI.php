@@ -29,7 +29,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->setPrintMode(true);
 		}
 
-		// $this->setTitle($lng->txt("tr_summary"));
+		$this->parseTitle(ilObject::_lookupObjId($a_ref_id), "trac_summary");
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
 

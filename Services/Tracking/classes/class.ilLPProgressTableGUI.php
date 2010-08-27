@@ -19,7 +19,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $objectives_mode = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
 
 		$this->tracked_user = $a_user;
 		$this->obj_ids = $obj_ids;
@@ -52,6 +52,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		}
 		else
 		{
+			$this->parseTitle($a_parent_obj->details_obj_id, "trac_subitems");
+
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
 			$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");

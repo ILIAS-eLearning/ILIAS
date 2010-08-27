@@ -460,6 +460,28 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		return false;
 	}
+
+	protected function parseTitle($a_obj_id, $action, $a_user_id = false)
+	{
+		global $lng, $ilObjDataCache, $ilUser;
+
+		$user = "";
+		if($a_user_id)
+		{
+			if($a_user_id != $ilUser->getId())
+			{
+				$a_user = ilObjectFactory::getInstanceByObjId($a_user_id);
+			}
+			else
+			{
+				$a_user = $ilUser;
+			}
+			$user .= ", ".$a_user->getFullName(); // " [".$a_user->getLogin()."]";
+		}
+
+		$this->setTitle($lng->txt($action).": ".$ilObjDataCache->lookupTitle($a_obj_id).$user);
+		$this->setDescription($this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($a_obj_id)));
+	}
 }
 
 ?>

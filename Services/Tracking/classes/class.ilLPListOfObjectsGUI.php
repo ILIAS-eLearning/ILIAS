@@ -150,7 +150,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->__appendUserInfo($info, (int)$_GET['user_id']);
 		// $this->__appendLPDetails($info,$this->details_obj_id,(int)$_GET['user_id']);
 
-		$this->tpl->setVariable("ADM_CONTENT", $info->getHTML().$this->__showEditUser((int)$_GET['user_id'], $parent_id, $cancel, $sub_id));
+		$this->tpl->setVariable("ADM_CONTENT", $this->__showEditUser((int)$_GET['user_id'], $parent_id, $cancel, $sub_id)."<br />".$info->getHTML());
 	}
 
 	function details()
@@ -188,8 +188,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($this->ctrl->getFormAction($this));
-		$this->__showObjectDetails($info, $this->details_obj_id);
-		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
+		if($this->__showObjectDetails($info, $this->details_obj_id))
+		{
+			$this->tpl->setCurrentBlock("info");
+			$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->__showUsersList($print_view);
 	}
@@ -382,8 +386,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($this->ctrl->getFormAction($this));
-		$this->__showObjectDetails($info, $this->details_obj_id);
-		$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
+		if($this->__showObjectDetails($info, $this->details_obj_id))
+		{
+			$this->tpl->setCurrentBlock("info");
+			$this->tpl->setVariable("INFO_TABLE",$info->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
 
 		include_once("./Services/Tracking/classes/class.ilTrMatrixTableGUI.php");
 		$table = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->getRefId());
