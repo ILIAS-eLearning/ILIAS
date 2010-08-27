@@ -23873,6 +23873,9 @@ $ilDB->insert("rbac_ta", array(
 'typ_id' => array('integer', '95'), 'ops_id' => array('integer', '6')));
 
 $ilDB->insert("rbac_ta", array(
+'typ_id' => array('integer', '95'), 'ops_id' => array('integer', '58')));
+
+$ilDB->insert("rbac_ta", array(
 'typ_id' => array('integer', '96'), 'ops_id' => array('integer', '1')));
 
 $ilDB->insert("rbac_ta", array(
@@ -23988,6 +23991,9 @@ $ilDB->insert("rbac_ta", array(
 
 $ilDB->insert("rbac_ta", array(
 'typ_id' => array('integer', '104'), 'ops_id' => array('integer', '6')));
+
+$ilDB->insert("rbac_ta", array(
+'typ_id' => array('integer', '104'), 'ops_id' => array('integer', '58')));
 
 $ilDB->insert("rbac_ta", array(
 'typ_id' => array('integer', '106'), 'ops_id' => array('integer', '1')));
@@ -29625,7 +29631,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '3178')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '3179')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
