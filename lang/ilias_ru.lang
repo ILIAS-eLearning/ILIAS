@@ -10886,10 +10886,10 @@ common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user nam
 common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:###27 08 2010 new variable
 common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
 common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
-common#:#disk_quota_summay_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
 common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
 trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
+common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
