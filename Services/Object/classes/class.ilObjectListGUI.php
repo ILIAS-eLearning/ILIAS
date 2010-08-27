@@ -2563,6 +2563,7 @@ class ilObjectListGUI
 			? $this->reference_ref_id
 			: $this->ref_id;
 
+		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
 		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$id_ref.'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		

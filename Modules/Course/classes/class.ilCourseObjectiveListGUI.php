@@ -122,6 +122,20 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 */
 	public function insertTitle()
 	{
+		global $ilUser;
+
+		if(
+			ilCourseObjectiveResultCache::getStatus($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id) != IL_OBJECTIVE_STATUS_NONE and 
+			ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id)
+		)
+		{
+			$this->tpl->setVariable('DIV_CLASS','ilContainerListItemOuterHighlight');
+		}
+		else
+		{
+			$this->tpl->setVariable('DIV_CLASS','ilContainerListItemOuter');
+		}
+
 		if(!$this->getCommandsStatus())
 		{
 			$this->tpl->setCurrentBlock("item_title");
@@ -129,7 +143,8 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 			return true;
 		}
-		
+
+
 		$this->tpl->setCurrentBlock("item_title_linked");
 		$this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
 		$this->tpl->setVariable("HREF_TITLE_LINKED",'repository.php?ref_id='.$this->getContainerObject()->object->getRefId().'&objective_details='.$this->obj_id);

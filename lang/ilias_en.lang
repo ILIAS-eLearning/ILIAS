@@ -5786,7 +5786,7 @@ crs#:#crs_info_reg_direct#:#You can join this course directly.
 crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course.
 crs#:#crs_info_reg#:#Admittance
 crs#:#crs_info_settings#:#Course Information
-crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
+crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all marked objects new course items will be activated.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_join_request#:#Send
