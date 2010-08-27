@@ -26799,6 +26799,7 @@ INSERT INTO `rbac_ta` VALUES (95,2);
 INSERT INTO `rbac_ta` VALUES (95,3);
 INSERT INTO `rbac_ta` VALUES (95,4);
 INSERT INTO `rbac_ta` VALUES (95,6);
+INSERT INTO `rbac_ta` VALUES (95,58);
 INSERT INTO `rbac_ta` VALUES (96,1);
 INSERT INTO `rbac_ta` VALUES (96,2);
 INSERT INTO `rbac_ta` VALUES (96,3);
@@ -26838,6 +26839,7 @@ INSERT INTO `rbac_ta` VALUES (104,2);
 INSERT INTO `rbac_ta` VALUES (104,3);
 INSERT INTO `rbac_ta` VALUES (104,4);
 INSERT INTO `rbac_ta` VALUES (104,6);
+INSERT INTO `rbac_ta` VALUES (104,58);
 INSERT INTO `rbac_ta` VALUES (106,1);
 INSERT INTO `rbac_ta` VALUES (106,2);
 INSERT INTO `rbac_ta` VALUES (106,3);
@@ -29130,7 +29132,7 @@ CREATE TABLE `settings` (
 
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` VALUES ('common','convert_path','');
-INSERT INTO `settings` VALUES ('common','db_version','3178');
+INSERT INTO `settings` VALUES ('common','db_version','3179');
 INSERT INTO `settings` VALUES ('common','ilias_version','3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('common','inst_info','');
 INSERT INTO `settings` VALUES ('common','inst_name','');
@@ -32180,4 +32182,4 @@ CREATE TABLE `xmlvalue_seq` (
 /*!40000 ALTER TABLE `xmlvalue_seq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `xmlvalue_seq` ENABLE KEYS */;
 
--- Dump completed on 2010-08-20 22:17:41
+-- Dump completed on 2010-08-27 23:12:35
