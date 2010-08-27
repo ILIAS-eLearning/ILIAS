@@ -3231,6 +3231,11 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
+		if (!is_array($a_item_ids))
+		{
+			return;
+		}
+
 		$item_ids = array();
 		foreach ($a_item_ids as $id)
 		{
