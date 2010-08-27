@@ -129,7 +129,7 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 				$this->initLanguage($usrId);
 				$this->initMail();
 				
-				$this->setSubject($this->getLanguage()->txt('disk_quota_summay_subject'));
+				$this->setSubject($this->getLanguage()->txt('disk_quota_summary_subject'));
 				
 				$this->setBody(ilMail::getSalutation($usrId, $this->getLanguage()));	
 				
