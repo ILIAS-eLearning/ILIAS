@@ -117,6 +117,10 @@ class ilTree
 	*/
 	var $gap;
 
+	protected $depth_cache = array();
+	protected $parent_cache = array();
+
+
 	/**
 	* Constructor
 	* @access	public
@@ -327,7 +331,7 @@ class ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		global $ilBench,$ilDB;
+		global $ilBench,$ilDB, $ilObjDataCache, $ilUser;
 		
 		if (!isset($a_node_id))
 		{
@@ -369,8 +373,25 @@ class ilTree
 		{
 			return array();
 		}
-		
-		while($row = $ilDB->fetchAssoc($res))
+
+		// get rows and object ids
+		$rows = array();
+		while($r = $ilDB->fetchAssoc($res))
+		{
+			$rows[] = $r;
+			$obj_ids[] = $r["obj_id"];
+		}
+
+		// preload object translation information
+		if ($this->__isMainTree() && $this->isCacheUsed() && is_object($ilObjDataCache) &&
+			is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !$this->trans_preloaded[$a_node_id])
+		{
+			$ilObjDataCache->preloadTranslations($obj_ids, $this->lang_code);
+			$this->fetchTranslationFromObjectDataCache($obj_ids);
+			$this->trans_preloaded[$a_node_id] = true;
+		}
+
+		foreach ($rows as $row)
 		{
 			$childs[] = $this->fetchNodeData($row);
 
@@ -1195,24 +1216,33 @@ class ilTree
 		}
 		
 		global $log, $ilDB;
-		
-		$types = array('integer','integer');
-		$data = array($a_endnode_id,$this->tree_id);
-		
-		$query = 'SELECT t.depth, t.parent '.
-			'FROM '.$this->table_tree.' t '.
-			'WHERE child = %s '.
-			'AND '.$this->tree_pk.' = %s ';
-		$res = $ilDB->queryF($query,$types,$data);
-		
-		if($res->numRows() == 0)
+
+		if ($this->__isMainTree() && isset($this->depth_cache[$a_endnode_id])
+			&& isset($this->parent_cache[$a_endnode_id]))
 		{
-			return array();
+			$nodeDepth = $this->depth_cache[$a_endnode_id];
+			$parentId = $this->parent_cache[$a_endnode_id];
 		}
-		
-		$row = $ilDB->fetchAssoc($res);
-		$nodeDepth = $row['depth'];
-		$parentId = $row['parent'];
+		else
+		{
+			$types = array('integer','integer');
+			$data = array($a_endnode_id,$this->tree_id);
+			$query = 'SELECT t.depth, t.parent '.
+				'FROM '.$this->table_tree.' t '.
+				'WHERE child = %s '.
+				'AND '.$this->tree_pk.' = %s ';
+			$res = $ilDB->queryF($query,$types,$data);
+
+			if($res->numRows() == 0)
+			{
+				return array();
+			}
+
+			$row = $ilDB->fetchAssoc($res);
+			$nodeDepth = $row['depth'];
+			$parentId = $row['parent'];
+		}
+
 			//$this->writelog('getIdsUsingAdjacencyMap depth='.$nodeDepth);
 
 		// Fetch the node ids. For shallow depths we can fill in the id's directly.	
@@ -1294,6 +1324,32 @@ class ilTree
 		}
 		
 		return $pathIds;
+	}
+
+	/**
+	 * Preload depth/parent
+	 *
+	 * @param
+	 * @return
+	 */
+	function preloadDepthParent($a_node_ids)
+	{
+		global $ilDB;
+
+		if (!$this->__isMainTree() || !is_array($a_node_ids) || !$this->isCacheUsed())
+		{
+			return;
+		}
+
+		$res = $ilDB->query('SELECT t.depth, t.parent, t.child '.
+			'FROM '.$this->table_tree.' t '.
+			'WHERE '.$ilDB->in("child", $a_node_ids, false, "integer").
+			'AND '.$this->tree_pk.' = '.$ilDB->quote($this->tree_id, "integer"));
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			$this->depth_cache[$row["child"]] = $row["depth"];
+			$this->parent_cache[$row["child"]] = $row["parent"];
+		}
 	}
 
 	/**
@@ -1758,7 +1814,6 @@ class ilTree
 				$data["desc"] = $this->translation_cache[$key]['desc'];
 			} else {
 				// Object translation is not in cache, read it from database
-
 				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
 				$query = 'SELECT title,description FROM object_translation '.
 					'WHERE obj_id = %s '.
@@ -1790,7 +1845,7 @@ class ilTree
 				}
 			}
 		}
-		
+
 		// TODO: Handle this switch by module.xml definitions
 		if($data['type'] == 'crsr' or $data['type'] == 'catr')
 		{
@@ -1799,6 +1854,27 @@ class ilTree
 		}
 
 		return $data ? $data : array();
+	}
+
+	/**
+	 * Get translation data from object cache (trigger in object cache on preload)
+	 *
+	 * @param	array	$a_obj_ids		object ids
+	 */
+	protected function fetchTranslationFromObjectDataCache($a_obj_ids)
+	{
+		global $ilObjDataCache;
+
+		if ($this->isCacheUsed() && is_array($a_obj_ids) && is_object($ilObjDataCache))
+		{
+			foreach ($a_obj_ids as $id)
+			{
+				$this->translation_cache[$id.'.']['title'] = $ilObjDataCache->lookupTitle($id);
+				$this->translation_cache[$id.'.']['description'] = $ilObjDataCache->lookupDescription($id);;
+				$this->translation_cache[$id.'.']['desc'] =
+					$this->translation_cache[$id.'.']['description'];
+			}
+		}
 	}
 
 

@@ -531,7 +531,7 @@ class ilContainer extends ilObject
 	*/
 	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
 	{
-		global $objDefinition, $ilBench, $tree;
+		global $objDefinition, $ilBench, $tree, $ilObjDataCache;
 
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
@@ -628,8 +628,10 @@ class ilContainer extends ilObject
 				}
 			}
 
-			// tree deleted info preload
+			// general preloads
 			$tree->preloadDeleted($all_ref_ids);
+			$tree->preloadDepthParent($all_ref_ids);
+			$ilObjDataCache->preloadReferenceCache($all_ref_ids, true);
 
 			self::$data_preloaded = true;
 		}
