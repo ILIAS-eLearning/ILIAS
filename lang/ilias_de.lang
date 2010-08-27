@@ -1096,7 +1096,7 @@ barometer#:#feedb_feedback_list#:#Liste der Barometer
 barometer#:#feedb_feedback_settings#:#Einstellungen Barometer
 barometer#:#feedb_time#:#Zeit
 barometer#:#first_vote#:#1. Wertung ist die
-barometer#:#from#:#von
+barometer#:#from#:#Starttermin
 barometer#:#hours#:#Stunden
 barometer#:#lines#:#Liniendiagramm
 barometer#:#login#:#Benutzername
@@ -1121,7 +1121,7 @@ barometer#:#text_answer#:#Textantwort
 barometer#:#time#:#Laufzeit
 barometer#:#title#:#Titel
 barometer#:#type#:#Typ
-barometer#:#until#:#bis
+barometer#:#until#:#Endtermin
 barometer#:#user#:#Benutzer
 barometer#:#vote#:#Note
 barometer#:#votes#:#Wertungen
