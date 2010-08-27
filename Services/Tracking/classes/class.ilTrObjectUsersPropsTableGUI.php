@@ -131,10 +131,16 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				"txt" => $lng->txt("trac_percentage"),
 				"default" => true);
 		}
-	
-		$cols["status"] = array(
-			"txt" => $lng->txt("trac_status"),
-			"default" => true);
+
+		// do not show status if learning progress is deactivated
+		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		{
+			$cols["status"] = array(
+				"txt" => $lng->txt("trac_status"),
+				"default" => true);
+		}
+		
 		$cols["mark"] = array(
 			"txt" => $lng->txt("trac_mark"),
 			"default" => true);
