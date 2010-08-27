@@ -2049,9 +2049,10 @@ class ilTable2GUI extends ilTableGUI
 					}
 					$this->tpl->parseCurrentBlock();
 
-					$this->tpl->setCurrentBlock("filter_deactivation");
+					
 					if (!$this->getDisableFilterHiding())
 					{
+						$this->tpl->setCurrentBlock("filter_deactivation");
 						$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide_filter"));
 						if ($this->getId() != "")
 						{
@@ -2059,8 +2060,9 @@ class ilTable2GUI extends ilTableGUI
 								$this->getId()."&cmd=hideFilter&user_id=".$ilUser->getId());
 							$this->tpl->setVariable("FILD_ID", $this->getId());
 						}
+						$this->tpl->parseCurrentBlock();
 					}
-					$this->tpl->parseCurrentBlock();
+					
 				}
 				
 				if ($numinfo != "" && $this->getEnableNumInfo())
