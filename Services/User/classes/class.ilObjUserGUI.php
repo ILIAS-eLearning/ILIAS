@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./classes/class.ilObjectGUI.php";
+include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 
 /**
 * Class ilObjUserGUI
@@ -1234,7 +1235,8 @@ class ilObjUserGUI extends ilObjectGUI
 							;
 					}
 					$info .= '</table>';
-					$info .= '<br>'.$this->lng->txt('last_update').': '.ilFormat::formatDate($du_info['last_update'], 'datetime', true);
+					$info .= '<br>'.$this->lng->txt('last_update').': '.
+						ilDatePresentation::formatDate(new ilDateTime($du_info['last_update'], IL_CAL_DATETIME));
 					$disk_usage->setInfo($info);
 
 				}
@@ -1244,7 +1246,9 @@ class ilObjUserGUI extends ilObjectGUI
 				if (true || $dq_info['last_reminder'])
 				{
 					$reminder = new ilNonEditableValueGUI($lng->txt("disk_quota_last_reminder_sent"), "last_reminder");
-					$reminder->setValue(ilFormat::formatDate($dq_info['last_reminder'], 'datetime', true));
+					$reminder->setValue(
+						ilDatePresentation::formatDate(new ilDateTime($dq_info['last_reminder'], IL_CAL_DATETIME))
+					);
 					$reminder->setInfo($this->lng->txt("disk_quota_last_reminder_sent_desc"));
 					$this->form_gui->addItem($reminder);
 				}
