@@ -35,8 +35,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		// $this->setShowTemplates(true);
 
-		$this->addColumn("", "");
-		$this->addColumn($this->lng->txt("name"), "name");
+		$this->addColumn('','',0);
+		$this->addColumn($this->lng->txt("name"), "name",'70%');
 		$this->addColumn($this->lng->txt("crs_groups_nr"), "groups_nr");
 		$this->addColumn($this->lng->txt("groups"));
 
@@ -186,7 +186,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 					{
 						$this->tpl->setCurrentBlock("groups_remove");
 
-						$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("remove"));
+						$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("crs_unsubscribe"));
 
 						$ilCtrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
 						$ilCtrl->setParameter($this->parent_obj, "grp_id", $grp_id);
