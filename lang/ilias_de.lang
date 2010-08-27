@@ -10410,7 +10410,7 @@ tbl#:#tbl_export_excel#:#.xls exportieren
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
-crs#:#crs_members_groups#:#Kursteilnehmer-Gruppen
+crs#:#crs_members_groups#:#Mitgliedschaften in Gruppen
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
 exc#:#exc_submission_notification#:#Mail Benachrichtigung bei Abgaben
