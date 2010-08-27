@@ -32,6 +32,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->parseTitle(ilObject::_lookupObjId($a_ref_id), "trac_summary");
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
 		$this->addColumn($this->lng->txt("title"), "title");
 
@@ -46,6 +47,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
 		$this->initFilter($a_parent_obj->getObjId());
+
 
 		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
 	}
@@ -255,7 +257,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			$perc = round($others_sum/$overall*100);
 			$result[] = array(
-				"caption" => $otherss_counter."  ".$lng->txt("more"),
+				"caption" => $otherss_counter."  ".$lng->txt("trac_others"),
 				"absolute" => $others_sum." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
 				"percentage" => $perc
 				);
@@ -379,21 +381,181 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	protected function renderPercentages($id, $data)
 	{
-	  if($data)
-	  {		  
-		  foreach($data as $item)
-		  {
-			$this->tpl->setCurrentBlock($id."_row");
-			$this->tpl->setVariable("CAPTION", $item["caption"]);
-			$this->tpl->setVariable("ABSOLUTE", $item["absolute"]);
-			$this->tpl->setVariable("PERCENTAGE", $item["percentage"]);
-			$this->tpl->parseCurrentBlock();
-		  }
-	   }
-	   else
-	   {
+		if($data)
+		{
+			foreach($data as $item)
+			{
+				$this->tpl->setCurrentBlock($id."_row");
+				$this->tpl->setVariable("CAPTION", $item["caption"]);
+				$this->tpl->setVariable("ABSOLUTE", $item["absolute"]);
+				$this->tpl->setVariable("PERCENTAGE", $item["percentage"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
 		   $this->tpl->touchBlock($id);;
-	   }
+		}
+	}
+
+	protected function isArrayColumn($a_name)
+	{
+		if(in_array($a_name, array("country", "gender", "city", "language", "status", "mark")))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	protected function fillHeaderExcel($worksheet, &$a_row)
+	{
+		$worksheet->write($a_row, 0, $this->lng->txt("title"));
+
+		$labels = $this->getSelectableColumns();
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			$label = $labels[$c]["txt"];
+			$label = str_replace("&#216;", $this->lng->txt("trac_average"), $label);
+			$label = str_replace("&#8721;", $this->lng->txt("trac_sum"), $label);
+			
+			if(!$this->isArrayColumn($c))
+			{
+				$worksheet->write($a_row, $cnt, $label);
+				$cnt++;
+			}
+			else
+			{
+				$worksheet->write($a_row, $cnt, $label." #1");
+				$worksheet->write($a_row, ++$cnt, $label." #1");
+				$worksheet->write($a_row, ++$cnt, $label." #1 %");
+				$worksheet->write($a_row, ++$cnt, $label." #2");
+				$worksheet->write($a_row, ++$cnt, $label." #2");
+				$worksheet->write($a_row, ++$cnt, $label." #2 %");
+				$worksheet->write($a_row, ++$cnt, $label." #3");
+				$worksheet->write($a_row, ++$cnt, $label." #3");
+				$worksheet->write($a_row, ++$cnt, $label." #3 %");
+				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others")." %");
+				$cnt++;
+			}
+		}
+	}
+
+	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	{
+		$worksheet->write($a_row, 0, $a_set["title"]);
+
+		$cnt = 1;
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(!$this->isArrayColumn($c))
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+				$worksheet->write($a_row, $cnt, $val);
+				$cnt++;
+			}
+			else
+			{
+				foreach($a_set[$c] as $idx => $value)
+				{
+					if($c == "status")
+					{
+						preg_match("/alt=\"([^\"]+)\"/", $value["caption"], $res);
+						$value["caption"] = $res[1];
+					}
+					$worksheet->write($a_row, $cnt, $value["caption"]);
+					$worksheet->write($a_row, ++$cnt, (int)$value["absolute"]);
+					$worksheet->write($a_row, ++$cnt, $value["percentage"]);
+					$cnt++;
+				}
+				if(sizeof($a_set[$c]) < 4)
+				{
+					for($loop = 4; $loop > sizeof($a_set[$c]); $loop--)
+					{
+						$worksheet->write($a_row, $cnt, "");
+						$worksheet->write($a_row, ++$cnt, "");
+						$worksheet->write($a_row, ++$cnt, "");
+						$cnt++;
+					}
+				}
+			}
+		}
+	}
+
+	protected function fillHeaderCSV($a_csv)
+	{
+		$a_csv->addColumn($this->lng->txt("title"));
+
+		$labels = $this->getSelectableColumns();
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			$label = $labels[$c]["txt"];
+			$label = str_replace("&#216;", $this->lng->txt("trac_average"), $label);
+			$label = str_replace("&#8721;", $this->lng->txt("trac_sum"), $label);
+
+			if(!$this->isArrayColumn($c))
+			{
+				$a_csv->addColumn($label);
+			}
+			else
+			{
+				$a_csv->addColumn($label." #1");
+				$a_csv->addColumn($label." #1");
+				$a_csv->addColumn($label." #1 %");
+				$a_csv->addColumn($label." #2");
+				$a_csv->addColumn($label." #2");
+				$a_csv->addColumn($label." #2 %");
+				$a_csv->addColumn($label." #3");
+				$a_csv->addColumn($label." #3");
+				$a_csv->addColumn($label." #3 %");
+				$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
+				$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
+				$a_csv->addColumn($label." ".$this->lng->txt("trac_others")." %");
+			}
+		}
+
+		$a_csv->addRow();
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($a_set["title"]);
+
+		foreach ($this->getSelectedColumns() as $c)
+		{
+			if(!$this->isArrayColumn($c))
+			{
+				$val = $this->parseValue($c, $a_set[$c], "user");
+				$a_csv->addColumn($val);
+			}
+			else
+			{
+				foreach($a_set[$c] as $idx => $value)
+				{
+					if($c == "status")
+					{
+						preg_match("/alt=\"([^\"]+)\"/", $value["caption"], $res);
+						$value["caption"] = $res[1];
+					}
+					$a_csv->addColumn($value["caption"]);
+					$a_csv->addColumn((int)$value["absolute"]);
+					$a_csv->addColumn($value["percentage"]);
+				}
+				if(sizeof($a_set[$c]) < 4)
+				{
+					for($loop = 4; $loop > sizeof($a_set[$c]); $loop--)
+					{
+						$a_csv->addColumn("");
+						$a_csv->addColumn("");
+						$a_csv->addColumn("");
+					}
+				}
+			}
+		}
+
+		$a_csv->addRow();
 	}
 }
 ?>
