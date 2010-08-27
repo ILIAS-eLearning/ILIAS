@@ -10381,7 +10381,7 @@ user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerz
 user#:#restrict_user_access#:#Eingeschänkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option, um den Zugriff auf Benutzerkonten zu beschränken.  Nur die Benutzer, denen das Recht "Lesezugriff auf Benutzerkonten" gewährt wird, haben Zugriff auf die entsprechenden Benutzerkonten in Kategorien und auf die globalen Benutzerkonten.
 common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung
-common#:#sort_inherit_prefix#:#Default
+common#:#sort_inherit_prefix#:#Standard
 common#:#sorting_info_inherit#:#Die Sortierung wird vom übergeordneten Kurs übernommen.
 trac#:#trac_subitems#:#Unterobjekte zeigen
 trac#:#trac_participants#:#Teilnehmer zeigen
