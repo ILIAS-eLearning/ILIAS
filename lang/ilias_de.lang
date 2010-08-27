@@ -10863,3 +10863,4 @@ frm#:#frm_import#:#Forum importieren
 common#:#sess_fixed_duration#:#Fixe Sitzungsdauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Sitzungseinstellungen
 common#:#sess_mode#:#Sitzungsmodus
+trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.

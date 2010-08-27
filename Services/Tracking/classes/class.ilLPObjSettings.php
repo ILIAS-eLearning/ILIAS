@@ -391,7 +391,7 @@ class ilLPObjSettings
 		switch($a_mode)
 		{
 			case LP_MODE_DEACTIVATED:
-				return $lng->txt('trac_mode_deactivated_info');
+				return $lng->txt('trac_mode_deactivated_info_new');
 
 			case LP_MODE_TLT:
 				return $lng->txt('trac_mode_tlt_info');

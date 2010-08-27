@@ -10859,3 +10859,4 @@ ps#:#ps_export_excel#:#Start Excel Export
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
+trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.
