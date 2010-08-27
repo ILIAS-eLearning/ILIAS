@@ -10870,3 +10870,5 @@ common#:#usrf_profile_link#:#Link to user profile
 common#:#currently_used_disk_space#:#Currently used disk space
 common#:#disk_quota_summay_subject#:#Summary of Exceeded Disk Quota
 common#:#cronjob_last_start_unknown#:#Indeterminate
+trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
+trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.

@@ -10874,3 +10874,5 @@ common#:#usrf_profile_link#:#Link zum Benutzerkonto
 common#:#currently_used_disk_space#:#Aktueller Speicherverbrauch
 common#:#disk_quota_summay_subject#:#Zusammenfassung von überschrittenen Disk Quotas
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
+trac#:#trac_lp_determination_tutor#:#Anzeige von Objekten im Lernfortschritt
+trac#:#trac_lp_determination_info_crs_tutor#:#Diese Auswahl hat keinen Einfluss auf den Lernfortschrittsstatus.
