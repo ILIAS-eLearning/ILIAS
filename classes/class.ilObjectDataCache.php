@@ -225,7 +225,6 @@ class ilObjectDataCache
 		{
 			$a_lang = $ilUser->getLanguage();
 		}
-		
 //echo "<br>-preloading-"; var_dump($a_obj_ids);
 		if (!is_array($a_obj_ids)) return;
 		if (count($a_obj_ids) == 0) return;

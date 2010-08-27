@@ -393,7 +393,6 @@ class ilDAVLocks
 		global $ilDB;
 		$this->writelog('getLocks('.$objDAV.')');
 		$nodeId = 0;
-		
 		$q = 'SELECT ilias_owner, dav_owner, token, expires, depth, scope'
 				.' FROM '.$this->table
 				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
