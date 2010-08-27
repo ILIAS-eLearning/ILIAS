@@ -39,6 +39,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	const MATERIALS_TESTS = 1;
 	const MATERIALS_OTHER = 2;
 	
+	private $output_html = '';
+	
 	/**
 	 * Constructor
 	 *
@@ -104,12 +106,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$this->showObjectives($tpl);
 		$this->showMaterials($tpl,self::MATERIALS_TESTS);
 		$this->showMaterials($tpl,self::MATERIALS_OTHER);
-			
-		// @todo: Move this completely to GUI class?
-/*		$this->getContainerGUI()->adminCommands = $this->adminCommands;
-		$this->getContainerGUI()->showAdministrationPanel($tpl);
-		$this->getContainerGUI()->showPossibleSubObjects();
-		$this->getContainerGUI()->showPermanentLink($tpl);*/
+
+		$tpl->setVariable('CONTAINER_PAGE_CONTENT',$this->output_html);		
+		#$tpl->setVariable('cont_page_content',$info_tpl->get());
+		#$tpl->parseCurrentBlock('CONTAINER_PAGE_CONTENT',$this->output_html);
+		#$tpl->parseCurrentBlock();
 
 		return $tpl->get();
 	}
@@ -127,7 +128,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
 		
-		$tpl->setCurrentBlock('cont_page_content');
 		
 		$status = ilCourseObjectiveResultCache::getStatus($ilUser->getId(),$this->getContainerObject()->getId());
 		if($status == IL_OBJECTIVE_STATUS_EMPTY) {
@@ -136,11 +136,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html',true,true,'Modules/Course');
 		$info_tpl->setVariable("INFO_STRING",$lng->txt('crs_objectives_info_'.$status));
 		$info_tpl->setVariable("IMG_INFO", ilUtil::getImagePath("mess_info.gif"));
-//		ilUtil::sendInfo($this->lng->txt('crs_objectives_info_'.$status));
-		
-		$tpl->setVariable('CONTAINER_PAGE_CONTENT',$info_tpl->get());
-		$tpl->parseCurrentBlock();
-		
+
+		$this->output_html .= $info_tpl->get();
 	}
 	
 	/**
@@ -156,6 +153,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		$this->clearAdminCommandsDetermination();
 		$output_html = $this->getContainerGUI()->getContainerPageHTML();
+		
 		
 		// get embedded blocks
 		if ($output_html != "")
@@ -201,13 +199,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		
 		$this->addFooterRow($tpl);
-
-		$output_html .= $tpl->get();
-		$a_tpl->setCurrentBlock('cont_page_content');
-		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
-		$a_tpl->parseCurrentBlock();
-		
-	
+		$this->output_html .= $output_html.$tpl->get();
 	}
 	
 	/**
@@ -255,7 +247,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 		$this->clearAdminCommandsDetermination();
 		
-		$output_html = $this->getContainerGUI()->getContainerPageHTML();
+		#$output_html = $this->getContainerGUI()->getContainerPageHTML();
 		
 		// get embedded blocks
 		if ($output_html != "")
@@ -312,10 +304,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			}
 		}
 
-		$output_html .= $tpl->get();
-		$a_tpl->setCurrentBlock('cont_page_content');
-		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
-		$a_tpl->parseCurrentBlock();
+		#$output_html .= $tpl->get();
+		$this->output_html .= $tpl->get();
+		#$a_tpl->setCurrentBlock('cont_page_content');
+		#$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
+		#$a_tpl->parseCurrentBlock();
 	}
 	
 	/**
