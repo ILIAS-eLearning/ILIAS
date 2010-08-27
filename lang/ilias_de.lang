@@ -4601,7 +4601,7 @@ common#:#ums_explanation_2#:#Sollte dies nicht Ihre Benutzerkennung sein, klicke
 common#:#ums_explanation_3#:#Ihre externe Benutzerkennung konnte keinem ILIAS-Account zugeordnet werden. Aber ILIAS hat mehrere Accounts mit Ihrer E-Mail-Adresse entdeckt. Sollte eine dieser Benutzerkennung Ihnen gehören, loggen Sie sich bitte mit Ihrem ILIAS-Passwort ein.
 common#:#ums_explanation_4#:#Sollte keine dieser Benutzerkennungen Ihnen gehören, klicken Sie bitte auf 'Neues Benutzerkonto anlegen'.
 common#:#ums_login_account#:#Login-Account
-common#:#unambiguousness#:#Eindeutigkeit
+common#:#unambiguousness#:#Unterscheidungsmerkmal
 common#:#uncheck_all#:#Auswahl aufheben
 common#:#unchecked#:#Nicht ausgewählt
 common#:#uninstall#:#Deinstallieren

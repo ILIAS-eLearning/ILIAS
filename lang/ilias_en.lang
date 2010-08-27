@@ -4625,7 +4625,7 @@ common#:#ums_explanation_3#:#Your external account could not be mapped to an ILI
 common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.
 common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
 common#:#ums_login_account#:#Login Account
-common#:#unambiguousness#:#Unambiguousness
+common#:#unambiguousness#:#Distinguishing mark
 common#:#uncheck_all#:#Uncheck all
 common#:#unchecked#:#Unchecked
 common#:#uninstall#:#Uninstall
