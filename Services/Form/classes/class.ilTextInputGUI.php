@@ -443,8 +443,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			// block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
 			// -moz-inline-stack for FF2
 			// zoom 1; *display:inline for IE6 & 7
-			//$tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline; z-index:3000;');
-			//$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:400px;"');
+			$tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline; z-index:3000;');
+			$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:400px;"');
 		}
 		else
 		{
