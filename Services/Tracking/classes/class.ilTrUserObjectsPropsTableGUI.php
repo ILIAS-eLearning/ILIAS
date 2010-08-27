@@ -29,6 +29,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 
+		$this->parseTitle($this->obj_id, "details", $this->user_id);
+
 		if($a_print_view)
 		{
 			$this->setPrintMode(true);
@@ -325,13 +327,23 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				$object_gui = 'ilobjgroupgui';
 			}
 			$this->tpl->setCurrentBlock('title_linked');
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $data["ref_id"]);
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $data["ref_id"]);
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $this->user_id);
-			$url = $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', $object_gui, 'illearningprogressgui', 'illplistofobjectsgui'), 'userdetails');
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', '');
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', '');
-			$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', '');
+
+			if($_GET["baseClass"] != "ilPersonalDesktopGUI")
+			{
+				$old = $ilCtrl->getParameterArrayByClass('illplistofobjectsgui');
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $data["ref_id"]);
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $data["ref_id"]);
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $this->user_id);
+				$url = $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', $object_gui, 'illearningprogressgui', 'illplistofobjectsgui'), 'userdetails');
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $old["ref_id"]);
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $old["details_id"]);
+				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $old["user_id"]);
+			}
+			else
+			{
+				$url = "#";
+			}
+
 			$this->tpl->setVariable("URL_TITLE", $url);
 			$this->tpl->setVariable("VAL_TITLE", $data["title"]);
 			$this->tpl->parseCurrentBlock();

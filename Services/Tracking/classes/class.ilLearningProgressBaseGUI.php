@@ -422,29 +422,39 @@ class ilLearningProgressBaseGUI
 
 		$details_id = $item_id ? $item_id : $this->details_id;
 
-
-		// Section object details
-		$info->addSection($this->lng->txt('details'));
-		$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($details_id));
-
-		// :TODO: event title
-
-		if(strlen($desc = $ilObjDataCache->lookupDescription($details_id)))
-		{
-			$info->addProperty($this->lng->txt('description'),$desc);
-		}
-		$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($details_id)));
-
-		if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS)
-		{
-			$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($details_id));
-		}
-		
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
-		if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
+		if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS ||
+		   ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
 		{
-			$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+
+			// Section object details
+			$info->addSection($this->lng->txt('details'));
+
+			/*
+			$info->addProperty($this->lng->txt('title'),$ilObjDataCache->lookupTitle($details_id));
+
+			// :TODO: event title
+
+			if(strlen($desc = $ilObjDataCache->lookupDescription($details_id)))
+			{
+				$info->addProperty($this->lng->txt('description'),$desc);
+			}
+			$info->addProperty($this->lng->txt('trac_mode'),ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($details_id)));
+			*/
+
+			if(ilLPObjSettings::_lookupMode($details_id) == LP_MODE_VISITS)
+			{
+				$info->addProperty($this->lng->txt('trac_required_visits'),ilLPObjSettings::_lookupVisits($details_id));
+			}
+
+			if($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id))
+			{
+				$info->addProperty($this->lng->txt('meta_typical_learning_time'),ilFormat::_secondsToString($seconds));
+			}
+
+			return true;
 		}
+		return false;
 	}
 
 	function __appendUserInfo(&$info, $a_user)
@@ -459,8 +469,8 @@ class ilLearningProgressBaseGUI
 		if($a_user->getId() != $ilUser->getId())
 		{
 			$info->addSection($this->lng->txt("trac_user_data"));
-			$info->addProperty($this->lng->txt('username'),$a_user->getLogin());
-			$info->addProperty($this->lng->txt('name'),$a_user->getFullname());
+			// $info->addProperty($this->lng->txt('username'),$a_user->getLogin());
+			// $info->addProperty($this->lng->txt('name'),$a_user->getFullname());
 			$info->addProperty($this->lng->txt('last_login'),
 				ilDatePresentation::formatDate(new ilDateTime($a_user->getLastLogin(),IL_CAL_DATETIME)));
 			$info->addProperty($this->lng->txt('trac_total_online'),
@@ -680,6 +690,9 @@ class ilLearningProgressBaseGUI
 		$marks = new ilLPMarks($obj_id, $a_user_id);
 
 		$tpl = new ilTemplate('tpl.lp_edit_user.html', true, true, 'Services/Tracking');
+
+        $tpl->setVariable("OBJ_TITLE", $lng->txt("edit").": ".$ilObjDataCache->lookupTitle($obj_id));
+		$tpl->setVariable("OBJ_SUBTITLE", $this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($obj_id)));
 
 		$ilCtrl->setParameter($this,'user_id',$a_user_id);
 		$ilCtrl->setParameter($this,'details_id',$a_ref_id);

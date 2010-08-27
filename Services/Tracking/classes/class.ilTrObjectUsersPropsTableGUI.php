@@ -17,7 +17,7 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilTrObjectUsersPropsTableGUI: ilFormPropertyDispatchGUI, ilLPListOfObjectsGUI
  * @ingroup ServicesTracking
  */
 class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
@@ -41,6 +41,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs");
 	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+
+		$this->parseTitle($a_obj_id, "trac_participants");
 
 		if($a_print_view)
 		{
