@@ -4653,6 +4653,20 @@ class ilUtil
 	{
 		return strip_tags(self::stripSlashes($a_filename));
 	}
+	
+	public static function _getHttpPath()
+	{
+		global $ilIliasIniFile;
+		
+		if($_SERVER['SHELL'])
+		{
+			return $ilIliasIniFile->readVariable('server', 'http_path');
+		}
+		else
+		{
+			return ILIAS_HTTP_PATH;
+		}
+	}
 } // END class.ilUtil
 
 

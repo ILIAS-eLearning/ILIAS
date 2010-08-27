@@ -34,12 +34,13 @@ class ilDiskQuotaActivationChecker
 {
 	private static $isActive;
 	private static $isReminderMailActive;
+	private static $isSummaryMailActive;
 
    	/**
 	* Static getter. Returns true, if disk quota is active.
 	*
 	* Disk quota is active if the variable "enabled"
-	* is set in ilSetting('disk_quota'),
+	* is set in ilSetting('disk_quota')
 	*
 	* @return	boolean	value
 	*/
@@ -57,7 +58,7 @@ class ilDiskQuotaActivationChecker
 	* Static getter. Returns true, if disk quota reminder mails is active.
 	*
 	* Reminder mails is is active if the variable "reminder_enabled"
-	* is set in ilSetting('disk_quota'
+	* is set in ilSetting('disk_quota')
 	*
 	* @return	boolean	value
 	*/
@@ -70,6 +71,25 @@ class ilDiskQuotaActivationChecker
 		}
 
 		return self::$isReminderMailActive;
+	}
+	
+	/**
+	* Static getter. Returns true, if disk quota summary mails are active.
+	*
+	* Summary mails are active if the variable "summary_mail_enabled"
+	* is set in ilSetting('disk_quota')
+	*
+	* @return	boolean	value
+	*/
+	public static function _isSummaryMailActive()
+	{
+		if (self::$isSummaryMailActive == null)
+		{
+			$settings = new ilSetting('disk_quota');
+			self::$isSummaryMailActive = self::_isActive() && (int)$settings->get('summary_mail_enabled') == 1;
+		}
+
+		return self::$isSummaryMailActive;
 	}
 }
 ?>

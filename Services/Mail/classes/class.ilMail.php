@@ -2604,7 +2604,8 @@ class ilMail
 		{
 			$signature .= $desc."\n";
 		}
-		$signature .= ILIAS_HTTP_PATH;
+		
+		$signature .= ilUtil::_getHttpPath();
 
 		$clientdirs = glob(ILIAS_WEB_DIR."/*", GLOB_ONLYDIR);
 		if(is_array($clientdirs) && count($clientdirs) > 1)

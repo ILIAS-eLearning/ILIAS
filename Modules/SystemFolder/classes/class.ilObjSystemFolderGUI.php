@@ -2552,6 +2552,19 @@ return $this->showServerInfoObject();
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		
+		$cls = new ilNonEditableValueGUI($this->lng->txt('cronjob_last_start'), 'cronjob_last_start');
+		if($ilSetting->get('last_cronjob_start_ts'))
+		{
+			include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
+			$cls->setInfo(ilDatePresentation::formatDate(new ilDateTime($ilSetting->get('last_cronjob_start_ts'), IL_CAL_UNIX)));
+		}
+		else
+		{
+			$cls->setInfo($this->lng->txt('cronjob_last_start_unknown'));
+		}
+		
+		$this->form->addItem($cls);
 	
 		// check user accounts
 		$cb = new ilCheckboxInputGUI($this->lng->txt("check_user_accounts"), "cron_user_check");
@@ -2690,13 +2703,27 @@ return $this->showServerInfoObject();
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
-		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
-		$cb->setInfo($this->lng->txt("disk_quota_reminder_mail_desc"));
+		
+		$cb_reminder = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
+		$cb_reminder->setInfo($this->lng->txt("disk_quota_reminder_mail_desc"));
 		if ($dq_settings->get('reminder_mail_enabled'))
 		{
-			$cb->setChecked(true);
+			$cb_reminder->setChecked(true);
 		}
-		$this->form->addItem($cb);
+		$cb->addSubItem($cb_reminder);
+		
+		// Enable summary mail for certain users
+		$cb_prop_summary= new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
+		$cb_prop_summary->setValue(1);
+		$cb_prop_summary->setChecked((int)$dq_settings->get('summary_mail_enabled', 0) == 1);
+		$cb_prop_summary->setInfo($lng->txt('enable_disk_quota_summary_mail_desc'));
+		$cb->addSubItem($cb_prop_summary);
+		
+		// Edit disk quota recipients
+		$summary_rcpt = new ilTextInputGUI($lng->txt("disk_quota_summary_rctp"), "disk_quota_summary_rctp");
+		$summary_rcpt->setValue($dq_settings->get('summary_rcpt', ''));
+		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
+		$cb_prop_summary->addSubItem($summary_rcpt);
 
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
@@ -2740,6 +2767,10 @@ return $this->showServerInfoObject();
 			$dq_settings = new ilSetting('disk_quota');
 			$dq_settings->set('enabled', $_POST['enable_disk_quota'] ? 1 : 0);
 			$dq_settings->set('reminder_mail_enabled', $_POST['enable_disk_quota_reminder_mail'] ? 1 : 0);
+			
+			// disk quota summary mail
+			$dq_settings->set('summary_mail_enabled', $_POST['enable_disk_quota_summary_mail'] ? 1 : 0);
+			$dq_settings->set('summary_rcpt', ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");

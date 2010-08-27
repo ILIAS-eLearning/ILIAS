@@ -50,6 +50,12 @@ class ilObjDiskQuotaSettings extends ilObject
 
 	/** DiskQuota Settings variable */
 	private static $dqSettings;
+	
+	/** Boolean property. Set this to true, to enable Disk Quota summary mail */
+	private $diskQuotaSummaryMailEnabled = false;
+	
+	/** Recipients  */
+	private $summary_recipients = '';
 
 	/**
 	* Constructor
@@ -132,7 +138,9 @@ class ilObjDiskQuotaSettings extends ilObject
 	{
 		$settings = new ilSetting('disk_quota');
 		$settings->set('enabled', $this->diskQuotaEnabled);
-		$settings->set('reminder_mail_enabled', $this->diskQuotaReminderMailEnabled);
+		$settings->set('reminder_mail_enabled', $this->diskQuotaReminderMailEnabled);		
+		$settings->set('summary_mail_enabled', $this->isDiskQuotaSummaryMailEnabled() ? 1 : 0);
+		$settings->set('summary_rcpt', $this->getSummaryRecipients());
 	}
 	/**
 	* read object data from db into object
@@ -144,7 +152,9 @@ class ilObjDiskQuotaSettings extends ilObject
 
 		$settings = new ilSetting('disk_quota');
 		$this->diskQuotaEnabled = $settings->get('enabled') == true;
-		$this->diskQuotaReminderMailEnabled = $settings->get('reminder_mail_enabled') == true;
+		$this->diskQuotaReminderMailEnabled = $settings->get('reminder_mail_enabled') == true;		
+		$this->isDiskQuotaSummaryMailEnabled($settings->get('summary_mail_enabled') == 1 ? true : false);
+		$this->setSummaryRecipients($settings->get('summary_rcpt'));		
 	}
 
 
@@ -202,6 +212,55 @@ class ilObjDiskQuotaSettings extends ilObject
 				);
 			$ilDB->insert('mail_template',$values);
 		}
+	}
+	
+	/**
+	 *
+	 * Setter for summary recipients
+	 * 
+	 * @param	String	Recipients
+	 * @access	public
+	 * 
+	 */
+	public function setSummaryRecipients($s_recipients)
+	{
+		$this->summary_recipients = $s_recipients;
+		
+		return $this;
+	}
+	
+	/**
+	 *
+	 * Getter fpr summary recipients
+	 * 
+	 * @return	String	Recipients
+	 * @access	public
+	 * 
+	 */
+	public function getSummaryRecipients()
+	{
+		return $this->summary_recipients;
+	}	
+	
+	/**
+	 *
+	 * Setter/Getter to activate/deactivate the summary mail cron job
+	 * 
+	 * @param	mixed	Boolean value or null
+	 * @return	mixed	Boolean value or instance of ilObjDiskQuoataSettings
+	 * @access	public
+	 * 
+	 */	
+	public function isDiskQuotaSummaryMailEnabled($status = null)
+	{
+		if( null === $status )
+		{
+			return $this->diskQuotaSummaryMailEnabled;
+		}
+		
+		$this->diskQuotaSummaryMailEnabled = $status;
+		
+		return $this;
 	}
 } // END class.ilObjDiskQuotaSettings
 ?>
