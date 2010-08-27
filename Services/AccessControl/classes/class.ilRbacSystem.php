@@ -248,6 +248,56 @@ class ilRbacSystem
 		}
 		return true;
 	}
+
+	/**
+	 * Preload rbac_pa cache
+	 *
+	 * @param
+	 * @return
+	 */
+	function preloadRbacPaCache($a_ref_ids, $a_user_id)
+	{
+		global $ilDB;
+
+		if (!is_array($a_ref_ids))
+		{
+			return;
+		}
+
+		$ref_ids = array();
+		foreach ($a_ref_ids as $ref_id)
+		{
+			if (!isset(self::$_paCache[$a_user_id.":".$ref_id]))
+			{
+				$roles[$ref_id] = $this->fetchAssignedRoles($a_user_id, $ref_id);
+				$ops[$ref_id] = array();
+				$ref_ids[] = $ref_id;
+			}
+		}
+
+		if (count($ref_ids) > 0)
+		{
+
+			// Data is not in PA cache, perform database query
+			$q = "SELECT * FROM rbac_pa ".
+				"WHERE ".$ilDB->in("ref_id", $ref_ids, false, "integer");
+
+			$r = $this->ilDB->query($q);
+
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($row->rol_id, $roles[$row->ref_id]))
+				{
+					$ops[$row->ref_id] = array_merge($ops[$row->ref_id],
+						unserialize(stripslashes($row->ops_id)));
+				}
+			}
+			foreach ($a_ref_ids as $ref_id)
+			{
+				self::$_paCache[$a_user_id.":".$ref_id] = $ops[$ref_id];
+			}
+		}
+	}
 	
 	/**
 	* check if a specific role has the permission '$a_operation' of an object
