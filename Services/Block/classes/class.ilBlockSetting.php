@@ -30,16 +30,24 @@
 */
 class ilBlockSetting
 {
+	static $setting = array();
+	static $pd_preloaded = false;
+
 	/**
-	* Lookup setting from database.
-	*
-	*/
+	 * Lookup setting from database.
+	 *
+	 */
 	public static function _lookup($a_type, $a_setting, $a_user = 0, $a_block_id = 0)
 	{
 		global $ilDB;
 		
+		$key = $a_type.":".$a_setting.":".$a_user.":".$a_block_id;
+		if (isset(self::$setting[$key]))
+		{
+			return self::$setting[$key];
+		}
 		
-		$set = $ilDB->query(sprintf("SELECT * FROM il_block_setting WHERE type = %s ".
+		$set = $ilDB->query(sprintf("SELECT value FROM il_block_setting WHERE type = %s ".
 			"AND user_id = %s AND setting = %s AND block_id = %s",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
@@ -47,12 +55,63 @@ class ilBlockSetting
 			$ilDB->quote($a_block_id, "integer")));
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
+			self::$setting[$key] = $rec["value"];
 			return $rec["value"];
 		}
 		else
 		{
+			self::$setting[$key] = false;
 			return false;
 		}
+	}
+
+	/**
+	 * Preload pd info
+	 *
+	 * @param
+	 * @return
+	 */
+	function preloadPDBlockSettings()
+	{
+		global $ilDB, $ilUser;
+
+		if (!self::$pd_preloaded)
+		{
+			$blocks = array("pdbookm", "pdcal", "pdfeedb", "pditems",
+				"pdmail", "pdnews", "pdnotes", "pdsysmess", "pdtag", "pdusers");
+			$settings = array("detail", "nr", "side");
+			$user_id = $ilUser->getId();
+
+			foreach ($blocks as $b)
+			{
+				foreach ($settings as $s)
+				{
+					$key = $b.":".$s.":".$user_id.":0";
+					if ($s == "detail")
+					{
+						self::$setting[$key] = 2;
+					}
+					else
+					{
+						self::$setting[$key] = false;
+					}
+				}
+			}
+
+			$set = $ilDB->query($q = "SELECT type, setting, value FROM il_block_setting WHERE ".
+				" user_id = ".$ilDB->quote($user_id, "integer").
+				" AND ".$ilDB->in("type", $blocks, false, "text").
+				" AND ".$ilDB->in("setting", $settings, false, "text")
+				);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$key = $rec["type"].":".$rec["setting"].":".$user_id.":0";
+				self::$setting[$key] = $rec["value"];
+			}
+
+			self::$pd_preloaded = true;
+		}
+
 	}
 
 	/**

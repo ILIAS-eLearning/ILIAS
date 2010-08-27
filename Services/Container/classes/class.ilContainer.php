@@ -632,7 +632,7 @@ class ilContainer extends ilObject
 			// general preloads
 			$tree->preloadDeleted($all_ref_ids);
 			$tree->preloadDepthParent($all_ref_ids);
-			$ilObjDataCache->preloadReferenceCache($all_ref_ids, true);
+			$ilObjDataCache->preloadReferenceCache($all_ref_ids, false);
 			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
 			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
 

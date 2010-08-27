@@ -732,7 +732,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	*/
 	function getSelectedItemsPerType(&$tpl)
 	{
-		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache, $tree;
 		
 		$items = $ilUser->getDesktopItems();
 		if (count($items) > 0)
@@ -743,7 +743,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			{
 				$ref_ids[] = $item["ref_id"];
 			}
-			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			$tree->preloadDeleted($ref_ids);
+			$tree->preloadDepthParent($ref_ids);
+			$ilObjDataCache->preloadReferenceCache($ref_ids, true);
 		}
 		
 		$output = false;
@@ -893,7 +895,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	*/
 	function getSelectedItemsPerLocation(&$tpl)
 	{
-		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache, $tree;
 
 		$output = false;
 
@@ -910,6 +912,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$ref_ids[] = $item["ref_id"];
 			}
 			reset($items);
+			$tree->preloadDeleted($ref_ids);
+			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
 			foreach($items as $item)
