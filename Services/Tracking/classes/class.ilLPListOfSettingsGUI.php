@@ -244,8 +244,19 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('trac_lp_determination'));
 		$tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_trac.gif'));
 		//$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_crs_assignments'));
-		$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_lp_determination'));
-		$tpl->setVariable("TABLE_INFO",$this->lng->txt('trac_lp_determination_info_crs'));
+
+		$mode = ilLPObjSettings::_lookupMode($this->getObjId());
+		if($mode != LP_MODE_MANUAL_BY_TUTOR)
+		{
+			$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_lp_determination'));
+			$tpl->setVariable("TABLE_INFO",$this->lng->txt('trac_lp_determination_info_crs'));
+		}
+		else
+		{
+			$tpl->setVariable("TABLE_TITLE",$this->lng->txt('trac_lp_determination_tutor'));
+			$tpl->setVariable("TABLE_INFO",$this->lng->txt('trac_lp_determination_info_crs_tutor'));
+		}
+
 		$tpl->setVariable("ITEM_DESC",$this->lng->txt('trac_crs_items'));
 		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
 
