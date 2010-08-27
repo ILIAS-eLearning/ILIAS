@@ -10463,8 +10463,8 @@ tbl#:#tbl_export_excel#:#Export .xls
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.
-crs#:#crs_members_groups#:#Course Members Groups
-crs#:#crs_groups_nr#:#Number of Groups
+crs#:#crs_members_groups#:#Memberships in Groups
+crs#:#crs_groups_nr#:#Number of Memberships
 crs#:#crs_add_to_group#:#Add to Group
 wiki#:#wiki_import#:#Import Wiki
 mcst#:#mcst_import#:#Import Mediacast
