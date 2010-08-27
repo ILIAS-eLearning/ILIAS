@@ -277,14 +277,26 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
 			$tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$type));
 
-			// Link to settings
-			$tpl->setVariable("COLL_MODE",
-							  $this->lng->txt('trac_mode').": ".
-							  ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($obj_id)));
+			$mode = ilLPObjSettings::_lookupMode($obj_id);
+			if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
+			{
+				$tpl->setVariable("COLL_MODE",
+								  $this->lng->txt('trac_mode').": ".
+								  ilLPObjSettings::_mode2Text($mode));
+			}
+			else
+			{
+				$tpl->setVariable("COLL_MODE",
+								  $this->lng->txt('trac_mode').":");
+				$tpl->setVariable("COLL_MODE_DEACTIVATED",
+								  ilLPObjSettings::_mode2Text($mode));
+			}
 			if($anonymized)
 			{
 				$tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
 			}
+
+			// Link to settings
 			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_FRAME",ilFrameTargetInfo::_getFrame('MainContent',$ilObjDataCache->lookupType($obj_id)));
 			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
