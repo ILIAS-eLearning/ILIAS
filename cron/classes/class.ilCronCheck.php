@@ -47,6 +47,10 @@ class ilCronCheck
 	
 	public function start()
 	{
+		global $ilSetting;
+		
+		$ilSetting->set('last_cronjob_start_ts', time());
+		
 		if( $_SERVER['argc'] > 4 ) for($i = 4; $i < $_SERVER['argc']; $i++)
 		{
 				$arg = $_SERVER['argv'][$i];
@@ -213,6 +217,14 @@ class ilCronCheck
 					'method'		=> 'sendReminderMails',
 					'location'		=> 'cron',
 					'condition'		=> ilDiskQuotaActivationChecker::_isReminderMailActive()
+				),
+				
+				// Send Disk Quota Summary Mails
+				'ilCronDiskQuotaCheck::sendSummaryMails' => array(
+					'classname'		=> 'ilCronDiskQuotaCheck',
+					'method'		=> 'sendSummaryMails',
+					'location'		=> 'cron',
+					'condition'		=> ilDiskQuotaActivationChecker::_isSummaryMailActive()
 				),
 				
 				/**

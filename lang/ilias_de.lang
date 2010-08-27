@@ -10864,3 +10864,13 @@ common#:#sess_fixed_duration#:#Fixe Sitzungsdauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Sitzungseinstellungen
 common#:#sess_mode#:#Sitzungsmodus
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
+common#:#cronjob_last_start#:#Letzter Start des Cron Jobs
+common#:#enable_disk_quota_summary_mail#:#Sende Disk Quota-Zusammenfassungen
+common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk Quotas zukommen zu lassen.   
+common#:#disk_quota_summary_rctp#:#Empfänger der Zusammenfassung
+common#:#disk_quota_summary_rctp_desc#:#Tragen Sie hier kommasepariert die Benutzernamen jender Personen ein, an die ILIAS täglich eine Zusammenfassung der überschrittenen Disk Quotas senden soll.
+common#:#disk_quota_exceeded_headline#:#die folgenden Benutzer haben ihr Disk Quota überschritten:
+common#:#usrf_profile_link#:#Link zum Benutzerkonto
+common#:#currently_used_disk_space#:#Aktueller Speicherverbrauch
+common#:#disk_quota_summay_subject#:#Zusammenfassung von überschrittenen Disk Quotas
+common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden

@@ -376,14 +376,25 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 
 		// Enable disk quota reminder mail
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
-		$cb_prop->setValue('1');
-		$cb_prop->setChecked($this->disk_quota_obj->isDiskQuotaReminderMailEnabled());
-		$cb_prop->setInfo($lng->txt('disk_quota_reminder_mail_desc'));
-		$form->addItem($cb_prop);
-
-
-
+		$cb_prop_reminder = new ilCheckboxInputGUI($lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
+		$cb_prop_reminder->setValue('1');
+		$cb_prop_reminder->setChecked($this->disk_quota_obj->isDiskQuotaReminderMailEnabled());
+		$cb_prop_reminder->setInfo($lng->txt('disk_quota_reminder_mail_desc'));
+		$cb_prop->addSubItem($cb_prop_reminder);
+		
+		// Enable summary mail for certain users
+		$cb_prop_summary= new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
+		$cb_prop_summary->setValue(1);
+		$cb_prop_summary->setChecked($this->disk_quota_obj->isDiskQuotaSummaryMailEnabled());
+		$cb_prop_summary->setInfo($lng->txt('enable_disk_quota_summary_mail_desc'));
+		$cb_prop->addSubItem($cb_prop_summary);
+		
+		// Edit disk quota recipients
+		$summary_rcpt = new ilTextInputGUI($lng->txt("disk_quota_summary_rctp"), "disk_quota_summary_rctp");
+		$summary_rcpt->setValue($this->disk_quota_obj->getSummaryRecipients());
+		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
+		$cb_prop_summary->addSubItem($summary_rcpt);
+		
 		// command buttons
 		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
 		$form->addCommandButton('editDiskQuotaSettings', $lng->txt('cancel'));
@@ -405,6 +416,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		$this->disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
 		$this->disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
+		$this->disk_quota_obj->isDiskQuotaSummaryMailEnabled($_POST['enable_disk_quota_summary_mail'] == '1');
+		$this->disk_quota_obj->setSummaryRecipients(ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
 		$this->disk_quota_obj->update();
 
 

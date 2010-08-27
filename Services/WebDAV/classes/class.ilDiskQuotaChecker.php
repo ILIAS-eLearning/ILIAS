@@ -489,6 +489,22 @@ class ilDiskQuotaChecker
 			}
 		}
 	}
+	
+	public static function _sendSummaryMails()
+	{
+		global $ilSetting;
+		
+		$lastStart = $ilSetting->get('last_cronjob_disk_quota_sum_start_ts', 0);
+		if( !$lastStart || date('dmY', $lastStart) != date('dmY') )
+		{
+			$ilSetting->set('last_cronjob_disk_quota_sum_start_ts', time());
+			
+			include_once 'Services/Mail/classes/class.ilDiskQuotaSummaryNotification.php';
+			$dqsn = new ilDiskQuotaSummaryNotification();
+			$dqsn->send();
+		}
+	}
+	
 	/**
 	 * Sends reminder e-mails to all users who have access and who have exceeded
 	 * their disk quota and who haven't received a reminder mail in the past 7
@@ -558,7 +574,7 @@ class ilDiskQuotaChecker
 			,
 	        array('integer','integer'),
 	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
-		);
+		);vd($res->db->last_query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$details = self::_lookupDiskUsage($row['usr_id']);

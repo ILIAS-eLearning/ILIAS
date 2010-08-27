@@ -10860,3 +10860,13 @@ common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.
+common#:#cronjob_last_start#:#Last Start of the Cron Job
+common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
+common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
+common#:#disk_quota_summary_rctp#:#Recipients
+common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.
+common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:
+common#:#usrf_profile_link#:#Link to user profile
+common#:#currently_used_disk_space#:#Currently used disk space
+common#:#disk_quota_summay_subject#:#Summary of Exceeded Disk Quota
+common#:#cronjob_last_start_unknown#:#Indeterminate

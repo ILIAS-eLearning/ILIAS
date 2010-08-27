@@ -52,5 +52,11 @@ class ilCronDiskQuotaCheck
 		ilDiskQuotaChecker::_sendReminderMails();
 		return true;
 	}
+	function sendSummaryMails()
+	{
+		require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
+		ilDiskQuotaChecker::_sendSummaryMails();
+		return true;
+	}
 }
 ?>
