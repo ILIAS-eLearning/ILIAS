@@ -10891,3 +10891,24 @@ assessment#:#mailnottype#:#Send notification even when a user finishes a test pa
 rbac#:#rbac_repository_permissions#:#Repository Permissions###20 08 2010 new variable
 rbac#:#rbac_admin_permissions#:#Administration Permissions###20 08 2010 new variable
 ps#:#ps_export_excel#:#Start Excel-Expor###20 08 2010 new variable
+survey#:#err_no_exact_answers#:#Please check exactly %s answers.###27 08 2010 new variable
+survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers###27 08 2010 new variable
+common#:#sess_fixed_duration#:#Fixed Session Duration###27 08 2010 new variable
+common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling###27 08 2010 new variable
+common#:#sess_mode#:#Session Mode###27 08 2010 new variable
+trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.###27 08 2010 new variable
+common#:#cronjob_last_start#:#Last Start of the Cron Job###27 08 2010 new variable
+common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary###27 08 2010 new variable
+common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.###27 08 2010 new variable
+common#:#disk_quota_summary_rctp#:#Recipients###27 08 2010 new variable
+common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.###27 08 2010 new variable
+common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:###27 08 2010 new variable
+common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
+common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
+common#:#disk_quota_summay_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
+common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
+trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
+trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
+trac#:#trac_average#:#Average###27 08 2010 new variable
+trac#:#trac_sum#:#Sum###27 08 2010 new variable
+trac#:#trac_others#:#Other###27 08 2010 new variable
