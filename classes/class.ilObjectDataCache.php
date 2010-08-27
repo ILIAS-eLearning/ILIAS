@@ -169,7 +169,7 @@ class ilObjectDataCache
 		{
 			$a_lang = $ilUser->getLanguage();
 		}
-		
+
 		$query = "SELECT * FROM object_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id ,'integer');
 		$res = $this->db->query($query);
@@ -181,29 +181,29 @@ class ilObjectDataCache
 			$this->object_data_cache[$a_obj_id]['owner'] = $row->owner;
 			$this->object_data_cache[$a_obj_id]['last_update'] = $row->last_update;
 			
-			//$ilBench->start("Tree", "fetchNodeData_readDefinition");
 			if (is_object($objDefinition))
 			{
 				$translation_type = $objDefinition->getTranslationType($row->type);
 			}
-			//$ilBench->stop("Tree", "fetchNodeData_readDefinition");
 
 			if ($translation_type == "db")
 			{
-				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
-				$q = "SELECT title,description FROM object_translation ".
-					 "WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
-					 "AND lang_code = ".$ilDB->quote($a_lang,'text')." ".
-					 "AND NOT lang_default = 1";
-				$r = $ilDB->query($q);
-
-				$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-				if ($row)
+				if (!$this->trans_loaded[$a_obj_id])
 				{
-					$this->object_data_cache[$a_obj_id]['title'] = $row->title;
-					$this->object_data_cache[$a_obj_id]['description'] = $row->description;
+					$q = "SELECT title,description FROM object_translation ".
+						 "WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+						 "AND lang_code = ".$ilDB->quote($a_lang,'text')." ".
+						 "AND NOT lang_default = 1";
+					$r = $ilDB->query($q);
+
+					$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+					if ($row)
+					{
+						$this->object_data_cache[$a_obj_id]['title'] = $row->title;
+						$this->object_data_cache[$a_obj_id]['description'] = $row->description;
+					}
+					$this->trans_loaded[$a_obj_id] = true;
 				}
-				//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
 			}
 		}
 		
@@ -219,7 +219,7 @@ class ilObjectDataCache
 	*/
 	function preloadObjectCache($a_obj_ids, $a_lang = "")
 	{
-		global $ilDB, $objDefinition, $ilUser;
+		global $ilDB, $objDefinition, $ilUser, $tree;
 		
 		if (is_object($ilUser) && $a_lang == "")
 		{
@@ -234,6 +234,7 @@ class ilObjectDataCache
 		$query = "SELECT * FROM object_data ".
 			"WHERE ".$ilDB->in('obj_id',$a_obj_ids,false,'integer');
 		$res = $ilDB->query($query);
+		$db_trans = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 //echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
@@ -247,24 +248,48 @@ class ilObjectDataCache
 			{
 				$translation_type = $objDefinition->getTranslationType($row->type);
 			}
-			//$ilBench->stop("Tree", "fetchNodeData_readDefinition");
 
 			if ($translation_type == "db")
 			{
-				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
-				$q = "SELECT title,description FROM object_translation ".
-					 "WHERE obj_id = ".$ilDB->quote($row->obj_id,'integer')." ".
-					 "AND lang_code = ".$ilDB->quote($a_lang,'text')." ".
-					 "AND NOT lang_default = 1";
-				$r = $ilDB->query($q);
+				$db_trans[$row->obj_id] = $row->obj_id;
+			}
+		}
+		if (count($db_trans) > 0)
+		{
+			$this->preloadTranslations($db_trans, $a_lang);
+		}
+	}
 
-				$row2 = $r->fetchRow(DB_FETCHMODE_OBJECT);
-				if ($row2)
-				{
-					$this->object_data_cache[$row->obj_id]['title'] = $row2->title;
-					$this->object_data_cache[$row->obj_id]['description'] = $row2->description;
-				}
-				//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
+	/**
+	 * Preload translation informations
+	 *
+	 * @param	array	$a_obj_ids		array of object ids
+	 */
+	function preloadTranslations($a_obj_ids, $a_lang)
+	{
+		global $ilDB, $tree;
+
+		$obj_ids = array();
+		foreach ($a_obj_ids as $id)
+		{
+			// do not load an id more than one time
+			if (!$this->trans_loaded[$id])
+			{
+				$obj_ids[] = $id;
+				$this->trans_loaded[$id] = true;
+			}
+		}
+		if (count($obj_ids) > 0)
+		{
+			$q = "SELECT obj_id, title, description FROM object_translation ".
+				 "WHERE ".$ilDB->in('obj_id', $obj_ids, false, 'integer')." ".
+				 "AND lang_code = ".$ilDB->quote($a_lang, 'text')." ".
+				 "AND NOT lang_default = 1";
+			$r = $ilDB->query($q);
+			while ($row2 = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->object_data_cache[$row2->obj_id]['title'] = $row2->title;
+				$this->object_data_cache[$row2->obj_id]['description'] = $row2->description;
 			}
 		}
 	}
