@@ -2504,8 +2504,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		
 		switch($a_mode)
 		{
 			case 'edit':
@@ -2513,6 +2511,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 				
 			default:
+				$this->form->setTableWidth('600px');
 				$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
 				break;
 		}
