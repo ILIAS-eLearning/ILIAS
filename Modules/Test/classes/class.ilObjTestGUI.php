@@ -223,12 +223,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		if ($_POST["qpl"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_select_questionpools"));
-			$this->createObject();
-			return;
-		}
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_select_file_for_import"));
@@ -459,58 +453,14 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* display dialogue for importing tests
-	*
-	* @access	public
-	*/
-	function importObject()
-	{
-		$this->getTemplateFile("import", "tst");
-		$this->tpl->setCurrentBlock("option_qpl");
-		include_once("./Modules/Test/classes/class.ilObjTest.php");
-		$tst = new ilObjTest();
-		$questionpools =& $tst->getAvailableQuestionpools(TRUE, FALSE, FALSE, TRUE);
-		if (count($questionpools) == 0)
-		{
-		}
-		else
-		{
-			foreach ($questionpools as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("option_qpl");
-				$this->tpl->setVariable("OPTION_VALUE", $key);
-				$this->tpl->setVariable("TXT_OPTION", $value["title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
-		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_NAME", "uploadTst");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("NEW_TYPE", $this->type);
-		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-
-	}
-
-	/**
 	* imports test and question(s)
 	*/
 	function uploadTstObject()
 	{
-		if ($_POST["qpl"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_select_questionpools"));
-			$this->importObject();
-			return;
-		}
-
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
 			ilUtil::sendFailure($this->lng->txt("error_upload"));
-			$this->importObject();
+			$this->createObject();
 			return;
 		}
 		include_once("./Modules/Test/classes/class.ilObjTest.php");
@@ -543,7 +493,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::delDir(ilObjTest::_getImportDirectory());
 
 			ilUtil::sendInfo($this->lng->txt("tst_import_no_items"));
-			$this->importObject();
+			$this->createObject();
 			return;
 		}
 		
@@ -567,7 +517,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::delDir(ilObjTest::_getImportDirectory());
 
 			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
-			$this->importObject();
+			$this->createObject();
 			return;
 		}
 		
@@ -691,13 +641,6 @@ class ilObjTestGUI extends ilObjectGUI
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
 	}
-	
-	function cancelImportObject()
-	{
-		$this->ctrl->redirect($this, "cancel");
-//		$this->backToRepositoryObject();
-	}
-	
 	
 	/**
 	* display status information or report errors messages
@@ -2277,7 +2220,7 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		
-		if ($_GET["eqid"] and $_GET["eqpl"])
+		if ($_GET["eqid"] && $_GET["eqpl"])
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
@@ -2344,10 +2287,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
 		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) && (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
-		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
+		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move, $total);
 		$data = $this->object->getTestQuestions();
 		$table_gui->setData($data);
-		$table_gui->setTotal($total);
 		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
@@ -2837,7 +2779,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("TXT_OPTION", $value["title"]);
 					if ($_POST["qpl"] == $key)
 					{
-						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");				
+						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");
 					}
 					$this->tpl->parseCurrentBlock();
 				}
@@ -2882,7 +2824,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
-			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("dont_use_questionpool"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
