@@ -10880,3 +10880,4 @@ trac#:#trac_average#:#Durchschnitt
 trac#:#trac_sum#:#Summe
 trac#:#trac_others#:#Sonstige
 assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diesen Test verfügbar machen
+rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen

@@ -10876,3 +10876,4 @@ trac#:#trac_average#:#Average
 trac#:#trac_sum#:#Sum
 trac#:#trac_others#:#Others
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)
+rbac#:#add_consultation_hours#:#Add Consultation Hours Calendar
