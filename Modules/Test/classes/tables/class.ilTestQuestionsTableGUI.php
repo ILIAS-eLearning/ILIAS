@@ -45,7 +45,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $a_checked_move = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $a_checked_move = false, $a_total = 0)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -53,6 +53,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
+		$this->total = $a_total;
 	
 		$this->setWriteAccess($a_write_access);
 		$this->setCheckedMove($a_checked_move);
@@ -71,7 +72,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
 		
-		if ($this->getWriteAccess())
+		if ($this->getWriteAccess() && !$this->getTotal())
 		{
 			$this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
 			$this->addMultiCommand('moveQuestions', $this->lng->txt('move'));
@@ -116,7 +117,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		global $ilUser,$ilAccess;
 
 		$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-		if ($this->getWriteAccess() && !$this->getTotal()) 
+		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
 			$q_id = $data["question_id"];
 			$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
