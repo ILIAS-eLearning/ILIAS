@@ -257,7 +257,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$objs = array();
 		foreach($res->getUniqueResults() as $entry)
 		{
-			$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
+			if($entry['type'] == 'role' or $entry['type'] == 'rolt')
+			{
+				if($tmp = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false))
+				{
+					$objs[] = $tmp;
+				}
+				continue;
+			}
+			if($tmp = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false))
+			{
+				$objs[] = $tmp;
+			}
 		}
 		if(!count($objs))
 		{

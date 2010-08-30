@@ -95,13 +95,13 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function start()
 	{
-		global $ilAccess;
+		global $ilAccess,$objDefinition;
 		
 		$this->__buildHeader();
 
 		foreach($this->__getObjects() as $object)
 		{
-			if(method_exists($object, 'getRefId'))
+			if(method_exists($object, 'getType') and $objDefinition->isRBACObject($object->getType()))
 			{
 				if($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser($this->getUserId(),'read','',$object->getRefId()))
 				{
