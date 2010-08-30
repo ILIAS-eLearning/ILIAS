@@ -59,7 +59,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 
 
-		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		$obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
 		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
 		{
 			return $this->__raiseError('Check access failed. No permission to delete role','Server');
@@ -106,7 +106,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		$obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
 		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
 		{
 			return $this->__raiseError('Check access failed. No permission to assign users','Server');
@@ -142,7 +142,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		$obj_ref = $rbacreview->getObjectOfRole($role_id);
+		$obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
 		if(!$ilAccess->checkAccess('edit_permission','',$obj_ref))
 		{
 			return $this->__raiseError('Check access failed. No permission to deassign users','Server');

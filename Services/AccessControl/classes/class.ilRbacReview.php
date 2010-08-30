@@ -1891,6 +1891,29 @@ class ilRbacReview
 	}
 	
 	/**
+	 * Get reference of role
+	 * @param object $a_role_id
+	 * @return 
+	 */
+	public function getObjectReferenceOfRole($a_role_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT tree.parent ref FROM rbac_fa fa ".
+			"JOIN tree ON fa.parent = tree.child ".
+			"WHERE tree.tree = 1 ".
+			"AND assign = ".$ilDB->quote('y','text').' '.
+			"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->ref;
+		}
+		return 0;
+	}
+	
+	/**
 	 * return if role is only attached to deleted role folders
 	 *
 	 * @param int $a_role_id
