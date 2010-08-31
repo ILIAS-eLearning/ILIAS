@@ -1,36 +1,17 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
 * @module		language file Greek
-* @modulegroup		language
-* @author		Alex Persidis <alexandros_persidis@hotmail.com>, Sandra Biniari <s.biniari@ergoway.gr>
+* @modulegroup	language
+* @author		Alex Persidis <alexandros_persidis@hotmail.com>
+* @author		Sandra Biniari <s.biniari@ergoway.gr>
 * @version		$Id$
-* @il_server		http://edulx1.unibe.ch/ilias/lang310x
-* @il_version		3.10.1 2008-10-10
+* @il_server	http://edulx1.unibe.ch/ilias/lang310x
+* @il_version	3.10.1 2008-10-10
 * @created		2008-11-05 11:29:53
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @created_by	Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -5834,7 +5815,7 @@ exercise#:#exc_passed#:#Πέρασε
 exercise#:#exc_send_mail#:#Αποστολή Mail
 exercise#:#exc_your_submission#:#Η υποβολή σας
 feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#External News Feed
 feed#:#block_feed_block_title#:#Title
 feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories

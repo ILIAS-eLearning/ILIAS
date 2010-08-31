@@ -1,4 +1,5 @@
-﻿/**
+﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
 * ILIAS language file
 *
 * @module		language file Lithuanian
@@ -6,27 +7,6 @@
 * @author 		Marius Gricius <marius.gricius@lka.lt>
 * @version		$Id$
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6870,7 +6850,7 @@ feed#:#feed_settings#:#Išorinių Šaltinių Nuostatos
 feed#:#feed_open_source_page#:#Eiti į Išorinių  Naujienų šaltinį
 feed#:#block_feed_block_head#:#Išorinių Naujienų Šaltinis
 feed#:#block_feed_block_title#:#Pavadinimas
-feed#:#block_feed_block_feed_url_info#:#Turi būti veikianti RSS/Atom URL, pvz. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Turi būti veikianti RSS/Atom URL, pvz. http://www.ilias.de/rss.php
 pdesk#:#bm_num_bookmarks#:#Žymeklis (-iai)
 pdesk#:#bm_num_bookmark_folders#:#Katalogas (-ai)
 pdesk#:#pdesk_intro#:#Sveiki atvykę į Asmeninį Darbastalį!

@@ -1,36 +1,16 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
-* @module		language file Czech
+* @module		    language file Czech
 * @modulegroup		language
-* @author		Tomas Cerha <cerha@brailcom.org>
-* @version		$Id$
+* @author		    Tomas Cerha <cerha@brailcom.org>
+* @version		    $Id$
 * @il_server		http://localhost:8888/ilias-trunk
 * @il_version		4.1.0 pre-alpha
-* @created		2010-05-05 17:19:29
+* @created		    2010-05-05 17:19:29
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6796,7 +6776,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
 feed#:#block_feed_block_feed_url#:#Vložit URL
-feed#:#block_feed_block_feed_url_info#:#Musí být platná RSS/Atom URL, např. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Musí být platná RSS/Atom URL, např. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Externí zásobování zpráv
 feed#:#block_feed_block_title#:#Název
 feed#:#feed_disable_rep_feeds#:#Vypnout externí Web zásobníky kategorií

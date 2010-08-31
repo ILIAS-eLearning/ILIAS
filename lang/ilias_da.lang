@@ -1,4 +1,5 @@
-﻿/**
+﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
 * ILIAS language file 
 *
 * @module		language file Danish
@@ -6,7 +7,6 @@
 * @author 		Jesper Goedvad <jesper@ilias.dk> www.ilias.dk
 * @version		$Id$
 */
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -4129,7 +4129,7 @@ feed#:#block_feed_block_head#:#Eksternt nyhedsfeed
 feed#:#block_feed_block_title#:#Titel
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#feed_no_valid_url#:#Den angivne URL er ikke brugbar.
-feed#:#block_feed_block_feed_url_info#:#Skal være en gyldigt RSS/Atom URL, f.eks. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Skal være en gyldigt RSS/Atom URL, f.eks. http://www.ilias.de/rss.php
 pdesk#:#bm_num_bookmarks#:#Foretrukne
 pdesk#:#bm_num_bookmark_folders#:#Folder(e)
 pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!

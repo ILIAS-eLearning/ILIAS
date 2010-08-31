@@ -1,18 +1,16 @@
 ﻿/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
 * ILIAS language file (All entries)
 *
 * @module		language file French
-* @modulegroup		language
+* @modulegroup	language
 * @author		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
-* @il_server		http://www.ilias.de/test40x
-* @il_version		4.0.0
+* @il_server	http://www.ilias.de/test40x
+* @il_version	4.0.0
 * @created		2009-10-28 10:45:10
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @created_by	Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6631,7 +6629,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
 feed#:#block_feed_block_feed_url#:#URL du flux (RSS)
-feed#:#block_feed_block_feed_url_info#:#Doit être une URL RSS/Atom valide, par ex. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Doit être une URL RSS/Atom valide, par ex. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Flux  d'actualités externes (RSS)
 feed#:#block_feed_block_title#:#Titre
 feed#:#feed_disable_rep_feeds#:#Désactiver les flux externes d'actualité  (RSS) dans les catégories
