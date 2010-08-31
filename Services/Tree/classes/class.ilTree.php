@@ -1813,7 +1813,9 @@ class ilTree
 				$data["title"] = $this->translation_cache[$key]['title'];
 				$data["description"] = $this->translation_cache[$key]['description'];
 				$data["desc"] = $this->translation_cache[$key]['desc'];
-			} else {
+			} 
+			else 
+			{
 				// Object translation is not in cache, read it from database
 				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
 				$query = 'SELECT title,description FROM object_translation '.
