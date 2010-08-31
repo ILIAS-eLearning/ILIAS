@@ -1,9 +1,8 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
 * ILIAS language file
 *
-* @module       language file japanese
+* @module       setup language file japanese
 * @modulegroup  language
 * @author       Shiro Tamoto <tamoto.s@fuco.jp>
 */

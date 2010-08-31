@@ -1,37 +1,12 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
-* @module		language file vietnam
+* @module       setup language file vietnam
 * @modulegroup	language
 * @author 		Đỗ Xuân Tiến <tiendx2002@yahoo.com>
 * @version		$Id: setup_vi.lang,v 1.80 2006/2/19
 */
-
-    +-----------------------------------------------------------------------------+
-    | Hệ mã nguồn mở ILIAS                                                        |
-    +-----------------------------------------------------------------------------+
-    | Bản quyền (c) 1998-2009 ILIAS open source, Đại học Cologne				  |
-	| Phiên bản ngôn ngữ ILIAS Tiếng Việt này không phải là miễn phí			  |
-	| Bạn phải liên hệ với Đỗ Xuân Tiến 091 2283720	              				  |
-	| Nhận hướng dẫn cài đặt và tổ chức Elearning bằng ILIAS					  |
-	| Tổ chức các khóa hướng dẫn giáo viên và sinh viên về 						  |
-	| cách thức sử dụng hệ thống.												  |
-    |                                                                             |
-    | Chương trình ILIAS này là miễn phí; bạn có thể phân phối lại và/hoặc        |
-    | sửa nó theo thỏa thuận GNU General Public License                           |
-    | đã công bố bởi Quỹ Phần mềm Miễn phí; không chỉ phiên bản 2                 |
-    | của thỏa thuận cấp phép, hoặc (do lựa chọn của bạn) các phiên bản sau.      |
-    |                                                                             |
-    | Chương trình này được phân phối trên cơ sở hy vọng nó sẽ hữu ích,           |
-    | nhưng KHÔNG CÓ BẢO HÀNH NÀO; thiếu thậm chí bảo hành mặc nhiên của          |
-    | BÁN ĐƯỢC hoặc CHIỀU THEO CÁC Ý RIÊNG. Xem thỏa thuận                        |
-    | GNU General Public License để biết thêm chi tiết.                           |
-    |                                                                             |
-    | Bạn nên có một bản sao của GNU General Public License                       |
-    | kèm với chưưong trình này; nếu không, viết cho Free Software Foundation     |
-    | , Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-    +-----------------------------------------------------------------------------+
-	
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.

@@ -1,36 +1,16 @@
-﻿/**
+﻿//* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
 * ILIAS language file
 *
-* @modulelanguage file simplied Chinese
-* @modulegrouplanguage
-* @author 范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
+* @module       setup language file simplied Chinese
+* @modulegroup  language
+* @author       范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
 * @version		$Id$
 */
-
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-	
 	+-----------------------------------------------------------------------------+
     | ILIAS open source （开放代码软件）                                           |
     +-----------------------------------------------------------------------------+
-    | 版权 (c) 1998-2009 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
+    | 版权 (c) 1998-2010 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
     |                                                                             |
     | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下|
     | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。   |
