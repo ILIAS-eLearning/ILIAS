@@ -1,36 +1,17 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
 * @module		language file Italian
-* @modulegroup		language
+* @modulegroup	language
 * @author		Simone Giannoni <giannoni@ksolutions.it>
+* @author       Roberto del Mastro <roberto@opencons.net>
 * @version		$Id$
-* @il_server		http://www.ilias.de/test40x
-* @il_version		4.0.0
+* @il_server	http://www.ilias.de/test40x
+* @il_version	4.0.0
 * @created		2009-09-24 16:53:21
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @created_by	Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6637,7 +6618,7 @@ export#:#export_omit_resource#:#Ometti Risorsa
 export#:#export_resource#:#Risorsa
 export#:#export_select_resources#:#Seleziona Risorsa
 feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_feed_url_info#:#Deve essere un RSS/Atom URL valido, es. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Deve essere un RSS/Atom URL valido, es. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Web Feed Esterno
 feed#:#block_feed_block_title#:#Titlolo
 feed#:#feed_disable_rep_feeds#:#Disabilita i Web Feeds Esterni nelle Categorie

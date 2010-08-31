@@ -1,4 +1,5 @@
-﻿/**
+﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
 * ILIAS language file
 *
 * @module		language file portuguese
@@ -6,27 +7,6 @@
 * @author 		Noel Santos <noel.santos@iscte.pt>
 * @version		$Id$
 */
-
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6105,7 +6085,7 @@ feed#:#feed_open_source_page#:#Go to Source of External News###25 02 2007 new va
 feed#:#block_feed_block_head#:#External News Feed###25 02 2007 new variable
 feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
 feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php###25 02 2007 new variable
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
 pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
 pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!###25 02 2007 new variable

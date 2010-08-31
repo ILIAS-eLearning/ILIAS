@@ -1,5 +1,4 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
 * ILIAS language file (All entries)
 *
@@ -12,7 +11,6 @@
 * @created			2010-04-01 11:50:07
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
@@ -6778,7 +6776,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
 feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_feed_url_info#:#Moet een geldig RSS/Atom URL, vb. http://www.ilias.de/iosbb/rss.php
+feed#:#block_feed_block_feed_url_info#:#Moet een geldig RSS/Atom URL, vb. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Extern nieuws feed
 feed#:#block_feed_block_title#:#Titel
 feed#:#feed_disable_rep_feeds#:#Schakel externe web feed catergorieën uit.
