@@ -462,7 +462,8 @@ return $this->showServerInfoObject();
 			$settings["cron_lucene_index"] = $_POST["cron_lucene_index"];
 			$settings["forum_notification"] = $_POST["forum_notification"];
 			$settings["mail_notification"] = $_POST["mail_notification"];
-
+			$settings["mail_notification_message"] = $_POST["mail_notification_message"];
+			
 			// forums
 			$settings['frm_store_new'] = $_POST['frm_store_new'];
 
@@ -551,6 +552,7 @@ return $this->showServerInfoObject();
 				$this->ilias->setSetting("cron_forum_notification_last_date",date("Y-m-d H:i:s"));
 			}
 			$this->ilias->setSetting("mail_notification", $_POST["mail_notification"]);
+			$this->ilias->setSetting("mail_notification_message", $_POST["mail_notification_message"]);
 			
 
 			// webservice
@@ -772,6 +774,10 @@ return $this->showServerInfoObject();
 		$this->tpl->setVariable("TXT_CRON_MAIL_NOTIFICATION_NEVER",$this->lng->txt('cron_mail_notification_never'));
 		$this->tpl->setVariable("TXT_CRON_MAIL_NOTIFICATION_CRON",$this->lng->txt('cron_mail_notification_cron'));
 		$this->tpl->setVariable("CRON_MAIL_NOTIFICATION_DESC",$this->lng->txt('cron_mail_notification_desc'));
+
+		$this->tpl->setVariable("TXT_CRON_MAIL_MESSAGE_CHECK", $this->lng->txt('cron_mail_notification_message'));
+		$this->tpl->setVariable("CRON_MAIL_MESSAGE_CHECK", $this->lng->txt('cron_mail_notification_message_enabled'));
+		$this->tpl->setVariable("CRON_MAIL_MESSAGE_CHECK_DESC", $this->lng->txt('cron_mail_notification_message_desc'));
 
 		$this->tpl->setVariable("TXT_NEVER",$this->lng->txt('never'));
 		$this->tpl->setVariable("TXT_DAILY",$this->lng->txt('daily'));
@@ -1010,6 +1016,14 @@ return $this->showServerInfoObject();
         else if ($settings["mail_notification"] == 1)
         {
 			$this->tpl->setVariable("CRON_MAIL_NOTIFICATION_CRON_SELECTED"," selected=\"selected\"");
+			if($settings["mail_notification_message"] == 1)
+			{
+				$this->tpl->setVariable("CRON_MAIL_MESSAGE_CHECK","checked=\"checked\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("CRON_MAIL_MESSAGE_CHECK_DISABLED","DISABLED");
+			}
         }
         if ($val = $settings["cron_web_resource_check"])
         {
@@ -2694,6 +2708,17 @@ return $this->showServerInfoObject();
 		$si->setValue($ilSetting->get("mail_notification"));
 		$this->form->addItem($si);
 		
+		if($ilSetting->get("mail_notification") == '1')
+		{	
+			$cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
+			$cb->setInfo($this->lng->txt("cron_mail_notification_message_info"));
+			if ($ilSetting->get("mail_notification_message"))
+			{
+				$cb->setChecked(true);
+			}
+			$this->form->addItem($cb);
+		}		
+			
 		// disk quota and disk quota reminder mail
 		$dq_settings = new ilSetting('disk_quota');
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota"), "enable_disk_quota");
@@ -2755,6 +2780,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("cron_lucene_index", $_POST["cron_lucene_index"]);
 			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
 			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
+			$ilSetting->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);
 			
 			$ilSetting->set('cron_inactive_user_delete', $_POST['cron_inactive_user_delete']);
 			$ilSetting->set('cron_inactive_user_delete_interval', $_POST['cron_inactive_user_delete_interval']);
