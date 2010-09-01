@@ -452,39 +452,6 @@ class ilMail
 		return $this->mail_obj_ref_id;
 	}
 
-	function formatNotificationSubject()
-	{
-		return $this->lng->txt('mail_notification_subject');
-	}
-
-	function formatNotificationMessage($user_id, $mail_data = array())
-	{
-		global $tpl, $lng;
-
-		$tpl =& new ilTemplate('tpl.mail_notifications.html', true, true, 'Services/Mail');
-
-		$tpl->setVariable('TXT_RECEIVED_MAILS', sprintf($this->lng->txt('mail_received_x_new_mails'), count($mail_data)));
-
-		$counter = 0;
-		foreach ($mail_data as $mail)
-		{
-			$tpl->setCurrentBlock('mails');
-			$tpl->setVariable('NR', $counter + 1);
-			$tpl->setVariable('TXT_SENT', $this->lng->txt('sent'));
-			$tpl->setVariable('SEND_TIME', ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)));
-
-			$tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
-			$tpl->setVariable('SUBJECT', $mail['m_subject']);
-			$tpl->parseCurrentBlock();
-
-			++$counter;
-		}
-
-		$message = $this->replacePlaceholders($tpl->get(), $user_id);
-
-		return $message;
-	}
-
 	/**
  	 * Prepends the fullname of each ILIAS login name (is user has a public profile) found
  	 * in the passed string and brackets the ILIAS login name afterwards.
