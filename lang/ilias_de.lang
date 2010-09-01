@@ -5994,7 +5994,7 @@ crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
 crs#:#crs_subscription#:#Beitrittsverfahren
 crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
-crs#:#crs_subscription_max_members_short#:#Teilnehmeranzahl
+crs#:#crs_subscription_max_members_short#:#Teilnehmergröße
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
