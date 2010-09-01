@@ -10875,3 +10875,8 @@ trac#:#trac_sum#:#Sum
 trac#:#trac_others#:#Others
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)
 rbac#:#add_consultation_hours#:#Add Consultation Hours Calendar
+common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message
+common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.
+common#:#follow_link_to_read_mails#:#click the following link to read these mails:
+common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
+common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
