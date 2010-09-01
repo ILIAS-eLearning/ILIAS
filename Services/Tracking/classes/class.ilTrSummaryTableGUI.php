@@ -62,13 +62,47 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count",
 			);
 
-		$all = array("user_total", "read_count_sum", "read_count_avg", "spent_seconds_avg",
-			"percentage_avg", "status", "mark", "gender", "city", "country", "language", 
-			"first_access_min", "last_access_max", "create_date_min", "create_date_max");
 		
-		$default = array("read_count_sum", "spent_seconds_avg", "status", "mark",
-			"percentage_avg");
+		$all = array("user_total");
+		$default = array();
 
+		// show only if extended data was activated in lp settings
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$all[] = "read_count_sum";
+			$all[] = "read_count_avg";
+			$default[] = "read_count_sum";
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$all[] = "spent_seconds_avg";
+			$default[] = "spent_seconds_avg";
+		}
+
+		$all[] = "percentage_avg";
+		$all[] = "status";
+		$all[] = "mark";
+		$all[] = "gender";
+		$all[] = "city";
+		$all[] = "country";
+		$all[] = "language";
+
+		$default[] = "percentage_avg";
+		$default[] = "status";
+		$default[] = "mark";
+	
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$all[] = "first_access_min";
+			$all[] = "last_access_max";
+		}
+
+		$all[] = "create_date_min";
+		$all[] = "create_date_max";
+
+		
 		$columns = array();
 		foreach($all as $column)
 		{

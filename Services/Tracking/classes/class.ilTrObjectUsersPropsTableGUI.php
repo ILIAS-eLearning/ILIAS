@@ -114,18 +114,30 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			"txt" => $lng->txt("lastname"),
 			"default" => true);
 
-		$cols["first_access"] = array(
-			"txt" => $lng->txt("trac_first_access"),
-			"default" => true);
-		$cols["last_access"] = array(
-			"txt" => $lng->txt("trac_last_access"),
-			"default" => true);
-		$cols["read_count"] = array(
-			"txt" => $lng->txt("trac_read_count"),
-			"default" => true);
-		$cols["spent_seconds"] = array(
-			"txt" => $lng->txt("trac_spent_seconds"),
-			"default" => true);
+		// show only if extended data was activated in lp settings
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$cols["first_access"] = array(
+				"txt" => $lng->txt("trac_first_access"),
+				"default" => true);
+			$cols["last_access"] = array(
+				"txt" => $lng->txt("trac_last_access"),
+				"default" => true);
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$cols["read_count"] = array(
+				"txt" => $lng->txt("trac_read_count"),
+				"default" => true);
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$cols["spent_seconds"] = array(
+				"txt" => $lng->txt("trac_spent_seconds"),
+				"default" => true);
+		}
 
 		if($this->isPercentageAvailable($this->obj_id))
 		{
