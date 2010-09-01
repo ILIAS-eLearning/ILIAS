@@ -142,54 +142,55 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 
 		$this->tabs_gui->setTabActive('settings');
-	
-		// Tracking settings
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.trac_settings.html","Services/Tracking");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this));
-		
-		// some language variables
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_trac.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('tracking_settings'));
-		$this->tpl->setVariable("TXT_TRACKING_SETTINGS", $this->lng->txt("tracking_settings"));
-		$this->tpl->setVariable("TXT_ACTIVATE_TRACKING", $this->lng->txt("activate_tracking"));
-		$this->tpl->setVariable("TXT_USER_RELATED_DATA", $this->lng->txt("trac_anonymized"));
-		$this->tpl->setVariable("INFO_USER_RELATED_DATA",$this->lng->txt("trac_anonymized_info"));
-		$this->tpl->setVariable("TXT_VALID_REQUEST",$this->lng->txt('trac_valid_request'));
-		$this->tpl->setVariable("INFO_VALID_REQUEST",$this->lng->txt('info_valid_request'));
-		$this->tpl->setVariable("SECONDS",$this->lng->txt('seconds'));
 
-		#$this->tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
-		#$this->tpl->setVariable("NUMBER_RECORDS", $this->object->getRecordsTotal());
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('tracking_settings'));
 
-		// BEGIN ChangeEvent
-		$this->tpl->setVariable('TXT_USER_TRACKING', $this->lng->txt('trac_user_activities'));
-		$this->tpl->setVariable('TXT_LEARNING_PROGRESS_TRACKING', $this->lng->txt('trac_learning_progress'));
-		$this->tpl->setVariable('TXT_CHANGE_EVENT_TRACKING', $this->lng->txt('trac_repository_changes'));
+
+		$activate = new ilCheckboxGroupInputGUI($this->lng->txt('activate_tracking'));
+		$form->addItem($activate);
+		$tracking = new ilCheckboxInputGUI($this->lng->txt('trac_user_activities'), 'user_tracking');
+		$activate->addSubItem($tracking);
+		$lp = new ilCheckboxInputGUI($this->lng->txt('trac_learning_progress'), 'learning_progress_tracking');
+		$activate->addSubItem($lp);
+		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
+		$activate->addSubItem($event);
+
 		if($this->object->getActivationStatus() == UT_ACTIVE_BOTH ||
 			$this->object->getActivationStatus() == UT_ACTIVE_UT)
 		{
-			$this->tpl->setVariable('USER_TRACKING_CHECKED', ' checked="1" ');
+			$tracking->setChecked(true);
 		}
 		if($this->object->getActivationStatus() == UT_ACTIVE_BOTH ||
 			$this->object->getActivationStatus() == UT_ACTIVE_LP)
 		{
-			$this->tpl->setVariable('LEARNING_PROGRESS_TRACKING_CHECKED', ' checked="1" ');
+			$lp->setChecked(true);
 		}
 		if($this->object->isChangeEventTrackingEnabled())
 		{
-			$this->tpl->setVariable('CHANGE_EVENT_TRACKING_CHECKED', ' checked="1" ');
+			$event->setChecked(true);
 		}
-		// END ChangeEvent
-		
-		// Anonymized
-		if(!$this->object->_enabledUserRelatedData())
-		{
-			$this->tpl->setVariable("USER_RELATED_CHECKED", " checked=\"1\" ");
-		}
-		// Max time gap
-		$this->tpl->setVariable("VALID_REQUEST",$this->object->getValidTimeSpan());
 
+		// Anonymized
+		$user = new ilCheckboxInputGUI($this->lng->txt('trac_anonymized'), 'user_related');
+		$user->setInfo($this->lng->txt('trac_anonymized_info'));
+		$user->setChecked(!$this->object->_enabledUserRelatedData());
+		$form->addItem($user);
+
+		// Max time gap
+		$valid = new ilTextInputGUI($this->lng->txt('trac_valid_request'), 'valid_request');
+		$valid->setMaxLength(4);
+		$valid->setSize(4);
+		$valid->setSuffix($this->lng->txt('seconds'));
+		$valid->setInfo($this->lng->txt('info_valid_request'));
+		$valid->setValue($this->object->getValidTimeSpan());
+		$form->addItem($valid);
+		
+		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
