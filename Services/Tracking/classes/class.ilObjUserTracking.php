@@ -24,6 +24,7 @@ include_once "classes/class.ilObject.php";
 class ilObjUserTracking extends ilObject
 {
 	var $valid_time_span = null;
+	var $extended_data = null;
 
 	// BEGIN ChangeEvent
 	/**
@@ -31,6 +32,10 @@ class ilObjUserTracking extends ilObject
 	 */
 	private $is_change_event_tracking_enabled = null;
 	// BEGIN ChangeEvent
+
+	const EXTENDED_DATA_LAST_ACCESS = 1;
+	const EXTENDED_DATA_READ_COUNT = 2;
+	const EXTENDED_DATA_SPENT_SECONDS = 4;
 
 
 	/**
@@ -177,6 +182,7 @@ class ilObjUserTracking extends ilObject
 		$ilias->setSetting("enable_tracking",$this->getActivationStatus());
 		$ilias->setSetting("save_user_related_data",$this->enabledUserRelatedData() ? 1 : 0);
 		$ilias->setSetting("tracking_time_span",$this->getValidTimeSpan());
+		$ilias->setSetting("lp_extended_data", $this->extended_data);
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -499,12 +505,14 @@ class ilObjUserTracking extends ilObject
 		#$this->enableTracking($ilias->getSetting("enable_tracking",0));
 		$this->status = $ilias->getSetting('enable_tracking',UT_INACTIVE_BOTH);
 		$this->enableUserRelatedData($ilias->getSetting("save_user_related_data",0));
-		$this->setValidTimeSpan($ilias->getSetting("tracking_time_span",DEFAULT_TIME_SPAN));
+		$this->setValidTimeSpan($ilias->getSetting("tracking_time_span",DEFAULT_TIME_SPAN));#
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$this->is_change_event_tracking_enabled = ilChangeEvent::_isActive();
 		// END ChangeEvent
+
+		$this->setExtendedData($ilias->getSetting("lp_extended_data"),0);
 
 		return true;
 	}
@@ -533,6 +541,15 @@ class ilObjUserTracking extends ilObject
 		return true;
 	}
 
+	function setExtendedData($a_value)
+	{
+		$this->extended_data = $a_value;
+	}
+
+	function hasExtendedData($a_code)
+	{
+		return $this->extended_data & $a_code;
+	}
 		
 } // END class.ilObjUserTracking
 ?>

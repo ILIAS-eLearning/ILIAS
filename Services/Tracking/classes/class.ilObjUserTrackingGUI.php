@@ -148,12 +148,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('tracking_settings'));
 
-
 		$activate = new ilCheckboxGroupInputGUI($this->lng->txt('activate_tracking'));
 		$form->addItem($activate);
 		$tracking = new ilCheckboxInputGUI($this->lng->txt('trac_user_activities'), 'user_tracking');
 		$activate->addSubItem($tracking);
 		$lp = new ilCheckboxInputGUI($this->lng->txt('trac_learning_progress'), 'learning_progress_tracking');
+		$lp->setInfo($this->lng->txt('trac_learning_progress_settings_info'));
 		$activate->addSubItem($lp);
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		$activate->addSubItem($event);
@@ -173,6 +173,27 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$event->setChecked(true);
 		}
 
+		$access = new ilCheckboxInputGUI($this->lng->txt('trac_last_access'), 'lp_access');
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$access->setChecked(true);
+		}
+		$lp->addSubItem($access);
+
+		$read = new ilCheckboxInputGUI($this->lng->txt('trac_read_count'), 'lp_count');
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$read->setChecked(true);
+		}
+		$lp->addSubItem($read);
+
+		$spent = new ilCheckboxInputGUI($this->lng->txt('trac_spent_seconds'), 'lp_spent');
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$spent->setChecked(true);
+		}
+		$lp->addSubItem($spent);
+
 		// Anonymized
 		$user = new ilCheckboxInputGUI($this->lng->txt('trac_anonymized'), 'user_related');
 		$user->setInfo($this->lng->txt('trac_anonymized_info'));
@@ -180,7 +201,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$form->addItem($user);
 
 		// Max time gap
-		$valid = new ilTextInputGUI($this->lng->txt('trac_valid_request'), 'valid_request');
+		$valid = new ilNumberInputGUI($this->lng->txt('trac_valid_request'), 'valid_request');
 		$valid->setMaxLength(4);
 		$valid->setSize(4);
 		$valid->setSuffix($this->lng->txt('seconds'));
@@ -210,6 +231,24 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->object->setActivationStatus($activation_status);
 		$this->object->setChangeEventTrackingEnabled($_POST['change_event_tracking'] == '1');
 		// END ChangeEvent
+		
+		if($_POST['learning_progress_tracking'] == '1')
+		{
+			$code = 0;
+			if($_POST['lp_access'] == '1')
+			{
+				$code += ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS;
+			}
+			if($_POST['lp_count'] == '1')
+			{
+				$code += ilObjUserTracking::EXTENDED_DATA_READ_COUNT;
+			}
+			if($_POST['lp_spent'] == '1')
+			{
+				$code += ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS;
+			}
+			$this->object->setExtendedData($code);
+		}
 		
 		$this->object->enableUserRelatedData((int) !$_POST['user_related']);
 		$this->object->setValidTimeSpan($_POST['valid_request']);
