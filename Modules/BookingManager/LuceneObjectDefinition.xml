@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="book">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT title FROM booking_type 
+				WHERE pool_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT bo.title AS title FROM booking_type bt
+				JOIN booking_object bo ON (bo.type_id = bt.booking_type_id)
+				WHERE bt.pool_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>
