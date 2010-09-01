@@ -3299,4 +3299,59 @@ foreach($all_types as $type)
 	$ilDB->manipulate($query);
 }
 ?>
+<#3180>
+<?php
 
+// Calendar settings
+$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('typ','text').
+	' AND title = '.$ilDB->quote('cals','text');
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$cals = $row[0];
+
+$insert = false;
+$query = 'SELECT ops_id FROM rbac_operations WHERE operation = '.$ilDB->quote('add_consultation_hours','text');
+$res = $ilDB->query($query);
+if($ilDB->numRows($res))
+{
+	$row = $res->fetchRow();
+	$ops_id = (int)$row[0];
+
+	// remove old (faulty) ops [see #3083]
+	if($ops_id === 0)
+	{
+		$query = 'DELETE FROM rbac_operations WHERE operation = '.$ilDB->quote('add_consultation_hours','text');
+		$ilDB->query($query);
+		$query = 'DELETE FROM rbac_ta  WHERE ops_id = '.$ilDB->quote(0,'integer').
+			' AND typ_id = '.$ilDB->quote($cals,'integer');
+		$ilDB->query($query);
+
+		$insert = true;
+	}
+}
+else
+{
+	$insert = true;
+}
+
+if($insert)
+{
+	// new permission
+	$new_ops_id = $ilDB->nextId('rbac_operations');
+	$query = 'INSERT INTO rbac_operations (ops_id,operation,description,class,op_order) '.
+		'VALUES( '.
+		$ilDB->quote($new_ops_id,'integer').', '.
+		$ilDB->quote('add_consultation_hours','text').', '.
+		$ilDB->quote('Add Consultation Hours Calendar','text').", ".
+		$ilDB->quote('object','text').", ".
+		$ilDB->quote(300,'integer').
+		')';
+	$res = $ilDB->query($query);
+
+	$ilDB->manipulateF(
+		'INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)',
+		array('integer','integer'),
+		array($cals, $new_ops_id));
+}
+
+?>
