@@ -3133,6 +3133,5 @@ class ilTree
 		}
 		return (array) $nodes;
 	}
-	
 } // END class.tree
 ?>
