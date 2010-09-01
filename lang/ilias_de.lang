@@ -3386,10 +3386,10 @@ common#:#mem_reg_period#:#Anmeldungszeitraum
 common#:#mem_reg_type#:#Aufnahmeverfahren
 common#:#mem_start#:#Anmeldungsbeginn:
 common#:#mem_unlimited#:#Unbegrenzt
-common#:#mem_view_activate#:#Voransicht als Teilnehmer aktivieren
-common#:#mem_view_close#:#Voransicht als Teilnehmer schließen
-common#:#mem_view_deactivate#:#Voransicht als Teilnehmer deaktivieren
-common#:#mem_view_long#:#Voransicht als Teilnehmer
+common#:#mem_view_activate#:#Voransicht als Mitglied aktivieren
+common#:#mem_view_close#:#Voransicht als Mitglied schließen
+common#:#mem_view_deactivate#:#Voransicht als Mitglied deaktivieren
+common#:#mem_view_long#:#Voransicht als Mitglied
 common#:#mem_waiting_list#:#Personen auf der Warteliste:
 common#:#mem_waiting_list_position#:#Ihre Position auf der Warteliste:
 common#:#member#:#Mitglied
