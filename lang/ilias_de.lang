@@ -10879,3 +10879,8 @@ trac#:#trac_sum#:#Summe
 trac#:#trac_others#:#Sonstige
 assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diesen Test verfügbar machen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
+common#:#cron_mail_notification_message#:#Mail-Benachrichtigungen mit Nachrichtentext versenden
+common#:#cron_mail_notification_message_info#:#Wenn diese Option eingeschaltet ist, werden die Mail-Benachrichtigungen mit dem Nachrichtentext an die Benutzer versendet.
+common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
+common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachrichten erhalten
+common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachricht erhalten
