@@ -10884,3 +10884,4 @@ common#:#cron_mail_notification_message_info#:#Wenn diese Option eingeschaltet i
 common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachrichten erhalten
 common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachricht erhalten
+trac#:#trac_learning_progress_settings_info#:#Anzeige folgender Werte im Lernfortschritt aktivieren:
