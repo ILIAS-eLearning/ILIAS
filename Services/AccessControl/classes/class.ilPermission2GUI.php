@@ -338,7 +338,7 @@ class ilPermission2GUI
 
 	function initRoleForm()
     {
-		global $rbacreview;
+		global $rbacreview,$objDefinition;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -400,11 +400,14 @@ class ilPermission2GUI
 			}
 			$key++;
 		}
-
-		$check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
-		$rights->addSubItem($check);
+		// Local policy only for containers
+		if($objDefinition->isContainer($this->getCurrentObject()->getType()))
+		{
+			$check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
+			$rights->addSubItem($check);
+		}
+	
 		$form->addItem($rights);
-
 		return $form;
 	}
 
