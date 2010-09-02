@@ -46,9 +46,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$_COOKIE['ilClientId'] = $client;
 		$_POST['username'] = $username;
 		$_POST['password'] = $password;
+		unset($_COOKIE['PHPSESSID']);
 		
 		include_once './include/inc.header.php';
 		
+		ilUtil::setCookie('ilClientId',$client);
+
 		global $ilUser;
 		if(!$ilUser->hasAcceptedUserAgreement())
 		{
