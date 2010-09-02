@@ -226,8 +226,13 @@ class ilPermissionGUI extends ilPermission2GUI
 		);
 		$createable_ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys((array) $create_types));
 
-		foreach((array) $roles as $role => $tmp)
+		foreach((array) $roles as $role => $role_data)
 		{
+			if($role_data['protected'])
+			{
+				continue;
+			}
+
 			$new_ops = array_keys((array) $_POST['perm'][$role]);
 			$old_ops = $rbacreview->getRoleOperationsOnObject(
 				$role,
@@ -309,12 +314,12 @@ class ilPermissionGUI extends ilPermission2GUI
 			{
 				if($rbacreview->isAssignable($role['obj_id'], $rolf_id))
 				{
-					if(isset($_POST['inherit'][$role['obj_id']]) and 
+					if(isset($_POST['protect'][$role['obj_id']]) and 
 						!$rbacreview->isProtected($rolf_id, $role['obj_id']))
 					{
 						$rbacadmin->setProtected($rolf_id, $role['obj_id'], 'y');
 					}
-					elseif(!isset($_POST['inherit'][$role['obj_id']]) and 
+					elseif(!isset($_POST['protect'][$role['obj_id']]) and 
 						$rbacreview->isProtected($rolf_id, $role['obj_id']))
 					{
 						$rbacadmin->setProtected($rolf_id, $role['obj_id'], 'n');

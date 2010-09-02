@@ -192,7 +192,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock('role_option');
 				$this->tpl->setVariable('INHERIT_ROLE_ID',$role_id);
 				$this->tpl->setVariable('INHERIT_CHECKED',$role_info['local_policy'] ? 'checked=checked' : '');
-				$this->tpl->setVariable('INHERIT_DISABLED',($role_info['protected'] or $role_info['isLocal']) ? 'disabled="disabled' : '');
+				$this->tpl->setVariable('INHERIT_DISABLED',($role_info['protected'] or $role_info['isLocal']) ? 'disabled="disabled"' : '');
 				$this->tpl->setVariable('TXT_INHERIT',$this->lng->txt('rbac_local_policy'));
 				$this->tpl->setVariable('INHERIT_LONG',$this->lng->txt('perm_use_local_policy_desc'));
 				$this->tpl->parseCurrentBlock();
@@ -207,7 +207,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock('role_protect');
 				$this->tpl->setVariable('PROTECT_ROLE_ID',$role_id);
 				$this->tpl->setVariable('PROTECT_CHECKED',$role_info['protected_status'] ? 'checked=checked' : '');
-				$this->tpl->setVariable('PROTECT_DISABLED',$role_info['protected_allowed'] ? '' : 'disabled="disabled');
+				$this->tpl->setVariable('PROTECT_DISABLED',$role_info['protected_allowed'] ? '' : 'disabled="disabled"');
 				$this->tpl->setVariable('TXT_PROTECT',$this->lng->txt('role_protect_permissions'));
 				$this->tpl->setVariable('PROTECT_LONG',$this->lng->txt('role_protect_permissions_desc'));
 				$this->tpl->parseCurrentBlock();
@@ -345,7 +345,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 					'protected' => $role_data['protected'],
 					'local_policy' => in_array($role_data['obj_id'],$local_roles),
 					'isLocal' => ($rolf == $role_data['parent']) && $role_data['assign'] == 'y'
-				);				
+				);
 			}
 			$perms[$counter]['roles'] = $roles;
 			$perms[$counter]['show_local_policy_row'] = 1;
