@@ -57,7 +57,8 @@ class ilRoleDesktopItemSelector extends ilExplorer
 
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->setFiltered(true);
-
+		
+		$this->setTitleLength(ilObject::TITLE_LENGTH);
 	}
 
 	function buildLinkTarget($a_node_id, $a_type)

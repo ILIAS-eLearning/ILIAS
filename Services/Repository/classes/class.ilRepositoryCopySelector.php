@@ -73,6 +73,8 @@ class ilRepositoryCopySelector extends ilExplorer
 
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->setFiltered(true);
+		
+		$this->setTitleLength(ilObject::TITLE_LENGTH);
 	}
 
 	function setSelectableType($a_type)

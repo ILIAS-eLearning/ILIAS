@@ -55,6 +55,8 @@ class ilConditionSelector extends ilExplorer
 
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->setFiltered(true);
+		
+		$this->setTitleLength(ilObject::TITLE_LENGTH);
 	}
 
 	function setControlClass(&$class)
@@ -90,7 +92,6 @@ class ilConditionSelector extends ilExplorer
 			$this->ctrl->setParameterByClass('ilrepositorygui',"ref_id",$this->ref_id);
 			return $this->ctrl->getLinkTargetByClass('ilrepositorygui','copySelector');
 		}
-
 	}
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
