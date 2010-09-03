@@ -4224,6 +4224,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacreview, $ilErr, $ilAccess, $ilObjDataCache, $ilias;
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
+		$this->lng->loadLanguageModule('mail');
+		ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
 
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
@@ -4248,7 +4250,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable("MAIL_TUTOR",$this->lng->txt('send_mail_tutors'));
 		$this->tpl->setVariable("MAIL_ADMIN",$this->lng->txt('send_mail_admins'));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+		$this->tpl->setVariable("OK",$this->lng->txt('next'));
 
 		// Display roles with user friendly mailbox addresses
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());

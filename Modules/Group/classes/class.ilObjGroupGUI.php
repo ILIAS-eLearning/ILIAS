@@ -1874,6 +1874,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $rbacreview, $ilObjDataCache, $ilias;
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
+		
+		$this->lng->loadLanguageModule('mail');
+		ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
 
 		//$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
@@ -1886,7 +1889,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role','sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
-		$this->tpl->setVariable("OK",$this->lng->txt('ok'));
+		$this->tpl->setVariable("OK",$this->lng->txt('next'));
 		
 		// Get role mailbox addresses
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());

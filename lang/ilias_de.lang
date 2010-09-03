@@ -10886,3 +10886,4 @@ common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben
 common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachricht erhalten
 trac#:#trac_learning_progress_settings_info#:#Anzeige folgender Werte im Lernfortschritt aktivieren:
 fold#:#fold_import#:#Ordner importieren
+mail#:#mail_select_recipients#:#Bitte wählen Sie die Empfänger aus:
