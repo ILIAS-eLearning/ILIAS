@@ -353,34 +353,42 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.grp_create.html','Modules/Group');
 		$this->tpl->setVariable('CREATE_FORM',$this->form->getHTML());
 		
-		// IMPORT
-		$this->tpl->setVariable('IMP_FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TYPE_IMG",
-			ilUtil::getImagePath("icon_grp.gif"));
-		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_grp"));
-		
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_IMPORT_CRS", $this->lng->txt("import_grp"));
-		$this->tpl->setVariable("TXT_CRS_FILE", $this->lng->txt("file"));
-		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
-
-		// get the value for the maximal uploadable filesize from the php.ini (if available)
-		$umf=get_cfg_var("upload_max_filesize");
-		// get the value for the maximal post data from the php.ini (if available)
-		$pms=get_cfg_var("post_max_size");
-
-		// use the smaller one as limit
-		$max_filesize=min($umf, $pms);
-		if (!$max_filesize) 
-			$max_filesize=max($umf, $pms);
-	
-		// gives out the limit as a littel notice :)
-		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
-		
+		$this->initImportForm("grp");
+		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
 		
 		$this->fillCloneTemplate('DUPLICATE','grp');
 	}
+	
+	/**
+	 * Init object import form
+	 *
+	 * @param        string        new type
+	 */
+	public function initImportForm($a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule("crs");
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('600px');
+		$this->form->setTarget("_top");
+
+		// Import file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importFile", $lng->txt("import"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->form->setTitle($lng->txt($a_new_type."_import"));
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
 	
 	/**
 	 * save object
@@ -2077,6 +2085,22 @@ class ilObjGroupGUI extends ilContainerGUI
 								 "");
 		}
 	}
+	
+	/**
+	 * import file
+	 * @return 
+	 */
+	public function importFileObject()
+	{
+		global $lng;
+		
+		if($new_id = parent::importFileObject())
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->ctrl->returnToParent($this);
+		}
+	}
+	
 
 
 	// IMPORT FUNCTIONS

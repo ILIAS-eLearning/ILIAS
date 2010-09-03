@@ -456,8 +456,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		global $ilias,$ilUser;
 
-		$this->participants = ilGroupParticipants::_getInstanceByObjId($this->group_obj->getId());
-
+		$this->participants = new ilGroupParticipants($this->group_obj->getId());
 		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
 		$this->participants->updateNotification($ilUser->getId(),true);
 		

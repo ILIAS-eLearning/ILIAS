@@ -34,6 +34,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 		// $this->setTitle($lng->txt("tr_summary"));
 		$this->setLimit(9999);
 		// $this->setShowTemplates(true);
+		
+		$this->setTitle($this->lng->txt('crs_grp_assignments'));
 
 		$this->addColumn('','',0);
 		$this->addColumn($this->lng->txt("name"), "name",'70%');

@@ -10883,3 +10883,5 @@ common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIA
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:
 fold#:#fold_import#:#Import Folder
 mail#:#mail_select_recipients#:#Please select mail recipients:
+grp#:#grp_import#:#Import Group
+crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
