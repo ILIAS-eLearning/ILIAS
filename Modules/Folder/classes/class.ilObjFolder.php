@@ -45,6 +45,7 @@ class ilObjFolder extends ilContainer
 	{
 		$this->type = "fold";
 		parent::__construct($a_id,$a_call_by_reference);
+		$this->lng->loadLanguageModule('fold');
 	}
 
 	function setFolderTree($a_tree)
