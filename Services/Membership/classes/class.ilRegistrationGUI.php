@@ -302,7 +302,7 @@ abstract class ilRegistrationGUI
 		$this->showCustomFields();
 
 		// Checkbox agreement		
-		if($this->privacy->confirmationRequired($this-type))
+		if($this->privacy->confirmationRequired($this->type))
 		{		
 			$agreement = new ilCheckboxInputGUI($this->lng->txt($this->type.'_agree'),'agreement');
 			$agreement->setRequired(true);
