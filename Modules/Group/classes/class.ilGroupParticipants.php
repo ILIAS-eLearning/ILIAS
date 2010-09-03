@@ -43,7 +43,7 @@ class ilGroupParticipants extends ilParticipants
 	 * @access protected
 	 * @param int obj_id of container
 	 */
-	protected function __construct($a_obj_id)
+	public function __construct($a_obj_id)
 	{
 		$this->type = 'grp';
 		parent::__construct($a_obj_id);

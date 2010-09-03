@@ -10408,7 +10408,7 @@ tbl#:#tbl_export_excel#:#.xls exportieren
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
-crs#:#crs_members_groups#:#Mitgliedschaften in Gruppen
+crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_groups_nr#:#Anzahl Gruppen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
 exc#:#exc_submission_notification#:#Mail Benachrichtigung bei Abgaben
@@ -10887,3 +10887,5 @@ common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben 
 trac#:#trac_learning_progress_settings_info#:#Anzeige folgender Werte im Lernfortschritt aktivieren:
 fold#:#fold_import#:#Ordner importieren
 mail#:#mail_select_recipients#:#Bitte wählen Sie die Empfänger aus:
+grp#:#grp_import#:#Gruppe importieren
+crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
