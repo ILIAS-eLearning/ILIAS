@@ -10882,3 +10882,4 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:
 fold#:#fold_import#:#Import Folder
+mail#:#mail_select_recipients#:#Please select mail recipients:
