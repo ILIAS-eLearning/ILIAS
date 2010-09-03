@@ -198,7 +198,7 @@ class ilExplorer
 		$this->rbac_check = true;
 		$this->output_icons = true;
 		$this->expand_variable = "expand";
-		$this->textwidth=50;
+		$this->setTitleLength(50);
 		$this->post_sort=true;
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->highlighted = "";
@@ -226,6 +226,25 @@ class ilExplorer
 	function setTitle($a_val)
 	{
 		$this->title = $a_val;
+	}
+	
+	/**
+	 * Set max title length
+	 * @param object $a_length
+	 * @return 
+	 */
+	public function setTitleLength($a_length)
+	{
+		$this->textwidth = $a_length;
+	}
+	
+	/**
+	 * Get max title length
+	 * @return 
+	 */
+	public function getTitleLength()
+	{
+		return $this->textwidth;
 	}
 	
 	/**

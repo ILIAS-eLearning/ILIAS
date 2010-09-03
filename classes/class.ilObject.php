@@ -13,6 +13,12 @@
 class ilObject
 {
 	/**
+	 * max length of object title
+	 */
+	const TITLE_LENGTH = 128;
+
+
+	/**
 	* ilias object
 	* @var		object ilias
 	* @access	private

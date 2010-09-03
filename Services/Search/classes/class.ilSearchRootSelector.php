@@ -75,7 +75,8 @@ class ilSearchRootSelector extends ilExplorer
 
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
-
+		
+		$this->setTitleLength(ilObject::TITLE_LENGTH);
 	}
 	
 	function setClickableTypes($a_types)
