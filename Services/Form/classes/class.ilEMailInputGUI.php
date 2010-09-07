@@ -120,6 +120,8 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 		{
 			$a_tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
+			$a_tpl->setVariable("HIDDEN_INPUT",
+				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
 		}
 		$a_tpl->parseCurrentBlock();
 	}
