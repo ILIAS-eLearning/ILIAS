@@ -250,6 +250,11 @@ class ilUserSearchCache
 		return $this->query;
 	}
 	
+	public function getUrlEncodedQuery()
+	{
+		return urlencode(str_replace('"', '.', $this->getQuery()));
+	}
+	
 	/**
 	 * set root node of search
 	 * @param int root id

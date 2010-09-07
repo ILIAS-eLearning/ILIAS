@@ -63,7 +63,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 					$this->tpl->setVariable("SUBITEM_TYPE",$lng->txt('obj_pg'));
 					$link = $this->getItemListGUI()->getCommandLink('page');
 					include_once './Services/Search/classes/class.ilUserSearchCache.php';
-					$link .= ('&srcstring='.rawurlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
+					$link .= ('&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getUrlEncodedQuery());			
 					$this->tpl->setVariable('LINK',$link);
 					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
 					$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));			
@@ -75,7 +75,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 					$this->tpl->setVariable("SUBITEM_TYPE",$lng->txt('obj_st'));
 					$link = $this->getItemListGUI()->getCommandLink('page');
 					include_once './Services/Search/classes/class.ilUserSearchCache.php';
-					$link .= ('&srcstring='.rawurlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery()));			
+					$link .= ('&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getUrlEncodedQuery());			
 					$this->tpl->setVariable('LINK',$link);
 					$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame('page'));
 					$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));	

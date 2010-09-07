@@ -60,7 +60,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 			#$this->getItemListGUI()->setChildId($sub_item);
 			
 			include_once './Services/Search/classes/class.ilUserSearchCache.php';
-			$src_string = rawurldecode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery());
+			$src_string = ilUserSearchCache::_getInstance($ilUser->getId())->getUrlEncodedQuery();
 			
 			$this->tpl->setVariable('LINK',ilLink::_getLink(
 				$this->getRefId(),
