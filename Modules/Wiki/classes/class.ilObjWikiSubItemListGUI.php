@@ -65,7 +65,7 @@ class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 				$this->tpl->setVariable('SEPERATOR',':');
 
 				include_once './Services/Search/classes/class.ilUserSearchCache.php';
-				$link = '&srcstring='.ilUserSearchCache::_getInstance($ilUser->getId())->getQuery();
+				$link = '&srcstring='.rawurlencode(ilUserSearchCache::_getInstance($ilUser->getId())->getQuery());
 				$link = ilObjWikiGUI::getGotoLink($this->getRefId(),$title).$link;
 				
 				$this->tpl->setVariable('LINK',$link);
