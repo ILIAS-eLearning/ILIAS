@@ -1554,7 +1554,7 @@ class ilLMPresentationGUI
 			{
 				include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
 				include_once("./Services/Search/classes/class.ilQueryParser.php");
-				$p = new ilQueryParser($_GET["srcstring"]);
+				$p = new ilQueryParser(str_replace(".", '"', $_GET["srcstring"]));
 				$p->parse();
 				$words = $p->getQuotedWords();
 				if (is_array($words))
