@@ -64,6 +64,25 @@ class ilAuthHTTP extends Auth_HTTP
     }
 	
 	/**
+	 * Overwritten to allow passwordless mount-instructions
+	 * @return 
+	 */
+	public function assignData()
+	{
+		if(isset($_GET['mount-instructions']))
+		{
+			$GLOBALS['ilLog']->write('Trying authentication as anonymous for displaying mount instructions');
+			$this->username = 'anonymous';
+			$this->password = 'anonymous';
+		}
+		else
+		{
+			parent::assignData();
+		}
+		
+	}
+	
+	/**
 	 * Failed login. => Draw login (HTTP 401)
 	 * @param object $a_username
 	 * @param object $a_auth

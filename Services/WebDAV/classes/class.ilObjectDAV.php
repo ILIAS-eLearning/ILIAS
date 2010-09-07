@@ -311,36 +311,44 @@ class ilObjectDAV
 	*/
 	function isPermitted($operations, $type = '')
 	{
+		// Mount instructions are always visible
+		if(isset($_GET['mount-instructions']))
+		{
+			return true;
+		}
+		
 		// The 'visible' operation is only permitted if the object is online,
 		// or if the user is also permitted the perform the 'write' operation.
-if (false)		// old implementation deactivated
-{
-		$ops = explode(',',$operations);
-		if (in_array('visible',$ops) && ! in_array('write',$ops))
+		if (false)		// old implementation deactivated
 		{
-			if (! $this->isOnline()) {
-				$operations .= ',write';
-			}
-		}
-		
-		global $rbacsystem;
-		return $rbacsystem->checkAccess($operations, $this->getRefId(), $type);
-}
-else 		// this one fixes bug #5367
-{
-		$GLOBALS['ilLog']->write('Checking permission for ref_id: '.$this->getRefId());
-		
-		global $ilAccess;
-		$operations = explode(",",$operations."");
-		foreach ($operations as $operation)
-		{
-			if (!$ilAccess->checkAccess($operation, '', $this->getRefId(), $type))
+			$ops = explode(',',$operations);
+			if (in_array('visible',$ops) && ! in_array('write',$ops))
 			{
-				return false;
+				if (! $this->isOnline()) {
+					$operations .= ',write';
+				}
 			}
+		
+			global $rbacsystem;
+			return $rbacsystem->checkAccess($operations, $this->getRefId(), $type);
 		}
-		return true;
-}
+		else 		// this one fixes bug #5367
+		{
+			$GLOBALS['ilLog']->write('Checking permission for ref_id: '.$this->getRefId());
+			$GLOBALS['ilLog']->write("Operations: ".print_r($operations,true));
+			
+			global $ilAccess;
+			$operations = explode(",",$operations."");
+			foreach ($operations as $operation)
+			{
+				if (!$ilAccess->checkAccess($operation, '', $this->getRefId(), $type))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Permission denied for user '.$GLOBALS['ilUser']->getId());
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 	
 	/**
@@ -348,7 +356,12 @@ else 		// this one fixes bug #5367
 	 */
 	function getILIASType()
 	{
-		return $this->obj->getType();
+		if($this->obj instanceof ilObject)
+		{
+			return $this->obj->getType();
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Invalid object given, class='.get_class($this->obj));
+		$GLOBALS['ilLog']->logStack();
 	}
 	/**
 	 * Returns the ilias type for collections that can be created as children of this object.

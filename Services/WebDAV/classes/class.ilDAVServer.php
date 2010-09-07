@@ -105,7 +105,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * The WebDAVServer prints lots of log messages to the ilias log, if this
 	 * variable is set to true.
 	 */
-	private $isDebug = true;
+	private $isDebug = false;
 
 	/**
 	* Constructor
@@ -527,10 +527,13 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			if (isset($_GET['mount']))
 			{
 				return $this->mountDir($objDAV, $options);
-			} else if (isset($_GET['mount-instructions']))
+			} 
+			else if (isset($_GET['mount-instructions']))
 			{
 				return $this->showMountInstructions($objDAV, $options);
-			} else {
+			} 
+			else 
+			{
 				return $this->getDir($objDAV, $options);
 			}
 		}
@@ -600,7 +603,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	*/
 	private function showMountInstructions(&$objDAV, &$options)
 	{
-		global $lng;
+		global $lng,$ilUser;
 
 		$path = $this->davDeslashify($options['path']);
 
@@ -672,6 +675,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		echo "  </body>\n";
 		echo "</html>\n";
+		
+		// Logout anonymous user
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$GLOBALS['ilAuth']->logout();
+			session_destroy();
+		}
+		
 		exit;
 	}
 	/**
