@@ -246,7 +246,7 @@ class SurveyQuestion
 			array('text'),
 			array($title)
 		);
-		return ($result->numRows() == 1) ? true : false;
+		return ($result->numRows() > 0) ? true : false;
 	}
 
 /**
