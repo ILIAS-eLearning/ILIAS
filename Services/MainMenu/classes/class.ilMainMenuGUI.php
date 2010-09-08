@@ -78,6 +78,19 @@ class ilMainMenuGUI
 	{
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 
+
+		// search
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
+		{
+			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
+			$main_search = new ilMainMenuSearchGUI();
+			if(strlen($html = $main_search->getHTML()))
+			{
+				$this->tpl->setVariable('SEARCHBOX',$html);
+			}
+		}
+
 		// user interface hook [uihk]
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		$plugin_html = false;
@@ -243,13 +256,6 @@ class ilMainMenuGUI
 				$lng->txt("search"),
 				$this->getScriptTarget('ilias.php?baseClass=ilSearchController'),
 				$this->target);
-
-			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
-			$main_search = new ilMainMenuSearchGUI();
-			if(strlen($html = $main_search->getHTML()))
-			{
-				$a_tpl->setVariable('SEARCHBOX',$html);
-			}
 		}
 
 		// mail
