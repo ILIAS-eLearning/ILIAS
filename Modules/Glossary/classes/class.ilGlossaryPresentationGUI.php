@@ -756,12 +756,12 @@ if (!false)
 		if (!$this->offlineMode())
 		{
 			$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
-			$wb_path = ilUtil::getWebspaceDir("output");
+			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
 		{
 			$enlarge_path = "images/enlarge.gif";
-			$wb_path = ".";
+			$wb_path = "";
 		}
 
 		$mode = $a_mode;

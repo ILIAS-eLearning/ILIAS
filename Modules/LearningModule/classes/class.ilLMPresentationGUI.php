@@ -2154,11 +2154,11 @@ class ilLMPresentationGUI
 		//$pg_frame = $_GET["frame"];
 		if (!$this->offlineMode())
 		{
-			$wb_path = ilUtil::getWebspaceDir("output");
+			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
 		{
-			$wb_path = ".";
+			$wb_path = "";
 		}
 //		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$mode = ($_GET["cmd"] == "fullscreen")

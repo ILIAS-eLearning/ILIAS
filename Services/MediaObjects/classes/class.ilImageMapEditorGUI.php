@@ -479,7 +479,7 @@ class ilImageMapEditorGUI
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
-		$wb_path = ilUtil::getWebspaceDir("output");
+		$wb_path = ilUtil::getWebspaceDir("output")."/";
 		$mode = "media";
 //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
 		$params = array ('map_edit_mode' => $a_map_edit_mode,
