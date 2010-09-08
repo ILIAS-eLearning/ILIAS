@@ -411,13 +411,18 @@ class ilObjLanguage extends ilObject
 			// remove header first
 			if ($content = $this->cut_header(file($lang_file)))
 			{
-				// get the local changes from the database
 				if (empty($scope))
 				{
+					// reset change date for a global file
+	                // get all local changes for a global file
+					$change_date = null;
 					$local_changes = $this->getLocalChanges();
 				}
 				else if ($scope == 'local')
 				{
+					// set the change date to import time for a local file
+					// get the modification date of the local file
+	                // get the newer local changes for a local file
 					$change_date = date("Y-m-d H:i:s",time());
 					$min_date = date("Y-m-d H:i:s", filemtime($lang_file));
 					$local_changes = $this->getLocalChanges($min_date);
@@ -425,14 +430,16 @@ class ilObjLanguage extends ilObject
 				
 				foreach ($content as $key => $val)
 				{
+					// split the line of the language file
+					// [0]:	module
+					// [1]:	identifier
+					// [2]:	value
+					// [3]:	comment (optional)
 					$separated = explode($this->separator,trim($val));
-					
-					//get position of the comment_separator
 					$pos = strpos($separated[2], $this->comment_separator);
-				
 					if ($pos !== false)
 					{ 
-						//cut comment of
+						$separated[3] = substr($separated[2], $pos + strlen($this->comment_separator));
 						$separated[2] = substr($separated[2] , 0 , $pos);
 					}
 
@@ -441,42 +448,49 @@ class ilObjLanguage extends ilObject
 
 					if (empty($scope))
 					{
+						// import of a global language file
+
 						if ($local_value != "" and $local_value != $separated[2])
 						{
-							// keep the locally changed value
+							// keep an existing and different local calue
 							$lang_array[$separated[0]][$separated[1]] = $local_value;
 						}
 						else
 						{
+	                        // check for double entries in global file
 							if ($double_checker[$separated[0]][$separated[1]][$this->key])
 							{
 								$this->ilias->raiseError("Duplicate Language Entry: ".
 									$separated[0]."-".$separated[1]."-".$this->key,
 									$this->ilias->error_obj->MESSAGE);
 							}
-							
 							$double_checker[$separated[0]][$separated[1]][$this->key] = true;
 							
 							// insert a new value if no local value exists
-							// reset local_change if the values are equal
+							// reset local change date if the values are equal
 							ilObjLanguage::replaceLangEntry($separated[0], $separated[1],
-								$this->key, $separated[2]);
+								$this->key, $separated[2], $change_date, $separated[3]);
 
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
 						}
 					}
 					else if ($scope == 'local')
 					{
+						// import of a local language file
+
 						if ($local_value != "")
 						{
-							// keep a locally changed value that is newer than the local file
+							// keep a locally changed value that is newer than the file
 							$lang_array[$separated[0]][$separated[1]] = $local_value;
 						}
 						else
 						{
-							// UPDATE because the global values have already been INSERTed
-							ilObjLanguage::updateLangEntry($separated[0], $separated[1],
-								$this->key, $separated[2], $change_date);
+							// insert a new value if no global value exists
+							// (local files may have additional entries for customizations)
+							// set the change date to the import date
+							ilObjLanguage::replaceLangEntry($separated[0], $separated[1],
+								$this->key, $separated[2], $change_date, $separated[3]);
+
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
 						}
 					}
@@ -549,10 +563,29 @@ class ilObjLanguage extends ilObject
 	* Replace lang entry
 	*/
 	static final function replaceLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = null)
+		$a_lang_key, $a_value, $a_local_change = null, $a_remarks = null)
 	{
 		global $ilDB;
 		
+
+		if (isset($a_remarks))
+		{
+	        $a_remarks = substr($a_remarks, 0, 250);
+		}
+		if ($a_remarks == '')
+		{
+	        unset($a_remarks);
+		}
+
+		if (isset($a_value))
+		{
+	        $a_value = substr($a_value, 0, 4000);
+	    }
+		if ($a_value == '')
+		{
+	        unset($a_value);
+		}
+
 		$ilDB->replace(
 			'lng_data',
 			array(
@@ -562,7 +595,8 @@ class ilObjLanguage extends ilObject
 				),
 			array(
 				'value'			=> array('text',$a_value),
-				'local_change'	=> array('timestamp',$a_local_change)
+				'local_change'	=> array('timestamp',$a_local_change),
+				'remarks'       => array('text', $a_remarks)
 			)
 		);
 		return true;
@@ -587,17 +621,54 @@ class ilObjLanguage extends ilObject
 	* Replace lang entry
 	*/
 	static final function updateLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = null)
+		$a_lang_key, $a_value, $a_local_change = null, $a_remarks = null)
 	{
 		global $ilDB;
-		
+
+		if (isset($a_remarks))
+		{
+	        $a_remarks = substr($a_remarks, 0, 250);
+		}
+		if ($a_remarks == '')
+		{
+	        unset($a_remarks);
+		}
+
+		if (isset($a_value))
+		{
+	        $a_value = substr($a_value, 0, 4000);
+	    }
+		if ($a_value == '')
+		{
+	        unset($a_value);
+		}
+
 		$ilDB->manipulate(sprintf("UPDATE lng_data " .
-			"SET value = %s, local_change = %s ".
+			"SET value = %s, local_change = %s, remarks = %s ".
 			"WHERE module = %s AND identifier = %s AND lang_key = %s ",
 			$ilDB->quote($a_value, "text"), $ilDB->quote($a_local_change, "timestamp"),
+			$ilDB->quote($a_remarks, "text"),
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
 			$ilDB->quote($a_lang_key, "text")));
 	}
+
+
+	/**
+	* Delete lang entry
+	*/
+	static final function deleteLangEntry($a_module, $a_identifier, $a_lang_key)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate(sprintf("DELETE FROM lng_data " .
+			"WHERE module = %s AND identifier = %s AND lang_key = %s ",
+			$ilDB->quote($a_module, "text"),
+			$ilDB->quote($a_identifier, "text"),
+			$ilDB->quote($a_lang_key, "text")));
+
+		return true;
+	}
+
 	
 	/**
 	 * search ILIAS for users which have selected '$lang_key' as their prefered language and

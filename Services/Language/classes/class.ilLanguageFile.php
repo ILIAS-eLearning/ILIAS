@@ -58,6 +58,20 @@ class ilLanguageFile
 	 */
 	private $scope;
 
+
+	/**
+	 * header of the language file including the starting line
+	 * @var		string
+	 */
+	private $header;
+
+	/**
+	 * starting line below the header
+	 * @var		string
+	 */
+	private $file_start = "<!-- language file start -->";
+
+
 	/**
 	 * separator value between module,identivier & value
 	 * @var		string
@@ -83,7 +97,7 @@ class ilLanguageFile
 	private $values = array();
 
 	/**
-	* comments for the text values
+	* comments
 	* @var		array        module.separator.identifier => comment
 	*/
 	private $comments = array();
@@ -109,6 +123,9 @@ class ilLanguageFile
 		$this->lang_file = $a_file;
 		$this->lang_key = $a_key;
 		$this->scope = $a_scope;
+
+		// initialize the header of a blank file
+		$this->header = $file_start;
 		
 		// Set the default parameters to be written in a new file.
 		// This ensures the correct order of parameters
@@ -140,6 +157,7 @@ class ilLanguageFile
 	{
 		global $lng;
 		
+		$this->header = '';
 		$this->params = array();
 		$this->values = array();
 		$this->comments = array();
@@ -152,8 +170,11 @@ class ilLanguageFile
 		{
 			if ($in_header)
 			{
+				// store the header line
+				$this->header .= $line . "\n";
+
 				// check header end
-				if (trim($line) == "<!-- language file start -->")
+				if (trim($line) == $this->file_start)
 				{
 					$in_header = false;
 					continue;
@@ -162,18 +183,35 @@ class ilLanguageFile
 				{
 					// get header params
 					$pos_par = strpos($line, "* @");
-					
+
 					if ($pos_par !== false)
 					{
 				        $pos_par += 3;
 						$pos_space = strpos($line, " ", $pos_par);
 						$pos_tab = strpos($line, "\t", $pos_par);
-						$pos_white = min($pos_space, $pos_tab);
-					
-						$param = substr($line, $pos_par, $pos_white-$pos_par);
-						$value = trim(substr($line, $pos_white));
-						
-						$this->params[$param] = $value;
+						if ($pos_space !== false and $pos_tab !== false)
+						{
+							$pos_white = min($pos_space, $pos_tab);
+						}
+						elseif ($pos_space !== false)
+						{
+							$pos_white = $pos_space;
+						}
+						elseif ($pos_tab !== false)
+						{
+	                        $pos_white = $pos_tab;
+						}
+						else
+						{
+	                        $pos_white = false;
+	                    }
+						if ($pos_white)
+						{
+							$param = substr($line, $pos_par, $pos_white-$pos_par);
+							$value = trim(substr($line, $pos_white));
+
+							$this->params[$param] = $value;
+						}
 					}
 				}
 			}
@@ -223,45 +261,78 @@ class ilLanguageFile
 	
 	/**
 	* Write a language file
+	*
+	* @param    string      (optional) fixed header for the new file
 	*/
-	public function write()
+	public function write($a_header = '')
 	{
 		$fp = fopen($this->lang_file, "w");
-		fwrite($fp, $this->build());
+		fwrite($fp, $this->build($a_header));
 		fclose($fp);
 	}
 
 	/**
 	* Build and get the file content
+	*
+	* @param    string      (optional) fixed header for the new file
 	* @return   string      language file content
 	*/
-	public function build()
+	public function build($a_header = '')
 	{
 		global $ilUser, $lng;
 
- 		// set default params
-		$lang_name = $lng->txtlng('common','lang_'.$this->lang_key,'en');
-		$this->params["module"] = "language file ". $lang_name;
-		$this->params["created"] = date('Y-m-d H:i:s');
-		$this->params["created_by"] = $ilUser->getFullname()." <".$ilUser->getEmail().">";
-
-		// build the header
-        $tpl = new ilTemplate("tpl.lang_file_header.html", true,true, "Services/Language");
-		foreach ($this->getAllParams() as $name => $value)
+		if ($a_header)
 		{
-			$tpl->setCurrentBlock('param');
-			$tpl->setVariable('PAR_NAME', $name);
-			$tpl->setVariable('PAR_VALUE', $value);
-			$tpl->parseCurrentBlock();
+	        // take the given header
+			$content = $a_header;
 		}
-		$txt_scope = $lng->txtlng('administration','language_scope_'.$this->scope,'en');
-		$tpl->setVariable('SCOPE', $txt_scope, 'en');
+		else
+		{
+	 		// set default params
+			$lang_name = $lng->txtlng('common','lang_'.$this->lang_key,'en');
+			$this->params["module"] = "language file ". $lang_name;
+			$this->params["created"] = date('Y-m-d H:i:s');
+			$this->params["created_by"] = $ilUser->getFullname()." <".$ilUser->getEmail().">";
+
+			// build the header
+	        $tpl = new ilTemplate("tpl.lang_file_header.html", true,true, "Services/Language");
+			foreach ($this->getAllParams() as $name => $value)
+			{
+	            $tabs = ceil((20 - 3 - strlen($name)) / 4);
+				$tabs = $tabs > 0 ? $tabs : 1;
+
+				$tpl->setCurrentBlock('param');
+				$tpl->setVariable('PAR_NAME', $name);
+				$tpl->setVariable('PAR_SPACE', str_repeat("\t", $tabs));
+				$tpl->setVariable('PAR_VALUE', $value);
+				$tpl->parseCurrentBlock();
+			}
+			$txt_scope = $lng->txtlng('administration','language_scope_'.$this->scope, 'en');
+			$tpl->setVariable('SCOPE', $txt_scope);
+
+			$content = $tpl->get();
+		}
+
+		// fault tolerant check for adding newline
+		$add_newline = (substr($content, strlen($content)-1, 1) != "\n");
 
 		// build the content
-		$content = $tpl->get();
-		foreach ($this->getAllValues() as $key => $value)
+		foreach ($this->values as $key => $value)
 		{
-			$content .= $key . $this->separator . $value . "\n";
+	        // add the newline before the line!
+			// a valid lang file should not have a newline at the end!
+			if ($add_newline)
+			{
+				$content .= "\n";
+			}
+			$add_newline = true;
+
+			$content .= $key . $this->separator . $value;
+
+			if ($this->comments[$key])
+			{
+	            $content .= $this->comment_separator . $this->comments[$key];
+	        }
 		}
 		return $content;
 	}
@@ -275,6 +346,17 @@ class ilLanguageFile
 	{
 		return $this->error_message;
 	}
+
+
+	/**
+	* Get the header of the original file
+	* @return   string
+	*/
+	public function getHeader()
+	{
+		return $this->header;
+	}
+
 	
 	/**
 	* Get array of all parameters
@@ -366,6 +448,16 @@ class ilLanguageFile
 	}
 
 	/**
+	* Set all comments
+	* @param    array       module.separator.identifier => comment
+	*/
+	public function setAllComments($a_comments)
+	{
+		$this->comments = $a_comments;
+	}
+
+
+	/**
 	* Set a single comment
 	* @param    string      module name
 	* @param    string      indentifier
@@ -377,7 +469,7 @@ class ilLanguageFile
 	}
 	
 	/**
-	* Read and get a global language file as object
+	* Read and get a global language file as a singleton object
 	* @param    string      language key
 	* @return   object      language file object (with contents)
 	*/

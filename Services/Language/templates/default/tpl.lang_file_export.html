@@ -9,7 +9,13 @@
   <td class="option_value">
     <input type="radio" name="scope" value="global" {CHECKED_GLOBAL} />{TXT_SCOPE_GLOBAL}<br />
     <input type="radio" name="scope" value="local" {CHECKED_LOCAL} />{TXT_SCOPE_LOCAL}<br />
-    <input type="radio" name="scope" value="unchanged" {CHECKED_UNCHANGED} />{TXT_SCOPE_UNCHANGED}<br />
+    <!-- BEGIN show_added -->
+    <input type="radio" name="scope" value="added" {CHECKED_ADDED} />{TXT_SCOPE_ADDED}<br />
+    <!-- END show_added -->
+     <input type="radio" name="scope" value="unchanged" {CHECKED_UNCHANGED} />{TXT_SCOPE_UNCHANGED}<br />
+    <!-- BEGIN show_merged -->
+    <input type="radio" name="scope" value="merged" {CHECKED_MERGED} />{TXT_SCOPE_MERGED}<br />
+    <!-- END show_merged -->
   </td>
 </tr>
 <tr>
