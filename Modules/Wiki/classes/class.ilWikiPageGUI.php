@@ -211,6 +211,46 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$wtpl->parseCurrentBlock();
 		}
 			
+		// notification
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$wtpl->setCurrentBlock("notification");
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			$wtpl->setVariable("TXT_NOTIFICATION", $lng->txt("wiki_notification_toggle_info"));
+			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
+			{
+				$ilCtrl->setParameter($this, "ntf", 1);
+				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
+
+				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_deactivate"));
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "ntf", 2);
+				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
+
+				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_activate"));
+				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_DIVIDER", "|");
+
+				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
+				{
+					$ilCtrl->setParameter($this, "ntf", 3);
+					$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
+
+					$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_deactivate"));
+				}
+				else
+				{
+					$ilCtrl->setParameter($this, "ntf", 4);
+					$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
+
+					$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_activate"));
+				}
+			}
+			$ilCtrl->setParameter($this, "ntf", "");
+			$wtpl->parseCurrentBlock();
+		}
+
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
 			&& $this->getPageObject()->old_nr == 0)
@@ -222,41 +262,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
 		}
 
-		// notification
-		include_once "./Services/Notification/classes/class.ilNotification.php";
-		$wtpl->setVariable("TXT_NOTIFICATION", $lng->txt("wiki_notification_toggle_info"));
-		if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
-		{
-			$ilCtrl->setParameter($this, "ntf", 1);
-			$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
-
-			$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_deactivate"));
-		}
-		else
-		{
-			$ilCtrl->setParameter($this, "ntf", 2);
-			$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
-
-			$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_activate"));
-			$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_DIVIDER", "|");
-
-			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
-			{
-				$ilCtrl->setParameter($this, "ntf", 3);
-				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
-
-				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_deactivate"));
-			}
-			else
-			{
-				$ilCtrl->setParameter($this, "ntf", 4);
-				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
-
-				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_activate"));
-			}
-		}
-		$ilCtrl->setParameter($this, "ntf", "");
-		
 		// notes
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$pg_id = $this->getPageObject()->getId();
