@@ -509,7 +509,7 @@ class ilObjSurvey extends ilObject
 */
 	function isComplete()
 	{
-		if (($this->getTitle()) and ($this->getAuthor()) and (count($this->questions)))
+		if (($this->getTitle()) and (count($this->questions)))
 		{
 			return 1;
 		} 
@@ -529,7 +529,7 @@ class ilObjSurvey extends ilObject
 	{
 		$survey = new ilObjSurvey($obj_id, false);
 		$survey->loadFromDb();
-		if (($survey->getTitle()) and ($survey->getAuthor()) and (count($survey->questions)))
+		if (($survey->getTitle()) and (count($survey->questions)))
 		{
 			return 1;
 		} 
@@ -975,10 +975,6 @@ class ilObjSurvey extends ilObject
 		{
 			$data = $ilDB->fetchAssoc($result);
 			$this->setSurveyId($data["survey_id"]);
-			if (strlen($this->getAuthor()) == 0)
-			{
-				$this->saveAuthorToMetadata($data["author"]);
-			}
 			$this->setAuthor($data["author"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data["introduction"], 1));
