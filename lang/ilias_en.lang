@@ -4039,7 +4039,7 @@ common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to c
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
 common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Export Member Data
+common#:#ps_export_member_data#:#User may Access Member Data
 common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_write#:#Edit Privacy/Security
@@ -10896,3 +10896,4 @@ administration#:#language_error_local_missed#:#The local language file does not 
 administration#:#language_error_delete_local#:#The local language file can't be deleted!
 administration#:#language_local_file_deleted#:#The local language file was deleted.
 administration#:#language_remove_local_file#:#Delete the local language file
+rbac#:#export_member_data#:#Access to User Data
