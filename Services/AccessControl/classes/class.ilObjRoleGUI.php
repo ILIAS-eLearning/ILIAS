@@ -823,7 +823,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$ilToolbar->addButton(
 				$this->lng->txt('rbac_delete_role'),
-				$this->ctrl->getLinkTarget($this,'performDeleteRole')
+				$this->ctrl->getLinkTarget($this,'confirmDeleteRole')
 			);
 		}
 		
@@ -1379,6 +1379,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setContent($confirm->getHTML());
 		return true;				
 	}
+
 	
 	/**
 	 * Delete role
