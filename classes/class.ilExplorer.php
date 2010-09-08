@@ -890,7 +890,7 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 		}
 
 		$pic = false;
-		foreach ($a_option["tab"] as $picture)
+		foreach ((array) $a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
 			{
