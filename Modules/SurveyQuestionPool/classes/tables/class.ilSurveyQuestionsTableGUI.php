@@ -69,7 +69,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			if (strcmp($c, 'type') == 0) $this->addColumn($this->lng->txt("question_type"),'type', '');
 			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
 			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
-			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
+			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 		}
 
 		$this->setPrefix('q_id');
