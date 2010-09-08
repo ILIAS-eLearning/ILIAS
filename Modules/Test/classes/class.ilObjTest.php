@@ -3051,14 +3051,21 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches))
 			{
-				return array(
-					'hh' => $matches[1],
-					'mm' => $matches[2],
-					'ss' => $matches[3],
-				);
+				if ((int)$matches[1]+(int)$matches[2]+(int)$matches[3] == 0)
+				{
+					return $this->getEstimatedWorkingTime();
+				}
+				else
+				{
+					return array(
+						'hh' => $matches[1],
+						'mm' => $matches[2],
+						'ss' => $matches[3],
+					);
+				}
 			}
 		}
-		return array();
+		return $this->getEstimatedWorkingTime();
 	}
 
 /**
@@ -5194,7 +5201,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$time_in_seconds = $time_in_seconds - ($hours * 3600);
 		$minutes = (int)($time_in_seconds / 60);
 		$time_in_seconds = $time_in_seconds - ($minutes * 60);
-		$result = array("h" => $hours, "m" => $minutes, "s" => $time_in_seconds);
+		$result = array("hh" => $hours, "mm" => $minutes, "ss" => $time_in_seconds);
 		return $result;
 	}
 
