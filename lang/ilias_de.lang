@@ -4015,7 +4015,7 @@ common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 common#:#ps_edit_permission#:#Rechteeinstellungen ändern
-common#:#ps_export_member_data#:#Erlaube den Export von Mitgliedsdaten
+common#:#ps_export_member_data#:#Erlaube den Zugriff von Mitgliederdaten
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
@@ -10900,3 +10900,4 @@ administration#:#language_error_local_missed#:#Die lokale Sprachdatei existiert 
 administration#:#language_error_delete_local#:#Die lokale Sprachdatei konnte nicht gelöscht werden!
 administration#:#language_local_file_deleted#:#Die lokale Sprachdatei wurde gelöscht.
 administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen
+rbac#:#export_member_data#:#Zugriff auf Benutzerdaten
