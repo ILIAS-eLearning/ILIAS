@@ -400,14 +400,17 @@ class ilPermission2GUI
 			}
 			$key++;
 		}
+		$form->addItem($rights);
+
 		// Local policy only for containers
 		if($objDefinition->isContainer($this->getCurrentObject()->getType()))
 		{
 			$check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
-			$rights->addSubItem($check);
+			$check->setInfo($this->lng->txt('rbac_change_existing_objects_desc_new_role'));
+			$form->addItem($check);
+			
 		}
 	
-		$form->addItem($rights);
 		return $form;
 	}
 
