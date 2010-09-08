@@ -3143,6 +3143,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function deleteMembersObject()
 	{
+		global $ilAccess;
+		
 		$this->checkPermission('write');
 		
 		$this->setSubTabs('members');
@@ -3167,6 +3169,23 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
+		
+		// Access check for admin deletion
+		if(!$ilAccess->checkAccess('edit_permission', '',$this->object->getRefId()))
+		{
+			$part = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
+
+			foreach ($participants as $usr_id)
+			{
+				if($part->isAdmin($usr_id))
+				{
+					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"));
+					$this->membersObject();
+					return false;
+				}
+			}
+		}
+		
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
