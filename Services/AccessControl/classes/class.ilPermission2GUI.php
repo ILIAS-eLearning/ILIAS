@@ -394,7 +394,7 @@ class ilPermission2GUI
 			if ($par["obj_id"] != SYSTEM_ROLE_ID)
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
-				$option = new ilRadioOption(($par["type"] == 'role' ? 'Role' : 'Template').": ".ilObjRole::_getTranslation($par["title"]), $par["obj_id"]);
+				$option = new ilRadioOption(($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')).": ".ilObjRole::_getTranslation($par["title"]), $par["obj_id"]);
 				$option->setInfo($par["desc"]);
 				$rights->addOption($option);
 			}
