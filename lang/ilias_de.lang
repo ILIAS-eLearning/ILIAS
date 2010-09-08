@@ -10891,3 +10891,12 @@ mail#:#mail_select_recipients#:#Bitte wählen Sie die Empfänger aus:
 grp#:#grp_import#:#Gruppe importieren
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
+administration#:#language_scope_merged#:#Globale Sprachdatei mit lokalen Änderungen
+administration#:#language_scope_added#:#Nur lokale Ergänzungen
+administration#:#language_merge_local_changes#:#Lokale Änderungen in die globale Sprachdatei einfügen
+administration#:#language_delete_local_additions#:#Lokale Ergänzungen in der Datenbank löschen
+administration#:#language_error_write_global#:#Die globale Sprachdatei kann nicht geschrieben werden!
+administration#:#language_error_local_missed#:#Die lokale Sprachdatei existiert nicht!
+administration#:#language_error_delete_local#:#Die lokale Sprachdatei konnte nicht gelöscht werden!
+administration#:#language_local_file_deleted#:#Die lokale Sprachdatei wurde gelöscht.
+administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen

@@ -27,8 +27,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	* Size of input fields
 	* @var  string
 	*/
-	private $inputsize = 40;
-	
+	private $inputsize = 50;
+	private $commentsize = 30;
+
 	/**
 	* Constructor
 	*
@@ -42,7 +43,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function ilObjLanguageExtGUI($a_data, $a_id = 0, $a_call_by_reference = false)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilClientIniFile;
 
 		// language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -67,6 +68,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			$_SESSION[get_class($this)] = array();
 		}
 		$this->session =& $_SESSION[get_class($this)];
+
+
+		// read the lang mode
+        $this->langmode = $ilClientIniFile->readVariable("system","LANGMODE");
 	}
 
 
@@ -129,6 +134,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			$compare_note = " ". $this->lng->txt("language_default_entries");
 		}
 
+		// get the remarks in database
+		$remarks = $this->object->getAllRemarks();
+
 		// page translation mode:
 		// - the table is filtered by a list of modules and topics
 		// - all found entries are shown on the same page
@@ -144,6 +152,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			{
 				$compare_content = ilObjLanguageExt::_getValues(
 									$compare, $modules, $topics);
+
+				$compare_comments = ilObjLanguageExt::_getRemarks($compare);
 			}
 
 			$translations = ilObjLanguageExt::_getValues(
@@ -167,6 +177,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			{
 				$compare_content = ilObjLanguageExt::_getValues(
 				            		$compare, $filter_modules);
+
+				$compare_comments = ilObjLanguageExt::_getRemarks($compare);
 			}
 
 			switch ($filter_mode)
@@ -175,7 +187,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					$translations = $this->object->getChangedValues(
 					        		$filter_modules, $filter_pattern);
 					break;
-					            
+
+				case "added":   //langmode only
+					$translations = $this->object->getAddedValues(
+					        		$filter_modules, $filter_pattern);
+					break;
+
 				case "unchanged":
 					$translations = $this->object->getUnchangedValues(
 					            	$filter_modules, $filter_pattern);
@@ -184,6 +201,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				case "commented":
                     $translations = $this->object->getCommentedValues(
 					            	$filter_modules, $filter_pattern);
+					break;
+
+				case "dbremarks":
+                    $translations = $this->object->getAllValues(
+					            	$filter_modules, $filter_pattern);
+
+					$translations = array_intersect_key($translations, $remarks);
 					break;
 
 				case "equal":
@@ -252,10 +276,18 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			$options = array();
 			$options["all"] = $this->lng->txt("language_scope_global");
 			$options["changed"] = $this->lng->txt("language_scope_local");
+			if ($this->langmode)
+			{
+				$options["added"] = $this->lng->txt("language_scope_added");
+			}
 			$options["unchanged"] = $this->lng->txt("language_scope_unchanged");
 			$options["equal"] = $this->lng->txt("language_scope_equal");
 			$options["different"] = $this->lng->txt("language_scope_different");
 			$options["commented"] = $this->lng->txt("language_scope_commented");
+			if ($this->langmode)
+			{
+				$options["dbremarks"] = $this->lng->txt("language_scope_dbremarks");
+			}
 			$options["conflicts"] = $this->lng->txt("language_scope_conflicts");
 			$this->tpl->setVariable("SELECT_MODE",
    				ilUtil::formSelect($filter_mode, "filter_mode", $options, false, true));
@@ -297,15 +329,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$list = array();
 		foreach($translations as $name => $translation)
 		{
-			$keys = explode("#:#", $name);
+			$keys = explode($this->lng->separator, $name);
 			$data = array();
 			
 			$data["module"] = $keys[0];
-			$data["topic"] = str_replace('_', ' ', $keys[1]);
+			$data["topic"] = $keys[1];
 			$data["name"] = $name;
 			$data["translation"] = $translation;
 			$data["default"] = $compare_content[$name];
-			$data["comment"] = $compare_comments[$name];
+			$data["default_comment"] = $compare_comments[$name];
 
 			$list[] = $data;
 		}
@@ -364,28 +396,35 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lang_items_row.html", "Services/Language");
 		foreach ($list as $data)
 		{
-			if (strlen($data["translation"]) <= $this->inputsize)
+			if ($this->langmode)
 			{
-				$tpl->setCurrentBlock("input");
-				$tpl->setVariable("I_NAME", ilUtil::prepareFormOutput($data["name"]));
-				$tpl->setVariable("I_SIZE", $this->inputsize);
-				$tpl->setVariable("I_USER_VALUE", ilUtil::prepareFormOutput($data["translation"]));
-			}
+	            $tpl->setCurrentBlock('comment');
+				$tpl->setVariable("COM_ID", ilUtil::prepareFormOutput($data["name"].$this->lng->separator."comment"));
+				$tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"].$this->lng->separator."comment"));
+				$tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($remarks[$data["name"]]));
+				$tpl->setVariable("COM_SIZE", $this->commentsize);
+				$tpl->setVariable("COM_MAX", 250);
+				$tpl->setVariable("TXT_COMMENT", $this->lng->txt('comment'));
+				$tpl->parseCurrentBlock();
+	        }
 			else
 			{
-				$tpl->setCurrentBlock("textarea");
-				$tpl->setVariable("T_ROWS", ceil(strlen($data["translation"]) / $this->inputsize));
-				$tpl->setVariable("T_SIZE", $this->inputsize);
-				$tpl->setVariable("T_NAME", ilUtil::prepareFormOutput($data["name"]));
-				$tpl->setVariable("T_USER_VALUE", ilUtil::prepareFormOutput($data["translation"]));
+	            $tpl->setCurrentBlock('hidden_comment');
+				$tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"].$this->lng->separator."comment"));
+				$tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($remarks[$data["name"]]));
 				$tpl->parseCurrentBlock();
 			}
 
 			$tpl->setCurrentBlock("row");
+			$tpl->setVariable("T_ROWS", ceil(strlen($data["translation"]) / $this->inputsize));
+			$tpl->setVariable("T_SIZE", $this->inputsize);
+			$tpl->setVariable("T_NAME", ilUtil::prepareFormOutput($data["name"]));
+			$tpl->setVariable("T_USER_VALUE", ilUtil::prepareFormOutput($data["translation"]));
+
 			$tpl->setVariable("MODULE", ilUtil::prepareFormOutput($data["module"]));
 			$tpl->setVariable("TOPIC", ilUtil::prepareFormOutput($data["topic"]));
 			$tpl->setVariable("DEFAULT_VALUE", ilUtil::prepareFormOutput($data["default"]));
-			$tpl->setVariable("COMMENT", ilUtil::prepareFormOutput($data["comment"]));
+			$tpl->setVariable("COMMENT", ilUtil::prepareFormOutput($data["default_comment"]));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -404,20 +443,24 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	{
 		// prepare the values to be saved
 		$save_array = array();
+		$remarks_array = array();
 		foreach ($_POST as $key => $value)
 		{
-			$keys = explode("#:#", ilUtil::stripSlashes($key, false));
+			$keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
+
 			if (count($keys) == 2)
 			{
 				// avoid line breaks
 		  		$value = preg_replace("/(\015\012)|(\015)|(\012)/","<br />",$value);
 		  		$value = ilUtil::stripSlashes($value, false);
 				$save_array[$key] = $value;
+
+				$remarks_array[$key] = $_POST[$key.$this->lng->separator."comment"];
 			}
 		}
 		
 		// save the translations
-		ilObjLanguageExt::_saveValues($this->object->key, $save_array);
+		ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
 
 		// view the list
 		$this->viewObject();
@@ -497,6 +540,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHECKED_LOCAL",$scope == 'local' ? 'checked="checked"' : '');
 		$this->tpl->setVariable("CHECKED_UNCHANGED",$scope == 'unchanged' ? 'checked="checked"' : '');
 
+		if ($this->langmode)
+		{
+			$this->tpl->setVariable("TXT_SCOPE_ADDED",$this->lng->txt("language_scope_added"));
+			$this->tpl->setVariable("CHECKED_ADDED",$scope == 'added' ? 'checked="checked"' : '');
+
+			$this->tpl->setVariable("TXT_SCOPE_MERGED",$this->lng->txt("language_scope_merged"));
+			$this->tpl->setVariable("CHECKED_MERGED",$scope == 'merged' ? 'checked="checked"' : '');
+	    }
+
 		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("download"));
 		$this->tpl->setVariable("CMD_DOWNLOAD","download");
 		$this->tpl->show();
@@ -521,17 +573,43 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $local_file_obj->setParam("author", $global_file_obj->getParam('author'));
             $local_file_obj->setParam("version", $global_file_obj->getParam('version'));
 			$local_file_obj->setAllValues($this->object->getAllValues());
+			if ($this->langmode)
+			{
+				$local_file_obj->setAllComments($this->object->getAllRemarks());
+			}
 		}
 		elseif ($_POST["scope"] == 'local')
 		{
            	$local_file_obj->setParam("based_on", $global_file_obj->getParam('version'));
 			$local_file_obj->setAllValues($this->object->getChangedValues());
+			if ($this->langmode)
+			{
+				$local_file_obj->setAllComments($this->object->getAllRemarks());
+			}
+		}
+		elseif ($_POST["scope"] == 'added') // langmode only
+		{
+        	$local_file_obj->setParam("author", $global_file_obj->getParam('author'));
+            $local_file_obj->setParam("version", $global_file_obj->getParam('version'));
+			$local_file_obj->setAllValues($this->object->getAddedValues());
+			$local_file_obj->setAllComments($this->object->getAllRemarks());
 		}
 		elseif ($_POST["scope"] == 'unchanged')
 		{
         	$local_file_obj->setParam("author", $global_file_obj->getParam('author'));
             $local_file_obj->setParam("version", $global_file_obj->getParam('version'));
 			$local_file_obj->setAllValues($this->object->getUnchangedValues());
+			if ($this->langmode)
+			{
+				$local_file_obj->setAllComments($this->object->getAllRemarks());
+			}
+		}
+		elseif ($_POST["scope"] == 'merged') // langmode only
+		{
+        	$local_file_obj->setParam("author", $global_file_obj->getParam('author'));
+            $local_file_obj->setParam("version", $global_file_obj->getParam('version'));
+			$local_file_obj->setAllValues($this->object->getMergedValues());
+			$local_file_obj->setAllComments($this->object->getMergedRemarks());
 		}
 
 		ilUtil::deliverData($local_file_obj->build(), $filename);
@@ -567,6 +645,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					$local_file_obj = new ilLanguageFile($lang_file, $this->object->key, 'local');
 					$local_file_obj->setParam('based_on', $global_file_obj->getParam('version'));
 					$local_file_obj->setAllValues($this->object->getChangedValues());
+					if ($this->langmode)
+					{
+						$local_file_obj->setAllComments($this->object->getAllRemarks());
+					}
 					$local_file_obj->write();
 					
 					$this->object->setLocal(true);
@@ -607,6 +689,55 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					ilUtil::sendFailure($this->lng->txt("language_error_clear_local") , false);
 				}
 				break;
+
+			// delete local additions in the datavase (langmode only)
+			case "delete_added":
+				ilObjLanguageExt::_deleteValues($this->object->key, $this->object->getAddedValues());
+				break;
+
+			// merge local changes back to the global language file (langmode only)
+			case "merge":
+
+				$orig_file = $this->object->getLangPath() . '/ilias_' . $this->object->key . '.lang';
+				$copy_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
+
+				if (is_file($orig_file) and is_writable($orig_file))
+				{
+					// save a copy of the global language file
+					@copy($orig_file, $copy_file);
+
+					// modify and write the new global file
+					$global_file_obj = $this->object->getGlobalLanguageFile();
+	                $global_file_obj->setAllValues($this->object->getMergedValues());
+	                $global_file_obj->setAllComments($this->object->getMergedRemarks());
+					$global_file_obj->write();
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("language_error_write_global") , false);
+				}
+				break;
+
+			// remove the local language file (langmode only)
+			case "remove_local_file":
+				$lang_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang.local';
+
+				if (!is_file($lang_file))
+				{
+					$this->object->setLocal(false);
+					ilUtil::sendFailure($this->lng->txt("language_error_local_missed") , false);
+	            }
+				elseif (@unlink($lang_file))
+				{
+					$this->object->setLocal(false);
+					ilUtil::sendSuccess($this->lng->txt("language_local_file_deleted") , false);
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("language_error_delete_local") , false);
+	            }
+				break;
+
 		}
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lang_maintenance.html", "Services/Language");
@@ -617,6 +748,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt("language_save_local_changes"));
 		$this->tpl->setVariable("TXT_LOAD",$this->lng->txt("language_load_local_changes"));
 		$this->tpl->setVariable("TXT_CLEAR",$this->lng->txt("language_clear_local_changes"));
+		if ($this->langmode)
+		{
+			$this->tpl->setVariable("TXT_DELETE_ADDED",$this->lng->txt("language_delete_local_additions"));
+			$this->tpl->setVariable("TXT_MERGE",$this->lng->txt("language_merge_local_changes"));
+			$this->tpl->setVariable("TXT_REMOVE_LOCAL_FILE",$this->lng->txt("language_remove_local_file"));
+		}
 		$this->tpl->setVariable("TXT_NOTE_SAVE",$this->lng->txt("language_note_save_local"));
 		$this->tpl->setVariable("TXT_MAINTAIN",$this->lng->txt("language_process_maintenance"));
 		$this->tpl->setVariable("VAR_MAINTAIN", "maintain");

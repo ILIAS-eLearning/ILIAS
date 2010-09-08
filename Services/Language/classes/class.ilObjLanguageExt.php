@@ -85,6 +85,16 @@ class ilObjLanguageExt extends ilObjLanguage
 	}
 
 	/**
+	* Get all remarks from the database
+	*
+	* @return   array       module.separator.topic => remark
+	*/
+	public function getAllRemarks()
+	{
+		return self::_getRemarks($this->key);
+	}
+
+	/**
 	* Get all values from the database
 	*
 	* @param    array       list of modules
@@ -124,10 +134,28 @@ class ilObjLanguageExt extends ilObjLanguage
 		return self::_getValues($this->key, $a_modules, NULL, $a_pattern, 'unchanged');
 	}
 
+	/**
+	* Get only the entries which don't exist in the global language file
+	*
+	* @param    array       list of modules
+	* @param    array       search pattern
+	* @return   array       module.separator.topic => value
+	*/
+	public function getAddedValues($a_modules = array(), $a_pattern = '')
+	{
+		$global_file_obj = $this->getGlobalLanguageFile();
+		$global_values = $global_file_obj->getAllValues();
+		$local_values = self::_getValues($this->key, $a_modules, NULL, $a_pattern);
+
+		return array_diff_key($local_values, $global_values);
+	}
+
 
 	/**
-	* Get all values from the database
-	* for wich the global language file has a comment.
+	* Get all values from the database for wich the global language file has a comment.
+	*
+	* Note: This function checks the comments in the globel lang file,
+	*       not the remarks in the database!
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
@@ -136,26 +164,64 @@ class ilObjLanguageExt extends ilObjLanguage
 	public function getCommentedValues($a_modules = array(), $a_pattern = '')
 	{
 		$global_file_obj = $this->getGlobalLanguageFile();
-		$global_values = $global_file_obj->getAllValues();
+		$global_comments = $global_file_obj->getAllComments();
 		$local_values = self::_getValues($this->key, $a_modules, NULL, $a_pattern);
 
-		$commented = array();
-		foreach ($local_values as $key => $value)
-		{
-			if ($global_comments[$key] != "")
-			{
-				$commented[$key] = $value;
-			}
-		}
-		return $commented;
+		return array_intersect_key($local_values, $global_comments);
 	}
-	
+
+
+	/**
+	* Get the local values merged into the values of the global language file
+	*
+	* The returned array contains:
+	* 1. all entries that exist globally, with their local values,
+	*	 ordered like in the global language file
+	* 2. all additional local entries,
+	*	 ordered by module and identifier
+	*
+	* @return   array       module.separator.topic => value
+	*/
+	public function getMergedValues()
+	{
+
+		$global_file_obj = $this->getGlobalLanguageFile();
+		$global_values = $global_file_obj->getAllValues();
+		$local_values = self::_getValues($this->key);
+
+		return array_merge($global_values, $local_values);
+	}
+
+	/**
+	* Get the local remarks merged into the remarks of the global language file
+	*
+	* The returned array contains:
+	* 1. all remarks that exist globally, with their local values,
+	*	 ordered like in the global language file
+	* 2. all additional local remarks,
+	*	 ordered by module and identifier
+	*
+	* @return   array       module.separator.topic => value
+	*/
+	public function getMergedRemarks()
+	{
+
+		$global_file_obj = $this->getGlobalLanguageFile();
+		$global_comments = $global_file_obj->getAllComments();
+
+		// get remarks including empty remarks for local changes
+		$local_remarks = self::_getRemarks($this->key, true);
+
+		return array_merge($global_comments, $local_remarks);
+	}
+
+
 
 	/**
 	* Import a language file into the ilias database
 	*
 	* @param    string  	handling of existing values
-	*						('keepall','keeknew','replace','delete')
+	*						('keepall','keepnew','replace','delete')
 	*/
 	public function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
 	{
@@ -207,7 +273,7 @@ class ilObjLanguageExt extends ilObjLanguage
 				$to_save[$key] = $value;
 			}
 		}
-		self::_saveValues($this->key, $to_save);
+		self::_saveValues($this->key, $to_save, $import_file_obj->getAllComments());
 	}
 
 	/**
@@ -231,6 +297,43 @@ class ilObjLanguageExt extends ilObjLanguage
 		}
 		return $modules;
 	}
+
+
+	/**
+	* Get all remarks of a language
+	*
+	* @access   static
+	* @param    string      language key
+	* @param    boolean     include empty remarks for local changes
+	* @return   array       module.separator.topic => remarks
+	*/
+	public static function _getRemarks($a_lang_key, $a_all_changed = false)
+	{
+	    global $ilDB, $lng;
+
+	    $q = "SELECT module, identifier, remarks"
+		.	" FROM lng_data"
+		.	" WHERE lang_key = ".$ilDB->quote($a_lang_key, "text");
+
+		if ($a_all_changed)
+		{
+			$q .= " AND (remarks IS NOT NULL OR local_change IS NOT NULL)";
+		}
+		else
+		{
+	        $q .= " AND remarks IS NOT NULL";
+	    }
+
+		$result = $ilDB->query($q);
+
+		$remarks = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$remarks[$row["module"].$lng->separator.$row["identifier"]] = $row["remarks"];
+		}
+		return $remarks;
+	}
+
 
 	/**
 	* Get the translations of specified topics
@@ -284,14 +387,18 @@ class ilObjLanguageExt extends ilObjLanguage
 		return $values;
 	}
 
+
+
+
 	/**
 	* Save a set of translation in the database
 	*
 	* @access   static
 	* @param    string      language key
 	* @param    array       module.separator.topic => value
+	* @param    array       module.separator.topic => remarks
 	*/
-	public static function _saveValues($a_lang_key, $a_values = array())
+	public static function _saveValues($a_lang_key, $a_values = array(), $a_remarks = array())
 	{
 		global $ilDB, $lng;
 		
@@ -306,7 +413,8 @@ class ilObjLanguageExt extends ilObjLanguage
 		require_once "./Services/Language/classes/class.ilLanguageFile.php";
 		$global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
 		$global_values = $global_file_obj->getAllValues();
-		
+		$global_comments = $global_file_obj->getAllComments();
+
 		// save the single translations in lng_data
 		foreach ($a_values as $key => $value)
 		{
@@ -316,11 +424,19 @@ class ilObjLanguageExt extends ilObjLanguage
 				$module = $keys[0];
 				$topic = $keys[1];
 				$save_array[$module][$topic] = $value;
-				$local_change = $global_values[$key] == $value ?
-								null : $save_date;
-			
+
+                if ($global_values[$key] != $value
+				or  $global_comments[$key] != $a_remarks[$key])
+				{
+					$local_change = $save_date;
+				}
+				else
+				{
+	                $local_change = null;
+	            }
+
 				ilObjLanguage::replaceLangEntry($module, $topic,
-					$a_lang_key, $value, $local_change);
+					$a_lang_key, $value, $local_change, $a_remarks[$key]);
 			}
 		}
 
@@ -340,5 +456,55 @@ class ilObjLanguageExt extends ilObjLanguage
 			ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
 		}
 	}
+
+
+	/**
+	* Delete a set of translation in the database
+	*
+	* @access   static
+	* @param    string      language key
+	* @param    array       module.separator.topic => value
+	*/
+	public static function _deleteValues($a_lang_key, $a_values = array())
+	{
+		global $ilDB, $lng;
+
+		if (!is_array($a_values))
+		{
+			return;
+		}
+		$delete_array = array();
+
+		// save the single translations in lng_data
+		foreach ($a_values as $key => $value)
+		{
+			$keys = explode($lng->separator, $key);
+			if (count($keys) == 2)
+			{
+				$module = $keys[0];
+				$topic = $keys[1];
+				$delete_array[$module][$topic] = $value;
+
+ 				ilObjLanguage::deleteLangEntry($module, $topic, $a_lang_key);
+			}
+		}
+
+		// save the serialized module entries in lng_modules
+		foreach ($delete_array as $module => $entries)
+		{
+			$set = $ilDB->query(sprintf("SELECT * FROM lng_modules " .
+				"WHERE lang_key = %s AND module = %s",
+				$ilDB->quote($a_lang_key, "text"), $ilDB->quote($module, "text")));
+			$row = $ilDB->fetchAssoc($set);
+
+			$arr = unserialize($row["lang_array"]);
+			if (is_array($arr))
+			{
+				$entries = array_diff_key($arr, $entries);
+			}
+			ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
+		}
+	}
+
 } // END class.ilObjLanguageExt
 ?>
