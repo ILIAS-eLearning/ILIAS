@@ -265,6 +265,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
 			$answers->setRequired(TRUE);
 			$answers->setQuestionObject($this->object);
+			$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
 			$answers->setAllowMove(TRUE);
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $index => $answervalue)
@@ -278,6 +279,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		{
 			$answers = new ilTextWizardInputGUI($this->lng->txt("answers"), "answers");
 			$answers->setRequired(TRUE);
+			$answers->setInfo($this->lng->txt('ordering_answer_sequence_info'));
 			$answers->setAllowMove(TRUE);
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $index => $answervalue)

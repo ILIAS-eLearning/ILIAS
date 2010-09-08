@@ -10890,3 +10890,4 @@ fold#:#fold_import#:#Ordner importieren
 mail#:#mail_select_recipients#:#Bitte wählen Sie die Empfänger aus:
 grp#:#grp_import#:#Gruppe importieren
 crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
+assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.

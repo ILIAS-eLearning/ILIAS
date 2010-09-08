@@ -10886,3 +10886,4 @@ fold#:#fold_import#:#Import Folder
 mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
+assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
