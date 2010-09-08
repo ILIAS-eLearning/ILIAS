@@ -416,6 +416,7 @@ class ilSurveyExecutionGUI
 			$this->outNavigationButtons("bottom", $page);
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
+		$this->object->setPage($_SESSION["finished_id"], $page[0]['question_id']);
 		$this->object->setStartTime($_SESSION["finished_id"], $first_question);
 	}
 	
