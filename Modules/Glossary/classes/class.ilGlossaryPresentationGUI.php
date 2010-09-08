@@ -1132,7 +1132,6 @@ if (!false)
 				case "fullscreen":
 					$this->ctrl->setParameter($this, "def_id", $a_def_id);
 					$link = $this->ctrl->getLinkTarget($this, "fullscreen");
-					$link = str_replace("&", "&amp;", $link);
 					break;
 				
 				default:
