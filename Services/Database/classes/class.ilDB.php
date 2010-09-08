@@ -517,26 +517,29 @@ abstract class ilDB extends PEAR
 		}
 		
 		$manager = $this->db->loadModule('Manager');
-		
-		// drop table constraints
-		$constraints = $manager->listTableConstraints($a_name);
-		$this->handleError($constraints, "dropTable(".$a_name."), listTableConstraints");
-		foreach ($constraints as $c)
-		{
-			if (substr($c, 0, 4) != "sys_")
-			{
-				$r = $manager->dropConstraint($a_name, $c);
-				$this->handleError($r, "dropTable(".$a_name."), dropConstraint");
-			}
-		}
 
-		// drop table indexes
-		$indexes = $manager->listTableIndexes($a_name);
-		$this->handleError($indexes, "dropTable(".$a_name."), listTableIndexes");
-		foreach ($indexes as $i)
+		if ($this->getDBType() == "oracle")
 		{
-			$r = $manager->dropIndex($a_name, $i);
-			$this->handleError($r, "dropTable(".$a_name."), dropIndex");
+			// drop table constraints
+			$constraints = $manager->listTableConstraints($a_name);
+			$this->handleError($constraints, "dropTable(".$a_name."), listTableConstraints");
+			foreach ($constraints as $c)
+			{
+				if (substr($c, 0, 4) != "sys_")
+				{
+					$r = $manager->dropConstraint($a_name, $c);
+					$this->handleError($r, "dropTable(".$a_name."), dropConstraint");
+				}
+			}
+
+			// drop table indexes
+			$indexes = $manager->listTableIndexes($a_name);
+			$this->handleError($indexes, "dropTable(".$a_name."), listTableIndexes");
+			foreach ($indexes as $i)
+			{
+				$r = $manager->dropIndex($a_name, $i);
+				$this->handleError($r, "dropTable(".$a_name."), dropIndex");
+			}
 		}
 
 		// drop sequence
