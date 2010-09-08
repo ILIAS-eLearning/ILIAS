@@ -3355,3 +3355,15 @@ if($insert)
 }
 
 ?>
+<#3181>
+<?php
+if (!$ilDB->tableColumnExists('svy_finished', 'lastpage'))
+{
+	$ilDB->addTableColumn("svy_finished", "lastpage", array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true,
+		"default" => 0)
+	);
+}
+?>

@@ -2397,6 +2397,7 @@ class ilObjSurvey extends ilObject
 				{
 					$pageindex++;
 				}
+				$all_questions[$question_id]['page'] = $pageindex;
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]['title'];
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]['questionblock_id'];
 				$all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]['show_questiontext'];
@@ -2407,6 +2408,7 @@ class ilObjSurvey extends ilObject
 			else
 			{
 				$pageindex++;
+				$all_questions[$question_id]['page'] = $pageindex;
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
 				$all_questions[$question_id]["questionblock_show_questiontext"] = 1;
@@ -2450,7 +2452,6 @@ class ilObjSurvey extends ilObject
 		{
 			return $pages[0];
 		}
-		
 		foreach ($pages as $key => $question_array)
 		{
 			foreach ($question_array as $question)
@@ -2976,7 +2977,24 @@ class ilObjSurvey extends ilObject
 			$this->sendNotificationMail($user_id, $anonymize_id);
 		}
 	}
-	
+
+	/**
+	* Sets the number of the active survey page
+	*
+	* @param integer $finished_id The database id of the active user
+	* @param integer $page_id The index of the page
+	* @access public
+	*/
+	function setPage($finished_id, $page_id)
+	{
+		global $ilDB;
+
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_finished SET lastpage = %s WHERE finished_id = %s",
+			array('integer','integer'),
+			array(($page_id) ? $page_id : 0, $finished_id)
+		);
+	}
+
 	function sendNotificationMail($user_id, $anonymize_id)
 	{
 		include_once "./Services/User/classes/class.ilObjUser.php";
@@ -3189,7 +3207,7 @@ class ilObjSurvey extends ilObject
 	function getLastActivePage($active_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT question_fi, tstamp FROM svy_answer WHERE active_fi = %s ORDER BY tstamp DESC",
+		$result = $ilDB->queryF("SELECT lastpage FROM svy_finished WHERE finished_id = %s",
 			array('integer'),
 			array($active_id)
 		);
@@ -3200,7 +3218,7 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			return $row["question_fi"];
+			return ($row["lastpage"]) ? $row["lastpage"] : '';
 		}
 	}
 
