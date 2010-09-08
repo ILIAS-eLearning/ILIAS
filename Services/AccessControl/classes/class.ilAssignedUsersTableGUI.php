@@ -47,7 +47,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 
 		$this->setSelectAllCheckbox("user_id[]");
 
-		$this->addMultiCommand("deassignUser", $lng->txt("delete"));
+		$this->addMultiCommand("deassignUser", $lng->txt("remove"));
 		$this->getItems();
 
         // mjansen: Used for mail referer link (@see fillRow). I don't want to create a new instance in each fillRow call.
