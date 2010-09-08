@@ -58,11 +58,11 @@ class ilMailSummaryNotification extends ilMailNotification
 			$this->appendBody("\n\n");
 			if(count($mail_data) == 1)
 			{
-				$this->appendBody(sprintf($lng->txt('mail_at_the_ilias_installation'), count($mail_data), ILIAS_HTTP_PATH ));
+				$this->appendBody(sprintf($lng->txt('mail_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
 			}
 			else
 			{
-				$this->appendBody(sprintf($lng->txt('mails_at_the_ilias_installation'), count($mail_data), ILIAS_HTTP_PATH ));
+				$this->appendBody(sprintf($lng->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
 			}
 			$this->appendBody("\n\n");
 
@@ -92,7 +92,8 @@ class ilMailSummaryNotification extends ilMailNotification
 			$this->appendBody("\n\n");
 			$this->appendBody($lng->txt('follow_link_to_read_mails')." ");
 			$this->appendBody("\n");
-			$mailbox_link = ILIAS_HTTP_PATH."/goto.php?target=mail&client_id=".CLIENT_ID;
+			$mailbox_link = ilUtil::_getHttpPath();
+			$mailbox_link .= "/goto.php?target=mail&client_id=".CLIENT_ID;
 
 			$this->appendBody($mailbox_link);
 			$this->appendBody("\n\n");
