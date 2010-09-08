@@ -10902,3 +10902,5 @@ administration#:#language_local_file_deleted#:#Die lokale Sprachdatei wurde gel�
 administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen
 rbac#:#export_member_data#:#Zugriff auf Benutzerdaten
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen.
+rbac#:#crs_create_catr#:#Neue Kategorie-Referenz anlegen
+rbac#:#crs_create_crsr#:#Neue Kurs-Referenz anlegen
