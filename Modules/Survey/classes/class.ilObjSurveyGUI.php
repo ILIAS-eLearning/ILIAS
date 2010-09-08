@@ -3419,7 +3419,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		$info->addSection($this->lng->txt("svy_general_properties"));
-		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
+		if (strlen($this->object->getAuthor()))
+		{
+			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
+		}
 		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		switch ($this->object->getAnonymize())
 		{
