@@ -10901,3 +10901,4 @@ administration#:#language_error_delete_local#:#Die lokale Sprachdatei konnte nic
 administration#:#language_local_file_deleted#:#Die lokale Sprachdatei wurde gelöscht.
 administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen
 rbac#:#export_member_data#:#Zugriff auf Benutzerdaten
+rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen.

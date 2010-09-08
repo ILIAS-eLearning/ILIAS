@@ -10897,3 +10897,4 @@ administration#:#language_error_delete_local#:#The local language file can't be 
 administration#:#language_local_file_deleted#:#The local language file was deleted.
 administration#:#language_remove_local_file#:#Delete the local language file
 rbac#:#export_member_data#:#Access to User Data
+rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.
