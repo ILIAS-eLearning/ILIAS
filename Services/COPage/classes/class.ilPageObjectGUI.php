@@ -1814,9 +1814,9 @@ class ilPageObjectGUI
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
 		$ilBench->stop("ContentPresentation", "ilPageObjectGUI_showPage");
-		
+
 		$output = $this->selfAssessmentRendering($output);
-		
+
 		// output
 		if ($ilCtrl->isAsynch())
 		{
@@ -2705,7 +2705,7 @@ class ilPageObjectGUI
 		global $tpl, $ilCtrl;
 		
 		if ($this->getEnabledSelfAssessment())
-		{ 
+		{
 			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit") ? true : false);
 			$this->setQuestionHTML($qhtml);
 			//include JQuery Libraries before Prototpye
