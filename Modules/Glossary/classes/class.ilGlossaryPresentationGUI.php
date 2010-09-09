@@ -1358,8 +1358,8 @@ if (!false)
 				// glossary menu
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					if ($this->glossary->isActiveGlossaryMenu())
-					{
+					//if ($this->glossary->isActiveGlossaryMenu())
+					//{
 						// download links
 						if ($this->glossary->isActiveDownloads())
 						{
@@ -1367,7 +1367,7 @@ if (!false)
 								$lng->txt("download"),
 								$ilCtrl->getLinkTarget($this, "showDownloadList"));
 						}
-					}
+					//}
 				}
 
 				if ($ilAccess->checkAccess("write", "", (int) $_GET["ref_id"]))

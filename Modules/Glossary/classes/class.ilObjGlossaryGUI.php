@@ -523,9 +523,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		
 		// menu enabled?
+/*
 		$cb = new ilCheckboxInputGUI($lng->txt("cont_glo_menu"), "glo_act_menu");
 		$cb->setValue("y");
-		$this->form->addItem($cb);
+		$this->form->addItem($cb);*/
 		
 		// downloads
 		$cb = new ilCheckboxInputGUI($lng->txt("cont_downloads"), "glo_act_downloads");
@@ -549,7 +550,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 		$values["cobj_online"] = $this->object->getOnline();
 		$values["glo_mode"] = $this->object->getVirtualMode();
-		$values["glo_act_menu"] = $this->object->isActiveGlossaryMenu();
+//		$values["glo_act_menu"] = $this->object->isActiveGlossaryMenu();
 		$values["glo_act_downloads"] = $this->object->isActiveDownloads();
 		$values["pres_mode"] = $this->object->getPresentationMode();
 		$values["snippet_length"] = $this->object->getSnippetLength();
@@ -569,7 +570,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 			$this->object->setVirtualMode($_POST["glo_mode"]);
-			$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
+//			$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
 			$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
 			$this->object->setPresentationMode($_POST["pres_mode"]);
 			$this->object->setSnippetLength($_POST["snippet_length"]);
