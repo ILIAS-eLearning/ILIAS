@@ -4,7 +4,8 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="book" class_name="BookingPool" dir="classes" default_pos="82"
+		<object id="book" class_name="BookingPool" dir="classes"
+			default_pos="230" default_pres_pos="230"
 			checkbox="1" inherit="1" allow_link="1" rbac="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
