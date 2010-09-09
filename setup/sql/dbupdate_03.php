@@ -841,6 +841,7 @@ $res = $ilDB->query($query);
 				" WHERE obj_id = ".$ilDB->quote($rec["exc_id"], "integer")
 				);
 		}
+		$ilDB->manipulate("DELETE FROM exc_usr_tutor WHERE ass_id IS NULL");
 	}
 ?>
 <#3000>
