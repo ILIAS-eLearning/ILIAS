@@ -325,7 +325,8 @@ class ilObjForumGUI extends ilObjectGUI
 	
 
 	public function editThreadObject($a_thread_id)
-	{		$this->ctrl->setParameter($this,'thr_pk', $a_thread_id);
+	{
+		$this->ctrl->setParameter($this,'thr_pk', $a_thread_id);
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Modules/Forum');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'updateThread'));
@@ -671,23 +672,28 @@ class ilObjForumGUI extends ilObjectGUI
 				$tbl->setPrefix('frm_threads');
 				$tbl->setData($result);
 				
-				$tbl->addMultiCommand('', $this->lng->txt('please_choose'));
-				$tbl->addMultiCommand('html', $this->lng->txt('export_html'));				
+				$tbl->addMultiCommand('', $this->lng->txt('please_choose'));							
 				if($this->ilias->getSetting('forum_notification') == 1)
 				{
-					$tbl->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
 					$tbl->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
+					$tbl->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));					
 				}
 				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 				{
 					$tbl->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
 					$tbl->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
+					$tbl->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
 					$tbl->addMultiCommand('close', $this->lng->txt('close_topics'));
 					$tbl->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
-					$tbl->addMultiCommand('move', $this->lng->txt('move'));
+					$tbl->addMultiCommand('move', $this->lng->txt('move'));							
+				}	
+
+				$tbl->addMultiCommand('html', $this->lng->txt('export_html'));	
+				
+				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
+				{
 					$tbl->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
-					$tbl->addMultiCommand('editThread', $this->lng->txt('edit'));
-				}				
+				}
 		
 				$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
 			}
