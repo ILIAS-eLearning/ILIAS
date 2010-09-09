@@ -1674,8 +1674,11 @@ class ilLMPresentationGUI
 				$page_id, "pg", "read");
 			
 			// update learning progress
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());
+			}
 
 		}
 
