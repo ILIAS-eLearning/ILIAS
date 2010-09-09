@@ -10521,6 +10521,8 @@ export#:#export_existing#:#Wiederverwenden
 export#:#export_save_selection#:#Export starten
 survey#:#use_other_answer#:#Freitext
 survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
+survey#:#question_mr_no_other_answer_checked#:#Sie müssen das Kontrollkästchen auswählen, wenn Sie einen Antworttext eintragen
+survey#:#question_sr_no_other_answer_checked#:#Sie müssen das Optionsfeld auswählen, wenn Sie einen Antworttext eintragen
 survey#:#use_min_answers#:#Antwortanzahl
 survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
 survey#:#nr_min_answers#:#Minimum

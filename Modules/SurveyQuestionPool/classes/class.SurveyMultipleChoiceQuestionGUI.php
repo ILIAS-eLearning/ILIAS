@@ -331,7 +331,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 									if ($value["value"] == $cat->scale-1)
 									{
 										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
-										$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+										if (!$value['uncheck'])
+										{
+											$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+										}
 									}
 								}
 							}
@@ -353,7 +356,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 								{
 									if ($value["value"] == $cat->scale-1)
 									{
-										$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+										if (!$value['uncheck'])
+										{
+											$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+										}
 									}
 								}
 							}
@@ -380,7 +386,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if ($value["value"] == $cat->scale-1)
 								{
-									$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+									if (!$value['uncheck'])
+									{
+										$template->setVariable("CHECKED_MC", " checked=\"checked\"");
+									}
 								}
 							}
 						}

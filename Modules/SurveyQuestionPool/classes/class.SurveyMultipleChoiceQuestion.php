@@ -368,6 +368,20 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				array_push($data, array("value" => $value, "textanswer" => $post_data[$this->getId() . '_' . $value . '_other']));
 			}
 		}
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$cat = $this->categories->getCategory($i);
+			if ($cat->other)
+			{
+				if (!in_array($i, $entered_value))
+				{
+					if (strlen($post_data[$this->getId() . "_" . $i . "_other"]))
+					{
+						array_push($data, array("value" => $i, "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'], "uncheck" => true));
+					}
+				}
+			}
+		}
 		return $data;
 	}
 
@@ -401,14 +415,24 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		{
 			return $this->lng->txt("question_mr_not_checked");
 		}
-		foreach ($entered_value as $id)
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
-			$cat = $this->categories->getCategory($id);
+			$cat = $this->categories->getCategory($i);
 			if ($cat->other)
 			{
-				if (array_key_exists($this->getId() . "_" . $id . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $id . "_other"]))
+				if (in_array($i, $entered_value))
 				{
-					return $this->lng->txt("question_mr_no_other_answer");
+					if (array_key_exists($this->getId() . "_" . $i . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $i . "_other"]))
+					{
+						return $this->lng->txt("question_mr_no_other_answer");
+					}
+				}
+				else
+				{
+					if (strlen($post_data[$this->getId() . "_" . $i . "_other"]))
+					{
+						return $this->lng->txt("question_mr_no_other_answer_checked");
+					}
 				}
 			}
 		}
