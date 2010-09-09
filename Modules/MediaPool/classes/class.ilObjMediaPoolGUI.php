@@ -802,14 +802,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			: "media";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
 		$fullscreen_link =
-			$this->ctrl->getLinkTarget($this, "showFullscreen");
+			$this->ctrl->getLinkTarget($this, "showFullscreen", "", false, false);
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => $fullscreen_link,
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
-
 		// unmask user html
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 
