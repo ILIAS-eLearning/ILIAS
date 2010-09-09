@@ -187,13 +187,14 @@ class ilLPStatusManual extends ilLPStatus
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
 		global $ilObjDataCache, $ilDB;
-		
+
 		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'dbk':
 			case 'lm':
 			case 'htlm':
+				include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
 					$status = LP_STATUS_IN_PROGRESS_NUM;
