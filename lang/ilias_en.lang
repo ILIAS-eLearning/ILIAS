@@ -10599,6 +10599,8 @@ export#:#export_existing#:#Reuse
 export#:#export_save_selection#:#Start Export
 survey#:#use_other_answer#:#Open answer
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer
+survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer
+survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer
 survey#:#use_min_answers#:#Answer selections
 survey#:#use_min_answers_option#:#Set a number of answer selections
 survey#:#nr_min_answers#:#Minimum

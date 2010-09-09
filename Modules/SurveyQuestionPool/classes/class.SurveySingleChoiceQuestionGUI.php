@@ -523,10 +523,13 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if (strlen($value["value"]))
 								{
-									if ($value["value"] == $cat->scale-1 && strlen($value['textanswer']))
+									if ($value["value"] == $cat->scale-1)
 									{
-										$template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
-										$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+										if (strlen($value['textanswer'])) $template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
+										if (!$value['uncheck'])
+										{
+											$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+										}
 									}
 								}
 							}
@@ -542,11 +545,17 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
 						{
-							if (strcmp($working_data[0]["value"], "") != 0)
+							foreach ($working_data as $value)
 							{
-								if ($working_data[0]["value"] == $cat->scale-1)
+								if (strcmp($value["value"], "") != 0)
 								{
-									$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+									if ($value["value"] == $cat->scale-1)
+									{
+										if (!$value['uncheck'])
+										{
+											$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+										}
+									}
 								}
 							}
 						}
@@ -566,11 +575,17 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
-						if (strcmp($working_data[0]["value"], "") != 0)
+						foreach ($working_data as $value)
 						{
-							if ($working_data[0]["value"] == $cat->scale-1)
+							if (strcmp($value["value"], "") != 0)
 							{
-								$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+								if ($value["value"] == $cat->scale-1)
+								{
+									if (!$value['uncheck'])
+									{
+										$template->setVariable("CHECKED_SC", " checked=\"checked\"");
+									}
+								}
 							}
 						}
 					}
