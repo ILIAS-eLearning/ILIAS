@@ -951,7 +951,7 @@ class ilPageObjectGUI
 		$fullscreen_link = $this->getFullscreenLink();
 		if ($this->getFullscreenLink() == "" && $this->getOutputMode() != "offline")
 		{
-			$fullscreen_link = $ilCtrl->getLinkTarget($this, "displayMediaFullscreen");
+			$fullscreen_link = $ilCtrl->getLinkTarget($this, "displayMediaFullscreen", "", false, false);
 		}
 		return $fullscreen_link;
 	}
