@@ -3013,7 +3013,7 @@ class ilObjSurvey extends ilObject
 				}
 			}
 			$active_id = $this->getActiveID($user_id, $anonymize_id);
-			$messagetext .= "\n\n\n" . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
+			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
 			if (($not_sent != 1) || $data['sent'] == 0)
 			{
 				$res = $mail->sendMail(

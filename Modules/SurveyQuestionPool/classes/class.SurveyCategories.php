@@ -234,8 +234,6 @@ class SurveyCategories
 /**
 * Returns the index of a category with a given name.
 *
-* Returns the index of a category with a given name.
-*
 * @param string $name The name of the category
 * @access public
 * @see $categories
@@ -245,6 +243,25 @@ class SurveyCategories
 		foreach ($this->categories as $index => $category)
 		{
 			if (strcmp($category->title, $name) == 0)
+			{
+				return $index;
+			}
+		}
+		return null;
+	}
+
+	/**
+	* Returns the index of a category
+	*
+	* @param string $category The category object
+	* @access public
+	* @see $categories
+	*/
+	function getIndex($category)
+	{
+		foreach ($this->categories as $index => $cat)
+		{
+			if ($cat == $category)
 			{
 				return $index;
 			}
