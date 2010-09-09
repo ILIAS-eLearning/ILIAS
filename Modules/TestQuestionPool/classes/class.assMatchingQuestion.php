@@ -1327,19 +1327,28 @@ class assMatchingQuestion extends assQuestion
 		}
 		$terms = $this->pcArrayShuffle($terms);
 		$pairs = array();
+
+		// alex 9.9.2010 as a fix for bug 6513 I added the question id
+		// to the "def_id" in the array. The $pair->definition->identifier is not
+		// unique, since it gets it value from the morder table field
+		// this value is not changed, when a question is copied.
+		// thus copying the same question on a page results in problems
+		// when the second one (the copy) is answered.
+
 		foreach ($this->getMatchingPairs() as $pair)
 		{
 			array_push($pairs, array(
 				"term_id" => (int) $pair->term->identifier,
 				"points" => (float) $pair->points,
 				"definition" => (string) $pair->definition->text,
-				"def_id" => (int) $pair->definition->identifier,
+				"def_id" => (int) $this->getId().$pair->definition->identifier,
 				"terms" => $terms
 			));
 		}
 		$result['pairs'] = $pairs;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+
 		return json_encode($result);
 	}
 
