@@ -6765,7 +6765,7 @@ forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für diese Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
@@ -10334,15 +10334,15 @@ rep#:#rep_dependencies#:#Abhängigkeiten
 rep#:#rep_object_to_delete#:#Zu löschen
 rep#:#rep_dependent_object#:#Abhängiges Objekt
 rep#:#rep_dependency#:#Abhängigkeit
-content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###29 03 2010 new variable
+content#:#glo_used_in_scorm#:#Das Glossar wird vom SCORM-Modul verwendet. Wenn das Glossar gelöscht wird, können Verlinkungen zum Glossar nicht mehr aufgelöst werden.
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
 content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
 content#:#glo_list_usages#:#Nutzung
 exp#:#exp_create_xml_file#:#Exportpaket erstellen (XML)
 common#:#option#:#Option
-survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.###29 03 2010 new variable
-survey#:#other_answer_label#:#Label of other answer (optional)###29 03 2010 new variable
+survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
+survey#:#other_answer_label#:#Label of other answer (optional)
 style#:#sty_glo_char#:#Glossar
 style#:#sty_type_glo_overlay#:#Glossar Popup
 common#:#delete_inactive_user_accounts#:#Benutzerzugänge löschen
@@ -10678,7 +10678,7 @@ news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
 content#:#cont_edit_shape_whole_picture#:#Umriss (gesamtes Bild) bearbeiten
-common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
+common#:#sort_activation_header#:#Nach Zeitvorgaben
 content#:#cont_alignment#:#Ausrichtung
 content#:#cont_set_alignment#:#Ausrichtung setzen
 administration#:#adm_db_bench_chronological#:#Chronologisch
@@ -10832,15 +10832,15 @@ assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdu
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_admin_permissions#:#Administrationsrechte
 ps#:#ps_export_excel#:#Start Excel-Export
-survey#:#externaltext#:#Import text###20 08 2010 new variable
-survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an 'email' column containing the recipient email.###20 08 2010 new variable
-survey#:#import_from_file#:#Import from a file###20 08 2010 new variable
-survey#:#import_from_text#:#Import from a text###20 08 2010 new variable
-survey#:#import_from_dataset#:#Import from a dataset###20 08 2010 new variable
-survey#:#msg_duplicate_scale#:#Please enter unique scale values###20 08 2010 new variable
-administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.###20 08 2010 new variable
-administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View###20 08 2010 new variable
-administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
+survey#:#externaltext#:#Text importieren
+survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen per Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die E-Mail-Adresse des jeweiligen Empfängers enthalten.
+survey#:#import_from_file#:#Import aus einer Datei
+survey#:#import_from_text#:#Import aus einem Text
+survey#:#import_from_dataset#:#Import aus einem Datensatz
+survey#:#msg_duplicate_scale#:#Bitte tragen Sie eindeutige Skalenwerte ein.
+administration#:#adm_rep_tree_limit_grp_crs_info#:#Diese Ansicht beruht und aktiviert automatisch die synchronisierte Baumansicht.
+administration#:#adm_synchronize_rep_tree#:#Synchronisiere Baumansicht imt Inhaltsansicht im Magazin
+administration#:#adm_synchronize_rep_tree_info#:#Hebt die aktuelle Position des Benutzers im Magazin hervor. Beachten Sie bitte, dass diese Einstellung zu Lasten der Performanz geht, da zusätzliche Systemabfragen notwendig sind.
 rbac#:#write#:#Einstellungen bearbeiten
 rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
 rbac#:#role_block_role#:#Rolle sperren
