@@ -187,7 +187,7 @@ class ilOpenIdSettings
 		$ilCtrl->setTargetScript('ilias.php');
 		$ilCtrl->setParameterByClass('ilstartupgui','oid_check_status',1);
 		$redir = ILIAS_HTTP_PATH.'/';
-		$redir .= $ilCtrl->getLinkTargetByClass('ilstartupgui','showLogin');
+		$redir .= $ilCtrl->getLinkTargetByClass('ilstartupgui','showLogin','',false,false);
 		return $redir;
 	}
 	
