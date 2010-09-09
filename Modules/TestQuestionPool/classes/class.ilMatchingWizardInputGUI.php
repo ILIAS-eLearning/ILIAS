@@ -370,7 +370,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text));
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock('singleline');
+			// this block does not exist in the template
+//			$tpl->setCurrentBlock('singleline');
 			$tpl->setVariable("SIZE", $this->getSize());
 			$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
 			$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
