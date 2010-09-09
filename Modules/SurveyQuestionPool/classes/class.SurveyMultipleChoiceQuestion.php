@@ -679,7 +679,16 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			}
 			$title = $row["value"] + 1 . " - " . $category->title;
 			if ($category->other) $title .= ": " . $row["textanswer"];
-			array_push($answers[$row["active_fi"]], $title);
+			$catindex = $this->categories->getIndex($category);
+			if ($catindex !== null)
+			{
+				$answers[$row["active_fi"]][$catindex] = $title;
+			}
+			else
+			{
+				array_push($answers[$row["active_fi"]], $title);
+			}
+			ksort($answers[$row["active_fi"]], SORT_NUMERIC);
 		}
 		return $answers;
 	}
