@@ -1142,9 +1142,11 @@ class ilInternalLinkGUI
 		$exp->addFilter("chat");
 		$exp->addFilter("sahs");
 		$exp->addFilter("mcst");
+		$exp->addFilter("wiki");
+		$exp->addFilter("mep");
 
 		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
-			'cat','crs','grp','file','fold','sahs','mcst');
+			'cat','crs','grp','file','fold','sahs','mcst','wiki','mep');
 		$exp->setSelectableTypes($sel_types);
 
 

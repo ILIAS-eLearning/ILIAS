@@ -473,7 +473,7 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst|obj|dfile)$ws=$ws([\"0-9])*)$ws".
+			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -552,6 +552,7 @@ echo htmlentities($a_text);*/
 					 || isset($attribs["svy"]) || isset($attribs["obj"]) || isset($attribs['webr'])
 					 || isset($attribs["htlm"]) || isset($attribs["chat"]) || isset($attribs["grp"])
 					 || isset($attribs["fold"]) || isset($attribs["sahs"]) || isset($attribs["mcst"])
+					 || isset($attribs["mep"]) || isset($attribs["wiki"])
 					 || isset($attribs["cat"]) || isset($attribs["crs"]) || isset($attribs["file"]))
 			{
 				$obj_id = (isset($attribs["lm"])) ? $attribs["lm"] : $obj_id;
@@ -572,6 +573,8 @@ echo htmlentities($a_text);*/
 				$obj_id = (isset($attribs["file"])) ? $attribs["file"] : $obj_id;
 				$obj_id = (isset($attribs["sahs"])) ? $attribs["sahs"] : $obj_id;
 				$obj_id = (isset($attribs["mcst"])) ? $attribs["mcst"] : $obj_id;
+				$obj_id = (isset($attribs["mep"])) ? $attribs["mep"] : $obj_id;
+				$obj_id = (isset($attribs["wiki"])) ? $attribs["wiki"] : $obj_id;
 				//$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
 
 				if ($inst_str == "")
