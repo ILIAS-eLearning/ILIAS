@@ -1679,7 +1679,11 @@ class ilLMPresentationGUI
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());
 			}
-
+		}
+		else
+		{
+			$page_object_gui->setEnabledPageFocus(false);
+			$page_object_gui->setEnabledSelfAssessment(false);
 		}
 
 		// ADDED FOR CITATION
