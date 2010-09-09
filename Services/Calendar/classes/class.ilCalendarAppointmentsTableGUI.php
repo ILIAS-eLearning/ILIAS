@@ -203,7 +203,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 			}
 		    else
 			{
-				$title = $entry>getPresentationTitle();
+				$title = $entry->getPresentationTitle();
 			}
 			
 			$tmp_arr['id'] = $entry->getEntryId();
