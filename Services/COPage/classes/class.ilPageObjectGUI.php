@@ -1454,12 +1454,12 @@ class ilPageObjectGUI
 				if ($this->obj->getParentType() == "dbk")
 				{
 					$tpl->setVariable("LINK_TREE",
-						$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
+						$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer", "", false, false));
 				}
 				else
 				{
 					$tpl->setVariable("LINK_TREE",
-						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
+						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false));
 				}
 				$tpl->parseCurrentBlock();
 			}
