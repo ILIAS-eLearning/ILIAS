@@ -261,7 +261,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setValue($this->getString());
 		$dsSchema = array("resultsList" => 'response.results',
 			"fields" => array('term'));
-		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete"));
+		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", false, false));
 		$ti->setDataSourceSchema($dsSchema);
 		$ti->setDataSourceResultFormat($dsFormatCallback);
 		$ti->setDataSourceDelimiter($dsDelimiter);
