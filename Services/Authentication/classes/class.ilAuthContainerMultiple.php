@@ -94,44 +94,43 @@ class ilAuthContainerMultiple extends Auth_Container
 	{
 		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
 		{
-                    if ($_REQUEST['force_mode_apache']) {
-                                    $this->log('Container Apache: Trying new container',AUTH_LOG_DEBUG);
-                                    include_once './Services/Database/classes/class.ilAuthContainerApache.php';
-                                    $this->current_container = new ilAuthContainerApache();
-
-                                    $auth = new ilAuthApache($this->current_container);
-                    }
-                    else
-                    {
-			switch($auth_mode)
+			if ($_REQUEST['force_mode_apache']) 
 			{
-				case AUTH_LDAP:
-					$this->log('Container LDAP: Trying new container',AUTH_LOG_DEBUG);
-					include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-					$this->current_container = new ilAuthContainerLDAP();
-					break;
+				$this->log('Container Apache: Trying new container',AUTH_LOG_DEBUG);
+				include_once './Services/Database/classes/class.ilAuthContainerApache.php';
+				$this->current_container = new ilAuthContainerApache();
 				
-				case AUTH_LOCAL:
-					$this->log('Container MDB2: Trying new container',AUTH_LOG_DEBUG);
-					include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
-					$this->current_container = new ilAuthContainerMDB2();
-					break;
-					
-				case AUTH_SOAP:
-					$this->log('Container SOAP: Trying new container',AUTH_LOG_DEBUG);
-					include_once './Services/SOAPAuth/classes/class.ilAuthContainerSOAP.php';
-					$this->current_container = new ilAuthContainerSOAP();
-					break;
-					
-				case AUTH_RADIUS:
-					$this->log('Container Radius: Trying new container',AUTH_LOG_DEBUG);
-					include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
-					$this->current_container = new ilAuthContainerRadius();
-					break;
-					
-					
+				$auth = new ilAuthApache($this->current_container);
 			}
-                    }
+			else
+			{
+				switch($auth_mode)
+				{
+					case AUTH_LDAP:
+						$this->log('Container LDAP: Trying new container',AUTH_LOG_DEBUG);
+						include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
+						$this->current_container = new ilAuthContainerLDAP();
+						break;
+					
+					case AUTH_LOCAL:
+						$this->log('Container MDB2: Trying new container',AUTH_LOG_DEBUG);
+						include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+						$this->current_container = new ilAuthContainerMDB2();
+						break;
+						
+					case AUTH_SOAP:
+						$this->log('Container SOAP: Trying new container',AUTH_LOG_DEBUG);
+						include_once './Services/SOAPAuth/classes/class.ilAuthContainerSOAP.php';
+						$this->current_container = new ilAuthContainerSOAP();
+						break;
+						
+					case AUTH_RADIUS:
+						$this->log('Container Radius: Trying new container',AUTH_LOG_DEBUG);
+						include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
+						$this->current_container = new ilAuthContainerRadius();
+						break;
+				}
+			}
             $this->current_container->_auth_obj = $this->_auth_obj;
 			
             $result = $this->current_container->fetchData($user, $pass);

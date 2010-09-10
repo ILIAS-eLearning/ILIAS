@@ -60,10 +60,10 @@ class ilToolbarGUI
 	* @param	string		frame target
 	* @param	string		access key
 	*/
-	function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "")
+	function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '')
 	{
 		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
-			"target" => $a_target, "acc_key" => $a_acc_key);
+			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs);
 	}
 
 	/**
@@ -170,6 +170,10 @@ class ilToolbarGUI
 							include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 							$tpl->setVariable("BTN_ACC_KEY",
 								ilAccessKeyGUI::getAttribute($item["acc_key"]));
+						}
+						if(($item['add_attrs']))
+						{
+							$tpl->setVariable('BTN_ADD_ARG',$item['add_attrs']);
 						}
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");

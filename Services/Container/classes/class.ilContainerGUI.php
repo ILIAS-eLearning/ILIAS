@@ -2993,5 +2993,76 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setContent($this->form->getHtml());
 		return false;
 	}
+	
+	/**
+	 * Show webdav password instruction
+	 * @return 
+	 */
+	protected function showPasswordInstructionObject($a_init = true)
+	{
+		global $tpl,$ilToolbar;
+		
+		if($a_init)
+		{
+			ilUtil::sendInfo($this->lng->txt('webdav_pwd_instruction'));
+			$this->initFormPasswordInstruction();
+		}
+		
+		include_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+		$davServer = new ilDAVServer();
+		$ilToolbar->addButton(
+			$this->lng->txt('mount_webfolder'),
+			$davServer->getMountURI($this->object->getRefId()),
+			'_blank',
+			'',
+			$davServer->getFolderURI($this->object->getRefId())
+		);
+
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Init password form
+	 * @return 
+	 */
+	protected function initFormPasswordInstruction()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	
+		// new password
+		$ipass = new ilPasswordInputGUI($this->lng->txt("desired_password"), "new_password");
+		$ipass->setRequired(true);
+
+		$this->form->addItem($ipass);
+		$this->form->addCommandButton("savePassword", $this->lng->txt("save"));
+		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		
+		$this->form->setTitle($this->lng->txt("chg_ilias_and_webfolder_password"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		return $this->form;
+	}
+	
+	/**
+	 * Save password
+	 * @return 
+	 */
+	protected function savePasswordObject()
+	{
+		global $ilUser;
+		
+		$form = $this->initFormPasswordInstruction();
+		if($form->checkInput())
+		{
+			$ilUser->resetPassword($this->form->getInput('new_password'),$this->form->getInput('new_password'));
+			ilUtil::sendSuccess($this->lng->txt('webdav_pwd_instruction_success'),true);
+			$this->showPasswordInstructionObject(false);
+			return true;
+		}
+		$form->setValuesByPost();
+		$this->showPasswordInstructionObject();
+	}
 }
 ?>

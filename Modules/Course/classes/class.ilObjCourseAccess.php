@@ -148,8 +148,6 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}
 				break;
-				
-				
 		}
 		return true;
 	}
@@ -178,13 +176,20 @@ class ilObjCourseAccess extends ilObjectAccess
 		// regualar users
 		$commands[]	= array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
 
-		// BEGIN WebDAV: Mount as webfolder.
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
+			include_once './Services/WebDAV/classes/class.ilDAVUtils.php';
+			if(ilDAVUtils::getInstance()->isLocalPasswordInstructionRequired())
+			{
+				$commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
+			}
+			else
+			{
+				$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
+			}
 		}
-		// END WebDAV: Mount as webfolder.
+
 		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
 		return $commands;
 	}

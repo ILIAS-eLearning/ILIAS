@@ -1915,7 +1915,10 @@ class ilPersonalProfileGUI
 			// The current password needs to be checked for verification
 			// unless the user uses Shibboleth authentication with additional
 			// local authentication for WebDAV.
-			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
+			//if (
+			//	($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
+			//)
+			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
 			{
 				// current password
 				$cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
@@ -1980,11 +1983,17 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser, $ilSetting;
 		
+		
+		return ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
+		
+		// Moved to ilAuthUtils
+		
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
+			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local")) &&
+			($ilUser->getAuthMode(true) != AUTH_OPENID)
 			)
 		{
 			return false;
@@ -2022,7 +2031,8 @@ class ilPersonalProfileGUI
 			// The old password needs to be checked for verification
 			// unless the user uses Shibboleth authentication with additional
 			// local authentication for WebDAV.
-			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
+			#if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
+			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
 			{
 				// check current password
 				if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
