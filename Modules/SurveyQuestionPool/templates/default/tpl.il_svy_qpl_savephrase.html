@@ -1,23 +1,8 @@
 <form name="removeCategories" method="post" action="{FORM_ACTION}">
 <p>{SAVE_PHRASE_INTRODUCTION}</p>
-<p><label for="phrase_title">{TEXT_PHRASE_TITLE}</label>: <input type="text" name="phrase_title" value="{VALUE_PHRASE_TITLE}" id="phrase_title" size="60" /></p>
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th class="std" colspan="2">{TXT_TITLE}</th>
-	</tr>
-</thead>
-<!-- BEGIN row -->
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}">{TXT_TITLE}</td>
-</tr>
-<!-- END row -->
-</table>
-<!-- BEGIN hidden -->
-<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
-<!-- END hidden -->
-<p>
-<input type="submit" class="submit" name="cmd[confirmSavePhrase]" value="{BTN_CONFIRM}" />
-<input type="submit" class="submit" name="cmd[cancelSavePhrase]" value="{BTN_CANCEL}" />
+<p><label for="phrase_title">{TEXT_PHRASE_TITLE}</label>: <input type="text" name="phrase_title" value="{VALUE_PHRASE_TITLE}" id="phrase_title" size="60" />
+	<input type="submit" class="submit" name="cmd[confirmSavePhrase]" value="{BTN_CONFIRM}" />
+	<input type="submit" class="submit" name="cmd[cancelSavePhrase]" value="{BTN_CANCEL}" />
 </p>
 </form>
+{TABLE}

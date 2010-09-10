@@ -415,39 +415,38 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		if ($result == 0 || $haserror)
 		{
 			if (!$haserror) $this->object->saveToDb();
-			$nothing_selected = true;
-			$nothing_selected = false;
+
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
-			$rowclass = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($_POST['answers']['answer'] as $key => $value) 
-			{
-				if (strlen($value))
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("TXT_TITLE", ilUtil::stripSlashes($value));
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("hidden");
-					$this->tpl->setVariable("HIDDEN_NAME", "answers[answer][]");
-					$this->tpl->setVariable("HIDDEN_VALUE", ilUtil::stripSlashes($value));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-			if ($counter == 0)
-			{
-				ilUtil::sendFailure($this->lng->txt("check_category_to_save_phrase"), true);
-				$this->ctrl->redirect($this, "editQuestion");
-			}
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
 			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
 			$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
 			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+
+			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php";
+			$table_gui = new ilSurveySavePhraseTableGUI($this, 'editQuestion');
+			
+			$data = array();
+			if (!$haserror)
+			{
+				foreach ($_POST['answers']['answer'] as $key => $value)
+				{
+					array_push($data, array('answer' => $value, 'other' => (($_POST['answers']['other'][$key]) ? true : false), 'scale' => $_POST['answers']['scale'][$key]));
+				}
+				if (strlen($_POST['answers']['neutral']))
+				{
+					array_push($data, array('answer' => $_POST['answers']['neutral'], 'other' => false, 'scale' => $_POST['answers_neutral_scale']));
+				}
+			}
+			else
+			{
+				$data = $_SESSION['save_phrase_data'];
+			}
+			$table_gui->setData($data);
+			$_SESSION['save_phrase_data'] = $data;
+			$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -484,7 +483,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			return;
 		}
 
-		$this->object->savePhrase($_POST['answers']['answer'], $_POST["phrase_title"]);
+		$this->object->savePhrase($_POST["phrase_title"]);
 		ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
 		$this->ctrl->redirect($this, "editQuestion");
 	}
