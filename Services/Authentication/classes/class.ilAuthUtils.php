@@ -726,7 +726,7 @@ class ilAuthUtils
 			case AUTH_SCRIPT:
 			case AUTH_APACHE:
 			default:
-				return ilAuthUtils::LOCAL_PWV_NO;
+				return ilAuthUtils::LOCAL_PWV_USER;
 		}
 	} 
 }

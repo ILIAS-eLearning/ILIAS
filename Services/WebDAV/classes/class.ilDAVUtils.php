@@ -52,13 +52,12 @@ class ilDAVUtils
 		}
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
 		$status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
-
 		if($status != ilAuthUtils::LOCAL_PWV_USER)
 		{
 			return $this->pwd_instruction = false;
 		}
 		// Check if user has local password
-		return $this->pwd_instruction = (bool) strlen($ilUser->getPasswd());
+		return $this->pwd_instruction = (bool) !strlen($ilUser->getPasswd());
 	}
 	
 }
