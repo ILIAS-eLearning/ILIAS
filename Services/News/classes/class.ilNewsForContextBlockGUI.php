@@ -392,25 +392,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("long");
 			//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
-
-			if($news['start_date'] == '')
-			{
 				$this->tpl->setVariable("VAL_CREATION_DATE",
 					ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
-			}
-			else
-			{
-				$this->tpl->setVariable("VAL_CREATION_DATE",
-					ilDatePresentation::formatDate(new ilDateTime($news["start_date"],IL_CAL_DATETIME)));
-			}
-
-			if($news['end_date'] != '')
-			{
-				$this->tpl->setVariable("VAL_END_DATE",
-					ilDatePresentation::formatDate(new ilDateTime($news["end_date"],IL_CAL_DATETIME)));
-
-				$this->tpl->setVariable("TXT_FINISHED", $lng->txt("finish_publishing_date"));
-			}
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -548,9 +531,7 @@ if (empty(self::$st_data))
 				"content_is_lang_var" => false,
 				"loc_context" => $_GET["news_context"],
 				"context_obj_type" => $news->getContextObjType(),
-				"title" => "",
-				"start_date" => '',
-				"end_date" => '');
+                "title" => "");
 
 			foreach($c["aggregation"] as $c_item)
 			{
@@ -576,9 +557,7 @@ if (empty(self::$st_data))
 				"context_sub_obj_id" => $news->getContextSubObjId(),
 				"content_is_lang_var" => $news->getContentIsLangVar(),
 				"loc_context" => $_GET["news_context"],
-				"title" => $news->getTitle(),
-				"start_date" => $news->getStartDate(),
-				"end_date" => $news->getEndDate());
+                "title" => $news->getTitle());
 			ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
 		}
 			
@@ -673,33 +652,13 @@ if (empty(self::$st_data))
 			if ($item["creation_date"] != "")
 			{
 				$tpl->setCurrentBlock("ni_update");
-				if($item['start_date'] == '')
-				{
 					$tpl->setVariable("VAL_CREATION_DATE",
 						ilDatePresentation::formatDate(new ilDateTime($item["creation_date"],IL_CAL_DATETIME)));
-				}
-				else
-				{
-					$tpl->setVariable("VAL_CREATION_DATE",
-						ilDatePresentation::formatDate(new ilDateTime($item["start_date"],IL_CAL_DATETIME)));
-				}
-
 				$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 				$tpl->parseCurrentBlock();
-
-				if($item['end_date'] != '')
-				{
-					$tpl->setCurrentBlock("ni_finish");
-					$tpl->setVariable("VAL_END_DATE",
-						ilDatePresentation::formatDate(new ilDateTime($item["end_date"],IL_CAL_DATETIME)));
-
-					$tpl->setVariable("TXT_FINISHED", $lng->txt("finish_publishing_date"));
 				}
 
-				$tpl->parseCurrentBlock();
-			}
 
-						
 			// context / title
 			if ($_GET["news_context"] > 0)
 			{
@@ -998,20 +957,12 @@ if (empty(self::$st_data))
 			0, $this->block_id);
 		$hide_news_per_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_per_date",
 			0, $this->block_id);
-		$hide_news_until_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_until_date", //checkbox
-			0, $this->block_id);
 		$hide_news_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_date",
-			0, $this->block_id);
-		$hide_news_date_end = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_date_end",
 			0, $this->block_id);
 
 		if ($hide_news_date != "")
 		{
 			$hide_news_date = explode(" ", $hide_news_date);
-		}
-		if ($hide_news_date_end != "")
-		{
-			$hide_news_date_end = explode(" ", $hide_news_date_end);
 		}
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1047,22 +998,8 @@ if (empty(self::$st_data))
 				
 			$this->settings_form->addItem($hnpd);
 
-			$hnpd = new ilCheckboxInputGUI($lng->txt("news_hide_news_until_date"), "hide_news_until_date");
-			$hnpd->setInfo($lng->txt("news_hide_news_until_date_info"));
-			$hnpd->setChecked($hide_news_until_date);
-
-			$dt_prop = new ilDateTimeInputGUI($lng->txt("show_news_end_date"), "hide_news_date_end");
-			if ($hide_news_date_end != "")
-			{
-				$dt_prop->setDate(new ilDateTime($hide_news_date_end[0].' '.$hide_news_date_end[1],IL_CAL_DATETIME));
 			}
 
-			$dt_prop->setShowTime(true);
-			$hnpd->addSubItem($dt_prop);
-
-			$this->settings_form->addItem($hnpd);
-		}
-		
 		// default visibility
 		if ($this->getProperty("default_visibility_option") &&
 			$enable_internal_rss)
@@ -1161,23 +1098,12 @@ if (empty(self::$st_data))
 					0, $this->block_id);
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_per_date", $_POST["hide_news_per_date"],
 					0, $this->block_id);
-				ilBlockSetting::_write($this->getBlockType(), "hide_news_until_date", $_POST["hide_news_until_date"],
-					0, $this->block_id);
 
 				// hide date
 				$hd = $this->settings_form->getInput("hide_news_date");
 				$hide_date = new ilDateTime($hd["date"]." ".
 					$hd["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
-					$hide_date->get(IL_CAL_DATETIME),
-					0, $this->block_id);
-				
-				// hide date end
-				$hde = $this->settings_form->getInput("hide_news_date_end");
-				$hide_date = new ilDateTime($hde["date"]." ".
-					$hde["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
-
-				ilBlockSetting::_write($this->getBlockType(), "hide_news_date_end",
 					$hide_date->get(IL_CAL_DATETIME),
 					0, $this->block_id);
 			}
