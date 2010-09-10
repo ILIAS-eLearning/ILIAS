@@ -2702,7 +2702,7 @@ class ilPageObjectGUI
 	 */
 	function initSelfAssessmentRendering()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $lng;
 		
 		if ($this->getEnabledSelfAssessment())
 		{
@@ -2721,6 +2721,15 @@ class ilPageObjectGUI
 				$url = $ilCtrl->getLinkTarget($this, "processAnswer", "", true, false);
 				$tpl->addOnloadCode("ilCOPageQuestionHandler.initCallback('".$url."');");
 			}
+
+			$tpl->addOnloadCode('
+			ilias.questions.txt.wrong_answers = "'.$lng->txt("cont_wrong_answers").'";
+			ilias.questions.txt.tries_remaining = "'.$lng->txt("cont_tries_remaining").'";
+			ilias.questions.txt.please_try_again = "'.$lng->txt("cont_please_try_again").'";
+			ilias.questions.txt.all_answers_correct = "'.$lng->txt("cont_all_answers_correct").'";
+			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txt("cont_nr_of_tries_exceeded").'";
+			ilias.questions.txt.correct_answers_shown = "'.$lng->txt("cont_correct_answers_shown").'";
+			');
 		}
 	}
 

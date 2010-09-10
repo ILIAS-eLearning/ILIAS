@@ -10910,3 +10910,10 @@ forum#:#frm_edit_title#:#Titel bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
 administration#:#language_merged_global#:#Die lokalen Änderungen wurden in die globale Sprachdatei eingefügt.
+content#:#cont_submit_answers#:#Antworten prüfen
+content#:#cont_wrong_answers#:#Falsche Antworten
+content#:#cont_tries_remaining#:#Verbleibende Versuche
+content#:#cont_please_try_again#:#Bitte versuchen Sie es noch einmal
+content#:#cont_all_answers_correct#:#Alle Antworten korrekt
+content#:#cont_nr_of_tries_exceeded#:#Alle Versuche ausgeschöpft
+content#:#cont_correct_answers_shown#:#Die richtigen Antworten werden oben angezeigt

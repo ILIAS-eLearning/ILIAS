@@ -1,27 +1,8 @@
 <?php
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
- */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-//require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+
+require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
 
 /**
  * Scorm 2004 Question Exporter
@@ -30,12 +11,8 @@
  *
  * @version $Id: class.ilQuestionExporter.php 12658 2006-11-29 08:51:48Z akill $
  *
- * @ingroup ModulesIliasLearningModule
+ * @ingroup ModulesScormAicc
  */
-
-require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-
-
 class ilQuestionExporter
 {
 	static $exported = array(); //json data for all exported questions (class variable)
@@ -57,12 +34,12 @@ class ilQuestionExporter
 	 */
 	public function ilQuestionExporter($a_preview_mode = false)
 	{
-		global $ilDB, $ilias;
+		global $ilDB, $ilias, $lng;
 
 		$this->ref_id =& $a_ref_id;
 
-		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
+		$this->lng = $lng;
 
 		$this->inst_id = IL_INST_ID;
 		
@@ -74,7 +51,7 @@ class ilQuestionExporter
 		if (!$a_preview_mode)
 		{
 			$this->tpl->setVariable("FORM_BEGIN", "<form>");
-			$this->tpl->setVariable("FORM_END", "<form>");
+			$this->tpl->setVariable("FORM_END", "</form>");
 		}
 
 	}
@@ -134,15 +111,18 @@ class ilQuestionExporter
 		return $exportstring;
 	}
 	
-	private function setHeaderFooter() {
+	private function setHeaderFooter()
+	{
 		$this->tpl->setCurrentBlock("common");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		$this->tpl->setVariable("VAL_TYPE", $this->json_decoded->type);
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	private function assSingleChoice() {
+	private function assSingleChoice()
+	{
 		$this->tpl->setCurrentBlock("singlechoice");
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
@@ -159,6 +139,7 @@ class ilQuestionExporter
 	
 	private function assMultipleChoice() {
 		$this->tpl->setCurrentBlock("multiplechoice");
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
@@ -178,6 +159,7 @@ class ilQuestionExporter
 		$maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;
 		$this->tpl->setCurrentBlock("textquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_MAXLENGTH", $maxlength);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
@@ -190,6 +172,7 @@ class ilQuestionExporter
 	private function assClozeTest() {
 		$this->tpl->setCurrentBlock("clozequestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
@@ -201,6 +184,7 @@ class ilQuestionExporter
 	private function assOrderingQuestion() {
 		$this->tpl->setCurrentBlock("orderingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
@@ -212,6 +196,7 @@ class ilQuestionExporter
 	private function assMatchingQuestion() {
 		$this->tpl->setCurrentBlock("matchingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
@@ -221,6 +206,7 @@ class ilQuestionExporter
 	}
 	
 	private function assImagemapQuestion() {
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		array_push(self::$media_files,$this->q_gui->object->getImagePath().$this->q_gui->object->getImageFilename());
 		$this->tpl->setCurrentBlock("mapareas");
 		$areas = $this->json_decoded->answers;

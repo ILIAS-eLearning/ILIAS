@@ -127,7 +127,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->addBlockfile("ADM_CONTENT", "style_basic_settings", "tpl.stys_basic_settings.html");
-		$this->tpl->setCurrentBlock("style_settings");
+		//$this->tpl->setCurrentBlock("style_settings");
 
 		$settings = $this->ilias->getAllSettings();
 
