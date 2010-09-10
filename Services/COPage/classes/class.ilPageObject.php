@@ -1085,6 +1085,26 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
+	 * Set contains question
+	 *
+	 * @param	boolean	$a_val	contains question
+	 */
+	public function setContainsQuestion($a_val)
+	{
+		$this->contains_question = $a_val;
+	}
+
+	/**
+	 * Get contains question
+	 *
+	 * @return	boolean	contains question
+	 */
+	public function getContainsQuestion()
+	{
+		return $this->contains_question;
+	}
+
+	/**
 	* get a xml string that contains all Bibliography elements, that
 	* are referenced by any bibitem alias in the page
 	*/
@@ -1558,9 +1578,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* Resolves all internal link targets of the page, if targets are available
-	* (after import)
-	*/
+	 * Resolves all internal link targets of the page, if targets are available
+	 * (after import)
+	 */
 	function resolveIntLinks()
 	{
 		// resolve normal internal links
@@ -1665,6 +1685,29 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		return $changed;
 	}
+
+	/**
+	 * Resolve all quesion references
+	 * (after import)
+	 */
+	function resolveQuestionReferences($a_mapping)
+	{
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//Question";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$qref = $res->nodeset[$i]->get_attribute("QRef");
+
+			if (isset($a_mapping[$qref]))
+			{
+				$res->nodeset[$i]->set_attribute("QRef", "il__qst_".$a_mapping[$qref]["pool"]);
+			}	
+		}
+		unset($xpc);
+	}
+
 
 	/**
 	* Move internal links from one destination to another. This is used

@@ -225,6 +225,10 @@ class ilContObjParser extends ilMDSaxParser
 			}
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
+			if (in_array($this->coType, array("lm", "dbk")))
+			{
+				$page_obj->resolveQuestionReferences($this->qst_mapping);
+			}
 			$page_obj->update(false);
 
 			if ($page_arr[0] == "gdf")
@@ -851,6 +855,7 @@ class ilContObjParser extends ilMDSaxParser
 			// Question
 			case "Question":
 				$this->cur_qid = $a_attribs["QRef"];
+				$this->page_object->setContainsQuestion(true);
 				break;
 
 			case "Location":
@@ -1030,7 +1035,13 @@ class ilContObjParser extends ilMDSaxParser
 						{
 							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 						}
-						
+
+						// collect pages with questions
+						if ($this->page_object->getContainsQuestion())
+						{
+							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
+						}
+
 					}
 				}
 				else
@@ -1043,7 +1054,7 @@ class ilContObjParser extends ilMDSaxParser
 						{
 							// question pool question
 							$page = new ilPageObject("qpl", $ids["pool"]);
-							$xmlcontent = str_replace($this->cur_qid, 
+							$xmlcontent = str_replace($this->cur_qid,
 								"il__qst_".$ids["pool"], $xml);
 							$page->setXMLContent($xmlcontent);
 							$page->saveMobUsage($xmlcontent);
