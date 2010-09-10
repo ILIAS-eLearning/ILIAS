@@ -10906,3 +10906,10 @@ forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
 administration#:#language_merged_global#:#The local changes were merged into the global language file.
+content#:#cont_submit_answers#:#Submit Answers
+content#:#cont_wrong_answers#:#Wrong Answers
+content#:#cont_tries_remaining#:#Tries Remaining
+content#:#cont_please_try_again#:#Please try again
+content#:#cont_all_answers_correct#:#All answers correct
+content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded
+content#:#cont_correct_answers_shown#:#Correct answers are shown above

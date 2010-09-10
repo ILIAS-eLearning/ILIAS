@@ -204,6 +204,8 @@
 <Style Tag="div" Type="question" Class="ClozeTest">
 </Style>
 <Style Tag="div" Type="qtitle" Class="Title">
+	<StyleParameter Name="font-weight" Value="bold"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
 </Style>
 <Style Tag="div" Type="qanswer" Class="Answer">
 </Style>
@@ -215,17 +217,21 @@
 </Style>
 <Style Tag="div" Type="qfeedr" Class="FeedbackRight">
 	<StyleParameter Name="margin-top" Value="10px"/>
-	<StyleParameter Name="margin-left" Value="10px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="padding" Value="5px"/>
 	<StyleParameter Name="border-width" Value="1px"/>
 	<StyleParameter Name="border-style" Value="solid"/>
-	<StyleParameter Name="background-color" Value="#CCFFCC"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="background-color" Value="#E7FFE7"/>
 </Style>
 <Style Tag="div" Type="qfeedw" Class="FeedbackWrong">
 	<StyleParameter Name="margin-top" Value="10px"/>
-	<StyleParameter Name="margin-left" Value="10px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="padding" Value="5px"/>
 	<StyleParameter Name="border-width" Value="1px"/>
 	<StyleParameter Name="border-style" Value="solid"/>
-	<StyleParameter Name="background-color" Value="#FFCCCC"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="background-color" Value="#FFE7E7"/>
 </Style>
 
 <!-- Glossary -->
