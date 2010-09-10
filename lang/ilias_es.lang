@@ -2,15 +2,14 @@
 /**
 * ILIAS language file (All entries)
 *
-* @module		language file Spanish
-* @modulegroup	language
-* @author		Arturo González Ferrer <arturogf@ugr.es>
-* @author       Jose Ramon Balsas Almagro <jrbalsas@ujaen.es>
-* @version		$Id$
-* @il_server	http://localhost:8888/ilias-trunk
-* @il_version	4.1.0 pre-alpha
-* @created		2010-05-05 17:30:45
-* @created_by	Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @module			language file Spanish
+* @modulegroup		language
+* @author			Jose Ramon Balsas Almagro <jrbalsas@ujaen.es>
+* @version			$Id$
+* @il_server		http://localhost:8888/ilias-trunk
+* @il_version		4.1.0 pre-alpha
+* @created			2010-09-10 10:50:40
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -2871,7 +2870,7 @@ common#:#hist_dbk_pg_update#:#Página modificada.
 common#:#hist_dbk_st_cut_page#:#Página "%1" [%2] cortada de capítulo.
 common#:#hist_dbk_st_paste_page#:#Página "%1" [%2] pegada en capítulo
 common#:#hist_file_create#:#Archivo creado, el nombre del archivo es "%1".
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. 
+common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2.
 common#:#hist_file_replace#:#Archivo reemplazado, nuevo archivo es "%1", la nueva versión es %2.
 common#:#hist_lm_delete_pg#:#Página "%1" [%2] ha sido eliminada.
 common#:#hist_lm_delete_st#:#Capítulo "%1" [%2] ha sido eliminado.
@@ -8761,7 +8760,7 @@ ps#:#ps_password_max_age_info#:#Establece la caducidad máxima de la clave en d�
 ps#:#ps_password_max_length#:#Tama&ntilde;o m&aacute;ximo de la contrase&ntilde;a
 ps#:#ps_password_max_length_info#:#Establece el tamaño máximo de clave. El valor 0 desactiva esta opción
 ps#:#ps_password_min_length#:#Tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a
-ps#:#ps_password_min_length_info#:#Estab lece el tamaño mínimo de clave. Si se establece a 0, el tamaño al menos deberá ser de un carácter
+ps#:#ps_password_min_length_info#:#Establece el tamaño mínimo de clave. Si se establece a 0, el tamaño al menos deberá ser de un carácter
 ps#:#ps_password_special_chars_enabled#:#Caracteres especiales
 ps#:#ps_password_special_chars_enabled_info#:#Si esta activado, las contrase&ntilde;as pueden contener car&aacute;cteres especiales.
 ps#:#ps_perform_export#:#Iniciar Exportación CSV
