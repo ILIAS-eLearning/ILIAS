@@ -1760,8 +1760,6 @@ common#:#adm_visible#:#Sistem ayarları görünür halde
 common#:#adm_write#:#Basic sisteminin ayarlarını düzenle
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Yönetim Paneli
-common#:#admin_panel_disable#:#Yönetici Komutlarını Kapat
-common#:#admin_panel_enable#:#Yönetici Komutlarını Aç
 common#:#administrate#:#Yönet
 common#:#administrate_users#:#Yerel kullanıcı yönetimi
 common#:#administration#:#Yönetim
@@ -1771,8 +1769,6 @@ common#:#adopt_perm_from_template#:#Yetki Ayarlarını Kopyala
 common#:#advanced_editing_allow_html_tags#:#Seçili HTML etiketlerinin metin düzenlemesi yapılmasına izin ver
 common#:#advanced_editing_allow_javascript_editor#:#Zengin Metin Editörünü Etkinleştir
 common#:#advanced_editing_assessment_settings#:#ILIAS Test ve Değerlendirme aracı için HTML etiketlerine izin verildi
-common#:#advanced_editing_cat_page_editing#:#Kategori Sayfaları için İçerik Düzenleme seçeneğini Etkinleştir
-common#:#advanced_editing_cat_page_editing_desc#:#Bu seçenek kategori sayfalarının içeriğinin düzenlenmesini etkinleştirir. Etkinliği kaldırıldığında, kategoriler sadece öğelerden oluşan bir dizi liste olarak gösterilir.
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing#:#HTML Alanını İçerik Düzenlemesi için Etkinleştir
 common#:#advanced_editing_lm_js_editing_desc#:#Öğrenme modüllerinde ve sözlükçelerde düzenleme yapabilmek için HTML Alanı ve JavaScript desteğini etkin kılar.
@@ -1785,7 +1781,6 @@ common#:#advanced_editing_settings#:#Gelişmiş Düzenleme Ayarları
 common#:#advanced_editing_survey_settings#:#ILIAS anket aracı için HTML etiketlerine izin verildi
 common#:#advanced_editing_tinymce#:#TinyMCE Editörü
 common#:#adve_assessment_settings#:#Test ve Değerlendirme Ayarları
-common#:#adve_cat_settings#:#Kategori Ayarları
 common#:#adve_edit_permission#:#Yetki Ayarlarını Değiştir
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Genel Ayarlar
@@ -3002,7 +2997,6 @@ common#:#hide_details#:#Ayrıntıları Gizle
 common#:#hide_filter#:#Hide Filter
 common#:#hide_own_online_status#:#Hide My Online Status
 common#:#hide_private_notes#:#Özel notları gizle
-common#:#hide_public_notes#:#Herkese açık notları gizle
 common#:#hide_structure#:#Yapılandırılmış Görünümü Devre Dışı Bırak
 common#:#hint#:#Hint
 common#:#hist_dbk_delete_pg#:#Sayfa No. “%1” [%2] silindi.
@@ -4549,7 +4543,6 @@ common#:#show_members#:#Üyeleri Görüntüle
 common#:#show_owner#:#Sahibini Göster
 common#:#show_private_notes#:#Özel notları göster
 common#:#show_profile#:#Show profile
-common#:#show_public_notes#:#Herkese açık notları göster
 common#:#show_structure#:#Yapılandırılmış Görünümü Etkin Kıl
 common#:#show_system_messages#:#System Messages
 common#:#show_users_online#:#Aktif kullanıcıları göster
@@ -5066,7 +5059,6 @@ content#:#cont_alignment#:#Alignment
 content#:#cont_all_closed#:#All Closed
 content#:#cont_all_definitions#:#Tüm Tanımlar
 content#:#cont_all_pages#:#Tüm Sayfalar
-content#:#cont_Alphabetic#:#Alfabetik a, b, ...
 content#:#cont_alphabetic_s#:#Alphabetic a, b, ...
 content#:#cont_anchor#:#Anchor
 content#:#cont_annex#:#Ek
@@ -5227,7 +5219,6 @@ content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_repobj#:#Insert Resource List
 content#:#cont_ed_insert_section#:#Insert Section
-content#:#cont_ed_insert_table#:#Araya Tablo Ekle
 content#:#cont_ed_insert_tabs#:#Insert Tabs
 content#:#cont_ed_item_down#:#Öğeyi Aşağı Taşı
 content#:#cont_ed_item_up#:#Öğeyi Yukarı Taşı
@@ -5584,7 +5575,6 @@ content#:#cont_right#:#Right
 content#:#cont_right_float#:#Right, Floating
 content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?
-content#:#cont_Roman#:#Roma rakamı i, ii, ...
 content#:#cont_roman_s#:#Roman i, ii, ...
 content#:#cont_rowspan#:#Row Span
 content#:#cont_rvalue#:#Değer
@@ -6122,7 +6112,6 @@ crs#:#crs_objective_self_assessment#:#Initial Test
 crs#:#crs_objective_status#:#Objective Status
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_updated_test#:#Değişiklikler güncellendi.
-crs#:#crs_objective_view#:#Amaç odaklı görünüm
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
@@ -6310,7 +6299,6 @@ crs#:#crs_unblocked#:#Ücretsiz giriş
 crs#:#crs_unblocked_member#:#""%s"" kursundaki durum
 crs#:#crs_unblocked_member_body#:#“%s” kursuna üyeliğiniz yeniden geçerli oldu
 crs#:#crs_unlimited#:#Sınırsız
-crs#:#crs_unsubscribe#:#Üyelikten ayrıl
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Bu kurstan ayrılmak mı istiyorsunuz
@@ -6326,11 +6314,9 @@ crs#:#crs_users_already_assigned#:#Kullanıcı zaten bu kursa atanmış durumda
 crs#:#crs_users_removed_from_list#:#Seçili kullanıcılar bekleme listesinden çıkarıldı
 crs#:#crs_view_archive#:#Arşiv Görünümü
 crs#:#crs_view_info_objective#:#Bu sunum modu öğrenme amaçlarının sunumu için kullanılır.
-crs#:#crs_view_info_standard#:#Bu içerik sunum modu, depolama alanının içeriğinin sunumuna benzerdir.
 crs#:#crs_view_info_timing#:#Zamanlama ön ayarları için sunum modu
 crs#:#crs_view_mode#:#Kurs Sunumu
 crs#:#crs_view_objective#:#Amaç Odaklı Görünüm
-crs#:#crs_view_standard#:#Standart Görünüm
 crs#:#crs_view_timing#:#Zamanlamaların Görünümü
 crs#:#crs_visibility#:#Ulaşılabilirlik
 crs#:#crs_visibility_limitless#:#Sınırsız
@@ -7292,7 +7278,6 @@ grp#:#crs_grouping_select_one#:#Lütfen bir üyelik sınırlaması seçin.
 grp#:#crs_grp_added_grouping#:#Yeni üyelik sınırlaması eklendi.
 grp#:#crs_grp_assign_crs#:#Grupların Atanması
 grp#:#crs_grp_enter_title#:#Atananı Değiştir
-grp#:#crs_grp_info_reg#:#Bu gruplardan sadece bir tanesine kaydolabilirsiniz:
 grp#:#crs_grp_no_courses_assigned#:#Atanmış Grup Yok
 grp#:#crs_grp_table_assigned_courses#:#Atanan Gruplar
 grp#:#grouping_change_assignment#:#Atananı Değiştir
@@ -10266,7 +10251,6 @@ survey#:#no_target_selected_for_move#:#Bir hedef konum seçmelisiniz!
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#no_user_or_group_selected#:#Lütfen ne aradığınıza dair bir seçenek işaretleyin (kullanıcılar ve/veya gruplar)!
 survey#:#no_user_phrases_defined#:#Kullanıcı tanımlı hiç ibare yok!
-survey#:#nominal_question_mr_not_checked#:#Lütfen sunulan yanıtların en az birini işaretleyin!
 survey#:#nominal_question_not_checked#:#Lütfen sunulan yanıtlardan birini işaretleyin!
 survey#:#non_ratio#:#Ara
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)
@@ -10279,7 +10263,6 @@ survey#:#offline#:#çevrimdışı
 survey#:#on#:#açık
 survey#:#on_additional#:#On, and additional
 survey#:#or#:#veya
-survey#:#ordinal_question_not_checked#:#Lütfen sunulan yanıtlardan birini işaretleyin!
 survey#:#orientation#:#Yönelim
 survey#:#other_answer#:#Other answer
 survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
@@ -10305,7 +10288,6 @@ survey#:#qpl_define_questionblock_select_missing#:#Bir soru grubu tanımlamak is
 survey#:#qpl_delete_phrase_select_none#:#Lütfen silmek için en az bir ibare işaretleyin
 survey#:#qpl_delete_rbac_error#:#Bu soruyu/soruları silme hakkınız yok!
 survey#:#qpl_delete_select_none#:#Lütfen silmek için en az bir soru işaretleyin!
-survey#:#qpl_duplicate_select_none#:#Lütfen çoğaltmak için en az bir soru işaretleyin!
 survey#:#qpl_export_select_none#:#Lütfen başka yere gönderilecek en az bir soru işaretleyin
 survey#:#qpl_past_questions_confirmation#:#Aşağıdaki soruyu/soruları soru havuzuna yapıştırmak istediğinizden emin misiniz?
 survey#:#qpl_phrases_deleted#:#İbare/ibareler silindi.
@@ -10429,8 +10411,6 @@ survey#:#survey_use_start_button#:#You must enter the survey using the start but
 survey#:#SurveyMatrixQuestion#:#Matrix Question
 survey#:#SurveyMetricQuestion#:#Metrik soru
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
-survey#:#SurveyNominalQuestion#:#Nominal soru
-survey#:#SurveyOrdinalQuestion#:#Ordinal soru
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Açıklamalı soru
 survey#:#svy_all_user_data_deleted#:#Bu anketin tüm kullanıcı verileri silinmiştir!
@@ -10901,3 +10881,39 @@ wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
+common#:#lang_tr#:#Turkish###10 09 2010 new variable
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###10 09 2010 new variable
+content#:#cont_localfile#:#Local File###10 09 2010 new variable
+content#:#cont_roman#:#Roman I, II, ...###10 09 2010 new variable
+survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###10 09 2010 new variable
+survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###10 09 2010 new variable
+trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
+fold#:#fold_import#:#Import Folder###10 09 2010 new variable
+mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
+grp#:#grp_import#:#Import Group###10 09 2010 new variable
+crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###10 09 2010 new variable
+assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.###10 09 2010 new variable
+administration#:#language_scope_merged#:#Local changes merged into the global language file###10 09 2010 new variable
+administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
+administration#:#language_merge_local_changes#:#Merge local changes into the global language file###10 09 2010 new variable
+administration#:#language_delete_local_additions#:#Delete local additions in the database###10 09 2010 new variable
+administration#:#language_error_write_global#:#The global language file can't be written!###10 09 2010 new variable
+administration#:#language_error_local_missed#:#The local language file does not exist!###10 09 2010 new variable
+administration#:#language_error_delete_local#:#The local language file can't be deleted!###10 09 2010 new variable
+administration#:#language_local_file_deleted#:#The local language file was deleted.###10 09 2010 new variable
+administration#:#language_remove_local_file#:#Delete the local language file###10 09 2010 new variable
+rbac#:#export_member_data#:#Access to User Data###10 09 2010 new variable
+rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.###10 09 2010 new variable
+rbac#:#crs_create_catr#:#Create Category Reference###10 09 2010 new variable
+rbac#:#crs_create_crsr#:#Create new Course Reference###10 09 2010 new variable
+forum#:#frm_edit_title#:#Edit Title###10 09 2010 new variable
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.###10 09 2010 new variable
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.###10 09 2010 new variable
+administration#:#language_merged_global#:#The local changes were merged into the global language file.###10 09 2010 new variable
+content#:#cont_submit_answers#:#Submit Answers###10 09 2010 new variable
+content#:#cont_wrong_answers#:#Wrong Answers###10 09 2010 new variable
+content#:#cont_tries_remaining#:#Tries Remaining###10 09 2010 new variable
+content#:#cont_please_try_again#:#Please try again###10 09 2010 new variable
+content#:#cont_all_answers_correct#:#All answers correct###10 09 2010 new variable
+content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###10 09 2010 new variable
+content#:#cont_correct_answers_shown#:#Correct answers are shown abov###10 09 2010 new variable
