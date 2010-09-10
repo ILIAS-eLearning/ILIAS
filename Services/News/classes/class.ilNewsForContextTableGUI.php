@@ -87,25 +87,9 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 		}
 		
 		// creation date
-		if($a_set['start_date'] == '')
-		{
 			$this->tpl->setVariable("VAL_CREATION_DATE",
 				ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"],IL_CAL_DATETIME)));
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_CREATION_DATE",
-				ilDatePresentation::formatDate(new ilDateTime($a_set["start_date"],IL_CAL_DATETIME)));
-		}
-
 		$this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
-		if($a_set['end_date'] != '')
-		{
-			$this->tpl->setVariable("VAL_END_DATE",
-				ilDatePresentation::formatDate(new ilDateTime($a_set["end_date"],IL_CAL_DATETIME)));
-
-			$this->tpl->setVariable("TXT_FINISHED", $lng->txt("finish_publishing_date"));
-		}
 
 		// title
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
