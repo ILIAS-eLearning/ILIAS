@@ -3368,3 +3368,17 @@ if (!$ilDB->tableColumnExists('svy_finished', 'lastpage'))
 	);
 }
 ?>
+<#3182>
+<?php
+if (!$ilDB->tableColumnExists('svy_phrase_cat', 'other'))
+{
+  $ilDB->addTableColumn("svy_phrase_cat", "other", array("type" => "integer", "length" => 2, "notnull" => true, "default" => 0));
+}
+?>
+<#3183>
+<?php
+if (!$ilDB->tableColumnExists('svy_phrase_cat', 'scale'))
+{
+  $ilDB->addTableColumn("svy_phrase_cat", "scale", array("type" => "integer", "length" => 4, "notnull" => false, "default" => null));
+}
+?>

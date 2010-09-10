@@ -391,7 +391,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 * @param string $title The title of the default phrase
 * @access public
 */
-	function savePhrase($phrases, $title)
+	function savePhrase($title)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -404,18 +404,18 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$phrase_id = $next_id;
 				
 		$counter = 1;
-	  foreach ($phrases as $category) 
+	  foreach ($_SESSION['save_phrase_data'] as $data) 
 		{
 			$next_id = $ilDB->nextId('svy_category');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','integer'),
-				array($next_id, $category, 1, $ilUser->getId(), time())
+				array($next_id, $data['answer'], 1, $ilUser->getId(), time())
 			);
 			$category_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
-				array('integer', 'integer', 'integer','integer'),
-				array($next_id, $phrase_id, $category_id, $counter)
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence, other, scale) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer','integer', 'integer', 'integer'),
+				array($next_id, $phrase_id, $category_id, $counter, ($data['other']) ? 1 : 0, $data['scale'])
 			);
 			$counter++;
 		}
