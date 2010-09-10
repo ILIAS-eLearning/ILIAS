@@ -34,6 +34,11 @@ include_once('./classes/class.ilObjectGUI.php');
 */
 class ilContainerReferenceGUI extends ilObjectGUI
 {
+	const MAX_SELECTION_ENTRIES = 50;
+	
+	const MODE_CREATE = 1;
+	const MODE_EDIT = 2;
+	
 	protected $existing_objects = array();
 
 	/**
@@ -71,10 +76,14 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 
-		$max_entries = $ilSetting->get('search_max_hits',100);
-		$max_entries = 10000;
+		return $this->initTargetSelection(self::MODE_CREATE);
 		
-		if(!count($this->existing_objects = ilUtil::_getObjectsByOperations($this->getTargetType(),'read',$ilUser->getId(),$max_entries)))
+		/*
+		if(!count($this->existing_objects = ilUtil::_getObjectsByOperations(
+			$this->getTargetType(),
+			'read',
+			$ilUser->getId(),
+			self::MAX_SELECTION_ENTRIES)))
 		{
 			// TODO: No Objects with read permission found => send error message 
 			return false;
@@ -82,12 +91,13 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		if(count($this->existing_objs) >= $max_entries)
 		{
-			return $this->showSearchSelection(); 
+			return $this->initTargetSelection();
 		}
 		else
 		{
 			return $this->showSelection();
 		}
+		*/
 	}
 	
 	
@@ -102,13 +112,13 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilAccess,$tree;
 		
-		if(!(int) $_POST['target_id'])
+		if(!(int) $_REQUEST['target_id'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;	
 		}
-		if(!$ilAccess->checkAccess('read','',(int) $_POST['target_id']))
+		if(!$ilAccess->checkAccess('read','',(int) $_REQUEST['target_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->createObject();
@@ -117,7 +127,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		$ref = parent::saveObject();
 		
-		$target_obj_id = ilObject::_lookupObjId((int) $_POST['target_id']);
+		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
 		$ref->setTargetId($target_obj_id);
 		$ref->update();
 		
@@ -139,8 +149,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		$ilTabs->setTabActive('edit');
 		
-		$max_entries = $ilSetting->get('search_max_hits',10000);
-		$max_entries = 10000;
+		$this->initTargetSelection(self::MODE_EDIT);
+		
+		/*
+		$max_entries = $ilSetting->get('search_max_hits',10);
 		if(!count($this->existing_objects = ilUtil::_getObjectsByOperations($this->getTargetType(),'read',$ilUser->getId(),$max_entries)))
 		{
 			// TODO: No Objects with read permission found => send error message 
@@ -150,6 +162,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->initFormEditSelection();
 		$this->tpl->setContent($this->form->getHTML());
 		return true;
+		
+		*/
 	}
 	
 	/**
@@ -163,25 +177,25 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
-		if(!(int) $_POST['target_id'])
+		if(!(int) $_REQUEST['target_id'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editObject();
 			return false;	
 		}
-		if(!$ilAccess->checkAccess('edit','',(int) $_POST['target_id']))
+		if(!$ilAccess->checkAccess('edit','',(int) $_REQUEST['target_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->editObject();
 			return false;	
 		}
 
-		$target_obj_id = ilObject::_lookupObjId((int) $_POST['target_id']);
+		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
 		$this->object->setTargetId($target_obj_id);
 		$this->object->update();
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->editObject();
+		$this->ctrl->redirect($this,'edit');
 	}
 	
 	
@@ -221,7 +235,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
 		$select->setOptions(self::_prepareSelection($this->existing_objects,$this->getTargetType()));
 		$select->setInfo($this->lng->txt($_POST['new_type'].'_edit_info'));
-		$this->form->addItem($select);		
+		$this->form->addItem($select);
 		
 		$this->form->addCommandButton('save',$this->lng->txt('save'));
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -255,6 +269,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
 		#$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 	}
+	
 
 	/**
 	 * get target type
@@ -317,5 +332,85 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		return $options ? $options : array();
 	}
 	
+	/**
+	 * Init copy from repository/search list commands
+	 * @return 
+	 */
+	protected function initTargetSelection($a_mode = self::MODE_CREATE)
+	{
+		global $ilCtrl, $tree;
+		
+		// empty session on init
+		$_SESSION['ref_repexpand'] = array();
+		
+		// copy opened nodes from repository explorer		
+		$_SESSION['ref_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+		
+		// open current position
+		
+		if($a_mode == self::MODE_CREATE)
+		{
+			$target = (int) $_GET['ref_id'];
+		}
+		else
+		{
+			$target = (int) $this->object->getTargetRefId();
+		}
+		
+		$path = $tree->getPathId($target);
+		foreach((array) $path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION['ref_repexpand']))
+			{
+				$_SESSION['ref_repexpand'][] = $node_id;
+			}
+		}
+		
+		$_SESSION['ref_mode'] = $a_mode;
+		
+		$this->showTargetSelectionTreeObject();
+	}
+	
+	/**
+	 * Show target selection
+	 * @return 
+	 */
+	public function showTargetSelectionTreeObject()
+	{
+		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
+	
+		include_once './Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php';
+		
+		
+		if($_SESSION['ref_mode'] == self::MODE_CREATE)
+		{
+			$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
+			ilUtil::sendInfo($this->lng->txt($this->getTargetType().'r_edit_info'));
+			$this->ctrl->setParameter($this,'new_type',$this->getReferenceType());
+			$cmd = 'save';
+		}
+		else
+		{
+			$ilTabs->setTabActive('edit');
+			ilUtil::sendInfo($this->lng->txt($this->getTargetType().'r_edit_info'));
+			$cmd = 'update';
+		}
+		$explorer = new ilContainerSelectionExplorer($this->ctrl->getLinkTarget($this,$cmd));
+		
+		if(isset($_GET['ref_repexpand']))
+		{
+			$explorer->setExpand((int) $_GET['ref_repexpand']);
+		}
+		else
+		{
+			$explorer->setExpand(ROOT_FOLDER_ID);
+		}
+		$explorer->setFrameTarget('_self');
+		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this,'showTargetSelectionTree'));
+		$explorer->setTargetGet('target_id');
+		$explorer->setTargetType($this->getTargetType());
+		$explorer->setOutput(0);
+		$this->tpl->setContent($explorer->getOutput());
+	}
 }
 ?>
