@@ -10877,3 +10877,43 @@ trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
 common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
+common#:#lang_tr#:#Turkish###10 09 2010 new variable
+survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###10 09 2010 new variable
+survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###10 09 2010 new variable
+assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)###10 09 2010 new variable
+rbac#:#add_consultation_hours#:#Add Consultation Hours Calendar###10 09 2010 new variable
+common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message###10 09 2010 new variable
+common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.###10 09 2010 new variable
+common#:#follow_link_to_read_mails#:#click the following link to read these mails:###10 09 2010 new variable
+common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s###10 09 2010 new variable
+common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###10 09 2010 new variable
+trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
+fold#:#fold_import#:#Import Folder###10 09 2010 new variable
+mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
+grp#:#grp_import#:#Import Group###10 09 2010 new variable
+crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###10 09 2010 new variable
+assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.###10 09 2010 new variable
+administration#:#language_scope_merged#:#Local changes merged into the global language file###10 09 2010 new variable
+administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
+administration#:#language_merge_local_changes#:#Merge local changes into the global language file###10 09 2010 new variable
+administration#:#language_delete_local_additions#:#Delete local additions in the database###10 09 2010 new variable
+administration#:#language_error_write_global#:#The global language file can't be written!###10 09 2010 new variable
+administration#:#language_error_local_missed#:#The local language file does not exist!###10 09 2010 new variable
+administration#:#language_error_delete_local#:#The local language file can't be deleted!###10 09 2010 new variable
+administration#:#language_local_file_deleted#:#The local language file was deleted.###10 09 2010 new variable
+administration#:#language_remove_local_file#:#Delete the local language file###10 09 2010 new variable
+rbac#:#export_member_data#:#Access to User Data###10 09 2010 new variable
+rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.###10 09 2010 new variable
+rbac#:#crs_create_catr#:#Create Category Reference###10 09 2010 new variable
+rbac#:#crs_create_crsr#:#Create new Course Reference###10 09 2010 new variable
+forum#:#frm_edit_title#:#Edit Title###10 09 2010 new variable
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.###10 09 2010 new variable
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.###10 09 2010 new variable
+administration#:#language_merged_global#:#The local changes were merged into the global language file.###10 09 2010 new variable
+content#:#cont_submit_answers#:#Submit Answers###10 09 2010 new variable
+content#:#cont_wrong_answers#:#Wrong Answers###10 09 2010 new variable
+content#:#cont_tries_remaining#:#Tries Remaining###10 09 2010 new variable
+content#:#cont_please_try_again#:#Please try again###10 09 2010 new variable
+content#:#cont_all_answers_correct#:#All answers correct###10 09 2010 new variable
+content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###10 09 2010 new variable
+content#:#cont_correct_answers_shown#:#Correct answers are shown abov###10 09 2010 new variable
