@@ -398,7 +398,7 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->update();
 
 		// ASSIGN ADMINS/MEMBERS
-		$this->__assignMembers();
+		#$this->__assignMembers();
 
 		$this->__pushParentId($this->group_obj->getRefId());
 
