@@ -10905,3 +10905,4 @@ rbac#:#crs_create_crsr#:#Create new Course Reference
 forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
+administration#:#language_merged_global#:#The local changes were merged into the global language file.

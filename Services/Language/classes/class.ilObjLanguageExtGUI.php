@@ -711,6 +711,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	                $global_file_obj->setAllValues($this->object->getMergedValues());
 	                $global_file_obj->setAllComments($this->object->getMergedRemarks());
 					$global_file_obj->write();
+                    ilUtil::sendSuccess($this->lng->txt("language_merged_global") , false);
 				}
 				else
 				{
