@@ -40,6 +40,7 @@ class ilObjContentObject extends ilObject
 
 		$this->mob_ids = array();
 		$this->file_ids = array();
+		$this->q_ids = array();
 	}
 
 	/**
@@ -1223,21 +1224,22 @@ class ilObjContentObject extends ilObject
 		$this->exportFileItems($a_target_dir, $expLog);
 		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
+
+		// Questions
+		if (count($this->q_ids) > 0)
+		{
+			$qti_file = fopen($a_target_dir."/qti.xml", "w");
+			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
+			$pool = new ilObjQuestionPool();
+			fwrite($qti_file, $pool->toXML($this->q_ids));
+			fclose($qti_file);
+		}
 		
 		// To do: implement version selection/detection
 		// Properties
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Properties");
 		$this->exportXMLProperties($a_xml_writer, $expLog);
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Properties");
-
-		// Glossary
-		// not implemented
-
-		// Bibliography
-		// not implemented
-
-		// Layout
-		// not implemented
 
 		$a_xml_writer->xmlEndTag("ContentObject");
 	}
@@ -1299,38 +1301,34 @@ class ilObjContentObject extends ilObject
 		{
 			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
 			{
-				$ilBench->start("ContentObjectExport", "exportPageObject");
 				$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
 	
 				// export xml to writer object
-				$ilBench->start("ContentObjectExport", "exportPageObject_getLMPageObject");
 				$page_obj = new ilLMPageObject($this, $page["obj_id"]);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML");
 				$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 	
 				// collect media objects
-				$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
 				$mob_ids = $page_obj->getMediaObjectIDs();
 				foreach($mob_ids as $mob_id)
 				{
 					$this->mob_ids[$mob_id] = $mob_id;
 				}
-				$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 	
 				// collect all file items
-				$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
 				$file_ids = $page_obj->getFileItemIds();
 				foreach($file_ids as $file_id)
 				{
 					$this->file_ids[$file_id] = $file_id;
 				}
-				$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
+
+				// collect all questions
+				$q_ids = $page_obj->getQuestionIds();
+				foreach($q_ids as $q_id)
+				{
+					$this->q_ids[$q_id] = $q_id;
+				}
 	
 				unset($page_obj);
-	
-				$ilBench->stop("ContentObjectExport", "exportPageObject");
 			}
 		}
 	}

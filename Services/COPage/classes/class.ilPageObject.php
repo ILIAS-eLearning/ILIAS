@@ -3756,13 +3756,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 	
 	/**
-	* Get page contents hashes
+	* Get question ids
 	*/
 	function getQuestionIds()
 	{
 		$this->builddom();
 		$mydom = $this->dom;
-		
+
 		// Get question IDs
 		$path = "//Question";
 		$xpc = xpath_new_context($mydom);
@@ -3785,7 +3785,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 			}
 		}
-
 		return $q_ids;
 	}
 

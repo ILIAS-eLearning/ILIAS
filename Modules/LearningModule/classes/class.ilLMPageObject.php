@@ -536,11 +536,11 @@ class ilLMPageObject extends ilLMObject
 
 
 	/**
-	* export page objects meta data to xml (see ilias_co.dtd)
-	*
-	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
-	*										xml data
-	*/
+	 * export page objects meta data to xml (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
 	function exportXMLPageContent(&$a_xml_writer, $a_inst = 0)
 	{
 //echo "exportxmlpagecontent:$a_inst:<br>";
@@ -551,6 +551,7 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->insertInstIntoIDs($a_inst);
 		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
 		$this->files_contained = $this->page_object->collectFileItems();
+//		$this->questions_contained = $this->page_object->getQuestionIds();
 		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
 		$xml = str_replace("&","&amp;", $xml);
 		$a_xml_writer->appendXML($xml);
@@ -559,10 +560,21 @@ class ilLMPageObject extends ilLMObject
 	}
 
 	/**
-	* get ids of all media objects within the page
-	*
-	* note: this method must be called afer exportXMLPageContent
-	*/
+	 * Get question ids
+	 *
+	 * note: this method must be called afer exportXMLPageContent
+	 */
+	function getQuestionIds()
+	{
+		return ilPageObject::_getQuestionIdsForPage($this->content_object->getType(),
+			$this->getId());
+	}
+
+	/**
+	 * get ids of all media objects within the page
+	 *
+	 * note: this method must be called afer exportXMLPageContent
+	 */
 	function getMediaObjectIds()
 	{
 		return $this->mobs_contained;
