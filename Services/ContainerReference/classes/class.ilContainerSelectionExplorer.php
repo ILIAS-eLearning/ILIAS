@@ -41,7 +41,27 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 */
 	public function __construct($a_target)
 	{
-		 parent::__construct($a_target);
+		global $tree;
+		
+		parent::__construct($a_target);
+		 
+		$this->tree = $tree;
+		$this->root_id = $this->tree->readRootId();
+		$this->order_column = "title";
+
+		$this->setSessionExpandVariable("ref_repexpand");
+		 
+		 
+		$this->addFilter("root");
+		$this->addFilter("cat");
+		#$this->addFilter("grp");
+		#$this->addFilter("fold");
+		$this->addFilter("crs");
+
+		$this->setFilterMode(IL_FM_POSITIVE);
+		$this->setFiltered(true);
+		$this->setTitleLength(ilObject::TITLE_LENGTH);
+		 
 	}
 	
 	/**
@@ -76,7 +96,31 @@ class ilContainerSelectionExplorer extends ilExplorer
 			// TODO: check permission
 			return true;
 		}
-		return false;
+		return FALSE;
 	}
+	
+	/**
+	* overwritten method from base class
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	* @return	string
+	*/
+	function formatHeader($a_obj_id,$a_option)
+	{
+		global $lng, $ilias;
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		$tpl->setCurrentBlock("text");
+		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
+	}
+	
 }
 ?>
