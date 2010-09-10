@@ -503,3 +503,5 @@ sess_max_session_idle_after_first_request#:#Max session idle after first request
 sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 sess_allow_client_maintenance#:#Allow maintenance by client
 sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not.
+lang_ar#:#Arabic
+lang_tr#:#Turkish
