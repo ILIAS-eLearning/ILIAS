@@ -2054,7 +2054,7 @@ common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
-common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password
+common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
 common#:#chg_ilias_password#:#Change ILIAS Password
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -10903,3 +10903,5 @@ rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of t
 rbac#:#crs_create_catr#:#Create Category Reference
 rbac#:#crs_create_crsr#:#Create new Course Reference
 forum#:#frm_edit_title#:#Edit Title
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.

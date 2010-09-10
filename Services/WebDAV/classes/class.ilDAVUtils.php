@@ -58,7 +58,7 @@ class ilDAVUtils
 			return $this->pwd_instruction = false;
 		}
 		// Check if user has local password
-		return $this->pwd_instruction = strlen($ilUser->getPasswd());
+		return $this->pwd_instruction = (bool) strlen($ilUser->getPasswd());
 	}
 	
 }

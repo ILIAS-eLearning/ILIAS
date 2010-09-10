@@ -55,6 +55,10 @@ require_once('Services/Authentication/classes/class.ilSessionControl.php');
 */
 class ilAuthUtils
 {
+	const LOCAL_PWV_FULL = 1;
+	const LOCAL_PWV_NO = 2;
+	const LOCAL_PWV_USER = 3;
+
 	
 	/**
 	* initialises $ilAuth 
@@ -64,39 +68,13 @@ class ilAuthUtils
 		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
 
 		$user_auth_mode = false;
-		
-//var_dump($_SESSION);
 		$ilBench->start('Auth','initAuth');
 
-		// check whether settings object is available
-		if (!is_object($ilSetting))
-		{
-			die ("Fatal Error: ilAuthUtils::_initAuth called without ilSetting.");
-		}
-
-		// check whether database object is available
-		if (!is_object($ilDB))
-		{
-			die ("Fatal Error: ilAuthUtils::_initAuth called without ilDB.");
-		}
-
-		// check whether client ini file object is available
-		if (!is_object($ilClientIniFile))
-		{
-			die ("Fatal Error: ilAuthUtils::_initAuth called without ilClientIniFile.");
-		}
 
 		// get default auth mode 
 		//$default_auth_mode = $this->getSetting("auth_mode");
 		define ("AUTH_DEFAULT", $ilSetting->get("auth_mode") ? $ilSetting->get("auth_mode") : AUTH_LOCAL);
 		
-		// set local auth mode (1) in case database wasn't updated
-		/*if ($default_auth_mode === false)
-		{
-			$default_auth_mode = AUTH_LOCAL;
-		}*/
-//var_dump($_SESSION);
-
 		// determine authentication method if no session is found and username & password is posted
 		// does this if statement make any sense? we enter this block nearly everytime.	
 		
@@ -203,7 +181,6 @@ class ilAuthUtils
         // if no auth mode selected AND default mode is AUTH_APACHE then use it...
 		if ($authmode == null && AUTH_DEFAULT == AUTH_APACHE)
 			$authmode = AUTH_APACHE;
-//var_dump($authmode);
 
 		switch ($authmode)
 		{
@@ -392,8 +369,8 @@ class ilAuthUtils
 			case 'openid':
 				return AUTH_OPENID;
 
-                        case 'apache':
-                                return AUTH_APACHE;
+			case 'apache':
+				return AUTH_APACHE;
 
 			default:
 				return $ilSetting->get("auth_mode");
@@ -441,9 +418,6 @@ class ilAuthUtils
 			case AUTH_APACHE:
 				return 'apache';
 
-			case AUTH_OPENID:
-				return 'open_id';
-				
 			case AUTH_OPENID:
 				return 'open_id';
 				
@@ -685,5 +659,75 @@ class ilAuthUtils
 				return true;
 		}
 	}
+	
+	/**
+	 * Check if password modification is enabled
+	 * @param object $a_authmode
+	 * @return 
+	 */
+	public static function isPasswordModificationEnabled($a_authmode)
+	{
+		global $ilSetting;
+		
+		if ($ilSetting->get('usr_settings_hide_password'))
+		{
+			return false;
+		}
+		
+		switch($a_authmode)
+		{
+			// No local passwords for these auth modes
+			case AUTH_LDAP:
+			case AUTH_RADIUS:
+			case AUTH_ECS:
+			case AUTH_SCRIPT:
+				return false;
+			
+			// Always for openid and local
+			case AUTH_LOCAL:
+			case AUTH_OPENID:
+				return true;
+
+			// Read setting:
+			case AUTH_SHIBBOLETH:
+				return $ilSetting->get("shib_auth_allow_local");
+			case AUTH_SOAP:
+				return $ilSetting->get("soap_auth_allow_local");
+			case AUTH_CAS:
+				return $ilSetting->get("cas_allow_local");
+		}
+	}
+	
+	/**
+	 * Check if local password validation is supported
+	 * @param object $a_authmode
+	 * @return 
+	 */
+	public static function supportsLocalPasswordValidation($a_authmode)
+	{
+		switch($a_authmode)
+		{
+			case AUTH_LDAP:
+			case AUTH_LOCAL:
+			case AUTH_RADIUS:
+				return ilAuthUtils::LOCAL_PWV_FULL;
+			
+			case AUTH_SHIBBOLETH:
+			case AUTH_SOAP:
+			case AUTH_CAS:
+				if(!ilAuthUtils::isPasswordModificationAllowed($a_authmode))
+				{
+					return ilAuthUtils::LOCAL_PWV_NO;
+				}
+				return ilAuthUtils::LOCAL_PWV_USER;
+				
+			case AUTH_ECS:
+			case AUTH_OPENID:
+			case AUTH_SCRIPT:
+			case AUTH_APACHE:
+			default:
+				return ilAuthUtils::LOCAL_PWV_NO;
+		}
+	} 
 }
 ?>

@@ -2035,7 +2035,7 @@ common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks nach ungültigen externen Links überprüft.
 common#:#checked#:#Ausgewählt
 common#:#checked_files#:#Importierbare Dateien
-common#:#chg_ilias_and_webfolder_password#:#ILIAS und Webordner Passwort ändern
+common#:#chg_ilias_and_webfolder_password#:#Webordner Passwort ändern
 common#:#chg_ilias_password#:#ILIAS Passwort ändern
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -10907,3 +10907,5 @@ rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von 
 rbac#:#crs_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#crs_create_crsr#:#Neue Kurs-Referenz anlegen
 forum#:#frm_edit_title#:#Titel bearbeiten
+common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
+common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
