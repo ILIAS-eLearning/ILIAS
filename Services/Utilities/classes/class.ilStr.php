@@ -102,6 +102,7 @@ class ilStr
 
 	function strToUpper($a_string)
 	{
+		$a_string = (string) $a_string;
 		if (function_exists("mb_strtoupper"))
 		{
 			return mb_strtoupper($a_string, "UTF-8");
