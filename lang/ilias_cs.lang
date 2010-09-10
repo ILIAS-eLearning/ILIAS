@@ -2,13 +2,13 @@
 /**
 * ILIAS language file (All entries)
 *
-* @module		    language file Czech
+* @module			language file Czech
 * @modulegroup		language
-* @author		    Tomas Cerha <cerha@brailcom.org>
-* @version		    $Id$
+* @author			Tomas Cerha <cerha@brailcom.org>
+* @version			$Id$
 * @il_server		http://localhost:8888/ilias-trunk
 * @il_version		4.1.0 pre-alpha
-* @created		    2010-05-05 17:19:29
+* @created			2010-09-10 10:23:56
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -53,7 +53,7 @@ administration#:#auth_mode_determination_info#:#Zvolte jestli uživatelé si maj
 administration#:#check_tree#:#Zkontrolovat stromovou strukturu
 administration#:#check_tree_desc#:#Kontrola konzistence kompletní stromové struktury. V závislosti na velikosti stromu to může chvíli trvat!
 administration#:#clean#:#Vyčistit
-administration#:#clean_desc#:#Odstranit neplatné odkazy a mezery stromu. Inicializovat mezery ve stromové struktuře.
+administration#:#clean_desc#:#Odstranit neplatné odkazy a položky stromu. Inicializovat mezery ve stromové struktuře.
 administration#:#cleaning#:#Čištění...
 administration#:#cleaning_final#:#Finální čištění...
 administration#:#confirm_message_course_export#:#Přidal(a) jste možnost exportu kurzu pro jedno nebo více polí. Potvrďte prosím změny.
@@ -69,11 +69,11 @@ administration#:#history_loginname#:#Historie přihlašovacího jména
 administration#:#initializing_gaps#:#Inicializuji mezery ve stromu...
 administration#:#language_administration#:#Správa jazyka
 administration#:#language_all_modules#:#Všechny moduly
-administration#:#language_change_settings#:#Změnit nastavení překladu
+administration#:#language_change_settings#:#Změnit nastavení jazyka
 administration#:#language_clear_local_changes#:#Smazat lokální změny v databázi.
-administration#:#language_cleared_local#:#Lokální změny byly smazány v databázi.
+administration#:#language_cleared_local#:#Lokální změny v databázi byly smazány.
 administration#:#language_compare#:#Porovnat:
-administration#:#language_default_entries#:#(výchozí vstupy)
+administration#:#language_default_entries#:#(výchozí položky)
 administration#:#language_delete_local_changes#:#Smazat lokální změny v databázi
 administration#:#language_error_clear_local#:#Lokální změny nelze v databázi smazat!
 administration#:#language_error_read_local#:#Lokální jazykový soubor neexistuje, nebo není čitelný!
@@ -88,13 +88,13 @@ administration#:#language_import_file#:#Import jazykového souboru
 administration#:#language_load_local_changes#:#Uložit lokální jazykový soubor do databáze
 administration#:#language_loaded_local#:#Lokální jazykový soubor byl uložen do databáze.
 administration#:#language_maintain#:#Údržba
-administration#:#language_maintain_local_changes#:#Ošetřit lokální změny
+administration#:#language_maintain_local_changes#:#Provést lokální změny
 administration#:#language_maintenance#:#Údržba jazyka
-administration#:#language_mode_existing#:#Existující vstupy
-administration#:#language_mode_existing_delete#:#Smazat existující vstupy
-administration#:#language_mode_existing_keepall#:#Zachovat všechny existující vstupy
+administration#:#language_mode_existing#:#Existující položky
+administration#:#language_mode_existing_delete#:#Smazat existující položky
+administration#:#language_mode_existing_keepall#:#Zachovat všechny existující položky
 administration#:#language_mode_existing_keepnew#:#Zachovat všechny lokální změny
-administration#:#language_mode_existing_replace#:#Nahradit existující vstupy
+administration#:#language_mode_existing_replace#:#Nahradit existující položky
 administration#:#language_note_save_local#:#Ukládejte prosím své změny do lokálního jazykového souboru pravidelně. Pokud nemáte oprávnění zápisu upraveného jazykového souboru, můžete lokální změny exportovat a reimportovat je podle potřeby.
 administration#:#language_note_translation#:#Mód překládání stránky je aktivován pro každý jazyk odděleně. Navíc uživatel potřebuje oprávnění číst a zapisovat do složky jazyků.
 administration#:#language_process_maintenance#:#Proces údržby
@@ -104,10 +104,10 @@ administration#:#language_scope_commented#:#S komentářem jazykového manažera
 administration#:#language_scope_conflicts#:#Lokální změny a aktualizace
 administration#:#language_scope_different#:#Rozdílné od srovnávacího jazyka
 administration#:#language_scope_equal#:#Rovné srovnávacímu jazyku
-administration#:#language_scope_global#:#Všechny vstupy
+administration#:#language_scope_global#:#Všechny položky
 administration#:#language_scope_local#:#Pouze lokální změny
-administration#:#language_scope_translate#:#Všechny vstupy, prázdné pro překlad
-administration#:#language_scope_unchanged#:#Pouze nezměněné vstupy
+administration#:#language_scope_translate#:#Všechny položky, prázdné pro překlad
+administration#:#language_scope_unchanged#:#Pouze nezměněné položky
 administration#:#language_settings#:#Nastavení jazyka
 administration#:#language_statistics#:#Statistiky
 administration#:#language_translation_disabled#:#Překlad stránky vypnut
@@ -120,25 +120,25 @@ administration#:#loginname_change_blocking_time_info#:#Vložte periodu v sekund�
 administration#:#loginname_change_blocking_time_invalidity_info#:#Vložte prosím numerickou hodnotu.
 administration#:#loginname_history_info#:#Je-li aktivováno, změna přihlašovacího jména bude uložena v databázi. Tato historie je dostupná v tabulce databáze 'loginname_history'.
 administration#:#nothing_to_purge#:#Nic k vyčištění...
-administration#:#nothing_to_remove#:#Nic k přesunutí...
+administration#:#nothing_to_remove#:#Nic k odstranění...
 administration#:#nothing_to_restore#:#Nic k obnovení...
 administration#:#obj_mds#:#Metadata
-administration#:#obj_mds_desc#:#Konfigurovat metadata a rozšířené nastavení metadat
+administration#:#obj_mds_desc#:#Konfigurovat metadata a rozšířená nastavení metadat
 administration#:#options#:#Nastavení
 administration#:#output_options#:#Nastavení výstupu
 administration#:#passwd_auto_generate#:#Zasílání/Generování hesla
 administration#:#path_to_mkisofs#:#Cesta k mkisofs
 administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Pokud je aktivováno, to je <u>ne</u> umožňuje znovu použití přihlašovacího jména, které je již uloženo v historii (dokonce i když to patří smazanému uživateli).
 administration#:#purge_age_limit#:#Omezit stářím
-administration#:#purge_age_limit_desc#:#Pokud toto pole obsahuje hodnotu, pouze objekty, které byly smazané před specifikovaným počtem dnů budou vyčištěny.
+administration#:#purge_age_limit_desc#:#Pokud toto pole obsahuje nějakou hodnotu, pouze objekty, které byly smazané před specifikovaným počtem dnů budou vyčištěny.
 administration#:#purge_count_limit#:#Omezit počtem
-administration#:#purge_count_limit_desc#:#Pokud toto pole obsahuje hodnotu, bude vyčištěn pouze specifikovaný počet objektů.
+administration#:#purge_count_limit_desc#:#Pokud toto pole obsahuje nějakou hodnotu, bude vyčištěn pouze specifikovaný počet objektů.
 administration#:#purge_missing#:#Vyčistit ztracené objekty
 administration#:#purge_missing_desc#:#Odstranit všechny ztracené a nezapojených objektů, nalezených v systému.
 administration#:#purge_trash#:#Vyčistit smazané objekty
-administration#:#purge_trash_desc#:#Přesunout všechny objekty do koše systému.
+administration#:#purge_trash_desc#:#Odstranit všechny objekty v koši systému.
 administration#:#purge_type_limit#:#Omezit typem
-administration#:#purge_type_limit_desc#:#Pokud toto pole obsahuje hodnotu, vyčištěn bude pouze specifikovaný typ objektů.
+administration#:#purge_type_limit_desc#:#Pokud toto pole obsahuje nějakou hodnotu, vyčištěn bude pouze specifikovaný typ objektů.
 administration#:#purging#:#Čištění...
 administration#:#purging_missing_objs#:#Čištění ztracených objektů...
 administration#:#purging_trash#:#Vysypání koše...
@@ -163,7 +163,7 @@ administration#:#scan_details#:#Podrobnosti skenovaní
 administration#:#scan_modes#:#Použité módy skenování
 administration#:#scanning_system#:#Skenování systému...
 administration#:#searching_deleted_objs#:#Hledání smazaných objektů...
-administration#:#searching_invalid_childs#:#Hledání neplatných mezer stromu...
+administration#:#searching_invalid_childs#:#Hledání neplatných položek stromu...
 administration#:#searching_invalid_refs#:#Hledání neplatných odkazů...
 administration#:#searching_invalid_rolfs#:#Hledání neplatných složek rolí...
 administration#:#searching_missing_objs#:#Hledání chybějících objektů...
@@ -184,7 +184,7 @@ adve#:#adve_grp_test#:#Test & Hodnocení
 adve#:#adve_grp_wiki#:#Wiki
 adve#:#adve_page_editor_settings#:#Nastavení editoru stránek ILIAS
 adve#:#adve_rte_settings#:#Nastavení Rich Text Editoru
-adve#:#adve_text_content_features#:#Text Content Menu
+adve#:#adve_text_content_features#:#Nabídka textového obsahu
 assessment#:#0_unlimited#:#(0 = neomezeno)
 assessment#:#action#:#Akce
 assessment#:#add_answer#:#Přidat odpověď
@@ -193,7 +193,7 @@ assessment#:#add_answer_yn#:#Odpovědi ano/ne
 assessment#:#add_applet_parameter#:#Přidat parametr apletu
 assessment#:#add_area#:#Přidat plochu
 assessment#:#add_circle#:#Přidat kruhovou plochu
-assessment#:#add_gap#:#Přidat text mezery
+assessment#:#add_gap#:#Přidat textovou mezeru
 assessment#:#add_imagemap#:#Přidat mapu obrázku
 assessment#:#add_matching_pair#:#Přidat odpovídající pár
 assessment#:#add_poly#:#Přidat plochu polygonu
@@ -220,7 +220,7 @@ assessment#:#applet_attributes#:#Atributy apletu
 assessment#:#applet_new_parameter#:#Nový parametr
 assessment#:#applet_parameter#:#Parametr
 assessment#:#applet_parameters#:#Parametry apletu
-assessment#:#apply#:#Převzít
+assessment#:#apply#:#Použít
 assessment#:#ass_create_export_file#:#Vytvořit exportní soubor
 assessment#:#ass_create_export_test_results#:#Export výsledků testu
 assessment#:#ass_export_files#:#Export souborů
@@ -228,7 +228,7 @@ assessment#:#ass_file#:#Soubor
 assessment#:#ass_question#:#Otázka
 assessment#:#ass_size#:#Velikost
 assessment#:#assClozeTest#:#Otázka s doplňováním textu
-assessment#:#assErrorText#:#Chyba textu
+assessment#:#assErrorText#:#Chybný text
 assessment#:#assessment_eval_settings#:#Ukaž následující pole Hodnocení všem uživatelům
 assessment#:#assFileUpload#:#Soubor uložených otázek
 assessment#:#assFlashQuestion#:#Flash otázka
@@ -237,7 +237,7 @@ assessment#:#assJavaApplet#:#Otázka s Java apletem
 assessment#:#assMatchingQuestion#:#Otázka s párováním odpovědí
 assessment#:#assMultipleChoice#:#Otázka s vícenásobným výběrem (více odpovědí)
 assessment#:#assNumeric#:#Numerická otázka
-assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
+assessment#:#assOrderingHorizontal#:#Řazení otázek (Horizontálně)
 assessment#:#assOrderingQuestion#:#Otázka s uspořádáním
 assessment#:#assQuestions#:#Otázky
 assessment#:#assSingleChoice#:#Otázka s vícenásobným výběrem (jedna odpověď)
@@ -246,7 +246,7 @@ assessment#:#assTextSubset#:#Otázka s podskupinami textu
 assessment#:#autosave_failed#:#Automatické uložení selhalo!
 assessment#:#autosave_success#:#Automatické uložení bylo úspěšné...
 assessment#:#available_points#:#Dosažitelné body
-assessment#:#available_terms#:#Dostupné termíny
+assessment#:#available_terms#:#Dostupné pojmy
 assessment#:#average_reached_points#:#Průměrně dosažené body
 assessment#:#backtocallingtest#:#Zpět k vyvolávacímu testu
 assessment#:#by#:#podle
@@ -259,8 +259,8 @@ assessment#:#cannot_export_test#:#Nemáte oprávnění k exportování testu!
 assessment#:#cannot_maintain_test#:#Nemáte oprávnění k vytváření testu!
 assessment#:#cannot_read_questionpool#:#Nemáte oprávnění ke čtení dat zásobníku otázek!
 assessment#:#cannot_save_metaobject#:#Nemáte oprávnění k ukládání metadat!
-assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z namátkového testu na nenamátkový test. Informace o již přidaných zásobnících otázek do namátkového testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
-assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenamátkového testu na namátkový test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro namátkový test. Chcete skutečně změnít vlastnosti testu?
+assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z náhodného testu na nenáhodný test. Informace o již přidaných zásobnících otázek do náhodného testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
+assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenáhodného testu na náhodný test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro náhodný test. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_solution#:#Změna doporučeného řešení
 assessment#:#changelog_description#:#Následující tabulka obsahuje všechny změny autorů, kteří vytvořili tento test.
 assessment#:#changelog_heading#:#Historie změn
@@ -282,9 +282,9 @@ assessment#:#cloze_textgap_rating#:#Vyhodnocení textové mezery
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Spojení
-assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data účastníků tohoto testu?
-assessment#:#confirm_delete_single_user_data#:#Skutečně chcete smazat všechna data vybraných účastníků tohoto testu?
-assessment#:#confirm_sync_questions#:#Otázky, které jsi změnil, jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit původní otázky také?
+assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data uživatelů tohoto testu?
+assessment#:#confirm_delete_single_user_data#:#Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?
+assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?
 assessment#:#coordinates#:#Souřadnice
 assessment#:#correct_solution_is#:#Správné řešení je
 assessment#:#counter#:#Počitadlo
@@ -305,7 +305,7 @@ assessment#:#delete_image#:#Smazat obrázek
 assessment#:#delete_image_header#:#Smazat obrázek
 assessment#:#delete_image_question#:#Skutečně chcete smazat tento obrázek?
 assessment#:#delete_user_data#:#Smazat data testů vybraných účastníků testu
-assessment#:#deleteSuggestedSolution#:#Smazat toho navrhované řešení
+assessment#:#deleteSuggestedSolution#:#Odstranit toho navrhované řešení
 assessment#:#description_maxchars#:#Nebude-li nic vloženo, maximální počet znaků pro tuto textovou odpověď je neomezen.
 assessment#:#detail_ending_time_reached#:#Vyčerpal(a) jste čas na zpracování tohoto testu. Test není dostupný od %s
 assessment#:#detail_max_processing_time_reached#:#Vyčerpal(a) jste maximum povoleného času ke zpracování tohoto testu!
@@ -333,11 +333,11 @@ assessment#:#ects_grade_c#:#všeobecně dobrá práce, ale s počtem patrných c
 assessment#:#ects_grade_c_short#:#VELMI DOBŘE
 assessment#:#ects_grade_d#:#podprůměrný výkon s větším počtem chyb
 assessment#:#ects_grade_d_short#:#VELMI DOBŘE-MÍNUS
-assessment#:#ects_grade_e#:#vykonaná práce splňuje jen minimální kriteria
+assessment#:#ects_grade_e#:#odvedená práce splňuje jen minimální kriteria
 assessment#:#ects_grade_e_short#:#DOBŘE
-assessment#:#ects_grade_f#:#je požadováno podstatné zlepšení
+assessment#:#ects_grade_f#:#požadováno je podstatné zlepšení
 assessment#:#ects_grade_f_short#:#NEVYHOVUJÍCÍ!
-assessment#:#ects_grade_fx#:#je požadováno zlepšení, než může být kredit udělen
+assessment#:#ects_grade_fx#:#ještě je požadováno určité zlepšení, než může být kredit udělen
 assessment#:#ects_grade_fx_short#:#NEVYHOVUJÍCÍ
 assessment#:#ects_output_of_ects_grades#:#Výstup hodnocení ECTS
 assessment#:#ects_range_error_a#:#Vložte hodnotu mezi 0 a 100 pro ECTS hodnocení A!
@@ -351,23 +351,23 @@ assessment#:#edit_content#:#Upravit obsah
 assessment#:#edit_properties#:#Upravit vlastnosti
 assessment#:#edit_test_questions#:#Upravit otázky testu
 assessment#:#element_height#:#Minimální výška
-assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
-assessment#:#empty_term_message#:#Nejméně jedno pole termínu je prázdné.
-assessment#:#empty_terms_exist#:#Jsou stále prádná pole termínů. Vyplňte prosím tato pole před přidáváním dalších termínů.
+assessment#:#element_height_info#:#Toto je minimální výška v pixelech pro položky pojmu a definice/obrázku během výstupu testu.
+assessment#:#empty_term_message#:#Nejméně jedno pole pojmu je prázdné.
+assessment#:#empty_terms_exist#:#Jsou stále prázdná pole pojmů. Vyplňte prosím tato pole před přidáváním dalších pojmů.
 assessment#:#enable_javascript#:#Klepněte pro zapnutí podpory JavaScriptu
 assessment#:#end_tag#:#Znak konce
 assessment#:#ending_time_reached#:#Vyčerpal(a) jste stanovený čas
 assessment#:#enlarge#:#Zvětšit
 assessment#:#enter_anonymous_code#:#Vložte kód anonymního přístupu
 assessment#:#enter_enough_positive_points#:#Maxium dosažitelných bodů za otázku musí být větší, než 0! Vložte prosím odpovídající (nezáporné) body za tuto odpověď.
-assessment#:#err_no_numeric_value#:#Please enter a numeric valu
+assessment#:#err_no_numeric_value#:#Vložte prosím numerickou hodnotu.
 assessment#:#error_cloze_not_numeric#:#Vložte prosím numerickou hodnotu.
-assessment#:#error_duplicate_term#:#You selected a matching term more than once
+assessment#:#error_duplicate_term#:#Vybral(a) jste více než jeden odpovídající pojem
 assessment#:#error_image_upload_copy_file#:#Chyba přesunu odesílaného souboru obrázku do jeho cílové složky!
 assessment#:#error_image_upload_wrong_format#:#Odesílejte prosím platný formát obrázku! Podporované formáty obrázků jsou gif, jpg a png.
 assessment#:#error_importing_question#:#Nastala chyba importu otázek z vybraného souboru!
-assessment#:#error_no_lower_limit#:#Please enter a lower bound.
-assessment#:#error_no_upper_limit#:#Please enter an upper bound.
+assessment#:#error_no_lower_limit#:#Vložte prosím spodní hranici.
+assessment#:#error_no_upper_limit#:#Vložte prosím horní hranici.
 assessment#:#error_open_image_file#:#Chyba při otevření souboru obrázku!
 assessment#:#error_open_java_file#:#Chyba při otevření apletu java!
 assessment#:#error_random_question_generation#:#Během generování náhodných otázek k tomuto testu se vyskytla kritická chyba. Kontaktujte prosím systémového administrátora s následujícími informacemi: Systém nemůže vytvořit aktivní ID pro uživatele ID %s a test ID %s.
@@ -375,25 +375,25 @@ assessment#:#error_save_image_file#:#Chyba uložení souboru obrázku!
 assessment#:#errors#:#Chyby
 assessment#:#errors_section#:#Chyba dat
 assessment#:#errortext#:#Chyba textu
-assessment#:#errortext_info#:#Please enter the error text.
-assessment#:#eval_all_users#:#Hodnocení pro všechny účastníky
+assessment#:#errortext_info#:#Vložte prosím chybný text. K označení slova jako chyby vožte prosím znak křížku (#) na začátku slovat. Pokud stisknete tlačítko &quot;Analyzovat chyby textu&quot;, všechna označená slova budou vyjmuta z dalšího zpracování.
+assessment#:#eval_all_users#:#Hodnocení pro všechny uživatele
 assessment#:#eval_choice_result#:#Volba s hodnotou %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_cloze_result#:#Mezera číslo %s s hodnotou %s je %s. Získal(a) jste %s bodů.
-assessment#:#eval_concatenation#:#Propojení
+assessment#:#eval_concatenation#:#Sřetězení
 assessment#:#eval_data#:#Data hodnocení
 assessment#:#eval_found_selected_groups#:#Vybrané skupiny
-assessment#:#eval_found_selected_users#:#Vybraní účastníci
+assessment#:#eval_found_selected_users#:#Vybraní uživatelé
 assessment#:#eval_imagemap_result#:#Výběr v rastrovém obrázku je %s. Získal(a) jste %s bodů.
 assessment#:#eval_java_result#:#Odpověď na údaj %s je %s. Získal(a) jste %s bodů.
-assessment#:#eval_legend_link#:#Uveďte prosím do vysvětivky, aby prověřili význam symbolů hlavičky sloupců.
+assessment#:#eval_legend_link#:#Uveďte prosím do vysvětlivky význam symbolů hlavičky sloupců.
 assessment#:#eval_matching_result#:#Odpovídající pár %s - %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_order_result#:#Pořadí hodnoty %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_search_groups#:#Skupiny
 assessment#:#eval_search_roles#:#Role
 assessment#:#eval_search_term#:#Hledaná fráze
 assessment#:#eval_search_users#:#Uživatelé
-assessment#:#eval_search_userselection#:#Vyhledat účastníky, které chcete přidat do tohoto statistického hodnocení
-assessment#:#eval_selected_users#:#Hodnocení vybraných účastníků
+assessment#:#eval_search_userselection#:#Vyhledat uživatele, které chcete přidat do tohoto statistického hodnocení
+assessment#:#eval_selected_users#:#Hodnocení vybraných uživatelů
 assessment#:#exp_eval_data#:#Exportovat data hodnocení jako
 assessment#:#exp_type_certificate#:#Certifikát (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
@@ -401,14 +401,14 @@ assessment#:#exp_type_spss#:#Desetinná čárka oddělené hodnoty (CSV)
 assessment#:#export#:#Export
 assessment#:#externalscript_additional_parameters#:#Parametry skriptu
 assessment#:#externalscript_additional_parameters_hint#:#Vložte doplňkové parametry skriptu ve formátu klíč-hodnota-kód a oddělené vícenásobné klíč-hodnota-pár se znakem nového řádku, např. <p>klíč1=Ahoj<br />klíč2=světe</p>
-assessment#:#externalscript_use_kvc#:#Použijte prosím key-hodnota-kód pro parametry skriptu!
-assessment#:#failed_official#:#Vykonal(a) neúspěšně
+assessment#:#externalscript_use_kvc#:#Použijte prosím klíč-hodnota-kód pro parametry skriptu!
+assessment#:#failed_official#:#neuspěl(a)
 assessment#:#failed_short#:#neuspěl(a)
 assessment#:#false#:#Nepravda
 assessment#:#feedback_answers#:#Ohlas pro každou odpověď na otázku
 assessment#:#feedback_complete_solution#:#Správné řešení
 assessment#:#feedback_incomplete_solution#:#Nejméně jedna odpověď není správná
-assessment#:#file_uploads#:#Uložení souborů
+assessment#:#file_uploads#:#Soubory uloženy
 assessment#:#fileDownload#:#Stažení souboru
 assessment#:#fill_out_all_answer_fields#:#Vyplňte prosím všechna textová pole odpovědi před přidáním nové!
 assessment#:#fill_out_all_matching_pairs#:#Vyplňte prosím všechny odpovídající dvojice před přidáním nové!
@@ -421,9 +421,9 @@ assessment#:#fill_out_all_required_fields_upload_material#:#Vyplňte prosím vš
 assessment#:#filter#:#Filtr
 assessment#:#filter_all_question_types#:#Všechny typy odpovědí
 assessment#:#filter_all_questionpools#:#Všechny zásobníky odpovědí
-assessment#:#filter_show_question_types#:#Ukaž typy odpovědí
-assessment#:#filter_show_questionpools#:#Ukaž zásobníky odpovědí
-assessment#:#filter_users#:#Filtr účastníků
+assessment#:#filter_show_question_types#:#Zobrazit typy odpovědí
+assessment#:#filter_show_questionpools#:#Zobrazit zásobníky odpovědí
+assessment#:#filter_users#:#Filtr uživatelů
 assessment#:#final_statement#:#Závěrečné sdělení
 assessment#:#final_statement_show#:#Zobrazit závěrečné sdělení
 assessment#:#final_statement_show_desc#:#Je-li vybráno, pak závěrečné sdělení bude zobrazeno přímo po ukončení testu, ještě před prezentací výsledků tohoto testu.
@@ -432,7 +432,7 @@ assessment#:#flashfile#:#Soubor Flash
 assessment#:#forcejs#:#Vynutit výstup JavaScript pro otázky testu
 assessment#:#forcejs_desc#:#Pokud je zaškrtnuto, pro otázky testu bude vybrán výstup JavaScriptu, pokud výstup JavaScriptu a havarijní řešení existuje.
 assessment#:#forcejs_short#:#Vynutit JavaScript
-assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.
+assessment#:#form_msg_area_missing_points#:#Vložte prosím body pro všechny plochy.
 assessment#:#gap#:#Mezera
 assessment#:#gap_definition#:#Definice mezery
 assessment#:#gap_selection#:#Výběr mezery
@@ -444,14 +444,14 @@ assessment#:#graphical_answers_show#:#Zobrazit podporu grafické odpovědi
 assessment#:#height#:#Výška
 assessment#:#identical_scoring#:#Identické hodnocení
 assessment#:#identical_scoring_desc#:#Pokud je vybráno, mezery s identickým řešením budou ohodnoceny, dokonce i v případě, že stejné řešení bude použito dvakrát. Pokud není vybráno, pak bude ohodnocen pouze první výskyt stejného řešení.
-assessment#:#imagemap#:#Rastrový obrázek
+assessment#:#imagemap#:#Mapa obrázku
 assessment#:#imagemap_file#:#Soubor mapy obrázku
-assessment#:#imagemap_source#:#Zdroj rastrového obrázku
+assessment#:#imagemap_source#:#Zdroj mapy obrázku
 assessment#:#import_errors_qti#:#Vyskytla se chyba syntaxe tohoto QTI souboru. Import byl přerušen.
 assessment#:#import_question#:#Import otázek
 assessment#:#insert_after#:#Vložit za
 assessment#:#insert_before#:#Vložit před
-assessment#:#internal_links#:#Interní propojení
+assessment#:#internal_links#:#Interní odkazy
 assessment#:#internal_links_update#:#Aktualizace
 assessment#:#javaapplet#:#Aplet Java
 assessment#:#keywords_hint#:#Vložte seznam klíčových slov, oddělených mezerami nebo konci řádků, do volby automatického hodnocení slohové úlohy. Když bude nalezeno kterékoli slovo v textu studenta, výsledné skóre bude nastaveno namísto 0 bodů na maximum dosažitelných bodů.
@@ -464,10 +464,10 @@ assessment#:#kiosk_show_title#:#Zobrazit název testu
 assessment#:#last_update#:#Poslední aktualizace
 assessment#:#legend#:#Vysvětlivka
 assessment#:#locked#:#uzamčeno
-assessment#:#log_answer_changed_points#:#Manuální změna bodů z %d na %d bodů autorem testu
+assessment#:#log_answer_changed_points#:#Manuální změna bodů testované osoby %s z %d na %d bodů hodnotícím testu %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Účastník nemůže vstoupit do testu, protože byl dosažen maximální počet simultánních účastníků.
 assessment#:#log_create_new_test#:#Vytvořen nový test
-assessment#:#log_manual_feedback#:#%s přidán manuální ohlast pro testovanou osobu %s a otázka %s: %s
+assessment#:#log_manual_feedback#:#%s přidán manuální ohlas pro testovanou osobu %s a otázku %s: %s
 assessment#:#log_mark_added#:#Známka přidána
 assessment#:#log_mark_changed#:#Známka změněna
 assessment#:#log_mark_removed#:#Známka odstraněna
@@ -475,14 +475,14 @@ assessment#:#log_modified_test#:#Test byl modifikován
 assessment#:#log_question_added#:#Otázka byla vložena na pozici
 assessment#:#log_question_position_changed#:#Pozice otázky změněna
 assessment#:#log_question_removed#:#Otázka odstraněna
-assessment#:#log_random_question_pool_added#:#Přidán zásobník otázek '%s' s %s otázkami pro namátkový test
-assessment#:#log_random_question_pool_deleted#:#Odstraněny všechny zásobníky namátkových otázek pro test
-assessment#:#log_selected_user_data_removed#:#Odstraněny data účastníka testu %s
-assessment#:#log_total_amount_of_questions#:#Nastav celkovou sumu otázek pro namátkový test na %s
-assessment#:#log_user_answered_question#:#Účastník odpověděl na otázku a obdržel %s bodů
-assessment#:#log_user_data_removed#:#Všechna data účastníka odstraněny
-assessment#:#log_user_entered_values#:#Uživatelem vložené hodnoty
-assessment#:#log_user_not_entered_values#:#Účastník nevložil hodnoty
+assessment#:#log_random_question_pool_added#:#Přidán zásobník otázek '%s' s %s otázkami pro náhodný test
+assessment#:#log_random_question_pool_deleted#:#Odstraněny všechny zásobníky náhodných otázek pro tento test
+assessment#:#log_selected_user_data_removed#:#Odstraněny data testu uživatele %s
+assessment#:#log_total_amount_of_questions#:#Nastavit celkovou sumu otázek pro náhodný test na %s
+assessment#:#log_user_answered_question#:#Uživatel odpověděl na otázku a obdržel %s bodů
+assessment#:#log_user_data_removed#:#Všechna data uživatelů odstraněny
+assessment#:#log_user_entered_values#:#Uživatel vložil hodnoty
+assessment#:#log_user_not_entered_values#:#Uživatel nevložil hodnoty
 assessment#:#maintenance#:#Údržba
 assessment#:#manscoring#:#Manuální bodování
 assessment#:#manscoring_done#:#Bodovaní účastníci
@@ -492,11 +492,11 @@ assessment#:#manscoring_not_allowed#:#Manuální bodování pro tento typ otázk
 assessment#:#manscoring_pending#:#Částečně bodovaní účastníci
 assessment#:#manscoring_questions_not_found#:#Tento test neobsahuje typ otázek, které by bylo nutné bodovat manuálně.
 assessment#:#manscoring_results_pass#:#Manuálně bodované otázky pro průchod %s
-assessment#:#manscoring_select_user#:#Vyberte prosí účastníka k nastavení manuálního bodování
-assessment#:#mark_schema#:#Schéma známkování
+assessment#:#manscoring_select_user#:#Vyberte prosím účastníka k nastavení manuálního bodování
+assessment#:#mark_schema#:#Schéma hodnocení
 assessment#:#mark_tst_ects#:#Vaše hodnocení ECTS je &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Lituji, v testu jste neuspěl.<br />Vaše výsledná známka je: &quot;[mark]&quot;
-assessment#:#mark_tst_passed#:#Gratuluji, testem jste prošel úspěšně.<br />Vaše výsledná známka je: &quot;[mark]&quot;
+assessment#:#mark_tst_failed#:#Lituji, v testu jste neuspěl(a).<br />Vaše výsledná známka je: &quot;[mark]&quot;
+assessment#:#mark_tst_passed#:#Gratuluji, testem jste prošel/prošla úspěšně.<br />Vaše výsledná známka je: &quot;[mark]&quot;
 assessment#:#match_terms_and_definitions#:#Přiřazení pojmů a definic
 assessment#:#match_terms_and_pictures#:#Přiřazení pojmů a obrázků
 assessment#:#matches#:#patří k
@@ -527,14 +527,14 @@ assessment#:#msg_question_count_too_low#:#Vložte prosím počet otázek větš�
 assessment#:#msg_questions_moved#:#Otázky přesunuty
 assessment#:#msg_rect_added#:#Obdélník přidán
 assessment#:#msg_selected_for_move#:#Otázky vybrány k přesunutí
-assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools
+assessment#:#msg_total_questions_too_high#:#Počet otázek je větší, než počet dostupných otázek ve vybraných zásobnících otázek
 assessment#:#multiline_answers_hide#:#Použít jednořádkové odpovědi
 assessment#:#multiline_answers_show#:#Použít víceřádkové odpovědi
 assessment#:#multiline_terms_hide#:#Použít jednořádkové vyjádření
 assessment#:#multiline_terms_show#:#Použít víceřádkové vyjádření
 assessment#:#negative_points_not_allowed#:#Nemůžete vkládat záporné body!
 assessment#:#next_question_rows#:#Otázky %d - %d z %d >>
-assessment#:#no_passed_mark#:#Musíte nastavit nejméně jednu známku ke splnění! Schéma poznámek nebylo uloženo.
+assessment#:#no_passed_mark#:#Musíte nastavit nejméně jednu známku ke splnění! Schéma hodnocení nebylo uloženo.
 assessment#:#no_question_selected_for_move#:#Vyberte alespoň jednu otázku k přesunutí!
 assessment#:#no_questions_available#:#Nejsou dostupné žádné otázky!
 assessment#:#no_selection#:#--- Žádný výběr ---
@@ -561,9 +561,9 @@ assessment#:#participants#:#Účastníci
 assessment#:#participants_data#:#Data účastníků
 assessment#:#participants_evaluation#:#Hodnocení pro všechny testy účastníků
 assessment#:#participants_invitation#:#Pozvat stálé účastníky
-assessment#:#participants_invitation_description#:#Tento test můžete zpřístupnit pouze stálé skupině účastníků ILIAS. K zapnutí této funkce zaškrtněte prosím zaškrtávací pole nahoře a stiskněte tlačítko uložit.
-assessment#:#participants_invitation_search_introduction#:#K přidání stálých účastníků do tohoto testu vyberte prosím uživatele ve formuláři vyhledávání níže a pozvěte je k testu. Všichni účastníci testu budou zobrazeni v tabulce Data účastníků.
-assessment#:#pass#:#Postoupit
+assessment#:#participants_invitation_description#:#Tento test můžete zpřístupnit pouze fixní skupině účastníků ILIAS. K zapnutí této funkce zaškrtněte prosím zaškrtávací pole nahoře a stiskněte tlačítko uložit.
+assessment#:#participants_invitation_search_introduction#:#K přidání fixních účastníků do tohoto testu vyberte prosím uživatele ve formuláři vyhledávání níže a pozvěte je k testu. Všichni účastníci testu budou zobrazeni v tabulce Data účastníků.
+assessment#:#pass#:#Projít
 assessment#:#pass_finished#:#%s prošlo
 assessment#:#passed_official#:#Vykonal(a) úspěšně
 assessment#:#passed_only#:#Pouze prošlí testem
@@ -593,8 +593,8 @@ assessment#:#print_answers#:#Tisk odpovědí
 assessment#:#qpl_answertext_fields_not_filled#:#Otázka může být uložena pouze tehdy, když vyplníte všechna textová pole odpovědi!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Pro vybranou otázku není dostupné žádné ohodnocení. Tato otázka nebyla nikdy použita v testu.
 assessment#:#qpl_assessment_of_questions#:#Hodnocení otázek
-assessment#:#qpl_assessment_total_of_answers#:#Souhrn odpovědí
-assessment#:#qpl_assessment_total_of_right_answers#:#Souhrn procent správných odpovědí (procent z maxima bodů)
+assessment#:#qpl_assessment_total_of_answers#:#Celkem odpovědí
+assessment#:#qpl_assessment_total_of_right_answers#:#Celkem procent správných odpovědí (procent z maxima bodů)
 assessment#:#qpl_confirm_delete_questions#:#Jste si jist(a), že chcete smazat následující otázky?
 assessment#:#qpl_copy_insert_clipboard#:#Vybrané otázky jsou zkopírovány do schránky
 assessment#:#qpl_copy_select_none#:#Označte alespoň jednu otázku ke zkopírování do schránky
@@ -652,9 +652,9 @@ assessment#:#rectangle_click_br_corner#:#Klepněte prosím na pravý spodní roh
 assessment#:#rectangle_click_tl_corner#:#Klepněte prosím na levý horní roh požadované plochy.
 assessment#:#redirectAfterSave#:#Byl dosažen maximální pracovní čas a Vaše poslední otázka bude uložena automaticky. V několika sekundách budete přesměrován(a)...
 assessment#:#region#:#Oblast
-assessment#:#remove_as_participant#:#Smazat jako stálého účastníka
-assessment#:#remove_question#:#Smazat
-assessment#:#remove_solution#:#Smazat doporučené řešení
+assessment#:#remove_as_participant#:#Odstranit jako stálého účastníka
+assessment#:#remove_question#:#Odstranit
+assessment#:#remove_solution#:#Odstranit doporučené řešení
 assessment#:#report_date_not_reached#:#Dosud nelze prohlížet data výsledků. Výsledky testu budou k dispozici od %s
 assessment#:#reset_definitions#:#Resetovat pozici definice
 assessment#:#reset_filter#:#Resetovat filtr
@@ -685,8 +685,8 @@ assessment#:#see_details_for_further_information#:#Prohlédněte detaily pro dop
 assessment#:#select_an_answer#:#--- Vyberte prosím odpověď ---
 assessment#:#select_gap#:#Vybírací mezera
 assessment#:#select_max_one_item#:#Vyberte prosím pouze jednu položku
-assessment#:#select_one_submitted_test#:#Vyberte prosím alespoň jednoho účastníka, který test ukončil
-assessment#:#select_one_user#:#Vyberte prosím alespoň jednoho účastníka
+assessment#:#select_one_submitted_test#:#Vyberte prosím alespoň jednoho uživatele, který test ukončil
+assessment#:#select_one_user#:#Vyberte prosím alespoň jednoho uživatele
 assessment#:#select_qpl_option#:#--- Vyberte prosím zásobník otázek ---
 assessment#:#select_target_position_for_move_question#:#Vyberte prosím cílové umístění pro přesun otázek a stiskněte jedno z tlačítek vkládání!
 assessment#:#select_tst_option#:#--- Vyberte prosím test ---
@@ -716,8 +716,8 @@ assessment#:#suggested_solution_added_successfully#:#Doporučené řešení jste
 assessment#:#suggestedSolutionType#:#Typ doporučeného řešení
 assessment#:#symbol#:#Symbol
 assessment#:#term#:#Pojem
-assessment#:#term_image#:#Obrázek
-assessment#:#term_text#:#Text
+assessment#:#term_image#:#Obrázek pojmu
+assessment#:#term_text#:#Text pojmu
 assessment#:#terms#:#Pojmy
 assessment#:#test_cancelled#:#Test byl zrušen
 assessment#:#test_reference#:#Odkaz testu
@@ -727,9 +727,9 @@ assessment#:#text_gap#:#Textová mezera
 assessment#:#text_maximum_chars_allowed#:#Nevkládejte prosím více než maximum z %s znaků. Další znaky budou odříznuty.
 assessment#:#text_rating#:#Metoda porovnání textu
 assessment#:#text_wrong#:#Chybný text
-assessment#:#textsize#:#Text Size
-assessment#:#textsize_errortext_info#:#Vložte velikost textu chybného textu v procentech pokud chcete jinou velikost, než 100 procent.
-assessment#:#textsize_info#:#Vložte velikost textu organizace textu v procentech, pokud chcete jinou velikost, než 100 procent.
+assessment#:#textsize#:#Šířka textu
+assessment#:#textsize_errortext_info#:#Vložte šířku chybného textu v procentech pokud chcete jinou šířku, než 100 procent.
+assessment#:#textsize_info#:#Vložte šířku uspořádání textu v procentech, pokud chcete jinou velikost, než 100 procent.
 assessment#:#thumb_geometry#:#Geometrie miniatury
 assessment#:#thumb_geometry_info#:#Miniatura obrázku bude vytvořena s maximálními hodnotami dané výšky a šířky, poměr stran bude zachován.
 assessment#:#thumb_size#:#Velikost miniatury
@@ -771,7 +771,7 @@ assessment#:#tst_defaults_defaults_of_test#:#nastavení tohoto testu jako
 assessment#:#tst_defaults_dont_use#:#--- Použít tyto ILIAS předvolby testu ---
 assessment#:#tst_defaults_enter_name#:#Vložte prosím název Vašich předvoleb testu!
 assessment#:#tst_defaults_not_defined#:#Doposud jste nedefinoval(a) žádné předvolby testu.
-assessment#:#tst_delete_all_user_data#:#Smazat všechna data uživatele
+assessment#:#tst_delete_all_user_data#:#Smazat všechna data uživatelů
 assessment#:#tst_delete_missing_mark#:#Vyberte alespoň jednu známku kroku ke smazání
 assessment#:#tst_delete_results#:#Resetovat test
 assessment#:#tst_dont_use_previous_answers#:#Vaše předchozí odpovědi nebudou použity jako výchozí hodnoty v budoucích průchodech testem
@@ -783,24 +783,24 @@ assessment#:#tst_eval_results_by_pass#:#Seznam odpovědí pro průchod %s
 assessment#:#tst_eval_show_answer#:#Zobraz odpovědi
 assessment#:#tst_eval_total_finished#:#Úplně ukončené testy (uživatelé, kteří odevzdali test tlačítkem &quot;Ukončit test&quot;)
 assessment#:#tst_eval_total_finished_average_time#:#Průměrný čas zpracování ukončených testů
-assessment#:#tst_eval_total_passed#:#Úplně ukončené testy
-assessment#:#tst_eval_total_passed_average_points#:#Průměrné body hodnocených testů
-assessment#:#tst_eval_total_passed_average_time#:#Průměrný čas zpracování všech hodnocených testů
+assessment#:#tst_eval_total_passed#:#Celkem ukončených testů
+assessment#:#tst_eval_total_passed_average_points#:#Průměrné body ukončených testů
+assessment#:#tst_eval_total_passed_average_time#:#Průměrný čas zpracování všech ukončených testů
 assessment#:#tst_eval_total_persons#:#Celkový počet osob, které test začaly
-assessment#:#tst_eval_user_answer#:#Odpověď účastníka
+assessment#:#tst_eval_user_answer#:#Odpověď uživatele
 assessment#:#tst_finish_confirm_button#:#Ano, chci tento test ukončit
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí otázku
 assessment#:#tst_finish_confirm_list_of_answers_button#:#Ne, jít zpět na seznam otázek
-assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto tezdu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
-assessment#:#tst_finish_notification#:#Pošta k dokončení
+assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
+assessment#:#tst_finish_notification#:#E-mail při dokončení
 assessment#:#tst_finish_notification_advanced#:#Poslat kompletní výsledky testu jeho vlastníkovi
 assessment#:#tst_finish_notification_no#:#Nezasílat upozornění poštou, když uživatel ukončil test
 assessment#:#tst_finish_notification_simple#:#Poslat uživatelské jméno a finální datum vlastníkovi testu
 assessment#:#tst_finished#:#Ukončeno
-assessment#:#tst_fixed_participants_data_exists#:#Jsou zde již účastníci, kteří prošli testem. Nemůžete změnit status stálých účastníků!
+assessment#:#tst_fixed_participants_data_exists#:#Jsou zde již účastníci, kteří prošli testem. Nemůžete změnit status fixních účastníků!
 assessment#:#tst_fixed_participants_disable#:#Potvrdit změnu statusu
-assessment#:#tst_fixed_participants_disable_description#:#Hodláte v tomto testu vypnout podporu pro stálé účastníky. Všichni stálí účastníci, kteří dosud tento test nezačali, budou z tohoto testu odstraněni. Skutečně chcete pokračovat?
-assessment#:#tst_fixed_participating_users#:#Zapojení účastníci v tomto testu
+assessment#:#tst_fixed_participants_disable_description#:#Hodláte v tomto testu vypnout podporu pro fixní účastníky. Všichni fixní účastníci, kteří dosud tento test nezačali, budou z tohoto testu odstraněni. Skutečně chcete pokračovat?
+assessment#:#tst_fixed_participating_users#:#Fixní účastníci v tomto testu
 assessment#:#tst_general_properties#:#Obecné vlastnosti
 assessment#:#tst_generate_xls#:#Vytvořit Excel
 assessment#:#tst_heading_scoring#:#Hodnocení
@@ -816,16 +816,16 @@ assessment#:#tst_insert_missing_question#:#Vyberte prosím alespoň jednu otázk
 assessment#:#tst_insert_questions#:#Určitě chcete vložit následující otázky do testu?
 assessment#:#tst_insert_questions_and_results#:#Tento test již vykonalo %s uživatelů. Vložení otázek do tohoto testu vymaže všechny výsledky testů těchto uživatelů. Skutečně chcete vložit následující otázky do tohoto testu?
 assessment#:#tst_instant_feedback#:#Okamžitý ohlas
-assessment#:#tst_instant_feedback_answer_specific#:#Zobrazit odpovědi-specifický ohlas
+assessment#:#tst_instant_feedback_answer_specific#:#Zobrazit odpovědi specifický ohlas
 assessment#:#tst_instant_feedback_description#:#Pokud je jedna z těchto předvoleb vybrána, informace okamžitého ohlasu budou zobrazeny přímo po odpovědi účastníka na otázku. Je-li vybrána odpověď-specifikovaný ohlas, bude zobrazen předdefinovaný ohlas, v závislosti na odpovědi účastníka. Je-li vybrán výsledek (v bodech), budou zobrazeny dosažené body. Pokud je vybráno řešení, bude zobrazena i správná odpověď.
 assessment#:#tst_instant_feedback_results#:#Zobrazit výsledky (jen body)
 assessment#:#tst_instant_feedback_solution#:#Zobrazit řešení
 assessment#:#tst_instant_verification#:#Okamžitá verifikace
 assessment#:#tst_introduction#:#Úvod
-assessment#:#tst_invited_nobody#:#Žádní uživatelé, skupiny nebo role nejsou přidáni jako stálí účastníci testu
-assessment#:#tst_invited_selected_groups#:#Vybrané skupiny byly přidány jako stálí účastníci testu
-assessment#:#tst_invited_selected_roles#:#Vybrané role byly přidány jako stálí účastníci testu
-assessment#:#tst_invited_selected_users#:#Vybraní účastníci byli přidáni jako stálí účastníci testu
+assessment#:#tst_invited_nobody#:#Žádní uživatelé, skupiny nebo role nejsou přidáni jako fixní účastníci testu
+assessment#:#tst_invited_selected_groups#:#Vybrané skupiny byly přidány jako fixní účastníci testu
+assessment#:#tst_invited_selected_roles#:#Vybrané role byly přidány jako fixní účastníci testu
+assessment#:#tst_invited_selected_users#:#Vybraní účastníci byli přidáni jako fixní účastníci testu
 assessment#:#tst_list_of_answers#:#Seznam odpovědí
 assessment#:#tst_list_of_answers_show#:#Zobrazit seznam odpovědí
 assessment#:#tst_list_of_questions_end#:#Zobrazit seznam otázek před tím, než účastníci ukončí test
@@ -863,7 +863,7 @@ assessment#:#tst_nr_of_passes#:#Počet průchodů testem
 assessment#:#tst_nr_of_tries#:#Max. počet pokusů
 assessment#:#tst_nr_of_tries_of_user#:#Zkoušení již ukončeno
 assessment#:#tst_participants_no#:#Tento test doposud nikdo nezačal!
-assessment#:#tst_participants_no_fixed#:#Pro tento test není nikdo přiřazen jako stálý účastník!
+assessment#:#tst_participants_no_fixed#:#Pro tento test není nikdo přiřazen jako fixní účastník!
 assessment#:#tst_participating_users#:#Účastnící se uživatelé
 assessment#:#tst_pass_best_pass#:#Bodovat nejlepší průchod
 assessment#:#tst_pass_details#:#Detaily průchodu
@@ -909,7 +909,7 @@ assessment#:#tst_random_select_questionpool#:#Vyberte zásobník otázek k volb�
 assessment#:#tst_random_selection#:#Náhodný výběr otázek
 assessment#:#tst_random_selection_question_count_too_high#:#Otázka, kterou jste vložil(a) překročila hodnotu maximálního počtu dostupných otázek. Počet otázek byl automaticky snížen.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Otázka, kterou jste vložil(a) překročila hodnotu maximálního počtu dostupných otázek ze všech vybraných zásobníků. Počet otázek byl automaticky snížen.
-assessment#:#tst_random_test#:#Namátkový test
+assessment#:#tst_random_test#:#Náhodný test
 assessment#:#tst_random_test_description#:#Je-li vybrán, otázky testu budou vybírány generátorem náhodných čísel.
 assessment#:#tst_reached_points#:#Dosažené body
 assessment#:#tst_remove_mark#:#Smazat tuto známku
@@ -928,7 +928,7 @@ assessment#:#tst_results#:#Výsledky testu
 assessment#:#tst_results_access#:#Přístup k výsledkům testu
 assessment#:#tst_results_access_always#:#Vždy
 assessment#:#tst_results_access_date#:#Datum
-assessment#:#tst_results_access_description#:#Toto nastavení se týká přístupu účastníků k jejich výsledkům testu. Pokud jsou výsledky přístupné až po ukončení testu, účastníci mohou přistupovat ke svým výsledkům testu až po ukončení prvního průchodu testem. I když je povolen více než jeden průchod testem, účastníci mohou přistupovat ke svým výsledkům až po ukončení prvního průchodu testem. <br />Pokud zvolíte omezení data přístupu, účastníci nemohou přistupovat ke svým výsledkům, dokud specifikované datum a čas nenastane. Tuto volbu musíte vybrat, pokud chcete použít systém hodnocení ECTS, nebo chcete hodnotit otázky manuálně. Pokud je vybráno "Vždy", účastníci mohou přistupovat k výsledkům testu kdykoliv, i když ještě tento test neukončili.
+assessment#:#tst_results_access_description#:#Toto nastavení se týká přístupu účastníků k jejich výsledkům testu. Pokud jsou výsledky přístupné až po ukončení testu, účastníci mohou přistupovat ke svým výsledkům testu až po ukončení prvního průchodu testem. I když je povolen více než jeden průchod testem, účastníci mohou přistupovat ke svým výsledkům až po ukončení prvního průchodu testem. Pokud zvolíte omezení data přístupu, účastníci nebudou moci přistupovat ke svým výsledkům, dokud specifikované datum a čas nenastane. Tuto volbu musíte vybrat, pokud chcete použít systém hodnocení ECTS, nebo chcete hodnotit otázky manuálně. Pokud je vybráno "Vždy", účastníci mohou přistupovat k výsledkům testu kdykoliv, i když ještě tento test neukončili. Pokud je vybráno "Nikdy", přístup k výsledkům testu nebude umožněn.
 assessment#:#tst_results_access_finished#:#Po ukončení testu
 assessment#:#tst_results_access_never#:#Nikdy
 assessment#:#tst_results_aggregated#:#Agregované výsledky testu
@@ -938,7 +938,7 @@ assessment#:#tst_results_back_overview#:#Zpět na přehled výsledků
 assessment#:#tst_results_overview#:#Přehled průchodů výsledky testu
 assessment#:#tst_results_overview_pass#:#Přehled výsledků pro průchod %s
 assessment#:#tst_results_presentation#:#Prezentace výsledků testu
-assessment#:#tst_results_presentation_description#:#Pokud je zvoleno "Zobrazit výsledky v průběhu testu", název otázky a dosažené body pro každou otázku jsou dostupné, ačkoliv test nebyl ještě ukončen. Pokud je zvoleno "Zobrazit řešení ve výsledcích testu", podrobné řešení otázky je účastníkům dostupné v prezentaci výsledků testu. To zahrnuje přesné bodování pro každou odpověď, tedy zobrazí se jen přehled s názvy otázek a dosažené body. Pokud je vybrán seznam odpovědí, pak bude vygenerován seznam všech otázek a odpovědí účastníka. Tento seznam bude nabídnut na Info stránce a na konci testu před finálním odesláním.<br />Pokud je vybráno "Zobrazit odpovědi-specifikovaný ohlas ve výsledcích testu", pak bude správná odpověď zobrazována jako specifikovaný ohlas v závěru každé odpovědi. Pokud je vybráno "Přehled výsledků (jen odpovědi)", obsah ILIAS, který umístíte k jednotlivým otázkám pomocí tabulky obsahu "Upravit obsah" nebude ve výtisku zobrazen. Pokud chcete nějaký prostor na papíru ušetřit, vyberte tuto volbu.  Pokud je vybráno "Zobrazit rezervované místo na podpis", pak bude místo na podpis na výtisku rezervováno.
+assessment#:#tst_results_presentation_description#:#Pokud je zvoleno "Zobrazit výsledky v průběhu testu", název otázky a dosažené body pro každou otázku jsou dostupné, ačkoliv test nebyl ještě ukončen. Pokud je zvoleno "Zobrazit řešení ve výsledcích testu", podrobné řešení otázky je účastníkům dostupné v prezentaci výsledků testu. To zahrnuje přesné bodování pro každou odpověď, tedy se zobrazí přehled s názvy otázek a dosažené body. Pokud je vybrán seznam odpovědí, pak bude vygenerován seznam všech otázek a odpovědí účastníka. Tento seznam bude nabídnut na Info stránce a na konci testu před finálním odesláním. Pokud je vybráno "Zobrazit odpovědi specifikovaný ohlas ve výsledcích testu", pak bude správná odpověď zobrazována jako specifikovaný ohlas v závěru každé odpovědi. Pokud je vybráno "Přehled výsledků (jen odpovědi)", obsah ILIAS, který umístíte k jednotlivým otázkám pomocí tabulky obsahu "Upravit obsah" nebude ve výtisku zobrazen. Pokud chcete nějaký prostor na papíru ušetřit, vyberte tuto volbu.  Pokud je vybráno "Zobrazit rezervované místo na podpis", pak bude místo na podpis na výtisku rezervováno. Pokud je vybráno "Zobrazit doporučené řešení", pak bude v přehledu výsledků testu zobrazeno i doporučené řešení, pokud existuje.
 assessment#:#tst_resume_test#:#Pokračování testu
 assessment#:#tst_score_cut_question#:#Vynuluj záporné body pro každou otázku
 assessment#:#tst_score_cut_test#:#Vynuluj záporné body pro součet výsledků všech otázek
@@ -948,9 +948,9 @@ assessment#:#tst_score_mcmr_questions#:#Otázky s vícenásobným výběrem
 assessment#:#tst_score_mcmr_questions_description#:#Pokud je vybráno "Výsledek 0 bodů pro nevybrané odpovědi", otázky s vícenásobnou volbou bez vybrané odpovědi budou hodnoceny s nula bodů, jinak každé zaškrtávací pole bude hodnoceno v závislosti na předdefinovaných bodech.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Použít definovaný výsledek
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Hodnocení 0 bodů za nevybranou odpověď
-assessment#:#tst_score_reporting#:#Oznámování výsledků
-assessment#:#tst_score_reporting_date#:#Datum oznámování výsledků
-assessment#:#tst_score_type#:#Typ oznámování výsledků
+assessment#:#tst_score_reporting#:#Oznamování výsledků
+assessment#:#tst_score_reporting_date#:#Datum oznamování výsledků
+assessment#:#tst_score_type#:#Typ oznamování výsledků
 assessment#:#tst_select_file_for_import#:#Musíte vybrat soubor k importu!
 assessment#:#tst_select_qpls#:#Vyberte prosím zásobník otázek ke zkopírování
 assessment#:#tst_select_questionpool#:#Vyberte prosím zásobník otázek k uložení vytvořené otázky
@@ -959,7 +959,7 @@ assessment#:#tst_select_random_questions#:#Vyberte prosím zásobník(y) otázek
 assessment#:#tst_select_tsts#:#Vyberte prosím test ke zkopírování
 assessment#:#tst_selected_user_data_deleted#:#Data testu vybraných uživatelů byla úspěšně vymazána
 assessment#:#tst_sequence#:#Sekvence
-assessment#:#tst_sequence_fixed#:#Sekvence otázek je stabilní
+assessment#:#tst_sequence_fixed#:#Sekvence otázek je pevná
 assessment#:#tst_sequence_postpone#:#Otázky mohou být odloženy na konec průchodu testem
 assessment#:#tst_sequence_properties#:#Vlastnosti sekvence
 assessment#:#tst_session_settings#:#Nastavení lekce
@@ -980,19 +980,19 @@ assessment#:#tst_show_solution_suggested#:#Zobrazit doporučené řešení
 assessment#:#tst_show_summary#:#Zobrazit seznam otázek
 assessment#:#tst_show_summary_description#:#Nabídnout dosažitelnost seznamu všech otázek testu jeho účastníkům v průběhu testu
 assessment#:#tst_shuffle_questions#:#Zamíchat otázky
-assessment#:#tst_shuffle_questions_description#:#Zamíchat sekvence otázek pro každý průchod testem
+assessment#:#tst_shuffle_questions_description#:#Zamíchat sekvenci otázek pro každý průchod testem
 assessment#:#tst_signature#:#Podpis
 assessment#:#tst_single_results#:#Výsledky podle otázek
-assessment#:#tst_start_new_test_pass#:#Start nového průchodu testem
-assessment#:#tst_start_test#:#Start testu
+assessment#:#tst_start_new_test_pass#:#Spustit nový průchod testem
+assessment#:#tst_start_test#:#Spustit test
 assessment#:#tst_started#:#Test spuštěn
-assessment#:#tst_starting_time#:#Čas startu
+assessment#:#tst_starting_time#:#Čas spuštění
 assessment#:#tst_stat_all_users#:#Všichni účastníci
 assessment#:#tst_stat_choose_users#:#(vyber jednoho, nebo více uživatelů z jejich seznamu)
 assessment#:#tst_stat_result_atimeofwork#:#Průměrný čas práce
 assessment#:#tst_stat_result_distancemean#:#Vzdálenost od aritmetického středu
 assessment#:#tst_stat_result_distancemedian#:#Vzdálenost od mediánu
-assessment#:#tst_stat_result_distancequintile#:#Vzdálenost od aritmetické pětiny
+assessment#:#tst_stat_result_distancequintile#:#Vzdálenost od aritmetického středu pětiny
 assessment#:#tst_stat_result_firstvisit#:#První návštěva
 assessment#:#tst_stat_result_lastvisit#:#Poslední návštěva
 assessment#:#tst_stat_result_mark_median#:#Známka mediánu
@@ -1009,7 +1009,7 @@ assessment#:#tst_stat_result_timeofwork#:#Doba práce
 assessment#:#tst_stat_result_total_participants#:#Celkový počet účastníků
 assessment#:#tst_stat_selected_users#:#Vybraní uživatelé
 assessment#:#tst_stat_users_intro#:#Zobrazit statistické hodnocení pro
-assessment#:#tst_status_completed#:#ukončen
+assessment#:#tst_status_completed#:#ukončeno
 assessment#:#tst_status_completed_more_tries_possible#:#Ukončeno
 assessment#:#tst_status_missing#:#V tomto testu chybí požadované položky!
 assessment#:#tst_status_missing_elements#:#Chybí následující položky:
@@ -1066,37 +1066,37 @@ assessment#:#working_time#:#Doba práce
 assessment#:#working_time_avg#:#Průměrná doba práce
 assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %d z %d možných bodů
 auth#:#auth_account_migration#:#Nový účet ILIAS
-auth#:#auth_account_migration_keep#:#Migrate Existing User Account
-auth#:#auth_account_migration_name#:#Migration
-auth#:#auth_account_migration_new#:#Create New User Account
+auth#:#auth_account_migration_keep#:#Přenést existující uživatelské účty
+auth#:#auth_account_migration_name#:#Přenesení
+auth#:#auth_account_migration_new#:#Vytvořit nový uživatelský účet
 auth#:#auth_info_add#:#Tuto volbu použijte, pokud nejste doposud v systému ILIAS registrován. Bude vytvořen nový účet.
-auth#:#auth_info_migrate#:#Pokud máte již v ILIAS účet, vložte jméno uživatele a heslo ke stažení Vašich osobních údajů (E-mail, výsledky testů...).
+auth#:#auth_info_migrate#:#Pokud máte již v ILIAS účet, vložte jméno uživatele a heslo k přenesení Vašich osobních údajů (E-mail, výsledky testů...).
 auth#:#auth_openid#:#OpenId
-auth#:#auth_openid_configure#:#Configure OpenId-Authentication
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
-auth#:#auth_openid_enable#:#Enable OpenId Support
-auth#:#auth_openid_login#:#Your OpenID
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
-auth#:#auth_openid_migration#:#Account Migration:
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
-auth#:#auth_openid_provider#:#Provider Selection
-auth#:#auth_openid_provider_add#:#Add Provider
-auth#:#auth_openid_provider_edit#:#Edit Provider
-auth#:#auth_openid_provider_tbl#:#OpenID Provider
+auth#:#auth_openid_configure#:#Nastavit OpenId autentizaci
+auth#:#auth_openid_deleted_provider#:#Smazat vybraného poskytovatele OpenID
+auth#:#auth_openid_enable#:#Zapnout podporu OpenId
+auth#:#auth_openid_login#:#Vaše OpenID
+auth#:#auth_openid_login_info_a#:#Vložte prosím Vaše uživatelské jméno OpenID a zvolte poskytovatele
+auth#:#auth_openid_migration#:#Přenesení účtu:
+auth#:#auth_openid_migration_info#:#Tuto volbu aktivujte k umožnění novým uživatelům přenesení jejich existujících účtů ILIAS k OpenId autentizaci.
+auth#:#auth_openid_provider#:#Výběr poskytovatele
+auth#:#auth_openid_provider_add#:#Přidat poskytovatele
+auth#:#auth_openid_provider_edit#:#Uptavit poskytovatele
+auth#:#auth_openid_provider_tbl#:#Poskytovatel OpenID
 auth#:#auth_openid_role_select#:#Role:
-auth#:#auth_openid_settings#:#OpenId Settings
-auth#:#auth_openid_sync#:#User Synchronization
-auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.
-auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
-auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
-auth#:#auth_rad_migration#:#Přetažení účtu:
-auth#:#auth_rad_migration_info#:#Aktivujte tuto volbu k umožnění novým uživatelům přetažení jejich existujících účtů ILIAS do autentizace Radius.
+auth#:#auth_openid_settings#:#Nastavení OpenId
+auth#:#auth_openid_sync#:#Synchronizace uživatele
+auth#:#auth_openid_sync_info#:#Pokud je zapnuto, nové uživatelské účty budou vytvořeny automaticky po úspěšné autentizaci.
+auth#:#auth_openid_uncontrolled_selection#:#Neřízený výběr poskytovatele
+auth#:#auth_openid_uncontrolled_selection_info#:#Pokud je zapnuto, pro autentizaci může být použit kterýkoli poskytovatel OpenID. Tedy poskytovatel musí být vybrán ze seznamu platných poskytovatelů OpenID.
+auth#:#auth_openid_url_info#:#Vložte URL OpenID a přepište uživatelské jméno s  "%s". Například: http://%s.myopenid.com
+auth#:#auth_rad_migration#:#Přenesení účtu:
+auth#:#auth_rad_migration_info#:#Aktivujte tuto volbu k umožnění novým uživatelům přenesení jejich existujících účtů ILIAS do autentizace Radius.
 auth#:#auth_radius_charset#:#Kódování znaků
-auth#:#auth_radius_charset_info#:#Vyberte prosím kódování znaků pro komunikaci s Radius serverem. Pokud nejisté, volte UTF-8.
+auth#:#auth_radius_charset_info#:#Vyberte prosím kódování znaků pro komunikaci s Radius serverem. Pokud si nejste jisti, zvolte UTF-8.
 barometer#:#anonymous#:#Anonymní
 barometer#:#bar_create#:#Vytvořit nový barometr
-barometer#:#barometer_add#:#Přidat nový ohlas
+barometer#:#barometer_add#:#Přidat nový barometr
 barometer#:#barometer_conflict_anon_req#:#Anonymizace nemůže být kombinována s typem 'Vyžadováno'. Vyberte prosím jednu z těchto voleb.
 barometer#:#barometer_title#:#Barometr smýšlení
 barometer#:#best#:#Nejlepší
@@ -1111,9 +1111,9 @@ barometer#:#duration#:#Trvání
 barometer#:#edit#:#Upravit
 barometer#:#edit_barometer#:#Upravit barometr
 barometer#:#every#:#každý
-barometer#:#feedb_edit_feedback#:#Upravit ohlas
+barometer#:#feedb_edit_feedback#:#Upravit barometr
 barometer#:#feedb_feedback_list#:#Seznam ohlasů
-barometer#:#feedb_feedback_settings#:#Nastavení ohlasů
+barometer#:#feedb_feedback_settings#:#Nastavení barometru
 barometer#:#feedb_time#:#Čas
 barometer#:#first_vote#:#1. volba je
 barometer#:#from#:#z
@@ -1125,7 +1125,7 @@ barometer#:#month#:#Měsíc
 barometer#:#months#:#Měsíce
 barometer#:#new_vote#:#Nový hlas
 barometer#:#note#:#Komentář
-barometer#:#optional#:#Doporučeno
+barometer#:#optional#:#Volitelné
 barometer#:#options#:#Volby
 barometer#:#pie#:#Koláč
 barometer#:#repeat#:#Opakovat všechno
@@ -1179,11 +1179,11 @@ bibitem#:#bibitem_label#:#Značka
 bibitem#:#bibitem_language#:#Jazyk
 bibitem#:#bibitem_last_name#:#Příjmení
 bibitem#:#bibitem_manual#:#Manuál
-bibitem#:#bibitem_master_thesis#:#Habilitační práce
+bibitem#:#bibitem_master_thesis#:#Diplomová práce
 bibitem#:#bibitem_middle_name#:#Druhé jméno
 bibitem#:#bibitem_month#:#Měsíc
 bibitem#:#bibitem_new_element#:#Nový element
-bibitem#:#bibitem_newspaper_article#:#Článek v časopisu
+bibitem#:#bibitem_newspaper_article#:#Článek v novinách
 bibitem#:#bibitem_not_found#:#Bibliografické informace nedostupné.
 bibitem#:#bibitem_note#:#Poznámka
 bibitem#:#bibitem_number#:#Číslo
@@ -1213,11 +1213,11 @@ certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
-certificate#:#certificate_background_image#:#Obrázek pozadí
-certificate#:#certificate_bottom#:#Nahoře
+certificate#:#certificate_background_image#:#Obrázek na pozadí
+certificate#:#certificate_bottom#:#Dole
 certificate#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
 certificate#:#certificate_custom#:#Vlastní formát...
-certificate#:#certificate_delete#:#Smazat certifikát
+certificate#:#certificate_delete#:#Smazat data certifikátu
 certificate#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
 certificate#:#certificate_enabled_scorm#:#Aktivován
 certificate#:#certificate_enabled_scorm_introduction#:#Je-li zaškrtnuto, certifikát bude nabídnut všem uživatelům, kteří výukový modul SCORM ukončili.
@@ -1225,17 +1225,17 @@ certificate#:#certificate_error_import#:#Během importu certifikátu se vyskytla
 certificate#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
 certificate#:#certificate_export#:#Export certifikátu
 certificate#:#certificate_failed#:#selhalo
-certificate#:#certificate_left#:#Levý
+certificate#:#certificate_left#:#Vlevo
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Okraje hlavní části
 certificate#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
-certificate#:#certificate_padding_top#:#Souběh horního okraje
+certificate#:#certificate_padding_top#:#Odsazení nahoře
 certificate#:#certificate_page_format#:#Formát stránky
 certificate#:#certificate_page_format_info#:#Vyberte prosím výchozí formát stránky pro nové certifikáty.
 certificate#:#certificate_pageheight#:#Výška stránky
 certificate#:#certificate_pagewidth#:#Šířka stránky
-certificate#:#certificate_passed#:#předán
+certificate#:#certificate_passed#:#předáno
 certificate#:#certificate_ph_birthday#:#Datum narození uživatele
 certificate#:#certificate_ph_city#:#Město adresy uživatele
 certificate#:#certificate_ph_country#:#Země adresy uživatele
@@ -1263,7 +1263,7 @@ certificate#:#certificate_ph_title#:#Titul uživatele
 certificate#:#certificate_ph_zipcode#:#PSČ adresy uživatele
 certificate#:#certificate_points_notavailable#:#Tato hodnota nemůže být spočítána
 certificate#:#certificate_preview#:#Zobrazit náhled certifikátu
-certificate#:#certificate_right#:#Pravý
+certificate#:#certificate_right#:#Vpravo
 certificate#:#certificate_settings#:#Nastavení certifikátu
 certificate#:#certificate_short_name#:#Krátký název certifikátu
 certificate#:#certificate_short_name_description#:#Vložte prosím krátký název pro název certifikátu. Tento krátký název bude částí názvu certifikátu: YYMMDD_[příjmení]_[SHORT_TITLE]_certifikat.pdf.
@@ -1272,7 +1272,7 @@ certificate#:#certificate_status#:#Status
 certificate#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
 certificate#:#certificate_status_incomplete#:#Certifikát není hotový
 certificate#:#certificate_text#:#Text certifikátu
-certificate#:#certificate_top#:#Vrchol
+certificate#:#certificate_top#:#Nahoře
 certificate#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
 certificate#:#certificate_usage#:#Povšimněte si prosím, že použití certifikátů je možné jen když v ILIAS běží Java-Server. Konfigurace Java-Serveru je dostupná na hlavní stránce správy ILIAS v části Webové služby.
 certificate#:#certificate_var_max_points#:#46
@@ -1306,11 +1306,11 @@ chat#:#cancel_talk#:#Zrušit adresování
 chat#:#cancel_whisper#:#Zrušit šeptání
 chat#:#chat_access_blocked#:#Z této hovorny jste vyloučen(a)
 chat#:#chat_active#:#Aktivní
-chat#:#chat_active_users#:#Další uživatelé (přítomní)
+chat#:#chat_active_users#:#Přítomní uživatelé v hovorně
 chat#:#chat_add_allowed_hosts#:#Přidejte prosím adresy hostů, kteří mají právo přístupu na diskusní server.
 chat#:#chat_add_blocking#:#Blok uživatele
 chat#:#chat_add_external_ip#:#Přidejte prosím externí serverovou IP.
-chat#:#chat_add_internal_ip#:#Přidejte prosím interní setverovou IP.
+chat#:#chat_add_internal_ip#:#Přidejte prosím interní serverovou IP.
 chat#:#chat_add_moderator_password#:#Vložte prosím heslo moderátora.
 chat#:#chat_add_port#:#Vložte prosím port serveru.
 chat#:#chat_add_private_chatroom#:#Přidat privátní hovornu
@@ -1326,7 +1326,7 @@ chat#:#chat_aqua#:#voda
 chat#:#chat_arial#:#Arial
 chat#:#chat_available_smilies#:#Dostupní smajlíci
 chat#:#chat_black#:#černá
-chat#:#chat_block_user#:#Zablokat
+chat#:#chat_block_user#:#Zablokovat
 chat#:#chat_blocked#:#Přístup zakázán
 chat#:#chat_blocked_unlocked#:#Odemknout
 chat#:#chat_blocked_users#:#Blokovaní uživatelé
@@ -1398,14 +1398,14 @@ chat#:#chat_message_notify_activate#:#Aktivovat oznámení zpráv
 chat#:#chat_message_notify_deactivate#:#Deaktivovat upozornění zprávy
 chat#:#chat_messages_deleted#:#Zprávy byly smazány.
 chat#:#chat_moderator_password#:#Heslo moderátora
-chat#:#chat_navy#:#granátová
+chat#:#chat_navy#:#tmavomodrá
 chat#:#chat_new_invitation_sound_status#:#Přehrát zvuk, když uživatel obdrží pozvání k nové diskuzi
 chat#:#chat_new_message#:#Nová zpráva
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chat#:#chat_new_message_sound_status#:#Přehrát zvuk, když do diskuze byla vložena nová zpráva
 chat#:#chat_no_active_users#:#Žádný uživatel není přítomen.
 chat#:#chat_no_blocked#:#Žádný blokovaný uživatel není dostupný
 chat#:#chat_no_connection#:#Nemohu se spojit s diskusním serverem.
-chat#:#chat_no_delete_public#:#Veřejnou hovornu nelze smazat
+chat#:#chat_no_delete_public#:#Tuto veřejnou hovornu nelze smazat
 chat#:#chat_no_online_users#:#Žádný další uživatel není online.
 chat#:#chat_no_recordings_available#:#Žádné záznamy v tomto okamžiku nejsou dostupné.
 chat#:#chat_no_refresh_public#:#Tuto veřejnou hovornu nelze obnovit.
@@ -1421,7 +1421,7 @@ chat#:#chat_private_message#:#Privátní zpráva
 chat#:#chat_profile#:#Profil
 chat#:#chat_public_room#:#Veřejná hovorna
 chat#:#chat_purple#:#purpurová
-chat#:#chat_recent_postings#:#Recent Chat Postings
+chat#:#chat_recent_postings#:#Poslední aktualizace diskuze
 chat#:#chat_recording_action#:#Akce
 chat#:#chat_recording_description#:#Popis
 chat#:#chat_recording_moderator#:#Moderátor
@@ -1454,7 +1454,7 @@ chat#:#chat_server_logfile#:#Cesta k Log souboru
 chat#:#chat_server_loglevel#:#Pozice Log
 chat#:#chat_server_not_active#:#Diskusní server není aktivní
 chat#:#chat_server_port#:#Port Serveru
-chat#:#chat_server_settings#:#Nastavení chat serveru
+chat#:#chat_server_settings#:#Nastavení diskuzního serveru
 chat#:#chat_server_ssl_active#:#SSL aktivní
 chat#:#chat_server_ssl_port#:#Port SSL Serveru
 chat#:#chat_server_ssl_settings#:#Nastavení SSL
@@ -1504,7 +1504,7 @@ chat#:#chat_user_invited#:#Pozvaný uživatel k hovoru.
 chat#:#chat_user_invited_private#:#Uživatel byl pozván do soukromé hovorny.
 chat#:#chat_user_invited_public#:#Uživatel byl pozván k veřejné diskusi.
 chat#:#chat_user_name#:#Jméno uživatele
-chat#:#chat_user_unkicked#:#The user has been unkicked.
+chat#:#chat_user_unkicked#:#Tento uživatel byl vrácen.
 chat#:#chat_user_visible#:#viditelné
 chat#:#chat_whisper#:#Šeptání
 chat#:#chat_yellow#:#žlutá
@@ -1602,7 +1602,7 @@ common#:#access_public#:#Veřejný
 common#:#access_restrict_enter#:#Nastavte prosím období pro restrikce omezeného přístupu
 common#:#access_restricted#:#Nastavit omezený přístup vybraných uživatelů
 common#:#access_scope#:#Přístup
-common#:#access_unlimited#:#neomezený
+common#:#access_unlimited#:#Neomezený
 common#:#access_until#:#Přístup (do)
 common#:#access_users#:#Zaznamenaný v uživatelích
 common#:#accesscount_registered_users#:#Číst podle čísla uživatele ILIAS
@@ -1643,13 +1643,13 @@ common#:#add_user_defined_field#:#Přidat nové pole
 common#:#added_new_condition#:#Nová podmínka vytvořena.
 common#:#additional_info#:#Doplňková podmínka
 common#:#address#:#Adresa
-common#:#adm_create_tax#:#Vytvořit systematiku
+common#:#adm_create_tax#:#Vytvořit taxonomii
 common#:#adm_edit_permission#:#Změnit nastavení oprávnění
 common#:#adm_read#:#Právo číst na systémová nastavení
 common#:#adm_visible#:#Systémová nastavení jsou viditelná.
 common#:#adm_write#:#Upravit základní systémová nastavení
 common#:#admin_force_noti#:#Oznamování aktivní
-common#:#admin_panel#:#Menu správce
+common#:#admin_panel#:#Panel správce
 common#:#administrate#:#Spravovat
 common#:#administrate_users#:#Správa lokálního uživatele
 common#:#administration#:#Správa
@@ -1661,15 +1661,15 @@ common#:#advanced_editing_allow_javascript_editor#:#Zapnout Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#HTML značky pro testy a nástroje hodnocení ILIAS povoleny
 common#:#advanced_editing_frm_post_settings#:#Nastavení pošty fóra
 common#:#advanced_editing_lm_js_editing#:#Zapnout plochu HTML pro úpravu obsahu
-common#:#advanced_editing_lm_js_editing_desc#:#Zapnuty plocha HTML a podpora JavaScriptu pro editaci stránek ve výukových modulech a rejstřících.
+common#:#advanced_editing_lm_js_editing_desc#:#Zapnuta plocha HTML a podpora JavaScriptu pro editaci stránek ve výukových modulech a rejstřících.
 common#:#advanced_editing_lm_settings#:#Nastavení výukového modulu a glosáře
-common#:#advanced_editing_no_rte#:#vypnutý
+common#:#advanced_editing_no_rte#:#Nepoužívat RichText editor
 common#:#advanced_editing_rep_page_editing#:#Zapnout editaci obsahu v úložišti
 common#:#advanced_editing_rep_page_editing_desc#:#Tato funkce umožňuje přídávat text/media do kategorií, kurzů, skupin a složek stránek. pokud je deaktivována, existující obsah zůstane skrytý.
 common#:#advanced_editing_required_tags#:#Následující HTML tagy jsou vyžadovány: %s
 common#:#advanced_editing_settings#:#Rozšířená nastavení editace
 common#:#advanced_editing_survey_settings#:#Povolení značky HTML pro nástroje dozoru ILIAS
-common#:#advanced_editing_tinymce#:#zapnutý
+common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
 common#:#adve_edit_permission#:#Změna nastavení práv
 common#:#adve_frm_post_settings#:#Pošta fóra
@@ -1701,13 +1701,13 @@ common#:#alm_delete#:#Smazat výukový modul AICC
 common#:#alm_edit_permission#:#Změna nastavení práv
 common#:#alm_join#:#Zapsat se do výukového modulu AICC
 common#:#alm_leave#:#Odepsat se z výukového modulu AICC
-common#:#alm_read#:#Právo číst do výukového modulu AICC
+common#:#alm_read#:#Právo číst na výukový modul AICC
 common#:#alm_visible#:#Výukový modul AICC je viditelný
 common#:#alm_write#:#Upravit výukový modul AICC
 common#:#already_delivered_files#:#Předložené soubory
 common#:#and#:#a
-common#:#announce#:#Oznámení
-common#:#announce_changes#:#Oznámení změn
+common#:#announce#:#Hlásit
+common#:#announce_changes#:#Hlásit změny
 common#:#anonymous#:#Anonymní
 common#:#answers#:#Odpovědi
 common#:#any_language#:#Libovolný jazyk
@@ -1716,7 +1716,7 @@ common#:#application_completed#:#Přihláška dokončena
 common#:#application_date#:#Datum přihlášky
 common#:#applications#:#Přihlášky
 common#:#applied_users#:#Přihlášení uživatelé
-common#:#apply#:#Přijmout
+common#:#apply#:#Přihlásit
 common#:#apply_filter#:#Zapojit filtr
 common#:#appointment#:#Schůzka
 common#:#appointment_list#:#Seznam schůzek
@@ -1730,12 +1730,12 @@ common#:#articels_unread#:#Nepřečtené články
 common#:#as_of#:#jako
 common#:#ascending_order#:#Vzestupné pořadí
 common#:#ass_log_admin#:#Správa záznamu dat
-common#:#ass_log_available_tests#:#Dosažitelné testy
+common#:#ass_log_available_tests#:#Dostupné testy
 common#:#ass_log_count_datasets#:#Vstupy záznamu
 common#:#ass_log_delete_entries#:#Smazat vstupy záznamu
 common#:#ass_log_delete_no_selection#:#Vyberte prosím alespoň jeden test ke smazání záznamu dat
-common#:#ass_log_deleted#:#Data záznamu vybraných testů byly smazány
-common#:#ass_log_output#:#Výstup dat
+common#:#ass_log_deleted#:#Data záznamu pro vybrané testy byly smazány
+common#:#ass_log_output#:#Záznam výstupních dat
 common#:#ass_log_path#:#Umístění testu
 common#:#assessment_defaults#:#Výchozí nastavení pro test a hodnocení
 common#:#assessment_imap_line_color#:#Barva čáry mapy obrázku
@@ -1743,7 +1743,7 @@ common#:#assessment_log#:#Vytvořit záznam testů a hodnocení pro specifikovan
 common#:#assessment_log_datetime#:#Datum/čas
 common#:#assessment_log_deleted#:#Data záznamu tohoto testu a hodnocení byla smazána v této administraci
 common#:#assessment_log_for_test#:#Pro test
-common#:#assessment_log_log_entries#:#vstupy záznamu
+common#:#assessment_log_log_entries#:#Položky záznamu
 common#:#assessment_log_logging#:#Záznam
 common#:#assessment_log_manual_scoring#:#Manuální bodování
 common#:#assessment_log_manual_scoring_activate#:#Aktivovat manuální bodování pro
@@ -1810,7 +1810,7 @@ common#:#auth_ldap_not_configured#:#LDAP není doposud nakonfigurován
 common#:#auth_ldap_settings_saved#:#Nastavení LDAP uloženo
 common#:#auth_local#:#Databáze ILIAS
 common#:#auth_local_desc#:#Autentizace uživatelů přes lokální databázi ILIAS (výchozí)
-common#:#auth_login_instructions#:#Instrukce v okně přihlášení
+common#:#auth_login_instructions#:#Instrukce zobrazeny v přihlašovacím okně
 common#:#auth_mode#:#Mód autentizace
 common#:#auth_mode_not_changed#:#(Nezměněno)
 common#:#auth_mode_roles_changed#:#Mód autentizace změněn pro tuto roli
@@ -1833,7 +1833,7 @@ common#:#auth_role_auth_mode#:#Mód autentizace
 common#:#auth_script#:#Zákaznický
 common#:#auth_script_desc#:#Autentizace uživatelů přes externí skript
 common#:#auth_select#:#Vybrat autentizační mód
-common#:#auth_selection#:#Login k
+common#:#auth_selection#:#Volby přihlášení
 common#:#auth_settings#:#Nastavení autentizace
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Autentizace uživatelů přes Shibboleth může být užito jako sekundární autentizační metoda
@@ -1844,7 +1844,7 @@ common#:#auth_soap#:#SOAP
 common#:#auth_soap_allow_local_desc#:#Toto umožní uživatelům SOAP autentizaci s jejich lokálními jmény a hesly ILIAS.
 common#:#auth_soap_auth#:#Konfigurovat autentizaci SOAP
 common#:#auth_soap_auth_desc#:#Tato nastavení se týkají pouze SOAP autentizace uživatelů, nikoli rozhraní ILIAS-SOAP.
-common#:#auth_soap_create_users_desc#:#Vytváří účet uživatele ILIAS automaticky pro uživatele, kteří prošli úspěšně autentizací SOAP, bez předchozího účtu v ILIAS
+common#:#auth_soap_create_users_desc#:#Vytváří účet uživatele ILIAS automaticky pro uživatele, kteří prošli úspěšně autentizací SOAP, bez vlastnictví předchozího účtu v ILIAS
 common#:#auth_soap_namespace#:#Název místa
 common#:#auth_soap_namespace_desc#:#Jak je definováno ve WSDL. Musí být specifikováno, pokud je použit styl .NET SOAP
 common#:#auth_soap_port_desc#:#Např. 8080, když úplné URI serveru SOAP je http://auth.yourserver.com:8080/dir/server.php
@@ -1859,7 +1859,7 @@ common#:#auth_user_default_role#:#Výchozí role
 common#:#auth_visible#:#Nastavení autentizace jsou viditelné
 common#:#auth_write#:#Upravit nastavení autentizace
 common#:#authenticate_ilias#:#Login do ILIAS
-common#:#authenticate_with#:#Login k:
+common#:#authenticate_with#:#Login do:
 common#:#authentication_settings#:#Autentizace
 common#:#author#:#Autor
 common#:#authoring_mode#:#Mód tvorby
@@ -1872,7 +1872,7 @@ common#:#back#:#Zpět
 common#:#back_to_crs_content#:#Zpět na obsah kurzu
 common#:#back_to_fold_content#:#Zpět na obsah složky
 common#:#back_to_grp_content#:#Zpět na obsah skupiny
-common#:#back_to_sess_content#:#Zpět k obsahu schůzky
+common#:#back_to_sess_content#:#Zpět k obsahu sezení
 common#:#basedn#:#BaseDN
 common#:#basic_commands#:#Základní příkazy
 common#:#basic_data#:#Základní údaje
@@ -1887,12 +1887,12 @@ common#:#birthday#:#Narozeniny
 common#:#bkm_import#:#Import záložek
 common#:#bkm_import_ok#:#Importováno úspěšně %d záložek and %d složek se záložkami
 common#:#bkm_sendmail#:#Zaslat jako odkaz
-common#:#block#:#Blok
-common#:#block_management#:#Blok Management
+common#:#block#:#Zablokovat
+common#:#block_management#:#Správa blokování
 common#:#bm#:#Záložka
 common#:#bm_add_to_ilias#:#Záložky ILIAS
-common#:#bm_add_to_social_bookmarks#:#Přidat do společenských záložek
-common#:#bm_manage_social_bm#:#Vést společenskou záložku
+common#:#bm_add_to_social_bookmarks#:#Přidat do záložek
+common#:#bm_manage_social_bm#:#Spravovat společenské záložky
 common#:#bmf#:#Složka záložek
 common#:#bold#:#Tučný
 common#:#bookings#:#Rezervace
@@ -1932,7 +1932,7 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
 common#:#cat_added#:#Kategorie přidána
-common#:#cat_cat_administrate_users#:#Správa účtů lokálních uživatelů
+common#:#cat_cat_administrate_users#:#Správa lokálních účtů uživatelů
 common#:#cat_clear_page#:#Smazat stránku
 common#:#cat_copy#:#Kopírovat kategorii
 common#:#cat_copy_threads_info#:#Rozhodněte prosím, která kategorie položek má být zkopírována, připojena, nebo odmítnuta.
@@ -1951,16 +1951,16 @@ common#:#cat_create_grp#:#Vytvořit skupinu
 common#:#cat_create_hlm#:#Vytvořit výukový modul HACP
 common#:#cat_create_htlm#:#Vytvořit výukový modul HTML
 common#:#cat_create_icrs#:#Vytvořit LearnLinc Seminář
-common#:#cat_create_lm#:#Vytvořit výukový modul
+common#:#cat_create_lm#:#Vytvořit výukový modul ILIAS
 common#:#cat_create_mcst#:#Vytvořit MediaCast
 common#:#cat_create_mep#:#Vytvořit zásobník multimédií
-common#:#cat_create_qpl#:#Vytvořit zásobník otázek
+common#:#cat_create_qpl#:#Vytvořit zásobník otázek testu
 common#:#cat_create_sahs#:#Vytvořit výukový modul SCORM/AICC
-common#:#cat_create_spl#:#Vytvořit zásobník otázek (Anketa)
+common#:#cat_create_spl#:#Vytvořit zásobník otázek ankety
 common#:#cat_create_svy#:#Vytvořit anketu
 common#:#cat_create_tst#:#Vytvořit test
 common#:#cat_create_url#:#Vytvořit URL
-common#:#cat_create_webr#:#Vytvořit nový webový zdroj
+common#:#cat_create_webr#:#Vytvořit nový webový odkaz
 common#:#cat_create_write#:#Vytvořit Wiki
 common#:#cat_delete#:#Smazat kategorii
 common#:#cat_edit#:#Upravit kategorii
@@ -1968,10 +1968,10 @@ common#:#cat_edit_permission#:#Změnit nastavení oprávnění
 common#:#cat_new#:#Nová kategorie
 common#:#cat_pages#:#Stránky kategorie
 common#:#cat_pages_clear#:#Stránky kategorie smazány.
-common#:#cat_pages_not_created#:#Stránka kategorie doposud nevytvořeny
+common#:#cat_pages_not_created#:#Stránka kategorie dosud nevytvořeny
 common#:#cat_pages_undone#:#Poslední změny stránky kategorie neprovedeny
-common#:#cat_read#:#Právo číst do kategorie
-common#:#cat_read_users#:#Právo číst do lokálních účtů uživatelů
+common#:#cat_read#:#Právo číst na kategorii
+common#:#cat_read_users#:#Právo číst na lokální účty uživatelů
 common#:#cat_title#:#Název kategorie
 common#:#cat_undo_last_page_changes#:#Vrátit změny poslední stránky
 common#:#cat_visible#:#Kategorie je viditelná
@@ -1996,7 +1996,7 @@ common#:#centra_account#:#Účet administrátora Centra
 common#:#centra_rooms#:#Místnosti Centra
 common#:#centra_server#:#Server Centra
 common#:#cert_edit_permission#:#Změna nastavení oprávnění
-common#:#cert_read#:#Read access to Certificate Settings
+common#:#cert_read#:#Právo číst na nastavení certifikátu
 common#:#cert_visible#:#Nastavení certifikátu viditelné
 common#:#cert_write#:#Upravit nastavení certifikátu
 common#:#certificate#:#Certifikát
@@ -2021,45 +2021,45 @@ common#:#change_owner#:#Změnit vlastníka
 common#:#change_sort_direction#:#Změnit směr řazení
 common#:#changeable#:#Změnitelné
 common#:#changed_to#:#změněno na
-common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
+common#:#changing_loginname_not_possible_info#:#Své přihlašovací jméno jste naposledy změnil %s. Další změna může být provedena  %s.
 common#:#chapter#:#Kapitola
 common#:#chapter_number#:#Číslo kapitoly
 common#:#chapter_title#:#Název kapitoly
 common#:#characters#:#znaky
-common#:#chat#:#Beseda
+common#:#chat#:#Diskuze
 common#:#chat_active_in#:#Aktivní v diskusi:
 common#:#chat_add#:#Přidat diskusi
 common#:#chat_copy#:#Kopírovat diskuzi
 common#:#chat_delete#:#Smazat diskusi
 common#:#chat_edit_permission#:#Změnit nastavení oprávnění
-common#:#chat_enter_public_room#:#Public Chat
+common#:#chat_enter_public_room#:#Veřejná diskuze
 common#:#chat_enter_public_room_tooltip#:#Vložit veřejnou diskuzi.
-common#:#chat_invite#:#Beseda
+common#:#chat_invite#:#Diskuze
 common#:#chat_invite_public_room#:#Veřejná diskuze
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat
+common#:#chat_invite_public_room_tooltip#:#Pozvat k veřejné diskuzi
 common#:#chat_link_to_this_chat#:#Připojit k této diskuzi
 common#:#chat_moderate#:#Moderovat diskusi
 common#:#chat_new#:#Nová diskuse
 common#:#chat_read#:#Právo číst/zapsat do diskuse
-common#:#chat_settings#:#Nastvení diskuze
+common#:#chat_settings#:#Nastavení diskuze
 common#:#chat_users_active#:#Aktivní uživatelé
-common#:#chat_visible#:#Beseda se viditelná
+common#:#chat_visible#:#Diskuze je viditelná
 common#:#chat_write#:#Upravit diskusi
-common#:#check#:#Ověřit
-common#:#check_all#:#Vybrat vše
+common#:#check#:#Zkontrolovat
+common#:#check_all#:#Zkontrolovat vše
 common#:#check_langfile#:#Prosím zkontrolujte jazykový soubor
 common#:#check_languages#:#Zkontrolovat jazyky
-common#:#check_link#:#Přezkoušet připojení
+common#:#check_link#:#Zkontrolovat připojení
 common#:#check_link_desc#:#Když je zapnuto, všechny externí spoje v ILIAS výukových modulech budou ověřeny, zda jsou aktivní.
 common#:#check_max_allowed_packet_size#:#Velikost stránky obsahu je příliš velká.
-common#:#check_user_accounts#:#Přezkoušet účet uživatele
+common#:#check_user_accounts#:#Zkontrolovat účet uživatele
 common#:#check_user_accounts_desc#:#Pokud je démon cron aktivován a tato volba je zapnuta, všichni uživatelé, jejichž účty vypršely, budou informování e-mailem.
-common#:#check_web_resources#:#Překontrolovat webové zdroje
-common#:#check_web_resources_desc#:#Pokud je zapnuto, všechny webové zdroje budou překontrolovány, jestli jsou aktivní.
+common#:#check_web_resources#:#Zkontrolovat webové odkazy
+common#:#check_web_resources_desc#:#Pokud je zapnuto, všechny webové odkazy budou překontrolovány, jestli jsou aktivní.
 common#:#checked#:#Vybráno
 common#:#checked_files#:#Importovatelné zdroje
-common#:#chg_ilias_and_webfolder_password#:#Změna hesla ILIAS a Webové složky
-common#:#chg_ilias_password#:#Změna hesla ILIAS
+common#:#chg_ilias_and_webfolder_password#:#Změnit hesla ILIAS a Webové složky
+common#:#chg_ilias_password#:#Změnit hesla ILIAS
 common#:#chg_language#:#Změnit jazyk
 common#:#chg_password#:#Změnit heslo
 common#:#choose_language#:#Vyberte svůj jazyk
@@ -2076,17 +2076,17 @@ common#:#client_id#:#ID klienta
 common#:#client_ip#:#IP klienta
 common#:#clipboard#:#Schránka
 common#:#clone_existing_course#:#Kopírovat existující kurz
-common#:#clone_option_in_cat#:#Kopírovat v existující kategorii
-common#:#clone_option_in_crs#:#Kopírovat v existujícím kurzu
-common#:#clone_target#:#Target Folder
-common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)
+common#:#clone_option_in_cat#:#Kopírovat do existující kategorie
+common#:#clone_option_in_crs#:#Kopírovat do existujícího kurzu
+common#:#clone_target#:#Cílová složky
+common#:#clone_target_title#:#Výběr cílové složky (krok 1/2)
 common#:#close#:#Zavřít
 common#:#close_window#:#Zavřít okno
 common#:#cnt_new#:#(%s nový)
 common#:#collapse#:#Sklapnout
-common#:#collapse_all#:#Sklapnout všechno
+common#:#collapse_all#:#Sklapnout vše
 common#:#collapsed#:#Sklapnuto
-common#:#columns#:#Columns
+common#:#columns#:#Sloupce
 common#:#comma_separated#:#Čárkami oddělený
 common#:#comment#:#Komentář
 common#:#compose#:#Vytvořit
@@ -2163,7 +2163,7 @@ common#:#crs_add#:#Přidat kurz
 common#:#crs_added#:#Kurz přidán
 common#:#crs_all_questions_answered_successfully#:#Úspěšně jste odpověděl(a) každou otázku.
 common#:#crs_archives#:#Archívy
-common#:#crs_at_least_one_admin#:#Zde musí být alespoň jeden administrátor kurzu.
+common#:#crs_at_least_one_admin#:#Zde musí být alespoň jeden správce kurzu.
 common#:#crs_available#:#Dostupné kurzy
 common#:#crs_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů kurzu "%s"?
 common#:#crs_container_link_not_allowed#:#Není možné spojit kontejner objektů
@@ -2186,12 +2186,12 @@ common#:#crs_create_icrs#:#Vytvořit seminář LearnLinc
 common#:#crs_create_lm#:#Vytvořit výukový modul
 common#:#crs_create_mcst#:#Vytvořit MediaCast
 common#:#crs_create_mep#:#Vytvořit zásobník multimédií
-common#:#crs_create_qpl#:#Vytvořit zásobník otázek pro test
+common#:#crs_create_qpl#:#Vytvořit zásobník otázek testu
 common#:#crs_create_sahs#:#Vytvořit výukový modul SCORM/AICC
-common#:#crs_create_spl#:#Vytvořit zásobník otázek pro anketu
+common#:#crs_create_spl#:#Vytvořit zásobník otázek ankety
 common#:#crs_create_svy#:#Vytvořit anketu
 common#:#crs_create_tst#:#Vytvořit test
-common#:#crs_create_webr#:#Vytvořit nový webový zdroj
+common#:#crs_create_webr#:#Vytvořit webový odkaz
 common#:#crs_create_write#:#Vytvořit Wiki
 common#:#crs_delete#:#Smazat kurz
 common#:#crs_edit#:#Upravit kurz
@@ -2199,7 +2199,7 @@ common#:#crs_edit_learning_progress#:#Upravit výukový postup
 common#:#crs_edit_permission#:#Změnit nastavení oprávnění
 common#:#crs_info#:#Info
 common#:#crs_join#:#Přihlásit se do kurzu
-common#:#crs_leave#:#Vyškrtnout z kurzu
+common#:#crs_leave#:#Opustit kurz
 common#:#crs_management_system#:#Systém správy kurzů
 common#:#crs_member_not_passed#:#Neprošel
 common#:#crs_member_passed#:#Prošel
@@ -2207,15 +2207,15 @@ common#:#crs_members_gallery#:#Galerie příslušníků kurzu
 common#:#crs_new#:#Nový kurz
 common#:#crs_no_content#:#Bez obsahu
 common#:#crs_read#:#Právo číst do kurzu
-common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
+common#:#crs_removed_from_waiting_list#:#Byl(a) jste odstraněn(a) ze seznamu čekatelů kurzu "%s".
 common#:#crs_status_blocked#:#[Přístup zamítnut]
 common#:#crs_status_pending#:#[Čekání na registraci]
 common#:#crs_subscribers_assigned#:#Zařazení noví uživatelé
 common#:#crs_title#:#Název kurzu
-common#:#crs_unsubscribe#:#Unsubscribe
+common#:#crs_unsubscribe#:#Odhlásit se
 common#:#crs_visible#:#Kurz je viditelný
 common#:#crs_wizard_page#:#Kopírovat kurz (Krok 2/2)
-common#:#crs_write#:#Upravit nový kurz
+common#:#crs_write#:#Upravit kurz
 common#:#crsr#:#Odkazy kurzu
 common#:#crsr_edit#:#Upravit odkazy kurzu
 common#:#crsr_edit_info#:#Vyberte prosím jeden kurz pro vytvoření nového odkazu.
@@ -2239,18 +2239,18 @@ common#:#dataset#:#Položka
 common#:#date#:#datum
 common#:#dateplaner#:#Kalendář
 common#:#day#:#Den
-common#:#days#:#dnů
+common#:#days#:#Dny
 common#:#days_of_period#:#Dny periody
-common#:#db_host#:#Hlavní databáze
+common#:#db_host#:#Hostitel databáze
 common#:#db_name#:#Název databáze
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix dostupný. Otevřete prosím setup program.
 common#:#db_need_update#:#Databáze vyžaduje aktualizaci!
 common#:#db_pass#:#Heslo k databázi
 common#:#db_type#:#Typ databáze
 common#:#db_user#:#Uživatel databáze
 common#:#db_version#:#Verze databáze
 common#:#dbk#:#Digitální kniha
-common#:#dbk_a#:#Digitální kniha
+common#:#dbk_a#:#digitální kniha
 common#:#dbk_add#:#Přidat digitální knihu
 common#:#dbk_added#:#Digitální kniha přidána
 common#:#dbk_copy#:#Kopírovat digitální knihu
@@ -2285,15 +2285,15 @@ common#:#delete_existing_file#:#Smazat existující soubor
 common#:#delete_object#:#Smazat objekty
 common#:#delete_parameter#:#Smazat parametr
 common#:#delete_selected#:#Smazat vybrané
-common#:#delete_selected_items#:#Smazat vybrané položky
+common#:#delete_selected_items#:#Smazat
 common#:#delete_tr_data#:#Smazat údaje sledování
-common#:#deleted#:#Odstraněno
+common#:#deleted#:#Smazáno
 common#:#deleted_user#:#Uživatel byl vymazán
 common#:#deleted_user_account#:#Účet smazaného uživatele
 common#:#deleted_users#:#Vymazaní uživatelé
 common#:#delicious#:#Účet del.icio.us
 common#:#deliver#:#Odevzdat cvičení
-common#:#department#:#Katedra/Skupina
+common#:#department#:#Katedra
 common#:#desc#:#Popis
 common#:#descending_order#:#Sestupné pořadí
 common#:#description#:#Popis
@@ -2306,22 +2306,22 @@ common#:#disable_anonymous_fora#:#Vypnout anonymní fóra
 common#:#disable_anonymous_fora_desc#:#Pokud volba je zapnuta, nikdo nemůže vytvářet fóra anonymně. Vytváření anonymních fór neanonymně je dále možné.
 common#:#disable_check#:#Zrušit kontrolu
 common#:#disable_ext_lang_maint#:#Vypnout rozšířenou údržbu
-common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
+common#:#disable_hide_user_toggle#:#Člen je oprávněn deaktivovat
 common#:#disabled#:#Vypnuto
 common#:#disk_quota#:#Disková kvóta
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".
-common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".
-common#:#disk_quota_last_reminder_sent#:#Poslední zaslání oznámení kvóty
+common#:#disk_quota_is_1_by_2#:#Skutečná disková kvóta je %1$s díky členství v roli "%2$s".
+common#:#disk_quota_is_1_instead_of_2_by_3#:#Skutečná disková kvóta je %1$s jak je definováno v tomto uživatelském účtu. Disková kvóta podle členství v roli může být %2$s podle role "%3$s".
+common#:#disk_quota_is_unlimited_by_1#:#Skutečná disková kvóta je neomezena díky členství v roli "%1$s".
+common#:#disk_quota_last_reminder_sent#:#Poslední zaslání upozornění na kvótu
 common#:#disk_quota_last_reminder_sent_desc#:#Poslední datum, kdy uživatel přijal upomínkový e-mail protože překročil diskovou kvótu.
-common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
-common#:#disk_quota_reminder_mail#:#Reminder mail
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.
+common#:#disk_quota_on_role_desc#:#Disková kvóta specifikovaná rolí ovlivňuje všechny uživatelské účty, které jsou této roli přiřazeny.
+common#:#disk_quota_reminder_mail#:#E-mail upozornění
+common#:#disk_quota_reminder_mail_desc#:#E-mail s upozorněním na diskovou kvótu je zaslán aktivním uživatelům, kteří překročili svou diskovou kvótu. Tento e-mail je zaslán každý den těmto uživatelům tehdy, když běží ILIAS cron job. Uživatelé, kteří již přijali e-mail s upozorněním, je zasílán každý 7. den tak dlouho, dokud překračují svou diskovou kvótu.
 common#:#disk_quota_report#:#Hlášení diskové kvóty
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.
+common#:#disk_quota_report_not_run_yet#:#Žádné dostupné hlášení diskové kvóty. Denní cron job, který určuje využití disku musí být vykonáno jako první.
 common#:#disk_space_used#:#Obsazený prostor disku
-common#:#disk_usage#:#Použití disku
-common#:#disk_usage_details#:#Detaily použití disku
+common#:#disk_usage#:#Využití disku
+common#:#disk_usage_details#:#Detaily využití disku
 common#:#display_webdav_actions#:#Zobrazit činnost WebDAV
 common#:#display_webdav_actions_info#:#Zobrazí činnost 'otevřít jako webovou složku' po jednotlivých kategoriích, složkách, kurzech a položek skupin v úložišti.
 common#:#domain#:#Doména
@@ -2329,10 +2329,10 @@ common#:#down#:#Dolů
 common#:#download#:#Stáhnout
 common#:#download_all_returned_files#:#Stáhnout všechny vrácené soubory
 common#:#download_with_uploaded_filename#:#Stáhnout s uloženým názvem
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
+common#:#download_with_uploaded_filename_info#:#Tuto volbu vyberte exkluzivně pro zpětnou kompatibilitu s ILIAS 3.9 a staršími verzemi: Když je tato volba vybrána, název stahovaného souboru je stejný jako název souboru, který byl použit pro vložení do ILIAS. Pokud tato volba není vybrána, pak název souboru se roven názvu objektu souboru v ILIAS. Tato volba nemá vliv na WebDAV. Pro WebDAV je název stahovaného souboru vždy stejný jako název objektu souboru.
 common#:#downloading_settings#:#Nastavení stahování
 common#:#drafts#:#Návrhy
-common#:#drop#:#Odstranit
+common#:#drop#:#Zahodit
 common#:#edit#:#Upravit
 common#:#edit_cat_settings#:#Rozšířené nastavení kategorií
 common#:#edit_comments#:#Upravit komentáře pro vybrané uživatel
@@ -2346,26 +2346,26 @@ common#:#edit_perm_ruleset#:#Upravit pravidla výchozích oprávnění
 common#:#edit_properties#:#Upravit vlastnosti
 common#:#edit_roleassignment#:#Upravit přidělení role
 common#:#edit_stylesheet#:#Upravit styl
-common#:#edited_at#:#Upraven
+common#:#edited_at#:#Upraveno v
 common#:#editor#:#Upravil
 common#:#email#:#E-mail
 common#:#email_feedback#:#Poštovní ohlas
 common#:#email_footer#:#<br />opatřený systémem ILIAS
 common#:#email_not_valid#:#Zadaná e-mailová adresa je neplatná!
 common#:#enable#:#Zapnout
-common#:#enable_admin_force#:#Activate notification
+common#:#enable_admin_force#:#Aktivovat upozornění
 common#:#enable_calendar#:#Zapnout kalendář
 common#:#enable_custom_icons#:#Zapnout uživatelské ikony
 common#:#enable_custom_icons_info#:#Umožňuje definovat uživatelské ikony pro jednotlivé kategorie, kurzy a skupiny. Sekce vlastností kategorií, kurzů a skupin poskytnou obrázek v dialogu stahování.
 common#:#enable_disk_quota#:#Aktivovat kvótu disku
 common#:#enable_disk_quota_info#:#Umožňuje specifikovat diskové kvóty pro každý uživatelský účet a každou globální roli. Použití disku uživatelským účtem je určeno jedenkrát každý den použitím práce cronu a vypisováno ve formuláři editace uživatele a v hlášení diskové kvóty.
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
+common#:#enable_disk_quota_reminder_mail#:#Odesílat e-maily upozornění na diskovou kvótu
 common#:#enable_download_folder#:#Povolit stahování složky
 common#:#enable_download_folder_info#:#Umožňuje stáhnout složku včetně jejího obsahu jako zip soubor.
 common#:#enable_ext_lang_maint#:#Zapnout rozšířenou údržbu
 common#:#enable_fora_statistics#:#Zapnout statistiky fóra
 common#:#enable_fora_statistics_desc#:#Je-li vypnuto, nikdo není schopen do statistik fóra vstoupit.
-common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
+common#:#enable_hide_user_toggle#:#Člen není oprávněn k deaktivaci
 common#:#enable_hist_user_comments#:#Zapnout historii uživatelského komentáře
 common#:#enable_hist_user_comments_desc#:#Dává autorům možnost přidávat komentáře do souboru záznamu historie stránek.
 common#:#enable_js_edit#:#Zapnout úpravy JavaSkript
@@ -2412,7 +2412,7 @@ common#:#err_wrong_password#:#Chybné heslo
 common#:#error#:#Chyba
 common#:#error_parser#:#Chyba startu parseru.
 common#:#error_recipient#:#Příjemce chybových hlášení
-common#:#event_ass_materials_prop#:#Session Materials
+common#:#event_ass_materials_prop#:#Materiály sezení
 common#:#event_assign_files#:#Přiřazení souboru
 common#:#exc#:#Cvičení
 common#:#exc_add#:#Přidat cvičení
@@ -2422,7 +2422,7 @@ common#:#exc_assign_usr#:#Přiřadit uživatele
 common#:#exc_copy#:#Kopírovat cvičení
 common#:#exc_create#:#Vytvořit cvičení
 common#:#exc_date_not_valid#:#Datum je neplatné
-common#:#exc_deassign_members#:#Odebrat členy
+common#:#exc_deassign_members#:#Odstranit účastníky
 common#:#exc_delete#:#Smazat cvičení
 common#:#exc_details#:#Detaily cvičení
 common#:#exc_download_all#:#Stáhnout vše
@@ -2432,13 +2432,13 @@ common#:#exc_edit#:#Nové cvičení přidáno
 common#:#exc_edit_exercise#:#Upravit cvičení
 common#:#exc_edit_learning_progress#:#Upravit výukový postup
 common#:#exc_edit_permission#:#Změnit nastavení oprávnění
-common#:#exc_edit_until#:#Zpracovat do
+common#:#exc_edit_until#:#Upravit do
 common#:#exc_exercise_sent#:#Cvičení posláno
 common#:#exc_feedback_sent#:#Odezvu poslal
 common#:#exc_files#:#Soubory
 common#:#exc_files_returned#:#Odevzdané soubory
 common#:#exc_groups#:#Skupiny
-common#:#exc_header_members#:#Cvičení(členové)
+common#:#exc_header_members#:#Cvičení (členové)
 common#:#exc_instruction#:#Pracovní pokyny
 common#:#exc_last_submission#:#Poslední zadání
 common#:#exc_mail_users#:#Zaslat mail uživatelům
@@ -2453,7 +2453,7 @@ common#:#exc_read#:#Přístup do cvičení
 common#:#exc_resubmitted_advice#:#Tento symbol bude zobrazen v případě, že nový soubor byl odeslán po zatrhnutí pole "vyřešený"
 common#:#exc_roles#:#Role
 common#:#exc_save_changes#:#Uložit
-common#:#exc_schedule#:#Termín
+common#:#exc_schedule#:#Časový plán
 common#:#exc_search_for#:#Vyhledat
 common#:#exc_select_one_file#:#Vyberte prosím přesně jeden soubor.
 common#:#exc_send_exercise#:#Poslat cvičení
@@ -2474,16 +2474,16 @@ common#:#exc_visible#:#Cvičení je viditelné
 common#:#exc_write#:#Upravit cvičení
 common#:#excs#:#Cvičení
 common#:#execute#:#Vykonat
-common#:#exercise_time_over#:#Překročil(a) jste časový limit tohoto cvičení. Dále už nemůžete soubory odevzdávat.
+common#:#exercise_time_over#:#Překročil(a) jste konečný termín pro zpracování tohoto cvičení. Dále už nemůžete soubory odevzdávat.
 common#:#exp_html#:#Export HTML
 common#:#expand#:#Rozšířit
 common#:#expand_all#:#Rozšířit vše
 common#:#expanded#:#Rozšířené
 common#:#explorer_frame#:#Strom prohlížeče
-common#:#export#:#Export
-common#:#export_format#:#Export formátu
-common#:#export_format_selection#:#Vyberte prosím formát pro exportovaného souboru
-common#:#export_group_members#:#Export skupiny členů (do Microsoft Excel)
+common#:#export#:#Exportovat
+common#:#export_format#:#Formát exportu
+common#:#export_format_selection#:#Vyberte prosím formát exportovaného souboru
+common#:#export_group_members#:#Exportovat skupinu členů (do Microsoft Excel)
 common#:#export_html#:#Exportovat jako HTML soubor
 common#:#export_xml#:#Exportovat jako XML soubor
 common#:#ext_acccount_required#:#Vložte prosím jméno externího účtu.
@@ -2492,9 +2492,9 @@ common#:#ext_link#:#Odkaz
 common#:#extt_configure#:#konfiguruji...
 common#:#extt_edit_permission#:#Změnit nastavení oprávnění
 common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Přídavná nastavení
-common#:#extt_ilinc_akclassvalues_active#:#Zapnout Hodnotící centrum
-common#:#extt_ilinc_akclassvalues_active_info#:#Při zapnutí této volby můžete použít iLinc Hodnotící centrum pro semináře Learnlinc a třídy
+common#:#extt_ilinc_additional_options#:#Další nastavení
+common#:#extt_ilinc_akclassvalues_active#:#Zapnout hodnotící centra
+common#:#extt_ilinc_akclassvalues_active_info#:#Při zapnutí této volby můžete použít Hodnotící centrum iLinc pro semináře a třídy Learnlinc.
 common#:#extt_ilinc_akclassvalues_required#:#Vyžadováno Hodnotící centrum
 common#:#extt_ilinc_akclassvalues_required_info#:#Vyžadována specifikace alespoň jednoho Hodnotícího centra pro seminář LearnLinc
 common#:#extt_ilinc_configure#:#Konfigurovat netucate LearnLinc
@@ -2518,9 +2518,9 @@ common#:#failure_message#:#Chybová zpráva
 common#:#faq_exercise#:#FAQ Cvičení
 common#:#fax#:#Fax
 common#:#feed#:#Webový zdroj zpráv
-common#:#feed_delete#:#Smazat webový zásobník
+common#:#feed_delete#:#Smazat webový zdroj zpráv
 common#:#feed_edit_permission#:#Změnit nastavení oprávnění
-common#:#feed_read#:#Přístup číst do webového zásobníku
+common#:#feed_read#:#Přístup číst webový zdroj zpráv
 common#:#feed_visible#:#Webový zdroj zpráv je viditelný
 common#:#feed_write#:#Upravit webový zásobník
 common#:#feedback#:#Odezva
@@ -2573,11 +2573,11 @@ common#:#filesize#:#Velkost souboru
 common#:#filetype#:#Typ souboru
 common#:#fill_out_all_required_fields#:#Vyplňte prosím všechny požadované položky
 common#:#filter#:#Filtr:
-common#:#filter_users_with_access#:#Only users with access
-common#:#filter_users_with_disk_usage#:#Only users with disk space used
-common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded
-common#:#filter_users_without_access#:#Only users without access
-common#:#filter_users_without_disk_usage#:#Only users with no disk space used
+common#:#filter_users_with_access#:#Pouze uživatelé s přístupem
+common#:#filter_users_with_disk_usage#:#Pouze uživatelé s použitým diskovým prostorem
+common#:#filter_users_with_exceeded_disk_quota#:#Pouze uživatelé s překročenou diskovou kvótou
+common#:#filter_users_without_access#:#Pouze uživatelé s přístupem
+common#:#filter_users_without_disk_usage#:#Pouze uživatelé bez použitého diskového prostoru
 common#:#firstname#:#Jméno
 common#:#flatview#:#Plošné zobrazení
 common#:#fold#:#Složka
@@ -2624,7 +2624,7 @@ common#:#forename#:#Jméno
 common#:#forgot_password#:#Zapomenuté heslo?
 common#:#forgot_username#:#Zapomenuté uživatelské jméno?
 common#:#form_empty_fields#:#Vypňte prosím tato pole:
-common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+common#:#form_input_not_valid#:#Některá data jsou neúplná, nebo neplatná. Zkontrolujte prosím vstupní formulář.
 common#:#forum#:#Fórum
 common#:#forum_attachments#:#Připojení fóra
 common#:#forum_direct_notification#:#Přímé oznámení
@@ -2714,7 +2714,7 @@ common#:#glossaries#:#Glosáře
 common#:#glossary#:#Glosář
 common#:#glossary_added#:#Glosář přidán
 common#:#go#:#Spustit
-common#:#group#:#Group
+common#:#group#:#Skupina
 common#:#group_access_denied#:#Přistup odepřen
 common#:#group_any_objects#:#Žádné podřízené objekty nejsou dostupné
 common#:#group_create_chat#:#Vytvořit diskusi
@@ -2765,7 +2765,7 @@ common#:#grp_added#:#Skupina přidána
 common#:#grp_already_applied#:#Byl jste připojen k této skupině! Počkejte prosím na potvrzení.
 common#:#grp_app_send_mail#:#Zaslat žadateli zprávu.
 common#:#grp_back#:#Zpět
-common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
+common#:#grp_btn_unsubscribe#:#Odhlásit ze skupiny
 common#:#grp_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů skupiny "%s"?
 common#:#grp_copy#:#Kopírovat skupinu
 common#:#grp_copy_threads_info#:#Rozhodněte prosím, které materiály mají být kopírovány, připojeny, nebo dokonce zamítnuty.
@@ -2835,7 +2835,7 @@ common#:#grp_read#:#Přístup číst pro skupinu
 common#:#grp_register#:#Připojit se
 common#:#grp_registration#:#Připojit ke skupině
 common#:#grp_registration_completed#:#Registrace ukončena
-common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".
+common#:#grp_removed_from_waiting_list#:#Byl(a) jste odstraněn(a) ze seznamu čekatelů "%s".
 common#:#grp_search_enter_search_string#:#Vložte prosím hledaný řetězec
 common#:#grp_search_members#:#Hledání uživatele
 common#:#grp_select_one_file#:#Vložte prosím jeden soubor
@@ -2847,7 +2847,7 @@ common#:#guest#:#Host
 common#:#guests#:#Hosté
 common#:#header_searchable#:#Prohledané
 common#:#header_title#:#Název hlavičky
-common#:#header_visible_registration#:#Visible in Registration
+common#:#header_visible_registration#:#Viditelné v registraci
 common#:#header_zip#:#Odeslat archív zip
 common#:#height#:#Výška
 common#:#help#:#Nápověda
@@ -2856,7 +2856,7 @@ common#:#hh_mm#:#HH:MM
 common#:#hh_mm_ss#:#HH:MM:SS
 common#:#hide#:#Skrýt
 common#:#hide_details#:#Skrýt podrobnosti
-common#:#hide_filter#:#Hide Filter
+common#:#hide_filter#:#Skrýt filtr
 common#:#hide_own_online_status#:#Skrýt můj status online
 common#:#hide_private_notes#:#Skrýt poznámky
 common#:#hide_structure#:#Skrýt strukturované zobrazení
@@ -2870,7 +2870,7 @@ common#:#hist_dbk_pg_update#:#Stránka změněna.
 common#:#hist_dbk_st_cut_page#:#Stránka "%1" [%2] vystřižena z kapitoly.
 common#:#hist_dbk_st_paste_page#:#Stránka "%1" [%2] vložena do kapitoly .
 common#:#hist_file_create#:#Soubor vytvořen, název souboru je "%1".
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2.
+common#:#hist_file_new_version#:#Přidána nová verze souboru, název souboru je "%1", nová verze je %2.
 common#:#hist_file_replace#:#Soubor přemístěn, nový název souboru je "%1", nová verze je %2.
 common#:#hist_lm_delete_pg#:#Stránka "%1" [%2] byla smazána.
 common#:#hist_lm_delete_st#:#Kapitola "%1" [%2] byla smazána.
@@ -3303,10 +3303,10 @@ common#:#local_languages_already_installed#:#Vybrané lokální jazykové soubor
 common#:#location#:#Poloha
 common#:#locator#:#Umístění:
 common#:#lock_file#:#Uzamknout soubor
-common#:#log_in#:#Login
+common#:#log_in#:#Přihlašovací jméno
 common#:#logic_and#:#a
 common#:#logic_or#:#nebo
-common#:#login#:#Login
+common#:#login#:#Přihlašovací jméno
 common#:#login_as#:#Přihlášen jako
 common#:#login_data#:#Přihlašovací údaje
 common#:#login_exists#:#Uživatel s takovým přihlašovacím jménem již existuje! Vyberte prosím jiné jméno.
@@ -3317,9 +3317,9 @@ common#:#login_invalid#:#Zvolený login není platný! Povoleny jsou pouze násl
 common#:#login_time#:#Čas připojení
 common#:#login_to_ilias#:#Přihlášení do systému ILIAS
 common#:#login_to_ilias_via_cas#:#Přihlášení do ILIAS přes ústřední autentizační službu (Central Authentication Service = CAS)
-common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID
+common#:#login_to_ilias_via_openid#:#Přihlašovací jméno do ILIAS přes OpenID
 common#:#login_to_ilias_via_shibboleth#:#Přihlášení do ILIAS přes
-common#:#loginname_already_exists#:#This login name already exists.
+common#:#loginname_already_exists#:#Toto přihlašovací jméno již existuje.
 common#:#loginname_settings#:#Loginname-Settings
 common#:#logout#:#Odhlásit
 common#:#logout_text#:#Odhlásil(a) jste se ze systému ILIAS. Vaše lekce byla ukončena.
@@ -3328,7 +3328,7 @@ common#:#los#:#Výukové objekty
 common#:#los_last_visited#:#Naposledy navštívené výukové objekty
 common#:#lres#:#Výukové materiály
 common#:#lrss_edit_permission#:#Změna nastavení oprávnění
-common#:#lrss_read#:#Read access to Learning Resources Settings
+common#:#lrss_read#:#Přístup číst do nastavení Výukových zdrojů
 common#:#lrss_visible#:#Nastavení zdrojů výuky je viditelné
 common#:#lrss_write#:#Upravit nastavení výukového objektu
 common#:#mail#:#Pošta
@@ -3437,7 +3437,7 @@ common#:#message_content#:#Obsah zprávy
 common#:#message_no_delivered_files#:#Nebyly Vám zaslány žádné soubory!
 common#:#message_to#:#Zpráva pro:
 common#:#meta_data#:#Metadata
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders#:#Objekt(y) je/jsou připojeny k následujícím složkám: %s
 common#:#migrate#:#Migrovat
 common#:#min_time#:#Minimální čas
 common#:#minute#:#Minuta
@@ -3447,11 +3447,11 @@ common#:#missing_perm#:#Chybé oprávnění
 common#:#missing_precondition#:#Chybí předpoklady
 common#:#mob#:#Mediální objekt
 common#:#mobs_edit_permission#:#Změna nastavení oprávnění
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
+common#:#mobs_read#:#Právo číst na nastavení Mediální objekty/zásobníky
 common#:#mobs_visible#:#Nastavení mediálních objektů/zásobníků je viditelné
 common#:#mobs_write#:#Upravit nastavení mediálního objektu/zásobníku
 common#:#mod_rewrite_disabled#:#Modul Apache 'mod_rewrite' není dostupný.
-common#:#moderators#:#Moderators
+common#:#moderators#:#Moderátoři
 common#:#module#:#modul
 common#:#modules#:#Moduly
 common#:#month#:#Měsíc
@@ -3485,8 +3485,8 @@ common#:#mount_webfolder#:#Otevřít jako webovou složku
 common#:#move#:#Přesunout
 common#:#move_blocks#:#Přesun bloků
 common#:#move_down#:#Přesunout dolů
-common#:#move_left#:#Move Left
-common#:#move_right#:#Move Right
+common#:#move_left#:#Přesunout vlevo
+common#:#move_right#:#Přesunout vpravo
 common#:#move_selected_items#:#Přesunout vybrané položky
 common#:#move_to#:#Přesunout do
 common#:#move_up#:#Přesunout nahoru
@@ -3509,7 +3509,7 @@ common#:#msg_deleted_rolt#:#Šablona role byla smazána
 common#:#msg_deleted_rolts#:#Šablony rolí byly smazány
 common#:#msg_error_copy#:#Chyba kopírování
 common#:#msg_failed#:#Lituji, akce selhala
-common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
+common#:#msg_form_save_error#:#Data formuláře nelze uložit. Zkontrolujte prosím všechna vstupní pole na jakékoli chybové hlášení.
 common#:#msg_input_does_not_match_regexp#:#Poskytněte prosím platnou hodnotu.
 common#:#msg_input_either_file_or_url#:#Měl by jste poskytnout URL nebo soubor
 common#:#msg_input_is_required#:#Tento vstup je vyžadován. Vložte prosím hodnotu.
@@ -3544,7 +3544,7 @@ common#:#msg_no_perm_modify_role#:#Nemáte oprávnění modifikovat role
 common#:#msg_no_perm_modify_rolt#:#Nemáte oprávnění modifikovat šablony rolí
 common#:#msg_no_perm_modify_user#:#Nemáte oprávnění modifikovat data uživatele
 common#:#msg_no_perm_paste#:#Nemáte oprávnění vložit následující objekty:
-common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
+common#:#msg_no_perm_paste_object_in_folder#:#Nemáte oprávnění vkládat objekt %s do složky %s.
 common#:#msg_no_perm_perm#:#Nemáte oprávnění měnit nastavení přístupových práv
 common#:#msg_no_perm_read#:#Nemáte oprávnění přístupu k této položce.
 common#:#msg_no_perm_read_item#:#Nemáte oprávnění přístupu k položce '%s'.
@@ -3567,8 +3567,8 @@ common#:#msg_not_in_itself#:#Není možné vložit objekt do sebe samého.
 common#:#msg_nothing_found#:#Žádná zpráva nenalezena
 common#:#msg_obj_created#:#Objekt byl vytvořen.
 common#:#msg_obj_exists#:#Tento objekt již existuje v této složce
-common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %s.
-common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
+common#:#msg_obj_exists_in_folder#:#Objekt %s ve složce %s již existuje.
+common#:#msg_obj_may_not_contain_objects_of_type#:#Objekt %s nemůže obsahovat objekty typu: %s.
 common#:#msg_obj_modified#:#Změny byly uloženy.
 common#:#msg_obj_no_link#:#nemůže být připojen
 common#:#msg_obj_not_deletable_sold#:#Placení je aktivováno pro následující objekty. Tyto nemohou být smazány.
@@ -3587,12 +3587,12 @@ common#:#msg_sysrole_not_deletable#:#Tato systémová role nemůže být smazán
 common#:#msg_sysrole_not_editable#:#Toto nastavení oprávnění systémové role nelze měnit. Systémová role garantuje všem přiřazeným uživatelům neomezený přístup ke všem objektům a funkcím.
 common#:#msg_trash_empty#:#Žádné smazané objekty nejsou k dispozici.
 common#:#msg_undeleted#:#Objekty obnoveny.
-common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.
+common#:#msg_unit_is_required#:#Tento vstup v vyžaduje jednotky. Vložte prosím správnou hodnotu.
 common#:#msg_user_last_role1#:#Následující uživatelé mají přiřazenu pouze tuto roli:
 common#:#msg_user_last_role2#:#Smažte prosím tyto uživatele, nebo jim přiřaďte jinou roli, aby bylo možné tuto roli smazat.
 common#:#msg_userassignment_changed#:#Přiřazení uživatelů bylo změněno
 common#:#msg_wrong_filetype#:#Soubor není archív zip
-common#:#msg_wrong_format#:#The value you entered is not a valid format.
+common#:#msg_wrong_format#:#Vámi vložená hodnota má neplatný formát.
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Záložky
 common#:#my_courses#:#Moje kurzy
@@ -3635,13 +3635,13 @@ common#:#no_import_available#:#Import není přípustný pro typ
 common#:#no_import_file_found#:#Žádný soubor k importu nenalezen
 common#:#no_invalid_links#:#Žádný neplatný odkaz nenalezen.
 common#:#no_items#:#Žádná položka
-common#:#no_license_available#:#No license available!
+common#:#no_license_available#:#Žádná dostupná licence!
 common#:#no_limit#:#Neomezený
 common#:#no_lo_in_personal_list#:#Žádné výukové objekty v osobním seznamu.
 common#:#no_local_users#:#To není lokální uživatel
-common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export
+common#:#no_mkisofs_configured#:#Ke spuštění exportu ISO musíte zkonfigurovat mkisofs utility v setupu ILIAS
 common#:#no_objects#:#Žádné objekty
-common#:#no_owner#:#No Owner
+common#:#no_owner#:#Žádný vlastník
 common#:#no_parent_access#:#Není přístup k nadřazenému objektu!
 common#:#no_permission#:#Nemáte požadované oprávnění.
 common#:#no_permission_to_join#:#Nejste oprávněn(a) ke vstupu do této skupiny!
@@ -3670,7 +3670,7 @@ common#:#note_all_pub_notes#:#Všechny poznámky
 common#:#note_my_pub_notes#:#Jen mé poznámky
 common#:#notes#:#Poznámky
 common#:#notes_and_comments#:#Poznámky a komentáře
-common#:#notifications#:#Notifications
+common#:#notifications#:#Upozornění
 common#:#num_users#:#Počet uživatelů
 common#:#number_of_accesses#:#Počet přístupů
 common#:#number_of_records#:#Počet záznamů
@@ -3680,7 +3680,7 @@ common#:#nwss_visible#:#Zprávy a nastavení webového zásobníku je viditelné
 common#:#nwss_write#:#Upravit zprávy a nastavení webového zásobníku
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Dostupnost
-common#:#obj_accs_desc#:#Settings for accessibility features.
+common#:#obj_accs_desc#:#Nastavení rysů dostupnosti.
 common#:#obj_adm#:#Správa systému
 common#:#obj_adm_desc#:#Hlavní složka systémových nastavení obsahující všechny panely pro správu vaší instalace ILIASu.
 common#:#obj_adve#:#Rozšířená editace
@@ -3699,7 +3699,7 @@ common#:#obj_cat_select#:#-- Vyberte prosím jednu kategorii --
 common#:#obj_catr#:#Odkazy kategorie
 common#:#obj_cen#:#Případ Centra
 common#:#obj_cert#:#Certifikáty
-common#:#obj_cert_desc#:#Settings for certificates
+common#:#obj_cert_desc#:#Nastavení certifikátů
 common#:#obj_chac#:#Chatový server
 common#:#obj_chac_desc#:#Zde nastavte Váš diskusní server. Zapnutí/vypnutí diskuse.
 common#:#obj_chap#:#Kapitola
@@ -3754,7 +3754,7 @@ common#:#obj_mcts_desc#:#Obecná nastavení pro mediacast.
 common#:#obj_mep#:#Zásobník multimédií
 common#:#obj_mob#:#Multimediální objekt
 common#:#obj_mobs#:#Mediální objekty/zásobníky
-common#:#obj_mobs_desc#:#Settings for media objects and media pools.
+common#:#obj_mobs_desc#:#Nastavení objektů médií a zásobníků médií.
 common#:#obj_not_found#:#Objekt nenalezen
 common#:#obj_note#:#Poznámka
 common#:#obj_notf#:#Administrativní poznámka
@@ -3763,7 +3763,7 @@ common#:#obj_nwss_desc#:#Nastavení pro interní nebo externí zprávy a webový
 common#:#obj_objf#:#Definice objektů
 common#:#obj_objf_desc#:#Správa typů objektů ILIAS a jejich přístupových práv (pro experty!)
 common#:#obj_owner#:#Tento objekt vlastní
-common#:#obj_page#:#Page
+common#:#obj_page#:#Strana
 common#:#obj_pays#:#Platby
 common#:#obj_pays_desc#:#Zkonfigurujte nastavení placení a databázové centrum
 common#:#obj_pdts#:#Osobní nastavení pracovní plochy
@@ -3795,7 +3795,7 @@ common#:#obj_spl#:#Zásobník otázek ankety
 common#:#obj_spl_duplicate#:#Kopírovat anketu se zásobníkem otázek
 common#:#obj_spl_select#:#-- Vyberte prosím jednu anketu se zásobníkem otázek --
 common#:#obj_st#:#Kapitola
-common#:#obj_sty#:#Style
+common#:#obj_sty#:#Styl
 common#:#obj_stys#:#Styl a uspořádání
 common#:#obj_stys_desc#:#Zde nastavte styl a uspořádání systému
 common#:#obj_svy#:#Anketa
@@ -3890,7 +3890,7 @@ common#:#ok#:#OK
 common#:#old#:#Starý
 common#:#omit#:#Vyloučit
 common#:#omit_all#:#Vyloučit všechny
-common#:#on_waiting_list#:#You are on the waiting list
+common#:#on_waiting_list#:#Jste na seznamu čekatelů
 common#:#online#:#Online
 common#:#online_chapter#:#Připojení kapitoly
 common#:#online_time#:#Čas připojení (DD:HH:MM:SS)
@@ -3898,7 +3898,7 @@ common#:#online_version#:#Online verze
 common#:#open_views_inside_frameset#:#Otevřít náhled v rámu
 common#:#operation#:#Operace
 common#:#optimize#:#Optimalizovat
-common#:#option#:#Option
+common#:#option#:#Volba
 common#:#options#:#Nastavení
 common#:#options_for_subobjects#:#Volby pro subobjekty
 common#:#order_by#:#Seřadit podle
@@ -3912,8 +3912,8 @@ common#:#owner#:#Vlastník
 common#:#owner_updated#:#Vlastník aktualizován.
 common#:#page#:#Stránka
 common#:#page_edit#:#Upravit stránku
-common#:#page_layout#:#Page Layout
-common#:#page_layouts#:#Page Layouts
+common#:#page_layout#:#Rozvržení stránky
+common#:#page_layouts#:#Rozvržení stránek
 common#:#pages#:#Stránky
 common#:#parameter#:#Parametr
 common#:#parse#:#Analyzovat syntaxi
@@ -3937,7 +3937,7 @@ common#:#password_to_long#:#Heslo musí být dlouhé nejvíce %s znaků.
 common#:#password_to_short#:#Heslo musí být dlouhé nejméně %s znaků.
 common#:#paste#:#Vložit
 common#:#paste_clipboard_items#:#Vložit položku ze schránky
-common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects
+common#:#paste_clipboard_items_into_multiple_objects#:#Vložit do více objektů
 common#:#pasteChapter#:#Vložit
 common#:#pastePage#:#Vložit
 common#:#path#:#Cesta
@@ -3962,7 +3962,7 @@ common#:#pays_visible#:#Nastavení plateb je viditelné
 common#:#pays_write#:#Upravit nastavení plateb
 common#:#pd_enable_chatviewer#:#Zapnout prohlížeč diskuze
 common#:#pd_enable_contacts#:#Zapnout kontakty
-common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
+common#:#pd_enable_contacts_requires_mail#:#Vyžaduje oprávnění pošty
 common#:#pd_items_news#:#Zahrnout zprávy odobních položek
 common#:#pd_items_news_info#:#Pokud je aktivováno, všechny zprávy vztažené k položce, která byla přidána na osobní plochu bude zahrnuta v novém bloku.
 common#:#pdf_export#:#Export do PDF
@@ -4005,8 +4005,8 @@ common#:#please_wait#:#Čekejte prosím...
 common#:#port#:#Port
 common#:#pos_bottom#:#Dolů
 common#:#pos_left#:#Levý
-common#:#pos_right#:#Right
-common#:#pos_top#:#Top
+common#:#pos_right#:#Vpravo
+common#:#pos_top#:#Nahoře
 common#:#position#:#Pracoviště
 common#:#precondition#:#Předpoklad
 common#:#precondition_not_accessible#:#Nemáte odpovídající oprávnění ke zobrazení předpokladů této položky.
@@ -4028,16 +4028,16 @@ common#:#profile_incomplete#:#Váš profil je nekompletní. Vyplňte prosím vš
 common#:#profile_of#:#Profil pro
 common#:#properties#:#Vlastnosti
 common#:#proxy#:#Proxy
-common#:#proxy_connectable#:#Connection established.
-common#:#proxy_host#:#Host
-common#:#proxy_host_info#:#Please enter a host.
-common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.
-common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error
+common#:#proxy_connectable#:#Spojení zajištěno.
+common#:#proxy_host#:#Hostitel
+common#:#proxy_host_info#:#Vložte prosím hostitele.
+common#:#proxy_not_connectable#:#ILIAS nemůže vybudovat spojení přes definované proxy.
+common#:#proxy_pear_net_socket_error#:#Chyba PEAR Net_Socket
 common#:#proxy_port#:#Port
-common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
-common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
+common#:#proxy_port_info#:#Vložte prosím port mezi 0 a 65535, např.8080.
+common#:#proxy_port_numeric#:#Vložený port musí mít numerickou hodnotu mezi 0 a 65535
 common#:#proxy_status#:#Proxy
-common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
+common#:#proxy_status_info#:#Pro použití proxy v ILIAS (např. pro zásobník webových zpráv, nebo pro kontrolu webových odkazů) aktivujte prosím zaškrtávací pole výše.
 common#:#ps_edit_permission#:#Změnit nastavení oprávnění
 common#:#ps_export_member_data#:#Uživatel může exportovat členská data
 common#:#ps_read#:#Přístup číst na nastavení Soukromí/bezpečnost
@@ -4067,7 +4067,7 @@ common#:#qpl_write#:#Upravit zásobník otázek testu
 common#:#quarterly#:#čtvrtletně
 common#:#query_data#:#Data dotazu
 common#:#question#:#Otázka
-common#:#question_message#:#Question
+common#:#question_message#:#Otázka
 common#:#question_pools#:#Zásobník otázek
 common#:#quit#:#Ukončit
 common#:#quote#:#Citace
@@ -4077,17 +4077,17 @@ common#:#readcount_users#:#Počet neanonymních přístupů čtení
 common#:#recf_edit#:#Upravit složku obnovení
 common#:#recipient#:#Příjemce
 common#:#reference_deleted#:#Místo určení není dostupné
-common#:#reference_of#:#Reference of:
+common#:#reference_of#:#Odkaz od:
 common#:#referral_comment#:#Jsk jste se dozvěděl(a) o ILIASu?
 common#:#refresh#:#Aktualizovat
 common#:#refresh_languages#:#Aktualizovat jazyky
 common#:#refresh_list#:#Aktualizovat seznam
 common#:#refuse#:#Zamítnout
-common#:#reg_account_confirmation_successful#:#Your user account has been activated.
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
+common#:#reg_account_confirmation_successful#:#Váš uživatelský účet byl aktivován.
+common#:#reg_mail_body_2_confirmation#:#Tento odkaz bude správný jen do %s, pak to budete muset zkusit znovu od začátku.
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
-common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
+common#:#reg_mail_body_confirmation#:#k aktivaci Vašeho účtu a potvrzení vlastnictví této emailové adresy klepněte na níže uvedený odkaz:
+common#:#reg_mail_body_forgot_password_info#:#Pro získání svého hesla použijte prosím funkci « Zapomenuté heslo? » na přihlašovací obrazovce. Tak zašlete požadavek na získání nového hesla pro tento účet.
 common#:#reg_mail_body_salutation#:#Nazdar
 common#:#reg_mail_body_text1#:#Vítejte v e-learningu ILIAS!
 common#:#reg_mail_body_text2#:#K přístupu do ILIAS použijte následující údaje:
@@ -4144,7 +4144,7 @@ common#:#require_zipcode#:#Vyžadováno PSČ
 common#:#required_field#:#Vyžadováno
 common#:#res_links#:#Připojení úložiště
 common#:#res_links_short#:#Odkazy
-common#:#reset#:#Reset
+common#:#reset#:#Resetovat
 common#:#reset_filter#:#Reset filtru
 common#:#resources#:#Zdroje
 common#:#retype_password#:#Ověření nového hesla
@@ -4222,9 +4222,9 @@ common#:#sahs_create#:#Vytvořit výukový modul SCORM/AICC
 common#:#sahs_delete#:#Smazat  výukový modul SCORM/AICC
 common#:#sahs_edit_learning_progress#:#Upravit postup výuky
 common#:#sahs_edit_permission#:#Změnit nastavení oprávnění
-common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
-common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
-common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
+common#:#sahs_insert_chap_from_clip#:#Vložit kapitoly ze schránky
+common#:#sahs_insert_page_from_clip#:#Vložit stránky ze schránky
+common#:#sahs_insert_sco_from_clip#:#Vložit SCO ze schránky
 common#:#sahs_join#:#Zapsat do výukového modulu SCORM/AICC
 common#:#sahs_leave#:#Vyškrtnout z výukového modulu SCORM/AICC
 common#:#sahs_read#:#Přístup číst na výukový modul SCORM/AICC
@@ -4235,10 +4235,10 @@ common#:#salutation_f#:#paní/slečna
 common#:#salutation_m#:#pan
 common#:#save#:#Uložit
 common#:#save_and_back#:#Uložit a zpět
-common#:#save_customer_address#:#Store billing address
+common#:#save_customer_address#:#Ulož účtovací adresy
 common#:#save_customer_address_info#:#Je-li zapnuto, adresa účtu zákazníka bude uložena.
 common#:#save_message#:#Uložit zprávu
-common#:#save_params_for_cron#:#Save Parameter for Cronjob
+common#:#save_params_for_cron#:#Uložit parametr pro Cronjob
 common#:#save_refresh#:#Uložit a obnovit
 common#:#save_return#:#Uložit a návrat
 common#:#save_settings#:#Uložit nastavení
@@ -4280,7 +4280,7 @@ common#:#seconds#:#sekund
 common#:#sections#:#Sekce
 common#:#select#:#Vybrat
 common#:#select_all#:#Vybrat vše
-common#:#select_at_least_one_object#:#Please choose at least one object.
+common#:#select_at_least_one_object#:#Vyberte prosím alespoň jeden objekt.
 common#:#select_file#:#Vybrat soubor
 common#:#select_max_one_item#:#Vyberte prosím pouze jednu položku
 common#:#select_mode#:#Vybrat mód
@@ -4421,13 +4421,13 @@ common#:#st_new#:#Nová kapitola
 common#:#standard_fields#:#Standardní pole
 common#:#standard_icon#:#Standardní ikona
 common#:#startpage#:#Úvodní stránka
-common#:#stat_selected#:#Selected
+common#:#stat_selected#:#Vybráno
 common#:#state_changed#:#změněno
 common#:#state_changed_inside#:#změněno uvnitř
 common#:#state_new#:#nový
 common#:#state_unread#:#nepřečtený
 common#:#statistic#:#Statistika
-common#:#statistics#:#Statistics
+common#:#statistics#:#Statistiky
 common#:#status#:#Stav
 common#:#status_no_permission#:#Není uděleno oprávnění
 common#:#step#:#Krok
@@ -4442,7 +4442,7 @@ common#:#stys_read#:#Přístup číst na nastavení stylu
 common#:#stys_visible#:#Nastavení stylu je viditelné
 common#:#stys_write#:#Upravit nastavení stylu
 common#:#sub_request_deleted#:#Smazat požadavek členství
-common#:#sub_request_saved#:#Saved membership request
+common#:#sub_request_saved#:#Uložený požadavek členství
 common#:#subcat_name#:#Název podkategorie
 common#:#subchapter_new#:#Nová podkapitola
 common#:#subject#:#Předmět
@@ -4451,7 +4451,7 @@ common#:#submit#:#Odeslat
 common#:#subobjects#:#Podřízené objekty
 common#:#subscription#:#Přihlášení
 common#:#subtabs#:#SubTabs
-common#:#success_message#:#Success Message
+common#:#success_message#:#Úspěšné hlášení
 common#:#summary#:#Přehled
 common#:#sure_delete_selected_users#:#Určitě chcete  smazat vybrané uživatele?
 common#:#survey_defaults#:#Výchozí nastavení ankety
@@ -4486,10 +4486,10 @@ common#:#system_language#:#Systémový jazyk
 common#:#system_message#:#Systémová zpráva
 common#:#system_style_settings#:#Nastavení stylu systému
 common#:#system_styles#:#Styly systému
-common#:#systemcheck_cron#:#Process System Check in Cronjob
+common#:#systemcheck_cron#:#Průběh kontroly systému v Cronjob
 common#:#systemcheck_cronform#:#Aktivace systémové kontroly v Cronjob
 common#:#table_mail_import#:#Import pošty
-common#:#tabs#:#Tabs
+common#:#tabs#:#Tabulky
 common#:#tagging_my_tags#:#Mé značky
 common#:#tags_edit_permission#:#Změnit nastavení oprávnění
 common#:#tags_read#:#Právo číst na nastavení značení
@@ -4562,7 +4562,7 @@ common#:#tracking_data_deleted#:#Data sledování smazány
 common#:#tracking_settings#:#Nastavení sledování
 common#:#translation#:#Překlad
 common#:#trash#:#Koš
-common#:#tree#:#Tree
+common#:#tree#:#Strom
 common#:#tree_frame#:#Rám stromu
 common#:#tree_frame_info#:#Definuje kde se má zobrazit rám stromu (tzn. strom úložiště), zda vlevo, či vpravo.
 common#:#tree_left#:#Vlevo
@@ -4587,7 +4587,7 @@ common#:#tst_user_wrong_clientip#:#Nemáte oprávněnou IP adresu ke vstupu do t
 common#:#tst_visible#:#Test je viditelný
 common#:#tst_warning_test_not_complete#:#Test není kompletní!
 common#:#tst_write#:#Upravit test
-common#:#tutors#:#Tutors
+common#:#tutors#:#Lektoři
 common#:#txt_add_object_instruction1#:#Nalezněte místo kam chcete přidat
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Úspěšně jste se zaregistroval(a) do systému ILIAS. Klepněte prosím na tlačítko níže pro přihlášení do systému ILIAS s Vaším novým uživatelským účtem.
@@ -4610,7 +4610,7 @@ common#:#udf_type_date#:#Datové pole
 common#:#udf_type_datetime#:#Datum a čas
 common#:#udf_type_select#:#Vybrat pole (pevné hodnoty)
 common#:#udf_type_text#:#Textové pole (volené hodnoty)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#udf_type_wysiwyg#:#Textová plocha (WYSIWYG)
 common#:#udf_update_select_field#:#Upravit vybrané pole
 common#:#udf_update_success#:#Změny uloženy.
 common#:#udf_update_text_field#:#Upravit textové pole
@@ -4676,7 +4676,7 @@ common#:#user_deleted#:#Uživatel odstraněn
 common#:#user_detail#:#Podrobné údaje
 common#:#user_ext_account#:#Externí účet
 common#:#user_ext_account_desc#:#Účet použitý pro externí autentizaci. (Autentizace CAS, SOAP, LDAP nebo Radius)
-common#:#user_image#:#User Image
+common#:#user_image#:#Obrázek uživatele
 common#:#user_import_failed#:#Import uživatele selhal.
 common#:#user_imported#:#Import uživatele ukončen.
 common#:#user_imported_with_warnings#:#Import uživatele ukončen s výstrahou.
@@ -4689,8 +4689,8 @@ common#:#user_profile_instant_messengers#:#Online komunikátory
 common#:#user_profile_other#:#Další informace
 common#:#user_send_new_account_mail#:#Odeslat e-mail o novém účtu
 common#:#user_statistics#:#Statistická data
-common#:#user_status#:#User Status
-common#:#user_toggle_noti#:#Member is not allowed to deactivate notification
+common#:#user_status#:#Status uživatele
+common#:#user_toggle_noti#:#Příslušník nemůže daktivovat upozornění.
 common#:#userdata#:#Data uživatelů
 common#:#userfolder_export_csv#:#Hodnoty oddělené desetinnou čárkou
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -4778,7 +4778,7 @@ common#:#view#:#Zobrazit
 common#:#view_content#:#Zobrazit obsah
 common#:#visible#:#Viditelné
 common#:#visible_layers#:#Viditelné vrstvy
-common#:#visible_registration#:#Visible in Registration
+common#:#visible_registration#:#Viditelné při registraci
 common#:#visitor#:#Návštěvník
 common#:#visitors#:#Návštěvníci
 common#:#visits#:#Návštěvy
@@ -4976,7 +4976,7 @@ content#:#cont_de_activate#:#De-/Aktivovat
 content#:#cont_deactivate_page#:#Deaktivovat stránku
 content#:#cont_deactivated#:#Deaktivováno
 content#:#cont_debug#:#Show debug menu
-content#:#cont_debugpw#:#Password
+content#:#cont_debugpw#:#Heslo
 content#:#cont_decimal#:#Desetinné číslo
 content#:#cont_def_layout#:#Výchozí rozložení
 content#:#cont_def_lesson_mode#:#Výchozí mód lekce
@@ -5054,7 +5054,7 @@ content#:#cont_ed_new_item_before#:#Nová položka před
 content#:#cont_ed_new_row_after#:#Nový řádek za
 content#:#cont_ed_new_row_before#:#Nový řádek před
 content#:#cont_ed_par#:#Text
-content#:#cont_ed_paste#:#Paste
+content#:#cont_ed_paste#:#Vložit
 content#:#cont_ed_paste_clip#:#Vložit ze schránky
 content#:#cont_ed_pglprop#:#Page Layout Properties
 content#:#cont_ed_plachmedia#:#Placeholder Media
@@ -5082,7 +5082,7 @@ content#:#cont_edit_shape_rectangle#:#Upravit tvar (Obdélník)
 content#:#cont_edit_src#:#Upravit zdrojový kód
 content#:#cont_edit_style#:#Upravit styl
 content#:#cont_edit_tab_properties#:#Vlastnosti tabulky
-content#:#cont_edit_tabs#:#Properties
+content#:#cont_edit_tabs#:#Vlastnosti
 content#:#cont_edit_term#:#Upravit pojem
 content#:#cont_edition#:#Vydání
 content#:#cont_empty_mep_folder#:#V této složce nejsou žádné mediální objekty.
@@ -5093,8 +5093,8 @@ content#:#cont_enable_media#:#Média aktivní
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
 content#:#cont_enable_time_scheduled_page_activation_info#:#Je-li zapnuto, perioda aktivace (datum/čas) může být vybrán v editoru výukového modulu pro každou stránku.
 content#:#cont_end#:#Konec
-content#:#cont_enter_a_dir_name#:#Please enter a directory name.
-content#:#cont_enter_a_file#:#Please select a file.
+content#:#cont_enter_a_dir_name#:#Vložte prosím název adresáře.
+content#:#cont_enter_a_file#:#Vložte prosím soubor
 content#:#cont_Example#:#Příklad
 content#:#cont_Excursus#:#Odbočení od tématu
 content#:#cont_export_all#:#Exportovat všechno
@@ -5132,10 +5132,10 @@ content#:#cont_fullscreen#:#Přes celou obrazovku
 content#:#cont_general_properties#:#Obecné vlastnosti
 content#:#cont_get_link#:#Zvolit odkaz
 content#:#cont_get_orig_size#:#Nastavit původní velikost
-content#:#cont_glo_assign#:#Assign Glossary
-content#:#cont_glo_create#:#Create Glossary
-content#:#cont_glo_detach#:#Detach Glossary
-content#:#cont_glo_menu#:#Menu
+content#:#cont_glo_assign#:#Přiřadit Glosář
+content#:#cont_glo_create#:#Vytvořit Glosář
+content#:#cont_glo_detach#:#Odpojit Glosář
+content#:#cont_glo_menu#:#Nabídka
 content#:#cont_glo_properties#:#Vlastnosti glosáře
 content#:#cont_header#:#Záhlaví
 content#:#cont_Headline1#:#Nadpis 1
@@ -10274,7 +10274,7 @@ wiki#:#wiki_wiki_search#:#Hledání ve Wiki
 common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
 common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
 common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
-common#:#optional_filters#:#Optional Filters###16 07 2010 new variable
+common#:#optional_filters#:#Volitelné filtry
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
 content#:#cont_LocalFile#:#Local File###16 07 2010 new variable
@@ -10309,24 +10309,24 @@ registration#:#registration_roles_all#:#All Roles###16 07 2010 new variable
 registration#:#registration_generated_all#:#All Dates###16 07 2010 new variable
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.###16 07 2010 new variable
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.###16 07 2010 new variable
-common#:#session_config#:#Session Settings###16 07 2010 new variable
-common#:#session_config_maintenance_enabled#:#Maintenance by client allowed###16 07 2010 new variable
-common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed###16 07 2010 new variable
-common#:#session_max_count#:#Max active sessions###16 07 2010 new variable
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
-common#:#session_min_idle#:#Min session idle (in minutes)###16 07 2010 new variable
+common#:#session_config#:#Nastavení sezení
+common#:#session_config_maintenance_enabled#:#Údržba klientem povolena 
+common#:#session_config_maintenance_disabled#:#Údržba klientem nepovolena 
+common#:#session_max_count#:#Maximum aktivních sezení
+common#:#session_max_count_info#:#Definuje maximální počet sezení, které mohou být simultánně vytvořeny. Nastavení na "0" tuto funkci vypíná.
+common#:#session_min_idle#:#Min. nečinnost při sezení (v minutách)
 common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-common#:#session_max_idle#:#Max session idle (in minutes)###16 07 2010 new variable
+common#:#session_max_idle#:#Max. nečinnost při sezení (v minutách)
 common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
-common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
-common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
+common#:#session_max_idle_after_first_request#:#Max. nečinnost při sezení po prvním požadavku (v minutách)
+common#:#session_max_idle_after_first_request_info#:#Všechna sezení, která jsou nečinná nejméně po tuto dobu od prvního požadavku, budou zrušena tehdy, pokud má být otevřeno sezení pro dalšího uživatele a maximální počet existujících sezení je již dosažen.
+common#:#reached_session_limit#:#Limit online uživatelů je již dosažen. Zkuste to prosím znovu později.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
-common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
-common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
+common#:#mail_mail_to_global_roles#:#Uživatel může zasílat e-maily globálním rolím
+common#:#mail_to_global_roles_not_allowed#:#Není povoleno posíla emaily globálním rolím
+common#:#mail_no_valid_group_role#:#Neplatná skupinová role
 payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
-assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
+assessment#:#tst_search_users#:#Přidat fixní účastníky
 survey#:#svy_search_users#:#Search for participants###16 07 2010 new variable
 trac#:#trac_first_access#:#First Access###16 07 2010 new variable
 trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
@@ -10354,24 +10354,24 @@ style#:#sty_glo_char#:#Glossary###16 07 2010 new variable
 style#:#sty_type_glo_overlay#:#Glossary Overlay###16 07 2010 new variable
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
 content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
-common#:#delete_inactive_user_accounts#:#Delete user accounts###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_period#:#Days past since the last login###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the last login.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_interval#:#Frequency###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###16 07 2010 new variable
+common#:#delete_inactive_user_accounts#:#Smazat uživatelské účty
+common#:#delete_inactive_user_accounts_desc#:#Pokud je zapnuto, uživatelské účty mohou být smazány v závislosti na datu posledního přihlášení.
+common#:#delete_inactive_user_accounts_period#:#Dny uplynulé od posledního přihlášení
+common#:#delete_inactive_user_accounts_period_desc#:#Smazání bude provedeno, pokud uplyne toto období od posledního přihlášení.
+common#:#delete_inactive_user_accounts_include_roles#:#Včetně rolí
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Definuje role, které budou se podílet na smazání.
+common#:#delete_inactive_user_accounts_interval#:#Frekvence
+common#:#delete_inactive_user_accounts_interval_desc#:#Podmínky smazání budou zohledněny v této frekvenci.
 mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)###16 07 2010 new variable
 content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
 forum#:#post_reply#:#Re:###16 07 2010 new variable
 forum#:#preset_subject#:#Preset subject on reply###16 07 2010 new variable
 forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.###16 07 2010 new variable
-administration#:#obj_frma#:#Forum###16 07 2010 new variable
-administration#:#obj_frma_desc#:#Global Forumsettings###16 07 2010 new variable
-administration#:#forum_settings#:#Forumsettings###16 07 2010 new variable
-administration#:#show_topics_overview#:#Topic Overview###16 07 2010 new variable
-administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown###16 07 2010 new variable
+administration#:#obj_frma#:#Fórum
+administration#:#obj_frma_desc#:#Globální nastavení fóra
+administration#:#forum_settings#:#Nastavení fóra
+administration#:#show_topics_overview#:#Přehled témat
+administration#:#topics_overview_info#:#Je-li zapnuto, jsou zobrazena jen témata s určenými informacemi
 common#:#show_system_messages#:#System Messages###16 07 2010 new variable
 content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
 content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
@@ -10381,13 +10381,13 @@ content#:#glo_text_snippet_length_info#:#Length of the text snippet of the defin
 content#:#glo_full_definitions#:#Full Definitions###16 07 2010 new variable
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.###16 07 2010 new variable
 content#:#glo_editing_view#:#Editing View###16 07 2010 new variable
-administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation###16 07 2010 new variable
-administration#:#adm_rep_tree_only_cntr#:#Container Only###16 07 2010 new variable
-administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.###16 07 2010 new variable
-administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
-administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
-administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
-cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
+administration#:#adm_rep_tree_presentation#:#Zobrazení stromu úložiště
+administration#:#adm_rep_tree_only_cntr#:#Jen kontejner
+administration#:#adm_rep_tree_only_cntr_info#:#Jsou vypsány jen kategorie, kurzy a skupiny.
+administration#:#adm_rep_tree_all_types#:#Všechny typy zdrojů
+administration#:#adm_rep_tree_all_types_info#:#Všechny typy zdrojů jsou vypsány v tomto stromu.
+administration#:#adm_rep_tree_limit_grp_crs#:#Zobrazit omezený kontextový strom v kurzech a skupinách.
+cmps#:#cmps_configure#:#Konfigurovat
 tbl#:#tbl_templates#:#View###16 07 2010 new variable
 tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
 tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
@@ -10420,26 +10420,26 @@ user#:#enable_local_user_administration#:#Enable Local User Administration###16 
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
 user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
-common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
+common#:#backto_lua#:#Zpět k lokální správě uživatelů
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
 common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
 common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
-content#:#cont_alignment#:#Alignment###16 07 2010 new variable
+content#:#cont_alignment#:#Zarovnání
 content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
 administration#:#adm_db_benchmark#:#DB Benchmark###16 07 2010 new variable
-administration#:#adm_activate_db_benchmark#:#Activate Benchmark###16 07 2010 new variable
-administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###16 07 2010 new variable
-administration#:#adm_db_benchmark_user#:#User Account Name###16 07 2010 new variable
-administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.###16 07 2010 new variable
-administration#:#adm_db_bench_chronological#:#Chronological###16 07 2010 new variable
-administration#:#adm_db_bench_slowest_first#:#Slowest First###16 07 2010 new variable
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###16 07 2010 new variable
+administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
+administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
+administration#:#adm_db_benchmark_user#:#Jméno uživatelského účtu
+administration#:#adm_db_benchmark_user_desc#:#Bude provedeno měření jen pro tohoto uživatele.
+administration#:#adm_db_bench_chronological#:#Chronologicky
+administration#:#adm_db_bench_slowest_first#:#Nejprve nejpomaleji
+administration#:#adm_db_bench_sorted_by_sql#:#Řazeno dle SQL
 administration#:#adm_sql#:#SQL###16 07 2010 new variable
-administration#:#adm_time#:#Time###16 07 2010 new variable
-administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
-administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
-administration#:#adm_table#:#Table###16 07 2010 new variable
+administration#:#adm_time#:#Čas
+administration#:#adm_db_bench_by_first_table#:#Agregováno první tabulkou v SQL
+administration#:#adm_nr_statements#:#Počet oznámení
+administration#:#adm_table#:#Tabulka
 trac#:#trac_subitems#:#Show Sub-Items###16 07 2010 new variable
 trac#:#trac_participants#:#Show Participants###16 07 2010 new variable
 trac#:#trac_title#:#Title###16 07 2010 new variable
@@ -10460,13 +10460,13 @@ rbac#:#rbac_add_new_local_role#:#Add New Local Role###16 07 2010 new variable
 search#:#search_item_filter#:#Search by Type###16 07 2010 new variable
 search#:#search_item_filter_form#:#Search by Type###16 07 2010 new variable
 search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.###16 07 2010 new variable
-chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar###16 07 2010 new variable
-administration#:#group_export#:#Visible in Groups###16 07 2010 new variable
+chat#:#chat_activate_status_notification#:#Zobrazit upozornění o nových pozváních k diskuzi a zprávách v hlavní nabídkové liště
+administration#:#group_export#:#Viditelné ve skupinách
 tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
 tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
 crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
 grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
-assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
+assessment#:#info_answer_type_change#:#Tato otázka již obsahuje obrázky. Nemůžete změnit typ odpovědi na víceřádkové odpovědi.
 crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
 crs#:#crs_groups_nr#:#Number of Groups###16 07 2010 new variable
 crs#:#crs_add_to_group#:#Add to Group###16 07 2010 new variable
@@ -10659,59 +10659,59 @@ meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
 meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
 meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
 meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
-common#:#sel_country#:#Country###16 07 2010 new variable
-book#:#book_booking_types#:#Types###16 07 2010 new variable
-book#:#book_schedules#:#Schedules###16 07 2010 new variable
-book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
-book#:#book_book#:#Book###16 07 2010 new variable
-book#:#book_list_items#:#List Objects###16 07 2010 new variable
-book#:#book_add_type#:#Add Type###16 07 2010 new variable
-book#:#book_back_to_list#:#Back to List###16 07 2010 new variable
-book#:#book_edit_type#:#Edit Type###16 07 2010 new variable
-book#:#book_group_objects#:#Group objects###16 07 2010 new variable
-book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally.###16 07 2010 new variable
-book#:#book_schedule#:#Schedule###16 07 2010 new variable
-book#:#book_objects_list#:#Objects of Type:###16 07 2010 new variable
-book#:#book_current_user#:#Booked by###16 07 2010 new variable
-book#:#book_add_object#:#Add Object###16 07 2010 new variable
-book#:#book_edit_object#:#Edit Object###16 07 2010 new variable
-book#:#book_is_used#:#Is Used###16 07 2010 new variable
-book#:#book_add_schedule#:#Add Schedule###16 07 2010 new variable
-book#:#book_edit_schedule#:#Edit Schedule###16 07 2010 new variable
-book#:#book_schedule_type#:#Type###16 07 2010 new variable
-book#:#book_schedule_type_fix#:#Fix###16 07 2010 new variable
-book#:#book_schedule_type_fix_info#:#Can only be booked in given time slots###16 07 2010 new variable
-book#:#book_schedule_type_flexible#:#Flexible###16 07 2010 new variable
-book#:#book_schedule_type_flexible_info#:#Can be booked freely for given days and hours###16 07 2010 new variable
-book#:#book_schedule_raster#:#Time raster###16 07 2010 new variable
-book#:#book_schedule_raster_info#:#Minimum time entity###16 07 2010 new variable
-book#:#book_schedule_rent_min#:#Minimum booking time###16 07 2010 new variable
-book#:#book_schedule_rent_max#:#Maximum booking time###16 07 2010 new variable
-book#:#book_schedule_rent_info#:#Given in multiples of time raster###16 07 2010 new variable
-book#:#book_schedule_break#:#Auto-Break between Bookings###16 07 2010 new variable
-book#:#book_schedule_break_info#:#Given in multiples of time raster###16 07 2010 new variable
-book#:#book_schedule_days#:#Weekdays###16 07 2010 new variable
-book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)###16 07 2010 new variable
-book#:#book_schedule_slot#:#Slot###16 07 2010 new variable
-book#:#book_deadline#:#Deadline###16 07 2010 new variable
-book#:#book_minutes#:#Minutes###16 07 2010 new variable
-book#:#book_deadline_info#:#Minimum time between booking and booked period###16 07 2010 new variable
-book#:#book_type_added#:#A booking type has been added.###16 07 2010 new variable
-book#:#book_type_updated#:#The booking type has been updated.###16 07 2010 new variable
-book#:#book_type_deleted#:#The booking type has been deleted.###16 07 2010 new variable
-book#:#book_object_added#:#A booking object has been added.###16 07 2010 new variable
-book#:#book_object_updated#:#The booking object has been updated.###16 07 2010 new variable
-book#:#book_object_deleted#:#The booking object has been deleted.###16 07 2010 new variable
-book#:#book_schedule_added#:#A booking schedule has been added.###16 07 2010 new variable
-book#:#book_schedule_updated#:#The booking schedule has been updated.###16 07 2010 new variable
-book#:#book_schedule_deleted#:#The booking schedule has been deleted.###16 07 2010 new variable
-book#:#book_confirm_delete#:#Do you really want to delete the following items?###16 07 2010 new variable
-common#:#obj_book#:#Booking Pool###16 07 2010 new variable
-common#:#objs_book#:#Booking Pools###16 07 2010 new variable
-book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variable
-book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
-common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
-common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+common#:#sel_country#:#Země
+book#:#book_booking_types#:#Typy
+book#:#book_schedules#:#Harmonogramy
+book#:#book_no_of_objects#:#Číslo objektu
+book#:#book_book#:#Objednat
+book#:#book_list_items#:#Seznam objektů
+book#:#book_add_type#:#Přidat typ
+book#:#book_back_to_list#:#Zpět na seznam
+book#:#book_edit_type#:#Upravit typ
+book#:#book_group_objects#:#Skupina objektů
+book#:#book_group_objects_info#:#Považovat objekty jako skupinu, diferenciovány budou jen interně. Vytvořte prosím nejméně jeden rozvrh pro použití tohoto rysu.
+book#:#book_schedule#:#Harmonogram
+book#:#book_objects_list#:#Objekty typu:
+book#:#book_current_user#:#Objednáno (kým)
+book#:#book_add_object#:#Přidat objekt
+book#:#book_edit_object#:#Upravit objekt
+book#:#book_is_used#:#Je použito
+book#:#book_add_schedule#:#Přidat harmonogram
+book#:#book_edit_schedule#:#Upravit harmonogram
+book#:#book_schedule_type#:#Typ
+book#:#book_schedule_type_fix#:#Fixní
+book#:#book_schedule_type_fix_info#:#Může být objednáno jen v daných časových oknech
+book#:#book_schedule_type_flexible#:#Flexibilní
+book#:#book_schedule_type_flexible_info#:#Může být objednáno volně v daných dnech a hodinách
+book#:#book_schedule_raster#:#Časový rastr
+book#:#book_schedule_raster_info#:#Minimální časová jednotka
+book#:#book_schedule_rent_min#:#Minimální čas objednávky
+book#:#book_schedule_rent_max#:#Maximální čas objednávky
+book#:#book_schedule_rent_info#:#Dáno vícekrát v časovém okně
+book#:#book_schedule_break#:#Pauza mezi objednávkami
+book#:#book_schedule_break_info#:#Dáno několikrát v časovém okně
+book#:#book_schedule_days#:#Dny v týdnu
+book#:#book_schedule_days_info#:#Platné časy odjednání pro každý den (HH:MM-HH:MM)
+book#:#book_schedule_slot#:#Časové okno
+book#:#book_deadline#:#Uzávěrka
+book#:#book_minutes#:#Minuty
+book#:#book_deadline_info#:#Minimální čas mezi objednáním a objednaným obdobím
+book#:#book_type_added#:#Typ objednávky byl přidán.
+book#:#book_type_updated#:#Typ objednávky byl aktualizován.
+book#:#book_type_deleted#:#Typ objednávky byl smazán.
+book#:#book_object_added#:#Objednávka objektu byla přidána.
+book#:#book_object_updated#:#Objednávka objektu byla aktualizována.
+book#:#book_object_deleted#:#Objednávka objektu byla smazána.
+book#:#book_schedule_added#:#Harmonogram objednání byl přidán.
+book#:#book_schedule_updated#:#Harmonogram objednávek byl aktualizován.
+book#:#book_schedule_deleted#:#Harmonogram objednávek byl smazán.
+book#:#book_confirm_delete#:#Určitě chcete smazat následující položky?
+common#:#obj_book#:#Zásobník objednávek
+common#:#objs_book#:#Zásobník objednávek
+book#:#book_pool_added#:#Zásobník objednávek byl přidán.
+book#:#book_create_title#:#Přidat zásobník objednávek
+common#:#country_selection#:#Stát (výběr rozbalovacího menu)
+common#:#country_free_text#:#Stát (vstup volného textu)
 survey#:#mail_survey_codes#:#Mail access codes###19 07 2010 new variable
 survey#:#recipients#:#Recipients###19 07 2010 new variable
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)###19 07 2010 new variable
@@ -10728,24 +10728,24 @@ dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments##
 dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to course and group appointments.###19 07 2010 new variable
 dateplaner#:#cal_reg_register#:#Register###19 07 2010 new variable
 dateplaner#:#cal_reg_unregister#:#Unregister###19 07 2010 new variable
-book#:#book_hours#:#Hours###19 07 2010 new variable
-book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.###19 07 2010 new variable
-book#:#book_reservation_title#:#Booking Reservation for###19 07 2010 new variable
-book#:#book_confirm_booking#:#Confirm Booking###19 07 2010 new variable
+book#:#book_hours#:#Hodiny
+book#:#book_reservation_fix_info#:#Vaše rezervace může být udělána jen na určité hodiny.
+book#:#book_reservation_title#:#Objednání rezervace pro
+book#:#book_confirm_booking#:#Potvrdit objednávku
 dateplaner#:#cal_reg_registered_users#:#Registered Users###19 07 2010 new variable
 dateplaner#:#cal_confirm_unreg_info#:#Please confirm the cancellation of this registration.###19 07 2010 new variable
 dateplaner#:#cal_confirm_reg_info#:#Please confirm the registration for this appointment.###19 07 2010 new variable
-book#:#book_reservation_confirmed#:#Your booking has been confirmed.###19 07 2010 new variable
-book#:#book_reservation_failed#:#Your booking has failed.###19 07 2010 new variable
-book#:#book_reservation_status_2#:#In Use###19 07 2010 new variable
-book#:#book_reservation_status_5#:#Cancelled###19 07 2010 new variable
-book#:#book_period#:#Period###19 07 2010 new variable
-book#:#book_change_status#:#Change Status###19 07 2010 new variable
-book#:#book_reservation_cancel#:#Cancel###19 07 2010 new variable
-book#:#book_reservation_block#:#Block###19 07 2010 new variable
-book#:#book_log#:#Log###19 07 2010 new variable
-book#:#book_reservations_list#:#Reservations###19 07 2010 new variable
-book#:#book_cal_entry#:#Booking of:###19 07 2010 new variable
+book#:#book_reservation_confirmed#:#Vaše objednávka byla potvrzena.
+book#:#book_reservation_failed#:#Vaše objednávka byla neúspěšná.
+book#:#book_reservation_status_2#:#V používání
+book#:#book_reservation_status_5#:#Zrušeno
+book#:#book_period#:#Období
+book#:#book_change_status#:#Změnit status
+book#:#book_reservation_cancel#:#Zrušit
+book#:#book_reservation_block#:#Blokovat
+book#:#book_log#:#Rezervace
+book#:#book_reservations_list#:#Rezervace
+book#:#book_cal_entry#:#Objednávka od:
 dateplaner#:#cal_ch_booking#:#Ressource Booking###19 07 2010 new variable
 dateplaner#:#cal_ch_personal_book#:#Personal Booking###19 07 2010 new variable
 survey#:#nr_max_answers#:#Maximum###28 07 2010 new variable
@@ -10763,34 +10763,34 @@ rbac#:#perm_protected_global_role#:#Protected Global Role###28 07 2010 new varia
 rbac#:#perm_protected_local_role#:#Protected Local Role###28 07 2010 new variable
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"###28 07 2010 new variable
 rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"###28 07 2010 new variable
-book#:#book_public_log#:#Public Reservations###28 07 2010 new variable
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.###28 07 2010 new variable
-book#:#book_fromto#:#Date Range###28 07 2010 new variable
-book#:#book_all#:#Show all###28 07 2010 new variable
-book#:#book_earlier#:#Earlier###28 07 2010 new variable
-book#:#book_later#:#Later###28 07 2010 new variable
+book#:#book_public_log#:#Veřejné rezervace
+book#:#book_public_log_info#:#Seznam rezervací může být zobrazen všemi uživateli.
+book#:#book_fromto#:#Datové rozmezí
+book#:#book_all#:#Zobrazit vše
+book#:#book_earlier#:#Dříve
+book#:#book_later#:#Později
 grp#:#grp_info_new_grp_type#:#New Group Type###28 07 2010 new variable
 grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators###28 07 2010 new variable
 rbac#:#read_users#:#Read Access to Local User Accounts###28 07 2010 new variable
 rbac#:#cat_administrate_users#:#Administrate Local User Accounts###28 07 2010 new variable
 rbac#:#edit_permission#:#Change Permissions###28 07 2010 new variable
 rbac#:#edit_event#:#Edit Calendar###28 07 2010 new variable
-book#:#book_slots_no#:#Number of slots###28 07 2010 new variable
-book#:#book_slots_no_info#:#Available number of slots per day in schedule###28 07 2010 new variable
-book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
-book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
-book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
-book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+book#:#book_slots_no#:#Počet časových oken
+book#:#book_slots_no_info#:#Dostupný počet časových oken během dne v harmonogramu
+book#:#book_set_in_use#:#Je v používání
+book#:#book_set_not_in_use#:#Není v používání
+book#:#book_set_cancel#:#Zrušit rezervaci
+book#:#book_set_not_cancel#:#Odvolat zrušení
+common#:#book_edit_permission#:#Změnit nastavení oprávnění
+common#:#book_visible#:#Zásobník objednávek je viditelný
+common#:#book_read#:#Právo číst na zásobník objednávek
+common#:#book_write#:#Upravit zásobník objednávek
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#crs_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#root_create_book#:#Create Booking Pool###06 08 2010 new variable
-common#:#optional_filter_hint#:#Please activate one of the optional filters.###06 08 2010 new variable
+common#:#optional_filter_hint#:#Aktivujte prosím jeden z volitelných fitrů.
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.###06 08 2010 new variable
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:###06 08 2010 new variable
 grp#:#grp_agreement_header#:#User Agreement###06 08 2010 new variable
@@ -10807,7 +10807,7 @@ grp#:#grp_subscriber#:#Subscriber###06 08 2010 new variable
 grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.###06 08 2010 new variable
 content#:#cont_new_page#:#New Page###06 08 2010 new variable
 content#:#cont_new_chap#:#New Chapter###06 08 2010 new variable
-book#:#book_not#:#No###06 08 2010 new variable
+book#:#book_not#:#Ne
 survey#:#externaltext#:#Import text###20 08 2010 new variable
 survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an 'email' column containing the recipient email.###20 08 2010 new variable
 survey#:#import_from_file#:#Import from a file###20 08 2010 new variable
@@ -10826,9 +10826,9 @@ survey#:#msg_message_inserted#:#Messagetext inserted###20 08 2010 new variable
 survey#:#msg_no_message_inserted#:#Please select a messagetext###20 08 2010 new variable
 survey#:#msg_message_deleted#:#Messagetext deleted###20 08 2010 new variable
 survey#:#msg_no_message_deleted#:#Please select a saved messagetext###20 08 2010 new variable
-administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.###20 08 2010 new variable
-administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Repository Main View###20 08 2010 new variable
-administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
+administration#:#adm_rep_tree_limit_grp_crs_info#:#Toto závisí a automaticky aktivuje vlastnosti 'Synchronizovat stromový rám'.
+administration#:#adm_synchronize_rep_tree#:#Synchronizovat stromový rám s hlavním zobrazením úložiště
+administration#:#adm_synchronize_rep_tree_info#:#Toto zvýrazňuje aktuální pozici ve stromovém rámu, když uživatel se pohybuje po úložišti. Povšimněte si prosím, že to má negativní vliv na výkon systému, pokud jsou vyvolávány požadavky od dalších serverů.
 rbac#:#write#:#Edit Settings###20 08 2010 new variable
 rbac#:#rbac_local_policy#:#Local Policy###20 08 2010 new variable
 rbac#:#role_block_role#:#Block Role###20 08 2010 new variable
@@ -10852,28 +10852,29 @@ frm#:#frm_import#:#Import Forum###20 08 2010 new variable
 registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new variable
 registration#:#reg_allow_codes#:#Allow Codes###20 08 2010 new variable
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.###20 08 2010 new variable
-assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
+assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem
 rbac#:#rbac_repository_permissions#:#Repository Permissions###20 08 2010 new variable
 rbac#:#rbac_admin_permissions#:#Administration Permissions###20 08 2010 new variable
 ps#:#ps_export_excel#:#Start Excel-Expor###20 08 2010 new variable
 survey#:#err_no_exact_answers#:#Please check exactly %s answers.###27 08 2010 new variable
 survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers###27 08 2010 new variable
-common#:#sess_fixed_duration#:#Fixed Session Duration###27 08 2010 new variable
-common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling###27 08 2010 new variable
-common#:#sess_mode#:#Session Mode###27 08 2010 new variable
+common#:#sess_fixed_duration#:#Pevná doba sezení
+common#:#sess_load_dependent_session_handling#:#Načti závislé ovládání sezení
+common#:#sess_mode#:#Mód sezení
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.###27 08 2010 new variable
-common#:#cronjob_last_start#:#Last Start of the Cron Job###27 08 2010 new variable
-common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary###27 08 2010 new variable
-common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.###27 08 2010 new variable
-common#:#disk_quota_summary_rctp#:#Recipients###27 08 2010 new variable
-common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.###27 08 2010 new variable
-common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:###27 08 2010 new variable
+common#:#cronjob_last_start#:#Poslední spuštění Cron Job
+common#:#enable_disk_quota_summary_mail#:#Zaslat hlášení překročené diskové kvóty
+common#:#enable_disk_quota_summary_mail_desc#:#Hlášení překročené diskové kvóty je denní upozornění všech uživatelů, kteří překročili svou diskovou kvótu.
+common#:#disk_quota_summary_rctp#:#Příjemci
+common#:#disk_quota_summary_rctp_desc#:#Vložte čárkou oddělený seznam těch uživatelů, kterým má být denně zasíláno hlášení o překročené diskové kvótě.
+common#:#disk_quota_exceeded_headline#:#následující uživatelé překročili diskovou kvótu:
 common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
-common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
-common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
+common#:#currently_used_disk_space#:#Aktuálně použitý prostor disku
+common#:#cronjob_last_start_unknown#:#Neurčitý
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
 trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
-common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
+common#:#disk_quota_summary_subject#:#Hlášení překročené diskové kvóty
+common#:#learning_module#:#Learning Module
