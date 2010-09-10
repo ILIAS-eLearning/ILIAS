@@ -510,3 +510,5 @@ sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner e
 sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
 sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
 hotfix_available#:#Es steht ein Hotfix zur Verfügung.
+lang_ar#:#Arabisch
+lang_tr#:#Türkisch
