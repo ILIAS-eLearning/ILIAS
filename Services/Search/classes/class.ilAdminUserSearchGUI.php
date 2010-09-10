@@ -903,8 +903,12 @@ class ilAdminUserSearchGUI
 								  "nr_members"),
 							array("ref_id" => $_GET['ref_id'],
 								  "cmd" => "show",
-								  "cmdClass" => "ilsearchgui",
-								  "cmdNode" => $_GET["cmdNode"]));
+								  "cmdClass" => "iladminusersearchgui",
+								  "cmdNode" => $_GET["cmdNode"],
+								  'baseClass' => 'ilAdministrationGUI'
+								 )
+		);
+							
 
 		$tbl->setColumnWidth(array("","80%","19%"));
 
