@@ -574,7 +574,7 @@ class ilDiskQuotaChecker
 			,
 	        array('integer','integer'),
 	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
-		);vd($res->db->last_query);
+		);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$details = self::_lookupDiskUsage($row['usr_id']);
