@@ -1351,9 +1351,31 @@ return;
 				$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
 					$this->ilias->error_obj->MESSAGE);
 			}
-	
+
+			// import questions
+			$qti_file = $newObj->getImportDirectory()."/".$subdir."/qti.xml";
+			$qtis = array();
+			if (is_file($qti_file))
+			{
+				include_once "./Services/QTI/classes/class.ilQTIParser.php";
+				include_once("./Modules/Test/classes/class.ilObjTest.php");
+				$qtiParser = new ilQTIParser ($qti_file,
+					IL_MO_VERIFY_QTI, 0, "");
+				$result = $qtiParser->startParsing ();
+				$founditems = & $qtiParser->getFoundItems ();
+				$testObj = new ilObjTest(0, true);
+				if (count($founditems) > 0)
+				{
+					$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, 0, "");
+					$qtiParser->setTestObject($testObj);
+					$result = $qtiParser->startParsing();
+					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
+				}
+			}
+
 			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-			$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+			$contParser = new ilContObjParser($newObj, $xml_file, $subdir, $qmapping);
+			$contParser->setQuestionMapping($qtis);
 			$contParser->startParsing();
 			ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
 			$newObj->MDUpdateListener('General');
