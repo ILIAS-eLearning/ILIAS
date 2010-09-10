@@ -1,15 +1,15 @@
-﻿/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
-* @module		language file French
-* @modulegroup	language
-* @author		Matthias Kunkel <m.kunkel@uni-koeln.de>
-* @version		$Id$
-* @il_server	http://www.ilias.de/test40x
-* @il_version	4.0.0
-* @created		2009-10-28 10:45:10
-* @created_by	Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @module			language file French
+* @modulegroup		language
+* @author			Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version			$Id$
+* @il_server		http://www.ilias.de/test40x
+* @il_version		4.0.0
+* @created			2010-09-10 10:39:00
+* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -4965,7 +4965,7 @@ content#:#cont_ed_delete_item#:#Détruire objet
 content#:#cont_ed_delete_row#:#Détruire ligne
 content#:#cont_ed_dtable#:#Data Table
 content#:#cont_ed_edit#:#Modifier
-content#:#cont_ed_edit_data#:#Modifier les données
+content#:#cont_ed_edit_data#:#Éditer les données
 content#:#cont_ed_edit_files#:#Modifier les fichiers
 content#:#cont_ed_edit_prop#:#Modifier propriétés
 content#:#cont_ed_enable#:#Désactiver les éléments
@@ -6657,7 +6657,7 @@ form#:#form_hierarchy_drag_drop_help#:#Glissez-déposez les icônes pour déplac
 form#:#form_hours#:#Heures
 form#:#form_image_file_input#:#Image File Input
 form#:#form_max_value#:#Valeur maximale
-form#:#form_min_value#:#Valeur minimale
+form#:#form_min_value#:#Valeur minimake
 form#:#form_minutes#:#Minutes
 form#:#form_months#:#Mois
 form#:#form_msg_file_cannot_write_to_disk#:#Ne peut pas écrire sur le disque.
@@ -6676,7 +6676,7 @@ form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!
 form#:#form_password_not_allowed_for_auth#:#Il n'est possible de changer de mot de passe avec cette méthode d'authentification.
 form#:#form_password_required_for_auth#:#Un mot de passe est nécessaire pour cette méthode d'authentification.
-form#:#form_retype_password#:#Veuillez saisir le mot de passe de nouveau
+form#:#form_retype_password#:#Retaper le mot de passe
 form#:#form_seconds#:#Secondes
 forum#:#activate_current_and_childs#:#Acecpter tous les messages
 forum#:#activate_new_posts#:#Modérer les nouveaux messages
@@ -7213,7 +7213,7 @@ mail#:#mail_into_addressbook#:#Ajouter au carnet d'adresse
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#Liste des membres
 mail#:#mail_mailing_list#:#Liste de destinataires
-mail#:#mail_mailing_lists#:#Groupes de contacts
+mail#:#mail_mailing_lists#:#Listes de destinataires
 mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Vous avez déjà associé la totalité des contacts de votre carnet d'adresse à cette liste de destinataires.
 mail#:#mail_mailing_lists_no_addressbook_entries#:#Vous n'avez pas encore de contat dans vtore carnet d'adresse
 mail#:#mail_mark_read#:#Marquer les messages comme lus
@@ -7228,9 +7228,9 @@ mail#:#mail_moved#:#Message(s) déplacé(s)
 mail#:#mail_moved_to_trash#:#Message(s) déplacé(s) dans la corbeille
 mail#:#mail_multiple_recipients_found#:#Saisissez une adresse électronique plus spécifique. ILIAS a trouvé de multiples destinataires avec cette adresse électronique : %s
 mail#:#mail_my_courses#:#Cours
-mail#:#mail_my_entries#:#Contacts
+mail#:#mail_my_entries#:#Mes contacts
 mail#:#mail_my_groups#:#Groupes
-mail#:#mail_my_mailing_lists#:#Groupes de contacts
+mail#:#mail_my_mailing_lists#:#Mes listes de destinataires
 mail#:#mail_nacc_admin_mail#:#Adresse électronique de l'administrateur.
 mail#:#mail_nacc_client_name#:#Nom client
 mail#:#mail_nacc_ilias_url#:#URL du système ILIAS.
@@ -8508,7 +8508,7 @@ pd#:#pd_enable_notes#:#Activer les notes
 pd#:#pd_my_memberships#:#Mes appartenances
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.
-pd#:#pd_my_offers#:#Objets sélectionnés
+pd#:#pd_my_offers#:#Items sélectionnés
 pd#:#pd_osi_host#:#Hôte OSI
 pd#:#pd_osi_host_info#:#Online Status Indicator Host (facultatif) de la messagerie instantanée. Voir :
 pd#:#pd_personal_items_default_view#:#Default View
@@ -10877,3 +10877,18 @@ trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
 common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
+common#:#advanced_editing_cat_page_editing#:#Activer l'édition de contenu dans les pages « Catégorie »
+common#:#advanced_editing_cat_page_editing_desc#:#Cela active l'édition de contenu des pages « Catégorie ». Lorsque l'édition est désactivée, les catégories sont présentées sous forme de liste d'items.
+common#:#learning_module#:#document
+content#:#HTML_export#:#Exportation HTML
+content#:#pages_from#:#Pages depuis
+content#:#PDF_export#:#Exportation PDF
+content#:#read_offline#:#Lire hors ligne
+content#:#start_export#:#Commencer l'exportation
+crs#:#crs_view_info_standard#:#Ce mode de présentation de contenu est similaire à celui du dépôt « Activités ».
+grp#:#grp_btn_unsubscribe#:#Désinscrire du groupe
+grp#:#grp_membership_request_body#:#%1$s %2$s a demandé l'inscription au groupe "%5$s".\n\nVeuillez valider ou refuser cette demande sur la page "demande d'inscription " du groupe.\n\nGroupe : %5$s", %6$s\n\ndemandeur : %1$s %2$s, %3$s, écrire à :%4$s.\n\nSujet :\n%7$s
+grp#:#grp_membership_request_subject#:#%1$s %2$s Souhaite s'inscrire dans le groupe "%3$s".
+grp#:#grp_reject_subscriber_body#:#Votre demande d'inscription au groupe "%s" a été refusée.
+news#:#news_acc_cache#:#Vérification de la permission (Minutes)
+news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
