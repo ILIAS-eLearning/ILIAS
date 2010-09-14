@@ -10469,11 +10469,11 @@ ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 rbac#:#rbac_log_change_owner#:#Besitzer eines Objekts ändern
 rbac#:#rbac_log_changed_owner#:#Besitzer geändert zu
 dateplaner#:#cal_ch_add_sequence#:#Neue Sprechstundenreihe anlegen
-dateplaner#:#cal_ch_duration#:#Termindauer
-dateplaner#:#cal_ch_num_appointments#:#Terminanzahl
+dateplaner#:#cal_ch_duration#:#Dauer eines Termins
+dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
 dateplaner#:#cal_ch_num_bookings#:#Anmeldungen pro Termin
 dateplaner#:#cal_ch_deadline#:#Späteste Anmeldung
-dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor dem Termin eine Anmeldung ermöglicht werden soll.
+dateplaner#:#cal_ch_deadline_info#:#Bitte legen Sie fest, bis zu wie viel Stunden vor der Sprechstunde eine Anmeldung ermöglicht werden soll.
 dateplaner#:#cal_ch_num_appointments_info#:#Legen Sie fest wie viel aufeinander folgende Termine generiert werden sollen.
 dateplaner#:#cal_ch_personal_ch#:#Persönliche Sprechstundentermine
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
