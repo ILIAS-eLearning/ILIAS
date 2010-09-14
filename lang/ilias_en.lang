@@ -10522,7 +10522,7 @@ ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
 rbac#:#rbac_log_change_owner#:#Change Owner of Object
 rbac#:#rbac_log_changed_owner#:#Changed Owner to
 dateplaner#:#cal_ch_add_sequence#:#Add Consultation Hours Sequence
-dateplaner#:#cal_ch_duration#:#Duration
+dateplaner#:#cal_ch_duration#:#Duration of Each Appointment
 dateplaner#:#cal_ch_num_appointments#:#Number of Appointments
 dateplaner#:#cal_ch_num_bookings#:#Booking per Appointment
 dateplaner#:#cal_ch_deadline#:#Latest Registration
