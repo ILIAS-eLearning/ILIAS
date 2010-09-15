@@ -1806,7 +1806,7 @@ abstract class ilDB extends PEAR
 	 */
 	function upper($a_exp)
 	{
-		return " UPPER (".$a_exp.") ";
+		return " UPPER(".$a_exp.") ";
 	}
 
 	/**
@@ -1817,7 +1817,7 @@ abstract class ilDB extends PEAR
 	 */
 	function lower($a_exp)
 	{
-		return " LOWER (".$a_exp.") ";
+		return " LOWER(".$a_exp.") ";
 	}
 	
 	/**
