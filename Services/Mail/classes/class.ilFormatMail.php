@@ -207,19 +207,19 @@ class ilFormatMail extends ilMail
 #		debug($a_message);
 		$linebreak = $this->mail_options->getLinebreak();
 		// SPLIT INTO LINES returns always an array
-		$lines = explode(chr(13).chr(10),$a_message);
+		$lines = explode(chr(10),$a_message);
 		for($i=0;$i<count($lines);$i++)
 		{
 			if(substr($lines[$i],0,1) != '>')
 			{
-				$formatted[] = wordwrap($lines[$i],$linebreak,chr(13).chr(10));
+				$formatted[] = wordwrap($lines[$i],$linebreak,chr(10));
 			}
 			else
 			{
 				$formatted[] = $lines[$i];
 			}
 		}
-		$formatted = implode(chr(13).chr(10),$formatted);
+		$formatted = implode(chr(10),$formatted);
 #		debug($formatted);
 		return $formatted;
 	}
