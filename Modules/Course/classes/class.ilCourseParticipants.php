@@ -42,7 +42,7 @@ class ilCourseParticipants extends ilParticipants
 	 * @access protected
 	 * @param int obj_id of container
 	 */
-	protected function __construct($a_obj_id)
+	public function __construct($a_obj_id)
 	{
 		$this->type = 'crs';
 		
@@ -79,9 +79,6 @@ class ilCourseParticipants extends ilParticipants
 		}
 		return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
 	}
-	
-	
-	
 
 	/**
 	 * Update passed status

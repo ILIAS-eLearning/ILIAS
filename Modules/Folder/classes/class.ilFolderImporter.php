@@ -34,6 +34,10 @@ class ilFolderImporter extends ilXmlImporter
 		{
 			$this->folder = ilObjectFactory::getInstanceByObjId($new_id,false);
 		}
+		elseif($new_id = $a_mapping->getMapping('Services/Container','refs',0))
+		{
+			$this->folder = ilObjectFactory::getInstanceByRefId($new_id,false);
+		}
 		elseif(!$this->folder instanceof ilObjFolder)
 		{
 			$this->folder = new ilObjFolder();

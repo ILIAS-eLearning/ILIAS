@@ -65,7 +65,7 @@ class ilParticipants
 	 * @param int obj_id of container
 	 * 
 	 */
-	protected function __construct($a_obj_id)
+	public function __construct($a_obj_id)
 	{
 	 	global $ilDB,$lng;
 	 	
@@ -76,7 +76,6 @@ class ilParticipants
 	 	$this->type = ilObject::_lookupType($a_obj_id);
 		$ref_ids = ilObject::_getAllReferences($this->obj_id);
 		$this->ref_id = current($ref_ids);
-	 	
 	 	
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
@@ -684,6 +683,8 @@ class ilParticipants
 	 			$this->members[] = $a_usr_id;
 	 			break;
 	 	}
+		var_dump($this->role_data,$a_role,$a_usr_id);
+		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
 		$this->addDesktopItem($a_usr_id);
@@ -783,6 +784,7 @@ class ilParticipants
 		global $rbacreview,$ilObjDataCache,$ilLog;
 
 		$rolf = $rbacreview->getRoleFolderOfObject($this->ref_id);
+		
 		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
 		{
 			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->ref_id));
@@ -796,6 +798,7 @@ class ilParticipants
 		$users = array();
 		$this->participants = array();
 		$this->members = $this->admins = $this->tutors = array();
+
 		foreach($this->roles as $role_id)
 		{
 			$title = $ilObjDataCache->lookupTitle($role_id);

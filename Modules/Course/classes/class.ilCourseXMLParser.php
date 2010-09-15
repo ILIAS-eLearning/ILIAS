@@ -467,7 +467,8 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	 * @param string $a_attribs	attribute of a node
 	 * @param array $id_data
 	 */
-	private function handleSubscriber ($a_attribs, $id_data) {
+	private function handleSubscriber ($a_attribs, $id_data) 
+	{
 		if (!isset($a_attribs['action']) || $a_attribs['action'] == 'Attach')
 			// if action not set, or attach
 		{

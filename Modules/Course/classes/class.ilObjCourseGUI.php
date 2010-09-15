@@ -252,10 +252,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function importFileObject()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		if($new_id = parent::importFileObject())
 		{
+			$part = new ilCourseParticipants($new_id);
+			$part->add($ilUser->getId(),ilCourseConstants::CRS_ADMIN);
+			$part->updateNotification($ilUser->getId(),1);
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->returnToParent($this);
 		}
