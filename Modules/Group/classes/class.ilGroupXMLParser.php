@@ -340,7 +340,7 @@ class ilGroupXMLParser extends ilSaxParser
 			if($this->group_obj->getGroupStatus() != $grp_status)
 			{
 				$this->group_obj->setGroupType($grp_status);
-				#$this->group_obj->updateGroupType();
+				$this->group_obj->updateGroupType();
 			}
 		}
 
@@ -398,7 +398,7 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->group_obj->update();
 
 		// ASSIGN ADMINS/MEMBERS
-		#$this->__assignMembers();
+		$this->__assignMembers();
 
 		$this->__pushParentId($this->group_obj->getRefId());
 
@@ -460,7 +460,6 @@ class ilGroupXMLParser extends ilSaxParser
 		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
 		$this->participants->updateNotification($ilUser->getId(),true);
 		
-#print_r($this->group_data["admin"]["attach"]);
 		// attach ADMINs
 		if (count($this->group_data["admin"]["attach"]))
 		{

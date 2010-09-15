@@ -36,6 +36,11 @@ class ilCourseImporter extends ilXmlImporter
 		{
 			$this->course = ilObjectFactory::getInstanceByObjId($new_id,false);
 		}
+		// Mapping for containers without subitems
+		elseif($new_id = $a_mapping->getMapping('Services/Container','refs',0))
+		{
+			$this->course = ilObjectFactory::getInstanceByRefId($new_id,false);
+		}
 		elseif(!$this->course instanceof ilObjCourse)
 		{
 			$this->course = new ilObjCourse();
@@ -53,7 +58,7 @@ class ilCourseImporter extends ilXmlImporter
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
-		catch(ilWebLinkXMLParserException $e)
+		catch(Exception $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
