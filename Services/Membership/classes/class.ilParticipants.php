@@ -683,7 +683,6 @@ class ilParticipants
 	 			$this->members[] = $a_usr_id;
 	 			break;
 	 	}
-		var_dump($this->role_data,$a_role,$a_usr_id);
 		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
