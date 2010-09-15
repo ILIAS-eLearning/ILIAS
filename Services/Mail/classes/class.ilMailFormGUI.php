@@ -134,8 +134,12 @@ class ilMailFormGUI
 			}
 		}
 		
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$f_message = $this->umail->formatLinebreakMessage(ilUtil::securePlainString($_POST['m_message']));
+		// Remove \r
+		$f_message = str_replace("\r", '', ilUtil::securePlainString($_POST['m_message']));
+
+		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
+		$f_message = $this->umail->formatLinebreakMessage($f_message);
+		
 		$this->umail->setSaveInSentbox(true);		
 
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
