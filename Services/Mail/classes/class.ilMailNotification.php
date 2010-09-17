@@ -344,13 +344,13 @@ abstract class ilMailNotification
 	 * Create a permanent link for an object
 	 * @return 
 	 */
-	protected function createPermanentLink()
+	protected function createPermanentLink($a_params = array(),$a_append = '')
 	{
 		include_once './classes/class.ilLink.php';
 		
 		if($this->getRefId())
 		{
-			return ilLink::_getLink($this->ref_id,$this->getObjType());
+			return ilLink::_getLink($this->ref_id,$this->getObjType(),$a_params,$a_append);
 		}
 		else
 		{
@@ -358,6 +358,7 @@ abstract class ilMailNotification
 			return ilLink::_getLink(ROOT_FOLDER_ID,'root');
 		}
 	}
+	
 	
 	/**
 	 * Utility function 
