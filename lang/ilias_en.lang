@@ -10913,3 +10913,25 @@ content#:#cont_please_try_again#:#Please try again
 content#:#cont_all_answers_correct#:#All answers correct
 content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded
 content#:#cont_correct_answers_shown#:#Correct answers are shown above
+administration#:#apache_auth_settings#:#Apache
+administration#:#apache_settings#:#Configure LDAP Authentication
+administration#:#apache_enable_auth#:#Enable Apache Authentication support
+administration#:#apache_autocreate#:#Enable account generation
+administration#:#apache_default_role#:#Default user role
+administration#:#apache_enable_local#:#Enable local user assignment
+administration#:#apache_enable_ldap#:#Enable LDAP user assignment
+administration#:#apache_auth_indicator_name#:#Indicator-field for successful authentication
+administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication
+administration#:#apache_auth_enable_override_login#:#Override default login page
+administration#:#apache_auth_target_override_login#:#Target url for custom login page
+administration#:#apache_auth_username_config#:#Username configuration
+administration#:#apache_auth_username_config_type#:#Type
+administration#:#apache_auth_username_direct_mapping#:#Straight assignment
+administration#:#apache_auth_username_extended_mapping#:#Extended assignment
+administration#:#apache_auth_username_by_function#:#Assign usernames by custom function
+administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration
+administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment
+administration#:#auth_apache#:#Apache
+administration#:#apache_settings_changed_success#:#Configuration saved
+common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.
+administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticaton when entering the login page
