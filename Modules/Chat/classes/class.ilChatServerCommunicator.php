@@ -39,7 +39,9 @@ class ilChatServerCommunicator
 	var $rcp_id;
 	var $rcp_login;
 	var $kicked_user;
-	
+
+        public static $READ_TIMEOUT = 4;
+
 	/**
 	* Constructor
 	* @access	public
@@ -221,10 +223,13 @@ class ilChatServerCommunicator
 
 	private function openSocket()
 	{
-        $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(), 
+                $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(),
 									 $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
-
-		return $this->socket_p == null ? false : true;
+                $success = ($this->socket_p == null ? false : true);
+                #if ($success) {
+                #    stream_set_timeout($this->socket_p, self::$READ_TIMEOUT);
+                #}
+		return $success;
 	}
 
 	// STATIC

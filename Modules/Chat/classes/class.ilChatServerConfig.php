@@ -63,6 +63,8 @@ class ilChatServerConfig
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("chat");
 
+                define(TIMEOUT,2);
+
 		$this->read();
 	}
 
@@ -283,7 +285,7 @@ class ilChatServerConfig
 	{
         if($this->getInternalIp() and $this->getPort())
         {
-            if( $sp = @fsockopen($this->getInternalIp(),$this->getPort(), $errno, $errstr, 100))
+            if( $sp = @fsockopen($this->getInternalIp(),$this->getPort(), $errno, $errstr, TIMEOUT))
 			{
 				fclose($sp);
 				return true;
