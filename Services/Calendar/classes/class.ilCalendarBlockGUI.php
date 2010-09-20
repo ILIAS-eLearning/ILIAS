@@ -508,7 +508,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 								"<br/>".$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id));
 						}
 					}
-					// $ilCtrl->clearParameters($this);
+					$ilCtrl->setParameter($this, "bkid", "");
 				}
 			}
 			else
