@@ -10475,11 +10475,11 @@ exc#:#exc_submission_notification_subject#:#A new submission was uploaded for ex
 wiki#:#wiki_edit_notification#:#Email Notification on Change
 wiki#:#wiki_edit_notification_info#:#You will be notified when any page is edited.
 wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed
-wiki#:#wiki_change_notification_page_body_update#:#In wiki "%s" the page "%s" was updated.
-wiki#:#wiki_change_notification_page_body_delete#:#In wiki "%s" the page "%s" was deleted.
-wiki#:#wiki_change_notification_page_link#:#Link to wiki page: %s
-wiki#:#wiki_change_notification_body_new#:#In wiki "%s" the page "%s" was created.
-wiki#:#wiki_change_notification_link#:#Link to wiki: %s
+wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
+wiki#:#wiki_change_notification_page_link#:#URL
+wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
+wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_notification_toggle_info#:#Change Notification
 wiki#:#wiki_notification_toggle_wiki_activate#:#Activate for Wiki
 wiki#:#wiki_notification_toggle_wiki_deactivate#:#Deactivate for Wiki
@@ -10935,3 +10935,4 @@ administration#:#auth_apache#:#Apache
 administration#:#apache_settings_changed_success#:#Configuration saved
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.
 administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticaton when entering the login page
+wiki#:#wiki_change_notification_salutation#:#Hello %s,
