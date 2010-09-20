@@ -10420,11 +10420,11 @@ exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übu
 wiki#:#wiki_edit_notification#:#Mail Benachrichtigung bei Änderungen
 wiki#:#wiki_edit_notification_info#:#Sie werden benachrichtigt wenn eine Seite editiert wird.
 wiki#:#wiki_change_notification_subject#:#Wiki "%s" wurde editiert
-wiki#:#wiki_change_notification_page_body_update#:#Im Wiki "%s" wurde die Seite "%s" editiert.
-wiki#:#wiki_change_notification_page_body_delete#:#Im Wiki "%s" wurde die Seite "%s" gelöscht.
-wiki#:#wiki_change_notification_page_link#:#Link zur Wiki-Seite: %s
-wiki#:#wiki_change_notification_body_new#:#Im Wiki "%s" wurde die Seite "%s" neu angelegt.
-wiki#:#wiki_change_notification_link#:#Link zum Wiki: %s
+wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde editiert
+wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde gelöscht
+wiki#:#wiki_change_notification_page_link#:#URL
+wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+wiki#:#wiki_change_notification_link#:#URL
 wiki#:#wiki_notification_toggle_info#:#Änderungs-Benachrichtigung
 wiki#:#wiki_notification_toggle_wiki_activate#:#Für Wiki aktivieren
 wiki#:#wiki_notification_toggle_wiki_deactivate#:#Für Wiki deaktivieren
@@ -10940,3 +10940,4 @@ administration#:#apache_settings_changed_success#:#Konfiguration gespeichert
 administration#:#apache_auth_authentication_on_login_page#:#Apache-Authentfizierung beim Betreten der Login-Seite durchführen
 common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
 administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authentifizierungsversuch beim Betreten der Loginseite
+wiki#:#wiki_change_notification_salutation#:#Hallo %s,

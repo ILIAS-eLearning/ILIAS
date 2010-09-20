@@ -566,23 +566,23 @@ class ilWikiUtil
 		return array( $inside, $trail );
 	}
 
-	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id = NULL)
+	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id)
 	{
 		global $ilUser, $lng, $ilObjDataCache;
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		include_once "./Modules/Wiki/classes/class.ilObjWiki.php";
+		include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
 		
 		$wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
 		$wiki = new ilObjWiki($a_wiki_ref_id, true);
+		$page = new ilWikiPage($a_page_id);
 
 		$subject = sprintf($lng->txt('wiki_change_notification_subject'), $wiki->getTitle());
+		$message = sprintf($lng->txt('wiki_change_notification_salutation'), $ilUser->getFullName())."\n\n";
 
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
-			include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
-			$page = new ilWikiPage($a_page_id);
-		
 			$users = ilNotification::getNotificationsForObject($a_type, $a_page_id);
 			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id);
 			$users = array_merge($users, $wiki_users);
@@ -592,13 +592,16 @@ class ilWikiUtil
 			}
 
             // update/delete
-			$message = sprintf($lng->txt('wiki_change_notification_page_body_'.$a_action), $wiki->getTitle(), $page->getTitle())."\n\n";
-
-			$message .= "------------------------------------------------------------\n";
-
+			$message .= $lng->txt('wiki_change_notification_page_body_'.$a_action).":\n\n";
+			$message .= $lng->txt('wiki').": ".$wiki->getTitle()."\n";
+			$message .= $lng->txt('page').": ".$page->getTitle()."\n\n";
+			
 			include_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
-			$message .= sprintf($lng->txt('wiki_change_notification_page_link'),
-				ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle()));
+			$message .= $lng->txt('wiki_change_notification_page_link').": ".
+				ILIAS_HTTP_PATH."/".ilObjWikiGui::getGotoLink($a_wiki_ref_id, $page->getTitle());
+
+
+			ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
 		}
 		else
 		{
@@ -609,14 +612,15 @@ class ilWikiUtil
 			}
 
 			// new
-			$message = sprintf($lng->txt('wiki_change_notification_body_'.$a_action), $wiki->getTitle())."\n\n";
-
-			$message .= "------------------------------------------------------------\n";
-
+			$message .= $lng->txt('wiki_change_notification_body_'.$a_action).":\n\n";
+			$message .= $lng->txt('wiki').": ".$wiki->getTitle()."\n";
+			$message .= $lng->txt('page').": ".$page->getTitle()."\n\n";
+			
 			include_once "./classes/class.ilLink.php";
-			$message .= sprintf($lng->txt('wiki_change_notification_link'),
-				ilLink::_getLink($a_wiki_ref_id));
+			$message .= $lng->txt('wiki_change_notification_link').": ".ilLink::_getLink($a_wiki_ref_id);
 		}
+		
+		ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users);
 
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
@@ -634,15 +638,6 @@ class ilWikiUtil
 			{
 				unset($users[$idx]);
 			}
-		}
-
-		if($a_type == ilNotification::TYPE_WIKI_PAGE)
-		{
-			ilNotification::updateNotificationTime($a_type, $a_page_id, $users);
-		}
-		else
-		{
-			ilNotification::updateNotificationTime($a_type, $wiki_id, $users);
 		}
 	}
 }
