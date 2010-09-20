@@ -318,8 +318,8 @@ class ilConsultationHoursGUI
 		$start = clone $this->form->getItemByPostVar('st')->getDate();
 		for($i = 0; $i < $this->form->getItemByPostVar('ap')->getValue(); $i++)
 		{
-			$concurrent_dates->add(
-				$start = new ilDateTime($start->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes()),IL_CAL_UNIX));
+			$concurrent_dates->add($start);
+			$start = new ilDateTime($start->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes()),IL_CAL_UNIX);
 		}
 		
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
