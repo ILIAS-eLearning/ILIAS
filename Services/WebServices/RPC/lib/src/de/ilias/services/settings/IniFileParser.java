@@ -102,6 +102,7 @@ public class IniFileParser {
 						}
 					}
 					else {
+						logger.error("No ClientId given for section: " + section.getName());
 						throw new ConfigurationException("No ClientId given for section: " + section.getName());
 					}
 				}
@@ -109,11 +110,11 @@ public class IniFileParser {
 
 		} 
 		catch (ConfigurationException e) {
-			logger.error("Cannot parse server settings");
+			logger.error("Cannot parse server settings: " + e.getMessage());
 			throw new ConfigurationException(e);
 		} 
 		catch (IOException e) {
-			logger.error("Cannot parse server settings");
+			logger.error("Cannot parse server settings: " + e.getMessage());
 			throw new ConfigurationException(e);
 		}
 	}
