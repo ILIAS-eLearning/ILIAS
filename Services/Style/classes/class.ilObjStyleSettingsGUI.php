@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjStyleSettingsGUI
+* Class ilO	bjStyleSettingsGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -631,7 +631,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function saveStyleSettingsObject()
 	{
-		global $styleDefinition;
+		global $styleDefinition, $ilCtrl;
 		
 		// check if one style is activated
 		if (count($_POST["st_act"]) < 1)
@@ -714,9 +714,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			}
 		}
 		$this->ilias->ini->write();
-//echo "redirect-".$this->ctrl->getLinkTarget($this,"editSystemStyles")."-";
+
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editSystemStyles"));
+		$ilCtrl->redirect($this , "editSystemStyles");
 	}
 	
 	/**
