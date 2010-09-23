@@ -94,6 +94,7 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["title"] = $ti->getValue();

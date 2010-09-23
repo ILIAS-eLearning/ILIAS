@@ -102,6 +102,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(64);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
@@ -110,6 +111,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		// description
 		$ti = new ilTextInputGUI($lng->txt("description"), "description");
 		$ti->setMaxLength(64);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
@@ -118,6 +120,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		// author
 		$ti = new ilTextInputGUI($lng->txt("author"), "author");
 		$ti->setMaxLength(64);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();

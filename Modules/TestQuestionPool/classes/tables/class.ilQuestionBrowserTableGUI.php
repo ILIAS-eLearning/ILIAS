@@ -167,6 +167,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(64);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
@@ -176,6 +177,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("description"), "description");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["description"] = $ti->getValue();
@@ -186,6 +188,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			$ti = new ilTextInputGUI($lng->txt("author"), "author");
 			$ti->setMaxLength(64);
 			$ti->setSize(20);
+			$ti->setValidationRegexp('/^[^%]+$/is');
 			$this->addFilterItem($ti);
 			$ti->readFromSession();
 			$this->filter["author"] = $ti->getValue();
