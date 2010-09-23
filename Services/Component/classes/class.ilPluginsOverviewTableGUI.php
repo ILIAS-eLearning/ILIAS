@@ -62,7 +62,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 				{
 					$slots[] = array("slot_name" => $slot->getSlotName(),
 						"component_type" => IL_COMP_MODULE,
-						"component_name" => $s["subdir"],
+						"component_name" => $m["subdir"],
 						"slot_id" => $ps["id"],
 						"plugins" => $plugins);
 				}
