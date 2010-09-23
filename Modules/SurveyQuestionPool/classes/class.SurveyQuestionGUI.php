@@ -579,6 +579,7 @@ class SurveyQuestionGUI
 		}
 		else
 		{
+			$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
 			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
 		}
 		if ($_GET["q_id"])

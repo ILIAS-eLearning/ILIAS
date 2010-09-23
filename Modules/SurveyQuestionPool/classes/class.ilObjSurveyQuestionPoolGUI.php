@@ -448,6 +448,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$this->object->purgeQuestions();
 
+		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questionbrowser.html", "Modules/SurveyQuestionPool");
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
