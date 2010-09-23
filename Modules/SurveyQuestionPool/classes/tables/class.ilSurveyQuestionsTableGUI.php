@@ -117,6 +117,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["title"] = $ti->getValue();
@@ -125,6 +126,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("description"), "description");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["description"] = $ti->getValue();
@@ -133,6 +135,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("author"), "author");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setValidationRegexp('/^[^%]+$/is');
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["author"] = $ti->getValue();

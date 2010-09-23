@@ -511,6 +511,10 @@ class ilObjSurveyQuestionPool extends ilObject
 		$where = "";
 		if (is_array($arrFilter))
 		{
+			foreach ($arrFilter as $key => $value)
+			{
+				$arrFilter[$key] = str_replace('%', '', $arrFilter[$key]);
+			}
 			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
 			{
 				$where .= " AND " . $ilDB->like('svy_question.title', 'text', "%%" . $arrFilter['title'] . "%%");
