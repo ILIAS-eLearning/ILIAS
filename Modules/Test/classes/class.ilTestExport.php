@@ -504,7 +504,7 @@ class ilTestExport
 				$counter++;
 			}
 		}
-		if ($this->test_obj->isSingleChoiceTest() && !$this->test_obj->isRandomTest())
+		if ($this->test_obj->getExportSettingsSingleChoiceShort() && !$this->test_obj->isRandomTest() && $this->test_obj->hasSingleChoiceQuestions())
 		{
 			// special tab for single choice tests
 			$titles =& $this->test_obj->getQuestionTitlesAndIndexes();

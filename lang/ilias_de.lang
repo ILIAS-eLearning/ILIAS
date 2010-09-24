@@ -10941,3 +10941,5 @@ administration#:#apache_auth_authentication_on_login_page#:#Apache-Authentfizier
 common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
 administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authentifizierungsversuch beim Betreten der Loginseite
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
+assessment#:#tst_export_settings#:#Exporteinstellungen
+assessment#:#tst_exp_sc_short#:#Komprimierte Übersicht für Single Choice Fragen erzeugen

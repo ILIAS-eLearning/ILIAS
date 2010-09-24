@@ -760,6 +760,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setShowSolutionSignature((is_array($_POST['results_presentation']) && in_array('solution_signature', $_POST['results_presentation'])) ? 1 : 0);
 			$this->object->setShowSolutionSuggested((is_array($_POST['results_presentation']) && in_array('solution_suggested', $_POST['results_presentation'])) ? 1 : 0);
 
+			$this->object->setExportSettingsSingleChoiceShort((is_array($_POST['export_settings']) && in_array('exp_sc_short', $_POST['export_settings'])) ? 1 : 0);
+
 			$this->object->saveToDb(true);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
 			$this->ctrl->redirect($this, "scoring");
@@ -906,6 +908,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$signatureOption->setDisabled(true);
 		}
 		$form->addItem($results_presentation);
+
+		// export settings
+		$export_settings = new ilCheckboxGroupInputGUI($this->lng->txt("tst_export_settings"), "export_settings");
+		$export_settings->addOption(new ilCheckboxOption($this->lng->txt("tst_exp_sc_short"), 'exp_sc_short', ''));
+		$values = array();
+		if ($this->object->getExportSettingsSingleChoiceShort()) array_push($values, 'exp_sc_short');
+		$export_settings->setValue($values);
+		$form->addItem($export_settings);
 		
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveScoring", $this->lng->txt("save"));
 		$errors = false;
