@@ -443,7 +443,7 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			return false;
 		}
-		if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
+		if ($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
 		{
 			if(!$rbacsystem->checkAccess('write',$crs_id))
 			{
@@ -461,7 +461,6 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 				// Show only activated course items
 				include_once "./Modules/Course/classes/class.ilCourseItems.php";
-
 				if(($crs_id != $a_ref_id) and (!ilCourseItems::_isActivated($a_ref_id)))
 				{
 					return false;
