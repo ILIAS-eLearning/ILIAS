@@ -394,6 +394,7 @@ class ilObjTest extends ilObject
 	protected $mailnotification;
 	protected $mailnottype;
 	protected $random_questionpool_data;
+	protected $exportsettings;
 
 	/**
 	* Constructor
@@ -430,6 +431,7 @@ class ilObjTest extends ilObject
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
 		$this->mailnottype = 0;
+		$this->exportsettings = 0;
 		$this->show_summary = 8;
 		$this->random_question_count = "";
 		$this->count_system = COUNT_PARTIAL_SOLUTIONS;
@@ -922,6 +924,31 @@ class ilObjTest extends ilObject
 	}
 
 	/**
+	* Returns TRUE if the test contains single choice results
+	*
+	* @return boolean 
+	* @access public
+	*/
+	function hasSingleChoiceQuestions()
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_type.type_tag) foundtypes FROM qpl_questions, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
+		);
+		$hasSC = false;
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if (strcmp($row['foundtypes'], 'assSingleChoice') == 0)
+			{
+				$hasSC = true;
+			}
+		}
+		return $hasSC;
+	}
+
+	/**
 	* Returns TRUE if the test contains single choice results only
 	*
 	* @return boolean 
@@ -960,11 +987,11 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 
-		if (!$this->isSingleChoiceTest()) return false;
+		if (!$this->hasSingleChoiceQuestions()) return false;
 		
-		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_sc.shuffle) foundshuffles FROM qpl_questions, qpl_qst_sc, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND qpl_questions.question_id = qpl_qst_sc.question_fi AND tst_active.test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
+		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_sc.shuffle) foundshuffles FROM qpl_questions, qpl_qst_sc, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND qpl_questions.question_id = qpl_qst_sc.question_fi AND tst_active.test_fi = %s AND qpl_qst_type.type_tag = %s",
+			array('integer', 'text'),
+			array($this->getTestId(), 'assSingleChoice')
 		);
 		if ($result->numRows() == 1)
 		{
@@ -1128,9 +1155,9 @@ class ilObjTest extends ilObject
 				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
-				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, " .
+				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
 				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp) " .
-				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
@@ -1139,7 +1166,7 @@ class ilObjTest extends ilObject
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
-					'text', 'integer', 'integer', 'text', 'integer', 'integer',
+					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
 					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
@@ -1191,6 +1218,7 @@ class ilObjTest extends ilObject
 					$this->getPassword(),
 					$this->getAllowedUsers(),
 					$this->getMailNotificationType(),
+					$this->getExportSettings(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
@@ -1227,7 +1255,7 @@ class ilObjTest extends ilObject
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
-				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, " . 
+				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " . 
 				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1236,7 +1264,7 @@ class ilObjTest extends ilObject
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
-					'text', 'integer', 'integer', 'text', 'integer','integer',
+					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
 					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
@@ -1286,6 +1314,7 @@ class ilObjTest extends ilObject
 					$this->getPassword(),
 					$this->getAllowedUsers(),
 					$this->getMailNotificationType(),
+					$this->getExportSettings(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
@@ -2036,6 +2065,7 @@ class ilObjTest extends ilObject
 			$this->setMCScoring($data->mc_scoring);
 			$this->setMailNotification($data->mailnotification);
 			$this->setMailNotificationType($data->mailnottype);
+			$this->setExportSettings($data->exportsettings);
 			$this->setScoreCutting($data->score_cutting);
 			$this->setPassword($data->password);
 			$this->setAllowedUsers($data->allowedusers);
@@ -5794,6 +5824,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "mailnottype":
 					$this->setMailNotificationType($metadata["entry"]);
 					break;
+				case "exportsettings":
+					$this->setExportSettings($metadata['exportsettings']);
+					break;
 				case "score_cutting":
 					$this->setScoreCutting($metadata["entry"]);
 					break;
@@ -6101,6 +6134,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "mailnottype");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMailNotificationType());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// export settings
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "exportsettings");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getExportSettings());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// force JavaScript
@@ -9213,6 +9252,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"MCScoring" => $this->getMCScoring(),
 			"mailnotification" => $this->getMailNotification(),
 			"mailnottype" => $this->getMailNotificationType(),
+			"exportsettings" => $this->getExportSettings(),
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9275,6 +9315,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setMCScoring($testsettings["MCScoring"]);
 			$this->setMailNotification($testsettings["mailnotification"]);
 			$this->setMailNotificationType($testsettings["mailnottype"]);
+			$this->setExportSettings($testsettings['exportsettings']);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
 			$this->saveToDb();
 			$result = TRUE;
@@ -10119,6 +10160,57 @@ function loadQuestions($active_id = "", $pass = NULL)
 		else
 		{
 			$this->mailnottype = 0;
+		}
+	}
+	
+	public function getExportSettings()
+	{
+		if ($this->exportsettings)
+		{
+			return $this->exportsettings;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	public function setExportSettings($a_settings)
+	{
+		if ($a_settings)
+		{
+			$this->exportsettings = $a_settings;
+		}
+		else
+		{
+			$this->exportsettings = 0;
+		}
+	}
+	
+	public function getExportSettingsSingleChoiceShort()
+	{
+		if (($this->exportsettings & 1) > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public function setExportSettingsSingleChoiceShort($a_settings)
+	{
+		if ($a_settings)
+		{
+			$this->exportsettings = $this->exportsettings | 1;
+		}
+		else
+		{
+			if ($this->getExportSettingsSingleChoiceShort())
+			{
+				$this->exportsettings = $this->exportsettings ^ 1;
+			}
 		}
 	}
 	

@@ -3382,3 +3382,10 @@ if (!$ilDB->tableColumnExists('svy_phrase_cat', 'scale'))
   $ilDB->addTableColumn("svy_phrase_cat", "scale", array("type" => "integer", "length" => 4, "notnull" => false, "default" => null));
 }
 ?>
+<#3184>
+<?php
+if (!$ilDB->tableColumnExists('tst_tests', 'exportsettings'))
+{
+  $ilDB->addTableColumn("tst_tests", "exportsettings", array("type" => "integer", "length" => 4, "notnull" => true, "default" => 0));
+}
+?>
