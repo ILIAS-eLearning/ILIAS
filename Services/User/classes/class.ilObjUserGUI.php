@@ -578,7 +578,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$user->setTimeLimitFrom($from->get(IL_CAL_UNIX));
 		
 		$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME);
-		$user->setTimeLimitUntil($until);
+		$user->setTimeLimitUntil($until->get(IL_CAL_UNIX));
 		
 		$user->setTimeLimitUnlimited($this->form_gui->getInput('time_limit_unlimited'));
 		
