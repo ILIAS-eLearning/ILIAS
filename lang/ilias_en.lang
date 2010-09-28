@@ -10938,3 +10938,7 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,
 assessment#:#tst_export_settings#:#Export settings
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions
+common#:#frma_visible#:#Forum Administration is visible
+common#:#frma_read#:#Read access to Forum Administration
+common#:#frma_write#:#Write access to Forum Administration
+common#:#frma_edit_permission#:#Change permission settings
