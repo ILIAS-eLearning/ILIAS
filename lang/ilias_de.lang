@@ -10943,3 +10943,7 @@ administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authenti
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
 assessment#:#tst_export_settings#:#Exporteinstellungen
 assessment#:#tst_exp_sc_short#:#Komprimierte Übersicht für Single Choice Fragen erzeugen
+common#:#frma_visible#:#Foreneinstellungen sind sichtbar
+common#:#frma_read#:#Lesezugriff auf Foreneinstellungen
+common#:#frma_write#:#Schreibzugriff auf Foreneinstellungen
+common#:#frma_edit_permission#:#Rechteeinstellungen ändern
