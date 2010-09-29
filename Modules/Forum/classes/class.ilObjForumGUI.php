@@ -41,10 +41,14 @@ class ilObjForumGUI extends ilObjectGUI
 	private $hideToolbar = false;
 
 	private $forum_overview_setting = null;
+
+	public $viewmode = null;
 	
 	public function ilObjForumGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl, $ilUser, $ilAccess;
+
+
 
 		// CONTROL OPTIONS
 		$this->ctrl =& $ilCtrl;
@@ -68,6 +72,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$frma_set = new ilSetting("frma");
 		$this->forum_overview_setting = $frma_set->get('forum_overview');
+
+		$this->viewmode = $_GET['viewmode'] ? $_GET['viewmode'] : 'tree';
 	}
 
 	/**
@@ -1291,11 +1297,14 @@ class ilObjForumGUI extends ilObjectGUI
 
         $session_name = 'viewmode_'.$forumObj->getId();
 
-        if (isset($_GET['viewmode']))
+    /*    if (isset($_GET['viewmode']))
         {
             $_SESSION[$session_name] = $_GET['viewmode'];
         }
-        if (!$_SESSION[$session_name])
+	 * */
+		$_SESSION[$session_name] = $this->viewmode;
+
+		if (!$_SESSION[$session_name])
         {
             $_SESSION[$session_name] = $this->objProperties->getDefaultView() == 1 ? 'tree' : 'flat';
         }
@@ -1325,7 +1334,7 @@ class ilObjForumGUI extends ilObjectGUI
             exit();
         }
         else
-        {
+        {	$this->ctrl->setParameter($this, 'viewmode', 'flat');
             if (isset($_GET['target']))
             {
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -1336,6 +1345,7 @@ class ilObjForumGUI extends ilObjectGUI
             {
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
                 $this->ctrl->redirect($this, 'viewThread');
+
             }
         }
     }
@@ -1408,7 +1418,7 @@ class ilObjForumGUI extends ilObjectGUI
         $ilTabs->addTarget('order_by_date',    $this->ctrl->getLinkTarget($this, 'showThreadFrameset'), '', '', $t_frame);
 		$this->ctrl->clearParameters($this);
 
-		if($_SESSION['viewmode']== 'date')
+		if($_SESSION['viewmode']== 'date' || $this->viewmode == 'flat')
 		{
 			$ilTabs->setTabActive('order_by_date');
 		}
@@ -2276,10 +2286,9 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$session_name = 'viewmode_'.$forumObj->getId();
 
-	//	if ($_SESSION[$session_name] == 'date')
-		if ($_SESSION['viewmode'] == 'date')
+		#if ($_SESSION[$session_name] == 'date')
+		if($this->viewmode == 'flat')
 		{
-			$new_order = 'answers';
 			$orderField = 'frm_posts_tree.fpt_date';
 		}
 		else
@@ -2290,7 +2299,6 @@ class ilObjForumGUI extends ilObjectGUI
                 $tpl->setVariable('JAVASCRIPT',    $this->ctrl->getLinkTarget($this, 'showExplorer', '', false, false));
             }
 
-			$new_order = 'date';
 			$orderField = 'frm_posts_tree.rgt';
 		}
 				
@@ -2738,7 +2746,7 @@ class ilObjForumGUI extends ilObjectGUI
 							// button: mark read
 							if ($ilUser->getId() != ANONYMOUS_USER_ID &&
 							    !$node->isRead($ilUser->getId()))
-							{	
+							{
 								$tpl->setCurrentBlock('commands');
 								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
 								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
