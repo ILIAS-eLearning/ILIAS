@@ -55,7 +55,7 @@ class ilAuthContainerCAS extends Auth_Container
 		
 		$ilLog->write(__METHOD__.': Successful CAS login.');
 		
-		include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
+		include_once("./Services/CAS/lib/CAS.php");
 		
 		if ($PHPCAS_CLIENT->getUser() != "")
 		{
@@ -163,7 +163,7 @@ class ilAuthContainerCAS extends Auth_Container
 	{
 		global $ilSetting;
 		
-		include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
+		include_once("./Services/CAS/lib/CAS.php");
 
 		$this->server_version = CAS_VERSION_2_0;
 		$this->server_hostname = $ilSetting->get('cas_server');
@@ -177,6 +177,7 @@ class ilAuthContainerCAS extends Auth_Container
 			$this->server_port,
 			$this->server_uri
 		);
+		phpCAS::setNoCasServerValidation();
 	}
 	
 }
