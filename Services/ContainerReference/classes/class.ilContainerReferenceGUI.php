@@ -183,12 +183,13 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			$this->editObject();
 			return false;	
 		}
-		if(!$ilAccess->checkAccess('edit','',(int) $_REQUEST['target_id']))
+		if(!$ilAccess->checkAccess('read','',(int) $_REQUEST['target_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->editObject();
 			return false;	
 		}
+		$this->checkPermission('write');
 
 		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
 		$this->object->setTargetId($target_obj_id);
