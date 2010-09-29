@@ -715,7 +715,7 @@ class ilAuthUtils
 			case AUTH_SHIBBOLETH:
 			case AUTH_SOAP:
 			case AUTH_CAS:
-				if(!ilAuthUtils::isPasswordModificationAllowed($a_authmode))
+				if(!ilAuthUtils::isPasswordModificationEnabled($a_authmode))
 				{
 					return ilAuthUtils::LOCAL_PWV_NO;
 				}
