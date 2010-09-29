@@ -154,12 +154,23 @@ class ilInitialisation
 		// include error_handling
 		require_once "classes/class.ilErrorHandling.php";
 
+		$ilBench->stop("Core", "HeaderInclude_IncludeFiles");
+	}
+	
+	/**
+	 * This is a hack for CAS authentication.
+	 * Since the phpCAS lib ships with its own compliance functions.
+	 * @return 
+	 */
+	public function includePhp5Compliance()
+	{
 		// php5 downward complaince to php 4 dom xml and clone method
 		if (version_compare(PHP_VERSION,'5','>='))
 		{
-			require_once("include/inc.xml5compliance.php");
-			//require_once("Services/CAS/phpcas/source/CAS/domxml-php4-php5.php");
-
+			if(ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS)
+			{
+				require_once("include/inc.xml5compliance.php");
+			}
 			require_once("include/inc.xsl5compliance.php");
 			require_once("include/inc.php4compliance.php");
 		}
@@ -167,9 +178,9 @@ class ilInitialisation
 		{
 			require_once("include/inc.php5compliance.php");
 		}
-
-		$ilBench->stop("Core", "HeaderInclude_IncludeFiles");
+		
 	}
+	
 
 	/**
 	* This method provides a global instance of class ilIniFile for the
@@ -1108,6 +1119,8 @@ class ilInitialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
 		global $ilAuth;
+		
+		$this->includePhp5Compliance();
 
 //echo get_class($ilAuth);
 //var_dump($ilAuth);
