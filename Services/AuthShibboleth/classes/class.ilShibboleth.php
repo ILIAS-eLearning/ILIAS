@@ -110,6 +110,17 @@ class ShibAuth extends Auth
 		
 	}
 	
+	/**
+	 * Returns true, if the current auth mode allows redirection to e.g 
+	 * to loginScreen, public section... 
+	 * @return 
+	 */
+	public function supportsRedirects()
+	{
+		return true;
+	} 
+	
+	
 	
 	/**
 	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
