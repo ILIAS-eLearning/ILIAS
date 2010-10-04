@@ -79,6 +79,19 @@ class ilEventItems
 			$this->items[] = (int) $item_id;
 		}
 	}
+	
+	
+	/**
+	 * Add one item
+	 * @param object $a_item_ref_id
+	 * @return 
+	 */
+	public function addItem($a_item_ref_id)
+	{
+		$this->items[] = (int) $a_item_ref_id;
+	}
+	
+	
 	function delete()
 	{
 		return ilEventItems::_delete($this->getEventId());
