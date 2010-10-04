@@ -595,11 +595,14 @@ class ilGroupXMLParser extends ilSaxParser
 						 'local' => false,
 						 'usr_id' => $id);
 		}
-		if(($fields[1] == $ilias->getSetting('inst_id',0)) and strlen(ilObjUser::_lookupName($fields[3])))
+		if(($fields[1] == $ilias->getSetting('inst_id',0)) and ($user = ilObjUser::_lookupName($fields[3])))
 		{
-			return array('imported' => false,
-						 'local' => true,
-						 'usr_id' => $fields[3]);
+			if(strlen($user['login']))
+			{
+				return array('imported' => false,
+							 'local' => true,
+							 'usr_id' => $fields[3]);
+			}
 		}
 		return false;
 	}
