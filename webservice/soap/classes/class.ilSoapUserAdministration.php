@@ -259,7 +259,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting;
 
-		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
+		if(!$rbacsystem->checkAccess('create_usr',USER_FOLDER_ID))
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
@@ -694,7 +694,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     		        return $this->__raiseError('Folder must be a usr folder or a category.','Server');
 
     		// check access to folder
-    		if(!$rbacsystem->checkAccess('create_user',$folder_id))
+    		if(!$rbacsystem->checkAccess('create_usr',$folder_id))
     		{
     			return $this->__raiseError('Missing permission for creating users within '.$import_folder->getTitle(),'Server');
     		}

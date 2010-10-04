@@ -493,7 +493,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
 		
-		if (!$rbacsystem->checkAccess('create_user',$this->object->getRefId()))
+		if (!$rbacsystem->checkAccess('create_usr',$this->object->getRefId()))
 		{
 			unset($d["usr"]);			
 		}

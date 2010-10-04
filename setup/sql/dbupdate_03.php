@@ -3389,3 +3389,8 @@ if (!$ilDB->tableColumnExists('tst_tests', 'exportsettings'))
   $ilDB->addTableColumn("tst_tests", "exportsettings", array("type" => "integer", "length" => 4, "notnull" => true, "default" => 0));
 }
 ?>
+<#3185>
+<?php
+	$query = 'UPDATE rbac_operations SET operation = '.$ilDB->quote('create_usr','text').' WHERE operation = '.$ilDB->quote('create_user','text');
+	$ilDB->manipulate($query);
+?>

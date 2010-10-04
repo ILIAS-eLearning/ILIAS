@@ -10947,3 +10947,5 @@ common#:#frma_visible#:#Foreneinstellungen sind sichtbar
 common#:#frma_read#:#Lesezugriff auf Foreneinstellungen
 common#:#frma_write#:#Schreibzugriff auf Foreneinstellungen
 common#:#frma_edit_permission#:#Rechteeinstellungen ändern
+common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
+rbac#:#usrf_create_usr#:#Benutzer anlegen
