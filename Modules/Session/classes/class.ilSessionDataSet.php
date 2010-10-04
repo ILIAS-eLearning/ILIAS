@@ -188,9 +188,6 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-//echo $a_entity;
-//var_dump($a_rec);
-
 		switch ($a_entity)
 		{
 			case "sess":
@@ -239,7 +236,15 @@ class ilSessionDataSet extends ilDataSet
 				break;
 
 			case "sess_item":
-				// todo
+
+				if($obj_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['ItemId']))
+				{
+					$ref_id = current(ilObject::_getAllReferences($obj_id));
+					include_once './Modules/Session/classes/class.ilEventItems.php';
+					$evi = new ilEventItems($this->current_obj->getId());
+					$evi->addItem($ref_id);
+					$evi->update();
+				}
 				break;
 		}
 	}
