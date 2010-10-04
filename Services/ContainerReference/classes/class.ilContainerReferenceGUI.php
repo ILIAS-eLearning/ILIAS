@@ -382,18 +382,16 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	
 		include_once './Services/ContainerReference/classes/class.ilContainerSelectionExplorer.php';
 		
-		
+		ilUtil::sendInfo($this->lng->txt($this->getReferenceType().'_edit_info'));
 		if($_SESSION['ref_mode'] == self::MODE_CREATE)
 		{
 			$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
-			ilUtil::sendInfo($this->lng->txt($this->getTargetType().'r_edit_info'));
 			$this->ctrl->setParameter($this,'new_type',$this->getReferenceType());
 			$cmd = 'save';
 		}
 		else
 		{
 			$ilTabs->setTabActive('edit');
-			ilUtil::sendInfo($this->lng->txt($this->getTargetType().'r_edit_info'));
 			$cmd = 'update';
 		}
 		$explorer = new ilContainerSelectionExplorer($this->ctrl->getLinkTarget($this,$cmd));
