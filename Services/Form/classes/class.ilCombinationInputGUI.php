@@ -185,9 +185,19 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 				{
 					$item->setValue(NULL);
 				}
+				// datetime
 				else if(method_exists($item, "setDate"))
 				{
 					$item->setDate();
+				}
+				// duration
+				else if(method_exists($item, "setMonths"))
+				{
+					$item->setMonths(0);
+					$item->setDays(0);
+					$item->setHours(0);
+					$item->setMinutes(0);
+					$item->setSeconds(0);
 				}
 			}
 		}
