@@ -32,6 +32,7 @@ include_once("Services/Calendar/classes/class.ilCalendarBlockGUI.php");
 * @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
 * @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
+* @ilCtrl_Calls ilPDCalendarBlockGUI: ilConsultationHoursGUI
 *
 * @ingroup ServicesCalendar
 */
