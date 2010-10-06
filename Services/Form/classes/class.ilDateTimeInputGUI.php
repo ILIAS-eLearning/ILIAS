@@ -103,7 +103,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*		
 	* @param	object	$a_date	ilDate or ilDateTime  object
 	*/
-	function setDate(ilDateTime $a_date)
+	function setDate(ilDateTime $a_date = NULL)
 	{
 		$this->date = $a_date;
 	}
