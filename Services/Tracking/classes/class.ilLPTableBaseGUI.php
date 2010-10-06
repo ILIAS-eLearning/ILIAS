@@ -288,7 +288,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		if(trim($value) == "" && $id != "status")
 		{
-			if($id == "title")
+			if($id == "title" && get_class($this) != "ilTrObjectUsersPropsTableGUI")
 			{
 				return "--".$lng->txt("none")."--";
 			}
