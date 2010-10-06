@@ -297,6 +297,20 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	/**
 	* Insert property html
 	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Insert property html
+	*
 	*/
 	function render()
 	{
