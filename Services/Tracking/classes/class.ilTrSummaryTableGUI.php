@@ -142,12 +142,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
 		$this->filter["user_total"] = $item->getValue();
-		
-		$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE, true, $lng->txt("trac_spent_seconds"));
+
+		$item = $this->addFilterItemByMetaType("read_count", ilTable2GUI::FILTER_NUMBER_RANGE, true,
+			$lng->txt("trac_read_count"));
+		$this->filter["read_count"] = $item->getValue();
+
+		$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
+			true, $lng->txt("trac_spent_seconds"));
 		$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
 		$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
 
-		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true, $lng->txt("trac_percentage"));
+		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true,
+			$lng->txt("trac_percentage"));
 		$this->filter["percentage"] = $item->getValue();
 
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
@@ -163,11 +169,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->filter["status"]--;
 		}
 
-		$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true, $lng->txt("trac_mark"));
+		$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true,
+			$lng->txt("trac_mark"));
 		$this->filter["mark"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
-		$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+		$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"),
+			"f" => $lng->txt("gender_f")));
 		$this->filter["gender"] = $item->getValue();
 
         $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
