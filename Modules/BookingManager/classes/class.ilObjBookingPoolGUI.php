@@ -145,8 +145,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		if ($a_mode == "edit")
 		{
-			$offline = new ilCheckboxInputGUI($this->lng->txt("offline"), "offline");
-			$form_gui->addItem($offline);
+			$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+			$form_gui->addItem($online);
 
 			$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 			$public->setInfo($this->lng->txt("book_public_log_info"));
@@ -163,7 +163,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$form_gui->setTitle($this->lng->txt("settings"));
 			$title->setValue($this->object->getTitle());
 			$desc->setValue($this->object->getDescription());
-			$offline->setChecked($this->object->isOffline());
+			$online->setChecked(!$this->object->isOffline());
 			$public->setChecked($this->object->hasPublicLog());
 			$slots->setValue($this->object->getNumberOfSlots());
 			$form_gui->addCommandButton("update", $this->lng->txt("save"));
@@ -236,7 +236,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
 			$_POST["Fobject"]["desc"] = $form->getInput("description");
 
-			$this->object->setOffline($form->getInput('offline'));
+			$this->object->setOffline(!$form->getInput('online'));
 			$this->object->setPublicLog($form->getInput('public'));
 			$this->object->setNumberOfSlots($form->getInput('slots'));
 
