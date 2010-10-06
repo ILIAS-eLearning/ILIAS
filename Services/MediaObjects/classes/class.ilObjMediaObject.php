@@ -831,7 +831,8 @@ class ilObjMediaObject extends ilObject
 		$tpl->setVariable("LOCATION_STYLESHEET", "../../css/system.css");
 		$tpl->setVariable("MEDIA_CONTENT", $output);
 		$output = $tpl->get();
-		$output = preg_replace("/\/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
+		//$output = preg_replace("/\/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
+		$output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","../../players",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","../../players",$output);
 		$output = preg_replace("/file=..\/..\/..\//i","file=../objects/".$subdir."/",$output);
