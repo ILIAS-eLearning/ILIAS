@@ -3423,34 +3423,34 @@ if(!$ilDB->tableExists('booking_schedule_slot'))
 		)
 	));
 	$ilDB->addPrimaryKey('booking_schedule_slot', array('booking_schedule_id', 'day_id', 'slot_id'));
-}
-
-// migrate existing schedules
-$set = $ilDB->query('SELECT booking_schedule_id,definition FROM booking_schedule');
-while($row = $ilDB->fetchAssoc($set))
-{
-	$definition = @unserialize($row["definition"]);
-	if($definition)
+	
+	if($ilDB->tableColumnExists('booking_schedule','definition'))
 	{
-		foreach($definition as $day_id => $slots)
+		// migrate existing schedules
+		$set = $ilDB->query('SELECT booking_schedule_id,definition FROM booking_schedule');
+		while($row = $ilDB->fetchAssoc($set))
 		{
-			foreach($slots as $slot_id => $times)
+			$definition = @unserialize($row["definition"]);
+			if($definition)
 			{
-				$fields = array(
-					"booking_schedule_id" => array('integer', $row["booking_schedule_id"]),
-					"day_id" => array('text', $day_id),
-					"slot_id" => array('integer', $slot_id),
-					"times" => array('text', $times)
-					);
-				$ilDB->insert('booking_schedule_slot', $fields);
+				foreach($definition as $day_id => $slots)
+				{
+					foreach($slots as $slot_id => $times)
+					{
+						$fields = array(
+							"booking_schedule_id" => array('integer', $row["booking_schedule_id"]),
+							"day_id" => array('text', $day_id),
+							"slot_id" => array('integer', $slot_id),
+							"times" => array('text', $times)
+							);
+						$ilDB->insert('booking_schedule_slot', $fields);
+					}
+				}
 			}
 		}
-	}
-}
 
-// remove old column
-if($ilDB->tableColumnExists('booking_schedule','definition'))
-{
-	$ilDB->dropTableColumn('booking_schedule', 'definition');
+		// remove old column
+		$ilDB->dropTableColumn('booking_schedule', 'definition');
+	}
 }
 ?>
