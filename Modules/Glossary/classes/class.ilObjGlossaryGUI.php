@@ -714,10 +714,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
+			//$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
+			//$this->tpl->parseCurrentBlock();
 		}
 	}
 	
@@ -1117,10 +1117,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
+			//$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->parseCurrentBlock();
+			//$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->parseCurrentBlock();

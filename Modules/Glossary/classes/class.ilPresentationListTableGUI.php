@@ -42,12 +42,22 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+		if (!$this->offline)
+		{
+			$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+		}
+		else
+		{
+			$this->disable("footer");
+		}
 		$this->setRowTemplate("tpl.term_tbl_pres_row.html", "Modules/Glossary");
 		$this->setEnableTitle(true);
 		
-		$this->initFilter();
-		$this->setFilterCommand("applyFilter");
+		if (!$this->offline)
+		{
+			$this->initFilter();
+			$this->setFilterCommand("applyFilter");
+		}
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 
@@ -146,7 +156,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				else
 				{
 					$short_str = ilUtil::buildLatexImages($short_str,
-						$this->getOfflineDirectory());
+						$this->parent_obj->getOfflineDirectory());
 				}
 				$short_str = ilPCParagraph::xml2output($short_str);
 
