@@ -579,7 +579,7 @@ class ilWikiUtil
 		$page = new ilWikiPage($a_page_id);
 
 		$subject = sprintf($lng->txt('wiki_change_notification_subject'), $wiki->getTitle());
-		$message = sprintf($lng->txt('wiki_change_notification_salutation'), $ilUser->getFullName())."\n\n";
+		$message = sprintf($lng->txt('wiki_change_notification_salutation'), "[[USERNAME]]")."\n\n";
 
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
@@ -629,10 +629,12 @@ class ilWikiUtil
 		{
 			if($user_id != $ilUser->getId())
 			{
+				$user_message = str_replace("[[USERNAME]]", ilObjUser::_lookupFullname($user_id), $message);
+
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
 				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-					"", "", $subject, $message, array(), array("system"));
+					"", "", $subject, $user_message, array(), array("system"));
 			}
 			else
 			{
