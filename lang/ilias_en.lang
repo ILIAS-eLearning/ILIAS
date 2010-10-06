@@ -10945,3 +10945,6 @@ common#:#frma_edit_permission#:#Change permission settings
 common#:#nr_following_sessions#:#%1d following session(s)...
 rbac#:#usrf_create_usr#:#Create User
 trac#:#trac_all#:#All
+trac#:#trac_view_mode#:#View Mode
+trac#:#trac_view_mode_all#:#All Objects
+trac#:#trac_view_mode_collection#:#Only objects who determine overall status
