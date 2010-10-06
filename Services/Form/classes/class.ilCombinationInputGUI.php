@@ -177,6 +177,20 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 				}
 			}
 		}
+		else if($a_value === NULL)
+		{
+			foreach($this->items as $item)
+			{
+				if(method_exists($item, "setValue"))
+				{
+					$item->setValue(NULL);
+				}
+				else if(method_exists($item, "setDate"))
+				{
+					$item->setDate();
+				}
+			}
+		}
 	}
 
 	/**

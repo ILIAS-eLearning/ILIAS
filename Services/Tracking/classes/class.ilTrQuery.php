@@ -712,12 +712,12 @@ class ilTrQuery
 					case "street":
 					case "email":
 					case "matriculation":
+					case "country":
+					case "city":
 						$where[] =  $ilDB->like("usr_data.".$id, "text", "%".$value."%");
 						break;
-
-					case "country":
+					
 					case "gender":
-					case "city":
 					case "mark":
 					case "title":
 					case "zipcode":
@@ -1056,7 +1056,7 @@ class ilTrQuery
 
 			if($a_user_filter)
 			{
-				$where[] = $ilDB->like("usr_data.login", "text", $a_user_filter);
+				$where[] = $ilDB->like("usr_data.login", "text", "%".$a_user_filter."%");
 			}
 
 			// users

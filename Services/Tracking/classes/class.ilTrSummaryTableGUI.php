@@ -147,7 +147,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->filter["registration"] = $item->getDate();
 
 		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
-		$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+		$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
 		$this->filter["gender"] = $item->getValue();
 
         $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
