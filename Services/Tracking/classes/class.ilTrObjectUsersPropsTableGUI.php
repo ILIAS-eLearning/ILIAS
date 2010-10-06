@@ -154,10 +154,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				"txt" => $lng->txt("trac_status"),
 				"default" => true);
 		}
-		
-		$cols["mark"] = array(
-			"txt" => $lng->txt("trac_mark"),
-			"default" => true);
+
+		if($this->type != "lm")
+		{
+			$cols["mark"] = array(
+				"txt" => $lng->txt("trac_mark"),
+				"default" => true);
+		}
+
 		$cols["u_comment"] = array(
 			"txt" => $lng->txt("trac_comment"),
 			"default" => false);
@@ -353,7 +357,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					$this->filter["language"] = $item->getValue();
 					break;
 
-				// spent_seconds?!
+				case "spent_seconds":
+					$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE, true, $meta["txt"]);
+					$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
+					$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+					break;
 			}
 		}
 	}

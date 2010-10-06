@@ -791,6 +791,7 @@ class ilTrQuery
 					    break;
 
 					case "read_count":
+				    case "spent_seconds":
 						if($value["from"])
 						{
 							$where[] =  "read_event.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
