@@ -706,7 +706,6 @@ class ilTrQuery
 					case "login":
 					case "firstname":
 					case "lastname":
-					case "u_comment":
 					case "institution":
 					case "department":
 					case "street":
@@ -718,14 +717,13 @@ class ilTrQuery
 						break;
 					
 					case "gender":
-					case "mark":
 					case "title":
 					case "zipcode":
 					case "sel_country":
 						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
-					case "comment":
+					case "u_comment":
 						$where[] = $ilDB->like("ut_lp_marks.".$id, "text", "%".$value."%");
 						break;
 
