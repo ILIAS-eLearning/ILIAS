@@ -563,6 +563,7 @@ class ilTrQuery
 		$result = self::executeQueries($queries);
 		$result = $result["set"][0];
 		$users_no = $result["user_count"];
+
 		if($users_no && (!isset($a_filters["user_total"]) || ($users_no >= $a_filters["user_total"]["from"] && $users_no <= $a_filters["user_total"]["to"])))
 		{
 			$result["country"] = self::getSummaryPercentages("country", $query);
@@ -572,8 +573,15 @@ class ilTrQuery
 			$result["status"] = self::getSummaryPercentages("status", $query);
 			$result["mark"] = self::getSummaryPercentages("mark", $query);
 		}
+		else
+		{
+			$result = array();
+		}
 
-		$result["user_total"] = $users_no;
+		if($result)
+		{
+			$result["user_total"] = $users_no;
+		}
 
 		return $result;
 	}

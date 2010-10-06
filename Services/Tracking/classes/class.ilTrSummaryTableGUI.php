@@ -255,47 +255,52 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 
 		$result = array();
-		$counter = $others_counter = $others_sum = 0;
-		foreach($data as $id => $count)
+
+		if($data)
 		{
-			$counter++;
-			if($counter <= $limit)
+			$counter = $others_counter = $others_sum = 0;
+			foreach($data as $id => $count)
 			{
-				$caption = $id;
-
-				if($value_map && isset($value_map[$id]))
+				$counter++;
+				if($counter <= $limit)
 				{
-					$caption = $value_map[$id];
-				}
+					$caption = $id;
 
-				if($caption == "")
+					if($value_map && isset($value_map[$id]))
+					{
+						$caption = $value_map[$id];
+					}
+
+					if($caption == "")
+					{
+						$caption = $lng->txt("none");
+					}
+
+					$perc = round($count/$overall*100);
+					$result[] = array(
+						"caption" => $caption,
+						"absolute" => $count." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
+						"percentage" => $perc
+						);
+				}
+				else
 				{
-					$caption = $lng->txt("none");
+					$others_sum += $count;
+					$others_counter++;
 				}
+			}
 
-				$perc = round($count/$overall*100);
+			if($others_counter)
+			{
+				$perc = round($others_sum/$overall*100);
 				$result[] = array(
-					"caption" => $caption,
-					"absolute" => $count." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
+					"caption" => $otherss_counter."  ".$lng->txt("trac_others"),
+					"absolute" => $others_sum." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
 					"percentage" => $perc
 					);
 			}
-			else
-			{
-				$others_sum += $count;
-				$others_counter++;
-			}
 		}
 
-		if($others_counter)
-		{
-			$perc = round($others_sum/$overall*100);
-			$result[] = array(
-				"caption" => $otherss_counter."  ".$lng->txt("trac_others"),
-				"absolute" => $others_sum." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
-				"percentage" => $perc
-				);
-		}
 
 		return $result;
 	}
