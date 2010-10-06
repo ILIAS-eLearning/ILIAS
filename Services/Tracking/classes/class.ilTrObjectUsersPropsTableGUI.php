@@ -314,14 +314,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 				case "gender":
 					$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
-					$item->setOptions(array("" => $lng->txt("all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
+					$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
 					$this->filter["gender"] = $item->getValue();
 					break;
 
 				case "sel_country":
 					$item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 
-					$options = array("" => $lng->txt("all"));
+					$options = array("" => $lng->txt("trac_all"));
 					include_once("./Services/Utilities/classes/class.ilCountry.php");
 					foreach (ilCountry::getCountryCodes() as $c)
 					{
@@ -335,11 +335,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 				case "status":
 					$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
-					$item->setOptions(array("" => $lng->txt("all"),
-						LP_STATUS_NOT_ATTEMPTED_NUM => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
-						LP_STATUS_IN_PROGRESS_NUM => $lng->txt(LP_STATUS_IN_PROGRESS),
-						LP_STATUS_COMPLETED_NUM => $lng->txt(LP_STATUS_COMPLETED),
-						LP_STATUS_FAILED_NUM => $lng->txt(LP_STATUS_FAILED)));
+					$item->setOptions(array("" => $lng->txt("trac_all"),
+						LP_STATUS_NOT_ATTEMPTED_NUM => $lng->txt("trac_not_attempted"),
+						LP_STATUS_IN_PROGRESS_NUM => $lng->txt("trac_in_progress"),
+						LP_STATUS_COMPLETED_NUM => $lng->txt("trac_completed"),
+						LP_STATUS_FAILED_NUM => $lng->txt("trac_failed")));
 					$this->filter["status"] = $item->getValue();
 					break;
 

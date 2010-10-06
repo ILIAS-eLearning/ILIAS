@@ -10944,3 +10944,4 @@ common#:#frma_write#:#Write access to Forum Administration
 common#:#frma_edit_permission#:#Change permission settings
 common#:#nr_following_sessions#:#%1d following session(s)...
 rbac#:#usrf_create_usr#:#Create User
+trac#:#trac_all#:#All
