@@ -545,6 +545,8 @@ class ilTable2GUI extends ilTableGUI
 			$caption = $lng->txt($id);
 		}
 
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
 		switch($type)
 		{
 			case self::FILTER_SELECT:
