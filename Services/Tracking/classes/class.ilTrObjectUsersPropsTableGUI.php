@@ -334,13 +334,18 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 					break;
 
 				case "status":
+					include_once "Services/Tracking/classes/class.ilLPStatus.php";
 					$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 					$item->setOptions(array("" => $lng->txt("trac_all"),
-						LP_STATUS_NOT_ATTEMPTED_NUM => $lng->txt("trac_not_attempted"),
-						LP_STATUS_IN_PROGRESS_NUM => $lng->txt("trac_in_progress"),
-						LP_STATUS_COMPLETED_NUM => $lng->txt("trac_completed"),
-						LP_STATUS_FAILED_NUM => $lng->txt("trac_failed")));
+						LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
+						LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
+						LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
+						LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
 					$this->filter["status"] = $item->getValue();
+					if($this->filter["status"])
+					{
+						$this->filter["status"]--;
+					}
 					break;
 
 				case "language":
