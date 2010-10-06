@@ -418,6 +418,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "read_count":
 				case "percentage":
 				case "hidden":
+				case "spent_seconds":
 					if(is_array($value) && implode("", $value))
 					{
 						$result[$id] = $value;

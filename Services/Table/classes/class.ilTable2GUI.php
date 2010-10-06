@@ -51,6 +51,7 @@ class ilTable2GUI extends ilTableGUI
 	const FILTER_LANGUAGE = 4;
 	const FILTER_NUMBER_RANGE = 5;
 	const FILTER_DATE_RANGE = 6;
+	const FILTER_DURATION_RANGE = 7;
 
 	const EXPORT_EXCEL = 1;
 	const EXPORT_CSV = 2;
@@ -599,6 +600,22 @@ class ilTable2GUI extends ilTableGUI
 				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
 				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
 				$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				break;
+
+			case self::FILTER_DURATION_RANGE:
+				$lng->loadLanguageModule("form");
+				include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
+				include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
+				$item = new ilCombinationInputGUI($caption, $id);
+				$combi_item = new ilDurationInputGUI("", $id."_from");
+				$combi_item->setShowMonths(false);
+				$combi_item->setShowDays(true);
+				$item->addCombinationItem("from", $combi_item, $lng->txt("from"));
+				$combi_item = new ilDurationInputGUI("", $id."_to");
+				$combi_item->setShowMonths(false);
+				$combi_item->setShowDays(true);
+				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
+				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
 				break;
 			
 			default:

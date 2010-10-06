@@ -624,7 +624,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		return serialize($this->getDate());
 	}
 	
-	/**
+   /**
 	* unserialize data
 	*/
 	function unserializeData($a_data)
