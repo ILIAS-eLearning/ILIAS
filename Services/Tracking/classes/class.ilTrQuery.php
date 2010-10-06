@@ -703,28 +703,34 @@ class ilTrQuery
 			{
 				switch($id)
 				{
-					case "country":
-					case "gender":
-					case "city":
 					case "login":
 					case "firstname":
 					case "lastname":
-					case "mark":
 					case "u_comment":
 					case "institution":
 					case "department":
-					case "title":
 					case "street":
-					case "zipcode":
 					case "email":
 					case "matriculation":
+						$where[] =  $ilDB->like("usr_data.".$id, "text", "%".$value."%");
+						break;
+
+					case "country":
+					case "gender":
+					case "city":
+					case "mark":
+					case "title":
+					case "zipcode":
 					case "sel_country":
 						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
+					case "comment":
+						$where[] = $ilDB->like("ut_lp_marks.".$id, "text", "%".$value."%");
+						break;
+
 					case "status":
 					case "mark":
-					case "comment":
 						$where[] = "ut_lp_marks.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
