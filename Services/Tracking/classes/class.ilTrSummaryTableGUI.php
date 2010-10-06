@@ -140,11 +140,31 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
+		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
+		$this->filter["user_total"] = $item->getValue();
+		
+		$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE, true, $lng->txt("trac_spent_seconds"));
+		$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
+		$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
 
-		$item = $this->addFilterItemByMetaType("registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["registration"] = $item->getDate();
+		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true, $lng->txt("trac_percentage"));
+		$this->filter["percentage"] = $item->getValue();
+
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
+		$item->setOptions(array("" => $lng->txt("trac_all"),
+			LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
+			LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
+			LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
+			LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
+		$this->filter["status"] = $item->getValue();
+		if($this->filter["status"])
+		{
+			$this->filter["status"]--;
+		}
+
+		$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true, $lng->txt("trac_mark"));
+		$this->filter["mark"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
 		$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"), "f" => $lng->txt("gender_f")));
@@ -153,17 +173,20 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
 		$this->filter["city"] = $item->getValue();
 		
+		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
+		$this->filter["country"] = $item->getValue();
+
         $item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
 		$this->filter["language"] = $item->getValue();
-
-		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
-		$this->filter["user_total"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
 		$this->filter["first_access"] = $item->getDate();
 
 		$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
 		$this->filter["last_access"] = $item->getDate();
+		
+		$item = $this->addFilterItemByMetaType("registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true);
+		$this->filter["registration"] = $item->getDate();
 	}
 
 	/**
