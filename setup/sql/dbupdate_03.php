@@ -3394,3 +3394,63 @@ if (!$ilDB->tableColumnExists('tst_tests', 'exportsettings'))
 	$query = 'UPDATE rbac_operations SET operation = '.$ilDB->quote('create_usr','text').' WHERE operation = '.$ilDB->quote('create_user','text');
 	$ilDB->manipulate($query);
 ?>
+<#3186>
+<?php
+
+// create new table
+if(!$ilDB->tableExists('booking_schedule_slot'))
+{
+	$ilDB->createTable('booking_schedule_slot',array(
+		'booking_schedule_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'day_id'	=> array(
+			'type'	=> 'text',
+			'length'=> 2,
+			'notnull' => true
+		),
+		'slot_id'	=> array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => true
+		),
+		'times'	=> array(
+			'type'	=> 'text',
+			'length'=> 50,
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('booking_schedule_slot', array('booking_schedule_id', 'day_id', 'slot_id'));
+}
+
+// migrate existing schedules
+$set = $ilDB->query('SELECT booking_schedule_id,definition FROM booking_schedule');
+while($row = $ilDB->fetchAssoc($set))
+{
+	$definition = @unserialize($row["definition"]);
+	if($definition)
+	{
+		foreach($definition as $day_id => $slots)
+		{
+			foreach($slots as $slot_id => $times)
+			{
+				$fields = array(
+					"booking_schedule_id" => array('integer', $row["booking_schedule_id"]),
+					"day_id" => array('text', $day_id),
+					"slot_id" => array('integer', $slot_id),
+					"times" => array('text', $times)
+					);
+				$ilDB->insert('booking_schedule_slot', $fields);
+			}
+		}
+	}
+}
+
+// remove old column
+if($ilDB->tableColumnExists('booking_schedule','definition'))
+{
+	$ilDB->dropTableColumn('booking_schedule', 'definition');
+}
+?>
