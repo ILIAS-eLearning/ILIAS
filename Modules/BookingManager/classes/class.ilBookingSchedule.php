@@ -188,12 +188,11 @@ class ilBookingSchedule
 		if($this->id)
 		{
 			$set = $ilDB->query('SELECT title,raster,rent_min,rent_max,auto_break,'.
-				'deadline,definition'.
+				'deadline'.
 				' FROM booking_schedule'.
 				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setTitle($row['title']);
-			$this->setDefinition(unserialize($row['definition']));
 			$this->setDeadline($row['deadline']);
 			if($row['raster'])
 			{
@@ -202,6 +201,17 @@ class ilBookingSchedule
 				$this->setMaxRental($row['rent_max']);
 				$this->setAutoBreak($row['auto_break']);
 			}
+
+			// load definition
+			$definition = array();
+			$set = $ilDB->query('SELECT day_id,slot_id,times'.
+				' FROM booking_schedule_slot'.
+				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$definition[$row["day_id"]][$row["slot_id"]] = $row["times"];
+			}
+			$this->setDefinition($definition);
 		}
 	}
 
@@ -218,16 +228,17 @@ class ilBookingSchedule
 			return false;
 		}
 
-		$id = $ilDB->nextId('booking_schedule');
+		$this->id = $ilDB->nextId('booking_schedule');
 
-		return $ilDB->manipulate('INSERT INTO booking_schedule'.
+		$ilDB->manipulate('INSERT INTO booking_schedule'.
 			' (booking_schedule_id,title,pool_id,raster,rent_min,rent_max,auto_break,'.
-			'deadline,definition)'.
-			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
+			'deadline)'.
+			' VALUES ('.$ilDB->quote($this->id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
 			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getRaster(), 'integer').
 			','.$ilDB->quote($this->getMinRental(), 'integer').','.$ilDB->quote($this->getMaxRental(), 'integer').
-			','.$ilDB->quote($this->getAutoBreak(), 'integer').','.$ilDB->quote($this->getDeadline(), 'integer').
-			','.$ilDB->quote(serialize($this->getDefinition()), 'text').')');
+			','.$ilDB->quote($this->getAutoBreak(), 'integer').','.$ilDB->quote($this->getDeadline(), 'integer').')');
+
+		$this->saveDefinition();
 	}
 
 	/**
@@ -243,7 +254,7 @@ class ilBookingSchedule
 			return false;
 		}
 
-		return $ilDB->manipulate('UPDATE booking_schedule'.
+		$ilDB->manipulate('UPDATE booking_schedule'.
 			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
 			', pool_id = '.$ilDB->quote($this->getPoolId(), 'integer').
 			', raster = '.$ilDB->quote($this->getRaster(), 'integer').
@@ -251,8 +262,44 @@ class ilBookingSchedule
 			', rent_max = '.$ilDB->quote($this->getMaxRental(), 'integer').
 			', auto_break = '.$ilDB->quote($this->getAutoBreak(), 'integer').
 			', deadline = '.$ilDB->quote($this->getDeadline(), 'integer').
-			', definition = '.$ilDB->quote(serialize($this->getDefinition()), 'text').
 			' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
+
+		$this->saveDefinition();
+	}
+
+	/**
+	 * Save current definition
+	 */
+	protected function saveDefinition()
+	{
+		global $ilDB;
+
+		if(!$this->id)
+		{
+			return false;
+		}
+
+		$ilDB->manipulate('DELETE FROM booking_schedule_slot'.
+			' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
+
+		$definition = $this->getDefinition();
+		if($definition)
+		{
+			foreach($definition as $day_id => $slots)
+			{
+				foreach($slots as $slot_id => $times)
+				{
+					$fields = array(
+						"booking_schedule_id" => array('integer', $this->id),
+						"day_id" => array('text', $day_id),
+						"slot_id" => array('integer', $slot_id),
+						"times" => array('text', $times)
+						);
+					$ilDB->insert('booking_schedule_slot', $fields);
+				}
+			}
+
+		}
 	}
 
 	/**
