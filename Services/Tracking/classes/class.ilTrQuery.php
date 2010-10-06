@@ -721,11 +721,11 @@ class ilTrQuery
 					case "matriculation":
 					case "country":
 					case "city":
+					case "title":
 						$where[] =  $ilDB->like("usr_data.".$id, "text", "%".$value."%");
 						break;
 					
 					case "gender":
-					case "title":
 					case "zipcode":
 					case "sel_country":
 						$where[] = "usr_data.".$id." = ".$ilDB->quote($value ,"text");
