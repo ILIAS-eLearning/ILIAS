@@ -207,7 +207,17 @@ if (!false)
 	include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
 	$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
 		$this->offlineMode());
-	$tpl->setContent($table->getHTML());
+
+	if (!$this->offlineMode())
+	{
+		$tpl->setContent($table->getHTML());
+	}
+	else
+	{
+		$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
+		return $this->tpl->get();
+	}
+
 	return;
 }
 
