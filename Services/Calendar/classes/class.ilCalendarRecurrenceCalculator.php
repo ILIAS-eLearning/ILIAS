@@ -832,10 +832,9 @@ class ilCalendarRecurrenceCalculator
 		{
 			return true;
 		}
-			
 		foreach($this->recurrence->getExclusionDates() as $excl)
 		{
-			$this->valid_dates->remove($excl->getDate());
+			$this->valid_dates->removeByDAY($excl->getDate());
 		}
 	}
 	

@@ -176,6 +176,18 @@ class ilDateList implements Iterator
 		}
 		return true;
 	}
+
+	public function removeByDAY(ilDateTime $remove)
+	{
+		foreach($this->list_item as $key => $dt)
+		{
+			if(ilDateTime::_equals($remove, $dt, IL_CAL_DAY,ilTimeZone::UTC))
+			{
+				unset($this->list_item[$key]);
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * Sort list
