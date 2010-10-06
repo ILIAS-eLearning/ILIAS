@@ -740,6 +740,18 @@ class ilTrQuery
 						$where[] = "ut_lp_marks.".$id." = ".$ilDB->quote($value ,"text");
 						break;
 
+
+					case "percentage":
+						if($value["from"])
+						{
+							$where[] =  "ut_lp_marks.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+						}
+						if($value["to"])
+						{
+							$where[] = "ut_lp_marks.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+						}
+					    break;
+
 				    case "language":
 						$where[] = "usr_pref.value = ".$ilDB->quote($value ,"text");
 						break;
@@ -778,7 +790,19 @@ class ilTrQuery
 						}
 					    break;
 
+					case "read_count":
+						if($value["from"])
+						{
+							$where[] =  "read_event.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+						}
+						if($value["to"])
+						{
+							$where[] = "read_event.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+						}
+					    break;
+
 					default:
+						// var_dump("unknown: ".$id);
 						break;
 				}
 			}
