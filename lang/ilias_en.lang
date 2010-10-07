@@ -10948,3 +10948,9 @@ trac#:#trac_all#:#All
 trac#:#trac_view_mode#:#View Mode
 trac#:#trac_view_mode_all#:#All Objects
 trac#:#trac_view_mode_collection#:#Only objects who determine overall status
+trac#:#trac_name_of_installation#:#Name of Installation
+trac#:#trac_object_name#:#Name of Object
+trac#:#trac_object_link#:#Link to Object
+trac#:#trac_object_owner#:#Owner of Object
+trac#:#trac_report_date#:#Date of Report
+trac#:#trac_report_owner#:#Owner of Report
