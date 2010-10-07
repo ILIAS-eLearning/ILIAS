@@ -397,10 +397,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		
 		if(!$this->getPrintMode())
 		{
-			$this->tpl->setCurrentBlock("item_command");
-			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
-			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('details'));
-			$this->tpl->parseCurrentBlock();
+			if(in_array($this->type, array("crs", "grp", "cat", "fold")))
+			{
+				$this->tpl->setCurrentBlock("item_command");
+				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
+				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('details'));
+				$this->tpl->parseCurrentBlock();
+			}
 
 			$this->tpl->setCurrentBlock("item_command");
 			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
