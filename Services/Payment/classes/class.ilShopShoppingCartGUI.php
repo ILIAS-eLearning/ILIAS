@@ -33,7 +33,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	private $totalVat = 0;
 	private $epSet;
 	
-	private $default_currency = 1;
+	#private $default_currency = 1;
 	private $session_id;
 
 	public function __construct($user_obj)
@@ -53,7 +53,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 		$this->checkCouponsOfShoppingCart();		
 
-		$this->default_currency = ilPaymentCurrency::_getDefaultCurrency();
+		#$this->default_currency = ilPaymentCurrency::_getDefaultCurrency();
 	}
 	
 	/**
