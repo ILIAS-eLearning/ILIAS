@@ -231,7 +231,16 @@ class ilMemberAgreementGUI
 			switch($field_obj->getType())
 			{
 				case IL_CDF_TYPE_SELECT:
-					$value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
+					$tmp_value = ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]);
+					$value = '';
+					foreach((array) $field_obj->getValues() as $v)
+					{
+						if($v == $tmp_value)
+						{
+							$value = $tmp_value;
+							break;
+						}
+					}
 					break;
 				
 				case IL_CDF_TYPE_TEXT:
