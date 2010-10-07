@@ -263,10 +263,10 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		unset($_SESSION['vis_references']);
 
 		$filter_query = '';
-		if($_POST['item_filter_enabled'])
+		if($this->search_cache->getItemFilter())
 		{
 			$filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
-			foreach((array) $_POST['filter'] as $obj => $value)
+			foreach((array) $this->search_cache->getItemFilter() as $obj => $value)
 			{
 				if(!$filter_query)
 				{
