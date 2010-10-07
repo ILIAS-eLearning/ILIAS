@@ -1732,6 +1732,10 @@ class ilTable2GUI extends ilTableGUI
 
 			$cb_over->setSelectionHeaderClass("ilTableMenuItem");
 			$this->tpl->setCurrentBlock("filter_select");
+
+			// apply should be the first submit because of enter/return, inserting hidden submit
+			$this->tpl->setVariable("HIDDEN_CMD_APPLY", $this->filter_cmd);
+
 			$this->tpl->setVariable("FILTER_SELECTOR", $cb_over->getHTML());
 		    $this->tpl->parseCurrentBlock();
 		}
