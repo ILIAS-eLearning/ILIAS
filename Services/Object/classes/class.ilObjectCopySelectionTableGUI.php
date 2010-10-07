@@ -158,7 +158,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('NAME_LINK','cp_options['.$s['ref_id'].'][type]');
 			$this->tpl->setVariable('VALUE_LINK',ilCopyWizardOptions::COPY_WIZARD_LINK);
 			$this->tpl->setVariable('ID_LINK',$s['depth'].'_'.$s['type'].'_'.$s['ref_id'].'_link');
-			if(!$copy or !$perm_copy)
+			if(!$s['copy'] or !$s['perm_copy'])
 			{
 				$this->tpl->setVariable('LINK_CHECKED','checked="checked"');
 			}
