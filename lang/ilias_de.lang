@@ -3414,7 +3414,7 @@ common#:#message_content#:#Nachrichteninhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
-common#:#mgs_objects_linked_to_the_following_folders#:#Das/Die Objekt(e) wurde(n) in folgende Bereiche verknüpft: %s
+common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgende Bereiche verknüpft: %s
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
 common#:#minute#:#Minute
