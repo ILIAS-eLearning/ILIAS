@@ -483,6 +483,62 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$this->setTitle($lng->txt($action).": ".$ilObjDataCache->lookupTitle($a_obj_id).$user);
 		$this->setDescription($this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($a_obj_id)));
 	}
+
+	/**
+	 * Build export meta data
+	 *
+	 * @return array 
+	 */
+	protected function getExportMeta()
+	{
+		global $lng, $ilObjDataCache, $ilUser, $ilClientIniFile;
+
+		/* see spec
+			Name of installation
+			Name of the course
+			Permalink to course
+			Owner of course object
+			Date of report generation
+			Reporting period
+			Name of person who generated the report.
+		*/
+
+	    ilDatePresentation::setUseRelativeDates(false);
+		include_once './classes/class.ilLink.php';
+		
+		$data = array(
+			$lng->txt("trac_name_of_installation") => $ilClientIniFile->readVariable('client', 'name'),
+			$lng->txt("trac_object_name") => $ilObjDataCache->lookupTitle($this->obj_id),
+			$lng->txt("trac_object_link") => ilLink::_getLink($this->ref_id, ilObject::_lookupType($this->obj_id)),
+			$lng->txt("trac_object_owner") => ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id)),
+			$lng->txt("trac_report_date") =>
+				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX), IL_CAL_DATETIME),
+			$lng->txt("trac_report_owner") => $ilUser->getFullName()
+			);
+		return $data;
+	}
+
+	protected function fillMetaExcel($worksheet, &$a_row)
+	{
+		foreach($this->getExportMeta() as $caption => $value)
+		{
+			$worksheet->write($a_row, 0, $caption);
+			$worksheet->write($a_row, 1, $value);
+			$a_row++;
+		}
+		$a_row++;
+	}
+	
+	protected function fillMetaCSV($a_csv)
+	{
+		foreach($this->getExportMeta() as $caption => $value)
+		{
+			$a_csv->addColumn(strip_tags($caption));
+			$a_csv->addColumn(strip_tags($value));
+			$a_csv->addRow();
+		}
+		$a_csv->addRow();
+	}
 }
 
 ?>

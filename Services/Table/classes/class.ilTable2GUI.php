@@ -2794,6 +2794,7 @@ class ilTable2GUI extends ilTableGUI
 					$row = 0;
 					
 					ob_start();
+					$this->fillMetaExcel($worksheet, $row);
 					$this->fillHeaderExcel($worksheet, $row);
 					foreach($this->row_data as $set)
 					{
@@ -2811,10 +2812,10 @@ class ilTable2GUI extends ilTableGUI
 					$csv->setSeparator(";");
 
 					ob_start();
+					$this->fillMetaCSV($csv);
 					$this->fillHeaderCSV($csv);
 					foreach($this->row_data as $set)
 					{
-						$row++;
 						$this->fillRowCSV($csv, $set);
 					}
 					ob_end_clean();
@@ -2842,6 +2843,18 @@ class ilTable2GUI extends ilTableGUI
 	   {
 		  exit();
 	   }
+	}
+
+	/**
+	 * Add meta information to excel export. Likely to
+	 * be overwritten by derived class.
+	 *
+	 * @param	object	$a_worksheet	current sheet
+	 * @param	int		$a_row			row counter
+	 */
+	protected function fillMetaExcel($worksheet, &$a_row)
+	{
+
 	}
 
 	/**
@@ -2885,7 +2898,18 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
-	 * CSV Version of Fill Row. Likely to
+	 * Add meta information to csv export. Likely to
+	 * be overwritten by derived class.
+	 *
+	 * @param	object	$a_csv			current file
+	 */
+	protected function fillMetaCSV($a_csv)
+	{
+		
+	}
+
+	/**
+	 * CSV Version of Fill Header. Likely to
 	 * be overwritten by derived class.
 	 *
 	 * @param	object	$a_csv			current file

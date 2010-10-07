@@ -22,6 +22,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$this->setId("trsmy");
 
+		$this->ref_id = $a_ref_id;
+		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		if($a_print_mode)
@@ -29,7 +32,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->setPrintMode(true);
 		}
 
-		$this->parseTitle(ilObject::_lookupObjId($a_ref_id), "trac_summary");
+		$this->parseTitle($this->obj_id, "trac_summary");
 		$this->setLimit(9999);
 		$this->setShowTemplates(true);
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));

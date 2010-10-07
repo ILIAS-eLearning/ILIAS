@@ -378,7 +378,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
+	
 	protected function fillHeaderExcel($worksheet, &$a_row)
 	{
 		$worksheet->write($a_row, 0, $this->lng->txt("type"));
