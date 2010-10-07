@@ -226,7 +226,7 @@ class ilRbacSystem
 			{
 				$ops_id = ilRbacReview::_getOperationIdByName($operation);
 			}
-			if (! in_array($ops_id,$ops)) 
+			if (! in_array($ops_id,(array) $ops)) 
 			{
 				//$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$a_ops_id.' failed');
 				// Store negative outcome in cache.
