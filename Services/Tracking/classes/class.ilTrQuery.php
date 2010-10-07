@@ -269,7 +269,17 @@ class ilTrQuery
 						if(isset($row[$field]) && (!isset($public[$row["usr_id"]]) ||
 							!in_array($field, $public[$row["usr_id"]])))
 						{
-							$result["set"][$idx][$field] = false;
+							// remove complete entry - offending field was filtered
+							if(isset($a_filters[$field]))
+							{
+								unset($result["set"][$idx]);
+								break;
+							}
+							// remove offending field
+							else
+							{
+								$result["set"][$idx][$field] = false;
+							}
 						}
 					}
 				}
