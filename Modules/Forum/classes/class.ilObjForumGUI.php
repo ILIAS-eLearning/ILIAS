@@ -23,7 +23,7 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
 */
 class ilObjForumGUI extends ilObjectGUI
 {
-	private $objProperties = null;
+	public $objProperties = null;
 	
 	private $objCurrentTopic = null;	
 	private $objCurrentPost = null;	
@@ -48,8 +48,6 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilUser, $ilAccess;
 
-
-
 		// CONTROL OPTIONS
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array('ref_id', 'cmdClass'));
@@ -59,7 +57,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->lng->loadLanguageModule('forum');
 		
-		$properties_obj_id = is_object($this->object) ? $this->object->getId() : 0;
+		$properties_obj_id = is_object($this->object) ? $this->object->getId() : ilObject::_lookupObjId($_GET['ref_id']);
 
 		// forum properties
 		$this->objProperties = ilForumProperties::getInstance($properties_obj_id);
@@ -199,7 +197,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->objProperties->setDefaultView(((int) $_POST['default_view']));
 		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
-			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);		
+			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
 		}
 		if ($ilSetting->get('enable_fora_statistics'))
 		{
@@ -888,9 +886,11 @@ class ilObjForumGUI extends ilObjectGUI
 			// save settings
 			$this->objProperties->setObjId($forumObj->getId());
 			$this->objProperties->setDefaultView(((int)$this->create_form_gui->getInput('sort')));
-			if(!$this->ilias->getSetting('disable_anonymous_fora', true))
+			if($this->ilias->getSetting('disable_anonymous_fora', false) || $_POST['anonymized'])
 			{
+				
 				$this->objProperties->setAnonymisation((int)$this->create_form_gui->getInput('anonymized'));
+			
 			}
 			else
 			{
@@ -3531,8 +3531,8 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
-		
-		if($this->objProperties->isAnonymized())
+	
+		if($this->objProperties->isAnonymized() == 1)
 		{			
 			$alias_gui = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
 			$alias_gui->setInfo($this->lng->txt('forums_use_alias'));
@@ -3651,7 +3651,7 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->initTopicCreateForm();
 		$this->setTopicCreateDefaultValues();
 		
