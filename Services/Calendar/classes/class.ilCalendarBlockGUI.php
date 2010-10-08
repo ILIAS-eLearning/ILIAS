@@ -157,6 +157,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$cmd_class == "ilcalendarweekgui" ||
 			$cmd_class == "ilcalendarmonthgui" ||
 			$cmd_class == "ilcalendarinboxgui" ||
+			$cmd_class == "ilconsultationhoursgui" ||
 			$_GET['cmd'] == 'showCalendarSubscription')
 		{
 			return IL_SCREEN_CENTER;
@@ -219,6 +220,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
 				$inbox = new ilCalendarInboxGUI($this->seed);
 				$ilCtrl->forwardCommand($inbox);
+				break;
+
+			case "ilconsultationhoursgui":
+				include_once('./Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php');
+				$hours = new ilConsultationHoursGUI($this->seed);
+				$ilCtrl->forwardCommand($hours);
 				break;
 
 			default:
