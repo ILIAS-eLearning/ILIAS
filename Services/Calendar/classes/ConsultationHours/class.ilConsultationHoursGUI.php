@@ -28,7 +28,7 @@ include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultation
 /**
  * Consultation hours editor
  * 
- * @ilCtrl_Calls: ilConsultationHoursGUI:
+ * @ilCtrl_Calls: ilConsultationHoursGUI: ilPublicUserProfileGUI
  */
 class ilConsultationHoursGUI
 {
@@ -87,8 +87,13 @@ class ilConsultationHoursGUI
 		
 		switch($this->ctrl->getNextClass())
 		{
+			case "ilpublicuserprofilegui":
+				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
+				$profile = new ilPublicUserProfileGUI($this->user_id);
+				$ilCtrl->forwardCommand($profile);
+			    break;
+			
 			default:
-				
 				$cmd = $this->ctrl->getCmd('appointmentList');
 				$this->$cmd();
 		}
@@ -596,10 +601,18 @@ class ilConsultationHoursGUI
 		global $tpl, $ilTabs, $ilCtrl;
 
 		$ilTabs->clearTargets();
-		if(isset($_GET['panel']))
+
+		// from repository 
+		if(isset($_REQUEST["ref_id"]))
+		{
+			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI'));
+		}
+		// from panel
+		else if(isset($_GET['panel']))
 		{
 			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilCalendarPresentationGUI'));
 		}
+		// from appointments
 		else
 		{
 			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'appointmentList'));
