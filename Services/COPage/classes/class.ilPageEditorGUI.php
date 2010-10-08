@@ -210,8 +210,11 @@ class ilPageEditorGUI
 		$this->page->addHierIDs();
 
 		// determine command and content object
-		$com = explode("_", $cmd);
-		$cmd = $com[0];
+		if ($cmdClass != "ilfilesystemgui")
+		{
+			$com = explode("_", $cmd);
+			$cmd = $com[0];
+		}
 //echo ";$cmd;";
 //$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
 		$next_class = $this->ctrl->getNextClass($this);
