@@ -421,6 +421,7 @@ abstract class ilPlugin
 						$lang_array[$prefix."_".trim($a[0])] = trim($a[1]);
 						ilObjLanguage::replaceLangEntry($prefix, $prefix."_".trim($a[0]),
 							$lang["key"], trim($a[1]));
+//echo "<br>-$prefix-".$prefix."_".trim($a[0])."-".$lang["key"]."-";
 					}
 				}
 			}
@@ -480,7 +481,7 @@ abstract class ilPlugin
 	public final function txt($a_var)
 	{
 		global $lng;
-		return $lng->txt($this->getPrefix()."_".$a_var);
+		return $lng->txt($this->getPrefix()."_".$a_var, $this->getPrefix());
 	}
 	
 	/**

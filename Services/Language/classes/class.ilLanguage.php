@@ -216,7 +216,7 @@ class ilLanguage
 	 * @param	string	topic
 	 * @return	string	text clear-text
 	 */
-	function txt($a_topic)
+	function txt($a_topic, $a_default_lang_fallback_mod = "")
 	{
 		if (empty($a_topic))
 		{
@@ -232,13 +232,19 @@ class ilLanguage
 			$translation = $this->text[$a_topic];
 		}
 
+		if ($translation == "" && $a_default_lang_fallback_mod != "")
+		{
+			$translation = ilLanguage::_lookupEntry($this->lang_default,
+				$a_default_lang_fallback_mod, $a_topic);
+		}
+
+
 		if ($translation == "")
 		{
 			if (ILIAS_LOG_ENABLED && is_object($this->log))
 			{
 				$this->log->writeLanguageLog($a_topic,$this->lang_key);
 			}
-
 			return "-".$a_topic."-";
 		}
 		else
