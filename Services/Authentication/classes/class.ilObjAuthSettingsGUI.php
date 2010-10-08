@@ -1391,10 +1391,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$rao = new ilRadioOption($this->lng->txt('apache_auth_username_extended_mapping'), 2);
 		$rao->setDisabled(true);
 		$rag->addOption($rao);
-/*
+
 		$rao = new ilRadioOption($this->lng->txt('apache_auth_username_by_function'), 3);
 		$rag->addOption($rao);
-*/
+
 /*		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_username_by_function_functionname'), 'apache_auth_username_by_function_functionname');
 		$rao->addSubItem($txt);*/
 
