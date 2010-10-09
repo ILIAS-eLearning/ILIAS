@@ -3440,7 +3440,8 @@ return;
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
 
-		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs');
+		$sel_types = array('mcst', 'mep', 'cat', 'lm','dbk','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
+			"crs", "grp", "book", "tst", "file");
 		$exp->setSelectableTypes($sel_types);
 
 		//$exp->setTargetGet("obj_id");
