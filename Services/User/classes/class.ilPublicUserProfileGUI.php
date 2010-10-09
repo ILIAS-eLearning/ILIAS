@@ -239,16 +239,22 @@ class ilPublicUserProfileGUI
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");
 		$check_dir = ilUtil::getWebspaceDir();
-		$imagefile = $webspace_dir."/usr_images/".$user->getPref("profile_image");
+		$imagefile = $webspace_dir."/usr_images/".$user->getPref("profile_image")."?dummy=".rand(1,999999);
 		$check_file = $check_dir."/usr_images/".$user->getPref("profile_image");
 
-		if ($user->getPref("public_upload")=="y" && @is_file($check_file))
+		if (!@is_file($check_file))
+		{
+			$imagefile = $check_file =
+				ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
+		}
+
+		if ($user->getPref("public_upload")=="y" && $imagefile != "")
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
 			$tpl->setCurrentBlock("image");
 			$tpl->setVariable("TXT_IMAGE",$lng->txt("image"));
-			$tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$user->getPref("profile_image")."?dummy=".rand(1,999999));
+			$tpl->setVariable("IMAGE_PATH", $imagefile);
 			$tpl->setVariable("IMAGE_ALT", $lng->txt("personal_picture"));
 			$tpl->parseCurrentBlock();
 		}
