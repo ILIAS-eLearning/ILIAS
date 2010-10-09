@@ -183,7 +183,6 @@ class ilPermanentLinkGUI
 		include_once('classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
 			true, $this->getAppend());
-
 		if ($this->getIncludePermanentLinkText())
 		{
 			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").":");

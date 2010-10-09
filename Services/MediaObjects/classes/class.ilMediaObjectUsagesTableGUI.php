@@ -140,7 +140,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 							$ref_id = $this->getFirstWritableRefId($lm_obj->getId());
 							if ($ref_id > 0)
 							{
-								$item["obj_link"] = ilLink::_getStaticLink($ref_id, "lm");
+								$item["obj_link"] = ilLink::_getStaticLink($page_obj->getId()."_".$ref_id, "pg");
 							}
 						}
 						break;
@@ -159,7 +159,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 							$ref_id = $this->getFirstWritableRefId($lm_obj->getId());
 							if ($ref_id > 0)
 							{
-								$item["obj_link"] = ilLink::_getStaticLink($ref_id, "lm");
+								$item["obj_link"] = ilLink::_getStaticLink($page_obj->getId()."_".$ref_id, "pg");
 							}
 						}
 						break;
@@ -237,6 +237,16 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 				array_shift($usage["hist_nr"]);
 				$usage["hist_nr"][] = 0;
 			}
+			if (count($usage["hist_nr"]) > 5)
+			{
+				$ver.= "..., ";
+				$cnt = count($usage["hist_nr"]) - 5;
+				for ($i = 0; $i < $cnt; $i++)
+				{
+					unset($usage["hist_nr"][$i]);
+				}
+			}
+
 			foreach ($usage["hist_nr"] as $nr)
 			{
 				if ($nr > 0)
