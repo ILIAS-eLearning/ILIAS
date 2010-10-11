@@ -3617,7 +3617,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 		}		
 		
-		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('save'));
+		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('submit'));
 		$this->create_topic_form_gui->addCommandButton('showThreads', $this->lng->txt('cancel'));
 	}
 	
