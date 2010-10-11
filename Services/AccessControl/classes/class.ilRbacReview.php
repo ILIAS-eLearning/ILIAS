@@ -1946,11 +1946,11 @@ class ilRbacReview
 		$where = $this->__setTemplateFilter($use_templates);
 
 		$query = "SELECT * FROM object_data ".
-			 "JOIN rbac_fa ".$where.
-			 "AND object_data.obj_id = rbac_fa.rol_id ".
+			 "JOIN rbac_fa ON object_data.obj_id = rbac_fa.rol_id ".
+			 $where.
 			 "AND rbac_fa.assign = 'y' " .
 			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer');
-		
+			 
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
