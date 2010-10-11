@@ -92,14 +92,21 @@ class ilMemberViewSettings
 			return false;
 		}
 				
-		if(!isset($_GET['ref_id']))
+		$ref_id = $_GET['ref_id'] ? $_GET['ref_id'] : null;
+		if(!$ref_id)
+		{
+			$target_arr = explode('_',(string) $_GET['target']);
+			$ref_id = $target_arr[1] ? $target_arr[1] : null;		
+		}		
+
+		if(!$ref_id)
 		{
 			// No ref id given => mail, search, personal desktop menu in other tab
 			return false;
 		}
 		
-		if(!in_array((int) $_GET['ref_id'],$this->container_items) and 
-			$this->getContainer() != (int) $_GET['ref_id']) 
+		if(!in_array($ref_id,$this->container_items) and 
+			$this->getContainer() != $ref_id) 
 		{
 			// outside of course
 			return false;
