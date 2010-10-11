@@ -76,7 +76,7 @@ class ilMailFolderGUI
 		}
 
 		/* User views mail and wants to delete it */
-		if ($this->current_selected_cmd == "deleteMails" && $_GET["mail_id"])
+		if ($_GET['selected_cmd'] == "deleteMails" && $_GET["mail_id"])
 		{
 			$_GET["cmd"] = "editFolder";
 			$this->current_selected_cmd = "deleteMails";
@@ -234,7 +234,7 @@ class ilMailFolderGUI
 		$isDraftFolder = $_GET['mobj_id'] == $draftsFolderId;		
 
 		// BEGIN CONFIRM_DELETE
-			if($this->current_selected_cmd == 'deleteMails' &&
+		if($this->current_selected_cmd == 'deleteMails' &&
 			!$this->errorDelete &&
 			$this->current_selected_cmd != 'confirm' &&
 			$isTrashFolder)
@@ -248,6 +248,7 @@ class ilMailFolderGUI
 			}
 			
 			$this->tpl->setCurrentBlock('confirm_delete');
+			$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, 'confirmDeleteMails'));
 			$this->tpl->setVariable('BUTTON_CONFIRM',$this->lng->txt('confirm'));
 			$this->tpl->setVariable('BUTTON_CANCEL',$this->lng->txt('cancel'));			
 			$this->tpl->parseCurrentBlock();
