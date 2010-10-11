@@ -470,7 +470,7 @@ class ilRepositoryGUI
 		{
 			$exp->setOutput(0);
 		}
-
+if ($GLOBALS["ilUser"]->getLogin() == "alex") echo "topnode:$top_node:activenode:$active_node:";
 		$output = $exp->getOutput(false);
 
 		// asynchronous output

@@ -775,7 +775,7 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 			}
 						
 		}
-		
+if ($GLOBALS["ilUser"]->getLogin() == "alex") var_dump($this->format_options);
 		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		
 		$ilBench->stop("Explorer", "getOutput");
