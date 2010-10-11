@@ -305,23 +305,6 @@ class ilStartUpGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		// Show selection of auth modes
-		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
-		$det = ilAuthModeDetermination::_getInstance();
-		if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
-		{
-			foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
-			{
-				$tpl->setCurrentBlock('auth_mode_row');
-				$tpl->setVariable('VAL_AUTH_MODE',$key);
-				$tpl->setVariable('AUTH_CHECKED',isset($option['checked']) ? 'checked=checked' : '');
-				$tpl->setVariable('TXT_AUTH_MODE',$option['txt']);
-				$tpl->parseCurrentBlock();
-			}
-			
-			$tpl->setCurrentBlock('auth_selection');
-			$tpl->setVariable('TXT_AUTH_MODE',$lng->txt('auth_selection'));
-		}		
 		// login via ILIAS (this also includes radius and ldap)
                 // If local authentication is enabled for shibboleth users, we
                 // display the login form for ILIAS here.
