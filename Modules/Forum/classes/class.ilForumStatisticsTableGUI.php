@@ -27,7 +27,10 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('frm_statistics_ranking'), 'ranking', '25%');
 		$this->addColumn($this->lng->txt('login'), 'login', '25%');
 		$this->addColumn($this->lng->txt('lastname'), 'lastname', '25%');
-		$this->addColumn($this->lng->txt('firstname'), 'firstname', '25%');	
+		$this->addColumn($this->lng->txt('firstname'), 'firstname', '25%');
+
+		$this->setDefaultOrderField('ranking');
+		$this->setDefaultOrderDirection('desc');
 		
     	$this->enable('hits');
     	$this->enable('sort');
