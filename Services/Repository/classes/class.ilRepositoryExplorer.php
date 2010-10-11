@@ -493,7 +493,7 @@ class ilRepositoryExplorer extends ilExplorer
 				$path = ilUtil::getImagePath("icon_root_s.gif");
 			}
 		}*/
-		
+
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
 
 		$tpl->setCurrentBlock("icon");
