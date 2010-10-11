@@ -510,8 +510,8 @@ class ilRepositoryExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $title);
-		$tpl->setVariable("LINK_TARGET", "repository.php?ref_id=1");
-		$tpl->setVariable("TARGET", " target=\"rep_content\"");
+		$tpl->setVariable("LINK_TARGET", "repository.php?cmd=frameset&amp;ref_id=1");
+		$tpl->setVariable("TARGET", " target=\"_top\"");
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("element");
