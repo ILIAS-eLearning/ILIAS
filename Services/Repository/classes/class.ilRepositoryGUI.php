@@ -463,24 +463,20 @@ class ilRepositoryGUI
 		// build html-output
 		if ($top_node > 0)
 		{
-			// output link to repository top node
-			if (!$ilCtrl->isAsynch())
+			$head_tpl = new ilTemplate("tpl.cont_tree_head.html", true, true,
+				"Services/Repository");
+			$path = ilObject::_getIcon(ROOT_FOLDER_ID, "tiny", "root");
+			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$title = $nd["title"];
+			if ($title == "ILIAS")
 			{
-				$head_tpl = new ilTemplate("tpl.cont_tree_head.html", true, true,
-					"Services/Repository");
-				$path = ilObject::_getIcon(ROOT_FOLDER_ID, "tiny", "root");
-				$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-				$title = $nd["title"];
-				if ($title == "ILIAS")
-				{
-					$title = $lng->txt("repository");
-				}
-				$head_tpl->setVariable("IMG_SRC", $path);
-				$head_tpl->setVariable("ALT_IMG", $lng->txt("icon")." ".$title);
-				$head_tpl->setVariable("LINK_TXT", $title);
-				$head_tpl->setVariable("LINK_HREF", "repository.php?cmd=frameset&amp;ref_id=1");
-				$output = $head_tpl->get();
+				$title = $lng->txt("repository");
 			}
+			$head_tpl->setVariable("IMG_SRC", $path);
+			$head_tpl->setVariable("ALT_IMG", $lng->txt("icon")." ".$title);
+			$head_tpl->setVariable("LINK_TXT", $title);
+			$head_tpl->setVariable("LINK_HREF", "repository.php?cmd=frameset&amp;ref_id=1");
+			$exp->setTreeLead($head_tpl->get());
 
 			$exp->initItemCounter(1);
 			$exp->setOutput($tree->getParentId($top_node), 1,
@@ -490,9 +486,8 @@ class ilRepositoryGUI
 		{
 			$exp->setOutput(0);
 		}
+		$output = $exp->getOutput(false);
 
-		$output.= $exp->getOutput(false);
-		
 //if ($GLOBALS["ilUser"]->getLogin() == "alex") echo "topnode:$top_node:activenode:$active_node:";
 		
 
