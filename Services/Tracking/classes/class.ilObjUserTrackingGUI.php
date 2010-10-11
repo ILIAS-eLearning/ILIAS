@@ -173,7 +173,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$event->setChecked(true);
 		}
 
-		$access = new ilCheckboxInputGUI($this->lng->txt('trac_last_access'), 'lp_access');
+		$access = new ilCheckboxInputGUI($this->lng->txt('trac_first_and_last_access'), 'lp_access');
 		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 		{
 			$access->setChecked(true);

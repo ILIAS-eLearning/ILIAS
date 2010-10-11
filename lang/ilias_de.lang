@@ -10959,3 +10959,4 @@ trac#:#trac_object_link#:#Link zum Objekt
 trac#:#trac_object_owner#:#Besitzer des Objekts
 trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
+trac#:#trac_first_and_last_access#:#Erster und Letzter Zugriff
