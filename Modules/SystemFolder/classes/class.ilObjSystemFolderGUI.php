@@ -2121,7 +2121,6 @@ return $this->showServerInfoObject();
 		$cb->setChecked($ilSetting->get("rep_tree_synchronize"));
 		$this->form->addItem($cb);
 
-		
 		// repository access check
 		$options = array(
 			0 => "0",
@@ -2340,6 +2339,10 @@ return $this->showServerInfoObject();
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
+			if ($_POST["tree_pres"] == "")
+			{
+				$_POST["rep_tree_limit_grp_crs"] = "";
+			}
 			if ($_POST["rep_tree_limit_grp_crs"] && !$ilSetting->get("rep_tree_limit_grp_crs"))
 			{
 				$_POST["rep_tree_synchronize"] = true;

@@ -445,6 +445,26 @@ class ilExplorer
 	}
 
 	/**
+	 * Set tree leading content
+	 *
+	 * @param	string	$a_val	tree leading content
+	 */
+	public function setTreeLead($a_val)
+	{
+		$this->tree_lead = $a_val;
+	}
+
+	/**
+	 * Get tree leading content
+	 *
+	 * @return	string	tree leading content
+	 */
+	public function getTreeLead()
+	{
+		return $this->tree_lead;
+	}
+
+	/**
 	* check if links for certain object type are activated
 	*
 	* @param	string		$a_type			object type
@@ -779,7 +799,15 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		
 		$ilBench->stop("Explorer", "getOutput");
-		
+
+		$tpl_tree->setVariable("TREE_LEAD", "");
+		if ($this->tree_lead != "")
+		{
+			$tpl_tree->setCurrentBlock("tree_lead");
+			$tpl_tree->setVariable("TREE_LEAD", $this->tree_lead);
+			$tpl_tree->parseCurrentBlock();
+		}
+
 		$html = $tpl_tree->get();
 		
 		if ($this->getUseStandardFrame())
