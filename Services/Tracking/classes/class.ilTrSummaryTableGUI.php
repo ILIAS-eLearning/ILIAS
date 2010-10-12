@@ -57,7 +57,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 	function getSelectableColumns()
 	{
-		global $lng;
+		global $lng, $ilSetting;
 
 		$lng_map = array("user_total" => "users", "first_access_min" => "trac_first_access",
 			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
@@ -87,9 +87,16 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$all[] = "percentage_avg";
 		$all[] = "status";
 		$all[] = "mark";
-		$all[] = "gender";
-		$all[] = "city";
-		$all[] = "country";
+
+		$privacy = array("gender", "city", "country", "sel_country");
+		foreach($privacy as $field)
+		{
+			if($ilSetting->get("usr_settings_course_export_".$field))
+			{
+				$all[] = $field;
+			}
+		}
+		
 		$all[] = "language";
 
 		$default[] = "percentage_avg";
@@ -141,7 +148,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	*/
 	function initFilter($a_obj_id)
 	{
-		global $lng;
+		global $lng, $ilSetting;
 
 		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
 		$this->filter["user_total"] = $item->getValue();
@@ -176,18 +183,34 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$lng->txt("trac_mark"));
 		$this->filter["mark"] = $item->getValue();
 
-		$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
-		$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"),
-			"f" => $lng->txt("gender_f")));
-		$this->filter["gender"] = $item->getValue();
+		if($ilSetting->get("usr_settings_course_export_gender"))
+		{
+			$item = $this->addFilterItemByMetaType("gender", ilTable2GUI::FILTER_SELECT, true);
+			$item->setOptions(array("" => $lng->txt("trac_all"), "m" => $lng->txt("gender_m"),
+				"f" => $lng->txt("gender_f")));
+			$this->filter["gender"] = $item->getValue();
+		}
 
-        $item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["city"] = $item->getValue();
-		
-		$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
-		$this->filter["country"] = $item->getValue();
+		if($ilSetting->get("usr_settings_course_export_city"))
+		{
+			$item = $this->addFilterItemByMetaType("city", ilTable2GUI::FILTER_TEXT, true);
+			$this->filter["city"] = $item->getValue();
+		}
 
-        $item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
+		if($ilSetting->get("usr_settings_course_export_country"))
+		{
+			$item = $this->addFilterItemByMetaType("country", ilTable2GUI::FILTER_TEXT, true);
+			$this->filter["country"] = $item->getValue();
+		}
+
+		if($ilSetting->get("usr_settings_course_export_sel_country"))
+		{
+			$item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true);
+			$item->setOptions(array("" => $lng->txt("trac_all"))+$this->getSelCountryCodes());
+			$this->filter["sel_country"] = $item->getValue();
+		}
+
+		$item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
 		$this->filter["language"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
@@ -198,6 +221,20 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		$item = $this->addFilterItemByMetaType("registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true);
 		$this->filter["registration"] = $item->getDate();
+	}
+
+	function getSelCountryCodes()
+	{
+		global $lng;
+		
+		include_once("./Services/Utilities/classes/class.ilCountry.php");
+		$options = array();
+		foreach (ilCountry::getCountryCodes() as $c)
+		{
+			$options[$c] = $lng->txt("meta_c_".$c);
+		}
+		asort($options);
+		return $options;
 	}
 
 	/**
@@ -239,6 +276,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
 			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array("m"=>$lng->txt("gender_m"), "f"=>$lng->txt("gender_f")));
 			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
+			$data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
 
 			$languages = array();
 			foreach ($lng->getInstalledLanguages() as $lang_key)
@@ -434,6 +472,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				case "language":
 				case "status":
 				case "mark":
+				case "sel_country":
 					$this->renderPercentages($c, $a_set[$c]);
 					break;
 

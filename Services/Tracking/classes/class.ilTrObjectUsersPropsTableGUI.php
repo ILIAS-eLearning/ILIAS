@@ -325,14 +325,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				case "sel_country":
 					$item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 
-					$options = array("" => $lng->txt("trac_all"));
+					$options = array();
 					include_once("./Services/Utilities/classes/class.ilCountry.php");
 					foreach (ilCountry::getCountryCodes() as $c)
 					{
 						$options[$c] = $lng->txt("meta_c_".$c);
 					}
 					asort($options);
-					$item->setOptions($options);
+					$item->setOptions(array("" => $lng->txt("trac_all"))+$options);
 
 					$this->filter["sel_country"] = $item->getValue();
 					break;

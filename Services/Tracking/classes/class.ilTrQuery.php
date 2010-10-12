@@ -597,6 +597,7 @@ class ilTrQuery
 		if($valid)
 		{
 			$result["country"] = self::getSummaryPercentages("country", $query);
+			$result["sel_country"] = self::getSummaryPercentages("sel_country", $query);
 			$result["city"] = self::getSummaryPercentages("city", $query);
 			$result["gender"] = self::getSummaryPercentages("gender", $query);
 			$result["language"] = self::getSummaryPercentages("usr_pref.value", $query, "language");
