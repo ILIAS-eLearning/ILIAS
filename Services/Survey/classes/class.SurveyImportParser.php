@@ -56,6 +56,7 @@ class SurveyImportParser extends ilSaxParser
 	var $variables;
 	var $response_id;
 	var $matrix;
+	var $matrixrowattribs;
 	var $is_matrix;
 	var $adjectives;
 	var $spl_exists;
@@ -365,6 +366,7 @@ class SurveyImportParser extends ilSaxParser
 			case "matrixrow":
 				$this->material = array();
 				array_push($this->matrix, "");
+				$this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"]);
 				break;
 			case "responses":
 				$this->material = array();
@@ -721,7 +723,7 @@ class SurveyImportParser extends ilSaxParser
 				{
 					$row .= $material["text"];
 				}
-				$this->matrix[count($this->matrix)-1] = $row;
+				$this->matrix[count($this->matrix)-1] = array('title' => $row, 'id' => $this->matrixrowattribs['id'], 'label' => $this->matrixrowattribs['label'], 'other' => $this->matrixrowattribs['other']);
 				break;
 			case "matrix":
 				if (is_object($this->activequestion))
