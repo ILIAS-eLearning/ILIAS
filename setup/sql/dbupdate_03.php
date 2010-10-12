@@ -3454,3 +3454,10 @@ if(!$ilDB->tableExists('booking_schedule_slot'))
 	}
 }
 ?>
+<#3187>
+<?php
+if (!$ilDB->tableColumnExists('notification', 'page_id'))
+{
+  $ilDB->addTableColumn("notification", "page_id", array("type" => "integer", "length" => 4, "notnull" => false, "default" => 0));
+}
+?>
