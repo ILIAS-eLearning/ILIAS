@@ -6002,7 +6002,7 @@ crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
 crs#:#crs_subscription_options_direct#:#Direkter Beitritt
 crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
 crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für den Kurs gestellt.
-crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen wurden.
+crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.
 crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
@@ -10959,4 +10959,3 @@ trac#:#trac_object_link#:#Link zum Objekt
 trac#:#trac_object_owner#:#Besitzer des Objekts
 trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
-trac#:#trac_first_and_last_access#:#Erster und Letzter Zugriff
