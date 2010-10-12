@@ -35,13 +35,15 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilSurveyMaterialsTableGUI extends ilTable2GUI
 {
 	private $counter;
+	private $write_access;
 	
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+		$this->write_access = $a_write_access;
 		$this->counter = 1;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -59,7 +61,10 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
 		$this->disable('sort');
 		$this->enable('header');
 
-		$this->addMultiCommand('deleteMaterial', $this->lng->txt('delete'));
+		if ($this->write_access)
+		{
+			$this->addMultiCommand('deleteMaterial', $this->lng->txt('delete'));
+		}
 	}
 	
 	/**
