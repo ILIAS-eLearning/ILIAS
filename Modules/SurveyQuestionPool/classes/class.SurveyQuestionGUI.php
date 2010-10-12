@@ -292,39 +292,47 @@ class SurveyQuestionGUI
 	*/
 	public function material($checkonly = FALSE)
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('add_material'));
-		$form->setMultipart(FALSE);
-		$form->setTableWidth("100%");
-		$form->setId("material");
+		global $rbacsystem;
 
-		// material
-		$material = new ilRadioGroupInputGUI($this->lng->txt("material"), "internalLinkType");
-		$material->setRequired(true);
-		$material->addOption(new ilRadioOption($this->lng->txt('obj_lm'), "lm"));
-		$material->addOption(new ilRadioOption($this->lng->txt('obj_st'), "st"));
-		$material->addOption(new ilRadioOption($this->lng->txt('obj_pg'), "pg"));
-		$material->addOption(new ilRadioOption($this->lng->txt('glossary_term'), "glo"));
-		$form->addItem($material);
-
-		$form->addCommandButton("addMaterial", $this->lng->txt("add"));
-
-		$errors = false;
-	
-		if ($checkonly)
+		$add_html = '';
+		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
 		{
-			$form->setValuesByPost();
-			$errors = !$form->checkInput();
-			if ($errors) $checkonly = false;
+			include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+			$form = new ilPropertyFormGUI();
+			$form->setFormAction($this->ctrl->getFormAction($this));
+			$form->setTitle($this->lng->txt('add_material'));
+			$form->setMultipart(FALSE);
+			$form->setTableWidth("100%");
+			$form->setId("material");
+
+			// material
+			$material = new ilRadioGroupInputGUI($this->lng->txt("material"), "internalLinkType");
+			$material->setRequired(true);
+			$material->addOption(new ilRadioOption($this->lng->txt('obj_lm'), "lm"));
+			$material->addOption(new ilRadioOption($this->lng->txt('obj_st'), "st"));
+			$material->addOption(new ilRadioOption($this->lng->txt('obj_pg'), "pg"));
+			$material->addOption(new ilRadioOption($this->lng->txt('glossary_term'), "glo"));
+			$form->addItem($material);
+
+			$form->addCommandButton("addMaterial", $this->lng->txt("add"));
+
+			$errors = false;
+
+			if ($checkonly)
+			{
+				$form->setValuesByPost();
+				$errors = !$form->checkInput();
+				if ($errors) $checkonly = false;
+			}
+			$add_html = $form->getHTML();
 		}
+
 
 		$mat_html = "";
 		if (count($this->object->getMaterial()))
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyMaterialsTableGUI.php";
-			$table_gui = new ilSurveyMaterialsTableGUI($this, 'material');
+			$table_gui = new ilSurveyMaterialsTableGUI($this, 'material', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 			$data = array();
 			foreach ($this->object->getMaterial() as $material)
 			{
@@ -342,7 +350,7 @@ class SurveyQuestionGUI
 			$mat_html = $table_gui->getHTML();
 		}
 
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML() . $mat_html);
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $add_html . $mat_html);
 		return $errors;
 	}
 	

@@ -465,22 +465,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$table_gui->setData($data);
 		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 
-		$this->tpl->setCurrentBlock("QTypes");
-		$types =& ilObjSurveyQuestionPool::_getQuestionTypes();
-		$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
-		foreach ($types as $translation => $data)
+		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
 		{
-			if ($data["type_tag"] == $lastquestiontype)
+			$this->tpl->setCurrentBlock("QTypes");
+			$types =& ilObjSurveyQuestionPool::_getQuestionTypes();
+			$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
+			foreach ($types as $translation => $data)
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+				if ($data["type_tag"] == $lastquestiontype)
+				{
+					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $translation);
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $translation);
+			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
-		$this->tpl->parseCurrentBlock();
 	}
 
 	public function updateObject() 
