@@ -522,7 +522,10 @@ class ilTrQuery
 		foreach($objects["object_ids"] as $object_id)
 		{
 			$object_result = self::getSummaryDataForObject($object_id, $fields, $a_filters);
-			$result[] = array_merge($object_data[$object_id], $object_result);
+			if(sizeof($object_result))
+			{
+				$result[] = array_merge($object_data[$object_id], $object_result);
+			}
 		}
 
 		// :TODO: objectives
@@ -563,7 +566,7 @@ class ilTrQuery
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
 			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
-			self::buildFilters($where, $a_filters);
+			self::buildFilters($where, $a_filters, true);
 
 		$fields[] = 'COUNT(usr_data.usr_id) AS user_count';
 
@@ -574,7 +577,24 @@ class ilTrQuery
 		$result = $result["set"][0];
 		$users_no = $result["user_count"];
 
-		if($users_no && (!isset($a_filters["user_total"]) || ($users_no >= $a_filters["user_total"]["from"] && $users_no <= $a_filters["user_total"]["to"])))
+		$valid = true;
+		if(!$users_no)
+		{
+			$valid = false;
+		}
+		else if(isset($a_filters["user_total"]))
+		{
+			if($a_filters["user_total"]["from"] && $users_no < $a_filters["user_total"]["from"])
+			{
+				$valid = false;
+			}
+			else if($a_filters["user_total"]["to"] && $users_no > $a_filters["user_total"]["to"])
+			{
+				$valid = false;
+			}
+		}
+
+		if($valid)
 		{
 			$result["country"] = self::getSummaryPercentages("country", $query);
 			$result["city"] = self::getSummaryPercentages("city", $query);
@@ -618,7 +638,15 @@ class ilTrQuery
 		  $alias = " AS ".$alias;
 		}
 
-		$query = "SELECT COUNT(*) AS counter, ".$field.$alias." ".$base_query. " GROUP BY ".$field." ORDER BY counter DESC";
+		// move having BEHIND group by
+		$having = "";
+		if(preg_match("/".preg_quote(" [[--HAVING")."(.+)".preg_quote("HAVING--]]")."/", $base_query, $hits))
+		{
+			$having = " HAVING ".$hits[1];
+			$base_query = str_replace($hits[0], "", $base_query);
+		}
+
+		$query = "SELECT COUNT(*) AS counter, ".$field.$alias." ".$base_query. " GROUP BY ".$field.$having." ORDER BY counter DESC";
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
@@ -709,11 +737,14 @@ class ilTrQuery
 	 *
 	 * @param	array	$where
 	 * @param	array	$a_filters
+	 * @param	bool	$a_aggregate
 	 * @return	string
 	 */
-	static protected function buildFilters(array $where, array $a_filters = NULL)
+	static protected function buildFilters(array $where, array $a_filters = NULL, $a_aggregate = false)
     {
 		global $ilDB;
+
+		$having = array();
 
 		if(sizeof($a_filters))
 		{
@@ -752,13 +783,27 @@ class ilTrQuery
 
 
 					case "percentage":
-						if($value["from"])
+						if(!$a_aggregate)
 						{
-							$where[] =  "ut_lp_marks.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+							if($value["from"])
+							{
+								$where[] =  "ut_lp_marks.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$where[] = "ut_lp_marks.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+							}
 						}
-						if($value["to"])
+						else
 						{
-							$where[] = "ut_lp_marks.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+							if($value["from"])
+							{
+								$having[] =  "AVG(ut_lp_marks.".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$having[] = "AVG(ut_lp_marks.".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+							}
 						}
 					    break;
 
@@ -802,13 +847,27 @@ class ilTrQuery
 
 					case "read_count":
 				    case "spent_seconds":
-						if($value["from"])
+						if(!$a_aggregate)
 						{
-							$where[] =  "read_event.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+							if($value["from"])
+							{
+								$where[] =  "read_event.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$where[] = "read_event.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+							}
 						}
-						if($value["to"])
+						else
 						{
-							$where[] = "read_event.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+							if($value["from"])
+							{
+								$having[] =  "SUM(read_event.".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$having[] = "SUM(read_event.".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+							}
 						}
 					    break;
 
@@ -819,10 +878,17 @@ class ilTrQuery
 			}
 		}
 
+		$sql = "";
 		if(sizeof($where))
 		{
-			return " WHERE ".implode(" AND ", $where);
+			$sql .= " WHERE ".implode(" AND ", $where);
 		}
+		if(sizeof($having))
+		{
+			// ugly "having" hack because of summary view
+			$sql .= " [[--HAVING ".implode(" AND ", $having)."HAVING--]]";
+		}
+		return $sql;
 	}
 
 	/**
@@ -830,10 +896,10 @@ class ilTrQuery
 	 *
 	 * @param	array	&$a_fields
 	 * @param	array	$a_additional_fields
-	 * @param	bool	$aggregate
+	 * @param	bool	$a_aggregate
 	 * @return array
 	 */
-	static protected function buildColumns(array &$a_fields, array $a_additional_fields = NULL, $aggregate = false)
+	static protected function buildColumns(array &$a_fields, array $a_additional_fields = NULL, $a_aggregate = false)
 	{
 		if(sizeof($a_additional_fields))
 		{
@@ -843,7 +909,7 @@ class ilTrQuery
 				if(substr($field, 0, 4) != "udf_")
 				{
 					$function = NULL;
-					if($aggregate)
+					if($a_aggregate)
 					{
 						$pos = strrpos($field, "_");
 						if($pos === false)
@@ -1010,6 +1076,10 @@ class ilTrQuery
 		$subqueries = array();
 		foreach($queries as $item)
 		{
+			// ugly "having" hack because of summary view
+			$item = str_replace("[[--HAVING", "HAVING", $item);
+			$item = str_replace("HAVING--]]", "", $item);
+
 			if(!isset($item["count"]))
 			{
 				$count_field = $item["fields"];
