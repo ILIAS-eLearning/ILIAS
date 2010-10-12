@@ -2542,6 +2542,8 @@ class ilObjContentObject extends ilObject
 	 */
 	function importFromDirectory($a_directory, $a_validate = true)
 	{
+		global $lng;
+		
 		// determine filename of xml file
 		$subdir = basename($a_directory);
 		$xml_file = $a_directory."/".$subdir.".xml";

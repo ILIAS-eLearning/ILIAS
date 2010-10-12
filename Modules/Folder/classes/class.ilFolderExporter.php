@@ -49,8 +49,6 @@ class ilFolderExporter extends ilXmlExporter
 		
 		$obj_id = end($a_ids);
 		
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$obj_id);
 		if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
 		{
 			return array();

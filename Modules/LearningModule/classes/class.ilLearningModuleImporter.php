@@ -27,7 +27,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->createLMTree();
-			$newObj->createImportDirectory();
 			
 		}
 		else	// case ii, non container
@@ -37,40 +36,11 @@ class ilLearningModuleImporter extends ilXmlImporter
 			return false;
 		}
 		
-		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser(
-			$newObj, 
-			$this->fetchXmlFile(),
-			$this->fetchSubdir(),
-			NULL
-		);
-		$contParser->setQuestionMapping(array());
-		$contParser->startParsing();
-		ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-		$newObj->MDUpdateListener('General');
-		
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': Import dir is '.$this->getImportDirectory());
-		
+		$GLOBALS['ilLog']->write(__METHOD__.': Import directory is '.$this->getImportDirectory());
+		$mess = $newObj->importFromDirectory($this->getImportDirectory(),true);
+		$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
+
 		$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
-	}
-	
-	/**
-	 * Read xmlfile from import directory
-	 * @return string 
-	 */
-	protected function fetchXmlFile()
-	{
-		return $this->getImportDirectory().DIRECTORY_SEPARATOR.$this->fetchSubdir().'.xml';
-	}
-	
-	/**
-	 * Read subdir name
-	 * @return 
-	 */
-	protected function fetchSubdir()
-	{
-		return basename(rtrim($this->getImportDirectory(),'/'));
 	}
 }
 
