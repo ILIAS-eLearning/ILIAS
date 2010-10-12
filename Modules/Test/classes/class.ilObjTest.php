@@ -6701,7 +6701,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($new_id > 0)
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
 				array('integer'),
 				array($this->getTestId())
 			);
