@@ -70,6 +70,8 @@ class ilContainerXmlWriter extends ilXmlWriter
 			)
 		);
 		
+		$this->writeCourseItemInformation($a_ref_id);
+		
 		foreach($tree->getChilds($a_ref_id) as $node)
 		{
 			$this->writeSubitems($node['child']);
@@ -79,14 +81,69 @@ class ilContainerXmlWriter extends ilXmlWriter
 		return true;
 	}
 	
+	
+	/**
+	 * Write course item information 
+	 * Starting time, ending time...
+	 * @param int $a_ref_id
+	 * @return 
+	 */
+	protected function writeCourseItemInformation($a_ref_id)
+	{
+		include_once './Modules/Course/classes/class.ilCourseItems.php';
+		$item = ilCourseItems::_getItem($a_ref_id);
+		
+		$this->xmlStartTag(
+			'Timing',
+			array(
+				'Type'		=> $item['timing_type'],
+				'Visible'	=> $item['visible'],
+				'Changeable'=> $item['changeable'],
+				)
+		);
+		if($item['timing_start'])
+		{
+			$tmp_date = new ilDateTime($item['timing_start'],IL_CAL_UNIX);
+			$this->xmlElement('Start',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		if($item['timing_end'])
+		{
+			$tmp_date = new ilDateTime($item['timing_end'],IL_CAL_UNIX);
+			$this->xmlElement('End',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		if($item['suggestion_start'])
+		{
+			$tmp_date = new ilDateTime($item['suggestion_start'],IL_CAL_UNIX);
+			$this->xmlElement('SuggestionStart',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		if($item['suggestion_end'])
+		{
+			$tmp_date = new ilDateTime($item['suggestion_end'],IL_CAL_UNIX);
+			$this->xmlElement('SuggestionEnd',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		if($item['earliest_start'])
+		{
+			$tmp_date = new ilDateTime($item['earliest_start'],IL_CAL_UNIX);
+			$this->xmlElement('EarliestStart',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		if($item['latest_end'])
+		{
+			$tmp_date = new ilDateTime($item['latest_end'],IL_CAL_UNIX);
+			$this->xmlElement('LatestEnd',array(),$tmp_date->get(IL_CAL_DATETIME,'',ilTimeZone::UTC));
+		}
+		
+		$this->xmlEndTag('Timing');
+			
+	}
+	
 	/**
 	 * Build XML header
 	 * @return 
 	 */
 	protected function buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_weblinks_4_0.dtd\">");
-		$this->xmlSetGenCmt("WebLink Object");
+		$this->xmlSetDtdDef("<!DOCTYPE Container PUBLIC \"-//ILIAS//DTD Container//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_container_4_1.dtd\">");
+		$this->xmlSetGenCmt("Container object");
 		$this->xmlHeader();
 
 		return true;
