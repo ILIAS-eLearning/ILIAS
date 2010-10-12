@@ -406,9 +406,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "zipcode":
 				case "email":
 				case "matriculation":
-				case "status":
 				case "sel_country":
 					if($value)
+					{
+						$result[$id] = $value;
+					}
+					break;
+
+				case "status":
+					if($value !== false)
 					{
 						$result[$id] = $value;
 					}
