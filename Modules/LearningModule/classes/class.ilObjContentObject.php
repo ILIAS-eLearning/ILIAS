@@ -2498,6 +2498,111 @@ class ilObjContentObject extends ilObject
 		
 		return $mess;
 	}
-	
+
+	/**
+	 * Import lm from file
+	 *
+	 * @param
+	 * @return
+	 */
+	function importFromFile($a_tmp_file, $a_filename, $a_validate)
+	{
+		global $lng;
+
+		// create import directory
+		$this->createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($a_filename);
+		$full_path = $this->getImportDirectory()."/".$a_filename;
+
+		ilUtil::moveUploadedFile($a_tmp_file,
+			$a_filename, $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filename of xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $this->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+
+		// check whether subdirectory exists within zip file
+		if (!is_dir($this->getImportDirectory()."/".$subdir))
+		{
+			return sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir);
+		}
+
+		// check whether xml file exists within zip file
+		if (!is_file($xml_file))
+		{
+			return sprintf($lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml");
+		}
+
+		// import questions
+		$qti_file = $this->getImportDirectory()."/".$subdir."/qti.xml";
+		$qtis = array();
+		if (is_file($qti_file))
+		{
+			include_once "./Services/QTI/classes/class.ilQTIParser.php";
+			include_once("./Modules/Test/classes/class.ilObjTest.php");
+			$qtiParser = new ilQTIParser ($qti_file,
+				IL_MO_VERIFY_QTI, 0, "");
+			$result = $qtiParser->startParsing ();
+			$founditems = & $qtiParser->getFoundItems ();
+			$testObj = new ilObjTest(0, true);
+			if (count($founditems) > 0)
+			{
+				$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, 0, "");
+				$qtiParser->setTestObject($testObj);
+				$result = $qtiParser->startParsing();
+				$qtis = array_merge($qtis, $qtiParser->getImportMapping());
+			}
+		}
+
+		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($this, $xml_file, $subdir, $qmapping);
+		$contParser->setQuestionMapping($qtis);
+		$contParser->startParsing();
+		ilObject::_writeImportId($this->getId(), $this->getImportId());
+		$this->MDUpdateListener('General');
+
+		// import style
+		$style_file = $this->getImportDirectory()."/".$subdir."/style.xml";
+		$style_zip_file = $this->getImportDirectory()."/".$subdir."/style.zip";
+		if (is_file($style_zip_file))	// try to import style.zip first
+		{
+			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet();
+			$style->import($style_zip_file);
+			$this->writeStyleSheetId($style->getId());
+		}
+		else if (is_file($style_file))	// try to import style.xml
+		{
+			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet();
+			$style->import($style_file);
+			$this->writeStyleSheetId($style->getId());
+		}
+
+		// delete import directory
+		ilUtil::delDir($this->getImportDirectory());
+
+//		// validate
+		if ($a_validate)
+		{
+			$mess = $this->validatePages();
+		}
+
+		if ($mess == "")
+		{
+			// handle internal links to this learning module
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			ilPageObject::_handleImportRepositoryLinks($this->getImportId(),
+				$this->getType(), $this->getRefId());
+		}
+
+		return $mess;
+	}
+
 }
 ?>

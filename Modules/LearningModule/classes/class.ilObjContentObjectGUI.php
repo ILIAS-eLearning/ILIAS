@@ -1318,103 +1318,14 @@ return;
 	
 			// create learning module tree
 			$newObj->createLMTree();
-	
-			// create import directory
-			$newObj->createImportDirectory();
-	
-			// copy uploaded file to import directory
-			$file = pathinfo($_FILES["xmldoc"]["name"]);
-			$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-	
-			ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
-				$_FILES["xmldoc"]["name"], $full_path);
-	
-			//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
-	
-			// unzip file
-			ilUtil::unzip($full_path);
-	
-			// determine filename of xml file
-			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-	
-			// check whether subdirectory exists within zip file
-			if (!is_dir($newObj->getImportDirectory()."/".$subdir))
-			{
-				$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
-					$this->ilias->error_obj->MESSAGE);
-			}
-	
-			// check whether xml file exists within zip file
-			if (!is_file($xml_file))
-			{
-				$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
-					$this->ilias->error_obj->MESSAGE);
-			}
 
-			// import questions
-			$qti_file = $newObj->getImportDirectory()."/".$subdir."/qti.xml";
-			$qtis = array();
-			if (is_file($qti_file))
-			{
-				include_once "./Services/QTI/classes/class.ilQTIParser.php";
-				include_once("./Modules/Test/classes/class.ilObjTest.php");
-				$qtiParser = new ilQTIParser ($qti_file,
-					IL_MO_VERIFY_QTI, 0, "");
-				$result = $qtiParser->startParsing ();
-				$founditems = & $qtiParser->getFoundItems ();
-				$testObj = new ilObjTest(0, true);
-				if (count($founditems) > 0)
-				{
-					$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, 0, "");
-					$qtiParser->setTestObject($testObj);
-					$result = $qtiParser->startParsing();
-					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
-				}
-			}
+			// import lm from file
+			$mess = $newObj->importFromFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"],
+				$_POST["validate"]);
 
-			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-			$contParser = new ilContObjParser($newObj, $xml_file, $subdir, $qmapping);
-			$contParser->setQuestionMapping($qtis);
-			$contParser->startParsing();
-			ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-			$newObj->MDUpdateListener('General');
-	
-			// import style
-			$style_file = $newObj->getImportDirectory()."/".$subdir."/style.xml";
-			$style_zip_file = $newObj->getImportDirectory()."/".$subdir."/style.zip";
-			if (is_file($style_zip_file))	// try to import style.zip first
-			{
-				require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$style = new ilObjStyleSheet();
-				$style->import($style_zip_file);
-				$newObj->writeStyleSheetId($style->getId());
-			}
-			else if (is_file($style_file))	// try to import style.xml
-			{
-				require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$style = new ilObjStyleSheet();
-				$style->import($style_file);
-				$newObj->writeStyleSheetId($style->getId());
-			}
-			
-			// delete import directory
-			ilUtil::delDir($newObj->getImportDirectory());
-			
-			// validate
-			if ($_POST["validate"])
-			{
-				$mess = $newObj->validatePages();
-			}
-			
 			if ($mess == "")
 			{
-				ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
-		
-				// handle internal links to this learning module
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				ilPageObject::_handleImportRepositoryLinks($newObj->getImportId(),
-					$newObj->getType(), $newObj->getRefId());
+				ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);		
 				ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 					"&baseClass=ilLMEditorGUI");
 			}
