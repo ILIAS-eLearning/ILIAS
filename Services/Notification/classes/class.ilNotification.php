@@ -44,18 +44,26 @@ class ilNotification
 	 *
 	 * @param	int		$type
 	 * @param	int		$id
+	 * @param	int		$page_id
 	 * @return	array
 	 */
-	public static function getNotificationsForObject($type, $id)
+	public static function getNotificationsForObject($type, $id, $page_id = false)
 	{
 		global $ilDB;
 
-		$user = array();
-		$set = $ilDB->query("SELECT user_id FROM notification".
+		$sql .= "SELECT user_id FROM notification".
 				" WHERE type = ".$ilDB->quote($type, "integer").
 				" AND id = ".$ilDB->quote($id, "integer").
 				" AND (last_mail < ".$ilDB->quote(date("Y-m-d H:i:s", strtotime("-".self::THRESHOLD."minutes")), "timestamp").
-				" OR last_mail IS NULL)");
+				" OR last_mail IS NULL";
+		if($page_id)
+		{
+			$sql .= " OR page_id <> ".$ilDB->quote($page_id, "integer");
+		}
+		$sql .= ")";
+
+		$user = array();
+		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$user[] = $row["user_id"];
@@ -98,16 +106,25 @@ class ilNotification
 	 * @param	int		$type
 	 * @param	int		$id
 	 * @param	array	$user_ids
+	 * @param	int		$page_id
 	 */
-	public static function updateNotificationTime($type, $id, array $user_ids)
+	public static function updateNotificationTime($type, $id, array $user_ids, $page_id = false)
 	{
 		global $ilDB;
 
-		$ilDB->query("UPDATE notification".
-				" SET last_mail = ".$ilDB->quote(date("Y-m-d H:i:s"), "timestamp").
-				" WHERE type = ".$ilDB->quote($type, "integer").
+		$sql = "UPDATE notification".
+				" SET last_mail = ".$ilDB->quote(date("Y-m-d H:i:s"), "timestamp");
+
+		if($page_id)
+		{
+			$sql .= ", page_id = ".$ilDB->quote($page_id, "integer");
+		}
+
+		$sql .= " WHERE type = ".$ilDB->quote($type, "integer").
 				" AND id = ".$ilDB->quote($id, "integer").
-				" AND ".$ilDB->in("user_id", $user_ids, false, "integer"));
+				" AND ".$ilDB->in("user_id", $user_ids, false, "integer");
+
+		$ilDB->query($sql);
 	}
 
 	/**
