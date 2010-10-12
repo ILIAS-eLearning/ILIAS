@@ -584,7 +584,7 @@ class ilWikiUtil
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
 			$users = ilNotification::getNotificationsForObject($a_type, $a_page_id);
-			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id);
+			$wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id);
 			$users = array_merge($users, $wiki_users);
 			if(!sizeof($users))
 			{
@@ -605,7 +605,7 @@ class ilWikiUtil
 		}
 		else
 		{
-			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id);
+			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id);
 			if(!sizeof($users))
 			{
 				return;
@@ -620,7 +620,7 @@ class ilWikiUtil
 			$message .= $lng->txt('wiki_change_notification_link').": ".ilLink::_getLink($a_wiki_ref_id);
 		}
 		
-		ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users);
+		ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
 
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
