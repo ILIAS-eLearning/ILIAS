@@ -10947,7 +10947,7 @@ rbac#:#usrf_create_usr#:#Create User
 trac#:#trac_all#:#All
 trac#:#trac_view_mode#:#View Mode
 trac#:#trac_view_mode_all#:#All Objects
-trac#:#trac_view_mode_collection#:#Only objects who determine overall status
+trac#:#trac_view_mode_collection#:#Only objects that determine the overall status
 trac#:#trac_name_of_installation#:#Name of Installation
 trac#:#trac_object_name#:#Name of Object
 trac#:#trac_object_link#:#Link to Object
