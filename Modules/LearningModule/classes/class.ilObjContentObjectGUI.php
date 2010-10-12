@@ -1320,7 +1320,7 @@ return;
 			$newObj->createLMTree();
 
 			// import lm from file
-			$mess = $newObj->importFromFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"],
+			$mess = $newObj->importFromZipFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"],
 				$_POST["validate"]);
 
 			if ($mess == "")

@@ -2500,12 +2500,12 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
-	 * Import lm from file
+	 * Import lm from zip file
 	 *
 	 * @param
 	 * @return
 	 */
-	function importFromFile($a_tmp_file, $a_filename, $a_validate)
+	function importFromZipFile($a_tmp_file, $a_filename, $a_validate = true)
 	{
 		global $lng;
 
@@ -2522,12 +2522,32 @@ class ilObjContentObject extends ilObject
 		// unzip file
 		ilUtil::unzip($full_path);
 
-		// determine filename of xml file
 		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = $this->getImportDirectory()."/".$subdir."/".$subdir.".xml";
 
-		// check whether subdirectory exists within zip file
-		if (!is_dir($this->getImportDirectory()."/".$subdir))
+		$mess =  $this->importFromDirectory(
+			$this->getImportDirectory()."/".$subdir, $a_validate);
+
+		// delete import directory
+		ilUtil::delDir($this->getImportDirectory());
+
+		return $mess;
+	}
+
+
+	/**
+	 * Import lm from directory
+	 *
+	 * @param
+	 * @return
+	 */
+	function importFromDirectory($a_directory, $a_validate = true)
+	{
+		// determine filename of xml file
+		$subdir = basename($a_directory);
+		$xml_file = $a_directory."/".$subdir.".xml";
+
+		// check directory exists within zip file
+		if (!is_dir($a_directory))
 		{
 			return sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir);
 		}
@@ -2539,7 +2559,7 @@ class ilObjContentObject extends ilObject
 		}
 
 		// import questions
-		$qti_file = $this->getImportDirectory()."/".$subdir."/qti.xml";
+		$qti_file = $a_directory."/qti.xml";
 		$qtis = array();
 		if (is_file($qti_file))
 		{
@@ -2567,8 +2587,8 @@ class ilObjContentObject extends ilObject
 		$this->MDUpdateListener('General');
 
 		// import style
-		$style_file = $this->getImportDirectory()."/".$subdir."/style.xml";
-		$style_zip_file = $this->getImportDirectory()."/".$subdir."/style.zip";
+		$style_file = $a_directory."/style.xml";
+		$style_zip_file = $a_directory."/style.zip";
 		if (is_file($style_zip_file))	// try to import style.zip first
 		{
 			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -2583,9 +2603,6 @@ class ilObjContentObject extends ilObject
 			$style->import($style_file);
 			$this->writeStyleSheetId($style->getId());
 		}
-
-		// delete import directory
-		ilUtil::delDir($this->getImportDirectory());
 
 //		// validate
 		if ($a_validate)
