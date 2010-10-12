@@ -488,23 +488,23 @@ class SurveyImportParser extends ilSaxParser
 				}
 				break;
 			case "startingtime":
-				if (preg_match("/(\d{4}-\d{2}-\d{2})T\d{2}-\d{2}-\d{2}.*/", $this->characterbuffer, $matches))
+				if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2}).*/", $this->characterbuffer, $matches))
 				{
 					if (is_object($this->survey))
 					{
-						$this->survey->setStartDate($matches[1]);
+						$this->survey->setStartDate(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 						$this->survey->setStartDateEnabled(1);
-					}					
+					}
 				}
 				break;
 			case "endingtime":
-				if (preg_match("/(\d{4}-\d{2}-\d{2})T\d{2}-\d{2}-\d{2}.*/", $this->characterbuffer, $matches))
+				if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2}).*/", $this->characterbuffer, $matches))
 				{
 					if (is_object($this->survey))
 					{
-						$this->survey->setEndDate($matches[1]);
+						$this->survey->setEndDate(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 						$this->survey->setEndDateEnabled(1);
-					}					
+					}
 				}
 				break;
 			case "description":

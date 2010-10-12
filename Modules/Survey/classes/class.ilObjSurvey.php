@@ -754,8 +754,8 @@ class ilObjSurvey extends ilObject
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
 				"status" => array("text", $this->getStatus()),
-				"startdate" => array("date", $this->getStartDate()),
-				"enddate" => array("date", $this->getEndDate()),
+				"startdate" => array("text", $this->getStartDate()),
+				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
 				"invitation" => array("text", $this->getInvitation()),
 				"invitation_mode" => array("text", $this->getInvitationMode()),
@@ -777,8 +777,8 @@ class ilObjSurvey extends ilObject
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
 				"status" => array("text", $this->getStatus()),
-				"startdate" => array("date", $this->getStartDate()),
-				"enddate" => array("date", $this->getEndDate()),
+				"startdate" => array("text", $this->getStartDate()),
+				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
 				"invitation" => array("text", $this->getInvitation()),
 				"invitation_mode" => array("text", $this->getInvitationMode()),
@@ -1392,27 +1392,31 @@ class ilObjSurvey extends ilObject
 		// check start date
 		if ($this->getStartDateEnabled())
 		{
-			$epoch_time = mktime(0, 0, 0, $this->getStartMonth(), $this->getStartDay(), $this->getStartYear());
-			$now = mktime();
-			if ($now < $epoch_time) 
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartDate(), $matches))
 			{
-				array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
-					ilDatePresentation::formatDate(
-						new ilDate($this->getStartYear().$this->getStartMonth().$this->getStartDay()."000000",IL_CAL_TIMESTAMP)). ")");
-				$result = FALSE;
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) 
+				{
+					array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
+						ilDatePresentation::formatDate(new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP)). ")");
+					$result = FALSE;
+				}
 			}
 		}
 		// check end date
 		if ($this->getEndDateEnabled())
 		{
-			$epoch_time = mktime(0, 0, 0, $this->getEndMonth(), $this->getEndDay(), $this->getEndYear());
-			$now = mktime();
-			if ($now > $epoch_time) 
+			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndDate(), $matches))
 			{
-				array_push($messages,$this->lng->txt('end_date_reached').' ('.
-					ilDatePresentation::formatDate(
-						new ilDate($this->getEndYear().$this->getEndMonth().$this->getEndDay()."000000",IL_CAL_TIMESTAMP)). ")");
-				$result = FALSE;
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now > $epoch_time) 
+				{
+					array_push($messages,$this->lng->txt('end_date_reached').' ('.
+						ilDatePresentation::formatDate(new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP)). ")");
+					$result = FALSE;
+				}
 			}
 		}
 		// check online status
@@ -1447,13 +1451,39 @@ class ilObjSurvey extends ilObject
 /**
 * Sets the start date of the survey
 *
-* @param string $start_data Survey start date (YYYY-MM-DD)
+* @param string $start_data Survey start date (YYYYMMDDHHMMSS)
 * @access public
 * @see $start_date
 */
 	function setStartDate($start_date = "") 
 	{
 		$this->start_date = $start_date;
+	}
+
+	/**
+	* Sets the start date of the survey
+	*
+	* @param string $start_date Survey start date (YYYY-MM-DD)
+	* @param string $start_time Survey start time (HH:MM:SS)
+	* @access public
+	* @see $start_date
+	*/
+	function setStartDateAndTime($start_date = "", $start_time) 
+	{
+		$y = ''; $m = ''; $d = ''; $h = ''; $i = ''; $s = '';
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $start_date, $matches))
+		{
+			$y = $matches[1];
+			$m = $matches[2];
+			$d = $matches[3];
+		}
+		if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $start_time, $matches))
+		{
+			$h = $matches[1];
+			$i = $matches[2];
+			$s = $matches[3];
+		}
+		$this->start_date = sprintf('%04d%02d%02d%02d%02d%02d', $y, $m, $d, $h, $i, $s);
 	}
 
 /**
@@ -1465,14 +1495,8 @@ class ilObjSurvey extends ilObject
 */
 	function getStartMonth() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
-		{
-			return $matches[2];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'm');
 	}
 
 /**
@@ -1484,14 +1508,8 @@ class ilObjSurvey extends ilObject
 */
 	function getStartDay() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
-		{
-			return $matches[3];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'd');
 	}
 
 /**
@@ -1503,14 +1521,34 @@ class ilObjSurvey extends ilObject
 */
 	function getStartYear() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
-		{
-			return $matches[1];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'Y');
+	}
+
+	/**
+	* Gets the start hour of the survey
+	*
+	* @return string Survey start hour
+	* @access public
+	* @see $start_date
+*/
+	function getStartHour() 
+	{
+		$dt = new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'H');
+	}
+
+	/**
+	* Gets the start minute of the survey
+	*
+	* @return string Survey start minute
+	* @access public
+	* @see $start_date
+*/
+	function getStartMinute() 
+	{
+		$dt = new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'i');
 	}
 
 /**
@@ -1528,13 +1566,39 @@ class ilObjSurvey extends ilObject
 /**
 * Sets the end date of the survey
 *
-* @param string $end_date Survey end date (YYYY-MM-DD)
+* @param string $end_date Survey end date (YYYYMMDDHHMMSS)
 * @access public
 * @see $end_date
 */
 	function setEndDate($end_date = "") 
 	{
 		$this->end_date = $end_date;
+	}
+
+	/**
+	* Sets the end date of the survey
+	*
+	* @param string $end_date Survey end date (YYYY-MM-DD)
+	* @param string $end_time Survey end time (HH:MM:SS)
+	* @access public
+	* @see $start_date
+	*/
+	function setEndDateAndTime($end_date = "", $end_time) 
+	{
+		$y = ''; $m = ''; $d = ''; $h = ''; $i = ''; $s = '';
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $end_date, $matches))
+		{
+			$y = $matches[1];
+			$m = $matches[2];
+			$d = $matches[3];
+		}
+		if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $end_time, $matches))
+		{
+			$h = $matches[1];
+			$i = $matches[2];
+			$s = $matches[3];
+		}
+		$this->end_date = sprintf('%04d%02d%02d%02d%02d%02d', $y, $m, $d, $h, $i, $s);
 	}
 
 /**
@@ -1546,14 +1610,8 @@ class ilObjSurvey extends ilObject
 */
 	function getEndMonth() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
-		{
-			return $matches[2];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'm');
 	}
 
 /**
@@ -1565,14 +1623,8 @@ class ilObjSurvey extends ilObject
 */
 	function getEndDay() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
-		{
-			return $matches[3];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'd');
 	}
 
 /**
@@ -1584,14 +1636,34 @@ class ilObjSurvey extends ilObject
 */
 	function getEndYear() 
 	{
-		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
-		{
-			return $matches[1];
-		}
-		else
-		{
-			return "";
-		}
+		$dt = new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'Y');
+	}
+
+	/**
+	* Gets the end hour of the survey
+	*
+	* @return string Survey end hour
+	* @access public
+	* @see $end_date
+	*/
+	function getEndHour() 
+	{
+		$dt = new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'H');
+	}
+
+	/**
+	* Gets the end minute of the survey
+	*
+	* @return string Survey end minute
+	* @access public
+	* @see $end_date
+	*/
+	function getEndMinute() 
+	{
+		$dt = new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP);
+		return $dt->get(IL_CAL_FKT_DATE, 'i');
 	}
 
 /**
@@ -3726,12 +3798,12 @@ class ilObjSurvey extends ilObject
 		if ($this->getStartDateEnabled())
 		{
 			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%04d-%02d-%02dT00:00:00", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
+			$a_xml_writer->xmlElement("startingtime", $attrs, sprintf("%04d-%02d-%02dT%02d:%02d:00", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay(), $this->getStartHour(), $this->getStartMinute()));
 		}
 		if ($this->getEndDateEnabled())
 		{
 			$attrs = array("type" => "date");
-			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%04d-%02d-%02dT00:00:00", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
+			$a_xml_writer->xmlElement("endingtime", $attrs, sprintf("%04d-%02d-%02dT%02d:%02d:00", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay(), $this->getEndHour(), $this->getEndMinute()));
 		}
 		$a_xml_writer->xmlEndTag("restrictions");
 		
