@@ -3461,3 +3461,65 @@ if (!$ilDB->tableColumnExists('notification', 'page_id'))
   $ilDB->addTableColumn("notification", "page_id", array("type" => "integer", "length" => 4, "notnull" => false, "default" => 0));
 }
 ?>
+<#3188>
+<?php
+	$ilDB->addTableColumn("svy_svy", "startdate_tmp", array(
+		"type" => "text",
+		"notnull" => false,
+		'length'=> 14,
+		"default" => null
+	));
+?>
+<#3189>
+<?php
+$res = $ilDB->query('SELECT survey_id, startdate FROM svy_svy');
+while ($row = $ilDB->fetchAssoc($res))
+{
+	if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $row['startdate'], $matches))
+	{
+		$ilDB->manipulateF('UPDATE svy_svy SET startdate_tmp = %s WHERE survey_id = %s',
+			array('text', 'integer'),
+			array(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], 0, 0, 0), $row['survey_id'])
+		);
+	}
+}
+?>
+<#3190>
+<?php
+$ilDB->dropTableColumn('svy_svy', 'startdate');
+?>
+<#3191>
+<?php
+$ilDB->renameTableColumn("svy_svy", "startdate_tmp", "startdate");
+?>
+<#3192>
+<?php
+	$ilDB->addTableColumn("svy_svy", "enddate_tmp", array(
+		"type" => "text",
+		"notnull" => false,
+		'length'=> 14,
+		"default" => null
+	));
+?>
+<#3193>
+<?php
+$res = $ilDB->query('SELECT survey_id, enddate FROM svy_svy');
+while ($row = $ilDB->fetchAssoc($res))
+{
+	if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $row['enddate'], $matches))
+	{
+		$ilDB->manipulateF('UPDATE svy_svy SET enddate_tmp = %s WHERE survey_id = %s',
+			array('text', 'integer'),
+			array(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], 0, 0, 0), $row['survey_id'])
+		);
+	}
+}
+?>
+<#3194>
+<?php
+$ilDB->dropTableColumn('svy_svy', 'enddate');
+?>
+<#3195>
+<?php
+$ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
+?>

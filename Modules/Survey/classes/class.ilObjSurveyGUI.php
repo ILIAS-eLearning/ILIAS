@@ -245,7 +245,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
 			if ($this->object->getStartDateEnabled())
 			{
-				$this->object->setStartDate($_POST['start_date']['date']);
+				$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
 			}
 			else
 			{
@@ -254,7 +254,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->setEndDateEnabled($_POST["enabled_end_date"]);
 			if ($this->object->getEndDateEnabled())
 			{
-				$this->object->setEndDate($_POST['end_date']['date']);
+				$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
 			}
 			else
 			{
@@ -344,7 +344,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// start date
 		$startingtime = new ilDateTimeInputGUI('', 'start_date');
 		$startingtime->setShowDate(true);
-		$startingtime->setShowTime(false);
+		$startingtime->setShowTime(true);
 		if ($this->object->getStartDateEnabled())
 		{
 			$startingtime->setDate(new ilDate($this->object->getStartDate(), IL_CAL_DATE));
@@ -364,7 +364,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// end date
 		$endingtime = new ilDateTimeInputGUI('', 'end_date');
 		$endingtime->setShowDate(true);
-		$endingtime->setShowTime(false);
+		$endingtime->setShowTime(true);
 		if ($this->object->getEndDateEnabled())
 		{
 			$endingtime->setDate(new ilDate($this->object->getEndDate(), IL_CAL_DATE));
