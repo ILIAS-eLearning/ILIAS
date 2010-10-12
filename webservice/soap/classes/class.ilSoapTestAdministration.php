@@ -556,7 +556,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('edit',$ref_id))
+			if($rbacsystem->checkAccess('write',$ref_id))
 			{
 				$permission_ok = true;
 				break;
