@@ -852,22 +852,22 @@ class ilTrQuery
 						{
 							if($value["from"])
 							{
-								$where[] =  "read_event.".$id." >= ".$ilDB->quote($value["from"] ,"integer");
+								$where[] =  "(read_event.".$id."+read_event.childs_".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
 							}
 							if($value["to"])
 							{
-								$where[] = "read_event.".$id." <= ".$ilDB->quote($value["to"] ,"integer");
+								$where[] = "(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
 							}
 						}
 						else
 						{
 							if($value["from"])
 							{
-								$having[] =  "SUM(read_event.".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
+								$having[] =  "SUM(read_event.".$id."+read_event.childs_".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
 							}
 							if($value["to"])
 							{
-								$having[] = "SUM(read_event.".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+								$having[] = "SUM(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
 							}
 						}
 					    break;
