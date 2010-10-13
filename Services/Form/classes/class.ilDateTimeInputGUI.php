@@ -475,7 +475,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 				{
 					$value = substr($this->getDate()->get(IL_CAL_DATETIME), 0, 10);
 					$day = substr($value, 8, 2);
-					$month = substr($value, 6, 2);
+					$month = substr($value, 5, 2);
 					$year = substr($value, 0, 4);
 				}
 
