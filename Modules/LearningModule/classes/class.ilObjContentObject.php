@@ -26,6 +26,8 @@ class ilObjContentObject extends ilObject
 	var $style_id;
 	var $pg_header;
 	var $online;
+	
+	private $import_dir = '';
 
 	/**
 	* Constructor
@@ -301,6 +303,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function getImportDirectory()
 	{
+		if(strlen($this->import_dir))
+		{
+			return $this->import_dir;
+		}
+		
 		$import_dir = ilUtil::getDataDir()."/lm_data".
 			"/lm_".$this->getId()."/import";
 		if(@is_dir($import_dir))
@@ -311,6 +318,17 @@ class ilObjContentObject extends ilObject
 		{
 			return false;
 		}
+	}
+	
+	/**
+	 * Set import directory for further use in ilContObjParser
+	 * 
+	 * @param string import directory
+	 * @return void
+	 */
+	public function setImportDirectory($a_import_dir)
+	{
+		$this->import_dir = $a_import_dir;
 	}
 
 
