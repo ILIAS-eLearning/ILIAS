@@ -27,7 +27,7 @@ class ilLearningModuleImporter extends ilXmlImporter
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->createLMTree();
-			
+			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
 		}
 		else	// case ii, non container
 		{
@@ -36,7 +36,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 			return false;
 		}
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Import directory is '.$this->getImportDirectory());
 		$mess = $newObj->importFromDirectory($this->getImportDirectory(),true);
 		$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
 
