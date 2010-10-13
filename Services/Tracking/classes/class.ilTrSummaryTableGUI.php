@@ -460,7 +460,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng;
 
-		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["id"], "tiny"));
+		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
 
@@ -479,7 +479,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					break;
 
 				case "percentage_avg":
-					if((int)$a_set[$c] === 0)
+					if((int)$a_set[$c] === 0 || !$this->isPercentageAvailable($a_set["obj_id"]))
 					{
 						$this->tpl->setVariable(strtoupper($c), "");
 						break;
