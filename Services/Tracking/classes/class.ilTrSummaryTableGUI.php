@@ -39,6 +39,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn($this->lng->txt("title"), "title");
 
+		$this->setDefaultOrderField("title");
+		
 		$labels = $this->getSelectableColumns();
 		foreach ($this->getSelectedColumns() as $c)
 		{
