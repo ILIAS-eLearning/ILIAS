@@ -2181,7 +2181,8 @@ if(!$ilDB->tableExists('booking_user'))
 	$ilDB->addTableColumn('crs_settings','reg_ac_enabled',array(
 		'type'		=> 'integer',
 		'notnull'	=> true,
-		'length'	=> 1
+		'length'	=> 1,
+		'default'	=> 0
 	));
 
 	$ilDB->addTableColumn('crs_settings','reg_ac',array(
@@ -2196,7 +2197,8 @@ if(!$ilDB->tableExists('booking_user'))
 	$ilDB->addTableColumn('grp_settings','reg_ac_enabled',array(
 		'type'		=> 'integer',
 		'notnull'	=> true,
-		'length'	=> 1
+		'length'	=> 1,
+		'default'	=> 0
 	));
 
 	$ilDB->addTableColumn('grp_settings','reg_ac',array(
