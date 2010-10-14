@@ -1813,6 +1813,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
 		$oPostGUI->addPlugin('ilfrmquote');		
+		$oPostGUI->addPlugin('code'); 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			$oPostGUI->addButton('ilFrmQuoteAjaxCall');
@@ -1830,7 +1831,6 @@ class ilObjForumGUI extends ilObjectGUI
 			'justifyright',
 			'justifyfull',
 			'anchor',
-			'code',
 			'fullscreen',
 			'cut',
 			'copy',
@@ -3561,6 +3561,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
 		$post_gui->addPlugin('ilfrmquote');
+		$post_gui->addPlugin('code'); 
 		$post_gui->removePlugin('advlink');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');	
@@ -3575,7 +3576,6 @@ class ilObjForumGUI extends ilObjectGUI
 			'justifyright',
 			'justifyfull',
 			'anchor',
-			'code',
 			'fullscreen',
 			'cut',
 			'copy',
