@@ -4154,7 +4154,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$radio_grp = new ilRadioGroupInputGUI('','notification_type');
 			$radio_grp->setValue('all_users');
 			$opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
-			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_members"), 'per_user');
+			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_users"), 'per_user');
 
 			$radio_grp->addOption($opt_0, 'all_users');
 			$radio_grp->addOption($opt_1, 'per_user');
