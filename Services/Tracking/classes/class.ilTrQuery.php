@@ -799,11 +799,11 @@ class ilTrQuery
 						{
 							if($value["from"])
 							{
-								$having[] =  "AVG(ut_lp_marks.".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
+								$having[] = "ROUND(AVG(ut_lp_marks.".$id.")) >= ".$ilDB->quote($value["from"] ,"integer");
 							}
 							if($value["to"])
 							{
-								$having[] = "AVG(ut_lp_marks.".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+								$having[] = "ROUND(AVG(ut_lp_marks.".$id.")) <= ".$ilDB->quote($value["to"] ,"integer");
 							}
 						}
 					    break;
@@ -847,7 +847,6 @@ class ilTrQuery
 					    break;
 
 					case "read_count":
-				    case "spent_seconds":
 						if(!$a_aggregate)
 						{
 							if($value["from"])
@@ -870,6 +869,31 @@ class ilTrQuery
 								$having[] = "SUM(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
 							}
 						}
+						break;
+
+				    case "spent_seconds":
+						if(!$a_aggregate)
+						{
+							if($value["from"])
+							{
+								$where[] =  "(read_event.".$id."+read_event.childs_".$id.") >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$where[] = "(read_event.".$id."+read_event.childs_".$id.") <= ".$ilDB->quote($value["to"] ,"integer");
+							}
+						}
+						else
+						{
+							if($value["from"])
+							{
+								$having[] =  "ROUND(AVG(read_event.".$id."+read_event.childs_".$id.")) >= ".$ilDB->quote($value["from"] ,"integer");
+							}
+							if($value["to"])
+							{
+								$having[] = "ROUND(AVG(read_event.".$id."+read_event.childs_".$id.")) <= ".$ilDB->quote($value["to"] ,"integer");
+							}
+						}
 					    break;
 
 					default:
@@ -889,6 +913,7 @@ class ilTrQuery
 			// ugly "having" hack because of summary view
 			$sql .= " [[--HAVING ".implode(" AND ", $having)."HAVING--]]";
 		}
+
 		return $sql;
 	}
 
