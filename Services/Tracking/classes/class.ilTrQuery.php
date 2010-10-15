@@ -1037,8 +1037,10 @@ class ilTrQuery
 		   {
 				foreach($children as $child)
 				{
+					// as there can be deactivated items in the collection
+					// we should allow them here too
 					$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
-					if($cmode != LP_MODE_DEACTIVATED && $cmode != LP_MODE_UNDEFINED)
+					if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
 					{
 						$object_ids[] = $child["obj_id"];
 						$ref_ids[$child["obj_id"]] = $child["ref_id"];
