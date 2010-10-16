@@ -46,15 +46,20 @@ ilOverlayFunc.prototype =
 	
 	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center, ov_corner, anch_corner)
 	{
-		if (typeof(ilOverlayFunc.prototype.trigger[tr_id]) == "undefined")
-		{
+		// out-commented this line due to bug 6724
+//		if (typeof(ilOverlayFunc.prototype.trigger[tr_id]) == "undefined")
+//		{
 			ilOverlayFunc.prototype.trigger[tr_id] =
 				{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center,
 				ov_corner: ov_corner, anch_corner: anch_corner};
 			var trigger = document.getElementById(tr_id);
+
+			// added this line instead due to bug 6724
+			YAHOO.util.Event.removeListener(trigger, "click");
+
 			YAHOO.util.Event.addListener(trigger, "click",
 				function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
-		}
+//		}
 	},
 	
 	getCfg: function (id, name)
