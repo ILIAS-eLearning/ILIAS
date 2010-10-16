@@ -59,7 +59,10 @@ var ilBlockSuccessHandler = function(o)
 			var els = YAHOO.util.Dom.getElementsBy(function(el){return true;}, "script", newdiv);
 			for(var i= 0; i<=els.length; i++)
 			{
-				eval(els[i].innerHTML);
+				if (typeof els[i] != 'undefined')
+				{
+					eval(els[i].innerHTML);
+				}
 			}
 		}
 		
