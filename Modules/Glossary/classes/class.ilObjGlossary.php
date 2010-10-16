@@ -52,6 +52,8 @@ class ilObjGlossary extends ilObject
 			$ilDB->quote("table", "text").",".
 			$ilDB->quote(200, "integer").
 			")");
+		$this->setPresentationMode("table");
+		$this->setSnippetLength(200);
 
 	}
 
