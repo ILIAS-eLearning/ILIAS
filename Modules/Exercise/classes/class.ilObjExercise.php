@@ -440,8 +440,10 @@ class ilObjExercise extends ilObject
 		include_once "Services/Mail/classes/class.ilMail.php";
 
 		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
-		$message = $tmp_mail_obj->sendMail($this->__formatRecipients($a_members),"","",$this->__formatSubject(),$this->__formatBody(),
-										   count($file_names) ? $file_names : array(),array("normal"));
+		$message = $tmp_mail_obj->sendMail(
+			$this->__formatRecipients($a_members),"","",
+			$this->__formatSubject(), $this->__formatBody($a_ass_id),
+			count($file_names) ? $file_names : array(),array("normal"));
 
 		unset($tmp_mail_obj);
 
@@ -482,14 +484,17 @@ class ilObjExercise extends ilObject
 	}
 
 	// PRIVATE METHODS
-	function __formatBody()
+	function __formatBody($a_ass_id)
 	{
 		global $lng;
 
-		$body = $this->getInstruction();
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$ass = new ilExAssignment($a_ass_id);
+
+		$body = $ass->getInstruction();
 		$body .= "\n\n";
 		$body .= $lng->txt("exc_edit_until") . ": ".
-			ilFormat::formatDate(date("Y-m-d H:i:s",$this->getTimestamp()), "datetime", true);
+			ilFormat::formatDate(date("Y-m-d H:i:s",$ass->getDeadline()), "datetime", true);
 		$body .= "\n\n";
 		$body .= ILIAS_HTTP_PATH.
 			"/goto.php?target=".
