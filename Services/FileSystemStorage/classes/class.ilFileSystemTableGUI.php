@@ -123,7 +123,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 				"type" => $e["type"], "label" => $label, "size" => $e["size"],
 				"name" => $pref.$e["entry"]);
 		}
-		
+
 		$this->setData($items);
 	}
 	
