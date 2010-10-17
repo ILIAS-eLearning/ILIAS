@@ -1318,12 +1318,12 @@ class ilTable2GUI extends ilTableGUI
 	function determineOffsetAndOrder($a_omit_offset = false)
 	{
 		global $ilUser;
-		
+
 		if ($this->nav_determined)
 		{
 			return true;
 		}
-	
+
 		if ($_POST[$this->getNavParameter()."1"] != "")
 		{
 			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
@@ -1357,6 +1357,7 @@ class ilTable2GUI extends ilTableGUI
 		// $nav[0] is order by
 		$this->setOrderField(($nav[0] != "") ? $nav[0] : $this->getDefaultOrderField());
 		$this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
+
 		if (!$a_omit_offset)
 		{
 			if (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count)
@@ -1368,8 +1369,11 @@ class ilTable2GUI extends ilTableGUI
 				$this->setOffset($nav[2]);
 			}
 		}
-		
-		$this->nav_determined = true;
+
+		if (!$a_omit_offset)
+		{
+			$this->nav_determined = true;
+		}
 	}
 	
 	function storeNavParameter()
@@ -1650,6 +1654,8 @@ class ilTable2GUI extends ilTableGUI
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
 
+		$tpl->addJavascript("./Services/Table/js/ServiceTable.js");
+		
 		if (count($filter) == 0 && count($opt_filter) == 0)
 		{
 			return;
@@ -1657,8 +1663,6 @@ class ilTable2GUI extends ilTableGUI
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
-
-		$tpl->addJavascript("./Services/Table/js/ServiceTable.js");
 
 		$ccnt = 0;
 
