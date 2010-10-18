@@ -116,6 +116,8 @@ class ilExportContainer extends ilExport
 			$exp_dir = ilExport::_getExportDirectory($obj_id,'xml',ilObject::_lookupType($obj_id));
 			$exp_full = $exp_dir.DIRECTORY_SEPARATOR.$expi->getFilename();
 			
+			$GLOBALS['ilLog']->write(__METHOD__.': zip path '.$exp_full);
+			
 			// Unzip
 			ilUtil::unzip($exp_full,true,false);
 			
@@ -126,11 +128,15 @@ class ilExportContainer extends ilExport
 			$new_path_rel = 'set_'.$set_number.DIRECTORY_SEPARATOR.$expi->getBasename();
 			$new_path_abs = $this->cont_export_dir.DIRECTORY_SEPARATOR.$new_path_rel;
 			
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$new_path_rel.' '.$new_path_abs);
+
 			// Move export
 			rename(
 				$exp_dir.DIRECTORY_SEPARATOR.$expi->getBasename(),
 				$new_path_abs
 			);
+			
+			$GLOBALS['ilLog']->write($exp_dir.DIRECTORY_SEPARATOR.$expi->getBasename().' -> '.$new_path_abs);
 			
 			// Delete latest container xml of source
 			if($a_id == $obj_id)
@@ -138,6 +144,7 @@ class ilExportContainer extends ilExport
 				$expi->delete();
 				if(file_exists($exp_full))
 				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Deleting'. $exp_full);
 					unlink($exp_full);
 				}
 			}

@@ -33,8 +33,6 @@ class ilContainerImporter extends ilXmlImporter
 		$GLOBALS['ilLog']->write($a_xml);
 		$GLOBALS['ilLog']->write($a_id);
 		
-
-		
 		$parser = new ilContainerXmlParser($a_mapping,trim($a_xml));
 		$parser->parse();
 	}

@@ -37,7 +37,7 @@ class ilExport
 	*
 	* @param	string		Object Type
 	*/
-	static function _getFileTypeString($a_obj_type)
+	public static function _getFileTypeString($a_obj_type)
 	{
 		if (!empty(self::$file_type_str[$a_obj_type]))
 		{
@@ -116,8 +116,7 @@ class ilExport
 		{
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
-
-
+		
 		if(in_array($a_obj_type, self::$new_file_structure))
 		{
 			include_once './Services/FileSystemStorage/classes/class.ilFileSystemStorage.php';
@@ -137,7 +136,8 @@ class ilExport
 		{
 			$export_dir = ilUtil::getDataDir()."/".$a_obj_type."_data"."/".$a_obj_type."_".$a_obj_id."/export";
 		}
-
+	
+		$GLOBALS['ilLog']->write(__METHOD__.': Export dir is '.$export_dir);
 		return $export_dir;
 	}
 
@@ -346,7 +346,11 @@ class ilExport
 		ilExport::_createExportDirectory($a_id, "xml", $a_type);
 		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
 		$ts = time();
-		$sub_dir = $ts."__".IL_INST_ID."__".$a_type."_".$a_id;
+		
+		// Workaround for test assessment
+		$sub_dir = $ts.'__'.IL_INST_ID.'__'.self::_getFileTypeString($a_type).'_'.$a_id;
+		$new_file = $sub_dir.'.zip';
+		
 		$this->export_run_dir = $export_dir."/".$sub_dir;
 		ilUtil::makeDirParents($this->export_run_dir);
 
@@ -362,11 +366,9 @@ class ilExport
 //echo "-".$export_run_dir."-";
 
 		// zip the file
-		ilUtil::zip($this->export_run_dir, $export_dir."/".$sub_dir.".zip");
+		ilUtil::zip($this->export_run_dir, $export_dir."/".$new_file);
 		ilUtil::delDir($this->export_run_dir);
 
-		$new_file = $sub_dir.'.zip';
-		
 		// Store info about export
 		if($success)
 		{
