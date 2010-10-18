@@ -369,6 +369,27 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("question");
 	}
 
+	/**
+	* Import additional meta data from the question import file. Usually
+	* the meta data section is used to store question elements which are not
+	* part of the standard XML schema.
+	*
+	* @return array $a_meta Array containing the additional meta data
+	* @access public
+	*/
+	function importAdditionalMetadata($a_meta)
+	{
+		foreach ($a_meta as $key => $value)
+		{
+			switch ($value["label"])
+			{
+				case "orientation":
+					$this->setOrientation($value["entry"]);
+					break;
+			}
+		}
+	}
+
 /**
 * Adds standard numbers as categories
 *

@@ -10720,6 +10720,10 @@ user#:#user_sure_delete_pages#:#Wollen Sie die folgenden Seiten wirklich lösche
 user#:#user_selected_pages_deleted#:#Die ausgewählten Seiten wurde gelöscht.
 webr#:#webr_imort#:#Weblink importieren
 survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Feld beinhalten
+survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen
+survey#:#mail_import_example1#:#email;Vorname;Nachname
+survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
+survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
 survey#:#external_recipients_deleted#:#Externe Empfänger gelöscht
 survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
 survey#:#save_reuse_title#:#Titel des Nachrichteninhaltes
