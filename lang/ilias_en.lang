@@ -10660,6 +10660,7 @@ survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
 survey#:#please_enter_mail_subject#:#Please enter a mail subject
 survey#:#please_enter_mail_message#:#Please enter a mail message
+survey#:#participating_users#:#Participating Users
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey was finished
