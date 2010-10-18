@@ -2424,11 +2424,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if (!$checkonly)
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes_mail.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codesMail"));
-			$this->tpl->setVariable("MAIL_CODES", $this->lng->txt("mail_survey_codes"));
-			$this->tpl->setVariable('TABLE', $tabledata);	
+			$this->tpl->setVariable('ADM_CONTENT', $tabledata);	
 		}
 		return $errors;
 	}
@@ -2511,6 +2507,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	public function sendCodesMailObject()
 	{
+		$this->handleWriteAccess();
+		$this->setCodesSubtabs();
+
 		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
 		$form_gui = new FormMailCodesGUI($this);
 		if ($form_gui->checkInput())
@@ -3597,13 +3596,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$ilTabs->addSubTabTarget
 		(
-			"mail", 
+			"participating_users", 
 			$this->ctrl->getLinkTarget($this, "codesMail"), 
-			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 'mailCodes', 
-			'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
-			'importExternalRecipientsFromDataset', 'insertSavedMessage', 'deleteSavedMessage'),	
+			array("codesMail", "saveMailTableFields", "importExternalMailRecipients", 
+			'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
+			'importExternalRecipientsFromDataset'),	
 			""
 		);
+
+		$data = $this->object->getExternalCodeRecipients();
+		if (count($data))
+		{
+			$ilTabs->addSubTabTarget
+			(
+				"mail_survey_codes", 
+				$this->ctrl->getLinkTarget($this, "mailCodes"), 
+				array("mailCodes", "sendCodesMail", "insertSavedMessage", "deleteSavedMessage"),	
+				""
+			);
+		}
 	}
 
 	/**

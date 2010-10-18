@@ -83,7 +83,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 			$first = array_shift($existingdata);
 			foreach ($first as $key => $value)
 			{
-				if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0) array_push($existingcolumns, '[' . $key . ']');
+				if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) array_push($existingcolumns, '[' . $key . ']');
 			}
 		}
 
@@ -125,7 +125,6 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("insertSavedMessage", $this->lng->txt("insert_saved_message"));
 		}
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $this->addCommandButton("cancelCodesMail", $this->lng->txt("cancel"));
 	}
 	
 	public function getSavedMessages()
