@@ -250,8 +250,18 @@ class ilUserSearchCache
 		return $this->query;
 	}
 	
+	/**
+	 * Urlencode query for further use in e.g glossariers (highlighting off search terms).
+	 * @return 
+	 */
 	public function getUrlEncodedQuery()
 	{
+		if(is_array($this->getQuery()))
+		{
+			$query = $this->getQuery();
+			
+			return urlencode(str_replace('"', '.', $query['lom_content']));
+		}
 		return urlencode(str_replace('"', '.', $this->getQuery()));
 	}
 	
