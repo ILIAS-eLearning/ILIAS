@@ -2610,8 +2610,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$fields = preg_split("/;/", array_shift($data));
 			if (!in_array('email', $fields))
 			{
-				ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email'), true);
-				$this->ctrl->redirect($this, 'codesMail');
+				$_SESSION['externaltext'] = $_POST['externaltext'];
+				ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email_column'), true);
+				$this->ctrl->redirect($this, 'importExternalMailRecipients');
 			}
 			$existingdata = $this->object->getExternalCodeRecipients();
 			$existingcolumns = array();
@@ -2757,12 +2758,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form_import_text->addItem($headertext);
 
 		$inp = new ilTextAreaInputGUI($this->lng->txt('externaltext'), 'externaltext');
-		$inp->setValue("email\n");
+		if (array_key_exists('externaltext', $_SESSION) && strlen($_SESSION['externaltext']))
+		{
+			$inp->setValue($_SESSION['externaltext']);
+		}
+		else
+		{
+			$inp->setValue($this->lng->txt('mail_import_example1') . "\n" . $this->lng->txt('mail_import_example2') . "\n" . $this->lng->txt('mail_import_example3') . "\n");
+		}
 		$inp->setRequired(true);
 		$inp->setCols(80);
 		$inp->setRows(10);
 		$inp->setInfo($this->lng->txt('externaltext_info'));
 		$form_import_text->addItem($inp);
+		unset($_SESSION['externaltext']);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_text->addCommandButton("importExternalRecipientsFromText", $this->lng->txt("import"));
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form_import_text->addCommandButton("codesMail", $this->lng->txt("cancel"));

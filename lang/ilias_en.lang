@@ -10622,6 +10622,9 @@ survey#:#mailparticipantdata#:#Additional participant data
 survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
 survey#:#table_fields#:#Definition of field names for external mails
 survey#:#tablefields#:#Field names
+survey#:#mail_import_example1#:#email;firstname;lastname
+survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen
+survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
 survey#:#tablefields_info#:#Please enter a comma separated list of field names for external mails.
 survey#:#externalRecipients#:#External code recipients
 survey#:#edit_phrase#:#Edit phrase
@@ -10634,6 +10637,7 @@ survey#:#conjunction_or#:#if one constraint is fulfilled
 survey#:#conjunction_and_title#:#Fulfill each of the following constraints
 survey#:#conjunction_or_title#:#Fulfill one of the following constraints
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an 'email' field
+survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows
 survey#:#err_no_selection#:#You made no selection.
 survey#:#external_recipients_deleted#:#Deleted external recipient(s)
 survey#:#external_recipients_imported#:#External recipients have been imported.
