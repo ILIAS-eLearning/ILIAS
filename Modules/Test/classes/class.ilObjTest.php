@@ -395,6 +395,12 @@ class ilObjTest extends ilObject
 	protected $mailnottype;
 	protected $random_questionpool_data;
 	protected $exportsettings;
+	
+	/**
+	 * Import for container (courses containing tests) import 
+	 * @var string
+	 */
+	private $import_dir;
 
 	/**
 	* Constructor
@@ -911,6 +917,11 @@ class ilObjTest extends ilObject
 */
 	function getImportDirectory()
 	{
+		if(strlen($this->import_dir))
+		{
+			return $this->import_dir;
+		}
+		
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
 		if (@is_dir($import_dir))
@@ -922,6 +933,17 @@ class ilObjTest extends ilObject
 			return false;
 		}
 	}
+	
+	/**
+	 * Set import directory.
+	 * @param string $a_import_dir
+	 * @return 
+	 */
+	public function setImportDirectory($a_import_dir)
+	{
+		$this->import_dir = $a_import_dir;
+	}
+	
 
 	/**
 	* Returns TRUE if the test contains single choice results
