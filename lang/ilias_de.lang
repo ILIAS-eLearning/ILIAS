@@ -10564,7 +10564,7 @@ survey#:#recipients#:#Empfänger
 survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
 survey#:#send_to_all#:#An alle eingetragenen externen Empfänger von Zugangsschlüsseln
 survey#:#send_to_answered#:#An alle Empfänger, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#An alle Empfänger, welche die Umfrage noch nicht beendet haben
+survey#:#send_to_unanswered#:#An alle Empfänger, welche die Umfrage noch nicht beendet haben (Erinnerung)
 survey#:#participating_users#:#Teilnehmende Benutzer
 survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#err_no_selection#:#Keine Auswahl.
