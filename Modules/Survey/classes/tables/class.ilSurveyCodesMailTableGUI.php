@@ -102,11 +102,14 @@ class ilSurveyCodesMailTableGUI extends ilTable2GUI
 	{
 		if (is_array($this->row_data))
 		{
-			foreach ($this->row_data[0] as $key => $value)
+			if (array_key_exists(0, $this->row_data) && is_array($this->row_data[0]))
 			{
-				if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
+				foreach ($this->row_data[0] as $key => $value)
 				{
-					$this->addColumn($key,$key,'');
+					if (strcmp($key, 'email') != 0 && strcmp($key, 'code') != 0 && strcmp($key, 'sent') != 0)
+					{
+						$this->addColumn($key,$key,'');
+					}
 				}
 			}
 		}
