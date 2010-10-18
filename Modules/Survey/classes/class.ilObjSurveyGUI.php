@@ -707,8 +707,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Creates a confirmation form to remove questions from the survey
 *
-* Creates a confirmation form to remove questions from the survey
-*
 * @param array $checked_questions An array containing the id's of the questions to be removed
 * @param array $checked_questionblocks An array containing the id's of the question blocks to be removed
 * @access public
@@ -764,8 +762,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Displays the definition form for a question block
 *
-* Displays the definition form for a question block
-*
 * @param integer $questionblock_id The database id of the questionblock to edit an existing questionblock
 * @access public
 */
@@ -818,8 +814,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Creates a form to select a survey question pool for storage
 *
-* Creates a form to select a survey question pool for storage
-*
 * @access public
 */
 	function createQuestionObject()
@@ -858,8 +852,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Cancel the creation of a new questions in a survey
 *
-* Cancel the creation of a new questions in a survey
-*
 * @access private
 */
 	function cancelCreateQuestionObject()
@@ -868,8 +860,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 /**
-* Execute the creation of a new questions in a survey
-*
 * Execute the creation of a new questions in a survey
 *
 * @access private
@@ -921,76 +911,80 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Creates a form to add a heading to a survey
 *
-* Creates a form to add a heading to a survey
-*
 * @param integer $question_id The id of the question directly after the heading. If the id is given, an existing heading will be edited
 * @access public
 */
-	function addHeadingObject($question_id = "")
+	function addHeadingObject($checkonly = false, $question_id = "")
 	{
 		$this->questionsSubtabs("questions");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_heading.html", "Modules/Survey");
-		$survey_questions =& $this->object->getSurveyQuestions();
+
+		global $ilAccess;
+		
+		$save = (strcmp($this->ctrl->getCmd(), "saveHeading") == 0) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("survey_heading");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
 		if ($question_id)
 		{
-			$_POST["insertbefore"] = $question_id;
-			$_POST["heading"] = $survey_questions[$question_id]["heading"];
-		}
-		foreach ($survey_questions as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("insertbefore_row");
-			$this->tpl->setVariable("VALUE_OPTION", $key);
-			$option = $this->lng->txt("before") . ": \"" . $value["title"] . "\"";
-			if (strlen($option) > 80)
-			{
-				$option = preg_replace("/^(.{40}).*(.{40})$/", "\\1 [...] \\2", $option);
-			}
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$this->tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($option));
-			if ($key == $_POST["insertbefore"])
-			{
-				$this->tpl->setVariable("SELECTED_OPTION", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($question_id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("INSERTBEFORE_ORIGINAL", $question_id);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveHeading"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		if ($question_id)
-		{
-			$this->tpl->setVariable("TEXT_ADD_HEADING", $this->lng->txt("edit_heading"));
-			$this->tpl->setVariable("SELECT_DISABLED", " disabled=\"disabled\"");
+			$header->setTitle($this->lng->txt("edit_heading"));
 		}
 		else
 		{
-			$this->tpl->setVariable("TEXT_ADD_HEADING", $this->lng->txt("add_heading"));
+			$header->setTitle($this->lng->txt("add_heading"));
 		}
-		$this->tpl->setVariable("TEXT_HEADING", $this->lng->txt("heading"));
-		$this->tpl->setVariable("VALUE_HEADING", $_POST["heading"]);
-		$this->tpl->setVariable("TEXT_INSERT", $this->lng->txt("insert"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->removePlugin("ibrowser");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "survey");
+		$form->addItem($header);
+
+		$survey_questions =& $this->object->getSurveyQuestions();
+		
+		// heading
+		$heading = new ilTextAreaInputGUI($this->lng->txt("heading"), "heading");
+		$heading->setValue($this->object->prepareTextareaOutput(array_key_exists('heading', $_POST) ? $_POST['heading'] : $survey_questions[$question_id]["heading"]));
+		$heading->setRows(10);
+		$heading->setCols(80);
+		$heading->setUseRte(TRUE);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+		$heading->removePlugin("ibrowser");
+		$heading->setRTESupport($this->object->getId(), "svy", "survey");
+		$heading->setRequired(true);
+		$form->addItem($heading);
+
+		$insertbefore = new ilSelectInputGUI($this->lng->txt("insert"), "insertbefore");
+		$options = array();
+		foreach ($survey_questions as $key => $value)
+		{
+			$options[$key] = $this->lng->txt("before") . ": \"" . $value["title"] . "\"";
+		}
+		$insertbefore->setOptions($options);
+		$insertbefore->setValue((array_key_exists('insertbefore', $_POST)) ? $_POST['insertbefore'] : $question_id);
+		$insertbefore->setRequired(true);
+		if ($question_id || array_key_exists('insertbefore', $_POST))
+		{
+			$insertbefore->setDisabled(true);
+		}
+		$form->addItem($insertbefore);
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveHeading", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("cancelHeading", $this->lng->txt("cancel"));
+		$errors = false;
+		
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+			$form->setValuesByPost();
+			if ($errors) $checkonly = false;
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
 	}
 
 /**
-* Insert questions or question blocks into the survey after confirmation
-*
 * Insert questions or question blocks into the survey after confirmation
 *
 * @access public
@@ -1018,8 +1012,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 /**
 * Cancels insert questions or question blocks into the survey
 *
-* Cancels insert questions or question blocks into the survey
-*
 * @access public
 */
 	function cancelInsertQuestionObject()
@@ -1036,7 +1028,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function saveHeadingObject()
 	{
-		if ($_POST["heading"])
+		$hasErrors = $this->addHeadingObject(true);
+		if (!$hasErrors)
 		{
 			$insertbefore = $_POST["insertbefore"];
 			if (!$insertbefore)
@@ -1046,12 +1039,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->saveHeading(ilUtil::stripSlashes($_POST["heading"], TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $insertbefore);
 			$this->ctrl->redirect($this, "questions");
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("error_add_heading"));
-			$this->addHeadingObject();
-			return;
 		}
 	}
 	
@@ -1413,7 +1400,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($_GET["editheading"])
 		{
-			$this->addHeadingObject($_GET["editheading"]);
+			$this->addHeadingObject(false, $_GET["editheading"]);
 			return;
 		}
 		
