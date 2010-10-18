@@ -10654,7 +10654,7 @@ survey#:#recipients#:#Recipients
 survey#:#send_to_all#:#To all recipients
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)
 survey#:#send_to_answered#:#To all recipients who did finish the survey
-survey#:#send_to_unanswered#:#To all recipients who did not finish the survey
+survey#:#send_to_unanswered#:#To all recipients who did not finish the survey (reminder)
 survey#:#message_content_info#:#Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]

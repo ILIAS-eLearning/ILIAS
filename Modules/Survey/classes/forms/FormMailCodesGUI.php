@@ -72,8 +72,8 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		$this->sendtype = new ilRadioGroupInputGUI($this->lng->txt('recipients'), "m_notsent");
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), 0, ''));
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), 1, ''));
-		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_unanswered"), 3, ''));
+		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_answered"), 2, ''));
 		$this->addItem($this->sendtype);
 
 		$existingdata = $this->guiclass->object->getExternalCodeRecipients();
