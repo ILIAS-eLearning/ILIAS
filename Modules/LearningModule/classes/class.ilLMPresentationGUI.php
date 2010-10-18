@@ -178,7 +178,14 @@ class ilLMPresentationGUI
 
 			case "ilpageobjectgui":
 				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-				$page_gui = new ilPageObjectGUI($this->lm->getType(), $_GET["obj_id"]);
+				if ($_GET["pg_type"] != "glo")
+				{
+					$page_gui = new ilPageObjectGUI($this->lm->getType(), $_GET["obj_id"]);
+				}
+				else
+				{
+					$page_gui = new ilPageObjectGUI("gdf", $_GET["pg_id"]);
+				}
 				$this->basicPageGuiInit($page_gui);
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				break;
@@ -2033,7 +2040,7 @@ class ilLMPresentationGUI
 	*/
 	function ilGlossary()
 	{
-		global $ilBench;
+		global $ilBench, $ilCtrl;
 
 		$ilBench->start("ContentPresentation", "ilGlossary");
 
@@ -2073,7 +2080,15 @@ class ilLMPresentationGUI
 		$term_gui->setLinkXML($link_xml);
 
 		$term_gui->setOfflineDirectory($this->getOfflineDirectory());
+		if (!$this->offlineMode())
+		{
+			$ilCtrl->setParameter($this, "pg_type", "glo");
+		}
 		$term_gui->output($this->offlineMode());
+		if (!$this->offlineMode())
+		{
+			$ilCtrl->setParameter($this, "pg_type", "");
+		}
 		
 		//$term_gui->listDefinitions($this->offlineMode());
 
