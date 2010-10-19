@@ -1267,8 +1267,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
 			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $usr_id);
 		}
-		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_assigned"));
-		$this->membersObject();
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_assigned"),true);
+		$this->ctrl->redirect($this,'members');
 		return true;
 	}
 	
