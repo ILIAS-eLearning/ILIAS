@@ -23,7 +23,9 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $ref_id)
 	{
-		global $ilCtrl, $ilObjDataCache;
+		global $ilCtrl, $ilObjDataCache,$lng;
+		
+		$lng->loadLanguageModule('grp');
 
 		$this->ref_id = $ref_id;
 		$this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
@@ -188,7 +190,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 					{
 						$this->tpl->setCurrentBlock("groups_remove");
 
-						$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("crs_unsubscribe"));
+						$this->tpl->setVariable("TXT_GROUP_REMOVE", $lng->txt("grp_unsubscribe"));
 
 						$ilCtrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
 						$ilCtrl->setParameter($this->parent_obj, "grp_id", $grp_id);
