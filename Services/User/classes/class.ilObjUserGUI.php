@@ -1610,13 +1610,10 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// send email
-		if($this->isSettingChangeable('send_mail'))
-		{
-			$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
-			$se->setValue('y');
-			$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
-			$this->form_gui->addItem($se);
-		}
+		$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
+		$se->setValue('y');
+		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
+		$this->form_gui->addItem($se);
 		
 		if((int)$ilSetting->get('session_reminder_enabled'))
 		{
