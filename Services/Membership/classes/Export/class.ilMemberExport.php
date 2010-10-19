@@ -554,7 +554,7 @@ class ilMemberExport
 	 	{
 	 		$field_info = explode('_',$a_field);
 	 		$field_id = $field_info[1];
-	 		$value = $udf_data->get($field_id);
+	 		$value = $udf_data->get('f_'.$field_id);
 	 		#$this->csv->addColumn($value);
 			$this->addCol($value, $row, $col);
 	 		return true;
