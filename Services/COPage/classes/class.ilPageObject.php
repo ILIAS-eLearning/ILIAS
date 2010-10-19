@@ -2095,10 +2095,19 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							"page_id = %s AND parent_type = %s AND hdate = %s",
 							array("integer", "text", "timestamp"),
 							array($old_rec["page_id"], $old_rec["parent_type"], $old_rec["last_change"]));
+
+						// the following lines are a workaround for
+						// bug 6741
+						$last_c = $old_rec["last_change"];
+						if ($last_c == "")
+						{
+							$last_c = ilUtil::now();
+						}
+
 						$ilDB->insert("page_history", array(
 							"page_id" => 		array("integer", $old_rec["page_id"]),
 							"parent_type" => 	array("text", $old_rec["parent_type"]),
-							"hdate" => 			array("timestamp", $old_rec["last_change"]),
+							"hdate" => 			array("timestamp", $last_c),
 							"parent_id" => 		array("integer", $old_rec["parent_id"]),
 							"content" => 		array("clob", $old_rec["content"]),
 							"user_id" => 		array("integer", $old_rec["last_change_user"]),
