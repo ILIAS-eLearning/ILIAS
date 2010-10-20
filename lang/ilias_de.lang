@@ -10942,7 +10942,6 @@ administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP muss in der Adm
 administration#:#apache_auth_username_direct_mapping_fieldname#:#Feld für Zuweisung
 administration#:#auth_apache#:#Apache
 administration#:#apache_settings_changed_success#:#Konfiguration gespeichert
-administration#:#apache_auth_authentication_on_login_page#:#Apache-Authentfizierung beim Betreten der Login-Seite durchführen
 common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
 administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authentifizierungsversuch beim Betreten der Loginseite
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
@@ -10964,3 +10963,4 @@ trac#:#trac_object_link#:#Link zum Objekt
 trac#:#trac_object_owner#:#Besitzer des Objekts
 trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
+trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
