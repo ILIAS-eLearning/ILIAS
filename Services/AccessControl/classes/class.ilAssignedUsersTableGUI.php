@@ -109,7 +109,6 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->tpl->setVariable("VAL_LOGIN", $user["login"]);
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
 		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
 		
@@ -142,12 +141,20 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		{
 			$ilCtrl->setParameterByClass("ilobjusergui", "ref_id", 7);
 			$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
+			
 			$link_change = $ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
+			
+			$this->tpl->setVariable('VAL_LOGIN',$user['login']);
+			$this->tpl->setVariable('HREF_LOGIN',$link_change);
 			$actions->addItem(
 				$this->lng->txt("edit"),
 				'',
 				$link_change
 			);
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_PLAIN_LOGIN',$user['login']);
 		}
 		
 		if(($this->getRoleId() != SYSTEM_ROLE_ID or $user['usr_id'] != SYSTEM_USER_ID) and
