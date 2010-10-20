@@ -5426,7 +5426,6 @@ CREATE TABLE `booking_schedule` (
   `rent_max` int(11) DEFAULT NULL,
   `raster` int(11) DEFAULT NULL,
   `auto_break` int(11) DEFAULT NULL,
-  `definition` varchar(500) NOT NULL,
   PRIMARY KEY (`booking_schedule_id`)
 ) TYPE=MyISAM;
 
@@ -5452,6 +5451,25 @@ CREATE TABLE `booking_schedule_seq` (
 
 /*!40000 ALTER TABLE `booking_schedule_seq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `booking_schedule_seq` ENABLE KEYS */;
+
+--
+-- Table structure for table `booking_schedule_slot`
+--
+
+CREATE TABLE `booking_schedule_slot` (
+  `booking_schedule_id` int(11) NOT NULL,
+  `day_id` varchar(2) NOT NULL,
+  `slot_id` tinyint(4) NOT NULL,
+  `times` varchar(50) NOT NULL,
+  PRIMARY KEY (`booking_schedule_id`,`day_id`,`slot_id`)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `booking_schedule_slot`
+--
+
+/*!40000 ALTER TABLE `booking_schedule_slot` DISABLE KEYS */;
+/*!40000 ALTER TABLE `booking_schedule_slot` ENABLE KEYS */;
 
 --
 -- Table structure for table `booking_settings`
@@ -11590,7 +11608,7 @@ INSERT INTO `il_object_def` VALUES ('grp','Group','Modules/Group','Modules/Group
 INSERT INTO `il_object_def` VALUES ('htlm','FileBasedLM','Modules/HTMLLearningModule','Modules/HTMLLearningModule/classes',1,1,'0',0,1,0,1,0,0,130,'lres',0,1);
 INSERT INTO `il_object_def` VALUES ('icrs','iLincCourse','Modules/ILinc','Modules/ILinc/classes',1,1,'0',0,0,0,1,0,0,230,NULL,50,0);
 INSERT INTO `il_object_def` VALUES ('icla','iLincClassroom','Modules/ILinc','Modules/ILinc/classes',0,0,'0',0,0,0,0,0,0,240,NULL,60,0);
-INSERT INTO `il_object_def` VALUES ('lm','LearningModule','Modules/LearningModule','Modules/LearningModule/classes',1,1,'0',0,1,0,1,0,0,120,'lres',0,0);
+INSERT INTO `il_object_def` VALUES ('lm','LearningModule','Modules/LearningModule','Modules/LearningModule/classes',1,1,'0',0,1,0,1,0,0,120,'lres',0,1);
 INSERT INTO `il_object_def` VALUES ('dbk','DlBook','Modules/LearningModule','Modules/LearningModule/classes',1,1,'0',0,1,0,1,0,0,150,'lres',0,0);
 INSERT INTO `il_object_def` VALUES ('lrss','LearningResourcesSettings','Modules/LearningModule','Modules/LearningModule/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0);
 INSERT INTO `il_object_def` VALUES ('mcst','MediaCast','Modules/MediaCast','Modules/MediaCast/classes',1,1,NULL,0,1,0,1,0,0,110,NULL,130,1);
@@ -11604,7 +11622,7 @@ INSERT INTO `il_object_def` VALUES ('svy','Survey','Modules/Survey','Modules/Sur
 INSERT INTO `il_object_def` VALUES ('svyf','SurveyAdministration','Modules/Survey','Modules/Survey/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0);
 INSERT INTO `il_object_def` VALUES ('spl','SurveyQuestionPool','Modules/SurveyQuestionPool','Modules/SurveyQuestionPool/classes',1,1,'0',0,1,1,1,0,0,220,NULL,210,0);
 INSERT INTO `il_object_def` VALUES ('adm','SystemFolder','Modules/SystemFolder','Modules/SystemFolder/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0);
-INSERT INTO `il_object_def` VALUES ('tst','Test','Modules/Test','Modules/Test/classes',1,1,'0',0,1,1,1,0,0,180,NULL,170,0);
+INSERT INTO `il_object_def` VALUES ('tst','Test','Modules/Test','Modules/Test/classes',1,1,'0',0,1,1,1,0,0,180,NULL,170,1);
 INSERT INTO `il_object_def` VALUES ('assf','AssessmentFolder','Modules/Test','Modules/Test/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0);
 INSERT INTO `il_object_def` VALUES ('qpl','QuestionPool','Modules/TestQuestionPool','Modules/TestQuestionPool/classes',1,1,'0',0,1,1,1,0,0,210,NULL,200,0);
 INSERT INTO `il_object_def` VALUES ('webr','LinkResource','Modules/WebResource','Modules/WebResource/classes',1,0,'0',0,1,1,1,0,0,100,NULL,120,1);
@@ -24111,6 +24129,7 @@ CREATE TABLE `notification` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `last_mail` datetime DEFAULT NULL,
+  `page_id` int(11) DEFAULT '0',
   PRIMARY KEY (`type`,`id`,`user_id`)
 ) TYPE=MyISAM;
 
@@ -26527,7 +26546,7 @@ INSERT INTO `rbac_operations` VALUES (9,'add_post','edit forum articles','object
 INSERT INTO `rbac_operations` VALUES (10,'moderate_frm','delete forum articles','object',3750);
 INSERT INTO `rbac_operations` VALUES (11,'smtp_mail','send external mail','object',210);
 INSERT INTO `rbac_operations` VALUES (12,'system_message','allow to send system messages','object',220);
-INSERT INTO `rbac_operations` VALUES (13,'create_user','create new user account','create',9999);
+INSERT INTO `rbac_operations` VALUES (13,'create_usr','create new user account','create',9999);
 INSERT INTO `rbac_operations` VALUES (14,'create_role','create new role definition','create',9999);
 INSERT INTO `rbac_operations` VALUES (15,'create_rolt','create new role definition template','create',9999);
 INSERT INTO `rbac_operations` VALUES (16,'create_cat','create new category','create',9999);
@@ -29243,7 +29262,7 @@ CREATE TABLE `settings` (
 
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` VALUES ('common','convert_path','');
-INSERT INTO `settings` VALUES ('common','db_version','3183');
+INSERT INTO `settings` VALUES ('common','db_version','3195');
 INSERT INTO `settings` VALUES ('common','ilias_version','3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('common','inst_info','');
 INSERT INTO `settings` VALUES ('common','inst_name','');
@@ -30623,8 +30642,6 @@ CREATE TABLE `svy_svy` (
   `introduction` longtext,
   `outro` longtext,
   `status` varchar(1) DEFAULT '1',
-  `startdate` date DEFAULT NULL,
-  `enddate` date DEFAULT NULL,
   `evaluation_access` varchar(1) DEFAULT '0',
   `invitation` varchar(1) DEFAULT '0',
   `invitation_mode` varchar(1) DEFAULT '1',
@@ -30636,6 +30653,8 @@ CREATE TABLE `svy_svy` (
   `mailnotification` tinyint(4) DEFAULT NULL,
   `mailaddresses` varchar(2000) DEFAULT NULL,
   `mailparticipantdata` varchar(4000) DEFAULT NULL,
+  `startdate` varchar(14) DEFAULT NULL,
+  `enddate` varchar(14) DEFAULT NULL,
   PRIMARY KEY (`survey_id`),
   KEY `i1_idx` (`obj_fi`),
   FULLTEXT KEY `i2_idx` (`introduction`)
@@ -31458,6 +31477,7 @@ CREATE TABLE `tst_tests` (
   `created` int(11) NOT NULL DEFAULT '0',
   `mailnotification` tinyint(4) DEFAULT '0',
   `mailnottype` smallint(6) NOT NULL DEFAULT '0',
+  `exportsettings` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`test_id`),
   KEY `i1_idx` (`obj_fi`),
   FULLTEXT KEY `i2_idx` (`introduction`)
@@ -32296,4 +32316,4 @@ CREATE TABLE `xmlvalue_seq` (
 /*!40000 ALTER TABLE `xmlvalue_seq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `xmlvalue_seq` ENABLE KEYS */;
 
--- Dump completed on 2010-09-10 19:03:25
+-- Dump completed on 2010-10-20 18:10:18
