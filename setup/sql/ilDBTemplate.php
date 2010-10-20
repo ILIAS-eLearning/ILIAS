@@ -1022,13 +1022,6 @@ $fields = array (
 		,"unsigned" => false
 		,"type" => "integer"
 	)
-	,"definition" => array (
-		"notnull" => true
-		,"length" => 500
-		,"default" => ""
-		,"fixed" => false
-		,"type" => "text"
-	)
 );
 $ilDB->createTable("booking_schedule", $fields);
 
@@ -1036,6 +1029,45 @@ $pk_fields = array("booking_schedule_id");
 $ilDB->addPrimaryKey("booking_schedule", $pk_fields);
 
 $ilDB->createSequence("booking_schedule", 1);
+
+
+//
+// booking_schedule_slot
+//
+$fields = array (
+	"booking_schedule_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"day_id" => array (
+		"notnull" => true
+		,"length" => 2
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"slot_id" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"times" => array (
+		"notnull" => true
+		,"length" => 50
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("booking_schedule_slot", $fields);
+
+$pk_fields = array("booking_schedule_id","day_id","slot_id");
+$ilDB->addPrimaryKey("booking_schedule_slot", $pk_fields);
 
 
 //
@@ -14574,7 +14606,7 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'icla'), 'class_name' => array('text', 'iLincClassroom'), 'component' => array('text', 'Modules/ILinc'), 'location' => array('text', 'Modules/ILinc/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '240'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '60'), 'export' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'lm'), 'class_name' => array('text', 'LearningModule'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '120'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0')));
+'id' => array('text', 'lm'), 'class_name' => array('text', 'LearningModule'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '120'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'dbk'), 'class_name' => array('text', 'DlBook'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '150'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0')));
@@ -14616,7 +14648,7 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'adm'), 'class_name' => array('text', 'SystemFolder'), 'component' => array('text', 'Modules/SystemFolder'), 'location' => array('text', 'Modules/SystemFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'tst'), 'class_name' => array('text', 'Test'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '180'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '170'), 'export' => array('integer', '0')));
+'id' => array('text', 'tst'), 'class_name' => array('text', 'Test'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '180'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '170'), 'export' => array('integer', '1')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'assf'), 'class_name' => array('text', 'AssessmentFolder'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0')));
@@ -18341,6 +18373,13 @@ $fields = array (
 	,"last_mail" => array (
 		"notnull" => false
 		,"type" => "timestamp"
+	)
+	,"page_id" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
 	)
 );
 $ilDB->createTable("notification", $fields);
@@ -22833,7 +22872,7 @@ $ilDB->insert("rbac_operations", array(
 'ops_id' => array('integer', '12'), 'operation' => array('text', 'system_message'), 'description' => array('text', 'allow to send system messages'), 'class' => array('text', 'object'), 'op_order' => array('integer', '220')));
 
 $ilDB->insert("rbac_operations", array(
-'ops_id' => array('integer', '13'), 'operation' => array('text', 'create_user'), 'description' => array('text', 'create new user account'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
+'ops_id' => array('integer', '13'), 'operation' => array('text', 'create_usr'), 'description' => array('text', 'create new user account'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
 
 $ilDB->insert("rbac_operations", array(
 'ops_id' => array('integer', '14'), 'operation' => array('text', 'create_role'), 'description' => array('text', 'create new role definition'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
@@ -29640,7 +29679,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '3183')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '3195')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -32153,14 +32192,6 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"startdate" => array (
-		"notnull" => false
-		,"type" => "date"
-	)
-	,"enddate" => array (
-		"notnull" => false
-		,"type" => "date"
-	)
 	,"evaluation_access" => array (
 		"notnull" => false
 		,"length" => 1
@@ -32232,6 +32263,18 @@ $fields = array (
 	,"mailparticipantdata" => array (
 		"notnull" => false
 		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"startdate" => array (
+		"notnull" => false
+		,"length" => 14
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"enddate" => array (
+		"notnull" => false
+		,"length" => 14
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -33932,6 +33975,13 @@ $fields = array (
 	,"mailnottype" => array (
 		"notnull" => true
 		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"exportsettings" => array (
+		"notnull" => true
+		,"length" => 4
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
