@@ -125,6 +125,7 @@ class HTTP_WebDAV_Server
     function serveRequest() 
     {
         // default uri is the complete request uri
+		// FIXME: use ilHTTPS::isDetected
         $uri = (@$_SERVER["HTTPS"] === "on" ? "https:" : "http:");
         $uri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
         

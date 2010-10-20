@@ -50,6 +50,12 @@ require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 class ilDAVServer extends HTTP_WebDAV_Server
 {
 	/**
+	 * Singleton instance
+	 * @var
+	 */
+	private static $instance = null;
+	
+	/**
 	* Cached object handler.
 	* This is a private variable of function getObject.
 	*/
@@ -111,6 +117,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* Constructor
 	*
 	* @param void
+	* @deprecated should be used only as private constructor
+	* 	to avoid one instance for every item on the personal dektop or in the repository
+	* 	Use <code>ilDAVServer::getInstance()</code>
+	* 
 	*/
 	public function ilDAVServer()
 	{
@@ -123,7 +133,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->properties = new ilDAVProperties();
 		//$this->locks->createTable();
 		//$this->properties->createTable();
-
 
 		// Guess operating system, operating system flavor and browser of the webdav client
 		//
@@ -165,6 +174,19 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$this->clientBrowser = 'konqueror';
 		}
 	}
+	
+	/**
+	 * Get singelton iunstance
+	 * @return 
+	 */
+	public static function getInstance()
+	{
+		if(self::$instance != NULL)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilDAVServer();
+	}
 
 	/**
 	 * Serves a WebDAV request.
@@ -185,13 +207,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		try {
 			$start = time();
-				$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' '.$_SERVER['PATH_INFO'].' ...');
+			$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' '.$_SERVER['PATH_INFO'].' ...');
 			parent::serveRequest();
 			$end = time();
-					$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' done status='.$this->_http_status.' elapsed='.($end - $start));
-					$this->writelog('---');
-		} catch (Exception $e) {
-                	$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' caught exception: '.$e->getMessage().'\n'.$e->getTraceAsString());
+			$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' done status='.$this->_http_status.' elapsed='.($end - $start));
+			$this->writelog('---');
+		} 
+		catch (Exception $e) 
+		{
+            $this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' caught exception: '.$e->getMessage().'\n'.$e->getTraceAsString());
 		}
 	}
 
@@ -278,6 +302,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// store information for the requested path itself
 		// FIXME : create display name for object.
 		$encodedPath = $this->davUrlEncode($path);
+		
+		$GLOBALS['ilLog']->write(print_r($encodedPath,true));
 
 		$files['files'][] =& $this->fileinfo($encodedPath, $encodedPath, $objDAV);
 

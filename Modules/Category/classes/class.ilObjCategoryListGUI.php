@@ -102,7 +102,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 				if (ilDAVActivationChecker::_isActive())
 				{
 					require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-					$davServer = new ilDAVServer();
+					$davServer = ilDAVServer::getInstance();
 					
 					// FIXME: The following is a very dirty, ugly trick. 
 					//        To mount URI needs to be put into two attributes:
