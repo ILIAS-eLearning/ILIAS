@@ -926,7 +926,7 @@ class ilObjectListGUI
 		if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
 		{
 			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			$davServer = new ilDAVServer();
+			$davServer = ilDAVServer::getInstance();
 
 			// XXX: The following is a very dirty, ugly trick. 
 			//        To mount URI needs to be put into two attributes:

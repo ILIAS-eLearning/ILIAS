@@ -3009,7 +3009,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		include_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-		$davServer = new ilDAVServer();
+		$davServer = ilDAVServer::getInstance();
 		$ilToolbar->addButton(
 			$this->lng->txt('mount_webfolder'),
 			$davServer->getMountURI($this->object->getRefId()),
