@@ -10915,3 +10915,50 @@ content#:#cont_please_try_again#:#Please try again###10 09 2010 new variable
 content#:#cont_all_answers_correct#:#All answers correct###10 09 2010 new variable
 content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###10 09 2010 new variable
 content#:#cont_correct_answers_shown#:#Correct answers are shown abov###10 09 2010 new variable
+survey#:#mail_import_example1#:#email;firstname;lastname###20 10 2010 new variable
+survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen###20 10 2010 new variable
+survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt###20 10 2010 new variable
+survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows###20 10 2010 new variable
+survey#:#participating_users#:#Participating Users###20 10 2010 new variable
+administration#:#apache_auth_settings#:#Apache###20 10 2010 new variable
+administration#:#apache_settings#:#Configure LDAP Authentication###20 10 2010 new variable
+administration#:#apache_enable_auth#:#Enable Apache Authentication support###20 10 2010 new variable
+administration#:#apache_autocreate#:#Enable account generation###20 10 2010 new variable
+administration#:#apache_default_role#:#Default user role###20 10 2010 new variable
+administration#:#apache_enable_local#:#Enable local user assignment###20 10 2010 new variable
+administration#:#apache_enable_ldap#:#Enable LDAP user assignment###20 10 2010 new variable
+administration#:#apache_auth_indicator_name#:#Indicator-field for successful authentication###20 10 2010 new variable
+administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication###20 10 2010 new variable
+administration#:#apache_auth_enable_override_login#:#Override default login page###20 10 2010 new variable
+administration#:#apache_auth_target_override_login#:#Target url for custom login page###20 10 2010 new variable
+administration#:#apache_auth_username_config#:#Username configuration###20 10 2010 new variable
+administration#:#apache_auth_username_config_type#:#Type###20 10 2010 new variable
+administration#:#apache_auth_username_direct_mapping#:#Straight assignment###20 10 2010 new variable
+administration#:#apache_auth_username_extended_mapping#:#Extended assignment###20 10 2010 new variable
+administration#:#apache_auth_username_by_function#:#Assign usernames by custom function###20 10 2010 new variable
+administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration###20 10 2010 new variable
+administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment###20 10 2010 new variable
+administration#:#auth_apache#:#Apache###20 10 2010 new variable
+administration#:#apache_settings_changed_success#:#Configuration saved###20 10 2010 new variable
+common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.###20 10 2010 new variable
+administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticaton when entering the login page###20 10 2010 new variable
+wiki#:#wiki_change_notification_salutation#:#Hello %s,###20 10 2010 new variable
+assessment#:#tst_export_settings#:#Export settings###20 10 2010 new variable
+assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###20 10 2010 new variable
+common#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
+common#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
+common#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
+common#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
+common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
+rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
+trac#:#trac_all#:#All###20 10 2010 new variable
+trac#:#trac_view_mode#:#View Mode###20 10 2010 new variable
+trac#:#trac_view_mode_all#:#All Objects###20 10 2010 new variable
+trac#:#trac_view_mode_collection#:#Only objects that determine the overall status###20 10 2010 new variable
+trac#:#trac_name_of_installation#:#Name of Installation###20 10 2010 new variable
+trac#:#trac_object_name#:#Name of Object###20 10 2010 new variable
+trac#:#trac_object_link#:#Link to Object###20 10 2010 new variable
+trac#:#trac_object_owner#:#Owner of Object###20 10 2010 new variable
+trac#:#trac_report_date#:#Date of Report###20 10 2010 new variable
+trac#:#trac_report_owner#:#Owner of Report###20 10 2010 new variable
+trac#:#trac_first_and_last_access#:#First and Last Acces###20 10 2010 new variable
