@@ -32,9 +32,13 @@ class ilSurveyExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
+		$refs = ilObject::_getAllReferences($a_id);
+		$svy_ref_id = current($refs);
+		
 		include_once './Modules/Survey/classes/class.ilObjSurvey.php';
 		$svy = new ilObjSurvey($a_id,false);
-
+		$svy->loadFromDb();
+		
 		include_once("./Modules/Survey/classes/class.ilSurveyExport.php");
 		$svy_exp = new ilSurveyExport($svy, 'xml');
 		$zip = $svy_exp->buildExportFile();
