@@ -49,7 +49,7 @@ class ilExportContainer extends ilExport
 		$this->cont_export_dir = $export_dir.DIRECTORY_SEPARATOR.$sub_dir;
 		ilUtil::makeDirParents($this->cont_export_dir);
 		
-		#$GLOBALS['ilLog']->write(__METHOD__.' using base directory: '.$this->export_run_dir);
+		$GLOBALS['ilLog']->write(__METHOD__.' using base directory: '.$this->export_run_dir);
 		
 		$this->manifestWriterBegin($a_type, $a_id, $a_target_release);
 		$this->addContainer();
