@@ -339,6 +339,17 @@ class ilParticipants
 	{
 	 	return $this->admins ? $this->admins : array();
 	}
+	
+	/**
+	 * Get number of admins
+	 * @return 
+	 */
+	public function getCountAdmins()
+	{
+		return count($this->getAdmins());
+	}
+	
+	
 	/**
 	 * Get all tutors ids
 	 *

@@ -1416,15 +1416,20 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('grp_edit_members');
 		
-		if(!count($_POST['admins']) and !count($_POST['members']))
+		$participants_to_delete = (array) array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members']));
+		
+		if(!count($participants_to_delete))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
 		
-		if(count($_POST['admins']) == 
-			count(ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins()))
+		// Check last admin
+		$admins = (array) ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins();
+		
+		$admins_after = (array) array_diff($admins, $participants_to_delete);
+		if(!count($admins_after) and count($admins))		
 		{
 			ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'));
 			$this->membersObject();
@@ -1633,7 +1638,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 		
-		if(!$has_admin)
+		if(!$has_admin and ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getCountAdmins())
 		{
 			ilUtil::sendFailure($this->lng->txt('grp_min_one_admin'));
 			$_POST['members'] = $_POST['participants'];
