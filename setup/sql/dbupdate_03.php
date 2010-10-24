@@ -3525,3 +3525,29 @@ $ilDB->dropTableColumn('svy_svy', 'enddate');
 <?php
 $ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
 ?>
+
+<#3196>
+<?php
+	$ilDB->addTableColumn("export_file_info", "filename", array(
+		"type" => "text",
+		"notnull" => false,
+		'length'=> 64,
+		"default" => null
+	));
+?>
+<#3197>
+<?php
+	$query = "UPDATE export_file_info SET filename = file_name ";
+	$ilDB->manipulate($query);
+?>
+
+<#3198>
+<?php
+	$ilDB->dropPrimaryKey('export_file_info');
+?>
+<#3199>
+<?php
+	$ilDB->addPrimaryKey('export_file_info',array('obj_id','export_type','filename'));
+?>
+	
+	

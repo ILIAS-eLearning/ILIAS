@@ -55,7 +55,7 @@ class ilExportFileInfo
 		{
 			if(!$a_version or $row->version == $a_version)
 			{
-				return new ilExportFileInfo($row->obj_id,$row->export_type,$row->file_name);
+				return new ilExportFileInfo($row->obj_id,$row->export_type,$row->filename);
 			}
 		}
 		return null;
@@ -184,7 +184,7 @@ class ilExportFileInfo
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO export_file_info (obj_id, export_type, file_name, version, create_date) ".
+		$query = "INSERT INTO export_file_info (obj_id, export_type, filename, version, create_date) ".
 			"VALUES ( ".
 			$ilDB->quote($this->getObjId(),'integer').', '.
 			$ilDB->quote($this->getExportType(),'text').', '.
@@ -205,7 +205,7 @@ class ilExportFileInfo
 		
 		$ilDB->manipulate('DELETE FROM export_file_info '.
 			'WHERE obj_id = '.$ilDB->quote($this->getObjId(),'integer').' '.
-			'AND file_name = '.$ilDB->quote($this->getFilename(),'text')
+			'AND filename = '.$ilDB->quote($this->getFilename(),'text')
 		);
 		return true;
 	}
@@ -221,7 +221,7 @@ class ilExportFileInfo
 		$query = "SELECT * FROM export_file_info ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer').' '.
 			"AND export_type = ".$ilDB->quote($this->getExportType(),'text').' '.
-			"AND file_name = ".$ilDB->quote($this->getFilename(),'text');
+			"AND filename = ".$ilDB->quote($this->getFilename(),'text');
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

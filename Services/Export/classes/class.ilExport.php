@@ -19,7 +19,10 @@ class ilExport
 	
 	// file type short (this is a workaround, for resource types,
 	// that used the wrong file type string in the past
-	static $file_type_str = array("tst" => "test_");
+	static $file_type_str = array(
+		"tst" => "test_",
+		'svy' => 'survey_'
+	);
 	
 	
 	/**
