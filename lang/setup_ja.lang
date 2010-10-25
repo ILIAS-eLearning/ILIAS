@@ -1,17 +1,38 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
-* @module       setup language file japanese
+* @module       language file Japanese
 * @modulegroup  language
-* @author       Shiro Tamoto <tamoto.s@fuco.jp>
+* @author       Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version      $Id: setup_ja.lang 23415 2010-09-15 16:08:17Z akill $
 */
+
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
-<!-- language file start -->ja(Japanese)
+<!-- language file start -->
 3rd_party_software_req#:#3rdパーティｰ製ツールオプション
 3rd_party_software_opt#:#3rdパーティｰ製ツールオプション
 3rd_party_software#:#3rdパーティｰ製のツール
@@ -29,7 +50,7 @@ change#:#変更
 change_basic_settings#:#基本設定の変更
 change_password#:#パスワードの変更
 change_sort_direction#:#ソート順番の変更
-check_db_versions#:#ILIASが確定したデーターベースモードとMySQLのバージョンを確認してください。
+check_db_versions#:#ILIASが確定したデーターベースモードとMySQLのバージョンを確認してください。通常のケースです。そうではない場合は、そのデーターベースのバージョンはサポートされていません。<br>例1　モードが'MySQL 4.1以降'で、そのデーターベースのバージョンが'4.0.12'の場合は、このMySQLバージョンではサポートされていません。ILIAS開発チームへ連絡してください。<br/>例2
 check_failed_convert#:#変換コマンドが見つかりません。
 check_failed_htmldoc#:#FOPテストに失敗しました。
 check_failed_htmldoc#:#HTMLdocコマンドが見つかりません。
@@ -38,7 +59,7 @@ check_failed_latex#:#LaTex CGIスクリプトのテストに失敗しました�
 check_failed_unzip#:#Unzipコマンドが見つかりません。
 check_failed_zip#:#Zipコマンドが見つかりません。
 choose_language#:#言語の選択
-choose_languages#:#言語を追加するか選択した言語を削除してください。
+choose_languages#:#言語を追加するかまたは選択した言語を削除してください。
 choose_password#:#パスワードを入力してください。
 city#:#市名,　県名
 clamav#:#ClamAV
@@ -56,19 +77,19 @@ collation#:#照合
 contact#:#コンタクト情報
 contact_data#:#コンタクト情報
 convert_path#:#Image MagicのコンバートPath
-convert_path_comment#:#イメージのサムネール表示に必要。例:/doc/convert
-convert_path_comment_win#:#イメージのサムネール表示に必要。例:/tools/ImageMagick/convert.exe
+convert_path_comment#:#イメージのサムネール表示に必要。例 '/your_path/convert'
+convert_path_comment_win#:#イメージのサムネール表示に必要。例 'C
 could_not_create_logfile#:#ログファイルの作成ができなかった。
 country#:#国名
 create#:#作成
-create_datadir_failed#:#データーディレクトリー作成に失敗。
+create_datadir_failed#:#データーディレクトリー作成に失敗しました。
 create_new_client#:#新規クライアントの作成
-create_webdir_failed#:#Webディレクトリの作成に失敗
-ctrl_missing_desc#:#Control Structureが未設定。更新ボタンを押してください。
-ctrl_structure#:#Control Structure
-ctrl_structure_desc#:#アップデートやパッチの手順書に明確な記述がない限りこの機能は使用しないでください。
-ctrl_structure_reloaded#:#Control Structureを更新
-data_path#:#Date Path
+create_webdir_failed#:#Webディレクトリの作成に失敗しました。
+ctrl_missing_desc#:#制御構造eが未設定です。'リロード'を押してください。
+ctrl_structure#:#制御構造
+ctrl_structure_desc#:#アップデートやパッチの手順書に明確な説明がない限りこの機能は使用しないでください。
+ctrl_structure_reloaded#:#制御構造をリロードしました。
+data_path#:#日付Path
 database#:#データーベース
 database_create#:#データーベースの作成
 database_exists#:#データーベースの存在
@@ -77,38 +98,38 @@ database_installed#:#インストール済のデーターベース
 database_is_uptodate#:#データーベースは最新です。
 database_needs_update#:#データーベースの更新が必要です。
 database_not_exists_create_first#:#データーベースが存在しません。最初にデーターベースを作成してください。
-database_ready#:#データーベースを利用可能
+database_ready#:#データーベースはレディーです。
 database_update#:#データーベースを更新
-database_version#:#現在のデーターベースのバージョン。
+database_version#:#現在のデーターベースのバージョン
 datadir_path#:#データーディレクトリーのPath
-datadir_path_comment1#:#入力必須
-datadir_path_comment2#:#このセットアップバージョンでの変更は不可
+datadir_path_comment1#:#必須
+datadir_path_comment2#:#このセットアップバージョンでは変更不可できません。
 datadir_webspacedir_match#:#データーディレクトリーポイントのPathとWebスペースディレクトリーの場所が同じディレクトリーです。別のディレクトリーを選択してください。
 date#:#日付
 db_conn#:#データーベース接続
-db_control_structure_missing#:#Control Structureがありません(詳細 -> ツールを参照)
+db_control_structure_missing#:#制御構造がありません(詳細 -> 'ツール'を参照)
 db_host#:#データーベースホスト
 db_name#:#データーベース名
-db_needs_update#:#データーベースの更新が必要
-db_not_installed#:#データーベースが未インストール
+db_needs_update#:#データーベースの更新が必要です。
+db_not_installed#:#データーベースがインストールされていません。
 db_pass#:#データーベースのパスワード
 db_type#:#データーベースのタイプ
 db_user#:#データーベースのユーザー
 db_version#:#データーベースのバージョン
 default#:#既定値
-default_client_changed#:#既定のクラアントの変更
+default_client_changed#:#既定のクライアントを変更しました。
 default_language#:#既定の言語
 delete#:#削除
 delete_confirm#:#クライアント削除の確認
-delete_info#:#本当に削除しますか?
-details#:#内容
-dir_exists_create#:#すでにデイレクトリーが存在。"作成"のチエックを外して、このディレクトリーをデーターディレクトリとする。
+delete_info#:#本当ですか?
+details#:#詳細
+dir_exists_create#:#すでにデイレクトリーが存在します。"作成"のチェックを外して、このディレクトリーをデーターディレクトリにします。
 disable#:#表示しない
 disable_check#:#確認
 disable_logging#:#ログを作成しない
 disabled#:#拒否
 display_clientlist#:#クライアントの選択をユーザーへ許可
-duplicate_ctrl#:#エラー　重複<br /><br />- %s<br />- %s<br /><br />公式にILIASが配布していないファイルを削除してください。<br />その後 'Tools' -> ILIASセットアップの'Control Structure'を呼び出す。
+duplicate_ctrl#:#エラー　重複<br /><br />- %s<br />- %s<br /><br />公式にILIASが配布していないファイルを削除してください。<br />その後 'Tools' -> ILIASセットアップの'制御構造'を呼び出す。
 email#:#email
 email_not_valid#:#メールアドレスの間違い
 en_by_default#:#既定では英語がインストールされていて削除する事はできません。
@@ -118,10 +139,10 @@ enter_dir_and_filename#:#絶対Pathとファイル名を入力してください
 enter_password#:#パスワードを入力してください。
 env_ok#:#OK
 env_using#:#ILIASを起動します
-env_warning#:#ILIASはApache Webサーバーを使ってLinuxとWindowsでのみテストされています。</br>その他の環境でも動作する可能性があります。
+env_warning#:#ILIASはApache Webサーバーを使ってLinuxとWindowsでのみテストされています!</br>その他の環境でも動作する可能性があります。
 environment#:#環境
 err_create_database_failed#:#データーベースの作成に失敗
-err_wrong_login#:#ログインのが間違い
+err_wrong_login#:#ログイン間違い
 error_recipient#:#受信者のエラー
 example#:#例
 feedback_recipient#:#受信者へのフィードバック
@@ -139,8 +160,8 @@ fop_path_comment#:#PDF作成の要求
 hide_clientlist#:#クライアントの選択をユーザーへ表示しない
 host#:#ホスト
 htmldoc_path#:#HTMLdocのPath
-htmldoc_path_comment#:#PDF作成のオプション。例: /etc/htmldoc
-htmldoc_path_comment_win#:#PDFオプションの作成。例:/tools/htmldoc/htmldoc.exe
+htmldoc_path_comment#:#PDF作成のオプション。例 '/etc/htmldoc'
+htmldoc_path_comment_win#:#PDFオプションの作成。例 'C
 mkisofs_path#:#mkisofsのPath
 mkisofs_path_comment#:#isoイメージ作成のオプション
 http_path#:#HTTP Path
@@ -160,36 +181,36 @@ info_text_contact#:#追加のクライアント情報並びにこのクライア
 info_text_db#:#データーベースが存在しないか空です。データーベースがない場合には、下にある"データーベースの作成"をクリックしてください。ILIASは自動的にデーターベースを作成します。作成に失敗したり指定したような結合ができなかった場合は、次のコマンドを使って手動でデーターベースを作成してください。
 info_text_db2#:#データーベースは文字コードUTF-8で作成するように確認してください。
 info_text_db_collation1#:#指定した結合がUTF-8方式のリストにないような場合にも同じく手動にてデーターベースを作成しなければなりません。どのような場合においてもデーターベースの文字コードはUTF-8である事を確認してください。
-info_text_db_collation2#:#MySQLの結合に関するさらなる情報は、MySQLのWebサイトを参照してください。
-info_text_delete#:#以下の削除ボタンをクリックするとこのクライアンアトは削除されます。ただし、client.iniファイルが削除されるのみで、クライアントデータディレクトリーとデーターベースにある全てのファイルは残ります。 ファイルとデーターベースはシスイェム管理者が手動で削除しなければなりません。
-info_text_finish1#:#おめでとうございます。クライアントのセットアップが成功しました。ログインをクリックしてILIASのインストレーションへ入力してください。
+info_text_db_collation2#:#MySQLの結合に関する詳細情報は、MySQLのWebサイトを参照してください。
+info_text_delete#:#以下の削除ボタンをクリックするとこのクライアンアトは削除されます。ただし、client.iniファイルが削除されるのみで、クライアントデータディレクトリーーとデーターベースにある全てのファイルは残ります。 ファイルとデーターベースはシステム管理者が手動で削除しなければなりません。
+info_text_finish1#:#おめでとうございます。クライアントのセットアップが成功しました。ログインをクリックしてILIASのインストレーションへ入ってください。
 info_text_finish2#:#セッティングが不完全か間違いがあります。どんな設定を実行したか途中の過程を見直してください。
 info_text_first_client#:#基本設定は保存されました。次に最初のクライアントのセットアップに移ります。インストール工程全般を通してセットアップを案内します。インストレーション工程の現在状態を常にパネルの右側で確認できます。.
-info_text_first_install#:#ilias.ini PHPファイルがないので、ILIASのインストールが未完全な可能性があります。このファイルの中には、不正アクセスによるILIASセットアップを保護するマスターパスワードが収納されています。
+info_text_first_install#:#ilias.ini PHPファイルがないので、ILIASのインストールが不完全な可能性があります。このファイルの中には、不正アクセスによるILIASセットアップを保護するマスターパスワードが収納されています。
 info_text_ini#:#クライアントIDを入力してください。ウムラウトを除く文字と数字が使用できます。IDは一つの単語である必要があります。</br>次にデーターベースへ接続する内容を入力します。セットップはテスト接続をしてデーターベースが存在すれば設定内容の確認とテストを行います。
-info_text_lang#:#言語を追加もしくは選択した言語を削除してください。既定の言語yo新規ユーザーアカウントもしくは優先言語をまだ選択をしていないユーザー用の言語として確定されます。
+info_text_lang#:#言語を追加もしくは選択した言語を削除してください。新しいユーザーアカウントまたは、好みの言語を選択していないユーザー用に既定の言語を指定されます。
 info_text_list#:#ここではすべての利用可能なユーザーやセットアップ、アクセス状態を見る事ができます。右上にあるボタンでクライアント選択画面をオン・オフ切り替えができます。クライアント選択がオンの場合は、オンライン中のすべてのクライアントがILIASのスタートページの一覧に表示されます。クライアント選択がオフでスタートページをユーザーが見る場合は、既定のクライアントのログイン画面が表示されます。下にあるボタンで既定のクライアントに変更する事もできます。
 info_text_login#:#インストールとアカウントデータのクライアントIDを入力してください。アカウントは管理者としての役割で割り当てられなければなりません。
 info_text_nic#:#登録オプションでILIASオープンソースコミュニティーサーバーからインストールID(NIC-ID)を入手します。別のILIASインストールと内容を共有したい場合はNIC-IDの入手が可能です。
-info_text_nic3#:#インストールの登録。ネットワークインターフェースカードのIDは。
-info_text_password#:#セットアッププログラムのマスターパスワードをここで変更可能です。
-info_text_pathes#:#ILIASはデーターベースの異なるマルチクライアントをサポートします。データーベースのディレクトリー、ログファイルの場所、サードパーティー製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
+info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
+info_text_password#:#セットアッププログラムのマスターパスワードをここで変更可能できます。
+info_text_pathes#:#ILIASは異なるデーターベースのマルチクライアントをサポートします。データーベースのディレクトリーー、ログファイルの場所、サードパーティー製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
 ini_client_id_exists#:#すでにそのクライアントIDは使用されています。別のクライアントIDを選択してください。
-ini_client_id_invalid#:#入力されたクライアントIDには無効な文字があります。
+ini_client_id_invalid#:#入力されたクライアントIDには無効な文字があります
 ini_client_id_no_change#:#このバージョンではクライアントのディレクトリーが作成された後でクライアントIDを変更する事はできません。
 ini_client_id_too_long#:#クライアントIDが長すぎます
 ini_client_id_too_short#:#クライアントIDが短すぎます
 ini_db_name_exists#:#重複しているので別のデーターベース名を選択してください。
-ini_no_client_id#:#クライアントIDがない
-ini_no_db_host#:#ホスト名が設定されていない
-ini_no_db_name#:#データーベース名が設定されていない
-ini_no_db_user#:#データーベースユーザー名が設定されていない
+ini_no_client_id#:#クライアントIDがありません。
+ini_no_db_host#:#ホスト名が設定されていません。
+ini_no_db_name#:#データーベース名が設定されていません。
+ini_no_db_user#:#データーベースユーザー名が設定されていません。
 inifile#:#iniファイル
-inifile_can_write#:#ILIASセットアップはiniファイルに書き込み可能
-inifile_cannot_write#:#ILIASセットアップはiniファイルに書き込み不可。最初に、書き込みのパーミッションを確認してください。
+inifile_can_write#:#ILIASセットアップはiniファイルに書き込み可能です。
+inifile_cannot_write#:#ILIASセットアップはiniファイルに書き込み不可です。最初に、書き込みのアクセス許可を確認してください。
 inifile_content#:#iniファイルはこの内容です。
 inifile_exists#:#iniファイルがあります。このインストレーションでは以前の設定は削除されます。
-inifile_fill_all#:#欄に入力してください。
+inifile_fill_all#:#全ての欄へ入力してください。
 inifile_firsttime#:#iniファイルがありません。ILIASを初めて起動したものと思われます。
 inifile_written#:#iniファイルが正しく保存されました。
 input_error#:#入力エラー
@@ -203,26 +224,26 @@ institution#:#大学名・学校名・会社名
 intro_install#:#ILIASセットアップのメインページです。ここからインストールを進める事ができます。
 ip_address#:#IPアドレス
 java_path#:#JavaのPath
-java_path_comment#:#SCORMラーニングモジュールを有効にするオプション　例: /your_path/java
-java_path_comment_win#:#SCORMラーニングモジュルを有効にするオプション　例: C:/Program Files/Java/bin/java.eve
+java_path_comment#:#SCORMラーニングモジュールを有効にするオプション、　例 '/your_path/java'
+java_path_comment_win#:#SCORMラーニングモジュルを有効にするオプション、　例 'C
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
 lang_de#:#German
 lang_el#:#Greek
 lang_en#:#English
-lang_error_occurred#:#エラー発生。作業中止。
+lang_error_occurred#:#エラーが発生しました。作業を中止します。
 lang_es#:#Spanish
 lang_fr#:#French
 lang_hu#:#Hungarian
 lang_id#:#Indonesian
 lang_it#:#Italian
 lang_lt#:#Lithuanian
-lang_min_one_language#:#最低一つの言語のインストールが必要
+lang_min_one_language#:#少なくとも1つの言語をインストールする必要があります!
 lang_nl#:#Dutch
 lang_no#:#Norwegisch
-lang_none_installed#:#言語が未インストール
-lang_not_installed_default#:#選択された言語は既定の言語としてインストールされていません。
+lang_none_installed#:#言語がインストールされていません。
+lang_not_installed_default#:#選択した言語は既定の言語としてインストールされていません!
 lang_pl#:#Polish
 lang_pt#:#Portuguese
 lang_ro#:#Romanian
@@ -235,22 +256,22 @@ lang_xx#:#Custom
 lang_vi#:#Vietnamese
 lang_zh#:#Chinese
 lang_et#:#Estonian
-langs_not_valid_not_installed#:#無効な言語なので次の言語は未インストール
+langs_not_valid_not_installed#:#無効なファイルなので次の言語はインストールできません
 language#:#言語
 languages#:#言語
 languages_installed#:#言語をインストール
 lastname#:#姓
 latex_url_comment#:#ILIASのLaTexオプションのサポート
 list#:#リスト
-list_disabled#:#クライアント選択を拒否
-list_enabled#:#クライアント選択を許可
+list_disabled#:#クライアント選択が無効
+list_enabled#:#クライアント選択が有効
 log_path#:#ログファイルのPath
-log_path_comment#:#例:/path_to_log_dir/ilias.log　(ファイルが作成される場所）
-log_path_comment_win#:#例:C
-logged_out#:#ログアウト
+log_path_comment#:#例 '/path_to_log_dir/ilias.log'　(ファイルが作成される場所）
+log_path_comment_win#:#例 'C
+logged_out#:#ログアウトしました。
 logging#:#ログ作成
 login#:#ログイン
-login_invalid#:#ログインは無効
+login_invalid#:#不正なログインです。
 login_to_ilias#:#ILIASへログイン
 logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデーターディレクトリー
@@ -263,62 +284,62 @@ new_client#:#新規クライアント
 list_clients#:#クライアント一覧
 basic_settings#:#基本設定
 next#:#次へ
-nic_not_disabled#:#NIC-IDがないか無効
+nic_not_disabled#:#NIC-ID&無効になっていない
 nic_reg_disable#:#登録をスキップ
-nic_reg_disable_info#:#後で登録する
+nic_reg_disable_info#:#後でいつでも登録できます。
 nic_reg_disable_comment#:#(後で登録)
 nic_reg_disabled#:#無効
 nic_reg_email#:#emailで登録
 nic_reg_enabled#:#有効
-nic_reg_enter_checksum#:#送信したチエックサムを入力
-nic_reg_enter_correct_id#:#正しいNIC IDを入力
+nic_reg_enter_checksum#:#送信したチェックサムを入力
+nic_reg_enter_correct_id#:#正しいNIC IDを入力してください。
 nic_reg_enter_id#:#送信したNIC IDを入力
-nic_reg_failed#:#登録に失敗
+nic_reg_failed#:#登録に失敗しました。
 nic_reg_online#:#オンライン登録
 nic_registration#:#登録
-no_changes#:#変更しない
+no_changes#:#変更しません。
 no_client_id#:#クライアントID未記入
 no_client_name#:#クライアント名未記入
 no_clients_available#:#利用可能なクライアントなし
 no_database#:#データーベース未記入
 no_db_connect_consult_admin#:#データーベースに接続できません。システム管理者へ相談してください。
-no_db_update_file#:#dbupdate.phpが見つらない
-no_latex_url#:#LaTeX CGI script URLがない
-no_password#:#パスワードが未設定
-no_path_convert#:#変換pathが未設定
-no_path_datadir#:#データーディレクトリーが未設定
-no_path_fop#:#FOP pathが未設定
-no_path_given#:#pathが未設定
-no_path_htmldoc#:#HTMLdoc pathが未設定
-no_path_mkisofs#:#mkisofs pathが未設定
-no_path_java#:#Java pathが未設定
-no_path_log#:#ログのpathが未設定
-no_path_unzip#:#unzipのpathが未設定
-no_path_zip#:#zipのpathが未設定
-no_setup_pass_given#:#setupのパスワードが未設定
-no_username#:#ユーザー名が未設定
-no_valid_client_id#:#有効なclient IDが未設定
+no_db_update_file#:#dbupdate.phpが見つかりません!
+no_latex_url#:#LaTeX CGI script URLがありません。
+no_password#:#パスワードがありません。
+no_path_convert#:#変換pathがありません。
+no_path_datadir#:#データーディレクトリーがありません。
+no_path_fop#:#FOP pathがありません。
+no_path_given#:#pathがありません。
+no_path_htmldoc#:#HTMLdoc pathがありません。
+no_path_mkisofs#:#mkisofs pathがありません。
+no_path_java#:#Java pathがありません。
+no_path_log#:#ログのpathがありません。
+no_path_unzip#:#unzipのpathがありません。
+no_path_zip#:#zipのpathがありません。
+no_setup_pass_given#:#setupのパスワードがありません。
+no_username#:#ユーザー名がありません。
+no_valid_client_id#:#有効なクライアントIDがありません。
 none#:#なし
-not_connected_to_db#:#データーベースへ未接続
+not_connected_to_db#:#データーベースへ未接続です。
 online#:#オンライン
-or#:#or
+or#:#または
 out_of_webspace#:#(Webスペース外）
 overall_status#:#全体状況
 overview#:#概要
-pass_does_not_match#:#入力されたパスワードは一致しません
+pass_does_not_match#:#入力されたパスワードは一致しません。
 password#:#パスワード
-password_changed#:#パスワードの変更
-password_empty#:#パスワードが設定されていません。
-password_enter_old#:#最初に古いパスワードの入力が必要です。
-password_info#:#不正アクセスによる設定データー保護のために後で設定内容を変更できるようにパスワードを入力してください。
+password_changed#:#パスワードは変更されました。
+password_empty#:#パスワードが設定されていません!
+password_enter_old#:#最初に古いパスワードの入力が必要です!
+password_info#:#不正アクセスによる設定データー保護のために、後で設定内容を変更できるようにパスワードを入力してください。
 password_new_master#:#新しいマスターパスワードをセット
 password_not_match#:#入力された新しいパスワードが一致しません。
 password_old_wrong#:#入力された古いパスワードが間違っています。
 password_retype#:#新しいパスワードの再入力
-password_same#:#新旧パスワードが同じ
-password_set#:#パスワードの保存
-path_not_set#:#Pathが未設定
-not_configured#:#未設定です
+password_same#:#新旧パスワードが同じです!
+password_set#:#パスワードを保存しました。
+path_not_set#:#Pathが未設定です。
+not_configured#:#未構成です
 path_to_convert#:#変換用のPath
 path_to_fop#:#FOPのPath
 path_to_htmldoc#:#HTMLdocのPath
@@ -326,7 +347,7 @@ path_to_mkisofs#:#mkisofsのPath
 path_to_java#:#JavaのPath
 path_to_unzip#:#UnzipのPath
 path_to_zip#:#Zipのpath
-pathes#:#Paths
+pathes#:#Path
 phone#:#電話番号
 port#:#ポート
 position#:#学部名・部署名
@@ -346,18 +367,18 @@ pre_memory_limit_too_low#:#PHPのメモリー制限値は、少なくとも40M�
 pre_memory_limit_recommend#:#80M以上の設定を推奨します。
 pre_cookies_disabled#:#Cokieが無効。ILIASはcookieが必要です。
 pre_cookies_enabled#:#Cokieが有効
-pre_error#:#基本設定にインストールされた内容と一致しないものがあります。参照先<a href="%s" target="_blank">ILIAS site</a>.
+pre_error#:#基本設定にインストールされた内容と一致しないものがあります。参照先<a href="%s" target="_blank">ILIASサイト</a>.
 pre_folder_create#:#Web上のメインフォルダーにフォルダーを作成可能
-pre_folder_create_error#:#サブフォルダーは作成不可。パーミッションを適切に変更してください。
+pre_folder_create_error#:#サブフォルダーは作成不可。アクセス許可を適切に変更してください。
 pre_root#:#書き込み可能なWeb上のメインフォルダー
-pre_folder_write_error#:#Web上のメインフォルダーは書き込みできません。パーミッションを適切に変更してください。
+pre_folder_write_error#:#Web上のメインフォルダーは書き込みできません。アクセス許可を適切に変更してください。
 pre_intro#:#この環境においてインストールの要件を満たしILIASが稼働するかどうかを最初に確認します。
 pre_javascript_comment#:#JavaScriptなしでILIASは動作しますが、利用できないインターフェース機能があります。
 pre_javascript_enabled#:#JavaScriptは有効
 pre_php#:#PHPのバージョン
 pre_php_version_too_low#:#このPHPバージョンはサポートしていません。PHP 5.2.1以降のご利用を推奨します。PHP 6.0は未テストです。
 pre_mysql#:#MySQLのサポート
-pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)をonにしてください。
+pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
 pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
 preliminaries#:#準備
 prev#:#前に戻る
@@ -365,7 +386,7 @@ reload#:#更新
 required_field#:#入力必須欄
 reset#:#リセット
 root_access#:#ルート権限でのアクセス
-safe_mode_enabled#:#セーフモードを利用できます。
+safe_mode_enabled#:#セーフモードを利用できます!
 save#:#保存
 save_error#:#エラーを保存
 saved_successfully#:#正常に保存
@@ -384,12 +405,12 @@ setup_basic_settings#:#基本設定
 setup_contact_data#:#コンタクト情報
 setup_database#:#データーベース
 setup_database_desc#:#データーベースの設定
-setup_db_first#:#最初にデーターベースを設定してください。
+setup_db_first#:#最初にデーターベースを設定してください!
 setup_finished#:#設定を完了
 setup_first_client#:#最初のクライアントを設定
-setup_ini_first#:#先にiniファイルを作成してください。
+setup_ini_first#:#先にiniファイルを作成してください!
 setup_inifile#:#iniファイルを作成
-setup_inifile_desc#:#インストール用のiniファイルを作成
+setup_inifile_desc#:#インストール用のiniファイルを作成します。
 setup_languages#:#言語
 setup_languages_desc#:#追加言語のインストール
 setup_login#:#セットアップ用のログイン
@@ -401,17 +422,17 @@ setup_pass#:#パスワード
 setup_pass2#:#パスワードの再入力
 setup_pass_title#:#マスターパスワードのセット
 setup_password#:#パスワードを生成
-setup_password_desc#:#セットアップルーチンにアクセスするパスワードを生成。(例:データーベースの更新など）
+setup_password_desc#:#セットアップルーチンにアクセスするパスワードを生成。(例　データーベースの更新など）
 setup_process_status#:#セットアップの状態
 setup_process_step_3rdparty#:#サードパーティ製のツール
 setup_process_step_contact#:#コンタクト先の情報
 setup_process_step_db#:#データーベース
 setup_process_step_finish#:#セットアップを終了
-setup_process_step_ini#:#基本データ
+setup_process_step_ini#:#基本データー
 setup_process_step_lang#:#言語
 setup_process_step_nic#:#登録
 setup_ready#:#セットアップの準備ができました。ログインして先へ進み、システム設定を確認できます。
-setup_welcome#:#Welcome to ILIAS Setup.セットアップの流れをお手伝いします。
+setup_welcome#:#Welcome to ILIAS Setup。セットアップの流れをお手伝いします。
 sophos#:#Sophos
 sort_by_this_column#:#この列をソート
 status#:#状態
@@ -433,8 +454,8 @@ unknown_command#:#不明なコマンド
 unknown_display_mode#:#不明な表示モード
 unzip#:#解凍
 unzip_path#:#UnzipのPath
-unzip_path_comment#:#解凍用のインポートファイルが必要。　例:/your_path/unzip
-unzip_path_comment_win#:#解凍用のインポートファイルが必要。　例: c:/tools/unzip/unzip.exe'.
+unzip_path_comment#:#解凍用のインポートファイルが必要です。　'例 '/your_path/unzip'
+unzip_path_comment_win#:#解凍用のインポートファイルが必要です。　例 'C
 update_applied#:#更新を適用
 update_error#:#更新中にエラー発生
 update_not_found#:#更新が見つからず
@@ -443,11 +464,11 @@ username#:#ユーザ名
 version#:#バージョン
 virus_scanner#:#ウイルス監視
 webspace_dir#:#WebのデーターPath
-with#:#with
+with#:#一緒に
 wrong_password#:#パスワードの間違
 zip_path#:#ZipのPath
-zip_path_comment#:#エクスポートファイルの作成に必要。 例:/your_path/zip
-zip_path_comment_win#:#インポートファイルの解凍に必要。　例: C:/tools/zip/zip.exe'.
+zip_path_comment#:#エクスポートファイルの作成に必要です。 例 '/your_path/zip'
+zip_path_comment_win#:#インポートファイルの解凍に必要です。　例: 'C
 zipcode#:#郵便番号
 step_ini#:#iniファイル
 step_db#:#データーベース
@@ -457,15 +478,15 @@ step_contact#:#コンタクト
 step_nic#:#登録
 step_finish#:#セットアップ
 step_access#:#アクセス
-determine_tools_paths#:#ツールのPathの決定する
+determine_tools_paths#:#ツールのPathを決定しようとする
 client_deleted#:#クライアントの削除
 create_directory#:#ディレクトリーの作成
 db_selection#:#データーベースの選択
 db_service_name#:#サービス名
 db_mysql#:#MySQL
 db_oracle#:#Oracle
-msg_input_is_required#:#入力が必須。内容を入力してください。
-form_input_not_valid#不完全か無効なデータがあります。入力を訂正してください。
+msg_input_is_required#:#入力は必須。値を入力してください。
+form_input_not_valid#	form_input_not_valid#不完全か無効なデーターがあります。入力を訂正してください。
 form_retype_password#:#パスワードを再入力してください。
 master_password#:#マスターパスワードです。
 passwd_not_match#:#入力内容は新しいパスワードと一致しません。新しいパスワードを再入力してください。
@@ -484,23 +505,3 @@ available_hotfixes#:#適用可能なHotfix
 apply_hotfixes#:#適用するHotfix
 hotfix_available#:#Hotfix適用可能
 hotfix_applied#:#Hotfix適用済
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###06 08 2010 new variable
-session_management#:#Session Management###06 08 2010 new variable
-step_sess#:#Session Management###06 08 2010 new variable
-session_management_not_configured#:#not configured###06 08 2010 new variable
-session_management_configured#:#configured###06 08 2010 new variable
-setup_sessions#:#Session Management###06 08 2010 new variable
-setup_process_step_sess#:#Session Management###06 08 2010 new variable
-sess_sessions#:#Settings###06 08 2010 new variable
-sess_max_session_count#:#Max session count###06 08 2010 new variable
-sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###06 08 2010 new variable
-sess_min_session_idle#:#Min session idle (in minutes)###06 08 2010 new variable
-sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###06 08 2010 new variable
-sess_max_session_idle#:#Max session idle (in minutes)###06 08 2010 new variable
-sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###06 08 2010 new variable
-sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)###06 08 2010 new variable
-sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###06 08 2010 new variable
-sess_allow_client_maintenance#:#Allow maintenance by client###06 08 2010 new variable
-sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not###06 08 2010 new variable
-lang_ar#:#Arabic###10 09 2010 new variable
-lang_tr#:#Turkis###10 09 2010 new variable
