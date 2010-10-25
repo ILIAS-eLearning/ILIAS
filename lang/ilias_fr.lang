@@ -8,7 +8,7 @@
 * @version			$Id$
 * @il_server		http://www.ilias.de/test40x
 * @il_version		4.0.0
-* @created			2010-09-10 10:39:00
+* @created			2010-10-25 22:12:40
 * @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -1749,7 +1749,7 @@ common#:#assign_global_role#:#Assigner à un rôle global
 common#:#assign_lo_forum#:#Assigner le forum de cours
 common#:#assign_local_role#:#Assigner à un rôle local
 common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
-common#:#assigned_members#:#Assigned Members
+common#:#assigned_members#:#Membres assignés
 common#:#assigned_roles#:#Rôles assignés
 common#:#assigned_users#:#Utilisateurs assignés
 common#:#associated_user#:#Utilisateur associé
@@ -1758,7 +1758,7 @@ common#:#at_least_one_style#:#Un style au moins doit rester actif
 common#:#at_location#:#à l'emplacement
 common#:#attachment#:#Document joint
 common#:#attachments#:#Documents joints
-common#:#attempts#:#Attempts
+common#:#attempts#:#Tentatives
 common#:#attend#:#Participer
 common#:#auth_active_roles#:#Rôles globaux disponible pour l'enregistrement.
 common#:#auth_allow_local#:#Autoriser l'authentification locale
@@ -1781,8 +1781,8 @@ common#:#auth_edit_permission#:#Changer les paramètres de permission
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
 common#:#auth_ldap_enable#:#Autoriser le support LDAP
-common#:#auth_ldap_migration#:#Account Migration
-common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
+common#:#auth_ldap_migration#:#Migration de compte
+common#:#auth_ldap_migration_info#:#Activer cette option permet aux nouveaux utilisateurs de migrer leur compte existant sur ILIAS sur une authentification LDAP
 common#:#auth_ldap_not_configured#:#LDAP n'est pas encore configuré
 common#:#auth_ldap_settings_saved#:#Configuration du LDAP enregistrée
 common#:#auth_local#:#Base de données ILIAS
@@ -2238,7 +2238,7 @@ common#:#dbk_visible#:#Le livre Digilib est visible
 common#:#dbk_write#:#Modifier livre Digilib
 common#:#DD.MM.YYYY#:#JJ.MM.AAAA
 common#:#deactivate#:#Rendre inactif
-common#:#decrease_attempts#:#Attempts - 1
+common#:#decrease_attempts#:#Tentatives - 1
 common#:#def_repository_view#:#Affichage par défaut des activités
 common#:#default#:#Défaut
 common#:#default_auth_mode#:#Default Authentication Method
@@ -3026,7 +3026,7 @@ common#:#include_local#:#include local
 common#:#info#:#Informations
 common#:#info_access_and_status_info#:#Accès et statut de l'information
 common#:#info_access_permissions#:#Accès permissions
-common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?
+common#:#info_accessFree_sure#:#Êtes-vous certain de vouloir supprimer l'accès limité pour l'(les)utilisateur(s) suivant(s) ?
 common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?
 common#:#info_assign_sure#:#Etes-vous sûr(e) de vouloir inscrire les utilisateurs suivants ?
 common#:#info_assigned#:#assigné
@@ -7142,14 +7142,14 @@ mail#:#activate_serial_letter_placeholders#:#Activer les champs de publipostage
 mail#:#advice_mail_body_secured#:#Pour des raisons de sécurité, ILIAS a supprimé certaines éléments de votre message. Veuillez vérifier le message sécurisé et l'envoyer à nouveau.
 mail#:#also_as_email#:#Egalement en tant qu'email
 mail#:#bc#:#CCI
-mail#:#chat_select_room#:#Select Chat Room
-mail#:#chat_users_have_been_invited#:#The Users have been invited.
-mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
-mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
+mail#:#chat_select_room#:#Sélectionner un salon de discussion
+mail#:#chat_users_have_been_invited#:#Les utilisateurs ont été invités.
+mail#:#chat_users_without_login#:#Les utilisateurs suivants n'ont pas de compte ILIAS et ne peuvent pas être invités au salon de discussion.
+mail#:#chat_users_without_permission#:#Les utilisateurs suivants n'ont pas accès au salon de discussion sélectionné.
 mail#:#forward#:#Transmettre
-mail#:#goto_invitation_chat#:#Open Chat Room
+mail#:#goto_invitation_chat#:#Ouvrir un salon de discussion
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.
-mail#:#invite_to_chat#:#Invite to Chat
+mail#:#invite_to_chat#:#Inviter à une discussion
 mail#:#linebreak#:#Retour à la ligne
 mail#:#mail_account_mail#:#Compte message
 mail#:#mail_account_mail_check#:#Envoyer un message au compte
@@ -7171,8 +7171,8 @@ mail#:#mail_change_to_folder#:#Passer au dossier:
 mail#:#mail_check_your_email_addr#:#Votre adresse email n'est pas valide
 mail#:#mail_compose#:#Composer message
 mail#:#mail_cronjob_notification_info#:#Vous pouvez activer une notification périodique des nouveaux messages.
-mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
-mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
+mail#:#mail_crs_list_members_not_available#:#Il n'est pas possible de lister les membres des cours sélectionnés.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Les membres d'au moins un cours sélectionné ne peuvent être listés.
 mail#:#mail_deleted#:#Le(s) message(s) est(sont) détruit(s)
 mail#:#mail_deleted_entry#:#Les entrées sont supprimées
 mail#:#mail_edit_entry#:#Modifier l'entrée
@@ -7204,13 +7204,13 @@ mail#:#mail_in_addressbook#:#Déjà présent dans mon carnet d'adresse
 mail#:#mail_incoming#:#Messages reçus
 mail#:#mail_incoming_both#:#local + redirection vers l'adresse externe
 mail#:#mail_incoming_local#:#pas de redirection
-mail#:#mail_incoming_mail#:#Incoming mail
+mail#:#mail_incoming_mail#:#Message entrant
 mail#:#mail_incoming_smtp#:#redirection vers l'adresse externe
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
 mail#:#mail_intern#:#Interne
 mail#:#mail_into_addressbook#:#Ajouter au carnet d'adresse
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_invite_users_to_chat#:#Inviter des utilisateurs à une discussion
 mail#:#mail_list_members#:#Liste des membres
 mail#:#mail_mailing_list#:#Liste de destinataires
 mail#:#mail_mailing_lists#:#Listes de destinataires
@@ -7257,12 +7257,12 @@ mail#:#mail_received_x_new_mails#:#Vous avez reçu %s nouveaux messages.
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
 mail#:#mail_s#:#Message(s)
 mail#:#mail_s_unread#:#Message(s) non lu(s)
-mail#:#mail_salutation_f#:#Hello
+mail#:#mail_salutation_f#:#Bonjour
 mail#:#mail_salutation_female#:#Salutation, féminin
 mail#:#mail_salutation_general#:#Salutation, général
-mail#:#mail_salutation_m#:#Hello
+mail#:#mail_salutation_m#:#Bonjour
 mail#:#mail_salutation_male#:#Salutation, masculin
-mail#:#mail_salutation_n#:#Hello
+mail#:#mail_salutation_n#:#Bonjour
 mail#:#mail_saved#:#Le message a été sauvé
 mail#:#mail_search_addressbook#:#Rechercher dans le carnet d'adresses
 mail#:#mail_search_system#:#chercher dans le système
@@ -10097,14 +10097,14 @@ payment#:#pays_erp_invoice_preview#:#View test invoice in new window###28 10 200
 payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice###28 10 2009 new variable
 payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted###28 10 2009 new variable
 payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.###28 10 2009 new variable
-mail#:#mail_subject_prefix#:#Mail Subject###28 10 2009 new variable
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.###28 10 2009 new variable
-common#:#no_owner#:#No Owner###28 10 2009 new variable
+mail#:#mail_subject_prefix#:#Objet du message###28 10 2009 new variable
+mail#:#mail_subject_prefix_info#:#Saisissez un texte qui sera ajouté à la rubrique "objet" des messages générés automatiquement.
+common#:#no_owner#:#Aucun propriétaire
 grp#:#grp_reg_period#:#Registration Period###28 10 2009 new variable
 payment#:#delete_addresses_bill#:#Delete Billing addresses###28 10 2009 new variable
 payment#:#delete_addresses_bmf#:#Delete BMF addresses###28 10 2009 new variable
 payment#:#delete_addresses_paypal#:#Delete Paypal addresses###28 10 2009 new variable
-dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
+dateplaner#:#cal_created_appointment#:#Nouvel évènement créé
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for "Change Existing Objects"###28 10 2009 new variable
 rbac#:#rbac_local_policies#:#Local Policies###28 10 2009 new variable
 rbac#:#rbac_keep_local_policies#:#Keep Local Policies###28 10 2009 new variable
@@ -10114,175 +10114,175 @@ rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all 
 rbac#:#rbac_delete_local_policies_info#:#If activated, all local policies will be deleted. The object permissions will be rewritten and protected.###28 10 2009 new variable
 rbac#:#rbac_keep_local_policies_info#:#Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected.###28 10 2009 new variable
 payment#:#pays_invoice#:#Invoice###28 10 2009 new variable
-common#:#admin_force_noti#:#Notification active###28 10 2009 new variable
-common#:#user_toggle_noti#:#Member is not allowed to deactivate notification###28 10 2009 new variable
-common#:#enable_admin_force#:#Activate notification###28 10 2009 new variable
-common#:#disable_admin_force#:#Deactivate notification###28 10 2009 new variable
-common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate###28 10 2009 new variable
-common#:#disable_hide_user_toggle#:#Member is allowed to deactivate###28 10 2009 new variable
-common#:#moderators#:#Moderators###28 10 2009 new variable
-common#:#tutors#:#Tutors###28 10 2009 new variable
-common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
-common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
-common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+common#:#admin_force_noti#:#Notification active
+common#:#user_toggle_noti#:#Le membre n'est pas autorisé à désactiver la notification.
+common#:#enable_admin_force#:#Activer la notification
+common#:#disable_admin_force#:#Désactiver la notification
+common#:#enable_hide_user_toggle#:#Le membre n'est pas autorisé à désactiver.
+common#:#disable_hide_user_toggle#:#Le membre est autorisé à désactiver.
+common#:#moderators#:#Moderateurs
+common#:#tutors#:#Tuteurs
+common#:#settings_for_new_members#:#Paramètres pour les nouveaux membres
+common#:#forums_notification_settings#:#Paramètres de notification des forums
+common#:#sess_copy#:#Copier la session
 content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
-dateplaner#:#cal_subscription_header#:#Calendar Address###03 11 2009 new variable
-dateplaner#:#cal_subscription_url#:#Calendar URL:###03 11 2009 new variable
-mail#:#mail_salutation_anonymous#:#Hello###03 11 2009 new variable
+dateplaner#:#cal_subscription_header#:#Adresse de l'agenda
+dateplaner#:#cal_subscription_url#:#Url de l'agenda :
+mail#:#mail_salutation_anonymous#:#Bonjour###03 11 2009 new variable
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section###03 11 2009 new variable
-common#:#group#:#Group###15 12 2009 new variable
+common#:#group#:#Groupe
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager###15 12 2009 new variable
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).###15 12 2009 new variable
 content#:#cont_snippets_used#:#Used Content Snippets###15 12 2009 new variable
 content#:#cont_show_info#:#Show Info###15 12 2009 new variable
 dateplaner#:#cal_sync_header#:#Synchronisation Settings###15 12 2009 new variable
-dateplaner#:#cal_sync_cache#:#Calendar Cache###15 12 2009 new variable
-dateplaner#:#cal_sync_disabled#:#Disabled###15 12 2009 new variable
-dateplaner#:#cal_sync_enabled#:#Enabled###15 12 2009 new variable
-dateplaner#:#cal_sync_cache_info#:#If activated, new/modified calendar appointments are calculated only every x minutes.###15 12 2009 new variable
+dateplaner#:#cal_sync_cache#:#Cache de l'agenda
+dateplaner#:#cal_sync_disabled#:#Désactivé
+dateplaner#:#cal_sync_enabled#:#Activé
+dateplaner#:#cal_sync_cache_info#:#En cas d'activation, les évènements nouveaux ou modifiés de l'agenda seront calculés seulement toutes les x minutes.
 dateplaner#:#cal_cache#:#Kalender-Cache###15 12 2009 new variable
-dateplaner#:#cal_cache_disabled#:#Disabled###15 12 2009 new variable
-dateplaner#:#cal_cache_enabled#:#Enabled###15 12 2009 new variable
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  ###15 12 2009 new variable
+dateplaner#:#cal_cache_disabled#:#Désactivé
+dateplaner#:#cal_cache_enabled#:#Activé
+dateplaner#:#cal_cache_info#:#En cas d'activation, les évènements de l'agenda affichés sur le bureau personnel et dans "Activités" seront calculés seulement toutes les x minutes.
 payment#:#no_vendor_selected#:#No vendor selected. ###15 12 2009 new variable
-dateplaner#:#ical_export#:#iCal Export###15 12 2009 new variable
+dateplaner#:#ical_export#:#Export iCal
 forum#:#frm_pseudonym#:#Pseudony###15 12 2009 new variable
-common#:#hist_file_new_version#:#Added new file version, file name is "%1", new version is %2. ###26 03 2010 new variable
-common#:#shib_login_embedded_wayf#:#Design custom login area###26 03 2010 new variable
-common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.###26 03 2010 new variable
-ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable
+common#:#hist_file_new_version#:#Nouvelle version de fichier ajoutée, le nom du fichier est "%1", la nouvelle version est %2. 
+common#:#shib_login_embedded_wayf#:#Personnaliser l'interface de connexion
+common#:#shib_login_embedded_wayf_description#:#Si cette option est choisie, vous pouvez saisir tout code HTML dans la zone de texte d'instruction ci-dessous. Cela peut être utilisé par exemple pour introduire votre propre service JavaScript WAYF/Discovery  ou pour créer une zone de login personnalisée.
+ecs#:#ecs_not_published#:#Aucune approbation choisie.
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
 exp#:#exp_export_files#:#Export Files###26 03 2010 new variable
-common#:#option#:#Option###26 03 2010 new variable
+common#:#option#:#Option
 mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
 mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
 mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
 survey#:#use_other_answer#:#Open answer###26 03 2010 new variable
 survey#:#question_mr_no_other_answer#:#Please enter a text for the other answer###26 03 2010 new variable
-common#:#columns#:#Columns###26 03 2010 new variable
-common#:#proxy#:#Proxy###26 03 2010 new variable
-common#:#proxy_connectable#:#Connection established.###26 03 2010 new variable
-common#:#proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###26 03 2010 new variable
-common#:#proxy_status#:#Proxy###26 03 2010 new variable
-common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###26 03 2010 new variable
-common#:#proxy_host#:#Host###26 03 2010 new variable
-common#:#proxy_host_info#:#Please enter a host.###26 03 2010 new variable
-common#:#proxy_port#:#Port###26 03 2010 new variable
-common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###26 03 2010 new variable
-common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###26 03 2010 new variable
+common#:#columns#:#Colonnes
+common#:#proxy#:#Proxy
+common#:#proxy_connectable#:#Connexion établie.
+common#:#proxy_not_connectable#:#Ilias ne peut pas établir de connexion au proxy choisi.
+common#:#proxy_status#:#Proxy
+common#:#proxy_status_info#:#Pour utiliser un proxy dans ILIAS (par exemple pour un flux RSS ou pour vérifier des liens Internet), veuillez cocher la case suivante.
+common#:#proxy_host#:#Hôte
+common#:#proxy_host_info#:#Veuillez saisir un hôte
+common#:#proxy_port#:#Port
+common#:#proxy_port_info#:#Veuillez saisir un port entre 0 et 65535, par exemple 8080.
+common#:#proxy_port_numeric#:#Le port saisi doit être une valeur numérique comprise entre 0 et 65535
 common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error###26 03 2010 new variable
 payment#:#currency#:#Currency###26 03 2010 new variable
 payment#:#coupon_type#:#Coupon-Type###26 03 2010 new variable
 payment#:#search_in_title#:#Search in title###26 03 2010 new variable
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".###26 03 2010 new variable
+common#:#msg_copy_clipboard_source#:#Maintenant, veuillez choisir le cours dont le contenu sera copié et cliquez sur le bouton "suivant".
 exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
 exp#:#exp_xml#:#XML###26 03 2010 new variable
 exp#:#exp_html#:#HTML###26 03 2010 new variable
 exp#:#exp_scorm#:#SCORM###26 03 2010 new variable
 exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
 exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
-common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
-exc#:#exc_assignments#:#Assignments###26 03 2010 new variable
-exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
-exc#:#exc_deadline#:#Deadline###26 03 2010 new variable
-exc#:#exc_new_assignment#:#New Assignment###26 03 2010 new variable
-exc#:#exc_start_time#:#Start Time###26 03 2010 new variable
+common#:#hide_filter#:#Cacher le filtre
+exc#:#exc_assignments#:#Tâches assignées
+exc#:#exc_add_assignment#:#Ajouter une tâche
+exc#:#exc_deadline#:#Date limite
+exc#:#exc_new_assignment#:#Nouvelle assignation de tâche
+exc#:#exc_start_time#:#Heure de début
 exc#:#exc_mandatory#:#Mandatory###26 03 2010 new variable
 exc#:#exc_pass_mode#:#Pass Mode###26 03 2010 new variable
 exc#:#exc_pass_all#:#All Mandatory Assignments###26 03 2010 new variable
 exc#:#exc_pass_all_info#:#All mandatory assignments must be passed to pass the exercise.###26 03 2010 new variable
 exc#:#exc_pass_minimum_nr#:#Minimum Number of Assignments###26 03 2010 new variable
 exc#:#exc_pass_minimum_nr_info#:#A minimum number of assignments must be passed to pass the exercise. This value must be equal or higher than the number of mandatory assignments.###26 03 2010 new variable
-exc#:#exc_min_nr#:#Number of Assignments###26 03 2010 new variable
+exc#:#exc_min_nr#:#Nombre d'assignations de tâche
 exc#:#exc_save_order#:#Save Order###26 03 2010 new variable
-exc#:#exc_order_by_deadline#:#Order by Deadline###26 03 2010 new variable
-exc#:#exc_conf_del_assignments#:#Do you really want to delete the following assignments?###26 03 2010 new variable
+exc#:#exc_order_by_deadline#:#Classer par date limite
+exc#:#exc_conf_del_assignments#:#Etes-vous certain de vouloir supprimer les assignations de tâches suivantes ?
 exc#:#exc_assignments_deleted#:#The assignments have been deleted.###26 03 2010 new variable
 exc#:#exc_presentation_order#:#Presentation Order###26 03 2010 new variable
 exc#:#exc_saved_order#:#Saved presentation order.###26 03 2010 new variable
 exc#:#exc_mandatory_info#:#Mandatory assignments must be passed to pass the whole exercise.###26 03 2010 new variable
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline###26 03 2010 new variable
 exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.###26 03 2010 new variable
-exc#:#exc_edit_assignment#:#Edit Assignment###26 03 2010 new variable
-exc#:#exc_edit_assignments#:#Edit Assignments###26 03 2010 new variable
-exc#:#exc_submissions_and_grades#:#Submissions & Grades###26 03 2010 new variable
-exc#:#exc_assignment_view#:#Assignment View###26 03 2010 new variable
-exc#:#exc_participant_view#:#Participant View###26 03 2010 new variable
-exc#:#exc_grades_overview#:#Grades View###26 03 2010 new variable
+exc#:#exc_edit_assignment#:#Modifier la tâche assignée
+exc#:#exc_edit_assignments#:#Modifier les tâches assignées
+exc#:#exc_submissions_and_grades#:#Fichiers déposés & évaluations
+exc#:#exc_assignment_view#:#Vue des tâches assignées
+exc#:#exc_participant_view#:#Vue participant
+exc#:#exc_grades_overview#:#Vue des évaluations
 exc#:#exc_select_ass#:#Select Assignment###26 03 2010 new variable
-exc#:#exc_add_participant#:#Add Participant###26 03 2010 new variable
-exc#:#exc_assignment#:#Assignment###26 03 2010 new variable
-exc#:#exc_manage#:#Manage###26 03 2010 new variable
-exc#:#exc_ended_on#:#Ended On###26 03 2010 new variable
+exc#:#exc_add_participant#:#Ajouter un participant
+exc#:#exc_assignment#:#Tâches assignées
+exc#:#exc_manage#:#Gérer
+exc#:#exc_ended_on#:#Terminé le
 exc#:#exc_starting_on#:#Starting On###26 03 2010 new variable
 exc#:#exc_hand_in#:#Hand In###26 03 2010 new variable
-exc#:#exc_edit_submission#:#Edit Submission###26 03 2010 new variable
+exc#:#exc_edit_submission#:#Modifier le fichier déposé
 exc#:#exc_send_assignment#:#Send Assignment by Mail###26 03 2010 new variable
-exc#:#exc_select_part#:#Select Participant###26 03 2010 new variable
-exc#:#exc_participant#:#Participant###26 03 2010 new variable
-exc#:#exc_grades#:#Grades Overview###26 03 2010 new variable
-exc#:#exc_overview#:#Overview###26 03 2010 new variable
+exc#:#exc_select_part#:#Choisir un participant
+exc#:#exc_participant#:#Participant
+exc#:#exc_grades#:#Voir les évaluations
+exc#:#exc_overview#:#aperçu
 exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.###26 03 2010 new variable
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.###26 03 2010 new variable
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.###26 03 2010 new variable
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.###26 03 2010 new variable
-exc#:#exc_total_exc#:#Total Exercise###26 03 2010 new variable
+exc#:#exc_total_exc#:#Total de l'exercice###26 03 2010 new variable
 exc#:#exc_public_submission#:#Public Submissions###26 03 2010 new variable
-exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.###26 03 2010 new variable
-exc#:#exc_list_submission#:#List All Submissions###26 03 2010 new variable
-exc#:#exc_export_excel#:#Export (Excel)###26 03 2010 new variable
-exc#:#exc_add_feedback_file#:#Add Feedback File###26 03 2010 new variable
-exc#:#exc_fb_files#:#Feedback Files###26 03 2010 new variable
-exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".###26 03 2010 new variable
-exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.###26 03 2010 new variable
-exc#:#exc_mail_permanent_link#:#Click on the following link to access the exercise:###26 03 2010 new variable
-exc#:#exc_msg_saved_grades#:#Grades have been saved.###26 03 2010 new variable
+exc#:#exc_msg_public_submission#:#Toutes les propositions seront publiées après la date limite.
+exc#:#exc_list_submission#:#Lister toutes les propositions
+exc#:#exc_export_excel#:#Exporter (Excel)
+exc#:#exc_add_feedback_file#:#Ajouter un fichier de commentaire
+exc#:#exc_fb_files#:#Fichiers de commentaire
+exc#:#exc_msg_new_feedback_file_uploaded#:#Un nouveau fichier d'appréciation a été ajouté à l'exercice "%s".
+exc#:#exc_msg_new_feedback_file_uploaded2#:#Un tuteur a déposé un nouveau fichier d'appréciation pour vous.
+exc#:#exc_mail_permanent_link#:#Cliquez sur le lien suivant pour accéder à l'exercice :
+exc#:#exc_msg_saved_grades#:#Les évaluations sont enregistrées.
 exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!###26 03 2010 new variable
 exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.###26 03 2010 new variable
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.###26 03 2010 new variable
 exc#:#exc_no_participants#:#There are currently no participants.###26 03 2010 new variable
-ecs#:#ecs_published_for#:#Published for:###26 03 2010 new variable
-auth#:#auth_account_migration_name#:#Migration###26 03 2010 new variable
-auth#:#auth_account_migration_keep#:#Migrate Existing User Account###26 03 2010 new variable
-auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new variable
-auth#:#auth_openid#:#OpenId###26 03 2010 new variable
-auth#:#auth_openid_configure#:#Configure OpenId-Authentication###26 03 2010 new variable
-auth#:#auth_openid_enable#:#Enable OpenId Support###26 03 2010 new variable
-auth#:#auth_openid_sync#:#User Synchronization###26 03 2010 new variable
-auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created automatically after successful authentication.###26 03 2010 new variable
-auth#:#auth_openid_role_select#:#Role:###26 03 2010 new variable
-auth#:#auth_openid_migration#:#Account Migration:###26 03 2010 new variable
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.###26 03 2010 new variable
-common#:#auth_openid#:#OpenId###26 03 2010 new variable
-common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID###26 03 2010 new variable
+ecs#:#ecs_published_for#:#Publié pour :
+auth#:#auth_account_migration_name#:#Migration
+auth#:#auth_account_migration_keep#:#Migrer le compte de l'utilisateur existant
+auth#:#auth_account_migration_new#:#Créer un compte nouvel utilisateur
+auth#:#auth_openid#:#OpenId
+auth#:#auth_openid_configure#:#Configurer l'authentification OpenId
+auth#:#auth_openid_enable#:#Activer l'authentification OpenId
+auth#:#auth_openid_sync#:#Synchronisation utilisateur
+auth#:#auth_openid_sync_info#:#En cas d'activation, les comptes des nouveaux utilisateurs seront automatiquement créés après une authentification réussie.
+auth#:#auth_openid_role_select#:#Rôle :
+auth#:#auth_openid_migration#:#Migration compte :
+auth#:#auth_openid_migration_info#:#Activer cette option permet aux nouveaux utilisateurs de migrer leur compte Ilias existant vers une authentification OpenId.
+common#:#auth_openid#:#OpenId
+common#:#login_to_ilias_via_openid#:#Se connecter à ILIAS via OpenID
 content#:#cont_glo_create#:#Create Glossary###26 03 2010 new variable
 content#:#cont_glo_assign#:#Assign Glossary###26 03 2010 new variable
 content#:#cont_glo_detach#:#Detach Glossary###26 03 2010 new variable
 content#:#glo_usages#:#Glossary is used in...###26 03 2010 new variable
-auth#:#auth_openid_settings#:#OpenId Settings###26 03 2010 new variable
-auth#:#auth_openid_provider#:#Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_login#:#Your OpenID###26 03 2010 new variable
-auth#:#auth_openid_provider_tbl#:#OpenID Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_add#:#Add Provider###26 03 2010 new variable
-auth#:#auth_openid_provider_edit#:#Edit Provider###26 03 2010 new variable
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com###26 03 2010 new variable
-auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26 03 2010 new variable
-auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.###26 03 2010 new variable
-common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
-common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
-common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
-common#:#optional_filters#:#Optional Filters###16 07 2010 new variable
-common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
-common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
+auth#:#auth_openid_settings#:#Paramètres OpenId
+auth#:#auth_openid_provider#:#Choix de fournisseur
+auth#:#auth_openid_login#:#Votre OpenID
+auth#:#auth_openid_provider_tbl#:#Fournisseur OpenID
+auth#:#auth_openid_provider_add#:#Ajouter fournisseur
+auth#:#auth_openid_provider_edit#:#Modifier le fournisseur
+auth#:#auth_openid_url_info#:#Saisissez une URL OpenId et remplacez le nom d'utilisateur "%s". Par exemple : http://%s.myopenid.com
+auth#:#auth_openid_deleted_provider#:#Fournisseur OpenId sélectionné supprimé
+auth#:#auth_openid_uncontrolled_selection#:#Choix de fournisseur sans contrôle
+auth#:#auth_openid_uncontrolled_selection_info#:#En cas d'activation, tout fournisseur OpenId peut être utilisé pour l'authentification. Autrement, le fournisseur doit être choisi dans une liste définie de fournisseurs.
+auth#:#auth_openid_login_info_a#:#Veuillez saisir votre nom d'utilisateur OpenId et choisir un fournisseur
+common#:#db_need_hotfix#:#Hotfix disponible. Veuillez ouvrir le programme d'installation.
+common#:#mm_dd_yyyy#:#MM/JJ/AAAA
+common#:#dd_mm_yyyy#:#JJ.MM.AAAA
+common#:#yyyy_mm_dd#:#AAAA-MM-JJ
+common#:#optional_filters#:#Filtres complémentaires
+common#:#usr_settings_visib_lua#:#Visible dans l'administration des utilisateurs locaux
+common#:#usr_settings_changeable_lua#:#Modifiable dans l'administration locale de l'utilisateur
 content#:#scplayer_next#:#Next###16 07 2010 new variable
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
 dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
-dateplaner#:#cal_def_date_format#:#Default Date Input Format###16 07 2010 new variable
-dateplaner#:#cal_user_date_format#:#Date Input Format###16 07 2010 new variable
+dateplaner#:#cal_def_date_format#:#Format de saisie de la date par défaut 
+dateplaner#:#cal_user_date_format#:#Format de saisie de la date
 ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###16 07 2010 new variable
 ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.###16 07 2010 new variable
 ps#:#crs_ps_cdf_info#:#Further Course-Specific Data:###16 07 2010 new variable
@@ -10309,24 +10309,24 @@ registration#:#registration_roles_all#:#All Roles###16 07 2010 new variable
 registration#:#registration_generated_all#:#All Dates###16 07 2010 new variable
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.###16 07 2010 new variable
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.###16 07 2010 new variable
-common#:#session_config#:#Session Settings###16 07 2010 new variable
-common#:#session_config_maintenance_enabled#:#Maintenance by client allowed###16 07 2010 new variable
-common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed###16 07 2010 new variable
-common#:#session_max_count#:#Max active sessions###16 07 2010 new variable
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.###16 07 2010 new variable
-common#:#session_min_idle#:#Min session idle (in minutes)###16 07 2010 new variable
-common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-common#:#session_max_idle#:#Max session idle (in minutes)###16 07 2010 new variable
-common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.###16 07 2010 new variable
-common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)###16 07 2010 new variable
+common#:#session_config#:#Paramètres de session
+common#:#session_config_maintenance_enabled#:#Maintenance par le client autorisée
+common#:#session_config_maintenance_disabled#:#Maintenance par le client interdite
+common#:#session_max_count#:#Sessions actives max
+common#:#session_max_count_info#:#Définit le nombre maximum de sessions pouvant être créées simultanément. Régler à "0" désactive ce paramètre.
+common#:#session_min_idle#:#Temps de session inactive min (en minutes)
+common#:#session_min_idle_info#:#Lorsqu'un utilisateur est inactif pendant cette durée, sa session peut être fermée si une autre session peut être ouverte pour un autre utilisateur et que le nombre maximum de sessions ouvertes a été atteint.
+common#:#session_max_idle#:#Temps de session inactive max (en minutes)
+common#:#session_max_idle_info#:#Définit le durée maximale d'inactivité d'un utilisateur avant que sa session n'expire.
+common#:#session_max_idle_after_first_request#:#Temps de session inactive max après la première requête (en minutes)
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
-common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
+common#:#reached_session_limit#:#Le nombre d'utilisateurs en ligne a été atteint. Veuillez vous reconnecter ultérieurement.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
-common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
-common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
+common#:#mail_mail_to_global_roles#:#L'utilisateur peut envoyer un courrier électronique aux rôles globaux
+common#:#mail_to_global_roles_not_allowed#:#L'envoi de mail aux rôles globaux n'est pas autorisé.
+common#:#mail_no_valid_group_role#:#Aucun rôle de groupe valide
 payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
-assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
+assessment#:#tst_search_users#:#Ajouter les participants fixés
 survey#:#svy_search_users#:#Search for participants###16 07 2010 new variable
 trac#:#trac_first_access#:#First Access###16 07 2010 new variable
 trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
@@ -10354,15 +10354,15 @@ style#:#sty_glo_char#:#Glossary###16 07 2010 new variable
 style#:#sty_type_glo_overlay#:#Glossary Overlay###16 07 2010 new variable
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)###16 07 2010 new variable
 content#:#cont_sco_glossary#:#Unit Glossary###16 07 2010 new variable
-common#:#delete_inactive_user_accounts#:#Delete user accounts###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_period#:#Days past since the last login###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the last login.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_interval#:#Frequency###16 07 2010 new variable
-common#:#delete_inactive_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###16 07 2010 new variable
-mail#:#mail_prevent_smtp_globally#:#Globally prevent sending external mails (via SMTP)###16 07 2010 new variable
+common#:#delete_inactive_user_accounts#:#Supprimer les comptes utilisateurs
+common#:#delete_inactive_user_accounts_desc#:#en cas d'activation, les comptes utilisateurs seront supprimés en fonction de la date de leur dernière connexion.
+common#:#delete_inactive_user_accounts_period#:#Nombre de jours depuis la dernière connexion
+common#:#delete_inactive_user_accounts_period_desc#:#La suppression sera effectuée si la période de temps est achevée depuis la dernière connexion.
+common#:#delete_inactive_user_accounts_include_roles#:#Rôles inclus
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Définit les rôles qui participeront à la suppression.
+common#:#delete_inactive_user_accounts_interval#:#Fréquence
+common#:#delete_inactive_user_accounts_interval_desc#:#Les conditions de suppression seront revues selon cette fréquence.
+mail#:#mail_prevent_smtp_globally#:#Empêche, au niveau global, l'envoi de messages externes (via SMTP)###16 07 2010 new variable
 content#:#glo_quick_navigation#:#Quick Navigation###16 07 2010 new variable
 forum#:#post_reply#:#Re:###16 07 2010 new variable
 forum#:#preset_subject#:#Preset subject on reply###16 07 2010 new variable
@@ -10372,7 +10372,7 @@ administration#:#obj_frma_desc#:#Global Forumsettings###16 07 2010 new variable
 administration#:#forum_settings#:#Forumsettings###16 07 2010 new variable
 administration#:#show_topics_overview#:#Topic Overview###16 07 2010 new variable
 administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown###16 07 2010 new variable
-common#:#show_system_messages#:#System Messages###16 07 2010 new variable
+common#:#show_system_messages#:#Messages système
 content#:#glo_presentation_mode#:#Presentation Mode###16 07 2010 new variable
 content#:#glo_table_form#:#In Table Form###16 07 2010 new variable
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.###16 07 2010 new variable
@@ -10387,7 +10387,7 @@ administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and grou
 administration#:#adm_rep_tree_all_types#:#All Resource Types###16 07 2010 new variable
 administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.###16 07 2010 new variable
 administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
-cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
+cmps#:#cmps_configure#:#Configurer
 tbl#:#tbl_templates#:#View###16 07 2010 new variable
 tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
 tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
@@ -10414,16 +10414,16 @@ trac#:#trac_learners_back#:#Back To Learners###16 07 2010 new variable
 trac#:#trac_user_objects#:#Learning Objects for User###16 07 2010 new variable
 content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)###16 07 2010 new variable
-common#:#settings_for_all_members#:#Global Setting for all Course/Group Members###16 07 2010 new variable
-common#:#settings_per_users#:#Settings per Course/Group Members###16 07 2010 new variable
+common#:#settings_for_all_members#:#Paramètres généraux pour les membres des groupes ou des cours
+common#:#settings_per_users#:#Paramètres pour les membres de groupe ou de cours
 user#:#enable_local_user_administration#:#Enable Local User Administration###16 07 2010 new variable
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.###16 07 2010 new variable
 user#:#restrict_user_access#:#Restriced Access to User Accounts###16 07 2010 new variable
 user#:#restrict_user_access_info#:#If enabled, the access to user account is restricted. The access depends on the permission "Read Access to Local User Account" in "User Accounts" and "Categories". ###16 07 2010 new variable
-common#:#backto_lua#:#Back to Local User Administration###16 07 2010 new variable
+common#:#backto_lua#:#Retour à l'administration locale de l'utilisateur
 common#:#sort_activation_header#:#Nach Zeitvorgaben###16 07 2010 new variable
-common#:#sort_inherit_prefix#:#Default###16 07 2010 new variable
-common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.###16 07 2010 new variable
+common#:#sort_inherit_prefix#:#Défaut
+common#:#sorting_info_inherit#:#Le mode de tri est imposé par un cours parent de niveau supérieur.
 content#:#cont_alignment#:#Alignment###16 07 2010 new variable
 content#:#cont_set_alignment#:#Set Alignment###16 07 2010 new variable
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.###16 07 2010 new variable
@@ -10444,39 +10444,39 @@ trac#:#trac_subitems#:#Show Sub-Items###16 07 2010 new variable
 trac#:#trac_participants#:#Show Participants###16 07 2010 new variable
 trac#:#trac_title#:#Title###16 07 2010 new variable
 dateplaner#:#cal_grp_new_notification_sub#:#New Appointment in Group "%s"###16 07 2010 new variable
-dateplaner#:#cal_grp_notification_sub#:#Changed Appointment in Group "%s"###16 07 2010 new variable
+dateplaner#:#cal_grp_notification_sub#:#Évènement modifié dans le groupe "%s"
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
-dateplaner#:#cal_crs_notification_sub#:#Changed Appointment in Course "%s"###16 07 2010 new variable
+dateplaner#:#cal_crs_notification_sub#:#Évènement modifié dans le cours "%s"
 grp#:#grp_notification_salutation#:#Dear group participant,###16 07 2010 new variable
-crs#:#crs_notification_salutation#:#Dear course participant,###16 07 2010 new variable
-dateplaner#:#cal_grp_new_notification_body#:#a new appointment has been created in group "%s".###16 07 2010 new variable
-dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".###16 07 2010 new variable
-dateplaner#:#cal_grp_notification_body#:#an appointment has been changed in group "%s".###16 07 2010 new variable
-dateplaner#:#cal_crs_notification_body#:#an appointment has been changed in course "%s".###16 07 2010 new variable
+crs#:#crs_notification_salutation#:#Cher participant au cours,
+dateplaner#:#cal_grp_new_notification_body#:#Un nouvel évènement a été créé dans le groupe "%s".
+dateplaner#:#cal_crs_new_notification_body#:#Un nouvel évènement a été créé dans le cours "%s".
+dateplaner#:#cal_grp_notification_body#:#Un évènement a été modifié dans le groupe "%s".
+dateplaner#:#cal_crs_notification_body#:#Un évènement a été modifié dans le cours "%s".
 dateplaner#:#cal_notification#:#Mail Notification###16 07 2010 new variable
 dateplaner#:#cal_notification_info#:#If enabled, all course/group participants will be notified per mail about this appointment.###16 07 2010 new variable
-dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.###16 07 2010 new variable
+dateplaner#:#cal_adm_notification_info#:#Choisissez cette option pour envoyer une notification des changements affectant les évènements aux membres du groupe ou du cours.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role###16 07 2010 new variable
 search#:#search_item_filter#:#Search by Type###16 07 2010 new variable
 search#:#search_item_filter_form#:#Search by Type###16 07 2010 new variable
 search#:#search_item_filter_form_info#:#If enabled, a search can be restricted to the chosen item types.###16 07 2010 new variable
-chat#:#chat_activate_status_notification#:#Show notification about new chat invitations and messages in main menu bar###16 07 2010 new variable
+chat#:#chat_activate_status_notification#:#Afficher la notification des invitations aux nouveaux messages et  discussions dans la barre de menu principale
 administration#:#group_export#:#Visible in Groups###16 07 2010 new variable
 tbl#:#tbl_export_csv#:#Export .csv###16 07 2010 new variable
 tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
-crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
+crs#:#crs_custom_user_fields#:#Données de l'utilisateur concernant le cours
 grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
-assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
-crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
-crs#:#crs_groups_nr#:#Number of Groups###16 07 2010 new variable
-crs#:#crs_add_to_group#:#Add to Group###16 07 2010 new variable
+assessment#:#info_answer_type_change#:#La question comporte déjà des images. Vous ne pouvez pas transformer la question en une question à réponse multiligne.
+crs#:#crs_members_groups#:#Appartenance aux groupes
+crs#:#crs_groups_nr#:#Nombre de groupes
+crs#:#crs_add_to_group#:#Ajouter au groupe
 wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
 mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
-exc#:#exc_submission_notification#:#Email Notification on Submissions###16 07 2010 new variable
+exc#:#exc_submission_notification#:#Notification des fichiers déposés par messagerie
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded.###16 07 2010 new variable
-exc#:#exc_submission_notification_body#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
-exc#:#exc_submission_notification_link#:#Link to Exercise: %s###16 07 2010 new variable
-exc#:#exc_submission_notification_subject#:#A new submission was uploaded for exercise "%s"###16 07 2010 new variable
+exc#:#exc_submission_notification_body#:#Une nouvelle proposition a été déposée dans l'exercice "%s"
+exc#:#exc_submission_notification_link#:#Lien vers l'exercice : %s
+exc#:#exc_submission_notification_subject#:#Une nouvelle proposition a été déposée dans l'exercice "%s"
 wiki#:#wiki_edit_notification#:#Email Notification on Change###16 07 2010 new variable
 wiki#:#wiki_edit_notification_info#:#You will be notified when any page is edited.###16 07 2010 new variable
 wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed###16 07 2010 new variable
@@ -10494,14 +10494,14 @@ feed#:#feed_import#:#Import Feed###16 07 2010 new variable
 dateplaner#:#cal_repeat_until#:#Repeat until###16 07 2010 new variable
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events###16 07 2010 new variable
 sess#:#sess_import#:#Import Session###16 07 2010 new variable
-exc#:#exc_import#:#Import Exercise###16 07 2010 new variable
-dateplaner#:#cal_back_to_list#:#Back to List###16 07 2010 new variable
-dateplaner#:#cal_back_to_search#:#Back to Search###16 07 2010 new variable
-dateplaner#:#cal_unshare#:#Cancel Sharing###16 07 2010 new variable
+exc#:#exc_import#:#Importer l'exercice
+dateplaner#:#cal_back_to_list#:#Retour à la liste
+dateplaner#:#cal_back_to_search#:#Retour à la recherche
+dateplaner#:#cal_unshare#:#Supprimer un partage
 dateplaner#:#cal_manage#:#Manage###16 07 2010 new variable
-dateplaner#:#cal_delete_single#:#Delete only this appointment###16 07 2010 new variable
-dateplaner#:#cal_delete_recurrences#:#Delete all recurrences###16 07 2010 new variable
-dateplaner#:#cal_back_to_cal#:#Back to Calendar###16 07 2010 new variable
+dateplaner#:#cal_delete_single#:#Supprimer uniquement cet évènement
+dateplaner#:#cal_delete_recurrences#:#Supprimer toutes les répétitions
+dateplaner#:#cal_back_to_cal#:#Retour à l'agenda
 rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar###16 07 2010 new variable
 dateplaner#:#cal_ch_form_header#:#Consultation Hours###16 07 2010 new variable
 dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. ###16 07 2010 new variable
@@ -10527,7 +10527,7 @@ ps#:#rbac_log_info#:#Enable logging of all changes to object permissions###16 07
 rbac#:#rbac_log_change_owner#:#Change Owner of Object###16 07 2010 new variable
 rbac#:#rbac_log_changed_owner#:#Changed Owner to###16 07 2010 new variable
 dateplaner#:#cal_ch_add_sequence#:#Add Consultation Hours Sequence###16 07 2010 new variable
-dateplaner#:#cal_ch_duration#:#Duration###16 07 2010 new variable
+dateplaner#:#cal_ch_duration#:#Durée
 dateplaner#:#cal_ch_num_appointments#:#Number of Appointments###16 07 2010 new variable
 dateplaner#:#cal_ch_num_bookings#:#Booking per Appointment###16 07 2010 new variable
 dateplaner#:#cal_ch_deadline#:#Latest Registration###16 07 2010 new variable
@@ -10570,17 +10570,17 @@ dateplaner#:#cal_consultation_hours_for#:#Consultation hours for###16 07 2010 ne
 dateplaner#:#cal_ch_booking_owner#:#Owner###16 07 2010 new variable
 dateplaner#:#cal_ch_current_bookings#:#Current Bookings###16 07 2010 new variable
 dateplaner#:#cal_ch_book#:#Book Appointment###16 07 2010 new variable
-dateplaner#:#cal_ch_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_ch_cancel_booking#:#Annuler une réservation
 dateplaner#:#cal_confirm_booking_info#:#Please confirm the booking for this appointment.###16 07 2010 new variable
-dateplaner#:#cal_confirm_booking#:#Confirm Booking###16 07 2010 new variable
+dateplaner#:#cal_confirm_booking#:#Confirmer la réservation
 dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this booking.###16 07 2010 new variable
-dateplaner#:#cal_cancel_booking#:#Cancel Booking###16 07 2010 new variable
+dateplaner#:#cal_cancel_booking#:#Annuler une réservation
 dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.###16 07 2010 new variable
 dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.###16 07 2010 new variable
-crs#:#crs_reg_code#:#Registration Code###16 07 2010 new variable
-crs#:#crs_reg_code_link#:#Registration Link###16 07 2010 new variable
-crs#:#crs_reg_code_value#:#Code###16 07 2010 new variable
-crs#:#crs_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+crs#:#crs_reg_code#:#Code d'enregistrement
+crs#:#crs_reg_code_link#:#Lien d'enregistrement
+crs#:#crs_reg_code_value#:#Code
+crs#:#crs_reg_code_enabled_info#:#En cas d'activation, un enregistrement automatique est possible en utilisant un lien particulier d'enregistrement.
 grp#:#grp_reg_code#:#Registration Code###16 07 2010 new variable
 grp#:#grp_reg_code_link#:#Registration Link###16 07 2010 new variable
 grp#:#grp_reg_code_value#:#Code###16 07 2010 new variable
@@ -10637,13 +10637,13 @@ survey#:#external_mails_import#:#Import external recipients of survey keys###16 
 survey#:#externalmails#:#Import file###16 07 2010 new variable
 survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.###16 07 2010 new variable
 dateplaner#:#cal_booked_out#:#booked up###16 07 2010 new variable
-dateplaner#:#cal_book_free#:#available###16 07 2010 new variable
+dateplaner#:#cal_book_free#:#Disponible
 dateplaner#:#cal_date_booked#:#booked###16 07 2010 new variable
 dateplaner#:#cal_ch_bookings#:#Participants###16 07 2010 new variable
 trac#:#trac_matrix#:#Matrix View###16 07 2010 new variable
-dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments###16 07 2010 new variable
+dateplaner#:#cal_ch_multi_edit_sequence#:#Modifier plusieurs évènements
 exp#:#export_created#:#A new export file has been created.###16 07 2010 new variable
-crs#:#crs_import#:#Kurs importieren###16 07 2010 new variable
+crs#:#crs_import#:#Importer le cours
 style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
 style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
 style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
@@ -10659,7 +10659,7 @@ meta#:#meta_c_MF#:#Saint Martin (French part)###16 07 2010 new variable
 meta#:#meta_c_PS#:#Palestinian Territories (Occupied)###16 07 2010 new variable
 meta#:#meta_c_RS#:#Serbia###16 07 2010 new variable
 meta#:#meta_c_TL#:#Timor-Leste###16 07 2010 new variable
-common#:#sel_country#:#Country###16 07 2010 new variable
+common#:#sel_country#:#Pays
 book#:#book_booking_types#:#Types###16 07 2010 new variable
 book#:#book_schedules#:#Schedules###16 07 2010 new variable
 book#:#book_no_of_objects#:#No. of Objects###16 07 2010 new variable
@@ -10710,8 +10710,8 @@ common#:#obj_book#:#Booking Pool###16 07 2010 new variable
 common#:#objs_book#:#Booking Pools###16 07 2010 new variable
 book#:#book_pool_added#:#A booking pool has been added.###16 07 2010 new variable
 book#:#book_create_title#:#Add Booking Pool###16 07 2010 new variable
-common#:#country_selection#:#Country (Drop Down Selection)###16 07 2010 new variable
-common#:#country_free_text#:#Country (Free Text Input###16 07 2010 new variable
+common#:#country_selection#:#Pays (menu déroulant)
+common#:#country_free_text#:#Pays (champ de texte libre)
 survey#:#mail_survey_codes#:#Mail access codes###19 07 2010 new variable
 survey#:#recipients#:#Recipients###19 07 2010 new variable
 survey#:#not_sent_only#:#Only to new recipients (who did not receive a mail yet)###19 07 2010 new variable
@@ -10723,9 +10723,9 @@ survey#:#please_enter_mail_message#:#Please enter a mail message###19 07 2010 ne
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]###19 07 2010 new variable
 survey#:#mail_sent_short#:#Sent###19 07 2010 new variable
 survey#:#finished_mail_subject#:#The survey was finished###19 07 2010 new variable
-dateplaner#:#cal_registrations#:#Appointment Registrations###19 07 2010 new variable
+dateplaner#:#cal_registrations#:#Enregistrements des évènements
 dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments###19 07 2010 new variable
-dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to course and group appointments.###19 07 2010 new variable
+dateplaner#:#cal_cg_registration_info#:#Permet aux utilisateurs de s'abonner aux évènements du groupe ou du cours.
 dateplaner#:#cal_reg_register#:#Register###19 07 2010 new variable
 dateplaner#:#cal_reg_unregister#:#Unregister###19 07 2010 new variable
 book#:#book_hours#:#Hours###19 07 2010 new variable
@@ -10781,7 +10781,7 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+common#:#book_edit_permission#:#Modifier les paramètres de permissions
 common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
 common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
 common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
@@ -10790,7 +10790,7 @@ rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#crs_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#root_create_book#:#Create Booking Pool###06 08 2010 new variable
-common#:#optional_filter_hint#:#Please activate one of the optional filters.###06 08 2010 new variable
+common#:#optional_filter_hint#:#Veuillez activer un des filtres complémentaires.
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.###06 08 2010 new variable
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:###06 08 2010 new variable
 grp#:#grp_agreement_header#:#User Agreement###06 08 2010 new variable
@@ -10852,31 +10852,31 @@ frm#:#frm_import#:#Import Forum###20 08 2010 new variable
 registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new variable
 registration#:#reg_allow_codes#:#Allow Codes###20 08 2010 new variable
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.###20 08 2010 new variable
-assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
+assessment#:#mailnottype#:#Envoyer une notification même quand l'utilisateur termine un passage de test.
 rbac#:#rbac_repository_permissions#:#Repository Permissions###20 08 2010 new variable
 rbac#:#rbac_admin_permissions#:#Administration Permissions###20 08 2010 new variable
 ps#:#ps_export_excel#:#Start Excel-Expor###20 08 2010 new variable
 survey#:#err_no_exact_answers#:#Please check exactly %s answers.###27 08 2010 new variable
 survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers###27 08 2010 new variable
-common#:#sess_fixed_duration#:#Fixed Session Duration###27 08 2010 new variable
+common#:#sess_fixed_duration#:#Durée de session fixée
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling###27 08 2010 new variable
-common#:#sess_mode#:#Session Mode###27 08 2010 new variable
+common#:#sess_mode#:#Mode de session
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.###27 08 2010 new variable
-common#:#cronjob_last_start#:#Last Start of the Cron Job###27 08 2010 new variable
-common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary###27 08 2010 new variable
+common#:#cronjob_last_start#:#Dernier démarrage de la tâche Cron
+common#:#enable_disk_quota_summary_mail#:#Envoyer le résumé de quota de disque
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.###27 08 2010 new variable
-common#:#disk_quota_summary_rctp#:#Recipients###27 08 2010 new variable
-common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.###27 08 2010 new variable
-common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:###27 08 2010 new variable
-common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
-common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
-common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
+common#:#disk_quota_summary_rctp#:#Destinataires
+common#:#disk_quota_summary_rctp_desc#:#Saisissez une liste de noms d'utilisateur séparés par une virgule qui recevront un résumé quotidien des dépassements de quota d'espace disque.
+common#:#disk_quota_exceeded_headline#:#Les utilisateurs suivants ont dépassé leur quota de disque :
+common#:#usrf_profile_link#:#Lien au profil de l'utilisateur
+common#:#currently_used_disk_space#:#Espace disque actuellement utilisé
+common#:#cronjob_last_start_unknown#:#Indéterminé
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
 trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
-common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
+common#:#disk_quota_summary_subject#:#Résumé des dépassements de quota de disque
 common#:#lang_tr#:#Turkish###10 09 2010 new variable
 survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###10 09 2010 new variable
 survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###10 09 2010 new variable
@@ -10964,3 +10964,18 @@ trac#:#trac_object_owner#:#Owner of Object###20 10 2010 new variable
 trac#:#trac_report_date#:#Date of Report###20 10 2010 new variable
 trac#:#trac_report_owner#:#Owner of Report###20 10 2010 new variable
 trac#:#trac_first_and_last_access#:#First and Last Acces###20 10 2010 new variable
+common#:#advanced_editing_cat_page_editing#:#Activer l'édition de contenu dans les pages « Catégorie »
+common#:#advanced_editing_cat_page_editing_desc#:#Cela active l'édition de contenu des pages « Catégorie ». Lorsque l'édition est désactivée, les catégories sont présentées sous forme de liste d'items.
+common#:#learning_module#:#document
+content#:#HTML_export#:#Exportation HTML
+content#:#pages_from#:#Pages depuis
+content#:#PDF_export#:#Exportation PDF
+content#:#read_offline#:#Lire hors ligne
+content#:#start_export#:#Commencer l'exportation
+crs#:#crs_view_info_standard#:#Ce mode de présentation de contenu est similaire à celui du dépôt « Activités ».
+grp#:#grp_btn_unsubscribe#:#Désinscrire du groupe
+grp#:#grp_membership_request_body#:#%1$s %2$s a demandé l'inscription au groupe "%5$s".\n\nVeuillez valider ou refuser cette demande sur la page "demande d'inscription " du groupe.\n\nGroupe : %5$s", %6$s\n\ndemandeur : %1$s %2$s, %3$s, écrire à :%4$s.\n\nSujet :\n%7$s
+grp#:#grp_membership_request_subject#:#%1$s %2$s Souhaite s'inscrire dans le groupe "%3$s".
+grp#:#grp_reject_subscriber_body#:#Votre demande d'inscription au groupe "%s" a été refusée.
+news#:#news_acc_cache#:#Vérification de la permission (Minutes)
+news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
