@@ -57,10 +57,14 @@ class ilForumDataSet extends ilDataSet
 						'Description' => 'text',
 						"DefaultView" => "integer",
 						"Pseudonyms" => "integer",
-						"Statistics" => "text",
+						"Statistics" => "integer",
 						"PostingActivation" => "integer",
 						"PresetSubject" => "integer",
 						"PresetRe" => "integer",
+						"NotificationType" => "text",
+						"ForceNotification" => "integer",
+						"ToggleNotification" => "integer"
+						
 						);
 			}
 		}
@@ -100,11 +104,14 @@ class ilForumDataSet extends ilDataSet
 						$set['Description'] = $row->description;
 						$set['DefaultView'] = (int) $row->default_view;
 						$set['Pseudonyms'] = (int) $row->anonymized;
-						$set['Statistics'] = (int) $row->statistice_enabled;
+						$set['Statistics'] = (int) $row->statistics_enabled;
 						$set['PostingActivation'] = (int) $row->post_activation;
 						$set['PresetSubject'] = (int) $row->preset_subject;
 						$set['PresetRe'] = (int) $row->add_re_subject;
-
+						$set['NotificationType'] = $row->notification_type;
+						$set['ForceNotification'] = (int) $row->admin_force_noti;
+						$set['ToggleNotification'] = (int) $row->user_toggle_noti;
+						
 						$this->data[] = $set;
 					}
 					break;
@@ -159,6 +166,9 @@ class ilForumDataSet extends ilDataSet
 				$newObjProp->setPostActivation((int) $a_rec['PostingActivation']);
 				$newObjProp->setPresetSubject((int) $a_rec['PresetSubject']);
 				$newObjProp->setAddReSubject((int) $a_rec['PresetRe']);
+				$newObjProp->setNotificationType($a_rec['NotificationType']);
+				$newObjProp->setAdminForceNoti((int) $a_rec['ForceNotification']);
+				$newObjProp->setUserToggleNoti((int) $a_rec['ToggleNotification']);
 				$newObjProp->insert();
 				
 				$newObj->update();
