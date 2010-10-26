@@ -431,16 +431,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$navigation = new ilCalendarHeaderNavigationGUI($this,$seed,ilDateTime::WEEK,'book');
 			$mytpl->setVariable('NAVIGATION', $navigation->getHTML());
 
+			$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
 			$week_start = $user_settings->getWeekStart();
-			if($week_start)
-			{
-				$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
-			}
-			else
-			{
-				$map = array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa');
-			}
-			
+						
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
 			$definition = $schedule->getDefinition();
@@ -473,6 +466,19 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				{
 					$dates[$hour][0] = $period;
 
+					$column = $date_info['isoday'];
+					if(!$week_start)
+					{
+						if($column < 7)
+						{
+							$column++;
+						}
+						else
+						{
+							$column = 1;
+						}
+					}
+
 					$compare = $hour.'59';
 					if(sizeof($slots))
 					{
@@ -498,14 +504,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
 								$to = array_pop(explode(' ', $to));
 								
-								$dates[$hour][$date_info['isoday']]['caption'] = $from.'-'.$to;
-								$dates[$hour][$date_info['isoday']]['id'] = $slot_from.'_'.$slot_to;
+								$dates[$hour][$column]['caption'] = $from.'-'.$to;
+								$dates[$hour][$column]['id'] = $slot_from.'_'.$slot_to;
 								$in = $slot_from.'_'.$slot_to;
 							}
 						}
 						if($in)
 						{
-							$dates[$hour][$date_info['isoday']]['in_slot'] = $in;
+							$dates[$hour][$column]['in_slot'] = $in;
 						}
 					}
 					$old = $compare;
@@ -520,7 +526,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		    {
 				$col = $all[$loop];
 				$fnt = ilCalendarUtil::calculateFontColor($col);
-				$color[$loop] = 'border-bottom: 1px solid '.$col.'; background-color: '.$col.'; color: '.$fnt;
+				$color[$loop+1] = 'border-bottom: 1px solid '.$col.'; background-color: '.$col.'; color: '.$fnt;
 			}
 			
 			$counter = 0;
