@@ -72,7 +72,7 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$obj_ids = $this->obj_ids;
 		if(!$obj_ids)
 	    {
-			$obj_ids = $this->searchObjects($this->getCurrentFilter(true));
+			$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "edit_learning_progress");
 		}
 		if($obj_ids)
 		{
