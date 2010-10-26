@@ -107,8 +107,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$object_search =& new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter($filter["type"]);
 		$res =& $object_search->performSearch();
-		$res->setRequiredPermission("read");
-
+		$res->setRequiredPermission("edit_learning_progress");
+		
 		$res->addObserver($this, "searchFilterListener");
 
 		if(!$this->filter["area"])
