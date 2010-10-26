@@ -240,16 +240,27 @@ class ilTrQuery
 				// admins/tutors (write-access) will never have agreement ?!
 				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
 				$agreements = ilMemberAgreement::lookupAcceptedAgreements($a_obj_id);
+
+
 				
 				// public information for users
+				$query = "SELECT usr_id FROM usr_pref WHERE keyword = ".$ilDB->quote("public_profile", "text").
+					" AND value = ".$ilDB->quote("y", "text")." OR value = ".$ilDB->quote("g", "text");
+				$set = $ilDB->query($query);
+				$all_public = array();
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$all_public[] = $row["usr_id"];
+				}
 				$query = "SELECT usr_id,keyword FROM usr_pref WHERE ".$ilDB->like("keyword", "text", "public_%", false).
-					" AND value = ".$ilDB->quote("y", "text");
+					" AND value = ".$ilDB->quote("y", "text")." AND ".$ilDB->in("usr_id", $all_public, "", "integer");
 				$set = $ilDB->query($query);
 				$public = array();
 				while($row = $ilDB->fetchAssoc($set))
 				{
 					$public[$row["usr_id"]][] = substr($row["keyword"], 7);
 				}
+				unset($all_public);
 			}
 			
 			foreach($result["set"] as $idx => $row)
