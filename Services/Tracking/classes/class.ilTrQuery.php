@@ -1069,6 +1069,7 @@ class ilTrQuery
 		else
 		{
 		   self::getSubTree($a_parent_ref_id, $object_ids, $ref_ids);
+		   $object_ids = array_unique($object_ids);
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
