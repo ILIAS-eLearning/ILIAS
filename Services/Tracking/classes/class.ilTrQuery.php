@@ -1068,21 +1068,7 @@ class ilTrQuery
 		// all objects in branch
 		else
 		{
-		   $children = $tree->getChilds($a_parent_ref_id);
-		   if($children)
-		   {
-				foreach($children as $child)
-				{
-					// as there can be deactivated items in the collection
-					// we should allow them here too
-					$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
-					if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
-					{
-						$object_ids[] = $child["obj_id"];
-						$ref_ids[$child["obj_id"]] = $child["ref_id"];
- 					}
-				}
-		   }
+		   self::getSubTree($a_parent_ref_id, $object_ids, $ref_ids);
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
@@ -1095,6 +1081,36 @@ class ilTrQuery
 			"ref_ids" => $ref_ids,
 			"objectives_parent_id" => $objectives_parent_id,
 			"scorm" => $scorm);
+	}
+
+	/**
+	 * Get complete branch of tree (recursively)
+	 *
+	 * @param int $a_parent_ref_id
+	 * @param array $a_object_ids
+	 * @param array $a_ref_ids
+	 */
+	static protected function getSubTree($a_parent_ref_id, array &$a_object_ids, array &$a_ref_ids)
+	{
+		global $tree;
+
+		$children = $tree->getChilds($a_parent_ref_id);
+		if($children)
+		{
+			foreach($children as $child)
+			{
+				// as there can be deactivated items in the collection
+				// we should allow them here too
+				$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
+				if(/* $cmode != LP_MODE_DEACTIVATED && */ $cmode != LP_MODE_UNDEFINED)
+				{
+					$a_object_ids[] = $child["obj_id"];
+					$a_ref_ids[$child["obj_id"]] = $child["ref_id"];
+				}
+
+				self::getSubTree($child["ref_id"], $a_object_ids, $a_ref_ids);
+			}
+	   }
 	}
 
 	/**

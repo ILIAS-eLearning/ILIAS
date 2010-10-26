@@ -267,7 +267,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$this->tpl->setCurrentBlock("user_field");
 			$val = (trim($data[$c]) == "")
 				? " "
 				: $data[$c];
@@ -289,6 +288,16 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 						$path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
 						$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
 						$val = ilUtil::img($path, $text);
+
+						include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
+						if(ilCourseItems::_hasCollectionTimings($data["ref_id"]) && 
+							ilTimingCache::_showWarning($data["ref_id"], $this->user_id))
+						{
+							$this->tpl->setCurrentBlock('warning_img');
+							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
+							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+							$this->tpl->parseCurrentBlock();
+						}
 						break;
 
 					case "spent_seconds":
@@ -318,6 +327,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				$val = "-";
 			}
 
+			$this->tpl->setCurrentBlock("user_field");
 			$this->tpl->setVariable("VAL_UF", $val);
 			$this->tpl->parseCurrentBlock();
 		}

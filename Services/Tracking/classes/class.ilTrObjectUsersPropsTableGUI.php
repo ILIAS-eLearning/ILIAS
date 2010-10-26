@@ -378,7 +378,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
 			{
 				include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-				if(ilCourseItems::_hasCollectionTimings($this->ref_id) && ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
+				if(ilCourseItems::_hasCollectionTimings($this->ref_id) &&
+					ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
 				{
 					$this->tpl->setCurrentBlock('warning_img');
 					$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('warning.gif'));
