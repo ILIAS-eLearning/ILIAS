@@ -85,9 +85,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 * Search objects that match current filters
 	 *
 	 * @param	array	$filter
+	 * @param	string	$permission
 	 * @return	array
 	 */
-	protected function searchObjects(array $filter)
+	protected function searchObjects(array $filter, $permission)
 	{
 		global $ilObjDataCache;
 
@@ -107,7 +108,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$object_search =& new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter($filter["type"]);
 		$res =& $object_search->performSearch();
-		$res->setRequiredPermission("edit_learning_progress");
+		$res->setRequiredPermission($permission);
 		
 		$res->addObserver($this, "searchFilterListener");
 

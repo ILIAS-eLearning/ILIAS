@@ -87,7 +87,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$obj_ids = $this->obj_ids;
 		if(!$obj_ids && !$this->details)
 	    {
-			$obj_ids = $this->searchObjects($this->getCurrentFilter(true));
+			$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
 		}
 		if($obj_ids)
 		{
