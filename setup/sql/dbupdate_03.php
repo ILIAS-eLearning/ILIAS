@@ -3549,5 +3549,46 @@ $ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
 <?php
 	$ilDB->addPrimaryKey('export_file_info',array('obj_id','export_type','filename'));
 ?>
+
+<#3200>
+<?php
+	
+	// Invalid assign flags
+	$query = "SELECT rol_id FROM rbac_fa ".
+		"WHERE assign = ".$ilDB->quote('y','text').' '.
+		"GROUP BY rol_id HAVING count(*) > 1";
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$role_id = $row->rol_id;
+		
+		$query = "SELECT depth, fa.parent parent FROM rbac_fa fa ".
+			"JOIN tree t ON fa.parent = child ".
+			"WHERE rol_id = ".$ilDB->quote($role_id,'integer').' '.
+			"AND assign = ".$ilDB->quote('y','text').' '.
+			"ORDER BY depth, fa.parent";
+		$assignable_res = $ilDB->query($query);
+		$first = true;
+		while($assignable_row = $assignable_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($first)
+			{
+				$first = false;
+				continue;
+			}
+			// Only for security
+			if($assignable_row->parent == ROLE_FOLDER_ID)
+			{
+				continue;
+			}
+			$GLOBALS['ilLog']->write(__METHOD__.': Ressetting assignable flag for role_id: '.$role_id.' parent: '.$assignable_row->parent);
+			$query = "UPDATE rbac_fa SET assign = ".$ilDB->quote('n','text').' '.
+				"WHERE rol_id = ".$ilDB->quote($role_id,'integer').' '.
+				"AND parent = ".$ilDB->quote($assignable_row->parent,'integer');
+			$ilDB->manipulate($query);
+		} 
+	}
+?>
+
 	
 	
