@@ -387,18 +387,20 @@ class ilPermissionGUI extends ilPermission2GUI
 		$roles = $_POST['roles'];
 		foreach($roles as $role)
 		{
+			// Set assign to 'y' only if it is a local role
+			$assign = $rbacreview->isAssignable($role, $rolf) ? 'y' : 'n';
+
 			// Delete permissions
 			$rbacadmin->revokeSubtreePermissions($this->getCurrentObject()->getRefId(), $role);
 			
 			// Delete template permissions
 			$rbacadmin->deleteSubtreeTemplates($this->getCurrentObject()->getRefId(), $role);
 
-			// Reassign to role folder
-			// with old "assign" status			
+			
 			$rbacadmin->assignRoleToFolder(
 				$role,
 				$rolf,
-				$p_roles[$role]['assign']
+				$assign
 			);
 		}
 		
