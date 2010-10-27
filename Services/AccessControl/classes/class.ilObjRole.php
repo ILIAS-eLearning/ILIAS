@@ -321,6 +321,13 @@ class ilObjRole extends ilObject
 		
 		$role_folders = $rbacreview->getFoldersAssignedToRole($this->getId());
 		
+		// Temporary bugfix
+		if($rbacreview->hasMultipleAssignments($this->getId()))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Found role with multiple assignments: '.$this->getId());
+			return false;
+		}
+		
 		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
 			// do not delete a global role, if the role is the last 

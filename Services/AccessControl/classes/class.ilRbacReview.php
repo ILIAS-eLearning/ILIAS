@@ -1018,6 +1018,19 @@ class ilRbacReview
 		$ilBench->stop("RBAC", "review_isAssignable");
 		return $row->assign == 'y' ? true : false;
 	}
+	
+	/**
+	 * Temporary bugfix
+	 */
+	public function hasMultipleAssignments($a_role_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM rbac_fa WHERE rol_id = ".$ilDB->quote($a_role_id,'integer').' '.
+			"AND assign = ".$ilDB->quote('y','text');
+		$res = $ilDB->query($query);
+		return $res->numRows() > 1;
+	}
 
 	/**
 	* returns an array of role folder ids assigned to a role. A role with stopped inheritance
