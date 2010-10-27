@@ -1014,7 +1014,7 @@ class ilRbacReview
 			 "AND parent = ".$ilDB->quote($a_ref_id,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $ilDB->fetchObject($res);
-
+	
 		$ilBench->stop("RBAC", "review_isAssignable");
 		return $row->assign == 'y' ? true : false;
 	}
