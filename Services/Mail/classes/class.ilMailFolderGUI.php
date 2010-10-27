@@ -75,12 +75,25 @@ class ilMailFolderGUI
 			$this->current_selected_cmd = $_POST['selected_cmd2'];
 		}
 
-		/* User views mail and wants to delete it */
+		/* Fix: User views mail and wants to delete it... 
+		   mjansen: The mail system needs a revision :-)
+		*/
 		if ($_GET['selected_cmd'] == "deleteMails" && $_GET["mail_id"])
 		{
 			$_GET["cmd"] = "editFolder";
 			$this->current_selected_cmd = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
+		}
+		
+		/* Fix: User views mail and wants to move it...
+		   mjansen: The mail system needs a revision :-)
+		*/
+		$cmd = $this->ctrl->getCmd();
+		if($cmd == 'changeFolder' && 
+		   is_numeric($_POST['selected_cmd']) && 
+		   $_GET["mail_id"])
+		{
+			$this->current_selected_cmd = (int)$_POST['selected_cmd'];
 		}		
 
 		$forward_class = $this->ctrl->getNextClass($this);		
@@ -262,7 +275,7 @@ class ilMailFolderGUI
 				  ->prepareHTML();		
 		
 		// SHOW_FOLDER ONLY IF viewmode is flatview
-		$folders = $this->mbox->getSubFolders();		
+		$folders = $this->mbox->getSubFolders();
 		$mtree = new ilTree($ilUser->getId());
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');		
 		if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
@@ -915,7 +928,7 @@ class ilMailFolderGUI
 		if(is_array($selectOptions) && count($selectOptions))
 		{
 			include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-			$oActionSelectBox = new ilSelectInputGUI();
+			$oActionSelectBox = new ilSelectInputGUI('', 'selected_cmd');
 			$oActionSelectBox->setOptions($selectOptions);
 			$oBottomToolbar->addInputItem($oActionSelectBox);
 			$oBottomToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
