@@ -2381,7 +2381,6 @@ common#:#dbk_new#:#Nová digitální kniha
 common#:#dbk_read#:#Právo číst na digitální knihu
 common#:#dbk_visible#:#Digitální kniha je viditelná
 common#:#dbk_write#:#Upravit digitální knihu
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Nastavit neaktivní
 common#:#decrease_attempts#:#Pokusy - 1
@@ -3354,7 +3353,6 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
-common#:#learning_module#:#Learning Module
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -5782,7 +5780,6 @@ content#:#glo_usages#:#Glosář je použit ve ...
 content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-li smazán, pak odkazy na tento glosář nebude možné dále vysvětlovat.
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#Export HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -5798,14 +5795,11 @@ content#:#msg_page_no_public_access#:#Stránka Vámi odkazovaná není veřejně
 content#:#msg_page_not_public#:#Stránka není veřejná
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Pages From
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#Export PDF
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
-content#:#read_offline#:#Číst Offline
 content#:#saved_media_object#:#Uložené mediální objekty.
 content#:#scorm_editable#:#Import editovatelný
 content#:#scorm_editable_comments#:#Pracuje s balíčky s SCORM 1.2/2004
@@ -5840,7 +5834,6 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
-content#:#start_export#:#Start Export###Eror: No-changeable!!!
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
 crs#:#activation_times_not_valid#:#Neplatné období dostupnosti.
@@ -10881,4 +10874,92 @@ wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_whole_wiki#:#Celá Wiki
 wiki#:#wiki_wiki_page#:#Stránka Wiki
-wiki#:#wiki_wiki_search#:#Hledání ve Wiki
+wiki#:#wiki_wiki_search#:#Hledání ve Wikicommon#:#dd_mm_yyyy#:#DD.MM.YYYY###28 10 2010 new variable
+common#:#lang_tr#:#Turkish###28 10 2010 new variable
+content#:#cont_localfile#:#Local File###28 10 2010 new variable
+survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###28 10 2010 new variable
+survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###28 10 2010 new variable
+survey#:#mail_import_example1#:#email;firstname;lastname###28 10 2010 new variable
+survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen###28 10 2010 new variable
+survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt###28 10 2010 new variable
+survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows###28 10 2010 new variable
+survey#:#participating_users#:#Participating Users###28 10 2010 new variable
+assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)###28 10 2010 new variable
+rbac#:#add_consultation_hours#:#Add Consultation Hours Calendar###28 10 2010 new variable
+common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message###28 10 2010 new variable
+common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.###28 10 2010 new variable
+common#:#follow_link_to_read_mails#:#click the following link to read these mails:###28 10 2010 new variable
+common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s###28 10 2010 new variable
+common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###28 10 2010 new variable
+trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###28 10 2010 new variable
+fold#:#fold_import#:#Import Folder###28 10 2010 new variable
+mail#:#mail_select_recipients#:#Please select mail recipients:###28 10 2010 new variable
+grp#:#grp_import#:#Import Group###28 10 2010 new variable
+crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###28 10 2010 new variable
+assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.###28 10 2010 new variable
+administration#:#language_scope_merged#:#Local changes merged into the global language file###28 10 2010 new variable
+administration#:#language_scope_added#:#Local additions only###28 10 2010 new variable
+administration#:#language_merge_local_changes#:#Merge local changes into the global language file###28 10 2010 new variable
+administration#:#language_delete_local_additions#:#Delete local additions in the database###28 10 2010 new variable
+administration#:#language_error_write_global#:#The global language file can't be written!###28 10 2010 new variable
+administration#:#language_error_local_missed#:#The local language file does not exist!###28 10 2010 new variable
+administration#:#language_error_delete_local#:#The local language file can't be deleted!###28 10 2010 new variable
+administration#:#language_local_file_deleted#:#The local language file was deleted.###28 10 2010 new variable
+administration#:#language_remove_local_file#:#Delete the local language file###28 10 2010 new variable
+rbac#:#export_member_data#:#Access to User Data###28 10 2010 new variable
+rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.###28 10 2010 new variable
+rbac#:#crs_create_catr#:#Create Category Reference###28 10 2010 new variable
+rbac#:#crs_create_crsr#:#Create new Course Reference###28 10 2010 new variable
+forum#:#frm_edit_title#:#Edit Title###28 10 2010 new variable
+common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.###28 10 2010 new variable
+common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.###28 10 2010 new variable
+administration#:#language_merged_global#:#The local changes were merged into the global language file.###28 10 2010 new variable
+content#:#cont_submit_answers#:#Submit Answers###28 10 2010 new variable
+content#:#cont_wrong_answers#:#Wrong Answers###28 10 2010 new variable
+content#:#cont_tries_remaining#:#Tries Remaining###28 10 2010 new variable
+content#:#cont_please_try_again#:#Please try again###28 10 2010 new variable
+content#:#cont_all_answers_correct#:#All answers correct###28 10 2010 new variable
+content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###28 10 2010 new variable
+content#:#cont_correct_answers_shown#:#Correct answers are shown above###28 10 2010 new variable
+administration#:#apache_auth_settings#:#Apache###28 10 2010 new variable
+administration#:#apache_settings#:#Configure LDAP Authentication###28 10 2010 new variable
+administration#:#apache_enable_auth#:#Enable Apache Authentication support###28 10 2010 new variable
+administration#:#apache_autocreate#:#Enable account generation###28 10 2010 new variable
+administration#:#apache_default_role#:#Default user role###28 10 2010 new variable
+administration#:#apache_enable_local#:#Enable local user assignment###28 10 2010 new variable
+administration#:#apache_enable_ldap#:#Enable LDAP user assignment###28 10 2010 new variable
+administration#:#apache_auth_indicator_name#:#Indicator-field for successful authentication###28 10 2010 new variable
+administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication###28 10 2010 new variable
+administration#:#apache_auth_enable_override_login#:#Override default login page###28 10 2010 new variable
+administration#:#apache_auth_target_override_login#:#Target url for custom login page###28 10 2010 new variable
+administration#:#apache_auth_username_config#:#Username configuration###28 10 2010 new variable
+administration#:#apache_auth_username_config_type#:#Type###28 10 2010 new variable
+administration#:#apache_auth_username_direct_mapping#:#Straight assignment###28 10 2010 new variable
+administration#:#apache_auth_username_extended_mapping#:#Extended assignment###28 10 2010 new variable
+administration#:#apache_auth_username_by_function#:#Assign usernames by custom function###28 10 2010 new variable
+administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration###28 10 2010 new variable
+administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment###28 10 2010 new variable
+administration#:#auth_apache#:#Apache###28 10 2010 new variable
+administration#:#apache_settings_changed_success#:#Configuration saved###28 10 2010 new variable
+common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.###28 10 2010 new variable
+administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticaton when entering the login page###28 10 2010 new variable
+wiki#:#wiki_change_notification_salutation#:#Hello %s,###28 10 2010 new variable
+assessment#:#tst_export_settings#:#Export settings###28 10 2010 new variable
+assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###28 10 2010 new variable
+common#:#frma_visible#:#Forum Administration is visible###28 10 2010 new variable
+common#:#frma_read#:#Read access to Forum Administration###28 10 2010 new variable
+common#:#frma_write#:#Write access to Forum Administration###28 10 2010 new variable
+common#:#frma_edit_permission#:#Change permission settings###28 10 2010 new variable
+common#:#nr_following_sessions#:#%1d following session(s)...###28 10 2010 new variable
+rbac#:#usrf_create_usr#:#Create User###28 10 2010 new variable
+trac#:#trac_all#:#All###28 10 2010 new variable
+trac#:#trac_view_mode#:#View Mode###28 10 2010 new variable
+trac#:#trac_view_mode_all#:#All Objects###28 10 2010 new variable
+trac#:#trac_view_mode_collection#:#Only objects that determine the overall status###28 10 2010 new variable
+trac#:#trac_name_of_installation#:#Name of Installation###28 10 2010 new variable
+trac#:#trac_object_name#:#Name of Object###28 10 2010 new variable
+trac#:#trac_object_link#:#Link to Object###28 10 2010 new variable
+trac#:#trac_object_owner#:#Owner of Object###28 10 2010 new variable
+trac#:#trac_report_date#:#Date of Report###28 10 2010 new variable
+trac#:#trac_report_owner#:#Owner of Report###28 10 2010 new variable
+trac#:#trac_first_and_last_access#:#First and Last Acces###28 10 2010 new variable
