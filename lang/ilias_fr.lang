@@ -10964,18 +10964,3 @@ trac#:#trac_object_owner#:#Owner of Object###20 10 2010 new variable
 trac#:#trac_report_date#:#Date of Report###20 10 2010 new variable
 trac#:#trac_report_owner#:#Owner of Report###20 10 2010 new variable
 trac#:#trac_first_and_last_access#:#First and Last Acces###20 10 2010 new variable
-common#:#advanced_editing_cat_page_editing#:#Activer l'édition de contenu dans les pages « Catégorie »
-common#:#advanced_editing_cat_page_editing_desc#:#Cela active l'édition de contenu des pages « Catégorie ». Lorsque l'édition est désactivée, les catégories sont présentées sous forme de liste d'items.
-common#:#learning_module#:#document
-content#:#HTML_export#:#Exportation HTML
-content#:#pages_from#:#Pages depuis
-content#:#PDF_export#:#Exportation PDF
-content#:#read_offline#:#Lire hors ligne
-content#:#start_export#:#Commencer l'exportation
-crs#:#crs_view_info_standard#:#Ce mode de présentation de contenu est similaire à celui du dépôt « Activités ».
-grp#:#grp_btn_unsubscribe#:#Désinscrire du groupe
-grp#:#grp_membership_request_body#:#%1$s %2$s a demandé l'inscription au groupe "%5$s".\n\nVeuillez valider ou refuser cette demande sur la page "demande d'inscription " du groupe.\n\nGroupe : %5$s", %6$s\n\ndemandeur : %1$s %2$s, %3$s, écrire à :%4$s.\n\nSujet :\n%7$s
-grp#:#grp_membership_request_subject#:#%1$s %2$s Souhaite s'inscrire dans le groupe "%3$s".
-grp#:#grp_reject_subscriber_body#:#Votre demande d'inscription au groupe "%s" a été refusée.
-news#:#news_acc_cache#:#Vérification de la permission (Minutes)
-news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
