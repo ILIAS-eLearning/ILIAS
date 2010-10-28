@@ -8,20 +8,27 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT 'glo' type,term,content,glo_id,id
+				SELECT 'glo' type,term,glo_id,id
 				FROM glossary_term gt
-				JOIN page_object po ON gt.id = page_id
 				WHERE glo_id IN (?)
-				AND po.parent_type = 'gdf'
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="term" type="text" name="propertyHigh" />
-			<Field store="YES" index="ANALYZED" column="content" type="clob" name="propertyMedium">
-				<Transformer name="ContentObjectTransformer" />
-			</Field>
+			<Field store="YES" index="ANALYZED" column="term" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" type="integer" name="objId"  />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
+			<DataSource type="JDBC" action="append">
+				<Query>
+					SELECT content FROM glossary_definition
+					JOIN page_object ON id = page_id
+					WHERE term_id = ?
+					AND parent_type = 'gdf'
+				</Query>
+				<Param format="single" type="int" value="id" />
+				<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
+					<Transformer name="ContentObjectTransformer" />
+				</Field>
+			</DataSource>
 		</DataSource>
 	</Document>
 </ObjectDefinition>
