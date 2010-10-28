@@ -10874,7 +10874,8 @@ wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_whole_wiki#:#Celá Wiki
 wiki#:#wiki_wiki_page#:#Stránka Wiki
-wiki#:#wiki_wiki_search#:#Hledání ve Wikicommon#:#dd_mm_yyyy#:#DD.MM.YYYY###28 10 2010 new variable
+wiki#:#wiki_wiki_search#:#Hledání ve Wiki
+common#:#dd_mm_yyyy#:#DD.MM.YYYY###28 10 2010 new variable
 common#:#lang_tr#:#Turkish###28 10 2010 new variable
 content#:#cont_localfile#:#Local File###28 10 2010 new variable
 survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###28 10 2010 new variable
