@@ -1765,7 +1765,7 @@ class ilObjTest extends ilObject
 
 		$qpls = array();
 		$counter = 0;
-		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
+		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY sequence, test_random_id",
 			array("integer"),
 			array($this->getTestId())
 		);
@@ -1806,15 +1806,15 @@ class ilObjTest extends ilObject
 		$this->removeDuplicatedQuestionpools();
 		
 		// create new random questionpools
-		foreach ($this->random_questionpool_data as $data) 
+		foreach ($this->random_questionpool_data as $idx => $data) 
 		{
 			if ($data->qpl > 0)
 			{
 				// save questionpool information
 				$next_id = $ilDB->nextId('tst_test_random');
-				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer', 'integer', 'integer', 'integer'),
-					array($next_id, $this->getTestId(), $data->qpl, $data->count, time())
+				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
+					array('integer','integer', 'integer', 'integer', 'integer', 'integer'),
+					array($next_id, $this->getTestId(), $data->qpl, $data->count, time(), $idx)
 				);
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
@@ -1892,7 +1892,7 @@ class ilObjTest extends ilObject
 		}
 		else
 		{
-			$result = $ilDB->queryF('SELECT tst_test_random.* FROM tst_test_random WHERE tst_test_random.test_fi = %s',
+			$result = $ilDB->queryF('SELECT tst_test_random.* FROM tst_test_random WHERE tst_test_random.test_fi = %s ORDER BY sequence, test_random_id',
 				array('integer'),
 				array($this->getTestId())
 			);
@@ -2000,7 +2000,7 @@ class ilObjTest extends ilObject
 
 		$qpls = array();
 		$counter = 0;
-		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
+		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY sequence, test_random_id",
 			array("integer"),
 			array($this->getTestId())
 		);
@@ -6723,7 +6723,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($new_id > 0)
 		{
-			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY sequence, test_random_id",
 				array('integer'),
 				array($this->getTestId())
 			);
@@ -6732,9 +6732,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				while ($row = $ilDB->fetchAssoc($result))
 				{
 					$next_id = $ilDB->nextId('tst_test_random');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
-						array('integer', 'integer', 'integer', 'integer', 'integer'),
-						array($next_id, $new_id, $row["questionpool_fi"], $row["num_of_q"], time())
+					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
+						array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+						array($next_id, $new_id, $row["questionpool_fi"], $row["num_of_q"], time(), $row['sequence'])
 					);
 				}
 			}
@@ -6907,7 +6907,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$qpls = array();
 			$counter = 0;
-			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY sequence, test_random_id",
 				array('integer'),
 				array($test_id)
 			);

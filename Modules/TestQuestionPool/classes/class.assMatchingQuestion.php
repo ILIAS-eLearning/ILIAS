@@ -386,15 +386,15 @@ class assMatchingQuestion extends assQuestion
 		global $ilLog;
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-		if (!file_exists($imagepath))
-		{
-			ilUtil::makeDirParents($imagepath);
-		}
 		foreach ($this->terms as $term)
 		{
 			if (strlen($term->picture))
 			{
 				$filename = $term->picture;
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
 					$ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -413,6 +413,10 @@ class assMatchingQuestion extends assQuestion
 			if (strlen($definition->picture))
 			{
 				$filename = $definition->picture;
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
 					$ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -433,14 +437,14 @@ class assMatchingQuestion extends assQuestion
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-		if (!file_exists($imagepath))
-		{
-			ilUtil::makeDirParents($imagepath);
-		}
 		foreach ($this->term as $term)
 		{
 			if (strlen($term->picture))
 			{
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				$filename = $term->picture;
 				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
@@ -457,6 +461,10 @@ class assMatchingQuestion extends assQuestion
 			if (strlen($definition->picture))
 			{
 				$filename = $definition->picture;
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
 				{
 					$ilLog->write("matching question image could not be copied: $imagepath_original$filename");

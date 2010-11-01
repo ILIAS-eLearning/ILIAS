@@ -3589,6 +3589,20 @@ $ilDB->renameTableColumn("svy_svy", "enddate_tmp", "enddate");
 		} 
 	}
 ?>
-
-	
-	
+<#3201>
+<?php
+if (!$ilDB->tableColumnExists('tst_test_random', 'sequence'))
+{
+	$ilDB->addTableColumn("tst_test_random", "sequence", array(
+	"type" => "integer",
+	"length" => 4,
+	"notnull" => true,
+	"default" => 0));
+}
+?>
+<#3202>
+<?php
+if ($ilDB->tableColumnExists('tst_test_random', 'sequence'))
+{
+	$ilDB->manipulate("UPDATE tst_test_random SET sequence = test_random_id");
+}
