@@ -826,15 +826,15 @@ class assSingleChoice extends assQuestion
 		global $ilLog;
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-		if (!file_exists($imagepath))
-		{
-			ilUtil::makeDirParents($imagepath);
-		}
 		foreach ($this->answers as $answer)
 		{
 			$filename = $answer->getImage();
 			if (strlen($filename))
 			{
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
@@ -855,15 +855,15 @@ class assSingleChoice extends assQuestion
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-		if (!file_exists($imagepath))
-		{
-			ilUtil::makeDirParents($imagepath);
-		}
 		foreach ($this->answers as $answer)
 		{
 			$filename = $answer->getImage();
 			if (strlen($filename))
 			{
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
@@ -887,12 +887,7 @@ class assSingleChoice extends assQuestion
 		$question_id = $this->getOriginalId();
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-		if (!file_exists($imagepath))
-		{
-			ilUtil::makeDirParents($imagepath);
-		}
 		ilUtil::delDir($imagepath_original);
-		ilUtil::makeDirParents($imagepath_original);
 		foreach ($this->answers as $answer)
 		{
 			$filename = $answer->getImage();
@@ -900,6 +895,14 @@ class assSingleChoice extends assQuestion
 			{
 				if (@file_exists($imagepath . $filename))
 				{
+					if (!file_exists($imagepath))
+					{
+						ilUtil::makeDirParents($imagepath);
+					}
+					if (!file_exists($imagepath_original))
+					{
+						ilUtil::makeDirParents($imagepath_original);
+					}
 					if (!@copy($imagepath . $filename, $imagepath_original . $filename))
 					{
 						$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);

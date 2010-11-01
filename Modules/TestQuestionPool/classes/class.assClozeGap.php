@@ -76,7 +76,7 @@ class assClozeGap
 	{
 		$this->type = $a_type;
 		$this->items = array();
-		$this->shuffle = FALSE;
+		$this->shuffle = true;
 	}
   
 /**
