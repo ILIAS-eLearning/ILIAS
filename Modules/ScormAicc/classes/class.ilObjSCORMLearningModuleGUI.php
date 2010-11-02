@@ -513,7 +513,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", "Modules/ScormAicc");
 
-		$num = 1;
+		$num = 6;
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -529,7 +529,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		
 //		$tbl->setHeaderNames(array("",$this->lng->txt("name"), $this->lng->txt("last_access"),$this->lng->txt("status"), $this->lng->txt("attempts"), $this->lng->txt("version")  ));
 		$tbl->setHeaderNames(array("",$this->lng->txt("name"), $this->lng->txt("last_access"), $this->lng->txt("attempts"), $this->lng->txt("version")  ));
-
 
 		$header_params = $this->ctrl->getParameterArray($this, "showTrackingItems");
 				

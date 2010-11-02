@@ -610,7 +610,8 @@ class ilSCORMPresentationGUI
 		$this->tpl = new ilTemplate("tpl.sahs_finish_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
-		$this->tpl->setCurrentBlock("switch_icon");
+		// block not in template
+		// $this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
 			"scorm/".str_replace(" ", "_", $_GET["status"]).'.gif')
@@ -640,7 +641,7 @@ class ilSCORMPresentationGUI
 		}
 		// END Partial fix for SCO sequencing
 		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
-		$this->tpl->parseCurrentBlock();
+		// $this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
 
