@@ -319,7 +319,7 @@ class ilLPStatus
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 		
-		$update_parents = false;
+		$update_collections = false;
 		if ($rec  = $ilDB->fetchAssoc($set))
 		{
 			$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".
@@ -388,7 +388,8 @@ class ilLPStatus
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
-		$update_parents = false;
+		
+		$update_collections = false;
 		if ($rec  = $ilDB->fetchAssoc($set))
 		{
 			$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".
