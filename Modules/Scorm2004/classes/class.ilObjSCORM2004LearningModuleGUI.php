@@ -713,7 +713,7 @@ function showTrackingItems()
 	// load template for table content data
 	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", "Modules/ScormAicc");
 
-	$num = 1;
+	$num = 5;
 
 	$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
