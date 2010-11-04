@@ -1032,7 +1032,7 @@ class ilSCORM13Player
 		foreach($tables as $table)
 		{
 			$schem = & self::$schema[$table];
-			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
+//			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
 
 			if (!is_array($data->$table)) continue;			
 				
@@ -1224,13 +1224,13 @@ class ilSCORM13Player
 			}
 		}
 		
-		// update learning progress status
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($packageId, $userId);
-
 		// sync access number and time in read event table
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
+		
+		// update learning progress status
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_updateStatus($packageId, $userId);
 		
 		return $result;
 	}

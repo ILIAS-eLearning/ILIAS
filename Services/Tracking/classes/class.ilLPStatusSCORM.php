@@ -191,7 +191,15 @@ class ilLPStatusSCORM extends ilLPStatus
 		global $ilObjDataCache, $ilDB, $ilLog;
 		
 		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
-		
+
+		// if the user has accessed the scorm object
+		// the status is at least "in progress"
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+		{
+			$status = LP_STATUS_IN_PROGRESS_NUM;
+		}
+//$ilLog->write("-".$status."-");
 		// Which sco's determine the status
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
@@ -226,7 +234,7 @@ class ilLPStatusSCORM extends ilLPStatus
 				$status = LP_STATUS_FAILED_NUM;
 				break;
 		}
-
+//$ilLog->write("-".$status."-");
 		return $status;		
 	}
 
