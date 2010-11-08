@@ -686,9 +686,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			
 			if(ANONYMOUS_USER_ID == $ilUser->getId())
 			{
-			#	$m->To($bookings['payer_email']);
-				#$m->To( $ilUser->getEmail() ); #zum testen
-			    $m->To('volker.reuschenbach@t-online.de'); #zum testen
+				$m->To($bookings['payer_email']);
 
 				$message = $this->lng->txt("pay_message_hello") . " " .$booking['address_name']. ",\n\n";
 				
