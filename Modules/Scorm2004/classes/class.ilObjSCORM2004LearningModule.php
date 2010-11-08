@@ -1573,11 +1573,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $glos_export = new ilGlossaryExport($glos,"xml");
             $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", &$expLog);
         }
+        copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		$a_xml_writer->xmlEndTag("ContentObject");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
-        //die(htmlentities($a_xml_writer->xmlDumpMem()));
 		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
 		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
 		$xml2FO->transform();
@@ -1599,7 +1599,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             }
         }
         $fo_string = $fo_xml->asXML(); 
-		//die(htmlentities($fo_string));
 		$a_xml_writer->_XmlWriter;
 		return $fo_string;
 	}

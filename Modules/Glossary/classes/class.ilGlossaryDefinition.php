@@ -392,6 +392,7 @@ class ilGlossaryDefinition
 
 		if ($this->getTermId() > 0)
 		{
+			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 			$glo_id = ilGlossaryTerm::_lookGlossaryId($this->getTermId());
 			$snippet_length = ilObjGlossary::lookupSnippetLength($glo_id);

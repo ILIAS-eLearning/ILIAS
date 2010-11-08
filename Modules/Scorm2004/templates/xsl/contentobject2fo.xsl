@@ -300,6 +300,7 @@
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()">
 				<fo:block>
+					<fo:external-graphic src="{$target_dir}/icon_attachment_s.png" width="5mm" height="5mm" />
 					<xsl:value-of select="Location"></xsl:value-of>
 				</fo:block>
 			</fo:list-item-body>
@@ -329,6 +330,9 @@
 	</xsl:template>
 	
     <xsl:template match="IntLink">
+    	<xsl:if test="@Type='File'">
+    		<fo:external-graphic src="{$target_dir}/icon_attachment_s.png" width="5mm" height="5mm" />
+    	</xsl:if>
         <xsl:value-of select="."/>
         <xsl:if test="@Type='GlossaryItem'">
             <fo:inline font-size="8pt" vertical-align="super">
@@ -363,9 +367,9 @@
 						</fo:basic-link>
 					</xsl:when>
 					<xsl:when test="($curType='LocalFile')"> <!-- and (substring($type, 1, 5) = 'image') and not(substring($type, 1, 9) = 'image/svg')">  -->
-						<fo:external-graphic>
+						<fo:external-graphic width="100%" content-width="scale-to-fit" content-height="100%">
 							<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-					      <xsl:if test="$width">
+					      <!-- <xsl:if test="$width">
 					        <xsl:attribute name="width">
 					              <xsl:value-of select="$width"/>
 					        </xsl:attribute>
@@ -374,7 +378,7 @@
 					        <xsl:attribute name="height">
 					              <xsl:value-of select="$height"/>
 					        </xsl:attribute>
-					      </xsl:if>
+					      </xsl:if> -->
 					    </fo:external-graphic>
 					</xsl:when>
 				</xsl:choose>

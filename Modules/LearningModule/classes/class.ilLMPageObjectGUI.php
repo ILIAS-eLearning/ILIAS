@@ -126,7 +126,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setEnabledSelfAssessment(true, false);
 				$page_gui->setEnabledInternalLinks(true);
 				$page_gui->setEnableKeywords(true);
-
+				$page_gui->setEnabledInternalLinks(true);
+				$page_gui->setEnableAnchors(true);
 				if ($lm_set->get("time_scheduled_page_activation"))
 				{
 					$page_gui->setEnabledScheduledActivation(true);
