@@ -905,8 +905,10 @@ class ilSCORM13Player
 
 	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
 	{
-		global $ilDB;
-		
+		global $ilDB, $ilLog;
+
+//$ilLog->write("Remove CMI Data");
+
 		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
 		//error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
 		foreach($delorder as $k) 
@@ -1024,7 +1026,9 @@ class ilSCORM13Player
 	
 		$result = array();
 		$map = array();
-		
+
+//$ilLog->write("Set CMI Data");
+
 		if (!$data) return;
 	
 		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
@@ -1105,14 +1109,27 @@ class ilSCORM13Player
 				{
 					case 'correct_response':
 						$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
-
-						$ilDB->manipulateF('
-							INSERT INTO cmi_correct_response
-							(cmi_correct_resp_id, cmi_interaction_id, pattern)
-							VALUES (%s, %s, %s)',
-							array('integer', 'integer', 'text'),
-							$row
-						);
+						// Alex: 11 Nov 2010: During investigation of bug
+						// 6799 I realised that the $row variable contains
+						// sometimes only one value or up to four values
+						// this makes the manipulateF fail.
+						// I added the following if statement, but
+						// the cause of the problem needs further investigation
+						if (count($row) == 3)
+						{
+							$ilDB->manipulateF('
+								INSERT INTO cmi_correct_response
+								(cmi_correct_resp_id, cmi_interaction_id, pattern)
+								VALUES (%s, %s, %s)',
+								array('integer', 'integer', 'text'),
+								$row
+							);
+						}
+						else
+						{
+							$ilLog->write("ERROR SCORM Player, setCMIData, incorrect number of values for cmi_correct_response.");
+							$ilLog->dump($row);
+						}
 						break;
 						
 					case 'comment':
@@ -1223,7 +1240,9 @@ class ilSCORM13Player
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-		
+
+//$ilLog->write("-synching-");
+
 		// sync access number and time in read event table
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);

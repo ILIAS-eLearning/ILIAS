@@ -276,7 +276,17 @@ class ilLog
 	 		$this->write($e->getTraceAsString());
  		}
 	}
-	
+
+	/**
+	 * Dump a variable to the log
+	 *
+	 * @param
+	 * @return
+	 */
+	function dump($a_var, $a_log_level = NULL)
+	{
+		$this->write(print_r($a_var, true), $a_log_level);
+	}
 	
 	private function open()
 	{

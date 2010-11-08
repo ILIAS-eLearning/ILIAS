@@ -63,8 +63,14 @@ abstract class ilAuthBase
 	protected final function initAuth()
 	{
 		ilSessionControl::initSession();
-		
-		$GLOBALS['ilLog']->write(__METHOD__.': Init callbacks');
+
+		//$this->enableLogging = true;
+		$this->enableLogging = false;
+
+		if ($this->enableLogging)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Init callbacks');
+		}
 		$this->setLoginCallback(array($this,'loginObserver'));
 		$this->setFailedLoginCallback(array($this,'failedLoginObserver'));
 		$this->setCheckAuthCallback(array($this,'checkAuthObserver'));
@@ -72,7 +78,6 @@ abstract class ilAuthBase
 		
 		include_once('Services/Authentication/classes/class.ilAuthLogObserver.php');
 		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_INFO));
-		$this->enableLogging = true;
 		
 	}
 	
