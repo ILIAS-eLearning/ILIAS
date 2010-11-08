@@ -59,10 +59,10 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		$this->setEnabledMaps(false);
 		$this->setPreventHTMLUnmasking(false);
 		// $this->setEnabledInternalLinks(false);
-		if ($this->glo_id > 0)
-		{
+		//if ($this->glo_id > 0)
+		//{
 			$this->setEnabledInternalLinks(true);
-		}
+		//}
 		$this->setEnabledSelfAssessment(true);
 		$this->setEnabledPCTabs(true);
 		
@@ -71,10 +71,14 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 			"GlossaryItem_New",
 			"Media", "Media_FAQ", "Media_Media", "Media_New",
 			"RepositoryItem"));
+		if ($a_glo_id <= 0)
+		{
+			$this->getPageConfig()->addIntLinkFilter(array("GlossaryItem"));
+		}
 		$this->setIntLinkHelpDefault("File", 0);
 		$this->setIntLinkReturn(
-			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree"));
-		
+			$ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showTree",
+			"", false, false));
 		$this->slm_id = $a_slm_id;
 		$this->enableNotes(true, $this->slm_id);
 	}
@@ -201,7 +205,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	 */
 	function initSelfAssessmentRendering()
 	{
-		if ($this->scorm_rendering_mode == "preview")
+		if ($this->scorm_mode == "preview")
 		{
 			parent::initSelfAssessmentRendering();
 		}
@@ -215,7 +219,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	 */
 	function selfAssessmentRendering($a_output)
 	{
-		if ($this->scorm_rendering_mode == "preview")
+		if ($this->scorm_mode == "preview")
 		{
 			$a_output = parent::selfAssessmentRendering($a_output);
 		}
@@ -230,7 +234,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	{
 		global $tpl, $ilCtrl;
 		
-		$this->scorm_rendering_mode = $a_mode;
+		$this->scorm_mode = $a_mode;
 						
 		$this->setTemplateOutput(false);
 		
@@ -252,6 +256,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 
 		$link_info = "<IntLinkInfos>";
 		$targetframe = "None";
+		$ltarget = "";
 		foreach ($int_links as $int_link)
 		{
 			$onclick = "";
@@ -275,9 +280,15 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						break;
 					
 					case "File":
+						$ltarget = "";
 						if ($this->getOutputMode() == "offline")
 						{
-							$href = "./files/file_".$target_id;
+							if (ilObject::_lookupType($target_id) == "file")
+							{
+								include_once("./Modules/File/classes/class.ilObjFile.php");
+								$href = "./files/file_".$target_id."/".ilObjFile::_lookupFileName($target_id);
+								$ltarget = "_blank";
+							}
 						}
 						else
 						{
@@ -287,7 +298,6 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						
 						$anc_par = 'Anchor=""';
 						$targetframe = "None"; //???
-						$ltarget = "";
 						break;
 
 				}
@@ -308,7 +318,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	{
 //var_dump($this->glossary_links);
 		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-		
+
 		if ($this->scorm_mode != "export")
 		{
 			$tpl = new ilTemplate("tpl.glossary_entries.html", true, true, "Modules/Scorm2004");
@@ -348,7 +358,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		{
 			foreach ($this->glossary_links as $k => $e)
 			{
-				
+				// glossary link
 				if ($e["Type"] == "GlossaryItem")
 				{
 					$karr = explode(":", $k);
@@ -359,17 +369,21 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 					$glov_id = "ov".$karr[0]."ov";
 					$term_id_arr = explode("_", $karr[0]);
 					$term_id = $term_id_arr[count($term_id_arr) - 1];
-					
+
+					// get overlay html from glossary term
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 					$id_arr = explode("_", $karr[0]); 
 					$term_gui =& new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
-					$html = $term_gui->getOverlayHTML($cl_id, $glov_id);
+					$html = $term_gui->getOverlayHTML($cl_id, ($this->getGlossaryOverviewId() != "")
+													  ? $glov_id
+													  : "");
 					$tpl->setCurrentBlock("entry");
 					$tpl->setVariable("CONTENT", $html);
 					$tpl->setVariable("OVERLAY_ID", $ov_id);
 	
 					$glossary = true;
-					
+
+					// first time the term is used
 					if (!isset($overlays[$ov_id]))
 					{
 						$overlays[$ov_id] = new ilOverlayGUI($ov_id);

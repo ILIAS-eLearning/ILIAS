@@ -300,6 +300,9 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 				$ilCtrl->setCmd("insert");
 				$paragraph_gui = new ilPCParagraphGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
 				$paragraph_gui->setStyleId($this->getStyleId());
+				$paragraph_gui->setEnableInternalLinks($this->getEnableInternalLinks());
+				$paragraph_gui->setEnableKeywords($this->getEnableKeywords());
+				$paragraph_gui->setEnableAnchors($this->getEnableAnchors());
 				$ret = $ilCtrl->forwardCommand($paragraph_gui);
 				break;
 				

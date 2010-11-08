@@ -123,6 +123,26 @@ class ilPageContentGUI
 	{
 		return $this->enable_keywords;
 	}
+
+	/**
+	 * Set enable anchors
+	 *
+	 * @param	boolean	anchors
+	 */
+	function setEnableAnchors($a_val)
+	{
+		$this->enable_anchors = $a_val;
+	}
+	
+	/**
+	 * Get enable anchors
+	 *
+	 * @return	boolean	anchors
+	 */
+	function getEnableAnchors()
+	{
+		return $this->enable_anchors;
+	}
 	
 	/**
 	* Get style object
@@ -273,6 +293,12 @@ class ilPageContentGUI
 			}
 		}
 		
+		if ($this->getEnableAnchors())
+		{
+			$btpl->touchBlock("bb_anc_button");
+			$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
+		}
+		
 		// footnote
 //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
 		
@@ -282,7 +308,6 @@ class ilPageContentGUI
 //		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
-		$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
 		
 		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
 		

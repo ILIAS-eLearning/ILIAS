@@ -65,6 +65,7 @@ class ilPageObjectGUI
 	var $compare_mode = false;
 	var $page_config = null;
 	var $enable_keywords = false;
+	var $enable_anchors = false;
 	
 	/**
 	* Constructor
@@ -384,6 +385,26 @@ class ilPageObjectGUI
 	function getEnableKeywords()
 	{
 		return $this->enable_keywords;
+	}
+
+	/**
+	 * Set enable anchors
+	 *
+	 * @param	boolean	anchors
+	 */
+	function setEnableAnchors($a_val)
+	{
+		$this->enable_anchors = $a_val;
+	}
+	
+	/**
+	 * Get enable anchors
+	 *
+	 * @return	boolean	anchors
+	 */
+	function getEnableAnchors()
+	{
+		return $this->enable_anchors;
 	}
 
 	function setIntLinkHelpDefault($a_type, $a_id)
@@ -1075,6 +1096,7 @@ class ilPageObjectGUI
 				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setEnableInternalLinks($this->getEnabledInternalLinks());
 				$page_editor->setEnableKeywords($this->getEnableKeywords());
+				$page_editor->setEnableAnchors($this->getEnableAnchors());
 				$page_editor->setIntLinkHelpDefault($this->int_link_def_type,
 					$this->int_link_def_id);
 				$page_editor->setIntLinkReturn($this->int_link_return);
@@ -1739,7 +1761,7 @@ class ilPageObjectGUI
 			} else {
 				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
 			}
-//echo htmlentities($content);
+//echo htmlentities($content); exit;
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";

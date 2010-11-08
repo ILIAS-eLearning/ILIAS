@@ -567,11 +567,82 @@ class ilSCORM13Package
 					$ttnode [OriginId] = "il__mob_" . $media_object->getId ();
 				}
 			}
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			
+			$intlinks = $page_xml->xpath("//IntLink");
+			//die($intlinks);
+			//if($intlinks )
+			{
+				foreach ( $intlinks as $intlink ) 
+				{	
+					if($intlink[Type]!="File") continue;
+					$path = $this->packageFolder."/objects/".str_replace('dfile','file',$intlink[Target]);
+					if(!is_dir($path )) continue;
+					$ffiles = array();
+					ilFileUtils::recursive_dirscan($path,$ffiles);
+					$filename = $ffiles[file][0]; 
+					$fileObj = new ilObjFile();
+					$fileObj->setType("file");
+					$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+					$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+				
+					// better use this, mime_content_type is deprecated
+					$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
+					
+					$fileObj->setFileSize(filesize($path. "/" . $filename));
+					$fileObj->create();
+					$fileObj->createReference();
+					//$fileObj->putInTree($_GET["ref_id"]);
+					//$fileObj->setPermissions($slm->getId ());
+					$fileObj->createDirectory();
+					$fileObj->storeUnzipedFile($path."/" .$filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+					$intlink[Target]="il__dfile_".$fileObj->getId();
+					
+				}
+			}
+			$fileitems = $page_xml->xpath("//FileItem/Identifier");
+			//if($intlinks )
+			{
+				foreach ( $fileitems as $fileitem ) 
+				{	
+					$path = $this->packageFolder."/objects/".$fileitem[Entry];
+					if(!is_dir($path )) continue;
+					$ffiles = array();
+					ilFileUtils::recursive_dirscan($path,$ffiles);
+					$filename = $ffiles[file][0]; 
+					$fileObj = new ilObjFile();
+					$fileObj->setType("file");
+					$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+					$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+				
+					// better use this, mime_content_type is deprecated
+					$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
+					
+					$fileObj->setFileSize(filesize($path. "/" . $filename));
+					$fileObj->create();
+					$fileObj->createReference();
+					//$fileObj->putInTree($_GET["ref_id"]);
+					//$fileObj->setPermissions($slm->getId ());
+					$fileObj->createDirectory();
+					$fileObj->storeUnzipedFile($path."/" .$filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+					$fileitem[Entry]="il__file_".$fileObj->getId();
+					
+				}
+			}
 			$pagex = new ilSCORM2004Page($page->getId());
-			$tnode = $page_xml->xpath('PageContent');
+			
+			$ddoc = new DOMDocument();
+			$ddoc->async = false;
+			$ddoc->preserveWhiteSpace = false;
+			$ddoc->formatOutput = false;
+	  		$ddoc->loadXML($page_xml->asXML());
+	  		$xpath  = new DOMXPath($ddoc);
+			$tnode = $xpath->query('PageContent');
 			$t = "<PageObject>";
 			foreach($tnode as $ttnode)
-				$t .= $ttnode->asXML();
+				$t .= $ddoc->saveXML($ttnode);
 			$t .="</PageObject>";
 			foreach ($qtis as $old=>$q)
 				$t = str_replace($old,'il__qst_'.$q['pool'], $t);

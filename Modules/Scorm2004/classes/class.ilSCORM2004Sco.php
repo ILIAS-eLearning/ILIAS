@@ -248,7 +248,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog,$a_xml_writer);
 		$a_xml_writer->xmlEndTag("ContentObject");
-		//die(htmlentities($a_xml_writer->xmlDumpMem()));
+		copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
 		$xml2FO = new ilXML2FO();
 		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
@@ -256,7 +256,23 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
 		$xml2FO->transform();
 		$fo_string = $xml2FO->getFOString();
-		//die(htmlentities($fo_string));
+		$fo_xml = simplexml_load_string($fo_string);
+        $fo_ext = $fo_xml->xpath("//fo:declarations");
+        $fo_ext = $fo_ext[0];
+        $results = array();
+        include_once "./Services/Utilities/classes/class.ilFileUtils.php";
+        ilFileUtils::recursive_dirscan($a_target_dir."/objects", $results);
+        if (is_array($results["file"]))
+		{
+            foreach ($results["file"] as $key => $value)
+            {
+                $e = $fo_ext->addChild("fox:embedded-file","","http://xml.apache.org/fop/extensions");
+                $e->addAttribute("src",$results[path][$key].$value);
+                $e->addAttribute("name",$value);
+                $e->addAttribute("desc","");
+            }
+        }
+        $fo_string = $fo_xml->asXML(); 
 		$a_xml_writer->_XmlWriter;
 		return $fo_string;
 	}
@@ -414,6 +430,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
 		$terms = $this->getGlossaryTermIds();
+
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
 		{
@@ -441,6 +458,44 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			}
 			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 
+			// collect glossary items
+			$int_links = $page_obj->getPageObject()->getInternalLinks(true);
+			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			if (is_array($int_links))
+			{
+				foreach ($int_links as $k => $e)
+				{
+					// glossary link
+					if ($e["Type"] == "GlossaryItem")
+					{
+						$karr = explode(":", $k);
+						$tid = ilInternalLink::_extractObjIdOfTarget($karr[0]);
+						$dids = ilGlossaryDefinition::getDefinitionList($tid);
+						foreach ($dids as $did)
+						{
+							$def_pg = new ilPageObject("gdf", $did["id"]);
+							$def_pg->buildDom();
+							$mob_ids = $def_pg->collectMediaObjects(false);
+							foreach($mob_ids as $mob_id)
+							{
+								$this->mob_ids[$mob_id] = $mob_id;
+//echo "<br>-$mob_id-";
+								$media_obj = new ilObjMediaObject($mob_id);
+								if($media_obj->hasFullscreenItem())
+									$media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
+							}
+							$file_ids = $def_pg->collectFileItems();
+							foreach($file_ids as $file_id)
+							{
+								$this->file_ids[$file_id] = $file_id;
+							}
+						}
+					}
+				}
+			}
+//exit;
 			// collect all file items
 			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
 			$file_ids = $page_obj->getSCORM2004Page()->collectFileItems();
@@ -496,10 +551,11 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","./players",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","./players",$output);
 		$output = preg_replace("/file=..\/..\/..\/.\//i","file=../",$output);
-
 		if($mode!='pdf')
 		{
 			$output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
+			// this one is for fullscreen in glossary entries
+			$output = preg_replace_callback("/href=\"fullscreen_(\d+)\.html\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
 		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
 		$output = preg_replace("/&#123;/","",$output);
 		$output = preg_replace("/&#125;/","",$output);

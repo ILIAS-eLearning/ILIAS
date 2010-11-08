@@ -40,6 +40,7 @@ class ilPageEditorGUI
 	var $tabs;
 	var $cont_obj;
 	var $enable_keywords;
+	var $enable_anchors;
 
 	/**
 	* Constructor
@@ -158,6 +159,26 @@ class ilPageEditorGUI
 	function getEnableKeywords()
 	{
 		return $this->enable_keywords;
+	}
+
+	/**
+	 * Set enable anchors
+	 *
+	 * @param	boolean	anchors
+	 */
+	function setEnableAnchors($a_val)
+	{
+		$this->enable_anchors = $a_val;
+	}
+	
+	/**
+	 * Get enable anchors
+	 *
+	 * @return	boolean	anchors
+	 */
+	function getEnableAnchors()
+	{
+		return $this->enable_anchors;
 	}
 
 	/**
@@ -429,6 +450,7 @@ class ilPageEditorGUI
 				$par_gui->setStyleId($this->page_gui->getStyleId());
 				$par_gui->setEnableInternalLinks($this->getEnableInternalLinks());
 				$par_gui->setEnableKeywords($this->getEnableKeywords());
+				$par_gui->setEnableAnchors($this->getEnableAnchors());
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 
@@ -553,6 +575,9 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCPlaceHolderGUI.php");	
 				$plch_gui =& new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$plch_gui->setEnableInternalLinks($this->getEnableInternalLinks());
+				$plch_gui->setEnableKeywords($this->getEnableKeywords());
+				$plch_gui->setEnableAnchors($this->getEnableAnchors());
 				// scorm2004-start
 				$plch_gui->setStyleId($this->page_gui->getStyleId());
 				// scorm2004-end

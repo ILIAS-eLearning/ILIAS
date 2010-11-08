@@ -1010,7 +1010,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$tpl->setVariable("TXT_SCO_GLOSSARY", $lng->txt("cont_sco_glossary"));
 		$tpl->setVariable("TXT_CLOSE", $lng->txt("close"));
 
-		return $tpl->get();	
+		if (count($terms) > 1)
+		{
+			return $tpl->get();
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 }
