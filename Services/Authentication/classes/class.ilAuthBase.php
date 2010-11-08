@@ -71,7 +71,7 @@ abstract class ilAuthBase
 		$this->setLogoutCallback(array($this,'logoutObserver'));
 		
 		include_once('Services/Authentication/classes/class.ilAuthLogObserver.php');
-		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_DEBUG));
+		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_INFO));
 		$this->enableLogging = true;
 		
 	}
