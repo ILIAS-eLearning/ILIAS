@@ -359,9 +359,9 @@ class ilDateTime
 				$timezone->switchTZ();
 				$unix = strtotime($a_date);
 				$timezone->restoreTZ();
-				if(!$unix or $unix == false)
+				if($unix === false)
 				{
-					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					$this->log->write(__METHOD__.': Cannot parse date : '.$a_date);
 					$this->unix = 0;
 					return false;					
 				}
