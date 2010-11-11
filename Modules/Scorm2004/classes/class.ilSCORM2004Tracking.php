@@ -318,7 +318,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 				{
 					$failed = true;
 				}
-				if ($rec["completion"] != "completed" && $row["success"] != "passed")
+				if ($rec["completion"] != "completed" && $rec["success"] != "passed")
 				{
 					$completed = false;
 				}
@@ -366,7 +366,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			$cnt = 0;
 			while ($rec = $ilDB->fetchAssoc($res))
 			{
-				if ($rec["completion"] == "completed" || $row["success"] == "passed")
+				if ($rec["completion"] == "completed" || $rec["success"] == "passed")
 				{
 					$cnt++;
 				}
