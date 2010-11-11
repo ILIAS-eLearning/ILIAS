@@ -151,6 +151,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	function getRawContent()
 	{
 		$this->setRawPageContent(true);
+		$this->setLinkXML("");
 		return $this->showPage(true);	
 	}
 
