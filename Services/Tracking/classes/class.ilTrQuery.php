@@ -702,7 +702,21 @@ class ilTrQuery
 				{
 					case 'scorm2004':
 						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-						$a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+
+						// based on cmi_gobjective, data is not mandatory?
+						// $a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+						
+						// based on cmi_node/cp_node, used for scorm tracking data views
+						$mod = new ilObjSCORM2004LearningModule($a_obj_id, false);
+						$all = $mod->getTrackedUsers("");
+						$a_users = array();
+						if($all)
+						{
+							foreach($all as $item)
+							{
+								$a_users[] = $item["user_id"];
+							}
+						}
 						break;
 
 					default:
