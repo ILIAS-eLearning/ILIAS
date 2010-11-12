@@ -701,12 +701,13 @@ class ilTrQuery
 				switch ($subtype)
 				{
 					case 'scorm2004':
+						/* based on cmi_gobjective, data is not mandatory?
 						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-
-						// based on cmi_gobjective, data is not mandatory?
-						// $a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+						$a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+						*/
 						
 						// based on cmi_node/cp_node, used for scorm tracking data views
+						include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 						$mod = new ilObjSCORM2004LearningModule($a_obj_id, false);
 						$all = $mod->getTrackedUsers("");
 						$a_users = array();
