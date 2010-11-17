@@ -276,18 +276,22 @@ class ilAccountRegistrationGUI
 		$up->skipField("upload");
 		foreach ($up->getStandardFields() as $k => $v)
 		{
-			if ($k != "username")
+			if($v["method"])
 			{
-				$k = "usr_".$k;
+				$method = "set".substr($v["method"], 3);
+				if(method_exists($this->userObj, $method))
+				{
+					if ($k != "username")
+					{
+						$k = "usr_".$k;
+					}
+					$field_obj = $this->form->getItemByPostVar($k);
+					if($field_obj)
+					{
+						$this->userObj->$method($this->form->getInput($k));
+					}
+				}
 			}
-			$method = "set".substr($v["method"], 3);
-
-			$field_obj = $this->form->getItemByPostVar($k);
-			if($field_obj)
-			{
-				$this->userObj->$method($this->form->getInput($k));
-			}
-
 		}
 
 		$this->userObj->setFullName();
