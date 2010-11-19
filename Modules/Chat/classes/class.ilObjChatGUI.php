@@ -1221,7 +1221,12 @@ class ilObjChatGUI extends ilObjectGUI
 			'chatviewer_last_selected_room',
 			$this->object->chat_room->getObjId(). ',' . $this->object->chat_room->getRoomId()
 		);
-		$ilUser->writePrefs();
+		ilObjUser::_writePref
+		(
+			$ilUser->getId(), 'chatviewer_last_selected_room',
+			$this->object->chat_room->getObjId(). ',' . $this->object->chat_room->getRoomId()
+		);
+		
 		$result->messages = $msg;
 		$result->ok = true;
 		
