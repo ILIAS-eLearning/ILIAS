@@ -963,7 +963,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("definition_text");
-				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
 				$template->parseCurrentBlock();
 			}
 
@@ -1006,7 +1006,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("term_text");
-				$template->setVariable("TERM_TEXT", ilUtil::prepareFormOutput($term->text));
+				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("draggable");
@@ -1118,7 +1118,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
 					$template->parseCurrentBlock();
 				}
 			}
@@ -1172,7 +1172,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock('term_text');
-				$template->setVariable("TERM", ilUtil::prepareFormOutput($term->text));
+				$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, true));
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
