@@ -826,15 +826,18 @@ class assMultipleChoice extends assQuestion
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
 				{
-					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
 				}
 			}
 		}
@@ -855,15 +858,18 @@ class assMultipleChoice extends assQuestion
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
 				{
-					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
+					{
+						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
 				}
 			}
 		}
