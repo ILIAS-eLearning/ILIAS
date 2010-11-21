@@ -330,11 +330,16 @@ class assOrderingQuestion extends assQuestion
 			foreach ($this->answers as $answer)
 			{
 				$filename = $answer->getAnswertext();
-				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
+				{
 					$ilLog->write("image could not be duplicated!!!!");
 				}
-				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-					$ilLog->write("image thumbnail could not be duplicated!!!!");
+				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
+				{
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+					{
+						$ilLog->write("image thumbnail could not be duplicated!!!!");
+					}
 				}
 			}
 		}
@@ -354,11 +359,16 @@ class assOrderingQuestion extends assQuestion
 			foreach ($this->answers as $answer)
 			{
 				$filename = $answer->getAnswertext();
-				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) 
+				{
 					$ilLog->write("Ordering Question image could not be copied: $imagepath_original$filename");
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-					$ilLog->write("Ordering Question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
+				if (@file_exists($imagepath_original. $this->getThumbPrefix(). $filename))
+				{
+					if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+					{
+						$ilLog->write("Ordering Question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
+					}
 				}
 			}
 		}
