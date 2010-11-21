@@ -4515,7 +4515,7 @@ class ilObjSurvey extends ilObject
 			array($this->getSurveyId())
 		);
 		$export = "";
-		$lang = ($_POST["lang"] != 1) ? "&amp;lang=" . $_POST["lang"] : "";
+		$lang = ($_POST["lang"] != 1) ? "&lang=" . $_POST["lang"] : "";
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
@@ -4534,7 +4534,7 @@ class ilObjSurvey extends ilObject
 				{
 					$export .= "0,";
 				}
-				$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$lang;
+				$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$row["survey_key"].$lang;
 				$export .= $url . "\n";
 			}
 		}
