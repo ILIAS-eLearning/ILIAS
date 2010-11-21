@@ -3070,7 +3070,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			foreach ($_POST["chbUser"] as $user_id)
 			{
-				$this->object->disinviteUser($user_id);				
+				$this->object->disinviteUser($user_id);
 			}
 		}
 		else
