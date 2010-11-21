@@ -437,7 +437,7 @@ class assMatchingQuestion extends assQuestion
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-		foreach ($this->term as $term)
+		foreach ($this->terms as $term)
 		{
 			if (strlen($term->picture))
 			{
