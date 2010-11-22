@@ -375,7 +375,7 @@ class ilNewsItemGUI
 			$news_set = new ilSetting("news");
 			if (!$news_set->get("enable_rss_for_internal"))
 			{
-				$a_news_item->setVisibility("users");
+				$this->news_item->setVisibility("users");
 			}
 
 			$this->news_item->create();
