@@ -94,7 +94,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser =& new ilQueryParser($filter["title"]);
+		$query_parser =& new ilQueryParser($filter["query"]);
 		$query_parser->setMinWordLength(0);
 		$query_parser->setCombination(QP_COMBINATION_OR);
 		$query_parser->parse();
@@ -109,7 +109,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$object_search->setFilter($filter["type"]);
 		$res =& $object_search->performSearch();
 		$res->setRequiredPermission($permission);
-		
+		$res->setMaxHits(1000);
 		$res->addObserver($this, "searchFilterListener");
 
 		if(!$this->filter["area"])
@@ -408,6 +408,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "email":
 				case "matriculation":
 				case "sel_country":
+				case "query":
 					if($value)
 					{
 						$result[$id] = $value;
