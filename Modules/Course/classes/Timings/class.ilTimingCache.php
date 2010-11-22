@@ -52,7 +52,6 @@ class ilTimingCache
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-
 		global $ilObjDataCache;
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 
