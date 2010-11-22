@@ -209,6 +209,7 @@ class assOrderingQuestionImport extends assQuestionImport
 			$type = 0; // pictures
 		}
 		$this->object->setTitle($item->getTitle());
+		$this->object->setNrOfTries($item->getMaxattempts());
 		$this->object->setComment($item->getComment());
 		$this->object->setAuthor($item->getAuthor());
 		$this->object->setOwner($ilUser->getId());
