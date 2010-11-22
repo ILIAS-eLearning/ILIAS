@@ -2571,21 +2571,51 @@ class ilPersonalProfileGUI
 	{
 		global $ilDB, $ilUser, $lng, $ilCtrl;
 
+		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
 		if (is_array($_POST["user_page"]))
 		{
 			foreach ($_POST["user_page"] as $i => $v)
 			{
-				include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
 				$page = new ilExtPublicProfilePage(ilUtil::stripSlashes($v));
 				if ($page->getUserId() == $ilUser->getId())
 				{
 					$page->delete();
 				}
 			}
+			ilExtPublicProfilePage::fixOrdering($ilUser->getId());
 		}
 		ilUtil::sendSuccess($lng->txt("user_selected_pages_deleted"), true);
 		$ilCtrl->redirect($this, "showExtendedProfile");
 	}
 
+	/**
+	 * Save ordering of external profile pages
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveExtProfilePagesOrdering()
+	{
+		global $ilCtrl, $ilUser, $lng;
+
+		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
+
+		if (is_array($_POST["title"]))
+		{
+			foreach ($_POST["title"] as $k => $v)
+			{
+				$page = new ilExtPublicProfilePage(ilUtil::stripSlashes($k));
+				if ($page->getUserId() == $ilUser->getId())
+				{
+					$page->setTitle(ilUtil::stripSlashes($v));
+					$page->setOrderNr(ilUtil::stripSlashes($_POST["order"][$k]));
+					$page->update();
+				}
+			}
+			ilExtPublicProfilePage::fixOrdering($ilUser->getId());
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showExtendedProfile");
+	}
 }
 ?>

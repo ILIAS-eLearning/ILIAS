@@ -254,6 +254,26 @@ class ilExtPublicProfilePage extends ilPageObject
 		return $tabs;
 	}
 
+	/**
+	 * Fix ordering
+	 *
+	 * @param int $a_user_id
+	 * @return
+	 */
+	public static function fixOrdering($a_user_id)
+	{
+		global $ilDB;
 
+		$pages = self::getPagesOfUser($a_user_id);
+		$cnt = 10;
+		foreach ($pages as $p)
+		{
+			$ilDB->manipulate("UPDATE usr_ext_profile_page SET ".
+				" order_nr = ".$ilDB->quote($cnt, "integer").
+				" WHERE id = ".$ilDB->quote($p["id"], "integer")
+			);
+			$cnt+= 10;
+		}
+	}
 }
 ?>
