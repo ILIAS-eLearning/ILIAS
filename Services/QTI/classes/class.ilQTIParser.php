@@ -959,6 +959,9 @@ class ilQTIParser extends ilSaxParser
 							case "title":
 								$this->item->setTitle($value);
 								break;
+							case "maxattempts":
+								$this->item->setMaxattempts($value);
+								break;
 						}
 					}
 				}

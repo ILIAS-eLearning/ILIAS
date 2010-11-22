@@ -316,12 +316,12 @@ class ilObjExercise extends ilObject
 
 		//$this->ilias->db->query($query);
 
-		$this->file_obj->delete();
-		$this->members_obj->delete();
+		//$this->file_obj->delete();
+		//$this->members_obj->delete();
 
 		// remove all notifications
 		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE, $this->getId());
+		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
 
 		return true;
 	}

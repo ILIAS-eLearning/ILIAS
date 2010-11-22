@@ -61,6 +61,7 @@ class assOrderingHorizontalImport extends assQuestionImport
 		$feedbacksgeneric = array();
 
 		$this->object->setTitle($item->getTitle());
+		$this->object->setNrOfTries($item->getMaxattempts());
 		$this->object->setComment($item->getComment());
 		$this->object->setAuthor($item->getAuthor());
 		$this->object->setOwner($ilUser->getId());

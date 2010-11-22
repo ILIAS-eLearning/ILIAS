@@ -54,7 +54,8 @@ class assTextSubsetExport extends assQuestionExport
 		$a_xml_writer->xmlStartTag("questestinterop");
 		$attrs = array(
 			"ident" => "il_".IL_INST_ID."_qst_".$this->object->getId(),
-			"title" => $this->object->getTitle()
+			"title" => $this->object->getTitle(),
+			"maxattempts" => $this->object->getNrOfTries()
 		);
 		$a_xml_writer->xmlStartTag("item", $attrs);
 		// add question description

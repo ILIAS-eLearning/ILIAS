@@ -237,6 +237,7 @@ class assMatchingQuestionImport extends assQuestionImport
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
 		$this->object->createNewQuestion();
 		$this->object->setTitle($item->getTitle());
+		$this->object->setNrOfTries($item->getMaxattempts());
 		$this->object->setComment($item->getComment());
 		$this->object->setAuthor($item->getAuthor());
 		$this->object->setOwner($ilUser->getId());
