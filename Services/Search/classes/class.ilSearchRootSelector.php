@@ -177,8 +177,9 @@ class ilSearchRootSelector extends ilExplorer
 			
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
+		// not existent
+		// $tpl->setCurrentBlock("row");
+		// $tpl->parseCurrentBlock();
 
 		#$this->output[] = $tpl->get();
 
