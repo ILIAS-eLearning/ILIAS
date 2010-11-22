@@ -234,7 +234,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						}
 					}
 
-					$evaluationrow['reached'] = $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints();
+					$evaluationrow['reached'] = $userdata->getReached();
+					$evaluationrow['max'] = $userdata->getMaxpoints();
 					$percentage = $userdata->getReachedPointsInPercent();
 					$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
 					if (is_object($mark))

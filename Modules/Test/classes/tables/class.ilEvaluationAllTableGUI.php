@@ -110,6 +110,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 					return false;
 				}
 				break;
+			case 'reached':
+				return true;
+				break;
 			default:
 				return false;
 				break;
@@ -289,7 +292,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				}
 			}
 		}
-		$this->tpl->setVariable("REACHED", $data['reached']);
+		$this->tpl->setVariable("REACHED", $data['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $data['max']);
 		$this->tpl->setVariable("MARK", $data['mark']);
 		$this->tpl->setVariable("ANSWERED", $data['answered']);
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
