@@ -37,7 +37,8 @@ class ilExtendedProfileTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.ext_user_profile_row.html", "Services/User");
 
 		$this->addMultiCommand("confirmProfilePageDeletion", $lng->txt("delete"));
-		//$this->addCommandButton("", $lng->txt(""));
+		$this->addCommandButton("saveExtProfilePagesOrdering",
+			$lng->txt("user_save_ordering_and_titles"));
 	}
 
 	/**
