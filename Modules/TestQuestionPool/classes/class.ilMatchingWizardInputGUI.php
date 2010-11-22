@@ -187,8 +187,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	function checkInput()
 	{
 		global $lng;
-		
-		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{

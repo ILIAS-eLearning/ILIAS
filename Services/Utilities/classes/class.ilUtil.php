@@ -2105,6 +2105,29 @@ class ilUtil
 		return $ascii_filename;
 	}
 
+	/*
+	* Encodes HTML entities outside of HTML tags
+	*/
+	function htmlentitiesOutsideHTMLTags($htmlText)
+	{
+		$matches = Array();
+		$sep = '###HTMLTAG###';
+
+		preg_match_all("@<[^>]*>@", $htmlText, $matches);   
+		$tmp = preg_replace("@(<[^>]*>)@", $sep, $htmlText);
+		$tmp = explode($sep, $tmp);
+
+		for ($i=0; $i<count($tmp); $i++)
+			$tmp[$i] = htmlentities($tmp[$i], ENT_COMPAT, "UTF-8");
+
+		$tmp = join($sep, $tmp);
+
+		for ($i=0; $i<count($matches[0]); $i++)
+			$tmp = preg_replace("@$sep@", $matches[0][$i], $tmp, 1);
+
+		return $tmp;
+	}
+
 	/**
 	* get full java path (dir + java command)
 	*/
