@@ -177,6 +177,7 @@ class ilWebAccessChecker
 		// check for type by subdirectory
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
+		$pos3 = strpos($this->subpath, "usr_images/") + 11;
 		
 		$obj_id = 0;
 		$type = 'none';
@@ -193,6 +194,16 @@ class ilWebAccessChecker
 			$type = 'mob';
 			$seperator = strpos($this->subpath, '/', $pos2);
 			$obj_id = substr($this->subpath, $pos2, ($seperator > 0 ? $seperator : strlen($this->subpath))-$pos2);
+		}
+		// trying to access a user image
+		elseif ($pos3 > 11)
+		{
+			$type = 'user_image';
+			// user images may be: 
+			// upload_123pic, upload_123
+			// usr_123.jpg, usr_123_small.jpg, usr_123_xsmall.jpg, usr_123_xxsmall.jpg
+			$seperator = strpos($this->subpath, '_', $pos3);
+			$obj_id = (int) substr($this->subpath, $seperator + 1);
 		}
 		
 		if (!$obj_id || $type == 'none')
@@ -273,6 +284,13 @@ class ilWebAccessChecker
 							}
 							break;
 					}
+				}
+				break;
+				
+			case 'user_image':
+				if ($this->checkAccessUserImage($obj_id))
+				{
+					return true;
 				}
 				break;
 		}
@@ -435,6 +453,53 @@ class ilWebAccessChecker
 			}
 		}
 	}
+	
+
+	/**
+	* Check access rights for user images
+	*
+	* @param    int     	usr_id
+	* @return   boolean     access given (true/false)
+	*/
+	public function checkAccessUserImage($usr_id)
+	{
+		global $ilUser, $ilSetting;
+		
+		// check if own image is viewed
+		if ($usr_id == $ilUser->getId())
+		{
+			return true;			
+		}
+
+		// check if image is in the public profile
+		$public_upload = ilObjUser::_lookupPref($usr_id, 'public_upload');
+		if ($public_upload != 'y')
+		{
+			return false;
+		}
+		
+		// check the publication status of the profile
+		$public_profile = ilObjUser::_lookupPref($usr_id, 'public_profile');
+
+		if ($public_profile == 'g' 
+			and $ilSetting->get('enable_global_profiles')
+			and $ilSetting->get('pub_section'))
+		{
+			// globally public
+			return true;
+		}
+		elseif (($public_profile == 'y' or $public_profile == 'g')
+			and $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			// public for logged in users
+			return true;
+		}
+		else
+		{
+			// not public
+			return false;
+		}
+	}
 
 
 	/**
@@ -576,7 +641,7 @@ class ilWebAccessChecker
 			// Provide a link to the login screen for anonymous users
 
 			$tpl->SetCurrentBlock("ErrorLink");
-			$tpl->SetVariable("TXT_LINK", $lng->txt('login'));
+			$tpl->SetVariable("TXT_LINK", $lng->txt('login_to_ilias'));
 			$tpl->SetVariable("LINK", ILIAS_HTTP_PATH. '/login.php?cmd=force_login&client_id='.CLIENT_ID);
 			$tpl->ParseCurrentBlock();
 		}
