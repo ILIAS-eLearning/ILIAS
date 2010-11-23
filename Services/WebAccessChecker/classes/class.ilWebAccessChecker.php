@@ -226,9 +226,8 @@ class ilWebAccessChecker
 				$usages = ilObjMediaObject::lookupUsages($obj_id);
 				foreach($usages as $usage)
 				{
-	                //echo $usage;
-
 					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
+					
 					switch($usage['type'])
 					{
 						case 'lm:pg':
@@ -275,7 +274,15 @@ class ilWebAccessChecker
 	                            return true;
 							}
 							break;
-
+							
+						case 'sahs:pg':
+							// check for scorm pages
+							if ($this->checkAccessObject($oid, 'sahs'))
+							{
+								return true;
+							}
+							break;
+						
 						default:
 							// standard object check
 							if ($this->checkAccessObject($oid))
@@ -461,7 +468,7 @@ class ilWebAccessChecker
 	* @param    int     	usr_id
 	* @return   boolean     access given (true/false)
 	*/
-	public function checkAccessUserImage($usr_id)
+	private function checkAccessUserImage($usr_id)
 	{
 		global $ilUser, $ilSetting;
 		

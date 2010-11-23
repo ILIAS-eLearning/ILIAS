@@ -1117,7 +1117,7 @@ class ilObjMediaObject extends ilObject
 				break;
 				
 			case "pg":
-			
+
 				// Question Pool Question Pages
 				if ($cont_type == "qpl")
 				{
@@ -1155,6 +1155,14 @@ class ilObjMediaObject extends ilObject
 				{
 					include_once 'Modules/Wiki/classes/class.ilWikiPage.php';
 					$obj_id = ilWikiPage::lookupObjIdByPage($id);
+				}
+				
+				// sahs page
+				if ($cont_type == 'sahs')
+				{
+					// can this implementation be used for other content types, too?
+					include_once('./Services/COPage/classes/class.ilPageObject.php');
+					$obj_id = ilPageObject::lookupParentId($id, 'sahs');
 				}
 				
 				break;
