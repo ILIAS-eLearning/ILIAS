@@ -3606,3 +3606,15 @@ if ($ilDB->tableColumnExists('tst_test_random', 'sequence'))
 {
 	$ilDB->manipulate("UPDATE tst_test_random SET sequence = test_random_id");
 }
+?>
+<#3203>
+<?php
+if (!$ilDB->tableColumnExists('usr_session', 'remote_addr'))
+{
+	$ilDB->addTableColumn("usr_session", "remote_addr", array(
+	"type" => "text",
+	"length" => 50,
+	"notnull" => false,
+	"default" => null));
+}
+?>
