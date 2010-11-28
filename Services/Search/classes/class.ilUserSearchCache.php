@@ -41,6 +41,8 @@ class ilUserSearchCache
 	const ADVANCED_MD_SEARCH = 4;
 	const LUCENE_DEFAULT = 5;
 	const LUCENE_ADVANCED = 6;
+	
+	const LAST_QUERY = 7;
 
 	private static $instance = null;
 	private $db;
@@ -382,7 +384,8 @@ class ilUserSearchCache
 		
 		$query = "DELETE FROM usr_search ".
 			"WHERE usr_id = ".$ilDB->quote($this->usr_id ,'integer')." ".
-			"AND search_type = ".$ilDB->quote($this->search_type ,'integer');
+			"AND ( search_type = ".$ilDB->quote($this->search_type ,'integer').' '.
+			"OR search_type = ".$ilDB->quote(self::LAST_QUERY,'integer'). ')';
 		$res = $ilDB->manipulate($query);
 		
 		$ilDB->insert('usr_search',array(
@@ -395,6 +398,16 @@ class ilUserSearchCache
 			'query'			=> array('clob',serialize($this->getQuery())),
 			'root'			=> array('integer',$this->getRoot()),
 			'item_filter'	=> array('text',serialize($this->getItemFilter()))));
+			
+			
+		// Write last query information
+		$ilDB->insert('usr_search',
+			array(
+				'usr_id'		=> array('integer',$this->usr_id),
+				'search_type'	=> array('integer',self::LAST_QUERY),
+				'query'			=> array('text',serialize($this->getQuery()))
+			)
+		);
 		
 	}
 	

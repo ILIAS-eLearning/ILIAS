@@ -1557,12 +1557,19 @@ class ilLMPresentationGUI
 			$page_id = $this->getCurrentPageId();
 			
 			// highlighting?
+			
 			if ($_GET["srcstring"] != "" && !$this->offlineMode())
 			{
+				include_once './Services/Search/classes/class.ilUserSearchCache.php';
+				$cache =  ilUserSearchCache::_getInstance($ilUser->getId());
+				$cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
+				$search_string = $cache->getQuery();
+	
 				include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
 				include_once("./Services/Search/classes/class.ilQueryParser.php");
-				$p = new ilQueryParser(str_replace(".", '"', $_GET["srcstring"]));
+				$p = new ilQueryParser($search_string);
 				$p->parse();
+				
 				$words = $p->getQuotedWords();
 				if (is_array($words))
 				{
@@ -1571,6 +1578,7 @@ class ilLMPresentationGUI
 						ilTextHighlighterGUI::highlight("ilLMPageContent", $w, $this->tpl);
 					}
 				}
+
 				$this->fill_on_load_code = true;
 			}
 		}
@@ -3951,7 +3959,7 @@ class ilLMPresentationGUI
 			}
 			if ($a_srcstring != "")
 			{
-				$this->ctrl->setParameter($this, "srcstring", rawurlencode($a_srcstring));
+				$this->ctrl->setParameter($this, "srcstring", $a_srcstring);
 			}
 			switch ($a_cmd)
 			{
