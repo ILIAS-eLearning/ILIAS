@@ -85,6 +85,7 @@ class ilObjFolderAccess extends ilObjectAccess
 				$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
 			}
 		}
+		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
 		
 		return $commands;
 	}
