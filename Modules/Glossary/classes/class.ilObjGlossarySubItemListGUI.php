@@ -67,7 +67,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 				'git',
 				array(
 					'target' 	=> 'git_'.$sub_item.'_'.$this->getRefId(),
-					'srcstring' => $src_string
+					'srcstring' => 1
 				)
 			));
 			

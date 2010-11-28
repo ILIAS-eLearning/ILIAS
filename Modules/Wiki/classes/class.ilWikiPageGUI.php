@@ -301,10 +301,16 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		//highlighting
 		if ($_GET["srcstring"] != "")
 		{
+			include_once './Services/Search/classes/class.ilUserSearchCache.php';
+			$cache =  ilUserSearchCache::_getInstance($ilUser->getId());
+			$cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
+			$search_string = $cache->getQuery();
+
 			include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
 			include_once("./Services/Search/classes/class.ilQueryParser.php");
-			$p = new ilQueryParser(str_replace(".", '"', $_GET["srcstring"]));
+			$p = new ilQueryParser($search_string);
 			$p->parse();
+
 			$words = $p->getQuotedWords();
 			if (is_array($words))
 			{
