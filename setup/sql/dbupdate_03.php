@@ -2178,34 +2178,41 @@ if(!$ilDB->tableExists('booking_user'))
 ?>
 <#3096>
 <?php
-	$ilDB->addTableColumn('crs_settings','reg_ac_enabled',array(
-		'type'		=> 'integer',
-		'notnull'	=> true,
-		'length'	=> 1,
-		'default'	=> 0
-	));
-
-	$ilDB->addTableColumn('crs_settings','reg_ac',array(
-		'type'		=> 'text',
-		'notnull'	=> false,
-		'length'	=> 32
-	));
+	if(!$ilDB->tableColumnExists('crs_settings','reg_ac_enabled'))
+	{
+		
+		$ilDB->addTableColumn('crs_settings','reg_ac_enabled',array(
+			'type'		=> 'integer',
+			'notnull'	=> true,
+			'length'	=> 1,
+			'default'	=> 0
+		));
+	
+		$ilDB->addTableColumn('crs_settings','reg_ac',array(
+			'type'		=> 'text',
+			'notnull'	=> false,
+			'length'	=> 32
+		));
+	}
 ?>
 
 <#3097>
 <?php
-	$ilDB->addTableColumn('grp_settings','reg_ac_enabled',array(
-		'type'		=> 'integer',
-		'notnull'	=> true,
-		'length'	=> 1,
-		'default'	=> 0
-	));
-
-	$ilDB->addTableColumn('grp_settings','reg_ac',array(
-		'type'		=> 'text',
-		'notnull'	=> false,
-		'length'	=> 32
-	));
+	if(!$ilDB->tableColumnExists('grp_settings','reg_ac_enabled'))
+	{
+		$ilDB->addTableColumn('grp_settings','reg_ac_enabled',array(
+			'type'		=> 'integer',
+			'notnull'	=> true,
+			'length'	=> 1,
+			'default'	=> 0
+		));
+	
+		$ilDB->addTableColumn('grp_settings','reg_ac',array(
+			'type'		=> 'text',
+			'notnull'	=> false,
+			'length'	=> 32
+		));
+	}
 ?>
 <#3098>
 <?php
