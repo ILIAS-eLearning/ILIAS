@@ -337,7 +337,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initFormSearch()
 	{
-		global $tree, $ilCtrl;
+		global $tree, $ilCtrl,$lng;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -357,6 +357,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$term->setSize(40);
 		$term->setMaxLength(255);
 		$term->setRequired(true);
+		if($lng->exists('search_form_hint'))
+		{
+			$term->setInfo($lng->txt('search_form_hint'));
+		}
+
 		$dsSchema = array("resultsList" => 'response.results',
 			"fields" => array('term'));
 		$term->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete"));
