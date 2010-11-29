@@ -3625,3 +3625,38 @@ if (!$ilDB->tableColumnExists('usr_session', 'remote_addr'))
 	"default" => null));
 }
 ?>
+<#3204>
+<?php
+
+include_once "Services/Tracking/classes/class.ilLPMarks.php";
+
+$set = $ilDB->query("SELECT event_id,usr_id,mark,e_comment".
+	" FROM event_participants".
+	" WHERE mark IS NOT NULL OR e_comment IS NOT NULL");
+while($row = $ilDB->fetchAssoc($set))
+{
+	$fields = array();
+	$fields["mark"] = array("text", $row["mark"]);
+	$fields["u_comment"] = array("text", $row["e_comment"]);
+	// $fields["status_changed"] = array("timestamp", date("Y-m-d H:i:s"));
+	
+	$where = array();
+	$where["obj_id"] = array("integer", $row["event_id"]);
+	$where["usr_id"] = array("integer", $row["usr_id"]);
+
+	$old = $ilDB->query("SELECT obj_id,usr_id".
+		" FROM ut_lp_marks".
+		" WHERE obj_id = ".$ilDB->quote($row["event_id"]).
+		" AND usr_id = ".$ilDB->quote($row["usr_id"]));
+	if($ilDB->numRows($old))
+	{
+		$ilDB->update("ut_lp_marks", $fields, $where);
+	}
+	else
+	{
+		$fields = array_merge($fields, $where);
+		$ilDB->insert("ut_lp_marks", $fields);
+	}
+}
+
+?>
