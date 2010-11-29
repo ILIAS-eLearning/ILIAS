@@ -80,16 +80,22 @@ class ilEventParticipants
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,mark,e_comment) ".
-			"VALUES( ".
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated". // ,mark,e_comment
+			") VALUES( ".
 			$ilDB->quote($this->getEventId() ,'integer').", ".
 			$ilDB->quote($this->getUserId() ,'integer').", ".
 			$ilDB->quote($this->getRegistered() ,'integer').", ".
-			$ilDB->quote($this->getParticipated() ,'integer').", ".
+			$ilDB->quote($this->getParticipated() ,'integer'). /* .", ".
 			$ilDB->quote($this->getMark() ,'text').", ".
-			$ilDB->quote($this->getComment() ,'text')." ".
+			$ilDB->quote($this->getComment() ,'text')." ". */
 			")";
 		$res = $ilDB->manipulate($query);
+
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		$lp_mark = new ilLPMarks($this->getEventId(), $this->getUserId());
+		$lp_mark->setComment($this->getComment());
+		$lp_mark->setMark($this->getMark());
+		$lp_mark->update();
 		
 		// refresh learning progress status after updating participant
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -298,6 +304,11 @@ class ilEventParticipants
 
 	function _lookupMark($a_event_id,$a_usr_id)
 	{
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		$lp_mark = new ilLPMarks($a_event_id, $a_usr_id);
+		return $lp_mark->getMark();
+
+		/*
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
@@ -309,10 +320,16 @@ class ilEventParticipants
 			return $row->mark;
 		}
 		return '';
+	    */
 	}
 	
 	function _lookupComment($a_event_id,$a_usr_id)
 	{
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		$lp_mark = new ilLPMarks($a_event_id, $a_usr_id);
+		return $lp_mark->getComment();
+
+		/*
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
@@ -324,6 +341,7 @@ class ilEventParticipants
 			return $row->e_comment;
 		}
 		return '';
+		*/
 	}
 
 
@@ -343,6 +361,10 @@ class ilEventParticipants
 		$query = "DELETE FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
+		ilLPMarks::deleteObject($a_event_id);
+
 		return true;
 	}
 	function _deleteByUser($a_usr_id)
@@ -360,6 +382,8 @@ class ilEventParticipants
 	function __read()
 	{
 		global $ilDB;
+
+		include_once "Services/Tracking/classes/class.ilLPMarks.php";
 		
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
@@ -369,8 +393,14 @@ class ilEventParticipants
 			$this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
 			$this->participants[$row->usr_id]['registered'] = $row->registered;
 			$this->participants[$row->usr_id]['participated'] = $row->participated;
+			/*
 			$this->participants[$row->usr_id]['mark'] = $row->mark;
 			$this->participants[$row->usr_id]['comment'] = $row->e_comment;
+			*/
+
+			$lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
+			$this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
+			$this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
 		}
 	}
 }
