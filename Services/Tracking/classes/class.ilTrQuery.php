@@ -741,6 +741,10 @@ class ilTrQuery
 				break;
 
 			case "fold":
+			case "lm":
+			case "htlm":
+			case "dbk":
+			case "sess":
 				// walk path to find course or group object and use members of that object
 				$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
 				$path = $tree->getPathId($ref_id);
