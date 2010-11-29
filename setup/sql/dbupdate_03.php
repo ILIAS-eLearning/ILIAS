@@ -3635,11 +3635,13 @@ $set = $ilDB->query("SELECT event_id,usr_id,mark,e_comment".
 	" WHERE mark IS NOT NULL OR e_comment IS NOT NULL");
 while($row = $ilDB->fetchAssoc($set))
 {
+	// move to ut_lp_marks
+
 	$fields = array();
 	$fields["mark"] = array("text", $row["mark"]);
 	$fields["u_comment"] = array("text", $row["e_comment"]);
 	// $fields["status_changed"] = array("timestamp", date("Y-m-d H:i:s"));
-	
+
 	$where = array();
 	$where["obj_id"] = array("integer", $row["event_id"]);
 	$where["usr_id"] = array("integer", $row["usr_id"]);
@@ -3657,6 +3659,19 @@ while($row = $ilDB->fetchAssoc($set))
 		$fields = array_merge($fields, $where);
 		$ilDB->insert("ut_lp_marks", $fields);
 	}
+
+	
+	// delete old values
+	
+	$fields = array();
+	$fields["mark"] = array("text", null);
+	$fields["e_comment"] = array("text", null);
+	
+	$where = array();
+	$where["event_id"] = array("integer", $row["event_id"]);
+	$where["usr_id"] = array("integer", $row["usr_id"]);
+
+	$ilDB->update("event_participants", $fields, $where);
 }
 
 ?>
