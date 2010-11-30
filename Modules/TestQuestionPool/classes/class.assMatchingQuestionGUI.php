@@ -455,7 +455,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, TRUE)));
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE));
 					$template->parseCurrentBlock();
 				}
 			}
@@ -476,7 +476,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock('term_text');
-					$template->setVariable("TERM", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, TRUE)));
+					$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, TRUE));
 					$template->parseCurrentBlock();
 				}
 				$i++;
@@ -623,7 +623,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, TRUE)) : '');
+				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, TRUE) : '');
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 				$template->parseCurrentBlock();
@@ -631,7 +631,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("definition_text");
-				$template->setVariable("DEFINITION", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, TRUE)));
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE));
 				$template->parseCurrentBlock();
 			}
 
@@ -667,14 +667,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, TRUE)) : '');
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, TRUE) : '');
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 				$template->parseCurrentBlock();
 			}
 			else
 			{
 				$template->setCurrentBlock("term_text");
-				$template->setVariable("TERM_TEXT", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, TRUE)));
+				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, TRUE));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("draggable");
@@ -778,13 +778,13 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, TRUE)) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . $this->object->prepareTextareaOutput($definition->text, TRUE) : $this->lng->txt('definition') . ' ' . ($i+1));
 					$template->parseCurrentBlock();
 				}
 				else
 				{
 					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, TRUE)));
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE));
 					$template->parseCurrentBlock();
 				}
 			}
@@ -825,14 +825,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, TRUE)) : $this->lng->txt('term') . ' ' . ($i+1));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . $this->object->prepareTextareaOutput($term->text, TRUE) : $this->lng->txt('term') . ' ' . ($i+1));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 				$template->parseCurrentBlock();
 			}
 			else
 			{
 				$template->setCurrentBlock('term_text');
-				$template->setVariable("TERM", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, TRUE)));
+				$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, TRUE));
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
@@ -962,7 +962,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("definition_text");
-				$template->setVariable("DEFINITION", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, true)));
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
 				$template->parseCurrentBlock();
 			}
 
@@ -1005,7 +1005,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock("term_text");
-				$template->setVariable("TERM_TEXT", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, true)));
+				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("draggable");
@@ -1117,7 +1117,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				else
 				{
 					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($definition->text, true)));
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
 					$template->parseCurrentBlock();
 				}
 			}
@@ -1171,7 +1171,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			else
 			{
 				$template->setCurrentBlock('term_text');
-				$template->setVariable("TERM", ilUtil::htmlentitiesOutsideHTMLTags($this->object->prepareTextareaOutput($term->text, true)));
+				$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, true));
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
