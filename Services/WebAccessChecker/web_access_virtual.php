@@ -27,10 +27,11 @@ chdir("../..");
 require_once "./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php";
 
 $checker = new ilWebAccessChecker();
+$checker->setDisposition("virtual");
 
 if ($checker->checkAccess())
 {
-	$checker->sendFileVirtual();
+	$checker->sendFile();
 }
 else
 {

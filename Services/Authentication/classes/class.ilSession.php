@@ -36,8 +36,16 @@ class ilSession
 	*/
 	static function _writeData($a_session_id, $a_data)
 	{
-		global $ilDB, $ilSetting;
+		global $ilDB, $ilSetting, $ilClientIniFile;
 		
+		if ($GLOBALS['WEB_ACCESS_WITHOUT_SESSION'])
+		{
+			// Prevent session data written for web access checker
+			// when no cookie was sent (e.g. for pdf files linking others).
+			// This would result in new session records for each request.
+			return false;
+		}		
+
 		if( $ilSetting->get('session_handling_type', 0) ==  0)
 		{
 			// fixed session
@@ -60,15 +68,31 @@ class ilSession
 				array("integer", "clob", "integer", "integer", "text");
 			$ilDB->manipulate($q);*/
 
-			$ilDB->update("usr_session", array(
-				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-				"expires" => array("integer", $expires),
-				"data" => array("clob", $a_data),
-				"ctime" => array("integer", time()),
-				"type" => array("integer", (int) $_SESSION["SessionType"])
-				), array(
-				"session_id" => array("text", $a_session_id)
-				));
+			if ($ilClientIniFile->readVariable("session","save_ip"))
+			{
+				$ilDB->update("usr_session", array(
+					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+					"expires" => array("integer", $expires),
+					"data" => array("clob", $a_data),
+					"ctime" => array("integer", time()),
+					"type" => array("integer", (int) $_SESSION["SessionType"]),
+					"remote_addr" => array("text", $_SERVER["REMOTE_ADDR"])
+					), array(
+					"session_id" => array("text", $a_session_id)
+					));
+			}
+			else
+			{		
+				$ilDB->update("usr_session", array(
+					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+					"expires" => array("integer", $expires),
+					"data" => array("clob", $a_data),
+					"ctime" => array("integer", time()),
+					"type" => array("integer", (int) $_SESSION["SessionType"])
+					), array(
+					"session_id" => array("text", $a_session_id)
+					));
+			}
 
 		}
 		else
@@ -81,15 +105,31 @@ class ilSession
 					$ilDB->quote((int) $_SESSION["AccountId"], "integer").")";
 			$ilDB->manipulate($q);*/
 
-			$ilDB->insert("usr_session", array(
-				"session_id" => array("text", $a_session_id),
-				"expires" => array("integer", $expires),
-				"data" => array("clob", $a_data),
-				"ctime" => array("integer", time()),
-				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-				"type" => array("integer", (int) $_SESSION["SessionType"]),
-				"createtime" => array("integer", time())
-				));
+			if ($ilClientIniFile->readVariable("session","save_ip"))
+			{
+				$ilDB->insert("usr_session", array(
+					"session_id" => array("text", $a_session_id),
+					"expires" => array("integer", $expires),
+					"data" => array("clob", $a_data),
+					"ctime" => array("integer", time()),
+					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+					"type" => array("integer", (int) $_SESSION["SessionType"]),
+					"createtime" => array("integer", time()),
+					"remote_addr" => array("text", $_SERVER["REMOTE_ADDR"])
+					));
+			}
+			else
+			{
+				$ilDB->insert("usr_session", array(
+					"session_id" => array("text", $a_session_id),
+					"expires" => array("integer", $expires),
+					"data" => array("clob", $a_data),
+					"ctime" => array("integer", time()),
+					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+					"type" => array("integer", (int) $_SESSION["SessionType"]),
+					"createtime" => array("integer", time())
+					));
+			}
 
 		}
 		
@@ -200,5 +240,27 @@ class ilSession
 		return false;
 	}
 
+	/**
+	 * Get the active users with a specific remote ip address
+	 * 
+	 * @param	string	ip address
+	 * @return 	array	list of active user id
+	 */
+	static function _getUsersWithIp($a_ip)
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT user_id FROM usr_session"
+				. " WHERE remote_addr = " . $ilDB->quote($a_ip, "text")
+				. " AND user_id > 0";		
+		$result = $ilDB->query($query);
+		
+		$users = array();
+		while ($row = $ilDB->fetchObject($result))
+		{
+			$users[] = $row->user_id;
+		}
+		return $users;
+	}
 }
 ?>

@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 // Prevent a general redirect to the login screen for anonymous users.
-// This should only be done if access is not granted to anonymous.
+// The checker will show an error page with login link instead
 // (see ilInitialisation::InitILIAS() for details)
 $_GET["baseClass"] = "ilStartUpGUI";
 
@@ -18,6 +18,19 @@ define("ILIAS_MODULE", substr($_SERVER['PHP_SELF'],
 $GLOBALS['COOKIE_PATH'] = substr($_SERVER['PHP_SELF'], 0,
 						  strpos($_SERVER['PHP_SELF'], "/data/"));
 
+// Determine the ILIAS client from the web path
+// This is needed because a session cookie may not yet exist
+// (see ilINITIALISATION::determineClient() for details)
+$client_start = strpos($_SERVER['PHP_SELF'], "/data/") + 6;
+$client_end = strpos($_SERVER['PHP_SELF'], "/", $client_start);
+$_GET['client_id'] = substr($_SERVER['PHP_SELF'], $client_start, $client_end - $client_start);
+
+// Remember if the initial session was empty
+// Then a new session record should not be written
+// (see ilSession::_writeData for details)
+$GLOBALS['WEB_ACCESS_WITHOUT_SESSION'] = (session_id() == "");
+
+
 // Now the ILIAS header can be included
 require_once "./include/inc.header.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -29,11 +42,10 @@ require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 * Class ilWebAccessChecker
 *
 * Checks the access rights of a directly requested content file.
-* Called from a redirection script or from an include to a content page.
+* Called from an alias or rewrite rule
 * - determines the related learning module and checks the permission
 * - either delivers the accessed file (without redirect)
-* - or redirects to the login screen (if not logged in)
-* - or prints an error message (if too less rights)
+* - or shows an error screen (if too less rights)
 *
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id$
@@ -43,7 +55,7 @@ class ilWebAccessChecker
 {
 	var $lng;
 	var $ilAccess;
-	
+
 	/**
 	* relative file path from ilias directory (without leading /)
 	* @var string
@@ -68,19 +80,45 @@ class ilWebAccessChecker
 
 	/**
 	* Content-Disposition for file delivery
-	* @var string
+	* @var string	(inline, attachment or virtual)
 	* @access private
 	*/
 	var $disposition = "inline";
 
+	/**
+	 * Check the ip address if no session cookie is given
+	 * @var boolean
+	 * @access private
+	 */
+	var $check_ip = false;
+
+	
+	/**
+	 * User ids to check access for
+	 * These may be more than one if ip address is checked
+	 * Access is granted if one user has access
+	 * @var array
+	 * @access private
+	 */
+	var $check_users = array();
+	
+	/**
+	 * Send the mime type with the delivery
+	 * @var boolan
+	 * @access private
+	 */
+	var $send_mimetype = true;
+	
 
 	/**
-	* determined mime type
-	* @var string
-	* @access private
-	*/
-	var $mimetype;      
-
+	 * The mimetype to be sent
+	 * will be determined if null
+	 * @var string
+	 * @access private
+	 */
+	var $mimetype = null;
+	
+	
 	/**
 	* errorcode for sendError
 	* @var integer
@@ -108,15 +146,7 @@ class ilWebAccessChecker
 		$this->lng =& $lng;
 		$this->ilAccess =& $ilAccess;
 		$this->params = array();
-
-		// set the anonymous user if no user is set
-		if (!$_SESSION["AccountId"])
-		{
-	        $_SESSION["AccountId"] = ANONYMOUS_USER_ID;
-			$ilUser->setId(ANONYMOUS_USER_ID);
-			$ilUser->read();
-		}
-
+		
 		// get the requested file and its type
 		$uri = parse_url($_SERVER["REQUEST_URI"]);
 		parse_str($uri["query"], $this->params);
@@ -127,6 +157,21 @@ class ilWebAccessChecker
 		
 		// build url path for virtual function
 		$this->virtual_path = str_replace($pattern, "virtual-" . $pattern, $uri["path"]);
+
+		
+		// set the parameters provided with the checker call
+		if (isset($_GET['disposition']))
+		{
+			$this->setDisposition($_GET['disposition']);
+		}
+		if (isset($_GET['check_ip']))
+		{
+			$this->setCheckIp($_GET['check_ip']);	
+		}
+		if (isset($_GET['send_mimetype']))
+		{
+			$this->setSendMimetype($_GET['send_mimetype']);
+		}		
 		
 		/* debugging
 		echo "<pre>";
@@ -144,15 +189,15 @@ class ilWebAccessChecker
 		echo "CLIENT_WEB_DIR:      ". CLIENT_WEB_DIR. "\n";
 		echo "subpath:             ". $this->subpath. "\n";
 		echo "file:                ". $this->file. "\n";
+		echo "disposition:         ". $this->disposition. "\n";
+		echo "ckeck_ip:            ". $this->check_ip. "\n";
+		echo "send_mimetype:       ". $this->send_mimetype. "\n";
 		echo "</pre>";
+		echo phpinfo();
 		exit;
 		*/
-
-		if (file_exists($this->file))
-		{
-			$this->mimetype = $this->getMimeType();
-		}
-		else
+		
+		if (!file_exists($this->file))
 		{
 			$this->errorcode = 404;
 			$this->errortext = $this->lng->txt("url_not_found");
@@ -160,6 +205,66 @@ class ilWebAccessChecker
 		}
 	}
 
+	/**
+	 * Determine the current user(s)
+	 */
+	public function determineUser()
+	{
+		global $ilUser;
+		
+	    // a valid user session is found 
+	    if ($_SESSION["AccountId"])
+	    {
+	    	$this->check_users = array($_SESSION["AccountId"]);	
+	    	return;
+	    }	   
+
+	    // no session cookie was delivered
+	    // user identification by ip address is allowed
+	    elseif ($GLOBALS['WEB_ACCESS_WITHOUT_SESSION'] and $this->getCheckIp())
+	    {
+	    	$this->check_users = ilSession::_getUsersWithIp($_SERVER['REMOTE_ADDR']);
+	    	
+	    	if (count($this->check_users) == 0)
+	    	{
+	    		// no user was found for the ip address
+	    		$this->check_users = array(ANONYMOUS_USER_ID);
+
+	    		$_SESSION["AccountId"] = ANONYMOUS_USER_ID;
+				$ilUser->setId(ANONYMOUS_USER_ID);
+				$ilUser->read();	
+	    	}
+	    	elseif (count($this->check_users) == 1)
+	    	{
+	    		// exactly one user is found with an active session
+	    		$_SESSION["AccountId"] = current($this->check_users);
+				$ilUser->setId(current($this->check_users));
+				$ilUser->read();	
+	    	}
+	    	else
+	    	{
+	    		// more than one user found for the ip address
+	    		// take the anonymous user for the session
+	    		$_SESSION["AccountId"] = ANONYMOUS_USER_ID;
+				$ilUser->setId(ANONYMOUS_USER_ID);
+				$ilUser->read();	
+	    	}
+	    	return;
+	    }
+	    
+	    // take the anonymous user as fallback
+	    else
+	    {
+	    	$this->check_users = array(ANONYMOUS_USER_ID);
+	    	
+    		$_SESSION["AccountId"] = ANONYMOUS_USER_ID;
+			$ilUser->setId(ANONYMOUS_USER_ID);
+			$ilUser->read();	
+	    	
+			return;
+	    }
+	}
+	
 	/**
 	* Check access rights of the requested file
 	* @access	public
@@ -174,6 +279,9 @@ class ilWebAccessChecker
 	        return false;
 	    }
 
+	    // do this here because ip based checking may be set after construction
+	    $this->determineUser();
+	    	    
 		// check for type by subdirectory
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
@@ -215,15 +323,18 @@ class ilWebAccessChecker
 			
 		switch($type)
 		{
+			// SCORM or HTML learning module
 			case 'lm':
-				if ($this->checkAccessLM($obj_id, 'lm'))
+				if ($this->checkAccessObject($obj_id))
 				{
 					return true;
 				}
 				break;
 
+			// media object	
 			case 'mob':
 				$usages = ilObjMediaObject::lookupUsages($obj_id);
+				
 				foreach($usages as $usage)
 				{
 					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
@@ -241,20 +352,28 @@ class ilWebAccessChecker
 							break;
 						case 'news':
 							// media objects in news (media casts)
-
 							include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
 							include_once("./Services/News/classes/class.ilNewsItem.php");
 						
-							if (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
+							if ($this->checkAccessObject($oid, 'mcst'))
+							{
+								return true;
+							}
+							elseif (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
 							{
 								return true;
 							}
 							break;
+							
+							
 						case 'frm~:html':
 							// $oid = userid
-							if ($ilObjDataCache->lookupType($oid) == 'usr' && $oid == $ilUser->getId())
+							foreach ($this->check_users as $user_id)
 							{
-								return true;
+								if ($ilObjDataCache->lookupType($oid) == 'usr' && $oid == $user_id)
+								{
+									return true;
+								}
 							}
 							break;
 
@@ -293,7 +412,8 @@ class ilWebAccessChecker
 					}
 				}
 				break;
-				
+
+			// image in user profile	
 			case 'user_image':
 				if ($this->checkAccessUserImage($obj_id))
 				{
@@ -308,6 +428,14 @@ class ilWebAccessChecker
 		return false;
 	}
 	
+	/**
+	 * check access for ILIAS learning modules
+	 * (obsolete, if checking of page conditions is not activated!)
+	 * 
+	 * @param int 		object id
+	 * @param string 	object type
+	 * @param int 		page id
+	 */
 	private function checkAccessLM($obj_id, $obj_type, $page = 0)
 	{
 	    global $lng;
@@ -317,9 +445,12 @@ class ilWebAccessChecker
 			$ref_ids  = ilObject::_getAllReferences($obj_id);
 			foreach($ref_ids as $ref_id)
 			{
-				if ($this->ilAccess->checkAccess("read", "", $ref_id))
+				foreach ($this->check_users as $user_id)
 				{
-					return true;
+					if ($this->ilAccess->checkAccessOfUser($user_id, "read", "view", $ref_id, $obj_id, $obj_type))
+					{
+						return true;
+					}
 				}
 			}
 			return false;
@@ -358,9 +489,12 @@ class ilWebAccessChecker
 		$ref_ids  = ilObject::_getAllReferences($obj_id);
 		foreach($ref_ids as $ref_id)
 		{
-			if ($ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
-			{
-				return true;
+			foreach ($this->check_users as $user_id)
+			{				
+				if ($ilAccess->checkAccessOfUser($user_id, "read", "view", $ref_id, $obj_type, $obj_id))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -417,8 +551,8 @@ class ilWebAccessChecker
         // give access if glossary is readable
 	    if ($this->checkAccessObject($obj_id))
 		{
-	    	return true;
-	    }
+			return true;
+		}
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
@@ -433,14 +567,14 @@ class ilWebAccessChecker
 			{
 				switch ($src['type'])
 				{
-	                // Give access if term is linked by a learning module with read access.
+					// Give access if term is linked by a learning module with read access.
 					// The term including media is shown by the learning module presentation!
-	                case 'lm:pg':
+					case 'lm:pg':
 						include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 						$src_obj_id = ilLMObject::_lookupContObjID($src['id']);
 						if ($this->checkAccessObject($src_obj_id, 'lm'))
 						{
-	                        return true;
+							return true;
 						}
 						break;
 
@@ -452,7 +586,7 @@ class ilWebAccessChecker
 						$src_obj_id = ilGlossaryTerm::_lookGlossaryID($src_term_id);
  						if ($this->checkAccessObject($src_obj_id, 'glo'))
 						{
-	                        return true;
+							return true;
 						}
 						break;
 					*/
@@ -464,6 +598,9 @@ class ilWebAccessChecker
 
 	/**
 	* Check access rights for user images
+	* 
+	* Due to privacy this will be checked for a truly identified user
+	* (IP based checking is not recommended user images)
 	*
 	* @param    int     	usr_id
 	* @return   boolean     access given (true/false)
@@ -511,17 +648,24 @@ class ilWebAccessChecker
 
 	/**
 	* Set the delivery mode for the file
-	* @param    string      "inline" or "attachment"
+	* @param    string       "inline", "attachment" or "virtual"
 	* @access	public
 	*/
-	public function setDisposition($a_disposition = "inline")
+	public function setDisposition($a_disposition)
 	{
-		$this->disposition = $a_disposition;
+		if (in_array(strtolower($a_disposition), array('inline','attachment','virtual')))
+		{
+			$this->disposition = strtolower($a_disposition);
+		}
+		else
+		{
+			$this->disposition = 'inline';
+		}
 	}
 
 	/**
 	* Get the delivery mode for the file
-	* @return   string      "inline" or "attachment"
+	* @return   string      "inline", "attachment" or "virtual"
 	* @access	public
 	*/
 	public function getDisposition()
@@ -529,6 +673,66 @@ class ilWebAccessChecker
 		return $this->disposition;
 	}
 
+	/**
+	 * Set the sending of the mime type
+	 * @param	string	(boolean switch or mimetype)			
+	 * @access	public
+	 */
+	public function setSendMimetype($a_send_mimetype)
+	{
+		if (in_array(strtolower($a_send_mimetype), array('','0','off','false')))
+		{
+			$this->mimetype = null;
+			$this->send_mimetype = false;
+		}
+		elseif (in_array(strtolower($a_send_mimetype), array('1','on','true')))
+		{
+			$this->mimetype = null;
+			$this->send_mimetype = true;
+		}
+		else
+		{
+			$this->mimetype = $a_send_mimetype;
+			$this->send_mimetype = true;
+		}
+	}
+	
+	/**
+	 * Get if mimetype should be sent for a virtual delivery
+	 * @return	boolean
+	 */
+	public function getSendMimetype()
+	{
+		return $this->send_mimetype;
+	}
+
+	
+	/**
+	 * Set the checking of the IP address if no valid session is found
+	 * @param	boolean	
+	 * @access	public
+	 */
+	public function setCheckIp($a_check_ip)
+	{
+		if (in_array(strtolower($a_check_ip), array('','0','off','false')))
+		{
+			$this->check_ip = false;
+		}
+		elseif (in_array(strtolower($a_check_ip), array('1','on','true')))
+		{
+			$this->check_ip	= true;
+		}
+	}
+	
+	/**
+	 * Set the checking of the IP address of no valid session is found
+	 * @return	boolean
+	 */
+	public function getCheckIp()
+	{
+		return $this->check_ip;
+	}
+	
 	
 	/**
 	* Send the requested file as if directly delivered from the web server
@@ -547,7 +751,15 @@ class ilWebAccessChecker
 		
 		//$xsendfile_available = $system_use_xsendfile & $xsendfile_available;
 		
-		if ($this->getDisposition() == "attachment")
+		
+		// delivery via apache virtual function
+		if ($this->getDisposition() == "virtual")
+		{
+			$this->sendFileVirtual();
+			exit;
+		}
+		// delivery for download dialogue
+		elseif ($this->getDisposition() == "attachment")
 		{
 			if ($xsendfile_available)
 			{
@@ -558,6 +770,7 @@ class ilWebAccessChecker
 				ilUtil::deliverFile($this->file, basename($this->file));
 			exit;
 		}
+		// inline delivery
 		else
 		{
 			if (!isset($_SERVER["HTTPS"]))
@@ -566,7 +779,10 @@ class ilWebAccessChecker
 				header("Pragma: no-cache");
 			}
 
-			header("Content-Type: " . $this->mimetype);
+			if ($this->getSendMimetype())
+			{
+				header("Content-Type: " . $this->getMimeType());
+			}
 			header("Content-Length: ".(string)(filesize($this->file)));
 			
 			if (isset($_SERVER["HTTPS"]))
@@ -580,7 +796,10 @@ class ilWebAccessChecker
 			if ($xsendfile_available)
 			{
 				header('x-sendfile: ' . $this->file);
-				header("Content-Type: " . $this->mimetype);
+				if ($this->getSendMimetype())
+				{
+					header("Content-Type: " . $this->getMimeType());
+				}
 			}
 			else
 			{
@@ -606,9 +825,12 @@ class ilWebAccessChecker
 		header('ETag: "'. md5(filemtime($this->file).filesize($this->file)).'"');
 		header('Accept-Ranges: bytes');
 		header("Content-Length: ".(string)(filesize($this->file)));
-		header("Content-Type: " . $this->mimetype);
+		if ($this->getSendMimetype())
+		{
+			header("Content-Type: " . $this->getMimeType());
+		}
 
-		apache_setenv('ILIAS_CHECKED','1');
+		apache_setenv('ILIAS_CHECKED','1');	
 		virtual($this->virtual_path);
 		exit;
 	}
@@ -675,13 +897,19 @@ class ilWebAccessChecker
 	}
 	
 	/**
-	* Get the mime type of the requested file requested file
+	* Get the mime type of the requested file
 	* @param    string      default type
 	* @return   string      mime type
 	* @access	public
 	*/
 	public function getMimeType($default = 'application/octet-stream')
 	{
+		// take a previously set mimetype
+		if (isset($this->mimetype))
+		{
+			return $this->mimetype;
+		}
+		
 		$mime = '';
 		if (extension_loaded('Fileinfo'))
 		{
@@ -698,9 +926,9 @@ class ilWebAccessChecker
 			$mime = ilObjMediaObject::getMimeType($this->file);
 		}
 		
+		// set and return the mime type
 		$this->mimetype = $mime ? $mime : $default;
+		return $this->mimetype;
 	}
-	
-	
 }
 ?>
