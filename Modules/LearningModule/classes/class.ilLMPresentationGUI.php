@@ -801,18 +801,38 @@ class ilLMPresentationGUI
 			if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
 			if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
 
-			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-			ilAccordionGUI::addJavaScript();
-			ilAccordionGUI::addCss();
+			if (!$this->offlineMode())
+			{
+				include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+				ilAccordionGUI::addJavaScript();
+				ilAccordionGUI::addCss();
 
-			// from main menu
-			$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-			$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-			$this->tpl->fillJavaScriptFiles();
-			$this->tpl->fillScreenReaderFocus();
+				// from main menu
+				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+				$this->tpl->fillJavaScriptFiles();
+				$this->tpl->fillScreenReaderFocus();
 
-			// :TEMP: in DEVMODE this will die because of missing template blocks
-			$this->tpl->fillCssFiles();
+				$this->tpl->fillCssFiles();
+			}
+			else
+			{
+				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+				foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
+				{
+					if ($f["type"] == "js")
+					{
+						$this->tpl->addJavascript($f["target"]);
+					}
+					if ($f["type"] == "css")
+					{
+						$this->tpl->addCSS($f["target"]);
+					}
+				}
+				$this->tpl->fillJavaScriptFiles(true);
+				$this->tpl->fillCssFiles(true);
+			}
+
 
 			$this->tpl->fillBodyClass();
 
