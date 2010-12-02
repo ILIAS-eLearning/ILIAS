@@ -1085,8 +1085,8 @@ class ilExAssignment
 		ilUtil::delDir($tmpdir);
 		
 		$deliverFilename .= ".zip";
-		ilUtil::deliverFile($tmpzipfile, $deliverFilename);
 		chdir($cdir);
+		ilUtil::deliverFile($tmpzipfile, $deliverFilename);
 		unlink($tmpzipfile);
 	}
 
@@ -1201,10 +1201,10 @@ class ilExAssignment
 		ilUtil::delDir($tmpdir);
 
 		$assTitle = ilExAssignment::lookupTitle($a_ass_id);
+		chdir($cdir);
 		ilUtil::deliverFile($tmpzipfile, (strlen($assTitle) == 0
 			? strtolower($lng->txt("exc_assignment"))
 			: $assTitle). ".zip");
-		chdir($cdir);
 		unlink($tmpfile);
 		unlink($tmpzipfile);
 	}
