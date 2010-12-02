@@ -90,6 +90,22 @@ class ilMediaPlayerGUI
 	{
 		global $tpl;
 		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+		include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
+
+		// youtube
+		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
+		{
+			$p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
+			$html = '<object width="320" height="240">'.
+				'<param name="movie" value="http://www.youtube.com/v/'.$p["v"].'?fs=1">'.
+				'</param><param name="allowFullScreen" value="true"></param>'.
+				'<param name="allowscriptaccess" value="always">'.
+				'</param><embed src="http://www.youtube.com/v/'.$p["v"].'?fs=1" '.
+				'type="application/x-shockwave-flash" allowscriptaccess="always" '.
+				'allowfullscreen="true" width="320" height="240"></embed></object>';
+			return $html;
+		}
+
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 		if (strpos($mimeType,"flv") === false 
 		 && strpos($mimeType,"audio/mpeg") === false
