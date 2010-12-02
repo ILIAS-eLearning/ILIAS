@@ -2163,7 +2163,10 @@ function showTrackingItem()
 
 		if ($a_form_action == "")
 		{
-			$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
+			$cmd = ($_GET["backcmd"] == "")
+				? "showOrganization"
+				: $_GET["backcmd"];
+			$this->ctrl->setParameter($this, "backcmd", $cmd);
 			$a_form_action = $this->ctrl->getFormAction($this);
 		}
 		$confirmation_gui->setFormAction($a_form_action);

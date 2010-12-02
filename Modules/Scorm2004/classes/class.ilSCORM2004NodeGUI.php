@@ -289,7 +289,6 @@ class ilSCORM2004NodeGUI
 	function cancelDelete()
 	{
 		global $ilCtrl;
-		
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 
