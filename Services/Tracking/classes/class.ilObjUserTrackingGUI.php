@@ -70,7 +70,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$cmd = $this->ctrl->getCmd();
 				if ($cmd == "view" || $cmd == "")
 				{
-					$cmd = "trackingDataQueryForm";
+					$cmd = "settings";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
