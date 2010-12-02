@@ -572,7 +572,7 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 	
-	function fillJavaScriptFiles()
+	function fillJavaScriptFiles($a_force = false)
 	{
 		global $ilias, $ilTabs, $ilSetting, $ilUser;
 		
@@ -588,7 +588,7 @@ class ilTemplate extends ilTemplateX
 				reset($this->js_files);
 				foreach($this->js_files as $file)
 				{
-					if (is_file($file) || substr($file, 0, 4) == "http")
+					if (is_file($file) || substr($file, 0, 4) == "http" || $a_force)
 					{
 						if ($this->js_files_batch[$file] == $i)
 						{
@@ -611,7 +611,7 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
-	function fillCssFiles()
+	function fillCssFiles($a_force = false)
 	{
 		if (!$this->blockExists("css_file"))
 		{
@@ -621,7 +621,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$filename = $css["file"];
 			if (strpos($filename, "?") > 0) $filename = substr($filename, 0, strpos($filename, "?"));
-			if (is_file($filename))
+			if (is_file($filename) || $a_force)
 			{
 				$this->setCurrentBlock("css_file");
 				$this->setVariable("CSS_FILE", $css["file"]);

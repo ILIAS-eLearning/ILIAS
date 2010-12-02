@@ -1843,17 +1843,16 @@ class ilObjContentObject extends ilObject
 		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
 			$mp3_dir."/mp3player.swf");
 
-		// accordion stuff
+		// js files
 		ilUtil::makeDir($a_target_dir.'/js');
 		ilUtil::makeDir($a_target_dir.'/js/yahoo');
 		ilUtil::makeDir($a_target_dir.'/css');
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'), $a_target_dir.'/js/yahoo/yahoo-min.js');
-		copy(ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'), $a_target_dir.'/js/yahoo/yahoo-dom-event.js');
-		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $a_target_dir.'/js/yahoo/animation-min.js');
-		copy('./Services/Accordion/js/accordion.js',$a_target_dir.'/js/accordion.js');
-		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
-
+		foreach (self::getSupplyingExportFiles($a_target_dir) as $f)
+		{
+			copy($f["source"], $f["target"]);
+		}
+		
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
@@ -1875,6 +1874,49 @@ class ilObjContentObject extends ilObject
 		}
 		$ilBench->stop("ExportHTML", "zip");
 
+	}
+
+	/**
+	 * Get supplying export files
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getSupplyingExportFiles($a_target_dir = ".")
+	{
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		return array(
+			array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
+				"target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
+				"type" => "js"),
+			array("source" => ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
+				"target" => $a_target_dir.'/js/yahoo/yahoo-dom-event.js',
+				"type" => "js"),
+			array("source" => ilYuiUtil::getLocalPath('animation/animation-min.js'),
+				"target" => $a_target_dir.'/js/yahoo/animation-min.js',
+				"type" => "js"),
+			array("source" => './Services/Javascript/js/Basic.js',
+				"target" => $a_target_dir.'/js/Basic.js',
+				"type" => "js"),
+			array("source" => './Services/Accordion/js/accordion.js',
+				"target" => $a_target_dir.'/js/accordion.js',
+				"type" => "js"),
+			array("source" => './Services/Accordion/css/accordion.css',
+				"target" => $a_target_dir.'/css/accordion.css',
+				"type" => "css"),
+			array("source" => './Modules/Scorm2004/scripts/questions/jquery.js',
+				"target" => $a_target_dir.'/js/jquery.js',
+				"type" => "js"),
+			array("source" => './Modules/Scorm2004/scripts/questions/jquery-ui-min.js',
+				"target" => $a_target_dir.'/js/jquery-ui-min.js',
+				"type" => "js"),
+			array("source" => './Modules/Scorm2004/scripts/questions/pure.js',
+				"target" => $a_target_dir.'/js/pure.js',
+				"type" => "js"),
+			array("source" => './Modules/Scorm2004/scripts/questions/question_handling.js',
+				"target" => $a_target_dir.'/js/question_handling.js',
+				"type" => "js")
+		);
 	}
 	
 	/**
