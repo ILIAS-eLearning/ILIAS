@@ -24,17 +24,18 @@ class ilUserQuery
 		
 		$fields = array("usr_id", "login", "firstname", "lastname", "email",
 			"time_limit_until", "time_limit_unlimited", "time_limit_owner", "last_login", "active");
+		
+		if (is_array($a_additional_fields))
+		{
+			foreach ($a_additional_fields as $f)
+			{
+				if (!in_array($f, $fields))
+				{
+					$fields[] = $f;
+				}
+			}
+		}
 
-		if (is_array($a_additional_fields))
-		{
-			$fields = array_merge($fields, $a_additional_fields);
-		}
-		
-		if (is_array($a_additional_fields))
-		{
-			$fields = array_merge($fields, $a_additional_fields);
-		}
-		
 		// count query
 		$count_query = "SELECT count(usr_id) cnt".
 			" FROM usr_data";
