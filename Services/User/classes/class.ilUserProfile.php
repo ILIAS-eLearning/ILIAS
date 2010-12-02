@@ -486,7 +486,6 @@ class ilUserProfile
 						}
 						$ti->setMaxLength($p["maxlength"]);
 						$ti->setSize($p["size"]);
-						$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						if($f == "registration_code")
 						{
 							$ti->setRequired($p['required']);
@@ -494,6 +493,10 @@ class ilUserProfile
 						else
 						{
 							$ti->setRequired($ilSetting->get("require_".$f));
+						}
+						if(!$ti->getRequired())
+						{
+							$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						$a_form->addItem($ti);
 					}
@@ -508,8 +511,11 @@ class ilUserProfile
 						{
 							$ci->setValue($a_user->$m());
 						}
-						$ci->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$ci->setRequired($ilSetting->get("require_".$f));
+						if(!$ci->getRequired())
+						{
+							$ci->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($ci);
 					}
 					break;
@@ -526,8 +532,11 @@ class ilUserProfile
 						}
 						$bi->setShowEmpty(true);
 						$bi->setStartYear(1900);
-						$bi->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$bi->setRequired($ilSetting->get("require_".$f));
+						if(!$bi->getRequired())
+						{
+							$bi->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($bi);
 					}
 					break;
@@ -545,8 +554,11 @@ class ilUserProfile
 							$op = new ilRadioOption($lng->txt($v), $k);
 							$rg->addOption($op);
 						}
-						$rg->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$rg->setRequired($ilSetting->get("require_".$f));
+						if(!$rg->getRequired())
+						{
+							$rg->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($rg);
 					}
 					break;
@@ -620,8 +632,11 @@ class ilUserProfile
 							}
 							$ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_".$f);
 							$ta->setOptions($options);
-							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 							$ta->setRequired($ilSetting->get("require_".$f));
+							if(!$ta->getRequired())
+							{
+								$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+							}
 							$a_form->addItem($ta);
 						}
 					}
@@ -635,8 +650,11 @@ class ilUserProfile
 						{
 							$em->setValue($a_user->$m());
 						}
-						$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$em->setRequired($ilSetting->get("require_".$f));
+						if(!$em->getRequired())
+						{
+							$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($em);
 					}
 					break;
@@ -651,8 +669,11 @@ class ilUserProfile
 						}
 						$ta->setRows($p["rows"]);
 						$ta->setCols($p["cols"]);
-						$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$ta->setRequired($ilSetting->get("require_".$f));
+						if(!$ta->getRequired())
+						{
+							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($ta);
 					}
 					break;
@@ -670,8 +691,11 @@ class ilUserProfile
 							}
 							$im->setMaxLength($p["maxlength"]);
 							$im->setSize($p["size"]);
-							$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
 							$im->setRequired($ilSetting->get("require_"."instant_messengers"));
+							if(!$im->getRequired())
+							{
+								$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
+							}
 							$a_form->addItem($im);
 						}
 					}
@@ -682,9 +706,9 @@ class ilUserProfile
 					{
 						if(!$registration_settings->passwordGenerationEnabled())
 						{
-							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);
-							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+							$ta = new ilPasswordInputGUI($lng->txt($lv), "usr_".$f);							
 							$ta->setRequired(true);
+							// $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						else
 						{
@@ -709,8 +733,11 @@ class ilUserProfile
 							$options[$lang_key] = $lng->txt("lang_".$lang_key);
 						}
 						$ta->setOptions($options);
-						$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						$ta->setRequired($ilSetting->get("require_".$f));
+						if(!$ta->getRequired())
+						{
+							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}
 						$a_form->addItem($ta);
 					}
 					break;
