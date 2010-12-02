@@ -1432,7 +1432,7 @@ class assClozeTest extends assQuestion
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
-		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['question'] =  (string) nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0));
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
