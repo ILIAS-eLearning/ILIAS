@@ -148,6 +148,37 @@ class ilExternalMediaAnalyzer
 	}
 
 	/**
+	 * Identify Vimeo links
+	 */
+	static function isVimeo($a_location)
+	{
+		if (strpos($a_location, "vimeo.com") > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Extract Vimeo Parameter
+	 */
+	static function extractVimeoParameters($a_location)
+	{
+		$par = array();
+		$pos1 = strpos($a_location, "vimeo.com/");
+		$pos2 = strpos($a_location, "&", $pos1 + 10);
+		if ($pos1 > 0)
+		{
+			$len = ($pos2 > 0)
+				? $pos2
+				: strlen($a_location);
+			$par["id"] = substr($a_location, $pos1+10, $len - ($pos1+10));
+		}
+
+		return $par;
+	}
+
+	/**
 	* Identify Google Document links
 	*/
 	static function isGoogleDocument($a_location)
