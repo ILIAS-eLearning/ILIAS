@@ -46,6 +46,8 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 		include_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
 		
 		$config = HTMLPurifier_Config::createDefault();
+		$config->set('HTML.DefinitionID', 'ilias forum post');
+		$config->set('HTML.DefinitionRev', 1);
 		$config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
 		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');		
 		
@@ -53,7 +55,12 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 		// html element but <span style="text-decoration: underline">E</span>
 		$tags = ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type);		
 		if(in_array('u', $tags) && !in_array('span', $tags)) $tags[] = 'span';
-		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
+		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));		
+		
+		$def = $config->getHTMLDefinition(true);
+		$def->addAttribute('a', 'target', new HTMLPurifier_AttrDef_Enum(
+			array('_blank', '_self', '_target', '_top')
+		));
 
 		return $config;
 	}	
