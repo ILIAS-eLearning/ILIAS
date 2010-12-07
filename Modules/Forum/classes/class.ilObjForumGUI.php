@@ -3043,6 +3043,15 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 						}
 						
+						// Add target="_top"
+						$node->setMessage(
+							preg_replace(
+								'/<a((?![^>]+target="[^>]*")[^>]*)>/ims',
+							 	'<a target="_top"$1>',
+							 	$node->getMessage()
+							)						
+						);
+						
 						if ($spanClass != "")
 						{
 							$tpl->setVariable('POST', "<span class=\"".$spanClass."\">".ilRTE::_replaceMediaObjectImageSrc($node->getMessage(), 1)."</span>");
