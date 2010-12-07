@@ -95,6 +95,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			return $this->selectable_columns;
 		}
+
+		$anonymized_object = false;
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		if(ilObjTest::_lookupAnonymity($this->obj_id))
+		{
+			$anonymized_object = true;
+		}
 		
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -107,12 +114,16 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$cols["login"] = array(
 			"txt" => $lng->txt("login"),
 			"default" => true);
-		$cols["firstname"] = array(
-			"txt" => $lng->txt("firstname"),
-			"default" => true);
-		$cols["lastname"] = array(
-			"txt" => $lng->txt("lastname"),
-			"default" => true);
+
+		if(!$anonymized_object)
+		{
+			$cols["firstname"] = array(
+				"txt" => $lng->txt("firstname"),
+				"default" => true);
+			$cols["lastname"] = array(
+				"txt" => $lng->txt("lastname"),
+				"default" => true);
+		}
 
 		// show only if extended data was activated in lp settings
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
@@ -174,7 +185,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			"default" => false);
 
 	    // add user data only if object is [part of] course
-		if($this->in_course)
+		if($this->in_course && !$anonymized_object)
 		{
 			$this->user_fields = array();
 
