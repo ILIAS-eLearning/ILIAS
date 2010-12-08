@@ -40,7 +40,9 @@ var pager =
 			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').show();
 			if(newPage.length==1){
 				jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
-				finishSCO();
+				if(typeof finishSCO == 'function') {
+					finishSCO();
+				}
 			}	
 		}
 	},
