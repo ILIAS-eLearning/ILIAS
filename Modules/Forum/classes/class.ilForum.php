@@ -515,7 +515,7 @@ class ilForum
 		
 		
 		$row["pos_date"] = $this->convertDate($row["pos_date"]);		
-		$row["pos_message"] = nl2br(html_entity_decode($row["pos_message"]));
+		$row["pos_message"] = nl2br($row["pos_message"]);
 					
 		return $row;
 	}
@@ -546,7 +546,7 @@ class ilForum
 		
 		while($row = $ilDB->fetchObject($res))
 		{
-			return html_entity_decode($row->pos_message);
+			return $row->pos_message;
 		}
 		return '';
 	}
@@ -2230,11 +2230,11 @@ class ilForum
 		$title = $frm_obj->getTitle();
 		unset($frm_obj);
 		
-		$message = $this->lng->txt("forum").": ".$title." -> ".html_entity_decode($thread_data["thr_subject"])."\n\n";
+		$message = $this->lng->txt("forum").": ".$title." -> ".$thread_data["thr_subject"]."\n\n";
 		$message .= $this->lng->txt("forum_post_replied");
 		
 		$message .= "\n------------------------------------------------------------\n";
-		$message .= html_entity_decode($post_data["pos_message"]);
+		$message .= $post_data["pos_message"];
 		$message .= "\n------------------------------------------------------------\n";
 		$message .= sprintf($this->lng->txt("forums_notification_show_post"), "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"].'&client_id='.CLIENT_ID);
 		
@@ -2561,7 +2561,6 @@ class ilForum
 		while($record = $ilDB->fetchAssoc($result))
 		{
 			$post_data['thr_subject'] = $record['thr_subject'];
-			#html_entity_decode($record['thr_subject']);
 			break;
 		}
 				
@@ -2752,12 +2751,12 @@ class ilForum
 								$this->ilias->ini->readVariable("client","name"),
 								ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID)."\n\n";
 		}
-		$message .= $this->lng->txt("forum").": ".html_entity_decode($post_data["top_name"])."\n\n";
-		$message .= $this->lng->txt("thread").": ".html_entity_decode($post_data["thr_subject"])."\n\n";
+		$message .= $this->lng->txt("forum").": ".$post_data["top_name"]."\n\n";
+		$message .= $this->lng->txt("thread").": ".$post_data["thr_subject"]."\n\n";
 		$message .= $this->lng->txt("new_post").":\n------------------------------------------------------------\n";
 		$message .= $this->lng->txt("author").": ".$post_data["pos_usr_name"]."\n";
 		$message .= $this->lng->txt("date").": ".$post_data["pos_date"]."\n";
-		$message .= $this->lng->txt("subject").": ".html_entity_decode($post_data["pos_subject"])."\n\n";
+		$message .= $this->lng->txt("subject").": ".$post_data["pos_subject"]."\n\n";
 		if ($post_data["pos_cens"] == 1)
 		{	
 			$message .= $post_data["pos_cens_com"]."\n";
