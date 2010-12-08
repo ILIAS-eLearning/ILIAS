@@ -295,7 +295,7 @@ ilias.questions.showFeedback =function(a_id) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
             jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.nr_of_tries_exceeded +
-				'.</b><br />' + ilias.questions.txt.correct_answers_shown + '.<br />'+questions[a_id].feedback['allcorrect']);
+				'.</b><br />' + ilias.questions.txt.correct_answers_shown + '.<br />'+questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
