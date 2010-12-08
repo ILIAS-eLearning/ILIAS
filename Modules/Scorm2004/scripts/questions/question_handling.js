@@ -653,15 +653,23 @@ jQuery(document).ready(function() {
 		css3color = function(color, opacity) {
 			return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
 		};
-		create_canvas_for = function(img) {
-			var c = jQuery('<canvas id="canvas_' + jQuery(this).attr("id") + ' style="width:'+img.width+'px;height:'+img.height+'px;"></canvas>').get(0);
+		create_canvas_for = function(img, id) {
+			var width = jQuery(img).attr("width");
+			var height = jQuery(img).attr("height");
+			if(typeof(img.width) == "number")
+			{
+				width = img.width;
+				height = img.height;
+			}
+			var c = jQuery('<canvas id="canvas_' + id + '" style="width:'+width+'px;height:'+height+'px;"></canvas>').get(0);
+			c.width = width;
+			c.height = height;
 			c.getContext("2d").clearRect(0, 0, c.width, c.height);
 			return c;
 		};
 		
 		add_shape_to = function(canvas, shape, coords, options, name)
 		{
-					
 			var i, context = canvas.getContext('2d');
 			context.beginPath();
 			
@@ -703,7 +711,7 @@ jQuery(document).ready(function() {
 			}
 		};
 			
-			clear_canvas = function(canvas, area) {
+		clear_canvas = function(canvas, area) {
 			canvas.getContext('2d').clearRect(0, 0, canvas.width,canvas.height);
 		};
 	} 
@@ -728,9 +736,16 @@ jQuery(document).ready(function() {
 			document.namespaces.add("v", "urn:schemas-microsoft-com:vml"); 
 		}	
 		
-		create_canvas_for = function(img)
+		create_canvas_for = function(img, id)
 		{
-			return jQuery('<var id="iemainvmlcontainer" style="zoom:1;overflow:hidden;display:block;width:'+img.width+'px;height:'+img.height+'px;"></var>').get(0);
+			var width = jQuery(img).attr("width");
+			var height = jQuery(img).attr("height");
+			if(typeof(img.width) == "number")
+			{
+				width = img.width;
+				height = img.height;
+			}
+			return jQuery('<var id="canvas_' + id + '" style="zoom:1;overflow:hidden;display:block;width:'+width+'px;height:'+height+'px;"></var>').get(0);
 		};
 		
 		add_shape_to = function(canvas, shape, coords, options, name, id)
@@ -795,9 +810,9 @@ jQuery(document).ready(function() {
 		
 		return this.each(function() {
 			
-			var img, wrap, options, map, canvas, canvas_always, mouseover, highlighted_shape;
+			var img, wrap, options, map, canvas, canvas_always, mouseover, highlighted_shape, question_id;
 			img = jQuery(this);
-		
+
 			if(!is_image_loaded(this)) {
 				// If the image isn't fully loaded, this won't work right.  Try again later.
 				return window.setTimeout(function() {
@@ -817,7 +832,7 @@ jQuery(document).ready(function() {
 				var wrapper = img.parent();
 				img.insertBefore(wrapper);
 				wrapper.remove();
-				//alert('yes');
+				// alert('yes');
 			}
 
 			wrap = jQuery('<div>').css({display:'block',background:'url('+this.src+')',position:'relative',padding:0,width:this.width,height:this.height});
@@ -826,18 +841,18 @@ jQuery(document).ready(function() {
 			if(jQuery.browser.msie) { img.css('filter', 'Alpha(opacity=0)'); }
 			
 			wrap.append(img);
+
+			question_id = img.attr('usemap');			
+		    question_id = question_id.substr(4);
 				
-			canvas = create_canvas_for(this);
+			canvas = create_canvas_for(this, question_id);
 			jQuery(canvas).css(canvas_style);
-			canvas.height = this.height;
-			canvas.width = this.width;
-			canvas.id = this.id;
-					
+			
 			mouseover = function(e)
 			{
 				var shape, area_options;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;
-		
+
 				if (area_options.linked)
 				{
 					var thislinked = area_options.linked;
@@ -870,30 +885,28 @@ jQuery(document).ready(function() {
 			};
 			
 			
-			draw = function(object)
-			{
+			draw = function(object, target_canvas)
+			{				
 				var shape, area_options, object;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;		
 				
 				// NON IE
 				if(has_canvas)
 				{
-					canvas_always = create_canvas_for(img.get());
-				
+				    var arr_map = jQuery(object).attr("id").split("_");
+					var str_cmap = '.cmap' + arr_map[0];
+					canvas_always = create_canvas_for($(str_cmap).get(), jQuery(object).attr("id"));
 					jQuery(canvas_always).css(canvas_style);
-					canvas_always.width = img.width();
-					canvas_always.height = img.height();
-					canvas_always.id = 'canvas_' + jQuery(object).attr("id");
-														
-					img.before(canvas_always);
+					
+					$(str_cmap).before(canvas_always);
 				}
 									
 				shape = shape_from_area(object);
-				
+
 				// IE!
 				if (jQuery.browser.msie)
 				{
-					add_shape_to(canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
+					add_shape_to(target_canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
 				} 
 				else
 				{
@@ -902,7 +915,7 @@ jQuery(document).ready(function() {
 			};
 			
 			mouseclick = function(e,id)
-			{
+			{				
 				var shape, area_options, object;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;	
 								
@@ -911,8 +924,8 @@ jQuery(document).ready(function() {
 				}
 				else {
 					object = this;
-				}				
-				
+				}
+
 				if (!jQuery('#canvas_' + jQuery(object).attr('id')).attr('id'))
 				{
 					if (area_options.linked)
@@ -926,14 +939,14 @@ jQuery(document).ready(function() {
 										
 							if (thislinked == area_options.linked) {
 								// alert(jQuery(this).attr('id') + ' ' + area_options.linked);
-								draw(this);				
+								draw(this, canvas);
 							}																			
 																											
 						});
 					}
 					else
 					{
-						draw(object);
+						draw(object, canvas);
 					}
 				}
 				else
@@ -974,16 +987,34 @@ jQuery(document).ready(function() {
 						
 						if(area_options.alwaysOn)
 						{
-							draw(this);							
+							draw(this, canvas);
 						}
 					});
 				}
+				jQuery(map).find('area[coords]').unbind();
 				jQuery(map).find('area[coords]').mouseover(mouseover).mouseout(function(e) { clear_canvas(canvas); });
 				jQuery(map).find('area[coords]').click(mouseclick); 
 			}
 			
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
 			img.addClass('maphilighted');
+
+			// if question was not answered correctly yet, "reload" active areas
+			if(ilias.questions.answers[question_id] && ilias.questions.answers[question_id].passed != true)
+			{
+				for (i=0; i < ilias.questions.answers[question_id].areas.length; i++){
+					if(ilias.questions.answers[question_id].areas[i] == true)
+					{
+						var canvas_id = question_id + '_' + i;
+						if (!jQuery('#canvas_' + canvas_id).attr('id'))
+						{
+							var selected_area = jQuery(map).find('area[id="'+ canvas_id + '"]');
+							draw(jQuery(selected_area).get(0), canvas);
+						}
+					}
+				};
+			}
+
 		});
 	};
 
