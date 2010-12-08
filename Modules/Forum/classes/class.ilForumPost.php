@@ -174,8 +174,8 @@ class ilForumPost
 			'pos_usr_alias'	=> $this->user_alias,
 			'title' => $this->fullname,
 			'loginname' => $this->loginname,
-			'pos_message' => html_entity_decode($this->message),
-			'pos_subject' => html_entity_decode($this->subject),
+			'pos_message' => $this->message,
+			'pos_subject' => $this->subject,
 			'pos_cens_com' => $this->censorship_comment,
 			'pos_cens' => $this->censored,
 			'pos_date' => $this->createdate,
@@ -199,8 +199,8 @@ class ilForumPost
 			'title' => $this->fullname,
 			'loginname' => $this->loginname,
 			'type' => 'post',
-			'message' => html_entity_decode($this->message),
-			'subject' => html_entity_decode($this->subject),
+			'message' => $this->message,
+			'subject' => $this->subject,
 			'pos_cens_com' => $this->censorship_comment,
 			'pos_cens' => $this->censored,
 			'date' => $this->createdate,
@@ -239,8 +239,8 @@ class ilForumPost
 				$this->thread_id = $row->pos_thr_fk;	
 				$this->user_id = $row->pos_usr_id;
 				$this->user_alias = $row->pos_usr_alias;	
-				$this->subject = html_entity_decode($row->pos_subject);
-				$this->message = html_entity_decode($row->pos_message);
+				$this->subject = $row->pos_subject;
+				$this->message = $row->pos_message;
 				$this->createdate = $row->pos_date;	
 				$this->changedate = $row->pos_update;
 				$this->user_id_update = $row->update_user;
@@ -527,7 +527,7 @@ class ilForumPost
 	}
 	public function getSubject()
 	{
-		return html_entity_decode($this->subject);
+		return $this->subject;
 	}
 	public function setMessage($a_message)
 	{
@@ -535,7 +535,7 @@ class ilForumPost
 	}
 	public function getMessage()
 	{
-		return html_entity_decode($this->message);
+		return $this->message;
 	}
 	public function setCreateDate($a_createdate)
 	{
