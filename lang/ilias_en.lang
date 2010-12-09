@@ -9762,7 +9762,7 @@ survey#:#no_user_or_group_selected#:#Please check an option what are you searchi
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Interval
-survey#:#not_used#:#not used
+survey#:#not_used#:#not used yet
 survey#:#obligatory#:#obligatory
 survey#:#off#:#Off
 survey#:#offline#:#offline
@@ -9871,11 +9871,11 @@ survey#:#subject_mail_survey_id#:#Your survey code for "%s"
 survey#:#subtype#:#Subtype
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
 survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.
-survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
+survey#:#survey_code_url_name#:#URL <small>(use right mouse button to copy URL)</small>
 survey#:#survey_code_url#:#URL for Direct Access
-survey#:#survey_code_used#:#Code was used
+survey#:#survey_code_used#:#Code was ..
 survey#:#survey_code#:#Survey Access Code
-survey#:#survey_codes_lang#:#Survey Language
+survey#:#survey_codes_lang#:#Preselected Survey Language
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey

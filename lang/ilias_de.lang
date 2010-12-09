@@ -9662,7 +9662,7 @@ survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in d
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
-survey#:#not_used#:#nicht verwendet
+survey#:#not_used#:#noch nicht verwendet
 survey#:#obligatory#:#verpflichtend
 survey#:#off#:#Aus
 survey#:#offline#:#offline (nicht aktiviert)
@@ -9769,13 +9769,13 @@ survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
-survey#:#survey_code#:#Zugangsschlüssel für die Umfrage
+survey#:#survey_code#:#Zugangsschlüssel
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Zugangsschlüssel gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
 survey#:#survey_code_no_codes#:#Sie haben bis jetzt noch keine Zugangsschlüssel für die Umfrage erstellt.
 survey#:#survey_code_url#:#URL für direkten Zugriff
-survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die URL zu kopieren)
-survey#:#survey_code_used#:#Der Zugangsschlüssel wurde verwendet
-survey#:#survey_codes_lang#:#ILIAS-Sprache der URL für direkten Zugriff
+survey#:#survey_code_url_name#:#URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>
+survey#:#survey_code_used#:#Der Zugangsschlüssel wurde ...
+survey#:#survey_codes_lang#:#Vorauswahl Benutzersprache in URL
 survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangsschlüsseln erstellen, um Zugangsschlüssel erzeugen zu können!
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_finish#:#Umfrage beenden >>
