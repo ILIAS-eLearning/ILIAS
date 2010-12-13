@@ -755,6 +755,45 @@ class assTextSubset extends assQuestion
 	{
 		return $this->answers;
 	}
+
+	/**
+	 * Returns a JSON representation of the question
+	 */
+	public function toJSON()
+	{
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['matching_method'] = (string) $this->getTextRating();
+		$result['feedback'] = array(
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			);
+
+		$answers = array();
+		foreach ($this->getAnswers() as $key => $answer_obj)
+		{
+			array_push($answers, array(
+				"answertext" => (string) $answer_obj->getAnswertext(),
+				"points" => (float)$answer_obj->getPoints(),
+				"order" => (int)$answer_obj->getOrder()
+			));
+		}
+		$result['correct_answers'] = $answers;
+
+		$answers = array();
+		for($loop = 1; $loop <= (int) $this->getCorrectAnswers(); $loop++)
+		{
+			array_push($answers, array(
+				"answernr" => $loop
+			));
+		}
+		$result['answers'] = $answers;
+		return json_encode($result);
+	}
 }
 
 ?>

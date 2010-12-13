@@ -136,13 +136,16 @@ class assTextSubsetGUI extends assQuestionGUI
 		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
 		$text_options = array(
 			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
-			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
-			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
-			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
-			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
-			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+			"cs" => $this->lng->txt("cloze_textgap_case_sensitive")
 		);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			$text_options["l1"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1");
+			$text_options["l2"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2");
+			$text_options["l3"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3");
+			$text_options["l4"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4");
+			$text_options["l5"] = sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5");
+		}
 		$textrating->setOptions($text_options);
 		$textrating->setValue($this->object->getTextRating());
 		$form->addItem($textrating);

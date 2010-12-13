@@ -7,10 +7,8 @@
 *
 * @ilCtrl_Calls ilQuestionEditGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
 * @ilCtrl_Calls ilQuestionEditGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assNumericGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assTextSubsetGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assSingleChoiceGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assTextQuestionGUI
+* @ilCtrl_Calls ilQuestionEditGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, assTextQuestionGUI
+* @ilCtrl_Calls ilQuestionEditGUI: assErrorTextGUI, assOrderingHorizontal, assTextSubset
 *
 * @ingroup ModulesTestQuestionPool
 */

@@ -212,6 +212,51 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 	ilias.questions.showFeedback(a_id);
 };
 
+ilias.questions.assTextSubset = function(a_id) {
+	
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	var a_node = jQuery('input[name="answers'+a_id+'[]"]');
+	for (var i=0;i<a_node.length;i++) {
+
+		var answer = a_node.get(i).value;
+		answers[a_id].choice.push(answer);
+
+		if(questions[a_id].matching_method == "ci")
+		{
+			answer = answer.toLowerCase();
+		}
+
+		var found = false;
+		for (var c=0;c<questions[a_id].correct_answers.length;c++)
+		{
+			var correct_answer = questions[a_id].correct_answers[c]["answertext"];
+			if(questions[a_id].matching_method == "ci")
+			{
+				correct_answer = correct_answer.toLowerCase();
+			}
+			if(correct_answer == answer)
+			{
+				found = true;
+			}
+		}
+		if(found === false)
+		{
+			answers[a_id].wrong++;
+			answers[a_id].answer[i] = false;
+			answers[a_id].passed = false;
+		}
+		else
+		{
+			answers[a_id].answer[i] = true;
+		}
+	}
+
+	ilias.questions.showFeedback(a_id);
+};
+
 
 ilias.questions.assClozeTest = function(a_id) {
 	answers[a_id].wrong = 0;
