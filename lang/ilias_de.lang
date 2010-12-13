@@ -3401,7 +3401,7 @@ common#:#membership_leave#:#Abmelden
 common#:#mep#:#Medienpool
 common#:#mep_add#:#Medienpool hinzufügen
 common#:#mep_added#:#Medienpool hinzugefügt
-common#:#mep_delete#:#Medienpool gelöscht
+common#:#mep_delete#:#Medienpool löschen
 common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
 common#:#mep_edit_permission#:#Rechteeinstellungen ändern
 common#:#mep_new#:#Neuen Medienpool anlegen
