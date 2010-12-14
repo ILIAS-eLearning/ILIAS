@@ -864,6 +864,61 @@ class assErrorText extends assQuestion
 				break;
 		}
 	}
+
+
+	/**
+	* Returns a JSON representation of the question
+	*/
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['text'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['feedback'] = array(
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			);
+
+		$answers = array();
+		foreach ($this->getErrorData() as $idx => $answer_obj)
+		{
+			array_push($answers, array(
+				"answertext_wrong" => (string) $answer_obj->text_wrong,
+				"answertext_correct" => (string) $answer_obj->text_correct,
+				"points" => (float)$answer_obj->points,
+				"order" => (int)$idx+1
+			));
+		}
+		$result['correct_answers'] = $answers;
+
+		$answers = array();
+		$items = preg_split("/\s+/", trim($this->getErrorText()));
+		foreach ($items as $idx => $item)
+		{
+			if(substr($item, 0, 1) == "#")
+			{
+				$item = substr($item, 1);
+			}
+			array_push($answers, array(
+				"answertext" => (string) ilUtil::prepareFormOutput($item),
+				"order" => $textidx."_".($idx+1)
+			));
+		}
+		$result['answers'] = $answers;
+
+		/*
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+		 */
+		
+		return json_encode($result);
+	}
 }
 
 ?>

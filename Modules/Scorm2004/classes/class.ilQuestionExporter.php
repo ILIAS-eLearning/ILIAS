@@ -252,6 +252,18 @@ class ilQuestionExporter
 //		$this->setHeaderFooter();
 		return $this->tpl->get();	
 	}
+
+	private function assErrorText() {
+		$this->tpl->setCurrentBlock("errortext");
+		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
+		if ($this->preview_mode) {
+			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
+		}
+		$this->tpl->parseCurrentBlock();
+//		$this->setHeaderFooter();
+		return $this->tpl->get();
+	}
 	
 }
 

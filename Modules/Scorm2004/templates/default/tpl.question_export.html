@@ -163,4 +163,17 @@ var terms = jQuery('select.terms', pairs).mapDirective({
 	jQuery("#order{VAL_ID}").sortable({axis: 'x'});
 </script>
 <!-- END orderinghorizontal -->
+<!-- BEGIN errortext -->
+<div id="container{VAL_ID}" class="ilc_question_TextQuestion">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<span class="ilc_answers answers">
+		<span class="ilc_qanswer_Answer order@id"><a href="#" class="sel answertext"></a></span>
+	</span>
+<div id="feedback{VAL_ID}" style="display:none"></div><br/>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+</script>
+<!-- END errortext -->
 {FORM_END}
