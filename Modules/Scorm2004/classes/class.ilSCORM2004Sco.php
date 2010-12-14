@@ -365,6 +365,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				<script src="./js/Basic.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/ilOverlay.js" type="text/javascript" language="JavaScript1.2"></script>
 				<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
+				<link rel="stylesheet" type="text/css" href="./css/question_handling.css" />
 				<script type="text/javascript" language="JavaScript1.2">
 					ilAddOnLoad(function () {init(0);});
 				</script>
@@ -556,15 +557,18 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
 			// this one is for fullscreen in glossary entries
 			$output = preg_replace_callback("/href=\"fullscreen_(\d+)\.html\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
-		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
-		$output = preg_replace("/&#123;/","",$output);
-		$output = preg_replace("/&#125;/","",$output);
-		$q_handling = file_get_contents('./Modules/Scorm2004/scripts/questions/question_handling.js');
-		fputs(fopen($a_target_dir.'/js/questions_'.$this->getId().'.js','w+'),ilQuestionExporter::questionsJS().$q_handling);
-		foreach(ilQuestionExporter::getMobs() as $mob_id)
-		{
-			$this->mob_ids[$mob_id] = $mob_id;
-		}
+			$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
+			$output = preg_replace("/&#123;/","",$output);
+			$output = preg_replace("/&#125;/","",$output);
+			$q_handling = file_get_contents('./Modules/Scorm2004/scripts/questions/question_handling.js');
+			fputs(fopen($a_target_dir.'/js/questions_'.$this->getId().'.js','w+'),ilQuestionExporter::questionsJS().$q_handling);
+			copy("./Modules/Scorm2004/templates/default/question_handling.css",
+				$a_target_dir.'/css/question_handling.css');
+			
+			foreach(ilQuestionExporter::getMobs() as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
 		}
 		$this->q_media = ilQuestionExporter::getFiles();
 		//questions export end

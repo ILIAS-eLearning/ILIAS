@@ -2735,6 +2735,7 @@ class ilPageObjectGUI
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+			$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
 
 			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
 				&& $this->getOutputMode() != "offline")

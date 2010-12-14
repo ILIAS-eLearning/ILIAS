@@ -30,8 +30,8 @@
 <!-- BEGIN orderingquestion -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>	
-<ul id="order{VAL_ID}">
-	<li class="answers order@id" style="list-style-type:circle; cursor:move; width:200px; border:1px; border-style:solid; margin:3px; padding:3px;"><div class="ilc_qanswer_Answer answertext"></div></li>
+<ul id="order{VAL_ID}" class="ordering ordering_vrt">
+	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <div id="feedback{VAL_ID}" style="display:none"></div>
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
@@ -148,9 +148,9 @@ var terms = jQuery('select.terms', pairs).mapDirective({
 <!-- BEGIN orderinghorizontal -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>
-<div style="margin-bottom:10px;">
-<ul id="order{VAL_ID}">
-	<li class="answers order@id" style="list-style:none; float:left; cursor:move; border:1px; border-style:solid; margin:3px; padding:3px;"><div class="ilc_qanswer_Answer answertext"></div></li>
+<div style="margin-bottom:10px">
+<ul id="order{VAL_ID}" class="ordering ordering_hrz">
+	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <br style="clear:left;" />
 </div>

@@ -1,0 +1,15 @@
+/* we need because of the placeholder element */
+ul.ordering li {
+	list-style: none;
+	border:1px solid black;
+	margin:3px;
+	padding:3px;
+	height:20px;
+	cursor:move;
+}
+ul.ordering_vrt li {
+	width:200px;
+}
+ul.ordering_hrz li {
+	float:left;
+}

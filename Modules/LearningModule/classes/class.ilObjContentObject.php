@@ -1915,7 +1915,10 @@ class ilObjContentObject extends ilObject
 				"type" => "js"),
 			array("source" => './Modules/Scorm2004/scripts/questions/question_handling.js',
 				"target" => $a_target_dir.'/js/question_handling.js',
-				"type" => "js")
+				"type" => "js"),
+			array("source" => './Modules/Scorm2004/templates/default/question_handling.css',
+				"target" => $a_target_dir.'/css/question_handling.css',
+				"type" => "css")
 		);
 	}
 	

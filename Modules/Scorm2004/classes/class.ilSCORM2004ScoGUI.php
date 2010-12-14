@@ -466,6 +466,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
 		
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
+		
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
 //		$tpl->setContent($output);
