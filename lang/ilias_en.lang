@@ -10911,13 +10911,13 @@ forum#:#frm_edit_title#:#Edit Title
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
 administration#:#language_merged_global#:#The local changes were merged into the global language file.
-content#:#cont_submit_answers#:#Submit Answers
-content#:#cont_wrong_answers#:#Wrong Answers
+content#:#cont_submit_answers#:#Submit
+content#:#cont_wrong_answers#:#Incorrect Items
 content#:#cont_tries_remaining#:#Tries Remaining
-content#:#cont_please_try_again#:#Please try again
-content#:#cont_all_answers_correct#:#All answers correct
-content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded
-content#:#cont_correct_answers_shown#:#Correct answers are shown above
+content#:#cont_please_try_again#:#Please try again!
+content#:#cont_all_answers_correct#:#Correct!
+content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded.
+content#:#cont_correct_answers_shown#:#Correct solution see above.
 administration#:#apache_auth_settings#:#Apache
 administration#:#apache_settings#:#Configure LDAP Authentication
 administration#:#apache_enable_auth#:#Enable Apache Authentication support
@@ -10961,3 +10961,4 @@ trac#:#trac_report_date#:#Date of Report
 trac#:#trac_report_owner#:#Owner of Report
 trac#:#trac_first_and_last_access#:#First and Last Access
 user#:#user_save_ordering_and_titles#:#Save ordering and titles
+content#:#cont_wrong_answers_single#:#Incorrect Choice.
