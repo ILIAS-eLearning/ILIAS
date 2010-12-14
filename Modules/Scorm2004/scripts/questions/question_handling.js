@@ -150,6 +150,29 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 	ilias.questions.showFeedback(a_id);
 };
 
+ilias.questions.assOrderingHorizontal = function(a_id) {
+
+	var result = jQuery('#order'+a_id).sortable('toArray');
+
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	for (var i=0;i<result.length;i++) {
+		if (i+1 != result[i])
+		{
+			answers[a_id].passed = false;
+			answers[a_id].wrong ++;
+			answers[a_id].answer[i]=false;
+		} else {
+			answers[a_id].answer[i]=true;
+		}
+		answers[a_id].choice.push(result[i]);
+	}
+	
+	ilias.questions.showFeedback(a_id);
+};
+
 ilias.questions.toggleArea = function(a_id,order) {
 	answers[a_id].areas[order]=!answers[a_id].areas[order];
 };
@@ -472,6 +495,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		   	//end assImagemapQuestion
 		
 		case 'assOrderingQuestion':
+		case 'assOrderingHorizontal':
 			var answers = questions[a_id].answers;
 			var answers_sorted = answers.sort(sortBySolutionorder);
 			var items=jQuery("#order"+a_id).children();
