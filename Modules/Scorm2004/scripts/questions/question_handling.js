@@ -7,12 +7,13 @@ ilias.questions = {
 };
 
 ilias.questions.txt = {};
-ilias.questions.txt.wrong_answers = "Wrong Answers";
+ilias.questions.txt.wrong_answers = "Incorrect Items";
+ilias.questions.txt.wrong_answers_single = "Incorrect Choice.";
 ilias.questions.txt.tries_remaining = "Tries Remaining";
-ilias.questions.txt.please_try_again = "Please try again";
-ilias.questions.txt.all_answers_correct = "All answers correct";
-ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded";
-ilias.questions.txt.correct_answers_shown = "Correct answers are shown above";
+ilias.questions.txt.please_try_again = "Please try again!";
+ilias.questions.txt.all_answers_correct = "Correct!";
+ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded.";
+ilias.questions.txt.correct_answers_shown = "Correct solution see above.";
 
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
@@ -215,9 +216,10 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 ilias.questions.assTextSubset = function(a_id) {
 	
 	answers[a_id].wrong = 0;
-	answers[a_id].passed = true;
+	answers[a_id].passed = false;
 	answers[a_id].choice = [];
 
+	var correct_answer_given = false;
 	var a_node = jQuery('input[name="answers'+a_id+'[]"]');
 	for (var i=0;i<a_node.length;i++) {
 
@@ -246,12 +248,17 @@ ilias.questions.assTextSubset = function(a_id) {
 		{
 			answers[a_id].wrong++;
 			answers[a_id].answer[i] = false;
-			answers[a_id].passed = false;
 		}
 		else
 		{
+			correct_answer_given = true;
 			answers[a_id].answer[i] = true;
 		}
+	}
+
+	if(correct_answer_given)
+	{
+		answers[a_id].passed = true;
 	}
 
 	ilias.questions.showFeedback(a_id);
@@ -327,20 +334,31 @@ ilias.questions.initClozeTest = function(a_id) {
 ilias.questions.showFeedback =function(a_id) {
 	
 	jQuery('#feedback'+a_id).hide();
+
+	// "image map as single choice" not supported yet
+	if(questions[a_id].type == "assSingleChoice")
+	{
+		var txt_wrong_answers = ilias.questions.txt.wrong_answers_single;
+	}
+	else
+	{
+		var txt_wrong_answers = ilias.questions.txt.wrong_answers + ': ' +
+				answers[a_id].wrong ;
+	}
 	
 	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
 		jQuery('#button'+a_id).attr("disabled", "true");
 		if (answers[a_id].passed===true) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");				
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");	
-            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.all_answers_correct + '.</b><br />'+questions[a_id].feedback['allcorrect']);
+            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.all_answers_correct + '</b><br />'+questions[a_id].feedback['allcorrect']);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
             jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.nr_of_tries_exceeded +
-				'.</b><br />' + ilias.questions.txt.correct_answers_shown + '.<br />'+questions[a_id].feedback['onenotcorrect']);
+				'</b><br />' + ilias.questions.txt.correct_answers_shown + '<br />'+questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
@@ -349,16 +367,15 @@ ilias.questions.showFeedback =function(a_id) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
 			var rem = questions[a_id].nr_of_tries - answers[a_id].tries;
-			jQuery('#feedback'+a_id).html(ilias.questions.txt.wrong_answers + ': ' +
-				answers[a_id].wrong + '<br />' + ilias.questions.txt.tries_remaining + ': '+ rem +
+			jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br />' +
+				ilias.questions.txt.tries_remaining + ': '+ rem +
 				"<br />" + questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
-            jQuery('#feedback'+a_id).html(
-				ilias.questions.txt.wrong_answers + ': ' + answers[a_id].wrong +
-				'<br /> ' + ilias.questions.txt.please_try_again + '.<br />' + questions[a_id].feedback['onenotcorrect']);
+            jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br /> ' +
+				ilias.questions.txt.please_try_again + '<br />' + questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}	
 	}
@@ -415,6 +432,7 @@ ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 ilias.questions.showCorrectAnswers =function(a_id) {
 	
 	switch (questions[a_id].type) {
+		
 		case 'assSingleChoice':	
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				if (questions[a_id].answers[i].points>=1) {
@@ -438,7 +456,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				
 			}
 			break;
-			//end assSingleChoice
+			//end assMultipleChoice
 			
 		case 'assImagemapQuestion': 
 			//reinit map
@@ -473,6 +491,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			}
 		break;
 		//end assMatchingQuestion
+		
 		case 'assClozeTest':
 			for (var i=0;i<questions[a_id].gaps.length;i++) {
 				var type = questions[a_id].gaps[i].type;
@@ -504,7 +523,55 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 			}
 		break;
-		//end assMatchingQuestion
+		//end assClozeTest
+
+		case 'assTextSubset':
+			var a_node = jQuery('input[name="answers'+a_id+'[]"]');
+			var choice = [];
+			for (var i=0;i<a_node.length;i++) {
+
+				var answer = a_node.get(i).value;
+				jQuery(a_node[i]).attr("disabled",true);
+				
+				if(questions[a_id].matching_method == "ci")
+				{
+					answer = answer.toLowerCase();
+				}
+
+				var found = false;
+				for (var c=0;c<questions[a_id].correct_answers.length;c++)
+				{
+					var correct_answer = questions[a_id].correct_answers[c]["answertext"];
+					if(questions[a_id].matching_method == "ci")
+					{
+						correct_answer = correct_answer.toLowerCase();
+					}
+					if(correct_answer == answer)
+					{
+						found = true;
+						choice.push(c);
+					}
+				}
+				if(found === false)
+				{
+					jQuery(a_node[i]).attr("value", "");
+				}
+			}
+			var correct_info = "";
+			for (var c=0;c<questions[a_id].correct_answers.length;c++)
+			{
+				if($.inArray(c, choice) == -1)
+				{
+					correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
+				}
+			}
+			if(correct_info.length)
+			{
+				var elements = jQuery("#container"+a_id+" > .ilc_answers");
+				elements.eq(elements.length -1).after("<ul>" + correct_info + "</ul>");
+			}
+			break;
+			//end assTextSubset
 	}
 };
 

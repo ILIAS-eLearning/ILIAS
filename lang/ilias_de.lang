@@ -10915,13 +10915,13 @@ forum#:#frm_edit_title#:#Titel bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
 administration#:#language_merged_global#:#Die lokalen Änderungen wurden in die globale Sprachdatei eingefügt.
-content#:#cont_submit_answers#:#Antworten prüfen
-content#:#cont_wrong_answers#:#Falsche Antworten
+content#:#cont_submit_answers#:#Auswerten
+content#:#cont_wrong_answers#:#Anzahl Fehler
 content#:#cont_tries_remaining#:#Verbleibende Versuche
-content#:#cont_please_try_again#:#Bitte versuchen Sie es noch einmal
-content#:#cont_all_answers_correct#:#Alle Antworten korrekt
-content#:#cont_nr_of_tries_exceeded#:#Alle Versuche ausgeschöpft
-content#:#cont_correct_answers_shown#:#Die richtigen Antworten werden oben angezeigt
+content#:#cont_please_try_again#:#Versuchen Sie es nochmals!
+content#:#cont_all_answers_correct#:#Richtig!
+content#:#cont_nr_of_tries_exceeded#:#Sie haben keine Versuche mehr.
+content#:#cont_correct_answers_shown#:#Richtige Lösung siehe oben.
 administration#:#apache_auth_settings#:#Apache
 administration#:#apache_settings#:#Apache-Authentifizierung konfigurieren
 administration#:#apache_enable_auth#:#Apache-Authentifizierung aktivieren
@@ -10965,3 +10965,4 @@ trac#:#trac_report_date#:#Datum des Reports
 trac#:#trac_report_owner#:#Ersteller des Reports
 trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
+content#:#cont_wrong_answers_single#:#Falsche Wahl.

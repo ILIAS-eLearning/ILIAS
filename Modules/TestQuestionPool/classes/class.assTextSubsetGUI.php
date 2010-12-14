@@ -74,6 +74,11 @@ class assTextSubsetGUI extends assQuestionGUI
 			$this->object->setTitle($_POST["title"]);
 			$this->object->setAuthor($_POST["author"]);
 			$this->object->setComment($_POST["comment"]);
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$this->object->setNrOfTries($_POST['nr_of_tries']);
+			}
+
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);

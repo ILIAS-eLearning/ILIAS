@@ -2746,6 +2746,7 @@ class ilPageObjectGUI
 
 			$tpl->addOnloadCode('
 			ilias.questions.txt.wrong_answers = "'.$lng->txt("cont_wrong_answers").'";
+			ilias.questions.txt.wrong_answers_single = "'.$lng->txt("cont_wrong_answers_single").'";
 			ilias.questions.txt.tries_remaining = "'.$lng->txt("cont_tries_remaining").'";
 			ilias.questions.txt.please_try_again = "'.$lng->txt("cont_please_try_again").'";
 			ilias.questions.txt.all_answers_correct = "'.$lng->txt("cont_all_answers_correct").'";
