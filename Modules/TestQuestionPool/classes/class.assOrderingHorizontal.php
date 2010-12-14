@@ -652,6 +652,43 @@ class assOrderingHorizontal extends assQuestion
 				break;
 		}
 	}
+
+	/**
+	 * Returns a JSON representation of the question
+	 */
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) true;
+		$result['points'] = (bool) $this->getPoints();
+		$result['feedback'] = array(
+			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
+			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
+			);
+		
+		$arr = array();
+		foreach ($this->getOrderingElements() as $order => $answer)
+		{
+			array_push($arr, array(
+				"answertext" => (string) $answer,
+				"order" => (int) $order+1
+			));
+		}
+		$result['answers'] = $arr;
+
+		/*
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+	 */
+
+		return json_encode($result);
+	}
 }
 
 ?>

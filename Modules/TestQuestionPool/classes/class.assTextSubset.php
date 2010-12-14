@@ -761,6 +761,7 @@ class assTextSubset extends assQuestion
 	 */
 	public function toJSON()
 	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$result = array();
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
