@@ -13,3 +13,7 @@ ul.ordering_vrt li {
 ul.ordering_hrz li {
 	float:left;
 }
+span.errortext {
+	text-decoration:line-through;
+	color: #999;
+}

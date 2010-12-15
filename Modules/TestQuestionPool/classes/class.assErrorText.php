@@ -898,17 +898,28 @@ class assErrorText extends assQuestion
 		$result['correct_answers'] = $answers;
 
 		$answers = array();
-		$items = preg_split("/\s+/", trim($this->getErrorText()));
-		foreach ($items as $idx => $item)
+		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		foreach ($textarray as $textidx => $text)
 		{
-			if(substr($item, 0, 1) == "#")
+			$items = preg_split("/\s+/", trim($text));
+			foreach ($items as $idx => $item)
 			{
-				$item = substr($item, 1);
+				if(substr($item, 0, 1) == "#")
+				{
+					$item = substr($item, 1);
+				}
+				array_push($answers, array(
+					"answertext" => (string) ilUtil::prepareFormOutput($item),
+					"order" => $textidx."_".($idx+1)
+				));
 			}
-			array_push($answers, array(
-				"answertext" => (string) ilUtil::prepareFormOutput($item),
-				"order" => $textidx."_".($idx+1)
-			));
+			if($textidx != sizeof($textarray)-1)
+			{
+				array_push($answers, array(
+						"answertext" => "###",
+						"order" => $textidx."_".($idx+2)
+					));
+			}
 		}
 		$result['answers'] = $answers;
 

@@ -354,6 +354,67 @@ ilias.questions.initClozeTest = function(a_id) {
 	jQuery("div#"+a_id).html(parsed);
 };
 
+ilias.questions.selectErrorText = function(a_id, node) {
+
+	if(questions[a_id].selected === undefined)
+	{
+		questions[a_id].selected = [];
+	}
+
+	var id = jQuery(node).parent().attr("id");
+	var id_index = jQuery.inArray(id, questions[a_id].selected);
+	
+	if(id_index > -1)
+	{
+		jQuery(node).css({fontWeight:"normal"});
+		questions[a_id].selected.splice(id_index, 1);
+	}
+	else
+	{
+		jQuery(node).css({fontWeight:"bold"});
+		questions[a_id].selected.push(id);
+	}
+
+	jQuery(node).blur();
+};
+
+ilias.questions.assErrorText =function(a_id) {
+
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	if(questions[a_id].selected === undefined)
+	{
+		answers[a_id].passed = false;
+	}
+	else
+	{
+		for(var i=0;i<questions[a_id].answers.length;i++)
+		{
+			if(jQuery.inArray(questions[a_id].answers[i]["order"], questions[a_id].selected) > -1)
+			{
+				var text_select = questions[a_id].answers[i]["answertext"];
+				var is_wrong = false;
+				for(var j=0;j<questions[a_id].correct_answers.length;j++)
+				{
+					if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"])
+					{
+						is_wrong = true;
+					}
+				}
+				if(is_wrong === false)
+				{
+					answers[a_id].wrong++;
+					answers[a_id].passed = false;
+				}
+			}
+		}
+	}
+
+	ilias.questions.showFeedback(a_id);
+}
+
 ilias.questions.showFeedback =function(a_id) {
 	
 	jQuery('#feedback'+a_id).hide();
@@ -596,6 +657,36 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			}
 			break;
 			//end assTextSubset
+
+		case 'assErrorText':
+			for(var i=0;i<questions[a_id].answers.length;i++)
+			{
+				var node = jQuery("div#container" + a_id + " span#" + questions[a_id].answers[i]["order"]);
+				if(node.length)
+				{
+					var is_wrong = false;
+					var correct = "";
+					for(var j=0;j<questions[a_id].correct_answers.length;j++)
+					{
+						if(questions[a_id].answers[i]["answertext"] == questions[a_id].correct_answers[j]["answertext_wrong"])
+						{
+							is_wrong = true;
+							correct = questions[a_id].correct_answers[j]["answertext_correct"];
+						}
+					}
+					if(is_wrong == false)
+					{
+						jQuery(node).html(questions[a_id].answers[i]["answertext"]);
+					}
+					else
+					{
+						jQuery(node).html('<span class="errortext">' +
+							questions[a_id].answers[i]["answertext"] + '</span>' + correct);
+					}
+				}
+			}
+			break;
+			//end assErrorText
 	}
 };
 
