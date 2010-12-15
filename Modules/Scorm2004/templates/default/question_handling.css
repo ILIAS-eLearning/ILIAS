@@ -39,3 +39,6 @@ a.image_details {
 	font-size: 10px;
 	color: black;
 }
+img.mc_image {
+	margin:5px;
+}

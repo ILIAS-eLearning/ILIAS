@@ -126,7 +126,12 @@ class ilQuestionExporter
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}		
+		}
+		if($this->json_decoded->path)
+		{
+			$this->tpl->setVariable("HANDLE_IMAGES",
+				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
+		}
 		$this->tpl->parseCurrentBlock();
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
@@ -143,6 +148,11 @@ class ilQuestionExporter
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
+		}
+		if($this->json_decoded->path)
+		{
+			$this->tpl->setVariable("HANDLE_IMAGES",
+				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
 		}
 		$this->tpl->parseCurrentBlock();
 		foreach ($this->json_decoded->answers as $answer) {

@@ -59,6 +59,38 @@ ilias.questions.checkAnswers = function(a_id) {
 	}
 };
 
+ilias.questions.handleMCImages = function(a_id) {
+
+	if(questions[a_id].path === undefined)
+	{
+		return;
+	}
+
+	jQuery('div#container' + a_id + ' input.order').each(function(key, node){
+		for(var i=0;i<questions[a_id].answers.length;i++)
+		{
+			if(questions[a_id].answers[i].order == node.value)
+			{
+				var img = questions[a_id].answers[i].image;
+				if(img.length)
+				{
+					var text_node = jQuery(node).next();
+					if(questions[a_id].thumb > 0)
+					{
+						jQuery(text_node).before('<a class="image_details" href="' + questions[a_id].path + img + '" target="_blank">' +
+							'<img class="mc_image" src="' + questions[a_id].path + 'thumb.' + img + '" /></a>');
+					}
+					else
+					{
+						jQuery(text_node).before('<img class="mc_image" src="' + questions[a_id].path + img + '" />');
+					}
+					
+				}
+			}
+		}
+
+	});
+}
 
 ilias.questions.assSingleChoice = function(a_id) {
 

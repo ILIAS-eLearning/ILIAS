@@ -186,7 +186,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$form->addItem($hidden);
 		}
 
-		if (!$this->getSelfAssessmentEditingMode())
+		if(!$this->getSelfAssessmentEditingMode())
 		{
 			// Answer types
 			$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
@@ -199,7 +199,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$form->addItem($types);
 		}
 
-		if (($isSingleline) && (!$this->getSelfAssessmentEditingMode()))
+		if ($isSingleline)
 		{
 			// thumb size
 			$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
@@ -215,7 +215,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
 		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
-		if ($this->getSelfAssessmentEditingMode()) $choices->setHideImages(true);
 		$choices->setRequired(true);
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline($isSingleline);

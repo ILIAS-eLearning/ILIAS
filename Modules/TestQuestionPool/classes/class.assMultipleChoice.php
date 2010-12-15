@@ -1104,18 +1104,28 @@ class assMultipleChoice extends assQuestion
 			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
 		$answers = array();
+		$has_image = false;
 		foreach ($this->getAnswers() as $key => $answer_obj)
 		{
+			if((string) $answer_obj->getImage())
+			{
+				$has_image = true;
+			}
 			array_push($answers, array(
 				"answertext" => (string) $answer_obj->getAnswertext(),
 				"points_checked" => (float) $answer_obj->getPointsChecked(),
 				"points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
 				"order" => (int) $answer_obj->getOrder(),
-				"image" => $answer_obj->getImage(),
+				"image" => (string) $answer_obj->getImage(),
 				"feedback" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackSingleAnswer($key), 0)
 			));
 		}
 		$result['answers'] = $answers;
+		if($has_image)
+		{
+			$result['path'] = $this->getImagePathWeb();
+			$result['thumb'] = $this->getThumbSize();
+		}
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		return json_encode($result);
