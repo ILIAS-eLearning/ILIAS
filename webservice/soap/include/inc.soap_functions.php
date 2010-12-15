@@ -923,6 +923,30 @@ class ilSoapFunctions {
 		$swa = new ilSoapWebLinkAdministration();
 		return $swa->updateWebLink($sid, $ref_id,$xml);
 	}
+	
+	/**
+	 * 
+	 * Static method for soap webservice: deleteExpiredDualOptInUserObjects
+	 * 
+	 * This service will run in background. The client has not to wait for response.
+	 * 
+	 * @param	string	$sid	Session id + client id, separated by ::
+	 * @param	integer	$usr_id	User id of the actuator
+	 * @return	boolean	true or false
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function deleteExpiredDualOptInUserObjects($sid, $usr_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+		$sou = new ilSoapUtils();
+		$sou->disableSOAPCheck();
+		$sou->ignoreUserAbort();
+
+		return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
+	}
 }
 
 /*	function  ilClone($sid,$copy_identifier)
