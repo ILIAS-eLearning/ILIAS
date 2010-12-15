@@ -366,12 +366,12 @@ ilias.questions.selectErrorText = function(a_id, node) {
 	
 	if(id_index > -1)
 	{
-		jQuery(node).css({fontWeight:"normal"});
+		jQuery(node).removeClass("sel");
 		questions[a_id].selected.splice(id_index, 1);
 	}
 	else
 	{
-		jQuery(node).css({fontWeight:"bold"});
+		jQuery(node).addClass("sel");
 		questions[a_id].selected.push(id);
 	}
 
@@ -680,7 +680,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					}
 					else
 					{
-						jQuery(node).html('<span class="errortext">' +
+						jQuery(node).html('<span class="errortext_corrected">' +
 							questions[a_id].answers[i]["answertext"] + '</span>' + correct);
 					}
 				}
