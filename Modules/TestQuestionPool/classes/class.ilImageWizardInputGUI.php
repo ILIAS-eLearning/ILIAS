@@ -344,11 +344,13 @@ class ilImageWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
 			$tpl->parseCurrentBlock();
 		}
+		/*
 		$tpl->setCurrentBlock("image_heading");
 		$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-		$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 		$tpl->parseCurrentBlock();
+		*/
 
+		$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
 		$tpl->setVariable("TEXT_NO", $lng->txt('no'));
