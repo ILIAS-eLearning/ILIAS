@@ -300,7 +300,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$form->addItem($points);
 		
 		$this->addQuestionFormCommandButtons($form);
-		if (!$this->getSelfAssessmentEditingMode())
+		if (true || !$this->getSelfAssessmentEditingMode())
 		{
 			if ($orderingtype == OQ_PICTURES)
 			{

@@ -150,6 +150,23 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 	ilias.questions.showFeedback(a_id);
 };
 
+
+ilias.questions.handleOrderingImages = function(a_id) {
+
+	if(questions[a_id].path === undefined)
+	{
+		return;
+	}
+
+	jQuery("ul#order" + a_id + " div.answertext").each(function(id, node){
+		var src = jQuery(node).html();
+		jQuery(node).html('<img src="' + questions[a_id].path + "thumb." + src + '" /><br />' +
+			'<a class="image_details" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>');
+		jQuery(node).parent().height("auto");
+		// jQuery(node).parent().width("auto");
+	});
+};
+
 ilias.questions.assOrderingHorizontal = function(a_id) {
 
 	var result = jQuery('#order'+a_id).sortable('toArray');

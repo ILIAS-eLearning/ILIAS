@@ -188,6 +188,16 @@ class ilQuestionExporter
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
+		if($this->q_gui->object->getOrderingType() == OQ_PICTURES)
+		{
+			$this->tpl->setVariable("VAL_SUBTYPE", "_images");
+			$this->tpl->setVariable("HANDLE_IMAGES",
+				"ilias.questions.handleOrderingImages(".$this->json_decoded->id.");");
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_SUBTYPE", "_terms");
+		}
 		$this->tpl->parseCurrentBlock();
 //		$this->setHeaderFooter();
 		return $this->tpl->get();	

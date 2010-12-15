@@ -30,16 +30,19 @@
 <!-- BEGIN orderingquestion -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>	
-<ul id="order{VAL_ID}" class="ordering ordering_vrt">
+<ul id="order{VAL_ID}" class="ordering ordering_vrt{VAL_SUBTYPE}">
 	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <div id="feedback{VAL_ID}" style="display:none"></div>
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-	jQuery("#order{VAL_ID}").sortable({axis: 'y'});
+	$(document).ready(function() {
+		ilias.questions.shuffle(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		{HANDLE_IMAGES}
+		jQuery("#order{VAL_ID}").sortable({axis: 'y', containment: '#container{VAL_ID}'});
+	});
 </script>
 <!-- END orderingquestion -->
 <!-- BEGIN clozequestion -->
@@ -160,7 +163,7 @@ var terms = jQuery('select.terms', pairs).mapDirective({
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	jQuery("#order{VAL_ID}").sortable({axis: 'x'});
+	jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
 </script>
 <!-- END orderinghorizontal -->
 <!-- BEGIN errortext -->

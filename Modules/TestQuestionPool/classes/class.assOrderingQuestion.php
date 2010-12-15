@@ -1098,6 +1098,10 @@ class assOrderingQuestion extends assQuestion
 			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
 			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
+		if ($this->getOrderingType() == OQ_PICTURES)
+		{
+			$result['path'] = $this->getImagePathWeb();
+		}
 		$counter = 1;
 		$answers = array();
 		foreach ($this->getAnswers() as $answer_obj)
