@@ -515,5 +515,89 @@ class ilSoapUtils extends ilSoapAdministration
 		
 		return true;
 	}
+
+	/**
+	 * 
+	 * Method for soap webservice: deleteExpiredDualOptInUserObjects
+	 * 
+	 * This service will run in background. The client has not to wait for response.
+	 * 
+	 * @param	string	$sid	Session id + client id, separated by ::
+	 * @param	integer	$usr_id	User id of the actuator
+	 * @return	boolean	true or false
+	 * @access	public
+	 * 
+	 */
+	public function deleteExpiredDualOptInUserObjects($sid, $usr_id)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+		
+		// Session check not possible -> anonymous user is the trigger
+		
+		global $ilDB, $ilLog;
+		
+		$ilLog->write(__METHOD__.': Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+
+		require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+		$oRegSettigs = new ilRegistrationSettings();
+		
+		$query = '';
+
+		/* 
+		 * Fetch the current actuator user object first, because this user will try to perform very probably
+		 * a new registration with the same login name in a few seconds ;-)
+		 * 
+		 */ 
+		if((int)$usr_id > 0)
+		{
+			$query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
+				    . 'WHERE active = 0 '
+				    . 'AND reg_hash IS NOT NULL '
+				    . 'AND usr_id = '.$ilDB->quote($usr_id, 'integer').' ';
+			$query .= 'UNION ';
+		}
+				
+		$query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
+			    . 'WHERE active = 0 '
+			    . 'AND reg_hash IS NOT NULL '
+			    . 'AND usr_id != '.$ilDB->quote($usr_id, 'integer').' ';			    
+
+		$res = $ilDB->query($query);
+		
+		$ilLog->write(__METHOD__.': '.$ilDB->numRows($res).' inactive user objects with confirmation hash values (dual opt in) found ...');
+
+		/* 
+		 * mjansen: 15.12.2010:
+		 * I perform the expiration check in php because of multi database support (mysql, postgresql).
+		 * I did not find an oracle equivalent for mysql: UNIX_TIMESTAMP()  
+		 */
+		
+		$num_deleted_users = 0;
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if($row['usr_id'] == ANONYMOUS_USER_ID || $row['usr_id'] == SYSTEM_USER_ID) continue;			
+			if(!strlen($row['reg_hash'])) continue;
+						
+			if((int)$oRegSettigs->getRegistrationHashLifetime() > 0 &&
+			   $row['create_date'] != '' &&
+			   time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date']))
+			{
+				$user = ilObjectFactory::getInstanceByObjId($row['usr_id'], false);
+				if($user instanceof ilObjUser)
+				{
+					$ilLog->write(__METHOD__.': User '.$user->getLogin().' (obj_id: '.$user->getId().') will be deleted due to an expired registration hash ...');
+					$user->delete();
+					++$num_deleted_users;
+				}
+			}	
+		}		
+		
+		$ilLog->write(__METHOD__.': '.$num_deleted_users.' inactive user objects with expired confirmation hash values (dual opt in) deleted ...');
+		
+		$ilLog->write(__METHOD__.': Finished deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+		
+		return true;
+	}
 }
 ?>

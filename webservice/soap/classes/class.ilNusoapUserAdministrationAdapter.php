@@ -1195,6 +1195,16 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getUserIdBySid(): returns an ILIAS usr_id for the given sid');
 								
+		$this->server->register('deleteExpiredDualOptInUserObjects',
+								array('sid' => 'xsd:string',
+									  'usr_id' => 'xsd:int'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#deleteExpiredDualOptInUserObjects',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS deleteExpiredDualOptInUserObjects(): Deletes expired user accounts caused by unconfirmed registration links in "dual opt in" registration method');
+								
 		return true;
 
 	}

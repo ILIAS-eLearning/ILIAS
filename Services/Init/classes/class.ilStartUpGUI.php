@@ -1266,20 +1266,20 @@ class ilStartUpGUI
 	}
 
 	public function confirmRegistration()
-	{		
+	{
+		global $lng, $ilias, $ilLog;
+
 		ilUtil::setCookie('iltest', 'cookie', false);
-	
+
 		if(!isset($_GET['rh']) || !strlen(trim($_GET['rh'])))
 		{
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
 		}	
-		
+
 		try
 		{
-			global $lng, $ilias;		
-			
 			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
-			$oRegSettings = new ilRegistrationSettings();	
+			$oRegSettings = new ilRegistrationSettings();
 			
 			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
 			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
@@ -1350,13 +1350,32 @@ class ilStartUpGUI
 			
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful');
 		}
-		catch(ilRegConfirmationLinkExpiredException $oException)
+		catch(ilRegConfirmationLinkExpiredException $exception)
 		{
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$oException->getMessage());
+			include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';			
+			$soap_client = new ilSoapClient();
+			$soap_client->setTimeout(1);
+			$soap_client->setResponseTimeout(1);
+			$soap_client->enableWSDL(true);
+			$soap_client->init();
+			
+			$ilLog->write(__METHOD__.': Triggered soap call (background process) for deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+
+			$soap_client->call
+			(
+				'deleteExpiredDualOptInUserObjects',
+				array
+				(
+					$_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'], // session id and client id, not used for checking access -> not possible for anonymous
+					$exception->getCode() // user id
+				)
+			);
+			
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage());
 		}
-		catch(ilRegistrationHashNotFoundException $oException)
+		catch(ilRegistrationHashNotFoundException $exception)
 		{
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$oException->getMessage());
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage());
 		}				
 	}
 	

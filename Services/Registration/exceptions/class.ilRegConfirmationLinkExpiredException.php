@@ -39,11 +39,12 @@ class ilRegConfirmationLinkExpiredException extends ilRegistrationException
 	* 
 	* @access public
 	* @param	string	$a_message message
+	* @param	integer	$a_code code
 	* 
 	*/
-	public function __construct($a_message)
+	public function __construct($a_message, $a_code = 0)
 	{
-	 	parent::__construct($a_message);
+	 	parent::__construct($a_message, $a_code);
 	}
 }
 ?>

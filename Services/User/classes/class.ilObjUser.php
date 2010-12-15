@@ -4941,16 +4941,16 @@ class ilObjUser extends ilObject
 			WHERE reg_hash = %s',
 	        array('text'),
 	        array($a_hash));		         
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
 			$oRegSettigs = new ilRegistrationSettings();
 			
 			if((int)$oRegSettigs->getRegistrationHashLifetime() != 0 &&
-			   time() - (int)$oRegSettigs->getRegistrationHashLifetime() > strtotime($row->create_date))
+			   time() - (int)$oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date']))
 			{
 				require_once 'Services/Registration/exceptions/class.ilRegConfirmationLinkExpiredException.php';
-				throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired');	
+				throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired', $row['usr_id']);	
 			}		
 			
 			$ilDB->manipulateF('
@@ -4958,10 +4958,10 @@ class ilObjUser extends ilObject
 				SET reg_hash = %s
 				WHERE usr_id = %s',
 				array('text', 'integer'),
-				array('', (int)$row->usr_id)
+				array('', (int)$row['usr_id'])
 			);
 			
-			return $row->usr_id;
+			return (int)$row['usr_id'];
 		}		
 		
 		require_once 'Services/Registration/exceptions/class.ilRegistrationHashNotFoundException.php';
