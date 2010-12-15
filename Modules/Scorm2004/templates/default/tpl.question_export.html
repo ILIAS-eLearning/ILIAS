@@ -166,9 +166,9 @@ var terms = jQuery('select.terms', pairs).mapDirective({
 <!-- BEGIN errortext -->
 <div id="container{VAL_ID}" class="ilc_question_TextQuestion">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
-	<div>
+	<div class="errortext">
 	<span class="ilc_answers answers">
-		<span class="ilc_qanswer_Answer order@id"><a href="#" class="sel answertext" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
+		<span class="ilc_qanswer_Answer order@id"><a href="#" class="answertext" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
 	</span>
 	</div>
 <div id="feedback{VAL_ID}" style="display:none"></div><br/>
@@ -176,7 +176,7 @@ var terms = jQuery('select.terms', pairs).mapDirective({
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID} a.sel').each(function(key, value) {
+	jQuery('div#container{VAL_ID} a.answertext').each(function(key, value) {
 		if(jQuery(value).html() == "###")
 		{
 			jQuery(value).parent().after("<br />");
