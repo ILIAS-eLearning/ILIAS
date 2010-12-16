@@ -3673,5 +3673,20 @@ while($row = $ilDB->fetchAssoc($set))
 
 	$ilDB->update("event_participants", $fields, $where);
 }
-
 ?>
+<#3205>
+<?php
+	if(!$ilDB->tableColumnExists('export_options','pos'))
+	{
+		$ilDB->addTableColumn(
+			'export_options',
+			'pos',
+			array(
+				'type' 		=> 'integer', 
+				'length' 	=> 4,
+				'notnull'	=> true,
+				'default'	=> 0
+		)
+	);
+?>
+
