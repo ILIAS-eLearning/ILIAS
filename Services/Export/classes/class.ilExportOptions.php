@@ -139,7 +139,7 @@ class ilExportOptions
 		global $ilDB;
 		
 		$query = "SELECT MAX(pos) position FROM export_options";
-		$ilDB->query($query);
+		$res = $ilDB->query($query);
 		
 		$pos = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
