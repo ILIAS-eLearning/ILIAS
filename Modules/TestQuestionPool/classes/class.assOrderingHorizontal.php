@@ -682,11 +682,9 @@ class assOrderingHorizontal extends assQuestion
 		}
 		$result['answers'] = $arr;
 
-		/*
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
-	 */
-
+	
 		return json_encode($result);
 	}
 }

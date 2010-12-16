@@ -919,8 +919,10 @@ class assImagemapQuestion extends assQuestion
 			));
 		}
 		$result['answers'] = $answers;
+
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+		
 		return json_encode($result);
 	}
 

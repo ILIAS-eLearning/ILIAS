@@ -1102,6 +1102,7 @@ class assOrderingQuestion extends assQuestion
 		{
 			$result['path'] = $this->getImagePathWeb();
 		}
+		
 		$counter = 1;
 		$answers = array();
 		foreach ($this->getAnswers() as $answer_obj)
@@ -1119,8 +1120,10 @@ class assOrderingQuestion extends assQuestion
 			));
 		}
 		$result['answers'] = $arr;
+
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+
 		return json_encode($result);
 	}
 
