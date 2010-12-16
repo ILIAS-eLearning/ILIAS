@@ -8967,7 +8967,7 @@ registration#:#reg_approve_info#:#If checked any new user registration has to be
 registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type "Registration with Approvement" is chosen.
 registration#:#reg_approve#:#Registration with Approvement
 registration#:#reg_available_roles#:#Available Roles:
-registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
+registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore. Please register again!
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
