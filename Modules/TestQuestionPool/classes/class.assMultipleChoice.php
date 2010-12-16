@@ -1103,6 +1103,7 @@ class assMultipleChoice extends assQuestion
 			"onenotcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0)),
 			"allcorrect" => nl2br(ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0))
 			);
+
 		$answers = array();
 		$has_image = false;
 		foreach ($this->getAnswers() as $key => $answer_obj)
@@ -1121,13 +1122,16 @@ class assMultipleChoice extends assQuestion
 			));
 		}
 		$result['answers'] = $answers;
+
 		if($has_image)
 		{
 			$result['path'] = $this->getImagePathWeb();
 			$result['thumb'] = $this->getThumbSize();
 		}
+
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+		
 		return json_encode($result);
 	}
 

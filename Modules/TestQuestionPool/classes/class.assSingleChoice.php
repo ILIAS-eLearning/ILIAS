@@ -1104,6 +1104,7 @@ class assSingleChoice extends assQuestion
 			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
+
 		$answers = array();
 		$has_image = false;
 		foreach ($this->getAnswers() as $key => $answer_obj)
@@ -1126,8 +1127,10 @@ class assSingleChoice extends assQuestion
 			$result['path'] = $this->getImagePathWeb();
 			$result['thumb'] = $this->getThumbSize();
 		}
+
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+
 		return json_encode($result);
 	}
 	
