@@ -4844,8 +4844,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilAccess, $ilErr, $lng,$ilUser;
 		
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
-		if(substr($a_add,0,5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID)
+		if(substr($a_add,0,5) == 'rcode')
 		{
+			if($ilUser->getId() == ANONYMOUS_USER_ID)
+			{
+				// Redirect to login for anonymous
+				ilUtil::redirect(
+					"login.php?target=".$_GET["target"]."&cmd=force_login&lang=".
+					$ilUser->getCurrentLanguage()
+				);
+			}
+			
 			// Redirects to target location after assigning user to course
 			ilMembershipRegistrationCodeUtils::handleCode(
 				$a_target,

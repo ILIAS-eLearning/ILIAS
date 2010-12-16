@@ -138,13 +138,24 @@ class ilExportOptions
 	{
 		global $ilDB;
 		
-		$query = 'INSERT INTO export_options (export_id,keyword,ref_id,obj_id,value) '.
+		$query = "SELECT MAX(pos) position FROM export_options";
+		$ilDB->query($query);
+		
+		$pos = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$pos = $row->position;
+		}
+		$pos++;
+		
+		$query = 'INSERT INTO export_options (export_id,keyword,ref_id,obj_id,value,pos) '.
 			'VALUES( '.
 			$ilDB->quote($this->getExportId(),'integer').', '.
 			$ilDB->quote($a_keyword,'integer').', '.
 			$ilDB->quote($a_ref_id,'integer').', '.
 			$ilDB->quote($a_obj_id,'integer').', '.
-			$ilDB->quote($a_value,'integer').' '.
+			$ilDB->quote($a_value,'integer').', '.
+			$ilDB->quote($pos,'integer').' '.
 			')';
 		$ilDB->manipulate($query);
 	}
@@ -208,7 +219,8 @@ class ilExportOptions
 		$this->ref_options = array(); 
 		
 		$query = "SELECT * FROM export_options ".
-			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer');
+			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer').' '.
+			"ORDER BY pos";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
