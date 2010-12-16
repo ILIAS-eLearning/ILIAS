@@ -136,6 +136,7 @@ class ilQuestionExporter
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
 				array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->image);
+				array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
 			}
 		}
 //		$this->setHeaderFooter();
@@ -158,6 +159,7 @@ class ilQuestionExporter
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
 				array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->image);
+				array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
 			}
 		}
 //		$this->setHeaderFooter();
@@ -203,6 +205,13 @@ class ilQuestionExporter
 			$this->tpl->setVariable("VAL_SUBTYPE", "_images");
 			$this->tpl->setVariable("HANDLE_IMAGES",
 				"ilias.questions.handleOrderingImages(".$this->json_decoded->id.");");
+
+			foreach ($this->json_decoded->answers as $answer) {
+				if ($answer->answertext!="") {
+					array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->answertext);
+					array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->answertext);
+				}
+			}
 		}
 		else
 		{
