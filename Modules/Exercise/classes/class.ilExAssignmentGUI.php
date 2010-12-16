@@ -187,6 +187,12 @@ class ilExAssignmentGUI
 						? $lng->txt("exc_hand_in")
 						: $lng->txt("exc_edit_submission")).'</a>';
 			}
+			else
+			{
+				$files_str.= ' <a class="submit" href="'.
+					$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+					$lng->txt("already_delivered_files").'</a>';
+			}
 			
 			$info->addProperty($lng->txt("exc_files_returned"),
 				$files_str);
