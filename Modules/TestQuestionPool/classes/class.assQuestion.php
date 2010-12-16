@@ -170,6 +170,11 @@ class assQuestion
 	* Associative array to store properties
 	*/
 	private $arrData;
+
+	/**
+	 * (Web) Path to images
+	 */
+	private $export_image_path;
 	
 	/**
 	* assQuestion constructor
@@ -1074,9 +1079,16 @@ class assQuestion
 	*/
 	function getImagePathWeb()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
-		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+		if(!$this->export_image_path)
+		{
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/images/";
+			return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+		}
+		else
+		{
+			return $this->export_image_path;
+		}
 	}
 
 	/**
@@ -3296,6 +3308,11 @@ class assQuestion
 	public function setNrOfTries($a_nr_of_tries)
 	{
 		$this->nr_of_tries = $a_nr_of_tries;
+	}
+
+	public function setExportImagePath($a_path)
+	{
+		$this->export_image_path = (string)$a_path;
 	}
 }
 

@@ -592,7 +592,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	//callback function for question export
 	private function insertQuestion($matches) {
 		$q_exporter = new ilQuestionExporter();
-		return $q_exporter->exportQuestion($matches[2]);
+		return $q_exporter->exportQuestion($matches[2], "./objects/");
 	}
 	
 	function exportXMLPageObjects($a_target_dir, &$a_xml_writer, $a_inst, &$expLog)
