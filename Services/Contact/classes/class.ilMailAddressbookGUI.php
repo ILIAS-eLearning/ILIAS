@@ -62,7 +62,7 @@ class ilMailAddressbookGUI
 			case 'ilmailsearchcoursesgui':
 				include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
-				$this->tabs_gui->setSubTabActive('mail_my_courses');
+				$this->tabs_gui->activateTab('mail_my_courses');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
@@ -71,7 +71,7 @@ class ilMailAddressbookGUI
 			case 'ilmailsearchgroupsgui':
 				include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
-				$this->tabs_gui->setSubTabActive('mail_my_groups');
+				$this->tabs_gui->activateTab('mail_my_groups');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
@@ -80,14 +80,14 @@ class ilMailAddressbookGUI
 			case 'ilmailinglistsgui':
 				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
-				$this->tabs_gui->setSubTabActive('mail_my_mailing_lists');
+				$this->tabs_gui->activateTab('mail_my_mailing_lists');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailingListsGUI());
 				break;
 
 			default:
-				$this->tabs_gui->setSubTabActive('mail_my_entries');
+				$this->tabs_gui->activateTab('mail_my_entries');
 
 				if (!($cmd = $this->ctrl->getCmd()))
 				{
@@ -787,10 +787,10 @@ class ilMailAddressbookGUI
 	
 	function showSubTabs()
 	{
-		$this->tabs_gui->addSubTabTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
-		$this->tabs_gui->addSubTabTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
+		$this->tabs_gui->addTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
+		$this->tabs_gui->addTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+		$this->tabs_gui->addTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
+		$this->tabs_gui->addTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
 	}
 }
 ?>

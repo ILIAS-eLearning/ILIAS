@@ -291,3 +291,16 @@ function ilSubmitOnEnter(ev, form)
 	}
 	return true;
 }
+
+// layout test
+$(document).ready(function() {
+	$('#mainspacekeeper').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 5);
+	$('#mainscrolldiv').addClass('iosMainScroll');
+	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
+});
+$(window).bind('resize',function(){
+	$('#mainspacekeeper').css('height',$(window).height() - $('#mainscrolldiv').offset().top - 5);
+	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
+});
+
+

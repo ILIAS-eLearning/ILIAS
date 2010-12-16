@@ -101,9 +101,9 @@ class ilPDNotesGUI
 	{
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//			"");
+		$this->tpl->setTitle($this->lng->txt("notes"));
 				
 		// catch feedback message
 		// display infopanel if something happened
@@ -245,10 +245,10 @@ class ilPDNotesGUI
 	{
 		global $ilTabs, $ilUser, $ilCtrl;
 		
-		$ilTabs->addSubTabTarget("private_notes",
+		$ilTabs->addTarget("private_notes",
 			$ilCtrl->getLinkTarget($this, "showPrivateNotes"), "", "", "",
 			($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES));
-		$ilTabs->addSubTabTarget("notes_public_comments",
+		$ilTabs->addTarget("notes_public_comments",
 			$ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
 			($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
 	}

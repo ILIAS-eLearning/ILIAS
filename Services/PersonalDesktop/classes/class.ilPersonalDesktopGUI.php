@@ -104,6 +104,7 @@ class ilPersonalDesktopGUI
 			$next_class = '';
 			ilUtil::sendFailure($this->lng->txt('no_permission'));
 		}
+
 		switch($next_class)
 		{
 			//Feedback
@@ -128,7 +129,6 @@ class ilPersonalDesktopGUI
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 					return;
 				}				
-				
 				include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
 				if ($bookmark_gui->getMode() == 'tree') {
@@ -159,6 +159,7 @@ class ilPersonalDesktopGUI
 			case 'ilcalendarpresentationgui':
 				$this->getStandardTemplates();
 				$this->displayHeader();
+				$this->tpl->setTitle($this->lng->txt("calendar"));
 				$this->setTabs();
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
 				$cal = new ilCalendarPresentationGUI();
@@ -213,11 +214,11 @@ class ilPersonalDesktopGUI
 			case 'ilmailaddressbookgui':
 				$this->getStandardTemplates();
 				$this->setTabs();
-				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+				$this->tpl->setTitle($this->lng->txt("mail_addressbook"));
 				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 				//	$this->lng->txt("personal_desktop"));
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-					"");
+//				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//					"");
 				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
 				$mailgui = new ilMailAddressbookGUI();
 				$ret = $this->ctrl->forwardCommand($mailgui);
@@ -295,9 +296,9 @@ class ilPersonalDesktopGUI
 		
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//			"");
+		$this->tpl->setTitle($this->lng->txt("overview"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		
 		$this->tpl->setContent($this->getCenterColumnHTML());
@@ -427,7 +428,7 @@ class ilPersonalDesktopGUI
 				
 		// display infopanel if something happened
 		ilUtil::infoPanel();
-		
+
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 		//	$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
@@ -524,8 +525,8 @@ class ilPersonalDesktopGUI
 	{
 		global $ilCtrl, $ilSetting, $ilTabs, $rbacsystem;
 		
-//		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		
+return;
+
 		$script_name = basename($_SERVER["SCRIPT_NAME"]);
 		
 		$command = "";
@@ -538,8 +539,6 @@ class ilPersonalDesktopGUI
 		{
 			$who_is_online = true;
 		}
-		
-		// to do: use ilTabsGUI here!
 		
 		// personal desktop home
 		$ilTabs->addTarget("overview", $this->ctrl->getLinkTarget($this));
@@ -685,6 +684,22 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("illearningprogressgui");
 	}
 
+	/**
+	 * Jump to calendar
+	 */
+	function jumpToCalendar()
+	{
+		$this->ctrl->redirectByClass("ilcalendarpresentationgui");
+	}
+
+	/**
+	 * Jump to contacts
+	 */
+	function jumpToContacts()
+	{
+		$this->ctrl->redirectByClass("ilmailaddressbookgui");
+	}
+
 	function __loadNextClass()
 	{
 		$stored_classes = array('ilpersonaldesktopgui',
@@ -728,8 +743,8 @@ class ilPersonalDesktopGUI
 	{
 		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 	}
 	

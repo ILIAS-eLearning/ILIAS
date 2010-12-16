@@ -107,7 +107,10 @@ class ilAdministrationGUI
 		{
 			//$this->cur_ref_id = $this->tree->getRootId();
 			$_POST = array();
-			$_GET["cmd"] = "";
+			if ($_GET["cmd"] != "getDropDown")
+			{
+				$_GET["cmd"] = "";
+			}
 		}
 	}
 
@@ -165,7 +168,7 @@ class ilAdministrationGUI
 			$this->ctrl->setCmdClass($next_class);
 			$this->ctrl->setCmd("view");
 		}
-		
+
 		$cmd = $this->ctrl->getCmd("frameset");
 
 //echo "<br>cmd:$cmd:nextclass:$next_class:-".$_GET["cmdClass"]."-".$_GET["cmd"]."-";
@@ -288,6 +291,7 @@ class ilAdministrationGUI
 				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
 				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 			}
 			else
 			{
@@ -298,11 +302,13 @@ class ilAdministrationGUI
                 {
                     $fs_gui->setMainFrameSource(
                         base64_decode(rawurldecode($_GET['fr'])));
+		ilUtil::redirect(base64_decode(rawurldecode($_GET['fr'])));
                 }
                 else
                 {
                     $fs_gui->setMainFrameSource(
                         $this->ctrl->getLinkTargetByClass("ilobjsystemfoldergui", "view"));
+		$this->ctrl->redirectByClass("ilobjsystemfoldergui", "view");
                 }
 			}
 			$this->ctrl->setParameter($this, "expand", "1");
@@ -389,7 +395,174 @@ class ilAdministrationGUI
 
 	}
 
-} // END class.ilRepository
+	/**
+	 * Get drop down
+	 */
+	function getDropDown()
+	{
+		global $tree, $rbacsystem, $lng, $ilSetting, $objDefinition;
 
+		$tpl = new ilTemplate("tpl.admin_drop_down.html", true, true, "Services/Administration");
+
+		$objects = $tree->getChilds(SYSTEM_FOLDER_ID);
+		foreach($objects as $object)
+		{
+			$new_objects[$object["title"].":".$object["child"]]
+				= $object;
+		}
+
+		// add entry for switching to repository admin
+		// note: please see showChilds methods which prevents infinite look
+		$new_objects[$lng->txt("repository_admin").":".ROOT_FOLDER_ID] =
+			array(
+			"tree" => 1,
+			"child" => ROOT_FOLDER_ID,
+			"ref_id" => ROOT_FOLDER_ID,
+			"depth" => 3,
+			"type" => "root",
+			"title" => $lng->txt("repository_admin"),
+			"description" => $lng->txt("repository_admin_desc"),
+			"desc" => $lng->txt("repository_admin_desc"),
+			);
+
+//$nd = $tree->getNodeData(SYSTEM_FOLDER_ID);
+//var_dump($nd);
+		$new_objects[$lng->txt("general_settings").":".SYSTEM_FOLDER_ID] =
+			array(
+			"tree" => 1,
+			"child" => SYSTEM_FOLDER_ID,
+			"ref_id" => SYSTEM_FOLDER_ID,
+			"depth" => 2,
+			"type" => "adm",
+			"title" => $lng->txt("general_settings"),
+			);
+		ksort($new_objects);
+
+		// determine items to show
+		$items = array();
+		foreach ($new_objects as $c)
+		{
+			// check visibility
+			if ($tree->getParentId($c["ref_id"]) == ROOT_FOLDER_ID && $c["type"] != "adm" &&
+				$_GET["admin_mode"] != "repository")
+			{
+				continue;
+			}
+			// these objects may exist due to test cases that didnt clear
+			// data properly
+			if ($c["type"] == "" || $c["type"] == "objf" ||
+				$c["type"] == "xxx" || $c["type"] == 'frma')
+			{
+				continue;
+			}
+			$visible = $rbacsystem->checkAccess('visible', $c["ref_id"]);
+			if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID)
+			{
+				continue;
+			}
+			$items[] = $c;
+		}
+
+		$two_columns = false;
+		if (count($items) > 10)
+		{
+			$two_columns = true;
+
+			// resort for two column layout
+			$n = array();
+			$half = ceil(count($items) / 2);
+			for ($i = 0; $i < $half; $i++)
+			{
+				$n[] = $items[$i];
+				if (isset($items[$i + $half]))
+				{
+					$n[] = $items[$i + $half];
+				}
+			}
+			$items = $n;
+		}
+
+		$cnt = 0;
+		foreach ($items as $c)
+		{
+			$cnt++;
+			// get icon
+			$path = "";
+			if ($ilSetting->get("custom_icons") &&
+				in_array($c["type"], array("cat","grp","crs")))
+			{
+				require_once("./Services/Container/classes/class.ilContainer.php");
+				$path = ilContainer::_lookupIconPath($c["obj_id"], "small");
+			}
+			if ($path == "")
+			{
+				$path = ilUtil::getImagePath("icon_".$c["type"]."_s.gif");
+			}
+			$alt = $lng->txt("icon")." ".$lng->txt("obj_".$c["type"]);
+
+			// output item
+			if ($rbacsystem->checkAccess('read', $c["ref_id"]))
+			{
+				// build link
+				$link = "";
+				if ($_GET["admin_mode"] == "settings" && $c["ref_id"] == ROOT_FOLDER_ID)
+				{
+					//$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", ROOT_FOLDER_ID);
+					//$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
+					//$link = $this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset");
+					//$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
+					$link = "ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
+						$c["ref_id"]."&amp;admin_mode=repository";
+				}
+				else
+				{
+					$link = "ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
+						$c["ref_id"]."&amp;cmd=jump";
+				}
+
+				$tpl->setCurrentBlock("linked");
+				$tpl->setVariable("ITEM_TITLE", $c["title"]);
+				$tpl->setVariable("ITEM_HREF", $link);
+				$tpl->setVariable("IMG", ilUtil::img($path, $alt));
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$tpl->setCurrentBlock("linked");
+				$tpl->setVariable("NL_ITEM_TITLE", $c["title"]);
+				$tpl->setVariable("NL_IMG", ilUtil::img($path, $alt));
+				$tpl->parseCurrentBlock();
+			}
+
+			$tpl->setCurrentBlock("td");
+			$tpl->parseCurrentBlock();
+
+			if (!$two_columns || $cnt % 2 == 0)
+			{
+				$tpl->setCurrentBlock("row");
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		echo $tpl->get();
+		exit;
+	}
+
+	/**
+	 * Jump to node
+	 */
+	function jump()
+	{
+		global $ilCtrl, $objDefinition;
+
+		$ref_id = (int) $_GET["ref_id"];
+		$obj_id = ilObject::_lookupObjId($ref_id);
+		$obj_type = ilObject::_lookupType($obj_id);
+		$class_name = $objDefinition->getClassName($obj_type);
+		$class = strtolower("ilObj".$class_name."GUI");
+		$ilCtrl->setParameterByClass($class, "ref_id", $ref_id);
+		$ilCtrl->redirectByClass($class, "view");
+	}
+}
 
 ?>
