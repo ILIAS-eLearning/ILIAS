@@ -862,7 +862,7 @@ div.il_Header, a#il_mhead_t_focus
 h1.ilHeader
 {
 	margin: 0px;
-	padding: 15px 10px 0px 50px;
+	padding: 15px 10px 0px 0px;
 }
 span.ilHeader
 {
@@ -2905,3 +2905,13 @@ div.ilLocator {
 	zoom: 1;
 }
 
+div.iosMainScroll
+{
+	position: absolute;
+	padding-right:20px;
+	overflow-y:auto;
+	zoom:1;
+	overflow-x:hidden;
+	right:10px;
+	left:10px;
+}

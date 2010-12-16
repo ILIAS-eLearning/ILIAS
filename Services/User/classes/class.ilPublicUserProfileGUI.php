@@ -155,11 +155,14 @@ class ilPublicUserProfileGUI
 	* @param	boolean	$no_ctrl			workaround for old insert public profile
 	*										implementation
 	*/
-	function getHTML()
+	function getHTML($a_prevent_tabs = false)
 	{
 		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
 
-		$this->setTabs("profile");
+		if (!$a_prevent_tabs)
+		{
+			$this->setTabs("profile");
+		}
 
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))

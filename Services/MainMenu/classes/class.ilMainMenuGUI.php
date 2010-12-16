@@ -229,10 +229,11 @@ class ilMainMenuGUI
 		// personal desktop
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
-			$this->renderEntry($a_tpl, "desktop",
+			/*$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"),
 				$this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"),
-				$this->target);
+				$this->target);*/
+			$this->renderDropDown($a_tpl, "desktop");
 		}
 
 		// repository
@@ -337,10 +338,11 @@ class ilMainMenuGUI
 		// administration
 		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
-			$this->renderEntry($a_tpl, "administration",
-				$lng->txt("administration"),
-				$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
-				$this->target);
+			//$this->renderEntry($a_tpl, "administration",
+			//	$lng->txt("administration"),
+			//	$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
+			//	$this->target);
+			$this->renderDropDown($a_tpl, "administration");
 		}
 
 
@@ -491,5 +493,122 @@ class ilMainMenuGUI
 		
 		return $this->tpl->get();
 	}
+
+	/**
+	 * GetDropDownHTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderDropDown($a_tpl, $a_id)
+	{
+		global $lng, $ilSetting, $rbacsystem;
+
+		$id = strtolower($a_id);
+		$id_up = strtoupper($a_id);
+		$a_tpl->setCurrentBlock("entry_".$id);
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$selection = new ilAdvancedSelectionListGUI();
+		if ($this->active == $a_id || ($this->active == "" && $a_id == "repository"))
+		{
+			$selection->setSelectionHeaderClass("MMActive");
+			$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
+		}
+		else
+		{
+			$selection->setSelectionHeaderClass("MMInactive");
+		}
+
+		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT);
+		$selection->setItemLinkClass("small");
+		$selection->setUseImages(false);
+
+		switch ($id)
+		{
+			// desktop drop down
+			case "desktop":
+				$selection->setListTitle("My ILIAS");
+				$selection->setId("dd_pd");
+
+				// overview
+				$selection->addItem($lng->txt("overview"), "", "ilias.php?baseClass=ilPersonalDesktopGUI",
+					"", "", "_top");
+
+				// profile
+				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+					"", "", "_top");
+
+				// news
+				if ($ilSetting->get("block_activated_news"))
+				{
+					$selection->addItem($lng->txt("news"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
+						"", "", "_top");
+				}
+
+				// calendar
+				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+				$settings = ilCalendarSettings::_getInstance();
+				if($settings->isEnabled())
+				{
+					$selection->addItem($lng->txt("calendar"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
+						"", "", "_top");
+				}
+
+				// private notes
+				if (!$this->ilias->getSetting("disable_notes"))
+				{
+					$selection->addItem($lng->txt("notes_and_comments"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
+						"", "", "_top");
+				}
+
+				// bookmarks
+				if (!$this->ilias->getSetting("disable_bookmarks"))
+				{
+					$selection->addItem($lng->txt("bookmarks"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+						"", "", "_top");
+				}
+
+				// contacts
+				include_once "Services/Mail/classes/class.ilMail.php";
+				$mail = new ilMail($_SESSION["AccountId"]);
+				if (!$this->ilias->getSetting("disable_contacts") &&
+					($this->ilias->getSetting("disable_contacts_require_mail") ||
+					$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
+				{
+					$selection->addItem($lng->txt("mail_addressbook"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts",
+						"", "", "_top");
+					//$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+				}
+
+				// Learning Progress
+				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+				if (ilObjUserTracking::_enabledLearningProgress())
+				{
+					//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
+					$selection->addItem($lng->txt("learning_progress"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
+						"", "", "_top");
+				}
+				break;
+
+			// administration
+			case "administration":
+				$selection->setListTitle($lng->txt("administration"));
+				$selection->setId("dd_adm");
+				$selection->setAsynch(true);
+				$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown");
+							//$this->renderEntry($a_tpl, "administration",
+			//	$lng->txt("administration"),
+			//	$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
+			//	$this->target);
+
+				break;
+
+		}
+
+		$html = $selection->getHTML();
+		$a_tpl->setVariable($id_up."_DROP_DOWN", $html);
+		$a_tpl->parseCurrentBlock();
+	}
+
 }
 ?>

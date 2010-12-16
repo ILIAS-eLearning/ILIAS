@@ -101,12 +101,12 @@ class ilCalendarPresentationGUI
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
-				$this->tabs_gui->setSubTabActive('app_inbox');
+				$this->tabs_gui->activateTab('app_inbox');
 				$this->forwardToClass('ilcalendarinboxgui');
 				break;
 				
 			case 'ilconsultationhoursgui':
-				$this->tabs_gui->setSubTabActive('app_consultation_hours');
+				$this->tabs_gui->activateTab('app_consultation_hours');
 				$this->tabs_gui->clearTargets();
 
 				// No side blocks
@@ -121,23 +121,23 @@ class ilCalendarPresentationGUI
 				return true;
 			
 			case 'ilcalendarmonthgui':
-				$this->tabs_gui->setSubTabActive('app_month');
+				$this->tabs_gui->activateTab('app_month');
 				$this->forwardToClass('ilcalendarmonthgui');
 				break;
 				
 			case 'ilcalendarweekgui':
-				$this->tabs_gui->setSubTabActive('app_week');
+				$this->tabs_gui->activateTab('app_week');
 				$this->forwardToClass('ilcalendarweekgui');
 				break;
 
 			case 'ilcalendardaygui':
-				$this->tabs_gui->setSubTabActive('app_day');
+				$this->tabs_gui->activateTab('app_day');
 				$this->forwardToClass('ilcalendardaygui');
 				break;
 
 			case 'ilcalendarusersettingsgui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive('properties');
+				$this->tabs_gui->activateTab('properties');
 				$this->setCmdClass('ilcalendarusersettingsgui');
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
@@ -148,7 +148,7 @@ class ilCalendarPresentationGUI
 				
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+				$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
@@ -162,14 +162,14 @@ class ilCalendarPresentationGUI
 				$category = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 				if($this->ctrl->forwardCommand($category))
 				{
-					$this->tabs_gui->setSubTabActive("cal_manage");
+					$this->tabs_gui->activateTab("cal_manage");
 
 					// no side blocks
 					return;
 				}
 				else
 				{
-					$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+					$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 					break;
 				}
 
@@ -342,20 +342,20 @@ class ilCalendarPresentationGUI
 	{
 		global $rbacsystem;
 		
-		$this->tabs_gui->addSubTabTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+		$this->tabs_gui->addTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		
 		if(
 			$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
 			ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
 		)
 		{
-			$this->tabs_gui->addSubTabTarget('app_consultation_hours',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
+			$this->tabs_gui->addTarget('app_consultation_hours',$this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI',''));
 		}
-		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
-		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
-		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
-		$this->tabs_gui->addSubTabTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
-		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
+		$this->tabs_gui->addTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
+		$this->tabs_gui->addTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
+		$this->tabs_gui->addTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
+		$this->tabs_gui->addTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
+		$this->tabs_gui->addTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
 	
 	/**

@@ -29,9 +29,9 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $activeBlock;
 	
-	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
-	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
-	var $js_files_batch = array("Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
+	var $js_files = array();		// list of JS files that should be included
+	var $js_files_vp = array();	// version parameter flag
+	var $js_files_batch = array();	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 	var $admin_panel_commands = array();
 	
@@ -66,6 +66,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias;
 //echo "<br>-".$file."-";
+
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		$this->addFooter = TRUE;
@@ -1293,6 +1294,14 @@ class ilTemplate extends ilTemplateX
 
 	function getStandardTemplate()
 	{
+		// always load jQuery
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+
+		// always load Basic js
+		$this->addJavaScript("./Services/JavaScript/js/Basic.js",
+			true, 1);
+
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}

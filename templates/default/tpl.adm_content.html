@@ -1,17 +1,21 @@
-<div class="ilFrame"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+<div class="ilFrame" wwstyle="position:fixed; z-index:10000;"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
 {MAINMENU}<!-- BEGIN sr_focus -->
 <script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus); var il_sr_opt = true;</script>
 <!-- END sr_focus -->
 </div></div></div>
 <div class="ilFrameBL"><div class="ilFrameBR">
+<div id="mainspacekeeper">
+<div id="mainscrolldiv">
+<div>
 		<!-- BEGIN tree_mode -->
 		<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" border="0" /></a>
 		<!-- END tree_mode -->
 <div style="padding-left:2px;">{STATUSLINE}</div>
+
 <div class="il_HeaderOuter">
 <div class="il_Header">
 	<div class="il_HeaderInner">
-	<!-- BEGIN headerbl --><h1 class="ilHeader"><!-- BEGIN header_image --><span style="position: absolute; margin: 1px 0px 0px 5px; left: 25px;"><img style="vertical-align:middle" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" /></span><!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
+	<!-- BEGIN headerbl --><h1 class="ilHeader"><!-- BEGIN header_image --><span style="position: relative; margin: 1px 0px 0px 5px;"><img style="vertical-align:middle" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" /></span> <!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
 	<!-- BEGIN header_desc --><div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
 	</div>
 	<!-- BEGIN tree_icons -->
@@ -100,4 +104,7 @@ layoutEl.render();
 <!-- BEGIN tabs_outer_end --></td></tr></table><!-- END tabs_outer_end -->
 <div class="ilPermaLink">{PRMLINK}</div>
 {FOOTER}
+</div>
+</div>
+</div>
 </div></div></div>

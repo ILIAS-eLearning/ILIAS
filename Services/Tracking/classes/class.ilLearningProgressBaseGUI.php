@@ -168,10 +168,10 @@ class ilLearningProgressBaseGUI
 		{
 			case LP_MODE_PERSONAL_DESKTOP:
 
-				$this->tabs_gui->addSubTabTarget('trac_progress',
+				$this->tabs_gui->addTarget('trac_progress',
 												 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 												 "","","",$a_active == LP_ACTIVE_PROGRESS);
-				$this->tabs_gui->addSubTabTarget('trac_objects',
+				$this->tabs_gui->addTarget('trac_objects',
 												 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 												 "","","",$a_active == LP_ACTIVE_OBJECTS);
 				break;
@@ -262,10 +262,11 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
 		{
-			$this->tpl->setCurrentBlock("header_image");
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
+			//$this->tpl->setCurrentBlock("header_image");
+			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+			//$this->tpl->parseCurrentBlock();
+			//$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
+			$this->tpl->setTitle($this->lng->txt("learning_progress"));
 			
 			// set locator
 /*

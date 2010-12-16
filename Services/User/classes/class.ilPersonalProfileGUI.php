@@ -679,13 +679,9 @@ class ilPersonalProfileGUI
 		$lng->loadLanguageModule('mail');
 		
 		$this->__initSubTabs('showMailOptions');
-		$ilTabs->setSubTabActive('mail_settings');
+		$ilTabs->activateTab('mail_settings');
 		
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-		//	$lng->txt('personal_desktop'));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-			"");
-		$this->tpl->setTitle($lng->txt('personal_desktop'));
+		$this->setHeader();
 		
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
 		$mailOptions = new ilMailOptions($ilUser->getId());
@@ -826,13 +822,9 @@ class ilPersonalProfileGUI
 		$lng->loadLanguageModule('mail');
 		
 		$this->__initSubTabs('showMailOptions');
-		$ilTabs->setSubTabActive('mail_settings');
+		$ilTabs->activateTab('mail_settings');
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-		//	$lng->txt('personal_desktop'));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
-			"");
-		$this->tpl->setTitle($lng->txt('personal_desktop'));
+		$this->setHeader();
 
 		$this->initMailOptionsForm();
 		$this->setMailOptionsValuesByDB();
@@ -846,9 +838,7 @@ class ilPersonalProfileGUI
 		global $lng, $ilCtrl, $tpl, $ilUser;
 
 		$this->__initSubTabs("showjsMath");
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -919,9 +909,7 @@ class ilPersonalProfileGUI
 			$zoom =  $def["zoom"];
 		}
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -1010,26 +998,26 @@ class ilPersonalProfileGUI
 */
 
 		// personal data
-		$ilTabs->addSubTabTarget("personal_data", $this->ctrl->getLinkTarget($this, "showPersonalData"));
+		$ilTabs->addTarget("personal_data", $this->ctrl->getLinkTarget($this, "showPersonalData"));
 
 		// public profile
-		$ilTabs->addSubTabTarget("public_profile", $this->ctrl->getLinkTarget($this, "showPublicProfile"));
+		$ilTabs->addTarget("public_profile", $this->ctrl->getLinkTarget($this, "showPublicProfile"));
 
 		if ($ilSetting->get('user_ext_profiles'))
 		{
-			$ilTabs->addSubTabTarget("user_ext_profile",
+			$ilTabs->addTarget("user_ext_profile",
 				$this->ctrl->getLinkTarget($this, "showExtendedProfile"));
 		}
 
 		// password
 		if ($this->allowPasswordChange())
 		{
-			$ilTabs->addSubTabTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
+			$ilTabs->addTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
 				"", "", "", $showPassword);
 		}
 			
 		// general settings
-		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
+		$ilTabs->addTarget("general_settings", $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
 			"", "", "", $showGeneralSettings);
 
 
@@ -1037,11 +1025,11 @@ class ilPersonalProfileGUI
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
 		if (ilGoogleMapUtil::isActivated())
 		{
-			$ilTabs->addSubTabTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
+			$ilTabs->addTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
 								 "", "", "", $showLocation);
 		}
 
-		$ilTabs->addSubTabTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
+		$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
 								 "", "", "", $showMailOptions);		
 		
 		if(((int)$ilSetting->get('chat_sound_status') &&
@@ -1049,7 +1037,7 @@ class ilPersonalProfileGUI
 		     (int)$ilSetting->get('chat_new_message_sound_status'))) ||
 		   (int)$ilSetting->get('chat_message_notify_status') == 1)
 		{		
-			$ilTabs->addSubTabTarget("chat_settings", $this->ctrl->getLinkTarget($this, "showChatOptions"),
+			$ilTabs->addTarget("chat_settings", $this->ctrl->getLinkTarget($this, "showChatOptions"),
 										 "", "", "", $showChatOptions);
 		}
 		
@@ -1057,7 +1045,7 @@ class ilPersonalProfileGUI
 		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable"))
 		{
-			$ilTabs->addSubTabTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
+			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
 									 "", "", "", $showjsMath);
 		}
 	}
@@ -1241,7 +1229,16 @@ class ilPersonalProfileGUI
 		
 		$this->showChatOptions(true);
 	}
-	
+
+	/**
+	 * Set header
+	 */
+	function setHeader()
+	{
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
+		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_profile'));
+	}
+
 	/**
 	 * show Chat Settings
 	 */
@@ -1251,9 +1248,7 @@ class ilPersonalProfileGUI
 
 		$this->__initSubTabs('showChatOptions');
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
-		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_desktop'));
+		$this->setHeader();
 		
 		$form = false;
 		if($by_post)
@@ -1292,18 +1287,11 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting, $ilTabs;
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->setSubTabActive("personal_data");
+		$ilTabs->activateTab("personal_data");
 
 		$settings = $ilias->getAllSettings();
 
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
-
-
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		if (!$a_no_init)
 		{
@@ -1612,13 +1600,9 @@ class ilPersonalProfileGUI
 		global $ilUser, $lng, $ilSetting, $ilTabs;
 		
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->setSubTabActive("public_profile");
+		$ilTabs->activateTab("public_profile");
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		if (!$a_no_init)
 		{
@@ -1629,7 +1613,7 @@ class ilPersonalProfileGUI
 		$ptpl->setVariable("FORM", $this->form->getHTML());
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($ilUser->getId());
-		$ptpl->setVariable("PREVIEW", $pub_profile->getHTML());
+		$ptpl->setVariable("PREVIEW", $pub_profile->getHTML(true));
 		$this->tpl->setContent($ptpl->get());
 		$this->tpl->show();
 	}
@@ -1881,13 +1865,9 @@ class ilPersonalProfileGUI
 		global $ilTabs;
 		
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->setSubTabActive("password");
+		$ilTabs->activateTab("password");
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		if (!$a_no_init)
 		{
@@ -2102,13 +2082,9 @@ class ilPersonalProfileGUI
 		global $ilTabs;
 		
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->setSubTabActive("general_settings");
+		$ilTabs->activateTab("general_settings");
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->setHeader();
 
 		if (!$a_no_init)
 		{
@@ -2521,10 +2497,8 @@ class ilPersonalProfileGUI
 		global $ilTabs;
 
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->setSubTabActive("user_ext_profile");
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-			"");
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$ilTabs->activateTab("user_ext_profile");
+		$this->setHeader();
 	}
 
 	/**
