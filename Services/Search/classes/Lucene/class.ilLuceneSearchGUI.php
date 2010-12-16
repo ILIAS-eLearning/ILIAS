@@ -337,7 +337,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initFormSearch()
 	{
-		global $tree, $ilCtrl,$lng;
+		global $tree, $ilCtrl,$lng,$ilUser;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
@@ -371,41 +371,43 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
 		$this->form->addItem($term);
 		
-		
-		$path = new ilCustomInputGUI($this->lng->txt('search_area'),'root');
-		$tpl = new ilTemplate('tpl.root_selection.html',true,true,'Services/Search');
-		switch($this->search_cache->getRoot())
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			default:
-				$pathIds = $tree->getPathId($this->search_cache->getRoot(),ROOT_FOLDER_ID);
-				$counter = 0;
-				foreach($pathIds as $ref_id)
-				{
-					if($counter++) {
-						$tpl->touchBlock('path_separator');
+			$path = new ilCustomInputGUI($this->lng->txt('search_area'),'root');
+			$tpl = new ilTemplate('tpl.root_selection.html',true,true,'Services/Search');
+			switch($this->search_cache->getRoot())
+			{
+				default:
+					$pathIds = $tree->getPathId($this->search_cache->getRoot(),ROOT_FOLDER_ID);
+					$counter = 0;
+					foreach($pathIds as $ref_id)
+					{
+						if($counter++) {
+							$tpl->touchBlock('path_separator');
+						}
+						if(($counter % 3) == 0) {
+							$tpl->touchBlock('line_break');
+						}
+						if($ref_id == ROOT_FOLDER_ID) {
+							$title = $this->lng->txt('search_in_magazin');
+						}
+						else {
+							$title = ilUtil::shortenText(ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),30,true);
+						}
+						$this->ctrl->setParameter($this,'root_id',$ref_id);
+						$tpl->setCurrentBlock('item');
+						$tpl->setVariable('ITEM_LINK',$this->ctrl->getLinkTarget($this,'selectRoot'));
+						$tpl->setVariable('NAME_WITH_DOTS',$title);
+						$tpl->parseCurrentBlock();
 					}
-					if(($counter % 3) == 0) {
-						$tpl->touchBlock('line_break');
-					}
-					if($ref_id == ROOT_FOLDER_ID) {
-						$title = $this->lng->txt('search_in_magazin');
-					}
-					else {
-						$title = ilUtil::shortenText(ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),30,true);
-					}
-					$this->ctrl->setParameter($this,'root_id',$ref_id);
-					$tpl->setCurrentBlock('item');
-					$tpl->setVariable('ITEM_LINK',$this->ctrl->getLinkTarget($this,'selectRoot'));
-					$tpl->setVariable('NAME_WITH_DOTS',$title);
-					$tpl->parseCurrentBlock();
-				}
-				$tpl->setVariable('LINK_SELECT',$this->ctrl->getLinkTarget($this,'chooseRoot'));
-				$tpl->setVariable('TXT_CHANGE',$this->lng->txt('change'));
-				break;
-				
+					$tpl->setVariable('LINK_SELECT',$this->ctrl->getLinkTarget($this,'chooseRoot'));
+					$tpl->setVariable('TXT_CHANGE',$this->lng->txt('change'));
+					break;
+					
+			}
+			$path->setHTML($tpl->get());
+			$this->form->addItem($path);
 		}
-		$path->setHTML($tpl->get());
-		$this->form->addItem($path);
 		
 		// object filter
 		$itemFilter = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();

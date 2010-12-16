@@ -342,7 +342,10 @@ class ilUserProfile
 		{
 			if($ilSetting->get('usr_settings_visib_lua_'.$field,1))
 			{
-				
+				$fields[$field] = $info;
+			}
+			elseif($info['visib_lua_fix_value'])
+			{
 				$fields[$field] = $info;
 			}
 		}

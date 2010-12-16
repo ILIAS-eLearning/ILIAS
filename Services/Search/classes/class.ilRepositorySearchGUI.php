@@ -35,6 +35,8 @@
 include_once 'Services/Search/classes/class.ilSearchResult.php';
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/User/classes/class.ilUserAccountSettings.php';
+include_once 'Services/Search/classes/class.ilQueryParser.php';
+
 
 class ilRepositorySearchGUI
 {
@@ -347,6 +349,9 @@ class ilRepositorySearchGUI
 			switch($info['type'])
 			{
 				case FIELD_TYPE_UDF_SELECT:
+					// Do a phrase query for select fields
+					$query_parser = $this->__parseQueryString('"'.$query_string.'"');
+							
 				case FIELD_TYPE_UDF_TEXT:
 					$udf_search = ilObjectSearchFactory::_getUserDefinedFieldSearchInstance($query_parser);
 					$udf_search->setFields(array($name));
@@ -357,6 +362,9 @@ class ilRepositorySearchGUI
 					break;
 
 				case FIELD_TYPE_SELECT:
+					// Do a phrase query for select fields
+					$query_parser = $this->__parseQueryString('"'.$query_string.'"');
+
 				case FIELD_TYPE_TEXT:
 					$user_search =& ilObjectSearchFactory::_getUserSearchInstance($query_parser);
 					$user_search->setFields(array($name));
@@ -444,12 +452,10 @@ class ilRepositorySearchGUI
 	* @return object of query parser or error message if an error occured
 	* @access public
 	*/
-	function &__parseQueryString($a_string)
+	function &__parseQueryString($a_string,$a_combination_or = true)
 	{
-		include_once 'Services/Search/classes/class.ilQueryParser.php';
-
 		$query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination($a_combination_or ? QP_COMBINATION_OR : QP_COMBINATION_AND);
 		$query_parser->setMinWordLength(1,true);
 		$query_parser->parse();
 
