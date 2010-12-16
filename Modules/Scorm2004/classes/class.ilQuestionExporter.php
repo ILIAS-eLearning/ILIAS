@@ -24,10 +24,11 @@ class ilQuestionExporter
 	var $ref_id;		// reference ID
 	var $inst_id;		// installation id
 	var $q_gui;			// Question GUI object
-	var $tpl;  //question template
-	var $json; //json object for current question
-	var $json_decoded; //json object (decoded) for current question
-	var $preview_mode; //preview mode activated yes/no
+	var $tpl;			// question template
+	var $json;			// json object for current question
+	var $json_decoded;	// json object (decoded) for current question
+	var $preview_mode;	// preview mode activated yes/no
+	
 	/**
 	 * Constructor
 	 * @access	public
@@ -57,7 +58,7 @@ class ilQuestionExporter
 	}
 	
 	
-	public function exportQuestion($a_ref_id) {
+	public function exportQuestion($a_ref_id, $a_image_path = null) {
 		
 		if ($a_ref_id != "")
 		{
@@ -73,6 +74,7 @@ class ilQuestionExporter
 		$type = $this->q_gui->object->getQuestionType();
 		if (method_exists($this,$type))
 		{
+			$this->q_gui->object->setExportImagePath($a_image_path);
 			$this->json = $this->q_gui->object->toJSON();
 			$this->json_decoded = json_decode($this->json);
 			self::$exported[$this->json_decoded->id] = $this->json;
@@ -293,7 +295,6 @@ class ilQuestionExporter
 //		$this->setHeaderFooter();
 		return $this->tpl->get();
 	}
-	
 }
 
 ?>
