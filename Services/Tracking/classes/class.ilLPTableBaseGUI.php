@@ -547,6 +547,28 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		$a_csv->addRow();
 	}
+
+	protected function showTimingsWarning($a_ref_id, $a_user_id)
+	{
+		include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
+		if(ilTimingCache::_showWarning($a_ref_id, $a_user_id))
+		{
+			$timings = ilTimingCache::_getTimings($a_ref_id);
+			if($timings['item']['changeable'] and $timings['user'][$a_usr_id]['end'])
+			{
+				$end = $timings['user'][$a_usr_id]['end'];
+			}
+			else if ($timings['item']['suggestion_end'])
+			{
+				$end = $timings['item']['suggestion_end'];
+			}
+			else
+			{
+				$end = true;
+			}
+			return $end;
+		}
+	}
 }
 
 ?>
