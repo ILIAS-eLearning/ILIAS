@@ -1040,7 +1040,7 @@ jQuery(document).ready(function() {
 			} 
 			else if(shape == 'poly')
 			{
-   			e = jQuery('<v:shape id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' coordorigin="0,0" coordsize="'+canvas.width+','+canvas.height+'" path="m '+coords[0]+','+coords[1]+' l '+coords.join(',')+' x e" style="zoom:1;margin:0;padding:0;display:block;position:absolute;top:0px;left:0px;width:'+canvas.width+'px;height:'+canvas.height+'px;"></v:shape>');
+				e = jQuery('<v:shape id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' coordorigin="0,0" coordsize="'+parseInt(canvas.style.width)+','+parseInt(canvas.style.height)+'" path="m '+coords[0]+','+coords[1]+' l '+coords.join(',')+' x e" style="zoom:1;margin:0;padding:0;display:block;position:absolute;top:0px;left:0px;width:'+canvas.style.width+';height:'+canvas.style.height+';"></v:shape>');
 			} 
 			else if(shape == 'circ')
 			{
