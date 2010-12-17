@@ -388,13 +388,20 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			if($c == 'status' && $data[$c] != LP_STATUS_COMPLETED_NUM)
 			{
-				include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-				if(ilCourseItems::_hasCollectionTimings($this->ref_id) &&
-					ilTimingCache::_showWarning($this->ref_id, $data["usr_id"]))
+				$timing = $this->showTimingsWarning($this->ref_id, $data["usr_id"]);
+				if($timing)
 				{
+					if($timing !== true)
+					{
+						$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+					}
+					else
+					{
+						$timing = "";
+					}
 					$this->tpl->setCurrentBlock('warning_img');
 					$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-					$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+					$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 					$this->tpl->parseCurrentBlock();
 				}
 			}

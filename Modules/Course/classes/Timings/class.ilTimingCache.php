@@ -50,6 +50,8 @@ class ilTimingCache
 		
 	function _showWarning($a_ref_id,$a_usr_id)
 	{
+		global $objDefinition;
+		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		global $ilObjDataCache;
@@ -77,14 +79,19 @@ class ilTimingCache
 				return true;
 			}
 		}
-		// No check subitems
-		foreach(ilLPCollectionCache::_getItems($obj_id) as $item)
+
+		if($objDefinition->isContainer(ilObject::_lookupType($obj_id)))
 		{
-			if(ilTimingCache::_showWarning($item,$a_usr_id))
+			// No check subitems
+			foreach(ilLPCollectionCache::_getItems($obj_id) as $item)
 			{
-				return true;
+				if(ilTimingCache::_showWarning($item,$a_usr_id))
+				{
+					return true;
+				}
 			}
 		}
+		
 		// Really ???
 		return false;
 	}			

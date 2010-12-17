@@ -289,13 +289,20 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 						$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
 						$val = ilUtil::img($path, $text);
 
-						include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-						if(ilCourseItems::_hasCollectionTimings($data["ref_id"]) && 
-							ilTimingCache::_showWarning($data["ref_id"], $this->user_id))
+						$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
+						if($timing)
 						{
+							if($timing !== true)
+							{
+								$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+							}
+							else
+							{
+								$timing = "";
+							}
 							$this->tpl->setCurrentBlock('warning_img');
 							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 							$this->tpl->parseCurrentBlock();
 						}
 						break;

@@ -155,12 +155,20 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		{
 			$ref_id = $a_set["ref_ids"];
 			$ref_id = array_shift($ref_id);
-			include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-			if(ilCourseItems::_hasCollectionTimings($ref_id) && ilTimingCache::_showWarning($ref_id, $this->tracked_user->getId()))
+			$timing = $this->showTimingsWarning($ref_id, $this->tracked_user->getId());
+			if($timing)
 			{
+				if($timing !== true)
+				{
+					$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+				}
+				else
+				{
+					$timing = "";
+				}
 				$this->tpl->setCurrentBlock('warning_img');
 				$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-				$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+				$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 				$this->tpl->parseCurrentBlock();
 			}
 		}

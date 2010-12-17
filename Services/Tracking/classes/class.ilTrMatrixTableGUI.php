@@ -161,6 +161,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
 		if($collection["object_ids"])
 		{
+			// we need these for the timing warnings
+			$this->ref_ids = $collection["ref_ids"];
+
 			$data = ilTrQuery::getUserObjectMatrix($this->obj_id, $collection["object_ids"], $this->filter["name"]);
 
 			if($collection["objectives_parent_id"] && $data["users"])
@@ -256,15 +259,22 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						}
 					}
 
-					if($obj_id == $this->obj_id && $data['status'] != LP_STATUS_COMPLETED_NUM)
+					if($data['status'] != LP_STATUS_COMPLETED_NUM)
 					{
-						include_once 'Modules/Course/classes/Timings/class.ilTimingCache.php';
-						if(ilCourseItems::_hasCollectionTimings($this->ref_id) &&
-							ilTimingCache::_showWarning($this->ref_id, $a_set["usr_id"]))
+						$timing = $this->showTimingsWarning($this->ref_ids[$obj_id], $a_set["usr_id"]);
+						if($timing)
 						{
+							if($timing !== true)
+							{
+								$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+							}
+							else
+							{
+								$timing = "";
+							}
 							$this->tpl->setCurrentBlock('warning_img');
 							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed'));
+							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 							$this->tpl->parseCurrentBlock();
 						}
 					}
