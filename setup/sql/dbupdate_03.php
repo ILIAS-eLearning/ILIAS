@@ -3686,7 +3686,8 @@ while($row = $ilDB->fetchAssoc($set))
 				'length' 	=> 4,
 				'notnull'	=> true,
 				'default'	=> 0
-		)
-	);
+			)
+		);
+	}
 ?>
 
