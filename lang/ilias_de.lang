@@ -10660,7 +10660,7 @@ administration#:#adm_rep_tree_only_cntr#:#Nur Container
 administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
 administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
-administration#:#adm_rep_tree_limit_grp_crs#:#Baum innerhalb von Kursen und Gruppen auf den jeweiligen Kontext beschränken.
+administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
 cmps#:#cmps_configure#:#Konfigurieren
 style#:#sty_some_styles_obligatory_delete_rest#:#Die folgenden Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden. Möchten Sie fortfahren und die verbleibenden Styleklassen löschen?
 style#:#sty_delete_other_selected#:#Fortfahren
