@@ -4289,7 +4289,7 @@ common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
 common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Minuten ein. Empfohlen sind 5 Minuten.<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.
-common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
+common#:#session_reminder_session_duration#:#(Aktuelle Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#set_edit_mode#:#Bearbeitungsmodus setzen
 common#:#set_offline#:#Offline setzen
@@ -10866,9 +10866,9 @@ rbac#:#add_thread#:#Thema anlegen
 rbac#:#moderate_frm#:#Moderieren
 webr#:#webr_import#:#Weblink importieren
 frm#:#frm_import#:#Forum importieren
-common#:#sess_fixed_duration#:#Fixe Sitzungsdauer
-common#:#sess_load_dependent_session_handling#:#Lastabhängige Sitzungseinstellungen
-common#:#sess_mode#:#Sitzungsmodus
+common#:#sess_fixed_duration#:#Fixe Session-Dauer
+common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
+common#:#sess_mode#:#Session-Modus
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt.
 common#:#cronjob_last_start#:#Letzter Start des Cron Jobs
 common#:#enable_disk_quota_summary_mail#:#Sende Disk Quota-Zusammenfassungen
