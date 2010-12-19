@@ -2554,7 +2554,7 @@ common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quot
 common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
 common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#firstname#:#Vorname
-common#:#flatview#:#Baumansicht ausschalten
+common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
@@ -4543,7 +4543,7 @@ common#:#tree_frame#:#Baumansicht
 common#:#tree_frame_info#:#Legt fest, ob die Baumansicht (z.B. im Magazin) auf der linken oder der rechten Seite erscheinen soll
 common#:#tree_left#:#Links
 common#:#tree_right#:#Rechts
-common#:#treeview#:#Baumansicht einschalten
+common#:#treeview#:#Baumansicht ein
 common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
 common#:#tst_anon_eval#:#Resultate
