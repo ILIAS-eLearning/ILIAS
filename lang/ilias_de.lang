@@ -10844,7 +10844,7 @@ survey#:#import_from_text#:#Import aus einem Text
 survey#:#import_from_dataset#:#Import aus einem Datensatz
 survey#:#msg_duplicate_scale#:#Bitte tragen Sie eindeutige Skalenwerte ein.
 administration#:#adm_rep_tree_limit_grp_crs_info#:#Diese Ansicht beruht und aktiviert automatisch die synchronisierte Baumansicht.
-administration#:#adm_synchronize_rep_tree#:#Synchronisiere Baumansicht imt Inhaltsansicht im Magazin
+administration#:#adm_synchronize_rep_tree#:#Synchronisiere Baumansicht mit Inhaltsansicht im Magazin
 administration#:#adm_synchronize_rep_tree_info#:#Hebt die aktuelle Position des Benutzers im Magazin hervor. Beachten Sie bitte, dass diese Einstellung zu Lasten der Performanz geht, da zusätzliche Systemabfragen notwendig sind.
 rbac#:#write#:#Einstellungen bearbeiten
 rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
