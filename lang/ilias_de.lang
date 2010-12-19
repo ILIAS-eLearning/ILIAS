@@ -10655,7 +10655,7 @@ content#:#glo_text_snippet_length_info#:#Textlänge, nach der Definitionen in de
 content#:#glo_full_definitions#:#Komplette Definitionen
 content#:#glo_full_definitions_info#:#Begriffe und Definitionen werden komplett in der Hauptansicht angezeigt.
 content#:#glo_editing_view#:#Bearbeitungsansicht
-administration#:#adm_rep_tree_presentation#:#Präsentation des Magazinbaums
+administration#:#adm_rep_tree_presentation#:#Präsentation der Baumansicht
 administration#:#adm_rep_tree_only_cntr#:#Nur Container
 administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
