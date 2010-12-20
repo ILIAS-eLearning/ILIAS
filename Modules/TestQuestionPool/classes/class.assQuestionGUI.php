@@ -952,7 +952,8 @@ class assQuestionGUI
 		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($incomplete);
 
-		$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
 		if ($save)
 		{
 			$form->setValuesByPost();
@@ -992,6 +993,7 @@ class assQuestionGUI
 	public function suggestedsolution()
 	{
 		global $ilUser;
+		global $ilAccess;
 		
 		if ($_POST["deleteSuggestedSolution"] == 1)
 		{
@@ -1133,7 +1135,8 @@ class assQuestionGUI
 				$form->addItem($hidden);
 				$form->addItem($question);
 			}
-			$form->addCommandButton("suggestedsolution", $this->lng->txt("save"));
+			if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("suggestedsolution", $this->lng->txt("save"));
+			
 			if ($save)
 			{
 				if ($form->checkInput())
@@ -1164,30 +1167,35 @@ class assQuestionGUI
 		
 		$savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolution") == 0) ? TRUE : FALSE;
 
-		$formchange = new ilPropertyFormGUI();
-		$formchange->setFormAction($this->ctrl->getFormAction($this));
-		$formchange->setTitle((count($solution_array)) ? $this->lng->txt("changeSuggestedSolution") : $this->lng->txt("addSuggestedSolution"));
-		$formchange->setMultipart(FALSE);
-		$formchange->setTableWidth("100%");
-		$formchange->setId("suggestedsolution");
-
-		$solutiontype = new ilRadioMatrixInputGUI($this->lng->txt("suggestedSolutionType"), "solutiontype");
-		$solutiontype->setOptions($options);
-		if (count($solution_array))
+		$changeoutput = "";
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$solutiontype->setValue($solution_array["type"]);
-		}
-		$solutiontype->setRequired(TRUE);
-		$formchange->addItem($solutiontype);
+			$formchange = new ilPropertyFormGUI();
+			$formchange->setFormAction($this->ctrl->getFormAction($this));
+			$formchange->setTitle((count($solution_array)) ? $this->lng->txt("changeSuggestedSolution") : $this->lng->txt("addSuggestedSolution"));
+			$formchange->setMultipart(FALSE);
+			$formchange->setTableWidth("100%");
+			$formchange->setId("suggestedsolution");
 
-		$formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
+			$solutiontype = new ilRadioMatrixInputGUI($this->lng->txt("suggestedSolutionType"), "solutiontype");
+			$solutiontype->setOptions($options);
+			if (count($solution_array))
+			{
+				$solutiontype->setValue($solution_array["type"]);
+			}
+			$solutiontype->setRequired(TRUE);
+			$formchange->addItem($solutiontype);
 
-		if ($savechange) 
-		{
-			$formchange->checkInput();
+			$formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
+
+			if ($savechange) 
+			{
+				$formchange->checkInput();
+			}
+			$changeoutput = $formchange->getHTML();
 		}
 		
-		$this->tpl->setVariable("ADM_CONTENT", $formchange->getHTML() . $output);
+		$this->tpl->setVariable("ADM_CONTENT", $changeoutput . $output);
 	}
 	
 	public function outSolutionExplorer()
