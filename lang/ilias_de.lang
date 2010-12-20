@@ -10966,3 +10966,4 @@ trac#:#trac_report_owner#:#Ersteller des Reports
 trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
+survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage verändert

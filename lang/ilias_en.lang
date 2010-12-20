@@ -10962,3 +10962,4 @@ trac#:#trac_report_owner#:#Owner of Report
 trac#:#trac_first_and_last_access#:#First and Last Access
 user#:#user_save_ordering_and_titles#:#Save ordering and titles
 content#:#cont_wrong_answers_single#:#Incorrect Choice.
+survey#:#question_changed_in_survey_only#:#Question was changed only in survey
