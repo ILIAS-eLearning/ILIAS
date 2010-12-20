@@ -54,6 +54,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt('filename'),'filename', '70%');
 		$this->addColumn($this->lng->txt('date'),'date', '29%');
+		$this->setDisplayAsBlock(true);
 	 	
 		$this->setPrefix('file');
 		$this->setSelectAllCheckbox('file');

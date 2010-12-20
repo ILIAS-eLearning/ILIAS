@@ -1934,8 +1934,8 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 				$this->tpl->setVariable("LINKBAR", $linkbar);
 				$this->tpl->parseCurrentBlock();
+				$linkbar = true;
 			}
-			$linkbar = true;
 			$footer = true;
 		}
 		
@@ -2172,7 +2172,7 @@ class ilTable2GUI extends ilTableGUI
 	function getLinkbar($a_num)
 	{
 		global $ilCtrl, $lng, $ilUser;
-		
+
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
 		{
