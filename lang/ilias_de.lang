@@ -4284,7 +4284,7 @@ common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
 common#:#sess_copy#:#Sitzung kopieren
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Ihre Sitzung läuft in %s Minuten ab.
+common#:#session_reminder_alert#:#Ihre Sitzung läuft in %s ab (Aktuelle Zeit: %s). Bitte klicken Sie auf OK um Ihre Sitzung zu verlängern.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit

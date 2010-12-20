@@ -704,7 +704,7 @@ class ilTemplate extends ilTemplateX
 					'&lead_time='.$leadTime.
 					'&timezone='.urlencode($ilUser->getTimeZone()).
 					'&countDownTime='.($expiresInXSeconds - $leadTime));
-				$tplSR->setVariable('CONFIRM_TXT', sprintf($lng->txt('session_reminder_alert'),(float)$ilUser->getPref('session_reminder_lead_time')));
+				$tplSR->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 
 				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());		
 			}
