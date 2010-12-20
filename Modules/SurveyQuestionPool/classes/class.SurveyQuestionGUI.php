@@ -175,7 +175,7 @@ class SurveyQuestionGUI
 
 	function cancelSync()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+		ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
 		$this->ctrl->redirect($this, "editQuestion");
 	}
 		
