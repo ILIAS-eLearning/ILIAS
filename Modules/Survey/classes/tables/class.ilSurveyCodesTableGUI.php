@@ -54,6 +54,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		$this->counter = 1;
 		$this->confirmdelete = $confirmdelete;
 		
+		$this->setTopCommands(false);
 		$this->setFormName('codesform');
 		$this->setStyle('table', 'fullwidth');
 
