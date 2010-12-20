@@ -756,7 +756,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 		}
 
-		$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+
 		if ($save)
 		{
 			$form->setValuesByPost();
