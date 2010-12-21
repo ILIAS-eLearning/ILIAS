@@ -488,6 +488,28 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 
 		$this->checkPermission('write');
 		
+		$this->ctrl->setParameter($this,'link_id',(int) $_GET['link_id']);
+		
+		if(!isset($_GET['param_id']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),TRUE);
+			$ilCtrl->redirect($this,'view');
+		}	
+
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+		$param = new ilParameterAppender($this->object->getId());
+		$param->delete((int) $_GET['param_id']);
+		
+		ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'),true);
+		$ilCtrl->redirect($this,'editLink');
+	}
+	
+	protected function deleteParameterFormObject()
+	{
+		global $ilCtrl;
+
+		$this->checkPermission('write');
+		
 		if(!isset($_GET['param_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),TRUE);
@@ -500,6 +522,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		
 		ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'),true);
 		$ilCtrl->redirect($this,'view');
+		
 	}
 	
 	
@@ -803,6 +826,35 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		{
 			$dyn = new ilNonEditableValueGUI($this->lng->txt('links_dyn_parameter'));
 			$dyn->setInfo($this->lng->txt('links_dynamic_info'));
+			
+			
+			if(count($links = ilParameterAppender::_getParams((int) $_GET['link_id'])))
+			{
+				$ex = new ilCustomInputGUI($this->lng->txt('links_existing_params'),'ex');
+				$dyn->addSubItem($ex);
+				
+				foreach($links as $id => $link)
+				{
+					$p = new ilCustomInputGUI();
+					
+					$ptpl = new ilTemplate('tpl.link_dyn_param_edit.html',true,true,'Modules/WebResource');
+					$ptpl->setVariable('INFO_TXT',ilParameterAppender::parameterToInfo($link['name'], $link['value']));
+					$this->ctrl->setParameter($this,'param_id',$id);
+					$ptpl->setVariable('LINK_DEL',$this->ctrl->getLinkTarget($this,'deleteParameterForm'));
+					$ptpl->setVariable('LINK_TXT',$this->lng->txt('delete'));
+					$p->setHtml($ptpl->get());
+					$dyn->addSubItem($p);
+				}
+			}
+			
+			// Existing parameters
+			
+			// New parameter
+			if($a_mode == self::LINK_MOD_EDIT)
+			{
+				#$new = new ilCustomInputGUI($this->lng->txt('links_add_param'),'');
+				#$dyn->addSubItem($new);
+			}
 			
 			// Dynyamic name
 			$nam = new ilTextInputGUI($this->lng->txt('links_name'),'nam');
