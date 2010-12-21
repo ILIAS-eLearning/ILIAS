@@ -3691,3 +3691,10 @@ while($row = $ilDB->fetchAssoc($set))
 	}
 ?>
 
+<#3206>
+<?php
+	$ilDB->modifyTableColumn('ldap_server_settings', 'filter',
+		array("type" => "text", "length" => 512, "notnull" => false));
+?>
+
+
