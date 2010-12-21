@@ -998,7 +998,7 @@ class ilLDAPSettingsGUI
 		$filter = new ilTextInputGUI($this->lng->txt('ldap_search_filter'), 'filter');
 		$filter->setInfo($this->lng->txt('ldap_filter_info'));
 		$filter->setSize(64);
-		$filter->setMaxLength(255);
+		$filter->setMaxLength(512);
 		$this->form_gui->addItem($filter);
 		
 		$section_restrictions = new ilFormSectionHeaderGUI();
