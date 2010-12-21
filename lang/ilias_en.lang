@@ -3246,7 +3246,7 @@ common#:#links_add_param#:#Add Parameter:
 common#:#links_dyn_parameter#:#Dynamic Parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the username.
 common#:#links_dynamic#:#Dynamic Weblink Parameters
-common#:#links_existing_params#:#Existing parameters:
+common#:#links_existing_params#:#Existing Parameters:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Please choose a parameter name.
 common#:#links_no_value_given#:#Please choose a parameter value.
