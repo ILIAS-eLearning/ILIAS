@@ -466,6 +466,8 @@ class ilMailFolderGUI
 	
 	public function saveSubFolderSettings()
 	{
+		global $ilCtrl;
+
 		if (isset($_POST["folder_name_add"]) && $_SESSION["viewmode"] == "tree") $_SESSION["folder_name_add"] = ilUtil::stripSlashes($_POST['folder_name_add']);
 		
 		if (empty($_POST['folder_name_add']))
@@ -484,7 +486,10 @@ class ilMailFolderGUI
 		}
 		else if ($_GET["mobj_id"] = $this->mbox->addFolder($_GET["mobj_id"], ilUtil::stripSlashes($_POST["folder_name_add"])))
 		{
-			unset($_SESSION["folder_name_add"]);		
+			$ilCtrl->saveParameter($this, 'mobj_id');
+			$ilCtrl->setParameter($this, 'mobj_id', $_GET['mobj_id']);
+
+			unset($_SESSION["folder_name_add"]);
 						
 			if ($_SESSION["viewmode"] == "tree")
 			{
@@ -585,6 +590,12 @@ class ilMailFolderGUI
 		switch ($this->current_selected_cmd)
 		{
 			default:
+				if(!(int)$_GET["mail_id"] || !(int)$this->current_selected_cmd)
+				{
+					ilUtil::sendInfo($this->lng->txt("mail_move_error"));
+					return $this->showMail();
+				}
+
 				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $this->current_selected_cmd))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"), true);

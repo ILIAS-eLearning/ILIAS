@@ -479,6 +479,20 @@ class ilMailbox
 	{
 		global $ilDB;
 
+		$query = $ilDB->queryf('
+			SELECT title FROM mail_obj_data
+			WHERE obj_id = %s',
+				array('integer'),
+				array($a_folder_id)
+		);
+
+		$row = $ilDB->fetchAssoc($query);
+
+		if( array_key_exists($row['title'], $this->default_folder) )
+		{
+			return false;
+		}
+
 		include_once("Services/Mail/classes/class.ilMail.php");
 		$umail = new ilMail($this->user_id);
 
