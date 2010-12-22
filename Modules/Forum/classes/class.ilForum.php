@@ -1338,11 +1338,20 @@ class ilForum
 		$data_types = array();
 		$data = array();
 		
-		$query = 	"SELECT COUNT(f.pos_usr_id) ranking, u.login, p.value, u.lastname, u.firstname						
-	 				FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
-					WHERE p.usr_id = u.usr_id 
-					AND p.keyword = %s";
-		
+		$query = "SELECT COUNT(f.pos_usr_id) ranking, u.login, p.value, u.lastname, u.firstname
+	 				FROM frm_posts f
+						INNER JOIN frm_posts_tree t
+							ON f.pos_pk = t.pos_fk
+						INNER JOIN frm_threads th
+							ON t.thr_fk = th.thr_pk
+						INNER JOIN usr_data u
+							ON u.usr_id = f.pos_usr_id
+						INNER JOIN frm_data d
+							ON d.top_pk = f.pos_top_fk
+						LEFT JOIN usr_pref p
+							ON p.usr_id = u.usr_id AND p.keyword = %s
+					WHERE 1 = 1";
+	
 		array_push($data_types, 'text');
 		array_push($data, 'public_profile');
 
@@ -1356,14 +1365,11 @@ class ilForum
 			array_push($data, '1', '0', $ilUser->getId());
 		}
 		
-		$query .=' AND f.pos_pk = t.pos_fk 
-				  AND t.thr_fk = th.thr_pk
-				  AND u.usr_id = f.pos_usr_id
-				  AND d.top_pk = f.pos_top_fk
-				  AND d.top_frm_fk = %s
-                  GROUP BY pos_usr_id, u.login, p.value,u.lastname, u.firstname';
-			array_push($data_types,'integer');
-			array_push($data, $this->getForumId());
+		$query .= ' AND d.top_frm_fk = %s
+					GROUP BY pos_usr_id, u.login, p.value,u.lastname, u.firstname';
+
+		array_push($data_types,'integer');
+		array_push($data, $this->getForumId());
 			
 		$res = $ilDB->queryf($query, $data_types, $data);
 		
@@ -1372,8 +1378,8 @@ class ilForum
 		{
 		    $statistic[$counter][] = $row['ranking'];
 		    $statistic[$counter][] = $row['login'];
-		    $statistic[$counter][] = ($row['value'] == 'n' ? '' : $row['lastname']);
-		    $statistic[$counter][] = ($row['value'] == 'n' ? '' : $row['firstname']);
+		    $statistic[$counter][] = ($row['value'] != 'y' ? '' : $row['lastname']);
+		    $statistic[$counter][] = ($row['value'] != 'y' ? '' : $row['firstname']);
 		    
 		    ++$counter;
 		}	  
