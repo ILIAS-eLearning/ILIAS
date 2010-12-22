@@ -3696,5 +3696,11 @@ while($row = $ilDB->fetchAssoc($set))
 	$ilDB->modifyTableColumn('ldap_server_settings', 'filter',
 		array("type" => "text", "length" => 512, "notnull" => false));
 ?>
-
-
+<#3207>
+<?php
+$ilDB->manipulate
+(
+	'UPDATE mail_obj_data SET title = '.$ilDB->quote('z_local', 'text').' '
+   .'WHERE title != '.$ilDB->quote('z_local', 'text').' AND m_type = '.$ilDB->quote('local', 'text')
+); 
+?>
