@@ -65,11 +65,9 @@ abstract class ilObject2 extends ilObject
 
 	final function create()
 	{
-		if($this->beforeCreate())
-		{
-			$id = parent::create();
-			$this->doCreate();
-		}
+		$this->beforeCreate();
+		$id = parent::create();
+		$this->doCreate();
 	}
 	abstract function doCreate();
 	
@@ -170,12 +168,10 @@ abstract class ilObject2 extends ilObject
 	
 	final function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		if($this->beforeClone())
-		{
-			$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-			$this->doClone($a_target_id,$a_copy_id,$new_obj);
-			return $new_obj;
-		}
+		$this->beforeClone();
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$this->doClone($a_target_id,$a_copy_id,$new_obj);
+		return $new_obj;
 	}
 	abstract function doClone($a_target_id,$a_copy_id,$new_obj);
 	
