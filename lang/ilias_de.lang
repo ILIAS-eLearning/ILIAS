@@ -3210,9 +3210,9 @@ common#:#license#:#Lizenz
 common#:#licenses#:#Lizenzen
 common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
-common#:#link_check#:#Weblinks überprüfen
+common#:#link_check#:#Externe Links überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungültige Weblinks der folgenden ILIAS Lerneinheiten informiert werden möchten:
-common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Mail über ungültige Weblinks dieser Lerneinheit benachrichtigt.
+common#:#link_check_message_b#:#Benachrichtigung aktiv<br />Wenn diese Option ausgewählt ist, werden sie per Mail über ungültige Externe Links dieser Lerneinheit benachrichtigt. Voraussetzung ist allerdings, dass der dazugehörige Cron-Job in der Administration aktiviert wurde.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
 common#:#link_check_subject#:#[ILIAS] Weblink überprüfen
@@ -3610,7 +3610,7 @@ common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rol
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_import_file_found#:#Keine Importdatei gefunden
-common#:#no_invalid_links#:#Es wurden keine ungültigen Weblinks gefunden.
+common#:#no_invalid_links#:#Es wurden keine ungültigen Externen Links gefunden.
 common#:#no_items#:#Keine Einträge
 common#:#no_license_available#:#Keine Lizenz verfügbar!
 common#:#no_limit#:#Kein Limit
