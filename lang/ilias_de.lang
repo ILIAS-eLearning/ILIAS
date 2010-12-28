@@ -2122,16 +2122,16 @@ common#:#created#:#Erzeugt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
 common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
 common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei bestimmten Foren-Themen benachrichtigt werden wollen, falls eine neue Nachricht vorliegt.
-common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
-common#:#cron_forum_notification_never#:#nie
+common#:#cron_forum_notification_directly#:#Sofort bei Neueintrag
+common#:#cron_forum_notification_never#:#Nie
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
-common#:#cron_mail_notification_cron#:#regelmäßig per Cron-Job
+common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei neuen Mails benachrichtigt werden wollen, falls neue Mails vorliegen.
-common#:#cron_mail_notification_never#:#nie
+common#:#cron_mail_notification_never#:#Nie
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
@@ -2207,7 +2207,7 @@ common#:#custom_icon_size_standard#:#Größe des angepassten Icons (standard)
 common#:#custom_icon_size_tiny#:#Größe des angepassten Icons (klein)
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
-common#:#daily#:#täglich
+common#:#daily#:#Täglich
 common#:#data_privacy#:#Datenschutz
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
@@ -3456,7 +3456,7 @@ common#:#month_11_long#:#November
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dezember
 common#:#month_12_short#:#Dez
-common#:#monthly#:#monatlich
+common#:#monthly#:#Monatlich
 common#:#months#:#Monate
 common#:#mount_webfolder#:#Als Webordner öffnen
 common#:#move#:#Verschieben
@@ -3578,7 +3578,7 @@ common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
 common#:#my_tsts#:#Meine Tests
 common#:#name#:#Name
-common#:#never#:#nie
+common#:#never#:#Nie
 common#:#new#:#Neu
 common#:#new_appointment#:#Neuer Termin
 common#:#new_folder#:#Neuer Ordner
@@ -4040,7 +4040,7 @@ common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_upload_file#:#Datei hochladen
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
-common#:#quarterly#:#vierteljährlich
+common#:#quarterly#:#Vierteljährlich
 common#:#query_data#:#Daten anzeigen
 common#:#question#:#Frage
 common#:#question_message#:#Frage
@@ -4799,7 +4799,7 @@ common#:#webr_visible#:#Weblinks sind sichtbar
 common#:#webr_write#:#Weblinks bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
-common#:#weekly#:#wöchentlich
+common#:#weekly#:#Wöchentlich
 common#:#weeks#:#Wochen
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
