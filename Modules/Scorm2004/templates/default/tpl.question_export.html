@@ -99,42 +99,40 @@
 <!-- BEGIN matchingquestion -->
 <div class="ilc_question_MatchingQuestion">
 <div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
-<table id="container{VAL_ID}" cellspacing="0">
-  <tbody>
-	<tr>
-		<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
-		<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
-		<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
-			<select class="terms">
-				<option class="term">Term</option>
-			</select>
-		</th>
-	</tr>
-  </tbody>	
-</table>
-	<div class="transformation">
-		<div id="render{VAL_ID}"></div>
-	</div>
+	<table id="container{VAL_ID}" cellspacing="0">
+	  <tbody>
+		<tr>
+			<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
+			<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
+			<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
+				<select class="terms">
+					<option class="term">Term</option>
+				</select>
+			</th>
+		</tr>
+	  </tbody>
+	</table>
 	<div id="feedback{VAL_ID}" style="display:none"></div>
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
-	</div>
-		
+</div>
 <script>
-var pairs = jQuery('#container{VAL_ID}').mapDirective({
-	'tbody tr': 'pair <- pairs',
-	'th.definition': 'pair.definition',
-	'select[id]':'pair.def_id'});
+	jQuery('div#qtitle{VAL_ID}').html(questions[{VAL_ID}].question);
 
-var terms = jQuery('select.terms', pairs).mapDirective({
-	'option.term': ['term <- pair.terms','term.term'],
-	 'option[id]':'term.id'});
+	var terms_dir = {
+		'option': {
+			'term <- terms': {
+				'.': 'term.term',
+				'@id':'term.id'}
+		}};
+	jQuery('select.terms').render(questions[{VAL_ID}].pairs[0], terms_dir);
 
-	jQuery('th.termcolumn', pairs).html(terms); 
-	$p.compile(pairs, 'f{VAL_ID}');
-	jQuery('table#container{VAL_ID}').hide();
-	jQuery('div#render{VAL_ID}').html( $p.render('f{VAL_ID}', questions[{VAL_ID}]) );
-	jQuery('div#qtitle{VAL_ID}').html( questions[{VAL_ID}].question);
-	
+	var pairs_dir = {
+		'tbody tr': {
+			'pair <- pairs': {
+				'th.definition': 'pair.definition',
+				'select@id':'pair.def_id'}
+		}};
+	jQuery('#container{VAL_ID}').render(questions[{VAL_ID}], pairs_dir);
 </script>
 <!-- END matchingquestion -->
 <!-- BEGIN textsubset -->
