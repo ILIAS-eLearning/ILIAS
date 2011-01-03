@@ -188,9 +188,6 @@ class ilTrQuery
 	{
 		global $ilDB;
 
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		ilLPStatus::checkStatusForObject($a_obj_id);
-
 		$fields = array("usr_data.usr_id", "login");
 		$udf = self::buildColumns($fields, $a_additional_fields);
 		
@@ -200,6 +197,11 @@ class ilTrQuery
 		// users
 		$left = "";
 		$a_users = self::getParticipantsForObject($a_obj_id);
+
+		// check whether status (for all relevant users) exists
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		ilLPStatus::checkStatusForObject($a_obj_id, $a_users);
+
 		if (is_array($a_users))
 		{
 			$left = "LEFT";
@@ -1226,12 +1228,6 @@ class ilTrQuery
 		$result = array("cnt"=>0, "set"=>NULL);
 	    if(sizeof($a_obj_ids))
 		{
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-			foreach($a_obj_ids as $obj_id)
-			{
-				ilLPStatus::checkStatusForObject($obj_id);
-			}
-
 			$fields = array("usr_data.usr_id", "login", "status", "percentage", 
 				"read_event.obj_id", "last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
 			
@@ -1248,6 +1244,14 @@ class ilTrQuery
 			// users
 			$left = "";
 			$a_users = self::getParticipantsForObject($a_parent_obj_id);
+
+			// check status
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			foreach($a_obj_ids as $obj_id)
+			{
+				ilLPStatus::checkStatusForObject($obj_id, $a_users);
+			}
+
 			if (is_array($a_users))
 			{
 				$left = "LEFT";
