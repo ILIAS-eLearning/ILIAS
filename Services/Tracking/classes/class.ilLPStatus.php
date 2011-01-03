@@ -225,7 +225,7 @@ class ilLPStatus
 	 * @param
 	 * @return
 	 */
-	static function checkStatusForObject($a_obj_id)
+	static function checkStatusForObject($a_obj_id, $a_users = false)
 	{
 		global $ilDB;
 
@@ -238,34 +238,32 @@ class ilLPStatus
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" status_dirty = ".$ilDB->quote(1, "integer")
 			);
-		$first = true;
-		while ($rec = $ilDB->fetchAssoc($set))
+		$dirty = false;
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
-			if ($first)
+			$dirty = true;
+		}
+
+		// check if any records are missing
+		$missing = false;
+		if (!$dirty && is_array($a_users) && count($a_users) > 0)
+		{
+			$set = $ilDB->query("SELECT count(usr_id) cnt FROM ut_lp_marks WHERE ".
+				" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+				$ilDB->in("usr_id", $a_users, false, "integer"));
+			$r = $ilDB->fetchAssoc($set);
+			if ($r["cnt"] < count($a_users))
 			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				$not_attempted = ilLPStatusWrapper::_getNotAttempted($a_obj_id);
-				$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
-				$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-				$failed = ilLPStatusWrapper::_getFailed($a_obj_id);
-				$first = false;
+				$missing = true;
 			}
-			if (in_array($rec["usr_id"], $not_attempted))
-			{
-				ilLPStatus::writeStatus($a_obj_id, $rec["usr_id"], LP_STATUS_NOT_ATTEMPTED_NUM);
-			}
-			if (in_array($rec["usr_id"], $in_progress))
-			{
-				ilLPStatus::writeStatus($a_obj_id, $rec["usr_id"], LP_STATUS_IN_PROGRESS_NUM);
-			}
-			if (in_array($rec["usr_id"], $completed))
-			{
-				ilLPStatus::writeStatus($a_obj_id, $rec["usr_id"], LP_STATUS_COMPLETED_NUM);
-			}
-			if (in_array($rec["usr_id"], $failed))
-			{
-				ilLPStatus::writeStatus($a_obj_id, $rec["usr_id"], LP_STATUS_FAILED_NUM);
-			}
+		}
+
+		// refresh status, if records are dirty or missing
+		if ($dirty || $missing)
+		{
+			$class = ilLPStatusFactory::_getClassById($a_obj_id);
+			$trac_obj = new $class($a_obj_id);
+			$trac_obj->refreshStatus($a_obj_id);
 		}
 	}
 	
@@ -347,6 +345,13 @@ class ilLPStatus
 				")");
 			$update_collections = true;
 		}
+
+		// always reset dirty flag
+		$ilDB->manipulate("UPDATE ut_lp_marks SET ".
+			" status_dirty = ".$ilDB->quote(0, "integer").
+			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+			);
 		
 		// update percentage
 		if ($a_percentage !== false || $a_force_per)
