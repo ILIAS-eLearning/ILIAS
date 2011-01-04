@@ -1189,7 +1189,7 @@ class ilAdminUserSearchGUI
 		session_unregister("saved_post");
 		$class =& $this->callback_class;
 		
-		$script = $class->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+		$script = $class->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show', '', false, false);
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect($script);
 	}

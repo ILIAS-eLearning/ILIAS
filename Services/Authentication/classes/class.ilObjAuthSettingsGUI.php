@@ -450,7 +450,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthLDAP() !== true)
 				{
 					ilUtil::sendInfo($this->lng->txt("auth_ldap_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editLDAP")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editLDAP", "", false, false)));
 				}
 				*/
 				break;
@@ -459,7 +459,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthSHIB() !== true)
 				{
 					ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editSHIB")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editSHIB", "", false, false)));
 				}
 				break;
 
@@ -475,7 +475,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if ($this->object->checkAuthScript() !== true)
 				{
 					ilUtil::sendFailure($this->lng->txt("auth_script_not_configured"),true);
-					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editScript")));
+					ilUtil::redirect($this->getReturnLocation("authSettings",$this->ctrl->getLinkTarget($this,"editScript", "", false, false)));
 				}
 				break;
 		}

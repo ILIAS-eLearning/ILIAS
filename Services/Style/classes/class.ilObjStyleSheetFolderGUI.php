@@ -66,7 +66,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"","",false,false)));
 	}
 	
 	/**
@@ -267,7 +267,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		}
 		$this->object->update();
 		
-		ilUtil::redirect($this->getReturnLocation("delete",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect($this->getReturnLocation("delete",$this->ctrl->getLinkTarget($this,"","",false,false)));
 	}
 	
 	
@@ -301,7 +301,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 			$ilias->deleteSetting("default_content_style_id");
 		}
 		
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view","",false,false));
 	}
 
 	/**
@@ -332,7 +332,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		{
 			$ilias->setSetting("fixed_content_style_id", $_POST["id"][0]);
 		}
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view","",false,false));
 	}
 
 	

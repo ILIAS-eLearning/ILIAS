@@ -111,7 +111,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"","",false,false)));
 	}
 	
 	/**
@@ -199,7 +199,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("custom_icon_tiny_width", (int) $_POST["custom_icon_tiny_width"]);
 		$this->ilias->setSetting("custom_icon_tiny_height", (int) $_POST["custom_icon_tiny_height"]);
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editBasicSettings"));		
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"editBasicSettings","",false,false));
 	}
 	
 	/**
@@ -794,7 +794,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->object->update();
 		
 		ilUtil::redirect($this->getReturnLocation("delete",
-			$this->ctrl->getLinkTarget($this,"editContentStyles")));
+			$this->ctrl->getLinkTarget($this,"editContentStyles","",false,false)));
 	}
 	
 	
@@ -828,7 +828,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilias->deleteSetting("default_content_style_id");
 		}
 		
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 
 	/**
@@ -859,7 +859,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			$ilias->setSetting("fixed_content_style_id", $_POST["id"][0]);
 		}
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 	
 	
@@ -881,7 +881,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				ilObjStyleSheet::_writeActive($style["id"], 0);
 			}
 		}
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 	
 	/**
@@ -999,7 +999,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		ilObjStyleSheet::_writeScope($_GET["style_id"], $_GET["cat"]);
 		
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 
 

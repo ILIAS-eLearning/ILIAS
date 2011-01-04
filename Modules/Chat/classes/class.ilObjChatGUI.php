@@ -1036,7 +1036,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$baseClass = 'ilchatpresentationgui';
 			$ilCtrl->setParameter($baseClass, 'ref_id', $this->ref_id);
-			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'view'));
+			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'view', '', false, false));
 			exit;
 		}
 		
@@ -1045,7 +1045,7 @@ class ilObjChatGUI extends ilObjectGUI
 			$baseClass = 'ilchatpresentationgui';
 			$ilCtrl->setParameter($baseClass, 'ref_id', $this->ref_id);
 			ilUtil::sendFailure($lng->txt('chat_room_does_not_exist'), true);
-			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'view'));
+			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'view', '', false, false));
 			exit;			
 		}
 		$this->object->chat_room->setUserId($_SESSION["AccountId"]);

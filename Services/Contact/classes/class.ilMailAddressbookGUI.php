@@ -531,7 +531,7 @@ class ilMailAddressbookGUI
 		if (!$addr_ids)
 		{
 			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
-			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'showAddressbook'));
+			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false));
 			exit;
 		}
 
@@ -758,7 +758,7 @@ class ilMailAddressbookGUI
 		}
 		$link = '<p><a target="chatframe" href="ilias.php?baseClass=ilChatPresentationGUI&ref_id='.$chat_id.'&room_id='.$room_id.'">'.$lng->txt('goto_invitation_chat').'</a></p>';		
 		ilUtil::sendInfo($lng->txt('chat_users_have_been_invited') . $userlist .$link, true);
-		$link = $ilCtrl->getLinkTarget($this, 'showAddressbook');
+		$link = $ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false);
 		ilUtil::redirect($link);
 	}
 	

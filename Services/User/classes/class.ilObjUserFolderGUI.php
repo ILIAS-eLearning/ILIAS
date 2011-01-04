@@ -584,7 +584,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($_SESSION['user_activate_search'] == true)
 		{
 			session_unregister("user_activate_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
 			ilUtil::redirect($script);
 		}
 		else
@@ -635,7 +635,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($_SESSION['user_deactivate_search'] == true)
 		{
 			session_unregister("user_deactivate_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
 			ilUtil::redirect($script);
 		}
 		else
@@ -680,7 +680,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($_SESSION['user_accessFree_search'] == true)
 		{
 			session_unregister("user_accessFree_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
 			ilUtil::redirect($script);
 		}
 		else
@@ -764,7 +764,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($_SESSION['user_accessRestrict_search'] == true)
 		{
 			session_unregister("user_accessRestrict_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
 			ilUtil::redirect($script);
 		}
 		else
@@ -823,7 +823,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($_SESSION['user_delete_search'] == true)
 		{
 			session_unregister("user_delete_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show');
+			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
 			ilUtil::redirect($script);
 		}
 		else

@@ -925,7 +925,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
 		$this->ctrl->setParameter($this, "mode", "session");
 		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"], "", false, false));
 
 	}
 

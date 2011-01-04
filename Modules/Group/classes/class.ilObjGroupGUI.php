@@ -2125,7 +2125,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$this->ctrl->setParameter($this, "ref_id", $ref_id);
 			ilUtil::sendSuccess($this->lng->txt("import_grp_finished"),true);
-			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
+			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
 		}
 		
 		ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));

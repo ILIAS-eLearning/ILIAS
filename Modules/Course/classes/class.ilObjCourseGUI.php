@@ -143,7 +143,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$return_location = "members";
 
 		#ilUtil::sendSuccess($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location,"",false,false));
 	}
 
 	function createObject()
@@ -1934,7 +1934,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTarget($this, "edit")));
+			$this->ctrl->getLinkTarget($this, "edit", "", false, false)));
 	}
 
 

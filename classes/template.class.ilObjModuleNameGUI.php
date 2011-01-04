@@ -40,7 +40,7 @@ class ilObj<module_name>GUI extends ilObjectGUI
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"","",false,false)));
 	}
 	
 	/**
