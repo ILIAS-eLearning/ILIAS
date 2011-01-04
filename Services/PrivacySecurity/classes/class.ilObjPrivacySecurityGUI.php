@@ -363,6 +363,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 			$_POST['rbac_log_age'] = 1;
 		}
 
+		$_POST['profile_protection'] = isset($_POST['profile_protection']) ? $_POST['profile_protection'] : array();
+
 		$privacy = ilPrivacySettings::_getInstance();
 		$privacy->enableCourseExport((int) in_array('export_course', $_POST['profile_protection']));
 		$privacy->enableGroupExport((int) in_array('export_group', $_POST['profile_protection']));
