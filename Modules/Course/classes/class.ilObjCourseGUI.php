@@ -2708,13 +2708,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		foreach($users as $user)
 		{
-			if(!ilObjUser::_lookupId($user))
+			$user_id = ilObjUser::_lookupId($user);
+
+			if(!$user_id)
 			{
 				ilUtil::sendFailure($this->lng->txt('user_not_known'));
 				return $this->membersObject();
 			}
 
-			$_POST['user'][] = ilObjUser::_lookupId($user);
+			$_POST['user'][] = $user_id;
 		}
 		
 		if(!$this->assignMembersObject())
