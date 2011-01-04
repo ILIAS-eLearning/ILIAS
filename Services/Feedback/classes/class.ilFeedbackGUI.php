@@ -170,7 +170,7 @@ class ilFeedbackGUI
 			$ilFB->setIds($_POST['barometer']);
 			$ilFB->delete();
 		}
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList', '', false, false));
 	}
 	function stats(){
 
@@ -463,7 +463,7 @@ class ilFeedbackGUI
 		}
 		else
 			$ilFeedback->create();
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList'));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'fbList', '', false, false));
 
 	}
 

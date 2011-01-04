@@ -211,7 +211,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->object->update();
 
 			ilUtil::sendInfo($this->lng->txt('msg_obj_modified'), true);
-            ilUtil::redirect($this->ctrl->getLinkTarget($this, 'edit'));
+            ilUtil::redirect($this->ctrl->getLinkTarget($this, 'edit', '', false, false));
 		}
 		else
 		{

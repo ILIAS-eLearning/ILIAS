@@ -697,7 +697,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$return_location = "members";
 				
 		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location,"",false,false));
 	}
 	
 	/**
@@ -1130,7 +1130,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		unset($_SESSION["saved_post"]);
 
 		ilUtil::sendInfo($this->lng->txt("ilinc_msg_member_assigned"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members","",false,false));
 	}
 	
 	/**
@@ -1262,7 +1262,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			if (!$this->object->removeMember($user_obj))
 			{
 				ilUtil::sendInfo($this->lng->txt($this->object->getErrorMsg()),true);
-				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+				ilUtil::redirect($this->ctrl->getLinkTarget($this,"members","",false,false));
 			}
 			
 			$user_obj->dropDesktopItem($this->object->getRefId(), "icrs");
@@ -1286,7 +1286,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
 		}
 		
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members","",false,false));
 	}
 	
 	/**
@@ -1482,7 +1482,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 
 		ilUtil::sendInfo($this->lng->txt('msg_obj_modified'), true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'members'));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'members', '', false, false));
 	}
 	
 	public function editObject()
@@ -1595,7 +1595,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->ilias->account->addDesktopItem($this->object->getRefId(), "icrs");	
 		
 		ilUtil::sendInfo($this->lng->txt("ilinc_msg_joined"), true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, "view"));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, "view", "", false, false));
 	}
 	
 	public function isActiveAdministrationPanel()
