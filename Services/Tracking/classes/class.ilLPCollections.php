@@ -296,6 +296,8 @@ class ilLPCollections
 	{
 		global $ilObjDataCache, $ilDB;
 
+		$this->items = array();
+
 		if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
 		{
 			$course_ref_ids = ilObject::_getAllReferences($this->getObjId());
