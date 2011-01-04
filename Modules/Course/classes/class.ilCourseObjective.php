@@ -437,7 +437,7 @@ class ilCourseObjective
 
 		// refresh learning progress status after deleting objectives
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
+		ilLPStatusWrapper::_refreshStatus($course_id);
 
 		return true;
 	}
