@@ -741,17 +741,26 @@ class ilMediaAliasItem
 		}
 		$a_st_item->buildMapWorkImage();
 		
-		// determine ratios
+		// determine ratios (first see whether the instance has w/h defined)
+		$width = $this->getWidth();
+		$height = $this->getHeight();
+
+		// if instance has no size, use object w/h
+		if ($width == 0 && $height == 0)
+		{
+			$width = $a_st_item->getWidth();
+			$height = $a_st_item->getHeight();
+		}
 		$size = @getimagesize($a_st_item->getMapWorkCopyName());
 		$x_ratio = 1;
-		if ($size[0] > 0 && $this->getWidth() > 0)
+		if ($size[0] > 0 && $width > 0)
 		{
-			$x_ratio = $this->getWidth() / $size[0];
+			$x_ratio = $width / $size[0];
 		}
 		$y_ratio = 1;
-		if ($size[1] > 0 && $this->getHeight() > 0)
+		if ($size[1] > 0 && $height > 0)
 		{
-			$y_ratio = $this->getHeight() / $size[1];
+			$y_ratio = $height / $size[1];
 		}
 
 		// draw map areas
