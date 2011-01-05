@@ -1480,9 +1480,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		// SCO Objects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Sco Objects");
-		$ilBench->start("ContentObjectExport", "exportScoObjects");
 		$this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportScoObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Sco Objects");
 	
 		$a_xml_writer->xmlEndTag("ContentObject");
@@ -1497,6 +1495,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$revision ="3rd";
 			$ver = "2004";
 		}
+
+		// content css
+		$css_dir = $a_target_dir."/ilias_css_4_2";
+		ilUtil::makeDir($css_dir);
+		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
+		ilScormExportUtil::exportContentCSS($this, $css_dir);
 		
 		include_once("class.ilContObjectManifestBuilder.php");
 		$manifestBuilder = new ilContObjectManifestBuilder($this);

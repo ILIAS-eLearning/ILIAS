@@ -285,6 +285,10 @@
 	<StyleParameter Name="margin-top" Value="5px"/>
 </Style>
 
+<!-- RTE -->
+<Style Tag="div" Type="rte_menu" Class="RTEMenu">
+</Style>
+
 <!-- Section -->
 <Style Tag="div" Type="section" Class="Additional">
 	<StyleParameter Name="margin-bottom" Value="10px"/>

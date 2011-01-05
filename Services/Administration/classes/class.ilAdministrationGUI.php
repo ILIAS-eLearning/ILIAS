@@ -523,14 +523,14 @@ class ilAdministrationGUI
 				$tpl->setCurrentBlock("linked");
 				$tpl->setVariable("ITEM_TITLE", $c["title"]);
 				$tpl->setVariable("ITEM_HREF", $link);
-				$tpl->setVariable("IMG", ilUtil::img($path, $alt));
+				$tpl->setVariable("IMG", ilUtil::img($path, $alt), 16, 16);
 				$tpl->parseCurrentBlock();
 			}
 			else
 			{
 				$tpl->setCurrentBlock("linked");
 				$tpl->setVariable("NL_ITEM_TITLE", $c["title"]);
-				$tpl->setVariable("NL_IMG", ilUtil::img($path, $alt));
+				$tpl->setVariable("NL_IMG", ilUtil::img($path, $alt), 16, 16);
 				$tpl->parseCurrentBlock();
 			}
 

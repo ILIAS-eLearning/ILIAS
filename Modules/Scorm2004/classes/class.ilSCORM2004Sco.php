@@ -161,7 +161,6 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	
 	function exportHTML($a_inst, $a_target_dir, &$expLog)
 	{
-		
 		ilUtil::makeDir($a_target_dir.'/css');
 		ilUtil::makeDir($a_target_dir.'/css/yahoo');
 		ilUtil::makeDir($a_target_dir.'/objects');
@@ -190,23 +189,9 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		copy('./Services/JavaScript/js/Basic.js',$a_target_dir.'/js/Basic.js');
 		copy('./Services/UIComponent/Overlay/js/ilOverlay.js',$a_target_dir.'/js/ilOverlay.js');
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$active_css = ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId());
-		$active_css = split(@'\?',$active_css,2);
-		$css = fread(fopen($active_css[0],'r'),filesize($active_css[0]));
-		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
-		$currdir = getcwd();
-		chdir(dirname($active_css[0]));
-		foreach (array_unique($files[1]) as $fileref)
-		{
-			if (is_file($fileref))
-			{
-				copy($fileref,$a_target_dir."/images/".basename($fileref));
-			}
-			$css = str_replace($fileref,"../images/".basename($fileref),$css);
-		}	
-		chdir($currdir);
-		fwrite(fopen($a_target_dir.'/css/style.css','w'),$css);
+		// export content css
+		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
+		ilScormExportUtil::exportContentCSS($this->slm_object, $a_target_dir);
 		
 		// export system style sheet
 		$css = fread(fopen(ilUtil::getStyleSheetLocation("filesystem"),'r'),filesize(ilUtil::getStyleSheetLocation("filesystem")));
@@ -232,6 +217,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'full');
 		
 	}
+
 	
 	function exportHTML4PDF($a_inst, $a_target_dir, &$expLog)
 	{

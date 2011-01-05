@@ -213,3 +213,12 @@
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="images/overlay.png", sizingMethod="scale");
 	}
 
+/* default rte styles */
+div.iosRTEMenu
+{
+	padding-top: 6px;
+	padding-right: 11px;
+	padding-bottom: 8px;
+	padding-left: 11px;
+	background-color: #F3F3F3;
+}

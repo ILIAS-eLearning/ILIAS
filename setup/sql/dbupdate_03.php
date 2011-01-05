@@ -3704,3 +3704,20 @@ $ilDB->manipulate
    .'WHERE title != '.$ilDB->quote('z_local', 'text').' AND m_type = '.$ilDB->quote('local', 'text')
 ); 
 ?>
+<#3208>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTEMenu", "rte_menu", "div",
+				array());
+?>
+<#3209>
+<?php
+$set = $ilDB->query("SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote("tst", "text"));
+while ($r = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("UPDATE ut_lp_marks SET ".
+		" status_dirty = ".$ilDB->quote(1, "integer").
+		" WHERE obj_id = ".$ilDB->quote($r["obj_id"], "integer")
+		);
+}
+?>
